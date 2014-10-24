@@ -5,7 +5,7 @@
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("1 - Page Title")</span><br />
+                <span class="small block">@Html.Sitecore().Field("Page Title")</span><br />
             </h1>
         </div>
     </div>
@@ -14,31 +14,31 @@
         <article class="enrollment__box enrollment__choose-network">
             <header>
                 <h1>
-                    @Html.Sitecore().Field("1 - Header - Choose Network")
+                    @Html.Sitecore().Field("Header - Choose Network")
                     <select ng-model="mobileFields.state" ng-options="state.abbreviation as state.display for state in usStates"></select>
                 </h1>
             </header>
             <div class="content">
                 @* Networks not available *@
                 <div class="no-networks-available" ng-if="!availableNetworks.length">
-                    <h2 class="no-plans">@Html.Sitecore().Field("1 - Header - No Plans Available")</h2>
+                    <h2 class="no-plans">@Html.Sitecore().Field("Header - No Plans Available")</h2>
                     <div class="stretch-full">
-                        <h3>@Html.Sitecore().Field("1 - Subheader - Check Out Services")</h3>
+                        <h3>@Html.Sitecore().Field("Subheader - Check Out Services")</h3>
                         <div class="grid">
                             <div class="col">
                                 <div class="ico-wrapper">
                                     <i class="icon-home-utility"></i>
                                 </div>
-                                <h2>@Html.Sitecore().Field("1 - Header - Utility Services")</h2>
-                                @Html.Sitecore().Field("1 - Text - Utility Description")
+                                <h2>@Html.Sitecore().Field("Header - Utility Services")</h2>
+                                @Html.Sitecore().Field("Text - Utility Description")
                                 @Html.Sitecore().Field("Link - Energy Services") <i class="icon-arrow-right"></i>
                             </div>
                             <div class="col">
                                 <div class="ico-wrapper">
                                     <i class="icon-homelife"></i>
                                 </div>
-                                <h2>@Html.Sitecore().Field("1 - Header - Homelife Services")</h2>
-                                @Html.Sitecore().Field("1 - Text - Homelife Description")
+                                <h2>@Html.Sitecore().Field("Header - Homelife Services")</h2>
+                                @Html.Sitecore().Field("Text - Homelife Description")
                                 @Html.Sitecore().Field("Link - HomeLife Services") <i class="icon-arrow-right"></i>
                             </div>
                         </div>
@@ -49,9 +49,9 @@
                     <table class="choose-network-table">
                         <thead>
                             <tr>
-                                <th>@Html.Sitecore().Field("1 - Table Header - Plans")</th>
-                                <th>@Html.Sitecore().Field("1 - Table Header - Coverage")</th>
-                                <th>@Html.Sitecore().Field("1 - Table Header - Devices")</th>
+                                <th>@Html.Sitecore().Field("Table Header - Plans")</th>
+                                <th>@Html.Sitecore().Field("Table Header - Coverage")</th>
+                                <th>@Html.Sitecore().Field("Table Header - Devices")</th>
                                 <th>@Html.Sitecore().Field("Table Header - Get Started")</th>
                             </tr>
                         </thead>
@@ -64,8 +64,8 @@
                                     <td class="devices">@Html.Raw(network.Device)</td>
                                     <td class="select-network">
                                         @Html.Sitecore().Field("Text - Get Started").Format(new { price = @network.StartingPrice })
-                                        <!--<button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'new')">@Html.Sitecore().Field("1 - Button - Shop Devices")</button>
-                                        <button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'existing')">@Html.Sitecore().Field("1 - Button - Bring My Own Phone")</button>-->
+                                        <!--<button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'new')">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                        <button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'existing')">@Html.Sitecore().Field("Button - Bring My Own Phone")</button>-->
                                         <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'existing')">
                                             @Html.Sitecore().Field("Button - Get Started")
                                         </button>
@@ -77,6 +77,6 @@
                 </div>
             </div>
         </article>
-        <p class="footnotes" ng-if="availableNetworks.length">@Html.Sitecore().Field("1 - Footnotes")</p>
+        <p class="footnotes" ng-if="availableNetworks.length">@Html.Sitecore().Field("Footnotes")</p>
     </section>
 </div>

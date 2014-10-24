@@ -248,7 +248,7 @@
                     </div>
                 </article>
 
-                <article class="enrollment__box enrollment__businesss-info">
+                <article class="enrollment__box enrollment__business-info">
                     <header>
                         <h1>@Html.Sitecore().Field("Header - Business Information")</h1>
                     </header>
@@ -269,7 +269,7 @@
                         <hr />
                         <div class="item">
                             <label>@Html.Sitecore().Field("Federal Tax Classification")</label>
-                            <ul class="checkbox-list">
+                            <ul class="checkbox-list inline">
                                 <li>
                                     <input type="checkbox" name="taxClassification" /> <label>@Html.Sitecore().Field("Label - Individual")</label>
                                 </li>
@@ -290,6 +290,7 @@
                                 </li>
                                 <li>
                                     <input type="checkbox" name="taxClassification" /> <label>@Html.Sitecore().Field("Label - Other")</label>
+                                    <input type="text" />
                                 </li>
                             </ul>
                         </div>
@@ -298,9 +299,11 @@
                             <ul class="checkbox-list">
                                 <li>
                                     <input type="checkbox" name="exemptions" /> <label>@Html.Sitecore().Field("Label - Exempt Payee Code")</label>
+                                    <input type="text" />
                                 </li>
                                 <li>
                                     <input type="checkbox" name="exemptions" /> <label>@Html.Sitecore().Field("Label - Exempt From FATCA")</label>
+                                    <input type="text" />
                                 </li>
                             </ul>
                         </div>
@@ -365,7 +368,10 @@
                         
                         <h3>@Html.Sitecore().Field("Header - Taxpayer Identification Number")</h3>
                         @Html.Sitecore().Field("Text - Taxpayer Identification Number")
-                        <div class="group">
+                        
+                        <hr />
+
+                        <div class="group or-sep">
                             <div class="item group-col">
                                 <input type="radio" name="tin" id="tin-ein" />
                                 <label for="tin-ein">@Html.Sitecore().Field("Label - Employer Identification Number")</label>
@@ -396,8 +402,8 @@
                         <hr />
                         <div class="group">
                             <div class="item group-col">
-                                <label>@Html.Sitecore().Field("Label - Signature")</label>
-                                <input type="text" />
+                                <label>@Html.Sitecore().Field("Label - Signature") <a href="#" tooltip="@Html.Sitecore().Field("Signature Tooltip")"><i class="icon-tooltip"></i></a></label>
+                                <div class="signature">@Html.Sitecore().Field("Text - Add Signature")</div>
                                 <ul class="checkbox-list">
                                     <li>
                                         <input type="checkbox" id="signatory" /> <label for="signatory">@Html.Sitecore().Field("Label - Signatory")</label>
@@ -428,9 +434,24 @@
                         <h1>@Html.Sitecore().Field("Header - Terms and Conditions")</h1>
                     </header>
                     <div class="content">
-                        <p><label><input type="checkbox"> @Html.Sitecore().Field("I Agree Stream")</label></p>
-                        <p><textarea name="" id="" cols="30" rows="10"></textarea></p>
-                        <p><label><input type="checkbox"> @Html.Sitecore().Field("I Agree TCPA")</label></p>
+                        <div class="terms-agreement">
+                            <div class="item">
+                                <ul class="checkbox-list">
+                                    <li>
+                                        <input type="checkbox" id="stream-terms" /> <label for="stream-terms">@Html.Sitecore().Field("I Agree Stream")</label>
+                                    </li>
+                                    <li>
+                                        <div class="terms">
+                                            @Html.Sitecore().Field("Text - Certification")
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="tcpa-terms" /> <label for="tcpa-terms">@Html.Sitecore().Field("I Agree TCPA")</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
                 </article>
                 
@@ -438,7 +459,7 @@
                 
                 <div class="clearfix">
                     <button type="button" class="plain plain-footer">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
-                    <button type="submit" class="pull-right" ng-click="setCurrentStep('order-confirmation');">@Html.Sitecore().Field("Button - Next")</button>
+                    <button type="submit" class="pull-right" ng-click="setCurrentStep('order-confirmation');">@Html.Sitecore().Field("Button - Place Order")</button>
                 </div>
             </form>
         </section>

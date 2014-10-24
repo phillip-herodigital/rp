@@ -180,7 +180,7 @@ $enrollment-module-vertical-padding: 20px;
             padding: 5px;
             border: 1px solid #e9e9e9;
             background: #f8f8f8;
-            p:first-child {
+            :first-child {
                 margin-top: 0;
             }
         }
@@ -1018,6 +1018,9 @@ $enrollment-module-vertical-padding: 20px;
     .terms-agreement {
         .item {
             padding-right: 0;
+            .terms {
+                margin-bottom: 10px;
+            }
         }
     }
 }
@@ -2165,6 +2168,31 @@ $enrollment-module-vertical-padding: 20px;
     p {
         margin: 0 0 5px;
         font-size: 15px;
+    }
+}
+
+.enrollment__business-info {
+    ul.checkbox-list {
+        input[type="text"] {
+            width: 200px;
+        }
+        &.inline {
+            li {
+                display: inline-block;
+            }
+        }
+    }
+    div.or-sep {
+        label {
+            display: inline;
+        }
+    }
+    .signature {
+        @include border-radius(5px);
+        margin-bottom: 5px;
+        padding: 5px 10px;
+        background-color: #FFF9D2;
+        border: 1px solid #CCC;
     }
 }
 
