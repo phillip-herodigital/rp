@@ -152,8 +152,11 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
             } else {
                 $scope.activeState = 'step3';
                 _.forEach(data.confirmations, function (account) {
-                    _.find($scope.selectedAccounts, { accountNumber: account.accountNumber }).confirmationNumber = account.paymentConfirmationNumber
-                    $scope.paymentAmount += $scope.selectedAccounts.length != 1 ? _.find($scope.selectedAccounts, { accountNumber: account.accountNumber }).invoiceAmount : 0;
+                    var temp = _.find($scope.selectedAccounts, { accountNumber: account.accountNumber });
+                    temp.confirmationNumber = account.paymentConfirmationNumber;
+                    temp.convenienceFee = account.convenienceFee;
+                    temp.paymentAccount = _.find($scope.paymentAccounts, { 'id': temp.selectedPaymentMethod });
+                    $scope.paymentAmount += $scope.selectedAccounts.length != 1 ? temp.invoiceAmount : 0;
                 });
             }
         });
@@ -164,7 +167,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
             return false;
         $scope.selectedAccounts = _.where($scope.accountsTable.values, { 'selected': true, 'canMakeOneTimePayment': true });
         $scope.total = _.reduce($scope.selectedAccounts, function (a, b) { return a + parseFloat(b.paymentAmount); }, 0);
-        $scope.paymentAmount = $scope.total;
+        $scope.paymentAmount = _.reduce($scope.selectedAccounts, function (a, b) { return a + parseFloat(b.paymentAmount) + 2.95; }, 0);
     }, true);
 
     // Disable weekends selection

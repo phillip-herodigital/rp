@@ -367,7 +367,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Confirmations = temp.Select(entry => new PaymentConfirmation
                 {
                     AccountNumber = entry.account.AccountNumber,
-                    PaymentConfirmationNumber = entry.task.Result.ConfirmationNumber
+                    PaymentConfirmationNumber = entry.task.Result.ConfirmationNumber,
+                    ConvenienceFee = entry.task.Result.ConvenienceFee,
                 }).ToArray()
             };
         }
