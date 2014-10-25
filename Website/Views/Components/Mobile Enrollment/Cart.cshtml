@@ -1,5 +1,5 @@
 ﻿<script type="text/ng-template" id="mobile-enrollment-cart">
-    <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
+    <div class="enrollment__cart" ng-controller="MobileEnrollmentCartCtrl">
         <article class="enrollment__box" scroll-anchor="scrollFix">
             <header>
                 <div class="cart-items" ng-if="!isCartOpen()">
@@ -11,25 +11,47 @@
             </header>
             <div class="content">
                 @*<p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>*@
+
                 <div class="cart-item">
-                    <h2>@Html.Sitecore().Field("6 - Mobile Services Header")</h2>
-                    <div class="mobile-plan">
-                        Lorem Ipsum AT&amp;T Network plan <br />
-                        <a href="">@Html.Sitecore().Field("Edit Plan Link")</a>
-                    </div>
-                    <div class="cart-product clearfix" ng-if="ctrl.mobileService.getCart().phone">
+                    <h2>@Html.Sitecore().Field("Mobile Services Header")</h2>
+
+                    <div class="cart-product clearfix" ng-if="cart.dataPlan.baseData">
                         <div class="description">
-                            <span class="condition">{{ ctrl.mobileService.getCart().model.condition }}</span> <br />
-                            <span class="model">{{ ctrl.mobileService.getCart().phone.name }}</span> <br />
-                            <span class="options">{{ ctrl.mobileService.getCart().model.size }}, {{ ctrl.mobileService.getCart().color.value }}</span> <br />
+                            {{ mobileEnrollmentService.selectedNetwork }} @Html.Sitecore().Field("Individual Plan")<br />
+                            <span class="details">{{ cart.dataPlan.baseData }}GB data included</span>
+                            <a href="">@Html.Sitecore().Field("Edit Plan Link")</a>
+                        </div>
+                        <div class="rate">{{ cart.dataPlan.basePrice | currency }}/mo</div>
+                    </div>
+
+                    <div class="cart-product clearfix" ng-if="cart.dataPlan.additionalData">
+                        <div class="description">
+                            @Html.Sitecore().Field("Additional Data")<br />
+                            <span class="details">{{ cart.dataPlan.additionalData }}GB additional data for a total of {{ getTotalPlanData(cart.dataPlan) }}GB</span>
+                            <a href="">@Html.Sitecore().Field("Configure Data Link")</a>
+                        </div>
+                        <div class="rate">{{ cart.dataPlan.additionalDataPrice | currency }}/mo</div>
+                    </div>
+
+                    <div class="cart-product clearfix" ng-repeat="item in cart.items">
+                        <div class="description" ng-if="item.type == 'new'">
+                            <div class="condition">{{ item.buyingOption.condition }}</div>
+                            <div>{{ item.device.name }}</div>
+                            <div class="options">{{ item.buyingOption.size }}, {{ item.buyingOption.color.value }}</div>
                             <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
                         </div>
-                        <div class="rate">{{ ctrl.mobileService.getCart().model.price | currency }}</div>
-                        <div ng-if="ctrl.mobileService.getCart().warranty != ''">
-                            <div class="description">@Html.Sitecore().Field("6 - Phone Warranty Text")</div>
+                        <div class="description" ng-if="item.type == 'existing'">
+                            <div>@Html.Sitecore().Field("Bring Your Own Device")</div>
+                            <div class="details">{{ item.make }} {{ item.model }}</div>
+                            <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
+                        </div>
+                        <div class="rate">{{ item.price | currency }}</div>
+                        <div ng-if="item.warranty">
+                            <div class="description">@Html.Sitecore().Field("Phone Warranty")</div>
                             <div class="rate">$9.95/mo</div>
                         </div>
                     </div>
+                    <!--
                     <div class="cart-product clearfix" ng-if="ctrl.mobileService.getCart().plan">
                         <h2>@Html.Sitecore().Field("6 - Monthly Plan Text")</h2>
                         <div class="description">
@@ -38,6 +60,7 @@
                         </div>
                         <div class="rate">$39/mo</div>
                     </div>
+                    -->
                 </div>
                 <div class="time">
                     <p>
@@ -49,12 +72,15 @@
         </article>
         <article class="enrollment__box">
             <header>
-                <p>@Html.Sitecore().Field("Youll Need Header")</p>
+                <h5>@Html.Sitecore().Field("You Need Header")</h5>
             </header>
             <ul class="info">
                 <li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Credit Card Text")</li>
                 <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Billing Address Text")</a></li>
-                <li><i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br /> @Html.Sitecore().Field("6 - Bring Your Own Phone Text")</li>
+                <li>
+                    <i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br />
+                    @Html.Sitecore().Field("Bring Your Own Phone Text")
+                </li>
             </ul>
         </article>
     </div>

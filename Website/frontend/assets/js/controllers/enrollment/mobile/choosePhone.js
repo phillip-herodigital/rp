@@ -69,6 +69,7 @@
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 device: device,
                 id: device.id,
+                price: _.where(device.models, { size: $scope.phoneOptions.size, condition: $scope.phoneOptions.condition })[0].price,
                 buyingOption: _.where(device.models, { size: $scope.phoneOptions.size, condition: $scope.phoneOptions.condition })[0],
                 color: _.where(device.colors, { color: $scope.phoneOptions.color})[0],
                 warranty: $scope.phoneOptions.warranty
@@ -79,6 +80,7 @@
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 make: $scope.phoneOptions.make,
                 model: $scope.phoneOptions.model,
+                price: '29.95',
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
                 number: $scope.phoneOptions.number

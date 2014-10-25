@@ -54,52 +54,24 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
             secondaryContactInfo: {}
         }
     },
-    mobileNetworks = [],
+    dataPlans = [],
     phones = [];
-    /*,
-    cart = {
-        phone: undefined,
-        warranty: false,
-        color: {
-            name: undefined,
-            value: undefined
-        },
-        plan: undefined,
-        number: {
-            type: undefined,
-            value: undefined
-        }
-    };*/
-
-    /*service.accountInformation = {
-        contactInfo: {
-            name: {
-                first: '',
-                last: ''
-            },
-            phone: [{
-                number: '',
-                category: ''
-            }],
-            email: {
-                address: ''
-            }
-        },
-        socialSecurityNumber: '',
-        secondaryContactInfo: {}
-    };*/
-
-    service.setNetworkData = function (data) {
-        mobileNetworks = data;
-    };
-
-    service.getNetworks = function() {
-        return mobileNetworks;
-    };
-
+    
     service.setPhoneData = function (data) {
         phones = data;
     };
+
+    service.setDataPlans = function(data) {
+        dataPlans = data;
+    };
+
+    service.getDataPlans = function(network) {
+        if(network) {
+            return _.where(dataPlans, { name: network })[0];
+        } else {
+            return dataPlans;
+        }
+    }
 
     service.getPhones = function() {
         return phones;
@@ -156,10 +128,21 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
         return service.cart;
     };
 
-    service.addItemToCart = function(item) {
-        
-        service.cart.items.push(item);
+    service.getCartItems = function() {
+        return service.cart.items;
+    }
 
+    service.getCartDataPlan = function() {
+        console.log(service.cart.dataPlan);
+        return service.cart.dataPlan;
+    }
+
+    service.addItemToCart = function(item) {
+        service.cart.items.push(item);
+    };
+
+    service.addDataPlanToCart = function(plan) {
+        service.cart.dataPlan = plan;
     };
 
     return service;

@@ -17,54 +17,24 @@
                     <h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>
 
                     <div class="btn-group btn-group-options mobile-plans">
-                        <div class="button" ng-model="phoneOptions.plan" btn-radio="'plan1'">
+                        <div class="button" ng-model="formFields.chosenPlan" btn-radio="plan" ng-repeat="plan in dataPlans.plans" ng-class="{'is-recommended':plan.recommended}">
+                            <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
                             <p>
-                                <span class="size">500 MB</span>
-                                <span class="price">$39/mo</span>
+                                <span class="size">{{ getTotalPlanData(plan) }} GB</span>
                             </p>
                             <hr />
                             <ul class="details">
-                                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">4 hours</span></span></li>
-                                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">3 hours</span></span></li>
-                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">3 hours</span></span></li>
+                                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} hours</span></span></li>
+                                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} hours</span></span></li>
+                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.hoursWebBrowsing }} hours</span></span></li>
                             </ul>
-                        </div>
-                        <div class="button is-recommended" ng-model="phoneOptions.plan" btn-radio="'plan2'">
-                            <span class="recommended">Recommended</span>
-                            <p>
-                                <span class="size">2.5 GB</span>
-                                <span class="price">$49/mo</span>
-                            </p>
                             <hr />
-                            <ul class="details">
-                                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">8 hours</span></span></li>
-                                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">6 hours</span></span></li>
-                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">6 hours</span></span></li>
-                            </ul>
-                        </div>
-                        <div class="button" ng-model="phoneOptions.plan" btn-radio="'plan3'">
                             <p>
-                                <span class="size">5 GB</span>
-                                <span class="price">$59/mo</span>
+                                <span class="price">
+                                    <span ng-if="!plan.additionalDataPrice">@Html.Sitecore().Field("Included")</span>
+                                    <span ng-if="plan.additionalDataPrice">{{ plan.additionalDataPrice | currency }}/mo</span>
+                                </span>
                             </p>
-                            <hr />
-                            <ul class="details">
-                                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">12 hours</span></span></li>
-                                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">9 hours</span></span></li>
-                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">9 hours</span></span></li>
-                            </ul>
-                        </div>
-                        <div class="button" ng-model="phoneOptions.plan" btn-radio="'plan4'">
-                            <p>
-                                <span class="size">7.5 GB</span>
-                                <span class="price">$69/mo</span>
-                            </p>
-                            <hr />
-                            <ul class="details">
-                                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">20 hours</span></span></li>
-                                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">15 hours</span></span></li>
-                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">15 hours</span></span></li>
-                            </ul>
                         </div>
                         @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
                     </div>
@@ -75,7 +45,7 @@
             </article>
             <div class="clearfix">
                 <button type="button" class="plain plain-footer">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
-                <button type="submit" class="pull-right" ng-click="setCurrentStep('complete-order');">@Html.Sitecore().Field("Button - Next")</button>
+                <button type="submit" class="pull-right" ng-click="setCurrentStep('complete-order');" ng-disabled="!formFields.chosenPlan">@Html.Sitecore().Field("Button - Next")</button>
             </div>
         </section>
         <aside>

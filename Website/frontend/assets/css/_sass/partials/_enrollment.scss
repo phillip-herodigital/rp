@@ -1200,6 +1200,12 @@ $enrollment-module-vertical-padding: 20px;
         &:last-child {
             margin-bottom: 0;
         }
+        /*span.details {
+            font-size: 14px;
+        }
+        .options {
+            margin-top: 15px;
+        }*/
     }
     .delete {
         cursor: pointer;
@@ -1477,9 +1483,6 @@ $enrollment-module-vertical-padding: 20px;
         .fees {
             margin-top: 10px;
             float: left;
-            font-weight: 600;
-        }
-        .model {
             font-weight: 600;
         }
         .rate {

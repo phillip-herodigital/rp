@@ -45,6 +45,44 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult MobileDataPlans()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Data Plans");
+            var data = item.Children.Select(child => new
+            {
+                Name = child.Name.ToLower(),
+                Plans = child.Children.Select(plans => new {
+                    BaseData = plans.Fields["Base Data"].Value,
+                    BasePrice = plans.Fields["Base Data Price"].Value,
+                    AdditionalData = plans.Fields["Additional Data"].Value,
+                    AdditionalDataPrice = plans.Fields["Additional Data Price"].Value,
+                    Recommended = plans.Fields["Recommended"].Value,
+                    HoursMusic = plans.Fields["Hours Music"].Value,
+                    HoursMovies = plans.Fields["Hours Movies"].Value,
+                    HoursWebBrowsing = plans.Fields["Hours Web Browsing"].Value
+                })
+            });
+
+            /*var data2 = item.Children.Select(child => new KeyValuePair<string, object>(child.Name, child.Children.Select(plans => new {
+                DataAmount = plans.Fields["Data Amount"].Value,
+                Price = plans.Fields["Price"].Value,
+                HoursMusic = plans.Fields["Hours Music"].Value,
+                HoursMovies = plans.Fields["Hours Movies"].Value,
+                HoursWebBrowsing = plans.Fields["Hours Web Browsing"].Value
+            })));*/
+
+            /*var data = item.Children.Select(child => new Dictionary<string, object> { { child.Name, child.Children.Select(plans => new
+            {
+                DataAmount = plans.Fields["Data Amount"].Value,
+                Price = plans.Fields["Price"].Value,
+                HoursMusic = plans.Fields["Hours Music"].Value,
+                HoursMovies = plans.Fields["Hours Movies"].Value,
+                HoursWebBrowsing = plans.Fields["Hours Web Browsing"].Value
+            })} });*/
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         /*public ActionResult MobileEnrollmentNetworks()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");
@@ -132,7 +170,21 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ConfigureData()
         {
-            return View("~/Views/Components/Mobile Enrollment/Configure Data.cshtml");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Data Plans/ATT");
+
+            var data = item.Children.Select(child => new MobileDataPlans
+            {
+                DataAmount = child.Fields["Data Amount"].Value,
+                Price = child.Fields["Price"].Value,
+                HoursMusic = child.Fields["Hours Music"].Value,
+                HoursMovies = child.Fields["Hours Movies"].Value,
+                HoursWebBrowsing = child.Fields["Hours Web Browsing"].Value
+            });
+
+            return View("~/Views/Components/Mobile Enrollment/Configure Data.cshtml", new ConfigureData
+            {
+                MobileDataPlans = data
+            });
         }
 
         public ActionResult CompleteOrder()
@@ -148,6 +200,11 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult Cart()
         {
             return View("~/Views/Components/Mobile Enrollment/Cart.cshtml");
+        }
+
+        public ActionResult OrderSummary()
+        {
+            return View("~/Views/Components/Mobile Enrollment/Order Summary.cshtml");
         }
 
     }

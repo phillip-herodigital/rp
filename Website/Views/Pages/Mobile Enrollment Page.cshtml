@@ -1,4 +1,4 @@
-<div class="enrollment mobile-enrollment" ng-controller="MobileEnrollmentCtrl" ng-init="mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
+<div class="enrollment mobile-enrollment" ng-controller="MobileEnrollmentCtrl" ng-init="mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); mobileEnrollmentService.setDataPlans(@(Html.Action("MobileDataPlans", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
     @Html.Sitecore().Placeholder("mobile enrollment sections")
 </div>
 
@@ -56,70 +56,5 @@
         <div class="modal-footer">
             If you&rsquo;re a business customer, call <strong>800.331.0500</strong> to request an unlock code for your business device.
         </div>
-    </div>
-</script>
-
-<script type="text/ng-template" id="enrollment-order-summary">
-    <div class="enrollment__cart">
-        <article class="enrollment__box" scroll-anchor="scrollFix">
-            <header>
-                <h1>Order Summary</h1>
-            </header>
-            <div class="content">
-                <div class="cart-item">
-                    <h2>To Be Billed Today</h2>
-    
-                    <div class="cart-product clearfix">
-                        <div class="description">
-                            <span class="model">{{ ctrl.mobileService.getCart().phone.name }}</span> <br />
-                            <span class="options">{{ ctrl.mobileService.getCart().model.size }}, {{ ctrl.mobileService.getCart().color.value }}</span> <br />
-                        </div>
-                        <div class="rate">{{ ctrl.mobileService.getCart().model.price | currency }}</div>
-
-                        <div>
-
-                            <div class="description">Initial Activation Fee</div>
-                            <div class="rate">$29.00</div>
-                        </div>
-
-                        <div>
-                            <div class="description">Shipping</div>
-                            <div class="rate">$4.99</div>
-                        </div>
-                        <hr>
-                        <div class="rate">Due Today: $439.97</div>
-                    </div>
-
-                    <div class="cart-product clearfix" ng-if="ctrl.mobileService.getCart().plan">
-                        <h2>To Be Billed Monthly</h2>
-                        <div>
-                            <div class="description">Monthly Plan Cost</div>
-                            <div class="rate">$69/mo</div>
-                        </div>
-                        <div>
-                            <div class="description">Coverage Warranty</div>
-                            <div class="rate">$9.95/mo</div>
-                        </div>
-                        <div>
-                            <div class="description">Estimated Tax and Fees*</div>
-                            <div class="rate">$7.98</div>
-                        </div>
-                        <hr>
-                        <div class="rate">Monthly Bill: $71.97</div>
-                    </div>                           
-                </div>
-            </div>
-        </article>
-        <article class="enrollment__box">
-            <header>
-                <h1>Early Termination Fee</h1>
-            </header>
-            <p>Lorem ipsum dolor sit amet, consetetur </p>
-        </article>
-        <article class="enrollment__box">
-            <header>
-                <h1>Questions? 800.156.4629</h1>
-            </header>
-        </article>
     </div>
 </script>
