@@ -46,5 +46,11 @@ namespace StreamEnergy.DomainModels.Accounts
             get { return (Guid)profile.GetPropertyValue("GlobalCustomerId"); }
             set { profile.SetPropertyValue("GlobalCustomerId", value); }
         }
+
+        public ImportSource? ImportSource
+        {
+            get { return (ImportSource?)profile.GetPropertyValue("ImportSource"); }
+            set { profile.SetPropertyValue("ImportSource", value); }
+        }
     }
 }
