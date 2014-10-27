@@ -27,6 +27,9 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 		})
 			.success(function (data, status, headers, config) {
 			    if (!data.success) {
+			        if (data.redirect) {
+			            $window.location.href = data.redirect;
+			        }
 			        $scope.isLoading = false;
 					// if not successful, bind errors to error variables
 					$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
