@@ -21,9 +21,9 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             this.accountService = accountService;
         }
 
-        internal async Task<UserProfile> CreateUser(string username, string password, Dictionary<Guid, string> challengeAnswers = null, Guid? globalCustomerId = null, string email = null)
+        public async Task<UserProfile> CreateUser(string username, string password = null, Dictionary<Guid, string> challengeAnswers = null, Guid? globalCustomerId = null, string email = null)
         {
-            var user = Membership.CreateUser(username, password);
+            var user = Membership.CreateUser(username, password ?? Membership.GeneratePassword(14, 3) + "Aa1!");
 
             if (user == null)
             {

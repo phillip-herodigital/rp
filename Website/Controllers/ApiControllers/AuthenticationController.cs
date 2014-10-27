@@ -39,6 +39,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly ISettings settings;
         private readonly IAccountService accountService;
         private readonly ImpersonationUtility impersonation;
+        private readonly UserProfileLocator profileLocator;
         
         #region Session Helper Classes
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
@@ -58,7 +59,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation, UserProfileLocator profileLocator)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
@@ -71,6 +72,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.accountService = accountService;
             this.settings = settings;
             this.impersonation = impersonation;
+            this.profileLocator = profileLocator;
         }
 
         protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
@@ -97,7 +99,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Login
 
         [HttpPost]
-        public HttpResponseMessage Login(LoginRequest request)
+        public Task<HttpResponseMessage> Login(LoginRequest request)
         {
             request.Domain = domain;
             ModelState.Clear();
@@ -123,14 +125,31 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 });
 
                 AddAuthenticationCookie(response, request.Username);
-                return response;
+                return Task.FromResult(response);
+            }
+            else
+            {
+                var user = request.Domain.AccountPrefix + request.Username;
+                var profile = profileLocator.Locate(user);
+                if (profile != null && profile.ImportSource != null)
+                {
+                    // we do something special for imported users
+                    switch (profile.ImportSource.Value)
+                    {
+                        case ImportSource.GeorgiaAccounts:
+                            return Task.FromResult(Request.CreateResponse(new
+                                {
+                                    Redirect = "/en/auth/reset-password?username=" + request.Username
+                                }));
+                    }
+                }
             }
 
-            return Request.CreateResponse(new LoginResponse
+            return Task.FromResult(Request.CreateResponse(new LoginResponse
                     {
                         Success = false,
                         Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("My Stream Account"))
-                    });
+                    }));
         }
 
         #endregion
@@ -335,6 +354,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     var user = Membership.GetUser(domain.AccountPrefix + username);
                     user.UnlockUser();
                     user.ChangePassword(user.ResetPassword(), request.Password);
+
+                    var profile = profileLocator.Locate(domain.AccountPrefix + username);
+                    profile.ImportSource = null;
+                    profile.Save();
+
                     success = true;
                 }
             }

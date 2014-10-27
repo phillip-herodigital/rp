@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.Services.Clients.StreamConnect
 {
-    class Rate
+    public class Rate
     {
         public string Type { get; set; }
         public string Unit { get; set; }

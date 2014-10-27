@@ -7,6 +7,6 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public enum ImportSource
     {
-        Cis2AureaAccounts
+        GeorgiaAccounts
     }
 }
