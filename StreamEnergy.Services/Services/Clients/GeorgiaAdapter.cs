@@ -98,6 +98,7 @@ namespace StreamEnergy.Services.Clients
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
                               Provider = product.Provider.ToString(),
                               Code = product.ProductCode,
+                              Product = Newtonsoft.Json.JsonConvert.SerializeObject(product),
 
                               EnrollmentType = serviceStatus.EnrollmentType,
 
@@ -157,12 +158,7 @@ namespace StreamEnergy.Services.Clients
                     SelectedMoveInDate = (offer.OfferOption is GeorgiaGas.MoveInOfferOption) ? ((GeorgiaGas.MoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
                     UtilityProvider = JObject.Parse(georgiaGasOffer.Provider),
                     UtilityAccountNumber = georgiaGasService.AglcPremisesNumber,
-                    Product = new
-                    {
-                        ProductId = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1],
-                        ProductCode = georgiaGasOffer.Code,
-                        Term = georgiaGasOffer.TermMonths
-                    },
+                    Product = JObject.Parse(georgiaGasOffer.Product),
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
                     ProductType = "Gas",
                     Deposit = depositObject
