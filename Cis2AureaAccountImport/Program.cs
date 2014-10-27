@@ -60,6 +60,7 @@ namespace Cis2AureaAccountImport
                         .ContinueWith(profileTask => 
                             {
                                 profileTask.Result.ImportSource = StreamEnergy.DomainModels.Accounts.ImportSource.GeorgiaAccounts;
+                                profileTask.Result.Save();
                                 return profileTask.Result.GlobalCustomerId;
                             });
 
