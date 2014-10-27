@@ -40,7 +40,7 @@ namespace StreamEnergy.MyStream.Conditions
         {
             if (!dependencies.Context.Request.IsSecureConnection && dependencies.SSLEnabled)
             {
-                dependencies.Context.Response.Redirect(dependencies.Context.Request.RawUrl.Replace("http", "https"), false);
+                dependencies.Context.Response.Redirect(dependencies.Context.Request.Url.ToString().Replace("http", "https"), false);
             }
 
             return false;
