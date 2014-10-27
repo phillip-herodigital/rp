@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.Services.Clients.StreamConnect
 {
-    class Product
+    public class Product
     {
         public string Description { get; set; }
         public IEnumerable<Fee> Fees { get; set; }

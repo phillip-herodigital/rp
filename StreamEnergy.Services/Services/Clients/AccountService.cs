@@ -459,6 +459,10 @@ namespace StreamEnergy.Services.Clients
                     CreateSubAccount(data.AccountDetails)
                 };
             }
+            else
+            {
+                account.SubAccounts = new ISubAccount[0];
+            }
 
             var methodId = data.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.AutoPayGlobalPaymentMethodId.ToString());
             account.AutoPay = new DomainModels.Payments.AutoPaySetting

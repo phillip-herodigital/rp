@@ -51,8 +51,11 @@ namespace StreamEnergy.Services.Clients
             CisAccountServicesPortTypeClient.ChannelFactory.Endpoint.EndpointBehaviors.Add(new AddAuthenticationHeaderBehavior("mystream", "R|38ULt6w1@o55v"));
             RegisterService<StreamCommons.Account.CisAccountServicesPortType>(unityContainer, CisAccountServicesPortTypeClient);
 
-            unityContainer.RegisterInstance("SmartyStreets AuthId", ConfigurationManager.AppSettings["SmartyStreetsAuthId"]);
-            unityContainer.RegisterInstance("SmartyStreets AuthToken", ConfigurationManager.AppSettings["SmartyStreetsAuthToken"]);
+            if (ConfigurationManager.AppSettings["SmartyStreetsAuthId"] != null)
+            {
+                unityContainer.RegisterInstance("SmartyStreets AuthId", ConfigurationManager.AppSettings["SmartyStreetsAuthId"]);
+                unityContainer.RegisterInstance("SmartyStreets AuthToken", ConfigurationManager.AppSettings["SmartyStreetsAuthToken"]);
+            }
             var SSLEnabled = false;
             bool.TryParse(ConfigurationManager.AppSettings["SSLEnabled"], out SSLEnabled);
             unityContainer.RegisterInstance("SSLEnabled", SSLEnabled);
