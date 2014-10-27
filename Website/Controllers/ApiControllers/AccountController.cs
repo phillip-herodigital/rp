@@ -84,27 +84,34 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<GetAccountBalancesResponse> GetAccountBalances()
         {
             currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
 
             return new GetAccountBalancesResponse
             {
                 Accounts =  from account in currentUser.Accounts
-                            let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
-                            let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
-                            let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
-                            select new AccountToPay
-                            {
-                                AccountNumber = account.AccountNumber,
-                                AmountDue = account.Balance.Balance,
-                                DueDate = account.Balance.DueDate,
-                                UtilityProvider = externalPayment.UtilityProvider,
-                                CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
-                                AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
-                                Actions = 
-                                 {
-                                    { "viewPdf", "/api/account/accountInvoicePdf?account=" + account.AccountNumber }
-                                 }
-                            }
+                            let invoice = acocuntInvoices.First(t => t.AccountNumber == account.AccountNumber && t.Invoices != null).Invoices.LastOrDefault()
+                            select CreateViewAccountBalances(account, invoice)
             };
+        }
+
+        private static Models.Account.AccountToPay CreateViewAccountBalances(Account account, DomainModels.Accounts.Invoice invoice)
+        {
+            var result = new StreamEnergy.MyStream.Models.Account.AccountToPay
+            {
+                AccountNumber = account.AccountNumber,
+                AmountDue = account.Balance.Balance,
+                DueDate = account.Balance.DueDate,
+                UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
+                CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
+                AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
+            };
+
+            if (invoice.PdfAvailable)
+            {
+                result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
+            }
+
+            return result;
         }
 
         #endregion
@@ -245,61 +252,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<GetAccountBalancesTableResponse> GetAccountBalancesTable()
         {
+            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            
             return new GetAccountBalancesTableResponse
             {
                 Accounts = new Table<AccountToPay>
                 {
                     ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
-                    Values = from account in currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId, currentUser.Accounts)
-                             let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
-                             let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
-                             let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
-                             select new AccountToPay
-                             {
-                                 AccountNumber = account.AccountNumber,
-                                 AmountDue = account.Balance.Balance,
-                                 DueDate = account.Balance.DueDate,
-                                 UtilityProvider = externalPayment.UtilityProvider,
-                                 CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
-                                 AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
-                                 Actions = 
-                                 {
-                                    { "viewPdf", "/api/account/accountInvoicePdf?account=" + account.AccountNumber }
-                                 }
-                             }
+                    Values = from account in currentUser.Accounts
+                             let invoice = acocuntInvoices.First(t => t.AccountNumber == account.AccountNumber && t.Invoices != null).Invoices.LastOrDefault()
+                             select CreateViewAccountBalances(account, invoice)
                 }
             };
-        }
-
-        [Authorize]
-        [HttpGet]
-        [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<HttpResponseMessage> AccountInvoicePdf(string account)
-        {
-            currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
-            var chosenAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == account);
-            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
-            var targetInvoice = acocuntInvoices.First(t => t.AccountNumber == account && t.Invoices != null).Invoices.Last();
-
-            var url = await accountService.GetInvoicePdf(chosenAccount, targetInvoice);
-
-            HttpClient client = new HttpClient();
-            var response = await client.GetAsync(url);
-
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new StreamContent(await response.Content.ReadAsStreamAsync())
-            {
-                Headers =
-                {
-                    ContentType = response.Content.Headers.ContentType,
-                    ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
-                    {
-                        FileName = "invoice" + targetInvoice.InvoiceNumber + ".pdf"
-                    }
-                }
-            };
-
-            return result;
         }
 
         [HttpPost]
@@ -951,6 +916,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var autoPayStatus = await paymentService.GetAutoPayStatus(account);
+            if (autoPayStatus.PaymentMethodId == Guid.Empty) 
+            { 
+                autoPayStatus.PaymentMethodId = null; 
+            }
 
             return new GetAutoPayStatusResponse
             {

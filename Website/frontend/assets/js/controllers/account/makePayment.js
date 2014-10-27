@@ -98,7 +98,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         }
 
         if (newPaymentMethodType == 'TokenizedBank') {
-            $scope.formData.bankAccount().then(function (paymentInfo) {
+            $scope.formData.bank().then(function (paymentInfo) {
                 var formData = {
                     nickname: $scope.formData.nickname,
                     paymentAccount: paymentInfo
@@ -111,13 +111,11 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
                         // if successful, clear the fields
                         $scope.formData = { nickname: '', paymentAccount: {} };
 
-                        // refresh the account data
-                        $http.get('/api/account/getSavedPaymentMethods').success(function (data) { 
-                            $scope.paymentAccounts = data;
-                        });
-
+                        // set the newly added account so it can be selected
+                        $scope.newAccount = formData.nickname;
+                        
                         // close the modal
-                        $close();
+                        $scope.modalInstance.close();
                     }
                 });
             });

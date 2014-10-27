@@ -14,7 +14,7 @@ ngApp.controller('AcctPaymentAccountsListingCtrl', ['$scope', '$http', '$modal',
     $scope.deletePaymentAccount = function (paymentAccount) {
         $scope.paymentAccount = paymentAccount;
         var modalInstance = $modal.open({
-            templateUrl: 'removePaymentAccount.html',
+            templateUrl: 'removePaymentAccount',
             scope: $scope
         });
 
@@ -33,6 +33,13 @@ ngApp.controller('AcctPaymentAccountsListingCtrl', ['$scope', '$http', '$modal',
                     });
                 }
             });
+        });
+    }
+
+    $scope.autoPayWarning = function () {
+        var modalInstance = $modal.open({
+            templateUrl: 'autoPayWarning',
+            scope: $scope
         });
     }
 }]);

@@ -739,6 +739,7 @@ article.balances-payments {
     .payment-successful {
         dl dd {
             width: 41%;
+            word-wrap: break-word;
         }
         dl dt {
             width: 53%;
@@ -1088,6 +1089,11 @@ article.make-payment {
                 text-transform: uppercase;
                 padding: 15px 0 0 0;
             }
+        }
+    }
+    dl.module-list {
+        dd {
+            word-wrap: break-word;
         }
     }
 }
