@@ -198,7 +198,7 @@ namespace StreamEnergy.Services.Clients
                 };
 
                 result.ProviderId = details.AccountPlanDetails.ProviderId;
-                result.Rate = (decimal)details.AccountPlanDetails.RateValue.Value;
+                result.Rate = (decimal)(details.AccountPlanDetails.RateValue.Value ?? 0);
                 result.RateType = (details.AccountPlanDetails.Type == "Fixed") ? RateType.Fixed : RateType.Variable;
                 result.TermMonths = details.AccountPlanDetails.Term;
                 result.ProductId = details.AccountPlanDetails.ProductId;

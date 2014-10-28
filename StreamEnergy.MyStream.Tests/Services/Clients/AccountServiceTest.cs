@@ -431,7 +431,12 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
             var invoiceAccounts = accountService.GetInvoices(gcid, new[] { acct }).Result;
-            var targetInvoice = invoiceAccounts.First(t => t.Invoices != null).Invoices.First(inv => inv.PdfAvailable);
+            var invoices = invoiceAccounts.Where(t => t.Invoices != null).SelectMany(t => t.Invoices).Where(inv => inv.PdfAvailable);
+            if (!invoices.Any())
+            {
+                Assert.Inconclusive("No invoices with pdfs.");
+            }
+            var targetInvoice = invoices.First();
 
             // Act
             var url = accountService.GetInvoicePdf(acct, targetInvoice).Result;
