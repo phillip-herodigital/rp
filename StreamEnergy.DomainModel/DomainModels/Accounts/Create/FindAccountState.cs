@@ -30,22 +30,16 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
         public override IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            // No blockers for online account already exists
-            yield break;
-            //if (context.AccountNumber == "1234")
-            //{
-            //    yield return new ValidationResult("Online Account Already Exists", new[] { "AccountNumber" });
-            //}
+            var value = (int?) redis.StringGet(redisPrefix + context.AccountNumber);
+            if (value != null && value >= 5)
+            {
+                // locked out after 5 tries
+                yield return new ValidationResult("Account Locked", new[] { "AccountNumber" });
+            }
         }
 
         protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            var value = (int?)await redis.StringGetAsync(redisPrefix + context.AccountNumber);
-            if (value != null && value >= 5)
-            {
-                // locked out after 5 tries
-                return this.GetType();
-            }
             internalContext.Account = await service.GetAccountDetails(context.AccountNumber);
             if (internalContext.Account != null && internalContext.Account.Details.SsnLastFour != context.SsnLastFour)
             {

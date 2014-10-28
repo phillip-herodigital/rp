@@ -20,6 +20,7 @@ using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using ResponsivePath.Validation;
 using Sitecore.Links;
+using StackExchange.Redis;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -37,8 +38,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
         private readonly ICurrentUser currentUser;
         private readonly EnrollmentController enrollmentController;
+        private readonly IDatabase redis;
+        private const string redisPrefix = "AddNewAccount_FindAccount_";
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis)
         {
             this.container = container;
             this.temperatureService = temperatureService;
@@ -51,6 +54,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.authentication = authentication;
             this.currentUser = currentUser;
             this.enrollmentController = enrollmentController;
+            this.redis = redis;
         }
 
         [HttpGet]
@@ -709,6 +713,22 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var val = new ValidationResult("Account Already Associated", new[] { "AccountNumber" });
                 validations = validations.Concat(new[] { val });
             }
+            
+            // locked out after 5 tries
+            var value = (int?) await redis.StringGetAsync(redisPrefix + request.AccountNumber);
+            if (value != null && value >= 5)
+            {
+                var val = new ValidationResult("Account Locked", new[] { "AccountNumber" });
+                validations = validations.Concat(new[] { val });
+            }
+
+            var internalAccount = await accountService.GetAccountDetails(request.AccountNumber);
+            if (internalAccount != null && internalAccount.Details.SsnLastFour != request.SsnLast4)
+            {
+                internalAccount = null;
+                await redis.StringIncrementAsync(redisPrefix + request.AccountNumber);
+                await redis.KeyExpireAsync(redisPrefix + request.AccountNumber, TimeSpan.FromMinutes(30));
+            }
 
             if (!validations.Any())
             {
@@ -766,9 +786,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
         {
             var details = await accountService.GetAccountDetails(request.AccountNumber);
+            if (details == null) 
+            {
+                return new FindAccountForOneTimePaymentResponse
+                {
+                    Success = false
+                };
+            }
 
             return new FindAccountForOneTimePaymentResponse
                 {
+                    Success = true,
                     Account = new AccountToPay
                     {
                         AccountNumber = details.AccountNumber,

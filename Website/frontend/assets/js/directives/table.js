@@ -79,8 +79,13 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 
 				updatePagingOptions(scope.table.pagingOptions);
 
-				scope.toggleResponsiveColumns(breakpoint.breakpoint.name);
-
+				// check for iPad since breakpoints dont work there
+				if (breakpoint.breakpoint == null) {
+					scope.toggleResponsiveColumns('tablet');
+				} else {
+					scope.toggleResponsiveColumns(breakpoint.breakpoint.name);
+				}
+				
 			};
 
 			var checkForHiddenColumns = function() {
@@ -248,7 +253,8 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 			};
 
 			scope.$watch(function () {
-				return breakpoint.breakpoint.name
+				// check for iPad since breakpoints dont work there
+				return (breakpoint.breakpoint == null) ? 'tablet' : breakpoint.breakpoint.name;
 			}, function (newValue, oldValue) {
 				if (newValue !== oldValue) {
 					scope.toggleResponsiveColumns(newValue);

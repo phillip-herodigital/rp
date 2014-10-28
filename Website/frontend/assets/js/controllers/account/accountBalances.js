@@ -35,6 +35,12 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
     	$scope.paymentAmount = $scope.selectedAccount.amountDue;
     };
 
+    $scope.resolvePayments = function () {
+        // any additional validation can go here
+        $scope.totalCharge = parseFloat($scope.paymentAmount) + 2.95;
+        $scope.activeState = 'step2';
+    };
+
     $scope.addAccount = function () {
         if ($scope.selectedPaymentMethod == 'addAccount') {
 
