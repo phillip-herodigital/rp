@@ -157,7 +157,7 @@ namespace StreamEnergy.Services.Clients
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
                     SelectedMoveInDate = (offer.OfferOption is GeorgiaGas.MoveInOfferOption) ? ((GeorgiaGas.MoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
                     UtilityProvider = JObject.Parse(georgiaGasOffer.Provider),
-                    UtilityAccountNumber = georgiaGasService.AglcPremisesNumber,
+                    UtilityAccountNumber = (offer.OfferOption is GeorgiaGas.SwitchOfferOption) ? ((GeorgiaGas.SwitchOfferOption)offer.OfferOption).AglcNumber : georgiaGasService.AglcPremisesNumber,
                     Product = JObject.Parse(georgiaGasOffer.Product),
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
                     ProductType = "Gas",

@@ -354,6 +354,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 stateHelper.Reset();
                 stateHelper.Context = context;
                 stateHelper.InternalContext = internalContext;
+                stateHelper.Context.SelectedIdentityAnswers = null;
                 stateHelper.State = typeof(DomainModels.Enrollments.AccountInformationState);
 
                 await stateHelper.EnsureInitialized();
@@ -386,10 +387,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             if (stateMachine.InternalContext.EnrollmentSaveState != null && stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
             {
-                stateHelper.State = typeof(AccountInformationState);
-                await Initialize();
+                await ResetPreAccountInformation();
             }
-            await ResetPreAccountInformation();
 
             MapCartToServices(request);
 
