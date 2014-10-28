@@ -10,7 +10,7 @@
             </div>
             <div class="item">
                 <ul>
-                    <li ng-repeat="username in usernames">
+                    <li ng-repeat="username in usernames track by $index">
                         <a href="#" ng-click="select(username)">{{ username }}</a>
                     </li>
                 </ul>
