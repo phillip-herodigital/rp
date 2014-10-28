@@ -472,12 +472,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         {
                             var response = Request.CreateResponse(HttpStatusCode.Moved);
                             response.Headers.Location = new Uri("/impersonate-users?" + HttpContext.Current.Request.QueryString.ToString(), UriKind.Relative);
-                            response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customers.First().GlobalCustomerId) });
                             return response;
                         }
                         else
                         {
-                            userCustomers = customers.Where(c => c.Username == username);
+                            userCustomers = customers.Where(c => c.Username == domain.AccountPrefix + username);
                         }
                     }
                     customers = userCustomers;
@@ -489,6 +488,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customers.First().GlobalCustomerId) });
                 return response;
             }
+        }
+
+        [HttpGet]
+        public async Task<IHttpActionResult> ImpersonateUserList(string accountNumber, string expiry, string token)
+        {
+            if (!impersonation.Verify(accountNumber, expiry, token))
+            {
+                return NotFound();
+            }
+
+            var customers = await accountService.FindCustomersByCisAccount(accountNumber);
+            customers = customers.Where(c => c.Username != null && c.Username.StartsWith(domain.AccountPrefix));
+
+            return Ok(from customer in customers
+                      select customer.Username.Substring(domain.AccountPrefix.Length));
         }
 
         #endregion
