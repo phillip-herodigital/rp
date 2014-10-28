@@ -471,7 +471,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         if (username == null)
                         {
                             var response = Request.CreateResponse(HttpStatusCode.Moved);
-                            response.Headers.Location = new Uri("/impersonate-users?" + HttpContext.Current.Request.QueryString.ToString(), UriKind.Relative);
+                            response.Headers.Location = new Uri("/auth/impersonate?" + HttpContext.Current.Request.QueryString.ToString(), UriKind.Relative);
                             return response;
                         }
                         else
