@@ -82,5 +82,10 @@ namespace StreamEnergy.MyStream.Controllers.Components
                 return Redirect("~/auth/reset-password/?token=expired&username=" + username);
             }
         }
+
+        public ActionResult ImpersonateIndex()
+        {
+            return View("~/Views/Components/Authentication/Impersonate.cshtml");
+        }
     }
 }
