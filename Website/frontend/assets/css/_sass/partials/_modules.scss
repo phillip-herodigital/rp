@@ -730,10 +730,10 @@ article.balances-payments {
     }
     .confirm-payment {
         dl dd {
-            width: 49%;
+            width: 40%;
         }
         dl dt {
-            width: 45%;
+            width: 50%;
         }
     }
     .payment-successful {
@@ -747,6 +747,7 @@ article.balances-payments {
     }
     .grid .col {
         border-spacing: 0px;
+        max-width: 288px;
         h4 {
             font-weight: 600;
         }

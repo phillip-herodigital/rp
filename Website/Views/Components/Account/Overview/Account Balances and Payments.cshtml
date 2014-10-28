@@ -4,7 +4,7 @@
         <h2>@Html.Sitecore().Field("Account Balances and Payments Text")</h2>
     </header>
     <div>
-        <form data-val-bind-messages="validations" ng-submit="activeState = 'step2'">
+        <form data-val-bind-messages="validations" ng-submit="resolvePayments()">
             <div class="account-selector">
                 <div class="group">
                     <div class="item">
@@ -81,6 +81,10 @@
                         <dl class="clearfix">
                             <dt>@Html.Sitecore().Field("Amount Text"):</dt>
                             <dd>{{ paymentAmount | currency }}</dd>
+                            <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                            <dd>@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
+                            <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
+                            <dd>{{ totalCharge | currency }}</dd>
                             <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
                             <dd>{{ getPaymentMethod(selectedPaymentMethod) }}</dd>
                         </dl>
@@ -114,7 +118,7 @@
                             <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
                             <dd>{{ confirmationNumber }}</dd>
                             <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
-                            <dd>{{ paymentAmount | currency }}</dd>
+                            <dd>{{ totalCharge | currency }}</dd>
                         </dl>
                     </div>
                 </div>
