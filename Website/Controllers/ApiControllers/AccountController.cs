@@ -786,9 +786,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
         {
             var details = await accountService.GetAccountDetails(request.AccountNumber);
+            if (details == null) 
+            {
+                return new FindAccountForOneTimePaymentResponse
+                {
+                    Success = false
+                };
+            }
 
             return new FindAccountForOneTimePaymentResponse
                 {
+                    Success = true,
                     Account = new AccountToPay
                     {
                         AccountNumber = details.AccountNumber,

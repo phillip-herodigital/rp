@@ -6,6 +6,12 @@
 		</header>
 		<form data-val-bind-messages="validations"  ng-if="ctrl.activeStep == 1" ng-submit="ctrl.lookupAccount()">
 			<div class="content">
+                <div ng-show="ctrl.errorMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Error Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
 				@Html.Sitecore().Field("Body Text")
 
 				<div class="item" @Html.Validation().ErrorClass(m => m.AccountNumber)>
