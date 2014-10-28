@@ -32,7 +32,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
                     ctrl.errorMessage = true;
                 } else {
                     ctrl.account = data.account;
-                    ctrl.totalPaymentAmount = ctrl.account.invoiceAmount;
+                    ctrl.paymentAmount = ctrl.account.amountDue;
                     ctrl.activeStep = 2;
                 }
             });
@@ -42,7 +42,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
     this.validatePaymentInfo = function() {
         ctrl.paymentMethod().then(function (paymentMethod) {
             ctrl.evaluatedPaymentMethod = paymentMethod;
-
+            ctrl.totalCharge = parseFloat(ctrl.paymentAmount) + 2.95;
             ctrl.activeStep = 3;
         });
     };
@@ -60,7 +60,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
                     'address': ctrl.email
                 },
                 'paymentAccount': ctrl.evaluatedPaymentMethod,
-                'totalPaymentAmount': ctrl.totalPaymentAmount,
+                'totalPaymentAmount': ctrl.paymentAmount,
                 'overrideWarnings': ctrl.overrideWarnings || []
             },
             headers: { 'Content-Type': 'application/JSON' }
