@@ -11,6 +11,7 @@ ngApp.controller('AuthForgotUsernameCtrl', ['$scope', '$rootScope', '$http', '$w
     // process the getUserChallengeQuestions form
     $scope.recoverUsername = function() {
         $scope.isLoading = true;
+        $scope.recoverUsernameError = false;
         $http({
             method  : 'POST',
             url     : '/api/authentication/recoverUsername',
@@ -19,8 +20,9 @@ ngApp.controller('AuthForgotUsernameCtrl', ['$scope', '$rootScope', '$http', '$w
         })
             .success(function (data, status, headers, config) {
                 $scope.isLoading = false;
-                if (data.validations.length) {
+                if (!data.success) {
                     // if not successful, bind errors to error variables
+                    $scope.recoverUsernameError = true;
                     $scope.validations = data.validations;
 
                 } else {
