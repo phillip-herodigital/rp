@@ -262,6 +262,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (resetPasswordSessionHelper.StateMachine.State == typeof(GetUsernameState))
                 validations = resetPasswordSessionHelper.StateMachine.ValidationResults;
 
+            if (validations.Any())
+            {
+                return new GetUserChallengeQuestionsResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Forgot Password"))
+                };
+            }
+
             var customer = await accountService.GetCustomerByCustomerId(profile.GlobalCustomerId);
 
             return new GetUserChallengeQuestionsResponse

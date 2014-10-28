@@ -17,6 +17,8 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 
     // process the getUserChallengeQuestions form
     $scope.getUserChallengeQuestions = function() {
+        $scope.isLoading = true;
+        $scope.getUserError = false;
         $http({
             method  : 'POST',
             url     : '/api/authentication/getUserChallengeQuestions',
@@ -24,8 +26,10 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
             headers : { 'Content-Type': 'application/JSON' } 
         })
             .success(function (data, status, headers, config) {
+                $scope.isLoading = false;
                 if (data.validations.length) {
                     // if not successful, bind errors to error variables
+                    $scope.getUserError = true;
                     $scope.validations = data.validations;
 
                 } else {
