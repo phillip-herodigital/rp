@@ -44,6 +44,7 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 
     $scope.submitSecurityQuestions = function () {
         $scope.isLoading = true;
+        $scope.sendResetError = false;
         $http({
             method  : 'POST',
             url     : '/api/authentication/verifyUserChallengeQuestions',
@@ -52,8 +53,9 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
         })
             .success(function (data, status, headers, config) {
                 $scope.isLoading = false;
-                if (data.validations.length) {
+                if (!data.success) {
                     // if not successful, bind errors to error variables
+                    $scope.sendResetError = true;
                     $scope.validations = data.validations;
 
                 } else {
