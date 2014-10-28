@@ -389,15 +389,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (ModelState.IsValid)
             {
                 var customers = await accountService.FindCustomers(request.Email.Address);
-                var usernames = (from customer in customers
-                                 where !string.IsNullOrEmpty(customer.Username)
-                                 where customer.Username.StartsWith(domain.AccountPrefix)
-                                 let username = customer.Username.Substring(domain.AccountPrefix.Length)
-                                 orderby username
-                                 select username).ToArray();
 
-                if (usernames.Length > 0)
+                if (customers != null)
                 {
+                    var usernames = (from customer in customers
+                                     where !string.IsNullOrEmpty(customer.Username)
+                                     where customer.Username.StartsWith(domain.AccountPrefix)
+                                     let username = customer.Username.Substring(domain.AccountPrefix.Length)
+                                     orderby username
+                                     select username).ToArray();
+
                     success = await emailService.SendEmail(new Guid("{AA8CAFBB-AE0C-4B5C-A748-3AE702FA4C4C}"), request.Email.Address, new NameValueCollection() {
                         {"usernames", string.Join(", ", usernames)}
                     });
