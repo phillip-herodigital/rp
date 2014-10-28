@@ -2,11 +2,18 @@
     Authentication - Reset Password Controller
  */
 ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$window', '$sce', function ($scope, $rootScope, $http, $window, $sce) {
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec($window.location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
     $scope.activeState = 'step1';
     $scope.isLoading = false;
 
     // create a blank object to hold the form information
-    $scope.formData = { answers: {}};
+    $scope.formData = { answers: {}, username: getParameterByName('username') };
 
     // process the getUserChallengeQuestions form
     $scope.getUserChallengeQuestions = function() {
