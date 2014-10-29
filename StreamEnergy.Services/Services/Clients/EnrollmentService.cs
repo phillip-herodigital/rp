@@ -268,7 +268,7 @@ namespace StreamEnergy.Services.Clients
         async Task<StreamAsync<EnrollmentSaveResult>> IEnrollmentService.BeginSaveUpdateEnrollment(Guid globalCustomerId, EnrollmentSaveResult enrollmentSaveResult, UserContext context, NameValueCollection dpiParameters, IEnumerable<LocationOfferDetails<OfferPayment>> offerPayments)
         {
             foreach (var oldEnrollmentAccountId in from oldResult in enrollmentSaveResult.Results
-                                                   where !context.Services.Any(svcLoc => svcLoc.Location == oldResult.Location && svcLoc.SelectedOffers.Any(o => o.Offer.Id == oldResult.Offer.Id))
+                                                   where !context.Services.Any(svcLoc => svcLoc.Location == oldResult.Location && svcLoc.SelectedOffers.Any(o => o.Offer.OfferType == oldResult.Offer.OfferType))
                                                    select oldResult.Details.GlobalEnrollmentAccountId)
             {
                 await ((IEnrollmentService)this).DeleteEnrollment(globalCustomerId, oldEnrollmentAccountId);
@@ -292,7 +292,7 @@ namespace StreamEnergy.Services.Clients
             // this logic will need to change again.
             var request = (from service in context.Services
                            from offer in service.SelectedOffers
-                           let previousSaveId = enrollmentSaveResult.Results.Where(r => r.Offer.Id == offer.Offer.Id && r.Location == service.Location).Select(r => (Guid?)r.Details.GlobalEnrollmentAccountId).FirstOrDefault()
+                           let previousSaveId = enrollmentSaveResult.Results.Where(r => r.Offer.OfferType == offer.Offer.OfferType && r.Location == service.Location).Select(r => (Guid?)r.Details.GlobalEnrollmentAccountId).FirstOrDefault()
                            let locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(service.Location.Capabilities, offer.Offer))
                            select locAdapter.ToEnrollmentAccount(globalCustomerId, context, service, offer, salesInfo, previousSaveId ?? Guid.Empty, BuildDepositObject(offer, findOfferPayment(service, offer)))).ToArray();
             var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
