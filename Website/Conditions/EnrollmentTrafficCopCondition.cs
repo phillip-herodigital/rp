@@ -73,6 +73,8 @@ namespace StreamEnergy.MyStream.Conditions
 
             redirect = redirect || (dependencies.EnrollmentParameters.AccountType == "C");
 
+            redirect = redirect || (dependencies.EnrollmentParameters.ServiceType.ToLower() == "mob");
+
             if (redirect && (dependencies.EnrollmentParameters.State != "GA" || dependencies.EnrollmentParameters.AccountType == "C"))
             {
                 var targetUrl = targetDpiUrl();
