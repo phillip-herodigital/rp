@@ -1,63 +1,63 @@
-﻿<script type="text/ng-template" id="enrollment-order-summary">
+﻿<script type="text/ng-template" id="enrollment-order-summary" ng-controller="MobileEnrollmentOrderSummaryCtrl">
     <div class="enrollment__cart">
         <article class="enrollment__box" scroll-anchor="scrollFix">
             <header>
-                <h1>Order Summary</h1>
+                <h1>@Html.Sitecore().Field("Order Summary Header")</h1>
             </header>
             <div class="content">
                 <div class="cart-item">
-                    <h2>To Be Billed Today</h2>
+                    <h2>@Html.Sitecore().Field("To Be Billed Today")</h2>
 
-                    <div class="cart-product clearfix">
-                        <div class="description">
+                    <div class="cart-product clearfix" ng-repeat="item in cart.items">
+                        <!--<div class="description">
                             <span class="model">{{ ctrl.mobileService.getCart().phone.name }}</span> <br />
                             <span class="options">{{ ctrl.mobileService.getCart().model.size }}, {{ ctrl.mobileService.getCart().color.value }}</span> <br />
                         </div>
                         <div class="rate">{{ ctrl.mobileService.getCart().model.price | currency }}</div>
-
-                        <div>
-
-                            <div class="description">Initial Activation Fee</div>
-                            <div class="rate">$29.00</div>
+                        -->
+                        <div class="clearfix" ng-if="item.type=='existing'">
+                            <div class="description">@Html.Sitecore().Field("Initial Activation Fee")</div>
+                            <div class="rate">{{ item.activationFee | currency }}</div>
                         </div>
-
-                        <div>
-                            <div class="description">Shipping</div>
-                            <div class="rate">$4.99</div>
+                        <div class="clearfix">
+                            <div class="description">@Html.Sitecore().Field("Prorated 1st Month Plan Cost")</div>
+                            <div class="rate">{{ mobileEnrollmentService.getProratedCost(cart.dataPlan) }}</div>
                         </div>
-                        <hr>
-                        <div class="rate">Due Today: $439.97</div>
+                        <div class="total">@Html.Sitecore().Field("Due Today"): <strong>{{ mobileEnrollmentService.getTotalDueToday() | currency }}</strong></div>
                     </div>
 
-                    <div class="cart-product clearfix" ng-if="ctrl.mobileService.getCart().plan">
-                        <h2>To Be Billed Monthly</h2>
-                        <div>
-                            <div class="description">Monthly Plan Cost</div>
-                            <div class="rate">$69/mo</div>
+                    <div class="cart-product clearfix">
+                        <h2>@Html.Sitecore().Field("To Be Billed Monthly")</h2>
+                        <div class="clearfix">
+                            <div class="description">@Html.Sitecore().Field("Monthly Plan Cost").Format(new { size = "{{ cart.dataPlan.data }}" })</div>
+                            <div class="rate">{{ cart.dataPlan.price | currency }}/mo</div>
                         </div>
-                        <div>
-                            <div class="description">Coverage Warranty</div>
-                            <div class="rate">$9.95/mo</div>
+                        @*
+                        <div class="clearfix" ng-if="cart.dataPlan.additionalData">
+                            <div class="description">@Html.Sitecore().Field("Additional Data")</div>
+                            <div class="rate">{{ cart.dataPlan.additionalDataPrice | currency }}/mo</div>
                         </div>
-                        <div>
-                            <div class="description">Estimated Tax and Fees*</div>
-                            <div class="rate">$7.98</div>
+                        *@
+                        <div class="clearfix">
+                            <div class="description">@Html.Sitecore().Field("Estimated Taxes and Fees")</div>
+                            <div class="rate">{{ mobileEnrollmentService.getEstimatedFees() | currency }}</div>
                         </div>
-                        <hr>
-                        <div class="rate">Monthly Bill: $71.97</div>
+                        <div class="total">@Html.Sitecore().Field("Estimated Monthly Bill"): <strong>{{ mobileEnrollmentService.getEstimatedMonthlyTotal() | currency }}</strong></div>
                     </div>
                 </div>
             </div>
         </article>
-        <article class="enrollment__box">
+        <article class="enrollment__box plain-text">
             <header>
-                <h1>Early Termination Fee</h1>
+                <h1>@Html.Sitecore().Field("Early Termination Fee Header")</h1>
             </header>
-            <p>Lorem ipsum dolor sit amet, consetetur </p>
+            <div class="content">
+                @Html.Sitecore().Field("Early Termination Fee Text")
+            </div>
         </article>
-        <article class="enrollment__box">
+        <article class="enrollment__box plain-text">
             <header>
-                <h1>Questions? 800.156.4629</h1>
+                <h1>@Html.Sitecore().Field("Questions Header")</h1>
             </header>
         </article>
     </div>

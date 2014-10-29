@@ -52,10 +52,9 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 Name = child.Name.ToLower(),
                 Plans = child.Children.Select(plans => new {
-                    BaseData = plans.Fields["Base Data"].Value,
-                    BasePrice = plans.Fields["Base Data Price"].Value,
-                    AdditionalData = plans.Fields["Additional Data"].Value,
-                    AdditionalDataPrice = plans.Fields["Additional Data Price"].Value,
+                    ID = plans.ID.ToString(),
+                    data = plans.Fields["Base Data"].Value,
+                    price = plans.Fields["Base Data Price"].Value,
                     Recommended = plans.Fields["Recommended"].Value,
                     HoursMusic = plans.Fields["Hours Music"].Value,
                     HoursMovies = plans.Fields["Hours Movies"].Value,

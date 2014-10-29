@@ -4,28 +4,24 @@
 
     $scope.dataPlans = $scope.mobileEnrollmentService.getDataPlans($scope.mobileEnrollmentService.selectedNetwork);
 
+    console.log($scope.dataPlans);
+
     $scope.formFields = {
-        chosenPlan: undefined
+        chosenPlanId: undefined
     };
 
-    $scope.$watch('formFields.chosenPlan', function(newValue, oldValue) {
+    if($scope.mobileEnrollmentService.cart.dataPlan) {
+        $scope.formFields.chosenPlanId = $scope.mobileEnrollmentService.cart.dataPlan.id;
+    }
+
+    $scope.$watch('formFields.chosenPlanId', function(newValue, oldValue) {
         if (newValue !== oldValue) {
+            console.log(newValue);
             $scope.mobileEnrollmentService.addDataPlanToCart(newValue);
         }
     });
 
-    $scope.getTotalPlanData = function(plan) {
-        if (plan.additionalData) {
-            return parseInt(plan.baseData, 10) + parseInt(plan.additionalData, 10);
-        } else {
-            return parseInt(plan.baseData, 10);
-        }
-    }
-
     $scope.setDataPlan = function() {
-
-        //$scope.mobileEnrollmentService.addDataPlanToCart($scope.formFields.chosenPlan);
-
         $scope.setCurrentStep('complete-order');
     };
 

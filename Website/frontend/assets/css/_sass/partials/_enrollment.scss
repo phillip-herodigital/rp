@@ -498,6 +498,11 @@ $enrollment-module-vertical-padding: 20px;
             vertical-align: bottom;
         }
     }
+    &.plain-text {
+        .content {
+            padding-bottom: 13px;
+        }
+    }
 }
 
 /* Commenting out the social login
@@ -1185,6 +1190,9 @@ $enrollment-module-vertical-padding: 20px;
         &:first-child {
             padding-top: 0;
         }
+        &:last-child {
+            border-bottom: 0;
+        }
         h2 {
             margin-top: 0;
             color: #333;
@@ -1488,6 +1496,12 @@ $enrollment-module-vertical-padding: 20px;
         .rate {
             text-align: right;
             float: right;
+        }
+        .total {
+            margin-top: 10px;
+            padding: 10px 0;
+            border-top: 1px solid #eaeaea;
+            text-align: right;
         }
         h2 {
             margin-bottom: 0;
@@ -2176,6 +2190,9 @@ $enrollment-module-vertical-padding: 20px;
         position: relative;
         & :first-child {
             margin-top: 0;
+        }
+        &.no-img {
+            padding-left: 0;
         }
     }
     a {

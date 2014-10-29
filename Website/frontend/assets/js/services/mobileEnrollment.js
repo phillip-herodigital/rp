@@ -119,7 +119,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
         return _.uniq(_.pluck(phones, "os"));
     };
 
-
     /**
      * Set the cart options
      * @param {[type]} value [description]
@@ -133,7 +132,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     }
 
     service.getCartDataPlan = function() {
-        console.log(service.cart.dataPlan);
         return service.cart.dataPlan;
     }
 
@@ -141,8 +139,26 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
         service.cart.items.push(item);
     };
 
-    service.addDataPlanToCart = function(plan) {
+    service.addDataPlanToCart = function(planId) {
+        var plan = _.where(service.getDataPlans(service.selectedNetwork).plans, { id: planId })[0];
+        console.log(plan);
         service.cart.dataPlan = plan;
+    };
+
+    service.getProratedCost = function(plan) {
+        return '1000.00';
+    };
+
+    service.getTotalDueToday = function() {
+        return '1000.00';
+    };
+
+    service.getEstimatedMonthlyTotal = function() {
+        return '1000.00';
+    };
+
+    service.getEstimatedFees = function() {
+        return '1000.00';
     };
 
     return service;

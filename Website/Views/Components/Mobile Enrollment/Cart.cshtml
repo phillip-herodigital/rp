@@ -15,23 +15,25 @@
                 <div class="cart-item">
                     <h2>@Html.Sitecore().Field("Mobile Services Header")</h2>
 
-                    <div class="cart-product clearfix" ng-if="cart.dataPlan.baseData">
+                    <div class="cart-product clearfix">
                         <div class="description">
                             {{ mobileEnrollmentService.selectedNetwork }} @Html.Sitecore().Field("Individual Plan")<br />
-                            <span class="details">{{ cart.dataPlan.baseData }}GB data included</span>
-                            <a href="">@Html.Sitecore().Field("Edit Plan Link")</a>
+                            <span class="details" ng-if="cart.dataPlan.data">{{ cart.dataPlan.data }}GB data included</span>
+                            @*<a href="">@Html.Sitecore().Field("Edit Plan Link")</a>*@
                         </div>
-                        <div class="rate">{{ cart.dataPlan.basePrice | currency }}/mo</div>
+                        <div class="rate" ng-if="cart.dataPlan.price">{{ cart.dataPlan.price | currency }}/mo</div>
                     </div>
 
+                    @*
                     <div class="cart-product clearfix" ng-if="cart.dataPlan.additionalData">
                         <div class="description">
                             @Html.Sitecore().Field("Additional Data")<br />
-                            <span class="details">{{ cart.dataPlan.additionalData }}GB additional data for a total of {{ getTotalPlanData(cart.dataPlan) }}GB</span>
+                            <span class="details">{{ cart.dataPlan.additionalData }}GB additional data for a total of {{ mobileEnrollmentService.getTotalPlanData(cart.dataPlan) }}GB</span>
                             <a href="">@Html.Sitecore().Field("Configure Data Link")</a>
                         </div>
                         <div class="rate">{{ cart.dataPlan.additionalDataPrice | currency }}/mo</div>
                     </div>
+                    *@
 
                     <div class="cart-product clearfix" ng-repeat="item in cart.items">
                         <div class="description" ng-if="item.type == 'new'">
@@ -45,7 +47,7 @@
                             <div class="details">{{ item.make }} {{ item.model }}</div>
                             <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
                         </div>
-                        <div class="rate">{{ item.price | currency }}</div>
+                        <div class="rate">{{ item.activationFee | currency }}</div>
                         <div ng-if="item.warranty">
                             <div class="description">@Html.Sitecore().Field("Phone Warranty")</div>
                             <div class="rate">$9.95/mo</div>

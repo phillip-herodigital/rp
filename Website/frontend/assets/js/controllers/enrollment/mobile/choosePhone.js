@@ -80,7 +80,7 @@
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 make: $scope.phoneOptions.make,
                 model: $scope.phoneOptions.model,
-                price: '29.95',
+                activationFee: '29.95',
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
                 number: $scope.phoneOptions.number
