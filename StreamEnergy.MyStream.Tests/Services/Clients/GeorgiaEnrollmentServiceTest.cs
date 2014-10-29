@@ -271,9 +271,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.SelectedOffer
                             {
                                 Offer = texasElectricityOffer,
-                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
-                                {
-                                    AglcNumber = "123",
+                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.MoveInOfferOption 
+                                { 
+                                    ConnectDate = enrollmentService.LoadConnectDates(location, texasElectricityOffer).Result.AvailableConnectDates.First().Date,
                                 }
                             }
                         }
@@ -452,9 +452,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.MoveInOfferOption 
                                     { 
-                                        AglcNumber = "123",
+                                        ConnectDate = enrollmentService.LoadConnectDates(location, texasElectricityOffer).Result.AvailableConnectDates.First().Date,
                                     }
                                 }
                             }
@@ -538,9 +538,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.MoveInOfferOption 
                                     { 
-                                        AglcNumber = "123",
+                                        ConnectDate = enrollmentService.LoadConnectDates(location, texasElectricityOffer).Result.AvailableConnectDates.First().Date,
                                     }
                                 }
                             }
@@ -640,9 +640,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.MoveInOfferOption 
                                     { 
-                                        AglcNumber = "123",
+                                        ConnectDate = enrollmentService.LoadConnectDates(location, texasElectricityOffer).Result.AvailableConnectDates.First().Date,
                                     }
                                 }
                             }
@@ -727,9 +727,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.MoveInOfferOption 
                                     { 
-                                        AglcNumber = "123",
+                                        ConnectDate = enrollmentService.LoadConnectDates(location, texasElectricityOffer).Result.AvailableConnectDates.First().Date,
                                     }
                                 }
                             }
@@ -852,9 +852,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.SelectedOffer
                             {
                                 Offer = texasElectricityOffer,
-                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
+                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.MoveInOfferOption 
                                 { 
-                                    AglcNumber = "123",
+                                    ConnectDate = enrollmentService.LoadConnectDates(location, texasElectricityOffer).Result.AvailableConnectDates.First().Date,
                                 }
                             }
                         }
