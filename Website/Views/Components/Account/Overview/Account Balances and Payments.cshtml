@@ -22,8 +22,8 @@
                             <dd>{{ selectedAccount.amountDue | currency }}</dd>
                             <dt ng-show="selectedAccount.amountDue > 0">@Html.Sitecore().Field("Due Date Text")</dt>
                             <dd ng-show="selectedAccount.amountDue > 0">{{ selectedAccount.dueDate | date:'MM/dd/yyyy' }}</dd>
-                            <dt>@Html.Sitecore().Field("Latest Invoice Text")</dt>
-                            <dd><a ng-if="selectedAccount.actions.viewPdf" ng-href="{{selectedAccount.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a></dd>
+                            <dt ng-if="selectedAccount.actions.viewPdf">@Html.Sitecore().Field("Latest Invoice Text")</dt>
+                            <dd ng-if="selectedAccount.actions.viewPdf"><a ng-href="{{selectedAccount.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a></dd>
                         </dl>
                     </div>
                     <div class="col payment" ng-show="selectedAccount.amountDue <= 0">
@@ -117,7 +117,11 @@
                         <dl class="clearfix">
                             <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
                             <dd>{{ confirmationNumber }}</dd>
-                            <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
+                            <dt>@Html.Sitecore().Field("Amount Text"):</dt>
+                            <dd>{{ paymentAmount | currency }}</dd>
+                            <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                            <dd>@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
+                            <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                             <dd>{{ totalCharge | currency }}</dd>
                         </dl>
                     </div>

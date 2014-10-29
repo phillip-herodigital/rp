@@ -43,7 +43,7 @@
                 </ul>
                 <div class="billing-address-container" ng-switch="formData.sameAsService">
                     <div class="billing-address" ng-switch-when="true">
-                        {{ formData.serviceAddress.line1 }}<br>
+                        {{ formData.serviceAddress.line1 }} {{ formData.serviceAddress.line2 }}<br>
                         {{ formData.serviceAddress.city }}, {{ formData.serviceAddress.stateAbbreviation }} {{ formData.serviceAddress.postalCode5 }}
                     </div>
                     <div ng-switch-when="false">
