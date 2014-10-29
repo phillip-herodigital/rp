@@ -25,7 +25,18 @@ namespace StreamEnergy.MyStream.Controllers.Components
                 System.Web.Security.FormsAuthentication.SignOut();
                 return Redirect(Request.RawUrl);
             }
-            return View("~/Views/Components/Authentication/My Stream Account.cshtml");
+            if (Request.Cookies["username"] != null)
+            {
+                return View("~/Views/Components/Authentication/My Stream Account.cshtml", new Models.Authentication.LoginRequest
+                    {
+                        Username = Request.Cookies["username"].Value,
+                        RememberMe = true
+                    });
+            }
+            else
+            {
+                return View("~/Views/Components/Authentication/My Stream Account.cshtml");
+            }
         }
 
         public ActionResult FindAccountIndex()

@@ -692,6 +692,7 @@ namespace StreamEnergy.Services.Clients
         {
             var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(subAccount));
 
+            account.Capabilities.RemoveAll(r => r.CapabilityType == DomainModels.Accounts.RenewalAccountCapability.Qualifier);
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals", new
                 {
                     SystemOfRecordAccountNumber = account.AccountNumber,

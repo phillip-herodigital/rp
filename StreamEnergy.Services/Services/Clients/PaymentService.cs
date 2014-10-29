@@ -250,6 +250,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<bool> IPaymentService.SetAutoPayStatus(DomainModels.Accounts.Account account, AutoPaySetting autoPaySetting)
         {
+            account.AutoPay = null;
             if (autoPaySetting.IsEnabled)
             {
                 var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString() + "/autopay",

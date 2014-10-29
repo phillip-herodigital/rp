@@ -36,7 +36,7 @@
                 <div class="item" @Html.Validation().ErrorClass(model => model.RememberMe)>
                     <ul class="checkbox-list">
                         <li>
-                            <input type="checkbox" id="@Html.IdFor(m => m.RememberMe)" ng-model="formData.rememberMe" />
+                            <input type="checkbox" id="@Html.IdFor(m => m.RememberMe)" ng-model="formData.rememberMe" ng-init="formData.rememberMe = @((Model != null && Model.RememberMe).ToString().ToLower())" />
                             <label for="@Html.IdFor(m => m.RememberMe)">@Html.Sitecore().Field("Remember Me Text")</label>
                         </li>
                     </ul>

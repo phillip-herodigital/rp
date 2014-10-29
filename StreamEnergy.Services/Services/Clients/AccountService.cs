@@ -525,6 +525,8 @@ namespace StreamEnergy.Services.Clients
 
             if (response.IsSuccessStatusCode)
             {
+                account.Details = null;
+
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
                 if (data.Status == "Success")
                 {
