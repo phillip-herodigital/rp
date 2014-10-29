@@ -688,9 +688,8 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        async Task<StreamAsync<RenewalResult>> IEnrollmentService.BeginRenewal(DomainModels.Accounts.Account account, DomainModels.Enrollments.Renewal.OfferOption renewalOptions)
+        async Task<StreamAsync<RenewalResult>> IEnrollmentService.BeginRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount, DomainModels.Enrollments.Renewal.OfferOption renewalOptions)
         {
-            var subAccount = account.SubAccounts.First();
             var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(subAccount));
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals", new

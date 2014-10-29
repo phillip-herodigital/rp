@@ -37,6 +37,6 @@ namespace StreamEnergy.DomainModels.Accounts
 
         Task<bool> SetAccountDetails(Account acct, AccountDetails accountDetails);
 
-        Task<bool> CheckRenewalEligibility(Account account, bool forceRefresh = false);
+        Task<bool> CheckRenewalEligibility(Account account, ISubAccount subAccount, bool forceRefresh = false);
     }
 }

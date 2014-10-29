@@ -130,7 +130,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         { 
                             Offer = new DomainModels.Enrollments.Renewal.Offer 
                             { 
-                                RenewingAccount = account
+                                RenewingAccount = account,
+                                RenewingSubAccount = account.SubAccounts.First()
                             } 
                         }
                     }

@@ -43,7 +43,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<PlaceOrderResult> PlaceCommercialQuotes(UserContext context);
 
-        Task<StreamAsync<RenewalResult>> BeginRenewal(Accounts.Account account, Enrollments.Renewal.OfferOption renewalOptions);
+        Task<StreamAsync<RenewalResult>> BeginRenewal(Accounts.Account account, Accounts.ISubAccount subAccount, Enrollments.Renewal.OfferOption renewalOptions);
         Task<StreamAsync<RenewalResult>> EndRenewal(StreamAsync<RenewalResult> asyncResult);
 
     }

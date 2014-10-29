@@ -38,5 +38,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Renewal
         {
             return new OfferOptionPolicy(RenewingAccount);
         }
+
+        public Accounts.ISubAccount RenewingSubAccount { get; set; }
     }
 }
