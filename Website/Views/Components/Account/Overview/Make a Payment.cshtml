@@ -101,12 +101,12 @@
                     <dd>{{ account.accountNumber }}</dd>
                     <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
                     <dd>{{ account.paymentAmount | currency }}</dd>
+                    <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                    <dd>@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                     <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
                     <dd>{{ getPaymentMethod(account.selectedPaymentMethod) }}</dd>
                 </dl>
                 <dl class="clearfix module-list">
-                    <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
-                    <dd>@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                     <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                     <dd>{{ paymentAmount | currency }}</dd>
                     <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
