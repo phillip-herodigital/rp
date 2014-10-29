@@ -984,11 +984,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             var target = currentUser.Accounts.First(acct => acct.StreamConnectAccountId == request.AccountId);
 
+            await accountService.GetAccountDetails(target);
+            var subAccount = target.SubAccounts.First(acct => acct.Id == request.SubAccountId);
+
             await enrollmentController.Initialize(null);
 
             return new SetupRenewalResponse
             {
-                IsSuccess = await enrollmentController.SetupRenewal(target)
+                IsSuccess = await enrollmentController.SetupRenewal(target, subAccount)
             };
         }
 
