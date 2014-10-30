@@ -71,18 +71,18 @@
                 <div class="payment-details">
                     <p ng-if="selectedAccounts.length==1">@Html.Sitecore().Field("Total For 1 Account") <strong>{{ total | currency }}</strong></p>
                     <p ng-if="selectedAccounts.length!=1">@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{selectedAccounts.length}}" }) <strong>{{total | currency }}</strong></p>
-
+                    <p>@Html.Sitecore().Field("Payment Date Text") <strong>{{ selectedDate | date:'MM/dd/yyyy' }}</strong></p>
+                    @*
                     <div class="group date-amount">
                         <div class="item datepicker" @Html.Validation().ErrorClass(m => m.PaymentDate)>
                             <label for="PaymentDate">@Html.Sitecore().Field("Payment Date Text")</label>
                             <span class="calendar">
                                 @Html.TextBoxFor(m => m.PaymentDate, new { ng_model="selectedDate", datepicker_popup="", is_open="datePickerOpened", ng_click="openDatePicker($event)", min_date="minDate", date_disabled="disableWeekends(date, mode)", disabled="true" })
-                                <span class="icon"><i class="icon-calendar"></i></span>
-                                @*<span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>*@
+                                <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
                             </span>
                         </div>
                     </div>
-                  
+                    *@
                 </div>
             </div>
             <footer>
