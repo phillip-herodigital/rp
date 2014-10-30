@@ -352,10 +352,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 var context = stateHelper.Context;
                 var internalContext = stateHelper.InternalContext;
+                context.SelectedIdentityAnswers = null;
                 stateHelper.Reset();
                 stateHelper.Context = context;
                 stateHelper.InternalContext = internalContext;
-                stateHelper.Context.SelectedIdentityAnswers = null;
                 stateHelper.State = typeof(DomainModels.Enrollments.AccountInformationState);
 
                 await stateHelper.EnsureInitialized();
