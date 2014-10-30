@@ -59,7 +59,10 @@ namespace StreamEnergy.DomainModels.Enrollments
                 var svc = context.Services.Single().SelectedOffers.Single();
                 if (internalContext.RenewalResult == null)
                 {
-                    internalContext.RenewalResult = await enrollmentService.BeginRenewal((svc.Offer as Enrollments.Renewal.Offer).RenewingAccount, (svc.OfferOption as Enrollments.Renewal.OfferOption));
+                    internalContext.RenewalResult = await enrollmentService.BeginRenewal(
+                        (svc.Offer as Enrollments.Renewal.Offer).RenewingAccount,
+                        (svc.Offer as Enrollments.Renewal.Offer).RenewingSubAccount, 
+                        (svc.OfferOption as Enrollments.Renewal.OfferOption));
                     return this.GetType();
                 }
                 else

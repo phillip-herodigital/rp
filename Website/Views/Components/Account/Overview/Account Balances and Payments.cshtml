@@ -107,12 +107,12 @@
                             <dd>{{ selectedAccount.dueDate | date:'MM/dd/yyyy' }}</dd>
                         </dl>
                     </div>
-                    <div class="col payment" ng-if="confirmationNumber == ''">
+                    <div class="col payment" ng-if="!confirmationNumber">
                         <div class="notice error">
                             <p>@Html.Sitecore().Field("Processing Payment Error Text").Format(new { Payment = "{{  paymentAmount | currency }}" })</p>
                         </div>
                     </div>
-                    <div class="col payment payment-successful" ng-if="confirmationNumber != ''">
+                    <div class="col payment payment-successful" ng-if="confirmationNumber">
                         <h4>@Html.Sitecore().Field("Payment Successful Text")</h4>
                         <dl class="clearfix">
                             <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>

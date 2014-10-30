@@ -8,5 +8,7 @@ namespace StreamEnergy.MyStream.Models.Account
     public class SetupRenewalRequest
     {
         public Guid AccountId { get; set; }
+
+        public string SubAccountId { get; set; }
     }
 }

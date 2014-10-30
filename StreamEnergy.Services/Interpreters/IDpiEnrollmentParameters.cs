@@ -13,6 +13,8 @@ namespace StreamEnergy.Interpreters
 
         string AccountType { get; }
 
+        string ServiceType { get; }
+
         string State { get; }
 
         string AccountNumber { get; }

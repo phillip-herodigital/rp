@@ -525,6 +525,8 @@ namespace StreamEnergy.Services.Clients
 
             if (response.IsSuccessStatusCode)
             {
+                account.Details = null;
+
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
                 if (data.Status == "Success")
                 {
@@ -535,7 +537,7 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        async Task<bool> IAccountService.CheckRenewalEligibility(Account account, bool forceRefresh)
+        async Task<bool> IAccountService.CheckRenewalEligibility(Account account, ISubAccount subAccount, bool forceRefresh)
         {
             if (account.Capabilities.OfType<RenewalAccountCapability>().Any() && !forceRefresh)
             {
@@ -547,12 +549,12 @@ namespace StreamEnergy.Services.Clients
                 await ((IAccountService)this).GetAccountDetails(account, false);
             }
 
-            var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(account.SubAccounts.First()));
+            var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(subAccount));
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals/eligibility/",
                 new
                 {
-                    UtilityAccountNumber = account.AccountNumber,
+                    UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
                     ProductType = locAdapter.GetCommodityType(),
                     ProviderId = locAdapter.GetProvider(account.SubAccounts.First()),
                     CustomerLast4 = account.Details.SsnLastFour

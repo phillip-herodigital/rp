@@ -124,6 +124,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     ReturnURI = returnUri
                 });
 
+                if (request.RememberMe)
+                    AddRememberMeCookie(response, request.Username);
+                else
+                    RemoveRememberMeCookie(response);
+
                 AddAuthenticationCookie(response, request.Username);
                 return Task.FromResult(response);
             }
@@ -519,6 +524,32 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
             return item.Children[childItem];
+        }
+
+        private void AddRememberMeCookie(HttpResponseMessage response, string username)
+        {
+            response.Headers.AddCookies(new[] {
+                    new System.Net.Http.Headers.CookieHeaderValue("username", username) 
+                    { 
+                        Expires = DateTime.Now.AddYears(1), 
+                        HttpOnly = true, 
+                        Path = "/", 
+                        Secure = false 
+                    }
+                });
+        }
+
+        private void RemoveRememberMeCookie(HttpResponseMessage response)
+        {
+            response.Headers.AddCookies(new[] {
+                    new System.Net.Http.Headers.CookieHeaderValue("username", "") 
+                    { 
+                        Expires = DateTime.Now, 
+                        HttpOnly = true, 
+                        Path = "/", 
+                        Secure = false 
+                    }
+                });
         }
 
         public void AddAuthenticationCookie(HttpResponseMessage response, string username)

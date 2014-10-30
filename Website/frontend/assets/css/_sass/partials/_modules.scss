@@ -1477,6 +1477,11 @@ article.payments {
             }
         }
     }
+    dl.module-list {
+        dd {
+            word-wrap: break-word;
+        }
+    }
     .auto-pay-address p {
         margin: 0px;
     }

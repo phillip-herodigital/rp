@@ -60,9 +60,9 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
-				$scope.isLoading = false;
-			    $scope.validations = data.validations;
 			    if (!data.success) {
+				    $scope.isLoading = false;
+			        $scope.validations = data.validations;
 					// if not successful, bind errors to error variables
 					$scope.createLoginError = $sce.trustAsHtml(data.validations[0].text);
 

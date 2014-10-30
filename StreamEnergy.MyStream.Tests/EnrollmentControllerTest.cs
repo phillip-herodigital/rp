@@ -403,7 +403,7 @@ namespace StreamEnergy.MyStream.Tests
             })));
             mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>(), It.IsAny<IOffer>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
 
-            mockEnrollmentService.Setup(m => m.BeginRenewal(It.IsAny<DomainModels.Accounts.Account>(), It.IsAny<DomainModels.Enrollments.Renewal.OfferOption>()))
+            mockEnrollmentService.Setup(m => m.BeginRenewal(It.IsAny<DomainModels.Accounts.Account>(), It.IsAny<DomainModels.Accounts.ISubAccount>(), It.IsAny<DomainModels.Enrollments.Renewal.OfferOption>()))
                 .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
                 {
                     IsCompleted = false

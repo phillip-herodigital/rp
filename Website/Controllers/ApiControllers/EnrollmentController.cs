@@ -109,7 +109,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [NonAction]
-        public async Task<bool> SetupRenewal(DomainModels.Accounts.Account account)
+        public async Task<bool> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
             stateHelper.Reset();
             await stateHelper.EnsureInitialized();
@@ -130,7 +130,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         { 
                             Offer = new DomainModels.Enrollments.Renewal.Offer 
                             { 
-                                RenewingAccount = account
+                                RenewingAccount = account,
+                                RenewingSubAccount = subAccount
                             } 
                         }
                     }

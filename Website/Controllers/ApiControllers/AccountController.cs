@@ -448,6 +448,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var currentUser = Membership.GetUser(User.Identity.Name);
             var currentUsername = currentUser.UserName;
             var newUsername = request.Username;
+            var newUsernameWithPrefix = domain.AccountPrefix + request.Username;
 
             request.Username = domain.AccountPrefix + request.Username;
             if (currentUsername == request.Username)
@@ -482,7 +483,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var customer = this.currentUser.Customer = this.currentUser.Customer ?? await accountService.GetCustomerByCustomerId(this.currentUser.StreamConnectCustomerId);
                 if (customer.EmailAddress != request.Email.Address || !string.IsNullOrEmpty(request.Username))
                 {
-                    customer.Username = request.Username;
+                    customer.Username = request.Username ?? newUsernameWithPrefix;
                     customer.EmailAddress = request.Email.Address;
                     await accountService.UpdateCustomer(customer);
                 }                
@@ -496,7 +497,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 // update the challeges
                 if (request.Challenges != null && request.Challenges.Any(c => !string.IsNullOrEmpty(c.Answer)))
                 {
-                    var profile = UserProfile.Locate(container, request.Username);
+                    var profile = UserProfile.Locate(container, newUsernameWithPrefix);
                     
                     profile.ChallengeQuestions = (from entry in request.Challenges
                                                   join existing in profile.ChallengeQuestions on entry.SelectedQuestion.Id equals existing.QuestionKey into existing
@@ -983,11 +984,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             var target = currentUser.Accounts.First(acct => acct.StreamConnectAccountId == request.AccountId);
 
+            await accountService.GetAccountDetails(target);
+            var subAccount = target.SubAccounts.First(acct => acct.Id == request.SubAccountId);
+
             await enrollmentController.Initialize(null);
 
             return new SetupRenewalResponse
             {
-                IsSuccess = await enrollmentController.SetupRenewal(target)
+                IsSuccess = await enrollmentController.SetupRenewal(target, subAccount)
             };
         }
 
