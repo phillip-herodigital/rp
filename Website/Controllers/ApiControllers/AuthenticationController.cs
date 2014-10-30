@@ -459,16 +459,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             if (!impersonation.Verify(accountNumber, expiry, token))
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                var response = Request.CreateResponse(HttpStatusCode.Moved);
+                response.Headers.Location = new Uri("/auth/login?error=true&type=impersonate", UriKind.Relative);
+                return response;
             }
 
             var customers = await accountService.FindCustomersByCisAccount(accountNumber);
-            if (!customers.Any())
+            if (customers == null || !customers.Any())
             {
                 var details = await accountService.GetAccountDetails(accountNumber);
                 if (details == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    var response = Request.CreateResponse(HttpStatusCode.Moved);
+                    response.Headers.Location = new Uri("/auth/login?error=true&type=impersonate", UriKind.Relative);
+                    return response;
                 }
                 var customer = await accountService.CreateStreamConnectCustomer();
                 await accountService.AssociateAccount(customer.GlobalCustomerId, accountNumber, details.Details.SsnLastFour, "");
