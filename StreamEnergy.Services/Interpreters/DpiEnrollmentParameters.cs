@@ -37,6 +37,11 @@ namespace StreamEnergy.Interpreters
             get { return (queryString["AccountType"] ?? "").ToUpper(); }
         }
 
+        public string ServiceType
+        {
+            get { return (queryString["ServiceType"] ?? "").ToUpper(); }
+        }
+
         public string State
         {
             get { return (queryString["St"] ?? queryString["State"]).ToUpper(); }
@@ -67,6 +72,10 @@ namespace StreamEnergy.Interpreters
 
         public Func<string> GetTargetDpiUrlBuilder()
         {
+            if (ServiceType.ToLower() == "mob")
+            {
+                return () => "/mobile-enrollment?" + queryString.ToString();
+            }
             switch (AccountType)
             {
                 case "R":

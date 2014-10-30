@@ -94,10 +94,15 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 
 			// Range function similar to Python range
 			var rangePage = function(stop) {
-				var start = (stop - 10) + 1;
-				start = start <= 0 ? 1 : start;
+				var start = scope.table.pagingOptions.currentPage + 3 < stop ? (stop - 4) : scope.table.pagingOptions.currentPage
+				if (start <= 4) {
+					start = 1;
+				} else if ((stop - start) < 4) {
+					start = stop - 3
+				}
+				var end = stop <= 4 ? stop : start + 3
 				var result = [];
-				for (var i = start; i <= stop; i += 1) {
+				for (var i = start; i <= end; i += 1) {
 					result.push(i);
 				}
 				return result;
