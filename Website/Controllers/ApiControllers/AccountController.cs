@@ -29,7 +29,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     {
         private readonly Sitecore.Data.Items.Item item;
         private readonly IUnityContainer container;
-        private readonly Services.Clients.ITemperatureService temperatureService;
         private readonly DomainModels.Accounts.IAccountService accountService;
         private readonly DomainModels.Payments.IPaymentService paymentService;
         private readonly Sitecore.Security.Domains.Domain domain;
@@ -41,10 +40,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IDatabase redis;
         private const string redisPrefix = "AddNewAccount_FindAccount_";
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis)
         {
             this.container = container;
-            this.temperatureService = temperatureService;
             this.accountService = accountService;
             this.paymentService = paymentService;
             this.domain = Sitecore.Context.Site.Domain;
@@ -55,30 +53,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.currentUser = currentUser;
             this.enrollmentController = enrollmentController;
             this.redis = redis;
-        }
-
-        [HttpGet]
-        public string CelciusToFahrenheit(string celcius)
-        {
-            return temperatureService.CelciusToFahrenheit(celcius: celcius);
-        }
-
-        [HttpGet]
-        public string FahrenheitToCelcius(string fahrenheit)
-        {
-            return temperatureService.FahrenheitToCelcius(fahrenheit: fahrenheit);
-        }
-
-        [HttpGet]
-        public Task<string> ExampleMock()
-        {
-            return temperatureService.MockedExample();
-        }
-
-        [HttpGet]
-        public Task<Dictionary<string, object>> ExampleCache()
-        {
-            return temperatureService.CachedExample();
         }
 
         #region Account Balances & Payments

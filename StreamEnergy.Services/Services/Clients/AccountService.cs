@@ -12,7 +12,6 @@ namespace StreamEnergy.Services.Clients
 {
     class AccountService : IAccountService
     {
-        private readonly Sample.Commons.SampleStreamCommonsSoap service;
         private readonly StreamCommons.Account.CisAccountServicesPortType accountService;
         private readonly StreamEnergy.Dpi.DPILinkSoap dpiLinkService;
         private readonly HttpClient streamConnectClient;
@@ -20,9 +19,8 @@ namespace StreamEnergy.Services.Clients
         private readonly AccountFactory accountFactory;
         private readonly ISet<ILocationAdapter> locationAdapters;
 
-        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, [Dependency(StreamConnectContainerSetup.StreamConnectSharedAccessSignature)] string sharedAccessSignature, AccountFactory accountFactory, ISet<ILocationAdapter> locationAdapters)
+        public AccountService(StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, [Dependency(StreamConnectContainerSetup.StreamConnectSharedAccessSignature)] string sharedAccessSignature, AccountFactory accountFactory, ISet<ILocationAdapter> locationAdapters)
         {
-            this.service = service;
             this.accountService = accountService;
             this.dpiLinkService = dpiLinkService;
             this.streamConnectClient = client;

@@ -168,16 +168,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Service References\Sample.Commons\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\Sample.Temperature\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Service References\StreamCommons.Account\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -239,8 +229,6 @@
     <Compile Include="Services\Clients\StreamConnect\Rate.cs" />
     <Compile Include="Services\Clients\StreamConnect\VerifyPremiseResponse.cs" />
     <Compile Include="Services\Clients\PdfGenerationService.cs" />
-    <Compile Include="Services\Clients\TemperatureService.cs" />
-    <Compile Include="Services\Clients\ITemperatureService.cs" />
     <Compile Include="Services\Clients\TexasAdapter.cs" />
     <Compile Include="Services\HttpConverter.cs" />
     <Compile Include="Services\SoapConverter.cs" />
@@ -284,17 +272,6 @@
     <None Include="Service References\Dpi\StreamEnergy.Dpi.TokenResult1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\Sample.Commons\samplecommons.wsdl" />
-    <None Include="Service References\Sample.Commons\StreamEnergy.Sample.Commons.GetInvoicesResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Sample.Temperature\StreamEnergy.Sample.Temperature.CelsiusToFahrenheitResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Sample.Temperature\StreamEnergy.Sample.Temperature.FahrenheitToCelsiusResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Sample.Temperature\tempconvert.wsdl" />
     <EmbeddedResource Include="Services\Clients\Mocks\CelsiusToFahrenheit_Response.soap" />
     <EmbeddedResource Include="Services\Clients\Mocks\GetInvoices_New_Response.soap" />
     <EmbeddedResource Include="Services\Clients\Mocks\GetInvoices_Response.soap" />
@@ -349,37 +326,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\Dpi\" />
-    <WCFMetadataStorage Include="Service References\Sample.Commons\" />
-    <WCFMetadataStorage Include="Service References\Sample.Temperature\" />
     <WCFMetadataStorage Include="Service References\StreamCommons.Account\" />
     <WCFMetadataStorage Include="Service References\StreamEnergyBilling.IstaTokenization\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\Sample.Temperature\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Temperature\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Temperature\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Commons\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Services\Clients\Mocks\CelsiusToFahrenheit_Request.soap" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Commons\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Commons\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\StreamCommons.Account\configuration91.svcinfo" />

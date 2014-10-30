@@ -19,7 +19,7 @@ namespace StreamEnergy.Services.Clients
         private static readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
         
         public ClientContainerSetup()
-            : base(typeof(TemperatureService))
+            : base(typeof(StreamEnergy.Services.Clients.AccountService))
         {
         }
 
@@ -43,8 +43,8 @@ namespace StreamEnergy.Services.Clients
             unityContainer.RegisterType<HttpMessageHandler, HttpMessageLogger>("Logged");
             unityContainer.RegisterType<HttpMessageHandler, HttpClientHandler>();
 
-            RegisterService<Sample.Temperature.TempConvertSoap>(unityContainer, new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx")));
-            RegisterService<Sample.Commons.SampleStreamCommonsSoap>(unityContainer, new Sample.Commons.SampleStreamCommonsSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.example.com/webservices")));
+            //RegisterService<Sample.Temperature.TempConvertSoap>(unityContainer, new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx")));
+            //RegisterService<Sample.Commons.SampleStreamCommonsSoap>(unityContainer, new Sample.Commons.SampleStreamCommonsSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.example.com/webservices")));
             RegisterService<StreamEnergy.Dpi.DPILinkSoap>(unityContainer, new StreamEnergy.Dpi.DPILinkSoapClient(new System.ServiceModel.BasicHttpsBinding(), new System.ServiceModel.EndpointAddress("https://live.soap.dataparadigm.com:6080/dpilink.asmx?WSDL")));
 
             var CisAccountServicesPortTypeClient = new StreamCommons.Account.CisAccountServicesPortTypeClient(new System.ServiceModel.BasicHttpsBinding(), new System.ServiceModel.EndpointAddress("https://sgecom.datx.streamenergy.net/CisAccountServices/WebServices/SoapServer.php?wsdl"));
