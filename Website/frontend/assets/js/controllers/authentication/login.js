@@ -5,12 +5,19 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 	// create a blank object to hold the form information
 	$scope.formData = {};
 	$scope.isLoading = false;
-	var url = $location.absUrl();
-	if (url.indexOf('error=true') > 0) {
-	    $scope.loginError = $sce.trustAsHtml("<strong>Error</strong><br>Invalid username or password. Please try again.")
-	    var indexOfUsername = url.indexOf("username=");
-	    if (indexOfUsername > 0){
-	        $scope.formData.username = url.substring(indexOfUsername + 9);
+	$scope.init = function(genericErrorMessage, impersonateErrorMessage)
+	{
+	    var url = $location.absUrl();
+	    if (url.indexOf('error=true') > 0) {
+	        if (url.indexOf('type=impersonate') > 0) {
+	            $scope.loginError = $sce.trustAsHtml(impersonateErrorMessage)
+	        } else {
+	            $scope.loginError = $sce.trustAsHtml(genericErrorMessage)
+	        }
+	        var indexOfUsername = url.indexOf("username=");
+	        if (indexOfUsername > 0) {
+	            $scope.formData.username = url.substring(indexOfUsername + 9);
+	        }
 	    }
 	}
 	// process the form
