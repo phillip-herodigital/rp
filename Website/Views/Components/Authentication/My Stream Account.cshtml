@@ -4,7 +4,7 @@
 {
     @Html.AllValidationMessagesFor(m => m)
 }
-<div ng-controller="AuthLoginCtrl">
+<div ng-controller="AuthLoginCtrl" ng-init="init('@HttpUtility.JavaScriptStringEncode(Html.Sitecore().Field("Error Text").ToHtmlString())','@HttpUtility.JavaScriptStringEncode(Html.Sitecore().Field("Impersonate Error Text").ToHtmlString())');">
 	<article class="grey-box auth auth-sign-in">
 		<header>
 			<h2>@Html.Sitecore().Field("Header Text")</h2>
