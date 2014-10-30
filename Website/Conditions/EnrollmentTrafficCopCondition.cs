@@ -73,7 +73,7 @@ namespace StreamEnergy.MyStream.Conditions
 
             redirect = redirect || (dependencies.EnrollmentParameters.AccountType == "C");
 
-            redirect = redirect || (dependencies.EnrollmentParameters.ServiceType.ToLower() == "mob");
+            redirect = redirect || (dependencies.EnrollmentParameters.ServiceType == "MOB");
 
             if (redirect && (dependencies.EnrollmentParameters.State != "GA" || dependencies.EnrollmentParameters.AccountType == "C"))
             {

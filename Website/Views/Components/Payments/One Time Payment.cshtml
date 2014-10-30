@@ -63,7 +63,7 @@
                         <div class="payment-selection">
                             <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="TokenizedBank" ng-required="true"><label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
                         </div>
-                        <div ng-show="ctrl.newPaymentMethodType == 'TokenizedBank'" class="payment-options" bank-account-payment="ctrl.newPaymentMethod['TokenizedBank']" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'"></div>
+                        <div ng-show="ctrl.newPaymentMethodType == 'TokenizedBank'" class="payment-options" bank-account-payment="ctrl.newPaymentMethod['TokenizedBank']" data-val-if="ctrl.newPaymentMethodType == 'TokenizedBank'"></div>
                     </div>
                 </fieldset>
 			</div>
