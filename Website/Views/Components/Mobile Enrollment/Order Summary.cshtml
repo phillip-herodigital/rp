@@ -21,7 +21,7 @@
                         </div>
                         <div class="clearfix">
                             <div class="description">@Html.Sitecore().Field("Prorated 1st Month Plan Cost")</div>
-                            <div class="rate">{{ mobileEnrollmentService.getProratedCost(cart.dataPlan) }}</div>
+                            <div class="rate">{{ mobileEnrollmentService.getProratedCost() | currency }}</div>
                         </div>
                         <div class="total">@Html.Sitecore().Field("Due Today"): <strong>{{ mobileEnrollmentService.getTotalDueToday() | currency }}</strong></div>
                     </div>
@@ -40,7 +40,7 @@
                         *@
                         <div class="clearfix">
                             <div class="description">@Html.Sitecore().Field("Estimated Taxes and Fees")</div>
-                            <div class="rate">{{ mobileEnrollmentService.getEstimatedFees() | currency }}</div>
+                            <div class="rate">{{ mobileEnrollmentService.getTotalFees() | currency }}</div>
                         </div>
                         <div class="total">@Html.Sitecore().Field("Estimated Monthly Bill"): <strong>{{ mobileEnrollmentService.getEstimatedMonthlyTotal() | currency }}</strong></div>
                     </div>

@@ -53,8 +53,13 @@ namespace StreamEnergy.MyStream.Controllers
                 Name = child.Name.ToLower(),
                 Plans = child.Children.Select(plans => new {
                     ID = plans.ID.ToString(),
-                    data = plans.Fields["Base Data"].Value,
-                    price = plans.Fields["Base Data Price"].Value,
+                    data = plans.Fields["Data"].Value,
+                    price = plans.Fields["Price"].Value,
+                    fees = new {
+                        salesUseTax = plans.Fields["Sales and Use Tax"].Value,
+                        federalAccessCharge = plans.Fields["Federal Access Charge"].Value,
+                        streamLineCharge = plans.Fields["Stream Line Charge"].Value
+                    },
                     Recommended = plans.Fields["Recommended"].Value,
                     HoursMusic = plans.Fields["Hours Music"].Value,
                     HoursMovies = plans.Fields["Hours Movies"].Value,
@@ -169,21 +174,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ConfigureData()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Data Plans/ATT");
-
-            var data = item.Children.Select(child => new MobileDataPlans
-            {
-                DataAmount = child.Fields["Data Amount"].Value,
-                Price = child.Fields["Price"].Value,
-                HoursMusic = child.Fields["Hours Music"].Value,
-                HoursMovies = child.Fields["Hours Movies"].Value,
-                HoursWebBrowsing = child.Fields["Hours Web Browsing"].Value
-            });
-
-            return View("~/Views/Components/Mobile Enrollment/Configure Data.cshtml", new ConfigureData
-            {
-                MobileDataPlans = data
-            });
+            return View("~/Views/Components/Mobile Enrollment/Configure Data.cshtml");
         }
 
         public ActionResult CompleteOrder()

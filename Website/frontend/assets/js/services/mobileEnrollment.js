@@ -145,20 +145,50 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
         service.cart.dataPlan = plan;
     };
 
-    service.getProratedCost = function(plan) {
-        return '1000.00';
+    service.getProratedCost = function() {
+        var plan = service.cart.dataPlan;
+        // a and b are javascript Date objects
+        var dateDiffInDays = function(a, b) {
+            var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+            // Discard the time and time-zone information.
+            var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+            var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+            
+            return Math.floor((utc1 - utc2) / _MS_PER_DAY);
+        };
+        var billingCycleEnds = 24;
+        var today = new Date();
+        var monthOffset = (today.getDate() <= billingCycleEnds) ? 1 : 0;
+        var startBillingDate = new Date();
+        startBillingDate.setDate(billingCycleEnds);
+        startBillingDate.setMonth(startBillingDate.getMonth() - monthOffset);
+
+        var daysInBillingCycle = new Date(startBillingDate.getFullYear(), startBillingDate.getMonth() + 1, 0).getDate(); // setting the day to 0 gets the previous month, so we're adding +1 to the billing month.
+        var daysIntoBillingCycle = dateDiffInDays(today, startBillingDate) - 1;
+        var multiplier = (daysInBillingCycle - daysIntoBillingCycle) / daysInBillingCycle;
+
+        return (parseFloat(plan.price, 10) + service.getTotalFees()) * multiplier;
+
     };
 
+    service.getTotalFees = function() {
+        var plan = service.cart.dataPlan;
+        return parseFloat(plan.fees.salesUseTax, 10) + parseFloat(plan.fees.federalAccessCharge, 10) + parseFloat(plan.fees.streamLineCharge, 10);
+    }
+
     service.getTotalDueToday = function() {
-        return '1000.00';
+
+        var total = 0;
+        for (var i=0; i<service.cart.items.length; i++) {
+            total += parseFloat(service.cart.items[i].activationFee, 10);
+        }
+
+        return total + service.getProratedCost();
     };
 
     service.getEstimatedMonthlyTotal = function() {
-        return '1000.00';
-    };
-
-    service.getEstimatedFees = function() {
-        return '1000.00';
+        var plan = service.cart.dataPlan;
+        return parseFloat(plan.price, 10) + service.getTotalFees();
     };
 
     return service;

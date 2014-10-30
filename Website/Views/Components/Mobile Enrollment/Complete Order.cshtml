@@ -96,7 +96,7 @@
                                 <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.baseData }}" })</p>
                                 <p><a href="">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
-                            <div class="rate">{{ mobileEnrollmentService.getProratedCost(cart.dataPlan) | currency }}</div>
+                            <div class="rate">{{ mobileEnrollmentService.getProratedCost() | currency }}</div>
                         </div>
                         <div class="plan-summary-image">
                             <i class="icon-plan-summary"></i>
@@ -114,24 +114,26 @@
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Estimated Monthly Plan")</h2>
-                                <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.baseData }}" })</p>
+                                <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                                 <p><a href="">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
-                            <div class="rate">{{ cart.dataPlan.basePrice | currency }}/mo</div>
+                            <div class="rate">{{ cart.dataPlan.price | currency }}/mo</div>
                         </div>
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h3>@Html.Sitecore().Field("Tax and Other Fees Text")</h3>
                                 <a href="">@Html.Sitecore().Field("Show Breakdown Link Text")</a>
                             </div>
-                            <div class="rate">{{ mobileEnrollmentService.getEstimatedFees() | currency }}</div>
+                            <div class="rate">{{ mobileEnrollmentService.getTotalFees() | currency }}</div>
                         </div>
+                        @*
                         <div class="line-item clearfix" ng-if="cart.dataPlan.additionalDataPrice">
                             <div class="description">
                                 <h3>{{ cart.dataPlan.additionalData }}GB @Html.Sitecore().Field("Additional Data Text")</h3>
                             </div>
                             <div class="rate">+{{ cart.dataPlan.additionalDataPrice | currency }}/mo</div>
                         </div>
+                        *@
                     </div>
                 </div>
                 <footer>
