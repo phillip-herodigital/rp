@@ -164,6 +164,9 @@ article {
                 //padding: 0 3px;
                 vertical-align: middle;
                 margin: 7px 2px 0 2px;
+                @include breakpoint(small) {
+                    margin: 7px 0 0 0;
+                }
                 &.page-number {
                     a {
                         @include border-radius(10px, 10px);
@@ -176,6 +179,13 @@ article {
                         &.selected {
                             color: #fff;
                             background: #0971cd;
+                            cursor: default;
+                        }
+                        @include breakpoint(small) {
+                             display: none;
+                            &.selected {
+                                display: inline-block;
+                            }
                         }
                     }
                 }
