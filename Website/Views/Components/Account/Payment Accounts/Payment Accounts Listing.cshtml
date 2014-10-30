@@ -24,7 +24,7 @@
                     <td data-title="@Html.Sitecore().Field("Account Number Text")">{{item.paymentMethod.redactedData}}</td>
                     <td data-title="@Html.Sitecore().Field("Type Text")">{{item.paymentMethod.underlyingPaymentType}}</td>
                     <td class="row-actions" data-title="@Html.Sitecore().Field("Action Text")">
-                        <button ng-click="deletePaymentAccount(item)" ng-if="!item.usedInAutoPay">@Html.Sitecore().Field("Delete Button Text")</button>
+                        <button ng-click="deletePaymentAccount(item.paymentMethod)" ng-if="!item.usedInAutoPay">@Html.Sitecore().Field("Delete Button Text")</button>
                         <button ng-click="autoPayWarning()" ng-if="item.usedInAutoPay">@Html.Sitecore().Field("Delete Button Text")</button>
                     </td>
                 </tr>
