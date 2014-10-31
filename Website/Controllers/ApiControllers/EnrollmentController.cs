@@ -155,6 +155,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
+            var paymentConfirmations = stateMachine.InternalContext.PaymentResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
             var renewalConfirmations = (stateMachine.InternalContext.RenewalResult != null ? stateMachine.InternalContext.RenewalResult.Data : null) ?? new RenewalResult();
             var standardValidation = (currentFinalStates.Contains(stateMachine.State) ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
             IEnumerable<ValidationResult> supplementalValidation;
@@ -202,7 +203,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                OfferOption = selectedOffer.OfferOption,
                                                                                OptionRules = optionRules.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
                                                                                Payments = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
-                                                                               ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.IsSuccess).SingleOrDefault()
+                                                                               ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id)
+                                                                                    .Where(entry =>
+                                                                                    {
+                                                                                        var paymentConfirmation = paymentConfirmations.Where(pc => pc.Location == entry.Location && pc.Offer.Id == entry.Offer.Id).SingleOrDefault();
+                                                                                        if (paymentConfirmation == null)
+                                                                                            return true;
+                                                                                        return !string.IsNullOrEmpty(paymentConfirmation.Details.ConfirmationNumber);
+                                                                                    })
+                                                                                    .Select(entry => entry.Details.IsSuccess).SingleOrDefault()
                                                                                     || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
                                                                                     ?? renewalConfirmations.ConfirmationNumber
