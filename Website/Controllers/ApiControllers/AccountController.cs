@@ -942,7 +942,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     {
                         IsEnabled = request.AutoPay.IsEnabled,
                         PaymentMethodId = request.AutoPay.IsEnabled ? request.AutoPay.PaymentMethodId : Guid.Empty
-                    })
+                    },
+                    request.SecurityCode)
             };
         }
         

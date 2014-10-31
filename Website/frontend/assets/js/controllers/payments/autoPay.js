@@ -68,6 +68,12 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
         }
     };
 
+    $scope.getPaymentMethodType = function (paymentId) {
+        if (paymentId && paymentId !== 'addAccount') {
+            return _.find($scope.paymentAccounts, { 'id': paymentId }).underlyingPaymentType;
+        }
+    };
+
     $scope.modalAddPaymentAccount = function (newPaymentMethodType) {
         $scope.isLoading = true;
         if (newPaymentMethodType == 'TokenizedCard') {
@@ -125,7 +131,8 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
         $scope.errorMessage = false;
         $http.post('/api/account/setAutoPay', {
             accountNumber: $scope.account.accountNumber,
-            autoPay: $scope.account.autoPay
+            autoPay: $scope.account.autoPay,
+            securityCode: $scope.account.securityCode
         }).success(function (data) {
             $scope.isLoading = false;
             if (!data.isSuccess) {

@@ -248,7 +248,7 @@ namespace StreamEnergy.Services.Clients
             return account.AutoPay;
         }
 
-        async Task<bool> IPaymentService.SetAutoPayStatus(DomainModels.Accounts.Account account, AutoPaySetting autoPaySetting)
+        async Task<bool> IPaymentService.SetAutoPayStatus(DomainModels.Accounts.Account account, AutoPaySetting autoPaySetting, string securityCode)
         {
             account.AutoPay = null;
             if (autoPaySetting.IsEnabled)
@@ -256,7 +256,8 @@ namespace StreamEnergy.Services.Clients
                 var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString() + "/autopay",
                     new 
                     {
-                        GlobalPaymentMethodId = autoPaySetting.PaymentMethodId
+                        GlobalPaymentMethodId = autoPaySetting.PaymentMethodId,
+                        Cvv = securityCode
                     });
                 response.EnsureSuccessStatusCode();
 

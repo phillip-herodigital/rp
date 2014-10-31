@@ -13,5 +13,8 @@ namespace StreamEnergy.MyStream.Models.Account
 
         [Required]
         public StreamEnergy.DomainModels.Payments.AutoPaySetting AutoPay { get; set; }
+
+        [RegularExpression("^[0-9]{3}$")]
+        public string SecurityCode { get; set; }
     }
 }

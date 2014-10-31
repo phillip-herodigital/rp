@@ -219,7 +219,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 {
                     IsEnabled = true,
                     PaymentMethodId = paymentMethodId
-                }).Result;
+                },
+                "123").Result;
 
             // Assert
             Assert.IsTrue(result);
@@ -250,14 +251,15 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 IsEnabled = true,
                 PaymentMethodId = paymentMethodId
-            }).Wait();
+            },
+            "123").Wait();
 
             // Act
             var result = paymentService.SetAutoPayStatus(acct, new DomainModels.Payments.AutoPaySetting
             {
                 IsEnabled = false,
                 PaymentMethodId = Guid.Empty
-            }).Result;
+            }, null).Result;
 
             // Assert
             Assert.IsTrue(result);
