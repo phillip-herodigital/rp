@@ -35,5 +35,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public NameValueCollection EnrollmentDpiParameters { get; set; }
 
         public StreamAsync<RenewalResult> RenewalResult { get; set; }
+
+        public IEnumerable<Service.LocationOfferDetails<Payments.PaymentResult>> PaymentResult { get; set; }
     }
 }

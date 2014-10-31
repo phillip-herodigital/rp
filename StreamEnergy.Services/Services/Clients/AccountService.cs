@@ -419,6 +419,9 @@ namespace StreamEnergy.Services.Clients
 
         private void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
         {
+            var homePhone = (data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() });
+            var mobilePhone = (data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() });
+            var tcpa = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"));
             account.Details = new AccountDetails
             {
                 ContactInfo = new DomainModels.CustomerContact
@@ -427,8 +430,8 @@ namespace StreamEnergy.Services.Clients
                     Email = new DomainModels.Email { Address = data.AccountDetails.AccountCustomer.EmailAddress },
                     Phone = new DomainModels.Phone[] 
                                     { 
-                                        (data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() }),
-                                        (data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() }),
+                                        homePhone,
+                                        mobilePhone,
                                     }.Where(p => p != null).ToArray()
                 },
                 BillingAddress = new DomainModels.Address
@@ -441,7 +444,7 @@ namespace StreamEnergy.Services.Clients
                 },
                 SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
                 ProductType = data.AccountDetails.ProductType,
-                TcpaPreference = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"))
+                TcpaPreference = tcpa
             };
             account.SystemOfRecord = data.AccountDetails.SystemOfRecord;
             account.AccountNumber = data.AccountDetails.SystemOfRecordAccountNumber;
