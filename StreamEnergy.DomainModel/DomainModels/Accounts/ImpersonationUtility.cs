@@ -45,5 +45,18 @@ namespace StreamEnergy.DomainModels.Accounts
                 Secure = cookie.Secure
             });
         }
+
+        public Task<System.Net.Http.Headers.CookieHeaderValue> CreateAuthenticationCookie(string username)
+        {
+            var cookie = FormsAuthentication.GetAuthCookie(username, false, "/");
+            return Task.FromResult(new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value)
+            {
+                Domain = cookie.Domain,
+                Expires = cookie.Expires == DateTime.MinValue ? null : (DateTime?)cookie.Expires,
+                HttpOnly = cookie.HttpOnly,
+                Path = cookie.Path,
+                Secure = cookie.Secure
+            });
+        }
     }
 }

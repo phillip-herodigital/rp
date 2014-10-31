@@ -501,9 +501,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
             {
+                var customer = customers.First();
                 var response = Request.CreateResponse(HttpStatusCode.Moved);
                 response.Headers.Location = new Uri("/account", UriKind.Relative);
-                response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customers.First().GlobalCustomerId) });
+                if (string.IsNullOrEmpty(customer.Username))
+                    response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customer.GlobalCustomerId) });
+                else
+                    response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customer.Username) });
+
                 return response;
             }
         }
