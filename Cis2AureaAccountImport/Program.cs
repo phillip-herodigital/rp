@@ -49,14 +49,17 @@ namespace Cis2AureaAccountImport
                          group account.AureaAccountNumber by new { Username = user.UserID, Email = user.Email } into set
                          select new { set.Key.Username, set.Key.Email, AccountNumbers = set.ToArray() }).ToArray();
 
-            foreach (var entry in users)
+            foreach (var entry in users.Select((e, index) => new { index , e }))
             {
-                var accounts = Task.WhenAll(entry.AccountNumbers.Select(accountNumber => accountService.GetAccountDetails(accountNumber)).ToArray())
+                if (Membership.GetUser(prefix + entry.e.Username) != null)
+                    continue;
+
+                var accounts = Task.WhenAll(entry.e.AccountNumbers.Select(accountNumber => accountService.GetAccountDetails(accountNumber)).ToArray())
                     .Result.Where(acct => acct != null);
 
                 if (accounts.Any())
                 {
-                    var customerIdTask = membership.CreateUser(prefix + entry.Username, email: entry.Email)
+                    var customerIdTask = membership.CreateUser(prefix + entry.e.Username, email: entry.e.Email)
                         .ContinueWith(profileTask => 
                             {
                                 profileTask.Result.ImportSource = StreamEnergy.DomainModels.Accounts.ImportSource.GeorgiaAccounts;
@@ -66,6 +69,8 @@ namespace Cis2AureaAccountImport
 
                     var associationTask = Task.WhenAll(accounts.Select(acct => customerIdTask.ContinueWith(cidTask => accountService.AssociateAccount(cidTask.Result, acct.AccountNumber, acct.Details.SsnLastFour, ""))));
                     associationTask.Wait();
+
+                    Console.WriteLine("{0}%  of {2} - {1}", (entry.index * 100 / users.Length), entry.e.Username, users.Length);
                 }
             }
         }
