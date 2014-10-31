@@ -15,5 +15,7 @@ namespace StreamEnergy.DomainModels.Payments
         public IPaymentInfo Method { get; set; }
 
         public DateTime Date { get; set; }
+
+        public string SecurityCode { get; set; }
     }
 }

@@ -16,5 +16,7 @@ namespace StreamEnergy.MyStream.Models.Account
         public string AccountNumber { get; set; }
         [Range(0.01, double.MaxValue)]
         public decimal PaymentAmount { get; set; }
+        [RegularExpression("^[0-9]{3}$")]
+        public string SecurityCode { get; set; }
     }
 }

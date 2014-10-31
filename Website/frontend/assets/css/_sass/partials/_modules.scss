@@ -763,7 +763,7 @@ article.balances-payments {
         }
         .group {
             .item {
-                &.amount {
+                &.amount, &.security-code {
                     width: 40%;
                     @include breakpoint(small) {
                         width: 100%;

@@ -76,6 +76,12 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
         }
     };
 
+    $scope.getPaymentMethodType = function (paymentId) {
+        if (paymentId && paymentId !== 'addAccount') {
+            return _.find($scope.paymentAccounts, { 'id': paymentId }).underlyingPaymentType;
+        }
+    };
+
     $scope.modalAddPaymentAccount = function (newPaymentMethodType) {
         $scope.isLoading = true;
         if (newPaymentMethodType == 'TokenizedCard') {
@@ -132,7 +138,8 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
         var payments = [{
             'paymentAccount': _.find($scope.paymentAccounts, { 'id': $scope.selectedPaymentMethod }),
             'accountNumber': $scope.selectedAccount.accountNumber,
-            'paymentAmount': $scope.paymentAmount
+            'paymentAmount': $scope.paymentAmount,
+            'securityCode' : $scope.securityCode
         }];
         $http.post('/api/account/makeMultiplePayments', {
             accounts: payments,

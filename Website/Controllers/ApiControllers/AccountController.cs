@@ -259,7 +259,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId, currentUser.Accounts);
             var accounts = (from paymentSettings in request.Accounts
                             join account in currentUser.Accounts on paymentSettings.AccountNumber equals account.AccountNumber
-                            select new { account, paymentMethod = paymentSettings.PaymentAccount, paymentAmount = paymentSettings.PaymentAmount }).ToArray();
+                            select new { account, paymentMethod = paymentSettings.PaymentAccount, paymentAmount = paymentSettings.PaymentAmount, securityCode = paymentSettings.SecurityCode }).ToArray();
 
             if (!request.OverrideWarnings.Contains("Overpayment"))
             {
@@ -284,6 +284,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                       Amount = entry.paymentAmount,
                                       Method = entry.paymentMethod,
                                       Date = request.PaymentDate,
+                                      SecurityCode = entry.securityCode
                                   }).ToArray();
             if (!request.OverrideWarnings.Contains("Duplicate"))
             {
@@ -303,7 +304,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 { 
                     entry.account,
                     entry.paymentAmount,
-                    task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, entry.account.Details.ContactInfo.Name.First + " " + entry.account.Details.ContactInfo.Name.Last, entry.account, entry.paymentMethod) 
+                    task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, entry.account.Details.ContactInfo.Name.First + " " + entry.account.Details.ContactInfo.Name.Last, entry.account, entry.paymentMethod, entry.securityCode) 
                 }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
             await paymentService.RecordForDuplicatePayments((from entry in paymentRecords

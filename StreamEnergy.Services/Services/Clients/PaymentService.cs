@@ -123,7 +123,7 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
-        async Task<PaymentResult> IPaymentService.OneTimePayment(DateTime paymentDate, decimal amount, string customerName, DomainModels.Accounts.Account account, IPaymentInfo paymentInfo)
+        async Task<PaymentResult> IPaymentService.OneTimePayment(DateTime paymentDate, decimal amount, string customerName, DomainModels.Accounts.Account account, IPaymentInfo paymentInfo, string securityCode)
         {
             if (paymentInfo is SavedPaymentInfo)
             {
@@ -135,7 +135,7 @@ namespace StreamEnergy.Services.Clients
                     AccountNumber = account.AccountNumber,
                     SystemOfRecord = account.SystemOfRecord,
                     PaymentAmount = amount,
-                    Cvv = GetStreamCvvCode(paymentInfo)
+                    Cvv = securityCode //GetStreamCvvCode(paymentInfo)
                 });
                 dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
