@@ -316,7 +316,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 Id = paymentMethodId,
                 UnderlyingPaymentType = TokenizedBank.Qualifier
-            }).Result;
+            }, "123").Result;
 
             // Assert
             Assert.IsNotNull(result);
@@ -370,7 +370,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 Id = paymentMethodId,
                 UnderlyingPaymentType = TokenizedBank.Qualifier
-            }).Result;
+            }, "123").Result;
 
             // Assert
             Assert.IsNotNull(result);

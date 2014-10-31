@@ -66,6 +66,12 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         }
     };
 
+    $scope.getPaymentMethodType = function (paymentId) {
+        if (paymentId && paymentId !== 'addAccount') {
+            return _.find($scope.paymentAccounts, { 'id': paymentId }).underlyingPaymentType;
+        }
+    };
+
     $scope.resolvePayments = function () {
         // any additional validation can go here
         $scope.activeState = 'step2';
@@ -128,7 +134,8 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
             return {
                 'paymentAccount': _.find($scope.paymentAccounts, { 'id': acct.selectedPaymentMethod }),
                 'accountNumber': acct.accountNumber,
-                'paymentAmount': acct.paymentAmount
+                'paymentAmount': acct.paymentAmount,
+                'securityCode' : acct.securityCode
             }
         });
         $http.post('/api/account/makeMultiplePayments', {
