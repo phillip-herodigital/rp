@@ -21,27 +21,6 @@
                 </header>
                 <div class="content">
                     
-                    <!--
-                    <div class="cart-product clearfix" ng-repeat="item in cart.items">
-                        <div class="description" ng-if="item.type == 'new'">
-                            <div class="condition">{{ item.buyingOption.condition }}</div>
-                            <div>{{ item.device.name }}</div>
-                            <div class="options">{{ item.buyingOption.size }}, {{ item.buyingOption.color.value }}</div>
-                            <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
-                        </div>
-                        <div class="description" ng-if="item.type == 'existing'">
-                            <div>@Html.Sitecore().Field("Bring Your Own Device")</div>
-                            <div class="details">{{ item.make }} {{ item.model }}</div>
-                            <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
-                        </div>
-                        <div class="rate">{{ item.price | currency }}</div>
-                        <div ng-if="item.warranty">
-                            <div class="description">@Html.Sitecore().Field("Phone Warranty")</div>
-                            <div class="rate">$9.95/mo</div>
-                        </div>
-                    </div>
-                    -->
-
                     <div class="phone-summary" ng-repeat="item in cart.items">
                         <div class="line-item clearfix">
                             @*
@@ -55,12 +34,12 @@
                                 <div class="condition">{{ item.buyingOption.condition }}</div>
                                 <div>{{ item.device.name }}</div>
                                 <div class="options">{{ item.buyingOption.size }}, {{ item.buyingOption.color.value }}</div>
-                                <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
+                                <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
                             </div>
                             <div class="description" ng-if="item.type == 'existing'">
                                 <h2>@Html.Sitecore().Field("Bring Your Own Device")</h2>
                                 <div class="details">{{ item.make }} {{ item.model }}</div>
-                                <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
+                                <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
                             </div>
                         </div>
                         <div class="line-item clearfix">
@@ -94,7 +73,7 @@
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Monthly Plan Cost")</h2>
                                 <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.baseData }}" })</p>
-                                <p><a href="">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                                <p><a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
                             <div class="rate">{{ mobileEnrollmentService.getProratedCost() | currency }}</div>
                         </div>
@@ -115,25 +94,25 @@
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Estimated Monthly Plan")</h2>
                                 <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
-                                <p><a href="">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                                <p><a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
                             <div class="rate">{{ cart.dataPlan.price | currency }}/mo</div>
                         </div>
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h3>@Html.Sitecore().Field("Tax and Other Fees Text")</h3>
-                                <a href="">@Html.Sitecore().Field("Show Breakdown Link Text")</a>
+                                <a href="" ng-click="toggleBreakdown()">@Html.Sitecore().Field("Show Breakdown Link Text")</a>
+                                <dl ng-show="isBreakdownShown">
+                                    <dt>@Html.Sitecore().Field("Sales and Use Tax Text")</dt>
+                                    <dd>{{ cart.dataPlan.fees.salesUseTax | currency }}</dd>
+                                    <dt>@Html.Sitecore().Field("Federal Access Charge Text")</dt>
+                                    <dd>{{ cart.dataPlan.fees.federalAccessCharge | currency }}</dd>
+                                    <dt>@Html.Sitecore().Field("Stream Line Charge Text")</dt>
+                                    <dd>{{ cart.dataPlan.fees.streamLineCharge | currency }}</dd>
+                                </dl>
                             </div>
                             <div class="rate">{{ mobileEnrollmentService.getTotalFees() | currency }}</div>
                         </div>
-                        @*
-                        <div class="line-item clearfix" ng-if="cart.dataPlan.additionalDataPrice">
-                            <div class="description">
-                                <h3>{{ cart.dataPlan.additionalData }}GB @Html.Sitecore().Field("Additional Data Text")</h3>
-                            </div>
-                            <div class="rate">+{{ cart.dataPlan.additionalDataPrice | currency }}/mo</div>
-                        </div>
-                        *@
                     </div>
                 </div>
                 <footer>
@@ -450,13 +429,25 @@
                                 <div class="signature">@Html.Sitecore().Field("Text - Add Signature")</div>
                                 <ul class="checkbox-list">
                                     <li>
-                                        <input type="checkbox" id="signatory" /> <label for="signatory">@Html.Sitecore().Field("Label - Signatory")</label>
+                                        <input type="checkbox" id="signatory" ng-model="accountInformation.signatory" /> <label for="signatory">@Html.Sitecore().Field("Label - Signatory")</label>
                                     </li>
                                 </ul>
                             </div>
                             <div class="item group-col">
                                 <label>@Html.Sitecore().Field("Label - Date")</label>
                                 Oct 14, 2014
+                            </div>
+                        </div>
+                        <div class="group additional-name" ng-show="!accountInformation.signatory">
+                            <hr />
+                            <p>@Html.Sitecore().Field("Text - Please Fill Out Information")</p>
+                            <div class="item group-col">
+                                <label>@Html.Sitecore().Field("Label - Type Your Name")</label>
+                                <input type="text" />
+                            </div>
+                            <div class="item group-col">
+                                <label>@Html.Sitecore().Field("Label - Relation To US Person")</label>
+                                <input type="text" />
                             </div>
                         </div>
                     </div>

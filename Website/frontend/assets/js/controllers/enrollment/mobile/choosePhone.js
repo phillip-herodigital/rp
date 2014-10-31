@@ -24,6 +24,10 @@
         $scope.phoneNumberType = type;
     };
 
+    $scope.switchCarriers = function() {
+        $scope.setCurrentStep('choose-network');
+    }
+
     /** 
      * Set the default options when a new phone is selected
      */
@@ -80,7 +84,7 @@
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 make: $scope.phoneOptions.make,
                 model: $scope.phoneOptions.model,
-                activationFee: '29.95',
+                activationFee: '35.00',
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
                 number: $scope.phoneOptions.number
@@ -128,6 +132,13 @@
         $modal.open({
             'scope': $scope,
             'templateUrl': 'networkUnlocking/' + mobileEnrollmentService.selectedNetwork
+        })
+    };
+
+    $scope.showModal = function (templateUrl) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl
         })
     };
 

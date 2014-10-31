@@ -17,7 +17,7 @@
     $scope.setCurrentStep = function(step) {
         $scope.mobileEnrollment.currentStep = step;
         $location.hash(step);
-        console.log($scope.mobileEnrollmentService);
+        //console.log($scope.mobileEnrollmentService);
         //console.log(JSON.stringify($scope.mobileEnrollmentService));
     };
 

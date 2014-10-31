@@ -1,20 +1,22 @@
 ﻿<script type="text/ng-template" id="enrollment-order-summary" ng-controller="MobileEnrollmentOrderSummaryCtrl">
-    <div class="enrollment__cart">
+    <div class="enrollment__cart order-summary">
         <article class="enrollment__box" scroll-anchor="scrollFix">
             <header>
                 <h1>@Html.Sitecore().Field("Order Summary Header")</h1>
             </header>
             <div class="content">
                 <div class="cart-item">
-                    <h2>@Html.Sitecore().Field("To Be Billed Today")</h2>
-
+                    
                     <div class="cart-product clearfix" ng-repeat="item in cart.items">
-                        <!--<div class="description">
+                        <i class="icon-billed-today pull-right"></i>
+                        <h2>@Html.Sitecore().Field("To Be Billed Today")</h2>
+
+                        @*<div class="description">
                             <span class="model">{{ ctrl.mobileService.getCart().phone.name }}</span> <br />
                             <span class="options">{{ ctrl.mobileService.getCart().model.size }}, {{ ctrl.mobileService.getCart().color.value }}</span> <br />
                         </div>
                         <div class="rate">{{ ctrl.mobileService.getCart().model.price | currency }}</div>
-                        -->
+                        *@
                         <div class="clearfix" ng-if="item.type=='existing'">
                             <div class="description">@Html.Sitecore().Field("Initial Activation Fee")</div>
                             <div class="rate">{{ item.activationFee | currency }}</div>
@@ -27,17 +29,12 @@
                     </div>
 
                     <div class="cart-product clearfix">
+                        <i class="icon-billed-monthly pull-right"></i>
                         <h2>@Html.Sitecore().Field("To Be Billed Monthly")</h2>
                         <div class="clearfix">
                             <div class="description">@Html.Sitecore().Field("Monthly Plan Cost").Format(new { size = "{{ cart.dataPlan.data }}" })</div>
-                            <div class="rate">{{ cart.dataPlan.price | currency }}/mo</div>
+                            <div class="rate">{{ cart.dataPlan.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
                         </div>
-                        @*
-                        <div class="clearfix" ng-if="cart.dataPlan.additionalData">
-                            <div class="description">@Html.Sitecore().Field("Additional Data")</div>
-                            <div class="rate">{{ cart.dataPlan.additionalDataPrice | currency }}/mo</div>
-                        </div>
-                        *@
                         <div class="clearfix">
                             <div class="description">@Html.Sitecore().Field("Estimated Taxes and Fees")</div>
                             <div class="rate">{{ mobileEnrollmentService.getTotalFees() | currency }}</div>

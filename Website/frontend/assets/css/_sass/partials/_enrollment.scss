@@ -1506,6 +1506,16 @@ $enrollment-module-vertical-padding: 20px;
         h2 {
             margin-bottom: 0;
         }
+        &.order-summary {
+            h2 {
+                margin-bottom: 10px;
+            }
+            .cart-product:first-child {
+                margin-top: 0;
+                padding-top: 0;
+                border-top: 0;
+            }
+        }
 
     }
     button.plain-footer {
@@ -2243,6 +2253,11 @@ $enrollment-module-vertical-padding: 20px;
         background-color: #FFF9D2;
         border: 1px solid #CCC;
     }
+    .additional-name {
+        hr {
+            margin: 0;
+        }
+    }
 }
 
 
@@ -2290,14 +2305,6 @@ $enrollment-module-vertical-padding: 20px;
         background: transparent;
     }
 }
-
-.enrollment__order-summary {
-    footer {
-        text-align: left;
-    }
-}
-
-
 
 
 article.phone {

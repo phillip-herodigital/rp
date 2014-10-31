@@ -18,22 +18,11 @@
                     <div class="cart-product clearfix">
                         <div class="description">
                             {{ mobileEnrollmentService.selectedNetwork }} @Html.Sitecore().Field("Individual Plan")<br />
-                            <span class="details" ng-if="cart.dataPlan.data">{{ cart.dataPlan.data }}GB data included</span>
+                            <span class="details" ng-if="cart.dataPlan.data">{{ cart.dataPlan.data }}@Html.Sitecore().Field("Data Included")</span>
                             @*<a href="">@Html.Sitecore().Field("Edit Plan Link")</a>*@
                         </div>
-                        <div class="rate" ng-if="cart.dataPlan.price">{{ cart.dataPlan.price | currency }}/mo</div>
+                        <div class="rate" ng-if="cart.dataPlan.price">{{ cart.dataPlan.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
                     </div>
-
-                    @*
-                    <div class="cart-product clearfix" ng-if="cart.dataPlan.additionalData">
-                        <div class="description">
-                            @Html.Sitecore().Field("Additional Data")<br />
-                            <span class="details">{{ cart.dataPlan.additionalData }}GB additional data for a total of {{ mobileEnrollmentService.getTotalPlanData(cart.dataPlan) }}GB</span>
-                            <a href="">@Html.Sitecore().Field("Configure Data Link")</a>
-                        </div>
-                        <div class="rate">{{ cart.dataPlan.additionalDataPrice | currency }}/mo</div>
-                    </div>
-                    *@
 
                     <div class="cart-product clearfix" ng-repeat="item in cart.items">
                         <div class="description" ng-if="item.type == 'new'">
@@ -50,19 +39,9 @@
                         <div class="rate">{{ item.activationFee | currency }}</div>
                         <div ng-if="item.warranty">
                             <div class="description">@Html.Sitecore().Field("Phone Warranty")</div>
-                            <div class="rate">$9.95/mo</div>
+                            <div class="rate">$9.95/@Html.Sitecore().Field("Month Abbreivation")</div>
                         </div>
                     </div>
-                    <!--
-                    <div class="cart-product clearfix" ng-if="ctrl.mobileService.getCart().plan">
-                        <h2>@Html.Sitecore().Field("6 - Monthly Plan Text")</h2>
-                        <div class="description">
-                            7.5 GB Included Data <br />
-                            <a href="">@Html.Sitecore().Field("Configure Data Link")</a>
-                        </div>
-                        <div class="rate">$39/mo</div>
-                    </div>
-                    -->
                 </div>
                 <div class="time">
                     <p>

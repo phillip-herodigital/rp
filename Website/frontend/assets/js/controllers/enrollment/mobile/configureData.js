@@ -16,7 +16,6 @@
 
     $scope.$watch('formFields.chosenPlanId', function(newValue, oldValue) {
         if (newValue !== oldValue) {
-            console.log(newValue);
             $scope.mobileEnrollmentService.addDataPlanToCart(newValue);
         }
     });

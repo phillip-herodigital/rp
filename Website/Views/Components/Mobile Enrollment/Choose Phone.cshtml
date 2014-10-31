@@ -199,7 +199,7 @@
                         @* <h2>@Html.Sitecore().Field("Header - Bring Your Own Network Phone").Format(new { network = "{{ mobileEnrollment.mobileEnrollmentService.selectedNetwork }}" })</h2> *@
                         @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollment.mobileEnrollmentService.selectedNetwork }}" })
                         @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ mobileEnrollment.mobileEnrollmentService.selectedNetwork }}" })
-
+                        <hr />
                         <div class="vertical">
                             <div class="item">
                                 <label>@Html.Sitecore().Field("Header - Select Device")</label>
@@ -222,11 +222,14 @@
                             </div>
                             <hr />
                             <div class="item">
-                                <label>@Html.Sitecore().Field("Header - IMEI Number")</label>
+                                <label>
+                                    @Html.Sitecore().Field("Header - IMEI Number")
+                                    <span class="label-description">@Html.Sitecore().Field("Text - IMEI Number Note")</span>
+                                </label>
                                 <div class="btn-group-options">
                                     <label>@Html.Sitecore().Field("Label - IMEI Number")</label>
                                     <input type="text" ng-model="phoneOptions.imeiNumber" />
-                                    <div class="note"><a href="#">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></div>
+                                    <div class="note"><a href="" ng-click="showModal('instructions/imei')">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></div>
                                 </div>
                             </div>
                             <hr />
@@ -238,7 +241,7 @@
                                 <div class="btn-group-options">
                                     <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
                                     <input type="text" ng-model="phoneOptions.simNumber" />
-                                    <div class="note"><a href="#">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></div>
+                                    <div class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></div>
                                 </div>
                             </div>
                             <hr />
@@ -271,7 +274,7 @@
                         </div>
                     </div>
                     <footer>
-                        <button type="submit" ng-click="addDeviceToCart()">@Html.Sitecore().Field("Button - Add Device")</button>
+                        <button type="submit" ng-click="addDeviceToCart()">@Html.Sitecore().Field("Button - Configure Data")</button>
                     </footer>
                 </toggle-pane>
             </article>
@@ -282,3 +285,57 @@
         </aside>
     </section>
 </div>
+
+<script type="text/ng-template" id="networkUnlocking/att">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - Unlock ATT")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - Unlock ATT")
+        </div>
+        <div class="modal-footer">
+            @Html.Sitecore().Field("Footer - Unlock ATT")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="networkUnlocking/sprint">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - Unlock Sprint")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - Unlock Sprint")
+        </div>
+        <div class="modal-footer">
+            @Html.Sitecore().Field("Footer - Unlock Sprint")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/imei">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - IMEI ESN Instructions")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - IMEI ESN Instructions")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/sim">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - SIM Number Instructions")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - SIM Number Instructions")
+        </div>
+    </div>
+</script>
