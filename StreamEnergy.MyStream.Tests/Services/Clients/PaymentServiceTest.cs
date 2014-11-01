@@ -87,7 +87,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 CardToken = TestData.CardToken,
                 BillingZipCode = "75201",
                 ExpirationDate = DateTime.Today.AddDays(60),
-                SecurityCode = "123"
+                SecurityCode = "123",
+                Name = TestData.NameOnCard
             }, "Test Card").Result;
 
             // Assert
@@ -116,7 +117,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 AccountToken = TestData.BankToken,
                 RoutingNumber = TestData.BankRoutingNumber,
-                Category = DomainModels.Payments.BankAccountCategory.Checking
+                Category = DomainModels.Payments.BankAccountCategory.Checking,
+                Name = TestData.NameOnBank
             }, "Test Card").Result;
 
             // Assert

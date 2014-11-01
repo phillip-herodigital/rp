@@ -15,6 +15,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public const string CardToken = "9411068799444113";
         public const string BankToken = "9034758863046789";
         public const string BankRoutingNumber = "031202084";
+        public const string NameOnBank = "ROBERT DELEON";
+        public const string NameOnCard = "ROBERT DELEON";
 
         public static DomainModels.CustomerContact CreditCheckContactInfo()
         {
