@@ -2162,7 +2162,7 @@ $enrollment-module-vertical-padding: 20px;
     }
 }
 
-.enrollment__complete-order {
+.enrollment__mobile-order-details {
     .plan-details {
 
     }
@@ -2235,9 +2235,13 @@ $enrollment-module-vertical-padding: 20px;
         input[type="text"] {
             width: 200px;
         }
+        select {
+            width: 90px;
+        }
         &.inline {
             li {
                 display: inline-block;
+                white-space: nowrap;
             }
         }
     }
@@ -2547,5 +2551,18 @@ article.services-box {
         li {
             margin-bottom: 20px;
         }
+    }
+}
+
+.modal.signature {
+    .signature-preview {
+        @include box-shadow(1px 1.7px 3px rgba(14, 15, 15, 0.15));
+        height: 90px;
+        line-height: 90px;
+        padding: 0 20px;
+        border: 1px solid #bcbcbc;
+        background-color: #FDFDFD;
+        font-size: 32px;
+        font-family: "ff-market-web", cursive;
     }
 }

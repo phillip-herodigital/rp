@@ -36,6 +36,16 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
                 }*/
             }
         },
+        contactInformation: {
+
+        },
+        businessInformation: {
+
+        },
+        terms: {
+
+        },
+        /*
         accountInformation: {
             contactInfo: {
                 name: {
@@ -52,7 +62,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
             },
             socialSecurityNumber: '',
             secondaryContactInfo: {}
-        }
+        }*/
     },
     dataPlans = [],
     phones = [];

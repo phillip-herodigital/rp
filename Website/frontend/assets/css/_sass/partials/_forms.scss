@@ -245,6 +245,12 @@ form,
         > ul {
             @include layout-list;
         }
+        span.note {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #888;
+        }
         &.horizontal {
             > label, .label {
                 display: inline-block;

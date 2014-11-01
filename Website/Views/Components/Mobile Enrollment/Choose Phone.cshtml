@@ -1,6 +1,6 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChoosePhone
 
-<div ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl">
+<div id="choose-phone" ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
@@ -229,7 +229,7 @@
                                 <div class="btn-group-options">
                                     <label>@Html.Sitecore().Field("Label - IMEI Number")</label>
                                     <input type="text" ng-model="phoneOptions.imeiNumber" />
-                                    <div class="note"><a href="" ng-click="showModal('instructions/imei')">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></div>
+                                    <span class="note"><a href="" ng-click="showModal('instructions/imei')">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></span>
                                 </div>
                             </div>
                             <hr />
@@ -241,7 +241,7 @@
                                 <div class="btn-group-options">
                                     <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
                                     <input type="text" ng-model="phoneOptions.simNumber" />
-                                    <div class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></div>
+                                    <span class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></span>
                                 </div>
                             </div>
                             <hr />

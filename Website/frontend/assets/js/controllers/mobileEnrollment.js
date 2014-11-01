@@ -34,6 +34,13 @@
         }
     });
 
+    $scope.showModal = function (templateUrl) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl
+        })
+    };
+
 }]);
 
 _.mixin( function() {

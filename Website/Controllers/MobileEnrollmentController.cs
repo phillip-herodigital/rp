@@ -67,23 +67,6 @@ namespace StreamEnergy.MyStream.Controllers
                 })
             });
 
-            /*var data2 = item.Children.Select(child => new KeyValuePair<string, object>(child.Name, child.Children.Select(plans => new {
-                DataAmount = plans.Fields["Data Amount"].Value,
-                Price = plans.Fields["Price"].Value,
-                HoursMusic = plans.Fields["Hours Music"].Value,
-                HoursMovies = plans.Fields["Hours Movies"].Value,
-                HoursWebBrowsing = plans.Fields["Hours Web Browsing"].Value
-            })));*/
-
-            /*var data = item.Children.Select(child => new Dictionary<string, object> { { child.Name, child.Children.Select(plans => new
-            {
-                DataAmount = plans.Fields["Data Amount"].Value,
-                Price = plans.Fields["Price"].Value,
-                HoursMusic = plans.Fields["Hours Music"].Value,
-                HoursMovies = plans.Fields["Hours Movies"].Value,
-                HoursWebBrowsing = plans.Fields["Hours Web Browsing"].Value
-            })} });*/
-
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 

@@ -17,8 +17,36 @@
     	$scope.setCurrentStep('configure-data');
     };
 
+    $scope.showSignatureModal = function (templateUrl) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl,
+            'windowClass': 'signature',
+            'controller': 'MobileEnrollmentCompleteOrderSignatureModalCtrl'
+        })
+    };
+
+    $scope.signatureModal = {
+        selectedTab: 'type',
+        name: ''
+    };
+
+    $scope.selectTab = function(name) {
+        $scope.signatureModal.selectedTab = name;
+    };
+
     $scope.completeOrder = function() {
         $scope.setCurrentStep('order-confirmation');
+    };
+
+}]);
+
+ngApp.controller('MobileEnrollmentCompleteOrderSignatureModalCtrl', ['$scope', '$modalInstance', 'mobileEnrollmentService', function ($scope, $modalInstance, mobileEnrollmentService) {
+
+    console.log('ran');
+    $scope.cancel = function () {
+        console.log('ran2');
+        $modalInstance.dismiss('cancel');
     };
 
 }]);
