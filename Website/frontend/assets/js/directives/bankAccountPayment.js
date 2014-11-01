@@ -9,6 +9,7 @@
                 return accountToken({ routingNumber: ctrl.routingNumber }).then(function (value) {
                     return {
                         paymentType: 'TokenizedBank',
+                        name: ctrl.nameOnBank,
                         category: ctrl.category,
                         routingNumber: ctrl.routingNumber,
                         accountToken: value,

@@ -189,7 +189,6 @@ namespace StreamEnergy.Services.Clients
 
         private object ToStreamPaymentAccount(IPaymentInfo paymentInfo, string customerName = null)
         {
-            // TODO - since Name is stored and passed here, should it be part of the payment info objects?
             var card = paymentInfo as DomainModels.Payments.TokenizedCard;
             var bank = paymentInfo as DomainModels.Payments.TokenizedBank;
             if (card != null)
@@ -199,7 +198,7 @@ namespace StreamEnergy.Services.Clients
                     Token = card.CardToken,
                     AccountType = "Unknown",
                     ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
-                    Name = customerName,
+                    Name = card.Name,
                     Postal = card.BillingZipCode,
                 };
             }
@@ -207,7 +206,7 @@ namespace StreamEnergy.Services.Clients
             {
                 return new
                 {
-                    Name = customerName,
+                    Name = bank.Name,
                     Token = bank.AccountToken,
                     AccountType = bank.Category.ToString("g"),
                     BankRoutingNumber = bank.RoutingNumber

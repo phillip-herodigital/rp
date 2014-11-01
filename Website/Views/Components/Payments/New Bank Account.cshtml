@@ -4,9 +4,13 @@
         <label for="@Html.IdFor(m => m.Category)">@Html.Sitecore().Field("Account Type Label")</label>
         @Html.DropDownListFor(m => m.Category, new [] { new SelectListItem { Value = Html.Sitecore().Field("Please Choose").ToString() } }, new { ng_model = "bankCtrl.category", data_val_if="bankCtrl.validate", ng_options = "bankType.name as bankType.display for bankType in bankTypes" })
     </div>
+    <div class="item group-col" @Html.Validation().ErrorClass(m => m.Name)>
+        <label for="@Html.IdFor(m => m.Name)">@Html.Sitecore().Field("Name On Bank Label"):</label>
+        @Html.TextBoxFor(m => m.Name, new { data_val = "true", data_val_if = "bankCtrl.validate", data_val_required = "", ng_model = "bankCtrl.nameOnBank" })
+    </div>
     <div class="group">
         <div class="item group-col" @Html.Validation().ErrorClass(m => m.RoutingNumber)>
-            <label for="@Html.IdFor(m => m.RoutingNumber)">@Html.Sitecore().Field("Routing Number Label")</label>
+            <label for="@Html.IdFor(m => m.RoutingNumber)">@Html.Sitecore().Field("Routing Number Label"):</label>
             @Html.TextBoxFor(m => m.RoutingNumber, new { data_val_if = "bankCtrl.validate", ng_model = "bankCtrl.routingNumber" })
         </div>
         <div class="item group-col" data-val-error="PaymentAccount.AccountNumber">

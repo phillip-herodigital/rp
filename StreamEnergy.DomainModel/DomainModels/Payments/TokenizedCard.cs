@@ -17,6 +17,9 @@ namespace StreamEnergy.DomainModels.Payments
         [Required]
         public string CardToken { get; set; }
 
+        [Required]
+        public string Name { get; set; }
+
         public DateTime ExpirationDate { get; set; }
         [Required]
         [RegularExpression("^[0-9]{5}$")]

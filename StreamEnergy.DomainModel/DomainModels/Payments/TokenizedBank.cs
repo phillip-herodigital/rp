@@ -17,6 +17,8 @@ namespace StreamEnergy.DomainModels.Payments
         }
 
         [Required]
+        public string Name { get; set; }
+        [Required]
         public BankAccountCategory Category { get; set; }
         [Required]
         [RegularExpression("^[0-9]{9}$")]

@@ -12,6 +12,7 @@
                         paymentType: 'TokenizedCard',
                         cardToken: value,
                         expirationDate: new Date(ctrl.expirationYear, ctrl.expirationMonth),
+                        name: ctrl.nameOnCard,
                         billingZipCode: ctrl.billingZip,
                         securityCode: ctrl.securityCode,
                         redactedData: cardToken.redacted

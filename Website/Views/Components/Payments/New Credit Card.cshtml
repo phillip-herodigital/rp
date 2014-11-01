@@ -4,6 +4,10 @@
         <label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Label"):</label>
         <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-if="ccCtrl.validate" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-field="{'type':'card','tokenizerDomain':'@Html.GetSetting("Tokenizer", "Tokenizer Domain")'}" ng-model="ccCtrl.cardToken" type="text">
     </div>
+    <div class="item name" @Html.Validation().ErrorClass(m => m.Name)>
+        <label for="@Html.IdFor(m => m.Name)">@Html.Sitecore().Field("Name On Card Label"):</label>
+        @Html.TextBoxFor(m => m.Name, new { data_val = "true", data_val_if = "ccCtrl.validate", data_val_required="", ng_model = "ccCtrl.nameOnCard" })
+    </div>
     <div class="group">
         <div class="item" @Html.Validation().ErrorClass(m => m.ExpirationDate)>
             <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Label"):</label>
