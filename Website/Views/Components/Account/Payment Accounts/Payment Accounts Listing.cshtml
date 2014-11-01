@@ -8,25 +8,53 @@
     </header>
 
     @Html.Sitecore().Field("Body Text")
-    <table class="payment-accounts-table">
-        <thead>
-            <tr>
-                <th class="nickname">@Html.Sitecore().Field("Nickname Text")</th>
-                <th class="account-number">@Html.Sitecore().Field("Account Number Text")</th>
-                <th class="type">@Html.Sitecore().Field("Type Text")</th>
-                <th class="action">@Html.Sitecore().Field("Action Text")</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="item in paymentAccounts">
-                <td data-title="@Html.Sitecore().Field("Nickname Text")">{{item.displayName}}</td>
-                <td data-title="@Html.Sitecore().Field("Account Number Text")">{{item.redactedData}}</td>
-                <td data-title="@Html.Sitecore().Field("Type Text")">{{item.underlyingPaymentType}}</td>
-                <td class="row-actions" data-title="@Html.Sitecore().Field("Action Text")">
-                    <a href="" class="button secondary">@Html.Sitecore().Field("Edit Button Text")</a>
-                    <a href="" class="button">@Html.Sitecore().Field("Delete Button Text")</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="content full-table" loading-indicator>
+        <table class="payment-accounts-table">
+            <thead>
+                <tr>
+                    <th class="nickname">@Html.Sitecore().Field("Nickname Text")</th>
+                    <th class="account-number">@Html.Sitecore().Field("Account Number Text")</th>
+                    <th class="type">@Html.Sitecore().Field("Type Text")</th>
+                    <th class="action">@Html.Sitecore().Field("Action Text")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in paymentAccounts">
+                    <td data-title="@Html.Sitecore().Field("Nickname Text")">{{item.paymentMethod.displayName}}</td>
+                    <td data-title="@Html.Sitecore().Field("Account Number Text")">{{item.paymentMethod.redactedData}}</td>
+                    <td data-title="@Html.Sitecore().Field("Type Text")">{{item.paymentMethod.underlyingPaymentType}}</td>
+                    <td class="row-actions" data-title="@Html.Sitecore().Field("Action Text")">
+                        <button ng-click="deletePaymentAccount(item.paymentMethod)" ng-if="!item.usedInAutoPay">@Html.Sitecore().Field("Delete Button Text")</button>
+                        <button ng-click="autoPayWarning()" ng-if="item.usedInAutoPay">@Html.Sitecore().Field("Delete Button Text")</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </article>
+<script type="text/ng-template" id="removePaymentAccount">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Remove Payment Account Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Remove Payment Account Confirmation Text") {{ paymentAccount.redactedData }}?
+    </div>
+    <div class="modal-footer">
+        <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Remove Payment Account Cancel Button Text")</button>
+        <button ng-click="$close()">@Html.Sitecore().Field("Remove Payment Account Remove Button Text")</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="autoPayWarning">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Auto Pay Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Auto Pay Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Auto Pay Button Text")</button>
+    </div>
+</script>

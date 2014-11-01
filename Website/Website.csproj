@@ -56,6 +56,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="ChilkatDotNet2">
+      <HintPath>..\Libraries\Sitecore\ChilkatDotNet2.dll</HintPath>
+    </Reference>
     <Reference Include="ComponentArt.Web.UI, Version=2010.1.2637.35, Culture=neutral, PublicKeyToken=9bc9f846553156bb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\ComponentArt.Web.UI.dll</HintPath>
@@ -541,6 +544,10 @@
     <Compile Include="Controllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
+    <Compile Include="layouts\EmailCampaign\Subscription Form.ascx.cs">
+      <DependentUpon>Subscription Form.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -551,24 +558,110 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="layouts\SPEAK\Layouts\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Layouts\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Layouts\Dialog.aspx.cs">
+      <DependentUpon>Dialog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Layouts\Dialog.aspx.designer.cs">
+      <DependentUpon>Dialog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Layouts\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Layouts\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Layouts\SmartPanel.aspx.cs">
+      <DependentUpon>SmartPanel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Layouts\SmartPanel.aspx.designer.cs">
+      <DependentUpon>SmartPanel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\Applicationsiconlist.ascx.cs">
+      <DependentUpon>Applicationsiconlist.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\Applicationsiconlist.ascx.designer.cs">
+      <DependentUpon>Applicationsiconlist.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\ChangePassword.ascx.cs">
+      <DependentUpon>ChangePassword.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\ChangePassword.ascx.designer.cs">
+      <DependentUpon>ChangePassword.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\ForgotPassword.ascx.cs">
+      <DependentUpon>ForgotPassword.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\ForgotPassword.ascx.designer.cs">
+      <DependentUpon>ForgotPassword.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\Login.ascx.cs">
+      <DependentUpon>Login.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\Login.ascx.designer.cs">
+      <DependentUpon>Login.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\Logout.ascx.cs">
+      <DependentUpon>Logout.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\Logout.ascx.designer.cs">
+      <DependentUpon>Logout.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\PopupTest.ascx.cs">
+      <DependentUpon>PopupTest.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\PopupTest.ascx.designer.cs">
+      <DependentUpon>PopupTest.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\SAF Global Search.ascx.cs">
+      <DependentUpon>SAF Global Search.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\top.ascx.cs">
+      <DependentUpon>top.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\SPEAK\Sublayouts\top.ascx.designer.cs">
+      <DependentUpon>top.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Account\AccountPayment.cs" />
     <Compile Include="Models\Account\AccountToPay.cs" />
-    <Compile Include="Models\Account\AddBankAccountRequest.cs" />
-    <Compile Include="Models\Account\AddBankAccountResponse.cs" />
-    <Compile Include="Models\Account\AddCreditCardRequest.cs" />
-    <Compile Include="Models\Account\AddCreditCardResponse.cs" />
+    <Compile Include="Models\Account\AddPaymentAccountRequest.cs" />
+    <Compile Include="Models\Account\AddPaymentAccountResponse.cs" />
     <Compile Include="Models\Account\AddNewAccountRequest.cs" />
     <Compile Include="Models\Account\AddNewAccountResponse.cs" />
+    <Compile Include="Models\Account\DeletePaymentAccountRequest.cs" />
+    <Compile Include="Models\Account\DeletePaymentAccountResponse.cs" />
     <Compile Include="Models\Account\EnrolledAccount.cs" />
     <Compile Include="Models\Account\FindAccountForOneTimePaymentRequest.cs" />
     <Compile Include="Models\Account\FindAccountForOneTimePaymentResponse.cs" />
     <Compile Include="Models\Account\GetAccountBalancesResponse.cs" />
+    <Compile Include="Models\Account\GetAccountBalancesTableResponse.cs" />
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
+    <Compile Include="Models\Account\GetAutoPayStatusRequest.cs" />
+    <Compile Include="Models\Account\GetAutoPayStatusResponse.cs" />
     <Compile Include="Models\Account\GetEnergyUsageRequest.cs" />
     <Compile Include="Models\Account\GetEnergyUsageResponse.cs" />
-    <Compile Include="Models\Account\GetCurrentInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
-    <Compile Include="Models\Account\GetGasPlanResponse.cs" />
+    <Compile Include="Models\Account\GetUtilityPlanResponse.cs" />
+    <Compile Include="Models\Account\GetInvoicePdfRequest.cs" />
+    <Compile Include="Models\Account\GetInvoicePdfResponse.cs" />
     <Compile Include="Models\Account\GetInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsRequest.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsResponse.cs" />
@@ -578,7 +671,6 @@
     <Compile Include="Models\Account\GetUtilityProvidersResponse.cs" />
     <Compile Include="Models\Account\Invoice.cs" />
     <Compile Include="Models\Account\GetOnlineAccountResponse.cs" />
-    <Compile Include="Models\Account\LanguagePreference.cs" />
     <Compile Include="Models\Account\MakeMultiplePaymentsRequest.cs" />
     <Compile Include="Models\Account\MakeMultiplePaymentsResponse.cs" />
     <Compile Include="Models\Account\MakeOneTimePaymentRequest.cs" />
@@ -590,6 +682,10 @@
     <Compile Include="Models\Account\RemoveAccountResponse.cs" />
     <Compile Include="Models\Account\SendLetterRequest.cs" />
     <Compile Include="Models\Account\SendLetterResponse.cs" />
+    <Compile Include="Models\Account\SetAutoPayRequest.cs" />
+    <Compile Include="Models\Account\SetAutoPayResponse.cs" />
+    <Compile Include="Models\Account\SetupRenewalRequest.cs" />
+    <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />
     <Compile Include="Models\Account\UpdateNotificationRequest.cs" />
@@ -657,16 +753,208 @@
     <Content Include="frontend\*" />
     <Content Include="frontend\**\*" />
     <Content Include="Data\web.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.Settings.config" />
+    <Content Include="App_Config\Include\Sitecore.EmailCampaign.config" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
+    <Content Include="layouts\EmailCampaign\Newsletter Layout.aspx" />
+    <Content Include="layouts\EmailCampaign\ProcessPersonalizationTokens.ascx" />
+    <Content Include="layouts\EmailCampaign\Single Column Layout.aspx" />
+    <Content Include="layouts\EmailCampaign\Sitecore Newsletter\Sitecore Newsletter Layout.aspx" />
+    <Content Include="layouts\EmailCampaign\Speak\Page.aspx" />
+    <Content Include="layouts\EmailCampaign\Speak\Sublayouts\Dashboard.ascx" />
+    <Content Include="layouts\EmailCampaign\Speak\Sublayouts\EmailPreview.ascx" />
+    <Content Include="layouts\EmailCampaign\Speak\Sublayouts\Imported Templates.ascx" />
+    <Content Include="layouts\EmailCampaign\Speak\Sublayouts\QuickTest.ascx" />
+    <Content Include="layouts\EmailCampaign\Speak\Sublayouts\RecipientBehavior.ascx" />
+    <Content Include="layouts\EmailCampaign\Speak\Sublayouts\Reports.ascx" />
+    <Content Include="layouts\EmailCampaign\Speak\Sublayouts\SentMessageFunnel.ascx" />
+    <Content Include="layouts\EmailCampaign\Speak\Sublayouts\ShellActions.ascx" />
+    <Content Include="layouts\EmailCampaign\Speak\Sublayouts\SpamCheck.ascx" />
+    <Content Include="layouts\EmailCampaign\Subscription Form.ascx" />
+    <Content Include="layouts\EmailCampaign\Text Message Layout.aspx" />
+    <Content Include="layouts\EmailCampaign\Two Column Layout.aspx" />
+    <Content Include="layouts\EmailCampaign\UI\AbVariants.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\CancelSchedulingButton.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\DateTimePicker.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\Delivery.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\Dispatch.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\DispatchMessageNotifier.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\DispatchOptionsHeader.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\jquery.form.js" />
+    <Content Include="layouts\EmailCampaign\UI\jquery.ui.combobox.js" />
+    <Content Include="layouts\EmailCampaign\UI\MessageStateService.asmx" />
+    <Content Include="layouts\EmailCampaign\UI\MultiLanguage.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\Notification.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\PageInfo.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\ReviewHistory.asmx" />
+    <Content Include="layouts\EmailCampaign\UI\sc.cancel.scheduling.js" />
+    <Content Include="layouts\EmailCampaign\UI\sc.dispatch.js" />
+    <Content Include="layouts\EmailCampaign\UI\sc.ReviewHistoryWatcher.js" />
+    <Content Include="layouts\EmailCampaign\UI\sc.state.watcher.js" />
+    <Content Include="layouts\EmailCampaign\UI\sc.winner.selector.js" />
+    <Content Include="layouts\EmailCampaign\UI\SendingMode.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\StateWatcher.ascx" />
+    <Content Include="layouts\EmailCampaign\UI\WinnerSelector.ascx" />
     <Content Include="layouts\HTML Layout.aspx" />
     <Content Include="layouts\Sample Inner Sublayout.ascx" />
     <Content Include="layouts\Sample Sublayout.ascx" />
+    <Content Include="layouts\SPEAK\Layouts\Default.aspx" />
+    <Content Include="layouts\SPEAK\Layouts\Dialog.aspx" />
+    <Content Include="layouts\SPEAK\Layouts\Login.aspx" />
+    <Content Include="layouts\SPEAK\Layouts\SmartPanel.aspx" />
+    <Content Include="layouts\SPEAK\Sublayouts\Applicationsiconlist.ascx" />
+    <Content Include="layouts\SPEAK\Sublayouts\ChangePassword.ascx" />
+    <Content Include="layouts\SPEAK\Sublayouts\ForgotPassword.ascx" />
+    <Content Include="layouts\SPEAK\Sublayouts\Login.ascx" />
+    <Content Include="layouts\SPEAK\Sublayouts\Logout.ascx" />
+    <Content Include="layouts\SPEAK\Sublayouts\PopupTest.ascx" />
+    <Content Include="layouts\SPEAK\Sublayouts\SAF Global Search.ascx" />
+    <Content Include="layouts\SPEAK\Sublayouts\top.ascx" />
+    <Content Include="layouts\SPEAK\Sublayouts\two column left content.ascx" />
+    <Content Include="layouts\SPEAK\Sublayouts\two column right content.ascx" />
+    <Content Include="layouts\system\VIChecker.aspx" />
+    <Content Include="layouts\system\VisitorIdentification.ascx" />
     <Content Include="layouts\system\VisitorIdentification.aspx" />
+    <Content Include="layouts\system\VisitorIdentification.js" />
+    <Content Include="layouts\system\VisitorIdentificationCss.aspx" />
+    <Content Include="layouts\system\VisitorIdentificationExtension.aspx" />
     <Content Include="layouts\xmlcontrol.aspx" />
     <Content Include="Scripts\angular.unobtrusive.validation.js" />
     <Content Include="Scripts\angular.unobtrusive.validation.min.js" />
+    <Content Include="sitecore\apps\css\ab.testing.css" />
+    <Content Include="sitecore\apps\css\ellipsis-xbl.xml" />
+    <Content Include="sitecore\apps\css\images\bg-arrow-collapse.gif" />
+    <Content Include="sitecore\apps\css\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="sitecore\apps\css\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="sitecore\apps\css\images\ui-icons_222222_256x240.png" />
+    <Content Include="sitecore\apps\css\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="sitecore\apps\css\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="sitecore\apps\css\images\ui-icons_454545_256x240.png" />
+    <Content Include="sitecore\apps\css\images\ui-icons_888888_256x240.png" />
+    <Content Include="sitecore\apps\css\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="sitecore\apps\css\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="sitecore\apps\css\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="sitecore\apps\css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="sitecore\apps\css\jquery-ui-timepicker-addon.css" />
+    <Content Include="sitecore\apps\css\jquery-ui.css" />
+    <Content Include="sitecore\apps\css\pie.htc" />
+    <Content Include="sitecore\apps\css\style.css" />
+    <Content Include="sitecore\apps\css\tree.css" />
+    <Content Include="sitecore\apps\css\tree\themes\default\d.gif" />
+    <Content Include="sitecore\apps\css\tree\themes\default\d.png" />
+    <Content Include="sitecore\apps\css\tree\themes\default\style.css" />
+    <Content Include="sitecore\apps\css\tree\themes\default\throbber.gif" />
+    <Content Include="sitecore\apps\css\ui.jqgrid.css" />
+    <Content Include="sitecore\apps\dialogs\PopupConfirmation.aspx" />
+    <Content Include="sitecore\apps\img\action-control-left-fade.png" />
+    <Content Include="sitecore\apps\img\addico.gif" />
+    <Content Include="sitecore\apps\img\ajax-loader.gif" />
+    <Content Include="sitecore\apps\img\arrow-back.png" />
+    <Content Include="sitecore\apps\img\arrow-d.png" />
+    <Content Include="sitecore\apps\img\backarrow.png" />
+    <Content Include="sitecore\apps\img\bg-arrow-collapse.gif" />
+    <Content Include="sitecore\apps\img\button-dropdown.png" />
+    <Content Include="sitecore\apps\img\button-setting.png" />
+    <Content Include="sitecore\apps\img\controlsicons.png" />
+    <Content Include="sitecore\apps\img\date.png" />
+    <Content Include="sitecore\apps\img\desktop.png" />
+    <Content Include="sitecore\apps\img\general_btn.png" />
+    <Content Include="sitecore\apps\img\graph3.png" />
+    <Content Include="sitecore\apps\img\grid-highlight.png" />
+    <Content Include="sitecore\apps\img\grid-hover.png" />
+    <Content Include="sitecore\apps\img\grid-resize.png" />
+    <Content Include="sitecore\apps\img\grid-small-separator.png" />
+    <Content Include="sitecore\apps\img\icon-delete.gif" />
+    <Content Include="sitecore\apps\img\IconHome.gif" />
+    <Content Include="sitecore\apps\img\Progress-24.gif" />
+    <Content Include="sitecore\apps\img\sc-application-header-bg.gif" />
+    <Content Include="sitecore\apps\img\sc-speak-logo.gif" />
+    <Content Include="sitecore\apps\img\sc-spinner16.gif" />
+    <Content Include="sitecore\apps\img\sc-spinner32.gif" />
+    <Content Include="sitecore\apps\img\sc-tabs.png" />
+    <Content Include="sitecore\apps\img\sc-top-shadow.png" />
+    <Content Include="sitecore\apps\img\sitecore-footer-logo.png" />
+    <Content Include="sitecore\apps\img\smart-panel.gif" />
+    <Content Include="sitecore\apps\img\speak-logo.png" />
+    <Content Include="sitecore\apps\img\spinner24.gif" />
+    <Content Include="sitecore\apps\img\statusbar.png" />
+    <Content Include="sitecore\apps\img\tabs.png" />
+    <Content Include="sitecore\apps\img\temp\graph_c10.png" />
+    <Content Include="sitecore\apps\img\temp\graph_c9.png" />
+    <Content Include="sitecore\apps\img\ui-icons_222222_256x240.png" />
+    <Content Include="sitecore\apps\js\sc.ab.testing.debug.js" />
+    <Content Include="sitecore\apps\js\sc.ab.testing.release.js" />
+    <Content Include="sitecore\apps\js\sc.aspnet.ajax.debug.js" />
+    <Content Include="sitecore\apps\js\sc.aspnet.ajax.release.js" />
+    <Content Include="sitecore\apps\js\sc.back.debug.js" />
+    <Content Include="sitecore\apps\js\sc.back.release.js" />
+    <Content Include="sitecore\apps\js\sc.breadcrumb.debug.js" />
+    <Content Include="sitecore\apps\js\sc.breadcrumb.release.js" />
+    <Content Include="sitecore\apps\js\sc.carousel.debug.js" />
+    <Content Include="sitecore\apps\js\sc.carousel.release.js" />
+    <Content Include="sitecore\apps\js\sc.collapsible.debug.js" />
+    <Content Include="sitecore\apps\js\sc.collapsible.release.js" />
+    <Content Include="sitecore\apps\js\sc.combobox.debug.js" />
+    <Content Include="sitecore\apps\js\sc.combobox.release.js" />
+    <Content Include="sitecore\apps\js\sc.core.debug.js" />
+    <Content Include="sitecore\apps\js\sc.core.release.js" />
+    <Content Include="sitecore\apps\js\sc.fieldsgroup.debug.js" />
+    <Content Include="sitecore\apps\js\sc.fieldsgroup.release.js" />
+    <Content Include="sitecore\apps\js\sc.filter.debug.js" />
+    <Content Include="sitecore\apps\js\sc.filter.release.js" />
+    <Content Include="sitecore\apps\js\sc.grid.debug.js" />
+    <Content Include="sitecore\apps\js\sc.grid.release.js" />
+    <Content Include="sitecore\apps\js\sc.json2.debug.js" />
+    <Content Include="sitecore\apps\js\sc.json2.release.js" />
+    <Content Include="sitecore\apps\js\sc.microsoftajax.debug.js" />
+    <Content Include="sitecore\apps\js\sc.microsoftajax.release.js" />
+    <Content Include="sitecore\apps\js\sc.multilist.debug.js" />
+    <Content Include="sitecore\apps\js\sc.multilist.release.js" />
+    <Content Include="sitecore\apps\js\sc.notification.debug.js" />
+    <Content Include="sitecore\apps\js\sc.notification.release.js" />
+    <Content Include="sitecore\apps\js\sc.popupdialog.debug.js" />
+    <Content Include="sitecore\apps\js\sc.popupdialog.release.js" />
+    <Content Include="sitecore\apps\js\sc.progressbar.debug.js" />
+    <Content Include="sitecore\apps\js\sc.progressbar.release.js" />
+    <Content Include="sitecore\apps\js\sc.repeater.debug.js" />
+    <Content Include="sitecore\apps\js\sc.repeater.release.js" />
+    <Content Include="sitecore\apps\js\sc.require.debug.js" />
+    <Content Include="sitecore\apps\js\sc.require.release.js" />
+    <Content Include="sitecore\apps\js\sc.speakmenu.debug.js" />
+    <Content Include="sitecore\apps\js\sc.speakmenu.release.js" />
+    <Content Include="sitecore\apps\js\sc.spinner.debug.js" />
+    <Content Include="sitecore\apps\js\sc.spinner.release.js" />
+    <Content Include="sitecore\apps\js\sc.tabstrip.debug.js" />
+    <Content Include="sitecore\apps\js\sc.tabstrip.release.js" />
+    <Content Include="sitecore\apps\js\sc.template.debug.js" />
+    <Content Include="sitecore\apps\js\sc.template.release.js" />
+    <Content Include="sitecore\apps\js\sc.thumbnails.browser.debug.js" />
+    <Content Include="sitecore\apps\js\sc.thumbnails.browser.release.js" />
+    <Content Include="sitecore\apps\js\sc.tooltip.debug.js" />
+    <Content Include="sitecore\apps\js\sc.tooltip.release.js" />
+    <Content Include="sitecore\apps\js\sc.tree.debug.js" />
+    <Content Include="sitecore\apps\js\sc.tree.release.js" />
+    <Content Include="sitecore\apps\js\sc.validate.debug.js" />
+    <Content Include="sitecore\apps\js\sc.validate.release.js" />
+    <Content Include="sitecore\RedirectUrlPage.aspx" />
+    <Content Include="sitecore\Unsubscribe.aspx" />
+    <Content Include="sitecore\UnsubscribeFromAll.aspx" />
     <Content Include="upload\readme.txt" />
     <Content Include="webedit.css" />
     <Content Include="xsl\system\WebEdit\Hidden Rendering.xslt" />
@@ -752,7 +1040,128 @@
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
     <Content Include="Views\web.config" />
-    <Content Include="Views\**\*.cshtml" />
+    <Content Include="Views\Components\Account\HTML.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\Add Another Device.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\Additional Features Overlay.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\Additional Features.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\Change My Plan.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\My Plan.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\My Usage Details.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\Overview.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\Review Changes.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\Upgrade Effective.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\Usage Summary.cshtml" />
+    <Content Include="Views\Components\Account\Mobile\View or Change My Plan.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Account Balances and Payments.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Make a Payment.cshtml" />
+    <Content Include="Views\Components\Account\Overview\My Energy Usage.cshtml" />
+    <Content Include="Views\Components\Account\Overview\My Invoices.cshtml" />
+    <Content Include="Views\Components\Account\Overview\My Payments.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Utility Providers.cshtml" />
+    <Content Include="Views\Components\Account\Payment Accounts\Add Bank Account.cshtml" />
+    <Content Include="Views\Components\Account\Payment Accounts\Add Credit Card.cshtml" />
+    <Content Include="Views\Components\Account\Payment Accounts\Auto Pay.cshtml" />
+    <Content Include="Views\Components\Account\Payment Accounts\Payment Accounts Listing.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Account Information.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Account Selector.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Add New Account.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Enrolled Accounts.cshtml" />
+    <Content Include="Views\Components\Account\Profile\My Online Account Information.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Notification Settings.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Remove Account Modal.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Homelife Services.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Mobile\Add a Device.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Mobile\International Long Distance.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Mobile\Quick Links.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Mobile\Setup Autopay.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Profile Subnav.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Promo.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Thermostat.cshtml" />
+    <Content Include="Views\Components\Account\Two Column Layout.cshtml" />
+    <Content Include="Views\Components\Account\Utility Services\Your Utility Plan.cshtml" />
+    <Content Include="Views\Components\Authentication\Change Password.cshtml" />
+    <Content Include="Views\Components\Authentication\Create Account - Step 1.cshtml" />
+    <Content Include="Views\Components\Authentication\Create Account - Step 2.cshtml" />
+    <Content Include="Views\Components\Authentication\Create Account Layout.cshtml" />
+    <Content Include="Views\Components\Authentication\Forgot Password - Step 1.cshtml" />
+    <Content Include="Views\Components\Authentication\Forgot Password - Step 2.cshtml" />
+    <Content Include="Views\Components\Authentication\Forgot Password Layout.cshtml" />
+    <Content Include="Views\Components\Authentication\Forgot Username.cshtml" />
+    <Content Include="Views\Components\Authentication\My Stream Account.cshtml" />
+    <Content Include="Views\Components\Email\Footer.cshtml" />
+    <Content Include="Views\Components\Email\Full Width Content.cshtml" />
+    <Content Include="Views\Components\Email\Header.cshtml" />
+    <Content Include="Views\Components\Email\Image Content.cshtml" />
+    <Content Include="Views\Components\Email\Top Image.cshtml" />
+    <Content Include="Views\Components\Footer.cshtml" />
+    <Content Include="Views\Components\Header Fixed.cshtml" />
+    <Content Include="Views\Components\Header.cshtml" />
+    <Content Include="Views\Components\Marketing\Full HTML.cshtml" />
+    <Content Include="Views\Components\Marketing\Full Width Image.cshtml" />
+    <Content Include="Views\Components\Marketing\Grid Promos.cshtml" />
+    <Content Include="Views\Components\Marketing\Intro.cshtml" />
+    <Content Include="Views\Components\Marketing\Login Horizontal.cshtml" />
+    <Content Include="Views\Components\Marketing\Photo Lockup.cshtml" />
+    <Content Include="Views\Components\Marketing\States Enroll.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Choose Network.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Choose Phone.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Complete Order.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Configure Data.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Order Confirmation.cshtml" />
+    <Content Include="Views\Components\Payments\New Bank Account.cshtml" />
+    <Content Include="Views\Components\Payments\New Credit Card.cshtml" />
+    <Content Include="Views\Components\Payments\One Time Payment.cshtml" />
+    <Content Include="Views\layouts\Email Layout.cshtml" />
+    <Content Include="Views\layouts\HTML Layout.cshtml" />
+    <Content Include="Views\layouts\Raw Layout.cshtml" />
+    <Content Include="Views\Pages\Debugging\LogViewer.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Account Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Cart Overlay.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Cart Phone.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Complete Order.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Confirmation.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Enrollment Page.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Plan Selection.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Select Phone.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Select Plan.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Service Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Verify Identity.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Detail.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml" />
+    <Content Include="Views\Pages\Marketing\FAQ\FAQ Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\FAQ\FAQ Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Maryland.cshtml" />
+    <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.cshtml" />
+    <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Texas.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leader Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leader.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leaders Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\View All Directors.cshtml" />
+    <Content Include="Views\Pages\Marketing\Paperless\Paperless Page.cshtml" />
+    <Content Include="Views\Pages\Marketing\Pay\States Pay.cshtml" />
+    <Content Include="Views\Pages\Marketing\Philanthropy\Charity Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
+    <Content Include="Views\Pages\Marketing\Rates\GA Rates.cshtml" />
+    <Content Include="Views\Pages\Marketing\Rates\NE Rates.cshtml" />
+    <Content Include="Views\Pages\Marketing\Rates\TX Rates.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Electricity.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll Commercial.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Gas.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
+    <Content Include="Views\Pages\Mobile Enrollment Page.cshtml" />
+    <Content Include="Views\Pages\Pattern Library\CSS.cshtml" />
+    <Content Include="Views\Pages\Pattern Library\JavaScript.cshtml" />
+    <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
+    <Content Include="Views\Pages\Temp\Generate W9.cshtml" />
+    <Content Include="Views\Temp\Index.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config">
       <SubType>Designer</SubType>
     </Content>
@@ -793,9 +1202,7 @@
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
-    <Content Include="Views\Components\Payments\New Credit Card.cshtml" />
     <Content Include="Views\layouts\Raw Layout.cshtml" />
-    <Content Include="Views\Components\Payments\New Bank Account.cshtml" />
     <Content Include="Views\Pages\Debugging\LogViewer.cshtml" />
     <Content Include="updateTypeaheadIndex.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -807,6 +1214,10 @@
     <Content Include="installStreamEnergy.RenderingService.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Components\Authentication\Impersonate.cshtml" />
+    <Content Include="sitecore\apps\dialogs\Empty.Master" />
+    <Content Include="sitecore\apps\dialogs\Popup.Master" />
+    <Content Include="Views\Pages\Marketing\FAQ\Upgrade FAQ Landing.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -823,6 +1234,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="layouts\EmailCampaign\Imported\" />
     <Folder Include="Views\Component\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>

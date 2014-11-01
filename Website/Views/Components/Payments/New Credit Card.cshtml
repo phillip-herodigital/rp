@@ -2,7 +2,11 @@
 <div class="credit-card">
     <div class="item card-number" data-val-error="PaymentAccount.CreditCardNumber">
         <label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Label"):</label>
-        <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-if="ccCtrl.validate" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-card="{'tokenizerDomain':'@Html.GetSetting("Tokenizer", "Tokenizer Domain")'}" ng-model="ccCtrl.cardToken" type="text">
+        <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-if="ccCtrl.validate" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-field="{'type':'card','tokenizerDomain':'@Html.GetSetting("Tokenizer", "Tokenizer Domain")'}" ng-model="ccCtrl.cardToken" type="text">
+    </div>
+    <div class="item name" @Html.Validation().ErrorClass(m => m.Name)>
+        <label for="@Html.IdFor(m => m.Name)">@Html.Sitecore().Field("Name On Card Label"):</label>
+        @Html.TextBoxFor(m => m.Name, new { data_val = "true", data_val_if = "ccCtrl.validate", data_val_required="", ng_model = "ccCtrl.nameOnCard" })
     </div>
     <div class="group">
         <div class="item" @Html.Validation().ErrorClass(m => m.ExpirationDate)>
@@ -14,7 +18,7 @@
                 <option value="">@Html.Sitecore().Field("Select Year")</option>
             </select>
         </div>
-        <div class="item" @Html.Validation().ErrorClass(m => m.BillingZipCode)>
+        <div class="item zip-code" @Html.Validation().ErrorClass(m => m.BillingZipCode)>
             <label for="@Html.IdFor(m => m.BillingZipCode)">@Html.Sitecore().Field("Zip Code Label"):</label>
             @Html.TextBoxFor(m => m.BillingZipCode, new { data_val_if="ccCtrl.validate", ng_model="ccCtrl.billingZip" })
         </div>
@@ -23,7 +27,11 @@
             @Html.TextBoxFor(m => m.SecurityCode, new { ng_model = "ccCtrl.securityCode", data_val_if="ccCtrl.validate" })
         </div>
         <div class="item example">
-            <a href="" ng-click="showCreditCardExample()" class="single-link">@Html.Sitecore().Field("See Example Link Label")</a>
+            <a href="" ng-click="ccCtrl.creditCardExample=true" class="single-link">@Html.Sitecore().Field("See Example Link Label")</a>
         </div>
     </div>
+    <div class="item" ng-show="ccCtrl.creditCardExample">
+        @Html.Sitecore().Field("Credit Card Example Text")
+    </div>
 </div>
+

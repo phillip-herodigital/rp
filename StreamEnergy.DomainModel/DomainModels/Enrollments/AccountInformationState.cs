@@ -42,7 +42,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
-            if (context.SocialSecurityNumber == null && context.TaxId == null)
+            if (!context.IsRenewal && context.SocialSecurityNumber == null && context.TaxId == null)
             {
                 yield return new ValidationResult("Tax Id or SSN Required", new[] { "SocialSecurityNumber", "TaxId" });
             }

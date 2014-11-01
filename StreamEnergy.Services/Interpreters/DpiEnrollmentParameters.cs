@@ -37,6 +37,11 @@ namespace StreamEnergy.Interpreters
             get { return (queryString["AccountType"] ?? "").ToUpper(); }
         }
 
+        public string ServiceType
+        {
+            get { return (queryString["ServiceType"] ?? "").ToUpper(); }
+        }
+
         public string State
         {
             get { return (queryString["St"] ?? queryString["State"]).ToUpper(); }
@@ -67,6 +72,10 @@ namespace StreamEnergy.Interpreters
 
         public Func<string> GetTargetDpiUrlBuilder()
         {
+            if (ServiceType == "MOB")
+            {
+                return () => "/mobile-enrollment?" + queryString.ToString();
+            }
             switch (AccountType)
             {
                 case "R":
@@ -91,7 +100,7 @@ namespace StreamEnergy.Interpreters
                         case "TX":
                             return () => BuildDpiUrl("/nr_quote_zip.asp");
                         case "GA":
-                            return () => BuildDpiUrl("/signup_customer.asp");
+                            return () => BuildCommercialRFQUrl();
                         case "PA":
                         case "MD":
                         case "NJ":
@@ -103,6 +112,11 @@ namespace StreamEnergy.Interpreters
                     break;
             }
             return null;
+        }
+
+        private string BuildCommercialRFQUrl()
+        {
+            return "/services/enroll/commercial?" + queryString.ToString();
         }
 
         private string BuildDpiUrl(string relativePath)

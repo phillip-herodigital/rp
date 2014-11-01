@@ -13,28 +13,28 @@ namespace StreamEnergy.MyStream.Models.Account
             Actions = new Dictionary<string, string>();
         }
 
-        [ColumnSchema("Recurring", DeviceType.Phone)]
+        [ColumnSchema("Recurring")]
         public bool IsRecurring { get; set; }
 
-        [ColumnSchema("Account Number", DeviceType.Phone)]
+        [ColumnSchema("Account Number")]
         public string AccountNumber { get; set; }
 
         [ColumnSchema("Service Type")]
         public string ServiceType { get; set; }
 
-        [ColumnSchema("Confirm Code", DeviceType.Tablet, DeviceType.Phone)]
+        [ColumnSchema("Confirm Code")]
         public string ConfirmCode { get; set; }
 
         [ColumnSchema("Payment Amount")]
         public string PaymentAmount { get; set; }
 
-        [ColumnSchema("Payment Date", DeviceType.Tablet, DeviceType.Phone)]
-        public string PaymentDate { get; set; }
+        [ColumnSchema("Payment Date")]
+        public DateTime PaymentDate { get; set; }
 
-        [ColumnSchema("Status", DeviceType.Tablet, DeviceType.Phone)]
+        [ColumnSchema("Status")]
         public string Status { get; set; }
 
-        [ColumnSchema("Action", DeviceType.Phone)]
+        [ColumnSchema("Action")]
         public Dictionary<string, string> Actions { get; private set; }
 
         public string PaymentID { get; set; }

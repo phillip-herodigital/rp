@@ -24,5 +24,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             get { return false; }
         }
 
+        public string SystemOfRecord { get; set; }
+        public string DepositAccount { get; set; }
     }
 }

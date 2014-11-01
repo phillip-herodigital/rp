@@ -16,13 +16,11 @@ namespace StreamEnergy.MyStream.Models.Account
         [ColumnSchema("Account Number", DeviceType.Phone)]
         public string AccountNumber { get; set; }
 
-        [ColumnSchema("Invoice Number")]
-        public string InvoiceAmount { get; set; }
+        [ColumnSchema("Amount Due")]
+        public decimal AmountDue { get; set; }
 
         [ColumnSchema("Due Date")]
-        public string DueDate { get; set; }
-
-        public decimal AccountBalance { get; set; }
+        public DateTime DueDate { get; set; }
 
         public bool CanMakeOneTimePayment { get; set; }
 
@@ -30,7 +28,7 @@ namespace StreamEnergy.MyStream.Models.Account
 
         public string UtilityProvider { get; set; }
 
-        [ColumnSchema("Details", DeviceType.Tablet, DeviceType.Phone)]
+        [ColumnSchema("Action", DeviceType.Tablet, DeviceType.Phone)]
         public Dictionary<string, string> Actions { get; private set; }
 
     }

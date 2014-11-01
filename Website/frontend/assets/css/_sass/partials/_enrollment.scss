@@ -663,7 +663,10 @@ $enrollment-module-vertical-padding: 20px;
                     }
                     p {
                         font-size: 15px;
-                    }   
+                    }
+                    .plan-footnote {
+                        clear: both;
+                    }
                 }
             }
             &.isOpen {
@@ -852,6 +855,12 @@ $enrollment-module-vertical-padding: 20px;
             text-align: left;
         }
     }
+    .ga-plan-selection-fees {
+        width: 50%;
+        dt, dd {
+            width: 50%;
+        }
+    }
     @include breakpoint(small-medium) {
         .plan-selection-table {
             th, td {
@@ -886,6 +895,9 @@ $enrollment-module-vertical-padding: 20px;
             min-width: 25%;
         }
     }
+    .utility-connect {
+        margin-bottom: 0 !important;
+    }
     .icon-calendar {
         display: none;
     }
@@ -897,6 +909,12 @@ $enrollment-module-vertical-padding: 20px;
     }
     .previous-address {
         margin-bottom: 20px;
+    }
+    .aglc-example {
+        @include breakpoint(large) {
+            display: inline-block;
+            margin-left: 10px;
+        }
     }
     form div.secondary-contact-group {
         margin-bottom: 15px;
@@ -1225,13 +1243,13 @@ $enrollment-module-vertical-padding: 20px;
         float: left;
         width: 60%;
         font-size: 15px;
-        .icon-electricity {
+        .icon-electricity, .icon-gas-icon {
             position: absolute;
             top: 4px;
             left: 0;
         }
         .plan-text {
-            margin-left: 30px;
+            margin-left: 20px;
         }
         a {
             font-size: 13px;

@@ -3,6 +3,8 @@ using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Account;
 using StreamEnergy.MyStream.Models.Angular.GridTable;
 using StreamEnergy.MyStream.Models.Authentication;
+using StreamEnergy.Processes;
+using StreamEnergy.Services.Clients;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +20,7 @@ using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using ResponsivePath.Validation;
 using Sitecore.Links;
+using StackExchange.Redis;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -26,49 +29,30 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     {
         private readonly Sitecore.Data.Items.Item item;
         private readonly IUnityContainer container;
-        private readonly Services.Clients.ITemperatureService temperatureService;
         private readonly DomainModels.Accounts.IAccountService accountService;
+        private readonly DomainModels.Payments.IPaymentService paymentService;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
         private readonly IValidationService validation;
         private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
-        private readonly UserProfileLocator profileLocator;
+        private readonly ICurrentUser currentUser;
+        private readonly EnrollmentController enrollmentController;
+        private readonly IDatabase redis;
+        private const string redisPrefix = "AddNewAccount_FindAccount_";
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, UserProfileLocator profileLocator)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis)
         {
             this.container = container;
-            this.temperatureService = temperatureService;
             this.accountService = accountService;
+            this.paymentService = paymentService;
             this.domain = Sitecore.Context.Site.Domain;
             this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Account/Profile");
             this.validation = validation;
             this.authentication = authentication;
-            this.profileLocator = profileLocator;
-        }
-
-        [HttpGet]
-        public string CelciusToFahrenheit(string celcius)
-        {
-            return temperatureService.CelciusToFahrenheit(celcius: celcius);
-        }
-
-        [HttpGet]
-        public string FahrenheitToCelcius(string fahrenheit)
-        {
-            return temperatureService.FahrenheitToCelcius(fahrenheit: fahrenheit);
-        }
-
-        [HttpGet]
-        public Task<string> ExampleMock()
-        {
-            return temperatureService.MockedExample();
-        }
-
-        [HttpGet]
-        public Task<Dictionary<string, object>> ExampleCache()
-        {
-            return temperatureService.CachedExample();
+            this.currentUser = currentUser;
+            this.enrollmentController = enrollmentController;
+            this.redis = redis;
         }
 
         #region Account Balances & Payments
@@ -77,24 +61,35 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<GetAccountBalancesResponse> GetAccountBalances()
         {
-            var accounts = await accountService.GetAccountBalances(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
+            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
 
             return new GetAccountBalancesResponse
             {
-                Accounts = from account in accounts
-                           let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
-                           let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
-                           let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
-                           select new AccountToPay
-                           {
-                               AccountNumber = account.AccountNumber,
-                               AccountBalance = account.Balance.Balance,
-                               DueDate = account.Balance.DueDate.ToShortDateString(),
-                               UtilityProvider = externalPayment.UtilityProvider,
-                               CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
-                               AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
-                           }
+                Accounts =  from account in currentUser.Accounts
+                            let invoice = acocuntInvoices.First(t => t.AccountNumber == account.AccountNumber && t.Invoices != null).Invoices.LastOrDefault()
+                            select CreateViewAccountBalances(account, invoice)
             };
+        }
+
+        private static Models.Account.AccountToPay CreateViewAccountBalances(Account account, DomainModels.Accounts.Invoice invoice)
+        {
+            var result = new StreamEnergy.MyStream.Models.Account.AccountToPay
+            {
+                AccountNumber = account.AccountNumber,
+                AmountDue = account.Balance.Balance,
+                DueDate = account.Balance.DueDate,
+                UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
+                CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
+                AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
+            };
+
+            if (invoice.PdfAvailable)
+            {
+                result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
+            }
+
+            return result;
         }
 
         #endregion
@@ -169,24 +164,62 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Invoices = new Table<Models.Account.Invoice>
                 {
                     ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Invoices")),
-                    Values = from account in await accountService.GetInvoices(profileLocator.Locate(User.Identity.Name).GlobalCustomerId)
+                    Values = from account in currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts)
+                             where account.Invoices != null
                              from invoice in account.Invoices
-                             select new StreamEnergy.MyStream.Models.Account.Invoice
-                             {
-                                 AccountNumber = account.AccountNumber,
-                                 ServiceType = account.AccountType,
-                                 InvoiceNumber = invoice.InvoiceNumber,
-                                 InvoiceAmount = invoice.InvoiceAmount.ToString("0.00"),
-                                 DueDate = invoice.DueDate.ToShortDateString(),
-                                 IsPaid = invoice.IsPaid,
-                                 CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
-                                 Actions = 
-                                 {
-                                     { "viewPdf", "http://.../" }
-                                 }
-                             }
+                             select CreateViewInvoice(account, invoice)
                 }
             };
+        }
+
+        private static Models.Account.Invoice CreateViewInvoice(Account account, DomainModels.Accounts.Invoice invoice)
+        {
+            var result = new StreamEnergy.MyStream.Models.Account.Invoice
+            {
+                AccountNumber = account.AccountNumber,
+                ServiceType = account.AccountType,
+                InvoiceNumber = invoice.InvoiceNumber,
+                InvoiceAmount = invoice.InvoiceAmount,
+                DueDate = invoice.DueDate,
+                CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
+            };
+            
+            if (invoice.PdfAvailable)
+            {
+                result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
+            }
+
+            return result;
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<HttpResponseMessage> InvoicePdf(string account, string invoice)
+        {
+            currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+
+            var chosenAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == account);
+            var chosenInvoice = chosenAccount.Invoices.FirstOrDefault(inv => inv.InvoiceNumber == invoice);
+            var url = await accountService.GetInvoicePdf(chosenAccount, chosenInvoice);
+
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync(url);
+
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new StreamContent(await response.Content.ReadAsStreamAsync())
+            {
+                Headers = 
+                {
+                    ContentType = response.Content.Headers.ContentType,
+                    ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = "invoice" + invoice + ".pdf"
+                    }
+                }
+            };
+
+            return result;                
         }
 
         #endregion
@@ -195,31 +228,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<GetCurrentInvoicesResponse> GetCurrentInvoices()
+        public async Task<GetAccountBalancesTableResponse> GetAccountBalancesTable()
         {
-            var accounts = await accountService.GetCurrentInvoices(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
-
-            return new GetCurrentInvoicesResponse
+            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            
+            return new GetAccountBalancesTableResponse
             {
                 Accounts = new Table<AccountToPay>
                 {
                     ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
-                    Values = from account in accounts
-                             let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
-                             let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
-                             select new AccountToPay
-                             {
-                                 AccountNumber = account.AccountNumber,
-                                 InvoiceAmount = account.CurrentInvoice.InvoiceAmount.ToString("0.00"),
-                                 DueDate = account.CurrentInvoice.DueDate.ToShortDateString(),
-                                 CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
-                                 // TODO - scheduling restrictions
-                                 AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
-                                 Actions = 
-                                 {
-                                     { "viewPdf", "http://.../" }
-                                 }
-                             }
+                    Values = from account in currentUser.Accounts
+                             let invoice = acocuntInvoices.First(t => t.AccountNumber == account.AccountNumber && t.Invoices != null).Invoices.LastOrDefault()
+                             select CreateViewAccountBalances(account, invoice)
                 }
             };
         }
@@ -235,42 +256,39 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
-            var accounts = (await accountService.GetCurrentInvoices(profileLocator.Locate(User.Identity.Name).GlobalCustomerId))
-                .Where(account => request.AccountNumbers.Contains(account.AccountNumber)).ToArray();
+            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var accounts = (from paymentSettings in request.Accounts
+                            join account in currentUser.Accounts on paymentSettings.AccountNumber equals account.AccountNumber
+                            select new { account, paymentMethod = paymentSettings.PaymentAccount, paymentAmount = paymentSettings.PaymentAmount, securityCode = paymentSettings.SecurityCode }).ToArray();
 
-            Dictionary<Account, decimal> paymentAmounts;
-            if (accounts.Length > 1)
+            if (!request.OverrideWarnings.Contains("Overpayment"))
             {
-                if (accounts.Sum(account => account.CurrentInvoice.InvoiceAmount) != request.TotalPaymentAmount)
+                foreach (var entry in accounts)
                 {
-                    return new MakeMultiplePaymentsResponse
+                    if (entry.account.Balance.Balance * 3 <= entry.paymentAmount)
                     {
-                        // Can't support different TotalPaymentAmount than InvoiceAmount when multiple accounts are selected
-                        Validations = new[] { new TranslatedValidationResult { MemberName = "TotalPaymentAmount", Text = "TODO" } }
-                    };
-                }
-                paymentAmounts = accounts.ToDictionary(acct => acct, acct => acct.CurrentInvoice.InvoiceAmount);
-            }
-            else
-            {
-                // one account
-                var account = accounts.Single();
-                if (account.CurrentInvoice.InvoiceAmount * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
-                {
-                    return new MakeMultiplePaymentsResponse
-                    {
-                        Validations = Enumerable.Empty<TranslatedValidationResult>(),
-                        BlockingAlertType = "Overpayment",
-                    };
-                }
+                        return new MakeMultiplePaymentsResponse
+                        {
+                            Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                            BlockingAlertType = "Overpayment",
+                        };
+                    }
 
-                paymentAmounts = new Dictionary<Account, decimal> { { account, request.TotalPaymentAmount } };
+                }
             }
 
+            var paymentRecords = (from entry in accounts
+                                  select new DomainModels.Payments.PaymentRecord
+                                  {
+                                      AccountNumber = entry.account.AccountNumber,
+                                      Amount = entry.paymentAmount,
+                                      Method = entry.paymentMethod,
+                                      Date = request.PaymentDate,
+                                      SecurityCode = entry.securityCode
+                                  }).ToArray();
             if (!request.OverrideWarnings.Contains("Duplicate"))
             {
-                // TODO - detect duplicate payment
-                bool isDuplicate = true;
+                bool isDuplicate = await paymentService.DetectDuplicatePayments(paymentRecords);
                 if (isDuplicate)
                 {
                     return new MakeMultiplePaymentsResponse
@@ -281,16 +299,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
 
-            // TODO - remove the Take(1) when we aren't testing error states.
-            var temp = paymentAmounts
-                .Take(1)
+            var temp = accounts
                 .Select(entry => new 
                 { 
-                    account = entry.Key, 
-                    amount = entry.Value, 
-                    task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount, paymentDate: request.PaymentDate) 
+                    entry.account,
+                    entry.paymentAmount,
+                    task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, entry.account.Details.ContactInfo.Name.First + " " + entry.account.Details.ContactInfo.Name.Last, entry.account, entry.paymentMethod, entry.securityCode) 
                 }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
+            await paymentService.RecordForDuplicatePayments((from entry in paymentRecords
+                                                             join acct in temp on entry.AccountNumber equals acct.account.AccountNumber
+                                                             where acct.task.Result.ConfirmationNumber != null
+                                                             select entry).ToArray());
 
             return new MakeMultiplePaymentsResponse
             {
@@ -298,7 +318,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Confirmations = temp.Select(entry => new PaymentConfirmation
                 {
                     AccountNumber = entry.account.AccountNumber,
-                    PaymentConfirmationNumber = entry.task.Result.ConfirmationNumber
+                    PaymentConfirmationNumber = entry.task.Result.ConfirmationNumber,
+                    ConvenienceFee = entry.task.Result.ConvenienceFee,
                 }).ToArray()
             };
         }
@@ -309,76 +330,29 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public GetPaymentsResponse GetPayments()
+        public async Task<GetPaymentsResponse> GetPayments()
         {
-            // TODO - get the invoices from Stream Connect and format the response
-
-            var row1 = new StreamEnergy.MyStream.Models.Account.Payment
-            {
-                AccountNumber = "1197015532",
-                ServiceType = "HomeLife Services",
-                ConfirmCode = "1030523546381",
-                PaymentAmount = "$24.99",
-                PaymentDate = "04/05/14",
-                Status = "PENDING",
-                IsRecurring = true,
-                PaymentID = "1234567890",
-                PaymentMode = "ACH",
-                PaymentAccount = "*********1234",
-                RoutingNumber = "1234567890",
-                PaymentMadeBy = "Jordan Campbell",
-                Actions = 
-                {
-                    { "showDetails", "" }
-                }
-            };
-
-            var row2 = new StreamEnergy.MyStream.Models.Account.Payment
-            {
-                AccountNumber = "219849302",
-                ServiceType = "Utility",
-                ConfirmCode = "1020453546012",
-                PaymentAmount = "$93.72",
-                PaymentDate = "03/13/14",
-                Status = "APPROVED",
-                IsRecurring = false,
-                PaymentID = "1234567890",
-                PaymentMode = "ACH",
-                PaymentAccount = "*********7844",
-                RoutingNumber = "1234567890",
-                PaymentMadeBy = "Jordan Campbell",
-                Actions = 
-                {
-                    { "showDetails", "" }
-                }
-            };
-
-            var row3 = new StreamEnergy.MyStream.Models.Account.Payment
-            {
-                AccountNumber = "219849302",
-                ServiceType = "Utility",
-                ConfirmCode = "1020474538566",
-                PaymentAmount = "$88.58",
-                PaymentDate = "02/10/14",
-                Status = "APPROVED",
-                IsRecurring = false,
-                PaymentID = "1234567890",
-                PaymentMode = "ACH",
-                PaymentAccount = "*********7844",
-                RoutingNumber = "1234567890",
-                PaymentMadeBy = "Michelle Campbell",
-                Actions = 
-                {
-                    { "showDetails", "" }
-                }
-            };
-            
             return new GetPaymentsResponse
             {
                 Payments = new Table<Models.Account.Payment>
                 {
                     ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Payment).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Payments")),
-                    Values = new[] { row1, row2, row3 }
+                    Values = from account in currentUser.Accounts = await paymentService.PaymentHistory(currentUser.StreamConnectCustomerId)
+                             where account.PaymentHistory != null
+                             from payment in account.PaymentHistory
+                             select new StreamEnergy.MyStream.Models.Account.Payment
+                             {
+                                AccountNumber = account.AccountNumber,
+                                ServiceType = account.AccountType,
+                                PaymentMadeBy = payment.CustomerName,
+                                PaymentAmount = payment.PaymentAmount.ToString("0.00"),
+                                PaymentDate = payment.PaidDate,
+                                PaymentID = payment.PaymentId,
+                                Actions = 
+                                {
+                                    { "showDetails", "" }
+                                }
+                             }
                 }
             };
         }
@@ -388,57 +362,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Utility Services
 
         [HttpPost]
-        public GetElectricityPlanResponse GetElectricityPlan(GetUtiltiyPlansRequest request)
+        public async Task<GetUtilityPlanResponse> GetUtilityPlan(GetUtiltiyPlansRequest request)
         {
             var accountNumber = request.AccountNumber;
 
-            // TODO get the plan info from Stream Connect
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            var accountDetails = await accountService.GetAccountDetails(account, false);
 
-            var electricityPlan = new UtilityPlan
+            return new GetUtilityPlanResponse
             {
-                UtilityType = "Electricity",
-                PlanType = "Fixed",
-                PlanName = "Flex Choice Intro Plan",
-                Rate = "9.18",
-                Terms = "Month-to-Month",
-                Fees = "$0",
-                PlanDetails = "The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.",
-                PricingEffectiveDate = "11/21/2013",
-                MinimumUsageFee = "$0.00",
-                IsRenewable = true,
-                RenewDate = "4/15/2014"
-            };
-
-            return new GetElectricityPlanResponse
-            {
-                ElectricityPlan = accountNumber == "1197015532" ? electricityPlan : null
-            };
-        }
-
-        [HttpPost]
-        public GetGasPlanResponse GetGasPlan(GetUtiltiyPlansRequest request)
-        {
-            var accountNumber = request.AccountNumber;
-
-            // TODO get the plan info from Stream Connect
-
-            var gasPlan = new UtilityPlan
-            {
-                UtilityType = "Gas",
-                PlanType = "Fixed",
-                PlanName = "Flex Choice Intro Plan",
-                Rate = "4.98",
-                Terms = "Month-to-Month",
-                Fees = "$0",
-                PlanDetails = "The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.",
-                PricingEffectiveDate = "11/21/2013",
-                MinimumUsageFee = "$0.00",
-                IsRenewable = false
-            };
-
-            return new GetGasPlanResponse
-            {
-                GasPlan = accountNumber == "07644559" ? gasPlan : null
+                SubAccounts = account.SubAccounts
             };
         }
 
@@ -454,9 +388,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var email = new DomainModels.Email();
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
-            var languagesRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Languages");
 
-            email.Address = await accountService.GetEmailByCustomerId(profile.GlobalCustomerId);
+            var customer = this.currentUser.Customer ?? await accountService.GetCustomerByCustomerId(profile.GlobalCustomerId);
+            email.Address = customer.EmailAddress;
             
             return new GetOnlineAccountResponse
             {
@@ -480,25 +414,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             Text = questionItem != null ? questionItem["Question"] : ""
                         }
                     },
-                   
-                AvailableLanguages =
-                   from languageItem in (languagesRoot != null ? languagesRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
-                   select new LanguagePreference
-                   {
-                       Id = languageItem.ID.Guid,
-                       Text = languageItem["Language"]
-                   },
-                // TODO get Language Preference from StreamConnect
-                LanguagePreference = "English"
             };
         }
 
         [HttpPost]
-        public HttpResponseMessage UpdateOnlineAccount(UpdateOnlineAccountRequest request)
+        public async Task<HttpResponseMessage> UpdateOnlineAccount(UpdateOnlineAccountRequest request)
         {
             var currentUser = Membership.GetUser(User.Identity.Name);
             var currentUsername = currentUser.UserName;
             var newUsername = request.Username;
+            var newUsernameWithPrefix = domain.AccountPrefix + request.Username;
 
             request.Username = domain.AccountPrefix + request.Username;
             if (currentUsername == request.Username)
@@ -522,10 +447,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     {
                         // update the cookie
                         authentication.AddAuthenticationCookie(response, newUsername);
+
+                        var newIdentity = new System.Security.Principal.GenericIdentity(request.Username);
+                        var newPrincipal = new System.Security.Principal.GenericPrincipal(newIdentity, new string[] { });
+                        User = newPrincipal;
                     }
                 }
 
-                // TODO update the email address with Stream Connect
+                // update the email address (and/or username) with Stream Connect
+                var customer = this.currentUser.Customer = this.currentUser.Customer ?? await accountService.GetCustomerByCustomerId(this.currentUser.StreamConnectCustomerId);
+                if (customer.EmailAddress != request.Email.Address || !string.IsNullOrEmpty(request.Username))
+                {
+                    customer.Username = request.Username ?? newUsernameWithPrefix;
+                    customer.EmailAddress = request.Email.Address;
+                    await accountService.UpdateCustomer(customer);
+                }                
 
                 // update the password if it has been set
                 if (!string.IsNullOrEmpty(request.CurrentPassword))
@@ -536,7 +472,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 // update the challeges
                 if (request.Challenges != null && request.Challenges.Any(c => !string.IsNullOrEmpty(c.Answer)))
                 {
-                    var profile = UserProfile.Locate(container, request.Username);
+                    var profile = UserProfile.Locate(container, newUsernameWithPrefix);
                     
                     profile.ChallengeQuestions = (from entry in request.Challenges
                                                   join existing in profile.ChallengeQuestions on entry.SelectedQuestion.Id equals existing.QuestionKey into existing
@@ -547,8 +483,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     profile.Save();
                 }
 
-                // TODO update the language preference with Stream Connect;
-                
                 return response;
             }
             else 
@@ -567,55 +501,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Account Selector
 
         [HttpGet]
-        public IEnumerable<AccountGrouping> GetAccounts()
+        public async Task<IEnumerable<AccountSummary>> GetAccounts()
         {
-            var serviceAddress = new DomainModels.Address
-            {
-                Line1 = "123 Main Street",
-                City = "Dallas",
-                StateAbbreviation = "TX",
-                PostalCode5 = "75001"
-            };
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var summary = currentUser.Accounts.Select(acct => new AccountSummary(acct));
 
-            var serviceAddress2 = new DomainModels.Address
-            {
-                Line1 = "456 Main Street",
-                City = "Dallas",
-                StateAbbreviation = "TX",
-                PostalCode5 = "75001"
-            };
-
-            var serviceAddress3 = new DomainModels.Address
-            {
-                Line1 = "1 Georgia Dome Dr NW3",
-                City = "Atlanta",
-                StateAbbreviation = "GA",
-                PostalCode5 = "30313"
-            };
-
-            var serviceAddress4 = new DomainModels.Address
-            {
-                Line1 = "2604 Washington Rd",
-                City = "Augusta",
-                StateAbbreviation = "GA",
-                PostalCode5 = "30904"
-            };
-
-            var account1 = new AccountGrouping 
-            {
-                AccountNumber = "1197015532",
-                SubAccountLabel = "ESI ID:",
-                SubAccounts = new ISubAccount[] { new TexasElectricityAccount { Id = "109437200008913264", ServiceAddress = serviceAddress }, new TexasElectricityAccount { Id = "109437200008975832", ServiceAddress = serviceAddress2 } }
-            };
-
-            var account2 = new AccountGrouping
-            {
-                AccountNumber = "07644559",
-                SubAccountLabel = "Meter ID:",
-                SubAccounts = new ISubAccount[] { new GeorgiaElectricityAccount { Id = "9A743339875", ServiceAddress = serviceAddress3 }, new GeorgiaElectricityAccount { Id = "88-443672486", ServiceAddress = serviceAddress4 } }
-            };
-
-            return new AccountGrouping [] { account1, account2 } ;
+            return summary;
         }
 
         #endregion
@@ -623,67 +514,62 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Account Information
 
         [HttpPost]
-        public GetAccountInformationResponse GetAccountInformation(GetAccountInformationRequest request)
+        public async Task<GetAccountInformationResponse> GetAccountInformation(GetAccountInformationRequest request)
         {
-            var accountNumber = request.AccountNumber;
             var serviceAddress = new DomainModels.Address();
-            var billingAddress = new DomainModels.Address();
             bool sameAsService = false;
 
-            // TODO get the contact info from Stream Connect            
-            var customerName = new DomainModels.Name
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            var accountDetails = await accountService.GetAccountDetails(account, false);
+            var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
+            var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
+
+            if (account.SubAccounts != null && (account.SubAccounts[0]) != null && (account.SubAccounts[0]).SubAccountType == "GeorgiaGas")
             {
-                First = "John",
-                Last = "Smith"
-            };
-
-            var primaryPhone =  new DomainModels.TypedPhone { Number = "214-223-4567", Category = StreamEnergy.DomainModels.PhoneCategory.Home };
-            var secondaryPhone = new DomainModels.TypedPhone { Number = "214-223-7323", Category = StreamEnergy.DomainModels.PhoneCategory.Mobile };
-
-            serviceAddress.Line1 = "123 Main St.";
-            serviceAddress.City = "Dallas";
-            serviceAddress.StateAbbreviation = "TX";
-            serviceAddress.PostalCode5 = "75001";
-
-            billingAddress.Line1 = "123 Main St.";
-            billingAddress.City = "Dallas";
-            billingAddress.StateAbbreviation = "TX";
-            billingAddress.PostalCode5 = "75001";
-
-            if (serviceAddress.Equals(billingAddress))
+                serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
+            }
+            
+            if (serviceAddress.Equals(account.Details.BillingAddress))
             {
                 sameAsService = true;
             }
 
             return new GetAccountInformationResponse
             {
-                CustomerName = customerName,
-                PrimaryPhone = primaryPhone,
-                SecondaryPhone = secondaryPhone,
+                CustomerName = account.Details.ContactInfo.Name,
+                MobilePhone = mobilePhone,
+                HomePhone = homePhone,
+                Email = account.Details.ContactInfo.Email,
                 ServiceAddress = serviceAddress,
                 SameAsService = sameAsService,
-                BillingAddress = billingAddress
+                BillingAddress = account.Details.BillingAddress
             };
         }
 
         [HttpPost]
-        public UpdateAccountInformationResponse UpdateAccountInformation(UpdateAccountInformationRequest request)
+        public async Task<UpdateAccountInformationResponse> UpdateAccountInformation(UpdateAccountInformationRequest request)
         {
             bool success = false;
             var validations = validation.CompleteValidate(request);
-           
-            var accountNumber = request.AccountNumber;
 
-            // update the account information with Stream Connect
             if (!validations.Any())
             {
-                success = true;
+                var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+                account.Details.ContactInfo.Phone = new[] 
+                { 
+                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = request.HomePhone.Number },
+                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = request.MobilePhone.Number },
+                };
+                account.Details.ContactInfo.Email = new DomainModels.Email { Address = request.Email.Address };
+                account.Details.BillingAddress = request.BillingAddress;
+                success = await accountService.SetAccountDetails(account, account.Details);
             }
 
             return new UpdateAccountInformationResponse
             {
                 Success = success,
-                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Change Password"))
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Update Account Information"))
             };
         }
 
@@ -779,42 +665,54 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Enrolled Accounts
 
         [HttpGet]
-        public GetEnrolledAccountsResponse GetEnrolledAccounts()
+        public async Task<GetEnrolledAccountsResponse> GetEnrolledAccounts()
         {
-            // TODO get enrolled accounts from Stream Connect
-            var account1 = new EnrolledAccount
-            {
-                AccountNumber = "1234567890",
-                DateAdded = Convert.ToDateTime("12/28/2013  17:33:15"),
-                SendLetter = true
-            };
-            var account2 = new EnrolledAccount
-            {
-                AccountNumber = "0987654321",
-                DateAdded = Convert.ToDateTime("06/12/2014  11:40:55"),
-                SendLetter = false
-            };
-            IEnumerable<EnrolledAccount> enrolledAccounts = new EnrolledAccount[] {account1, account2};
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var summary = currentUser.Accounts.Select(acct => new AccountSummary(acct));
 
             return new GetEnrolledAccountsResponse
             {
-                EnrolledAccounts = enrolledAccounts
+                EnrolledAccounts = summary
             };
         }
 
         [HttpPost]
-        public AddNewAccountResponse AddNewAccount(AddNewAccountRequest request)
+        public async Task<AddNewAccountResponse> AddNewAccount(AddNewAccountRequest request)
         {
             bool success = false;
             var validations = validation.CompleteValidate(request);
 
-            var accountNumber = request.AccountNumber;
-            var ssnLastFour = request.SsnLastFour;
+            // make sure the account isn't already associated
+            var existingAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            if (existingAccount != null)
+            {
+                var val = new ValidationResult("Account Already Associated", new[] { "AccountNumber" });
+                validations = validations.Concat(new[] { val });
+            }
+            
+            // locked out after 5 tries
+            var value = (int?) await redis.StringGetAsync(redisPrefix + request.AccountNumber);
+            if (value != null && value >= 5)
+            {
+                var val = new ValidationResult("Account Locked", new[] { "AccountNumber" });
+                validations = validations.Concat(new[] { val });
+            }
 
-            // TODO add the new account with Stream Connect
+            var internalAccount = await accountService.GetAccountDetails(request.AccountNumber);
+            if (internalAccount != null && internalAccount.Details.SsnLastFour != request.SsnLast4)
+            {
+                internalAccount = null;
+                await redis.StringIncrementAsync(redisPrefix + request.AccountNumber);
+                await redis.KeyExpireAsync(redisPrefix + request.AccountNumber, TimeSpan.FromMinutes(30));
+            }
+
             if (!validations.Any())
             {
-                success = true;
+                var account = await accountService.AssociateAccount(currentUser.StreamConnectCustomerId, request.AccountNumber, request.SsnLast4, request.AccountNickname);
+                if (account != null)
+                {
+                    success = true;
+                }
             }
 
             return new AddNewAccountResponse
@@ -825,21 +723,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public RemoveAccountResponse RemoveEnrolledAccount(RemoveAccountRequest request)
+        public async Task<RemoveAccountResponse> RemoveEnrolledAccount(RemoveAccountRequest request)
         {
-            bool success = false;
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.StreamConnectAccountId == request.AccountId);
 
-            var accountNumber = request.AccountNumber;
-
-            // TODO remove enrolled account with Stream Connect
-            if (true)
-            {
-                success = true;
-            }
+            bool response = await accountService.DisassociateAccount(account);
 
             return new RemoveAccountResponse
             {
-                Success = success
+                Success = response
             };
         }
 
@@ -867,22 +759,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region One-time Payment
 
         [HttpPost]
-        public Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
+        public async Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
         {
-            // TODO
-            return Task.FromResult(new FindAccountForOneTimePaymentResponse
+            var details = await accountService.GetAccountDetails(request.AccountNumber);
+            if (details == null) 
+            {
+                return new FindAccountForOneTimePaymentResponse
                 {
+                    Success = false
+                };
+            }
+
+            return new FindAccountForOneTimePaymentResponse
+                {
+                    Success = true,
                     Account = new AccountToPay
                     {
-                        AccountNumber = request.AccountNumber,
+                        AccountNumber = details.AccountNumber,
                         CanMakeOneTimePayment = true,
-                        InvoiceAmount = "123.45",
-                        AvailablePaymentMethods = new[] 
-                        { 
-                            new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } 
-                        }
+                        AmountDue = details.Balance.Balance,
+                        AvailablePaymentMethods = details.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()
                     }
-                });
+                };
         }
 
         [HttpPost]
@@ -896,11 +794,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
-            Account account = await accountService.GetCurrentInvoice(accountNumber: request.AccountNumber);
+            Account account = await accountService.GetAccountDetails(accountNumber: request.AccountNumber);
 
             Dictionary<Account, decimal> paymentAmounts;
             
-            if (account.CurrentInvoice.InvoiceAmount * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
+            if (account.Balance.Balance * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
             {
                 return new MakeOneTimePaymentResponse
                 {
@@ -911,10 +809,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             paymentAmounts = new Dictionary<Account, decimal> { { account, request.TotalPaymentAmount } };
 
+            var paymentRecords = new[] {
+                new DomainModels.Payments.PaymentRecord
+                                  {
+                                      AccountNumber = request.AccountNumber,
+                                      Amount = request.TotalPaymentAmount,
+                                      Method = request.PaymentAccount,
+                                      Date = DateTime.Today,
+                                  }
+            };
             if (!request.OverrideWarnings.Contains("Duplicate"))
             {
-                // TODO - detect duplicate payment
-                bool isDuplicate = true;
+                bool isDuplicate = await paymentService.DetectDuplicatePayments(paymentRecords);
                 if (isDuplicate)
                 {
                     return new MakeOneTimePaymentResponse
@@ -925,7 +831,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
 
-            var confirmation = await accountService.MakePayment(account: account.AccountNumber, amount: request.TotalPaymentAmount, paymentMethod: request.PaymentAccount, paymentDate: DateTime.Today);
+            var confirmation = await paymentService.OneTimePayment(DateTime.Today, request.TotalPaymentAmount, account.AccountNumber, request.CustomerName, account.SystemOfRecord, request.PaymentAccount);
 
             return new MakeOneTimePaymentResponse
             {
@@ -944,26 +850,39 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
+        public async Task<IHttpActionResult> GetSavedPaymentMethods(bool includeAutoPayFlag = false)
         {
-            return await accountService.GetSavedPaymentMethods(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
+            if (includeAutoPayFlag)
+            {
+                return Ok(await paymentService.GetSavedPaymentMethods(currentUser.StreamConnectCustomerId));
+            }
+            else
+            {
+                return Ok(from record in await paymentService.GetSavedPaymentMethods(currentUser.StreamConnectCustomerId)
+                          select record.PaymentMethod);
+            }
         }
 
         [HttpPost]
-        public async Task<AddBankAccountResponse> AddBankAccount(AddBankAccountRequest request)
+        public async Task<AddPaymentAccountResponse> AddPaymentAccount(AddPaymentAccountRequest request)
         {
-            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Bank Account");
             if (!ModelState.IsValid)
             {
-                return new AddBankAccountResponse
+                Sitecore.Data.Items.Item validationItem;
+                if (request.PaymentAccount is DomainModels.Payments.TokenizedBank)
+                    validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Bank Account");
+                else
+                    validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Credit Card");
+
+                return new AddPaymentAccountResponse
                 {
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
 
-            // TODO
-            await Task.Yield();
-            return new AddBankAccountResponse
+            await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.PaymentAccount, request.Nickname);
+
+            return new AddPaymentAccountResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
                 RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
@@ -971,23 +890,84 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public async Task<AddCreditCardResponse> AddCreditCard(AddCreditCardRequest request)
+        public async Task<DeletePaymentAccountResponse> DeletePaymentAccount(DeletePaymentAccountRequest request)
         {
-            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Credit Card");
             if (!ModelState.IsValid)
             {
-                return new AddCreditCardResponse
+                var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Bank Account");
+
+                return new DeletePaymentAccountResponse
                 {
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
 
-            // TODO
-            await Task.Yield();
-            return new AddCreditCardResponse
+            await paymentService.DeletePaymentMethod(currentUser.StreamConnectCustomerId, request.PaymentAccountId);
+
+            return new DeletePaymentAccountResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
-                RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
+            };
+        }
+
+        #endregion
+
+        #region AutoPay
+
+        [HttpPost]
+        public async Task<GetAutoPayStatusResponse> GetAutoPayStatus(GetAutoPayStatusRequest request)
+        {
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            var autoPayStatus = await paymentService.GetAutoPayStatus(account);
+            if (autoPayStatus.PaymentMethodId == Guid.Empty) 
+            { 
+                autoPayStatus.PaymentMethodId = null; 
+            }
+
+            return new GetAutoPayStatusResponse
+            {
+                AccountNumber = request.AccountNumber,
+                AutoPay = autoPayStatus
+            };
+        }
+
+        [HttpPost]
+        public async Task<SetAutoPayResponse> SetAutoPay(SetAutoPayRequest request)
+        {
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            return new SetAutoPayResponse
+            {
+                IsSuccess = await paymentService.SetAutoPayStatus(account, new DomainModels.Payments.AutoPaySetting
+                    {
+                        IsEnabled = request.AutoPay.IsEnabled,
+                        PaymentMethodId = request.AutoPay.IsEnabled ? request.AutoPay.PaymentMethodId : Guid.Empty
+                    },
+                    request.SecurityCode)
+            };
+        }
+        
+        #endregion
+
+        #region Renewal
+
+        [HttpPost]
+        public async Task<SetupRenewalResponse> SetupRenewal(SetupRenewalRequest request)
+        {
+            if (currentUser.Accounts != null)
+            {
+                currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            }
+            var target = currentUser.Accounts.First(acct => acct.StreamConnectAccountId == request.AccountId);
+
+            await accountService.GetAccountDetails(target);
+            var subAccount = target.SubAccounts.First(acct => acct.Id == request.SubAccountId);
+
+            await enrollmentController.Initialize(null);
+
+            return new SetupRenewalResponse
+            {
+                IsSuccess = await enrollmentController.SetupRenewal(target, subAccount)
             };
         }
 

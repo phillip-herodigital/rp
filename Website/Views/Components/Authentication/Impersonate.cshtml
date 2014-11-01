@@ -1,0 +1,22 @@
+﻿<div ng-controller="ImpersonateUserCtrl">
+    <article class="grey-box auth">
+        <header>
+            <h2>@Html.Sitecore().Field("Header Text")</h2>
+        </header>
+
+        <div class="content">
+            <div class="item">
+                @Html.Sitecore().Field("Body Text")
+            </div>
+            <div class="item">
+                <ul>
+                    <li ng-repeat="username in usernames track by $index">
+                        <a href="#" ng-click="select(username)">{{ username }}</a>
+                    </li>
+                </ul>
+            </div>
+            
+        </div>
+    </article>
+</div>
+

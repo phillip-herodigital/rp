@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Payments
 {
+    [Serializable]
     public class PaymentResult
     {
         public string ConfirmationNumber { get; set; }

@@ -7,7 +7,7 @@ The Address Lookup Index Generator (StreamEnergy.LuceneServices.IndexGeneration.
 If you want to test locally but don't want to read the entire document:
 
 1. Find the "SHARYLAND\_UTILITIES\_FUL.zip" [on this page](http://mis.ercot.com/misapp/GetReports.do?reportTypeId=203) and download it to an empty directory.
-2. Run `StreamEnergy.LuceneServices.IndexGeneration.exe -d "{Website/Data/typeahead}" -s "{where you put the zip from step 1}" -f`
+2. Run `StreamEnergy.LuceneServices.IndexGeneration.exe -r ercot -d "{Website/Data/typeahead}" -s "{where you put the zip from step 1}" -f`
 3. Wait until it completes, then run your website.
 
 ## Before you run the Index Generator
@@ -39,11 +39,11 @@ After you have all the reports downloaded, there are two primary ways to build a
 
 ### Build a new Index
 
-    StreamEnergy.LuceneServices.IndexGeneration.exe -d .\typeahead -s ".\reports" -f
+    StreamEnergy.LuceneServices.IndexGeneration.exe -r ercot -d .\typeahead -s ".\reports" -f
 
 ### Update the Index
 
-    StreamEnergy.LuceneServices.IndexGeneration.exe -d .\typeahead -s ".\reports" --mindate 5/20/2014
+    StreamEnergy.LuceneServices.IndexGeneration.exe -r ercot -d .\typeahead -s ".\reports" --mindate 5/20/2014
 
 In this example, "5/20/2014" is the last date for which you want updates to apply.
 
@@ -53,6 +53,8 @@ The following is the help-screen output by the program itself.
 
     StreamEnergy.LuceneServices 1.0.0.0
     Copyright ©  2014
+
+	  -r, --region          Required. The region to run the index for. Examples: ercot, aglc.
     
       -d, --dest            Required. The destination folder for the Lucene index.
     
