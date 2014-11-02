@@ -207,12 +207,12 @@
                                     <div class="btn-group-options">
                                         <label>@Html.Sitecore().Field("Label - Select Device")</label>
                                         <div class="group">
-                                            <div class="item">
+                                            <div class="item group-col">
                                                 <select ng-model="phoneOptions.make" data-val="true" data-val-required>
                                                     <option value="apple">Apple</option>
                                                 </select>
                                             </div>
-                                            <div class="item">
+                                            <div class="item group-col">
                                                 <select ng-model="phoneOptions.model" data-val="true" data-val-required>
                                                     <option value="iphone">iPhone</option>
                                                 </select>
@@ -252,8 +252,8 @@
                                         <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
                                     </label>
                                     <div class="btn-group btn-group-options">
-                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'">@Html.Sitecore().Field("Assign New Number")</a>
-                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'">@Html.Sitecore().Field("Transfer My Number")</a>
+                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'" data-val="true" data-val-required>@Html.Sitecore().Field("Assign New Number")</a>
+                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'" data-val="true" data-val-required>@Html.Sitecore().Field("Transfer My Number")</a>
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
                                         <div class="button button-type-border">
