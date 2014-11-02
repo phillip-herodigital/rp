@@ -43,10 +43,8 @@
 
 ngApp.controller('MobileEnrollmentCompleteOrderSignatureModalCtrl', ['$scope', '$modalInstance', 'mobileEnrollmentService', function ($scope, $modalInstance, mobileEnrollmentService) {
 
-    console.log('ran');
-    $scope.cancel = function () {
-        console.log('ran2');
-        $modalInstance.dismiss('cancel');
+    $scope.submit = function () {
+        $modalInstance.close();
     };
 
 }]);

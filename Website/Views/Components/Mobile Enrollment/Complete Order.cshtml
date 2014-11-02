@@ -538,7 +538,7 @@
                                 {{ signatureModal.name }}
                             </div>
                         </div>
-                        <button type="submit">@Html.Sitecore().Field("Button - Accept Signature")</button>
+                        <button type="submit" ng-click="submit()">@Html.Sitecore().Field("Button - Accept Signature")</button>
                     </div>
                     <div class="tab-content" ng-show="signatureModal.selectedTab == 'draw'">
                         <div class="item">
@@ -551,7 +551,7 @@
                                 
                             </div>
                         </div>
-                        <button type="submit" ng-click="cancel()">@Html.Sitecore().Field("Button - Accept Signature")</button>
+                        <button type="submit" ng-click="submit()">@Html.Sitecore().Field("Button - Accept Signature")</button>
                     </div>
                 </form>
             </div>
