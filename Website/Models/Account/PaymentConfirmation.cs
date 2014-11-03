@@ -9,5 +9,6 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public string AccountNumber { get; set; }
         public string PaymentConfirmationNumber { get; set; }
+        public decimal ConvenienceFee { get; set; }
     }
 }

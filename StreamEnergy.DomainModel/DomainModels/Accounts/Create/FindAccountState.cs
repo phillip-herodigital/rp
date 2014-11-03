@@ -4,18 +4,22 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StackExchange.Redis;
 using StreamEnergy.Processes;
 
 namespace StreamEnergy.DomainModels.Accounts.Create
 {
     public class FindAccountState : StateBase<CreateAccountContext, CreateAccountInternalContext>
     {
-        private IAccountService service;
+        private readonly IAccountService service;
+        private readonly IDatabase redis;
+        private const string redisPrefix = "CreateOnlineAccount_FindAccount_";
 
-        public FindAccountState(IAccountService service)
+        public FindAccountState(IAccountService service, IDatabase redis)
             : base(null, typeof(AccountInformationState))
         {
             this.service = service;
+            this.redis = redis;
         }
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<CreateAccountContext, object>>> PreconditionValidations(CreateAccountContext data, CreateAccountInternalContext internalContext)
@@ -26,30 +30,45 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
         public override IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            // TODO - replace this test to verify that an online account doesn't already exist
-            if (context.AccountNumber == "1234")
+            var value = (int?) redis.StringGet(redisPrefix + context.AccountNumber);
+            if (value != null && value >= 5)
             {
-                yield return new ValidationResult("Online Account Already Exists", new[] { "AccountNumber" });
+                // locked out after 5 tries
+                yield return new ValidationResult("Account Locked", new[] { "AccountNumber" });
             }
         }
 
-        protected override Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
+        protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            // TODO - load from service
-            context.Customer = new CustomerContact
+            internalContext.Account = await service.GetAccountDetails(context.AccountNumber);
+            if (internalContext.Account != null && internalContext.Account.Details.SsnLastFour != context.SsnLastFour)
             {
-                Name = new Name { First = "John", Last = "Smith" },
-                Phone = new Phone[] { /*new Phone { Number = "555-555-4545" }*/ },
-                Email = new Email { Address = "test@example.com" }
-            };
-            context.Address = new Address
+                internalContext.Account = null;
+                await redis.StringIncrementAsync(redisPrefix + context.AccountNumber);
+                await redis.KeyExpireAsync(redisPrefix + context.AccountNumber, TimeSpan.FromMinutes(30));
+            }
+
+            if (internalContext.Account == null)
             {
-                Line1 = "123 Test Ave",
-                City = "Dallas",
-                StateAbbreviation = "TX",
-                PostalCode5 = "75201"
-            };
-            return base.InternalProcess(context, internalContext);
+                // account not found
+                return this.GetType();
+            }
+
+            await service.GetAccountDetails(internalContext.Account);
+
+            context.Customer = internalContext.Account.Details.ContactInfo;            
+            context.Address = internalContext.Account.Details.BillingAddress;
+            return await base.InternalProcess(context, internalContext);
+        }
+
+        public override bool ForceBreak(CreateAccountContext context, CreateAccountInternalContext internalContext)
+        {
+            if (internalContext.Account == null)
+            {
+                // account not found
+                return true;
+            }
+            return base.ForceBreak(context, internalContext);
         }
     }
 }

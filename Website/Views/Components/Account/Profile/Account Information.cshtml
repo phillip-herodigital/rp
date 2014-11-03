@@ -14,63 +14,22 @@
                 {{ formData.customerName.first }} {{ formData.customerName.last }}
             </div>
             <div class="group">
-                <div class="item group-col" @Html.Validation().ErrorClass(model => model.PrimaryPhone.Number) float-label>
-                    <label for="@Html.IdFor(m => m.PrimaryPhone.Number)">@Html.Sitecore().Field("Primary Phone Number Text")</label>
-                    @Html.TextBoxFor(m => m.PrimaryPhone.Number, new { type="tel", ng_model="formData.primaryPhone.number" })
-                    @Html.ValidationMessageFor(model => model.PrimaryPhone.Number)
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.MobilePhone.Number) float-label>
+                    <label for="@Html.IdFor(m => m.MobilePhone.Number)">@Html.Sitecore().Field("Mobile Phone Number Text")</label>
+                    @Html.TextBoxFor(m => m.MobilePhone.Number, new { type="tel", ng_model="formData.mobilePhone.number" })
+                    @Html.ValidationMessageFor(model => model.MobilePhone.Number)
                 </div>
-                <div class="item group-col">
-                    <label for="@Html.IdFor(m => m.PrimaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                    @Html.DropDownListFor(m => m.PrimaryPhone.Category,
-                                                        new SelectListItem[] { },
-                                                        new
-                                                        {
-                                                            ng_model = "formData.primaryPhone.category",
-                                                            ng_options = "type.name as type.display for type in phoneTypes"
-                                                        })
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.HomePhone.Number) float-label>
+                    <label for="@Html.IdFor(m => m.HomePhone.Number)">@Html.Sitecore().Field("Home Phone Number Text")</label>
+                    @Html.TextBoxFor(m => m.HomePhone.Number, new { type = "tel", ng_model = "formData.homePhone.number" })
+                    @Html.ValidationMessageFor(model => model.HomePhone.Number)
                 </div>
             </div>
-            <div ng-switch="formDataOriginal.secondaryPhone.number.length || false">
-                <div class="additional-fields" ng-switch-when="false" additional-fields>
-                    <div class="additional-field-action" ng-hide="formDataOriginal.secondaryPhone.number">
-                        <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Additional Phone Text")</a>
-                    </div>
-                    <div class="group additional-field-group additional-fields">
-                        <div class="group">
-                            <div class="item group-col" @Html.Validation().ErrorClass(model => model.SecondaryPhone.Number) float-label>
-                                <label for="@Html.IdFor(m => m.SecondaryPhone.Number)">@Html.Sitecore().Field("Secondary Phone Number Text")</label>
-                                @Html.TextBoxFor(m => m.SecondaryPhone.Number, new { type = "tel", ng_model = "formData.secondaryPhone.number", data_val_if = "formData.secondaryPhone.number" })
-                                @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
-                            </div>
-                            <div class="item group-col">
-                                <label for="@Html.IdFor(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>                                
-                                @Html.DropDownListFor(m => m.SecondaryPhone.Category,
-                                                        new SelectListItem[] { },
-                                                        new
-                                                        {
-                                                            ng_model = "formData.secondaryPhone.category",
-                                                            ng_options = "type.name as type.display for type in phoneTypes"
-                                                        })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="group" ng-switch-default>
-                    <div class="item group-col" @Html.Validation().ErrorClass(model => model.SecondaryPhone.Number) float-label>
-                        <label for="@Html.IdFor(m => m.SecondaryPhone.Number)">@Html.Sitecore().Field("Secondary Phone Number Text")</label>
-                        @Html.TextBoxFor(m => m.SecondaryPhone.Number, new { type = "tel", ng_model = "formData.secondaryPhone.number", data_val_if = "formData.secondaryPhone.number" })
-                        @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
-                    </div>
-                    <div class="item group-col">
-                        <label for="@Html.IdFor(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>                               
-                        @Html.DropDownListFor(m => m.SecondaryPhone.Category,
-                                                new SelectListItem[] { },
-                                                new
-                                                {
-                                                    ng_model = "formData.secondaryPhone.category",
-                                                    ng_options = "type.name as type.display for type in phoneTypes"
-                                                })
-                    </div>
+            <div class="group">
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Email.Address) float-label>
+                    <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
+                    @Html.TextBoxFor(m => m.Email.Address, new { type = "tel", ng_model = "formData.email.address" })
+                    @Html.ValidationMessageFor(model => model.Email.Address)
                 </div>
             </div>
             <hr class="content-divider" />
@@ -84,7 +43,7 @@
                 </ul>
                 <div class="billing-address-container" ng-switch="formData.sameAsService">
                     <div class="billing-address" ng-switch-when="true">
-                        {{ formData.serviceAddress.line1 }}<br>
+                        {{ formData.serviceAddress.line1 }} {{ formData.serviceAddress.line2 }}<br>
                         {{ formData.serviceAddress.city }}, {{ formData.serviceAddress.stateAbbreviation }} {{ formData.serviceAddress.postalCode5 }}
                     </div>
                     <div ng-switch-when="false">

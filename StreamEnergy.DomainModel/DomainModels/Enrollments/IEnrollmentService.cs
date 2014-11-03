@@ -14,7 +14,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<PremiseVerificationResult> VerifyPremise(Location location);
 
-        Task<IConnectDatePolicy> LoadConnectDates(Location location);
+        Task<IConnectDatePolicy> LoadConnectDates(Location location, IOffer offer);
 
         Task<bool> IsBlockedSocialSecurityNumber(string ssn);
 
@@ -23,6 +23,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
 
         Task<StreamAsync<EnrollmentSaveResult>> BeginSaveUpdateEnrollment(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveResult, UserContext context, NameValueCollection dpiParameters, IEnumerable<LocationOfferDetails<OfferPayment>> offerPayments);
+
+        Task<bool> DeleteEnrollment(Guid globalCustomerId, Guid enrollmentAccountId);
 
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
@@ -36,10 +38,13 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<IEnumerable<LocationOfferDetails<Payments.PaymentResult>>> PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, Payments.IPaymentInfo paymentInfo, UserContext context);
 
-        Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations);
+        Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(IEnumerable<LocationServices> services, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations, InternalContext internalContext);
 
 
         Task<PlaceOrderResult> PlaceCommercialQuotes(UserContext context);
+
+        Task<StreamAsync<RenewalResult>> BeginRenewal(Accounts.Account account, Accounts.ISubAccount subAccount, Enrollments.Renewal.OfferOption renewalOptions);
+        Task<StreamAsync<RenewalResult>> EndRenewal(StreamAsync<RenewalResult> asyncResult);
 
     }
 }

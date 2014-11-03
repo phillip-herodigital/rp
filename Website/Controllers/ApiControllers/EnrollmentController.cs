@@ -85,9 +85,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Location = new Location 
                     { 
                         Address = new Address { Line1 = "3620 Huffines Blvd", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                        Capabilities = new IServiceCapability[] { new TexasServiceCapability { EsiId = "123FAKE456", Tdu = "ONCOR" }, new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
+                        Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
                     },
-                    SelectedOffers = new SelectedOffer[] { }
+                    SelectedOffers = new SelectedOffer[] 
+                    { 
+                        new SelectedOffer 
+                        { 
+                            Offer = new DomainModels.Enrollments.Renewal.Offer 
+                            { 
+                                RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty) 
+                                { 
+                                } 
+                            } 
+                        }
+                    }
                 }
             };
             await stateHelper.StateMachine.Process();
@@ -95,6 +106,40 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var response = Request.CreateResponse(HttpStatusCode.Found);
             response.Headers.Location = new Uri(Request.RequestUri, "/enrollment");
             return response;
+        }
+
+        [NonAction]
+        public async Task<bool> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
+        {
+            stateHelper.Reset();
+            await stateHelper.EnsureInitialized();
+            stateHelper.State = typeof(ServiceInformationState);
+            stateHelper.Context.IsRenewal = true;
+            stateHelper.Context.Services = new LocationServices[]
+            {
+                new LocationServices 
+                { 
+                    Location = new Location 
+                    { 
+                        Address = account.SubAccounts.First().ServiceAddress,
+                        Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
+                    },
+                    SelectedOffers = new SelectedOffer[] 
+                    { 
+                        new SelectedOffer 
+                        { 
+                            Offer = new DomainModels.Enrollments.Renewal.Offer 
+                            { 
+                                RenewingAccount = account,
+                                RenewingSubAccount = subAccount
+                            } 
+                        }
+                    }
+                }
+            };
+            await stateHelper.StateMachine.Process();
+
+            return true;
         }
 
         /// <summary>
@@ -110,6 +155,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
+            var paymentConfirmations = stateMachine.InternalContext.PaymentResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
+            var renewalConfirmations = (stateMachine.InternalContext.RenewalResult != null ? stateMachine.InternalContext.RenewalResult.Data : null) ?? new RenewalResult();
             var standardValidation = (currentFinalStates.Contains(stateMachine.State) ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
             IEnumerable<ValidationResult> supplementalValidation;
             var expectedState = ExpectedState(out supplementalValidation);
@@ -119,7 +166,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
                 || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
-                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted);
+                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
+                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted);
 
             return new ClientData
             {
@@ -155,8 +203,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                OfferOption = selectedOffer.OfferOption,
                                                                                OptionRules = optionRules.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
                                                                                Payments = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
-                                                                               ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.IsSuccess).SingleOrDefault(),
+                                                                               ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id)
+                                                                                    .Where(entry =>
+                                                                                    {
+                                                                                        var paymentConfirmation = paymentConfirmations.Where(pc => pc.Location == entry.Location && pc.Offer.Id == entry.Offer.Id).SingleOrDefault();
+                                                                                        if (paymentConfirmation == null)
+                                                                                            return true;
+                                                                                        return !string.IsNullOrEmpty(paymentConfirmation.Details.ConfirmationNumber);
+                                                                                    })
+                                                                                    .Select(entry => entry.Details.IsSuccess).SingleOrDefault()
+                                                                                    || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
+                                                                                    ?? renewalConfirmations.ConfirmationNumber
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
                                                                    where entry.Key == offerType
@@ -303,6 +361,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 var context = stateHelper.Context;
                 var internalContext = stateHelper.InternalContext;
+                context.SelectedIdentityAnswers = null;
                 stateHelper.Reset();
                 stateHelper.Context = context;
                 stateHelper.InternalContext = internalContext;
@@ -338,10 +397,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             if (stateMachine.InternalContext.EnrollmentSaveState != null && stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
             {
-                stateHelper.State = typeof(AccountInformationState);
-                await Initialize();
+                await ResetPreAccountInformation();
             }
-            await ResetPreAccountInformation();
 
             MapCartToServices(request);
 

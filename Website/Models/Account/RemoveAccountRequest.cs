@@ -7,6 +7,6 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class RemoveAccountRequest
     {
-        public string AccountNumber { get; set; }
+        public Guid AccountId { get; set; }
     }
 }

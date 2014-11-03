@@ -43,17 +43,17 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (!internalContext.CreditCheck.IsCompleted)
+            if (!context.IsRenewal && !internalContext.CreditCheck.IsCompleted)
             {
                 internalContext.CreditCheck = await enrollmentService.EndCreditCheck(internalContext.CreditCheck);
             }
-            if (!internalContext.IdentityCheck.IsCompleted || !internalContext.CreditCheck.IsCompleted)
+            if (!context.IsRenewal && (!internalContext.IdentityCheck.IsCompleted || !internalContext.CreditCheck.IsCompleted))
             {
                 return this.GetType();
             }
-            else if (!internalContext.IdentityCheck.Data.HardStop.HasValue)
+            else if (context.IsRenewal || !internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
-                if (internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
+                if (context.IsRenewal || internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
                 {
                     context.SelectedIdentityAnswers = new Dictionary<string, string>();
                     return typeof(LoadDespositInfoState);
@@ -68,11 +68,14 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
-            return internalContext.IdentityCheck == null || !internalContext.IdentityCheck.IsCompleted || (!internalContext.IdentityCheck.Data.IdentityAccepted && internalContext.IdentityCheck.Data.HardStop != null);
+            return !context.IsRenewal && (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.IsCompleted || (!internalContext.IdentityCheck.Data.IdentityAccepted && internalContext.IdentityCheck.Data.HardStop != null));
         }
 
         protected override async Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
+            if (context.IsRenewal)
+                return;
+
             if (internalContext.IdentityCheck == null)
             {
                 if (await enrollmentService.IsBlockedSocialSecurityNumber(ssn: context.SocialSecurityNumber))
@@ -90,7 +93,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
                 if (internalContext.GlobalCustomerId == Guid.Empty)
                 {
-                    internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
+                    var customer = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
+                    internalContext.GlobalCustomerId = customer.GlobalCustomerId;
                 }
                 internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.MailingAddress);
                 internalContext.CreditCheck = await enrollmentService.BeginCreditCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.PreviousAddress ?? context.MailingAddress);
@@ -106,7 +110,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
-            return !internalContext.IdentityCheck.IsCompleted || !internalContext.CreditCheck.IsCompleted;
+            return !context.IsRenewal && (!internalContext.IdentityCheck.IsCompleted || !internalContext.CreditCheck.IsCompleted);
         }
     }
 }

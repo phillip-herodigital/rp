@@ -19,12 +19,12 @@
                                 <option value="">All</option>
                             </select>
                         </div>
-                        <div class="item">
+                        @*<div class="item">
                             <label for="Status">@Html.Sitecore().Field("Status Text")</label>
                             <select id="Status" ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
                                 <option value="">All</option>
                             </select>
-                        </div>
+                        </div>*@
                         <div class="actions" ng-show="isFiltered()">
                             <p><a href="" ng-click="resetFilters()">@Html.Sitecore().Field("Reset Filters Text")</a></p>
                         </div>
@@ -47,11 +47,11 @@
                                 {{ item.serviceType }}
                             </td>
                             <td ng-show="showColumn('invoiceNumber')">{{ item.invoiceNumber }}</td>
-                            <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount }}</td>
-                            <td ng-show="showColumn('dueDate')">{{ item.dueDate }}</td>
+                            <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount | currency }}</td>
+                            <td ng-show="showColumn('dueDate')">{{ item.dueDate | date:'MM/dd/yyyy' }}</td>
                             <td ng-show="showColumn('action')">
-                                <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
-                                <button class="submit" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</button>
+                                <a class="button secondary" ng-if="item.actions.viewPdf" ng-href="{{item.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a>
+                                <a class="button" href="~/account/payments" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</a>
                                 <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
                             </td>
                         </tr>
@@ -59,8 +59,8 @@
                             <td colspan="{{table.columnList.length+1}}">
                                 <p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
                                     <span ng-switch-when="action">
-                                        <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
-                                        <button ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</button>
+                                        <a class="button secondary" ng-if="item.actions.viewPdf" ng-href="{{item.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a>
+                                        <a class="button" href="~/account/payments" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</a>
                                     </span>
                                     <span ng-switch-default>
                                         <strong>{{ column.displayName }}:</strong> {{ item[column.field] }}

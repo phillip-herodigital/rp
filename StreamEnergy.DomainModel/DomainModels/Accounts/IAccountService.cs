@@ -9,12 +9,9 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public interface IAccountService
     {
-        Task<IEnumerable<Account>> GetInvoices(Guid globalCustomerId);
-        Task<IEnumerable<Account>> GetCurrentInvoices(Guid globalCustomerId);
-        Task<IEnumerable<Account>> GetAccountBalances(Guid globalCustomerId);
-        Task<IEnumerable<Payments.SavedPaymentInfo>> GetSavedPaymentMethods(Guid globalCustomerId);
-        Task<MakePaymentResult> MakePayment(string account, decimal amount, Payments.IPaymentInfo paymentMethod, DateTime paymentDate);
-        Task<Account> GetCurrentInvoice(string accountNumber);
+        Task<IEnumerable<Account>> GetInvoices(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects = null);
+        Task<Uri> GetInvoicePdf(Account account, Invoice invoice);
+        Task<IEnumerable<Account>> GetAccountBalances(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects = null, bool forceRefresh = false);
 
         string GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber);
 
@@ -26,13 +23,20 @@ namespace StreamEnergy.DomainModels.Accounts
 
 
 
-        Task<Guid> CreateStreamConnectCustomer(string portalId = null, string email = null);
-
-        Task<string> GetEmailByCustomerId(Guid globalCustomerId);
+        Task<Customer> CreateStreamConnectCustomer(string providerKey = null, string email = null, string username = null);
+        Task<Customer> GetCustomerByCustomerId(Guid globalCustomerId);
+        Task<bool> UpdateCustomer(Customer customer);
+        Task<IEnumerable<Customer>> FindCustomers(string emailAddress);
+        Task<IEnumerable<Customer>> FindCustomersByCisAccount(string accountNumber);
 
         Task<IEnumerable<Account>> GetAccounts(Guid globalCustomerId);
-        Task<Guid> AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname);
-        Task<bool> DisassociateAccount(Guid globalCustomerId, Guid accountId);
-        Task<AccountDetails> GetAccountDetails(Guid globalCustomerId, Guid accountId);
+        Task<Account> AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname);
+        Task<bool> DisassociateAccount(Account account);
+        Task<bool> GetAccountDetails(Account account, bool forceRefresh = false);
+        Task<Account> GetAccountDetails(string accountNumber);
+
+        Task<bool> SetAccountDetails(Account acct, AccountDetails accountDetails);
+
+        Task<bool> CheckRenewalEligibility(Account account, ISubAccount subAccount, bool forceRefresh = false);
     }
 }

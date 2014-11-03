@@ -44,7 +44,7 @@ namespace StreamEnergy
             // we don't need to check security settings for reading the item
             using (new SecurityDisabler())
             {
-                var baseItem = Sitecore.Context.Database.SelectSingleItem("fast://sitecore/content/data/Settings/" + relativePath);
+                var baseItem = Sitecore.Context.Database.GetItem("/sitecore/content/data/Settings/" + relativePath);
                 if (baseItem == null)
                     yield break;
                 var child = baseItem.Axes.GetChild(environment);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
+    [Serializable]
     public class ExternalPaymentAccountCapability : IAccountCapability
     {
         public const string Qualifier = "ExternalPayment";

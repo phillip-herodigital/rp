@@ -10,14 +10,11 @@
 	<header>
 		<h2>@Html.Sitecore().Field("Header Text")</h2>
 	</header>
-    <form ng-submit="createLogin()" val-bind-messages="validations">
-        <div class="content">
+    <form ng-submit="createLogin()" data-val-bind-messages="validations">
+        <div class="content" loading-indicator>
             @Html.ValidationSummary()
-
             <h3>@Html.Sitecore().Field("Personal Header Text")</h3>
-
             @Html.Sitecore().Field("Body Text")
-
             <dl class="clearfix">
                 <dt>@Html.Sitecore().Field("Name Label")</dt>
                 <dd>{{ customer.name.first }} {{ customer.name.last }}</dd>
@@ -34,44 +31,41 @@
                 <dt>@Html.Sitecore().Field("SSN Label")</dt>
                 <dd>{{ssnLastFour }}</dd>
             </dl>
-
             <hr class="content-divider">
-            
+
             <!--NOT SUPPORTING SOCIAL SIGN IN AT FIRST
-            <h3>@Html.Sitecore().Field("Social Header Text")</h3>
+        <h3>@Html.Sitecore().Field("Social Header Text")</h3>
 
-            <ul class="social-login clearfix">
-                <li>
-                    <a href="#" class="button social facebook">
-                        <span class="icon-holder"><i class="icon-facebook"></i></span> Facebook
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="button social twitter">
-                        <span class="icon-holder"><i class="icon-twitter"></i></span> Twitter
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="button social linkedin">
-                        <span class="icon-holder"><i class="icon-linkedin"></i></span> LinkedIn
-                    </a>
-                </li>
-            </ul>
+        <ul class="social-login clearfix">
+            <li>
+                <a href="#" class="button social facebook">
+                    <span class="icon-holder"><i class="icon-facebook"></i></span> Facebook
+                </a>
+            </li>
+            <li>
+                <a href="#" class="button social twitter">
+                    <span class="icon-holder"><i class="icon-twitter"></i></span> Twitter
+                </a>
+            </li>
+            <li>
+                <a href="#" class="button social linkedin">
+                    <span class="icon-holder"><i class="icon-linkedin"></i></span> LinkedIn
+                </a>
+            </li>
+        </ul>
 
-            <div class="text-content-divider">@Html.Sitecore().Field("And Divider Text")</div>
-            -->
-
+        <div class="text-content-divider">@Html.Sitecore().Field("And Divider Text")</div>
+        -->
             <h3>@Html.Sitecore().Field("Create Header Text")</h3>
-
             <div class="item" @Html.Validation().ErrorClass(model => model.Username)>
                 <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
-                @Html.TextBoxFor(m => m.Username, new { ng_model = "formData.username" })
+                <input type="text" id="Username" name="Username" ng-model="formData.username" data-val="true" data-val-required data-val-notequalto data-val-notequalto-other="@Html.NameFor(m => m.Password)">
                 @Html.ValidationMessageFor(model => model.Username)
             </div>
             <div class="group">
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Password)>
                     <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
-                    @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password" })
+                    @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password", data_val_notequalto = "", data_val_notequalto_other = "Username" })
                     @Html.ValidationMessageFor(model => model.Password)
                     <span class="help-text">@Html.Sitecore().Field("Password Help Text")</span>
                 </div>
@@ -81,38 +75,35 @@
                     @Html.ValidationMessageFor(model => model.ConfirmPassword)
                 </div>
             </div>
-
             <hr class="content-divider">
-
             <div class="group">
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="question-1">@Html.Sitecore().Field("Question 1 Label")</label>
-                    <select id="question-1" ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter2 track by question.id">
+                    <select id="question-1" ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter2 track by question.id" data-val="true" data-val-required>
                         <option value="">@Html.Sitecore().Field("Select Question Text")</option>
                     </select>
                     @Html.ValidationMessageFor(model => model.Challenges)
-                    <span class="help-text hide-medium-large">{{ formData.challenges[0].selectedQuestion.text }}</span> 
+                    <span class="help-text hide-medium-large">{{ formData.challenges[0].selectedQuestion.text }}</span>
                 </div>
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="answer-1">@Html.Sitecore().Field("Question 1 Answer Label")</label>
-                    <input type="text" name="answer-1" id="answer-1" ng-model="formData.challenges[0].answer">
+                    <input type="text" name="answer-1" id="answer-1" ng-model="formData.challenges[0].answer" data-val="true" data-val-required data-val-length="" data-val-length-min="4">
                     <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
                     @Html.ValidationMessageFor(model => model.Challenges)
                 </div>
             </div>
-
             <div class="group">
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="question-2">@Html.Sitecore().Field("Question 2 Label")</label>
-                    <select id="question-2" ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter1 track by question.id">
+                    <select id="question-2" ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter1 track by question.id" data-val="true" data-val-required >
                         <option value="">@Html.Sitecore().Field("Select Question Text")</option>
                     </select>
                     @Html.ValidationMessageFor(model => model.Challenges)
-                    <span class="help-text hide-medium-large">{{ formData.challenges[1].selectedQuestion.text }}</span> 
+                    <span class="help-text hide-medium-large">{{ formData.challenges[1].selectedQuestion.text }}</span>
                 </div>
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="answer-2">@Html.Sitecore().Field("Question 2 Answer Label")</label>
-                    <input type="text" name="answer-2" id="answer-2" ng-model="formData.challenges[1].answer">
+                    <input type="text" name="answer-2" id="answer-2" ng-model="formData.challenges[1].answer" data-val="true" data-val-required data-val-length="" data-val-length-min="4">
                     <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
                     @Html.ValidationMessageFor(model => model.Challenges)
                 </div>

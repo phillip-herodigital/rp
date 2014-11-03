@@ -9,6 +9,9 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 {
     class Options
     {
+        [Option('r', "region", Required=true, HelpText="The region to run the index for. Examples: ercot, aglc.")]
+        public string Region { get; set; }
+
         [Option('d', "dest", Required=true, HelpText="The destination folder for the Lucene index.")]
         public string Destination { get; set; }
 

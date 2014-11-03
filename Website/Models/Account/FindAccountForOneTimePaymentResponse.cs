@@ -7,6 +7,7 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class FindAccountForOneTimePaymentResponse
     {
+        public bool Success { get; set; }
         public AccountToPay Account { get; set; }
     }
 }

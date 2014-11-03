@@ -27,6 +27,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
     var enrollmentCartService = {
         services: services,
 
+        getActiveServiceIndex: function() {
+            return cart.activeServiceIndex;
+        },
+
         toggleCart: function() {
             cart.isCartOpen = !cart.isCartOpen;
             scrollService.toggleScrolling(cart.isCartOpen);
@@ -182,8 +186,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         cartHasTDU: function (tdu) {
             return _(services)
                .map(function (l) {
-                   return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
+                   if (l.location.address.stateAbbreviation == "TX") {
+                       return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
+                   }
                }).contains(tdu);
+        },
+        cartHasTxLocation: function () {
+            return _(services)
+               .map(function (l) {
+                   return l.location.address.stateAbbreviation;
+               }).contains('TX');
         },
         locationHasService: function (location) {
             if (!location.offerInformationByType)

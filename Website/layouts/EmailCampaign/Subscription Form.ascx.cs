@@ -286,7 +286,7 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
       }
       catch (ProviderException e)
       {
-        this.Warning.InnerText = Util.GetFrontEndText("email in use");
+        this.Warning.InnerText = Util.GetFrontEndText("email in use - " + e.Message);
       }
       catch (Exception e)
       {

@@ -10,5 +10,6 @@ namespace StreamEnergy.Services.Clients.StreamConnect
         public Guid GlobalCustomerId { get; set; }
         public string PortalId { get; set; }
         public string EmailAddress { get; set; }
+        public string UserName { get; set; }
     }
 }

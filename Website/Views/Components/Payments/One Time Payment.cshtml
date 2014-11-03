@@ -1,11 +1,17 @@
 @model StreamEnergy.MyStream.Models.Account.MakeOneTimePaymentRequest
 <div ng-controller="OneTimePaymentCtrl as ctrl">
-	<article class="grey-box payments form">
+	<article class="grey-box payments form" loading-indicator>
 		<header>
 			<h2>@Html.Sitecore().Field("Header Text")</h2>
 		</header>
 		<form data-val-bind-messages="validations"  ng-if="ctrl.activeStep == 1" ng-submit="ctrl.lookupAccount()">
 			<div class="content">
+                <div ng-show="ctrl.errorMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Error Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
 				@Html.Sitecore().Field("Body Text")
 
 				<div class="item" @Html.Validation().ErrorClass(m => m.AccountNumber)>
@@ -27,7 +33,7 @@
 					<dt>@Html.Sitecore().Field("Account Number Label"):</dt>
 					<dd>{{ ctrl.account.accountNumber }}</dd>
 					<dt>@Html.Sitecore().Field("Balance Text"):</dt>
-					<dd>{{ ctrl.account.invoiceAmount | currency }}</dd>
+					<dd>{{ ctrl.account.amountDue | currency }}</dd>
 				</dl>
 
                 <div class="item" @Html.Validation().ErrorClass(m => m.CustomerName)>
@@ -42,7 +48,7 @@
 
 				<div class="item" @Html.Validation().ErrorClass(m => m.TotalPaymentAmount)>
                     <label for="@Html.IdFor(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Label"):</label>
-                    $ @Html.TextBoxFor(m => m.TotalPaymentAmount, new { ng_model = "ctrl.totalPaymentAmount", @class = "small", data_currency_input = "" })
+                    $ @Html.TextBoxFor(m => m.TotalPaymentAmount, new { ng_model = "ctrl.paymentAmount", @class = "small", data_currency_input = "" })
 				</div>
 
 				
@@ -55,9 +61,9 @@
                         </div>
                         <div ng-show="ctrl.newPaymentMethodType == 'TokenizedCard'" class="payment-options" credit-card-payment="ctrl.newPaymentMethod['TokenizedCard']" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'"></div>
                         <div class="payment-selection">
-                            <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="BankPaymentMethod" ng-required="true"><label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
+                            <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="TokenizedBank" ng-required="true"><label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
                         </div>
-                        <div ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" class="payment-options" bank-account-payment="ctrl.newPaymentMethod['BankPaymentMethod']" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'"></div>
+                        <div ng-show="ctrl.newPaymentMethodType == 'TokenizedBank'" class="payment-options" bank-account-payment="ctrl.newPaymentMethod['TokenizedBank']" data-val-if="ctrl.newPaymentMethodType == 'TokenizedBank'"></div>
                     </div>
                 </fieldset>
 			</div>
@@ -83,7 +89,7 @@
                         <dt>@Html.Sitecore().Field("Card Number Text"):</dt>
                         <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
-                    <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
+                    <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedBank">
                         <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
                         <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text"):</dt>
@@ -95,13 +101,13 @@
 					<dt>@Html.Sitecore().Field("Payment Date Text"):</dt>
 					<dd>{{ ctrl.selectedDate | date:'MM/dd/yyyy' }}</dd>
 					<dt>@Html.Sitecore().Field("Payment Amount Text"):</dt>
-					<dd>{{ctrl.totalPaymentAmount | currency}}</dd>
-					@*<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
-					<dd>$2.95</dd>*@
+					<dd>{{ctrl.paymentAmount | currency}}</dd>
+					<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
+					<dd>$2.95</dd>
 				</dl>
 				<dl class="clearfix module-list payment-total">
 					<dt>@Html.Sitecore().Field("Payment Total Text"):</dt>
-					<dd>{{ctrl.totalPaymentAmount | currency}}</dd>
+					<dd>{{ctrl.totalCharge | currency}}</dd>
 				</dl>
 			</div>
 			<footer>
@@ -127,7 +133,7 @@
                         <dt>@Html.Sitecore().Field("Card Number Text"):</dt>
                         <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
-                    <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
+                    <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedBank">
                         <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
                         <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text"):</dt>
@@ -139,13 +145,13 @@
 					<dt>@Html.Sitecore().Field("Payment Date Text"):</dt>
 					<dd>{{ ctrl.selectedDate | date:'MM/dd/yyyy' }}</dd>
 					<dt>@Html.Sitecore().Field("Payment Amount Text"):</dt>
-                    <dd>{{ctrl.totalPaymentAmount | currency}}</dd>
-					@*<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
-					<dd>$2.95</dd>*@
+                    <dd>{{ctrl.paymentAmount | currency}}</dd>
+					<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
+					<dd>$2.95</dd>
 				</dl>
 				<dl class="clearfix module-list payment-total">
 					<dt>@Html.Sitecore().Field("Payment Total Text"):</dt>
-                    <dd>{{ctrl.totalPaymentAmount | currency}}</dd>
+                    <dd>{{ctrl.totalCharge | currency}}</dd>
 				</dl>
 			</div>
 			<footer>

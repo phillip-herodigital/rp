@@ -5,6 +5,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
     $scope.customerType = '';
     $scope.confirmationSuccess = false;
+    $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
 
     $scope.onPrint = function() {
         window.print();
