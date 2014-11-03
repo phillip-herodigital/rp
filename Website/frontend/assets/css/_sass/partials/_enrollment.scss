@@ -150,7 +150,7 @@ $enrollment-module-vertical-padding: 20px;
 
     .footnotes {
         clear: both;
-        padding-top: 20px;
+        font-size: 14px;
     }
 
     .time-remaining-mobile {
@@ -173,6 +173,17 @@ $enrollment-module-vertical-padding: 20px;
 
     .terms-agreement {
         margin-bottom: 20px;
+        div.terms {
+            margin-top: 10px;
+            height: 65px;
+            overflow-y: scroll;
+            padding: 5px;
+            border: 1px solid #e9e9e9;
+            background: #f8f8f8;
+            :first-child {
+                margin-top: 0;
+            }
+        }
     }
 
     .verify-order-table {
@@ -485,6 +496,11 @@ $enrollment-module-vertical-padding: 20px;
         }
         .input-group-btn {
             vertical-align: bottom;
+        }
+    }
+    &.plain-text {
+        .content {
+            padding-bottom: 13px;
         }
     }
 }
@@ -1025,16 +1041,8 @@ $enrollment-module-vertical-padding: 20px;
     .terms-agreement {
         .item {
             padding-right: 0;
-            div.terms {
-                margin-top: 10px;
-                height: 65px;
-                overflow-y: scroll;
-                padding: 5px;
-                border: 1px solid #e9e9e9;
-                background: #f8f8f8;
-                p:first-child {
-                    margin-top: 0;
-                }
+            .terms {
+                margin-bottom: 10px;
             }
         }
     }
@@ -1200,6 +1208,9 @@ $enrollment-module-vertical-padding: 20px;
         &:first-child {
             padding-top: 0;
         }
+        &:last-child {
+            border-bottom: 0;
+        }
         h2 {
             margin-top: 0;
             color: #333;
@@ -1215,6 +1226,12 @@ $enrollment-module-vertical-padding: 20px;
         &:last-child {
             margin-bottom: 0;
         }
+        /*span.details {
+            font-size: 14px;
+        }
+        .options {
+            margin-top: 15px;
+        }*/
     }
     .delete {
         cursor: pointer;
@@ -1494,15 +1511,28 @@ $enrollment-module-vertical-padding: 20px;
             float: left;
             font-weight: 600;
         }
-        .model {
-            font-weight: 600;
-        }
         .rate {
             text-align: right;
             float: right;
         }
+        .total {
+            margin-top: 10px;
+            padding: 10px 0;
+            border-top: 1px solid #eaeaea;
+            text-align: right;
+        }
         h2 {
             margin-bottom: 0;
+        }
+        &.order-summary {
+            h2 {
+                margin-bottom: 10px;
+            }
+            .cart-product:first-child {
+                margin-top: 0;
+                padding-top: 0;
+                border-top: 0;
+            }
         }
 
     }
@@ -1540,35 +1570,49 @@ $enrollment-module-vertical-padding: 20px;
 }
 
 .enrollment__choose-network {
-    .update-link {
+    header {
+        select {
+            font-size: 16px;
+            width: auto;
+        }
+    }
+    /*.update-link {
         font-size: 15px;
         color: #257ab3;
         &:hover {
             background: transparent;
         }
-    }
+    }*/
     .no-networks-available {
         .stretch-full {
             background: #f7f7f7;
             @include border-radius(0 0 10px 10px);
         }
         .col {
-            padding: 0 30px 0 130px;
+            padding: 0 30px 0 80px;
             position: relative;
-            &:first-child {
-                border-right: 1px solid $enrollment-light-border-color;
+            border-right: 1px solid $enrollment-light-border-color;
+            &:last-child {
+                border-right: 0;
             }
         }
         .grid {
             padding: 30px 0;
         }
-        .ico-wrapper {
+        .img-col {
             position: absolute;
             top: 10px;
-            left: 30px;
+            left: 20px; 
         }
         .no-plans {
             margin: 40px 0 90px;
+            text-align: center;
+        }
+        p.intro {
+            margin: 0;
+            padding-top: 30px;
+            font-size: 20px;
+            font-weight: 400;
             text-align: center;
         }
         h2 {
@@ -1576,18 +1620,50 @@ $enrollment-module-vertical-padding: 20px;
             font-weight: 400;
         }
         h3 { 
-            padding-top: 30px;
-            text-align: center; 
+            //text-align: center; 
             font-weight: 400;
+        }
+    }
+    .choose-network-table-wrapper {
+        position: relative;
+        div.overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            @include opacity(.95);
+        }
+        span.text {
+            display: block;
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            height: 1.5em;
+            margin-top: -.75em;
+            text-align: center;
+            color: #555;
+            font-size: 40px;
+        }
+        &.sprint {
+            border-top: 1px solid #eaeaea;
         }
     }
     .choose-network-table {
         .plans {
-            width: 28%;
+            width: 33%;
+            ul {
+                padding-left: 10px;
+            }
+            .footnotes {
+                padding-top: 0;
+                font-size: 10px;
+            }
         }
         .coverage {
             text-align: center;
-            width: 24%;
+            width: 19%;
         }
         .devices {
             text-align: center;
@@ -1595,6 +1671,13 @@ $enrollment-module-vertical-padding: 20px;
         }
         .select-network {
             width: 24%;
+            text-align: center;
+            .starting-price {
+                font-size: 16px;
+            }
+            .price {
+                font-size: 24px;
+            }
         }
         button {
             text-transform: none;
@@ -1603,6 +1686,7 @@ $enrollment-module-vertical-padding: 20px;
         }
         h2 {
             font-size: 20px;
+            font-weight: bold;
             text-transform: none;
             color: #333;
         }
@@ -1617,6 +1701,7 @@ $enrollment-module-vertical-padding: 20px;
             font-weight: normal;
             text-transform: uppercase;
             border-top: none;
+            text-align: center;
         }
         td, th {
             border-left: none;
@@ -1685,6 +1770,12 @@ $enrollment-module-vertical-padding: 20px;
         font-weight: normal;
         text-transform: none;
         @include border-radius(5px);
+        label {
+            font-weight: normal;
+        }
+        input[type="text"] {
+            width: 50%;
+        }
     }
     .label-description {
         font-size: 13px;
@@ -1907,13 +1998,102 @@ $enrollment-module-vertical-padding: 20px;
             }
         }
     }
-    @include breakpoint(small) {
+    .bring-your-own {
+        div.info {
+            padding: 10px;
+            background: #f7f7f7;
+            font-size: 14px;
+        }
+        /*input[type="text"] {
+            width: 100%;
+        }*/
+        .note {
+            font-size: 14px;
+        }
+        /*@include breakpoint(medium-large) {
+            .grid {
+                .col:first-child {
+                    width: 33%;
+                }
+                .col:last-child {
+                    width: 67%;
+                }
+            }
+        }
+        .note {
+            font-size: 14px;
+        }
+        ul.phone-number {
+            @extend .clearfix;
+            @include layout-list();
+            li {
+                display: inline;
+                a {
+                    @include border-radius(5px);
+                    float: left;
+                    width: 49%;
+                    margin-right: 2%;
+                    padding: 5px 10px;
+                    background-color: #FFF;
+                    @include background-image(linear-gradient(to top, #F7F7F7 0%, #FFF 100%));
+                    border: 1px solid #ccc;
+                    text-align: center;
+                }
+                &:last-child a {
+                    margin-right: 0;
+                }
+                &.selected a {
+                    @include box-shadow(inset 0 0 2px rgba(251, 247, 194, 0.75));
+                    border: 2px solid #3189BB;
+                    margin-top: -1px;
+                }
+            }
+        }
+        .phone-number-field {
+            @include border-radius(5px);
+            position: relative;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #FFF;
+            @include background-image(linear-gradient(to top, #F7F7F7 0%, #FFF 100%));
+            border: 1px solid #ccc;
+            input[type="text"] {
+                width: 50%;
+            }
+            &:after, &:before {
+                bottom: 100%;
+                left: 25%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+            &:after {
+                border-color: rgba(255, 255, 255, 0);
+                border-bottom-color: #fff;
+                border-width: 10px;
+                margin-left: -10px;
+            }
+            &:before {
+                border-color: rgba(0, 0, 0, 0);
+                border-bottom-color: #ccc;
+                border-width: 11px;
+                margin-left: -11px;
+            }
+            &.transfer:after, &.transfer:before {
+                left: 75%;
+            }
+        }*/
+    }
+    /*@include breakpoint(small) {
         .phone-selector {
             .col {
                 width: auto;
             }
         }
-    }
+    }*/
 }
 
 .enrollment__configure-data {
@@ -1960,11 +2140,19 @@ $enrollment-module-vertical-padding: 20px;
             font-size: 20px;
         }
         .details {
+            @include layout-list();
             text-align: left;
-            > span {
-                font-size: 11px;
-                color: #999;
-                margin-top: 12px;
+            li {
+                margin-bottom: 10px;
+                padding-left: 20px;
+                [class*="icon-"] {
+                    float: left;
+                    margin-left: -20px;
+                }
+                > span {
+                    font-size: 11px;
+                    color: #999;
+                }
             }
         }
         .time {
@@ -1972,7 +2160,7 @@ $enrollment-module-vertical-padding: 20px;
             font-size: 14px;
         }
         span {
-            display: block;
+            display: inline-block;
         }
     }
     h3 {
@@ -1983,6 +2171,17 @@ $enrollment-module-vertical-padding: 20px;
     }
     footer {
         background: #f7f7f7;
+        .overages-billed {
+            float: right;
+            width: 100px;
+            margin: 1em 0 1em 30px;
+            font-size: 12px;
+            text-align: center;
+            .num {
+                display: block;
+                font-size: 20px;
+            }
+        }
     }
     @include breakpoint-max(400px) {
         .btn-group-options {
@@ -2005,7 +2204,7 @@ $enrollment-module-vertical-padding: 20px;
     }
 }
 
-.enrollment__complete-order {
+.enrollment__mobile-order-details {
     .plan-details {
 
     }
@@ -2044,6 +2243,9 @@ $enrollment-module-vertical-padding: 20px;
         & :first-child {
             margin-top: 0;
         }
+        &.no-img {
+            padding-left: 0;
+        }
     }
     a {
         font-size: 15px;
@@ -2067,6 +2269,45 @@ $enrollment-module-vertical-padding: 20px;
     p {
         margin: 0 0 5px;
         font-size: 15px;
+    }
+}
+
+.enrollment__business-info {
+    ul.checkbox-list {
+        input[type="text"] {
+            width: 200px;
+        }
+        select {
+            width: 90px;
+        }
+        &.inline {
+            li {
+                display: inline-block;
+            }
+        }
+    }
+    div.or-sep {
+        label {
+            display: inline;
+        }
+    }
+    .signature {
+        @include border-radius(5px);
+        margin-bottom: 5px;
+        padding: 5px 10px;
+        &.empty {
+            background-color: #FFF9D2;
+            border: 1px solid #CCC;
+        }
+        .signature-name {
+            font-size: 24px;
+            font-family: "ff-market-web", cursive;
+        }
+    }
+    .additional-name {
+        hr {
+            margin: 0;
+        }
     }
 }
 
@@ -2115,14 +2356,6 @@ $enrollment-module-vertical-padding: 20px;
         background: transparent;
     }
 }
-
-.enrollment__order-summary {
-    footer {
-        text-align: left;
-    }
-}
-
-
 
 
 article.phone {
@@ -2365,5 +2598,18 @@ article.services-box {
         li {
             margin-bottom: 20px;
         }
+    }
+}
+
+.modal.signature {
+    .signature-preview {
+        @include box-shadow(1px 1.7px 3px rgba(14, 15, 15, 0.15));
+        height: 90px;
+        line-height: 90px;
+        padding: 0 20px;
+        border: 1px solid #bcbcbc;
+        background-color: #FDFDFD;
+        font-size: 32px;
+        font-family: "ff-market-web", cursive;
     }
 }

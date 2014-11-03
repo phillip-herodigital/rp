@@ -1218,6 +1218,8 @@
     <Content Include="sitecore\apps\dialogs\Empty.Master" />
     <Content Include="sitecore\apps\dialogs\Popup.Master" />
     <Content Include="Views\Pages\Marketing\FAQ\Upgrade FAQ Landing.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Order Summary.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Cart.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

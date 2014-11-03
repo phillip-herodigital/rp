@@ -245,6 +245,12 @@ form,
         > ul {
             @include layout-list;
         }
+        span.note {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #888;
+        }
         &.horizontal {
             > label, .label {
                 display: inline-block;
@@ -363,6 +369,65 @@ form,
                 }
             }
         }
+        &.or-sep {
+            position: relative;
+            overflow: hidden;
+            padding: 10px 0;
+            &:before, &:after {
+                content: " ";
+                display: block;
+                position: absolute;
+                left: 50%;
+            }
+            &:before {
+                top: 0;
+                bottom: 0;
+                border-right: 1px solid #eaeaea;
+            }
+            &:after {
+                content: "OR";
+                top: 50%;
+                height: 30px;
+                width: 30px;
+                margin: -15px 0 0 -15px;
+                line-height: 30px;
+                text-align: center;
+                @include border-radius(50%);
+                background: #fff;
+                border: 1px solid #eaeaea;
+                font-size: 12px;
+                font-weight: bold;
+            }
+            .item {
+                padding-right: 35px;
+                &:last-child {
+                    padding-left: 35px;
+                    padding-right: 0;
+                }
+            }
+            @include breakpoint(small) {
+               &:before, &:after {
+                    left: 0;
+                    top: 50%;
+                }
+                &:before {
+                    left: 0;
+                    right: 0;
+                    top: 50%;
+                    bottom: 50%;
+                    border-top: 1px solid #eaeaea;
+                }
+                &:after {
+                    left: 50%;
+                }
+                .item {
+                    padding: 0 0 20px 0;
+                    &:last-child {
+                        padding: 20px 0 0 0;
+                    }
+                } 
+            }
+        }
     }
     div.additional-field-group {
         background: #fafafa;
@@ -405,9 +470,23 @@ form,
             select {
                 max-width: 67%;
             }
+            .btn-group-options {
+                #{$input-selectors},
+                textarea,
+                select {
+                    max-width: 100%;
+                }   
+            }
             .radio-list,
             .checkbox-list {
                 float: left;
+            }
+            &.group-col {
+                #{$input-selectors},
+                textarea,
+                select {
+                    max-width: 100%;
+                }
             }
         }
         &.fixed {
@@ -422,7 +501,7 @@ form,
                 #{$input-selectors},
                 textarea,
                 select {
-                    max-width: auto;
+                    max-width: 100%;
                 }
             }
         }

@@ -1,0 +1,68 @@
+﻿<script type="text/ng-template" id="mobile-enrollment-cart">
+    <div class="enrollment__cart" ng-controller="MobileEnrollmentCartCtrl">
+        <article class="enrollment__box" scroll-anchor="scrollFix">
+            <header>
+                <div class="cart-items" ng-if="!isCartOpen()">
+                    <i class="icon-cart"></i>
+                    <div class="item-num" ng-show="getCartCount()">{{ getCartCount() }}</div>
+                </div>
+                <i class="icon-close" ng-click="toggleCart();" ng-if="isCartOpen()"></i>
+                <h1>@Html.Sitecore().Field("Cart Header")</h1>
+            </header>
+            <div class="content">
+                @*<p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>*@
+
+                <div class="cart-item">
+                    <h2>@Html.Sitecore().Field("Mobile Services Header")</h2>
+
+                    <div class="cart-product clearfix">
+                        <div class="description">
+                            {{ mobileEnrollmentService.selectedNetwork }} @Html.Sitecore().Field("Individual Plan")<br />
+                            <span class="details" ng-if="cart.dataPlan.data">{{ cart.dataPlan.data }}@Html.Sitecore().Field("Data Included")</span>
+                            @*<a href="">@Html.Sitecore().Field("Edit Plan Link")</a>*@
+                        </div>
+                        <div class="rate" ng-if="cart.dataPlan.price">{{ cart.dataPlan.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
+                    </div>
+
+                    <div class="cart-product clearfix" ng-repeat="item in cart.items">
+                        <div class="description" ng-if="item.type == 'new'">
+                            <div class="condition">{{ item.buyingOption.condition }}</div>
+                            <div>{{ item.device.name }}</div>
+                            <div class="options">{{ item.buyingOption.size }}, {{ item.buyingOption.color.value }}</div>
+                            <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
+                        </div>
+                        <div class="description" ng-if="item.type == 'existing'">
+                            <div>@Html.Sitecore().Field("Bring Your Own Device")</div>
+                            <div class="details">{{ item.make }} {{ item.model }}</div>
+                            <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
+                        </div>
+                        <div class="rate">{{ item.activationFee | currency }}</div>
+                        <div ng-if="item.warranty">
+                            <div class="description">@Html.Sitecore().Field("Phone Warranty")</div>
+                            <div class="rate">$9.95/@Html.Sitecore().Field("Month Abbreivation")</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="time">
+                    <p>
+                        <i class="icon-clock"></i>
+                        @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
+                    </p>
+                </div>
+            </div>
+        </article>
+        <article class="enrollment__box">
+            <header>
+                <h5>@Html.Sitecore().Field("You Need Header")</h5>
+            </header>
+            <ul class="info">
+                <li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Credit Card Text")</li>
+                <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Billing Address Text")</a></li>
+                <li>
+                    <i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br />
+                    @Html.Sitecore().Field("Bring Your Own Phone Text")
+                </li>
+            </ul>
+        </article>
+    </div>
+</script>

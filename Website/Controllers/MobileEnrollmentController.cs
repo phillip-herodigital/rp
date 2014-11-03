@@ -45,6 +45,31 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult MobileDataPlans()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Data Plans");
+            var data = item.Children.Select(child => new
+            {
+                Name = child.Name.ToLower(),
+                Plans = child.Children.Select(plans => new {
+                    ID = plans.ID.ToString(),
+                    data = plans.Fields["Data"].Value,
+                    price = plans.Fields["Price"].Value,
+                    fees = new {
+                        salesUseTax = plans.Fields["Sales and Use Tax"].Value,
+                        federalAccessCharge = plans.Fields["Federal Access Charge"].Value,
+                        streamLineCharge = plans.Fields["Stream Line Charge"].Value
+                    },
+                    Recommended = plans.Fields["Recommended"].Value,
+                    HoursMusic = plans.Fields["Hours Music"].Value,
+                    HoursMovies = plans.Fields["Hours Movies"].Value,
+                    HoursWebBrowsing = plans.Fields["Hours Web Browsing"].Value
+                })
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         /*public ActionResult MobileEnrollmentNetworks()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");
@@ -89,7 +114,8 @@ namespace StreamEnergy.MyStream.Controllers
                 Value = child.Fields["Network Value"].Value,
                 Description = child.Fields["Network Description"].Value,
                 Coverage = child.Fields["Network Coverage"].Value,
-                Device = child.Fields["Network Devices"].Value
+                Device = child.Fields["Network Devices"].Value,
+                StartingPrice = child.Fields["Starting Price"].Value
             });
 
             return View("~/Views/Components/Mobile Enrollment/Choose Network.cshtml", new ChooseNetwork
@@ -142,6 +168,16 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult OrderConfirmation()
         {
             return View("~/Views/Components/Mobile Enrollment/Order Confirmation.cshtml");
+        }
+
+        public ActionResult Cart()
+        {
+            return View("~/Views/Components/Mobile Enrollment/Cart.cshtml");
+        }
+
+        public ActionResult OrderSummary()
+        {
+            return View("~/Views/Components/Mobile Enrollment/Order Summary.cshtml");
         }
 
     }

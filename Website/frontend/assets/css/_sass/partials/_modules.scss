@@ -42,6 +42,9 @@ article {
             color: #fff;
             text-transform: uppercase;
         }
+        &:only-child {
+            border-bottom: 0;
+        }
     }
     footer {
         background: #fbfbfb;
