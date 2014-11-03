@@ -17,7 +17,7 @@
 
                     <div class="cart-product clearfix">
                         <div class="description">
-                            {{ mobileEnrollmentService.selectedNetwork }} @Html.Sitecore().Field("Individual Plan")<br />
+                            {{ mobileEnrollmentService.selectedNetwork.name }} @Html.Sitecore().Field("Individual Plan")<br />
                             <span class="details" ng-if="cart.dataPlan.data">{{ cart.dataPlan.data }}@Html.Sitecore().Field("Data Included")</span>
                             @*<a href="">@Html.Sitecore().Field("Edit Plan Link")</a>*@
                         </div>

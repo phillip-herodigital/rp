@@ -1,6 +1,7 @@
 ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     var service = {
         state: "TX",
+        availableNetworks: [],
         selectedNetwork: undefined,
         cart: {
             items: [
@@ -64,8 +65,13 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
             secondaryContactInfo: {}
         }*/
     },
+    //networks = [],
     dataPlans = [],
     phones = [];
+
+    service.setNetworks = function (data) {
+        service.availableNetworks = data;
+    };
     
     service.setPhoneData = function (data) {
         phones = data;
@@ -150,7 +156,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     };
 
     service.addDataPlanToCart = function(planId) {
-        var plan = _.where(service.getDataPlans(service.selectedNetwork).plans, { id: planId })[0];
+        var plan = _.where(service.getDataPlans(service.selectedNetwork.value).plans, { id: planId })[0];
         console.log(plan);
         service.cart.dataPlan = plan;
     };
