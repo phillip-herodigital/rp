@@ -58,6 +58,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
             context.Customer = internalContext.Account.Details.ContactInfo;            
             context.Address = internalContext.Account.Details.BillingAddress;
+            context.AccountNumber = internalContext.Account.AccountNumber;
             return await base.InternalProcess(context, internalContext);
         }
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using System.Net.Http;
 using Legacy = StreamEnergy.DomainModels.Accounts.Legacy;
+using System.IO;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -18,6 +19,33 @@ namespace StreamEnergy.Services.Clients
         private readonly string sharedAccessSignature;
         private readonly AccountFactory accountFactory;
         private readonly ISet<ILocationAdapter> locationAdapters;
+
+        private static Dictionary<string, string> _cis2AureaAccountMapping { get; set; }
+        private static Dictionary<string, string> cis2AureaAccountMapping
+        {
+            get
+            {
+                if (_cis2AureaAccountMapping == null)
+                {
+                    _cis2AureaAccountMapping = new Dictionary<string, string>();
+                    Sitecore.Data.Items.MediaItem item = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{CE3C3112-536E-4239-A888-623296B75463}"));
+                    using (StreamReader reader = new StreamReader(item.GetMediaStream(), Encoding.UTF8))
+                    {
+                        var content = reader.ReadToEnd();
+                        var lines = content.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var line in lines)
+                        {
+                            var parts = line.Split(',');
+                            if (parts.Length == 2)
+                            {
+                                _cis2AureaAccountMapping.Add(parts[1], parts[0]);
+                            }
+                        }
+                    }
+                }
+                return _cis2AureaAccountMapping;
+            }
+        }
 
         public AccountService(StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, [Dependency(StreamConnectContainerSetup.StreamConnectSharedAccessSignature)] string sharedAccessSignature, AccountFactory accountFactory, ISet<ILocationAdapter> locationAdapters)
         {
@@ -397,6 +425,11 @@ namespace StreamEnergy.Services.Clients
 
         async Task<Account> IAccountService.GetAccountDetails(string accountNumber)
         {
+            if (cis2AureaAccountMapping.ContainsKey(accountNumber))
+            {
+                accountNumber = cis2AureaAccountMapping[accountNumber];
+            }
+            
             var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?systemOfRecordAccountNumber=" + accountNumber);
 
             if (response.IsSuccessStatusCode)
