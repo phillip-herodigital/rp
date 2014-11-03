@@ -131,7 +131,7 @@
     $scope.showUnlockingModal = function () {
         $modal.open({
             'scope': $scope,
-            'templateUrl': 'networkUnlocking/' + mobileEnrollmentService.selectedNetwork
+            'templateUrl': 'networkUnlocking/' + mobileEnrollmentService.selectedNetwork.value
         })
     };
 

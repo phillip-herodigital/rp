@@ -197,9 +197,8 @@
                 <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                     <form data-val-bind-messages="validations" ng-submit="addDeviceToCart()">
                         <div class="content bring-your-own">
-                            @* <h2>@Html.Sitecore().Field("Header - Bring Your Own Network Phone").Format(new { network = "{{ mobileEnrollment.mobileEnrollmentService.selectedNetwork }}" })</h2> *@
-                            @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollment.mobileEnrollmentService.selectedNetwork }}" })
-                            @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ mobileEnrollment.mobileEnrollmentService.selectedNetwork }}" })
+                            @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" })
+                            @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" })
                             <hr />
                             <div class="vertical">
                                 <div class="item">

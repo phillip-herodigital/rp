@@ -20,14 +20,56 @@
                 </div>
             </article>*@
 
-            <article class="enrollment__box enrollment__order-notice">
+            <article class="enrollment__box enrollment__confirmation">
                 <header>
-                    <h1>In Progress</h1>
+                    <h1>@Html.Sitecore().Field("Header - Confirmation")</h1>
                 </header>
                 <div class="content">
-                    <p>The enrollment confirmation page is still being worked on.</p>
+                    @Html.Sitecore().Field("Text - Confirmation")
+                    @Html.Sitecore().Field("Text - W9")
+                    <p><i class="icon-pdf"></i> <a href="">@Html.Sitecore().Field("Link Text - W9")</a></p>
                 </div>
             </article>
+
+            <article class="enrollment__box enrollment__contact-information">
+                <div class="content">
+                    <div class="grid">
+                        <div class="col">
+                            <h3>@Html.Sitecore().Field("Header - Personal Information")</h3>
+                        </div>
+                        <div class="col">
+                            <h3>@Html.Sitecore().Field("Header - Business Information")</h3>
+                        </div>
+                    </div>
+                    @Html.Sitecore().Field("Text - W9")
+                    <p><i class="icon-pdf"></i> <a href="">@Html.Sitecore().Field("Link Text - W9")</a></p>
+                </div>
+            </article>
+
+            @* DEC 3 Content...
+            <article class="enrollment__box">
+                <header>
+                    <h1>@Html.Sitecore().Field("Header - Accessories")</h1>
+                </header>
+                <div class="content">
+                    <div class="grid">
+                        <div class="col">
+                            @Html.Sitecore().Field("Accessory 1")
+                        </div>
+                        <div class="col">
+                            @Html.Sitecore().Field("Accessory 2")
+                        </div>
+                        <div class="col">
+                            @Html.Sitecore().Field("Accessory 3")
+                        </div>
+                    </div>
+                    @Html.Sitecore().Field("Text - W9")
+                    <p><i class="icon-pdf"></i> <a href="">@Html.Sitecore().Field("Link Text - W9")</a></p>
+                </div>
+            </article>
+            *@
+
+            <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
             
         </section>
         <aside>

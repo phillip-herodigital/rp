@@ -2,7 +2,7 @@
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
 
-    $scope.dataPlans = $scope.mobileEnrollmentService.getDataPlans($scope.mobileEnrollmentService.selectedNetwork);
+    $scope.dataPlans = $scope.mobileEnrollmentService.getDataPlans($scope.mobileEnrollmentService.selectedNetwork.value);
 
     console.log($scope.dataPlans);
 

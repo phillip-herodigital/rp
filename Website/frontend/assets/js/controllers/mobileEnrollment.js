@@ -9,15 +9,10 @@
         phoneTypeTab: "new"
     };
 
-    //TESTING
-    $scope.mobileEnrollmentService.selectedNetwork = 'att';
-    $scope.mobileEnrollment.currentStep = 'configure-data';
-    //END TESTING
-
     $scope.setCurrentStep = function(step) {
         $scope.mobileEnrollment.currentStep = step;
         $location.hash(step);
-        //console.log($scope.mobileEnrollmentService);
+        console.log($scope.mobileEnrollmentService);
         //console.log(JSON.stringify($scope.mobileEnrollmentService));
     };
 
