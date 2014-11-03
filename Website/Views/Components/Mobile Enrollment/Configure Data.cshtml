@@ -39,7 +39,9 @@
                     </div>
                 </div>
                 <footer>
-                    @Html.Sitecore().Field("Need More Data")
+                    <h3>@Html.Sitecore().Field("Header - What About Overages")</h3>
+                    <div class="overages-billed">@Html.Sitecore().Field("Text - Overage Billed At")</div>
+                    @Html.Sitecore().Field("Text - What About Overages")
                 </footer>
             </article>
             <div class="clearfix">

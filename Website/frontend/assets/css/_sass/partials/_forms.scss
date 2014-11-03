@@ -405,6 +405,28 @@ form,
                     padding-right: 0;
                 }
             }
+            @include breakpoint(small) {
+               &:before, &:after {
+                    left: 0;
+                    top: 50%;
+                }
+                &:before {
+                    left: 0;
+                    right: 0;
+                    top: 50%;
+                    bottom: 50%;
+                    border-top: 1px solid #eaeaea;
+                }
+                &:after {
+                    left: 50%;
+                }
+                .item {
+                    padding: 0 0 20px 0;
+                    &:last-child {
+                        padding: 20px 0 0 0;
+                    }
+                } 
+            }
         }
     }
     div.additional-field-group {
@@ -447,6 +469,13 @@ form,
             textarea,
             select {
                 max-width: 67%;
+            }
+            .btn-group-options {
+                #{$input-selectors},
+                textarea,
+                select {
+                    max-width: 100%;
+                }   
             }
             .radio-list,
             .checkbox-list {

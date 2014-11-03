@@ -207,13 +207,13 @@
                                     <div class="btn-group-options">
                                         <label>@Html.Sitecore().Field("Label - Select Device")</label>
                                         <div class="group">
-                                            <div class="item group-col">
-                                                <select ng-model="phoneOptions.make" data-val="true" data-val-required>
+                                            <div class="item group-col" data-val-error="phoneMake">
+                                                <select name="phoneMake" ng-model="phoneOptions.make" data-val="true" data-val-required>
                                                     <option value="apple">Apple</option>
                                                 </select>
                                             </div>
-                                            <div class="item group-col">
-                                                <select ng-model="phoneOptions.model" data-val="true" data-val-required>
+                                            <div class="item group-col" data-val-error="phoneModel">
+                                                <select name="phoneModel" ng-model="phoneOptions.model" data-val="true" data-val-required>
                                                     <option value="iphone">iPhone</option>
                                                 </select>
                                             </div>
@@ -222,26 +222,26 @@
                                     </div>
                                 </div>
                                 <hr />
-                                <div class="item">
+                                <div class="item" data-val-error="imeiNumber">
                                     <label>
                                         @Html.Sitecore().Field("Header - IMEI Number")
                                         <span class="label-description">@Html.Sitecore().Field("Text - IMEI Number Note")</span>
                                     </label>
                                     <div class="btn-group-options">
                                         <label>@Html.Sitecore().Field("Label - IMEI Number")</label>
-                                        <input type="text" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required />
+                                        <input type="text" name="imeiNumber" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required />
                                         <span class="note"><a href="" ng-click="showModal('instructions/imei')">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></span>
                                     </div>
                                 </div>
                                 <hr />
-                                <div class="item">
+                                <div class="item" data-val-error="simNumber">
                                     <label>
                                         @Html.Sitecore().Field("Header - SIM Card Number")
                                         <span class="label-description">@Html.Sitecore().Field("Text - SIM Card Number Note")</span>
                                     </label>
                                     <div class="btn-group-options">
                                         <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
-                                        <input type="text" ng-model="phoneOptions.simNumber" data-val="true" data-val-required />
+                                        <input type="text" name="simNumber" ng-model="phoneOptions.simNumber" data-val="true" data-val-required />
                                         <span class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></span>
                                     </div>
                                 </div>
@@ -257,18 +257,14 @@
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
                                         <div class="button button-type-border">
-                                            @Html.Sitecore().Field("Label - Enter Existing Number")
-                                            <div class="pull-right">
-                                                <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{10}$" data-val-if="phoneOptions.number.type == 'existing'" data-val-required="" />
-                                            </div>
+                                            <label>@Html.Sitecore().Field("Label - Enter Existing Number")</label>
+                                            <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{10}$" data-val-if="phoneOptions.number.type == 'existing'" data-val-required="" />
                                         </div>
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new'">
                                         <div class="button button-type-border">
-                                            @Html.Sitecore().Field("Label - Enter Area Code")
-                                            <div class="pull-right">
-                                                <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{3}$" data-val-if="phoneOptions.number.type == 'new'" data-val-required="" />
-                                            </div>
+                                            <label>@Html.Sitecore().Field("Label - Enter Area Code")</label>
+                                            <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{3}$" data-val-if="phoneOptions.number.type == 'new'" data-val-required="" />
                                         </div>
                                     </div>
                                 </div>

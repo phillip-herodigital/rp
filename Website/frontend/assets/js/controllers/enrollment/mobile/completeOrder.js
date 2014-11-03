@@ -2,8 +2,16 @@
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.cart = $scope.mobileEnrollmentService.getCart();
-
     $scope.isBreakdownShown = false;
+
+    $scope.accountInformation = {
+        shippingAddressSame: true
+    };
+
+    $scope.businessInformation = {
+        businessAddressSame: true,
+        signatory: true
+    };
 
     $scope.toggleBreakdown = function() {
 		$scope.isBreakdownShown = !$scope.isBreakdownShown;    	
@@ -18,21 +26,15 @@
     };
 
     $scope.showSignatureModal = function (templateUrl) {
-        $modal.open({
+        var signatureModalInstance = $modal.open({
             'scope': $scope,
             'templateUrl': templateUrl,
             'windowClass': 'signature',
             'controller': 'MobileEnrollmentCompleteOrderSignatureModalCtrl'
-        })
-    };
-
-    $scope.signatureModal = {
-        selectedTab: 'type',
-        name: ''
-    };
-
-    $scope.selectTab = function(name) {
-        $scope.signatureModal.selectedTab = name;
+        });
+        signatureModalInstance.result.then(function (signature) {
+            $scope.businessInformation.signature = signature;
+        });
     };
 
     $scope.completeOrder = function() {
@@ -43,8 +45,17 @@
 
 ngApp.controller('MobileEnrollmentCompleteOrderSignatureModalCtrl', ['$scope', '$modalInstance', 'mobileEnrollmentService', function ($scope, $modalInstance, mobileEnrollmentService) {
 
+    $scope.selectedTab = 'type';
+    $scope.formData = {
+        name: ''
+    };
+
+    $scope.selectTab = function(name) {
+        $scope.selectedTab = name;
+    };
+
     $scope.submit = function () {
-        $modalInstance.close();
+        $modalInstance.close($scope.formData.name);
     };
 
 }]);
