@@ -1,6 +1,6 @@
 ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     var service = {
-        state: "TX",
+        state: 'TX',
         availableNetworks: [],
         selectedNetwork: undefined,
         cart: {
@@ -46,7 +46,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
         terms: {
 
         },
-        /*
         accountInformation: {
             contactInfo: {
                 name: {
@@ -63,7 +62,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
             },
             socialSecurityNumber: '',
             secondaryContactInfo: {}
-        }*/
+        }
     },
     //networks = [],
     dataPlans = [],
