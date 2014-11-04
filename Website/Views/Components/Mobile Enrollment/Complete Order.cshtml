@@ -459,7 +459,7 @@
                             </div>
                             <div class="item group-col">
                                 <label>@Html.Sitecore().Field("Label - Date")</label>
-                                Oct 14, 2014
+                                <strong>{{ currentDate | date:'MMM. d, yyyy'}}</strong>
                             </div>
                         </div>
                         <div class="group additional-name" ng-show="!businessInformation.signatory">
@@ -580,6 +580,90 @@
         </div>
         <div class="modal-footer">
             @Html.Sitecore().Field("Footer - Add Signature")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/w9">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - W9 Instructions")</h2>
+        </div>
+        <div class="modal-body scrollable">
+            @Html.Sitecore().Field("Content - W9 Instructions")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/otherClassification">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - Other Classification Instructions")</h2>
+        </div>
+        <div class="modal-body scrollable">
+            @Html.Sitecore().Field("Content - Other Classification Instructions")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/tin">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - TIN Instructions")</h2>
+        </div>
+        <div class="modal-body scrollable">
+            @Html.Sitecore().Field("Content - TIN Instructions")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/getTin">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - Get TIN Instructions")</h2>
+        </div>
+        <div class="modal-body scrollable">
+            @Html.Sitecore().Field("Content - Get TIN Instructions")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/chartGuidelines">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - Chart Guidelines Instructions")</h2>
+        </div>
+        <div class="modal-body scrollable">
+            @Html.Sitecore().Field("Content - Chart Guidelines Instructions")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="streamTerms">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - Stream Terms")</h2>
+        </div>
+        <div class="modal-body scrollable">
+            @Html.Sitecore().Field("Content - Stream Terms")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="tcpaTerms">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - TCPA Terms")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - TCPA Terms")
         </div>
     </div>
 </script>

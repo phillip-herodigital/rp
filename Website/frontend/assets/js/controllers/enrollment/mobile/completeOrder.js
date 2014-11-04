@@ -4,6 +4,7 @@
     $scope.cart = $scope.mobileEnrollmentService.getCart();
     $scope.isBreakdownShown = false;
     $scope.llcClassifcation = '';
+    $scope.currentDate = new Date();
 
     $scope.accountInformation = {
         shippingAddressSame: true,
