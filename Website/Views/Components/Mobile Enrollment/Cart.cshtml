@@ -34,7 +34,7 @@
                         <div class="description" ng-if="item.type == 'existing'">
                             <div>@Html.Sitecore().Field("Bring Your Own Device")</div>
                             <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>
-                            <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
+                            <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
                         </div>
                         <div class="rate">{{ item.activationFee | currency }}</div>
                         <div ng-if="item.warranty">

@@ -22,15 +22,15 @@
     };
 
     $scope.toggleBreakdown = function() {
-		$scope.isBreakdownShown = !$scope.isBreakdownShown;    	
+        $scope.isBreakdownShown = !$scope.isBreakdownShown;     
     };
 
     $scope.editDevice = function() {
-    	$scope.setCurrentStep('choose-phone');
+        $scope.setCurrentStep('choose-phone');
     };
 
     $scope.editPlan = function() {
-    	$scope.setCurrentStep('configure-data');
+        $scope.setCurrentStep('configure-data');
     };
 
     $scope.showSignatureModal = function (templateUrl) {

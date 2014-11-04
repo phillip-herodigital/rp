@@ -151,6 +151,8 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     }
 
     service.addItemToCart = function(item) {
+        // since we're only allowing one phone on launch reset
+        service.cart.items = [];
         service.cart.items.push(item);
     };
 
