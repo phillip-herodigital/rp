@@ -232,6 +232,7 @@
     <Compile Include="DomainModels\Enrollments\TexasElectricity\OfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\OfferOptionRules.cs" />
     <Compile Include="DomainModels\ISearchable.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\IW9GenerationService.cs" />
     <Compile Include="DomainModels\MobileEnrollment\MobileColor.cs" />
     <Compile Include="DomainModels\MobileEnrollment\MobileModel.cs" />
     <Compile Include="DomainModels\MobileEnrollment\MobileNetwork.cs" />

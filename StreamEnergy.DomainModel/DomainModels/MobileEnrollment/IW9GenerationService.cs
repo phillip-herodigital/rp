@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.DomainModels.MobileEnrollment
 {
     public interface IW9GenerationService
     {

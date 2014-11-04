@@ -19,10 +19,10 @@ using System.Threading.Tasks;
 using ResponsivePath.Validation;
 using Sitecore.Links;
 using StreamEnergy.MyStream.Models.Temp;
-using StreamEnergy.Services.Clients;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Text;
+using StreamEnergy.DomainModels.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {

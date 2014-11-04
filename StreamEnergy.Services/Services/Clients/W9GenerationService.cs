@@ -9,6 +9,7 @@ using System.Net.Http.Formatting;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.DomainModels.MobileEnrollment;
 
 namespace StreamEnergy.Services.Clients
 {

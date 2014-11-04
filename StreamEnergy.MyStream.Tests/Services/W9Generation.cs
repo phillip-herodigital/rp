@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StreamEnergy.Services.Clients;
 using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Tests.Services
 {

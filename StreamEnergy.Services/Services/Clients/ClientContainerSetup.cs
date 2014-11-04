@@ -62,8 +62,6 @@ namespace StreamEnergy.Services.Clients
 
             unityContainer.RegisterType<SmartyStreets.ISmartyStreetService, SmartyStreets.SmartyStreetService>();
 
-            unityContainer.RegisterType<IW9GenerationService, W9GenerationService>();
-
             if (!SSLEnabled)
             {
                 // if we don't have SSL enabled, we can skip verifying Stream Connect SSL.
