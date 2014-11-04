@@ -186,7 +186,7 @@
     <Compile Include="Services\Clients\HttpMessageLogger.cs" />
     <Compile Include="Services\Clients\ILocationAdapter.cs" />
     <Compile Include="Services\Clients\ISitecoreProductData.cs" />
-    <Compile Include="Services\Clients\IPdfGenerationService.cs" />
+    <Compile Include="Services\Clients\IW9GenerationService.cs" />
     <Compile Include="Services\Clients\PaymentService.cs" />
     <Compile Include="Services\Clients\SitecoreProductData.cs" />
     <Compile Include="Services\Clients\SitecoreProductInfo.cs" />
@@ -228,7 +228,7 @@
     <Compile Include="Services\Clients\StreamConnect\ProductResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Rate.cs" />
     <Compile Include="Services\Clients\StreamConnect\VerifyPremiseResponse.cs" />
-    <Compile Include="Services\Clients\PdfGenerationService.cs" />
+    <Compile Include="Services\Clients\W9GenerationService.cs" />
     <Compile Include="Services\Clients\TexasAdapter.cs" />
     <Compile Include="Services\HttpConverter.cs" />
     <Compile Include="Services\SoapConverter.cs" />

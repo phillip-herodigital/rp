@@ -755,6 +755,7 @@
     <Content Include="Data\web.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Settings.config" />
     <Content Include="App_Config\Include\Sitecore.EmailCampaign.config" />
+    <Content Include="Data\fw9.pdf" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />

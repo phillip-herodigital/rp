@@ -62,7 +62,7 @@ namespace StreamEnergy.Services.Clients
 
             unityContainer.RegisterType<SmartyStreets.ISmartyStreetService, SmartyStreets.SmartyStreetService>();
 
-            unityContainer.RegisterType<IPdfGenerationService, PdfGenerationService>();
+            unityContainer.RegisterType<IW9GenerationService, W9GenerationService>();
 
             if (!SSLEnabled)
             {

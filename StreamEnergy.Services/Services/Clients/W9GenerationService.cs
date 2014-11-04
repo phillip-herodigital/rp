@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.Services.Clients
 {
-    class PdfGenerationService : IPdfGenerationService
+    class W9GenerationService : IW9GenerationService
     {
-        byte[] IPdfGenerationService.GenerateW9(string name, string businessName, PdfBusinessClassification businessType, string businessTypeAdditional, bool isExempt, string address, string city, string state, string zip, string socialSecurityNumber, string employerIdentificationNumber, string signature, DateTime date)
+        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, bool isExempt, string address, string city, string state, string zip, string socialSecurityNumber, string employerIdentificationNumber, string signature, DateTime date)
         {
             var objPDF = new PdfManager();
-            var objDoc = objPDF.OpenDocument("C:/pdfs/fw9.pdf");
+            var objDoc = objPDF.OpenDocument("Data/fw9.pdf");
 
             // Obtain page 1 of the document
             PdfPage objPage = objDoc.Pages[1];
@@ -49,34 +49,34 @@ namespace StreamEnergy.Services.Clients
 
             switch(businessType)
             {
-                case PdfBusinessClassification.IndividualSoleProprietor:
+                case W9BusinessClassification.IndividualSoleProprietor:
                     ((dynamic)objPage.Annots[3]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.CCorporation:
+                case W9BusinessClassification.CCorporation:
                     ((dynamic)objPage.Annots[4]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.SCorporation:
+                case W9BusinessClassification.SCorporation:
                     ((dynamic)objPage.Annots[5]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.Partnership:
+                case W9BusinessClassification.Partnership:
                     ((dynamic)objPage.Annots[6]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.TrustEstate:
+                case W9BusinessClassification.TrustEstate:
                     ((dynamic)objPage.Annots[7]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.LLC:
+                case W9BusinessClassification.LLC:
                     ((dynamic)objPage.Annots[8]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.Other:
+                case W9BusinessClassification.Other:
                     ((dynamic)objPage.Annots[10]).FieldActiveState = "On";
                     break;
             }
 
-            if (businessType == PdfBusinessClassification.LLC && !string.IsNullOrEmpty(businessTypeAdditional))
+            if (businessType == W9BusinessClassification.LLC && !string.IsNullOrEmpty(businessTypeAdditional))
             {
                 textFields.llcTaxClassification.FieldValue = businessTypeAdditional;
             }
-            if (businessType == PdfBusinessClassification.Other && !string.IsNullOrEmpty(businessTypeAdditional))
+            if (businessType == W9BusinessClassification.Other && !string.IsNullOrEmpty(businessTypeAdditional))
             {
                 textFields.otherBusinessType.FieldValue = businessTypeAdditional;
             }
@@ -104,11 +104,8 @@ namespace StreamEnergy.Services.Clients
             PdfImage objSignatureImg = objDoc.OpenImage(Convert.FromBase64String(signature));
 
             objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=248; scalex=.15, scaley=.15");
-            /*var img = objPage.ToImage();
-            IPdfImage page1Img = objDoc.OpenImageBinary(img.SaveToMemory());
-            objPage.Canvas.DrawImage(page1Img, "x=0; y=0; scalex=1, scaley=1");*/
+
             byte[] pdf = objDoc.SaveToMemory();
-            //File.WriteAllBytes("C:/pdfs/saved" + DateTime.Now.Ticks.ToString() + ".pdf", pdf);
             
             return pdf;
         }

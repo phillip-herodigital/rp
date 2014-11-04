@@ -29,8 +29,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     
     public class TempController : ApiController, IRequiresSessionState
     {
-        IPdfGenerationService pdfGenerationService;
-        public TempController(IPdfGenerationService pdfGenerationService)
+        IW9GenerationService pdfGenerationService;
+        public TempController(IW9GenerationService pdfGenerationService)
         {
             this.pdfGenerationService = pdfGenerationService;
         }
