@@ -49,6 +49,10 @@ namespace Cis2AureaAccountImport
                          group account.AureaAccountNumber by new { Username = user.UserID, Email = user.Email } into set
                          select new { set.Key.Username, set.Key.Email, AccountNumbers = set.ToArray() }).ToArray();
 
+            Console.WriteLine(string.Format("Users without emails: {0}", usernameRecords.Where(u => string.IsNullOrEmpty(u.Email)).Count()));
+            Console.WriteLine(string.Format("Users without matching records: {0}", usernameRecords.Where(u => !accountRecords.Any(a => a.CIS2AccountNumber == u.Profile)).Count()));
+            Console.WriteLine(string.Format("Users being imported: {0}", users.Count()));
+
             foreach (var entry in users.Select((e, index) => new { index , e }))
             {
                 if (Membership.GetUser(prefix + entry.e.Username) != null)
@@ -70,7 +74,7 @@ namespace Cis2AureaAccountImport
                     var associationTask = Task.WhenAll(accounts.Select(acct => customerIdTask.ContinueWith(cidTask => accountService.AssociateAccount(cidTask.Result, acct.AccountNumber, acct.Details.SsnLastFour, ""))));
                     associationTask.Wait();
 
-                    Console.WriteLine("{0}%  of {2} - {1}", (entry.index * 100 / users.Length), entry.e.Username, users.Length);
+                    Console.WriteLine("{0}% of {2} - {1}", (entry.index * 100 / users.Length), entry.e.Username, users.Length);
                 }
             }
         }
