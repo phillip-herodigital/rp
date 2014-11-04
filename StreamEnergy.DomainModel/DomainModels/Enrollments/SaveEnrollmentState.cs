@@ -35,7 +35,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 yield return context => context.PreferredSalesExecutive;
                 yield return context => context.OnlineAccount;
                 yield return context => context.MailingAddress;
-                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) && data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
                 {
                     yield return context => context.PreviousAddress;
                 }
@@ -44,7 +44,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
-            return !internalContext.EnrollmentSaveState.IsCompleted;
+            return internalContext.EnrollmentSaveState == null || !internalContext.EnrollmentSaveState.IsCompleted;
         }
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
@@ -61,17 +61,25 @@ namespace StreamEnergy.DomainModels.Enrollments
 
             }
 
-            if (internalContext.EnrollmentSaveState == null)
+            if (context.IsRenewal)
             {
-                if (internalContext.GlobalCustomerId == Guid.Empty)
-                {
-                    internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
-                }
-                internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context);
+                // no need to save this here
             }
             else
             {
-                internalContext.EnrollmentSaveState = await enrollmentService.UpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context);
+                if (internalContext.EnrollmentSaveState == null)
+                {
+                    if (internalContext.GlobalCustomerId == Guid.Empty)
+                    {
+                        var customer = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
+                        internalContext.GlobalCustomerId = customer.GlobalCustomerId;
+                    }
+                    internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context, internalContext.EnrollmentDpiParameters);
+                }
+                else
+                {
+                    internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveUpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context, internalContext.EnrollmentDpiParameters, internalContext.Deposit);
+                }
             }
 
             return await base.InternalProcess(context, internalContext);

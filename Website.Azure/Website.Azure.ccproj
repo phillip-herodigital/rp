@@ -36,6 +36,8 @@
     <ServiceDefinition Include="ServiceDefinition.csdef" />
     <ServiceConfiguration Include="ServiceConfiguration.Local.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
+	<ServiceConfiguration Include="ServiceConfiguration.s10cmsweb01.cscfg" />
+	<ServiceConfiguration Include="ServiceConfiguration.s10cmsadmin01.cscfg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Website\Website.csproj">

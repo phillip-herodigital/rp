@@ -13,29 +13,38 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
+    $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
 
     /**
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        console.log('Sending confirm order...');
+        var depositWaivers = _(enrollmentCartService.services).map(function (service) {
+            return _(service.offerInformationByType).pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().map(function (selection) {
+                if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ isWaived: true }).some()) {
+                    return {
+                        location: service.location,
+                        offerId: selection.offerId
+                    };
+                }
+            }).value();
+        }).flatten().filter().value();
 
         if ($scope.getCartTotal() > 0) {
             $scope.completeOrder.creditCard().then(function (paymentInfo) {
-                console.log({
-                    agreeToTerms: $scope.completeOrder.agreeToTerms,
-                    paymentInfo: paymentInfo
-                });
                 enrollmentService.setConfirmOrder({
                     additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                     agreeToTerms: $scope.completeOrder.agreeToTerms,
-                    paymentInfo: paymentInfo
+                    paymentInfo: paymentInfo,
+                    depositWaivers: depositWaivers
                 });
             });
         } else {
             enrollmentService.setConfirmOrder({
+                additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
-                paymentInfo: null
+                paymentInfo: null,
+                depositWaivers: depositWaivers
             });
         }
 
@@ -62,6 +71,23 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
         $modal.open({
             templateUrl: 'Terms/' + terms,
+            scope: $scope
+        });
+    };
+
+    $scope.showDepositWaiver = function (stateAbbreviation) {
+
+        $modal.open({
+            templateUrl: 'DepositWaiver/' + stateAbbreviation,
+            scope: $scope,
+            windowClass: 'depositWaiver'
+        });
+    };
+
+    $scope.showCreditCardExample = function () {
+
+        $modal.open({
+            templateUrl: 'CreditCardExample',
             scope: $scope
         });
     };

@@ -9,7 +9,6 @@ namespace StreamEnergy.DomainModels.Enrollments.Service
     public class EnrollmentSaveEntry
     {
         public string StreamReferenceNumber { get; set; }
-        public string CisAccountNumber { get; set; }
         public Guid GlobalEnrollmentAccountId { get; set; }
     }
 }

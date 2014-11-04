@@ -1,4 +1,4 @@
-﻿ngApp.controller('OfferOptions-TexasElectricityMoveIn', ['$scope', function ($scope) {
+﻿ngApp.controller('OfferOptions-TexasElectricityMoveIn', ['$rootScope', '$scope', function ($rootScope, $scope) {
     // this is probably not terribly smart... we're pulling based off of $scope variables actually defined by markup ng-repeats...
     var rules = $scope.selectedOffer.optionRules;
 
@@ -20,6 +20,7 @@
                 newDate = new Date(newDate);
             var target = toISODate(newDate);
             var availableDate = _.find($scope.selectedOffer.optionRules.connectDates.availableConnectDates, { date: target });
+            $scope.selectedOffer.offerOption.connectionFee = availableDate.fees.connectFee;
             $scope.connectionFee = availableDate.fees.connectFee;
         }
     });
@@ -31,7 +32,7 @@
         if (availableDate) {
             var lastPriorityDate = new Date();
             lastPriorityDate.setDate(new Date().getDate() + 3);
-            return { 'red': availableDate.classification == 'priority' };
+            return { 'priority': availableDate.classification == 'priority' };
         }
         return false;
     };

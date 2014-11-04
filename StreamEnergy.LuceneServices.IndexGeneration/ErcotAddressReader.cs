@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.LuceneServices.Web.Models;
+using SmartyStreets = StreamEnergy.Services.Clients.SmartyStreets;
 
 namespace StreamEnergy.LuceneServices.IndexGeneration
 {

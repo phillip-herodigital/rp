@@ -1,4 +1,4 @@
-﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'enrollmentStepsService', 'enrollmentCartService', '$timeout', function ($rootScope, $http, $q, enrollmentStepsService, enrollmentCartService, $timeout) {
+﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'enrollmentStepsService', 'enrollmentCartService', '$timeout', '$window', function ($rootScope, $http, $q, enrollmentStepsService, enrollmentCartService, $timeout, $window) {
 
     var service = {},
         urlPrefix = '/api/enrollment/';
@@ -7,6 +7,7 @@
     service.isLoading = false;
 
     service.accountInformation = {
+        contactTitle: '',
         contactInfo: {
             name: {
                 first: '',
@@ -34,7 +35,7 @@
         if (result.isLoading) {
             $timeout(function () {
                 makeCall('resume', undefined);
-            }, 100, false);
+            }, 250, false);
         }
 
         // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.
@@ -60,8 +61,12 @@
 
         // copy out the account information the server has
         service.accountInformation.contactInfo = result.contactInfo || {};
+        service.contactTitle = result.contactTitle;
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
+        service.accountInformation.mailingAddress = result.mailingAddress;
+        service.accountInformation.previousAddress = result.previousAddress;
+        service.accountInformation.previousProvider = result.previousProvider;
 
         // Default these object to prevent errors
         service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];
@@ -96,17 +101,14 @@
             deferred.resolve(data);
         })
         .error(function (data, status) {
-            $rootScope.$broadcast('connectionFailure');
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
+            // Cannot use $location.path; it's only changing hash-tags.
+            $window.location.href = '/enrollment/please-contact';
         });
 
         return deferred.promise.then(function (result) {
             service.setClientData(result);
 
-            if (!overrideServerStep) {
+            if (!overrideServerStep && !result.isLoading) {
                 $timeout(function () {
                     enrollmentStepsService.setFromServerStep(result.expectedState, overrideServerStep);
                 });
@@ -131,7 +133,10 @@
      * @return {object}            Promise object returned when API call has successfully completed.
      */
     service.resetEnrollment = function () {
-        return makeCall('reset');
+        $http.get(urlPrefix + 'reset')
+        .success(function () {
+            $window.location.reload();
+        })
     };
 
     /**
@@ -178,6 +183,23 @@
         return makeCall('selectedOffers', data, overrideServerStep);
     };
 
+    service.cleanseAddresses = function (addresses) {
+        service.isLoading = true;
+        var deferred = $q.defer();
+
+        $http.post('/api/addresses/cleanse', addresses)
+        .success(function (data) {
+            deferred.resolve(data);
+        })
+        .error(function (data, status) {
+            deferred.resolve([]);
+        });
+        return deferred.promise.then(function (result) {
+            service.isLoading = false;
+            return result;
+        });
+    };
+
     /**
     * Set account information
     * 
@@ -186,11 +208,16 @@
     service.setAccountInformation = function () {
         var data = angular.copy({
             contactInfo: service.accountInformation.contactInfo,
+            contactTitle: service.accountInformation.contactTitle,
+            companyName: service.accountInformation.companyName,
+            doingBusinessAs: service.accountInformation.doingBusinessAs,
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
             mailingAddress: service.accountInformation.mailingAddress,
-            previousAddress: service.accountInformation.previousAddress
+            previousAddress: service.accountInformation.previousAddress,
+            preferredSalesExecutive: service.accountInformation.preferredSalesExecutive,
+            previousProvider: service.accountInformation.previousProvider
         });
         data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {

@@ -9,12 +9,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public class CompleteOrderState : StateBase<UserContext, InternalContext>
     {
-        private readonly IEnrollmentService enrollmentService;
-
-        public CompleteOrderState(IEnrollmentService enrollmentService)
+        public CompleteOrderState()
             : base(previousState: typeof(LoadDespositInfoState), nextState: typeof(PlaceOrderState))
         {
-            this.enrollmentService = enrollmentService;
         }
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
@@ -31,7 +28,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 yield return context => context.DoingBusinessAs;
                 yield return context => context.PreferredSalesExecutive;
                 yield return context => context.MailingAddress;
-                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) && data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
                 {
                     yield return context => context.PreviousAddress;
                 }
@@ -43,21 +40,6 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             yield return context => context.AgreeToTerms;
             yield return context => context.PaymentInfo;
-        }
-
-        protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
-        {
-            if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
-            {
-                internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(internalContext.GlobalCustomerId, context.Services, internalContext.EnrollmentSaveState.Data, context.AdditionalAuthorizations)).ToArray();
-            }
-            else
-            {
-                await enrollmentService.PlaceCommercialQuotes(context);
-                internalContext.PlaceOrderResult = Enumerable.Empty<Service.LocationOfferDetails<Service.PlaceOrderResult>>();
-            }
-            
-            return await base.InternalProcess(context, internalContext);
         }
 
         public override Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, Type state)

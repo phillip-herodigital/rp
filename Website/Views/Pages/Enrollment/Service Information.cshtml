@@ -20,23 +20,31 @@
                     </header>
                     <div class="content">
                         <div ng-if="errorMessage" ng-cloak>
-                            <div class="notice error">
+                            <div class="notice error" ng-if="data.serviceState == 'TX'">
                                 @Html.Sitecore().Field("Invalid Address Message Text")
+                            </div>
+                            <div class="notice error" ng-if="data.serviceState == 'GA'">
+                                @Html.Sitecore().Field("GA Invalid Address Message Text")
+                            </div>
+                            <hr class="content-divider" />
+                        </div>
+                        <div ng-if="isDuplicateAddress(data.serviceLocation.address)">
+                            <div class="notice error">
+                                @Html.Sitecore().Field("Duplicate Address Message Text")
                             </div>
                             <hr class="content-divider" />
                         </div>
                         @Html.Sitecore().Field("Body Text")
                         
-                        @* TODO - replace "0" with the angular variable for the 'current' service location index being updated *@
-                        @using (var currentService = Html.ClientRepeater(m => m.Services, "0"))
+                        @using (var currentService = Html.ClientRepeater(m => m.Services, "getActiveServiceIndex()"))
                         {
                             
-                        <div class="item customer-type">
+                        <!--<div class="item customer-type">
                             <label for="customer-type">@Html.Sitecore().Field("Interest Label")</label>
                             <select id="customer-type" name="customer-type" ng-model="$parent.customerType" ng-disabled="cartLocationsCount > 0" ng-change="assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
                                 @Html.Sitecore().Field("Customer Types")
                             </select>
-                        </div>
+                        </div>-->
                         
                         <div class="item full service-address">
                             <div class="input-group">
@@ -56,26 +64,26 @@
                                         autocomplete = "off"
                                     })
                                 </div>
-                                <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right">
-                                </div>
+                                <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right"></div>
                                 @currentService.ValidationMessageFor(s => s.Location)
                             </div><!-- /input-group -->
                         </div>
                         }
-                        <div class="item warning" ng-if="isCartFull">
+                        <div class="item warning" ng-if="isCartFull && isNewServiceAddress">
                             @Html.Sitecore().Field("Maximum Addresses Message Text")
                         </div>
                         <hr>
                         <div class="item" ng-if="data.serviceState == 'TX' || data.serviceState == 'GA'">
-                            <label>@Html.Sitecore().Field("Options Label")</label>
+                            <label>@Html.Sitecore().Field("Options Label") <a href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
                             <ul class="checkbox-list">
-                                <li>
-                                    <input type="radio" ng-model="data.isNewService" id="switching-electricity-providers" ng-value="false">
-                                    <label for="switching-electricity-providers">Switching electricity providers</label>
+                                <li ng-switch on="data.serviceState">
+                                    <input type="radio" ng-model="data.isNewService" id="switching-providers" ng-value="false">
+                                    <label ng-switch-when="TX" for="switching-providers" class="enroll-options">@Html.Sitecore().Field("Switch Electricity Label")</label>
+                                    <label ng-switch-when="GA" for="switching-providers" class="enroll-options">@Html.Sitecore().Field("Switch Gas Label")</label>
                                 </li>
                                 <li>
                                     <input type="radio" ng-model="data.isNewService" id="setting-up-new-service" ng-value="true">
-                                    <label for="setting-up-new-service">Setting up new service</label>
+                                    <label for="setting-up-new-service" class="enroll-options">@Html.Sitecore().Field("New Service Label")</label>
                                 </li>
                             </ul>
                         </div>

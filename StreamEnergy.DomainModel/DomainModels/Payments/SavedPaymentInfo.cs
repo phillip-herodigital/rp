@@ -17,9 +17,8 @@ namespace StreamEnergy.DomainModels.Payments
             get { return Qualifier; }
         }
 
-        // TODO - fill the ErrorMessage field
         [Required]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string UnderlyingPaymentType { get; set; }

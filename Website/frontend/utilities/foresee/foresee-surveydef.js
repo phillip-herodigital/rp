@@ -143,7 +143,8 @@ FSR.properties = {
 '/signup/personal_information',
 '/signup/representative_information',
 '/signup/additional_information',
-'/signup/confirmation'
+'/signup/confirmation',
+'/enrollment'
 		],
             referrers:[],
             userAgents:[],

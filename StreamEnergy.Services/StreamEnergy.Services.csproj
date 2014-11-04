@@ -75,15 +75,25 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\MicrosoftAzure\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Persits.PDF">
+      <HintPath>..\Libraries\AspPDF\Persits.PDF.dll</HintPath>
     </Reference>
     <Reference Include="ResponsivePath.Validation">
       <HintPath>..\packages\ResponsivePath.Validation.1.0.2.20136\lib\net45\ResponsivePath.Validation.dll</HintPath>
     </Reference>
     <Reference Include="SendGridMail">
       <HintPath>..\packages\SendGrid.2.1.1\lib\SendGridMail.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Kernel, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -117,6 +127,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -149,18 +160,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\EnhancedEmailAction.cs" />
+    <Compile Include="Interpreters\DpiEnrollmentParameters.cs" />
+    <Compile Include="Interpreters\IDpiEnrollmentParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\Dpi\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\Sample.Commons\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\Sample.Temperature\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -175,12 +178,29 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Services\Clients\AccountFactory.cs" />
     <Compile Include="Services\Clients\AccountService.cs" />
+    <Compile Include="Services\Clients\AsyncSendingManager.cs" />
+    <Compile Include="Services\Clients\EmailContact.cs" />
+    <Compile Include="Services\Clients\GeorgiaAdapter.cs" />
+    <Compile Include="Services\Clients\HttpMessageLogger.cs" />
+    <Compile Include="Services\Clients\ILocationAdapter.cs" />
+    <Compile Include="Services\Clients\ISitecoreProductData.cs" />
+    <Compile Include="Services\Clients\IPdfGenerationService.cs" />
+    <Compile Include="Services\Clients\PaymentService.cs" />
+    <Compile Include="Services\Clients\SitecoreProductData.cs" />
+    <Compile Include="Services\Clients\SitecoreProductInfo.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\ISmartyStreetService.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\SmartyResponse.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\SmartyStreetAddress.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\SmartyStreetService.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\UncleansedAddress.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\UnderscoreMappingResolver.cs" />
+    <Compile Include="Services\Clients\StreamConnectUtilities.cs" />
     <Compile Include="Services\Clients\StreamConnect\AuthorizationType.cs" />
     <Compile Include="Services\Clients\AzureAccessControlServiceTokenManager.cs" />
     <Compile Include="Services\Clients\AzureAcsConfiguration.cs" />
     <Compile Include="Services\Clients\AzureAcsTokenHandler.cs" />
-    <Compile Include="Services\Clients\StreamConnect\CustomerAuthorization.cs" />
     <Compile Include="Services\Clients\EmailService.cs" />
     <Compile Include="Services\Clients\ClientContainerSetup.cs" />
     <Compile Include="Services\Clients\Interceptors\ServiceCacheContainerSetup.cs" />
@@ -195,7 +215,6 @@
     <Compile Include="Services\Clients\Interceptors\ServiceInterceptor.cs" />
     <Compile Include="Services\Clients\Interceptors\ServiceInterceptorResolver.cs" />
     <Compile Include="Services\Clients\StreamConnectContainerSetup.cs" />
-    <Compile Include="Services\Clients\StreamConnectClient.cs" />
     <Compile Include="Services\Clients\StreamConnect\Answer.cs" />
     <Compile Include="Services\Clients\StreamConnect\CreateOrUpdateEnrollmentResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Customer.cs" />
@@ -209,8 +228,8 @@
     <Compile Include="Services\Clients\StreamConnect\ProductResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Rate.cs" />
     <Compile Include="Services\Clients\StreamConnect\VerifyPremiseResponse.cs" />
-    <Compile Include="Services\Clients\TemperatureService.cs" />
-    <Compile Include="Services\Clients\ITemperatureService.cs" />
+    <Compile Include="Services\Clients\PdfGenerationService.cs" />
+    <Compile Include="Services\Clients\TexasAdapter.cs" />
     <Compile Include="Services\HttpConverter.cs" />
     <Compile Include="Services\SoapConverter.cs" />
     <Compile Include="Services\ThirdPartyServiceContainerSetup.cs" />
@@ -253,17 +272,6 @@
     <None Include="Service References\Dpi\StreamEnergy.Dpi.TokenResult1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\Sample.Commons\samplecommons.wsdl" />
-    <None Include="Service References\Sample.Commons\StreamEnergy.Sample.Commons.GetInvoicesResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Sample.Temperature\StreamEnergy.Sample.Temperature.CelsiusToFahrenheitResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Sample.Temperature\StreamEnergy.Sample.Temperature.FahrenheitToCelsiusResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Sample.Temperature\tempconvert.wsdl" />
     <EmbeddedResource Include="Services\Clients\Mocks\CelsiusToFahrenheit_Response.soap" />
     <EmbeddedResource Include="Services\Clients\Mocks\GetInvoices_New_Response.soap" />
     <EmbeddedResource Include="Services\Clients\Mocks\GetInvoices_Response.soap" />
@@ -318,37 +326,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\Dpi\" />
-    <WCFMetadataStorage Include="Service References\Sample.Commons\" />
-    <WCFMetadataStorage Include="Service References\Sample.Temperature\" />
     <WCFMetadataStorage Include="Service References\StreamCommons.Account\" />
     <WCFMetadataStorage Include="Service References\StreamEnergyBilling.IstaTokenization\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\Sample.Temperature\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Temperature\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Temperature\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Commons\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Services\Clients\Mocks\CelsiusToFahrenheit_Request.soap" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Commons\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Sample.Commons\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\StreamCommons.Account\configuration91.svcinfo" />

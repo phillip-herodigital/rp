@@ -13,42 +13,44 @@
                 <hr class="content-divider" />
             </div>
             <div class="group">
-                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Username) data-float-label>
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Username) float-label>
                     <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username Text")</label>
-                    @Html.TextBoxFor(m => m.Username, new { ng_model = "formData.username" })
+                    <input type="text" id="Username" name="Username" ng-model="formData.username" data-val="true" data-val-required data-val-notequalto data-val-notequalto-other="@Html.NameFor(m => m.Password)">
                     @Html.ValidationMessageFor(model => model.Username)
                 </div>
-                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Email.Address) data-float-label>
-                    <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
-                    @Html.TextBoxFor(m => m.Email.Address, new { ng_model = "formData.email.address" })
-                    @Html.ValidationMessageFor(model => model.Email.Address)
-                </div>
             </div>
-            <div class="additional-fields" data-additional-fields>
-                <div class="additional-field-action">
+            <div class="additional-fields group" data-additional-fields>
+                <div class="additional-field-action change-password">
                     <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Change Password Text")</a>
                 </div>
-                <div class="group additional-field-group additional-fields">
+                <div class="group additional-field-group additional-fields change-password-fields">
                     <div class="group">
-                        <div class="item group-col" @Html.Validation().ErrorClass(model => model.CurrentPassword) data-float-label>
+                        <div class="item group-col" @Html.Validation().ErrorClass(model => model.CurrentPassword) float-label>
                             <label for="@Html.IdFor(m => m.CurrentPassword)">@Html.Sitecore().Field("Current Password Text")</label>
                             @Html.PasswordFor(m => m.CurrentPassword, new { ng_model = "formData.currentPassword" })
                         </div>
                         <div class="item group-col"></div>
                     </div>
                     <div class="group">
-                        <div class="item group-col" @Html.Validation().ErrorClass(model => model.Password) data-float-label>
+                        <div class="item group-col" @Html.Validation().ErrorClass(model => model.Password) float-label>
                             <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("New Password Text")</label>
-                            @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password" })
+                            @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password", data_val_notequalto = "", data_val_notequalto_other = "Username", data_val_if = "isOpen" })
                             @Html.ValidationMessageFor(model => model.Password)
                             <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
                         </div>
-                        <div class="item group-col" @Html.Validation().ErrorClass(model => model.ConfirmPassword) data-float-label>
+                        <div class="item group-col" @Html.Validation().ErrorClass(model => model.ConfirmPassword) float-label>
                             <label for="@Html.IdFor(m => m.ConfirmPassword)">@Html.Sitecore().Field("Confirm Password Text")</label>
-                            @Html.PasswordFor(m => m.Password, new { ng_model = "formData.confirmPassword" })
+                            @Html.PasswordFor(m => m.Password, new { ng_model = "formData.confirmPassword", data_val_if = "isOpen" })
                             @Html.ValidationMessageFor(model => model.ConfirmPassword)
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="group">
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Email.Address) float-label>
+                    <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
+                    @Html.TextBoxFor(m => m.Email.Address, new { ng_model = "formData.email.address" })
+                    @Html.ValidationMessageFor(model => model.Email.Address)
                 </div>
             </div>
             <hr class="content-divider" />
@@ -57,15 +59,15 @@
                 <div class="group">
                     <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.SelectedQuestion.Id))>
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.SelectedQuestion.Id))">@Html.Sitecore().Field("Question 1 Label")</label>
-                        @securityQuestion.DropDownListFor(m => m.SelectedQuestion.Id, new SelectListItem[0], new { ieselectfix = "", ng_model = "formData.challenges[0].selectedQuestion", ng_options = "question.text for question in formData.availableSecurityQuestions|securityQuestion:selectedIds:0 track by question.id", data_ng_change = "fixIE()" })
+                        @securityQuestion.DropDownListFor(m => m.SelectedQuestion.Id, new SelectListItem[0], new { ieselectfix = "", ng_model = "formData.challenges[0].selectedQuestion", ng_options = "question.text for question in formData.availableSecurityQuestions|securityQuestion:selectedIds:0 track by question.id", data_ng_change = "fixIE()", data_val = "true", data_val_required = "" })
                         @securityQuestion.ValidationMessageFor(m => m.SelectedQuestion.Id)
                         <span class="help-text hide-medium-large">{{ formData.challenges[0].selectedQuestion.text }}</span> 
                     </div>
-                    <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.Answer))>
+                    <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.Answer)) float-label>
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.Answer))">@Html.Sitecore().Field("Question 1 Answer Label")</label>
-                        @securityQuestion.Fix(h => h.TextBoxFor(m => m.Answer, new { ng_model = "formData.challenges[0].answer", placeholder = "********" }))
+                        @securityQuestion.Fix(h => h.TextBoxFor(m => m.Answer, new { ng_model = "formData.challenges[0].answer", placeholder = "********", data_val = "true", data_val_if = "formData.challenges[0].answer != ''", data_val_length = "", data_val_length_min = "4" }))
                         @securityQuestion.ValidationMessageFor(m => m.Answer)
-                        <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>                      
+                        <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
                     </div>
                 </div>
             }
@@ -74,18 +76,19 @@
                 <div class="group">
                     <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.SelectedQuestion.Id))>
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.SelectedQuestion.Id))">@Html.Sitecore().Field("Question 2 Label")</label>
-                        @securityQuestion.DropDownListFor(m => m.SelectedQuestion.Id, new SelectListItem[0], new { ieselectfix = "", ng_model = "formData.challenges[1].selectedQuestion", ng_options = "question.text for question in formData.availableSecurityQuestions|securityQuestion:selectedIds:1 track by question.id", data_ng_change = "fixIE()" })
+                        @securityQuestion.DropDownListFor(m => m.SelectedQuestion.Id, new SelectListItem[0], new { ieselectfix = "", ng_model = "formData.challenges[1].selectedQuestion", ng_options = "question.text for question in formData.availableSecurityQuestions|securityQuestion:selectedIds:1 track by question.id", data_ng_change = "fixIE()", data_val = "true", data_val_required = "" })
                         @securityQuestion.ValidationMessageFor(m => m.SelectedQuestion.Id)
                         <span class="help-text hide-medium-large">{{ formData.challenges[1].selectedQuestion.text }}</span> 
                     </div>
-                    <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.Answer))>
+                    <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.Answer)) float-label>
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.Answer))">@Html.Sitecore().Field("Question 2 Answer Label")</label>
-                        @securityQuestion.Fix(h => h.TextBoxFor(m => m.Answer, new { ng_model = "formData.challenges[1].answer", placeholder = "********" }))
+                        @securityQuestion.Fix(h => h.TextBoxFor(m => m.Answer, new { ng_model = "formData.challenges[1].answer", placeholder = "********", data_val = "true", data_val_if = "formData.challenges[1].answer != ''", data_val_length = "", data_val_length_min = "4" }))
                         @securityQuestion.ValidationMessageFor(m => m.Answer)
                         <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
                     </div>
                 </div>
             }
+            @*
             <hr class="content-divider" />
             <div class="item">
                 <label for="language-preference">@Html.Sitecore().Field("Language Preference Label")</label>
@@ -96,6 +99,7 @@
                     </li>
                 </ul>
             </div>
+            *@
             <label for="new-password-repeat">@Html.Sitecore().Field("Confirm New Password Text")</label>
         </div>
         <footer>

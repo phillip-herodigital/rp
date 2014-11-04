@@ -1,0 +1,85 @@
+<div ng-if="mobileEnrollment.currentStep == 'order-confirmation'">
+    <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+        <div class="wrapper">
+            <h1>
+                <span class="small block">@Html.Sitecore().Field("Page Title")</span><br />
+            </h1>
+        </div>
+    </div>
+    @* Two-column layout for Complete Order *@
+    <section class="wrapper layout cols-2">
+        <section>
+            @*<article class="enrollment__box enrollment__order-notice">
+                <header>
+                    <h1>You're Almost There!</h1>
+                </header>
+                <div class="content">
+                    <p>Thank you! We've received your request for service, and have sent a copy of your request to <strong>jcampbell@gmail.com</strong>. All That's left now is completing a W9 to verify your orer.</p>
+                    <p><a href="" class="button">Complete W9 form</a></p>
+                    <p>For questions on your request for service, call 1-800-STREAM.</p>
+                </div>
+            </article>*@
+
+            <article class="enrollment__box enrollment__confirmation">
+                <header>
+                    <h1>@Html.Sitecore().Field("Header - Confirmation")</h1>
+                </header>
+                <div class="content">
+                    @Html.Sitecore().Field("Text - Confirmation")
+                    @Html.Sitecore().Field("Text - W9")
+                    <p><i class="icon-pdf"></i> <a href="">@Html.Sitecore().Field("Link Text - W9")</a></p>
+                </div>
+            </article>
+
+            <article class="enrollment__box enrollment__contact-information">
+                <div class="content">
+                    <div class="grid">
+                        <div class="col">
+                            <h3>@Html.Sitecore().Field("Header - Personal Information")</h3>
+                        </div>
+                        <div class="col">
+                            <h3>@Html.Sitecore().Field("Header - Business Information")</h3>
+                        </div>
+                    </div>
+                    @Html.Sitecore().Field("Text - W9")
+                    <p><i class="icon-pdf"></i> <a href="">@Html.Sitecore().Field("Link Text - W9")</a></p>
+                </div>
+            </article>
+
+            @* DEC 3 Content...
+            <article class="enrollment__box">
+                <header>
+                    <h1>@Html.Sitecore().Field("Header - Accessories")</h1>
+                </header>
+                <div class="content">
+                    <div class="grid">
+                        <div class="col">
+                            @Html.Sitecore().Field("Accessory 1")
+                        </div>
+                        <div class="col">
+                            @Html.Sitecore().Field("Accessory 2")
+                        </div>
+                        <div class="col">
+                            @Html.Sitecore().Field("Accessory 3")
+                        </div>
+                    </div>
+                    @Html.Sitecore().Field("Text - W9")
+                    <p><i class="icon-pdf"></i> <a href="">@Html.Sitecore().Field("Link Text - W9")</a></p>
+                </div>
+            </article>
+            *@
+
+            <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
+            
+        </section>
+        <aside>
+            <div class="enrollment__cart">
+                <article class="enrollment__box">
+                    <header>
+                        <h1>Questions? 1-800-STREAM</h1>
+                    </header>
+                </article>
+            </div>
+        </aside>
+    </section>
+</div>

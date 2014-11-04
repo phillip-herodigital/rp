@@ -38,7 +38,11 @@ namespace StreamEnergy.MyStream.Models.Authentication
             else if (!Membership.ValidateUser(Domain.AccountPrefix + Username, Password))
             {
                 var user = Membership.GetUser(Domain.AccountPrefix + Username);
-                if (user.IsLockedOut)
+                if (user == null)
+                {
+                    yield return new ValidationResult("Error Text", new[] { "Username", "Password" });
+                }
+                else if (user.IsLockedOut)
                 {
                     yield return new ValidationResult("Soft Locked Out Error Text", new[] { "Username", "Password" });
                 }

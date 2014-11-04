@@ -1,4 +1,7 @@
 <div ng-controller="EnrollmentMainCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString())); assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString())); assignSupportedUtilityStates(@(Html.Action("EnrollmentSupportedUtilityStates", "Enrollment").ToHtmlString()))">
+    <div ng-if="isLoading" class="enrollment__loadingMessage">
+        <span><img src="/frontend/assets/i/loading_screen.gif" width="44" height="44" /><br />@Html.Sitecore().Field("Processing")</span>
+    </div>
     <div>
         @Html.Sitecore().Placeholder("enrollment sections")
     </div>
@@ -8,7 +11,7 @@
     <nav>
         <ul>
             <li ng-class="{ 'active' : step.id == name,
-                            'completed': step.canJumpTo }"
+                            'completed': stepsService.isStepVisible(step.name) }"
                 ng-repeat="step in stepsService.getSteps() | objectAsArray | orderBy:'order'"
                 ng-show="step.isActive">
                 <a href="" ng-click="step.isVisible && enrollmentNavClick(step)">{{step.name}}</a>

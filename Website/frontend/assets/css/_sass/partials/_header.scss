@@ -21,6 +21,32 @@
 			background-color: #f1f1f1;
 			color: $text-primary-color;
 		}
+		.welcome {
+			text-transform: none;
+			.username {
+				margin-right: 10px;
+			}
+			a {
+				text-transform: none;
+				margin: 0 5px;
+			}
+		}
+	}
+	nav.main-nav {
+		float: right;
+		clear: right;
+		text-align: right;
+		margin: 10px 0 -1px 10px;
+		> ul {
+			@include inline-block-list();
+			margin: 0 auto;
+			width: 100%;
+			font-size: 0; /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
+			text-transform: uppercase;
+			white-space: nowrap;
+			li {
+				font-size: 15px;
+				line-height: 1.4; /* This fixes the partial-pixel height on IE */
 		a {
 			padding: 6px 10px 4px;	
 			float: left;
@@ -113,16 +139,20 @@
 				left: 50%;
 				top: 18px;
 				margin-top: 0;
-				margin-left: (image-width("bg/logo-desktop.png") / 2) * -1;
-				@include breakpoint(small) {
-					margin-left: (image-width("bg/logo-mobile.png") / 2) * -1;
+                @include image-replace("bg/logo-desktop-enrollment.png", "bg2x/logo-desktop-enrollment.png");
+				margin-left: (image-width("bg/logo-desktop-enrollment.png") / 2) * -1;
 				}
-			}
 			.nav-toggle {
 				margin-top: 22px;
 			}
 		}
 	}
+    @include breakpoint(small) {
+        > .wrapper .logo {
+            @include image-replace("bg/logo-mobile-enrollment.png", "bg2x/logo-mobile-enrollment.png");
+			margin-left: (image-width("bg/logo-mobile-enrollment.png") / 2) * -1;
+        }
+    }
 }
 
 /*

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
@@ -30,5 +31,11 @@ namespace StreamEnergy.DomainModels.Enrollments
         public Dictionary<Location, PremiseVerificationResult> LocationVerifications { get; private set; }
 
         public StreamAsync<CreditCheckResult> CreditCheck { get; set; }
+
+        public NameValueCollection EnrollmentDpiParameters { get; set; }
+
+        public StreamAsync<RenewalResult> RenewalResult { get; set; }
+
+        public IEnumerable<Service.LocationOfferDetails<Payments.PaymentResult>> PaymentResult { get; set; }
     }
 }

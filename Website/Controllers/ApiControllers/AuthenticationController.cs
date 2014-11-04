@@ -21,6 +21,8 @@ using StreamEnergy.Services.Clients;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using EmailFactory = Sitecore.Modules.EmailCampaign.Factory;
+using System.Collections.Specialized;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -36,12 +38,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IEmailService emailService;
         private readonly ISettings settings;
         private readonly IAccountService accountService;
+        private readonly ImpersonationUtility impersonation;
+        private readonly UserProfileLocator profileLocator;
         
         #region Session Helper Classes
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
         {
             public CreateAccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
-                : base(session, container, typeof(AuthenticationController), typeof(FindAccountState), storeInternal: false)
+                : base(session, container, typeof(AuthenticationController), typeof(FindAccountState), storeInternal: true)
             {
             }
         }
@@ -55,7 +59,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation, UserProfileLocator profileLocator)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
@@ -67,6 +71,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.emailService = emailService;
             this.accountService = accountService;
             this.settings = settings;
+            this.impersonation = impersonation;
+            this.profileLocator = profileLocator;
         }
 
         protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
@@ -93,7 +99,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Login
 
         [HttpPost]
-        public HttpResponseMessage Login(LoginRequest request)
+        public Task<HttpResponseMessage> Login(LoginRequest request)
         {
             request.Domain = domain;
             ModelState.Clear();
@@ -118,15 +124,50 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     ReturnURI = returnUri
                 });
 
+                if (request.RememberMe)
+                    AddRememberMeCookie(response, request.Username);
+                else
+                    RemoveRememberMeCookie(response);
+
                 AddAuthenticationCookie(response, request.Username);
-                return response;
+                return Task.FromResult(response);
+            }
+            else
+            {
+                var user = request.Domain.AccountPrefix + request.Username;
+                var profile = profileLocator.Locate(user);
+                if (profile != null && profile.ImportSource != null)
+                {
+                    // we do something special for imported users
+                    switch (profile.ImportSource.Value)
+                    {
+                        case ImportSource.GeorgiaAccounts:
+                            return Task.FromResult(Request.CreateResponse(new
+                                {
+                                    Redirect = "/en/auth/reset-password?username=" + request.Username
+                                }));
+                    }
+                }
             }
 
-            return Request.CreateResponse(new LoginResponse
+            return Task.FromResult(Request.CreateResponse(new LoginResponse
                     {
                         Success = false,
                         Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("My Stream Account"))
-                    });
+                    }));
+        }
+
+        #endregion
+
+        #region Logout
+
+        [HttpGet]
+        public HttpResponseMessage Logout()
+        {
+            Dispose(true);
+            var response = Request.CreateResponse(HttpStatusCode.Found);
+            response.Headers.Location = new Uri(Request.RequestUri, "/auth/login");
+            return response;
         }
 
         #endregion
@@ -151,7 +192,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
             if (coaSessionHelper.StateMachine.State == typeof(FindAccountState))
+            {
                 validations = coaSessionHelper.StateMachine.ValidationResults;
+                if (!validations.Any())
+                {
+                    validations = Enumerable.Repeat(new ValidationResult("Account Number Invalid", new[] { "AccountNumber" }), 1);
+                }
+            }
                 
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
             return new FindAccountResponse
@@ -220,12 +267,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (resetPasswordSessionHelper.StateMachine.State == typeof(GetUsernameState))
                 validations = resetPasswordSessionHelper.StateMachine.ValidationResults;
 
-            var email = await accountService.GetEmailByCustomerId(profile.GlobalCustomerId);
+            if (validations.Any())
+            {
+                return new GetUserChallengeQuestionsResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Forgot Password"))
+                };
+            }
+
+            var customer = await accountService.GetCustomerByCustomerId(profile.GlobalCustomerId);
 
             return new GetUserChallengeQuestionsResponse
             {
                 Username = request.Username,
-                Email = email == null ? null : Redact(email),
+                Email = customer.EmailAddress == null ? null : Redact(customer.EmailAddress),
                 SecurityQuestions = from challenge in resetPasswordSessionHelper.Context.Answers ?? new Dictionary<Guid, string>()
                                     let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
                                     select new SecurityQuestion
@@ -243,14 +298,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public VerifyUserChallengeQuestionsResponse VerifyUserChallengeQuestions(VerifyUserChallengeQuestionsRequest request)
+        public async Task<VerifyUserChallengeQuestionsResponse> VerifyUserChallengeQuestions(VerifyUserChallengeQuestionsRequest request)
         {
             Sitecore.Context.Database = database;
             resetPasswordSessionHelper.Context.Answers = request.Answers.ToDictionary(a => a.Key, a => a.Value);
             resetPasswordSessionHelper.Context.SendEmail = false;
 
             if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
-                resetPasswordSessionHelper.StateMachine.Process();
+                await resetPasswordSessionHelper.StateMachine.Process();
 
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
@@ -267,13 +322,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public SendResetPasswordEmailResponse SendResetPasswordEmail(SendResetPasswordEmailRequest request)
+        public async Task<SendResetPasswordEmailResponse> SendResetPasswordEmail(SendResetPasswordEmailRequest request)
         {
             Sitecore.Context.Database = database;
             resetPasswordSessionHelper.Context.SendEmail = true;
 
             if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
-                resetPasswordSessionHelper.StateMachine.Process();
+                await resetPasswordSessionHelper.StateMachine.Process();
 
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
@@ -312,6 +367,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     var user = Membership.GetUser(domain.AccountPrefix + username);
                     user.UnlockUser();
                     user.ChangePassword(user.ResetPassword(), request.Password);
+
+                    var profile = profileLocator.Locate(domain.AccountPrefix + username);
+                    profile.ImportSource = null;
+                    profile.Save();
+
                     success = true;
                 }
             }
@@ -327,29 +387,27 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Recover Username
 
         [HttpPost]
-        public RecoverUsernameResponse RecoverUsername(RecoverUsernameRequest request)
+        public async Task<RecoverUsernameResponse> RecoverUsername(RecoverUsernameRequest request)
         {
             Sitecore.Context.Database = database;
             var success = false;
             if (ModelState.IsValid)
             {
-                // TODO - call out to Stream Connect to get a list of usernames
-                IEnumerable<string> usernames = new[] { "mdekrey", "mdekrey2", "mdekrey3" };
+                var customers = await accountService.FindCustomers(request.Email.Address);
 
-                var toEmail = request.Email.Address;
-
-                // Send the email
-                emailService.SendEmail(new MailMessage()
+                if (customers != null)
                 {
-                    From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
-                    To = { toEmail },
-                    // TODO get subject and body template from Sitecore
-                    Subject = "Stream Energy Username Recovery",
-                    IsBodyHtml = true,
-                    Body = "The follwing usernames are associated with this account: " + string.Join(", ", usernames)
-                });
+                    var usernames = (from customer in customers
+                                     where !string.IsNullOrEmpty(customer.Username)
+                                     where customer.Username.StartsWith(domain.AccountPrefix)
+                                     let username = customer.Username.Substring(domain.AccountPrefix.Length)
+                                     orderby username
+                                     select username).ToArray();
 
-                success = true;
+                    success = await emailService.SendEmail(new Guid("{AA8CAFBB-AE0C-4B5C-A748-3AE702FA4C4C}"), request.Email.Address, new NameValueCollection() {
+                        {"usernames", string.Join(", ", usernames)}
+                    });
+                }
             }
             return new RecoverUsernameResponse
             {
@@ -394,9 +452,113 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Impersonation
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> Impersonate(string accountNumber, string expiry, string token, string username = null)
+        {
+            if (!impersonation.Verify(accountNumber, expiry, token))
+            {
+                var response = Request.CreateResponse(HttpStatusCode.Moved);
+                response.Headers.Location = new Uri("/auth/login?error=true&type=impersonate", UriKind.Relative);
+                return response;
+            }
+
+            var customers = await accountService.FindCustomersByCisAccount(accountNumber);
+            if (customers == null || !customers.Any())
+            {
+                var details = await accountService.GetAccountDetails(accountNumber);
+                if (details == null)
+                {
+                    var response = Request.CreateResponse(HttpStatusCode.Moved);
+                    response.Headers.Location = new Uri("/auth/login?error=true&type=impersonate", UriKind.Relative);
+                    return response;
+                }
+                var customer = await accountService.CreateStreamConnectCustomer();
+                await accountService.AssociateAccount(customer.GlobalCustomerId, accountNumber, details.Details.SsnLastFour, "");
+
+                customers = new[] { customer };
+            }
+            else
+            {
+                var userCustomers = customers.Where(c => c.Username != null);
+                if (userCustomers.Any())
+                {
+                    if (userCustomers.Skip(1).Any())
+                    {
+                        if (username == null)
+                        {
+                            var response = Request.CreateResponse(HttpStatusCode.Moved);
+                            response.Headers.Location = new Uri("/auth/impersonate?" + HttpContext.Current.Request.QueryString.ToString(), UriKind.Relative);
+                            return response;
+                        }
+                        else
+                        {
+                            userCustomers = customers.Where(c => c.Username == domain.AccountPrefix + username);
+                        }
+                    }
+                    customers = userCustomers;
+                }
+            }
+            {
+                var customer = customers.First();
+                var response = Request.CreateResponse(HttpStatusCode.Moved);
+                response.Headers.Location = new Uri("/account", UriKind.Relative);
+                if (string.IsNullOrEmpty(customer.Username))
+                    response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customer.GlobalCustomerId) });
+                else
+                    response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customer.Username) });
+
+                return response;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IHttpActionResult> ImpersonateUserList(string accountNumber, string expiry, string token)
+        {
+            if (!impersonation.Verify(accountNumber, expiry, token))
+            {
+                return NotFound();
+            }
+
+            var customers = await accountService.FindCustomersByCisAccount(accountNumber);
+            customers = customers.Where(c => c.Username != null && c.Username.StartsWith(domain.AccountPrefix));
+
+            return Ok(from customer in customers
+                      select customer.Username.Substring(domain.AccountPrefix.Length));
+        }
+
+        #endregion
+
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
             return item.Children[childItem];
+        }
+
+        private void AddRememberMeCookie(HttpResponseMessage response, string username)
+        {
+            response.Headers.AddCookies(new[] {
+                    new System.Net.Http.Headers.CookieHeaderValue("username", username) 
+                    { 
+                        Expires = DateTime.Now.AddYears(1), 
+                        HttpOnly = true, 
+                        Path = "/", 
+                        Secure = false 
+                    }
+                });
+        }
+
+        private void RemoveRememberMeCookie(HttpResponseMessage response)
+        {
+            response.Headers.AddCookies(new[] {
+                    new System.Net.Http.Headers.CookieHeaderValue("username", "") 
+                    { 
+                        Expires = DateTime.Now, 
+                        HttpOnly = true, 
+                        Path = "/", 
+                        Secure = false 
+                    }
+                });
         }
 
         public void AddAuthenticationCookie(HttpResponseMessage response, string username)

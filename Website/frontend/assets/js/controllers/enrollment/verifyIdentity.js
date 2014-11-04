@@ -16,6 +16,7 @@ ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', 'enrollmentService',
         var verifyIdentityPromise = enrollmentService.setVerifyIdentity($scope.selectedIdentityAnswers);
 
         verifyIdentityPromise.then(function (data) {
+            $scope.selectedIdentityAnswers = {};
         }, function (data) {
             // error response
         });

@@ -51,6 +51,7 @@ namespace StreamEnergy.Pipelines
                 .Include("~/frontend/assets/js/libs/d3/line-chart.js")
                 .Include("~/frontend/assets/js/app.js")
                 .Include("~/Scripts/angular.unobtrusive.validation.min.js")
+                .Include("~/frontend/assets/js/libs/jSignature/jSignature.min.noconflict.js")
                 .IncludeDirectory("~/frontend/assets/js/modules/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/config/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/services/", "*.js", true)

@@ -1,4 +1,3 @@
-
 /* 
     Lets take any sort of elements in a list and allow them
     to be toggleable

@@ -32,6 +32,7 @@ article.photoLockup {
 	border-top: 3px solid #999;
 	margin-bottom: 20px;
 	.photo {
+        @include border-radius(0 0 0 0);
 		position: absolute;
 		top: 0;
 		width: 50%;
@@ -1534,6 +1535,7 @@ article.homelife-services {
             .wrapper {
                 padding: 3px 3px 0 3px;
                 margin-top: -3px;
+                overflow: hidden;
             }
 			background-color: $brand-primary-color;
 			h3 {

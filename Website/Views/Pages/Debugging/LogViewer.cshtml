@@ -1,0 +1,66 @@
+@model IEnumerable<StreamEnergy.Logging.LogEntry>
+<div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(Model), '@(Request.Params["sessionID"] ?? Session.SessionID)');">
+    <article class="marketing">
+        <h3>Log Viewer</h3>
+
+        <div class="group">
+            <div class="item">
+                <label>Session ID:</label>
+                <input type="text" ng-model="form.sessionID" />
+                <button ng-click="update()">Update</button>
+            </div>
+        </div>
+    </article>
+    <article class="marketing">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Timestamp</th>
+                    <th>Duration</th>
+                    <th>Severity</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="item in logs">
+                <tr>
+                    <td>{{item.timestamp}}</td>
+                    <td>{{item.data.httpClient.duration}}</td>
+                    <td>{{item.severity}}</td>
+                    <td>{{item.message}}</td>
+                </tr>
+                <tr class="expand-details">
+                    <td colspan="4">
+                        <div ng-if="item.data.httpClient != null">
+                            <p><strong>Request URI:</strong></p>
+                            <p>
+                                {{item.data.httpClient.request.Method.Method}} {{item.data.httpClient.request.Uri}}
+                            </p>
+
+                            <div ng-if="item.data.httpClient.request.Content">
+                                <p ng-click="showRequest = !showRequest" style="cursor: pointer;"><strong>Request Content: <i ng-class="{'icon-arrow-expanded': showRequest, 'icon-arrow-collapsed': !showRequest}"></i></strong></p>
+                                <p ng-show="!showRequest">{{item.data.httpClient.request.Content}}</p>
+                                <pre ng-show="showRequest">{{item.data.httpClient.request.Content | json}}</pre>
+                            </div>
+
+                            <div ng-if="item.data.httpClient.response.Content">
+                                <p ng-click="showResponse = !showResponse" style="cursor: pointer;"><strong>Response Content: <i ng-class="{'icon-arrow-expanded': showResponse, 'icon-arrow-collapsed': !showResponse}"></i></strong></p>
+                                <p ng-show="!showResponse">{{item.data.httpClient.response.Content}}</p>
+                                <pre ng-show="showResponse">{{item.data.httpClient.response.Content | json}}</pre>
+                            </div>
+                        </div>
+                        <div ng-if="item.exception">
+                            <p ng-click="showException = !showException" style="cursor: pointer;"><strong>Exception: <i ng-class="{'icon-arrow-expanded': showException, 'icon-arrow-collapsed': !showException}"></i></strong></p>
+                            <p ng-show="!showException">{{item.exception}}</p>
+                            <pre ng-show="showException">{{item.exception | json}}</pre>
+                        </div>
+                        <div>
+                            <p ng-click="showStackTrace = !showStackTrace" style="cursor: pointer;"><strong>Stack Trace: <i ng-class="{'icon-arrow-expanded': showStackTrace, 'icon-arrow-collapsed': !showStackTrace}"></i></strong></p>
+                            <pre ng-show="showStackTrace">{{item.data.stackTrace}}</pre>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
+</div>

@@ -13,30 +13,40 @@ namespace StreamEnergy.DomainModels.Accounts
     /// As such, there is also a <seealso cref="Account<TSubAccount>"/> that handles typed account data, such as sub accounts and possibly other 
     /// specific account-type things.
     /// </summary>
+    [Serializable]
     public class Account
     {
-        public Account()
+        public Account(Guid streamConnectCustomerId, Guid streamConnectAccountId)
         {
+            StreamConnectCustomerId = streamConnectCustomerId;
+            StreamConnectAccountId = streamConnectAccountId;
             Capabilities = new List<IAccountCapability>();
             Balance = null;
         }
 
+        public Guid StreamConnectCustomerId { get; private set; }
+        public Guid StreamConnectAccountId { get; private set; }
         public string AccountNumber { get; set; }
         public string AccountType { get; set; }
+        public string SystemOfRecord { get; set; }
 
         public AccountBalance Balance { get; set; }
 
-        public Invoice CurrentInvoice { get; set; }
+        public Invoice[] Invoices { get; set; }
 
-        public IEnumerable<Invoice> Invoices { get; set; }
-
-        public IEnumerable<ISubAccount> SubAccounts { get; set; }
+        public ISubAccount[] SubAccounts { get; set; }
 
         /// <summary>
         /// Capabilities on accounts, since they might not be loaded, do not indicate anything simply by presence; the absence would simply mean
         /// they are not loaded. As such, account capabilities need to be either present or not, and not listed multiple times.
         /// </summary>
         public List<IAccountCapability> Capabilities { get; private set; }
+
+        public AccountDetails Details { get; set; }
+
+        public Payments.PastPayment[] PaymentHistory { get; set; }
+
+        public Payments.AutoPaySetting AutoPay { get; set; }
 
         /// <summary>
         /// Gets the capability of the specified type, or throws an exception if it is not found.
@@ -72,5 +82,7 @@ namespace StreamEnergy.DomainModels.Accounts
             capability = temp.FirstOrDefault();
             return temp.Any();
         }
+
+
     }
 }

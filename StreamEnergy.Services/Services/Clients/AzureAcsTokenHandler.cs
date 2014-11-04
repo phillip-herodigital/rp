@@ -8,12 +8,12 @@ using StreamEnergy.Services.Clients.Interceptors;
 
 namespace StreamEnergy.Services.Clients
 {
-    class AzureAcsTokenHandler : HttpMessageInterceptor
+    class AzureAcsTokenHandler : DelegatingHandler
     {
         private AzureAccessControlServiceTokenManager tokenManager;
 
-        public AzureAcsTokenHandler(AzureAccessControlServiceTokenManager tokenManager, ServiceInterceptorResolver serviceInterceptorResolver)
-            : base(serviceInterceptorResolver)
+        public AzureAcsTokenHandler(AzureAccessControlServiceTokenManager tokenManager, HttpMessageHandler innerHandler)
+            : base(innerHandler)
         {
             this.tokenManager = tokenManager;
         }

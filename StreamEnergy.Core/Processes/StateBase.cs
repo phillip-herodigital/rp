@@ -45,7 +45,10 @@ namespace StreamEnergy.Processes
 
         public virtual async Task<Type> Process(TContext context, TInternalContext internalContext)
         {
-            await LoadInternalState(context, internalContext);
+            if (NeedRestoreInternalState(context, internalContext))
+            {
+                await LoadInternalState(context, internalContext);
+            }
 
             return await InternalProcess(context, internalContext);
         }

@@ -17,11 +17,14 @@ namespace StreamEnergy.DomainModels.Enrollments
         }
 
         public decimal DollarAmount { get; set; }
+        public bool CanBeWaived { get { return true; } }
 
         public bool IsDollarAmountEstimated
         {
             get { return false; }
         }
 
+        public string SystemOfRecord { get; set; }
+        public string DepositAccount { get; set; }
     }
 }

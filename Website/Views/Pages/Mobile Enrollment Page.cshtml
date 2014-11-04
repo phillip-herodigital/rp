@@ -1,0 +1,5 @@
+<div class="enrollment mobile-enrollment" ng-controller="MobileEnrollmentCtrl" ng-init="mobileEnrollmentService.setNetworks(@(Html.Action("MobileNetworks", "MobileEnrollment").ToHtmlString())); mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); mobileEnrollmentService.setDataPlans(@(Html.Action("MobileDataPlans", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
+    @Html.Sitecore().Placeholder("mobile enrollment sections")
+</div>
+
+@Html.Sitecore().Placeholder("mobile enrollment sidebar")

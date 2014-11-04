@@ -1,0 +1,64 @@
+/* This file is where the styling for components will go.  */
+
+.credit-card {
+    .item.card-number {
+        input[type="text"] {
+            width: 100%;
+        }
+    }
+    @include breakpoint(medium-large) {
+        .item.security-code {
+            input[type="text"] {
+                width: 100px;
+            }
+        }
+        .item.zip-code {
+            width: 20%;
+        }
+    }
+}
+
+.inline-tabs {
+    > ul {
+        @include layout-list();
+        li {
+            position: relative;
+            display: inline-block;
+            margin-right: 20px;
+            &.selected {
+                a {
+                    color: #939393;
+                }
+                &:after, &:before {
+                    bottom: -16px;
+                    left: 50%;
+                    border: solid transparent;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    position: absolute;
+                    pointer-events: none;
+                }
+                &:after {
+                    border-color: rgba(250, 250, 250, 0);
+                    border-bottom-color: #fafafa;
+                    border-width: 10px;
+                    margin-left: -10px;
+                    margin-top: 2px;
+                }
+                &:before {
+                    border-color: rgba(222, 222, 222, 0);
+                    border-bottom-color: #ddd;
+                    border-width: 11px;
+                    margin-left: -11px;
+                }
+            }
+        }
+    }
+    div.tab-content {
+        background: #fafafa;
+        padding: 25px 15px;
+        margin: 15px -15px -25px;
+        border-top: 1px solid #ddd;
+    }
+}

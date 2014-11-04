@@ -28,7 +28,7 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 		}
 	});
 
-	$scope.open = function (accountNumber) {
+	$scope.open = function (accountNumber, accountId) {
 		$scope.currentAccount = accountNumber;
 
 		var modalInstance = $modal.open({
@@ -37,15 +37,15 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 		});	
 
 		modalInstance.result.then( function() {
-			removeEnrolledAccount(accountNumber);
+			removeEnrolledAccount(accountId);
 		})
 	};
 
 	// remove an enrolled account
-	var removeEnrolledAccount = function (accountNumber) {
+	var removeEnrolledAccount = function (accountId) {
 		// format the request data
 		var requestData = {};
-		requestData.accountNumber = accountNumber;
+		requestData.accountId = accountId;
 
 		$http({
 			method  : 'POST',
@@ -58,9 +58,14 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 					// if not successful, show an error
 
 				} else {
-					// if successful, remove the row
-					var index = _.findIndex($scope.formData.enrolledAccounts, { 'accountNumber' : accountNumber });
-					$scope.formData.enrolledAccounts.splice(index, 1);
+					// if successful, refresh the list
+					$scope.isLoading = true;
+					$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
+						$scope.formData = data;
+						$scope.formDataOriginal = angular.copy($scope.formData);
+						$scope.newAccountAdded.added = false;
+						$scope.isLoading = false;
+					});
 				}
 			});
 	};

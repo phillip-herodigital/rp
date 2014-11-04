@@ -106,3 +106,68 @@ ngApp.filter('securityQuestion', function () {
         return newOptions;
     };
 });
+
+
+ngApp.filter('unsafe', ['$sce', function ($sce) {
+    return function (val) {
+        return $sce.trustAsHtml(val);
+    };
+}]);
+
+
+ngApp.filter('partition', ['$cacheFactory', function($cacheFactory) {
+  var arrayCache = $cacheFactory('partition');
+  var filter = function(arr, size) {
+    if (!arr) { return; }
+    var newArr = [];
+    for (var i=0; i<arr.length; i+=size) {
+        newArr.push(arr.slice(i, i+size));        
+    }
+    var cachedParts;
+    var arrString = JSON.stringify(arr);
+    cachedParts = arrayCache.get(arrString+size); 
+    if (JSON.stringify(cachedParts) === JSON.stringify(newArr)) {
+      return cachedParts;
+    }
+    arrayCache.put(arrString+size, newArr);
+    return newArr;
+  };
+  return filter;
+}]);
+
+ngApp.filter('phoneFilter', function() {
+  return function(phones, filters) {
+    //Filter by brand, OS, Condition
+    var filteredElements = phones;
+    
+    if(filters.brand.length) {
+        filteredElements =  _.filter(filteredElements, function(item) {
+            return _.contains(filters.brand, item.brand);
+        });
+    }
+
+    if(filters.os.length) {
+        filteredElements =  _.filter(filteredElements, function(item) {
+            return _.contains(filters.os, item.os);
+        });
+    }
+
+    if(filters.condition) {
+        filteredElements =  _.filter(filteredElements, function(item) {
+            //This makes sure it meets the first condition
+            if(_.where(item.models, { condition: filters.condition }).length) {
+                //Now we need to only return Refurished phones if New doesn't exist
+                if(filters.condition == 'Reconditioned' && !_.where(item.models, { condition: 'New' }).length) {
+                    return item;    
+                }
+
+                if(filters.condition != 'Reconditioned') {
+                    return item;
+                }              
+            }
+        });
+    }
+
+    return filteredElements;
+  }
+});

@@ -36,6 +36,9 @@
         Language = Sitecore.Globalization.Language.Parse(languageLinkUrlLanguage),
     });
     var languageLink = string.Format(@"<a href=""{0}"">{1}</a>", languageLinkUrl, languageLinkText);
+
+    var loggedIn = Sitecore.Context.IsLoggedIn;
+    var username = Sitecore.Context.User.LocalName;
     
     <header class="site-header" main-nav="@selectedNavItem" data-fixed-fix>
         <script id="mobileNav" type="text/ng-template">
@@ -62,17 +65,35 @@
                             }
                         </li>
                     }
-                    <li>@Html.Raw(languageLink)</li>
-                    <li><a href="/manage/">Manage My Account</a></li>
+                    @if (!loggedIn)
+                    {
+                        <li><a href="/pay/" class="button">Pay My Bill</a></li>
+                        <!--<li>@Html.Raw(languageLink)</li>-->
+                        <li><a href="/manage/">Manage My Account</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/api/authentication/logout">Logout</a></li>
+                        <li><a href="/faq">Help</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
+                    }
+                    
                 </ul>
             </nav>
         </script>
         <div class="shadow-wrapper">
             <div class="wrapper">
                 <a href="/" class="logo">Logo</a>
-                <div class="utility">
-                    @Html.Raw(languageLink) <a class="account-link" href="/manage/">Manage My Account</a>
-                </div>
+            <div class="utility">
+                @if (!loggedIn)
+                {
+                    <!--@Html.Raw(languageLink) | --><a href="/manage/">Manage My Account</a>
+                }
+                else
+                {
+                    <div class="welcome">Welcome: <span class="username">@username</span><a href="/api/authentication/logout">Logout</a>|<a href="/faq">Help</a>|<a href="/contact">Contact Us</a></div>
+                }
+            </div>
                 <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
                 <nav class="main-nav">
                         <ul class="wrapper">
@@ -80,6 +101,10 @@
                             {
                                 <li class="nav-@item.SubNavNum" ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)<span class="triangle"></span></li>
                             }
+                    @if (!loggedIn)
+                    {
+                        <li class="pay"><a href="/pay/" class="button">Pay My Bill</a></li>
+                    }
                         </ul>
                 </nav>
             </div>

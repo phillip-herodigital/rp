@@ -12,9 +12,9 @@ namespace StreamEnergy.MyStream.Models.Account
         public DomainModels.Name CustomerName { get; set; }
 
         [Required]
-        public TypedPhone PrimaryPhone { get; set; }
-
-        public TypedPhone SecondaryPhone { get; set; }
+        public Phone MobilePhone { get; set; }
+        public Phone HomePhone { get; set; }
+        public Email Email { get; set; }
         public Address ServiceAddress { get; set; }
         public bool SameAsService { get; set; }
         public Address BillingAddress { get; set; }

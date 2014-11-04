@@ -80,6 +80,11 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -117,11 +122,18 @@
     <Compile Include="DomainModels\AccountLookup.cs" />
     <Compile Include="DomainModels\Accounts\Account.TSubAccount.cs" />
     <Compile Include="DomainModels\Accounts\AccountBalance.cs" />
+    <Compile Include="DomainModels\Accounts\AccountDetails.cs" />
+    <Compile Include="DomainModels\Accounts\AccountSummary.cs" />
     <Compile Include="DomainModels\Accounts\AvailablePaymentMethod.cs" />
+    <Compile Include="DomainModels\Accounts\CurrentUser.cs" />
+    <Compile Include="DomainModels\Accounts\Customer.cs" />
     <Compile Include="DomainModels\Accounts\ExternalPaymentAccountCapability.cs" />
-    <Compile Include="DomainModels\Accounts\MakePaymentResult.cs" />
+    <Compile Include="DomainModels\Accounts\ICurrentUser.cs" />
+    <Compile Include="DomainModels\Accounts\ImpersonationUtility.cs" />
+    <Compile Include="DomainModels\Accounts\ImportSource.cs" />
     <Compile Include="DomainModels\Accounts\PaymentMethodAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\PaymentSchedulingAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\RenewalAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\SampleAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\AccountGrouping.cs" />
     <Compile Include="DomainModels\Accounts\Account.cs" />
@@ -134,7 +146,7 @@
     <Compile Include="DomainModels\Accounts\Create\CreateFailedState.cs" />
     <Compile Include="DomainModels\Accounts\Create\FindAccountState.cs" />
     <Compile Include="DomainModels\Accounts\Create\MembershipBuilder.cs" />
-    <Compile Include="DomainModels\Accounts\GeorgiaElectricityAccount.cs" />
+    <Compile Include="DomainModels\Accounts\GeorgiaGasAccount.cs" />
     <Compile Include="DomainModels\Accounts\IAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\IAccountService.cs" />
     <Compile Include="DomainModels\Accounts\InvoiceExtensionAccountCapability.cs" />
@@ -151,6 +163,7 @@
     <Compile Include="DomainModels\Accounts\SampleSubAccount.cs" />
     <Compile Include="DomainModels\Accounts\TexasElectricityAccount.cs" />
     <Compile Include="DomainModels\Accounts\UserProfile.cs" />
+    <Compile Include="DomainModels\Accounts\UserProfileLocator.cs" />
     <Compile Include="DomainModels\Accounts\UtilityPlan.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />
@@ -159,12 +172,27 @@
     <Compile Include="DomainModels\Enrollments\ConnectDate.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDateClassification.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDatePolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\ConnectionFeePaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\CreditCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\CustomerTypeCapability.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentCustomerType.cs" />
     <Compile Include="DomainModels\Enrollments\DepositOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentErrorState.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentType.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\CommercialQuote.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\CommercialQuoteOption.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\CommercialQuoteOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\CommercialQuoteOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\MoveInOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\MoveInOfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\MoveInOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\Offer.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\OfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\SwitchOfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\OfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\ServiceCapability.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\SwitchOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\SwitchOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityCheckHardStopState.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
@@ -177,8 +205,14 @@
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OnlineAccount.cs" />
+    <Compile Include="DomainModels\Enrollments\PayingDepositState.cs" />
     <Compile Include="DomainModels\Enrollments\PremiseVerificationResult.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
+    <Compile Include="DomainModels\Enrollments\Renewal\Offer.cs" />
+    <Compile Include="DomainModels\Enrollments\Renewal\OfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\Renewal\OfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\Renewal\OfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\RenewalResult.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\SaveEnrollmentState.cs" />
     <Compile Include="DomainModels\Enrollments\SavingEnrollmentState.cs" />
@@ -187,19 +221,35 @@
     <Compile Include="DomainModels\Enrollments\Service\EnrollmentSaveResult.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityCommercialQuote.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityCommercialQuoteOption.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityCommercialQuoteOptionPolicy.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityCommercialQuoteOptionRules.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityMoveInOfferOption.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityMoveInOfferOptionPolicy.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityMoveInOfferOptionRules.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOption.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuote.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuoteOption.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuoteOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuoteOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\MoveInOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\MoveInOfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\MoveInOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\OfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\OfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\OfferOptionRules.cs" />
     <Compile Include="DomainModels\ISearchable.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\MobileColor.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\MobileModel.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\MobileNetwork.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\MobilePhone.cs">
+      <Generator>SitecoreServerCodeGenerator</Generator>
+      <LastGenOutput>MobilePhone.Designer.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="DomainModels\MobileEnrollment\MobilePhone.Designer.cs">
+      <DependentUpon>MobilePhone.cs</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="DomainModels\MobileEnrollment\UserContext.cs" />
+    <Compile Include="DomainModels\Payments\AutoPaySetting.cs" />
     <Compile Include="DomainModels\Payments\BankAccountCategory.cs" />
-    <Compile Include="DomainModels\Payments\BankPaymentInfo.cs" />
+    <Compile Include="DomainModels\Payments\SavedPaymentRecord.cs" />
+    <Compile Include="DomainModels\Payments\TokenizedBank.cs" />
     <Compile Include="DomainModels\Payments\IPaymentInfo.cs" />
     <Compile Include="DomainModels\Name.cs" />
     <Compile Include="DomainModels\DriversLicense.cs" />
@@ -213,7 +263,7 @@
     <Compile Include="DomainModels\Enrollments\IConnectDatePolicy.cs" />
     <Compile Include="DomainModels\Enrollments\IEnrollmentService.cs" />
     <Compile Include="DomainModels\Enrollments\Service\PlaceOrderResult.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasElectricityOffer.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\Offer.cs" />
     <Compile Include="DomainModels\IServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\LoadIdentityQuestionsState.cs" />
     <Compile Include="DomainModels\Enrollments\PaymentInfoState.cs" />
@@ -226,16 +276,21 @@
     <Compile Include="DomainModels\Enrollments\LoadOffersState.cs" />
     <Compile Include="DomainModels\Enrollments\AccountInformationState.cs" />
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
+    <Compile Include="DomainModels\Payments\IPaymentService.cs" />
+    <Compile Include="DomainModels\Payments\PastPayment.cs" />
+    <Compile Include="DomainModels\Payments\PaymentRecord.cs" />
+    <Compile Include="DomainModels\Payments\PaymentResult.cs" />
     <Compile Include="DomainModels\Payments\SamplePaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\SavedPaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\TokenizedCard.cs" />
+    <Compile Include="DomainModels\PdfBusinessClassification.cs" />
     <Compile Include="DomainModels\PhoneCategory.cs" />
     <Compile Include="DomainModels\PhoneSubtypeLookup.cs" />
     <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />
     <Compile Include="DomainModels\SampleServiceCapability.cs" />
     <Compile Include="DomainModels\StreamAsync.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasMeterType.cs" />
-    <Compile Include="DomainModels\Enrollments\TexasServiceCapability.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\MeterType.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricity\ServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\UserContext.cs" />
     <Compile Include="DomainModels\Enrollments\VerifyIdentityState.cs" />
     <Compile Include="DomainModels\Phone.cs" />

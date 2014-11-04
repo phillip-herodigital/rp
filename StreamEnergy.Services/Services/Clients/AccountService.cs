@@ -7,158 +7,121 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using System.Net.Http;
 using Legacy = StreamEnergy.DomainModels.Accounts.Legacy;
+using System.IO;
 
 namespace StreamEnergy.Services.Clients
 {
     class AccountService : IAccountService
     {
-        private readonly Sample.Commons.SampleStreamCommonsSoap service;
         private readonly StreamCommons.Account.CisAccountServicesPortType accountService;
         private readonly StreamEnergy.Dpi.DPILinkSoap dpiLinkService;
-        private readonly HttpClient client;
+        private readonly HttpClient streamConnectClient;
+        private readonly string sharedAccessSignature;
+        private readonly AccountFactory accountFactory;
+        private readonly ISet<ILocationAdapter> locationAdapters;
 
-        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client)
+        private static Dictionary<string, string> _cis2AureaAccountMapping { get; set; }
+        private static Dictionary<string, string> cis2AureaAccountMapping
         {
-            this.service = service;
-            this.accountService = accountService;
-            this.dpiLinkService = dpiLinkService;
-            this.client = client;
-        }
-
-        IEnumerable<Account> IAccountService.GetInvoices(string username)
-        {
-            // TODO - load from Stream Commons
-            var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { Username = username });
-
-            return from entry in response.Invoice
-                   group new DomainModels.Accounts.Invoice
-                   {
-                       DueDate = entry.DueDate,
-                       InvoiceAmount = entry.InvoiceAmount,
-                       InvoiceNumber = entry.InvoiceNumber,
-                       IsPaid = entry.IsPaid,
-                   } by new { entry.AccountNumber, entry.ServiceType, entry.CanRequestExtension } into invoicesByAcount
-                   select new Account
-                   {
-                       AccountNumber = invoicesByAcount.Key.AccountNumber,
-                       AccountType = invoicesByAcount.Key.ServiceType,
-                       Capabilities = { new InvoiceExtensionAccountCapability { CanRequestExtension = invoicesByAcount.Key.CanRequestExtension } },
-                       Invoices = invoicesByAcount.ToArray(),
-                       // TODO - populate the CurrentInvoice?
-                   };
-        }
-
-        Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(string username)
-        {
-            // TODO - load from Stream Commons
-            return Task.FromResult<IEnumerable<Account>>(new[] {
-                new Account {
-                    AccountNumber = "1234567890", 
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 73.05m, InvoiceNumber="", IsPaid = false },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true }  , 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
-                    }
-                },
-                new Account {
-                    AccountNumber = "5678901234",
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(12), InvoiceAmount = 24.95m, InvoiceNumber="", IsPaid = false }, 
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
-                    } 
-                },
-                new Account { 
-                    AccountNumber = "2345060992", 
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(19), InvoiceAmount = 54.05m, InvoiceNumber="", IsPaid = false }, 
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = false }, 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
-                    } 
-                },
-                new Account {
-                    AccountNumber = "3429500293",
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(29), InvoiceAmount = 36.00m, InvoiceNumber="", IsPaid = false }, 
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } ,
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
-                    } 
-                },
-            });
-        }
-
-        Task<IEnumerable<Account>> IAccountService.GetAccountBalances(string username)
-        {
-            // TODO - load from Stream Commons
-            return Task.FromResult<IEnumerable<Account>>(new[] {
-                new Account {
-                    AccountNumber = "1234567890", 
-                    Balance = new AccountBalance { Balance = 0.00m, DueDate = DateTime.Today.AddDays(2) },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
-                        new ExternalPaymentAccountCapability { }
-                    }
-                },
-                new Account {
-                    AccountNumber = "5678901234",
-                    Balance = new AccountBalance { Balance =  24.95m, DueDate = DateTime.Today.AddDays(12) },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
-                        new ExternalPaymentAccountCapability { } 
-                    } 
-                },
-                new Account { 
-                    AccountNumber = "2345060992", 
-                    Balance = new AccountBalance { Balance =  54.05m, DueDate = DateTime.Today.AddDays(19) },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = false }, 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
-                        new ExternalPaymentAccountCapability { } 
-                    } 
-                },
-                new Account {
-                    AccountNumber = "3429500293",
-                    Balance = new AccountBalance { Balance =  36.00m, DueDate = DateTime.Today.AddDays(29) },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } ,
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
-                        new ExternalPaymentAccountCapability { UtilityProvider = "PECO" }
-                    } 
-                },
-            });
-        }
-
-        Task<Account> IAccountService.GetCurrentInvoice(string accountNumber)
-        {
-            // TODO - load from Stream Commons
-            return Task.FromResult<Account>(
-                new Account {
-                    AccountNumber = accountNumber,
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 123.45m, InvoiceNumber="", IsPaid = false },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true }, 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
+            get
+            {
+                if (_cis2AureaAccountMapping == null)
+                {
+                    _cis2AureaAccountMapping = new Dictionary<string, string>();
+                    Sitecore.Data.Items.MediaItem item = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{CE3C3112-536E-4239-A888-623296B75463}"));
+                    using (StreamReader reader = new StreamReader(item.GetMediaStream(), Encoding.UTF8))
+                    {
+                        var content = reader.ReadToEnd();
+                        var lines = content.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var line in lines)
+                        {
+                            var parts = line.Split(',');
+                            if (parts.Length == 2)
+                            {
+                                _cis2AureaAccountMapping.Add(parts[1], parts[0]);
+                            }
+                        }
                     }
                 }
-            );
+                return _cis2AureaAccountMapping;
+            }
         }
 
-        Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> IAccountService.GetSavedPaymentMethods(string username)
+        public AccountService(StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, [Dependency(StreamConnectContainerSetup.StreamConnectSharedAccessSignature)] string sharedAccessSignature, AccountFactory accountFactory, ISet<ILocationAdapter> locationAdapters)
         {
-            return Task.FromResult<IEnumerable<DomainModels.Payments.SavedPaymentInfo>>(new[] { 
-                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Credit Card", Id="753159", RedactedData= "**** **** **** 1234", UnderlyingPaymentType = DomainModels.Payments.TokenizedCard.Qualifier },
-                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Bank", Id="456852", RedactedData= "*****1234", UnderlyingPaymentType = DomainModels.Payments.BankPaymentInfo.Qualifier },
-            });
+            this.accountService = accountService;
+            this.dpiLinkService = dpiLinkService;
+            this.streamConnectClient = client;
+            this.sharedAccessSignature = sharedAccessSignature;
+            this.accountFactory = accountFactory;
+            this.locationAdapters = locationAdapters;
         }
 
-        Task<MakePaymentResult> IAccountService.MakePayment(string account, decimal amount, DomainModels.Payments.IPaymentInfo paymentMethod, DateTime paymentDate)
+        async Task<IEnumerable<Account>> IAccountService.GetInvoices(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects)
         {
-            return Task.FromResult(new MakePaymentResult
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/invoices");
+            response.EnsureSuccessStatusCode();
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            if (data.Status == "Success")
+            {
+                return accountFactory.Merge(existingAccountObjects,
+                    from invoice in ((IEnumerable<dynamic>)data.Invoices)
+                    group new Invoice
+                    {
+                        InvoiceNumber = invoice.InvoiceId.ToString(),
+                        DueDate = invoice.DueDate,
+                        InvoiceAmount = (decimal)invoice.AmountDue.Value,
+                        PdfAvailable = invoice.PdfAvailable
+                    } by new AccountFactory.AccountKey
+                    {
+                        StreamConnectCustomerId = globalCustomerId,
+                        StreamConnectAccountId = (Guid)invoice.GlobalAccountId,
+                        AccountNumber = invoice.SystemOfRecordAccountNumber,
+                        AccountType = invoice.ServiceType,
+                        SystemOfRecord = invoice.SystemOfRecord
+                    },
+                    (account, invoices) => {
+                        InvoiceExtensionAccountCapability capability;
+                        account.Invoices = invoices.ToArray();
+                        if (account.TryGetCapability(out capability))
+                        {
+                            capability.CanRequestExtension = false;
+                        }
+                        else
+                        {
+                            account.Capabilities.Add(new InvoiceExtensionAccountCapability { CanRequestExtension = false });
+                        }
+                    });
+            }
+            else
+            {
+                return Enumerable.Empty<Account>();
+            }
+        }
+
+        async Task<Uri> IAccountService.GetInvoicePdf(Account account, Invoice invoice)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString() + "/invoices/" + invoice.InvoiceNumber);
+            response.EnsureSuccessStatusCode();
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return new Uri((string)data.Uri + "?" + sharedAccessSignature);
+        }
+
+        async Task<IEnumerable<Account>> IAccountService.GetAccountBalances(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects, bool forceRefresh)
+        {
+            var service = ((IAccountService)this);
+            List<Account> results = new List<Account>();
+            foreach (var entry in from account in existingAccountObjects ?? await service.GetAccounts(globalCustomerId)
+                                  select new { service, account })
+            {
+                if (entry.account.Balance == null || forceRefresh)
                 {
-                    ConfirmationNumber = account + "123"
-                });
+                    await service.GetAccountDetails(entry.account, true);
+                }
+                results.Add(entry.account);
+            }
+            return results.ToArray();
         }
 
         string IAccountService.GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber)
@@ -291,30 +254,365 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        async Task<Guid> IAccountService.CreateStreamConnectCustomer(string username, string email)
+        async Task<Customer> IAccountService.CreateStreamConnectCustomer(string providerKey, string email, string username)
         {
-            var response = await client.PostAsJsonAsync("/api/customers", new { PortalId = username, EmailAddress = email });
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers", new { PortalId = providerKey, EmailAddress = email, UserName = username });
             if (response.IsSuccessStatusCode)
             {
                 var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
-                return data.Customer.GlobalCustomerId;
+                return new Customer
+                {
+                    GlobalCustomerId = data.Customer.GlobalCustomerId,
+                    EmailAddress = data.Customer.EmailAddress,
+                    AspNetUserProviderKey = data.Customer.PortalId,
+                    Username = data.Customer.UserName,
+                };
             }
             else
             {
-                return Guid.Empty;
+                return null;
             }
         }
 
-        async Task<string> IAccountService.GetEmailByCustomerId(Guid globalCustomerId)
+        async Task<Customer> IAccountService.GetCustomerByCustomerId(Guid globalCustomerId)
         {
-            var response = await client.GetAsync("/api/customers/" + globalCustomerId.ToString());
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString());
             if (response.IsSuccessStatusCode)
             {
                 var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
-                return data.Customer.EmailAddress;
+                return new Customer
+                {
+                    GlobalCustomerId = globalCustomerId,
+                    EmailAddress = data.Customer.EmailAddress,
+                    AspNetUserProviderKey = data.Customer.PortalId,
+                    Username = data.Customer.UserName,
+                };
             }
             return null;
         }
 
+        async Task<bool> IAccountService.UpdateCustomer(Customer customer)
+        {
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + customer.GlobalCustomerId.ToString(),
+                new
+                {
+                    EmailAddress = customer.EmailAddress,
+                    UserName = customer.Username,
+                    PortalId = customer.AspNetUserProviderKey,
+                    TCPAPreference = "NA"
+                });
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return ((string)data.Status.ToString()) == "Success";
+        }
+
+        async Task<IEnumerable<Customer>> IAccountService.FindCustomers(string emailAddress)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/customers?EmailAddress=" + emailAddress);
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return ParseFindCustomers(data);
+        }
+
+        async Task<IEnumerable<Customer>> IAccountService.FindCustomersByCisAccount(string accountNumber)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/customers?SystemOfRecordAccountNumber=" + accountNumber);
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return ParseFindCustomers(data);
+        }
+
+        private static IEnumerable<Customer> ParseFindCustomers(dynamic data)
+        {
+            if (data.Status != "Success")
+                return null;
+
+            return from entry in (IEnumerable<dynamic>)data.Customers
+                   select new Customer
+                   {
+                       GlobalCustomerId = entry.GlobalCustomerId,
+                       EmailAddress = entry.EmailAddress,
+                       AspNetUserProviderKey = entry.PortalId,
+                       Username = entry.UserName,
+                   };
+        }
+
+
+        async Task<IEnumerable<Account>> IAccountService.GetAccounts(Guid globalCustomerId)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts");
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    var result = new List<Account>();
+                    foreach (var acct in data.Accounts)
+                    {
+                        result.Add(new Account(globalCustomerId, (Guid)acct.GlobalAccountId)
+                            {
+                                AccountNumber = acct.SystemOfRecordAccountNumber,
+                                AccountType = acct.ServiceType,
+                                SystemOfRecord = acct.SystemOfRecord,
+                            });
+                    }
+                    return result.ToArray();
+                }
+            }
+            return null;
+        }
+
+        async Task<Account> IAccountService.AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/associate", new
+                {
+                    AccountNumber = accountNumber,
+                    Last4 = ssnLast4,
+                    Nickname = accountNickname
+                });
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success" && data.AssociateAccountResults[0].Status == "Success")
+                {
+                    return new Account(globalCustomerId, Guid.Parse((string)data.AssociateAccountResults[0].GlobalAccountId))
+                        {
+                            AccountNumber = accountNumber
+                        };
+                }
+            }
+            return null;
+        }
+
+        async Task<bool> IAccountService.DisassociateAccount(Account account)
+        {
+            var response = await streamConnectClient.DeleteAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString());
+
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        
+
+        #region GetAccountDetails
+
+        async Task<bool> IAccountService.GetAccountDetails(Account account, bool forceRefresh)
+        {
+            if (account.Details == null || forceRefresh)
+            {
+                var response = await streamConnectClient.GetAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString());
+
+                if (response.IsSuccessStatusCode)
+                {
+                    dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                    if (data.Status == "Success")
+                    {
+                        LoadAccountDetailsFromStreamConnect(account, data);
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        async Task<Account> IAccountService.GetAccountDetails(string accountNumber)
+        {
+            if (cis2AureaAccountMapping.ContainsKey(accountNumber))
+            {
+                accountNumber = cis2AureaAccountMapping[accountNumber];
+            }
+            
+            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?systemOfRecordAccountNumber=" + accountNumber);
+
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    var account = accountFactory.CreateAccount(new AccountFactory.AccountKey());
+                    LoadAccountDetailsFromStreamConnect(account, data);
+                    if (!account.SubAccounts.Any(a => a != null))
+                    {
+                        return null;
+                    }
+
+                    return account;
+                }
+            }
+            return null;
+        }
+
+        private void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
+        {
+            var homePhone = (data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() });
+            var mobilePhone = (data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() });
+            var tcpa = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"));
+            account.Details = new AccountDetails
+            {
+                ContactInfo = new DomainModels.CustomerContact
+                {
+                    Name = new DomainModels.Name { First = data.AccountDetails.AccountCustomer.FirstName, Last = data.AccountDetails.AccountCustomer.LastName },
+                    Email = new DomainModels.Email { Address = data.AccountDetails.AccountCustomer.EmailAddress },
+                    Phone = new DomainModels.Phone[] 
+                                    { 
+                                        homePhone,
+                                        mobilePhone,
+                                    }.Where(p => p != null).ToArray()
+                },
+                BillingAddress = new DomainModels.Address
+                {
+                    Line1 = data.AccountDetails.BillingAddress.StreetLine1,
+                    Line2 = data.AccountDetails.BillingAddress.StreetLine2,
+                    City = data.AccountDetails.BillingAddress.City,
+                    PostalCode5 = data.AccountDetails.BillingAddress.Zip,
+                    StateAbbreviation = data.AccountDetails.BillingAddress.State,
+                },
+                SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
+                ProductType = data.AccountDetails.ProductType,
+                TcpaPreference = tcpa
+            };
+            account.SystemOfRecord = data.AccountDetails.SystemOfRecord;
+            account.AccountNumber = data.AccountDetails.SystemOfRecordAccountNumber;
+            account.Balance = new AccountBalance
+            {
+                Balance = (decimal)data.AccountDetails.BalanceDue.Value,
+                DueDate = (DateTime)data.AccountDetails.BalanceDueDate.Value,
+            };
+            if (data.AccountDetails.ServiceAddress != null)
+            {
+                account.SubAccounts = new ISubAccount[]
+                {
+                    CreateSubAccount(data.AccountDetails)
+                };
+            }
+            else
+            {
+                account.SubAccounts = new ISubAccount[0];
+            }
+
+            var methodId = data.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.AutoPayGlobalPaymentMethodId.ToString());
+            account.AutoPay = new DomainModels.Payments.AutoPaySetting
+            {
+                IsEnabled = methodId != Guid.Empty,
+                PaymentMethodId = methodId
+            };
+
+            account.Capabilities.RemoveAll(cap => cap is ExternalPaymentAccountCapability || cap is PaymentMethodAccountCapability || cap is PaymentSchedulingAccountCapability);
+            account.Capabilities.Add(new ExternalPaymentAccountCapability
+            {
+                UtilityProvider = data.AccountDetails.ProviderId,
+            });
+            account.Capabilities.Add(new PaymentMethodAccountCapability
+            {
+                AvailablePaymentMethods = 
+                { 
+                    new AvailablePaymentMethod { PaymentMethodType = DomainModels.Payments.TokenizedBank.Qualifier }, 
+                    new AvailablePaymentMethod { PaymentMethodType = DomainModels.Payments.TokenizedCard.Qualifier }
+                }
+            });
+            account.Capabilities.Add(new PaymentSchedulingAccountCapability
+            {
+                CanMakeOneTimePayment = true
+            });
+        }
+
+        private ISubAccount CreateSubAccount(dynamic details)
+        {
+            var serviceAddress = new DomainModels.Address
+                            {
+                                Line1 = details.ServiceAddress.StreetLine1,
+                                Line2 = details.ServiceAddress.StreetLine2,
+                                City = details.ServiceAddress.City,
+                                PostalCode5 = details.ServiceAddress.Zip,
+                                StateAbbreviation = details.ServiceAddress.State,
+                            };
+
+            var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(serviceAddress, (string)details.ProductType));
+
+            if (locAdapter == null)
+                return null;
+
+            return locAdapter.BuildSubAccount(serviceAddress, details);
+        }
+
+        #endregion
+
+        async Task<bool> IAccountService.SetAccountDetails(Account account, AccountDetails details)
+        {
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString(),
+                new
+                {
+                    HomePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).Select(p => p.Number).FirstOrDefault(),
+                    MobilePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
+                    AccountEmailAddress = details.ContactInfo.Email != null ? details.ContactInfo.Email.Address : null,
+                    Address = StreamConnectUtilities.ToStreamConnectAddress(details.BillingAddress),
+                    TCPAPreference = details.TcpaPreference == null ? "NA" : (details.TcpaPreference.Value ? "Yes" : "No")
+                });
+
+            if (response.IsSuccessStatusCode)
+            {
+                account.Details = null;
+
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        async Task<bool> IAccountService.CheckRenewalEligibility(Account account, ISubAccount subAccount, bool forceRefresh)
+        {
+            if (account.Capabilities.OfType<RenewalAccountCapability>().Any() && !forceRefresh)
+            {
+                return true;
+            }
+
+            if (account.Details == null)
+            {
+                await ((IAccountService)this).GetAccountDetails(account, false);
+            }
+
+            var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(subAccount));
+
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals/eligibility/",
+                new
+                {
+                    UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
+                    ProductType = locAdapter.GetCommodityType(),
+                    ProviderId = locAdapter.GetProvider(account.SubAccounts.First()),
+                    CustomerLast4 = account.Details.SsnLastFour
+                });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            account.Capabilities.RemoveAll(c => c is RenewalAccountCapability);
+            if (data.Status != "Success")
+            {
+                return false;
+            }
+
+            account.Capabilities.Add(new RenewalAccountCapability
+            {
+                IsEligible = data.IsEligible,
+                RenewalDate = (DateTime)data.EligibilityDate,
+                EligibilityWindowInDays = (int)data.EligibilityWindow,
+            });
+            return true;
+        }
     }
 }

@@ -9,6 +9,8 @@ using System.ServiceModel.Security;
 using System.Text;
 using System.Threading.Tasks;
 using StreamEnergy.Services.Clients.Interceptors;
+using System.Net.Http;
+using System.Configuration;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -17,7 +19,7 @@ namespace StreamEnergy.Services.Clients
         private static readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
         
         public ClientContainerSetup()
-            : base(typeof(TemperatureService))
+            : base(typeof(StreamEnergy.Services.Clients.AccountService))
         {
         }
 
@@ -36,17 +38,37 @@ namespace StreamEnergy.Services.Clients
         {
             unityContainer.RegisterType<ServiceInterceptorResolver>(new ContainerControlledLifetimeManager());
 
-            unityContainer.RegisterType<System.Net.Http.HttpClient>(new InjectionFactory(uc => new System.Net.Http.HttpClient(uc.Resolve<HttpMessageInterceptor>(), false)));
+            unityContainer.RegisterType<HttpClient>(new InjectionFactory(uc => new HttpClient(uc.Resolve<HttpMessageHandler>("Cached"), false)));
+            unityContainer.RegisterType<HttpMessageHandler>("Cached", new InjectionFactory(uc => new HttpMessageInterceptor(uc.Resolve<ServiceInterceptorResolver>(), uc.Resolve<HttpMessageHandler>("Logged"))));
+            unityContainer.RegisterType<HttpMessageHandler, HttpMessageLogger>("Logged");
+            unityContainer.RegisterType<HttpMessageHandler, HttpClientHandler>();
 
-            RegisterService<Sample.Temperature.TempConvertSoap>(unityContainer, new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx")));
-            RegisterService<Sample.Commons.SampleStreamCommonsSoap>(unityContainer, new Sample.Commons.SampleStreamCommonsSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.example.com/webservices")));
+            //RegisterService<Sample.Temperature.TempConvertSoap>(unityContainer, new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx")));
+            //RegisterService<Sample.Commons.SampleStreamCommonsSoap>(unityContainer, new Sample.Commons.SampleStreamCommonsSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.example.com/webservices")));
             RegisterService<StreamEnergy.Dpi.DPILinkSoap>(unityContainer, new StreamEnergy.Dpi.DPILinkSoapClient(new System.ServiceModel.BasicHttpsBinding(), new System.ServiceModel.EndpointAddress("https://live.soap.dataparadigm.com:6080/dpilink.asmx?WSDL")));
 
             var CisAccountServicesPortTypeClient = new StreamCommons.Account.CisAccountServicesPortTypeClient(new System.ServiceModel.BasicHttpsBinding(), new System.ServiceModel.EndpointAddress("https://sgecom.datx.streamenergy.net/CisAccountServices/WebServices/SoapServer.php?wsdl"));
             CisAccountServicesPortTypeClient.ChannelFactory.Endpoint.EndpointBehaviors.Add(new AddAuthenticationHeaderBehavior("mystream", "R|38ULt6w1@o55v"));
             RegisterService<StreamCommons.Account.CisAccountServicesPortType>(unityContainer, CisAccountServicesPortTypeClient);
 
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;
+            if (ConfigurationManager.AppSettings["SmartyStreetsAuthId"] != null)
+            {
+                unityContainer.RegisterInstance("SmartyStreets AuthId", ConfigurationManager.AppSettings["SmartyStreetsAuthId"]);
+                unityContainer.RegisterInstance("SmartyStreets AuthToken", ConfigurationManager.AppSettings["SmartyStreetsAuthToken"]);
+            }
+            var SSLEnabled = false;
+            bool.TryParse(ConfigurationManager.AppSettings["SSLEnabled"], out SSLEnabled);
+            unityContainer.RegisterInstance("SSLEnabled", SSLEnabled);
+
+            unityContainer.RegisterType<SmartyStreets.ISmartyStreetService, SmartyStreets.SmartyStreetService>();
+
+            unityContainer.RegisterType<IPdfGenerationService, PdfGenerationService>();
+
+            if (!SSLEnabled)
+            {
+                // if we don't have SSL enabled, we can skip verifying Stream Connect SSL.
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;
+            }
         }
 
         private class AddAuthenticationHeaderBehavior : System.ServiceModel.Description.IEndpointBehavior

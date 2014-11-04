@@ -10,6 +10,11 @@ namespace StreamEnergy.DomainModels.Accounts
     public class Account<TSubAccount> : Account
         where TSubAccount : ISubAccount
     {
+        public Account(Guid streamConnectCustomerId, Guid streamConnectAccountId)
+            : base(streamConnectCustomerId: streamConnectCustomerId, streamConnectAccountId: streamConnectAccountId)
+        {
+        }
+
         public new IEnumerable<TSubAccount> SubAccounts
         {
             get

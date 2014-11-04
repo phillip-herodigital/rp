@@ -1,23 +1,16 @@
-@model StreamEnergy.MyStream.Models.Account.AddBankAccountRequest
+@model StreamEnergy.MyStream.Models.Account.AddPaymentAccountRequest
 <article class="grey-box payments" ng-controller="AddBankAccountCtrl">
 	<header>
 		<h2>@Html.Sitecore().Field("Header Text")</h2>
 	</header>
-    <form data-val-bind-messages="validations" ng-submit="addPaymentAccount()">
+    <form data-val-bind-messages="validations" ng-submit="addPaymentAccount()" loading-indicator>
         <div class="content">
             <div class="item" @Html.Validation().ErrorClass(m => m.Nickname)>
                 <label for="@Html.IdFor(m => m.Nickname)">@Html.Sitecore().Field("Account Nickname Label"):</label>
                 @Html.TextBoxFor(m => m.Nickname, new { ng_model = "formData.nickname" })
                 <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
             </div>
-
             <div bank-account-payment="formData.bankAccount" data-val-if="true"></div>
-
-            <div class="item" @Html.Validation().ErrorClass(m => m.Description)>
-                <label for="@Html.IdFor(m => m.Description)">@Html.Sitecore().Field("Description Label")</label>
-                @Html.TextAreaFor(m => m.Description, new { ng_model = "formData.description" })
-            </div>
-
         </div>
         <footer>
             <div class="buttons">

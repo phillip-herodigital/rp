@@ -2,16 +2,38 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService) {
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', '$window', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse, $window) {
+    var hasSubmitted = false;
     $scope.currentLocationInfo = enrollmentCartService.getActiveService;
 
+    $scope.footnotes = {};
+    $scope.activeFootnotes = [];
+    $scope.footnoteIndices = {};
+
     //We need this for the button select model in the ng-repeats
+    $scope.$watch(function () {
+        var temp = enrollmentCartService.getActiveService();
+        return temp && temp.location;
+    }, function (address) {
+        hasSubmitted = false;
+    }, true);
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
+        if (address && address.location.address.stateAbbreviation == "TX")
+        {
+            $scope.provider = _(address.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
+        }
         if (address && address.eligibility == "mustMoveIn") {
-            // TODO - modal for not able to switch to the address.
-            console.log('TODO - "must move in" modal')
+            $modal.open({
+                'scope': $scope,
+                'templateUrl': 'mustMoveInModal'
+            }).result.then(function () { 
+                address.location.capabilities[1].enrollmentType = 'moveIn';
+                enrollmentService.setSelectedOffers();
+            })
+        } else if (address && address.eligibility == "generalError") {
+            $window.location.href = '/enrollment/please-contact';
         }
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
@@ -22,7 +44,51 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                 }
             });
         }
+
+        updateFootnotes();
     });
+
+    $scope.$watch('footnotes', function () {
+        updateFootnotes();
+    }, true);
+
+    function updateFootnotes()
+    {
+        var address = enrollmentCartService.getActiveService();
+        if (address && address.offerInformationByType) {
+            var footnoteParts = _(address.offerInformationByType)
+                .pluck('key')
+                .map(function (item) { return _.map($scope.footnotes[item], function (entry) { entry.type = item; return entry; }); })
+                .flatten()
+                .filter(function (obj) { return obj.value; })
+                .value();
+            $scope.activeFootnotes = footnoteParts;
+            $scope.footnoteIndices = {};
+
+            for (var i = 0; i < address.offerInformationByType.length; i++)
+            {
+                $scope.footnoteIndices[address.offerInformationByType[i].key] = {};
+            }
+            for (var i = 0; i < footnoteParts.length; i++)
+            {
+                $scope.footnoteIndices[footnoteParts[i].type][footnoteParts[i].key] = i + 1;
+            }
+        }
+    }
+
+    $scope.calculateFootnotes = function calculateFootnotes(footnotes) {
+        var result = {};
+        result.active = footnotes;
+        result.indices = {};
+
+        for (var i = 0; i < footnotes.length; i++) {
+            result.indices[footnotes[i].key] = $scope.footnoteDisplay[i];
+        }
+
+        return result;
+    }
+
+    $scope.footnoteDisplay = ['*', '†', '‡'];
 
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
@@ -32,6 +98,11 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { if (offer) { return [offer]; } else return []; }).value());
         }
     });
+
+    $scope.deleteUtilityAddress = function (service) {
+        enrollmentCartService.removeService(service);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+    };
 
     /**
      * [isFormValid description]
@@ -75,17 +146,36 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         }
     };
     var submitStep = function (addAdditional) {
-        var selectedOffersPromise = enrollmentService.setSelectedOffers(addAdditional);
-
-        selectedOffersPromise.then(function (data) {
+        var onComplete = function () {
+            hasSubmitted = true;
             //Move to the next section, this is the last of the utilityAccounts, so
             //If addAdditional, go back to step one else move to the next section
-            if(addAdditional) {
+            if (addAdditional) {
                 enrollmentCartService.setActiveService();
                 enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
-            }  
-        }, function (data) {
-            // error response
-        });
+            }
+        };
+
+        if (!hasSubmitted || !addAdditional) {
+            var selectedOffersPromise = enrollmentService.setSelectedOffers(addAdditional);
+
+            selectedOffersPromise.then(onComplete, function (data) {
+                // error response
+            });
+        } else {
+            onComplete();
+        }
+    };
+
+    $scope.sortBy = function (param, reverse) {
+        if (param == undefined)
+        {
+            return function (plan) { return 0; };
+        }
+        var evalFunc = $parse(param);
+        return function (plan) {
+            var value = evalFunc($scope, { plan: plan });
+            return value;
+        }
     };
 }]);

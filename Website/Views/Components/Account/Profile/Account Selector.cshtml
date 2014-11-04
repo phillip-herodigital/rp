@@ -5,9 +5,10 @@
                 <div class="group">
                     <div class="item">
                         <label for ="AccountNumber">@Html.Sitecore().Field("Account Number Text")</label>
-                        <select class="input--small" name="AccountNumber" id="AccountNumber" ng-model="currentAccount" ng-options="account.accountNumber for account in accounts track by account.accountNumber" ng-change="currentSubAccount = currentAccount.subAccounts[0]; updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                        <select ng-if="accountsCount > 1" name="AccountNumber" id="AccountNumber" ng-model="currentAccount" ng-options="account.accountNumber for account in accounts track by account.accountNumber" ng-change="currentSubAccount = currentAccount.subAccounts[0]; updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                        <span ng-if="accountsCount == 1">{{ currentAccount.accountNumber }}</span>
                     </div>
-                    <div class="item" ng-if="allowSubAccount">
+                    <div class="item" ng-if="allowSubAccount && currentAccount.subAccounts">
                         <label for="SubAccount">{{ currentAccount.subAccountLabel }}</label>
                         <select class="input--small" name="SubAccount" id="SubAccount" ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
                     </div>
@@ -15,7 +16,7 @@
             </form>
         </div>
         @*base this on subAccount Key - Utility, Homelife, Mobile, etc*@
-        <div ng-if="allowSubAccount" ng-include src="'subAccountKey/' + currentSubAccount.key"></div>
+        <div ng-if="allowSubAccount && currentAccount.subAccounts" ng-include src="'subAccountKey/' + currentSubAccount.key"></div>
 
     </div>
 </article>

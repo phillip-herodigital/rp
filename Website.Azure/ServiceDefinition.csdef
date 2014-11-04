@@ -1,6 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="Website.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-01.2.3">
   <WebRole name="Website" vmsize="Large">
+    <Startup>
+      <Task commandLine="newrelic.cmd" executionContext="elevated" taskType="simple">
+        <Environment>
+          <Variable name="EMULATED">
+            <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
+          </Variable>
+          <Variable name="IsWorkerRole" value="false" />
+          <Variable name="LICENSE_KEY">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/ConfigurationSettings/ConfigurationSetting[@name='NewRelic.LicenseKey']/@value" />
+          </Variable>
+        </Environment>
+      </Task>
+      <Task commandLine="updateTypeaheadIndex.cmd " executionContext="elevated" taskType="simple" />
+      <Task commandLine="installStreamEnergy.RenderingService.cmd " executionContext="elevated" taskType="simple" />
+    </Startup>
     <Sites>
       <Site name="Web">
         <Bindings>
@@ -20,8 +35,17 @@
     </Imports>
     <LocalResources>
       <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />
+      <LocalStorage name="TypeaheadStore" sizeInMB="10000" cleanOnRoleRecycle="false" />
     </LocalResources>
     <Certificates>
+      <Certificate name="StreamCertificate" storeLocation="LocalMachine" storeName="My"/>
     </Certificates>
+    <ConfigurationSettings>
+      <Setting name="NewRelic.LicenseKey" />
+      <Setting name="Install.StreamEnergy.Services" />
+      <Setting name="StreamEnergy.Services.WebsiteUrl" />
+      <Setting name="StreamEnergy.Services.redisCache" />
+      <Setting name="StreamEnergy.Services.azureStorage" />
+    </ConfigurationSettings>
   </WebRole>
 </ServiceDefinition>

@@ -1,0 +1,13 @@
+﻿@{
+    var FAQs = new List<Sitecore.Data.Items.Item>();
+    foreach (Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
+    {
+       FAQs.Add(item);
+    }
+}
+
+<article class="marketing faq">
+    <div class="wrapper">
+        @Html.Partial("~/Views/Pages/Marketing/FAQ/FAQ Listing.cshtml", FAQs)
+    </div>
+</article>

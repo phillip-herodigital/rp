@@ -12,6 +12,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         /// This is either an exact amount (such as a monthly recurring specific charge) or estimated (such as based on estimated monthly usage)
         /// </summary>
         decimal DollarAmount { get; }
+        bool CanBeWaived { get; }
         bool IsDollarAmountEstimated { get; }
     }
 }

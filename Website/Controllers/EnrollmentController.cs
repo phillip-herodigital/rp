@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -16,9 +17,18 @@ namespace StreamEnergy.MyStream.Controllers
             this.inner = inner;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            inner.Dispose();
+            base.Dispose(disposing);
+        }
+
         public ActionResult ClientData()
         {
-            inner.Initialize().Wait();
+            NameValueCollection enrollmentDpiParameters = null;
+            if (HttpContext.Items.Contains("Enrollment Dpi Parameters"))
+                enrollmentDpiParameters = (NameValueCollection)(HttpContext.Items["Enrollment Dpi Parameters"]);
+            inner.Initialize(enrollmentDpiParameters: enrollmentDpiParameters).Wait();
             return this.Content(StreamEnergy.Json.Stringify(inner.ClientData()));
         }
 

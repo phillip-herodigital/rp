@@ -9,6 +9,7 @@ using CsvHelper;
 using ICSharpCode.SharpZipLib.Zip;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.DomainModels.Enrollments.TexasElectricity;
 using StreamEnergy.LuceneServices.Web.Models;
 
 namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
@@ -85,7 +86,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
         {
             return new IServiceCapability[]
                 {
-                    new TexasServiceCapability
+                    new ServiceCapability
                     {
                         EsiId = record.EsiId,
                         Tdu = tdu,
@@ -99,18 +100,18 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
                 };
         }
 
-        private TexasMeterType ToAmsIndicator(string tdspAmsIndicator, string metered)
+        private MeterType ToAmsIndicator(string tdspAmsIndicator, string metered)
         {
             if (metered == "N")
-                return TexasMeterType.NotMetered;
+                return MeterType.NotMetered;
             switch (tdspAmsIndicator)
             {
                 case "AMSM":
-                    return TexasMeterType.Amsm;
+                    return MeterType.Amsm;
                 case "AMSR":
-                    return TexasMeterType.Amsr;
+                    return MeterType.Amsr;
                 default:
-                    return TexasMeterType.Other;
+                    return MeterType.Other;
             }
         }
 

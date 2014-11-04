@@ -11,16 +11,25 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
     var updateOffer = function (offerInformation) {
         _(offerInformation.value.offerSelections).forEach(function (offerSelection) {
-            console.log(offerSelection);
             offerSelection.offer = _(offerInformation.value.availableOffers).where({ id: offerSelection.offerId }).first();
             if (offerSelection.optionRules && !offerSelection.offerOption) {
                 offerSelection.offerOption = { optionType: offerSelection.optionRules.optionRulesType };
+            }
+            if (offerSelection.payments && offerSelection.payments.requiredAmounts)
+            {
+                _(offerSelection.payments.requiredAmounts).forEach(function (payment) {
+                    payment.isWaived = payment.isWaived !== undefined ? payment.isWaived : false;
+                });
             }
         });
     };
 
     var enrollmentCartService = {
         services: services,
+
+        getActiveServiceIndex: function() {
+            return cart.activeServiceIndex;
+        },
 
         toggleCart: function() {
             cart.isCartOpen = !cart.isCartOpen;
@@ -170,10 +179,31 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
-                .pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
+                .pluck('payments').filter().pluck('requiredAmounts').flatten().filter({isWaived: false})
                 .pluck('dollarAmount').filter()
 		        .reduce(sum, 0);
         },
+        cartHasTDU: function (tdu) {
+            return _(services)
+               .map(function (l) {
+                   if (l.location.address.stateAbbreviation == "TX") {
+                       return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
+                   }
+               }).contains(tdu);
+        },
+        cartHasTxLocation: function () {
+            return _(services)
+               .map(function (l) {
+                   return l.location.address.stateAbbreviation;
+               }).contains('TX');
+        },
+        locationHasService: function (location) {
+            if (!location.offerInformationByType)
+                return false;
+            return location.offerInformationByType.some(function (o) {
+                return o.value.offerSelections.length;
+            });
+        }
     };
 
     return enrollmentCartService;

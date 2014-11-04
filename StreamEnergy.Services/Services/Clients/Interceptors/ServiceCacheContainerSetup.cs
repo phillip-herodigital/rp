@@ -17,9 +17,9 @@ namespace StreamEnergy.Services.Clients.Interceptors
             mockResolver.MockResolvers.Add(cacheSetup);
             mockResolver.RestMockResolvers.Add(cacheSetup);
 
-            cacheSetup.Register<Sample.Temperature.TempConvertSoap>(s => s.CelsiusToFahrenheit(null), session: false, keepFor: TimeSpan.FromMinutes(5));
+            //cacheSetup.Register<Sample.Temperature.TempConvertSoap>(s => s.CelsiusToFahrenheit(null), session: false, keepFor: TimeSpan.FromMinutes(5));
 
-            cacheSetup.Register(new System.Text.RegularExpressions.Regex("^http://graph\\.facebook\\.com/me$"), session: true, keepFor: TimeSpan.FromMinutes(5));
+            //cacheSetup.Register(new System.Text.RegularExpressions.Regex("^http://graph\\.facebook\\.com/me$"), session: true, keepFor: TimeSpan.FromMinutes(5));
         }
 
     }

@@ -99,7 +99,90 @@ legend {
 	font-size: $label-font-size;	
 }
 
-form, .form {
+button,
+a.button {
+    @include border-radius(10px);
+    display: inline-block;
+    height: auto;
+    width: auto;
+    padding: 7px 18px;
+    background-color: #0971cd;
+    border: 0;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.375; //Enforce body line-height on buttons
+    text-transform: uppercase;
+    &.secondary {
+        background-color: #797b7e;
+    }
+    &.plain {
+        background: transparent;
+        color: #333;    
+    }
+    &:hover {
+        background-color: #6b6b6b;
+        color: #fff;
+    }
+    &:disabled,
+    &.disabled {
+        opacity: .5;
+        cursor: default;
+    }
+    &.social {
+        display: inline-block;
+        width: 190px;
+        position: relative;
+        padding-left: 50px;
+        .icon-holder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            text-align: center;
+            i {
+                position: absolute;
+                top: 15px;
+                left: 13px;
+            }
+        }
+    }
+    &.facebook {
+        background: #4a6aa9;
+        border: 1px solid #3e5c9b;
+        .icon-holder {
+            border-right: 1px solid #3e5c9b;
+            i {
+                left: 16px;
+            }
+        }
+    }
+    &.twitter {
+        background: #36a5ca;
+        border: 1px solid #2a86a6;
+        .icon-holder {
+            border-right: 1px solid #2a86a6;
+            i {
+                top: 16px;
+            }
+        }
+    }
+    &.linkedin {
+        background: #2386bb;
+        border: 1px solid #1f557e;
+        .icon-holder {
+            border-right: 1px solid #1f557e;
+        }
+    }
+    i {
+        margin: -4px 5px 0 0;
+    }
+}
+
+form,
+.form {
 	.additional-field-action {
 		text-transform: uppercase;
 		font-weight: 600;
@@ -150,6 +233,12 @@ form, .form {
 		> ul {
 			@include layout-list;
 		}
+        span.note {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #888;
+        }
 		&.horizontal {
 			> label, .label {
 				display: inline-block;
@@ -264,9 +353,67 @@ form, .form {
 			& .group-col {
 				width: 50%;
 			}
-		}
-	}
-	.additional-field-group {
+        &.or-sep {
+            position: relative;
+            overflow: hidden;
+            padding: 10px 0;
+            &:before, &:after {
+                content: " ";
+                display: block;
+                position: absolute;
+                left: 50%;
+            }
+            &:before {
+                top: 0;
+                bottom: 0;
+                border-right: 1px solid #eaeaea;
+            }
+            &:after {
+                content: "OR";
+                top: 50%;
+                height: 30px;
+                width: 30px;
+                margin: -15px 0 0 -15px;
+                line-height: 30px;
+                text-align: center;
+                @include border-radius(50%);
+                background: #fff;
+                border: 1px solid #eaeaea;
+                font-size: 12px;
+                font-weight: bold;
+            }
+            .item {
+                padding-right: 35px;
+                &:last-child {
+                    padding-left: 35px;
+                    padding-right: 0;
+                }
+            }
+            @include breakpoint(small) {
+               &:before, &:after {
+                    left: 0;
+                    top: 50%;
+                }
+                &:before {
+                    left: 0;
+                    right: 0;
+                    top: 50%;
+                    bottom: 50%;
+                    border-top: 1px solid #eaeaea;
+                }
+                &:after {
+                    left: 50%;
+                }
+                .item {
+                    padding: 0 0 20px 0;
+                    &:last-child {
+                        padding: 20px 0 0 0;
+                    }
+                } 
+            }
+        }
+    }
+    div.additional-field-group {
 		background: #fafafa;
 		padding: ($module-vertical-padding) ($module-horizontal-padding);
 		margin:  ($module-vertical-padding) ($module-horizontal-padding * -1) ($module-vertical-padding * -1);
@@ -307,11 +454,25 @@ form, .form {
 			select {
 				max-width: 67%;
 			}
+            .btn-group-options {
+                #{$input-selectors},
+                textarea,
+                select {
+                    max-width: 100%;
+                }   
+            }
 			.radio-list,
 			.checkbox-list {
 				float: left;
 			}
+            &.group-col {
+                #{$input-selectors},
+                textarea,
+                select {
+                    max-width: 100%;
 		}
+            }
+        }
 		&.fixed {
 			.item {
 				padding-left: 250px;
@@ -324,7 +485,7 @@ form, .form {
 				#{$input-selectors},
 				textarea,
 				select {
-					max-width: auto;
+                    max-width: 100%;
 				}
 			}
 		}

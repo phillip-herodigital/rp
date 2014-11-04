@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
@@ -47,9 +48,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.redisDatabase = redisDatabase;
         }
 
-        public async Task Initialize()
+        public async Task Initialize(NameValueCollection enrollmentDpiParameters = null)
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
+            if (enrollmentDpiParameters != null)
+                stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -82,9 +85,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Location = new Location 
                     { 
                         Address = new Address { Line1 = "3620 Huffines Blvd", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                        Capabilities = new IServiceCapability[] { new TexasServiceCapability { EsiId = "123FAKE456", Tdu = "ONCOR" }, new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
+                        Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
                     },
-                    SelectedOffers = new SelectedOffer[] { }
+                    SelectedOffers = new SelectedOffer[] 
+                    { 
+                        new SelectedOffer 
+                        { 
+                            Offer = new DomainModels.Enrollments.Renewal.Offer 
+                            { 
+                                RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty) 
+                                { 
+                                } 
+                            } 
+                        }
+                    }
                 }
             };
             await stateHelper.StateMachine.Process();
@@ -92,6 +106,40 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var response = Request.CreateResponse(HttpStatusCode.Found);
             response.Headers.Location = new Uri(Request.RequestUri, "/enrollment");
             return response;
+        }
+
+        [NonAction]
+        public async Task<bool> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
+        {
+            stateHelper.Reset();
+            await stateHelper.EnsureInitialized();
+            stateHelper.State = typeof(ServiceInformationState);
+            stateHelper.Context.IsRenewal = true;
+            stateHelper.Context.Services = new LocationServices[]
+            {
+                new LocationServices 
+                { 
+                    Location = new Location 
+                    { 
+                        Address = account.SubAccounts.First().ServiceAddress,
+                        Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
+                    },
+                    SelectedOffers = new SelectedOffer[] 
+                    { 
+                        new SelectedOffer 
+                        { 
+                            Offer = new DomainModels.Enrollments.Renewal.Offer 
+                            { 
+                                RenewingAccount = account,
+                                RenewingSubAccount = subAccount
+                            } 
+                        }
+                    }
+                }
+            };
+            await stateHelper.StateMachine.Process();
+
+            return true;
         }
 
         /// <summary>
@@ -107,6 +155,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
+            var paymentConfirmations = stateMachine.InternalContext.PaymentResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
+            var renewalConfirmations = (stateMachine.InternalContext.RenewalResult != null ? stateMachine.InternalContext.RenewalResult.Data : null) ?? new RenewalResult();
             var standardValidation = (currentFinalStates.Contains(stateMachine.State) ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
             IEnumerable<ValidationResult> supplementalValidation;
             var expectedState = ExpectedState(out supplementalValidation);
@@ -116,7 +166,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
                 || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
-                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted);
+                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
+                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted);
 
             return new ClientData
             {
@@ -128,6 +179,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
+                MailingAddress = stateMachine.Context.MailingAddress,
+                PreviousAddress = stateMachine.Context.PreviousAddress,
+                PreviousProvider = stateMachine.Context.PreviousProvider,
                 Cart = from service in services
                        let locationOfferSet = offers.ContainsKey(service.Location) ? offers[service.Location] : new LocationOfferSet()
                        select new CartEntry
@@ -149,8 +203,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                OfferOption = selectedOffer.OfferOption,
                                                                                OptionRules = optionRules.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
                                                                                Payments = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
-                                                                               ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.IsSuccess).SingleOrDefault(),
+                                                                               ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id)
+                                                                                    .Where(entry =>
+                                                                                    {
+                                                                                        var paymentConfirmation = paymentConfirmations.Where(pc => pc.Location == entry.Location && pc.Offer.Id == entry.Offer.Id).SingleOrDefault();
+                                                                                        if (paymentConfirmation == null)
+                                                                                            return true;
+                                                                                        return !string.IsNullOrEmpty(paymentConfirmation.Details.ConfirmationNumber);
+                                                                                    })
+                                                                                    .Select(entry => entry.Details.IsSuccess).SingleOrDefault()
+                                                                                    || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
+                                                                                    ?? renewalConfirmations.ConfirmationNumber
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
                                                                    where entry.Key == offerType
@@ -191,8 +255,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             else if (members.Any(m => m.StartsWith("Services")))
             {
-                if (stateMachine.Context.Services == null || stateMachine.Context.Services.Length == 0 || validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5,
-                                                                                                            s => s.Location.Capabilities)).Any())
+                if (stateMachine.Context.Services == null || 
+                    stateMachine.Context.Services.Length == 0 || 
+                    validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5, s => s.Location.Capabilities)).Any() ||
+                    stateMachine.InternalContext.AllOffers.Where(o => stateMachine.Context.Services.Any(s => s.Location == o.Key)).Any(o => !o.Value.Offers.Any() && !o.Value.OfferSetErrors.Any()))
                 {
                     return Models.Enrollment.ExpectedState.ServiceInformation;
                 }
@@ -233,6 +299,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<ClientData> ServiceInformation([FromBody]ServiceInformation value)
         {
             await Initialize();
+            await ResetPreAccountInformation();
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.Services = (from location in value.Locations
                                              join service in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on location equals service.Location into services
@@ -260,6 +327,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.Services = (from newSelection in value.Selection
                                              join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
                                              select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
+            await ResetPreAccountInformation();
 
             await stateMachine.ContextUpdated();
 
@@ -276,6 +344,31 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 await stateMachine.ContextUpdated();
 
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
+        }
+
+        private async Task ResetPreAccountInformation()
+        {
+            if (stateHelper.Context.IsRenewal)
+                return;
+            if (stateHelper.InternalContext != null)
+            {
+                stateHelper.InternalContext.IdentityCheck = null;
+                stateHelper.InternalContext.CreditCheck = null;
+                stateHelper.InternalContext.Deposit = null;
+            }
+            if (stateHelper.State != typeof(DomainModels.Enrollments.ServiceInformationState) && stateHelper.State != typeof(DomainModels.Enrollments.PlanSelectionState)
+                && stateHelper.State != typeof(DomainModels.Enrollments.AccountInformationState))
+            {
+                var context = stateHelper.Context;
+                var internalContext = stateHelper.InternalContext;
+                context.SelectedIdentityAnswers = null;
+                stateHelper.Reset();
+                stateHelper.Context = context;
+                stateHelper.InternalContext = internalContext;
+                stateHelper.State = typeof(DomainModels.Enrollments.AccountInformationState);
+
+                await stateHelper.EnsureInitialized();
+            }
         }
 
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, Dictionary<Location, LocationOfferSet> allOffers)
@@ -304,8 +397,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             if (stateMachine.InternalContext.EnrollmentSaveState != null && stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
             {
-                stateHelper.State = typeof(AccountInformationState);
-                await Initialize();
+                await ResetPreAccountInformation();
             }
 
             MapCartToServices(request);
@@ -329,8 +421,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.MailingAddress = request.MailingAddress;
 
             stateMachine.Context.TaxId = request.TaxId;
+            stateMachine.Context.CompanyName = request.CompanyName;
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
+            stateMachine.Context.PreviousProvider = request.PreviousProvider;
 
             await stateMachine.ContextUpdated();
 
@@ -413,6 +507,22 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
             stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+            foreach (var locationService in stateMachine.Context.Services)
+            {
+                foreach (var offer in locationService.SelectedOffers)
+                {
+                    offer.WaiveDeposit = false;
+                }
+            }
+            foreach (var depositWaiver in request.DepositWaivers ?? Enumerable.Empty<DepositWaiver>())
+            {
+                var locationService = stateMachine.Context.Services.FirstOrDefault(svc => svc.Location == depositWaiver.Location);
+                if (locationService != null)
+                {
+                    var target = locationService.SelectedOffers.FirstOrDefault(sel => sel.Offer.Id == depositWaiver.OfferId);
+                    target.WaiveDeposit = true;
+                }
+            }
 
             await stateMachine.ContextUpdated();
 

@@ -21,9 +21,9 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             this.accountService = accountService;
         }
 
-        internal async Task<UserProfile> CreateUser(string username, string password, Dictionary<Guid, string> challengeAnswers = null, Guid? globalCustomerId = null)
+        public async Task<UserProfile> CreateUser(string username, string password = null, Dictionary<Guid, string> challengeAnswers = null, Guid? globalCustomerId = null, string email = null)
         {
-            var user = Membership.CreateUser(username, password);
+            var user = Membership.CreateUser(username, password ?? Membership.GeneratePassword(14, 3) + "Aa1!");
 
             if (user == null)
             {
@@ -32,7 +32,16 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
             if (!globalCustomerId.HasValue)
             {
-                globalCustomerId = await accountService.CreateStreamConnectCustomer(username: username);
+                var customer = await accountService.CreateStreamConnectCustomer(providerKey: user.ProviderUserKey.ToString(), username: username, email: email);
+                globalCustomerId = customer.GlobalCustomerId;
+            }
+            else
+            {
+                var customer = await accountService.GetCustomerByCustomerId(globalCustomerId.Value);
+                customer.AspNetUserProviderKey = user.ProviderUserKey.ToString();
+                customer.Username = username;
+                customer.EmailAddress = email;
+                await accountService.UpdateCustomer(customer);
             }
 
             var profile = UserProfile.Locate(unityContainer, username);

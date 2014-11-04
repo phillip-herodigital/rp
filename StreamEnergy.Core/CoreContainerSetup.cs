@@ -12,7 +12,7 @@ using StreamEnergy.Logging;
 
 namespace StreamEnergy
 {
-    class CoreContainerSetup : IContainerSetupStrategy
+    public class CoreContainerSetup : IContainerSetupStrategy
     {
         public void SetupUnity(IUnityContainer unityContainer)
         {
@@ -35,6 +35,8 @@ namespace StreamEnergy
             unityContainer.RegisterType<ILogger, Logger>();
             
             unityContainer.RegisterInstance<IValidationService>(new ValidationService());
+
+            unityContainer.RegisterType<Sitecore.Data.Items.Item>("Taxonomy", new InjectionFactory(uc => Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy")));
 
             Factories.BuildValidationService = () => unityContainer.Resolve<IValidationService>();
             Factories.BuildValidationContext = (obj) => 

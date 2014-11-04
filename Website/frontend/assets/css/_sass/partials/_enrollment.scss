@@ -5,6 +5,344 @@
 
 
 /*
+    Generic styling for enrollment pages
+ */
+.enrollment {
+    #state-select {
+        button {
+            border-color: #cfcfcf;
+            text-transform: uppercase;
+            @include box-shadow(none);
+        }
+        .icon {
+            background-position: 10px center;
+            background-repeat: no-repeat;
+            padding-left: 40px;
+        }
+        .texas {
+            @include retina-background('texas-icon.png');
+            
+        }
+        .georgia {
+            @include retina-background('georgia-icon.png');
+        }
+        .pennsylvania {
+            @include retina-background('pennsylvania-icon.png');
+        }
+        .maryland {
+            @include retina-background('maryland-icon.png');
+        }
+        .new-jersey {
+            @include retina-background('newjersey-icon.png');
+        }
+        .new-york {
+            @include retina-background('newyork-icon.png');
+        }
+        .washington-dc {
+            @include retina-background('dc-icon.png');
+        }
+        .dropdown-menu {
+            li {
+            }
+        }
+    }
+
+    .checkbox-list {
+        li { 
+            margin-bottom : 4px;
+        }
+        label {
+            display: inline;
+            &.enroll-options {
+                font-weight: 300;
+            }
+        }
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .icon-blue-arrow-up, .icon-blue-arrow-down {
+        margin-top: -2px;
+    }
+
+    .buttons .button, .buttons button, .enrollment-btn {
+        background-color: $enrollment-primary-button-background;
+        color: $enrollment-primary-button-color;
+        display: inline-block;
+        float: right;
+        &.secondary {
+            background-color: $enrollment-secondary-button-background;
+            color: $enrollment-secondary-button-color;
+            margin-right: 10px;
+            @include breakpoint(small-medium){
+                margin-top: 10px;
+                margin-right: 0;
+                float: right;
+                clear: both;
+            }
+        }
+        &.tertiary {
+            background-color: $enrollment-tertiary-button-background;
+            color: $enrollment-tertiary-button-color;
+            text-shadow: none;
+            text-transform: none;
+            float: left;
+            @include breakpoint(medium-large) {
+                margin-left: -17px;
+            }
+        }
+    }
+
+    .buttons button {
+        @include breakpoint(small) {
+            width: 100%;
+        }
+    }
+
+    .datepicker-input {
+        @include retina-background('calendar.png', 'icon'); 
+        background-position: 98% center;
+        background-repeat: no-repeat;
+        width: 310px;
+        //Remove the Clear field (X) in IE10+
+        &::-ms-clear {
+            display: none;
+        }
+    }
+    
+    .error {
+        color: #c84545;
+        input, select {
+            border-color: #c84545;
+        }
+    }
+
+    .warning {
+        font-size: 13px;
+    }
+        
+    .wrapper {
+        position: relative;
+        overflow: visible;
+        padding-bottom: 50px;
+    }
+
+    .footnotes {
+        clear: both;
+        font-size: 14px;
+    }
+
+    .time-remaining-mobile {
+        text-align: center;
+        clear: both;
+        padding-top: 20px;
+        .time-remaining {
+            text-transform: uppercase;
+            font-size: 14px;
+            width: 75%;
+            margin: 0 auto;
+        }
+    }
+
+    .item--no-input {
+        label {
+            margin-bottom: 3px;
+        }
+    }
+
+    .terms-agreement {
+        margin-bottom: 20px;
+        div.terms {
+            margin-top: 10px;
+            height: 65px;
+            overflow-y: scroll;
+            padding: 5px;
+            border: 1px solid #e9e9e9;
+            background: #f8f8f8;
+            :first-child {
+                margin-top: 0;
+            }
+        }
+    }
+
+    .verify-order-table {
+        .sub-charge { 
+            padding-left: 30px;
+        }
+        .rate {
+            text-align: right;
+        }
+        h4 { 
+            margin: 0 0 10px;
+        }
+        th, td {
+            border: none;
+            padding: 0;
+            vertical-align: top;
+        }
+        tr:last-child {
+            td {
+                padding-bottom: 0;
+            }
+        }
+
+        @include breakpoint(small) {
+            h4 {
+                margin-bottom: 0;
+            }
+            td {
+                display: block;
+            }
+            .docs {
+                text-align: left;
+            }
+            .sub-charge {
+                padding-left: 0;
+                margin-bottom: 6px;
+            }
+            .description {
+                margin-bottom: 6px;
+            }
+            .rate {
+                margin-bottom: 15px;
+                text-align: left;
+            }
+        }
+    }
+
+    .total {
+        text-align: right;
+    }
+
+    hr.content-divider {
+        margin: 25px (-$enrollment-module-horizontal-padding);
+    }
+
+    form div.additional-field-group {
+        margin-left: (-$enrollment-module-horizontal-padding);
+        margin-right: (-$enrollment-module-horizontal-padding);
+        padding-left: $enrollment-module-horizontal-padding;
+        padding-right: $enrollment-module-horizontal-padding;
+    }
+
+    @include breakpoint(small) {
+        #state-select {
+            margin-top: 5px;
+        }
+        .buttons {
+            text-align: center;
+            button {
+                min-width: 150px;
+            }
+            button + button {
+                margin-top: 8px;
+            }
+        }
+        .datepicker-input {
+            width: 100%;
+        }
+        .datepicker {
+            position: relative;
+            .pull-right, .pull-left {
+                width: 35px;
+            }
+            table {
+                width: 100%;
+                td {
+                    padding: 2px 3px;
+                    @include breakpoint(small) {
+                        padding: 2px 0;
+                    }
+                    button {
+                        @include breakpoint(small) {
+                            padding: 5px;
+                        }
+                    }
+                }
+            }
+        }
+        .dropdown-menu {
+            font-size: 13px;
+        }
+        .time-remaining-mobile {
+            margin-top: 10px;
+            .time-remaining {
+                width: 160px;
+                font-size: 11px;
+            }
+        }
+        h1 {
+            font-size: 30px;
+            line-height: 1.1;
+        }
+        .plan-selection-table {
+            tr.details-row {
+                td div {
+                    padding: 0 15px;
+                }
+            }
+            .plan-name {
+                text-align: left;
+            }
+            .plan-actions {
+                border-left: none;
+                button, .button {
+                    float: right;
+                    min-width: 120px;
+                     &.secondary {
+                        @include breakpoint(small) {
+                            margin-top: -31px;
+                        }
+                     }
+                }
+            }
+            .view-details {
+                display: inline;
+                float: left;
+                margin-top: 12px;
+            }
+        }
+
+    }
+}
+
+.enrollment__loadingMessage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: url(../i/white-alpha-90.png) repeat;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 11000;
+    span {
+        $height: 140px;
+        $width: 250px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: block;
+        width: $width;
+        height: $height;
+        padding-top: 15px;
+        margin: $height/2*-1 0 0 $width/2*-1;
+        color: $enrollment-primary-color;
+        font-size: 24px;
+        @include box-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+        @include border-radius(10px);
+        border: 1px solid $enrollment-dark-border-color;
+        background-color: #fefefe;
+        text-align: center;
+        img {
+            margin: 10px 0;
+            vertical-align: middle;
+        }
+    }
+}
+
+/*
     Enrollment Banner Styling
  */
 .enrollment__banner {
@@ -116,6 +454,11 @@
         border-top: 3px solid #eaeaea;
         margin: 25px 0;
     }
+    .content {
+        .stretch-full {
+            margin: -25px ($enrollment-module-horizontal-padding * -1);
+        }
+    }
     .customer-type {
         label {
             display: inline-block;
@@ -129,8 +472,16 @@
         label {
             display: block;
         }
+        .input-group {
+            width: 100%;
+        }
         .input-group-btn {
             vertical-align: bottom;
+        }
+    }
+    &.plain-text {
+        .content {
+            padding-bottom: 13px;
         }
     }
 }
@@ -273,6 +624,14 @@
                 text-align: center;
                 padding: 10px 15px;
                 border: none;
+                min-width: 85px;
+                &.sortable:hover {
+                    cursor: pointer; 
+            }
+                &.plan-header {
+                    text-align: left;
+                    padding-left: 32px;
+        }
             }
         }
         td, th {
@@ -301,7 +660,10 @@
                     }
                     p {
                         font-size: 15px;
-                    }   
+                }
+                    .plan-footnote {
+                        clear: both;
+            }
                 }
             }
             &.isOpen {
@@ -349,6 +711,9 @@
             font-size: 18px;
             text-align: left;
             border-left: none;
+            @include breakpoint(small) {
+                padding-right: 45px;
+        }
         }
         .view-details {
             display: block;
@@ -356,16 +721,34 @@
             margin-top: 15px;
             font-size: 12px;}
         .rate {
-            font-size: 22px;
-            line-height: 18px;
+            font-size: 18px;
             font-style: italic;
+            font-weight: 600;
+            span {
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
+        }
+        }
+        .term {
+            font-size: 18px;
+            font-style: italic;
+            font-weight: 600;
+            span {
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
+            }
         }
         .fees {
-            width: 110px;
-            font-size: 19px;
+            width: 140px;
+            font-size: 18px;
             font-style: italic;
+            font-weight: 600;
             span {
-                font-size: 11px;
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
             }
         }
         .select-plan {
@@ -427,10 +810,11 @@
         }
     }
     .plan-selection-list {
+        float: left;
+        width: 35%;
         padding: 0;
         list-style-type: none;
         li {
-            border-right: 1px solid #efefef;
             margin-right: 10px;
             padding-right: 10px;
             white-space: nowrap;
@@ -439,6 +823,39 @@
             border-right: none;
             margin: 0;
             padding: 0;
+        }
+    }
+    .plan-selection-fees {
+        width: 64%;
+        float: right;
+    @include breakpoint(small-medium) {
+            width: 100%;
+            float: none;
+            dt, dd {
+                width: auto;
+            }
+        }
+        @include breakpoint(small) {
+            & {
+                clear: both;
+            }
+            dt, dd {
+                float: none;
+            }
+        }
+        dt {
+            font-weight: 600;
+            width: 40%;
+        }
+        dd {
+            width: 60%;
+            text-align: left;
+        }
+    }
+    .ga-plan-selection-fees {
+        width: 50%;
+        dt, dd {
+            width: 50%;
         }
     }
     @include breakpoint(small-medium) {
@@ -475,11 +892,76 @@
             min-width: 25%;
         }
     }
+    .utility-connect {
+        margin-bottom: 0 !important;
+    }
+    .icon-calendar {
+        display: none;
+    }
     .location {
         margin-bottom: 10px !important;
     }
     .availibility {
         margin-top: 8px;
+    }
+    .previous-address {
+        margin-bottom: 20px;
+    }
+    .aglc-example {
+        @include breakpoint(large) {
+            display: inline-block;
+            margin-left: 10px;
+        }
+    }
+    form div.secondary-contact-group {
+        margin-bottom: 15px;
+    }
+    .zip-code {
+        @include breakpoint(small-medium) {
+            clear: left;
+            margin-top: 20px;
+        }
+    }
+}
+
+.cleanse-address {
+    .address-group {
+        margin: 10px 0;
+        label {
+            display: block;
+            font-weight: 600;
+        }
+        .radio-item {
+            @include breakpoint(medium-large) {
+                display: inline-block;
+                width: 33%;
+            }
+            label {
+                display: inline-block;
+                font-weight: 300;
+            }
+        }
+        @include breakpoint(medium-large) {
+            .address {
+                display: inline-block;
+            }
+        }
+        @include breakpoint(small) {
+            .address {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+/*
+    Verify Identity page
+ */
+.enrollment__verify-identity {
+    .enrollment__box.form {
+        label.security-answer {
+            font-weight: 300;
+        }
     }
 }
 
@@ -491,6 +973,59 @@
     hr {
         border: none;
         border-top: 1px solid #ddd;
+    }
+    .security-code {
+        @include breakpoint(medium) {
+            clear: left;
+            margin-top: 20px;
+        }
+    }
+    .example {
+        @include breakpoint(small) {
+            margin-top: -15px;
+        }
+        .single-link {
+            @include breakpoint(medium) {
+                margin-top: 52px;
+            }
+        }
+    }
+    .seperator {
+        overflow: hidden;
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        &:before,
+        &:after {
+            background-color: #000;
+            content: "";
+            display: inline-block;
+            height: 1px;
+            position: relative;
+            vertical-align: middle;
+            width: 50%;
+        }
+        &:before {
+            right: 0.5em;
+            margin-left: -50%;
+            background-color: #ccc;
+        }
+        &:after {
+            left: 0.5em;
+            margin-right: -50%;
+            background-color: #ccc;
+        }
+    }
+    .explanation {
+        font-size: 13px;
+    }
+    .terms-agreement {
+        .item {
+            padding-right: 0;
+            .terms {
+                margin-bottom: 10px;
+            }
+        }
     }
 }
 
@@ -505,6 +1040,34 @@
         margin-top: 15px;
         i {
             margin-top: -3px;
+        }
+    }
+    .next-steps {
+        .step {
+            display: inline-block;
+            width: 32%;
+            vertical-align: top;
+			@include breakpoint(small) {
+				display: block;
+				width: 100%;
+				margin-top: 10px;
+			}
+            .step-number {
+                display: table-cell;
+                font-size: 40px;
+                line-height: 1.1;
+				&.number-one {
+					padding-right: 11px;
+				}
+            }
+            .step-description {
+                display: table-cell;
+                vertical-align: top;
+                padding-left: 10px;
+				@include breakpoint(small) {
+					vertical-align: middle;
+				}
+            }
         }
     }
     .promo-box {
@@ -523,6 +1086,13 @@
     .plan-documents {
         .docs {
             text-align: right;
+            @include breakpoint(medium) {
+                width: 40%;
+            }
+            @include breakpoint(small) {
+                text-align: left;
+                margin-bottom: 10px;
+            }
             ul {
                 list-style-type: none;
                 margin: 0;
@@ -534,6 +1104,7 @@
         dl {
             dt, dd {
                 float: none;
+                width: 100%;
             }
         }
     }    
@@ -570,7 +1141,7 @@
         .item-num {
             position: absolute;
             font-size: 13px;
-            font-weight: bold;
+            font-weight: 600;
             top: -5px;
             right: 8px;
         }
@@ -596,7 +1167,7 @@
             list-style-type: none;
             padding: 10px 20px 8px 45px;
             font-size: 13px;
-            position: relative;
+            position: relative;            
             i {
                 position: absolute;
                 top: 10px;
@@ -606,6 +1177,9 @@
                 border-bottom: none;
             }
         }
+    }
+    .outage-information .info li {
+        padding-left: 13px;
     }
 	button, .button {
 		width: 100%;
@@ -617,11 +1191,14 @@
         &:first-child {
             padding-top: 0;
         }
+        &:last-child {
+            border-bottom: 0;
+        }
         h2 {
             margin-top: 0;
             color: #333;
             font-size: 15px;
-            font-weight: bold;
+            font-weight: 600;
             text-transform: none;
         }
     }
@@ -632,6 +1209,12 @@
         &:last-child {
             margin-bottom: 0;
         }
+        /*span.details {
+            font-size: 14px;
+    }
+        .options {
+            margin-top: 15px;
+        }*/
     }
     .delete {
         cursor: pointer;
@@ -645,7 +1228,7 @@
         margin-top: 3px;
         font-size: 16px;
         line-height: 14px;
-        font-weight: bold;
+        font-weight: 600;
         text-align: center;
         span {
             display: block;
@@ -656,12 +1239,29 @@
         }
     }
     .description {
+        position: relative;
         float: left;
         width: 60%;
         font-size: 15px;
+        .icon-electricity, .icon-gas-icon {
+            position: absolute;
+            top: 4px;
+            left: 0;
+        }
+        .plan-text {
+            margin-left: 20px;
+        }
         a {
             font-size: 13px;
         }
+    }
+    .fees {
+        float: left;
+        width: 50%;
+        font-size: 13px;
+        color: #333;
+        font-weight: 600;
+        margin: 5px 0 0 30px;
     }
     .avatar {
         text-align: center;
@@ -771,7 +1371,10 @@
 /*
     Order confirmation page aside boxes
  */
-.promo-box {
+ .enrollment-confirmation {
+    aside {
+        margin-top: 20px;
+        .promo-box {
     background: #fafafa;
     @include box-shadow(none);
     .content {
@@ -805,7 +1408,9 @@
             }
         }
     }
-}
+        }
+    }
+ }
 
 /*
     Generic styling for enrollment pages
@@ -1019,145 +1624,429 @@
 	height: 228px;
 	background-position: 50%;
 	background-size: cover;
+
+/* Mobile Enrollment */
+.mobile-enrollment {
+    .banner {
 	h1 {
+            text-transform: none;
+            font-size: 50px;
+        }
+        .wrapper {
+            height: auto;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+    }
+    .content .filters {
+        margin: -25px ($enrollment-module-horizontal-padding * -1) 25px;  
+    }
+    .btn-group-arrow {
+        position: relative;
+        &:after, &:before {
+            display: none;
+            bottom: -28px;
+            left: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &:after {
+            border-color: rgba(255, 255, 255, 0);
+            border-bottom-color: #fff;
+            border-width: 15px;
+            margin-left: -15px;
+        }
+        &:before {
+            border-color: rgba(200, 200, 200, 0);
+            border-bottom-color: #e1e1e1;
+            border-width: 16px;
+            margin-left: -16px;
+        }
+        &.active:before, &.active:after {
+            display: block;
+            z-index: 1;
+        }
+    }
+    .btn-group-options {
+        display: table;
+        border-spacing: 7px;
+        margin: -7px; 
+        .button {
+            position: relative;
+            color: #333;
+            background: #fff;
+            border: 2px solid $enrollment-light-border-color;
+            vertical-align: middle;
+            font-weight: normal;
+            text-transform: none;
+            padding: 7px 18px;
+            cursor: pointer;
+            @include border-radius(5px);
+            &.active {
+                border-color: #3189bb;
+                color: #3189bb;
+            }
+        }
+        .button {
+            display: table-cell;
+        }
+    }
+    .enrollment__cart {
 		font-size: 14px;
+        .condition {
+            color: #666;
+            font-size: 13px;
 	}
+        .options {
+            font-size: 13px;
+        }
+        .description, .fees { 
+            width: 71%;
+        }
+        .fees {
+            margin-top: 10px;
+            float: left;
+            font-weight: 600;
+        }
+        .rate {
+            text-align: right;
+            float: right;
+        }
+        .total {
+            margin-top: 10px;
+            padding: 10px 0;
+            border-top: 1px solid #eaeaea;
+            text-align: right;
+        }
 	h2 {
-		color: #fff;
-		font-size: 40px;
-		margin: 0;
+            margin-bottom: 0;
+        }
+        &.order-summary {
+            h2 {
+                margin-bottom: 10px;
+            }
+            .cart-product:first-child {
+                margin-top: 0;
+                padding-top: 0;
+                border-top: 0;
+            }
+        }
+
+    }
+    button.plain-footer {
+        margin: 7px 0;
+        padding: 0;
+        &:hover, &:active, &:focus {
+            background-color: transparent;
+        }
+    }
+    button {
 		text-transform: none;
+        font-weight: normal;
 	}
-	.inner {
-		background: none;
+    h1, h2, h3 {
+        text-transform: none;
 	}
-	.wrapper {
-		padding-top: 67px;
-	}
-	@include breakpoint(medium) {
-		height: 228px;
+    hr {
+        border-width: 1px;
 	}
 	@include breakpoint(small) {
-		display: none;
+        .banner h1 {
+            font-size: 30px;
 	}
+        .enrollment__box h1 {
+            font-size: 20px;
+        }
+    }
 }
 
-article.phone {
-	overflow: hidden;
-	.content {
+.mobile-enrollment-modal {
+    .modal-footer {
+        text-align: left;
+    }
+}
+
+.enrollment__choose-network {
+    header {
+        select {
+            font-size: 16px;
+            width: auto;
+        }
+    }
+    /*.update-link {
+        font-size: 15px;
+        color: #257ab3;
+        &:hover {
+            background: transparent;
+        }
+    }*/
+    .no-networks-available {
+        .stretch-full {
+            background: #f7f7f7;
+            @include border-radius(0 0 10px 10px);
+        }
+        .col {
+            padding: 0 30px 0 80px;
+            position: relative;
+            border-right: 1px solid $enrollment-light-border-color;
+            &:last-child {
+                border-right: 0;
+            }
+        }
+        .grid {
+            padding: 30px 0;
+        }
+        .img-col {
+            position: absolute;
+            top: 10px;
+            left: 20px; 
+        }
+        .no-plans {
+            margin: 40px 0 90px;
+            text-align: center;
+        }
+        p.intro {
+            margin: 0;
+            padding-top: 30px;
+            font-size: 20px;
+            font-weight: 400;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            font-weight: 400;
+        }
+        h3 { 
+            //text-align: center; 
+            font-weight: 400;
+        }
+    }
+    .choose-network-table-wrapper {
+        position: relative;
+        div.overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            @include opacity(.95);
+        }
+        span.text {
+            display: block;
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            height: 1.5em;
+            margin-top: -.75em;
+            text-align: center;
+            color: #555;
+            font-size: 40px;
+        }
+        &.sprint {
+            border-top: 1px solid #eaeaea;
+        }
+    }
+    .choose-network-table {
+        .plans {
+            width: 33%;
+            ul {
+                padding-left: 10px;
+            }
+            .footnotes {
 		padding-top: 0;
-		padding-bottom: 0;
+                font-size: 10px;
 	}
-	.filters {
-		background-color: #f7f7f7;
-		@include background-image(linear-gradient(bottom, #f3f3f3 0%, #fff 100%));
-		border-bottom: 0;
-		padding-bottom: 15px;
 	}
-	.phone-selector {
+        .coverage {
+            text-align: center;
+            width: 19%;
+        }
+        .devices {
+            text-align: center;
+            width: 24%;
+        }
+        .select-network {
+            width: 24%;
+            text-align: center;
+            .starting-price {
+                font-size: 16px;
+            }
+            .price {
+                font-size: 24px;
+            }
+        }
+        button {
+            text-transform: none;
 		width: 100%;
-		table-layout: fixed;
-		margin-bottom: 0;
-		border: 0;
+            margin-bottom: 8px;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: none;
+            color: #333;
+        }
 		td {
-			background: #f9f9f9;
-			@include box-shadow(0 3px 8px rgba(0,0,0,.07));
-			border: 1px solid #d9d9d9;
-			position: relative;
+            padding: 20px;
 			vertical-align: top;
-			padding-bottom: 30px;
+        }
+        th {
+            padding: 8px 20px;
+            color: #999;
+            background: #fefefe;
+            font-weight: normal;
+            text-transform: uppercase;
+            border-top: none;
+            text-align: center;
+        }
+        td, th {
+            border-left: none;
+            border-right: none;
+        }
+        tr {
+            background: none;
+        }
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+    }
+    @include breakpoint(small) {
+        .no-networks-available {
+            .no-plans {
+                font-size: 18px;
+                margin: 20px 0 60px;
+            }
+            .col {
+                padding: 0 30px;
 			&:first-child {
-				border-left: 0;
+                    margin-bottom: 50px;
 			}
-			&.selected {
-				background: #fff;
 			}
+            .ico-wrapper {
+                float: right;
+                position: static;
+                top: auto;
+                left: auto;
 		}
-		td:last-child {
-			border-right: 0;
+            h2 {
+                font-size: 20px;
 		}
 		h3 {
-			font-size: 18px;
-			text-align: left;
-			text-transform: none;
-			min-height: 48px;
+                padding-left: 30px;
+                padding-right: 30px;
 		}
-		.selection {
-			text-transform: uppercase;
-			font-weight: bold;
-			font-size: 16px;
+        }
+        .choose-network-table {
+            thead { 
+                display: none;
+            }
+            tbody, tr, td {
 			display: block;
-			.small {
-				font-size: 12px;		
+                width: 100% !important;
 			}
-			.add {
-				display: block;
+        }
+    }
+}
+
+.enrollment__choose-device {
+    .btn-group-options {
+        width: 63%;
+        float: left;
+        margin-left: 5%;
+    }
+    .btn-group-row {
+        display: table-row;
+    }
+    .button-type-border {
+        padding: 7px 18px;
+        color: #333;
+        background: #fff;
+        border: 2px solid $enrollment-light-border-color;
+        vertical-align: middle;
+        font-weight: normal;
 				text-transform: none;
+        @include border-radius(5px);
+        label {
 				font-weight: normal;
 			}
+        input[type="text"] {
+            width: 50%;
 		}
-		p {
-			margin: 20px 0;
 		}
-		.product-image {
-			min-height: 195px;
-			text-align: center;
-			max-width: 100%;
-			img {
-				vertical-align: middle;
+    .label-description {
+        font-size: 13px;
+        display: block;
+        line-height: 1.35;
+			}
+    .pane-item {
+        text-align: left;
+		}
+    .item { 
+        padding-right: 0;
+			}
+    .simple-options-item {
+        label {
+            margin-top: 3px;
+		}
+        .btn-group-options {
+            width: auto;
 			}
 		}
-		.count {
-			color: #fff;
-			position: absolute;
-			top: 0;
-			right: 0;
-			padding: 10px 10px 0 0;
-			z-index: 1;
-			font-weight: bold;
-			&:after {
-				position: absolute;
-				content: ' ';
-				top: 0;
-				right: 0;
-				width: 0;
-				height: 0;
-				border-style: solid;
-				border-width: 0 50px 50px 0;
-				border-color: transparent #2579b3 transparent transparent;
-				z-index: -1;
-			}
-		}
-		.price {
-			color: #2579b3;
-			font-size: 22px;
-			text-transform: uppercase;
-			min-height: 45px;
-			position: relative;
-			padding-top: 15px;
-			span {
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				height: 15px;
-				display:block;
-				color: #333;
-				font-size: 11px;
-				font-weight: bold;
-			}
-		}
-		.option-selector {
-			margin: 12px 0;
-			min-height: 55px;
+    .icon-close {
+        cursor: pointer;
 		}
 		.colors {
-			display: inline-block;
-			margin: 0 0 10px 0;
+        .color-name {
+            font-size: 11px;
+            display: block;
+            text-align: center;
+            color: #333;
+        }
+        .button {
 			padding: 0;
-			width: 115px;
-			text-align: center;
-			font-size: 0;
+            width: 30px;
+            height: 30px;
+        }
+        a {
+            float: left;
+            &:first-child {
+                margin-left: -7px;
+            }
+        }
+        .black {
+            background: #3a393b;
+        }
+        .silver {
+            background-color: #ebebec;
+        }
+        .grey {
+            background-color: #b9bbbb;
+        }
+        .gold, .champagne {
+            background-color: #cebfa7;
+        }
+        .white {
+            background-color: #fff;
+        }
+        .yellow {
+            background-color: #b9bbbb;
+        }
+        .red {
+            background-color: #39393b;
+        }
+        .blue {
+            background-color: #39393b;
+        }
+        .green {
+            background-color: #39393b;
+        }
+
 			li {
 				display: inline-block;
 				list-style-type: none;
@@ -1172,212 +2061,517 @@ article.phone {
 					width: 15px;
 					height: 15px;
 					display: block;
-					&.silver {
-						background-color: #39393b;
-						@include background-image(linear-gradient(bottom, #bbbdbb 0%, #e7e9e9 100%));
+
 					}
-					&.grey {
-						background-color: #b9bbbb;
-						@include background-image(linear-gradient(bottom, #4b4b4f 0%, #838387 100%));
 					}
-					&.gold {
-						background-color: #cdbfa7;
-						@include background-image(linear-gradient(bottom, #c7b5a3 0%, #edddc9 100%));
 					}
-					&.white {
-						background-color: #cdbfa7;
-						@include background-image(linear-gradient(bottom, #e3e3e3 0%, #fbfbfb 100%));
+    .filters {
+        font-size: 13px;
+        padding: 10px $enrollment-module-horizontal-padding;
+        .item.group-col {
+            margin-top: 0;
+            .block-label {
+                display: block;
+                text-transform: uppercase;
+                font-size: 14px;
+                margin-bottom: 10px;
 					}
-					&.yellow {
-						background-color: #b9bbbb;
-						@include background-image(linear-gradient(bottom, #f3e167 0%, #f9eb73 100%));
+            .filter-label {
+                width: 33.333%
 					}
-					&.red {
-						background-color: #39393b;
-						@include background-image(linear-gradient(bottom, #e5696d 0%, #f57b7f 100%));
 					}
-					&.blue {
-						background-color: #39393b;
-						@include background-image(linear-gradient(bottom, #47b1e9 0%, #4fbbef 100%));
+        button {
+            font-size: 14px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: #999;
+            padding: 4px 15px;
+            &.active {
+                border: 1px solid $enrollment-light-border-color;
+                color: #333;
 					}
-					&.green {
-						background-color: #39393b;
-						@include background-image(linear-gradient(bottom, #83cd57 0%, #99e16b 100%));
 					}
+        select {
+            margin-top: -3px;
 				}
-				&.selected {
-					border-color: #2579b3;
 				}
+    .phone-image-large {
+        float: right;
+        margin-top: 20px;
+        margin-right: 20px;
 			}
+    .phone-details {
+        padding-right: 240px;
 		}
-		.capacity {
-			width: 75px;
-			padding-left: 4px;
-			padding-right: 25px;
-			margin-top: 8px;
+    .btn-phone-number {
+        &:after, &:before {
+            bottom: -26px;
+        }   
+        &:after {
+            border-width: 14px;
+            margin-left: -14px;
+        }  
 		}
-		.additional-fields {
-			position: relative;
-			td {
-				background-color: #fff;
-				@include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
+    .phone-number-group {
+        line-height: 34px;
+        margin-top: 15px;
+        input {
+            width: 55px;
+        }
+        .button {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+    .tabbed-header {
+        display: table;
+        width: 100%;
 				padding: 0;
+        overflow: hidden;
+        .tab {
+            display: table-cell;
+            width: 50%;
+            background: #f7f7f7;
+            cursor: pointer;
+            vertical-align: middle;
+            &.active {
+                background: #fff;
+                h1 { 
+                    color: #0971ce; 
+                    font-size: 26px;
 			}
-			.icon-close {
-				position: absolute;
-				top: 25px;
-				right: 30px;
-				z-index: 10;
 			}
-			.content {
-				padding: 0;
+            h1 {
+                padding: 2px 20px;
+                font-size: 20px;
+            }
+            &:first-child {
+                border-right: 1px solid $enrollment-light-border-color;
+            }
+        }
+    }
+    label {
+        text-transform: none;
+        span { 
+            font-weight: normal;
+        }
+    }
+    .phone-selector {
+        .col {
+            border: none;
+            vertical-align: top;
+            padding: 25px 20px;
+            width: 33.3333%;
+            text-align: center;
+        }
+        h3 {
+            font-size: 18px;
+            text-transform: none;
+            color: #333;
+            font-weight: 600;
+        }
+        p {
+            margin: 20px 0;
+        }
+        button {
+            width: 100%;
+        }
+        .product-image {
+            max-width: 100%;
+            img {
+                vertical-align: middle;
+                min-height: 115px
+            }
+        }
+        .price {
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            span {
+                display:block;
+                color: #333;
+                font-size: 11px;
+                font-weight: 400;
+            }
+        }
+        @include breakpoint(small) {
+            table, thead, tbody, th, td, tr { 
+                display: block; 
+            }
+        }
+    }
+    .bring-your-own {
+        div.info {
+            padding: 10px;
+            background: #f7f7f7;
+            font-size: 14px;
+        }
+        /*input[type="text"] {
+            width: 100%;
+        }*/
+        .note {
+            font-size: 14px;
+        }
+        /*@include breakpoint(medium-large) {
+            .grid {
+                .col:first-child {
+                    width: 33%;
+                }
+                .col:last-child {
+                    width: 67%;
+                }
+            }
+        }
+        .note {
+            font-size: 14px;
+        }
+        ul.phone-number {
+            @extend .clearfix;
+            @include layout-list();
+            li {
+                display: inline;
+                a {
+                    @include border-radius(5px);
+                    float: left;
+                    width: 49%;
+                    margin-right: 2%;
+                    padding: 5px 10px;
+                    background-color: #FFF;
+                    @include background-image(linear-gradient(to top, #F7F7F7 0%, #FFF 100%));
+                    border: 1px solid #ccc;
+                    text-align: center;
+                }
+                &:last-child a {
+                    margin-right: 0;
+                }
+                &.selected a {
+                    @include box-shadow(inset 0 0 2px rgba(251, 247, 194, 0.75));
+                    border: 2px solid #3189BB;
+                    margin-top: -1px;
+                }
+            }
+        }
+        .phone-number-field {
+            @include border-radius(5px);
+            position: relative;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #FFF;
+            @include background-image(linear-gradient(to top, #F7F7F7 0%, #FFF 100%));
+            border: 1px solid #ccc;
+            input[type="text"] {
+                width: 50%;
+            }
 				&:after, &:before {
 					bottom: 100%;
-					left: 16.66666%;
+                left: 25%;
 					border: solid transparent;
 					content: " ";
 					height: 0;
 					width: 0;
 					position: absolute;
 					pointer-events: none;
-					@include transition(all ease-in 0.5s);
 				}
 				&:after {
 					border-color: rgba(255, 255, 255, 0);
-					border-bottom-color: #fafafa;
-					border-width: 15px;
-					margin-left: -15px;
+                border-bottom-color: #fff;
+                border-width: 10px;
+                margin-left: -10px;
 				}
 				&:before {
-					border-color: rgba(255, 255, 255, 0);
-					border-bottom-color: #cdcdcd;
-					border-width: 16px;
-					margin-left: -16px;
+                border-color: rgba(0, 0, 0, 0);
+                border-bottom-color: #ccc;
+                border-width: 11px;
+                margin-left: -11px;
 				}
-				&.first {
-					&:after, &:before {
-						left: 16.66666%;
+            &.transfer:after, &.transfer:before {
+                left: 75%;
+					}
+        }*/
+				}
+    /*@include breakpoint(small) {
+        .phone-selector {
+            .col {
+                width: auto;
 					}
 				}
-				&.second {
-					&:after, &:before {
-						left: 50%;
+    }*/
+}
+
+.enrollment__configure-data {
+    .mobile-plans-header {
+        margin-bottom: 30px;
 					}
+    .mobile-plans {
+        text-align: center;
+        width: 100%;
+        @include experimental-value(width, calc(100% + 14px)); // Better alignment for everything except IE8 with this
+        .button {
+            padding-top: 0;
+            padding-bottom: 0;
 				}
-				&.third {
-					&:after, &:before {
-						left: 83.33333%;
-					}
-				}
+        .is-recommended {
+            @include border-radius(0 0 5px 5px);
 			}
+        .recommended {
+            position: absolute;
+            top: -20px;
+            left: -2px;
+            right: -2px;
+            height: 20px;
+            background: #506774;
+            color: #fff;
+            font-weight: 600;
+            font-style: italic;
+            font-size: 12px;
+            line-height: 22px;
+            text-transform: uppercase;
+            @include border-radius(5px 5px 0 0);
+        }
+        .active {
+            .recommended {
+                background: #3189bb;
+            }
+        }
+        .size {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .price {
+            font-size: 20px;
+        }
 			.details {
-				min-height: 260px;
+            @include layout-list();
 				text-align: left;
-				padding: 35px 25px;
-				h1 {
-					font-size: 24px;
-					margin: 0 0 20px 0;
-					text-transform: none;
+            li {
+                margin-bottom: 10px;
+                padding-left: 20px;
+                [class*="icon-"] {
+                    float: left;
+                    margin-left: -20px;
 				}
-				h2 {
+                > span {
+                    font-size: 11px;
+                    color: #999;
+                }
+            }
+        }
+        .time {
 					color: #333;
-					font-size: 18px;
-					font-weight: bold;
-					text-transform: none;
+            font-size: 14px;
+        }
 					span {
-						color: #0971cd;
-						float: right;
-						font-size: 16px;
-						text-transform: uppercase;
+            display: inline-block;
 					}
 				}
 				h3 {
-					font-size: 16px;
-					margin: 0 0 10px 0;
-					min-height: 0;
+        font-weight: 600;
 				}
-				p {
-					margin: 0 0 15px 0;
-					&.large {
-						font-size: 16px;
+    hr {
+        margin: 10px 0;
+					}
+    footer {
+        background: #f7f7f7;
+        .overages-billed {
+            float: right;
+            width: 100px;
+            margin: 1em 0 1em 30px;
+            font-size: 12px;
+            text-align: center;
+            .num {
+                display: block;
+                font-size: 20px;
+				}
 					}
 				}
-				ol {
-					padding-left: 20px;
-					li {
-						font-size: 16px;
+    @include breakpoint-max(400px) {
+        .btn-group-options {
+            .button {
+                width: 100%%;
+                display: block;
+                margin-bottom: 6px;
+				}
+				}
 					}
-				}
-				hr {
-					margin: 20px 0;
-					border: 0;
-					border-top: 3px solid #eee;
-				}
-				.more {
-					text-transform: uppercase;
-					font-size: 14px;
-				}
-				.product-description {
-					@extend .clearfix;
-					margin: 20px 0;
-					.avatar {
+    @include breakpoint-min-max(401px, 650px) {
+        .btn-group-options {
+            .button {
+                width: 48%%;
+                margin: 1%;
 						float: left;
-						width: 15%;
-					}
-					.description {
-						float: left;
-						width: 85%;
+                display: block;
 					}
 				}
-				&.product {
-					padding-right: 350px;
 				}
+}
+
+.enrollment__mobile-order-details {
+    .plan-details {
+
 			}
+    .condition {
+        color: #999;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .model {
+        margin: 0;
+    }
 			.options {
-				border-top: 1px solid #d9d9d9;
-				border-bottom: 5px solid #d9d9d9;
-				background-color: #fbfbfb;
-				@include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
-				text-align: left;
-				padding: 25px 30px;
-				label {
-					text-transform: none;
-					font-size: 18px;
-					margin-top: 5px;
+
 				}
-				.item {
-					margin-right: 40px;
+    .description {
+        float: left;
+        width: 70%;
 				}
-				.action {
+    .line-item {
+        margin-top: 20px;
+    }
+    .rate {
 					float: right;
-					margin-right: 0;
+        width: 20%;
 					text-align: right;
-					label {
-						font-size: 22px;
-						span {
-							font-size: 14px;
 						}
+    .plan-summary-image, .phone-summary-image {
+        position: absolute;
+        left: 20px;
+        top: 0;
 					}
+    .plan-summary, .phone-summary {
+        padding-left: 100px;
+        position: relative;
+        & :first-child {
+            margin-top: 0;
 				}
-				.colors {
-					text-align: left;
-					margin-left: -2px;
-					width: auto;
-					li {
+        &.no-img {
+            padding-left: 0;
+        }
+    }
 						a {
-							width: 20px;
-							height: 20px;
+        font-size: 15px;
 						}
+    h2 {
+        font-weight: 600;
+        margin-bottom: 5px;
+        margin-top: 0;
+        color: #333;
+        font-size: 24px;
 					}
+    h3 {
+        font-weight: 600;
+        margin-bottom: 0;
+        margin-bottom: 0;
+        font-size: 16px;
 				}
+    footer {
+        text-align: right;
 			}
+    p {
+        margin: 0 0 5px;
+        font-size: 15px;
 		}
+}
+
+.enrollment__business-info {
+    ul.checkbox-list {
+        input[type="text"] {
+            width: 200px;
+        }
+        select {
+            width: 90px;
+        }
+        &.inline {
+            li {
+                display: inline-block;
+            }
+        }
+    }
+    div.or-sep {
+        label {
+            display: inline;
+        }
+    }
+    .signature {
+        @include border-radius(5px);
+        margin-bottom: 5px;
+        padding: 5px 10px;
+        &.empty {
+            background-color: #FFF9D2;
+            border: 1px solid #CCC;
+        }
+        .signature-name {
+            font-size: 24px;
+            font-family: "ff-market-web", cursive;
+        }
+    }
+    .additional-name {
+        hr {
+            margin: 0;
+        }
+    }
+}
+
+
+
+/*
+ *
+    The styling below still needs to be updated.
+    No optimizations have been done yet.
+ *
+ */
+.banner.phone {
+    height: 228px;
+    background-position: 50%;
+    background-size: cover;
+    h1 {
+        font-size: 14px;
+    }
+    h2 {
+        color: #fff;
+        font-size: 40px;
+        margin: 0;
+        text-transform: none;
+    }
+    .inner {
+        background: none;
+    }
+    .wrapper {
+        padding-top: 67px;
+    }
+    @include breakpoint(medium) {
+        height: 228px;
+    }
 		@include breakpoint(small) {
-			table, thead, tbody, th, td, tr { 
-				display: block; 
+        display: none;
 			}
+}
+
+.enrollment__order-notice {
+    background: #fff8d7;
+    .content {
+        padding-top: 5px;
 		}
+    header {
+        border-bottom: none;
+        background: transparent;
 	}
+}
+
+
+article.phone {
+    overflow: hidden;
+    .content {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .filters {
+        background-color: #f7f7f7;
+        border-bottom: 0;
+        padding-bottom: 15px;
+    }
+
 }
 
 /*
@@ -1430,7 +2624,7 @@ article.phone-plan {
 			}
 			h2 {
 				font-size: 14px;
-				font-weight: bold;
+                font-weight: 600;
 				color: #adadad;
 				text-transform: none;
 				margin: 0;
@@ -1596,4 +2790,28 @@ article.services-box {
 		font-size: 12px;
 		margin: 0 0 10px 0;
 	}
+}
+
+.modal.depositWaiver {
+    h3 {
+        margin-bottom: 0;
+    }
+    ol {
+        li {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.modal.signature {
+    .signature-preview {
+        @include box-shadow(1px 1.7px 3px rgba(14, 15, 15, 0.15));
+        height: 90px;
+        line-height: 90px;
+        padding: 0 20px;
+        border: 1px solid #bcbcbc;
+        background-color: #FDFDFD;
+        font-size: 32px;
+        font-family: "ff-market-web", cursive;
+    }
 }

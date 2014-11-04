@@ -29,5 +29,11 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public bool IsLoading { get; set; }
 
         public bool IsTimeout { get; set; }
+
+        public Address MailingAddress { get; set; }
+
+        public Address PreviousAddress { get; set; }
+
+        public string PreviousProvider { get; set; }
     }
 }

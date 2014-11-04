@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,10 +18,10 @@ namespace StreamEnergy.MyStream.Tests.Services
             Moq.Mock<StackExchange.Redis.IDatabase> dbMock = new Moq.Mock<StackExchange.Redis.IDatabase>();
             var target = new AzureAccessControlServiceTokenManager(new System.Net.Http.HttpClient(), dbMock.Object, new AzureAcsConfiguration
                 {
-                    Url = new Uri("https://streamenergy-dev.accesscontrol.windows.net"),
-                    Realm = "https://streamenergy-dev.accesscontrol.windows.net",
-                    IdentityName = "portal-streamconnect-sa-dev",
-                    IdentityKey = "2xbcOGh+C+SPhXxsnzhrlN/uJ3QvStdh4WX8duu6MQ8="
+                    Url = new Uri(ConfigurationManager.AppSettings["ACS URL"]),
+                    Realm = ConfigurationManager.AppSettings["ACS Realm"],
+                    IdentityName = ConfigurationManager.AppSettings["ACS Service Identity Name"],
+                    IdentityKey = ConfigurationManager.AppSettings["ACS Service Identify Key"]
                 });
 
             var token = await target.GetSwtToken();
@@ -34,10 +35,10 @@ namespace StreamEnergy.MyStream.Tests.Services
             Moq.Mock<StackExchange.Redis.IDatabase> dbMock = new Moq.Mock<StackExchange.Redis.IDatabase>();
             var target = new AzureAccessControlServiceTokenManager(new System.Net.Http.HttpClient(), dbMock.Object, new AzureAcsConfiguration
             {
-                Url = new Uri("https://streamenergy-test.accesscontrol.windows.net"),
-                Realm = "https://streamenergy-test.accesscontrol.windows.net",
-                IdentityName = "portal-streamconnect-sa-test",
-                IdentityKey = "RmRZElPYsCqCeDDWEqH5RHiqzgNmZ2OIh4+442l/uns="
+                Url = new Uri(ConfigurationManager.AppSettings["ACS URL"]),
+                Realm = ConfigurationManager.AppSettings["ACS Realm"],
+                IdentityName = ConfigurationManager.AppSettings["ACS Service Identity Name"],
+                IdentityKey = ConfigurationManager.AppSettings["ACS Service Identify Key"]
             });
 
             using (var handler = new System.Net.Http.WebRequestHandler())
@@ -50,7 +51,7 @@ namespace StreamEnergy.MyStream.Tests.Services
 
                     Assert.IsNotNull(client.DefaultRequestHeaders.Authorization);
 
-                    var response = await client.GetAsync("https://streamconnect-test.cloudapp.net/api/UtilityProviders");
+                    var response = await client.GetAsync(new Uri(new Uri(ConfigurationManager.AppSettings["StreamConnect Base Url"]), "/v1/UtilityProviders"));
                     if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
                     {
                         Assert.Fail("Invalid token for URL.");

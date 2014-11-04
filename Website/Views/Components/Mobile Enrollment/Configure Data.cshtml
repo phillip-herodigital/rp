@@ -1,0 +1,56 @@
+<div id="configure-data" ng-if="mobileEnrollment.currentStep == 'configure-data'" ng-controller="MobileEnrollmentConfigureDataCtrl">
+    <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+        <div class="wrapper">
+            <h1>
+                <span class="small block">@Html.Sitecore().Field("Page Title")</span><br />
+            </h1>
+        </div>
+    </div>
+    @* Two-column layout for Configure Data *@
+    <section class="wrapper layout cols-2">
+        <section>
+            <article class="enrollment__box enrollment__configure-data">
+                <header>
+                    <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
+                </header>
+                <div class="content">
+                    <h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>
+
+                    <div class="btn-group btn-group-options mobile-plans">
+                        <div class="button" ng-model="formFields.chosenPlanId" btn-radio="plan.id" ng-repeat="plan in dataPlans.plans" ng-class="{'is-recommended':plan.recommended}">
+                            <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
+                            <p>
+                                <span class="size">{{ plan.data }} GB</span>
+                            </p>
+                            <hr />
+                            <ul class="details">
+                                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} hours</span></span></li>
+                                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} hours</span></span></li>
+                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.hoursWebBrowsing }} hours</span></span></li>
+                            </ul>
+                            <hr />
+                            <p>
+                                <span class="price">
+                                    {{ plan.price | currency }}/mo
+                                </span>
+                            </p>
+                        </div>
+                        @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
+                    </div>
+                </div>
+                <footer>
+                    <h3>@Html.Sitecore().Field("Header - What About Overages")</h3>
+                    <div class="overages-billed">@Html.Sitecore().Field("Text - Overage Billed At")</div>
+                    @Html.Sitecore().Field("Text - What About Overages")
+                </footer>
+            </article>
+            <div class="clearfix">
+                <button type="button" class="plain plain-footer">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
+                <button type="submit" class="pull-right" ng-click="setCurrentStep('complete-order');" ng-disabled="!formFields.chosenPlanId">@Html.Sitecore().Field("Button - Next")</button>
+            </div>
+        </section>
+        <aside>
+            <div ng-include src="'mobile-enrollment-cart'"></div>
+        </aside>
+    </section>
+</div>

@@ -1,12 +1,17 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', '$filter', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService, $filter) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
     $scope.customerType = 'residential';
     $scope.cartLocationsCount = 0;
     $scope.isCartFull = false;
+    $scope.isLoading = enrollmentService.isLoading;
+
+    $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
+        $scope.isLoading = newValue;
+    });
 
     //Go ahead and set the first step to be utility for now
     //Need to determine how the first step will be activated
@@ -32,15 +37,23 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     * @param string state        //State abbreviation
     * @param string val          //Search string value
     */
-    $scope.getLocation = function (state, val) {
+    $scope.getLocation = function (state, val, zipOnly) {
         return enrollmentService.getLocations(state, $scope.customerType, val).then(function (res) {
             return _.filter(res.data, function (value) {
+                if (zipOnly && value.address.line1 == null) return false;
                 // This got a bit more complex when I decided that when "editing" an address you should be able to type back in the original address.
-                var match = enrollmentCartService.findMatchingAddress(value.address);
-                var isActive = match && enrollmentCartService.getActiveService() == match;
-                return !match || isActive;
+                return true;
             })
         });
+    };
+
+    $scope.isDuplicateAddress = function (address) {
+        var activeService = enrollmentCartService.getActiveService();
+        if (activeService && $filter('address')(address) == $filter('address')(activeService.location.address)) {
+            return false;
+        }
+        
+        return enrollmentCartService.findMatchingAddress(address);
     };
 
     /**
@@ -49,9 +62,16 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     $scope.setServerData = function (serverData) {
         enrollmentService.setClientData(serverData);
         $scope.isRenewal = enrollmentService.isRenewal;
-        $timeout(function () {
-            enrollmentStepsService.setFromServerStep(serverData.expectedState);
-        });
+        if (!serverData.isLoading) {
+            $timeout(function () {
+                enrollmentStepsService.setFromServerStep(serverData.expectedState);
+            });
+        }
+        if (_(serverData.cart).some(function (e) {
+            return _(e.location.capabilities).some({ capabilityType: 'CustomerType', customerType: 'commercial' });
+        })) {
+            $scope.customerType = 'commercial';
+        }
     };
 
     $scope.assignStepNames = function (navTitles) {
@@ -67,7 +87,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     };
 
     $scope.assignSupportedUtilityStates = function (supportedStates) {
-        $scope.supportedUtilityStates = _(supportedStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css } }).value();
+        var availableStates = _.filter(supportedStates, function(state){return state.abbreviation == 'TX' || state.abbreviation == 'GA'; });
+        $scope.supportedUtilityStates = _(availableStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css } }).value();
     };
 
     $scope.resetEnrollment = function () {
