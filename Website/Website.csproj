@@ -530,6 +530,7 @@
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
+    <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\ApiControllers\TempController.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressesController.cs" />
@@ -1272,6 +1273,10 @@
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
       <Project>{79779d13-7d5e-4190-ba72-5302244c8165}</Project>
       <Name>StreamEnergy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.Data\StreamEnergy.Data.csproj">
+      <Project>{8daecd6f-8a8a-4018-9828-87d1dbf0e443}</Project>
+      <Name>StreamEnergy.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\StreamEnergy.DomainModel\StreamEnergy.DomainModel.csproj">
       <Project>{449d7f2c-372c-41a8-b640-6751fda30828}</Project>
