@@ -1,4 +1,4 @@
-ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
+ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($rootScope, $window) {
     var service = {
         state: 'TX',
         availableNetworks: [],
@@ -206,6 +206,11 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     service.getEstimatedMonthlyTotal = function() {
         var plan = service.cart.dataPlan;
         return parseFloat(plan.price, 10) + service.getTotalFees();
+    };
+
+    service.resetEnrollment = function () {
+        // since we're not storing anyhting, a reload will reset
+        $window.location.href = '/mobile-enrollment';
     };
 
     return service;

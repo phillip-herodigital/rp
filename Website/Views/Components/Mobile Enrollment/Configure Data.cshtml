@@ -45,7 +45,7 @@
                 </footer>
             </article>
             <div class="clearfix">
-                <button type="button" class="plain plain-footer">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
+                <button type="button" class="plain plain-footer" ng-click="resetEnrollment()">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
                 <button type="submit" class="pull-right" ng-click="setCurrentStep('complete-order');" ng-disabled="!formFields.chosenPlanId">@Html.Sitecore().Field("Button - Next")</button>
             </div>
         </section>
