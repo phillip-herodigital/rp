@@ -3,9 +3,16 @@
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.cart = $scope.mobileEnrollmentService.getCart();
     $scope.isBreakdownShown = false;
+    $scope.llcClassifcation = '';
 
     $scope.accountInformation = {
-        shippingAddressSame: true
+        shippingAddressSame: true,
+        contactInfo: {
+            phone: [{
+                    number: '',
+                    category: ''
+                }],
+        }
     };
 
     $scope.businessInformation = {

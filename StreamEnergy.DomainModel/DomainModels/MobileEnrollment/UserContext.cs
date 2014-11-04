@@ -29,11 +29,39 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         [ValidateObject(ErrorMessagePrefix = "Business Address ")]
         public Address BusinessAddress { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "")]
-        public DomainModels.Payments.IPaymentInfo PaymentInfo { get; set; }
+        [Required]
+        public string BusinessInformationName { get; set; }
+
+        public string BusinessName { get; set; }
+        [Required]
+        public string TaxClassification { get; set; }
+        [Required]
+        public string ExemptCode { get; set; }
+        [Required]
+        public string FATCACode { get; set; }
+        [Required]
+        public bool BusinessAddressSame { get; set; }
+
+        public string CurrentAccountNumbers { get; set; }
+        [Required]
+        public string SocialSecurityNumber { get; set; }
+        [Required]
+        public string TaxId { get; set; }
+        [Required]
+        public bool CustomerCertification { get; set; }
+        [Required]
+        public string CustomerSignature { get; set; }
+        [Required]
+        public bool SignatureConfirmation { get; set; }
+        [Required]
+        public string SignatoryName { get; set; }
+        [Required]
+        public string SignatoryRelation { get; set; }
 
         [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public bool AgreeToTerms { get; set; }
+
+        public bool TcpaPreference { get; set; }
 
         void ISanitizable.Sanitize()
         {

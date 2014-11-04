@@ -33,7 +33,7 @@
                         </div>
                         <div class="description" ng-if="item.type == 'existing'">
                             <div>@Html.Sitecore().Field("Bring Your Own Device")</div>
-                            <div class="details">{{ item.make }} {{ item.model }}</div>
+                            <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>
                             <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
                         </div>
                         <div class="rate">{{ item.activationFee | currency }}</div>
