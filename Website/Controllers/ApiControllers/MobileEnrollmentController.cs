@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using StreamEnergy.DomainModels.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
+    [RoutePrefix("api/MobileEnrollment")]
     public class MobileEnrollmentController : ApiController
     {
         private readonly IMobileEnrollmentService mobileEnrollment;
@@ -39,6 +42,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 return InternalServerError();
             }
+        }
+
+        [HttpGet]
+        [Route("w9/{id}")]
+        public async Task<HttpResponseMessage> DownloadW9(Guid id)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new MemoryStream(await mobileEnrollment.RetrievePdf(id));
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            return result;
         }
     }
 }
