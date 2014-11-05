@@ -59,7 +59,12 @@ namespace StreamEnergy.Data.MobileEnrollment
         {
             var record = await dataContext.EnrollmentRecords.FindAsync(mobileEnrollmentId);
             
-            return record.PdfGen;
+            if (record.AgreeToTerms.AddMinutes(20) < DateTimeOffset.Now)
+            {
+                return record.PdfGen;
+            }
+            // Don't allow downloading of the pdf after 20 minutes as a security precaution
+            return null;
         }
 
     }
