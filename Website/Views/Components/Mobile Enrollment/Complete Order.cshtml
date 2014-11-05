@@ -447,7 +447,8 @@
                                 <div class="signature" ng-click="showSignatureModal('signature')" ng-class="{empty:!businessInformation.signature}">
                                     <span ng-if="!businessInformation.signature">@Html.Sitecore().Field("Text - Add Signature")</span>
                                     <span ng-if="businessInformation.signature">
-                                        <span class="signature-name">{{ businessInformation.signature }}</span>
+                                        <span class="signature-name" ng-if="businessInformation.signatureImage == null">{{ businessInformation.signature }}</span>
+                                        <span ng-if="businessInformation.signatureImage != null"><img src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
                                         <a href="">@Html.Sitecore().Field("Text - Edit Signature")</a>
                                     </span>
                                 </div>
@@ -547,11 +548,12 @@
                         <a href="" ng-click="selectTab('draw')">@Html.Sitecore().Field("Tab - Draw Signature")</a>
                     </li>
                 </ul>
-                <form>
+                <form data-val-bind-messages="validations" ng-submit="submit()">
                     <div class="tab-content" ng-show="selectedTab == 'type'">
-                        <div class="item">
-                            <label for="name">@Html.Sitecore().Field("Label - Enter Name")</label>
-                            <input type="text" ng-model="formData.name" />
+                        <div class="item" @Html.Validation().ErrorClass(m => m.CustomerSignature)>
+                            <label for="@Html.IdFor(m => m.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
+                            @Html.TextBoxFor(m => m.CustomerSignature, new { ng_model = "formData.name" })
+                            @Html.ValidationMessageFor(model => model.CustomerSignature)
                         </div>
                         <div class="item">
                             <label>@Html.Sitecore().Field("Label - Preview")</label>
@@ -559,20 +561,19 @@
                                 {{ formData.name }}
                             </div>
                         </div>
-                        <button type="submit" ng-click="submit()">@Html.Sitecore().Field("Button - Accept Signature")</button>
+                        <button type="submit" data-val-submit>@Html.Sitecore().Field("Button - Accept Signature")</button>
                     </div>
                     <div class="tab-content" ng-show="selectedTab == 'draw'">
-                        <div class="item">
-                            <label for="name">@Html.Sitecore().Field("Label - Enter Name")</label>
-                            <input type="text" ng-model="formData.name" />
+                        <div class="item" @Html.Validation().ErrorClass(m => m.CustomerSignature)>
+                            <label for="@Html.IdFor(m => m.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
+                            @Html.TextBoxFor(m => m.CustomerSignature, new { ng_model = "formData.name" })
+                            @Html.ValidationMessageFor(model => model.CustomerSignature)
                         </div>
                         <div class="item">
                             <label>@Html.Sitecore().Field("Label - Draw Your Signature")</label>
-                            <div class="signature-preview">
-                                
-                            </div>
+                            <div class="signature-preview" id="draw-signature"></div>
                         </div>
-                        <button type="submit" ng-click="submit()">@Html.Sitecore().Field("Button - Accept Signature")</button>
+                        <button type="submit" data-val-submit>@Html.Sitecore().Field("Button - Accept Signature")</button>
                     </div>
                 </form>
             </div>

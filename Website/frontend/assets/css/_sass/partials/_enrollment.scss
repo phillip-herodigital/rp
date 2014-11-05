@@ -2303,6 +2303,7 @@ $enrollment-module-vertical-padding: 20px;
         .signature-name {
             font-size: 24px;
             font-family: "ff-market-web", cursive;
+            margin-right: 10px;
         }
     }
     .additional-name {
@@ -2612,5 +2613,8 @@ article.services-box {
         background-color: #FDFDFD;
         font-size: 32px;
         font-family: "ff-market-web", cursive;
+    }
+    #draw-signature {
+        padding: 0;
     }
 }
