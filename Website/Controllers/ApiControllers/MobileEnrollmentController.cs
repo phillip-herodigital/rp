@@ -18,20 +18,24 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.mobileEnrollment = mobileEnrollment;
         }
 
-        [HttpGet]
-        public IHttpActionResult Temp()
-        {
-            return Ok("Success");
-        }
-
         [HttpPost]
-        public async Task<IHttpActionResult> Submit()
+        public async Task<IHttpActionResult> Submit(UserContext context)
         {
-            await Task.Yield();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            // TODO
+            var result = await mobileEnrollment.RecordEnrollment(context);
 
-            return InternalServerError(new NotImplementedException());
+            if (result)
+            {
+                return Ok(new { Success = true });
+            }
+            else
+            {
+                return InternalServerError();
+            }
         }
     }
 }

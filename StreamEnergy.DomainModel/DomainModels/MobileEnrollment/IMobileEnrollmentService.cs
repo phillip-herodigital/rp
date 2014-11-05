@@ -8,5 +8,6 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
 {
     public interface IMobileEnrollmentService
     {
+        Task<bool> RecordEnrollment(UserContext data);
     }
 }
