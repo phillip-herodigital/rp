@@ -10,5 +10,8 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
     {
         Task<Guid> RecordEnrollment(UserContext data, byte[] w9Pdf);
         Task<byte[]> RetrievePdf(Guid mobileEnrollmentId);
+
+        Task<string> CreatePdfToken(Guid mobileEnrollmentId);
+        Task<byte[]> RetrievePdf(string token);
     }
 }

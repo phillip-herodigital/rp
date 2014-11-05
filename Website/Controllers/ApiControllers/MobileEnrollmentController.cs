@@ -45,10 +45,26 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpGet]
-        [Route("w9/{id}")]
+        [Route("w9/temp/{id}")]
         public async Task<HttpResponseMessage> DownloadW9(Guid id)
         {
             var pdfData = await mobileEnrollment.RetrievePdf(id);
+            if (pdfData == null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new MemoryStream(pdfData);
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            return result;
+        }
+
+        [HttpGet]
+        [Route("w9/token/{token}")]
+        public async Task<HttpResponseMessage> DownloadW9(string token)
+        {
+            var pdfData = await mobileEnrollment.RetrievePdf(token);
             if (pdfData == null)
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
