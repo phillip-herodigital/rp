@@ -45,6 +45,24 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult BringYourOwnDevices()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile BYO Devices");
+
+            var data = item.Children.Select(child => new
+            {
+                Id = child.ID.ToString(),
+                Make = child.Name,
+                Models = child.Children.Select(obj => new
+                {
+                    ModelName = obj.Fields["Model"].Value,
+                    Description = obj.Fields["Description"].Value
+                })
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult MobileNetworks()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");

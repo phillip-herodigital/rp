@@ -20,6 +20,16 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult StateNames()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/State Names/State Names");
+            var nameValues = ((Sitecore.Data.Fields.NameValueListField)item.Fields["State Abbreviations"]).NameValues;
+
+            var data = nameValues.AllKeys.Select(key => new { abbreviation = key, display = nameValues[key] });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult PhoneCategories()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Phone Types");

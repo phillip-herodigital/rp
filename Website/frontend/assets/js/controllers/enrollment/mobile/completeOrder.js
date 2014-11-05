@@ -3,9 +3,17 @@
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.cart = $scope.mobileEnrollmentService.getCart();
     $scope.isBreakdownShown = false;
+    $scope.llcClassifcation = '';
+    $scope.currentDate = new Date();
 
     $scope.accountInformation = {
-        shippingAddressSame: true
+        shippingAddressSame: true,
+        contactInfo: {
+            phone: [{
+                    number: '',
+                    category: ''
+                }],
+        }
     };
 
     $scope.businessInformation = {
@@ -14,15 +22,15 @@
     };
 
     $scope.toggleBreakdown = function() {
-		$scope.isBreakdownShown = !$scope.isBreakdownShown;    	
+        $scope.isBreakdownShown = !$scope.isBreakdownShown;     
     };
 
     $scope.editDevice = function() {
-    	$scope.setCurrentStep('choose-phone');
+        $scope.setCurrentStep('choose-phone');
     };
 
     $scope.editPlan = function() {
-    	$scope.setCurrentStep('configure-data');
+        $scope.setCurrentStep('configure-data');
     };
 
     $scope.showSignatureModal = function (templateUrl) {

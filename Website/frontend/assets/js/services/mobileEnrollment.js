@@ -1,6 +1,6 @@
-ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
+ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($rootScope, $window) {
     var service = {
-        state: "TX",
+        state: 'TX',
         availableNetworks: [],
         selectedNetwork: undefined,
         cart: {
@@ -46,7 +46,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
         terms: {
 
         },
-        /*
         accountInformation: {
             contactInfo: {
                 name: {
@@ -63,7 +62,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
             },
             socialSecurityNumber: '',
             secondaryContactInfo: {}
-        }*/
+        }
     },
     //networks = [],
     dataPlans = [],
@@ -152,6 +151,8 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     }
 
     service.addItemToCart = function(item) {
+        // since we're only allowing one phone on launch reset
+        service.cart.items = [];
         service.cart.items.push(item);
     };
 
@@ -205,6 +206,11 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     service.getEstimatedMonthlyTotal = function() {
         var plan = service.cart.dataPlan;
         return parseFloat(plan.price, 10) + service.getTotalFees();
+    };
+
+    service.resetEnrollment = function () {
+        // since we're not storing anyhting, a reload will reset
+        $window.location.href = '/mobile-enrollment';
     };
 
     return service;
