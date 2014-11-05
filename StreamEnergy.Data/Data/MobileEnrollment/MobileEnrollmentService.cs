@@ -11,6 +11,8 @@ namespace StreamEnergy.Data.MobileEnrollment
     class MobileEnrollmentService : IMobileEnrollmentService
     {
         private readonly DataContext dataContext;
+        private static readonly StreamEnergy.Cryptography cryptography = new StreamEnergy.Cryptography("7s6xxnq69ptkojji", "ccqt0prq7xgv6gl5");
+        private const string password = "rcd8qltwh6ujhxj8";
 
         public MobileEnrollmentService(DataContext dataContext)
         {
@@ -67,5 +69,28 @@ namespace StreamEnergy.Data.MobileEnrollment
             return null;
         }
 
+        async Task<string> IMobileEnrollmentService.CreatePdfToken(Guid mobileEnrollmentId)
+        {
+            var record = await dataContext.EnrollmentRecords.FindAsync(mobileEnrollmentId);
+            return cryptography.Encrypt(mobileEnrollmentId.ToString("N") + record.AgreeToTerms.ToString(), password);            
+        }
+
+        async Task<byte[]> IMobileEnrollmentService.RetrievePdf(string token)
+        {
+            var decrypted = cryptography.Decrypt(token, password);
+            if (decrypted == null)
+                return null;
+
+            var idPart = decrypted.Substring(0, 32);
+            var agreeTimestampPart = decrypted.Substring(32);
+
+            var mobileEnrollmentId = Guid.Parse(decrypted);
+            var record = await dataContext.EnrollmentRecords.FindAsync(mobileEnrollmentId);
+
+            if (record.AgreeToTerms.ToString() != agreeTimestampPart)
+                return null;
+
+            return record.PdfGen;
+        }
     }
 }
