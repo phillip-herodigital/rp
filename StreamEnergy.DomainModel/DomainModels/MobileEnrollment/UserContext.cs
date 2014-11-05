@@ -33,11 +33,10 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public string BusinessInformationName { get; set; }
 
         public string BusinessName { get; set; }
-        [Required]
-        public string TaxClassification { get; set; }
-        [Required]
+
+        public W9BusinessClassification BusinessTaxClassification { get; set; }
+        public string AdditionalTaxClassification { get; set; }
         public string ExemptCode { get; set; }
-        [Required]
         public string FATCACode { get; set; }
         [Required]
         public bool BusinessAddressSame { get; set; }

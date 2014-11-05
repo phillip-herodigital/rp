@@ -15,7 +15,7 @@ namespace StreamEnergy.Services.Clients
 {
     class W9GenerationService : IW9GenerationService
     {
-        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, bool isExempt, string address, string city, string state, string zip, string socialSecurityNumber, string employerIdentificationNumber, string signature, DateTime date)
+        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, string exemptPayeeCode, string fatcaExemtionCode, Address address, string socialSecurityNumber, string employerIdentificationNumber, string signature, DateTime date)
         {
             var objPDF = new PdfManager();
             var objDoc = objPDF.OpenDocument("Data/fw9.pdf");
@@ -81,9 +81,11 @@ namespace StreamEnergy.Services.Clients
             {
                 textFields.otherBusinessType.FieldValue = businessTypeAdditional;
             }
+            textFields.exemptPayeeCode.FieldValue = exemptPayeeCode;
+            textFields.exemptFatcaExemtionCode.FieldValue = fatcaExemtionCode;
 
-            textFields.address.FieldValue = address;
-            textFields.cityStateZip.FieldValue = string.Format("{0}, {1} {2}", city, state, zip);
+            textFields.address.FieldValue = address.Line1 + (string.IsNullOrEmpty(address.Line2) ? "" : ", " + address.Line2);
+            textFields.cityStateZip.FieldValue = string.Format("{0}, {1} {2}", address.City, address.StateAbbreviation, address.PostalCode5);
 
             if (!string.IsNullOrEmpty(socialSecurityNumber))
             {
