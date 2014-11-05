@@ -66,10 +66,6 @@
     <Compile Include="Data\MobileEnrollment\DataContext.cs" />
     <Compile Include="Data\MobileEnrollment\EnrollmentRecord.cs" />
     <Compile Include="Data\MobileEnrollment\MobileEnrollmentService.cs" />
-    <Compile Include="Migrations\201411041952266_Initial.cs" />
-    <Compile Include="Migrations\201411041952266_Initial.Designer.cs">
-      <DependentUpon>201411041952266_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,9 +83,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201411041952266_Initial.resx">
-      <DependentUpon>201411041952266_Initial.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411051525348_Initial.resx">
       <DependentUpon>201411051525348_Initial.cs</DependentUpon>
     </EmbeddedResource>
