@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentCompleteOrderCtrl', ['$scope', '$filter', '$timeout', '$modal', 'jQuery', 'mobileEnrollmentService', function ($scope, $filter, $timeout, $modal, $, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentCompleteOrderCtrl', ['$scope', '$filter', '$timeout', '$modal', '$http', 'jQuery', 'mobileEnrollmentService', function ($scope, $filter, $timeout, $modal, $http, $, mobileEnrollmentService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.cart = $scope.mobileEnrollmentService.getCart();
@@ -54,13 +54,52 @@
 
     $scope.completeStep = function() {
         // format the post data
+        var item = $scope.cart.items[0];
+        var additionalClassification = null;
+        if ($scope.businessInformation.taxClassification == 'LLC') {
+            additionalClassification = $scope.llcClassification;
+        }
+        if ($scope.businessInformation.taxClassification == 'Other') {
+            additionalClassification = $scope.otherClassification;
+        }
+        var userContext = {
+            deviceMake: item.make.make,
+            deviceModel: item.model.modelName,
+            deviceSerial: item.imeiNumber,
+            simNumber: item.simNumber,
+            newNumber: (item.number.type == 'new') ? item.number.value : null,
+            portInNumber: (item.number.type == 'existing') ? item.number.value : null,
+            planId: $scope.cart.dataPlan.id,
+            contactInfo: $scope.accountInformation.contactInfo,
+            billingAddress: $scope.accountInformation.billingAddress,
+            shippingAddress: ($scope.accountInformation.shippingAddressSame) ? $scope.accountInformation.billingAddress : $scope.accountInformation.shippingAddress,
+            shippingAddressSame: $scope.accountInformation.shippingAddressSame,
+            businessAddress: ($scope.businessInformation.businessAddressSame) ? $scope.accountInformation.billingAddress : $scope.businessInformation.businessAddress,
+            businessAddressSame: $scope.businessInformation.businessAddressSame,
+            businessInformationName: $scope.accountInformation.businessInformationName,
+            businessName: $scope.accountInformation.businessName,
+            businessTaxClassification: $scope.businessInformation.taxClassification,
+            additionalTaxClassification: additionalClassification,
+            exemptCode: $scope.businessInformation.exemptCode,
+            fATCACode: $scope.businessInformation.fatcaCode,        
+            currentAccountNumbers: $scope.businessInformation.currentAccountNumbers,
+            socialSecurityNumber: ($scope.tin == 'ssn') ? $scope.businessInformation.socialSecurityNumber : null,
+            taxId: ($scope.tin == 'taxId') ? $scope.businessInformation.taxId : null,
+            customerCertification: $scope.businessInformation.customerCertification,
+            customerSignature: $scope.businessInformation.signature,
+            signatureImage: $scope.businessInformation.signatureImage,
+            signatureConfirmation: $scope.businessInformation.signatory,
+            signatoryName: $scope.businessInformation.signatoryName,
+            signatoryRelation: $scope.businessInformation.signatoryRelation,
+            agreeToTerms: $scope.businessInformation.agreeToTerms,
+            tcpaPreference: $scope.businessInformation.tcpaPreference,
+        }
 
         // send the post
-
-        // set the response variables to scope
-
-        // go to the confirmation page
-        $scope.setCurrentStep('order-confirmation');
+        $http.post('/api/mobileEnrollment/submit', userContext)
+        .success(function (data) {
+            $scope.setCurrentStep('order-confirmation');
+        })
     };
 
 }]);

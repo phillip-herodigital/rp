@@ -148,7 +148,7 @@
                             {
                                 <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Number)>
                                     <label for="@firstPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("Phone Number")</label>
-                                    @firstPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "accountInformation.contactInfo.phone.number" }))
+                                    @firstPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "accountInformation.contactInfo.phone[0].number" }))
                                     @firstPhone.ValidationMessageFor(m => m.Number)
                                 </div>
                                 <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Category)>
@@ -298,23 +298,23 @@
                             <label>@Html.Sitecore().Field("Federal Tax Classification")</label>
                             <ul class="checkbox-list inline">
                                 <li>
-                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="@Html.Sitecore().Field("Label - Individual")" checked /> <label>@Html.Sitecore().Field("Label - Individual")</label>
+                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="IndividualSoleProprietor" checked /> <label>@Html.Sitecore().Field("Label - Individual")</label>
                                 </li>
                                 <li>
-                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="@Html.Sitecore().Field("Label - C Corporation")" /> <label>@Html.Sitecore().Field("Label - C Corporation")</label>
+                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="CCorporation" /> <label>@Html.Sitecore().Field("Label - C Corporation")</label>
                                 </li>
                                 <li>
-                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="@Html.Sitecore().Field("Label - S Corporation")" /> <label>@Html.Sitecore().Field("Label - S Corporation")</label>
+                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="SCorporation" /> <label>@Html.Sitecore().Field("Label - S Corporation")</label>
                                 </li>
                                 <li>
-                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="@Html.Sitecore().Field("Label - Partnership")" /> <label>@Html.Sitecore().Field("Label - Partnership")</label>
+                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="Partnership" /> <label>@Html.Sitecore().Field("Label - Partnership")</label>
                                 </li>
                                 <li>
-                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="@Html.Sitecore().Field("Label - Trust Estate")" /> <label>@Html.Sitecore().Field("Label - Trust Estate")</label>
+                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="TrustEstate" /> <label>@Html.Sitecore().Field("Label - Trust Estate")</label>
                                 </li>
                                 <li>
-                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" ng-value="llcClassification" /> <label>@Html.Sitecore().Field("Label - Limited Liability Company")</label>
-                                    <select ng-model="llcClassification" ng-change="businessInformation.taxClassification = llcClassification">
+                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="LLC" /> <label>@Html.Sitecore().Field("Label - Limited Liability Company")</label>
+                                    <select ng-model="llcClassification">
                                         <option value="">Choose</option>
                                         <option value="LLC - As an @Html.Sitecore().Field("Label - Individual")">As an @Html.Sitecore().Field("Label - Individual")</option>
                                         <option value="LLC - As a @Html.Sitecore().Field("Label - Partnership")">As a @Html.Sitecore().Field("Label - Partnership")</option>
@@ -323,8 +323,8 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" ng-value="otherClassification" /> <label>@Html.Sitecore().Field("Label - Other")</label>
-                                    <input type="text" ng-model="otherClassification" ng-change="businessInformation.taxClassification = otherClassification" />
+                                    <input type="radio" name="taxClassification" ng-model="businessInformation.taxClassification" value="Other" /> <label>@Html.Sitecore().Field("Label - Other")</label>
+                                    <input type="text" ng-model="otherClassification" />
                                 </li>
                             </ul>
                         </div>
@@ -412,14 +412,14 @@
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.TaxId)>
                                 <input type="radio" name="tin" id="tin-ein" ng-model="tin" value="taxId" checked />
                                 <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Label - Employer Identification Number")</label>
-                                @Html.TextBoxFor(m => m.TaxId, new { data_val_if = "tin == 'taxId'", ng_model = "businessInformation.taxId" })
+                                @Html.TextBoxFor(m => m.TaxId, new { data_val_if = "tin == 'taxId'", data_val_required = "", ng_model = "businessInformation.taxId" })
                                 @Html.ValidationMessageFor(model => model.TaxId)
                                 <span class="note">@Html.Sitecore().Field("Note - Employer Identification Number")</span>
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                                 <input type="radio" name="tin" id="tin-ssn" ng-model="tin" value="ssn" />
                                 <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Label - Social Security Number")</label>
-                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { data_val_if = "tin == 'ssn'", ng_model = "businessInformation.socialSecurityNumber" })
+                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { data_val_if = "tin == 'ssn'", data_val_required = "", ng_model = "businessInformation.socialSecurityNumber" })
                                 @Html.ValidationMessageFor(model => model.SocialSecurityNumber)
                                 <span class="note">@Html.Sitecore().Field("Note - Social Security Number")</span>
                             </div>
@@ -468,12 +468,12 @@
                             <p>@Html.Sitecore().Field("Text - Please Fill Out Information")</p>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.SignatoryName)>
                                 <label for="@Html.IdFor(m => m.SignatoryName)">@Html.Sitecore().Field("Label - Type Your Name")</label>
-                                @Html.TextBoxFor(m => m.SignatoryName, new { data_val_if = "!businessInformation.signatory", ng_model = "businessInformation.signatoryName" })
+                                @Html.TextBoxFor(m => m.SignatoryName, new { data_val_if = "!businessInformation.signatory", data_val_required = "", ng_model = "businessInformation.signatoryName" })
                                 @Html.ValidationMessageFor(model => model.SignatoryName)
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.SignatoryRelation)>
                                 <label for="@Html.IdFor(m => m.SignatoryRelation)">@Html.Sitecore().Field("Label - Relation To US Person")</label>
-                                @Html.TextBoxFor(m => m.SignatoryRelation, new { data_val_if = "!businessInformation.signatory", ng_model = "businessInformation.signatoryRelation" })
+                                @Html.TextBoxFor(m => m.SignatoryRelation, new { data_val_if = "!businessInformation.signatory", data_val_required = "", ng_model = "businessInformation.signatoryRelation" })
                                 @Html.ValidationMessageFor(model => model.SignatoryRelation)
                             </div>
                         </div>
