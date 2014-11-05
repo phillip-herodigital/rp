@@ -58,6 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataContainerSetup.cs" />
+    <Compile Include="Migrations\201411051525348_Initial.cs" />
+    <Compile Include="Migrations\201411051525348_Initial.Designer.cs">
+      <DependentUpon>201411051525348_Initial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Data\MobileEnrollment\DataContext.cs" />
     <Compile Include="Data\MobileEnrollment\EnrollmentRecord.cs" />
@@ -85,6 +89,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201411041952266_Initial.resx">
       <DependentUpon>201411041952266_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411051525348_Initial.resx">
+      <DependentUpon>201411051525348_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
