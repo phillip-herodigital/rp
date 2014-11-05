@@ -212,7 +212,8 @@ $RECYCLE.BIN/
 #Mr Developer
 .mr.developer.cfg
 
-data/
+/Data/
+Website/data/
 App_Data/
 temp/
 .sass-cache/
