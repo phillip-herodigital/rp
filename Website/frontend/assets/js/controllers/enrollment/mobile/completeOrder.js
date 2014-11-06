@@ -47,7 +47,7 @@
             },0);
         });
         signatureModalInstance.result.then(function (modalData) {
-            $scope.businessInformation.signatureImage = (modalData.selectedTab == 'draw') ? $sigdiv.jSignature("getData", "image")[1] : null;
+            $scope.businessInformation.signatureImage = (modalData.selectedTab == 'draw') ? $sigdiv.jSignature("getData", "image")[1] : modalData.image;
             $scope.businessInformation.signature = modalData.name;
         });
     };
@@ -117,9 +117,26 @@ ngApp.controller('MobileEnrollmentCompleteOrderSignatureModalCtrl', ['$scope', '
     };
 
     $scope.submit = function () {
+        var image;
+        if ($scope.selectedTab != 'draw') {
+            var canvas = document.createElement('canvas');
+            canvas.width = 496;
+            canvas.height = 90;
+            var context = canvas.getContext('2d');
+            
+            context.font = '70px "ff-market-web", cursive';
+            context.textBaseline = 'top';
+            context.textAlign = 'left';
+            context.fillText($scope.formData.name, 0, 0)
+
+            image = canvas.toDataURL();
+            image = image.substr('data:image/png;base64,'.length);
+        }
+
         var modalData = {
             name: $scope.formData.name,
-            selectedTab: $scope.selectedTab
+            selectedTab: $scope.selectedTab,
+            image: image
         }
         $modalInstance.close(modalData);
     };

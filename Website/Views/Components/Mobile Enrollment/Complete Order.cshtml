@@ -448,7 +448,7 @@
                                     <span ng-if="!businessInformation.signature">@Html.Sitecore().Field("Text - Add Signature")</span>
                                     <span ng-if="businessInformation.signature">
                                         <span class="signature-name" ng-if="businessInformation.signatureImage == null">{{ businessInformation.signature }}</span>
-                                        <span ng-if="businessInformation.signatureImage != null"><img src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
+                                        <span ng-if="businessInformation.signatureImage != null"><img ng-src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
                                         <a href="">@Html.Sitecore().Field("Text - Edit Signature")</a>
                                     </span>
                                 </div>
