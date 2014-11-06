@@ -98,6 +98,7 @@
         // send the post
         $http.post('/api/mobileEnrollment/submit', userContext)
         .success(function (data) {
+            mobileEnrollmentService.confirmationId = data.id;
             $scope.setCurrentStep('order-confirmation');
         })
     };

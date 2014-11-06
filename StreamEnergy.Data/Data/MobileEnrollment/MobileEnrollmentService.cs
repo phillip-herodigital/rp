@@ -70,7 +70,7 @@ namespace StreamEnergy.Data.MobileEnrollment
         {
             var record = await dataContext.EnrollmentRecords.FindAsync(mobileEnrollmentId);
             
-            if (record.AgreeToTerms.AddMinutes(20) < DateTimeOffset.Now)
+            if (record.AgreeToTerms.AddMinutes(20) > DateTimeOffset.Now)
             {
                 return record.PdfGen;
             }
