@@ -18,7 +18,8 @@ namespace StreamEnergy.Services.Clients
         byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, string exemptPayeeCode, string fatcaExemtionCode, Address address, string socialSecurityNumber, string employerIdentificationNumber, string signature, DateTime date)
         {
             var objPDF = new PdfManager();
-            var objDoc = objPDF.OpenDocument("Data/fw9.pdf");
+            var path = Sitecore.IO.FileUtil.MapPath(Sitecore.IO.FileUtil.MakePath(Sitecore.Configuration.Settings.DataFolder, "fw9.pdf"));
+            var objDoc = objPDF.OpenDocument(path);
 
             // Obtain page 1 of the document
             PdfPage objPage = objDoc.Pages[1];
@@ -106,7 +107,7 @@ namespace StreamEnergy.Services.Clients
             // Signature - taken from a .gif file (image itself) and .bmp (mask)
             PdfImage objSignatureImg = objDoc.OpenImage(Convert.FromBase64String(signature));
 
-            objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=248; scalex=.15, scaley=.15");
+            objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=252; scalex=.25, scaley=.25");
 
             byte[] pdf = objDoc.SaveToMemory();
             

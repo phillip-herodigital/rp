@@ -46,7 +46,7 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public W9BusinessClassification BusinessTaxClassification { get; set; }
         public string AdditionalTaxClassification { get; set; }
         public string ExemptCode { get; set; }
-        public string FATCACode { get; set; }
+        public string FatcaCode { get; set; }
 
         public string CurrentAccountNumbers { get; set; }
         public string SocialSecurityNumber { get; set; }

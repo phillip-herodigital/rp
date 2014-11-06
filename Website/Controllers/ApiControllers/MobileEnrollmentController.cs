@@ -31,7 +31,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return BadRequest(ModelState);
             }
 
-            var w9Pdf = w9Generator.GenerateW9(context.BusinessInformationName, context.BusinessName, context.BusinessTaxClassification, context.AdditionalTaxClassification, context.ExemptCode, context.FATCACode, context.BusinessAddress, context.SocialSecurityNumber, context.TaxId, context.CustomerSignature, DateTime.Now);
+            var w9Pdf = w9Generator.GenerateW9(context.BusinessInformationName, context.BusinessName, context.BusinessTaxClassification, context.AdditionalTaxClassification, context.ExemptCode, context.FatcaCode, context.BusinessAddress, context.SocialSecurityNumber, context.TaxId, context.SignatureImage, DateTime.Now);
             var result = await mobileEnrollment.RecordEnrollment(context, w9Pdf);
 
             if (result != Guid.Empty)

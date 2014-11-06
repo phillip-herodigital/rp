@@ -22,9 +22,11 @@ namespace StreamEnergy.Data.MobileEnrollment
 
         [Required(ErrorMessage = "Billing Address Required")]
         public Address BillingAddress { get; set; }
+        public bool BusinessAddressSame { get; set; }
 
         [Required(ErrorMessage = "Shipping Address Required")]
         public Address ShippingAddress { get; set; }
+        public bool ShippingAddressSame { get; set; }
 
         [Required(ErrorMessage = "Business Address Required")]
         public Address BusinessAddress { get; set; }
@@ -36,26 +38,20 @@ namespace StreamEnergy.Data.MobileEnrollment
         [Required]
         public W9BusinessClassification TaxClassification { get; set; }
         public string AdditionalTaxClassification { get; set; }
-        [Required]
         public string ExemptCode { get; set; }
-        [Required]
         public string FatcaCode { get; set; }
-        [Required]
-        public bool BusinessAddressSame { get; set; }
 
         public string CurrentAccountNumbers { get; set; }
         [Required]
         public DateTimeOffset CustomerCertification { get; set; }
         [Required]
         public string CustomerSignature { get; set; }
+        public string SignatureImage { get; set; }
         [Required]
         public bool SignatureConfirmation { get; set; }
-        [Required]
         public string SignatoryName { get; set; }
-        [Required]
         public string SignatoryRelation { get; set; }
 
-        [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public DateTimeOffset AgreeToTerms { get; set; }
 
         public bool TcpaPreference { get; set; }
@@ -65,5 +61,21 @@ namespace StreamEnergy.Data.MobileEnrollment
         public string AssociateId { get; set; }
         public string SourceId { get; set; }
         public string OrderId { get; set; }
+
+        public string DeviceMake { get; set; }
+
+        public string DeviceModel { get; set; }
+
+        public string DeviceSerial { get; set; }
+
+        public string SimNumber { get; set; }
+
+        public string NewNumber { get; set; }
+
+        public string PortInNumber { get; set; }
+
+        public string PlanId { get; set; }
+
+
     }
 }

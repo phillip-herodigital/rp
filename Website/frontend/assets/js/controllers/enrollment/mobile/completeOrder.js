@@ -81,7 +81,7 @@
             businessTaxClassification: $scope.businessInformation.taxClassification,
             additionalTaxClassification: additionalClassification,
             exemptCode: $scope.businessInformation.exemptCode,
-            fATCACode: $scope.businessInformation.fatcaCode,        
+            fatcaCode: $scope.businessInformation.fatcaCode,        
             currentAccountNumbers: $scope.businessInformation.currentAccountNumbers,
             socialSecurityNumber: ($scope.tin == 'ssn') ? $scope.businessInformation.socialSecurityNumber : null,
             taxId: ($scope.tin == 'taxId') ? $scope.businessInformation.taxId : null,
