@@ -104,6 +104,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public Task<HttpResponseMessage> Login(LoginRequest request)
         {
+            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
+            {
+                return Task.FromResult(Request.CreateResponse(new
+                {
+                    Success = true,
+                    ReturnURI = "/ga-upgrade-faq",
+                }));
+            }
             request.Domain = domain;
             ModelState.Clear();
             Validate(request, "request");
