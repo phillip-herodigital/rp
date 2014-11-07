@@ -11,7 +11,7 @@
         contactInfo: {
             phone: [{
                     number: '',
-                    category: ''
+                    category: 'mobile'
                 }],
         }
     };

@@ -17,7 +17,7 @@
 
                     <div class="cart-product clearfix">
                         <div class="description">
-                            {{ mobileEnrollmentService.selectedNetwork.name }} @Html.Sitecore().Field("Individual Plan")<br />
+                            @Html.Sitecore().Field("Individual Plan")<br />
                             <span class="details" ng-if="cart.dataPlan.data">{{ cart.dataPlan.data }}@Html.Sitecore().Field("Data Included")</span>
                             @*<a href="">@Html.Sitecore().Field("Edit Plan Link")</a>*@
                         </div>
@@ -56,7 +56,7 @@
                 <h5>@Html.Sitecore().Field("You Need Header")</h5>
             </header>
             <ul class="info">
-                <li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Credit Card Text")</li>
+                @*<li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Credit Card Text")</li>*@
                 <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Billing Address Text")</a></li>
                 <li>
                     <i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br />

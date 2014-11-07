@@ -17,8 +17,9 @@
                     <h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>
 
                     <div class="btn-group btn-group-options mobile-plans">
-                        <div class="button" ng-model="formFields.chosenPlanId" btn-radio="plan.id" ng-repeat="plan in dataPlans.plans" ng-class="{'is-recommended':plan.recommended}">
+                        <div class="button" ng-model="formFields.chosenPlanId" btn-radio="plan.id" ng-repeat="plan in dataPlans.plans" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
                             <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
+                            <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
                             <p>
                                 <span class="size">{{ plan.data }} GB</span>
                             </p>
@@ -26,21 +27,22 @@
                             <ul class="details">
                                 <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} hours</span></span></li>
                                 <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} hours</span></span></li>
-                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.hoursWebBrowsing }} hours</span></span></li>
+                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.hoursWebBrowsing }} web pages</span></span></li>
                             </ul>
                             <hr />
                             <p>
                                 <span class="price">
-                                    {{ plan.price | currency }}/mo
+                                    <span class="original-price" ng-if="plan.specialOffer">{{ plan.specialOfferOriginalPrice | currency }}/mo</span>
+                                    {{ plan.price | currency }}/mo<span ng-if="plan.specialOffer">*</span>
                                 </span>
                             </p>
                         </div>
                         @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
                     </div>
+                    <p class="footnotes">@Html.Sitecore().Field("Special Offer Footnote")</p>
                 </div>
                 <footer>
                     <h3>@Html.Sitecore().Field("Header - What About Overages")</h3>
-                    <div class="overages-billed">@Html.Sitecore().Field("Text - Overage Billed At")</div>
                     @Html.Sitecore().Field("Text - What About Overages")
                 </footer>
             </article>

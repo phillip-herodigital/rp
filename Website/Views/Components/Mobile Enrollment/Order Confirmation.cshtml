@@ -26,7 +26,6 @@
                 <div class="content">
                     @Html.Sitecore().Field("Text - Confirmation")
                     @Html.Sitecore().Field("Text - W9")
-                    <p><i class="icon-pdf"></i> <a href="">@Html.Sitecore().Field("Link Text - W9")</a></p>
                 </div>
             </article>
             <article class="enrollment__box enrollment__mobile-order-details">
@@ -132,8 +131,6 @@
                             <h3>@Html.Sitecore().Field("Header - Business Information")</h3>
                         </div>
                     </div>
-                    @Html.Sitecore().Field("Text - W9")
-                    <p><i class="icon-pdf"></i> <a href="">@Html.Sitecore().Field("Link Text - W9")</a></p>
                 </div>
             </article>
             @* DEC 3 Content...
@@ -165,7 +162,7 @@
             <div class="enrollment__cart">
                 <article class="enrollment__box">
                     <header>
-                        <h1>Questions? 1-800-STREAM</h1>
+                        <h1>@Html.Sitecore().Field("Questions Header")</h1>
                     </header>
                 </article>
             </div>

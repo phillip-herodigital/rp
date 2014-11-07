@@ -96,7 +96,10 @@ namespace StreamEnergy.MyStream.Controllers
                     Recommended = plans.Fields["Recommended"].Value,
                     HoursMusic = plans.Fields["Hours Music"].Value,
                     HoursMovies = plans.Fields["Hours Movies"].Value,
-                    HoursWebBrowsing = plans.Fields["Hours Web Browsing"].Value
+                    HoursWebBrowsing = plans.Fields["Web Pages"].Value,
+                    SpecialOffer = plans.Fields["Special Offer"].Value,
+                    SpecialOfferText = plans.Fields["Special Offer Text"].Value,
+                    SpecialOfferOriginalPrice = plans.Fields["Special Offer Original Price"].Value
                 })
             });
 

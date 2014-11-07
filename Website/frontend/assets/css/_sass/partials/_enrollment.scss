@@ -2109,10 +2109,12 @@ $enrollment-module-vertical-padding: 20px;
             padding-top: 0;
             padding-bottom: 0;
         }
-        .is-recommended {
+        .is-recommended,
+        .is-special-offer {
             @include border-radius(0 0 5px 5px);
         }
-        .recommended {
+        .recommended,
+        .special-offer {
             position: absolute;
             top: -20px;
             left: -2px;
@@ -2127,9 +2129,34 @@ $enrollment-module-vertical-padding: 20px;
             text-transform: uppercase;
             @include border-radius(5px 5px 0 0);
         }
+        .special-offer {
+            border: 2px solid #e6e6e6;
+            border-bottom: 0;
+            background: #fff;
+            color: #3d8039;
+            font-weight: normal;
+        }
         .active {
             .recommended {
                 background: #3189bb;
+            }
+            .special-offer {
+                border-color: #3189bb;
+            }
+        }
+        .is-special-offer {
+            .original-price {
+                text-decoration: line-through;
+                font-size: 14px;
+                color: #888;
+                position: absolute;
+                top: -1.25em;
+                text-align: center;
+                display: block;
+                width: 100%;
+            }
+            .price {
+                color: #3d8039;
             }
         }
         .size {
@@ -2138,6 +2165,8 @@ $enrollment-module-vertical-padding: 20px;
             margin-bottom: 10px;
         }
         .price {
+            position: relative;
+            margin-top: 10px;
             font-size: 20px;
         }
         .details {
@@ -2187,7 +2216,7 @@ $enrollment-module-vertical-padding: 20px;
     @include breakpoint-max(400px) {
         .btn-group-options {
             .button {
-                width: 100%%;
+                width: 100%;
                 display: block;
                 margin-bottom: 6px;
             }
@@ -2196,10 +2225,14 @@ $enrollment-module-vertical-padding: 20px;
     @include breakpoint-min-max(401px, 650px) {
         .btn-group-options {
             .button {
-                width: 48%%;
+                width: 48%;
                 margin: 1%;
                 float: left;
                 display: block;
+                &.is-recommended,
+                &.is-special-offer {
+                    margin-top: 25px;
+                }
             }
         }
     }
