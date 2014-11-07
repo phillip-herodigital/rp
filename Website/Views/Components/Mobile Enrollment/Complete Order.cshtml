@@ -17,6 +17,7 @@
             <article class="enrollment__box enrollment__mobile-order-details">
                 <header>
                     <h1>@Html.Sitecore().Field("Header - Complete Order")</h1>
+                    <p>@Html.Sitecore().Field("Complete Order Description")</p>
                 </header>
                 <div class="content">
 
@@ -335,13 +336,11 @@
                                     @Html.TextBoxFor(m => m.ExemptCode, new { data_val_if = "hasExemptCode", ng_model = "businessInformation.exemptCode" })
                                     @Html.ValidationMessageFor(model => model.ExemptCode)
                                 </li>
-                                @*
-                                <li @Html.Validation().ErrorClass(m => m.FATCACode)>
-                                    <input type="checkbox" ng-model="hasFATCACode" /> <label for="@Html.IdFor(m => m.FATCACode)">@Html.Sitecore().Field("Label - Exempt From FATCA")</label>
-                                    @Html.TextBoxFor(m => m.FATCACode, new { data_val_if = "hasFATCACode", ng_model = "businessInformation.fatcaCode" })
-                                    @Html.ValidationMessageFor(model => model.FATCACode)
+                                <li @Html.Validation().ErrorClass(m => m.FatcaCode)>
+                                    <input type="checkbox" ng-model="hasFATCACode" /> <label for="@Html.IdFor(m => m.FatcaCode)">@Html.Sitecore().Field("Label - Exempt From FATCA")</label>
+                                    @Html.TextBoxFor(m => m.FatcaCode, new { data_val_if = "hasFATCACode", ng_model = "businessInformation.fatcaCode" })
+                                    @Html.ValidationMessageFor(model => model.FatcaCode)
                                 </li>
-                                    *@
                             </ul>
                         </div>
                         <hr />
@@ -449,7 +448,7 @@
                                     <span ng-if="!businessInformation.signature">@Html.Sitecore().Field("Text - Add Signature")</span>
                                     <span ng-if="businessInformation.signature">
                                         <span class="signature-name" ng-if="businessInformation.signatureImage == null">{{ businessInformation.signature }}</span>
-                                        <span ng-if="businessInformation.signatureImage != null"><img src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
+                                        <span ng-if="businessInformation.signatureImage != null"><img ng-src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
                                         <a href="">@Html.Sitecore().Field("Text - Edit Signature")</a>
                                     </span>
                                 </div>

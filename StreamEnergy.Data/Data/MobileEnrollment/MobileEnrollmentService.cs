@@ -70,7 +70,7 @@ namespace StreamEnergy.Data.MobileEnrollment
         {
             var record = await dataContext.EnrollmentRecords.FindAsync(mobileEnrollmentId);
             
-            if (record.AgreeToTerms.AddMinutes(20) < DateTimeOffset.Now)
+            if (record.AgreeToTerms.AddMinutes(20) > DateTimeOffset.Now)
             {
                 return record.PdfGen;
             }
@@ -93,7 +93,7 @@ namespace StreamEnergy.Data.MobileEnrollment
             var idPart = decrypted.Substring(0, 32);
             var agreeTimestampPart = decrypted.Substring(32);
 
-            var mobileEnrollmentId = Guid.Parse(decrypted);
+            var mobileEnrollmentId = Guid.ParseExact(idPart, "N");
             var record = await dataContext.EnrollmentRecords.FindAsync(mobileEnrollmentId);
 
             if (record.AgreeToTerms.ToString() != agreeTimestampPart)

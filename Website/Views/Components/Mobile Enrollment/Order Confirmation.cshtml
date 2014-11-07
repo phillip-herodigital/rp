@@ -26,6 +26,7 @@
                 <div class="content">
                     @Html.Sitecore().Field("Text - Confirmation")
                     @Html.Sitecore().Field("Text - W9")
+                    <p><i class="icon-pdf"></i> <a ng-href="/api/mobileEnrollment/w9/temp/{{mobileEnrollmentService.confirmationId}}" target="_blank">@Html.Sitecore().Field("Link Text - W9")</a></p>
                 </div>
             </article>
             <article class="enrollment__box enrollment__mobile-order-details">

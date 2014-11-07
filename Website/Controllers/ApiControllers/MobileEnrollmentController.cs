@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
+using StreamEnergy.DomainModels.Emails;
 using StreamEnergy.DomainModels.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
@@ -16,11 +17,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     {
         private readonly IMobileEnrollmentService mobileEnrollment;
         private readonly IW9GenerationService w9Generator;
+        private readonly IEmailService emailService;
+        private readonly ISettings settings;
 
-        public MobileEnrollmentController(IMobileEnrollmentService mobileEnrollment, IW9GenerationService w9Generator)
+        public MobileEnrollmentController(IMobileEnrollmentService mobileEnrollment, IW9GenerationService w9Generator, IEmailService emailService, ISettings settings)
         {
             this.mobileEnrollment = mobileEnrollment;
             this.w9Generator = w9Generator;
+            this.emailService = emailService;
+            this.settings = settings;
         }
 
         [HttpPost]
@@ -33,6 +38,45 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var w9Pdf = w9Generator.GenerateW9(context.BusinessInformationName, context.BusinessName, context.BusinessTaxClassification, context.AdditionalTaxClassification, context.ExemptCode, context.FatcaCode, context.BusinessAddress, context.SocialSecurityNumber, context.TaxId, context.SignatureImage, DateTime.Now);
             var result = await mobileEnrollment.RecordEnrollment(context, w9Pdf);
+
+            var emailTemplate = Guid.Empty;
+            // TODO - email guid
+            if (emailTemplate != Guid.Empty)
+            {
+                await emailService.SendEmail(emailTemplate, settings.GetSettingsValue("Marketing Form Email Addresses", "Mobile Enrollment Email Address"), new System.Collections.Specialized.NameValueCollection
+                {
+                    { "DeviceMake", context.DeviceMake },    
+                    { "DeviceModel", context.DeviceModel },    
+                    { "DeviceSerial", context.DeviceSerial },    
+                    { "SimNumber", context.SimNumber },    
+                    { "NewNumber", context.NewNumber },    
+                    { "PortInNumber", context.PortInNumber },    
+                    { "PlanId", context.PlanId },    
+                    { "Name", context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last },    
+                    { "Phone", context.ContactInfo.Phone.First().Number },    
+                    { "Email", context.ContactInfo.Email.Address },    
+                    { "BillingAddress", context.BillingAddress.ToString() },    
+                    { "ShippingAddress", context.ShippingAddress.ToString() },    
+                    { "ShippingAddressSame", context.ShippingAddressSame.ToString() },    
+                    { "BusinessAddress", context.BusinessAddress.ToString() },    
+                    { "BusinessAddressSame", context.BusinessAddressSame.ToString() },    
+                    { "BusinessInformationName", context.BusinessInformationName },    
+                    { "BusinessName", context.BusinessName },    
+                    { "BusinessTaxClassification", context.BusinessTaxClassification.ToString() },    
+                    { "AdditionalTaxClassification", context.AdditionalTaxClassification },    
+                    { "ExemptCode", context.ExemptCode },    
+                    { "FatcaCode", context.FatcaCode },    
+                    { "CurrentAccountNumbers", context.CurrentAccountNumbers },    
+                    { "CustomerCertification", context.CustomerCertification.ToString() },    
+                    { "CustomerSignature", context.CustomerSignature },    
+                    { "SignatureConfirmation", context.SignatureConfirmation.ToString() },    
+                    { "SignatoryName", context.SignatoryName },    
+                    { "SignatoryRelation", context.SignatoryRelation },    
+                    { "AgreeToTerms", context.AgreeToTerms.ToString() },    
+                    { "TcpaPreference", context.TcpaPreference.ToString() },    
+                    { "PdfUrl", new Uri(Request.RequestUri, "/api/MobileEnrollment/w9/token/" + await mobileEnrollment.CreatePdfToken(result)).ToString() }
+                });
+            }
 
             if (result != Guid.Empty)
             {
@@ -61,7 +105,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpGet]
-        [Route("w9/token/{token}")]
+        [Route("w9/token/{*token}")]
         public async Task<HttpResponseMessage> DownloadW9(string token)
         {
             var pdfData = await mobileEnrollment.RetrievePdf(token);
