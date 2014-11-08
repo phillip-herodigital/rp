@@ -128,8 +128,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Route("importdata")]
         public void ImportData(string path)
         {
-            TemplateItem folderTemplate = Sitecore.Context.Database.GetTemplate(Sitecore.Context.Database.GetItem("/sitecore/templates/Common/Folder").ID);
-            TemplateItem deviceTemplate = Sitecore.Context.Database.GetTemplate(Sitecore.Context.Database.GetItem("/sitecore/templates/User Defined/Taxonomy/Mobile Enrollment/BYO Device Model").ID);
+            TemplateItem folderTemplate = Sitecore.Context.Database.GetTemplate("Common/Folder");
+            TemplateItem deviceTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Taxonomy/Mobile Enrollment/BYO Device Model");
             Item BYODFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile BYO Devices");
             Item makeItem;
             Item modelItem;
