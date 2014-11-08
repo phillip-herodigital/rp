@@ -7,8 +7,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Text.RegularExpressions;
+using Sitecore.Data.Items;
+using Sitecore.Data.Fields;
 using StreamEnergy.DomainModels.Emails;
 using StreamEnergy.DomainModels.MobileEnrollment;
+using Microsoft.VisualBasic.FileIO;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -118,6 +122,61 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             result.Content = new StreamContent(stream);
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
             return result;
+        }
+
+        [HttpGet]
+        [Route("importdata")]
+        public void ImportData(string path)
+        {
+            TemplateItem folderTemplate = Sitecore.Context.Database.GetTemplate(Sitecore.Context.Database.GetItem("/sitecore/templates/Common/Folder").ID);
+            TemplateItem deviceTemplate = Sitecore.Context.Database.GetTemplate(Sitecore.Context.Database.GetItem("/sitecore/templates/User Defined/Taxonomy/Mobile Enrollment/BYO Device Model").ID);
+            Item BYODFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile BYO Devices");
+            Item makeItem;
+            Item modelItem;
+
+            using (new Sitecore.SecurityModel.SecurityDisabler())
+            {
+                // Empty the BYODFolder
+                foreach (Item child in BYODFolder.Children)
+                {
+                    child.Delete();
+                }
+
+                TextFieldParser parser = new TextFieldParser(path);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
+            
+                while (!parser.EndOfData)
+                {
+                    string[] fields = parser.ReadFields();
+                    string pattern = @"[^\w\s\-\$]"; // only allow \w, \s, -, and $ for Sitecore Item names
+                    Regex rgx = new Regex(pattern);
+
+                    string phoneMake = fields[0];
+                    string phoneModel = fields[1];
+                    string phoneMakeItemName = rgx.Replace(phoneMake, "");
+                    string phoneModelItemName = rgx.Replace(phoneModel, "");
+
+                    makeItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile BYO Devices/" + phoneMakeItemName);
+
+                    if (makeItem == null)
+                    {
+                        // Create new folder from phone make
+                        makeItem = BYODFolder.Add(phoneMakeItemName, folderTemplate);
+                    }
+
+                    // Create new item from phone model
+                    modelItem = makeItem.Add(phoneModelItemName, deviceTemplate);
+
+                    modelItem.Editing.BeginEdit();
+                    modelItem.Fields["Model"].Value = phoneModel;
+                    modelItem.Editing.EndEdit();
+
+                }
+                parser.Close();
+
+            }
+
         }
     }
 }
