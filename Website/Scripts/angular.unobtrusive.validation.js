@@ -533,6 +533,14 @@
 
             return element == val;
         }, ['validation']);
+        validationProvider.addValidator("notequalto", function (val, options) {
+            var prefix = getModelPrefix(options.attributes.name),
+                other = options.parameters.other,
+                fullOtherName = appendModelPrefix(other, prefix),
+                element = options.injected.validation.dataValue(options.scope, fullOtherName);
+
+            return element != val;
+        }, ['validation']);
         validationProvider.addValidator("extension", function (val, options) {
             if (!val)
                 return true;

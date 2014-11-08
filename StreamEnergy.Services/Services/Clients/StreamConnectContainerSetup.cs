@@ -12,6 +12,7 @@ namespace StreamEnergy.Services.Clients
     public class StreamConnectContainerSetup : Unity.IContainerSetupStrategy
     {
         public const string StreamConnectKey = "StreamConnect";
+        public const string StreamConnectSharedAccessSignature = "StreamConnectSharedAccessSignature";
 
         public void SetupUnity(IUnityContainer unityContainer)
         {
@@ -28,6 +29,7 @@ namespace StreamEnergy.Services.Clients
             });
 
             unityContainer.RegisterInstance<Uri>(StreamConnectKey, new Uri(ConfigurationManager.AppSettings["StreamConnect Base Url"]));
+            unityContainer.RegisterInstance<string>(StreamConnectSharedAccessSignature, ConfigurationManager.AppSettings["Azure SAS"]);
             unityContainer.RegisterType<HttpClient>(StreamConnectKey, new InjectionFactory(uc =>
                 {
                     var result = new HttpClient(new AzureAcsTokenHandler(

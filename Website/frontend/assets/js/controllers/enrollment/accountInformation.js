@@ -77,6 +77,25 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         }        
     });
 
+    $scope.showAglcExample = function () {
+
+        $modal.open({
+            templateUrl: 'AglcExample',
+            scope: $scope
+        });
+    };
+
+    $scope.getPreviousProviders = function () {
+        if (_(enrollmentCartService.services)
+            .map(function (l) {
+                return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first();
+        }).filter().any()) {
+            return $scope.previousProviders;
+        } else {
+            return $scope.previousProvidersGeorgia;
+        }
+    };
+
     /**
      * In addition to normal validation, ensure that at least one item is in the shopping cart
      * @return {Boolean} [description]

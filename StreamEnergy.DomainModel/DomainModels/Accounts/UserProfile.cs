@@ -41,6 +41,16 @@ namespace StreamEnergy.DomainModels.Accounts
             return container.Resolve<UserProfile>(new ParameterOverride("username", username));
         }
 
-        public Guid GlobalCustomerId { get; set; }
+        public Guid GlobalCustomerId
+        {
+            get { return (Guid)profile.GetPropertyValue("GlobalCustomerId"); }
+            set { profile.SetPropertyValue("GlobalCustomerId", value); }
+        }
+
+        public ImportSource? ImportSource
+        {
+            get { return (ImportSource?)profile.GetPropertyValue("ImportSource"); }
+            set { profile.SetPropertyValue("ImportSource", value); }
+        }
     }
 }

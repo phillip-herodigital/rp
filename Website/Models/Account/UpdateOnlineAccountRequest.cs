@@ -28,9 +28,6 @@ namespace StreamEnergy.MyStream.Models.Account
         [ValidateEnumerable]
         public IEnumerable<AnsweredSecurityQuestion> Challenges { get; set; }
 
-        [Required]
-        public string LanguagePreference { get; set; }
-
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

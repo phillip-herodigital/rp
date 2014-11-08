@@ -7,6 +7,6 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class GetAccountBalancesResponse
     {
-       public IEnumerable<AccountToPay> Accounts { get; set; }
+        public IEnumerable<AccountToPay> Accounts { get; set; }
     }
 }

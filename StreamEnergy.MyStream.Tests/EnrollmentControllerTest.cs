@@ -11,6 +11,8 @@ using StreamEnergy.MyStream.Controllers.ApiControllers;
 using System.Threading.Tasks;
 using StreamEnergy.DomainModels;
 using System.Collections.Specialized;
+using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity;
+using Renewal = StreamEnergy.DomainModels.Enrollments.Renewal;
 
 namespace StreamEnergy.MyStream.Tests
 {
@@ -31,12 +33,14 @@ namespace StreamEnergy.MyStream.Tests
         private IdentityQuestion[] identityQuestions;
         private DomainModels.Enrollments.Service.IdentityCheckResult identityCheckResult;
         private DomainModels.CustomerContact contactInfo;
-        private TexasElectricityOfferOption offerOption;
+        private TexasElectricity.OfferOption offerOption;
         private DomainModels.Enrollments.Service.IdentityCheckResult finalIdentityCheckResult;
         private DomainModels.Enrollments.Service.IdentityCheckResult finalFailedIdentityCheckResult;        
         private Mock<IEnrollmentService> mockEnrollmentService;
         private Address mailingAddress;
         private Address previousAddress;
+        private Location specificRenewalLocation;
+        private Renewal.OfferOption renewalOption;
 
         [TestInitialize]
         public void InitializeTest()
@@ -56,7 +60,7 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] 
                 { 
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint" }, 
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint" }, 
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.MoveIn } ,
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Residential }
                 }
@@ -66,7 +70,7 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] 
                 { 
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint" }, 
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint" }, 
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.Switch }  ,
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Residential }
                 }
@@ -76,7 +80,7 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] 
                 { 
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint" }, 
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint" }, 
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.MoveIn } ,
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Commercial }
                 }
@@ -86,27 +90,27 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] 
                 { 
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint" }, 
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint" }, 
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.Switch }  ,
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Commercial }
                 }
             };
             offers = new IOffer[] 
             { 
-                new TexasElectricityOffer
+                new TexasElectricity.Offer
                 {
                     Id = "Centerpoint/24-month-fixed-rate"
                 },
-                new TexasElectricityOffer
+                new TexasElectricity.Offer
                 {
                     Id = "Centerpoint/Month-to-month",
                     TermMonths = 1
                 },
-                new TexasElectricityOffer
+                new TexasElectricity.Offer
                 {
                     Id = "ONCOR/24-month-fixed-rate"
                 },
-                new TexasElectricityOffer
+                new TexasElectricity.Offer
                 {
                     Id = "ONCOR/Month-to-month",
                     TermMonths = 1
@@ -170,7 +174,7 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] 
                 { 
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, 
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, 
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.MoveIn }  ,
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Residential }
                 }
@@ -180,7 +184,7 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] 
                 { 
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "1234SAMPLE5678" }, 
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "1234SAMPLE5678" }, 
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.MoveIn }  ,
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Residential }
                 }
@@ -190,7 +194,7 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] 
                 { 
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, 
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, 
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.Switch }  ,
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Residential }
                 }
@@ -200,7 +204,7 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] 
                 { 
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, 
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, 
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.MoveIn },
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Commercial }
                 }
@@ -210,10 +214,19 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] 
                 { 
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, 
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, 
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.Switch },
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Commercial }
                 }
+            };
+            specificRenewalLocation = new Location
+            {
+                Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
+            };
+            renewalOption = new Renewal.OfferOption
+            {
+                RenewalDate = DateTime.Today.AddDays(7)
             };
             contactInfo = new DomainModels.CustomerContact
             {
@@ -221,7 +234,7 @@ namespace StreamEnergy.MyStream.Tests
                 Email = new DomainModels.Email { Address = "test@example.com" },
                 Phone = new[] { new DomainModels.TypedPhone { Number = "214-223-4567", Category = StreamEnergy.DomainModels.PhoneCategory.Home } },
             };
-            offerOption = new TexasElectricityMoveInOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
+            offerOption = new TexasElectricity.MoveInOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
             mailingAddress = new Address { Line1 = "123 Main St", City = "Dallas", StateAbbreviation = "TX", PostalCode5 = "75201" };
             previousAddress = new Address { Line1 = "123 Main St", City = "Richardson", StateAbbreviation = "TX", PostalCode5 = "75080" };
 
@@ -278,6 +291,8 @@ namespace StreamEnergy.MyStream.Tests
             {
                 IsCompleted = false,
             };
+            mockAccountService.Setup(m => m.CreateStreamConnectCustomer(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(new StreamEnergy.DomainModels.Accounts.Customer { GlobalCustomerId = Guid.NewGuid() }));
             mockEnrollmentService.Setup(m => m.BeginCreditCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>())).Returns(Task.FromResult(creditCheckResult));
             mockEnrollmentService.Setup(m => m.EndCreditCheck(creditCheckResult)).Returns(Task.FromResult(new StreamAsync<CreditCheckResult>
                 {
@@ -350,14 +365,14 @@ namespace StreamEnergy.MyStream.Tests
                                                {
                                                    RequiredAmounts = new IOfferPaymentAmount[] 
                                                    { 
-                                                       new DepositOfferPaymentAmount { DollarAmount = (!ctx.IdentityCheck.Data.IdentityAccepted || (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1)) ? 0 : 75.25m }
+                                                       new DepositOfferPaymentAmount { DollarAmount = (!ctx.IdentityCheck.Data.IdentityAccepted || (offer.Offer is TexasElectricity.Offer && ((TexasElectricity.Offer)offer.Offer).TermMonths == 1)) ? 0 : 75.25m }
                                                    },
                                                    OngoingAmounts = new IOfferPaymentAmount[] { },
                                                    PostBilledAmounts = new IOfferPaymentAmount[] { },
                                                }
                                            });
                 });
-            mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<Guid>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<Dictionary<AdditionalAuthorization,bool>>()))
+            mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<Dictionary<AdditionalAuthorization, bool>>(), It.IsAny<DomainModels.Enrollments.InternalContext>()))
                 .Returns(Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>(new[] 
                 {
                     new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
@@ -379,15 +394,52 @@ namespace StreamEnergy.MyStream.Tests
                         IsSuccess = true
                     });
                 });
+            mockEnrollmentService.Setup(m => m.PayDeposit(It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>>(),
+                It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>>(),
+                It.IsAny<DomainModels.Payments.IPaymentInfo>(),
+                It.IsAny<UserContext>())).Returns<
+                    IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>,
+                    IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>,
+                    DomainModels.Payments.IPaymentInfo, 
+                    UserContext>((services, a,b,c) =>
+            {
+                return Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>>((from svc in services
+                                                                                                                                                 select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>
+                                                                                                                                                 {
+                                                                                                                                                     Location = svc.Location,
+                                                                                                                                                     Offer = svc.Offer,
+                                                                                                                                                     Details = new DomainModels.Payments.PaymentResult
+                                                                                                                                                     {
+                                                                                                                                                         ConfirmationNumber = "816729435",
+                                                                                                                                                         ConvenienceFee = 2.45m
+                                                                                                                                                     }
+                                                                                                                                                 }).ToArray());
+            });
 
             mockEnrollmentService.Setup(s => s.LoadOffers(It.IsAny<IEnumerable<Location>>()))
                 .Returns<IEnumerable<Location>>(locations => Task.FromResult(locations.ToDictionary(location => location, location =>
             {
-                var tdus = location.Capabilities.OfType<TexasServiceCapability>().Select(c => c.Tdu);
+                var tdus = location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Select(c => c.Tdu);
                 return new LocationOfferSet { Offers = offers.Where(offer => tdus.Any(tdu => offer.Id.StartsWith(tdu + "/"))).ToArray() };
             })));
-            mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
+            mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>(), It.IsAny<IOffer>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
 
+            mockEnrollmentService.Setup(m => m.BeginRenewal(It.IsAny<DomainModels.Accounts.Account>(), It.IsAny<DomainModels.Accounts.ISubAccount>(), It.IsAny<DomainModels.Enrollments.Renewal.OfferOption>()))
+                .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
+                {
+                    IsCompleted = false
+                }));
+            mockEnrollmentService.Setup(m => m.EndRenewal(It.IsAny<StreamAsync<DomainModels.Enrollments.RenewalResult>>()))
+                .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
+                {
+                    Data = new DomainModels.Enrollments.RenewalResult
+                    {
+                        ConfirmationNumber = "88664422",
+                        IsSuccess = true
+                    },
+                    IsCompleted = true
+                }));
+            
         }
 
         #region General
@@ -465,19 +517,19 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.IsTrue(result.Validations.Any(r => r.MemberName == "Services[0].SelectedOffers"));
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.PlanSelection, result.ExpectedState);
                 Assert.AreEqual("75010", result.Cart.Single().Location.Address.PostalCode5);
-                Assert.AreEqual(DomainModels.Enrollments.TexasServiceCapability.Qualifier, result.Cart.Single().Location.Capabilities.First().CapabilityType);
-                Assert.AreEqual("Centerpoint", (result.Cart.Single().Location.Capabilities.First() as DomainModels.Enrollments.TexasServiceCapability).Tdu);
+                Assert.AreEqual(DomainModels.Enrollments.TexasElectricity.ServiceCapability.Qualifier, result.Cart.Single().Location.Capabilities.First().CapabilityType);
+                Assert.AreEqual("Centerpoint", (result.Cart.Single().Location.Capabilities.First() as DomainModels.Enrollments.TexasElectricity.ServiceCapability).Tdu);
 
-                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.AvailableOffers.Any());
-                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.AvailableOffers.SingleOrDefault(offer => offer.Id == "Centerpoint/24-month-fixed-rate"));
+                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.AvailableOffers.Any());
+                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.AvailableOffers.SingleOrDefault(offer => offer.Id == "Centerpoint/24-month-fixed-rate"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             await session.EnsureInitialized();
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PlanSelectionState), session.State);
             Assert.AreEqual("75010", session.Context.Services.First().Location.Address.PostalCode5);
-            Assert.AreEqual(DomainModels.Enrollments.TexasServiceCapability.Qualifier, session.Context.Services.First().Location.Capabilities.First().CapabilityType);
-            Assert.AreEqual("Centerpoint", (session.Context.Services.First().Location.Capabilities.First() as DomainModels.Enrollments.TexasServiceCapability).Tdu);
+            Assert.AreEqual(DomainModels.Enrollments.TexasElectricity.ServiceCapability.Qualifier, session.Context.Services.First().Location.Capabilities.First().CapabilityType);
+            Assert.AreEqual("Centerpoint", (session.Context.Services.First().Location.Capabilities.First() as DomainModels.Enrollments.TexasElectricity.ServiceCapability).Tdu);
             Assert.IsNotNull(session.InternalContext.AllOffers[session.Context.Services.First().Location].Offers.SingleOrDefault(offer => offer.Id == "Centerpoint/24-month-fixed-rate"));
         }
 
@@ -518,8 +570,8 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.PlanSettings, result.ExpectedState);
-                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Any(o => o.OfferId == "Centerpoint/24-month-fixed-rate"));
-                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single(o => o.OfferId == "Centerpoint/24-month-fixed-rate").OptionRules);
+                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Any(o => o.OfferId == "Centerpoint/24-month-fixed-rate"));
+                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single(o => o.OfferId == "Centerpoint/24-month-fixed-rate").OptionRules);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
@@ -956,7 +1008,7 @@ namespace StreamEnergy.MyStream.Tests
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
                 Assert.IsFalse(result.IdentityQuestions.Any());
-                Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
+                Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
@@ -1012,7 +1064,7 @@ namespace StreamEnergy.MyStream.Tests
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
                 Assert.IsFalse(result.IdentityQuestions.Any());
-                Assert.AreEqual(75.25m, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
+                Assert.AreEqual(75.25m, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
@@ -1123,7 +1175,7 @@ namespace StreamEnergy.MyStream.Tests
                 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
-                Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
+                Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
@@ -1193,8 +1245,101 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
-                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
-                Assert.AreEqual(true, result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationSuccess);
+                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
+                Assert.AreEqual(true, result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationSuccess);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
+        }
+
+        [TestMethod]
+        public async Task PostConfirmOrderFailPaymentTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            await session.EnsureInitialized();
+            session.Context = new UserContext
+            {
+                Services = new[]
+                { 
+                    new LocationServices
+                    {
+                        Location = specificLocation,
+                        SelectedOffers = new [] {
+                            new SelectedOffer 
+                            { 
+                                Offer = offers[0],
+                                OfferOption = offerOption
+                            }
+                        }
+                    }
+                },
+                MailingAddress = mailingAddress,
+                PreviousAddress = previousAddress,
+                ContactInfo = contactInfo,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SelectedIdentityAnswers = new Dictionary<string, string>(),
+                SocialSecurityNumber = "123-45-6789",
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = finalIdentityCheckResult },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
+                {
+                    IsCompleted = true,
+                    Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult
+                    {
+                        Results = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>[0]
+                    }
+                },
+            };
+            session.State = typeof(DomainModels.Enrollments.PaymentInfoState);
+            var request = new Models.Enrollment.ConfirmOrder
+            {
+                PaymentInfo = new DomainModels.Payments.TokenizedCard
+                {
+                    CardToken = "12345678901234567890",
+                    BillingZipCode = "75010",
+                    SecurityCode = "223"
+                },
+                AgreeToTerms = true,
+            };
+
+            mockEnrollmentService.Setup(m => m.PayDeposit(It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>>(),
+                It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>>(),
+                It.IsAny<DomainModels.Payments.IPaymentInfo>(),
+                It.IsAny<UserContext>())).Returns<
+                    IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>,
+                    IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>,
+                    DomainModels.Payments.IPaymentInfo,
+                    UserContext>((services, a, b, c) =>
+                    {
+                        return Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>>((from svc in services
+                                                                                                                                                         select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>
+                                                                                                                                                         {
+                                                                                                                                                             Location = svc.Location,
+                                                                                                                                                             Offer = svc.Offer,
+                                                                                                                                                             Details = new DomainModels.Payments.PaymentResult
+                                                                                                                                                             {
+                                                                                                                                                                 ConfirmationNumber = null,
+                                                                                                                                                                 ConvenienceFee = 0
+                                                                                                                                                             }
+                                                                                                                                                         }).ToArray());
+                    });
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                await controller.Initialize();
+
+                // Act
+                var result = await controller.ConfirmOrder(request);
+
+                // Assert
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
+                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
+                Assert.AreEqual(false, result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationSuccess);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
@@ -1264,8 +1409,8 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
-                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
-                Assert.AreEqual(false, result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationSuccess);
+                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
+                Assert.AreEqual(false, result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationSuccess);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
@@ -1298,19 +1443,19 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.IsTrue(result.Validations.Any(r => r.MemberName == "Services[0].SelectedOffers"));
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.PlanSelection, result.ExpectedState);
                 Assert.AreEqual("75010", result.Cart.Single().Location.Address.PostalCode5);
-                Assert.AreEqual(DomainModels.Enrollments.TexasServiceCapability.Qualifier, result.Cart.Single().Location.Capabilities.First().CapabilityType);
-                Assert.AreEqual("Centerpoint", (result.Cart.Single().Location.Capabilities.First() as DomainModels.Enrollments.TexasServiceCapability).Tdu);
+                Assert.AreEqual(DomainModels.Enrollments.TexasElectricity.ServiceCapability.Qualifier, result.Cart.Single().Location.Capabilities.First().CapabilityType);
+                Assert.AreEqual("Centerpoint", (result.Cart.Single().Location.Capabilities.First() as DomainModels.Enrollments.TexasElectricity.ServiceCapability).Tdu);
 
-                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.AvailableOffers.Any());
-                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.AvailableOffers.SingleOrDefault(offer => offer.Id == "Centerpoint/24-month-fixed-rate"));
+                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.AvailableOffers.Any());
+                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.AvailableOffers.SingleOrDefault(offer => offer.Id == "Centerpoint/24-month-fixed-rate"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             await session.EnsureInitialized();
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PlanSelectionState), session.State);
             Assert.AreEqual("75010", session.Context.Services.First().Location.Address.PostalCode5);
-            Assert.AreEqual(DomainModels.Enrollments.TexasServiceCapability.Qualifier, session.Context.Services.First().Location.Capabilities.First().CapabilityType);
-            Assert.AreEqual("Centerpoint", (session.Context.Services.First().Location.Capabilities.First() as DomainModels.Enrollments.TexasServiceCapability).Tdu);
+            Assert.AreEqual(DomainModels.Enrollments.TexasElectricity.ServiceCapability.Qualifier, session.Context.Services.First().Location.Capabilities.First().CapabilityType);
+            Assert.AreEqual("Centerpoint", (session.Context.Services.First().Location.Capabilities.First() as DomainModels.Enrollments.TexasElectricity.ServiceCapability).Tdu);
             Assert.IsNotNull(session.InternalContext.AllOffers[session.Context.Services.First().Location].Offers.SingleOrDefault(offer => offer.Id == "Centerpoint/24-month-fixed-rate"));
         }
 
@@ -1351,8 +1496,8 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.PlanSettings, result.ExpectedState);
-                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Any(o => o.OfferId == "Centerpoint/24-month-fixed-rate"));
-                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single(o => o.OfferId == "Centerpoint/24-month-fixed-rate").OptionRules);
+                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Any(o => o.OfferId == "Centerpoint/24-month-fixed-rate"));
+                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single(o => o.OfferId == "Centerpoint/24-month-fixed-rate").OptionRules);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
@@ -1524,53 +1669,6 @@ namespace StreamEnergy.MyStream.Tests
         #region Renewal
 
         [TestMethod]
-        public async Task PostRenewalSelectedOffersTest()
-        {
-            // Arrange
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            await session.EnsureInitialized();
-            session.Context = new UserContext
-            {
-                IsRenewal = true,
-                Services = new[] 
-                {
-                    new LocationServices
-                    {
-                        Location = specificLocation
-                    }
-                }
-            };
-            session.InternalContext = new InternalContext
-            {
-                AllOffers = new Dictionary<Location, LocationOfferSet> { { generalLocation, new LocationOfferSet { Offers = offers } } }
-            };
-            session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
-            var request = new Models.Enrollment.SelectedOffers
-            {
-                Selection = new[] {
-                    new Models.Enrollment.SelectedOfferSet { Location = specificLocation, OfferIds = new[] { "Centerpoint/24-month-fixed-rate" } }
-                }
-            };
-
-            using (var controller = container.Resolve<EnrollmentController>())
-            {
-                await controller.Initialize();
-
-                // Act
-                var result = await controller.SelectedOffers(request);
-
-                // Assert
-                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.PlanSettings, result.ExpectedState);
-                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Any(o => o.OfferId == "Centerpoint/24-month-fixed-rate"));
-                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single(o => o.OfferId == "Centerpoint/24-month-fixed-rate").OptionRules);
-            }
-
-            Assert.AreEqual(typeof(DomainModels.Enrollments.LoadDespositInfoState), session.State);
-            Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == "Centerpoint/24-month-fixed-rate"));
-            Assert.IsNotNull(session.InternalContext.OfferOptionRules.SingleOrDefault(e => e.Location == specificLocation && e.Offer.Id == "Centerpoint/24-month-fixed-rate").Details);
-        }
-
-        [TestMethod]
         public void PostRenewalAccountInformationTest()
         {
             // Arrange
@@ -1599,42 +1697,64 @@ namespace StreamEnergy.MyStream.Tests
             session.Context = new UserContext
             {
                 IsRenewal = true,
-                Services = new[] {
+                Services = new[] 
+                {
                     new LocationServices
                     {
-                        Location = specificLocation,
-                        SelectedOffers = new []
+                        Location = specificRenewalLocation,
+                        SelectedOffers = new SelectedOffer[] 
                         { 
                             new SelectedOffer 
                             { 
-                                Offer = offers[0]
+                                Offer = new DomainModels.Enrollments.Renewal.Offer 
+                                { 
+                                    RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty) 
+                                    { 
+                                    } 
+                                } 
                             }
                         }
                     }
-                },
+                }
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } }
+                AllOffers = new Dictionary<Location, LocationOfferSet> 
+                { 
+                    { 
+                        specificRenewalLocation, new LocationOfferSet 
+                        { 
+                            Offers = new IOffer[]
+                            {
+                                new DomainModels.Enrollments.Renewal.Offer 
+                                { 
+                                    RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
+                                } 
+                            }
+                        } 
+                    }
+                }
             };
-            session.State = typeof(DomainModels.Enrollments.LoadDespositInfoState);
+            session.State = typeof(DomainModels.Enrollments.AccountInformationState);
             var request = new Models.Enrollment.AccountInformation
             {
-                Cart = new[] {
-                    new Models.Enrollment.CartEntry {
-                        Location = specificLocation,
+                Cart = new[] 
+                {
+                    new Models.Enrollment.CartEntry 
+                    {
+                        Location = specificRenewalLocation,
                         OfferInformationByType = new Dictionary<string,Models.Enrollment.OfferInformation>
                         {
                             {
-                                offers[0].OfferType,
+                                "Renewal",
                                 new Models.Enrollment.OfferInformation
                                 {
                                     OfferSelections = new []
                                     {
                                         new Models.Enrollment.OfferSelection
                                         {
-                                            OfferId = offers[0].Id,
-                                            OfferOption = offerOption
+                                            OfferId = "",
+                                            OfferOption = renewalOption
                                         }
                                     }
                                 }
@@ -1656,14 +1776,30 @@ namespace StreamEnergy.MyStream.Tests
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
-            Assert.IsTrue(session.InternalContext.AllOffers.ContainsKey(specificLocation));
-            Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == "Centerpoint/24-month-fixed-rate"));
+            Assert.IsTrue(session.InternalContext.AllOffers.ContainsKey(specificRenewalLocation));
+            Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == ""));
+            Assert.IsTrue(session.Context.Services.First().SelectedOffers.First().OfferOption is DomainModels.Enrollments.Renewal.OfferOption);
         }
 
         [TestMethod]
         public void PostRenewalConfirmOrderTest()
         {
             // Arrange
+            var offers = new Dictionary<Location, LocationOfferSet> 
+                { 
+                    { 
+                        specificRenewalLocation, new LocationOfferSet 
+                        { 
+                            Offers = new IOffer[]
+                            {
+                                new DomainModels.Enrollments.Renewal.Offer 
+                                { 
+                                    RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
+                                } 
+                            }
+                        } 
+                    }
+                };
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.EnsureInitialized().Wait();
             session.Context = new UserContext
@@ -1673,12 +1809,13 @@ namespace StreamEnergy.MyStream.Tests
                 { 
                     new LocationServices
                     {
-                        Location = specificLocation,
-                        SelectedOffers = new [] {
+                        Location = specificRenewalLocation,
+                        SelectedOffers = new SelectedOffer[] 
+                        { 
                             new SelectedOffer 
                             { 
-                                Offer = offers[0],
-                                OfferOption = offerOption
+                                Offer = offers[specificRenewalLocation].Offers.First(),
+                                OfferOption = renewalOption
                             }
                         }
                     }
@@ -1686,27 +1823,14 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
+                AllOffers = offers,
                 IdentityCheck = null,
-                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
-                {
-                    IsCompleted = true,
-                    Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult
-                    {
-                        Results = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>[0]
-                    }
-                },
-                Deposit = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>[0],
+                EnrollmentSaveState = null,
+                Deposit = null,
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
             var request = new Models.Enrollment.ConfirmOrder
             {
-                PaymentInfo = new DomainModels.Payments.TokenizedCard
-                {
-                    CardToken = "12345678901234567890",
-                    BillingZipCode = "75010",
-                    SecurityCode = "223"
-                },
                 AgreeToTerms = true,
             };
 
@@ -1718,13 +1842,84 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.ConfirmOrder(request).Result;
 
                 // Assert
+                Assert.AreEqual(true, result.IsLoading);
+            }
+
+            Assert.IsNotNull(session.InternalContext.RenewalResult);
+            Assert.IsFalse(session.InternalContext.RenewalResult.IsCompleted);
+            Assert.AreEqual(typeof(DomainModels.Enrollments.PlaceOrderState), session.State);
+        }
+
+        [TestMethod]
+        public void PostRenewalResumeConfirmOrderTest()
+        {
+            // Arrange
+            var offers = new Dictionary<Location, LocationOfferSet> 
+                { 
+                    { 
+                        specificRenewalLocation, new LocationOfferSet 
+                        { 
+                            Offers = new IOffer[]
+                            {
+                                new DomainModels.Enrollments.Renewal.Offer 
+                                { 
+                                    RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
+                                } 
+                            }
+                        } 
+                    }
+                };
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.EnsureInitialized().Wait();
+            session.Context = new UserContext
+            {
+                AdditionalAuthorizations = new Dictionary<AdditionalAuthorization,bool>(),
+                IsRenewal = true,
+                Services = new[]
+                { 
+                    new LocationServices
+                    {
+                        Location = specificRenewalLocation,
+                        SelectedOffers = new SelectedOffer[] 
+                        { 
+                            new SelectedOffer 
+                            { 
+                                Offer = offers[specificRenewalLocation].Offers.First(),
+                                OfferOption = renewalOption
+                            }
+                        }
+                    }
+                },
+                AgreeToTerms = true
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = offers,
+                IdentityCheck = null,
+                EnrollmentSaveState = null,
+                Deposit = null,
+                RenewalResult = new StreamAsync<RenewalResult>
+                {
+                    IsCompleted = false
+                }
+            };
+            session.State = typeof(DomainModels.Enrollments.PlaceOrderState);
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                controller.Initialize().Wait();
+
+                // Act
+                var result = controller.Resume().Result;
+
+                // Assert
+                Assert.AreEqual(false, result.IsLoading);
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
-                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
+                Assert.AreEqual("88664422", result.Cart.Single().OfferInformationByType.First(e => e.Key == Renewal.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
         }
-
         #endregion
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
+    [Serializable]
     public class Invoice
     {
         public string InvoiceNumber { get; set; }
@@ -14,6 +15,6 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public DateTime DueDate { get; set; }
 
-        public bool IsPaid { get; set; }
+        public bool PdfAvailable { get; set; }
     }
 }

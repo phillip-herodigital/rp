@@ -57,8 +57,9 @@
     <Reference Include="CommandLine">
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
     </Reference>
-    <Reference Include="CsvHelper">
-      <HintPath>..\packages\CsvHelper.2.6.0\lib\net40-client\CsvHelper.dll</HintPath>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CsvHelper.2.8.2\lib\net40-client\CsvHelper.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\Libraries\Sitecore\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -141,10 +142,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aglc\Indexer.cs" />
     <Compile Include="ErcotAddressReader.cs" />
     <Compile Include="Ercot\DirectoryLoader.cs" />
     <Compile Include="Ercot\FileMetadata.cs" />
     <Compile Include="Ercot\FileReader.cs" />
+    <Compile Include="IIndexer.cs" />
+    <Compile Include="Ercot\Indexer.cs" />
     <Compile Include="Ercot\Record.cs" />
     <Compile Include="IndexBuilder.cs" />
     <Compile Include="Options.cs" />
@@ -153,7 +157,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +180,7 @@
       <Name>StreamEnergy.Services</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

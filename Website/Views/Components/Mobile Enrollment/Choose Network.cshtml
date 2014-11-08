@@ -1,80 +1,93 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChooseNetwork
 @using StreamEnergy.DomainModels.MobileEnrollment
 
-<div ng-if="ctrl.currentStep == 'choose-network'">
-
+<div ng-if="mobileEnrollment.currentStep == 'choose-network'" ng-controller="MobileEnrollmentChooseNetworkCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("1 - Page Title")</span><br />
+                <span class="small block">@Html.Sitecore().Field("Page Title")</span><br />
             </h1>
         </div>
     </div>
-
     @* Single Column Layout for Choose Network *@
     <section class="wrapper layout">
         <article class="enrollment__box enrollment__choose-network">
             <header>
-                <h1>@Html.Sitecore().Field("1 - Header - Choose Network") <input type="text" class="small" maxlength="5" ng-model="ctrl.phoneFilters.zipCode"> <button type="button" ng-click="ctrl.updateAvailableNetworks()" class="plain update-link" ng-disabled="!ctrl.isZipCodeValid()">Update</button></h1>
+                <h1>
+                    @Html.Sitecore().Field("Header - Choose Network")
+                    <select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display for state in usStates"></select>
+                </h1>
             </header>
             <div class="content">
-
                 @* Networks not available *@
-                <div class="no-networks-available" ng-if="!ctrl.availableNetworks.length">
-                    <h2 class="no-plans">@Html.Sitecore().Field("1 - Header - No Plans Available")</h2>
-
+                <div class="no-networks-available" ng-if="!showNetworks">
+                    <h2 class="no-plans">@Html.Sitecore().Field("Header - No Plans Available")</h2>
                     <div class="stretch-full">
-                        <h3>@Html.Sitecore().Field("1 - Subheader - Check Out Services")</h3>
-                        <div class="grid">
+                        <p class="intro">@Html.Sitecore().Field("Subheader - Check Out Services")</p>
+                        <div class="grid three">
                             <div class="col">
-                                <div class="ico-wrapper">
-                                    <i class="icon-home-utility"></i>
-                                </div>
-                                <h2>@Html.Sitecore().Field("1 - Header - Utility Services")</h2>
-                                @Html.Sitecore().Field("1 - Text - Utility Description")
-                                <a href="@Html.Sitecore().Field("1 - Link Url - Utility Link")">@Html.Sitecore().Field("1 - Link Text - Utility Link Text") <i class="icon-arrow-right"></i></a>
+                                <i class="icon-hls-credit-monitoring img-col"></i>
+                                <h3>@Html.Sitecore().Field("Header - Credit Monitoring")</h3>
+                                @Html.Sitecore().Field("Text - Credit Monitoring")
+                                @Html.Sitecore().Field("Link - Credit Monitoring") <i class="icon-arrow-right"></i>
                             </div>
                             <div class="col">
-                                <div class="ico-wrapper">
-                                    <i class="icon-homelife"></i>
-                                </div>
-                                <h2>@Html.Sitecore().Field("1 - Header - Homelife Services")</h2>
-                                @Html.Sitecore().Field("1 - Text - Utility Description")
-                                <a href="@Html.Sitecore().Field("1 - Link Url - Homelife Link")">@Html.Sitecore().Field("1 - Link Text - Homelife Link Text") <i class="icon-arrow-right"></i></a>
+                                <i class="icon-hls-identity-theft img-col"></i>
+                                <h3>@Html.Sitecore().Field("Header - Identity Theft Protection")</h3>
+                                @Html.Sitecore().Field("Text - Identity Theft Protection")
+                                @Html.Sitecore().Field("Link - Identity Theft Protection") <i class="icon-arrow-right"></i>
+                            </div>
+                            <div class="col">
+                                <i class="icon-hls-online-protection img-col"></i>
+                                <h3>@Html.Sitecore().Field("Header - Online Backup")</h3>
+                                @Html.Sitecore().Field("Text - Online Backup")
+                                @Html.Sitecore().Field("Link - Online Backup") <i class="icon-arrow-right"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 @* Networks are available *@
-                <div class="stretch-full" ng-if="ctrl.availableNetworks.length">
+                <div class="stretch-full" ng-if="showNetworks">
                     <table class="choose-network-table">
                         <thead>
                             <tr>
-                                <th>@Html.Sitecore().Field("1 - Table Header - Plans")</th>
-                                <th>@Html.Sitecore().Field("1 - Table Header - Coverage")</th>
-                                <th>@Html.Sitecore().Field("1 - Table Header - Devices")</th>
-                                <th>@Html.Sitecore().Field("1 - Table Header - Select Network")</th>
+                                <th class="plans">@Html.Sitecore().Field("Table Header - Plans")</th>
+                                <th class="coverage">@Html.Sitecore().Field("Table Header - Coverage")</th>
+                                <th class="devices">@Html.Sitecore().Field("Table Header - Devices")</th>
+                                <th class="select-network">@Html.Sitecore().Field("Table Header - Get Started")</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach (var network in Model.MobileNetworks) {
-                            <tr ng-if="ctrl.isAvailableNetwork('@network.Value')">
-                                <td class="plans">@Html.Raw(network.Description)</td>
-                                <td class="coverage">@Html.Raw(network.Coverage)</td>
-                                <td class="devices">@Html.Raw(network.Device)</td>
-                                <td class="select-network">
-                                    <p><strong>@Html.Sitecore().Field("1 - Select Network").Format(new { network = @network.Name })</strong></p>
-                                    <button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'new')">@Html.Sitecore().Field("1 - Button - Shop Devices")</button>
-                                    <button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'existing')">@Html.Sitecore().Field("1 - Button - Bring My Own Phone")</button>
-                                </td>
-                            </tr>
-                            }
-                        </tbody>
                     </table>
+                    @foreach (var network in Model.MobileNetworks)
+                    {
+                        @* Using idividual tabls and the wrapper so we can put the "Coming Soon" overlay over the Sprint table. Should combine back into one table when both networks launch. *@
+                        <div class="choose-network-table-wrapper">
+                            <table class="choose-network-table">
+                                <tbody>
+                                    <tr>
+                                        <td class="plans">@Html.Raw(network.Description)</td>
+                                        <td class="coverage">@Html.Raw(network.Coverage)</td>
+                                        <td class="devices">@Html.Raw(network.Device)</td>
+                                        <td class="select-network">
+                                            @Html.Sitecore().Field("Text - Get Started").Format(new { price = @network.StartingPrice })
+                                            @*<button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')">@Html.Sitecore().Field("Button - Shop Devices")</button>*@
+                                            <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'existing')">
+                                                @Html.Sitecore().Field("Button - Get Started")
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            @if (network.Value == "sprint")
+                            {
+                                <div class="overlay"></div>
+                                <span class="text">Coming Soon</span>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </article>
+        <p class="footnotes" ng-if="showNetworks">@Html.Sitecore().Field("Footnotes")</p>
     </section>
-
 </div>

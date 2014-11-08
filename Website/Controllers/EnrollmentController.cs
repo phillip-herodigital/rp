@@ -11,10 +11,12 @@ namespace StreamEnergy.MyStream.Controllers
     public class EnrollmentController : Controller
     {
         private ApiControllers.EnrollmentController inner;
+        private readonly ISettings settings;
 
-        public EnrollmentController(ApiControllers.EnrollmentController inner)
+        public EnrollmentController(ApiControllers.EnrollmentController inner, ISettings settings)
         {
             this.inner = inner;
+            this.settings = settings;
         }
 
         protected override void Dispose(bool disposing)
@@ -35,7 +37,7 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult EnrollmentSupportedUtilityStates()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Enrollment Supported Utility States");
-            var data = item.Children.Select(child => new { abbreviation = child.Name, display = child.Fields["Display"].Value, css = child.Fields["CssClass"].Value });
+            var data = item.Children.Where(c => c.Name != "GA" || string.IsNullOrEmpty(settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode"))).Select(child => new { abbreviation = child.Name, display = child.Fields["Display"].Value, css = child.Fields["CssClass"].Value });
 
             return this.Content(StreamEnergy.Json.Stringify(data));
         }

@@ -1,54 +1,97 @@
 ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
-    var service = {},
-        mobileNetworks = [],
-        phones = [],
-        cart = {
-            phone: undefined,
-            warranty: false,
-            color: {
-                name: undefined,
-                value: undefined
-            },
-            plan: undefined,
-            number: {
-                type: undefined,
-                value: undefined
-            }
-        };
-
-    service.accountInformation = {
-        contactInfo: {
-            name: {
-                first: '',
-                last: ''
-            },
-            phone: [{
-                number: '',
-                category: ''
-            }],
-            email: {
-                address: ''
+    var service = {
+        state: "TX",
+        availableNetworks: [],
+        selectedNetwork: undefined,
+        cart: {
+            items: [
+                /*{
+                    id: undefined,
+                    type: undefined, // New or Existing
+                    name: undefined,
+                    make: undefined,
+                    model: undefined,
+                    imeiNumber: undefined,
+                    simNumber: undefined,
+                    warranty: false,
+                    color: {
+                        name: undefined,
+                        value: undefined
+                    },
+                    //plan: undefined,
+                    number: {
+                        type: undefined,
+                        value: undefined
+                    }
+                }*/
+            ],
+            dataPlan: {
+                /*price: undefined,
+                includedData: {
+                    amount: undefined,
+                    cost: undefined
+                },
+                additionalData: {
+                    amount: undefined,
+                    cost: undefined
+                }*/
             }
         },
-        socialSecurityNumber: '',
-        secondaryContactInfo: {}
-    };
+        contactInformation: {
 
-    service.setNetworkData = function (data) {
-        mobileNetworks = data;
-    };
+        },
+        businessInformation: {
 
+        },
+        terms: {
+
+        },
+        /*
+        accountInformation: {
+            contactInfo: {
+                name: {
+                    first: '',
+                    last: ''
+                },
+                phone: [{
+                    number: '',
+                    category: ''
+                }],
+                email: {
+                    address: ''
+                }
+            },
+            socialSecurityNumber: '',
+            secondaryContactInfo: {}
+        }*/
+    },
+    //networks = [],
+    dataPlans = [],
+    phones = [];
+
+    service.setNetworks = function (data) {
+        service.availableNetworks = data;
+    };
+    
     service.setPhoneData = function (data) {
         phones = data;
     };
 
-    service.getPhones = function() {
-        return phones;
+    service.setDataPlans = function(data) {
+        dataPlans = data;
+    };
+
+    service.getDataPlans = function(network) {
+        if(network) {
+            return _.where(dataPlans, { name: network })[0];
+        } else {
+            return dataPlans;
+        }
     }
 
-    service.getNetworks = function() {
-        return mobileNetworks;
-    }
+    service.getPhones = function() {
+        return phones;
+    };
 
     service.getItemPrice = function(priceObject) {
         //I'm assuming we always want the new price if it exists
@@ -92,21 +135,76 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
         return _.uniq(_.pluck(phones, "os"));
     };
 
-
     /**
      * Set the cart options
      * @param {[type]} value [description]
      */
     service.getCart = function(phoneName) {
-        return cart;
+        return service.cart;
     };
 
-    service.setSelectedPhone = function(phoneObject) {
-        cart.phone = _.where(phones, { name: phoneObject.phone })[0];
-        cart.warranty = phoneObject.options.warranty;
-        cart.number = phoneObject.options.number;
-        cart.color = _.where(cart.phone.colors, { color: phoneObject.options.color})[0];
-        cart.model = _.where(cart.phone.models, { size: phoneObject.options.size, condition: phoneObject.options.condition })[0];
+    service.getCartItems = function() {
+        return service.cart.items;
+    }
+
+    service.getCartDataPlan = function() {
+        return service.cart.dataPlan;
+    }
+
+    service.addItemToCart = function(item) {
+        service.cart.items.push(item);
+    };
+
+    service.addDataPlanToCart = function(planId) {
+        var plan = _.where(service.getDataPlans(service.selectedNetwork.value).plans, { id: planId })[0];
+        console.log(plan);
+        service.cart.dataPlan = plan;
+    };
+
+    service.getProratedCost = function() {
+        var plan = service.cart.dataPlan;
+        // a and b are javascript Date objects
+        var dateDiffInDays = function(a, b) {
+            var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+            // Discard the time and time-zone information.
+            var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+            var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+            
+            return Math.floor((utc1 - utc2) / _MS_PER_DAY);
+        };
+        var billingCycleEnds = 24;
+        var today = new Date();
+        var monthOffset = (today.getDate() <= billingCycleEnds) ? 1 : 0;
+        var startBillingDate = new Date();
+        startBillingDate.setDate(billingCycleEnds);
+        startBillingDate.setMonth(startBillingDate.getMonth() - monthOffset);
+
+        var daysInBillingCycle = new Date(startBillingDate.getFullYear(), startBillingDate.getMonth() + 1, 0).getDate(); // setting the day to 0 gets the previous month, so we're adding +1 to the billing month.
+        var daysIntoBillingCycle = dateDiffInDays(today, startBillingDate) - 1;
+        var multiplier = (daysInBillingCycle - daysIntoBillingCycle) / daysInBillingCycle;
+
+        return (parseFloat(plan.price, 10) + service.getTotalFees()) * multiplier;
+
+    };
+
+    service.getTotalFees = function() {
+        var plan = service.cart.dataPlan;
+        return parseFloat(plan.fees.salesUseTax, 10) + parseFloat(plan.fees.federalAccessCharge, 10) + parseFloat(plan.fees.streamLineCharge, 10);
+    }
+
+    service.getTotalDueToday = function() {
+
+        var total = 0;
+        for (var i=0; i<service.cart.items.length; i++) {
+            total += parseFloat(service.cart.items[i].activationFee, 10);
+        }
+
+        return total + service.getProratedCost();
+    };
+
+    service.getEstimatedMonthlyTotal = function() {
+        var plan = service.cart.dataPlan;
+        return parseFloat(plan.price, 10) + service.getTotalFees();
     };
 
     return service;

@@ -14,9 +14,7 @@ namespace StreamEnergy.RenderingService
     class ScreenshotListeningService : System.ServiceProcess.ServiceBase
     {
         public const string Name = "StreamEnergy Screenshot Service";
-        private readonly RedisQueueListener listener;
         private readonly Rasterizer rasterizer;
-        private readonly Microsoft.WindowsAzure.Storage.File.CloudFileDirectory azureDir;
 
         private CancellationTokenSource cancellationToken;
         private Task mainLoop;
