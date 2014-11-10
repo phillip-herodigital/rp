@@ -19,7 +19,7 @@ namespace StreamEnergy.MyStream.Models.Temp
         public string BusinessName { get; set; }
 
         [Required(ErrorMessage = " ")]
-        public PdfBusinessClassification BusinessClassification { get; set; }
+        public W9BusinessClassification BusinessClassification { get; set; }
 
         [Required(ErrorMessage = " ")]
         public string BusinessTypeAdditional { get; set; }

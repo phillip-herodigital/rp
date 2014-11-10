@@ -1,6 +1,6 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChoosePhone
 
-<div id="choose-phone" ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl">
+<div id="choose-phone" ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl" ng-init="bringYourOwnDevices = @(Html.Action("BringYourOwnDevices", "MobileEnrollment").ToHtmlString());">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
@@ -118,7 +118,6 @@
                                 <p><a href="">@Html.Sitecore().Field("More Details") <i class="icon-arrow-right"></i></a></p>
                             </div>
                             <hr class="content-divider">
-
                             @* Chrome doesn't support <button> as display: table-cell, so we're using <a> *@
                             <div class="vertical">
                                 <div class="item simple-options-item">
@@ -207,14 +206,10 @@
                                         <label>@Html.Sitecore().Field("Label - Select Device")</label>
                                         <div class="group">
                                             <div class="item group-col" data-val-error="phoneMake">
-                                                <select name="phoneMake" ng-model="phoneOptions.make" data-val="true" data-val-required>
-                                                    <option value="apple">Apple</option>
-                                                </select>
+                                                <select name="phoneMake" ng-model="phoneOptions.make" ng-options="brand.make for brand in bringYourOwnDevices" data-val="true" data-val-required></select>
                                             </div>
                                             <div class="item group-col" data-val-error="phoneModel">
-                                                <select name="phoneModel" ng-model="phoneOptions.model" data-val="true" data-val-required>
-                                                    <option value="iphone">iPhone</option>
-                                                </select>
+                                                <select name="phoneModel" ng-model="phoneOptions.model" ng-options="model.modelName for model in phoneOptions.make.models" data-val="true" data-val-required></select>
                                             </div>
                                         </div>
                                         <div class="info">@Html.Sitecore().Field("Text - Select Device Info")</div>

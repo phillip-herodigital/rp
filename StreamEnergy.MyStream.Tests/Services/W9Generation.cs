@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StreamEnergy.Services.Clients;
 using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Tests.Services
 {
     [TestClass]
-    public class PdfGeneration
+    public class W9Generation
     {
         private static Unity.Container container;
         [ClassInitialize]
@@ -22,10 +23,10 @@ namespace StreamEnergy.MyStream.Tests.Services
             });
         }
         [TestMethod]
-        public async Task GetPdfTest()
+        public void GetW9Test()
         {
-            var pdfGenerationService = container.Resolve<IPdfGenerationService>();
-            var response = pdfGenerationService.GenerateW9("Full Name", "Business Name", PdfBusinessClassification.SCorporation, "Other Type", false, "Address Line #1, Address Line #2", "City", "ST", "12345", "123456789", "987654321", null, DateTime.Now);
+            var pdfGenerationService = container.Resolve<IW9GenerationService>();
+            var response = pdfGenerationService.GenerateW9("Full Name", "Business Name", W9BusinessClassification.SCorporation, "Other Type", null, null, new Address { Line1 = "Address Line #1", Line2 = "Address Line #2", City = "City", StateAbbreviation = "ST", PostalCode5 = "12345" }, "123456789", "987654321", "R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", DateTime.Now);
 
             Assert.IsNotNull(response);
         }

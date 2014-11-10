@@ -176,6 +176,7 @@
     <Compile Include="Configuration\IKeyGenerator.cs" />
     <Compile Include="Configuration\IocInitializer.cs" />
     <Compile Include="CoreContainerSetup.cs" />
+    <Compile Include="Cryptography.cs" />
     <Compile Include="EnumerableRequiredAttribute.cs" />
     <Compile Include="EnvironmentCategory.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />

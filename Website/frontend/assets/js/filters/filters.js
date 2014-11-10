@@ -171,3 +171,16 @@ ngApp.filter('phoneFilter', function() {
     return filteredElements;
   }
 });
+
+ngApp.filter('addSpaces', function () {
+    return function (name) {
+        var formattedName = '';
+
+        if (!name) {
+            return;
+        }
+
+        formattedName = name.replace('%20', ' ');
+        return formattedName;
+    };
+});

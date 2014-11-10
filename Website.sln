@@ -66,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsServices", "WindowsS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cis2AureaAccountImport", "Cis2AureaAccountImport\Cis2AureaAccountImport.csproj", "{5BD4F0EB-880C-4A64-9E50-71CAC22C1F4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Data", "StreamEnergy.Data\StreamEnergy.Data.csproj", "{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Azure-Production Sitecore|Any CPU = Azure-Production Sitecore|Any CPU
@@ -170,6 +172,14 @@ Global
 		{5BD4F0EB-880C-4A64-9E50-71CAC22C1F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BD4F0EB-880C-4A64-9E50-71CAC22C1F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BD4F0EB-880C-4A64-9E50-71CAC22C1F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Azure-Production Sitecore|Any CPU.ActiveCfg = Release|Any CPU
+		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Azure-Production Sitecore|Any CPU.Build.0 = Release|Any CPU
+		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Azure-Production|Any CPU.ActiveCfg = Release|Any CPU
+		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Azure-Production|Any CPU.Build.0 = Release|Any CPU
+		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,5 +197,6 @@ Global
 		{59B39452-16F0-4170-A74E-F886F54DCBDC} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
 		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A} = {FC6C8FA8-0ADC-46C6-B79D-409C24C227E5}
 		{5BD4F0EB-880C-4A64-9E50-71CAC22C1F4E} = {FC6C8FA8-0ADC-46C6-B79D-409C24C227E5}
+		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443} = {25960F8A-E3E2-43E0-A982-4C3E9BC37855}
 	EndGlobalSection
 EndGlobal

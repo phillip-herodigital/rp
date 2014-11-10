@@ -16,6 +16,10 @@
         //console.log(JSON.stringify($scope.mobileEnrollmentService));
     };
 
+    $scope.resetEnrollment = function () {
+        mobileEnrollmentService.resetEnrollment();
+    };
+
     /*
         Allow for navigation through the process using back/forward buttons
         We're not using a hash that actually matches with an element ID to
