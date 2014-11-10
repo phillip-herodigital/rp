@@ -23,6 +23,7 @@ using System.Data.SqlClient;
 using System.Data;
 using EmailFactory = Sitecore.Modules.EmailCampaign.Factory;
 using System.Collections.Specialized;
+using StreamEnergy.Logging;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -40,6 +41,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IAccountService accountService;
         private readonly ImpersonationUtility impersonation;
         private readonly UserProfileLocator profileLocator;
+        private readonly ILogger logger;
         
         #region Session Helper Classes
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
@@ -59,7 +61,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation, UserProfileLocator profileLocator)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation, UserProfileLocator profileLocator, ILogger logger)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
@@ -73,6 +75,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.settings = settings;
             this.impersonation = impersonation;
             this.profileLocator = profileLocator;
+            this.logger = logger;
         }
 
         protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
@@ -101,6 +104,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public Task<HttpResponseMessage> Login(LoginRequest request)
         {
+            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
+            {
+                return Task.FromResult(Request.CreateResponse(new
+                {
+                    Success = true,
+                    ReturnURI = "/ga-upgrade-faq",
+                }));
+            }
             request.Domain = domain;
             ModelState.Clear();
             Validate(request, "request");
@@ -455,7 +466,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Impersonation
 
         [HttpGet]
-        public async Task<HttpResponseMessage> Impersonate(string accountNumber, string expiry, string token, string username = null)
+        public async Task<HttpResponseMessage> Impersonate(string accountNumber, string expiry, string token, string username = null, string agentId = "CSR User")
         {
             if (!impersonation.Verify(accountNumber, expiry, token))
             {
@@ -504,6 +515,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var customer = customers.First();
                 var response = Request.CreateResponse(HttpStatusCode.Moved);
                 response.Headers.Location = new Uri("/account", UriKind.Relative);
+                await logger.Record("Impersonating as " + agentId, Severity.Debug);
                 if (string.IsNullOrEmpty(customer.Username))
                     response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customer.GlobalCustomerId) });
                 else

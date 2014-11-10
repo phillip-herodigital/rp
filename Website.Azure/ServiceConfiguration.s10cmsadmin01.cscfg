@@ -28,9 +28,6 @@
           <Subnet name="Sitecore_Web" />
         </Subnets>
       </InstanceAddress>
-      <ReservedIPs>
-        <ReservedIP name="s10cmsweb01_public02" />
-      </ReservedIPs>
     </AddressAssignments>
   </NetworkConfiguration>
 </ServiceConfiguration>
