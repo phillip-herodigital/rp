@@ -1,7 +1,7 @@
 /* Your Gas Plan Controller
  *
  */
-ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$window', function ($scope, $rootScope, $http, $window) {
     $scope.utilityPlan = {};
     $scope.isLoading = true;
 
@@ -15,8 +15,9 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', fu
                 data    : { 'accountNumber' : newVal },
                 headers : { 'Content-Type': 'application/JSON' } 
             }).success(function (data, status, headers, config) {
+                $scope.accountId = data.accountId;
                 $scope.utilityPlan = data.subAccounts[0];
-                
+                $scope.renewal = data.renewalCapability;
                 // get the plan description from sitecore if it exists
                 var product = _.find($scope.georgiaProducts, { 'code': $scope.utilityPlan.productCode });
                 $scope.utilityPlan.description = (product) ? product.description : null;
@@ -25,5 +26,18 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', fu
             });
         }
     });
+
+    $scope.setupRenewal = function() {
+        var accountData = {
+            accountId: $scope.accountId,
+            subAccountId: $scope.utilityPlan.id
+        };
+        $http.post('/api/account/setupRenewal', accountData)
+        .success(function (data) {
+            if (data.isSuccess) {
+                $window.location.href = '/enrollment';
+            }
+        })
+    };
 
 }]);
