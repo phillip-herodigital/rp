@@ -76,10 +76,18 @@ namespace StreamEnergy.Services.Clients
                 }
             }
 
-            var sm = new AsyncSendingManager(mi);
-            var results = sm.SendStandardMessage(contact);
+            var messageBody = mi.GetMessageBody();
+            messageBody = messageBody.Replace("=\"/sitecore/shell/", "=\"" + managerRoot.Settings.BaseURL + "/");
+            var message = new MailMessage(mi.FromAddress, to, mi.Subject, messageBody)
+            {
+                IsBodyHtml = true,
+            };
+            return ((IEmailService)this).SendEmail(message);
 
-            return Task.FromResult(string.IsNullOrEmpty(results.Errors));
+            //var sm = new AsyncSendingManager(mi);
+            //var results = sm.SendStandardMessage(contact);
+
+            //return Task.FromResult(string.IsNullOrEmpty(results.Errors));
         }
 
         public static Contact GetAnonymousFromEmail(string email, ManagerRoot root)
