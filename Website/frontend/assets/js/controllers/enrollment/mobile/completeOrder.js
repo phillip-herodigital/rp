@@ -6,21 +6,6 @@
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
 
-    $scope.accountInformation = {
-        shippingAddressSame: true,
-        contactInfo: {
-            phone: [{
-                    number: '',
-                    category: 'mobile'
-                }],
-        }
-    };
-
-    $scope.businessInformation = {
-        businessAddressSame: true,
-        signatory: true
-    };
-
     $scope.toggleBreakdown = function() {
         $scope.isBreakdownShown = !$scope.isBreakdownShown;     
     };

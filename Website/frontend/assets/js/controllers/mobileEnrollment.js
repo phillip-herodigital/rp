@@ -9,6 +9,21 @@
         phoneTypeTab: "new"
     };
 
+    $scope.accountInformation = {
+        shippingAddressSame: true,
+        contactInfo: {
+            phone: [{
+                    number: '',
+                    category: 'mobile'
+                }],
+        }
+    };
+
+    $scope.businessInformation = {
+        businessAddressSame: true,
+        signatory: true
+    };
+
     $scope.setCurrentStep = function(step) {
         $scope.mobileEnrollment.currentStep = step;
         $location.hash(step);
