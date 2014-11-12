@@ -77,7 +77,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 { "SignatoryRelation", context.SignatoryRelation ?? "" },    
                 { "AgreeToTerms", context.AgreeToTerms.ToString() },    
                 { "TcpaPreference", context.TcpaPreference.ToString() },    
-                { "PdfUrl", new Uri(Request.RequestUri, "/api/MobileEnrollment/w9/token/" + await mobileEnrollment.CreatePdfToken(result)).ToString() }/**/
+                { "PdfUrl", new Uri(Request.RequestUri, "/api/MobileEnrollment/w9/token/" + Server.(await mobileEnrollment.CreatePdfToken(result))).ToString() }/**/
             });
 
             if (result != Guid.Empty)

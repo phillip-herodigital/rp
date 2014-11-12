@@ -1758,6 +1758,10 @@ $enrollment-module-vertical-padding: 20px;
         width: 63%;
         float: left;
         margin-left: 5%;
+        @include breakpoint(small) {
+            width: auto;
+            margin-left: 0;
+        }
     }
     .btn-group-row {
         display: table-row;
@@ -2010,6 +2014,11 @@ $enrollment-module-vertical-padding: 20px;
         }*/
         .note {
             font-size: 14px;
+        }
+        @include breakpoint(small) {
+            div.item > label {
+                width: 100% !important;
+            }
         }
         /*@include breakpoint(medium-large) {
             .grid {
