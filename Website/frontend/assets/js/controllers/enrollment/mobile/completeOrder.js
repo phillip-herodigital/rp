@@ -38,6 +38,7 @@
     };
 
     $scope.completeStep = function() {
+        mobileEnrollmentService.isLoading = true;
         // format the post data
         var item = $scope.cart.items[0];
         var additionalClassification = null;
@@ -84,6 +85,7 @@
         // send the post
         $http.post('/api/mobileEnrollment/submit', userContext)
         .success(function (data) {
+            mobileEnrollmentService.isLoading = false;
             mobileEnrollmentService.confirmationId = data.id;
             $scope.setCurrentStep('order-confirmation');
         })
