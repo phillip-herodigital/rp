@@ -33,7 +33,7 @@
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    $scope.associateId = getParameterByName('associateId');
+    $scope.associateId = getParameterByName('SPID');
 
     $scope.setCurrentStep = function(step) {
         $scope.mobileEnrollment.currentStep = step;
