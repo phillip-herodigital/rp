@@ -24,6 +24,8 @@
         signatory: true
     };
 
+    $scope.remainingMinutes = '';
+
     $scope.setCurrentStep = function(step) {
         $scope.mobileEnrollment.currentStep = step;
         $location.hash(step);

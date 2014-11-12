@@ -1,4 +1,4 @@
-<div id="configure-data" ng-if="mobileEnrollment.currentStep == 'configure-data'" ng-controller="MobileEnrollmentConfigureDataCtrl">
+<div id="configure-data" ng-if="mobileEnrollment.currentStep == 'configure-data'" ng-controller="MobileEnrollmentConfigureDataCtrl" ng-init="remainingMinutes = '@Html.Sitecore().Field("Remaining Minutes Number")';">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
@@ -15,7 +15,6 @@
                 </header>
                 <div class="content">
                     <h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>
-
                     <div class="btn-group btn-group-options mobile-plans">
                         <div class="button" ng-model="formFields.chosenPlanId" btn-radio="plan.id" ng-repeat="plan in dataPlans.plans" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
                             <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
