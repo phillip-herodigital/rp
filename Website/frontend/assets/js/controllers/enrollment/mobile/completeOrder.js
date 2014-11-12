@@ -78,6 +78,7 @@
             signatoryRelation: $scope.businessInformation.signatoryRelation,
             agreeToTerms: $scope.businessInformation.agreeToTerms,
             tcpaPreference: $scope.businessInformation.tcpaPreference,
+            associateId: $scope.associateId
         }
 
         // send the post
