@@ -184,3 +184,14 @@ ngApp.filter('addSpaces', function () {
         return formattedName;
     };
 });
+
+ngApp.filter('maskNumber', function () {
+    return function (number) {
+        var formattedNumber = '';
+        if (!number) {
+            return;
+        }
+        formattedNumber = number.replace(/^[0-9]{5}/, '*****');
+        return formattedNumber;
+    };
+});

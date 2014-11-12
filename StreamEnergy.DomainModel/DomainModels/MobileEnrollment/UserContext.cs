@@ -12,7 +12,7 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
 {
     [Serializable]
     public class UserContext : ISanitizable
-    {
+    {    
         public string DeviceMake { get; set; }
         public string DeviceModel { get; set; }
         public string DeviceSerial { get; set; }
@@ -20,6 +20,8 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public string NewNumber { get; set; }
         public string PortInNumber { get; set; }
         public string PlanId { get; set; }
+        public string AssociateId { get; set; }
+        public string SourceId { get; set; }
         
         [Required(ErrorMessage = "Personal Info Required")]
         [ValidateObject(ErrorMessagePrefix = "")]

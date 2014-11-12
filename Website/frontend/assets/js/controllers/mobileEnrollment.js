@@ -9,6 +9,32 @@
         phoneTypeTab: "new"
     };
 
+    $scope.accountInformation = {
+        shippingAddressSame: true,
+        contactInfo: {
+            phone: [{
+                    number: '',
+                    category: 'mobile'
+                }],
+        }
+    };
+
+    $scope.businessInformation = {
+        businessAddressSame: true,
+        signatory: true
+    };
+
+    $scope.remainingMinutes = '';
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(window.location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    $scope.associateId = getParameterByName('SPID');
+
     $scope.setCurrentStep = function(step) {
         $scope.mobileEnrollment.currentStep = step;
         $location.hash(step);

@@ -1,6 +1,6 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChoosePhone
 
-<div id="choose-phone" ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl" ng-init="bringYourOwnDevices = @(Html.Action("BringYourOwnDevices", "MobileEnrollment").ToHtmlString());">
+<div id="choose-phone" ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl" ng-init="bringYourOwnDevices = @(Html.Action("BringYourOwnDevices", "MobileEnrollment").ToHtmlString()); remainingMinutes = '@Html.Sitecore().Field("Remaining Minutes Number")';">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
@@ -196,7 +196,7 @@
                 <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                     <form data-val-bind-messages="validations" ng-submit="addDeviceToCart()">
                         <div class="content bring-your-own">
-                            @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" })
+                            @* @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" }) *@
                             @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" })
                             <hr />
                             <div class="vertical">
@@ -287,9 +287,11 @@
         <div class="modal-body">
             @Html.Sitecore().Field("Content - Unlock ATT")
         </div>
+        @*
         <div class="modal-footer">
             @Html.Sitecore().Field("Footer - Unlock ATT")
         </div>
+        *@
     </div>
 </script>
 

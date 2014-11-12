@@ -55,8 +55,8 @@ namespace StreamEnergy.Data.MobileEnrollment
                     NewNumber = data.NewNumber,
                     PortInNumber = data.PortInNumber,
                     PlanId = data.PlanId,
-                    AssociateId = null,
-                    SourceId = null,
+                    AssociateId = data.AssociateId,
+                    SourceId = data.SourceId,
                     OrderId = null,
                 };
             dataContext.EnrollmentRecords.Add(record);
