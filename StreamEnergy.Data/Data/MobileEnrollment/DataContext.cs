@@ -21,6 +21,7 @@ namespace StreamEnergy.Data.MobileEnrollment
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Properties<Guid>().Where(p => p.Name == "Id").Configure(c => c.HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity));
+            modelBuilder.Properties<string>().Configure(c => c.HasMaxLength(256));
             modelBuilder.ComplexType<DomainModels.Address>();
             modelBuilder.ComplexType<DomainModels.Name>();
             modelBuilder.ComplexType<DomainModels.TypedPhone>();
