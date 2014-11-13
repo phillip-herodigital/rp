@@ -389,7 +389,7 @@
                                     </div>
                                     <div class="item zip-code" @businessAddress.Validation().ErrorClass(m => m.PostalCode5)>
                                         <label for="@businessAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Code")</label>
-                                        @businessAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!businessInformation.businessAddressSame", ng_model = "accountInformation.businessAddress.postalCode5" }))
+                                        @businessAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!businessInformation.businessAddressSame", ng_model = "businessInformation.businessAddress.postalCode5" }))
                                         @businessAddress.ValidationMessageFor(m => m.PostalCode5)
                                     </div>
                                 </div>
