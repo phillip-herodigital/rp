@@ -20,6 +20,13 @@
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
     $scope.displayFilters = false; // Display the extra phone filters
 
+    // start over on refresh
+    $scope.$watch('mobileEnrollment.phoneTypeTab', function(newValue, oldValue) {
+        if (newValue !== 'existing') {
+            $scope.resetEnrollment();
+        }
+    });
+
     $scope.setPhoneNumberType = function(type) {
         $scope.phoneNumberType = type;
     };
