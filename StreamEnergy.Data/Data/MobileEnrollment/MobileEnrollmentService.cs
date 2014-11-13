@@ -39,6 +39,8 @@ namespace StreamEnergy.Data.MobileEnrollment
                     ExemptCode = data.ExemptCode,
                     FatcaCode = data.FatcaCode,
                     CurrentAccountNumbers = data.CurrentAccountNumbers,
+                    SocialSecurityNumber = data.SocialSecurityNumber,
+                    TaxId = data.TaxId,
                     CustomerCertification = DateTimeOffset.Now,
                     CustomerSignature = data.CustomerSignature,
                     SignatureImage = data.SignatureImage,
