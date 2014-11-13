@@ -2320,6 +2320,10 @@ $enrollment-module-vertical-padding: 20px;
     .contact {
         float: left;
         width: 100%;
+        @include breakpoint(small) {
+            word-wrap: break-word;
+            margin-bottom: 10px;
+        }
     }
     a {
         font-size: 15px;
