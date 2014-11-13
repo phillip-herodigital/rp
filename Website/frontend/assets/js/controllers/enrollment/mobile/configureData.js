@@ -20,6 +20,10 @@
         }
     });
 
+    $scope.editDevice = function() {
+        $scope.setCurrentStep('choose-phone');
+    };
+
     $scope.setDataPlan = function() {
         $scope.setCurrentStep('complete-order');
     };

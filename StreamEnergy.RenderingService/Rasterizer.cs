@@ -20,10 +20,10 @@ namespace StreamEnergy.RenderingService
             this.phantomJs = new PhantomJs(Path.Combine(dir, "PhantomJS.exe"));
         }
 
-        internal byte[] RasterizeEnrollmentConfirmation(string json)
+        internal byte[] RasterizeEnrollmentConfirmation(string json, string url)
         {
             var pdfPath = Path.Combine(dir, "test.pdf");
-            phantomJs.Execute(Path.Combine(dir, "rasterize.js"), new[] { new Uri(baseUrl, "/enrollment/confirmation?phantomjs=1").ToString(), pdfPath }, json);
+            phantomJs.Execute(Path.Combine(dir, "rasterize.js"), new[] { new Uri(baseUrl, url).ToString(), pdfPath }, json);
 
             byte[] buffer = File.ReadAllBytes(pdfPath);
             File.Delete(pdfPath);

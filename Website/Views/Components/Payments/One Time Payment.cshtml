@@ -119,12 +119,17 @@
 		</div>
 		<div ng-if="ctrl.activeStep == 4">
 			<div class="content">
-				<dl class="clearfix module-list">
+				<dl class="clearfix module-list" ng-if="ctrl.confirmationNumber">
 					<dt>@Html.Sitecore().Field("Confirmation Number Text"):</dt>
 					<dd>{{ctrl.confirmationNumber}}</dd>
 					<dt>@Html.Sitecore().Field("Account Number Text"):</dt>
 					<dd>{{ ctrl.account.accountNumber }}</dd>
 				</dl>
+                <div class="col payment" ng-if="!ctrl.confirmationNumber">
+                    <div class="notice error">
+                        <p>@Html.Sitecore().Field("Processing Payment Error Text").Format(new { Payment = "{{ ctrl.paymentAmount | currency }}" })</p>
+                    </div>
+                </div>
 
                 <div ng-switch="ctrl.evaluatedPaymentMethod.underlyingPaymentType || ctrl.evaluatedPaymentMethod.paymentType">
                     <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedCard">

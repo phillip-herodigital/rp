@@ -7,4 +7,6 @@ ngApp.controller('MobileEnrollmentCartCtrl', ['$scope', '$filter', '$modal', 'mo
         return $scope.cart.items.length;
     }
 
+    $scope.time = function () { return $scope.remainingMinutes };
+
 }]);

@@ -627,11 +627,11 @@
                 min-width: 85px;
                 &.sortable:hover {
                     cursor: pointer; 
-            }
+                }
                 &.plan-header {
                     text-align: left;
                     padding-left: 32px;
-        }
+                }
             }
         }
         td, th {
@@ -660,10 +660,10 @@
                     }
                     p {
                         font-size: 15px;
-                }
+                    }
                     .plan-footnote {
                         clear: both;
-            }
+                    }
                 }
             }
             &.isOpen {
@@ -713,7 +713,7 @@
             border-left: none;
             @include breakpoint(small) {
                 padding-right: 45px;
-        }
+            }
         }
         .view-details {
             display: block;
@@ -728,7 +728,7 @@
                 font-size: 12px;
                 text-transform: none;
                 font-weight: normal;
-        }
+            }
         }
         .term {
             font-size: 18px;
@@ -828,7 +828,7 @@
     .plan-selection-fees {
         width: 64%;
         float: right;
-    @include breakpoint(small-medium) {
+        @include breakpoint(small-medium) {
             width: 100%;
             float: none;
             dt, dd {
@@ -1146,15 +1146,15 @@
             right: 8px;
         }
     }
-	.empty-cart-phone {
-		padding: 10px 0;
-		text-align: center;
-		p {
-			color: #cfcfcf;
-			font-weight: bold;
-			text-transform: uppercase;
-		}
-	}
+    .empty-cart-phone {
+        padding: 10px 0;
+        text-align: center;
+        p {
+            color: #cfcfcf;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
     .icon-close {
         float: right;
         cursor: pointer;
@@ -1181,9 +1181,9 @@
     .outage-information .info li {
         padding-left: 13px;
     }
-	button, .button {
-		width: 100%;
-	}
+    button, .button {
+        width: 100%;
+    }
     .cart-item {
         margin: 0 -13px;
         padding: 13px;
@@ -1211,7 +1211,7 @@
         }
         /*span.details {
             font-size: 14px;
-    }
+        }
         .options {
             margin-top: 15px;
         }*/
@@ -1375,37 +1375,37 @@
     aside {
         margin-top: 20px;
         .promo-box {
-    background: #fafafa;
-    @include box-shadow(none);
-    .content {
-        text-align: center;
-    }
-    &.horizontal {
-        padding: 15px;    
-    }
-    @include breakpoint(medium-large) {
-        &.horizontal {
-            position: relative;
-            background: transparent;
-            text-align: left;
-            padding-left: 20%;
-            padding-right: 26%;
-            @include border-radius(0);
-            .avatar {
-                position: absolute;
-                top: 30px;
-                left: 0;
-                width: 20%;
+            background: #fafafa;
+            @include box-shadow(none);
+            .content {
                 text-align: center;
-            }    
-            p {
-                margin: 0;
             }
-            .button {
-                position: absolute;
-                right: 2%;
-                top: 45px;
+            &.horizontal {
+                padding: 15px;    
             }
+            @include breakpoint(medium-large) {
+                &.horizontal {
+                    position: relative;
+                    background: transparent;
+                    text-align: left;
+                    padding-left: 20%;
+                    padding-right: 26%;
+                    @include border-radius(0);
+                    .avatar {
+                        position: absolute;
+                        top: 30px;
+                        left: 0;
+                        width: 20%;
+                        text-align: center;
+                    }    
+                    p {
+                        margin: 0;
+                    }
+                    .button {
+                        position: absolute;
+                        right: 2%;
+                        top: 45px;
+                    }
         }
     }
         }
@@ -1586,13 +1586,13 @@
         h1 {
             font-size: 30px;
             line-height: 1.1;
-        }
+                }
         .plan-selection-table {
             tr.details-row {
                 td div {
                     padding: 0 15px;
-                }
             }
+        }
             .plan-name {
                 text-align: left;
             }
@@ -1601,8 +1601,8 @@
                 button, .button {
                     float: right;
                     min-width: 120px;
-                }
-            }
+    }
+ }
             .view-details {
                 display: inline;
                 float: left;
@@ -1628,7 +1628,7 @@
 /* Mobile Enrollment */
 .mobile-enrollment {
     .banner {
-	h1 {
+        h1 {
             text-transform: none;
             font-size: 50px;
         }
@@ -1697,11 +1697,11 @@
         }
     }
     .enrollment__cart {
-		font-size: 14px;
+        font-size: 14px;
         .condition {
             color: #666;
             font-size: 13px;
-	}
+        }
         .options {
             font-size: 13px;
         }
@@ -1723,7 +1723,7 @@
             border-top: 1px solid #eaeaea;
             text-align: right;
         }
-	h2 {
+        h2 {
             margin-bottom: 0;
         }
         &.order-summary {
@@ -1743,22 +1743,23 @@
         padding: 0;
         &:hover, &:active, &:focus {
             background-color: transparent;
+            color: #6b6b6b;
         }
     }
     button {
-		text-transform: none;
+        text-transform: none;
         font-weight: normal;
-	}
+    }
     h1, h2, h3 {
         text-transform: none;
-	}
+    }
     hr {
         border-width: 1px;
-	}
-	@include breakpoint(small) {
+    }
+    @include breakpoint(small) {
         .banner h1 {
             font-size: 30px;
-	}
+        }
         .enrollment__box h1 {
             font-size: 20px;
         }
@@ -1859,10 +1860,10 @@
                 padding-left: 10px;
             }
             .footnotes {
-		padding-top: 0;
+                padding-top: 0;
                 font-size: 10px;
-	}
-	}
+            }
+        }
         .coverage {
             text-align: center;
             width: 19%;
@@ -1883,7 +1884,7 @@
         }
         button {
             text-transform: none;
-		width: 100%;
+            width: 100%;
             margin-bottom: 8px;
         }
         h2 {
@@ -1892,9 +1893,9 @@
             text-transform: none;
             color: #333;
         }
-		td {
+        td {
             padding: 20px;
-			vertical-align: top;
+            vertical-align: top;
         }
         th {
             padding: 8px 20px;
@@ -1924,32 +1925,32 @@
             }
             .col {
                 padding: 0 30px;
-			&:first-child {
+                &:first-child {
                     margin-bottom: 50px;
-			}
-			}
+                }
+            }
             .ico-wrapper {
                 float: right;
                 position: static;
                 top: auto;
                 left: auto;
-		}
+            }
             h2 {
                 font-size: 20px;
-		}
-		h3 {
+            }
+            h3 {
                 padding-left: 30px;
                 padding-right: 30px;
-		}
+            }
         }
         .choose-network-table {
             thead { 
                 display: none;
             }
             tbody, tr, td {
-			display: block;
+                display: block;
                 width: 100% !important;
-			}
+            }
         }
     }
 }
@@ -1959,6 +1960,10 @@
         width: 63%;
         float: left;
         margin-left: 5%;
+        @include breakpoint(small) {
+            width: auto;
+            margin-left: 0;
+    }
     }
     .btn-group-row {
         display: table-row;
@@ -1970,38 +1975,38 @@
         border: 2px solid $enrollment-light-border-color;
         vertical-align: middle;
         font-weight: normal;
-				text-transform: none;
+        text-transform: none;
         @include border-radius(5px);
         label {
-				font-weight: normal;
-			}
+            font-weight: normal;
+        }
         input[type="text"] {
             width: 50%;
-		}
-		}
+        }
+    }
     .label-description {
         font-size: 13px;
         display: block;
         line-height: 1.35;
-			}
+    }
     .pane-item {
         text-align: left;
-		}
+    }
     .item { 
         padding-right: 0;
-			}
+    }
     .simple-options-item {
         label {
             margin-top: 3px;
-		}
+        }
         .btn-group-options {
             width: auto;
-			}
-		}
+        }
+    }
     .icon-close {
         cursor: pointer;
-		}
-		.colors {
+    }
+    .colors {
         .color-name {
             font-size: 11px;
             display: block;
@@ -2009,7 +2014,7 @@
             color: #333;
         }
         .button {
-			padding: 0;
+            padding: 0;
             width: 30px;
             height: 30px;
         }
@@ -2047,24 +2052,24 @@
             background-color: #39393b;
         }
 
-			li {
-				display: inline-block;
-				list-style-type: none;
-				vertical-align: middle;
-				border: 2px solid transparent;
-				@include border-radius(8px);
-				padding: 2px;
-				a {
-					border: 1px solid #c3c3c3;
-					@include border-radius(4px);
-					@include background-clip(padding-box);
-					width: 15px;
-					height: 15px;
-					display: block;
+        li {
+            display: inline-block;
+            list-style-type: none;
+            vertical-align: middle;
+            border: 2px solid transparent;
+            @include border-radius(8px);
+            padding: 2px;
+            a {
+                border: 1px solid #c3c3c3;
+                @include border-radius(4px);
+                @include background-clip(padding-box);
+                width: 15px;
+                height: 15px;
+                display: block;
 
-					}
-					}
-					}
+            }
+        }
+    }
     .filters {
         font-size: 13px;
         padding: 10px $enrollment-module-horizontal-padding;
@@ -2075,11 +2080,11 @@
                 text-transform: uppercase;
                 font-size: 14px;
                 margin-bottom: 10px;
-					}
+            }
             .filter-label {
                 width: 33.333%
-					}
-					}
+            }
+        }
         button {
             font-size: 14px;
             background: transparent;
@@ -2089,20 +2094,20 @@
             &.active {
                 border: 1px solid $enrollment-light-border-color;
                 color: #333;
-					}
-					}
+            }
+        }
         select {
             margin-top: -3px;
-				}
-				}
+        }
+    }
     .phone-image-large {
         float: right;
         margin-top: 20px;
         margin-right: 20px;
-			}
+    }
     .phone-details {
         padding-right: 240px;
-		}
+    }
     .btn-phone-number {
         &:after, &:before {
             bottom: -26px;
@@ -2111,7 +2116,7 @@
             border-width: 14px;
             margin-left: -14px;
         }  
-		}
+    }
     .phone-number-group {
         line-height: 34px;
         margin-top: 15px;
@@ -2126,7 +2131,7 @@
     .tabbed-header {
         display: table;
         width: 100%;
-				padding: 0;
+        padding: 0;
         overflow: hidden;
         .tab {
             display: table-cell;
@@ -2139,8 +2144,8 @@
                 h1 { 
                     color: #0971ce; 
                     font-size: 26px;
-			}
-			}
+                }
+            }
             h1 {
                 padding: 2px 20px;
                 font-size: 20px;
@@ -2212,6 +2217,11 @@
         .note {
             font-size: 14px;
         }
+        @include breakpoint(small) {
+            div.item > label {
+                width: 100% !important;
+            }
+        }
         /*@include breakpoint(medium-large) {
             .grid {
                 .col:first-child {
@@ -2262,46 +2272,46 @@
             input[type="text"] {
                 width: 50%;
             }
-				&:after, &:before {
-					bottom: 100%;
+            &:after, &:before {
+                bottom: 100%;
                 left: 25%;
-					border: solid transparent;
-					content: " ";
-					height: 0;
-					width: 0;
-					position: absolute;
-					pointer-events: none;
-				}
-				&:after {
-					border-color: rgba(255, 255, 255, 0);
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+            &:after {
+                border-color: rgba(255, 255, 255, 0);
                 border-bottom-color: #fff;
                 border-width: 10px;
                 margin-left: -10px;
-				}
-				&:before {
+            }
+            &:before {
                 border-color: rgba(0, 0, 0, 0);
                 border-bottom-color: #ccc;
                 border-width: 11px;
                 margin-left: -11px;
-				}
+            }
             &.transfer:after, &.transfer:before {
                 left: 75%;
-					}
+            }
         }*/
-				}
+    }
     /*@include breakpoint(small) {
         .phone-selector {
             .col {
                 width: auto;
-					}
-				}
+            }
+        }
     }*/
 }
 
 .enrollment__configure-data {
     .mobile-plans-header {
         margin-bottom: 30px;
-					}
+    }
     .mobile-plans {
         text-align: center;
         width: 100%;
@@ -2309,11 +2319,13 @@
         .button {
             padding-top: 0;
             padding-bottom: 0;
-				}
-        .is-recommended {
+        }
+        .is-recommended,
+        .is-special-offer {
             @include border-radius(0 0 5px 5px);
-			}
-        .recommended {
+        }
+        .recommended,
+        .special-offer {
             position: absolute;
             top: -20px;
             left: -2px;
@@ -2328,9 +2340,34 @@
             text-transform: uppercase;
             @include border-radius(5px 5px 0 0);
         }
+        .special-offer {
+            border: 2px solid #e6e6e6;
+            border-bottom: 0;
+            background: #fff;
+            color: #3d8039;
+            font-weight: normal;
+        }
         .active {
             .recommended {
                 background: #3189bb;
+            }
+            .special-offer {
+                border-color: #3189bb;
+            }
+        }
+        .is-special-offer {
+            .original-price {
+                text-decoration: line-through;
+                font-size: 14px;
+                color: #888;
+                position: absolute;
+                top: -1.25em;
+                text-align: center;
+                display: block;
+                width: 100%;
+            }
+            .price {
+                color: #3d8039;
             }
         }
         .size {
@@ -2339,18 +2376,20 @@
             margin-bottom: 10px;
         }
         .price {
+            position: relative;
+            margin-top: 10px;
             font-size: 20px;
         }
-			.details {
+        .details {
             @include layout-list();
-				text-align: left;
+            text-align: left;
             li {
                 margin-bottom: 10px;
                 padding-left: 20px;
                 [class*="icon-"] {
                     float: left;
                     margin-left: -20px;
-				}
+                }
                 > span {
                     font-size: 11px;
                     color: #999;
@@ -2358,19 +2397,19 @@
             }
         }
         .time {
-					color: #333;
+            color: #333;
             font-size: 14px;
         }
-					span {
+        span {
             display: inline-block;
-					}
-				}
-				h3 {
+        }
+    }
+    h3 {
         font-weight: 600;
-				}
+    }
     hr {
         margin: 10px 0;
-					}
+    }
     footer {
         background: #f7f7f7;
         .overages-billed {
@@ -2382,34 +2421,38 @@
             .num {
                 display: block;
                 font-size: 20px;
-				}
-					}
-				}
+            }
+        }
+    }
     @include breakpoint-max(400px) {
         .btn-group-options {
             .button {
-                width: 100%%;
+                width: 100%;
                 display: block;
                 margin-bottom: 6px;
-				}
-				}
-					}
+            }
+        }
+    }
     @include breakpoint-min-max(401px, 650px) {
         .btn-group-options {
             .button {
-                width: 48%%;
+                width: 48%;
                 margin: 1%;
-						float: left;
+                float: left;
                 display: block;
-					}
-				}
-				}
+                &.is-recommended,
+                &.is-special-offer {
+                    margin-top: 25px;
+                }
+            }
+        }
+    }
 }
 
 .enrollment__mobile-order-details {
     .plan-details {
 
-			}
+    }
     .condition {
         color: #999;
         font-size: 12px;
@@ -2419,59 +2462,63 @@
     .model {
         margin: 0;
     }
-			.options {
+    .options {
 
-				}
+    }
     .description {
         float: left;
         width: 70%;
-				}
+    }
     .line-item {
         margin-top: 20px;
     }
     .rate {
-					float: right;
+        float: right;
         width: 20%;
-					text-align: right;
-						}
+        text-align: right;
+    }
     .plan-summary-image, .phone-summary-image {
         position: absolute;
         left: 20px;
         top: 0;
-					}
+    }
     .plan-summary, .phone-summary {
         padding-left: 100px;
         position: relative;
         & :first-child {
             margin-top: 0;
-				}
+        }
         &.no-img {
             padding-left: 0;
         }
     }
-						a {
+    .contact {
+        float: left;
+        width: 100%;
+    }
+    a {
         font-size: 15px;
-						}
+    }
     h2 {
         font-weight: 600;
         margin-bottom: 5px;
         margin-top: 0;
         color: #333;
         font-size: 24px;
-					}
+    }
     h3 {
         font-weight: 600;
         margin-bottom: 0;
         margin-bottom: 0;
         font-size: 16px;
-				}
+    }
     footer {
         text-align: right;
-			}
+    }
     p {
         margin: 0 0 5px;
         font-size: 15px;
-		}
+    }
 }
 
 .enrollment__business-info {
@@ -2480,7 +2527,7 @@
             width: 200px;
         }
         select {
-            width: 90px;
+            width: 105px;
         }
         &.inline {
             li {
@@ -2504,6 +2551,7 @@
         .signature-name {
             font-size: 24px;
             font-family: "ff-market-web", cursive;
+            margin-right: 10px;
         }
     }
     .additional-name {
@@ -2543,20 +2591,20 @@
     @include breakpoint(medium) {
         height: 228px;
     }
-		@include breakpoint(small) {
+    @include breakpoint(small) {
         display: none;
-			}
+    }
 }
 
 .enrollment__order-notice {
     background: #fff8d7;
     .content {
         padding-top: 5px;
-		}
+    }
     header {
         border-bottom: none;
         background: transparent;
-	}
+    }
 }
 
 
@@ -2578,209 +2626,209 @@ article.phone {
 
  */
 article.phone-plan {
-	overflow: hidden;
-	.content {
-		padding-bottom: 0;
-		margin-bottom: -30px;
-	}
-	.plan {
-		.plan-selection{
-			@extend .clearfix;
-			padding-bottom: 35px;
-		}
-		.product-info {
-			float: left;
-			width: 34%;
-			text-align: center;
-			margin: 0 1%;
-			h1 {
-				font-size: 16px;
-				font-weight: bold;
-				margin: 0;
-				text-transform: none;
-			}
+    overflow: hidden;
+    .content {
+        padding-bottom: 0;
+        margin-bottom: -30px;
+    }
+    .plan {
+        .plan-selection{
+            @extend .clearfix;
+            padding-bottom: 35px;
+        }
+        .product-info {
+            float: left;
+            width: 34%;
+            text-align: center;
+            margin: 0 1%;
+            h1 {
+                font-size: 16px;
+                font-weight: bold;
+                margin: 0;
+                text-transform: none;
+            }
 
-			h2 {
-				font-size: 14px;
-				font-weight: 600;
-				color: #797979;
-				margin: 0;
-				text-transform: none;
-			}
-
-			@include breakpoint(small) {
-				width: auto;
-				float: none;
-			}
-		}
-		.plan-info {
-			float: left;
-			width: 60%;
-			h1 {
-				font-size: 22px;
-				font-weight: 600;
-				text-transform: none;
-				margin: 0;
-			}
-			h2 {
-				font-size: 14px;
+            h2 {
+                font-size: 14px;
                 font-weight: 600;
-				color: #adadad;
-				text-transform: none;
-				margin: 0;
-			}
-			p {
-				font-size: 16px;
-				margin: 0 0 20px 0;
-			}
+                color: #797979;
+                margin: 0;
+                text-transform: none;
+            }
 
-			@include breakpoint(small) {
-				width: auto;
-				float: none;
-				padding: 20px;
-			}
-		}
-		.plan-details {
-			background-color: #f7f7f7;
-			@include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
-			border-top: 1px solid #d9d9d9;
-			border-bottom: 1px solid #d9d9d9;
-			padding: 30px 35% 30px 30px;
-			position: relative;
-			margin-bottom: 25px;
-			&:after, &:before {
-				bottom: 100%;
-				left: 38%;
-				border: solid transparent;
-				content: " ";
-				height: 0;
-				width: 0;
-				position: absolute;
-				pointer-events: none;
-				@include breakpoint(small) {
-					left: 8%;
-				}
-			}
-			&:after {
-				border-color: rgba(255, 255, 255, 0);
-				border-bottom-color: #f0f0f0;
-				border-width: 15px;
-				margin-left: -15px;
-			}
-			&:before {
-				border-color: rgba(255, 255, 255, 0);
-				border-bottom-color: #cdcdcd;
-				border-width: 16px;
-				margin-left: -16px;
-			}
-			&.first {
-				&:after, &:before {
-					left: 38%;
-					@include breakpoint(small) {
-						left: 8%;
-					}
-				}
-			}
-			&.second {
-				&:after, &:before {
-					left: 56.5%;
-					@include breakpoint(small) {
-						left: 36%;
-					}
-				}
-			}
-			&.third {
-				&:after, &:before {
-					left: 75.5%;
-					@include breakpoint(small) {
-						left: 64%;
-					}
-				}
-			}
-			&.fourth {
-				&:after, &:before {
-					left: 94%;
-					@include breakpoint(small) {
-						left: 92%;
-					}
-				}
-			}
-			.price {
-				position: absolute;
-				top: 35px;
-				right: 30px;
-				text-align: right;
-				font-size: 34px;
-				font-weight: 600;
-				line-height: 34px;
-				span {
-					display: block;
-					font-size: 13px;
-					text-transform: uppercase;
-					font-style: italic;
-					font-weight: normal;
-				}
-			}
-			h1 {
-				font-size: 20px;
-				font-weight: 600;
-				margin: 0;
-			}
-			h2 {
-				font-size: 18px;
-				color: #333;
-				margin: 0 0 15px 0;
-			}
-			p {
-				font-size: 14px;
-				margin: 0 0 20px 0;
-			}
-			.more {
-				font-size: 14px;
-				text-transform: uppercase;
-				font-weight: 600;
-			}
-		}
-	}
-	.ui-slider {
-		margin: 0 3%;
-	}
-	.slider-values {
-		margin: 0 -12.25%;
-		.value {
-			display: inline;
-			position: relative;
-			float: left;
-			width: 25%;
-			font-size: 12px;
-			font-weight: bold;
-			text-align: center;
-			span {
-				display: block;
-			}
-		}
-		.indicator {
-			color: #d1d1d1;
-		}
-		.capacity {
-			color: #0068bc;
-		}
-	}
+            @include breakpoint(small) {
+                width: auto;
+                float: none;
+            }
+        }
+        .plan-info {
+            float: left;
+            width: 60%;
+            h1 {
+                font-size: 22px;
+                font-weight: 600;
+                text-transform: none;
+                margin: 0;
+            }
+            h2 {
+                font-size: 14px;
+                font-weight: 600;
+                color: #adadad;
+                text-transform: none;
+                margin: 0;
+            }
+            p {
+                font-size: 16px;
+                margin: 0 0 20px 0;
+            }
+
+            @include breakpoint(small) {
+                width: auto;
+                float: none;
+                padding: 20px;
+            }
+        }
+        .plan-details {
+            background-color: #f7f7f7;
+            @include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
+            border-top: 1px solid #d9d9d9;
+            border-bottom: 1px solid #d9d9d9;
+            padding: 30px 35% 30px 30px;
+            position: relative;
+            margin-bottom: 25px;
+            &:after, &:before {
+                bottom: 100%;
+                left: 38%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+                @include breakpoint(small) {
+                    left: 8%;
+                }
+            }
+            &:after {
+                border-color: rgba(255, 255, 255, 0);
+                border-bottom-color: #f0f0f0;
+                border-width: 15px;
+                margin-left: -15px;
+            }
+            &:before {
+                border-color: rgba(255, 255, 255, 0);
+                border-bottom-color: #cdcdcd;
+                border-width: 16px;
+                margin-left: -16px;
+            }
+            &.first {
+                &:after, &:before {
+                    left: 38%;
+                    @include breakpoint(small) {
+                        left: 8%;
+                    }
+                }
+            }
+            &.second {
+                &:after, &:before {
+                    left: 56.5%;
+                    @include breakpoint(small) {
+                        left: 36%;
+                    }
+                }
+            }
+            &.third {
+                &:after, &:before {
+                    left: 75.5%;
+                    @include breakpoint(small) {
+                        left: 64%;
+                    }
+                }
+            }
+            &.fourth {
+                &:after, &:before {
+                    left: 94%;
+                    @include breakpoint(small) {
+                        left: 92%;
+                    }
+                }
+            }
+            .price {
+                position: absolute;
+                top: 35px;
+                right: 30px;
+                text-align: right;
+                font-size: 34px;
+                font-weight: 600;
+                line-height: 34px;
+                span {
+                    display: block;
+                    font-size: 13px;
+                    text-transform: uppercase;
+                    font-style: italic;
+                    font-weight: normal;
+                }
+            }
+            h1 {
+                font-size: 20px;
+                font-weight: 600;
+                margin: 0;
+            }
+            h2 {
+                font-size: 18px;
+                color: #333;
+                margin: 0 0 15px 0;
+            }
+            p {
+                font-size: 14px;
+                margin: 0 0 20px 0;
+            }
+            .more {
+                font-size: 14px;
+                text-transform: uppercase;
+                font-weight: 600;
+            }
+        }
+    }
+    .ui-slider {
+        margin: 0 3%;
+    }
+    .slider-values {
+        margin: 0 -12.25%;
+        .value {
+            display: inline;
+            position: relative;
+            float: left;
+            width: 25%;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            span {
+                display: block;
+            }
+        }
+        .indicator {
+            color: #d1d1d1;
+        }
+        .capacity {
+            color: #0068bc;
+        }
+    }
 }
 
 article.services-box {
-	.col {
-		position: relative;
-		@extend .clearfix;
-	}
-	.description {
-		margin-right: 40%;
-	}
-	.avatar {
-		position: absolute;
-		top: 40px;
-		right: 15px;
-	}
+    .col {
+        position: relative;
+        @extend .clearfix;
+    }
+    .description {
+        margin-right: 40%;
+    }
+    .avatar {
+        position: absolute;
+        top: 40px;
+        right: 15px;
+    }
 }
 
 .phone-plan.footnotes {
@@ -2813,5 +2861,8 @@ article.services-box {
         background-color: #FDFDFD;
         font-size: 32px;
         font-family: "ff-market-web", cursive;
+    }
+    #draw-signature {
+        padding: 0;
     }
 }

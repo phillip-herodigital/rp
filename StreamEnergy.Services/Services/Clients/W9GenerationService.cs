@@ -9,15 +9,17 @@ using System.Net.Http.Formatting;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.DomainModels.MobileEnrollment;
 
 namespace StreamEnergy.Services.Clients
 {
-    class PdfGenerationService : IPdfGenerationService
+    class W9GenerationService : IW9GenerationService
     {
-        byte[] IPdfGenerationService.GenerateW9(string name, string businessName, PdfBusinessClassification businessType, string businessTypeAdditional, bool isExempt, string address, string city, string state, string zip, string socialSecurityNumber, string employerIdentificationNumber, string signature, DateTime date)
+        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, string exemptPayeeCode, string fatcaExemtionCode, Address address, string currentAccountNumbers, string socialSecurityNumber, string employerIdentificationNumber, byte[] signature, DateTime date)
         {
             var objPDF = new PdfManager();
-            var objDoc = objPDF.OpenDocument("C:/pdfs/fw9.pdf");
+            var path = Sitecore.IO.FileUtil.MapPath(Sitecore.IO.FileUtil.MakePath(Sitecore.Configuration.Settings.DataFolder, "fw9.pdf"));
+            var objDoc = objPDF.OpenDocument(path);
 
             // Obtain page 1 of the document
             PdfPage objPage = objDoc.Pages[1];
@@ -28,7 +30,7 @@ namespace StreamEnergy.Services.Clients
             PdfFont objFont = objDoc.Fonts["Helvetica-Bold"]; // a standard font
 
             ((dynamic)objPage.Annots[1]).FieldValue = name;
-            ((dynamic)objPage.Annots[2]).FieldValue = businessName;
+            ((dynamic)objPage.Annots[2]).FieldValue = businessName ?? "";
 
             var textFields = new
             {
@@ -49,40 +51,43 @@ namespace StreamEnergy.Services.Clients
 
             switch(businessType)
             {
-                case PdfBusinessClassification.IndividualSoleProprietor:
+                case W9BusinessClassification.IndividualSoleProprietor:
                     ((dynamic)objPage.Annots[3]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.CCorporation:
+                case W9BusinessClassification.CCorporation:
                     ((dynamic)objPage.Annots[4]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.SCorporation:
+                case W9BusinessClassification.SCorporation:
                     ((dynamic)objPage.Annots[5]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.Partnership:
+                case W9BusinessClassification.Partnership:
                     ((dynamic)objPage.Annots[6]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.TrustEstate:
+                case W9BusinessClassification.TrustEstate:
                     ((dynamic)objPage.Annots[7]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.LLC:
+                case W9BusinessClassification.LLC:
                     ((dynamic)objPage.Annots[8]).FieldActiveState = "On";
                     break;
-                case PdfBusinessClassification.Other:
+                case W9BusinessClassification.Other:
                     ((dynamic)objPage.Annots[10]).FieldActiveState = "On";
                     break;
             }
 
-            if (businessType == PdfBusinessClassification.LLC && !string.IsNullOrEmpty(businessTypeAdditional))
+            if (businessType == W9BusinessClassification.LLC && !string.IsNullOrEmpty(businessTypeAdditional))
             {
                 textFields.llcTaxClassification.FieldValue = businessTypeAdditional;
             }
-            if (businessType == PdfBusinessClassification.Other && !string.IsNullOrEmpty(businessTypeAdditional))
+            if (businessType == W9BusinessClassification.Other && !string.IsNullOrEmpty(businessTypeAdditional))
             {
                 textFields.otherBusinessType.FieldValue = businessTypeAdditional;
             }
+            textFields.exemptPayeeCode.FieldValue = exemptPayeeCode ?? "";
+            textFields.exemptFatcaExemtionCode.FieldValue = fatcaExemtionCode ?? "";
 
-            textFields.address.FieldValue = address;
-            textFields.cityStateZip.FieldValue = string.Format("{0}, {1} {2}", city, state, zip);
+            textFields.address.FieldValue = address.Line1 + (string.IsNullOrEmpty(address.Line2) ? "" : ", " + address.Line2);
+            textFields.cityStateZip.FieldValue = string.Format("{0}, {1} {2}", address.City, address.StateAbbreviation, address.PostalCode5);
+            textFields.listAccountNumbers.FieldValue = currentAccountNumbers ?? "";
 
             if (!string.IsNullOrEmpty(socialSecurityNumber))
             {
@@ -101,14 +106,11 @@ namespace StreamEnergy.Services.Clients
             objPage.Canvas.DrawText(date.ToString("MMM d, yyyy"), "x=412, y=265", objFont);
 
             // Signature - taken from a .gif file (image itself) and .bmp (mask)
-            PdfImage objSignatureImg = objDoc.OpenImage(Convert.FromBase64String(signature));
+            PdfImage objSignatureImg = objDoc.OpenImage(signature);
 
-            objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=248; scalex=.15, scaley=.15");
-            /*var img = objPage.ToImage();
-            IPdfImage page1Img = objDoc.OpenImageBinary(img.SaveToMemory());
-            objPage.Canvas.DrawImage(page1Img, "x=0; y=0; scalex=1, scaley=1");*/
+            objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=252; scalex=.25, scaley=.25");
+
             byte[] pdf = objDoc.SaveToMemory();
-            //File.WriteAllBytes("C:/pdfs/saved" + DateTime.Now.Ticks.ToString() + ".pdf", pdf);
             
             return pdf;
         }

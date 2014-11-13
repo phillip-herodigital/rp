@@ -30,6 +30,9 @@ namespace StreamEnergy.MyStream.Conditions
 
             [Dependency]
             public IDpiTokenService DpiTokenService { get; set; }
+
+            [Dependency]
+            public ISettings Settings { get; set; }
         }
 
         public int Percentage { get; set; }
@@ -75,7 +78,18 @@ namespace StreamEnergy.MyStream.Conditions
 
             redirect = redirect || (dependencies.EnrollmentParameters.ServiceType == "MOB");
 
-            if (redirect && (dependencies.EnrollmentParameters.State != "GA" || dependencies.EnrollmentParameters.AccountType == "C"))
+            if (!string.IsNullOrEmpty(dependencies.Settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
+            {
+                if (dependencies.EnrollmentParameters.State == "GA")
+                {
+                    dependencies.Context.Response.Redirect("/ga-upgrade-faq", false);
+                }
+                else if (dependencies.EnrollmentParameters.State != "TX")
+                {
+                    dependencies.Context.Response.Redirect("/maintenance", false);
+                }
+            }
+            else if (redirect && (dependencies.EnrollmentParameters.State != "GA" || dependencies.EnrollmentParameters.AccountType == "C"))
             {
                 var targetUrl = targetDpiUrl();
                 if (!string.IsNullOrEmpty(targetUrl))

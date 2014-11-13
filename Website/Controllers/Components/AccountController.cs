@@ -10,10 +10,12 @@ namespace StreamEnergy.MyStream.Controllers.Components
     public class AccountController : Controller
     {
         private ApiControllers.AccountController inner;
+        private readonly ISettings settings;
 
-        public AccountController(ApiControllers.AccountController inner)
+        public AccountController(ApiControllers.AccountController inner, ISettings settings)
         {
             this.inner = inner;
+            this.settings = settings;
         }
 
         public ActionResult AccountBalancesIndex()
@@ -48,6 +50,10 @@ namespace StreamEnergy.MyStream.Controllers.Components
 
         public ActionResult OneTimePaymentIndex()
         {
+            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
+            {
+                return Redirect("/ga-upgrade-faq");
+            }
             return View("~/Views/Components/Payments/One Time Payment.cshtml");
         }
 

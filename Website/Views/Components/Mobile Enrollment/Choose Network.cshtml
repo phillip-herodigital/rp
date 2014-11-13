@@ -15,7 +15,7 @@
             <header>
                 <h1>
                     @Html.Sitecore().Field("Header - Choose Network")
-                    <select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display for state in usStates"></select>
+                    <select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display | addSpaces for state in stateNames"></select>
                 </h1>
             </header>
             <div class="content">

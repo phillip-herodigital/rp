@@ -232,6 +232,8 @@
     <Compile Include="DomainModels\Enrollments\TexasElectricity\OfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\OfferOptionRules.cs" />
     <Compile Include="DomainModels\ISearchable.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\IMobileEnrollmentService.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\IW9GenerationService.cs" />
     <Compile Include="DomainModels\MobileEnrollment\MobileColor.cs" />
     <Compile Include="DomainModels\MobileEnrollment\MobileModel.cs" />
     <Compile Include="DomainModels\MobileEnrollment\MobileNetwork.cs" />
@@ -283,7 +285,7 @@
     <Compile Include="DomainModels\Payments\SamplePaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\SavedPaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\TokenizedCard.cs" />
-    <Compile Include="DomainModels\PdfBusinessClassification.cs" />
+    <Compile Include="DomainModels\W9BusinessClassification.cs" />
     <Compile Include="DomainModels\PhoneCategory.cs" />
     <Compile Include="DomainModels\PhoneSubtypeLookup.cs" />
     <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />
