@@ -1,6 +1,6 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChoosePhone
 
-<div id="choose-phone" ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl" ng-init="bringYourOwnDevices = @(Html.Action("BringYourOwnDevices", "MobileEnrollment").ToHtmlString()); remainingMinutes = '@Html.Sitecore().Field("Remaining Minutes Number")';">
+<div id="choose-phone" ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl" ng-init="bringYourOwnDevices = @(Html.Action("BringYourOwnDevices", "MobileEnrollment").ToHtmlString()); remainingMinutes = '@Html.Sitecore().Field("Remaining Minutes Number")'; activationFee = '@Html.Sitecore().Field("Activation Fee")';">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
