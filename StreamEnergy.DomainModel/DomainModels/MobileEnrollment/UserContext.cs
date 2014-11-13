@@ -68,6 +68,8 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
 
         public bool TcpaPreference { get; set; }
 
+        public string RestoreData { get; set; }
+
         void ISanitizable.Sanitize()
         {
             if (ContactInfo != null)

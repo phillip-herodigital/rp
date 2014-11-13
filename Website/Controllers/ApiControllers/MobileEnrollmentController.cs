@@ -23,13 +23,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IW9GenerationService w9Generator;
         private readonly IEmailService emailService;
         private readonly ISettings settings;
+        private readonly StackExchange.Redis.IDatabase redisDatabase;
 
-        public MobileEnrollmentController(IMobileEnrollmentService mobileEnrollment, IW9GenerationService w9Generator, IEmailService emailService, ISettings settings)
+        public MobileEnrollmentController(IMobileEnrollmentService mobileEnrollment, IW9GenerationService w9Generator, IEmailService emailService, ISettings settings, StackExchange.Redis.IDatabase redisDatabase)
         {
             this.mobileEnrollment = mobileEnrollment;
             this.w9Generator = w9Generator;
             this.emailService = emailService;
             this.settings = settings;
+            this.redisDatabase = redisDatabase;
         }
 
         [HttpPost]
@@ -84,6 +86,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (result != Guid.Empty)
             {
+                if (context.RestoreData != null && redisDatabase != null)
+                {
+                    await redisDatabase.ListRightPushAsync("EnrollmentScreenshots", context.RestoreData.Insert(1, "\"confirmationNumber\":\"" + result.ToString() + "\","));
+                }
                 return Ok(new { Success = true, Id = result });
             }
             else

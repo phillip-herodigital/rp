@@ -47,6 +47,8 @@
         if ($scope.businessInformation.taxClassification == 'Other') {
             additionalClassification = $scope.otherClassification;
         }
+        mobileEnrollmentService.accountInformation = $scope.accountInformation;
+        mobileEnrollmentService.businessInformation = $scope.businessInformation;
         var userContext = {
             deviceMake: item.make.make,
             deviceModel: item.model.modelName,
@@ -78,7 +80,8 @@
             signatoryRelation: $scope.businessInformation.signatoryRelation,
             agreeToTerms: $scope.businessInformation.agreeToTerms,
             tcpaPreference: $scope.businessInformation.tcpaPreference,
-            associateId: $scope.associateId
+            associateId: $scope.associateId,
+            restoreData: angular.toJson(mobileEnrollmentService.getRestoreData())
         }
 
         // send the post
