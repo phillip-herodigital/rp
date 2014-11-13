@@ -2,6 +2,11 @@
 
     // Use the service to track everything we want to submit with the order
     $scope.mobileEnrollmentService = mobileEnrollmentService;
+    $scope.isLoading = mobileEnrollmentService.isLoading;
+
+    $scope.$watch(function () { return mobileEnrollmentService.isLoading; }, function (newValue) {
+        $scope.isLoading = newValue;
+    });
 
     // Use this to keep track of some stuff we want throughout the process, but don't need with the order
     $scope.mobileEnrollment = {

@@ -95,6 +95,8 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         phones = data.phones;
     };
 
+    service.isLoading = false;
+
     service.setNetworks = function (data) {
         service.availableNetworks = data;
     };

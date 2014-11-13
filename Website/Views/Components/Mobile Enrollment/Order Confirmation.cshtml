@@ -1,4 +1,4 @@
-<div ng-if="mobileEnrollment.currentStep == 'order-confirmation'" ng-controller="MobileEnrollmentCompleteOrderCtrl">
+<div id="order-confirmation" ng-if="mobileEnrollment.currentStep == 'order-confirmation'" ng-controller="MobileEnrollmentCompleteOrderCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
@@ -98,7 +98,6 @@
                     @Html.Sitecore().Field("Total Due Now Text") <strong>{{ mobileEnrollmentService.getTotalDueToday() | currency }}</strong>
                 </footer>
             </article>
-
             <article class="enrollment__box enrollment__mobile-order-details">
                 <header>
                     <h1>@Html.Sitecore().Field("Header - Estimated Monthly Cost")</h1>
@@ -140,7 +139,7 @@
                             <div class="contact" ng-if="businessInformation.taxId">EIN: {{ businessInformation.taxId | maskNumber }}</div>
                             <div class="contact" ng-if="!businessInformation.businessAddressSame">
                                 {{ businessInformation.businessAddress.line1 }} {{ businessInformation.businessAddress.line2 }}<br>
-                                {{ businessInformation.businessAddress.city }}, {{ businessInformation.businessAddress.stateAbbreviation }} {{ businessInformation.businessAddress.postalCode5 }} 
+                                {{ businessInformation.businessAddress.city }}, {{ businessInformation.businessAddress.stateAbbreviation }} {{ businessInformation.businessAddress.postalCode5 }}
                             </div>
                             <div class="contact" ng-if="businessInformation.businessAddressSame">
                                 {{ accountInformation.billingAddress.line1 }} {{ accountInformation.billingAddress.line2 }}<br>
@@ -173,7 +172,6 @@
                 </article>
             *@
             <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
-
         </section>
         <aside>
             <div class="enrollment__cart">

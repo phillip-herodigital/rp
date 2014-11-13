@@ -15,7 +15,7 @@ namespace StreamEnergy.Services.Clients
 {
     class W9GenerationService : IW9GenerationService
     {
-        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, string exemptPayeeCode, string fatcaExemtionCode, Address address, string currentAccountNumbers, string socialSecurityNumber, string employerIdentificationNumber, string signature, DateTime date)
+        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, string exemptPayeeCode, string fatcaExemtionCode, Address address, string currentAccountNumbers, string socialSecurityNumber, string employerIdentificationNumber, byte[] signature, DateTime date)
         {
             var objPDF = new PdfManager();
             var path = Sitecore.IO.FileUtil.MapPath(Sitecore.IO.FileUtil.MakePath(Sitecore.Configuration.Settings.DataFolder, "fw9.pdf"));
@@ -106,7 +106,7 @@ namespace StreamEnergy.Services.Clients
             objPage.Canvas.DrawText(date.ToString("MMM d, yyyy"), "x=412, y=265", objFont);
 
             // Signature - taken from a .gif file (image itself) and .bmp (mask)
-            PdfImage objSignatureImg = objDoc.OpenImage(Convert.FromBase64String(signature));
+            PdfImage objSignatureImg = objDoc.OpenImage(signature);
 
             objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=252; scalex=.25, scaley=.25");
 

@@ -26,7 +26,7 @@ namespace StreamEnergy.MyStream.Tests.Services
         public void GetW9Test()
         {
             var pdfGenerationService = container.Resolve<IW9GenerationService>();
-            var response = pdfGenerationService.GenerateW9("Full Name", "Business Name", W9BusinessClassification.SCorporation, "Other Type", null, null, new Address { Line1 = "Address Line #1", Line2 = "Address Line #2", City = "City", StateAbbreviation = "ST", PostalCode5 = "12345" }, null, "123456789", "987654321", "R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", DateTime.Now);
+            var response = pdfGenerationService.GenerateW9("Full Name", "Business Name", W9BusinessClassification.SCorporation, "Other Type", null, null, new Address { Line1 = "Address Line #1", Line2 = "Address Line #2", City = "City", StateAbbreviation = "ST", PostalCode5 = "12345" }, null, "123456789", "987654321", Convert.FromBase64String("R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="), DateTime.Now);
 
             Assert.IsNotNull(response);
         }
