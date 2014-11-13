@@ -86,6 +86,7 @@ namespace StreamEnergy.MyStream.Controllers
                 Name = child.Name.ToLower(),
                 Plans = child.Children.Select(plans => new {
                     ID = plans.ID.ToString(),
+                    PlanId = plans.Fields["Plan ID"].Value,
                     data = plans.Fields["Data"].Value,
                     price = plans.Fields["Price"].Value,
                     fees = new {

@@ -43,44 +43,44 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var w9Pdf = w9Generator.GenerateW9(context.BusinessInformationName, context.BusinessName, context.BusinessTaxClassification, context.AdditionalTaxClassification, context.ExemptCode, context.FatcaCode, context.BusinessAddress, context.SocialSecurityNumber, context.TaxId, context.SignatureImage, DateTime.Now);
             var result = await mobileEnrollment.RecordEnrollment(context, w9Pdf);
 
-            var emailTemplate = Guid.Empty;
-            // TODO - email guid
-            if (emailTemplate != Guid.Empty)
+            var emailTemplate = new Guid("{3F7959FA-8578-470D-963F-4AFE8FCAB66F}");
+
+            await emailService.SendEmail(emailTemplate, settings.GetSettingsValue("Marketing Form Email Addresses", "Mobile Enrollment Email Address"), new System.Collections.Specialized.NameValueCollection ()
             {
-                await emailService.SendEmail(emailTemplate, settings.GetSettingsValue("Marketing Form Email Addresses", "Mobile Enrollment Email Address"), new System.Collections.Specialized.NameValueCollection
-                {
-                    { "DeviceMake", context.DeviceMake },    
-                    { "DeviceModel", context.DeviceModel },    
-                    { "DeviceSerial", context.DeviceSerial },    
-                    { "SimNumber", context.SimNumber },    
-                    { "NewNumber", context.NewNumber },    
-                    { "PortInNumber", context.PortInNumber },    
-                    { "PlanId", context.PlanId },    
-                    { "Name", context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last },    
-                    { "Phone", context.ContactInfo.Phone.First().Number },    
-                    { "Email", context.ContactInfo.Email.Address },    
-                    { "BillingAddress", context.BillingAddress.ToString() },    
-                    { "ShippingAddress", context.ShippingAddress.ToString() },    
-                    { "ShippingAddressSame", context.ShippingAddressSame.ToString() },    
-                    { "BusinessAddress", context.BusinessAddress.ToString() },    
-                    { "BusinessAddressSame", context.BusinessAddressSame.ToString() },    
-                    { "BusinessInformationName", context.BusinessInformationName },    
-                    { "BusinessName", context.BusinessName },    
-                    { "BusinessTaxClassification", context.BusinessTaxClassification.ToString() },    
-                    { "AdditionalTaxClassification", context.AdditionalTaxClassification },    
-                    { "ExemptCode", context.ExemptCode },    
-                    { "FatcaCode", context.FatcaCode },    
-                    { "CurrentAccountNumbers", context.CurrentAccountNumbers },    
-                    { "CustomerCertification", context.CustomerCertification.ToString() },    
-                    { "CustomerSignature", context.CustomerSignature },    
-                    { "SignatureConfirmation", context.SignatureConfirmation.ToString() },    
-                    { "SignatoryName", context.SignatoryName },    
-                    { "SignatoryRelation", context.SignatoryRelation },    
-                    { "AgreeToTerms", context.AgreeToTerms.ToString() },    
-                    { "TcpaPreference", context.TcpaPreference.ToString() },    
-                    { "PdfUrl", new Uri(Request.RequestUri, "/api/MobileEnrollment/w9/token/" + await mobileEnrollment.CreatePdfToken(result)).ToString() }
-                });
-            }
+                { "DeviceMake", context.DeviceMake },    
+                { "DeviceModel", context.DeviceModel },    
+                { "DeviceSerial", context.DeviceSerial },    
+                { "SimNumber", context.SimNumber },    
+                { "NewNumber", context.NewNumber ?? "" },    
+                { "PortInNumber", context.PortInNumber ?? "" },    
+                { "PlanId", context.PlanId }, 
+                { "AssociateId", context.AssociateId ?? "" },
+                { "Name", context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last },    
+                { "Phone", context.ContactInfo.Phone.First().Number },    
+                { "Email", context.ContactInfo.Email.Address },    
+                { "BillingAddress", context.BillingAddress.ToString() },    
+                { "ShippingAddress", context.ShippingAddress.ToString() },    
+                { "ShippingAddressSame", context.ShippingAddressSame.ToString() },    
+                { "BusinessAddress", context.BusinessAddress.ToString() },    
+                { "BusinessAddressSame", context.BusinessAddressSame.ToString() },    
+                { "BusinessInformationName", context.BusinessInformationName },    
+                { "BusinessName", context.BusinessName ?? "" },    
+                { "BusinessTaxClassification", context.BusinessTaxClassification.ToString() },    
+                { "AdditionalTaxClassification", context.AdditionalTaxClassification ?? "" },    
+                { "ExemptCode", context.ExemptCode ?? "" },    
+                { "FatcaCode", context.FatcaCode ?? "" },    
+                { "CurrentAccountNumbers", context.CurrentAccountNumbers ?? "" },
+                { "SocialSecurityNumber", context.SocialSecurityNumber ?? "" },
+                { "TaxId", context.TaxId ?? "" },
+                { "CustomerCertification", context.CustomerCertification.ToString() },    
+                { "CustomerSignature", context.CustomerSignature },    
+                { "SignatureConfirmation", context.SignatureConfirmation.ToString() },    
+                { "SignatoryName", context.SignatoryName ?? "" },    
+                { "SignatoryRelation", context.SignatoryRelation ?? "" },    
+                { "AgreeToTerms", context.AgreeToTerms.ToString() },    
+                { "TcpaPreference", context.TcpaPreference.ToString() },    
+                { "PdfUrl", new Uri(Request.RequestUri, "/api/MobileEnrollment/w9/token/" + System.Uri.EscapeDataString(await mobileEnrollment.CreatePdfToken(result))).ToString() }/**/
+            });
 
             if (result != Guid.Empty)
             {

@@ -39,6 +39,8 @@ namespace StreamEnergy.Data.MobileEnrollment
                     ExemptCode = data.ExemptCode,
                     FatcaCode = data.FatcaCode,
                     CurrentAccountNumbers = data.CurrentAccountNumbers,
+                    SocialSecurityNumber = data.SocialSecurityNumber,
+                    TaxId = data.TaxId,
                     CustomerCertification = DateTimeOffset.Now,
                     CustomerSignature = data.CustomerSignature,
                     SignatureImage = data.SignatureImage,
@@ -81,12 +83,12 @@ namespace StreamEnergy.Data.MobileEnrollment
         async Task<string> IMobileEnrollmentService.CreatePdfToken(Guid mobileEnrollmentId)
         {
             var record = await dataContext.EnrollmentRecords.FindAsync(mobileEnrollmentId);
-            return cryptography.Encrypt(mobileEnrollmentId.ToString("N") + record.AgreeToTerms.ToString(), password);            
+            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(cryptography.Encrypt(mobileEnrollmentId.ToString("N") + record.AgreeToTerms.ToString(), password)));            
         }
 
         async Task<byte[]> IMobileEnrollmentService.RetrievePdf(string token)
         {
-            var decrypted = cryptography.Decrypt(token, password);
+            var decrypted = cryptography.Decrypt(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(token)), password);
             if (decrypted == null)
                 return null;
 

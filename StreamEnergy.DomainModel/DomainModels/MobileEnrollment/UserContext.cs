@@ -57,7 +57,7 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public bool CustomerCertification { get; set; }
         [Required]
         public string CustomerSignature { get; set; }
-        public string SignatureImage { get; set; }
+        public byte[] SignatureImage { get; set; }
         [Required]
         public bool SignatureConfirmation { get; set; }
         public string SignatoryName { get; set; }

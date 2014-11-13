@@ -38,6 +38,7 @@
     };
 
     $scope.completeStep = function() {
+        mobileEnrollmentService.isLoading = true;
         // format the post data
         var item = $scope.cart.items[0];
         var additionalClassification = null;
@@ -54,7 +55,7 @@
             simNumber: item.simNumber,
             newNumber: (item.number.type == 'new') ? item.number.value : null,
             portInNumber: (item.number.type == 'existing') ? item.number.value : null,
-            planId: $scope.cart.dataPlan.id,
+            planId: $scope.cart.dataPlan.planId,
             contactInfo: $scope.accountInformation.contactInfo,
             billingAddress: $scope.accountInformation.billingAddress,
             shippingAddress: ($scope.accountInformation.shippingAddressSame) ? $scope.accountInformation.billingAddress : $scope.accountInformation.shippingAddress,
@@ -84,6 +85,7 @@
         // send the post
         $http.post('/api/mobileEnrollment/submit', userContext)
         .success(function (data) {
+            mobileEnrollmentService.isLoading = false;
             mobileEnrollmentService.confirmationId = data.id;
             $scope.setCurrentStep('order-confirmation');
         })

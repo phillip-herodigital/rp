@@ -13,7 +13,7 @@ namespace StreamEnergy.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201411051525348_Initial"; }
+            get { return "201411130202117_Initial"; }
         }
         
         string IMigrationMetadata.Source
