@@ -444,13 +444,15 @@
                         <div class="group">
                             <div class="item group-col">
                                 <label>@Html.Sitecore().Field("Label - Signature") <a href="" tooltip="@Html.Sitecore().Field("Signature Tooltip")"><i class="icon-tooltip"></i></a></label>
-                                <div class="signature" ng-click="showSignatureModal('signature')" ng-class="{empty:!businessInformation.signature}">
+                                <div class="signature" ng-click="showSignatureModal('signature')" ng-class="{empty:!businessInformation.signature}" @Html.Validation().ErrorClass(m => m.CustomerSignature)>
                                     <span ng-if="!businessInformation.signature">@Html.Sitecore().Field("Text - Add Signature")</span>
                                     <span ng-if="businessInformation.signature">
                                         <span class="signature-name" ng-if="businessInformation.signatureImage == null">{{ businessInformation.signature }}</span>
                                         <span ng-if="businessInformation.signatureImage != null"><img ng-src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
                                         <a href="">@Html.Sitecore().Field("Text - Edit Signature")</a>
                                     </span>
+                                    @Html.HiddenFor(m => m.CustomerSignature, new { ng_model = "businessInformation.signature" })
+                                    @Html.ValidationMessageFor(model => model.CustomerSignature)
                                 </div>
                                 <ul class="checkbox-list">
                                     <li>
@@ -468,12 +470,12 @@
                             <p>@Html.Sitecore().Field("Text - Please Fill Out Information")</p>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.SignatoryName)>
                                 <label for="@Html.IdFor(m => m.SignatoryName)">@Html.Sitecore().Field("Label - Type Your Name")</label>
-                                @Html.TextBoxFor(m => m.SignatoryName, new { data_val_if = "!businessInformation.signatory", data_val_required = "", ng_model = "businessInformation.signatoryName" })
+                                @Html.TextBoxFor(m => m.SignatoryName, new { data_val_if = "!businessInformation.signatory", data_val = "true", data_val_required = "", ng_model = "businessInformation.signatoryName" })
                                 @Html.ValidationMessageFor(model => model.SignatoryName)
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.SignatoryRelation)>
                                 <label for="@Html.IdFor(m => m.SignatoryRelation)">@Html.Sitecore().Field("Label - Relation To US Person")</label>
-                                @Html.TextBoxFor(m => m.SignatoryRelation, new { data_val_if = "!businessInformation.signatory", data_val_required = "", ng_model = "businessInformation.signatoryRelation" })
+                                @Html.TextBoxFor(m => m.SignatoryRelation, new { data_val_if = "!businessInformation.signatory", data_val = "true", data_val_required = "", ng_model = "businessInformation.signatoryRelation" })
                                 @Html.ValidationMessageFor(model => model.SignatoryRelation)
                             </div>
                         </div>
