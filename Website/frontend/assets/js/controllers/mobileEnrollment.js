@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentCtrl', ['$scope', '$rootScope', '$filter', '$modal', '$location', 'mobileEnrollmentService', function ($scope, $rootScope, $filter, $modal, $location, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentCtrl', ['$scope', '$rootScope', '$filter', '$modal', '$location', 'mobileEnrollmentService', '$window', function ($scope, $rootScope, $filter, $modal, $location, mobileEnrollmentService, $window) {
 
     // Use the service to track everything we want to submit with the order
     $scope.mobileEnrollmentService = mobileEnrollmentService;
@@ -71,6 +71,14 @@
         })
     };
 
+    $window.deferred = function (data) {
+        $scope.$apply(function () {
+            mobileEnrollmentService.restoreData(data);
+            $scope.businessInformation = data.businessInformation;
+            $scope.accountInformation = data.accountInformation;
+            $scope.setCurrentStep('order-confirmation');
+        });
+    };
 }]);
 
 _.mixin( function() {

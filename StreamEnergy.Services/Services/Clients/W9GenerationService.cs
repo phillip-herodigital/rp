@@ -15,7 +15,7 @@ namespace StreamEnergy.Services.Clients
 {
     class W9GenerationService : IW9GenerationService
     {
-        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, string exemptPayeeCode, string fatcaExemtionCode, Address address, string socialSecurityNumber, string employerIdentificationNumber, byte[] signature, DateTime date)
+        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, string exemptPayeeCode, string fatcaExemtionCode, Address address, string currentAccountNumbers, string socialSecurityNumber, string employerIdentificationNumber, byte[] signature, DateTime date)
         {
             var objPDF = new PdfManager();
             var path = Sitecore.IO.FileUtil.MapPath(Sitecore.IO.FileUtil.MakePath(Sitecore.Configuration.Settings.DataFolder, "fw9.pdf"));
@@ -30,7 +30,7 @@ namespace StreamEnergy.Services.Clients
             PdfFont objFont = objDoc.Fonts["Helvetica-Bold"]; // a standard font
 
             ((dynamic)objPage.Annots[1]).FieldValue = name;
-            ((dynamic)objPage.Annots[2]).FieldValue = businessName;
+            ((dynamic)objPage.Annots[2]).FieldValue = businessName ?? "";
 
             var textFields = new
             {
@@ -82,11 +82,12 @@ namespace StreamEnergy.Services.Clients
             {
                 textFields.otherBusinessType.FieldValue = businessTypeAdditional;
             }
-            textFields.exemptPayeeCode.FieldValue = exemptPayeeCode;
-            textFields.exemptFatcaExemtionCode.FieldValue = fatcaExemtionCode;
+            textFields.exemptPayeeCode.FieldValue = exemptPayeeCode ?? "";
+            textFields.exemptFatcaExemtionCode.FieldValue = fatcaExemtionCode ?? "";
 
             textFields.address.FieldValue = address.Line1 + (string.IsNullOrEmpty(address.Line2) ? "" : ", " + address.Line2);
             textFields.cityStateZip.FieldValue = string.Format("{0}, {1} {2}", address.City, address.StateAbbreviation, address.PostalCode5);
+            textFields.listAccountNumbers.FieldValue = currentAccountNumbers ?? "";
 
             if (!string.IsNullOrEmpty(socialSecurityNumber))
             {

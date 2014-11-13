@@ -23,13 +23,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IW9GenerationService w9Generator;
         private readonly IEmailService emailService;
         private readonly ISettings settings;
+        private readonly StackExchange.Redis.IDatabase redisDatabase;
 
-        public MobileEnrollmentController(IMobileEnrollmentService mobileEnrollment, IW9GenerationService w9Generator, IEmailService emailService, ISettings settings)
+        public MobileEnrollmentController(IMobileEnrollmentService mobileEnrollment, IW9GenerationService w9Generator, IEmailService emailService, ISettings settings, StackExchange.Redis.IDatabase redisDatabase)
         {
             this.mobileEnrollment = mobileEnrollment;
             this.w9Generator = w9Generator;
             this.emailService = emailService;
             this.settings = settings;
+            this.redisDatabase = redisDatabase;
         }
 
         [HttpPost]
@@ -40,7 +42,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return BadRequest(ModelState);
             }
 
-            var w9Pdf = w9Generator.GenerateW9(context.BusinessInformationName, context.BusinessName, context.BusinessTaxClassification, context.AdditionalTaxClassification, context.ExemptCode, context.FatcaCode, context.BusinessAddress, context.SocialSecurityNumber, context.TaxId, context.SignatureImage, DateTime.Now);
+            var w9Pdf = w9Generator.GenerateW9(context.BusinessInformationName, context.BusinessName, context.BusinessTaxClassification, context.AdditionalTaxClassification, context.ExemptCode, context.FatcaCode, context.BusinessAddress, context.CurrentAccountNumbers, context.SocialSecurityNumber, context.TaxId, context.SignatureImage, DateTime.Now);
             var result = await mobileEnrollment.RecordEnrollment(context, w9Pdf);
 
             var emailTemplate = new Guid("{3F7959FA-8578-470D-963F-4AFE8FCAB66F}");
@@ -84,6 +86,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (result != Guid.Empty)
             {
+                if (context.RestoreData != null && redisDatabase != null)
+                {
+                    await redisDatabase.ListRightPushAsync("EnrollmentScreenshots", context.RestoreData.Insert(1, "\"confirmationNumber\":\"" + result.ToString() + "\","));
+                }
                 return Ok(new { Success = true, Id = result });
             }
             else
