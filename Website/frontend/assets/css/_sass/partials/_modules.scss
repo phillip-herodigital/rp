@@ -45,7 +45,6 @@ article {
         &:only-child {
             border-bottom: 0;
         }
-    }
 		.actions {
 			float: right;
 			text-transform: none;
@@ -124,12 +123,8 @@ article {
 		}
 	}
 
-        .account-selector {
-		padding: 15px $module-horizontal-padding;
-        }
-    }
     .account-selector {
-        padding: 15px;
+        padding: 15px $module-horizontal-padding;
         border-bottom: 1px solid #ddd;
         form div.group {
             @extend .inline-group;

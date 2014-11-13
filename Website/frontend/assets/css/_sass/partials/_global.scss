@@ -303,7 +303,7 @@ ul, ol {
 		.question {
 			margin: 0;
 			a {
-				@include retina-background("collapse-filled.png", "icon");
+				//@include retina-background("collapse-filled.png", "icon");
 				background-position: left center;
 				background-repeat: no-repeat;				
 				color: #696969;
@@ -312,7 +312,7 @@ ul, ol {
 				font-weight: 600;
 			}
 			a.collapsed {
-				@include retina-background("expand-filled.png", "icon");
+				//@include retina-background("expand-filled.png", "icon");
 			}
 		}
 		.q {

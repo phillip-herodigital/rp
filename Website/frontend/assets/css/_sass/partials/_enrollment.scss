@@ -1586,13 +1586,13 @@
         h1 {
             font-size: 30px;
             line-height: 1.1;
-                }
+        }
         .plan-selection-table {
             tr.details-row {
                 td div {
                     padding: 0 15px;
+                }
             }
-        }
             .plan-name {
                 text-align: left;
             }
@@ -1601,8 +1601,8 @@
                 button, .button {
                     float: right;
                     min-width: 120px;
-    }
- }
+                }
+            }
             .view-details {
                 display: inline;
                 float: left;
@@ -1624,6 +1624,7 @@
 	height: 228px;
 	background-position: 50%;
 	background-size: cover;
+}
 
 /* Mobile Enrollment */
 .mobile-enrollment {
