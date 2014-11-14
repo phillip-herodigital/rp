@@ -412,14 +412,14 @@
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.TaxId)>
                                 <input type="radio" name="tin" id="tin-ein" ng-model="tin" value="taxId" checked />
                                 <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Label - Employer Identification Number")</label>
-                                @Html.TextBoxFor(m => m.TaxId, new { data_val_if = "tin == 'taxId'", data_val_required = "", ng_model = "businessInformation.taxId" })
+                                @Html.TextBoxFor(m => m.TaxId, new { data_val_if = "tin == 'taxId'", data_val_required = "", data_val = "true", data_val_regex = "true", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}$", ng_model = "businessInformation.taxId" })
                                 @Html.ValidationMessageFor(model => model.TaxId)
                                 <span class="note">@Html.Sitecore().Field("Note - Employer Identification Number")</span>
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                                 <input type="radio" name="tin" id="tin-ssn" ng-model="tin" value="ssn" />
                                 <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Label - Social Security Number")</label>
-                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { data_val_if = "tin == 'ssn'", data_val_required = "", ng_model = "businessInformation.socialSecurityNumber" })
+                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { data_val_if = "tin == 'ssn'", data_val_required = "", data_val="true", data_val_regex="true", data_val_regex_pattern="^\\d{3}[-]?\\d{2}[-]?\\d{4}$", ng_model = "businessInformation.socialSecurityNumber" })
                                 @Html.ValidationMessageFor(model => model.SocialSecurityNumber)
                                 <span class="note">@Html.Sitecore().Field("Note - Social Security Number")</span>
                             </div>

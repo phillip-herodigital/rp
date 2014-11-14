@@ -252,7 +252,7 @@
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
                                         <div class="button button-type-border">
                                             <label>@Html.Sitecore().Field("Label - Enter Existing Number")</label>
-                                            <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{10}$" data-val-if="phoneOptions.number.type == 'existing'" data-val-required="" />
+                                            <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^\d{3}[^\d]?\d{3}[^\d]?\d{4}$" data-val-if="phoneOptions.number.type == 'existing'" data-val-required="" />
                                         </div>
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new'">
