@@ -171,3 +171,28 @@ ngApp.filter('phoneFilter', function() {
     return filteredElements;
   }
 });
+
+ngApp.filter('addSpaces', function () {
+    return function (name) {
+        var formattedName = '';
+
+        if (!name) {
+            return;
+        }
+
+        formattedName = name.replace('%20', ' ');
+        return formattedName;
+    };
+});
+
+ngApp.filter('maskNumber', function () {
+    return function (number) {
+        var formattedNumber = '';
+        if (!number) {
+            return;
+        }
+        var newNumber = number.replace(/[^0-9]/g, '');
+        formattedNumber = (newNumber.length == 8) ? newNumber.replace(/^[0-9]{4}/, '****') : newNumber.replace(/^[0-9]{5}/, '*****');
+        return formattedNumber;
+    };
+});

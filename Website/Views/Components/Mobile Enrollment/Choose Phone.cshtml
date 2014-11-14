@@ -1,6 +1,6 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChoosePhone
 
-<div id="choose-phone" ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl">
+<div id="choose-phone" ng-if="mobileEnrollment.currentStep == 'choose-phone'" ng-controller="MobileEnrollmentChoosePhoneCtrl" ng-init="bringYourOwnDevices = @(Html.Action("BringYourOwnDevices", "MobileEnrollment").ToHtmlString()); remainingMinutes = '@Html.Sitecore().Field("Remaining Minutes Number")'; activationFee = '@Html.Sitecore().Field("Activation Fee")';">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
@@ -118,7 +118,6 @@
                                 <p><a href="">@Html.Sitecore().Field("More Details") <i class="icon-arrow-right"></i></a></p>
                             </div>
                             <hr class="content-divider">
-
                             @* Chrome doesn't support <button> as display: table-cell, so we're using <a> *@
                             <div class="vertical">
                                 <div class="item simple-options-item">
@@ -197,7 +196,7 @@
                 <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                     <form data-val-bind-messages="validations" ng-submit="addDeviceToCart()">
                         <div class="content bring-your-own">
-                            @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" })
+                            @* @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" }) *@
                             @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" })
                             <hr />
                             <div class="vertical">
@@ -207,14 +206,10 @@
                                         <label>@Html.Sitecore().Field("Label - Select Device")</label>
                                         <div class="group">
                                             <div class="item group-col" data-val-error="phoneMake">
-                                                <select name="phoneMake" ng-model="phoneOptions.make" data-val="true" data-val-required>
-                                                    <option value="apple">Apple</option>
-                                                </select>
+                                                <select name="phoneMake" ng-model="phoneOptions.make" ng-options="brand.make for brand in bringYourOwnDevices" data-val="true" data-val-required></select>
                                             </div>
                                             <div class="item group-col" data-val-error="phoneModel">
-                                                <select name="phoneModel" ng-model="phoneOptions.model" data-val="true" data-val-required>
-                                                    <option value="iphone">iPhone</option>
-                                                </select>
+                                                <select name="phoneModel" ng-model="phoneOptions.model" ng-options="model.modelName for model in phoneOptions.make.models" data-val="true" data-val-required></select>
                                             </div>
                                         </div>
                                         <div class="info">@Html.Sitecore().Field("Text - Select Device Info")</div>
@@ -240,7 +235,7 @@
                                     </label>
                                     <div class="btn-group-options">
                                         <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
-                                        <input type="text" name="simNumber" ng-model="phoneOptions.simNumber" data-val="true" data-val-required />
+                                        <input type="text" name="simNumber" ng-model="phoneOptions.simNumber" />
                                         <span class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></span>
                                     </div>
                                 </div>
@@ -251,13 +246,13 @@
                                         <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
                                     </label>
                                     <div class="btn-group btn-group-options">
-                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'" data-val="true" data-val-required>@Html.Sitecore().Field("Assign New Number")</a>
-                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'" data-val="true" data-val-required>@Html.Sitecore().Field("Transfer My Number")</a>
+                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'" data-val="true" data-val-required ng-change="phoneOptions.number.value = ''">@Html.Sitecore().Field("Assign New Number")</a>
+                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'" data-val="true" data-val-required ng-change="phoneOptions.number.value = ''">@Html.Sitecore().Field("Transfer My Number")</a>
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
                                         <div class="button button-type-border">
                                             <label>@Html.Sitecore().Field("Label - Enter Existing Number")</label>
-                                            <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{10}$" data-val-if="phoneOptions.number.type == 'existing'" data-val-required="" />
+                                            <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^\d{3}[^\d]?\d{3}[^\d]?\d{4}$" data-val-if="phoneOptions.number.type == 'existing'" data-val-required="" />
                                         </div>
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new'">
@@ -292,9 +287,11 @@
         <div class="modal-body">
             @Html.Sitecore().Field("Content - Unlock ATT")
         </div>
+        @*
         <div class="modal-footer">
             @Html.Sitecore().Field("Footer - Unlock ATT")
         </div>
+        *@
     </div>
 </script>
 

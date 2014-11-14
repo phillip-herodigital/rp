@@ -45,6 +45,24 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult BringYourOwnDevices()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile BYO Devices");
+
+            var data = item.Children.Select(child => new
+            {
+                Id = child.ID.ToString(),
+                Make = child.Name,
+                Models = child.Children.Select(obj => new
+                {
+                    ModelName = obj.Fields["Model"].Value,
+                    Description = obj.Fields["Description"].Value
+                })
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult MobileNetworks()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");
@@ -68,6 +86,7 @@ namespace StreamEnergy.MyStream.Controllers
                 Name = child.Name.ToLower(),
                 Plans = child.Children.Select(plans => new {
                     ID = plans.ID.ToString(),
+                    PlanId = plans.Fields["Plan ID"].Value,
                     data = plans.Fields["Data"].Value,
                     price = plans.Fields["Price"].Value,
                     fees = new {
@@ -78,7 +97,10 @@ namespace StreamEnergy.MyStream.Controllers
                     Recommended = plans.Fields["Recommended"].Value,
                     HoursMusic = plans.Fields["Hours Music"].Value,
                     HoursMovies = plans.Fields["Hours Movies"].Value,
-                    HoursWebBrowsing = plans.Fields["Hours Web Browsing"].Value
+                    HoursWebBrowsing = plans.Fields["Web Pages"].Value,
+                    SpecialOffer = plans.Fields["Special Offer"].Value,
+                    SpecialOfferText = plans.Fields["Special Offer Text"].Value,
+                    SpecialOfferOriginalPrice = plans.Fields["Special Offer Original Price"].Value
                 })
             });
 

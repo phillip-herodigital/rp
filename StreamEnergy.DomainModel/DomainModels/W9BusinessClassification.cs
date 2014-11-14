@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels
 {
-    public enum PdfBusinessClassification
+    public enum W9BusinessClassification
     {
         IndividualSoleProprietor,
         CCorporation,

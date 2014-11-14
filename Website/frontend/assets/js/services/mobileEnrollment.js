@@ -1,6 +1,6 @@
-ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
+ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($rootScope, $window) {
     var service = {
-        state: "TX",
+        state: 'TX',
         availableNetworks: [],
         selectedNetwork: undefined,
         cart: {
@@ -46,7 +46,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
         terms: {
 
         },
-        /*
         accountInformation: {
             contactInfo: {
                 name: {
@@ -63,11 +62,40 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
             },
             socialSecurityNumber: '',
             secondaryContactInfo: {}
-        }*/
+        }
     },
     //networks = [],
     dataPlans = [],
     phones = [];
+
+    service.getRestoreData = function() {
+        return {
+            state: service.state,
+            availableNetworks: service.availableNetworks,
+            selectedNetwork: service.selectedNetwork,
+            cart: service.cart,
+            contactInformation: service.contactInformation,
+            businessInformation: service.businessInformation,
+            terms: service.terms,
+            accountInformation: service.accountInformation,
+            dataPlans: dataPlans,
+            phones: phones,
+        };
+    };
+    service.restoreData = function(data) {
+        service.state = data.state;
+        service.availableNetworks = data.availableNetworks;
+        service.selectedNetwork = data.selectedNetwork;
+        service.cart = data.cart;
+        service.contactInformation = data.contactInformation;
+        service.businessInformation = data.businessInformation;
+        service.terms = data.terms;
+        service.accountInformation = data.accountInformation;
+        dataPlans = data.dataPlans;
+        phones = data.phones;
+    };
+
+    service.isLoading = false;
 
     service.setNetworks = function (data) {
         service.availableNetworks = data;
@@ -152,6 +180,8 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     }
 
     service.addItemToCart = function(item) {
+        // since we're only allowing one phone on launch reset
+        service.cart.items = [];
         service.cart.items.push(item);
     };
 
@@ -205,6 +235,11 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
     service.getEstimatedMonthlyTotal = function() {
         var plan = service.cart.dataPlan;
         return parseFloat(plan.price, 10) + service.getTotalFees();
+    };
+
+    service.resetEnrollment = function () {
+        // since we're not storing anyhting, a reload will reset
+        $window.location.href = '/mobile-enrollment';
     };
 
     return service;

@@ -1541,6 +1541,7 @@ $enrollment-module-vertical-padding: 20px;
         padding: 0;
         &:hover, &:active, &:focus {
             background-color: transparent;
+            color: #6b6b6b;
         }
     }
     button {
@@ -1559,6 +1560,9 @@ $enrollment-module-vertical-padding: 20px;
         }
         .enrollment__box h1 {
             font-size: 20px;
+        }
+        button {
+            width: 100%;
         }
     }
 }
@@ -1757,6 +1761,10 @@ $enrollment-module-vertical-padding: 20px;
         width: 63%;
         float: left;
         margin-left: 5%;
+        @include breakpoint(small) {
+            width: auto;
+            margin-left: 0;
+        }
     }
     .btn-group-row {
         display: table-row;
@@ -1775,6 +1783,9 @@ $enrollment-module-vertical-padding: 20px;
         }
         input[type="text"] {
             width: 50%;
+            @include breakpoint(small) {
+                width: 67%;
+            }
         }
     }
     .label-description {
@@ -2010,6 +2021,11 @@ $enrollment-module-vertical-padding: 20px;
         .note {
             font-size: 14px;
         }
+        @include breakpoint(small) {
+            div.item > label {
+                width: 100% !important;
+            }
+        }
         /*@include breakpoint(medium-large) {
             .grid {
                 .col:first-child {
@@ -2108,10 +2124,12 @@ $enrollment-module-vertical-padding: 20px;
             padding-top: 0;
             padding-bottom: 0;
         }
-        .is-recommended {
+        .is-recommended,
+        .is-special-offer {
             @include border-radius(0 0 5px 5px);
         }
-        .recommended {
+        .recommended,
+        .special-offer {
             position: absolute;
             top: -20px;
             left: -2px;
@@ -2125,10 +2143,42 @@ $enrollment-module-vertical-padding: 20px;
             line-height: 22px;
             text-transform: uppercase;
             @include border-radius(5px 5px 0 0);
+            @include breakpoint(small) {
+                position: relative;
+                top: 0;
+            }
+        }
+        .special-offer {
+            border: 2px solid #e6e6e6;
+            border-bottom: 0;
+            background: #fff;
+            color: #3d8039;
+            font-weight: normal;
+            @include breakpoint(small) {
+                border: none;
+            }
         }
         .active {
             .recommended {
                 background: #3189bb;
+            }
+            .special-offer {
+                border-color: #3189bb;
+            }
+        }
+        .is-special-offer {
+            .original-price {
+                text-decoration: line-through;
+                font-size: 14px;
+                color: #888;
+                position: absolute;
+                top: -1.25em;
+                text-align: center;
+                display: block;
+                width: 100%;
+            }
+            .price {
+                color: #3d8039;
             }
         }
         .size {
@@ -2137,6 +2187,8 @@ $enrollment-module-vertical-padding: 20px;
             margin-bottom: 10px;
         }
         .price {
+            position: relative;
+            margin-top: 10px;
             font-size: 20px;
         }
         .details {
@@ -2186,7 +2238,7 @@ $enrollment-module-vertical-padding: 20px;
     @include breakpoint-max(400px) {
         .btn-group-options {
             .button {
-                width: 100%%;
+                width: 100%;
                 display: block;
                 margin-bottom: 6px;
             }
@@ -2195,10 +2247,22 @@ $enrollment-module-vertical-padding: 20px;
     @include breakpoint-min-max(401px, 650px) {
         .btn-group-options {
             .button {
-                width: 48%%;
+                width: 48%;
                 margin: 1%;
                 float: left;
                 display: block;
+            }
+        }
+    }
+    @include breakpoint-min-max(651px, 957px) {
+        .btn-group-options {
+            .button {
+                display: inline-block;
+                margin: 6px;
+                &.is-recommended,
+                &.is-special-offer {
+                    margin-top: 25px;
+                }
             }
         }
     }
@@ -2229,13 +2293,16 @@ $enrollment-module-vertical-padding: 20px;
     }
     .rate {
         float: right;
-        width: 20%;
+        width: 30%;
         text-align: right;
     }
     .plan-summary-image, .phone-summary-image {
         position: absolute;
         left: 20px;
         top: 0;
+        @include breakpoint(small) {
+            position: relative;
+        }
     }
     .plan-summary, .phone-summary {
         padding-left: 100px;
@@ -2245,6 +2312,17 @@ $enrollment-module-vertical-padding: 20px;
         }
         &.no-img {
             padding-left: 0;
+        }
+        @include breakpoint(small) {
+            padding-left: 0;
+        }
+    }
+    .contact {
+        float: left;
+        width: 100%;
+        @include breakpoint(small) {
+            word-wrap: break-word;
+            margin-bottom: 10px;
         }
     }
     a {
@@ -2278,7 +2356,7 @@ $enrollment-module-vertical-padding: 20px;
             width: 200px;
         }
         select {
-            width: 90px;
+            width: 105px;
         }
         &.inline {
             li {
@@ -2302,6 +2380,7 @@ $enrollment-module-vertical-padding: 20px;
         .signature-name {
             font-size: 24px;
             font-family: "ff-market-web", cursive;
+            margin-right: 10px;
         }
     }
     .additional-name {
@@ -2611,5 +2690,8 @@ article.services-box {
         background-color: #FDFDFD;
         font-size: 32px;
         font-family: "ff-market-web", cursive;
+    }
+    #draw-signature {
+        padding: 0;
     }
 }

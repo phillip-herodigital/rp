@@ -1,7 +1,12 @@
-﻿ngApp.controller('MobileEnrollmentCtrl', ['$scope', '$rootScope', '$filter', '$modal', '$location', 'mobileEnrollmentService', function ($scope, $rootScope, $filter, $modal, $location, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentCtrl', ['$scope', '$rootScope', '$filter', '$modal', '$location', 'mobileEnrollmentService', '$window', function ($scope, $rootScope, $filter, $modal, $location, mobileEnrollmentService, $window) {
 
     // Use the service to track everything we want to submit with the order
     $scope.mobileEnrollmentService = mobileEnrollmentService;
+    $scope.isLoading = mobileEnrollmentService.isLoading;
+
+    $scope.$watch(function () { return mobileEnrollmentService.isLoading; }, function (newValue) {
+        $scope.isLoading = newValue;
+    });
 
     // Use this to keep track of some stuff we want throughout the process, but don't need with the order
     $scope.mobileEnrollment = {
@@ -9,11 +14,41 @@
         phoneTypeTab: "new"
     };
 
+    $scope.accountInformation = {
+        shippingAddressSame: true,
+        contactInfo: {
+            phone: [{
+                    number: '',
+                    category: 'mobile'
+                }],
+        }
+    };
+
+    $scope.businessInformation = {
+        businessAddressSame: true,
+        signatory: true
+    };
+
+    $scope.remainingMinutes = '';
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(window.location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    $scope.associateId = getParameterByName('SPID');
+
     $scope.setCurrentStep = function(step) {
         $scope.mobileEnrollment.currentStep = step;
         $location.hash(step);
         console.log($scope.mobileEnrollmentService);
         //console.log(JSON.stringify($scope.mobileEnrollmentService));
+    };
+
+    $scope.resetEnrollment = function () {
+        mobileEnrollmentService.resetEnrollment();
     };
 
     /*
@@ -36,6 +71,14 @@
         })
     };
 
+    $window.deferred = function (data) {
+        $scope.$apply(function () {
+            mobileEnrollmentService.restoreData(data);
+            $scope.businessInformation = data.businessInformation;
+            $scope.accountInformation = data.accountInformation;
+            $scope.setCurrentStep('order-confirmation');
+        });
+    };
 }]);
 
 _.mixin( function() {
