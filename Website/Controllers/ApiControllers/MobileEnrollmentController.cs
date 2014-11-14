@@ -42,6 +42,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return BadRequest(ModelState);
             }
 
+            try
+            {
+                var plain = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(context.AssociateId));
+                var parts = plain.Split('|');
+                context.AssociateId = parts[0];
+            }
+            catch
+            {
+                context.AssociateId = "A2";
+            }
+
             var w9Pdf = w9Generator.GenerateW9(context.BusinessInformationName, context.BusinessName, context.BusinessTaxClassification, context.AdditionalTaxClassification, context.ExemptCode, context.FatcaCode, context.BusinessAddress, context.CurrentAccountNumbers, context.SocialSecurityNumber, context.TaxId, context.SignatureImage, DateTime.Now);
             var result = await mobileEnrollment.RecordEnrollment(context, w9Pdf);
 
