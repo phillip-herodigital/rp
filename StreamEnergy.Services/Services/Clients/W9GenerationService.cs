@@ -15,7 +15,7 @@ namespace StreamEnergy.Services.Clients
 {
     class W9GenerationService : IW9GenerationService
     {
-        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, string exemptPayeeCode, string fatcaExemtionCode, Address address, string socialSecurityNumber, string employerIdentificationNumber, byte[] signature, DateTime date)
+        byte[] IW9GenerationService.GenerateW9(string name, string businessName, W9BusinessClassification businessType, string businessTypeAdditional, string exemptPayeeCode, string fatcaExemtionCode, Address address, string currentAccountNumbers, string socialSecurityNumber, string employerIdentificationNumber, byte[] signature, DateTime date)
         {
             var objPDF = new PdfManager();
             var path = Sitecore.IO.FileUtil.MapPath(Sitecore.IO.FileUtil.MakePath(Sitecore.Configuration.Settings.DataFolder, "fw9.pdf"));

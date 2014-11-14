@@ -68,6 +68,33 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     dataPlans = [],
     phones = [];
 
+    service.getRestoreData = function() {
+        return {
+            state: service.state,
+            availableNetworks: service.availableNetworks,
+            selectedNetwork: service.selectedNetwork,
+            cart: service.cart,
+            contactInformation: service.contactInformation,
+            businessInformation: service.businessInformation,
+            terms: service.terms,
+            accountInformation: service.accountInformation,
+            dataPlans: dataPlans,
+            phones: phones,
+        };
+    };
+    service.restoreData = function(data) {
+        service.state = data.state;
+        service.availableNetworks = data.availableNetworks;
+        service.selectedNetwork = data.selectedNetwork;
+        service.cart = data.cart;
+        service.contactInformation = data.contactInformation;
+        service.businessInformation = data.businessInformation;
+        service.terms = data.terms;
+        service.accountInformation = data.accountInformation;
+        dataPlans = data.dataPlans;
+        phones = data.phones;
+    };
+
     service.isLoading = false;
 
     service.setNetworks = function (data) {

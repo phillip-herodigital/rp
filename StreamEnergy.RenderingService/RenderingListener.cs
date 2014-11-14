@@ -32,7 +32,9 @@ namespace StreamEnergy.RenderingService
                 {
                     try
                     {
-                        byte[] pdf = rasterizer.RasterizeEnrollmentConfirmation(value);
+                        var isMobile = value.StartsWith("{\"confirmationNumber\":");
+
+                        byte[] pdf = rasterizer.RasterizeEnrollmentConfirmation(value, isMobile ? "/mobile-enrollment" : "/enrollment/confirmation?phantomjs=1");
 
                         var matches = Regex.Matches(value, "\"confirmationNumber\":\"([^\"]+)\"");
                         var confNumbers = from Match match in matches
