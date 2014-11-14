@@ -6,6 +6,13 @@
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
 
+    // start over on refresh
+    $scope.$watch('cart.items', function(newValue, oldValue) {
+        if (newValue.length == 0) {
+            $scope.resetEnrollment();
+        }
+    });
+
     $scope.toggleBreakdown = function() {
         $scope.isBreakdownShown = !$scope.isBreakdownShown;     
     };

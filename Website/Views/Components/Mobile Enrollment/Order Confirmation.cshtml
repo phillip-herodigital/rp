@@ -45,6 +45,9 @@
                                     <span class="model">Apple iPhone 4S</span> <a href="">@Html.Sitecore().Field("Edit Link Text")</a>
                                 </div>
                             *@
+                            <div class="phone-summary-image">
+                                <i class="icon-byod"></i>
+                            </div>
                             <div class="description" ng-if="item.type == 'new'">
                                 <div class="condition">{{ item.buyingOption.condition }}</div>
                                 <div>{{ item.device.name }}</div>
@@ -76,21 +79,18 @@
                                 <div class="rate"></div>
                             </div>
                         *@
-                        <div class="phone-summary-image">
-                            <i class="icon-byod"></i>
-                        </div>
                     </div>
                     <hr />
                     <div class="plan-summary">
+                        <div class="plan-summary-image">
+                            <i class="icon-plan-summary"></i>
+                        </div>
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Monthly Plan Cost")</h2>
                                 <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                             </div>
                             <div class="rate">{{ mobileEnrollmentService.getProratedCost() | currency }}</div>
-                        </div>
-                        <div class="plan-summary-image">
-                            <i class="icon-plan-summary"></i>
                         </div>
                     </div>
                 </div>

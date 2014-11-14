@@ -49,10 +49,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await emailService.SendEmail(emailTemplate, settings.GetSettingsValue("Marketing Form Email Addresses", "Mobile Enrollment Email Address"), new System.Collections.Specialized.NameValueCollection ()
             {
-                { "DeviceMake", context.DeviceMake },    
-                { "DeviceModel", context.DeviceModel },    
-                { "DeviceSerial", context.DeviceSerial },    
-                { "SimNumber", context.SimNumber },    
+                { "DeviceMake", context.DeviceMake ?? "" },    
+                { "DeviceModel", context.DeviceModel ?? "" },    
+                { "DeviceSerial", context.DeviceSerial ?? "" },    
+                { "SimNumber", context.SimNumber ?? "" },    
                 { "NewNumber", context.NewNumber ?? "" },    
                 { "PortInNumber", context.PortInNumber ?? "" },    
                 { "PlanId", context.PlanId }, 
