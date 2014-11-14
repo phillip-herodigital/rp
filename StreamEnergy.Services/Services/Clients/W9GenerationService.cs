@@ -99,6 +99,8 @@ namespace StreamEnergy.Services.Clients
 
             if (!string.IsNullOrEmpty(employerIdentificationNumber))
             {
+                employerIdentificationNumber = System.Text.RegularExpressions.Regex.Replace(employerIdentificationNumber, "[^\\d]", "");
+
                 setTinFieldValue(objPage, textFields.employerIdentificationNumber1, employerIdentificationNumber.Substring(0, 2), objFont);
                 setTinFieldValue(objPage, textFields.employerIdentificationNumber2, employerIdentificationNumber.Substring(2), objFont);
             }
