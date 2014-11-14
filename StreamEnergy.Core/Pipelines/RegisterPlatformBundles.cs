@@ -29,8 +29,7 @@ namespace StreamEnergy.Pipelines
                 .Include("~/frontend/assets/js/libs/lodash/lodash.js")));
 
             bundles.Add(CommonScripts(new ScriptBundle("~/frontend/assets/js/legacybundle")
-                .Include("~/frontend/assets/js/libs/lodash/lodash.compat.js")
-                .IncludeDirectory("~/frontend/assets/js/polyfills/", "*.js", true)));
+                .Include("~/frontend/assets/js/libs/lodash/lodash.compat.js")));
         }
 
         private Bundle CommonScripts(Bundle scriptBundle)
@@ -38,6 +37,7 @@ namespace StreamEnergy.Pipelines
             scriptBundle.Orderer = new NoChangeOrderer();
 
             return scriptBundle
+                .IncludeDirectory("~/frontend/assets/js/polyfills/", "*.js", true)
                 .Include("~/frontend/assets/js/libs/modernizr/modernizr.js")
                 .Include("~/frontend/assets/js/libs/respond/dest/respond.min.js")
                 .Include("~/frontend/assets/js/libs/jquery/dist/jquery.min.js")
