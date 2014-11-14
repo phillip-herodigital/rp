@@ -86,6 +86,7 @@ namespace StreamEnergy.Services.Clients
 
             setFieldValue(objPage, textFields.address, address.Line1 + (string.IsNullOrEmpty(address.Line2) ? "" : ", " + address.Line2), objFont);
             setFieldValue(objPage, textFields.cityStateZip, string.Format("{0}, {1} {2}", address.City, address.StateAbbreviation, address.PostalCode5), objFont);
+            setFieldValue(objPage, textFields.listAccountNumbers, currentAccountNumbers, objFont);
 
             if (!string.IsNullOrEmpty(socialSecurityNumber))
             {
@@ -109,8 +110,6 @@ namespace StreamEnergy.Services.Clients
 
             objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=252; scalex=.25, scaley=.25");
             objDoc.Form.Flatten();
-
-            string strFilename = objDoc.Save("C:/pdfs/testpdf.pdf");
 
             byte[] pdf = objDoc.SaveToMemory();
             
