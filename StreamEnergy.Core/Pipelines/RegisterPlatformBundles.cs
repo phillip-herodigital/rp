@@ -30,7 +30,7 @@ namespace StreamEnergy.Pipelines
 
             bundles.Add(CommonScripts(new ScriptBundle("~/frontend/assets/js/legacybundle")
                 .Include("~/frontend/assets/js/libs/lodash/lodash.compat.js")
-                .Include("~/frontend/assets/js/polyfills/polyfills.js")));
+                .IncludeDirectory("~/frontend/assets/js/polyfills/", "*.js", true)));
         }
 
         private Bundle CommonScripts(Bundle scriptBundle)
