@@ -1534,7 +1534,14 @@ $enrollment-module-vertical-padding: 20px;
                 border-top: 0;
             }
         }
-
+        .trade-and-save {
+            h3, p {
+                text-align: center;
+            }
+            a {
+                font-size: 18px;
+            }
+        }
     }
     button.plain-footer {
         margin: 7px 0;
