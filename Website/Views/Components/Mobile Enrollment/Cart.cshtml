@@ -57,6 +57,19 @@
             </header>
             <ul class="info">
                 @*<li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Credit Card Text")</li>*@
+                <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Billing Address Text")</li>
+                <li>
+                    <i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br />
+                    @Html.Sitecore().Field("Bring Your Own Phone Text")
+                </li>
+            </ul>
+        </article>
+        <article class="enrollment__box">
+
+                <h5>@Html.Sitecore().Field("Trade and Save Header")</h5>
+
+            <ul class="info">
+                @*<li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Credit Card Text")</li>*@
                 <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Billing Address Text")</a></li>
                 <li>
                     <i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br />
