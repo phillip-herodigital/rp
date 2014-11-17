@@ -1,0 +1,63 @@
+﻿&.quote {
+    font-size: 18px;
+    line-height: 26.44px;
+    position: relative;
+    margin: 0;
+    color: #3c4244;
+    padding: 45px 0;
+    background-image: none;
+
+    blockquote {
+        margin: 0 298px 0 225px;
+        
+
+        p {
+            &:first-of-type {
+                text-indent: -11px;
+                font-size: 18px;
+                line-height: 26.44px;
+                position: relative;
+
+                &::before {
+                    content: "“";
+                    color: rgba(255,255,255,.3);
+                    font-size: 135.61px;
+                    position: absolute;
+                    left: -45px;
+                    top: 55px;
+                }
+                /* &::first-line {
+                font-size: 36px;
+                line-height: 60px;
+                font-style: italic;
+            } */
+            }
+
+            &:last-of-type::after {
+                content: "”";
+                color: rgba(255,255,255,.3);
+                font-size: 135.61px;
+                position: absolute;
+                margin-left: 10px;
+                margin-top: 40px;
+            }
+
+            .lead {
+                font-size: 36px;
+                line-height: 60px;
+                font-style: italic;
+            }
+        }
+
+        footer {
+            margin-top: 10px;
+            font-size: 14.23px;
+            line-height: 35.87px;
+
+            cite {
+                text-transform: uppercase;
+                font-style: normal;
+            }
+        }
+    }
+}

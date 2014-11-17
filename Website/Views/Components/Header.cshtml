@@ -21,7 +21,7 @@
 
     // Included ToArray to force Select to happen once, even though we have two foreach
     var target = targetObject.ToArray();
-    int selectedNavItem = 0;
+    var selectedNavItem = 0;
     var selectedParentItem = target.FirstOrDefault(i => i.Selected || i.SubNavItems.Any(si => si.Selected));
     if (selectedParentItem != null)
     {
@@ -29,102 +29,55 @@
     }
 
     var languageLinkUrlLanguage = (Sitecore.Context.Language.Name == "es") ? "en" : "es";
-    var languageLinkText = (Sitecore.Context.Language.Name == "es") ? "English" : "Español";
-    
+    var languageLinkText = (Sitecore.Context.Language.Name == "es") ? "In English" : "En Español";
+
     var languageLinkUrl = Sitecore.Links.LinkManager.GetItemUrl(Sitecore.Context.Item, new Sitecore.Links.UrlOptions()
     {
         Language = Sitecore.Globalization.Language.Parse(languageLinkUrlLanguage),
     });
-    var languageLink = string.Format(@"<a href=""{0}"">{1}</a>", languageLinkUrl, languageLinkText);
 
     var loggedIn = Sitecore.Context.IsLoggedIn;
     var username = Sitecore.Context.User.LocalName;
-    
-    <header class="site-header" main-nav="@selectedNavItem" data-fixed-fix>
-        <script id="mobileNav" type="text/ng-template">
-            <nav class="mobile-nav" mobile-nav="@selectedNavItem">
-                <ul>
-                    @foreach (var item in target)
+
+}
+<header>
+    <div class="content">
+        <h1><a href="/"><img src="/Images/Logo.png" alt="Stream - Connected Home"></a></h1>
+        <ol>
+            @foreach (var item in target)
+            {
+                <li>
+                    @if (item.Selected || item.SubNavItems.Any(subItem => subItem.Selected))
                     {
-                        <li ng-class="{ opened: subnav == @item.SubNavNum }">
-                            <span>
-                                @if (item.SubNavItems.Any())
-                                {
-                                    <span class="arrow" ng-click="toggleSubnav(@item.SubNavNum)"><i ng-class="{'icon-nav-arrow-expanded': subnav == @item.SubNavNum, 'icon-nav-arrow-collapsed': subnav != @item.SubNavNum}"></i></span>
-                                }
-                                @Html.Sitecore().Field("Navigation Link", item.Item)
-                            </span>
-                            @if (item.SubNavItems.Any())
-                            {
-                                <ul ng-hide="subnav != @item.SubNavNum">
-                                    @foreach (var subItem in item.SubNavItems)
-                                    {
-                                        <li>@Html.Sitecore().Field("Navigation Link", subItem.Item)</li>
-                                    }
-                                </ul>
-                            }
-                        </li>
-                    }
-                    @if (!loggedIn)
-                    {
-                        <li><a href="/pay/" class="button">Pay My Bill</a></li>
-                        <!--<li>@Html.Raw(languageLink)</li>-->
-                        <li><a href="/manage/">Manage My Account</a></li>
+                        <b>@Html.Sitecore().Field("Navigation Link", item.Item)</b>
                     }
                     else
                     {
-                        <li><a href="/api/authentication/logout">Logout</a></li>
-                        <li><a href="/faq">Help</a></li>
-                        <li><a href="/contact">Contact Us</a></li>
+                        @Html.Sitecore().Field("Navigation Link", item.Item)
                     }
-                    
-                </ul>
-            </nav>
-        </script>
-        <div class="shadow-wrapper">
-            <div class="wrapper">
-                <a href="/" class="logo">Logo</a>
-            <div class="utility">
-                @if (!loggedIn)
-                {
-                    <!--@Html.Raw(languageLink) | --><a href="/manage/">Manage My Account</a>
-                }
-                else
-                {
-                    <div class="welcome">Welcome: <span class="username">@username</span><a href="/api/authentication/logout">Logout</a>|<a href="/faq">Help</a>|<a href="/contact">Contact Us</a></div>
-                }
-            </div>
-                <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
-                <nav class="main-nav">
-                        <ul class="wrapper">
-                            @foreach (var item in target)
-                            {
-                                <li class="nav-@item.SubNavNum" ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)<span class="triangle"></span></li>
-                            }
-                    @if (!loggedIn)
+                    @if ((item.Selected || item.SubNavItems.Any(subItem => subItem.Selected)) && item.SubNavItems.Any())
                     {
-                        <li class="pay"><a href="/pay/" class="button">Pay My Bill</a></li>
+                        <ol>
+                            @foreach (var subItem in item.SubNavItems)
+                            {
+                                <li>
+                                    @if (subItem.Selected)
+                                    {
+                                        <b>@Html.Sitecore().Field("Navigation Link", subItem.Item)</b>
+                                    }
+                                    else
+                                    {
+                                        @Html.Sitecore().Field("Navigation Link", subItem.Item)
+                                    }
+                                </li>
+                            }
+                        </ol>
                     }
-                        </ul>
-                </nav>
-            </div>
-        </div>
-        <nav class="sub-nav">
-            @foreach (var entry in target)
-            {
-                <div class="wrapper" sub-nav="@entry.SubNavNum" ng-cloak ng-class="{ hidden: subnav != @entry.SubNavNum }" ng-mouseover="showSubnav(@entry.SubNavNum)" ng-mouseout="hideSubnav()">
-                    <ul ng-style="{'margin-left': marginLeft}">
-                        @foreach (var subItem in entry.SubNavItems)
-                        {
-                            <li @if (subItem.Selected) { @Html.Raw("class=\"selected\""); }>@Html.Sitecore().Field("Navigation Link", subItem)</li>
-                        }
-                        @if (!entry.SubNavItems.Any())
-                        {
-                            <li><a>&nbsp;</a></li>
-                        }
-                    </ul>
-                </div>
+                </li>
             }
-        </nav>
-    </header>
-}
+        </ol>
+        <aside id="UserActions-Header-Global">
+            <a href="@languageLinkUrl" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText.Replace(" ", "\u00A0")</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span style="letter-spacing: 0.026em;"><a href="/manage/">My&nbsp;Account</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="">Pay&nbsp;My&nbsp;Bill</a></span>
+        </aside>
+    </div>
+</header>
