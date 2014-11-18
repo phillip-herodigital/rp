@@ -197,10 +197,10 @@
                     <form data-val-bind-messages="validations" ng-submit="addDeviceToCart()">
                         <div class="content bring-your-own">
                             @* @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" }) *@
-                            @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" })
+                            @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}", type = "{{ mobileEnrollmentService.selectedNetwork.type }}" })
                             <hr />
                             <div class="vertical">
-                                <div class="item">
+                                <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'">
                                     <label>@Html.Sitecore().Field("Header - Select Device")</label>
                                     <div class="btn-group-options">
                                         <label>@Html.Sitecore().Field("Label - Select Device")</label>
@@ -215,7 +215,7 @@
                                         <div class="info">@Html.Sitecore().Field("Text - Select Device Info")</div>
                                     </div>
                                 </div>
-                                <hr />
+                                <hr ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
                                 <div class="item" data-val-error="imeiNumber">
                                     <label>
                                         @Html.Sitecore().Field("Header - IMEI Number")
@@ -228,7 +228,7 @@
                                     </div>
                                 </div>
                                 <hr />
-                                <div class="item" data-val-error="simNumber">
+                                <div class="item" data-val-error="simNumber" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'">
                                     <label>
                                         @Html.Sitecore().Field("Header - SIM Card Number")
                                         <span class="label-description">@Html.Sitecore().Field("Text - SIM Card Number Note")</span>
@@ -239,7 +239,7 @@
                                         <span class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></span>
                                     </div>
                                 </div>
-                                <hr />
+                                <hr ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
                                 <div class="item">
                                     <label>
                                         @Html.Sitecore().Field("Phone Number")<br />

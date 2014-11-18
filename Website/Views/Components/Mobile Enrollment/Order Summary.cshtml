@@ -32,7 +32,8 @@
                         <i class="icon-billed-monthly pull-right"></i>
                         <h2>@Html.Sitecore().Field("To Be Billed Monthly")</h2>
                         <div class="clearfix">
-                            <div class="description">@Html.Sitecore().Field("Monthly Plan Cost").Format(new { size = "{{ cart.dataPlan.data }}" })</div>
+                            <div class="description" ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Monthly Plan Cost").Format(new { size = "{{ cart.dataPlan.data }}" })</div>
+                            <div class="description" ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Monthly Plan Cost").Format(new { size = "{{ cart.dataPlan.data }}" })</div>
                             <div class="rate">{{ cart.dataPlan.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
                         </div>
                         <div class="clearfix">

@@ -75,7 +75,8 @@
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Monthly Plan Cost")</h2>
-                                <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                                 <p><a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
                             <div class="rate">{{ mobileEnrollmentService.getProratedCost() | currency }}</div>
@@ -96,7 +97,8 @@
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Estimated Monthly Plan")</h2>
-                                <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                                 <p><a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
                             <div class="rate">{{ cart.dataPlan.price | currency }}/mo</div>

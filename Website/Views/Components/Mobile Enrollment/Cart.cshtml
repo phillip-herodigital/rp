@@ -18,7 +18,7 @@
                     <div class="cart-product clearfix">
                         <div class="description">
                             @Html.Sitecore().Field("Individual Plan")<br />
-                            <span class="details" ng-if="cart.dataPlan.data">{{ cart.dataPlan.data }}@Html.Sitecore().Field("Data Included")</span>
+                            <span class="details" ng-if="cart.dataPlan.data">{{ cart.dataPlan.data }}<span ng-if="cart.dataPlan.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Included")</span>
                             @*<a href="">@Html.Sitecore().Field("Edit Plan Link")</a>*@
                         </div>
                         <div class="rate" ng-if="cart.dataPlan.price">{{ cart.dataPlan.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
@@ -57,12 +57,17 @@
             </header>
             <ul class="info">
                 @*<li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Credit Card Text")</li>*@
-                <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Billing Address Text")</a></li>
+                <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Billing Address Text")</li>
                 <li>
                     <i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br />
                     @Html.Sitecore().Field("Bring Your Own Phone Text")
                 </li>
             </ul>
+        </article>
+        <article class="enrollment__box trade-and-save" ng-if="getCartCount() == 0">
+            <h3>@Html.Sitecore().Field("Trade and Save Header")</h3>
+            <p>@Html.Sitecore().Field("Trade and Save Image")</p>
+            <p>@Html.Sitecore().Field("Trade and Save Link")</p>
         </article>
     </div>
 </script>

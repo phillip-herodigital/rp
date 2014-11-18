@@ -20,7 +20,7 @@
                             <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
                             <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
                             <p>
-                                <span class="size">{{ plan.data }} GB</span>
+                                <span class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">GB</span></span>
                             </p>
                             <hr />
                             <ul class="details">
