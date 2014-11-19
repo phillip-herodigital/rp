@@ -64,7 +64,7 @@
             simNumber: item.simNumber,
             newNumber: (item.number.type == 'new') ? item.number.value : null,
             portInNumber: (item.number.type == 'existing') ? item.number.value : null,
-            previousServiceProvider: mobileEnrollmentService.previousServiceProvider.name,
+            previousServiceProvider: mobileEnrollmentService.previousServiceProvider != null ? mobileEnrollmentService.previousServiceProvider.name : null,
             planId: $scope.cart.dataPlan.planId,
             contactInfo: $scope.accountInformation.contactInfo,
             billingAddress: $scope.accountInformation.billingAddress,
