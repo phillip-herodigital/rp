@@ -56,6 +56,7 @@ namespace StreamEnergy.Data.MobileEnrollment
                     SimNumber = data.SimNumber,
                     NewNumber = data.NewNumber,
                     PortInNumber = data.PortInNumber,
+                    PreviousServiceProvider = data.PreviousServiceProvider,
                     PlanId = data.PlanId,
                     AssociateId = data.AssociateId,
                     SourceId = data.SourceId,

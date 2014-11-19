@@ -40,7 +40,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         [HttpPost]
         [Mvc.ErrorSitecoreTranslation]
-        public async Task<ActionResult> ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)
+        public ActionResult ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)
         {
             // Validate form data
             if (ModelState.IsValid)
@@ -82,7 +82,7 @@ namespace StreamEnergy.MyStream.Controllers
                     "<br />Reason: " + Reason +
                     "<br /> Comments: " + Comment;
 
-                await this.emailService.SendEmail(Message);
+                this.emailService.SendEmail(Message);
 
                 // Send the success message back to the page
                 var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
