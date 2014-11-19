@@ -62,6 +62,9 @@
                     <i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br />
                     @Html.Sitecore().Field("Bring Your Own Phone Text")
                 </li>
+                <li class="no-icon">
+                    @Html.Sitecore().Field("Transfer Number Text")
+                </li>
             </ul>
         </article>
         <article class="enrollment__box trade-and-save" ng-if="getCartCount() == 0">
