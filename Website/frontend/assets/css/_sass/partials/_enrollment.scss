@@ -1534,7 +1534,9 @@ $enrollment-module-vertical-padding: 20px;
                 border-top: 0;
             }
         }
-
+        .info li.no-icon {
+            padding-left: 20px;
+        }
     }
     button.plain-footer {
         margin: 7px 0;
@@ -1933,6 +1935,10 @@ $enrollment-module-vertical-padding: 20px;
         }
         .previous-provider {
             margin-top: 1em;
+            margin-bottom: 1em;
+        }
+        .transfer-number {
+            line-height: 1.375;
         }
     }
     .tabbed-header {
