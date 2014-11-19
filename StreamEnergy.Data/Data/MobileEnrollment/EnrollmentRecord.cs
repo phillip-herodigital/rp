@@ -76,6 +76,8 @@ namespace StreamEnergy.Data.MobileEnrollment
 
         public string PortInNumber { get; set; }
 
+        public string PreviousServiceProvider { get; set; }
+
         public string PlanId { get; set; }
 
 
