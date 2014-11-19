@@ -44,6 +44,7 @@ namespace StreamEnergy.Pipelines
                 .IncludeDirectory("~/frontend/assets/js/vendor/", "*.js", true)
                 .Include("~/frontend/assets/js/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js")
                 .Include("~/frontend/assets/js/libs/angular/angular.min.js")
+                .Include("~/frontend/assets/js/libs/angular-scroll/angular-scroll.min.js")
                 .Include("~/frontend/assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js")
                 .Include("~/frontend/assets/js/libs/angular-ui-slider/src/slider.js")
                 .Include("~/frontend/assets/js/libs/d3/d3.js")

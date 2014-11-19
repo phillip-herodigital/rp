@@ -4,10 +4,11 @@
     "dependencies": {
     	"modernizr": "latest",
     	"jquery": "~1",
-        "angular": "~1.2",
+        "angular": "~1.2.23",
         "angular-animate": "latest",
         "angular-bootstrap": "latest",
         "angular-ui-utils": "latest",
+		"angular-scroll": "latest",
         "underscore": "latest",
         "respond": "latest"
     }

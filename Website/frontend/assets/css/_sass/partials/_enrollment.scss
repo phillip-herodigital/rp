@@ -3,25 +3,6 @@
     Changing it to more of a SMACSS/BEM styling.
  ***/
 
-$enrollment-primary-color: #257ab3;
-$enrollment-secondary-color: #fff;
-
-$enrollment-primary-button-background: #257ab3;
-$enrollment-secondary-button-background: #6b6b6b;
-$enrollment-tertiary-button-background: #fff;
-
-$enrollment-primary-button-color: #fff;
-$enrollment-secondary-button-color: #fff;
-$enrollment-tertiary-button-color: #257ab3;
-
-$enrollment-dark-border-color: #cecece;
-$enrollment-light-border-color: #e6e6e6;
-
-$enrollment-module-h1-size: 26px;
-$enrollment-module-h1-color: #333;
-$enrollment-module-horizontal-padding: 20px;
-$enrollment-module-vertical-padding: 20px;
-
 
 /*
     Generic styling for enrollment pages
@@ -456,7 +437,7 @@ $enrollment-module-vertical-padding: 20px;
         font-size: $enrollment-module-h1-size;
         color: $enrollment-module-h1-color;
         text-transform: none;
-        margin-top: 15px;
+        margin: 0;
     }
     header, .content, footer {
         padding-left: $enrollment-module-horizontal-padding;
@@ -1135,11 +1116,13 @@ $enrollment-module-vertical-padding: 20px;
 .enrollment__cart {
     margin-bottom: 15px;
     line-height: 1.35;
-    header {
-        margin-bottom: 15px;
-    }
     header, .content, footer {
         padding: 0 13px;
+    }
+    header {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
     }
     hr {
         margin: 15px 0;
@@ -1327,6 +1310,14 @@ $enrollment-module-vertical-padding: 20px;
             width: 100%;
         }
     }
+    .content .marketing-empty-cart {
+    	padding: 15px 0 30px;
+    	text-transform: uppercase;
+    	text-align: center;
+    	color: #ccc;
+    	font-weight: 600;
+    	font-size: $font-size-base;
+    }
     @include breakpoint(small) {
         display: none;
     }
@@ -1415,13 +1406,225 @@ $enrollment-module-vertical-padding: 20px;
                         right: 2%;
                         top: 45px;
                     }
-                }
-            }
+        }
+    }
         }
     }
  }
 
+/*
+    Generic styling for enrollment pages
+ */
+.enrollment {
+    .checkbox-list {
+        li { 
+            margin-bottom : 4px;
+        }
+        label {
+			display: inline;
+        }
+    }
 
+    .center {
+        text-align: center;
+    }
+
+    .icon-blue-arrow-up, .icon-blue-arrow-down {
+        margin-top: -2px;
+    }
+
+    .buttons .button, .buttons button, .enrollment-btn {
+        background-color: $enrollment-primary-button-background;
+        color: $enrollment-primary-button-color;
+
+        &.secondary {
+            background-color: $enrollment-secondary-button-background;
+            color: $enrollment-secondary-button-color;
+            text-shadow: none;
+        }
+    }
+    
+    .error {
+        color: #c84545;
+        input, select {
+            border-color: #c84545;
+        }
+    }
+        
+    .wrapper {
+        position: relative;
+        overflow: visible;
+        padding-bottom: 50px;
+    }
+
+    .time-remaining-mobile {
+        text-align: center;
+        .time-remaining {
+            text-transform: uppercase;
+            font-size: 14px;
+            width: 75%;
+            margin: 0 auto;
+        }
+    }
+
+    .item--no-input {
+        label {
+            margin-bottom: 3px;
+        }
+    }
+
+    .terms-agreement {
+        margin-bottom: 20px;
+    }
+
+    .verify-order-table {
+        .sub-charge { 
+            padding-left: 30px;
+        }
+        .rate {
+            text-align: right;
+        }
+        h4 { 
+            margin: 0 0 10px;
+        }
+        th, td {
+            border: none;
+            padding: 0;
+            vertical-align: top;
+        }
+        tr:last-child {
+            td {
+                padding-bottom: 0;
+            }
+        }
+
+        @include breakpoint(small) {
+            h4 {
+                margin-bottom: 0;
+            }
+            td {
+                display: block;
+            }
+            .docs {
+                text-align: left;
+            }
+            .sub-charge {
+                padding-left: 0;
+                margin-bottom: 6px;
+            }
+            .description {
+                margin-bottom: 6px;
+            }
+            .rate {
+                margin-bottom: 15px;
+                text-align: left;
+            }
+        }
+    }
+
+    .total {
+        text-align: right;
+    }
+
+    hr.content-divider {
+        margin: 25px (-$enrollment-module-horizontal-padding);
+    }
+
+    form div.additional-field-group {
+        margin-left: (-$enrollment-module-horizontal-padding);
+        margin-right: (-$enrollment-module-horizontal-padding);
+        padding-left: $enrollment-module-horizontal-padding;
+        padding-right: $enrollment-module-horizontal-padding;
+    }
+
+    @include breakpoint(small) {
+        #state-select {
+            margin-top: 5px;
+        }
+        .buttons {
+            text-align: center;
+            button {
+                min-width: 150px;
+            }
+            button + button {
+                margin-top: 8px;
+            }
+        }
+        .datepicker {
+            position: relative;
+            .pull-right, .pull-left {
+                width: 35px;
+            }
+            table {
+                width: 100%;
+                max-width: 320px;
+                td {
+                    padding: 2px 3px;
+                }
+            }
+        }
+        .datepicker-input {
+            @include retina-background('calendar.png', 'icon'); 
+            background-position: 98% center;
+            background-repeat: no-repeat;
+
+            //Remove the Clear field (X) in IE10+
+            &::-ms-clear {
+                display: none;
+            }
+        }
+        .dropdown-menu {
+            font-size: 13px;
+        }
+        .time-remaining-mobile {
+            margin-top: 10px;
+            .time-remaining {
+                width: 160px;
+                font-size: 11px;
+            }
+        }
+        h1 {
+            font-size: 30px;
+            line-height: 1.1;
+        }
+        .plan-selection-table {
+            tr.details-row {
+                td div {
+                    padding: 0 15px;
+                }
+            }
+            .plan-name {
+                text-align: left;
+            }
+            .plan-actions {
+                border-left: none;
+                button, .button {
+                    float: right;
+                    min-width: 120px;
+                }
+            }
+            .view-details {
+                display: inline;
+                float: left;
+                margin-top: 12px;
+            }
+        }
+
+    }
+}
+
+
+/*
+ *
+    The styling below still needs to be updated.
+    No optimizations have been done yet.
+ *
+ */
+.banner.phone {
+	height: 228px;
+	background-position: 50%;
+	background-size: cover;
+}
 
 /* Mobile Enrollment */
 .mobile-enrollment {
@@ -1533,6 +1736,9 @@ $enrollment-module-vertical-padding: 20px;
                 padding-top: 0;
                 border-top: 0;
             }
+        }
+        .info li.no-icon {
+            padding-left: 20px;
         }
         .trade-and-save {
             h3, p {
@@ -1778,7 +1984,7 @@ $enrollment-module-vertical-padding: 20px;
         @include breakpoint(small) {
             width: auto;
             margin-left: 0;
-        }
+    }
     }
     .btn-group-row {
         display: table-row;
@@ -1944,6 +2150,13 @@ $enrollment-module-vertical-padding: 20px;
         .button {
             padding-top: 10px;
             padding-bottom: 10px;
+        }
+        .previous-provider {
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+        .transfer-number {
+            line-height: 1.375;
         }
     }
     .tabbed-header {

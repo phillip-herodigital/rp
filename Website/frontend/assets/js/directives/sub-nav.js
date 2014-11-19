@@ -11,7 +11,7 @@ ngApp.directive('subNav', ['jQuery', 'breakpoint', '$timeout', function (jQuery,
                     return;
                 }
                 var mainNavItem = jQuery('.main-nav .nav-' + attrs.subNav),
-                mainNavItemCenter = mainNavItem.position().left - parseInt(jQuery(".site-header > .wrapper").css('paddingLeft'), 10) + mainNavItem.width() / 2, // Need to account for the .wrapper padding in mainNavItem.position().left
+                mainNavItemCenter = mainNavItem.position().left + parseInt(jQuery(".site-header .main-nav > .wrapper").position().left, 10) + mainNavItem.width() / 2, // Need to account for the .wrapper padding in mainNavItem.position().left
                 listItem = element.find('ul'),
                 listItemWidth = listItem.width(),
                 marginLeft = mainNavItemCenter - listItemWidth / 2;

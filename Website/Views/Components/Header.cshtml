@@ -81,8 +81,9 @@
                 </ul>
             </nav>
         </script>
-        <div class="wrapper">
-            <a href="/" class="logo">Logo</a>
+        <div class="shadow-wrapper">
+            <div class="wrapper">
+                <a href="/" class="logo">Logo</a>
             <div class="utility">
                 @if (!loggedIn)
                 {
@@ -93,19 +94,20 @@
                     <div class="welcome">Welcome: <span class="username">@username</span><a href="/api/authentication/logout">Logout</a>|<a href="/faq">Help</a>|<a href="/contact">Contact Us</a></div>
                 }
             </div>
-            <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
-            <nav class="main-nav">
-                <ul class="wrapper">
-                    @foreach (var item in target)
-                    {
-                        <li class="nav-@item.SubNavNum" ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
-                    }
+                <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+                <nav class="main-nav">
+                        <ul class="wrapper">
+                            @foreach (var item in target)
+                            {
+                                <li class="nav-@item.SubNavNum" ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)<span class="triangle"></span></li>
+                            }
                     @if (!loggedIn)
                     {
                         <li class="pay"><a href="/pay/" class="button">Pay My Bill</a></li>
                     }
-                </ul>
-            </nav>
+                        </ul>
+                </nav>
+            </div>
         </div>
         <nav class="sub-nav">
             @foreach (var entry in target)

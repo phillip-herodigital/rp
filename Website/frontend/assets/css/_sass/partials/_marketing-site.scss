@@ -2,7 +2,7 @@
 // Accent Color is used for headings and buttons
 // Text Color is the main body text
 $themes:
-	(name: "blue", primaryColor: #1773cb, accentColor: #fff, textColor: #fff),
+	(name: "blue", primaryColor: $brand-primary-color, accentColor: #fff, textColor: #fff),
 	(name: "paleblue", primaryColor: #7e9ab3, accentColor: #fff, textColor: #fff),
 	(name: "darkblue", primaryColor: #073464, accentColor: #fff, textColor: #fff),
 	(name: "green", primaryColor: #78bb2f, accentColor: #fff, textColor: #fff),
@@ -11,39 +11,17 @@ $themes:
 	(name: "orange", primaryColor: #fda32b, accentColor: #fff, textColor: #fff),
 	(name: "red", primaryColor: #aa2130, accentColor: #fff, textColor: #fff),
 	(name: "palered", primaryColor: #b48789, accentColor: #fff, textColor: #fff),
-	(name: "white", primaryColor: #fff, accentColor: #1773cb, textColor: #6b6b6b),
-	(name: "grey", primaryColor: #e8e8e8, accentColor: #1773cb, textColor: #6b6b6b),
+	(name: "white", primaryColor: #fff, accentColor: $brand-primary-color, textColor: #6b6b6b),
+	(name: "grey", primaryColor: #e8e8e8, accentColor: $brand-primary-color, textColor: #6b6b6b),
 	(name: "darkgrey", primaryColor: #6b6b6b, accentColor: #fff, textColor: #fff);
 
 @each $theme in $themes {
-	button, .button {
+	.marketing button, .marketing .button {
 		&.#{map-get($theme, name)} {
 			background-color: map-get($theme, primaryColor);
+			background-image: none;
 			color: map-get($theme, accentColor);
 		}
-	}
-}
-
-.banner.marketing {
-	height: 400px;
-	background-position: 50%;
-	background-size: cover;
-	border-bottom: 5px solid #259afd;
-	@include breakpoint(medium) {
-		height: 300px;
-	}
-	@include breakpoint(small) {
-		display: none;
-	}
-}
-
-article.marketing {
-	@extend article.plain;
-	position: relative;
-	margin-bottom: 20px;
-	color: #6b6b6b;
-	img {
-		max-width: 100%;
 	}
 }
 
@@ -56,6 +34,7 @@ article.photoLockup {
 	.photo {
         @include border-radius(0 0 0 0);
 		position: absolute;
+		top: 0;
 		width: 50%;
 		height: 100%;
 		overflow: hidden;
@@ -182,6 +161,7 @@ article.photoLockup {
 			}
 			button, .button {
 				background-color: map-get($theme, accentColor);
+				background-image: none;
 				color: map-get($theme, primaryColor);
 				&:hover {
 					background-color: #6b6b6b;
@@ -202,6 +182,7 @@ article.photoLockup {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				background-image: none;
 				&:hover {
 					background-color: #6b6b6b;
 					color: #fff;
@@ -239,7 +220,8 @@ article.marketingIntro {
 			@include breakpoint(medium-large) {
 				width: 450px;
 			}
-			margin: 0 auto;
+			margin-left: auto;
+			margin-right: auto;
 			text-align: left;
 			em {
 				text-transform: uppercase;
@@ -259,6 +241,7 @@ article.marketingIntro {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				background-image: none;
 				&:hover {
 					background-color: #6b6b6b;
 					color: #fff;
@@ -282,9 +265,7 @@ article.marketingIntro {
 }
 
 article.loginHorizontal {
- 	margin-top: -20px;
-	padding: 10px 0;
-	background-color: #1773cb;
+	background-color: $brand-primary-color;
 	color: #fff;
 	.text {
 		float: left;
@@ -308,6 +289,7 @@ article.loginHorizontal {
 	}
 	button {
 		background-color: #fff;
+		background-image: none;
 		color: #1773cb;
 		line-height: normal;
 		width: 85px;
@@ -329,9 +311,6 @@ article.loginHorizontal {
 			margin-right: 15px;
 			padding-right: 15px;
 		}
-		.group .item {
-			padding-right: 11px;
-		}
 		.username-item, .password-item {
 			width: 140px;
 		}			
@@ -342,7 +321,6 @@ article.loginHorizontal {
 	}
 	@include breakpoint(large) {
 		.group .item {
-			padding-right: 18px;	
 		}		
 		.username-item, .password-item {
 			width: 240px;
@@ -383,7 +361,7 @@ article.loginHorizontal {
 }
 
 article.gridPromos {
-	div.col {
+	.col {
 		text-align: center;
 		padding: 0 5%;
 		@include breakpoint(small-medium) {
@@ -393,15 +371,11 @@ article.gridPromos {
 			font-size: 14px;
 		}
 		h4 {
-			font-weight: 100;
+			font-weight: 400;
 			strong {
 				font-weight: 500;
 				display: block;
 			}
-		}
-		i {
-			display: block;
-			margin: 0 auto 5px auto;
 		}
 		sup {
 			font-size: 9px;
@@ -413,6 +387,7 @@ article.gridPromos {
 				}
 				button, .button {
 					background-color: map-get($theme, primaryColor);
+					background-image: none;
 					white-space: nowrap;
 					&:hover {
 						background-color: #6b6b6b;
@@ -519,7 +494,7 @@ article.director-list {
 			float: left;
 			text-align: center;
 			h3 {
-				color: #0971ce;
+				color: $brand-primary-color;
 				text-transform: none;
 			}
 			@include breakpoint(medium) {
@@ -563,6 +538,7 @@ article.philanthropy {
 			margin: 60px 20px 0 0;
 			button {
 				background-color: #77bc1f;
+				background-image: none;
 			}
 		}
 		@include breakpoint(medium) {
@@ -612,6 +588,7 @@ article.full-html {
 			}
 			button, .button {
 				background-color: map-get($theme, accentColor);
+				background-image: none;
 				color: map-get($theme, primaryColor);
 			}
 		}
@@ -623,6 +600,7 @@ article.full-html {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				background-image: none;
 				&:hover {
 					color: #fff;
 					background-color: #6b6b6b;
@@ -638,72 +616,6 @@ article.full-html {
 	
 }
 
-article.state-tabs {
-	ul.tabs-nav {
-		@extend .wrapper;
-		margin: 0 auto;
-		display: table;
-		@include breakpoint(small) {
-			width: 100%;
-		}
-		li {
-			float: none;
-			display: table-cell;
-			width: 138px;
-			@include breakpoint(small) {
-				display: block;
-				width: auto;
-			}
-			a {
-				display: block;
-				padding: 10px 0 20px 0;
-				text-align: center;
-				@include border-radius(7px 7px 0 0);
-				span {
-					display: block;
-					margin: 0 auto;
-					width: 82px;
-					height: 84px;
-					@include retina-background("state-tabs.png");
-					i {
-						max-height: 84px;
-					}
-				}
-				@include breakpoint(small) {
-					@include border-radius(7px 7px 7px 7px);
-					width: auto;
-				}
-			}
-			&.active, &:hover {
-				a {
-					background-color: #0971ce;
-					color: #fff;
-				}
-				span {
-					background: none;
-				}
-			}
-		}
-	}
-	.tab-header {
-		padding: 10px 0;
-		background-color: #0971ce;
-		color: #fff;
-		button, a.button{
-			@include breakpoint(small) {
-				display:block;
-				margin: 5px 0;
-			}
-		}
-	}
-	.tab-footer {
-		min-height: 30px;
-		margin: 0;
-		background-color: #0971ce;
-		border-bottom: 5px solid #76bd1d;
-	}
-}
-
 article.service-states {
 	.tab-header {
 		margin-bottom: 20px;
@@ -713,6 +625,7 @@ article.service-states {
 		button,
 		a.button {
 			background-color: #78bb2f;
+			background-image: none;
 			color: #fff;
 			&.secondary {
 				background-color: #fff;
@@ -930,7 +843,7 @@ article.pay {
 	padding: 20px 0;
 	margin-bottom: 0;
 	h1 {
-		color: #0971ce;
+		color: $brand-primary-color;
 	}
 	h2 {
 		text-transform: none;
@@ -951,7 +864,7 @@ article.pay {
 		}
 		span.phone {
 			font-size: 22px;
-			color: #0971ce;
+			color: $brand-primary-color;
 		}
 		&:last-child {
 			border-bottom: none;
@@ -975,6 +888,7 @@ article.pay {
 		}
 		button {
 			background-color: #77bc1f;
+			background-image: none;
 			&:hover {
 				color: #000;
 			}
@@ -984,12 +898,12 @@ article.pay {
 			text-decoration: underline;
 		}
 		span.benefits {
-			color: #0971ce;
+			color: $brand-primary-color;
 			text-transform: uppercase;
 		}
 		p.sign-up {
 			font-size: 20px;
-			color: #0971ce;
+			color: $brand-primary-color;
 			a {
 				font-size: 22px;
 				text-decoration: underline;
@@ -999,7 +913,7 @@ article.pay {
 	aside {
 		h4 {
 			margin-bottom: 40px;
-			color: #0971ce;
+			color: $brand-primary-color;
 			text-transform: none;
 			font-size: 24px;
 		}
@@ -1052,7 +966,7 @@ article.contact {
 	}
 	div.blue-bar {
 		height: 50px;
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		border-bottom: 5px solid #ffa409;
 	}
 	div.contact-banner {
@@ -1161,7 +1075,7 @@ article.contact {
 		}
 	}
 	div.request {
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		color: #fff;
 		border-bottom: 3px solid #ffa409;
 		border-top: 3px solid #ffa409;
@@ -1204,6 +1118,7 @@ article.contact {
 				}
 				button {
 					background-color: #ebebeb;
+					background-image: none;
 					color: #000;
 				}
 			}
@@ -1251,7 +1166,7 @@ article.contact-state {
 			width: 100%;
 		}
 		h1 {
-			color: #0971ce;
+			color: $brand-primary-color;
 			margin-bottom: 50px;
 		}
 		h2 {
@@ -1322,12 +1237,12 @@ article.contact-state {
 			font-size: 25px;
 		}
 		h3 {
-			color: #0971ce;
+			color: $brand-primary-color;
 			margin: 50px 0 10px 0;
 		}
 		.grid .col {
 			.company {
-				color: #0971ce;
+				color: $brand-primary-color;
 			}
 			.oncor {
 				width: 85%;
@@ -1340,6 +1255,7 @@ article.contact-state {
 				button,
 				.button {
 					background-color: #ffa409;
+					background-image: none;
 					a {
 						color: #fff;
 					}
@@ -1355,65 +1271,9 @@ article.contact-state {
 	}
 }
 
-article.faq {
-	background-color: #eaeaea;
-	padding: 20px 0;
-	.wrapper {
-		.panel {
-			@include border-radius(10px);
-			background: #fff;
-            // http://stackoverflow.com/questions/15430675/jquery-slidetoggle-and-css-border-radius-propery-show-wired-in-ie10
-            display: inline-block;
-            width: 100%;
-			p.question {
-				margin: 0 10px 0 55px;
-				a {
-					background-image: url('../i/marketing/collapse.png');
-					background-repeat: no-repeat;
-					background-position: right center;					
-					color: #696969;
-					display: block;
-					padding: 15px 40px 15px 0;
-				}
-				a.collapsed {
-					background-image: url('../i/marketing/expand.png');
-				}
-			}
-			.q {
-				float: left;
-				font-size: 26px;
-				margin: 10px 0px 0 10px;
-				color: #bbb;
-			}
-			.panel-content {
-				color: #0971ce;
-				padding-bottom: 10px;
-				.answer-hr {
-					border: 3px solid #eaeaea;
-					width: 90%;
-					margin-top: 0; //Prevent jumping in the slide animation
-				}
-				.a {
-					float: left;
-					font-size: 26px;
-					margin: 5px 0px 0 10px;
-				}
-				.answer {
-					margin-left: 55px;	
-					padding-right: 45px;
-				}
-			}
-		}
-		.faq-hr {
-			border: 3px solid #f3f3f3;
-			margin: 20px 0;
-		}	
-	}
-}
-
 article.homelife-services {
 	.intro {
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		color: #fff;
 		text-align: center;
 		padding: 50px 0;
@@ -1443,7 +1303,7 @@ article.homelife-services {
 			width: 40%;
 			padding-top: 80px;
 			h3 {
-				color: #0971ce;
+				color: $brand-primary-color;
 			}
 			p {
 				font-size: 14px;
@@ -1456,7 +1316,7 @@ article.homelife-services {
 		font-size: 20px;
 		span {
 			font-size: 22px;
-			color: #0971ce;
+			color: $brand-primary-color;
 			text-transform: uppercase;
 		}
 		hr {
@@ -1477,7 +1337,7 @@ article.homelife-services {
 				padding: 5px;
 			}
 			h3 {
-				color: #0971ce;
+				color: $brand-primary-color;
 				span {
 					text-transform: none;
 				}
@@ -1559,18 +1419,18 @@ article.homelife-services {
 						font-style: normal;
 						.dollars {
 							font-size: 38px;
-							color: #0971ce;
+							color: $brand-primary-color;
 						}
 						.cents {
 							font-size: 12px;
-							color: #0971ce;
+							color: $brand-primary-color;
 							vertical-align: 50%;
 						}
 					}	
 				}
 				p.month-free {
 					text-transform: none;
-					color: #0971CE;
+					color: $brand-primary-color;
 					font-style: normal;
 					font-size: 1.2em;
 					border-bottom: 1px solid #d0d0d0;
@@ -1677,12 +1537,12 @@ article.homelife-services {
                 margin-top: -3px;
                 overflow: hidden;
             }
-			background-color: #0971ce;
+			background-color: $brand-primary-color;
 			h3 {
 				padding-right: 70px;
 			}
 			.savings {
-				background-color: #0971ce;
+				background-color: $brand-primary-color;
 				p {
 					color: #fff;
 				}
@@ -1699,6 +1559,7 @@ article.homelife-services {
 			}
 			.identity .button {
 				background-color: #7e9bb5;
+				background-image: none;
 			}
 			.support {
 				&:after {
@@ -1725,7 +1586,7 @@ article.homelife-services {
 					background-color: #fdfdfd;
 					border: 1px solid #d0d0d0;
 					p {
-						color: #0971ce;
+						color: $brand-primary-color;
 					}
 				}
 				button {
@@ -1769,7 +1630,7 @@ article.homelife-services {
 								border-bottom: none;
 							}
 							button {
-								background-color: #0971ce;
+								background-color: $brand-primary-color;
 								&:hover {
 									background-color: #6b6b6b;
 								}
@@ -1905,7 +1766,7 @@ article.commercial-quote {
 	.text {
 		border-left: 3px solid #ffa409;
 		width: 50%;
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		@include breakpoint(small) {
 			width: 100%;
 		}
@@ -1967,11 +1828,11 @@ article.commercial-quote {
 
 article.commercial-account-banner {
 	.account-banner {
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		p {
 			button {
 				background-color: #fff;
-				color: #0971ce;
+				color: $brand-primary-color;
 				margin: auto;
 				display: block;
 				&:hover {
@@ -2073,7 +1934,7 @@ article.enroll {
 	.text {
 		padding: 25px 0;
 		h1 {
-			color: #0971ce;
+			color: $brand-primary-color;
 		}
 		h2.grey {
 			color: #6b6b6b;
@@ -2118,7 +1979,7 @@ article.enroll {
 				width: 100%;
 			}
 			.header {
-				background-color: #0971ce;
+				background-color: $brand-primary-color;
 				color: #fff;
 				padding: 10px 0 10px 20px;
 			}
@@ -2183,7 +2044,7 @@ article.terms-of-use {
 			}
 		}
 		h3 {
-			color: #0971ce;
+			color: $brand-primary-color;
 		}
 		span {
 			text-transform: uppercase;
@@ -2212,7 +2073,7 @@ article.energy-certificates {
 		.text {
 			width: 335px;
 			float: right;
-			margin: 70px 50px 0 0;
+			margin: 20px 50px 0 0;
 			.button {
 				background-color: #2c3e50;
 				&:hover {
@@ -2235,7 +2096,10 @@ article.energy-certificates {
 
 article.ignite-associate {
 	text-align: center;
-	margin: 50px 0 10px;
+	margin: 0; 
+	.wrapper {
+		padding: 40px 0 10px;
+	}
 	button,
     .button {
 		background-color: #a9222d;
@@ -2245,6 +2109,9 @@ article.ignite-associate {
 		&:hover {
 			background-color: #6b6b6b;
 		}
+	}
+	h3 {
+		margin: 0;
 	}
 }
 
@@ -2284,7 +2151,7 @@ article.electricity-gas {
 		margin-right: auto;
 		margin-left: auto;
 		span {
-			color: #0971ce;
+			color: $brand-primary-color;
 		}
 	}
 	hr {
@@ -2477,6 +2344,9 @@ article.manage-free-energy {
 		.left-column {
 			padding-left: 20px;
 		}
+		.right-column {
+			margin-top: -50px;
+		}
 	}
 }
 
@@ -2656,7 +2526,7 @@ article.rates {
         tbody {
             tr.details td:first-child {
                 border: 0;
-                border-left: 2px solid #0971ce;
+                border-left: 2px solid $brand-primary-color;
             }
         }
     }
@@ -2696,7 +2566,7 @@ article.paperless {
 		float: right;
 		padding-left: 40px;
 		border-left: 1px solid #cfcfcf;
-		div.clearfix {
+		& > div {
 			margin-bottom: 30px;
 			img {
 				float: left;
@@ -2742,6 +2612,7 @@ article.paperless {
 		}
 		.share {
 			margin-top: 100px;
+			margin-bottom: 0;
 			text-align: center;
 		}
 		@include breakpoint(small) {
