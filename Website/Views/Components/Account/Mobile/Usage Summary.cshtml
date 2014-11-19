@@ -10,9 +10,105 @@
     </header>
     
     <div class="content">
-        <div class="notice alert">
-            <p>@Html.Sitecore().Field("Notice Text")</p>
-        </div>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Devices</td>
+                        <td>Data</td>
+                        <td>Messages</td>
+                        <td>Minutes</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div><strong>Jordan's Phone</strong></div>
+                            <div>402-249-1975</div>
+                            <div><a href="#">Manage</a></div>
+                        </td>
+                        <td><strong>0.689 GB</strong></td>
+                        <td>
+                            <div><strong>49</strong> of <em>unlimited</em></div>
+                            <hr />
+                            <span>messages used</span>
+                        </td>
+                        <td>
+                            <div><strong>49</strong> of <em>unlimited</em></div>
+                            <hr />
+                            <span>minutes used</span>
+                        </td>
+                    </tr>
+                    <!-- TODO delete below-->
+                    <tr>
+                        <td>
+                            <div><strong>Jordan's Phone</strong></div>
+                            <div>402-249-1975</div>
+                            <div><a href="#">Manage</a></div>
+                        </td>
+                        <td><strong>0.689 GB</strong></td>
+                        <td>
+                            <div><strong>49</strong> of <em>unlimited</em></div>
+                            <hr />
+                            <span>messages used</span>
+                        </td>
+                        <td>
+                            <div><strong>49</strong> of <em>unlimited</em></div>
+                            <hr />
+                            <span>minutes used</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div><strong>Jordan's Phone</strong></div>
+                            <div>402-249-1975</div>
+                            <div><a href="#">Manage</a></div>
+                        </td>
+                        <td><strong>0.689 GB</strong></td>
+                        <td>
+                            <div><strong>49</strong> of <em>unlimited</em></div>
+                            <hr />
+                            <span>messages used</span>
+                        </td>
+                        <td>
+                            <div><strong>49</strong> of <em>unlimited</em></div>
+                            <hr />
+                            <span>minutes used</span>
+                        </td>
+                    </tr>
+                    <!-- TODO delete above -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><a href="#">Add another Phone</a></td>
+                        <td>Total Data
+                            <div>
+                                <strong>6.31</strong> of <strong>6.5GB</strong>
+                            </div>
+                        </td>
+                        <td>Total Messages
+                            <div>
+                                <strong>1,043</strong>
+                            </div>
+                        </td>
+                        <td>Total Minutes
+                            <div>
+                                <strong>2,342</strong>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot> 
+            </table>
+    </div>
+</article>
+
+<article class="grey-box mobile" ng-controller="MakePaymentCtrl">
+    <header class="clearfix">
+        <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
+
+    </header>
+
+    <div class="content">
+
         <div>
             <form>
                 <div class="group">
@@ -31,4 +127,3 @@
         <p>@Html.Sitecore().Field("Footer Text")</p>
     </footer>
 </article>
-
