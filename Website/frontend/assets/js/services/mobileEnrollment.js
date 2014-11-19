@@ -137,7 +137,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     service.getPricesForSize = function(id, size, color) {
         var item = _.where(this.getPhones(), { id: id })[0];
         if (typeof item != 'undefined') {
-            return _.where(item.models, { size: size, color: color, network: service.selectedNetwork.name });
+            return _.where(item.models, { size: size, color: color, network: service.selectedNetwork.value });
         } else {
             return null;
         }
@@ -162,7 +162,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     service.getPhoneSizes = function(id) {
         var item = _.where(this.getPhones(), { id: id })[0];
         if (typeof item != 'undefined') {
-            var sizes =  _.uniq(_.pluck(item.models, 'size'));
+            var sizes =  _.uniq(_.where(item.models, { network: service.selectedNetwork.value }), 'size');
             return _.sortBy(sizes, function(size) {
                 return size;
             })

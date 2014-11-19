@@ -117,18 +117,18 @@
                                 <div class="item simple-options-item">
                                     <label>@Html.Sitecore().Field("Select Color")</label>
                                     <div class="btn-group btn-group-options colors">
-                                        <a href="" ng-repeat="color in mobileEnrollmentService.getPhoneColors('@phone.Id')" ng-class="{'btn-group-arrow': mobileEnrollmentService.getPhoneSizes('@phone.Id') == ''}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'">
+                                        <a href="" ng-repeat="color in mobileEnrollmentService.getPhoneColors('@phone.Id')" ng-class="{'btn-group-arrow': mobileEnrollmentService.getPhoneSizes('@phone.Id')[0].size == ''}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'">
                                             <span class="button {{ color.colorClass }}"></span>
                                             <span class="color-name">{{ color.color }}</span>
                                         </a>
                                         
                                     </div>
                                 </div>
-                                <div class="item simple-options-item" ng-if="mobileEnrollmentService.getPhoneSizes('@phone.Id') != ''">
+                                <div class="item simple-options-item" ng-if="mobileEnrollmentService.getPhoneSizes('@phone.Id')[0].size != ''">
                                     <label>@Html.Sitecore().Field("Select Size")</label>
                                     <div class="btn-group btn-group-options">
-                                        <a href="" ng-repeat="size in mobileEnrollmentService.getPhoneSizes('@phone.Id')" class="button btn-group-arrow" ng-model="phoneOptions.size" btn-radio="'{{ size }}'" class="size">
-                                            <span>{{ size }}</span>
+                                        <a href="" ng-repeat="size in mobileEnrollmentService.getPhoneSizes('@phone.Id')" class="button btn-group-arrow" ng-model="phoneOptions.size" btn-radio="'{{ size.size }}'" class="size">
+                                            <span>{{ size.size }}</span>
                                         </a>
                                     </div>
                                 </div>
