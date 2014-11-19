@@ -44,8 +44,8 @@
         var item = _.where(mobileEnrollmentService.getPhones(), { id: id })[0];
 
         $scope.selectedPhone = item;
-        $scope.phoneOptions.color = item.colors[0].color;
-        $scope.phoneOptions.size = item.models[0].size;
+        $scope.phoneOptions.color = mobileEnrollmentService.getPhoneColors(id)[0].color;
+        $scope.phoneOptions.size = mobileEnrollmentService.getPhoneSizes(id)[0].size;
     };
 
     $scope.phoneOptionsValid = function() {

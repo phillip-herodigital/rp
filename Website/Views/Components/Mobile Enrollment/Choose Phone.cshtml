@@ -77,7 +77,7 @@
                                                 <span>@Html.Sitecore().Field("Reconditioned From")</span>
                                                 {{ mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned') | currency }}
                                             </div>
-                                            <span class="lease">@Html.Sitecore().Field("Lease From") {{ mobileEnrollmentService.get24LeasePrice(item.id) | currency }}/mo*</span>
+                                            <span class="lease">@Html.Sitecore().Field("Lease From") {{ mobileEnrollmentService.get24LeasePrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                         </div>
                                         <button ng-click="setSelectedPhone(item.id)">@Html.Sitecore().Field("Button - Select Phone")</button>
                                     </div>
@@ -121,7 +121,7 @@
                                             <span class="button {{ color.colorClass }}"></span>
                                             <span class="color-name">{{ color.color }}</span>
                                         </a>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="item simple-options-item" ng-if="mobileEnrollmentService.getPhoneSizes('@phone.Id')[0].size != ''">
@@ -138,8 +138,23 @@
                                         @Html.Sitecore().Field("Purchase Options")<br />
                                         <span class="label-description">@Html.Sitecore().Field("Purchase Options Description")</span>
                                     </label>
-                                    <div class="btn-group btn-group-options">
-                                        <a href="" ng-repeat="model in mobileEnrollmentService.getPricesForSize('@phone.Id', phoneOptions.size, phoneOptions.color)" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'{{ model.condition }}'">{{ model.condition }}<br /><span>{{ model.price | currency }}</span></a>
+                                    <div class="btn-group btn-group-options purchase-options">
+                                        <span ng-repeat="model in mobileEnrollmentService.getPricesForPhone('@phone.Id', phoneOptions.size, phoneOptions.color)">
+                                            <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'{{ model.condition }}'">
+                                                <span class="purchase-type">{{ model.condition }}</span>
+                                                <span class="purchase-price">{{ model.price | currency }}</span>
+                                            </a>
+                                            @* No 20-Month Lease option for this release
+                                                <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'Lease20'">
+                                                    <span class="purchase-type">@Html.Sitecore().Field("20 Month Lease")</span>
+                                                    <span class="purchase-price">{{ model.lease20 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
+                                                </a>
+                                            *@
+                                            <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'Lease24'">
+                                                <span class="purchase-type">@Html.Sitecore().Field("24 Month Lease")</span>
+                                                <span class="purchase-price">{{ model.lease24 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
+                                            </a>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="item">
@@ -147,8 +162,14 @@
                                         @Html.Sitecore().Field("Warranty")<br />
                                         <span class="label-description">@Html.Sitecore().Field("Warranty Description")</span>
                                     </label>
-                                    <div class="btn-group btn-group-options">
-                                        <a href="" class="button" ng-model="phoneOptions.warranty" btn-radio="'accept'">@Html.Sitecore().Field("Add Warranty")<br /> $9.99/mo</a><a href="" class="button" ng-model="phoneOptions.warranty" btn-radio="'decline'">@Html.Sitecore().Field("Decline Warranty")</a>
+                                    <div class="btn-group btn-group-options warranty-options">
+                                        <a href="" class="button" ng-model="phoneOptions.warranty" btn-radio="'accept'">
+                                            <span>@Html.Sitecore().Field("Add Warranty")</span>
+                                            <span class="warranty-price">$9.99/mo</span>
+                                        </a>
+                                        <a href="" class="button" ng-model="phoneOptions.warranty" btn-radio="'decline'">
+                                            @Html.Sitecore().Field("Decline Warranty")
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="item">
