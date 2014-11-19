@@ -1427,7 +1427,7 @@ $enrollment-module-vertical-padding: 20px;
 .mobile-enrollment {
     .banner {
         h1 {
-            text-transform: none;
+            text-transform: uppercase;
             font-size: 50px;
         }
         .wrapper {
@@ -1689,6 +1689,12 @@ $enrollment-module-vertical-padding: 20px;
             .price {
                 font-size: 24px;
             }
+            .network {
+                margin-bottom: 6px;
+            }
+            p {
+                font-weight: 600;
+            }
         }
         button, .button {
             text-transform: none;
@@ -1890,6 +1896,7 @@ $enrollment-module-vertical-padding: 20px;
     }
     .filters {
         font-size: 13px;
+        background: #fff;
         padding: 10px $enrollment-module-horizontal-padding;
         .item.group-col {
             margin-top: 0;
@@ -1901,6 +1908,17 @@ $enrollment-module-vertical-padding: 20px;
             }
             .filter-label {
                 width: 33.333%
+            }
+            &.brands {
+                width: 50%;
+            }
+            &.os {
+                width: 40%;
+            }
+            @include breakpoint(small-medium) {
+                &.brands, &.os {
+                    width: 100%;
+                }
             }
         }
         button {
@@ -1919,12 +1937,26 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
     .phone-image-large {
-        float: right;
+        display: inline-block;
         margin-top: 20px;
         margin-right: 20px;
+        img {
+            max-width: 80px;
+            margin-left: 10px;
+        }
     }
     .phone-details {
-        padding-right: 240px;
+        display: inline-block;
+        width: 66.666%;
+    }
+    @include breakpoint (small-medium) {
+        .phone-image-large {
+            width: 100%;
+            text-align: center;
+        }
+        .phone-details {
+            width: 100%;
+        }
     }
     .btn-phone-number {
         &:after, &:before {
@@ -1951,14 +1983,17 @@ $enrollment-module-vertical-padding: 20px;
         width: 100%;
         padding: 0;
         overflow: hidden;
+        border-bottom: none;
         .tab {
             display: table-cell;
             width: 50%;
             background: #f7f7f7;
             cursor: pointer;
             vertical-align: middle;
+            border-bottom: 1px solid #ddd;
             &.active {
                 background: #fff;
+                border-bottom: none;
                 h1 { 
                     color: #0971ce; 
                     font-size: 26px;
@@ -2000,10 +2035,16 @@ $enrollment-module-vertical-padding: 20px;
             width: 100%;
         }
         .product-image {
-            max-width: 100%;
+            margin-bottom: 16px;
+            height: 180px;
+            position: relative;
             img {
-                vertical-align: middle;
-                min-height: 115px
+                max-width: 70px;
+                max-height: 180px;
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                margin-left: -35px;
             }
         }
         .price {
@@ -2012,14 +2053,28 @@ $enrollment-module-vertical-padding: 20px;
             font-weight: 600;
             span {
                 display:block;
-                color: #333;
+                color: #999;
                 font-size: 11px;
                 font-weight: 400;
+                &.lease {
+                    font-style: italic;
+                }
+            }
+        }
+        @include breakpoint(medium) {
+            h3 {
+                min-height: 50px;
+            }
+            .price {
+                min-height: 75px;
             }
         }
         @include breakpoint(small) {
             table, thead, tbody, th, td, tr { 
                 display: block; 
+            }
+            .col {
+                width: 100%;
             }
         }
     }

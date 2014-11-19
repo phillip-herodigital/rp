@@ -20,25 +20,30 @@ namespace StreamEnergy.MyStream.Controllers
         /// <returns></returns>
         public ActionResult MobileEnrollmentPhones()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile Enrollment");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Phone Models");
             var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions();
 
             var data = item.Children.Select(child => new
             {
                 Id = child.ID.ToString(),
-                name = child.Fields["Name"].Value,
-                brand = child.Fields["Brand"].Value,
-                os = child.Fields["OS"].Value,
-                imageUrl = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["ImageUrl"]).MediaItem, mediaOptions),
-                colors = GetAllColors(((Sitecore.Data.Fields.NameValueListField)child.Fields["Colors"]).NameValues).Select(obj => new {
+                Name = child.Fields["Name"].Value,
+                Brand = child.Fields["Brand"].Value,
+                Os = child.Fields["OS"].Value,
+                ImageFront = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["Image - Front"]).MediaItem, mediaOptions),
+                Colors = GetAllColors(((Sitecore.Data.Fields.NameValueListField)child.Fields["Colors"]).NameValues).Select(obj => new {
                     Color =  obj.Color,
                     Value =  obj.Value
                 }),
-                models = GetAllPhoneModels(child.ID).Select(obj => new
+                Networks = child.Fields["Networks"].Value.Split('|').ToArray(),
+                Models = GetAllPhoneModels(child.ID).Select(obj => new
                 {
                     Size = obj.Fields["Size"].Value,
+                    Color = obj.Fields["Color"].Value,
+                    Network = obj.Fields["Network"].Value,
                     Condition = obj.Fields["Condition"].Value,
-                    Price = obj.Fields["Price"].Value
+                    Price = obj.Fields["Price New"].Value,
+                    Lease20 = obj.Fields["20 Mo Lease Price"].Value,
+                    Lease24 = obj.Fields["24 Mo Lease Price"].Value
                 })
             });
 
@@ -47,7 +52,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult BringYourOwnDevices()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile BYO Devices");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile BYO Devices");
 
             var data = item.Children.Select(child => new
             {
@@ -65,7 +70,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult MobileNetworks()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Networks");
             var data = item.Children.Select(child => new
             {
                 Id = child.ID.ToString(),
@@ -80,7 +85,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult MobileDataPlans()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Data Plans");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Data Plans");
             var data = item.Children.Select(child => new
             {
                 Name = child.Name.ToLower(),
@@ -136,14 +141,14 @@ namespace StreamEnergy.MyStream.Controllers
 
         public static IEnumerable<Item> GetAllPhoneModels(Sitecore.Data.ID phoneID)
         {
-            Item[] allPhoneModels = Sitecore.Context.Database.SelectItems("fast:/sitecore/content/Data/Taxonomy/Modules/Mobile Pricing//*[(@@templateid='{151B1A5D-FE85-4FEF-8779-1D2E328391C9}')]");
+            Item[] allPhoneModels = Sitecore.Context.Database.SelectItems("fast:/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Pricing//*[(@@templateid='{151B1A5D-FE85-4FEF-8779-1D2E328391C9}')]");
             IEnumerable<Item> data = allPhoneModels.Where(item => new Sitecore.Data.ID(item.Fields["Model"].Value) == phoneID);
             return data;
         }
 
         public ActionResult ChooseNetwork()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Networks");
 
             var data = item.Children.Select(child => new MobileNetwork
             {
@@ -163,7 +168,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ChoosePhone()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile Enrollment");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Phone Models");
             var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions();
 
             var data = item.Children.Select(child => new MobilePhone
@@ -173,7 +178,8 @@ namespace StreamEnergy.MyStream.Controllers
                 Brand = child.Fields["Brand"].Value,
                 OS = child.Fields["OS"].Value,
                 Description = child.Fields["Description"].Value,
-                ImageUrlLarge = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["ImageUrl - Large"]).MediaItem, mediaOptions),
+                ImageFront = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["Image - Front"]).MediaItem, mediaOptions),
+                ImageBack = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["Image - Back"]).MediaItem, mediaOptions),
                 Colors = GetAllColors(((Sitecore.Data.Fields.NameValueListField)child.Fields["Colors"]).NameValues).Select(obj => new MobileColor {
                     Color =  obj.Color,
                     Value =  obj.Value

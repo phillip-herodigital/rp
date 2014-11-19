@@ -10,8 +10,8 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public string Id { get; set; }
         public string Name { get; set; }
         public Dictionary<string, string> Price { get; set; }
-        public string ImageUrl { get; set; }
-        public string ImageUrlLarge { get; set; }
+        public string ImageFront { get; set; }
+        public string ImageBack { get; set; }
         public string Brand { get; set; }
         public string OS { get; set; }
         public string Description { get; set; }
