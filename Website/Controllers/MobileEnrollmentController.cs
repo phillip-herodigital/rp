@@ -179,6 +179,7 @@ namespace StreamEnergy.MyStream.Controllers
                 Brand = child.Fields["Brand"].Value,
                 OS = child.Fields["OS"].Value,
                 Description = child.Fields["Description"].Value,
+                LongDescription = child.Fields["Description - More Details"].Value,
                 ImageFront = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["Image - Front"]).MediaItem, mediaOptions),
                 ImageBack = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["Image - Back"]).MediaItem, mediaOptions),
                 Colors = GetAllColors(((Sitecore.Data.Fields.NameValueListField)child.Fields["Colors"]).NameValues).Select(obj => new MobileColor {

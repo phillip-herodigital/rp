@@ -101,12 +101,17 @@
                                 <i class="icon-close pull-right" ng-click="clearPhoneSelection()"></i>
                                 <a href="" class="pull-left" ng-click="clearPhoneSelection()">&#8592; @Html.Sitecore().Field("Back to All Phones")</a>
                             </div>
-                            <div class="phone-details">
+                            <div class="phone-details" data-additional-fields>
                                 <h1>@Html.Raw(phone.Name)</h1>
                                 <div class="description">
                                     @Html.Raw(phone.Description)
                                 </div>
-                                <p><a href="">@Html.Sitecore().Field("More Details") <i class="icon-arrow-right"></i></a></p>
+                                <div slide-down-show="isOpen" class="description">
+                                    @Html.Raw(phone.LongDescription)
+                                </div>
+                                <div>
+                                    <a href="" ng-click="isOpen = !isOpen">@Html.Sitecore().Field("More Details") <i ng-if="!isOpen" class="icon-blue-arrow-down"></i><i ng-if="isOpen" class="icon-blue-arrow-up"></i></a>
+                                </div>
                             </div>
                             <div class="phone-image-large">
                                 <img src="@Html.Raw(phone.ImageFront)" alt=""><img src="@Html.Raw(phone.ImageBack)" alt="">
@@ -127,8 +132,8 @@
                                 <div class="item simple-options-item" ng-if="mobileEnrollmentService.getPhoneSizes('@phone.Id')[0].size != ''">
                                     <label>@Html.Sitecore().Field("Select Size")</label>
                                     <div class="btn-group btn-group-options">
-                                        <a href="" ng-repeat="size in mobileEnrollmentService.getPhoneSizes('@phone.Id')" class="button btn-group-arrow" ng-model="phoneOptions.size" btn-radio="'{{ size.size }}'" class="size">
-                                            <span>{{ size.size }}</span>
+                                        <a href="" ng-repeat="size in mobileEnrollmentService.getPhoneSizes('@phone.Id')" class="button btn-group-arrow" ng-model="phoneOptions.size" btn-radio="'{{ size.size }}'" >
+                                            <span class ="size">{{ size.size }}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -139,8 +144,8 @@
                                         <span class="label-description">@Html.Sitecore().Field("Purchase Options Description")</span>
                                     </label>
                                     <div class="btn-group btn-group-options purchase-options">
-                                        <span ng-repeat="model in mobileEnrollmentService.getPricesForPhone('@phone.Id', phoneOptions.size, phoneOptions.color)">
-                                            <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'{{ model.condition }}'">
+                                        <div ng-repeat="model in mobileEnrollmentService.getPricesForPhone('@phone.Id', phoneOptions.size, phoneOptions.color)" data-additional-fields>
+                                            <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'{{ model.condition }}'" ng-click="isOpen = false">
                                                 <span class="purchase-type">{{ model.condition }}</span>
                                                 <span class="purchase-price">{{ model.price | currency }}</span>
                                             </a>
@@ -150,11 +155,14 @@
                                                     <span class="purchase-price">{{ model.lease20 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                 </a>
                                             *@
-                                            <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'Lease24'">
+                                            <a href="" class="button btn-group-arrow" ng-model="phoneOptions.purchaseOption" btn-radio="'Lease24'" ng-click="isOpen = true">
                                                 <span class="purchase-type">@Html.Sitecore().Field("24 Month Lease")</span>
                                                 <span class="purchase-price">{{ model.lease24 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                             </a>
-                                        </span>
+                                            <span class="lease-box button" slide-down-show="isOpen">
+                                                @Html.Sitecore().Field("24 Month Lease Text")
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="item">
@@ -165,7 +173,7 @@
                                     <div class="btn-group btn-group-options warranty-options">
                                         <a href="" class="button" ng-model="phoneOptions.warranty" btn-radio="'accept'">
                                             <span>@Html.Sitecore().Field("Add Warranty")</span>
-                                            <span class="warranty-price">$9.99/mo</span>
+                                            <span class="warranty-price">@Html.Sitecore().Field("Warranty Price")</span>
                                         </a>
                                         <a href="" class="button" ng-model="phoneOptions.warranty" btn-radio="'decline'">
                                             @Html.Sitecore().Field("Decline Warranty")

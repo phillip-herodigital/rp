@@ -1909,9 +1909,16 @@ $enrollment-module-vertical-padding: 20px;
             }
         }
     }
+    .size {
+        font-weight: 600;
+    }
     .purchase-options {
         .purchase-price {
             font-weight: 600;
+        }
+        .lease-box {
+            display: block;
+            margin-top: 17px;
         }
     }
     .warranty-options {
@@ -1966,6 +1973,7 @@ $enrollment-module-vertical-padding: 20px;
         display: inline-block;
         margin-top: 20px;
         margin-right: 20px;
+        vertical-align: top;
         img {
             max-width: 80px;
             margin-left: 10px;
@@ -1974,6 +1982,11 @@ $enrollment-module-vertical-padding: 20px;
     .phone-details {
         display: inline-block;
         width: 66.666%;
+        .description {
+            p {
+                margin-top: 0;
+            }
+        }
     }
     @include breakpoint (small-medium) {
         .phone-image-large {

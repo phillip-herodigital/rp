@@ -15,6 +15,7 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public string Brand { get; set; }
         public string OS { get; set; }
         public string Description { get; set; }
+        public string LongDescription { get; set; }
         public IEnumerable<MobileColor> Colors { get; set; }
         public IEnumerable<MobileModel> Models { get; set; }
     }
