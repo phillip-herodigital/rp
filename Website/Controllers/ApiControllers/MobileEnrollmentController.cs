@@ -66,6 +66,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 { "SimNumber", context.SimNumber ?? "" },    
                 { "NewNumber", context.NewNumber ?? "" },    
                 { "PortInNumber", context.PortInNumber ?? "" },    
+                { "PreviousServiceProvider", context.PreviousServiceProvider ?? "" },
                 { "PlanId", context.PlanId }, 
                 { "AssociateId", context.AssociateId ?? "" },
                 { "Name", context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last },    
