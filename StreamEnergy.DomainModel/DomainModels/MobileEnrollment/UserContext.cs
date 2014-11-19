@@ -19,6 +19,7 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public string SimNumber { get; set; }
         public string NewNumber { get; set; }
         public string PortInNumber { get; set; }
+        public string PreviousServiceProvider { get; set; }
         public string PlanId { get; set; }
         public string AssociateId { get; set; }
         public string SourceId { get; set; }

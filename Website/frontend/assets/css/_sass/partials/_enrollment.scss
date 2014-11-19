@@ -1737,7 +1737,17 @@
                 border-top: 0;
             }
         }
-
+        .info li.no-icon {
+            padding-left: 20px;
+        }
+        .trade-and-save {
+            h3, p {
+                text-align: center;
+            }
+            a {
+                font-size: 18px;
+            }
+        }
     }
     button.plain-footer {
         margin: 7px 0;
@@ -1763,6 +1773,9 @@
         }
         .enrollment__box h1 {
             font-size: 20px;
+        }
+        button {
+            width: 100%;
         }
     }
 }
@@ -1883,10 +1896,12 @@
                 font-size: 24px;
             }
         }
-        button {
+        button, .button {
             text-transform: none;
             width: 100%;
             margin-bottom: 8px;
+            padding: 7px 16px;
+            font-weight: normal;
         }
         h2 {
             font-size: 20px;
@@ -1916,6 +1931,11 @@
         }
         tbody tr:last-child td {
             border-bottom: 0;
+        }
+        @include breakpoint (medium-large) {
+            .button {
+                margin-top: 40px;
+            }
         }
     }
     @include breakpoint(small) {
@@ -1983,6 +2003,9 @@
         }
         input[type="text"] {
             width: 50%;
+            @include breakpoint(small) {
+                width: 67%;
+            }
         }
     }
     .label-description {
@@ -2127,6 +2150,13 @@
         .button {
             padding-top: 10px;
             padding-bottom: 10px;
+        }
+        .previous-provider {
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+        .transfer-number {
+            line-height: 1.375;
         }
     }
     .tabbed-header {
@@ -2340,6 +2370,10 @@
             line-height: 22px;
             text-transform: uppercase;
             @include border-radius(5px 5px 0 0);
+            @include breakpoint(small) {
+                position: relative;
+                top: 0;
+            }
         }
         .special-offer {
             border: 2px solid #e6e6e6;
@@ -2347,6 +2381,9 @@
             background: #fff;
             color: #3d8039;
             font-weight: normal;
+            @include breakpoint(small) {
+                border: none;
+            }
         }
         .active {
             .recommended {
@@ -2441,6 +2478,14 @@
                 margin: 1%;
                 float: left;
                 display: block;
+            }
+        }
+    }
+    @include breakpoint-min-max(651px, 957px) {
+        .btn-group-options {
+            .button {
+                display: inline-block;
+                margin: 6px;
                 &.is-recommended,
                 &.is-special-offer {
                     margin-top: 25px;
@@ -2475,13 +2520,16 @@
     }
     .rate {
         float: right;
-        width: 20%;
+        width: 30%;
         text-align: right;
     }
     .plan-summary-image, .phone-summary-image {
         position: absolute;
         left: 20px;
         top: 0;
+        @include breakpoint(small) {
+            position: relative;
+        }
     }
     .plan-summary, .phone-summary {
         padding-left: 100px;
@@ -2492,10 +2540,17 @@
         &.no-img {
             padding-left: 0;
         }
+        @include breakpoint(small) {
+            padding-left: 0;
+        }
     }
     .contact {
         float: left;
         width: 100%;
+        @include breakpoint(small) {
+            word-wrap: break-word;
+            margin-bottom: 10px;
+        }
     }
     a {
         font-size: 15px;

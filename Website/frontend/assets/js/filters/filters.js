@@ -191,7 +191,8 @@ ngApp.filter('maskNumber', function () {
         if (!number) {
             return;
         }
-        formattedNumber = number.replace(/^[0-9]{5}/, '*****');
+        var newNumber = number.replace(/[^0-9]/g, '');
+        formattedNumber = (newNumber.length == 8) ? newNumber.replace(/^[0-9]{4}/, '****') : newNumber.replace(/^[0-9]{5}/, '*****');
         return formattedNumber;
     };
 });

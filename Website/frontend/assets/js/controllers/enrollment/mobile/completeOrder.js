@@ -6,6 +6,13 @@
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
 
+    // start over on refresh
+    $scope.$watch('cart.items', function(newValue, oldValue) {
+        if (newValue.length == 0) {
+            $scope.resetEnrollment();
+        }
+    });
+
     $scope.toggleBreakdown = function() {
         $scope.isBreakdownShown = !$scope.isBreakdownShown;     
     };
@@ -51,12 +58,13 @@
         mobileEnrollmentService.accountInformation = $scope.accountInformation;
         mobileEnrollmentService.businessInformation = $scope.businessInformation;
         var userContext = {
-            deviceMake: item.make.make,
-            deviceModel: item.model.modelName,
+            deviceMake: (typeof item.make != 'undefined') ? item.make.make : null,
+            deviceModel: (typeof item.model != 'undefined') ? item.model.modelName : null,
             deviceSerial: item.imeiNumber,
             simNumber: item.simNumber,
             newNumber: (item.number.type == 'new') ? item.number.value : null,
             portInNumber: (item.number.type == 'existing') ? item.number.value : null,
+            previousServiceProvider: mobileEnrollmentService.previousServiceProvider.name,
             planId: $scope.cart.dataPlan.planId,
             contactInfo: $scope.accountInformation.contactInfo,
             billingAddress: $scope.accountInformation.billingAddress,
