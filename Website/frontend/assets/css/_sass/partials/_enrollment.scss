@@ -1836,6 +1836,7 @@ $enrollment-module-vertical-padding: 20px;
             display: block;
             text-align: center;
             color: #333;
+            margin: 0 5px;
         }
         .button {
             padding: 0;
@@ -1851,14 +1852,23 @@ $enrollment-module-vertical-padding: 20px;
         .black {
             background: #3a393b;
         }
-        .silver {
-            background-color: #ebebec;
+        .blackResin {
+            background: #000000;
         }
-        .grey {
-            background-color: #b9bbbb;
+        .blackLeather {
+            background: #1c1c1c;
+        }
+        .bamboo {
+            background: #c28d58;
+        }
+        .silver {
+            background-color: #dcdedd;
+        }
+        .gray {
+            background-color: #a8a7ac;
         }
         .gold, .champagne {
-            background-color: #cebfa7;
+            background-color: #f1e0cc;
         }
         .white {
             background-color: #fff;
@@ -1867,15 +1877,20 @@ $enrollment-module-vertical-padding: 20px;
             background-color: #b9bbbb;
         }
         .red {
-            background-color: #39393b;
+            background-color: #d12825;
         }
         .blue {
             background-color: #39393b;
         }
         .green {
-            background-color: #39393b;
+            background-color: #00b140;
         }
-
+        .active {
+            .button{
+                border-color: #3189bb;
+                color: #3189bb;
+            }
+        }
         li {
             display: inline-block;
             list-style-type: none;

@@ -117,17 +117,11 @@
                                 <div class="item simple-options-item">
                                     <label>@Html.Sitecore().Field("Select Color")</label>
                                     <div class="btn-group btn-group-options colors">
-                                        <a href="" ng-repeat="color in mobileEnrollmentService.getPhoneColors('@phone.Id')" ng-model="phoneOptions.color" btn-radio="'{{ color }}'" >
-                                            <span class="button {{ color }}" ng-model="phoneOptions.color" btn-radio="{{ color }}"></span>
-                                            <span class="color-name">{{ color }}</span>
+                                        <a href="" ng-repeat="color in mobileEnrollmentService.getPhoneColors('@phone.Id')" ng-class="{'btn-group-arrow': mobileEnrollmentService.getPhoneSizes('@phone.Id') == ''}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'">
+                                            <span class="button {{ color.colorClass }}"></span>
+                                            <span class="color-name">{{ color.color }}</span>
                                         </a>
-                                        @foreach (var color in phone.Colors)
-                                        {
-                                            <a>
-                                                <span class="button @Html.Raw(color.Color)" ng-model="phoneOptions.color" btn-radio="'@Html.Raw(color.Color)'"></span>
-                                                <span class="color-name">@Html.Raw(color.Value)</span>
-                                            </a>
-                                        }
+                                        
                                     </div>
                                 </div>
                                 <div class="item simple-options-item" ng-if="mobileEnrollmentService.getPhoneSizes('@phone.Id') != ''">

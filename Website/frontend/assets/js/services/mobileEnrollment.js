@@ -174,7 +174,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     service.getPhoneColors = function(id) {
         var item = _.where(this.getPhones(), { id: id })[0];
         if (typeof item != 'undefined') {
-            var colors =  _.uniq(_.pluck(item.models, 'color'));
+            var colors =  _.uniq(_.where(item.models, { network: service.selectedNetwork.value }), 'color');
             return _.sortBy(colors, function(color) {
                 return color;
             })
