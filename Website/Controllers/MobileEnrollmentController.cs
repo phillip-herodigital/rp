@@ -72,7 +72,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult PreviousServiceProviders()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile Previous Service Providers");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Previous Service Providers");
 
             var data = item.Children.Select(child => new
             {

@@ -1242,7 +1242,7 @@ $enrollment-module-vertical-padding: 20px;
     .rate {
         float: left;
         width: 29%;
-        margin-top: 3px;
+        margin-top: 2px;
         font-size: 16px;
         line-height: 14px;
         font-weight: 600;
@@ -1501,10 +1501,12 @@ $enrollment-module-vertical-padding: 20px;
             font-size: 13px;
         }
         .options {
+            clear: both;
             font-size: 13px;
         }
         .description, .fees { 
             width: 71%;
+            margin-bottom: 4px;
         }
         .fees {
             margin-top: 10px;
@@ -1514,6 +1516,15 @@ $enrollment-module-vertical-padding: 20px;
         .rate {
             text-align: right;
             float: right;
+            &.device-price {
+                margin-top: 19px;
+            }
+            span {
+                display: inline;
+                font-weight: 600;
+                font-style: normal; 
+                font-size: 16px;
+            }
         }
         .total {
             margin-top: 10px;
