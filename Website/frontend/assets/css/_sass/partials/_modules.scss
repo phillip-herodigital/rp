@@ -1784,15 +1784,17 @@ article.mobile {
 
 		.group .item {
 			label {
-				margin-top: 9px;
+				margin-top: 15px;
 			}
 			&.usage-period {
 				float: right;
 			}
 		}
 	}
-	table tbody tr td, th {
+	table tbody tr td, th, tfoot td {
 		text-align: center;
+		background-color: #ffffff;
+		border: 1px solid #eaeaea;
 		.top {
 			border-bottom: 1px solid #eaeaea;
 			padding: 10px 0;
