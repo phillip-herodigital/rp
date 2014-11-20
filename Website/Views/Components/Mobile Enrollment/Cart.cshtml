@@ -26,10 +26,12 @@
 
                     <div class="cart-product clearfix" ng-repeat="item in cart.items">
                         <div class="description" ng-if="item.type == 'new'">
-                            <div class="condition">{{ item.buyingOption.condition }}</div>
-                            <div>{{ item.device.name }}</div>
-                            <div class="options">{{ item.buyingOption.size }}, {{ item.buyingOption.color.value }}</div>
-                            <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
+                            <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
+                            <div class="condition" ng-if="item.buyingOption == 'Lease24'">24-Month Lease</div>
+                            <div class="description">{{ item.device.brand }} {{ item.device.name }}</div>
+                            <div class="rate">{{ item.price | currency }}<span ng-if="item.buyingOption == 'Lease24'">/mo</span></div>
+                            <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
+                            <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
                         </div>
                         <div class="description" ng-if="item.type == 'existing'">
                             <div>@Html.Sitecore().Field("Bring Your Own Device")</div>

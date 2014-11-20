@@ -190,8 +190,13 @@ namespace StreamEnergy.MyStream.Controllers
                 Models = GetAllPhoneModels(child.ID).Select(obj => new MobileModel
                 {
                     Size = obj.Fields["Size"].Value,
+                    Color = obj.Fields["Color"].Value,
+                    Network = obj.Fields["Network"].Value.ToLower(),
                     Condition = obj.Fields["Condition"].Value,
-                    Price = obj.Fields["Price"].Value
+                    Price = obj.Fields["Price New"].Value,
+                    Lease20 = obj.Fields["20 Mo Lease Price"].Value,
+                    Lease24 = obj.Fields["24 Mo Lease Price"].Value,
+                    Sku = obj.Fields["SKU"].Value
                 })
             });
 

@@ -75,20 +75,22 @@
     $scope.addDeviceToCart = function() {
 
         var item = {},
-        device;
+        device,
+        selectedModel;
 
         if ($scope.mobileEnrollment.phoneTypeTab == "new") { 
             device = $scope.selectedPhone;
+            selectedModel = _.where(device.models, { size: $scope.phoneOptions.size, color: $scope.phoneOptions.color, network: $scope.mobileEnrollmentService.selectedNetwork.value })[0];
             item = {
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 device: device,
                 id: device.id,
-                price: ($scope.phoneOptions.purchaseOption == "new") ? device.price : device.lease24,
+                price: ($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24,
                 buyingOption: $scope.phoneOptions.purchaseOption,
                 size: $scope.phoneOptions.size,
                 color: $scope.phoneOptions.color,
                 warranty: $scope.phoneOptions.warranty,
-                sku: device.sku
+                sku: selectedModel.sku
             };
         }
         else {
