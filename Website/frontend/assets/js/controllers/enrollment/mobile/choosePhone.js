@@ -5,7 +5,8 @@
     $scope.phoneFilters = {
         condition: undefined,
         brand: [],
-        os: []
+        os: [],
+        phoneOrder: 'high'
     };
 
     $scope.selectedPhone = undefined;
@@ -64,7 +65,7 @@
             size: undefined,
             //condition: undefined,
             warranty: undefined,
-            number: undefined
+            number: undefined,
         };
     };
 
@@ -135,8 +136,12 @@
     /**
      * Change the ordering of the phones
      */
-    $scope.setPhoneOrder = function(value) {
+    $scope.setPhoneOrder = function() {
 
+    };
+
+    $scope.isPhoneOrderReversed = function() {
+        return $scope.phoneFilters.phoneOrder == 'high';
     };
 
     $scope.showUnlockingModal = function () {

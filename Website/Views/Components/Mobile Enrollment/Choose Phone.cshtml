@@ -36,9 +36,9 @@
                                 <div @*class="pull-right"*@>
                                     <div class="item">
                                         <label>@Html.Sitecore().Field("Filter - Sort By")</label>
-                                        <select>
-                                            <option value="">@Html.Sitecore().Field("Filter - Price - HighLow")</option>
-                                            <option value="">@Html.Sitecore().Field("Filter - Price - LowHigh")</option>
+                                        <select ng-model="phoneFilters.phoneOrder">
+                                            <option value="high">@Html.Sitecore().Field("Filter - Price - HighLow")</option>
+                                            <option value="low">@Html.Sitecore().Field("Filter - Price - LowHigh")</option>
                                         </select>
                                     </div>
                                     <div class="item">
@@ -64,7 +64,7 @@
                         <div class="stretch-full form">
                             <div class="phone-selector">
                                 @* Would like to change this out for using the model, but getting rid of ng-repeat will take some extra work *@
-                                <div class="grid three" ng-repeat="phone in mobileEnrollmentService.getPhones() | phoneFilter: phoneFilters | partition: 3">
+                                <div class="grid three" ng-repeat="phone in mobileEnrollmentService.getPhones() | orderByPrice: mobileServices.getPhones():isPhoneOrderReversed() | phoneFilter: phoneFilters | partition: 3">
                                     <div class="col" ng-repeat="item in phone">
                                         <div class="product-image"><img ng-src="{{ item.imageFront }}" /></div>
                                         <h3>{{ item.brand }}&reg; {{ item.name }}</h3>
@@ -151,10 +151,10 @@
                                                     <span class="purchase-price">{{ model.price | currency }}</span>
                                                 </a>
                                                 @* No 20-Month Lease option for this release
-                                <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'Lease20'">
-                                    <span class="purchase-type">@Html.Sitecore().Field("20 Month Lease")</span>
-                                    <span class="purchase-price">{{ model.lease20 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
-                                </a>
+                                                <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'Lease20'">
+                                                    <span class="purchase-type">@Html.Sitecore().Field("20 Month Lease")</span>
+                                                    <span class="purchase-price">{{ model.lease20 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
+                                                </a>
                                                 *@
                                                 <a href="" class="button btn-group-arrow" ng-model="phoneOptions.purchaseOption" btn-radio="'Lease24'" ng-click="isOpen = true">
                                                     <span class="purchase-type">@Html.Sitecore().Field("24 Month Lease")</span>
