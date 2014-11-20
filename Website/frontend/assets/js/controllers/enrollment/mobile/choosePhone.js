@@ -90,6 +90,7 @@
                 size: $scope.phoneOptions.size,
                 color: $scope.phoneOptions.color,
                 warranty: $scope.phoneOptions.warranty,
+                number: $scope.phoneOptions.number,
                 sku: selectedModel.sku
             };
         }
