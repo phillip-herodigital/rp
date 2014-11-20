@@ -1,4 +1,4 @@
-﻿<article class="grey-box mobile usage-details" ng-controller="MakePaymentCtrl">
+﻿<article class="grey-box mobile usage-details" ng-app ng-controller="AcctUsageSummaryCtrl">
     <header>
         <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
         <div class="filters">
@@ -8,96 +8,73 @@
                         <label>@Html.Sitecore().Field("Showing Text")</label>
                     </div>
                     <div class="item usage-period">
-                        <select>
-                            <option>@Html.Sitecore().Field("Bill Usage") Apr 29, 2013 - May 28, 2014
+                        <select ng-change="getUsageStats()" ng-model="currentRangeId">
+                            <option ng-repeat="range in dateRanges" value="{{ range.id }}">
+                                @Html.Sitecore().Field("Bill Usage") {{ range.begin | date : format : longDate }} - {{ range.end | date : format : longDate }}
                             </option>
                         </select>
-                    </div>
                 </div>
-            </form>
-        </div>    
-    </header>
-    
+            </div>
+        </form>
+    </div>
+</header>
     <div>
-        <span>
-            <table>
-                <thead>
-                    <tr>
-                        <th>@Html.Sitecore().Field("Member Header")</th>
-                        <th>@Html.Sitecore().Field("Data Header")</th>
-                        <th>@Html.Sitecore().Field("Text Header")</th>
-                        <th>@Html.Sitecore().Field("Talk Header")</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="device-image">&nbsp;</div>
-                            <div class="device-details">
-                                <strong>Jordan Campbell</strong>
-                                <br />123-456-7890
-                                <br />@Html.Sitecore().Field("Usage Details Link")
-                            </div>
-                        </td>
-                        <td>
-                            <span><strong>1.93 GB</strong></span>
-                        </td>
-                        <td>
-                            <div class="top"><strong>49</strong> @Html.Sitecore().Field("Of") unlimited</div>
-                            <p>@Html.Sitecore().Field("Messages Used")</p>
-                        </td>
-                        <td>
-                            <div class="top"><strong>926</strong> @Html.Sitecore().Field("Of") unlimited</div>
-                            <p>@Html.Sitecore().Field("Minutes Used")</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="device-image">&nbsp;</div>
-                            <div class="device-details">
-                                <strong>Jennifer Campbell</strong>
-                                <br />123-456-7890
-                                <br />@Html.Sitecore().Field("Usage Details Link")
-                            </div>
-                        </td>            
-                        <td>
-                            <span><strong>2.5 GB</strong></span>
-                        </td>
-                        <td>
-                            <div class="top"><strong>372</strong> @Html.Sitecore().Field("Of") unlimited</div>
-                            <p>@Html.Sitecore().Field("Messages Used")</p>
-                        </td>
-                        <td>
-                            <div class="top"><strong>1,873</strong> @Html.Sitecore().Field("Of") unlimited</div>
-                            <p>@Html.Sitecore().Field("Minutes Used")</p>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>@Html.Sitecore().Field("Add Device Link")</td>
-                        <td>
-                            <div>
-                                @Html.Sitecore().Field("Data Total")<br />
-                                <strong>6.31</strong> @Html.Sitecore().Field("Of") <strong>6.5GB</strong>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                @Html.Sitecore().Field("Message Total")<br />
-                                <strong>1,043</strong>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                @Html.Sitecore().Field("Minutes Total")<br />
-                                <strong>2,342</strong>
-                            </div>
-                        </td>
-                    </tr>
-                </tfoot> 
-            </table>
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>@Html.Sitecore().Field("Member Header")</th>
+                    <th>@Html.Sitecore().Field("Data Header")</th>
+                    <th>@Html.Sitecore().Field("Text Header")</th>
+                    <th>@Html.Sitecore().Field("Talk Header")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="device in deviceUsageStats">
+                    <td>
+                        <div class="device-image"><img src="{{ device.imageURL }}" /></div>
+                        <div class="device-details">
+                            <strong>{{ device.name }}</strong>
+                            <br />{{ device.number }}
+                            <br />@Html.Sitecore().Field("Usage Details Link")
+                        </div>
+                    </td>
+                    <td>
+                        <span><strong>{{ device.usage.data / 1000000000 | number : 2 }} GB</strong></span>
+                    </td>
+                    <td>
+                        <div class="top"><strong>{{ device.usage.messages | number }}</strong> @Html.Sitecore().Field("Of") <em>{{ device.messageMax }}</em></div>
+                        <p>@Html.Sitecore().Field("Messages Used")</p>
+                    </td>
+                    <td>
+                        <div class="top"><strong>{{ device.usage.minutes | number }}</strong> @Html.Sitecore().Field("Of") <em>{{ device.minuteMax }}</em></div>
+                        <p>@Html.Sitecore().Field("Minutes Used")</p>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr ng-model="usageTotal">
+                    <td>@Html.Sitecore().Field("Add Device Link")</td>
+                    <td>
+                        <div>
+                            @Html.Sitecore().Field("Data Total")<br />
+                            <strong>{{ usageTotal.data / 1000000000 | number : 2 }} GB</strong>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            @Html.Sitecore().Field("Message Total")<br />
+                            <strong>{{ usageTotal.messages | number }}</strong>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            @Html.Sitecore().Field("Minutes Total")<br />
+                            <strong>{{ usageTotal.minutes | number }}</strong> 
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 </article>
 
