@@ -12,7 +12,7 @@
     $scope.phoneOptions = {
         color: undefined,
         size: undefined,
-        condition: undefined,
+        //condition: undefined,
         warranty: undefined,
         number: undefined
     };
@@ -62,7 +62,7 @@
         $scope.phoneOptions = {
             color: undefined,
             size: undefined,
-            condition: undefined,
+            //condition: undefined,
             warranty: undefined,
             number: undefined
         };
@@ -82,10 +82,12 @@
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 device: device,
                 id: device.id,
-                price: _.where(device.models, { size: $scope.phoneOptions.size, condition: $scope.phoneOptions.condition })[0].price,
-                buyingOption: _.where(device.models, { size: $scope.phoneOptions.size, condition: $scope.phoneOptions.condition })[0],
-                color: _.where(device.colors, { color: $scope.phoneOptions.color})[0],
-                warranty: $scope.phoneOptions.warranty
+                price: ($scope.phoneOptions.purchaseOption == "new") ? device.price : device.lease24,
+                buyingOption: $scope.phoneOptions.purchaseOption,
+                size: $scope.phoneOptions.size,
+                color: $scope.phoneOptions.color,
+                warranty: $scope.phoneOptions.warranty,
+                sku: device.sku
             };
         }
         else {

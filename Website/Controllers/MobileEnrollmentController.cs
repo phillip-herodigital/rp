@@ -44,7 +44,8 @@ namespace StreamEnergy.MyStream.Controllers
                     Condition = obj.Fields["Condition"].Value,
                     Price = obj.Fields["Price New"].Value,
                     Lease20 = obj.Fields["20 Mo Lease Price"].Value,
-                    Lease24 = obj.Fields["24 Mo Lease Price"].Value
+                    Lease24 = obj.Fields["24 Mo Lease Price"].Value,
+                    Sku = obj.Fields["SKU"].Value
                 })
             });
 
