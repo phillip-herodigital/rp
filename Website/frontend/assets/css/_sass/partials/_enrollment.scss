@@ -1796,8 +1796,16 @@ $enrollment-module-vertical-padding: 20px;
         float: left;
         margin-left: 5%;
         @include breakpoint(small) {
-            width: auto;
+            width: 100%;
             margin-left: 0;
+            .button {
+                width: 100%;
+                display: block;
+                margin-bottom: 6px;
+                &:after, &:before {
+                    display: none !important;
+                }
+            }
         }
     }
     .btn-group-row {
@@ -1832,6 +1840,11 @@ $enrollment-module-vertical-padding: 20px;
     }
     .item { 
         padding-right: 0;
+        @include breakpoint(small) {
+            label {
+                width: 100% !important;
+            }
+        }
     }
     .simple-options-item {
         label {
@@ -1981,6 +1994,11 @@ $enrollment-module-vertical-padding: 20px;
         }
         select {
             margin-top: -3px;
+        }
+        @include breakpoint(small) {
+            .item {
+                width: 100% !important;
+            }
         }
     }
     .phone-image-large {
