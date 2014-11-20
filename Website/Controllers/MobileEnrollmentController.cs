@@ -70,6 +70,18 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult PreviousServiceProviders()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile Previous Service Providers");
+
+            var data = item.Children.Select(child => new
+            {
+                Name = child.Fields["Display Text"].Value,
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult MobileNetworks()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Networks");
