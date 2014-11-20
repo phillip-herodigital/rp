@@ -1,9 +1,6 @@
 ﻿<article class="grey-box mobile usage-details" ng-controller="MakePaymentCtrl">
     <header>
-        <h2>@Html.Sitecore().Field("Header Text")</h2>
-    </header>
-    
-    <div>
+        <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
         <div class="filters">
             <form>
                 <div class="group">
@@ -12,16 +9,17 @@
                     </div>
                     <div class="item usage-period">
                         <select>
-                            <option>
-                                <span class="current">@Html.Sitecore().Field("Bill Usage")</span>
-                                <span class="dates">Apr 29, 2013 - May 28, 2014</span>
+                            <option>@Html.Sitecore().Field("Bill Usage") Apr 29, 2013 - May 28, 2014
                             </option>
                         </select>
                     </div>
                 </div>
             </form>
-        </div>
-        <div>
+        </div>    
+    </header>
+    
+    <div>
+        <span>
             <table>
                 <thead>
                     <tr>
@@ -33,10 +31,16 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Jordan Campbell<br />123.456.7890<p>@Html.Sitecore().Field("Usage Details Link")</p></td>
                         <td>
-                            <div class="top"><strong>1.93GB</strong> @Html.Sitecore().Field("Of") 2GB</div>
-                            <p>@Html.Sitecore().Field("Button Text")</p>
+                            <div class="device-image">&nbsp;</div>
+                            <div class="device-details">
+                                <strong>Jordan Campbell</strong>
+                                <br />123-456-7890
+                                <br />@Html.Sitecore().Field("Usage Details Link")
+                            </div>
+                        </td>
+                        <td>
+                            <span><strong>1.93 GB</strong></span>
                         </td>
                         <td>
                             <div class="top"><strong>49</strong> @Html.Sitecore().Field("Of") unlimited</div>
@@ -48,10 +52,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Jennifer Campbell<br />123.456.7890<p>@Html.Sitecore().Field("Usage Details Link")</p></td>
                         <td>
-                            <div class="top"><strong>2.5GB</strong> @Html.Sitecore().Field("Of") 4GB</div>
-                            <p>@Html.Sitecore().Field("Button Text")</p>
+                            <div class="device-image">&nbsp;</div>
+                            <div class="device-details">
+                                <strong>Jennifer Campbell</strong>
+                                <br />123-456-7890
+                                <br />@Html.Sitecore().Field("Usage Details Link")
+                            </div>
+                        </td>            
+                        <td>
+                            <span><strong>2.5 GB</strong></span>
                         </td>
                         <td>
                             <div class="top"><strong>372</strong> @Html.Sitecore().Field("Of") unlimited</div>
@@ -63,6 +73,29 @@
                         </td>
                     </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td>@Html.Sitecore().Field("Add Device Link")</td>
+                        <td>
+                            <div>
+                                @Html.Sitecore().Field("Data Total")<br />
+                                <strong>6.31</strong> @Html.Sitecore().Field("Of") <strong>6.5GB</strong>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                @Html.Sitecore().Field("Message Total")<br />
+                                <strong>1,043</strong>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                @Html.Sitecore().Field("Minutes Total")<br />
+                                <strong>2,342</strong>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot> 
             </table>
         </div>
     </div>

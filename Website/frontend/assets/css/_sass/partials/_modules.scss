@@ -1780,6 +1780,8 @@ article.mobile {
 .usage-details {
 	.filters {
 		margin: 0;
+		float: right;
+
 		.group .item {
 			label {
 				margin-top: 9px;
@@ -1797,6 +1799,12 @@ article.mobile {
 		}
 		&:first-child {
 			text-align: left;
+		}
+		.device-image {
+			float: left;
+		}
+		.device-details{
+			float: right;
 		}
 	}
 }
