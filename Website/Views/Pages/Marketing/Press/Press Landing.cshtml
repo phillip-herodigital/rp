@@ -1,7 +1,7 @@
 ﻿@{
     var paginationHelper = Html.GetPaginationHelper<Sitecore.Data.Items.Item>(Html.Sitecore().CurrentItem.Children);
 }
-<article class="marketing wrapper press">
+<article class="module marketing wrapper press">
     <div class="press-intro">
         @Html.Sitecore().Field("Intro Text")
     </div>
@@ -9,23 +9,28 @@
     @{
         foreach (Sitecore.Data.Items.Item item in paginationHelper.CurrentItems)
         {
-            <div class="post">
-                <h2><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h2>
-                <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Date", "format=MMMM d, yyyy")</p>
+            <article class="post">
+                <header>
+                    <h4><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h4>
+                    <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Html.Sitecore().Field("Date", item, new {format="MMMM d, yyyy"})</p>
+                </header>
                 <p>
-                 @{
-                    if (!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()))
-                    {
-                        @Html.Sitecore().Field("Excerpt", item)
+                    @{
+            if (!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()))
+            {
+                @Html.Sitecore().Field("Excerpt", item)
+            }
+            else
+            {
+                var str = Html.Sitecore().Field("Content", item).ToHtmlString();
+                @Html.Raw(str.Substring(0, str.Length > 200 ? 200 : str.Length) + "&hellip;")
+            }
                     }
-                    else
-                    {
-                        var str = Html.Sitecore().Field("Content", item).ToHtmlString();
-                        @Html.Raw(str.Substring(0, str.Length > 200 ? 200 : str.Length) + "&hellip;")
-                    }
-                 }</p>
-                <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text")</a></p>
-            </div>
+                </p>
+                <footer>
+                    <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text")</a></p>
+                </footer>
+            </article>
         }
         @paginationHelper.GetPaginationHtml()
     }

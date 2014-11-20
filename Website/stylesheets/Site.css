@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* line 37, ../sass/_Generic.scss */
-.action {
+.action, .button {
   border-radius: 10px;
   background-image: -moz-linear-gradient(90deg, #0071b9 0%, #01a3dd 100%);
   background-image: -webkit-linear-gradient(90deg, #0071b9 0%, #01a3dd 100%);
@@ -151,8 +151,10 @@ body > article {
 body > article > header {
   background-color: #eff2f3;
   /* rl('../Images/header_background_article.png') repeat-x bottom; */
+  position: relative;
+  z-index: 100;
 }
-/* line 93, ../sass/Site.scss */
+/* line 94, ../sass/Site.scss */
 body > article > header > h2 {
   height: 214px;
   line-height: 214px;
@@ -163,14 +165,14 @@ body > article > header > h2 {
   padding: 0;
   margin: 0;
 }
-/* line 104, ../sass/Site.scss */
+/* line 105, ../sass/Site.scss */
 body > article > header > h2 span {
   line-height: 59.43px;
   display: inline-block;
   vertical-align: middle;
   margin-left: 120px;
 }
-/* line 113, ../sass/Site.scss */
+/* line 114, ../sass/Site.scss */
 body > article > header > .content > ol {
   font-size: 16px;
   font-weight: 400;
@@ -179,54 +181,57 @@ body > article > header > .content > ol {
   margin: 0;
   padding: 0;
 }
-/* line 121, ../sass/Site.scss */
+/* line 122, ../sass/Site.scss */
 body > article > header > .content > ol > li {
   display: inline-block;
   padding: 0 21px;
   line-height: 68px;
   cursor: default;
 }
-/* line 127, ../sass/Site.scss */
+/* line 128, ../sass/Site.scss */
 body > article > header > .content > ol > li a {
   color: #4f4c4d;
 }
-/* line 131, ../sass/Site.scss */
+/* line 132, ../sass/Site.scss */
 body > article > header > .content > ol > li b {
   font-weight: 600;
   display: inline-block;
   background: url("../Images/nav-second-level-selected-indicator.png") bottom center no-repeat;
 }
-/* line 141, ../sass/Site.scss */
+/* line 142, ../sass/Site.scss */
 body > article main {
   background-color: white;
-  box-shadow: -10px 0 10px -10px #707070, 10px 0 10px -10px #707070;
+  box-shadow: -7px 0 7px -7px rgba(112, 112, 112, 0.15), 7px 0 7px -7px rgba(112, 112, 112, 0.15);
   margin: 0;
   max-width: 1280px;
 }
-/* line 149, ../sass/Site.scss */
+/* line 150, ../sass/Site.scss */
 body > footer {
   clear: both;
   padding-bottom: 8px;
   background: transparent url("../Images/footer-section-bottom-rule.png") center bottom repeat-x;
 }
-/* line 154, ../sass/Site.scss */
+/* line 155, ../sass/Site.scss */
 body > footer > address {
   background-color: #eff2f3;
   font-style: normal;
 }
 /* line 159, ../sass/Site.scss */
+body > footer > address .content {
+  width: 1040px;
+}
+/* line 164, ../sass/Site.scss */
 body > footer > .group {
   background: #2f9bce;
   border-top: 1px solid #f5f5f5;
   color: white;
 }
-/* line 164, ../sass/Site.scss */
-body > footer > .group > .content {
-  background: #2f9bce url("../Images/LogoWhite.png") no-repeat 120px 371px;
-  width: 1040px;
-  padding: 0 120px;
-}
 /* line 169, ../sass/Site.scss */
+body > footer > .group > .content {
+  background: #2f9bce url("../Images/LogoWhite.png") no-repeat 12px 371px;
+  width: 1040px;
+}
+/* line 173, ../sass/Site.scss */
 body > footer > .group > .content > nav {
   clear: both;
   height: 424px;
@@ -236,25 +241,26 @@ body > footer > .group > .content > nav {
   font-size: 13px;
   font-weight: 400;
 }
-/* line 178, ../sass/Site.scss */
+/* line 182, ../sass/Site.scss */
 body > footer > .group > .content > nav a {
   color: inherit;
 }
-/* line 182, ../sass/Site.scss */
+/* line 186, ../sass/Site.scss */
 body > footer > .group > .content > nav > section {
   font-size: 13px;
   line-height: 26.22px;
   list-style: none;
   float: left;
+  width: 20%;
 }
-/* line 188, ../sass/Site.scss */
+/* line 193, ../sass/Site.scss */
 body > footer > .group > .content > nav > section > h3 {
   font-size: 16px;
   text-transform: uppercase;
   line-height: 21.23px;
   color: white;
 }
-/* line 195, ../sass/Site.scss */
+/* line 200, ../sass/Site.scss */
 body > footer > .group > .content > nav > section > ul {
   margin: 0;
   padding: 0;
@@ -262,9 +268,9 @@ body > footer > .group > .content > nav > section > ul {
   font-size: 13px;
   line-height: 26.22px;
   list-style: none;
-  width: 185px;
+  /* width: 185px; */
 }
-/* line 204, ../sass/Site.scss */
+/* line 209, ../sass/Site.scss */
 body > footer > .group > .content > nav > section > ul li {
   margin: 0;
   padding: 0;
@@ -357,18 +363,18 @@ body > footer > .group > .content > nav > section > ul li {
 /* line 86, ../sass/_Global.scss */
 #Contact-Footer-Global {
   border-top: 1px solid #f5f5f5;
-  padding: 31px 0 29px 132px;
+  padding: 31px 0 29px;
 }
 /* line 90, ../sass/_Global.scss */
 #Contact-Footer-Global #HelpText-Contact-Footer-Global {
   font-size: 18px;
   line-height: 24px;
   color: black;
-  width: 255px;
+  width: 24.51923%;
   float: left;
   padding: 0 0 0 0;
   margin: 0;
-  margin-right: 155px;
+  margin-right: 15.38462%;
 }
 /* line 100, ../sass/_Global.scss */
 #Contact-Footer-Global #HelpText-Contact-Footer-Global strong {
@@ -396,7 +402,7 @@ body > footer > .group > .content > nav > section > ul li {
 #Contact-Footer-Global #ContactMethods-Contact-Footer-Global a {
   color: inherit;
   float: left;
-  padding-right: 130px;
+  width: 30.04808%;
 }
 /* line 127, ../sass/_Global.scss */
 #Contact-Footer-Global #ContactMethods-Contact-Footer-Global span {
@@ -478,9 +484,9 @@ dl.faq > dd {
   transition: height 0.5s ease;
 }
 
-/* line 219, ../sass/Site.scss */
+/* line 225, ../sass/Site.scss */
 .module {
-  padding: 0 120px;
+  padding: 0 9.375%;
   background: url("../../images/Modules/module_background.png") no-repeat center top;
 }
 /* line 1, ../sass/Modules/_PhotoLockup.scss */
@@ -636,12 +642,12 @@ dl.faq > dd {
 }
 
 @keyframes slideopen {
-  /* line 231, ../sass/Site.scss */
+  /* line 237, ../sass/Site.scss */
   0% {
     height: 0;
   }
 
-  /* line 235, ../sass/Site.scss */
+  /* line 241, ../sass/Site.scss */
   100% {
     height: 500px;
   }

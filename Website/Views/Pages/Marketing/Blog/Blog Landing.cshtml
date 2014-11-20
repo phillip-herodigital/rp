@@ -6,12 +6,12 @@
     foreach (Sitecore.Data.Items.Item item in itemsToShow)
     {
         var categoriesField = (Sitecore.Data.Fields.MultilistField)item.Fields["Categories"];
-        
-        foreach(var cat in categoriesField.GetItems())
+
+        foreach (var cat in categoriesField.GetItems())
         {
             if (!cats.Any(c => c.Key.ID == cat.ID))
             {
-                cats.Add(new KeyValuePair<Sitecore.Data.Items.Item,List<Sitecore.Data.Items.Item>>(cat, new List<Sitecore.Data.Items.Item>()));
+                cats.Add(new KeyValuePair<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>(cat, new List<Sitecore.Data.Items.Item>()));
             }
             cats.First(c => c.Key.ID == cat.ID).Value.Add(item);
         }
@@ -37,29 +37,24 @@
 }
 <section class="layout cols-2 wrapper">
     <section class="layout cols-1">
-        <article class="marketing blog">
+        <article class="module marketing blog">
             @if (pageHeader != null)
             {
-                <h1>@pageHeader</h1>
+                <h3>@pageHeader</h3>
             }
             @{
                 foreach (Sitecore.Data.Items.Item item in paginationHelper.CurrentItems)
                 {
-                    <div class="post">
-                        <h2><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h2>
-                        <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Html.Sitecore().Field("Date", item, new { format= "MMMM d, yyyy" }) | @Html.Sitecore().Field("By Text", item): @Html.Sitecore().Field("Author", item)</p>
-                        @{
-                    if (!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()))
-                    {
-                        @Html.Sitecore().Field("Excerpt", item)
-                    }
-                    else
-                    {
-                        @Html.Raw(Html.Sitecore().Field("Content", item).ToHtmlString().Substring(0, 200) + "&hellip;")
-                    }
-                        }
-                        <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text", item)</a></p>
-                    </div>
+                    <article class="post">
+                        <header>
+                            <h4><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h4>
+                            <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Html.Sitecore().Field("Date", item, new { format = "MMMM d, yyyy" }) | @Html.Sitecore().Field("By Text", item): @Html.Sitecore().Field("Author", item)</p>
+                        </header>
+                        @(!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()) ? Html.Sitecore().Field("Excerpt", item) : Html.Raw(Html.Sitecore().Field("Content", item).ToHtmlString().Substring(0, 200) + "&hellip;"))
+                        <footer>
+                            <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text", item)</a></p>
+                        </footer>
+                    </article>
                     <hr />
                 }
             }

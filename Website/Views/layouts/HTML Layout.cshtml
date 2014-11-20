@@ -33,8 +33,8 @@
           document.createElement('ng-view');
         </script>
     <![endif]-->
-    @* @Styles.Render("~/frontend/assets/css/bundle")
-        @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle") *@
+    @Styles.Render("~/frontend/assets/css/bundle")
+    @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle")
     <link href="~/stylesheets/Site.css" rel="stylesheet">
     @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
     {

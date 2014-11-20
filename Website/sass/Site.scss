@@ -89,7 +89,8 @@ body {
 
         > header {
             background-color: #eff2f3; /* rl('../Images/header_background_article.png') repeat-x bottom; */
-
+            position: relative;
+            z-index: 100;
             > h2 {
                 height: 214px;
                 line-height: 214px;
@@ -140,7 +141,7 @@ body {
 
         main {
             background-color: white;
-            box-shadow: -10px 0 10px -10px rgb( 112, 112, 112 ), 10px 0 10px -10px rgb( 112, 112, 112 );
+            box-shadow: -7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 );
             margin: 0;
             max-width: 1280px;
         }
@@ -154,6 +155,10 @@ body {
         > address {
             background-color: #eff2f3;
             font-style: normal;
+
+            .content {
+                width: 1040px;
+            }
         }
 
         > .group {
@@ -162,9 +167,8 @@ body {
             color: white;
 
             > .content {
-                background: #2f9bce url('../Images/LogoWhite.png') no-repeat 120px 371px;
+                background: #2f9bce url('../Images/LogoWhite.png') no-repeat 12px 371px;
                 width: 1040px;
-                padding: 0 120px;
 
                 > nav {
                     clear: both;
@@ -184,6 +188,7 @@ body {
                         line-height: 26.22px;
                         list-style: none;
                         float: left;
+                        width: 20%;
 
                         > h3 {
                             font-size: 16px;
@@ -199,7 +204,7 @@ body {
                             font-size: 13px;
                             line-height: 26.22px;
                             list-style: none;
-                            width: 185px;
+                            /* width: 185px; */
 
                             li {
                                 margin: 0;
@@ -216,8 +221,9 @@ body {
 @import "_Global.scss";
 @import "Componets/FAQ";
 
+$moduleMargin: 120px / 1280px * 100%;
 .module {
-    padding: 0 120px;
+    padding: 0 $moduleMargin;
     background: url('../../images/Modules/module_background.png') no-repeat center top;
     @import "Modules/_PhotoLockup.scss";
     @import "Modules/_Quote.scss";

@@ -34,7 +34,7 @@ $link-color: #2f86ba;
     color: $header-color;
 }
 
-.action {
+.action, .button {
     border-radius: 10px;
     background-image: -moz-linear-gradient( 90deg, rgb(0,113,185) 0%, rgb(1,163,221) 100%);
     background-image: -webkit-linear-gradient( 90deg, rgb(0,113,185) 0%, rgb(1,163,221) 100%);

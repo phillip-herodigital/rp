@@ -17,10 +17,10 @@
 
 article {
 	@extend .clearfix;
-	@include box-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+	/* @include box-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
 	@include border-radius($module-border-radius);
 	margin-bottom: $module-vertical-padding;
-	border: 1px solid $light-border-color;
+	border: 1px solid $light-border-color; */
 
 	//We don't know which type of element will happen first or last in an article
 	//So always update the border radius on it
@@ -31,7 +31,7 @@ article {
 		@include border-radius(0px 0px $module-border-radius $module-border-radius);
 	}
 
-	header {
+	/* header {
 		@extend .clearfix;
 		background-color: $module-header-bg;
 		padding: ($module-vertical-padding / 1.2) $module-horizontal-padding;
@@ -73,13 +73,13 @@ article {
 				width: auto;
 			}
 		}
-	}
-	footer {
+	} */
+	/* footer {
 		background: $module-footer-bg;
 		padding: $module-vertical-padding $module-horizontal-padding;
 		border-top: 1px solid $light-border-color;
 		@include border-radius(0 0 $module-border-radius $module-border-radius);
-	}
+	} */
 
 	.buttons {
 		@extend .clearfix;		
@@ -99,15 +99,15 @@ article {
 	}
 
 	.content {
-		padding: $module-vertical-padding $module-horizontal-padding;
+		/* padding: $module-vertical-padding $module-horizontal-padding; */
 		position: relative;
 		& > :first-child {
 			margin-top: 0;
 		}
-		& > :last-child {
+		/* & > :last-child {
 			margin-bottom: 0;
 			padding-bottom: 0;
-		}
+		} */
         &.full-table {
             padding: 0 0 10px 0;
         }
@@ -470,7 +470,7 @@ article.gradient-box {
 }
 
 article.plain {
-	border: none;
+/* 	border: none;
 	@include box-shadow(none);
 	@include border-radius(0px);
 	margin-bottom: 0px;
@@ -486,7 +486,7 @@ article.plain {
 	}
 	.cols-2 & {
 		width: auto;
-	}
+	}  */
 }
 
 article.account {

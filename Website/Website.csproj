@@ -760,8 +760,8 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
-    <Content Include="frontend\assets\css\global.css.css">
-      <DependentUpon>global.css.scss</DependentUpon>
+    <Content Include="frontend\assets\css\_sass\global.css">
+      <DependentUpon>global.scss</DependentUpon>
     </Content>
     <Content Include="frontend\assets\js\controllers\account\paymentAccountsListingCtrl.js" />
     <Content Include="frontend\assets\js\controllers\payments\addBankAccount.js" />
@@ -3670,6 +3670,7 @@
     <Content Include="images\pattern_bg.png" />
     <Content Include="images\sample.jpg" />
     <Content Include="images\section-rule.png" />
+    <Content Include="images\social.png" />
     <Content Include="images\Sprint logo.png" />
     <Content Include="sass\ie.scss">
       <Compile>True</Compile>
@@ -3707,7 +3708,6 @@
     <Content Include="sass\_Generic.scss" />
     <Content Include="sass\_Global.scss" />
     <Content Include="sass\_Reset.scss" />
-    <Content Include="sass\Modules\_Header.scss" />
     <Content Include="sass\Modules\_PhotoLockup.scss" />
     <Content Include="sass\Modules\_FullHtml.scss" />
     <Content Include="sass\_marketing-site.scss" />
