@@ -1720,6 +1720,9 @@ $enrollment-module-vertical-padding: 20px;
             }
             p {
                 font-weight: 600;
+                &.note {
+                    color: #999;
+                }
             }
         }
         button, .button {
