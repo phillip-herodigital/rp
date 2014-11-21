@@ -225,7 +225,7 @@
                                         <label>@Html.Sitecore().Field("Label - Select Device")</label>
                                         <div class="group">
                                             <div class="item group-col" data-val-error="phoneMake">
-                                                <select name="phoneMake" ng-model="phoneOptions.make" ng-options="brand.make for brand in bringYourOwnDevices" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'"></select>
+                                                <select name="phoneMake" ng-model="phoneOptions.make" ng-options="brand.make for brand in bringYourOwnDevices" ng-change="phoneOptions.model = phoneOptions.make.models[0]" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'"></select>
                                             </div>
                                             <div class="item group-col" data-val-error="phoneModel">
                                                 <select name="phoneModel" ng-model="phoneOptions.model" ng-options="model.modelName for model in phoneOptions.make.models" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'"></select>
