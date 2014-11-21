@@ -475,7 +475,7 @@
                                     <span ng-if="!businessInformation.signature">@Html.Sitecore().Field("Text - Add Signature")</span>
                                     <span ng-if="businessInformation.signature">
                                         <span class="signature-name" ng-if="businessInformation.signatureImage == null">{{ businessInformation.signature }}</span>
-                                        <span ng-if="businessInformation.signatureImage != null"><img ng-src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
+                                        <span ng-if="businessInformation.signatureImage != null" class="signature-image"><img ng-src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
                                         <a href="">@Html.Sitecore().Field("Text - Edit Signature")</a>
                                     </span>
                                     @Html.HiddenFor(m => m.CustomerSignature, new { ng_model = "businessInformation.signature" })
@@ -581,7 +581,7 @@
                     <div class="tab-content" ng-show="selectedTab == 'type'">
                         <div class="item" @Html.Validation().ErrorClass(m => m.CustomerSignature)>
                             <label for="@Html.IdFor(m => m.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
-                            @Html.TextBoxFor(m => m.CustomerSignature, new { ng_model = "formData.name" })
+                            @Html.TextBoxFor(m => m.CustomerSignature, new { ng_model = "formData.name", data_val = "true", data_val_required = "" })
                             @Html.ValidationMessageFor(model => model.CustomerSignature)
                         </div>
                         <div class="item">

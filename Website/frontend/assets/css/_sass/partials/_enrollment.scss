@@ -2541,6 +2541,7 @@ $enrollment-module-vertical-padding: 20px;
         @include border-radius(5px);
         margin-bottom: 5px;
         padding: 5px 10px;
+        width: 100%;
         &.empty {
             background-color: #FFF9D2;
             border: 1px solid #CCC;
@@ -2549,6 +2550,11 @@ $enrollment-module-vertical-padding: 20px;
             font-size: 24px;
             font-family: "ff-market-web", cursive;
             margin-right: 10px;
+        }
+        .signature-image {
+            img {
+                max-width: 100%;
+            }
         }
     }
     .additional-name {
