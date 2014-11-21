@@ -5,10 +5,24 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
     $scope.dateRanges = [];
     $scope.deviceUsageStats = [];
-    $scope.usageTotal = {data: 0, messages: 0, minutes: 0};
+    $scope.deviceTotal = {
+        data: {
+            usage: 0,
+            limit: 0
+        },
+        messages: {
+            usage: 0,
+            limit: 0
+        },
+        minutes: {
+            usage: 0,
+            limit: 0
+        }
+    };
+
 
     //Make some dummy date ranges
-    for(var i = 0; i < 15; i++){
+    for(var i = 0; i < 4; i++){
         var month = 1000 * 60 * 60 * 24 * 30;
         var now = (new Date()).getTime();
         $scope.dateRanges.push({id: i, begin: now - (month * i) - month, end: now - (month * i)});
@@ -24,46 +38,68 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         $scope.deviceUsageStats = [{
             name: 'Jordan\'s Phone',
             number: '402-249-1975',
-            imageURL: '#',
-            messageMax: 'unlimited',
-            minuteMax: 'unlimited',
-            usage: {
-                data: 689000000 + dummyModifier,
-                messages: 49,
-                minutes: 926,
+            id: 0,
+            data: {
+                usage: 689000000 + dummyModifier,
+                limit:  1.2 * (689000000 + dummyModifier)
+            },
+            messages: {
+                usage: 49,
+                limit: -1
+            },
+            minutes: {
+                usage: 926,
+                limit: -1
             }
         }, {
             name: 'Jason\'s Phone',
             number: '402-249-1822',
-            imageURL: '#',
-            messageMax: 'unlimited',
-            minuteMax: 'unlimited',
-            usage: {
-                data: 2450000000 + dummyModifier,
-                messages: 842,
-                minutes: 643,
+            id: 0,
+            data: {
+                usage: 2450000000 + dummyModifier,
+                limit:  1.2 * (2450000000 + dummyModifier)
+            },
+            messages: {
+                usage: 842,
+                limit: -1
+            },
+            minutes: {
+                usage: 643,
+                limit: -1
             }
         }, {
             name: 'Jennifer Campbell',
             number: '402-249-1823',
-            imageURL: '#',
-            messageMax: 'unlimited',
-            minuteMax: 'unlimited',
-            usage: {
-                data: 3270000000 + dummyModifier,
-                messages: 152,
-                minutes: 773,
+            id: 0,
+            data: {
+                usage: 3270000000 + dummyModifier,
+                limit:  1.2 * (3270000000 + dummyModifier)
+            },
+            messages: {
+                usage: 152,
+                limit: -1
+            },
+            minutes: {
+                usage: 773,
+                limit: -1
             }
         }];
         //END dummy data
 
-        updateUsageTotals();
+        updatedeviceTotals();
     }
 
-    function updateUsageTotals(){
-        _.each(['data','messages','minutes'], function(field){
-            $scope.usageTotal[field] = _.reduce($scope.deviceUsageStats, function(total,device){
-                return total + device.usage[field];
+    $scope.getDeviceImageURL = function (deviceId) {
+        return '#'; //'http://library.columbia.edu/content/dam/libraryweb/locations/sciencelib/dsc/ERIWG_mobile/iphone_icon.png';
+    }
+
+    function updatedeviceTotals(){
+        _.each(['data', 'messages', 'minutes'], function (field) {
+            $scope.deviceTotal[field].usage = _.reduce($scope.deviceUsageStats, function(total,device){
+                return total + device[field].usage;
+            }, 0);
+            $scope.deviceTotal[field].limit = _.reduce($scope.deviceUsageStats, function (total, device) {
+                return total + device[field].limit;
             }, 0);
         });
     }

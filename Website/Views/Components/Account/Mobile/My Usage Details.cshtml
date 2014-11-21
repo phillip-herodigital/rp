@@ -4,9 +4,6 @@
         <div class="filters">
             <form>
                 <div class="group">
-                    <div class="item">
-                        <label>@Html.Sitecore().Field("Showing Text")</label>
-                    </div>
                     <div class="item usage-period">
                         <select ng-change="getUsageStats()" ng-model="currentRangeId">
                             <option ng-repeat="range in dateRanges" value="{{ range.id }}">
@@ -22,7 +19,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>@Html.Sitecore().Field("Member Header")</th>
+                    <th><div>@Html.Sitecore().Field("Member Header")</div></th>
                     <th>@Html.Sitecore().Field("Data Header")</th>
                     <th>@Html.Sitecore().Field("Text Header")</th>
                     <th>@Html.Sitecore().Field("Talk Header")</th>
@@ -31,23 +28,51 @@
             <tbody>
                 <tr ng-repeat="device in deviceUsageStats">
                     <td>
-                        <div class="device-image"><img src="{{ device.imageURL }}" /></div>
-                        <div class="device-details">
-                            <strong>{{ device.name }}</strong>
-                            <br />{{ device.number }}
-                            <br />@Html.Sitecore().Field("Usage Details Link")
+                        <div class="device-full">
+                            <div class="device-image"><img src="{{ getDeviceImageURL(device.id) }}" /></div>
+                            <div class="device-details">
+                                <strong>{{ device.name }}</strong>
+                                <br />{{ device.number }}
+                                <br />@Html.Sitecore().Field("Usage Details Link")
+                            </div>
+                        </div>
+                        <div class="device-short">
+                            <div class="device-image"><img src="{{ getDeviceImageURL(device.id) }}" /></div>
                         </div>
                     </td>
                     <td>
-                        <span><strong>{{ device.usage.data / 1000000000 | number : 2 }} GB</strong></span>
+                        <div class="device-full">
+                            <strong>{{ device.data.usage / 1000000000 | number }} GB</strong>
+                        </div>
+                        <div class="device-short">
+                            <strong>{{ device.data.usage / 1000000000 | number : 1}} GB</strong>
+                        </div>
                     </td>
                     <td>
-                        <div class="top"><strong>{{ device.usage.messages | number }}</strong> @Html.Sitecore().Field("Of") <em>{{ device.messageMax }}</em></div>
-                        <p>@Html.Sitecore().Field("Messages Used")</p>
+                        <div class="device-full">
+                            <div class="top">
+                                <strong>{{ device.messages.usage | number }}</strong>
+                                @Html.Sitecore().Field("Of")
+                                <em>{{ device.messages.limit < 0 ? 'unlimited' : (device.messages.limit | number) }}</em>
+                            </div>
+                            <p>@Html.Sitecore().Field("Messages Used")</p>
+                        </div>
+                        <div class="device-short">
+                            <strong>{{ device.messages.usage | number }}</strong>
+                        </div>
                     </td>
                     <td>
-                        <div class="top"><strong>{{ device.usage.minutes | number }}</strong> @Html.Sitecore().Field("Of") <em>{{ device.minuteMax }}</em></div>
-                        <p>@Html.Sitecore().Field("Minutes Used")</p>
+                        <div class="device-full">
+                            <div class="top">
+                                <strong>{{ device.minutes.usage | number }}</strong>
+                                @Html.Sitecore().Field("Of")
+                                <em>{{ device.minutes.limit < 0 ? 'unlimited' : (device.minutes.limit | number) }}</em>
+                            </div>
+                            <p>@Html.Sitecore().Field("Minutes Used")</p>
+                        </div>
+                        <div class="device-short">
+                            <strong>{{ device.minutes.usage | number }}</strong>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -55,21 +80,32 @@
                 <tr ng-model="usageTotal">
                     <td><div class="add-device">@Html.Sitecore().Field("Add Device Link")</div></td>
                     <td>
-                        <div>
+                        <div class="device-full">
                             @Html.Sitecore().Field("Data Total")<br />
-                            <strong>{{ usageTotal.data / 1000000000 | number : 2 }} GB</strong>
+                            <strong>{{ deviceTotal.data.usage / 1000000000 | number }} GB</strong> 
+                            @Html.Sitecore().Field("Of") 
+                            <strong>{{ deviceTotal.data.limit < 0 ? 'unlimited' :  (deviceTotal.data.limit / 1000000000 | number) }} GB</strong>
+                        </div>
+                        <div class="device-short">
+                            <strong>{{ deviceTotal.data.usage / 1000000000 | number : 1}} GB</strong> 
                         </div>
                     </td>
                     <td>
-                        <div>
+                        <div class="device-full">
                             @Html.Sitecore().Field("Message Total")<br />
-                            <strong>{{ usageTotal.messages | number }}</strong>
+                            <strong>{{ deviceTotal.messages.usage | number }}</strong>
+                        </div>
+                        <div class="device-short">
+                            <strong>{{ deviceTotal.messages.usage | number }}</strong>
                         </div>
                     </td>
                     <td>
-                        <div>
+                        <div class="device-full">
                             @Html.Sitecore().Field("Minutes Total")<br />
-                            <strong>{{ usageTotal.minutes | number }}</strong> 
+                            <strong>{{ deviceTotal.minutes.usage | number }}</strong>
+                        </div>
+                        <div class="device-short">
+                            <strong>{{ deviceTotal.minutes.usage | number }}</strong>
                         </div>
                     </td>
                 </tr>
