@@ -90,7 +90,12 @@
             agreeToTerms: $scope.businessInformation.agreeToTerms,
             tcpaPreference: $scope.businessInformation.tcpaPreference,
             associateId: $scope.associateId,
-            restoreData: angular.toJson(mobileEnrollmentService.getRestoreData())
+            restoreData: angular.toJson(mobileEnrollmentService.getRestoreData()),
+            network: $scope.mobileEnrollmentService.selectedNetwork.name,
+            newDeviceSku: item.sku,
+            buyingOption: item.buyingOption,
+            price: item.price,
+            warranty: item.warranty
         }
 
         // send the post

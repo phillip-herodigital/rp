@@ -26,20 +26,23 @@
 
                     <div class="cart-product clearfix" ng-repeat="item in cart.items">
                         <div class="description" ng-if="item.type == 'new'">
-                            <div class="condition">{{ item.buyingOption.condition }}</div>
-                            <div>{{ item.device.name }}</div>
-                            <div class="options">{{ item.buyingOption.size }}, {{ item.buyingOption.color.value }}</div>
-                            <a href="">@Html.Sitecore().Field("Edit Phone Link")</a>
+                            <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
+                            <div class="condition" ng-if="item.buyingOption == 'Lease24'">@Html.Sitecore().Field("24-Month Lease")</div>
+                            <div class="description">{{ item.device.brand }} {{ item.device.name }}</div>
+                            <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
+                            <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
                         </div>
+                        <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption == 'Lease24'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>
                         <div class="description" ng-if="item.type == 'existing'">
                             <div>@Html.Sitecore().Field("Bring Your Own Device")</div>
                             <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>
                             <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
                         </div>
+                        <div class="description">@Html.Sitecore().Field("Activation Fee")</div>
                         <div class="rate">{{ item.activationFee | currency }}</div>
-                        <div ng-if="item.warranty">
+                        <div ng-if="item.warranty == 'accept'" class="warranty">
                             <div class="description">@Html.Sitecore().Field("Phone Warranty")</div>
-                            <div class="rate">$9.95/@Html.Sitecore().Field("Month Abbreivation")</div>
+                            <div class="rate">@Html.Sitecore().Field("Warranty Cost")/@Html.Sitecore().Field("Month Abbreviation")</div>
                         </div>
                     </div>
                 </div>
@@ -58,7 +61,8 @@
             <ul class="info">
                 @*<li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Credit Card Text")</li>*@
                 <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Billing Address Text")</li>
-                <li>
+                @* Sprint BYOD is disabled for this release *@
+                <li ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'">
                     <i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br />
                     @Html.Sitecore().Field("Bring Your Own Phone Text")
                 </li>
