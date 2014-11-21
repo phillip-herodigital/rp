@@ -215,8 +215,12 @@
                 <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                     <form data-val-bind-messages="validations" ng-submit="addDeviceToCart()">
                         <div class="content bring-your-own">
-                            @* @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}" }) *@
-                            @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ mobileEnrollmentService.selectedNetwork.name }}", type = "{{ mobileEnrollmentService.selectedNetwork.type }}" })
+                            <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
+                                @Html.Sitecore().Field("Bring Your Phone - ATT Instructions")
+                            </div>
+                            <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+                                @Html.Sitecore().Field("Bring Your Phone - Sprint Instructions")
+                            </div>
                             <hr />
                             <div class="vertical">
                                 <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'">
@@ -330,9 +334,11 @@
         <div class="modal-body">
             @Html.Sitecore().Field("Content - Unlock Sprint")
         </div>
+        @*
         <div class="modal-footer">
             @Html.Sitecore().Field("Footer - Unlock Sprint")
         </div>
+        *@
     </div>
 </script>
 
