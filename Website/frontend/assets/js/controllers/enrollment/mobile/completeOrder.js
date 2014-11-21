@@ -6,20 +6,12 @@
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
 
-    $scope.accountInformation = {
-        shippingAddressSame: true,
-        contactInfo: {
-            phone: [{
-                    number: '',
-                    category: 'mobile'
-                }],
+    // start over on refresh
+    $scope.$watch('cart.items', function(newValue, oldValue) {
+        if (newValue.length == 0) {
+            $scope.resetEnrollment();
         }
-    };
-
-    $scope.businessInformation = {
-        businessAddressSame: true,
-        signatory: true
-    };
+    });
 
     $scope.toggleBreakdown = function() {
         $scope.isBreakdownShown = !$scope.isBreakdownShown;     
@@ -53,6 +45,7 @@
     };
 
     $scope.completeStep = function() {
+        mobileEnrollmentService.isLoading = true;
         // format the post data
         var item = $scope.cart.items[0];
         var additionalClassification = null;
@@ -62,14 +55,17 @@
         if ($scope.businessInformation.taxClassification == 'Other') {
             additionalClassification = $scope.otherClassification;
         }
+        mobileEnrollmentService.accountInformation = $scope.accountInformation;
+        mobileEnrollmentService.businessInformation = $scope.businessInformation;
         var userContext = {
-            deviceMake: item.make.make,
-            deviceModel: item.model.modelName,
+            deviceMake: (typeof item.make != 'undefined') ? item.make.make : null,
+            deviceModel: (typeof item.model != 'undefined') ? item.model.modelName : null,
             deviceSerial: item.imeiNumber,
             simNumber: item.simNumber,
             newNumber: (item.number.type == 'new') ? item.number.value : null,
             portInNumber: (item.number.type == 'existing') ? item.number.value : null,
-            planId: $scope.cart.dataPlan.id,
+            previousServiceProvider: mobileEnrollmentService.previousServiceProvider != null ? mobileEnrollmentService.previousServiceProvider.name : null,
+            planId: $scope.cart.dataPlan.planId,
             contactInfo: $scope.accountInformation.contactInfo,
             billingAddress: $scope.accountInformation.billingAddress,
             shippingAddress: ($scope.accountInformation.shippingAddressSame) ? $scope.accountInformation.billingAddress : $scope.accountInformation.shippingAddress,
@@ -93,11 +89,14 @@
             signatoryRelation: $scope.businessInformation.signatoryRelation,
             agreeToTerms: $scope.businessInformation.agreeToTerms,
             tcpaPreference: $scope.businessInformation.tcpaPreference,
+            associateId: $scope.associateId,
+            restoreData: angular.toJson(mobileEnrollmentService.getRestoreData())
         }
 
         // send the post
         $http.post('/api/mobileEnrollment/submit', userContext)
         .success(function (data) {
+            mobileEnrollmentService.isLoading = false;
             mobileEnrollmentService.confirmationId = data.id;
             $scope.setCurrentStep('order-confirmation');
         })

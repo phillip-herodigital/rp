@@ -7,13 +7,13 @@ namespace StreamEnergy.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class Initial : IMigrationMetadata
+    public sealed partial class AddPreviousProvider : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddPreviousProvider));
         
         string IMigrationMetadata.Id
         {
-            get { return "201411051525348_Initial"; }
+            get { return "201411191548510_AddPreviousProvider"; }
         }
         
         string IMigrationMetadata.Source

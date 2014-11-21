@@ -42,11 +42,13 @@ namespace StreamEnergy.Data.MobileEnrollment
         public string FatcaCode { get; set; }
 
         public string CurrentAccountNumbers { get; set; }
+        public string SocialSecurityNumber { get; set; }
+        public string TaxId { get; set; }
         [Required]
         public DateTimeOffset CustomerCertification { get; set; }
         [Required]
         public string CustomerSignature { get; set; }
-        public string SignatureImage { get; set; }
+        public byte[] SignatureImage { get; set; }
         [Required]
         public bool SignatureConfirmation { get; set; }
         public string SignatoryName { get; set; }
@@ -73,6 +75,8 @@ namespace StreamEnergy.Data.MobileEnrollment
         public string NewNumber { get; set; }
 
         public string PortInNumber { get; set; }
+
+        public string PreviousServiceProvider { get; set; }
 
         public string PlanId { get; set; }
 

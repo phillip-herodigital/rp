@@ -63,6 +63,18 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult PreviousServiceProviders()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile Previous Service Providers");
+
+            var data = item.Children.Select(child => new
+            {
+                Name = child.Fields["Display Text"].Value,
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult MobileNetworks()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");
@@ -86,6 +98,7 @@ namespace StreamEnergy.MyStream.Controllers
                 Name = child.Name.ToLower(),
                 Plans = child.Children.Select(plans => new {
                     ID = plans.ID.ToString(),
+                    PlanId = plans.Fields["Plan ID"].Value,
                     data = plans.Fields["Data"].Value,
                     price = plans.Fields["Price"].Value,
                     fees = new {

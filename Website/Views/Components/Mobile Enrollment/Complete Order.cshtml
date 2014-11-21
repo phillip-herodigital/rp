@@ -30,6 +30,9 @@
                                     <span class="model">Apple iPhone 4S</span> <a href="">@Html.Sitecore().Field("Edit Link Text")</a>
                                 </div>
                             *@
+                            <div class="phone-summary-image">
+                                <i class="icon-byod"></i>
+                            </div>
                             <div class="description" ng-if="item.type == 'new'">
                                 <div class="condition">{{ item.buyingOption.condition }}</div>
                                 <div>{{ item.device.name }}</div>
@@ -63,22 +66,20 @@
                                 <div class="rate"></div>
                             </div>
                         *@
-                        <div class="phone-summary-image">
-                            <i class="icon-byod"></i>
-                        </div>
                     </div>
                     <hr />
                     <div class="plan-summary">
+                        <div class="plan-summary-image">
+                            <i class="icon-plan-summary"></i>
+                        </div>
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Monthly Plan Cost")</h2>
-                                <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                                 <p><a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
                             <div class="rate">{{ mobileEnrollmentService.getProratedCost() | currency }}</div>
-                        </div>
-                        <div class="plan-summary-image">
-                            <i class="icon-plan-summary"></i>
                         </div>
                     </div>
                 </div>
@@ -96,7 +97,8 @@
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Estimated Monthly Plan")</h2>
-                                <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                                 <p><a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
                             <div class="rate">{{ cart.dataPlan.price | currency }}/mo</div>
@@ -389,7 +391,7 @@
                                     </div>
                                     <div class="item zip-code" @businessAddress.Validation().ErrorClass(m => m.PostalCode5)>
                                         <label for="@businessAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Code")</label>
-                                        @businessAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!businessInformation.businessAddressSame", ng_model = "accountInformation.businessAddress.postalCode5" }))
+                                        @businessAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!businessInformation.businessAddressSame", ng_model = "businessInformation.businessAddress.postalCode5" }))
                                         @businessAddress.ValidationMessageFor(m => m.PostalCode5)
                                     </div>
                                 </div>
@@ -412,14 +414,14 @@
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.TaxId)>
                                 <input type="radio" name="tin" id="tin-ein" ng-model="tin" value="taxId" checked />
                                 <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Label - Employer Identification Number")</label>
-                                @Html.TextBoxFor(m => m.TaxId, new { data_val_if = "tin == 'taxId'", data_val_required = "", ng_model = "businessInformation.taxId" })
+                                @Html.TextBoxFor(m => m.TaxId, new { data_val_if = "tin == 'taxId'", data_val_required = "", data_val = "true", data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}$", ng_model = "businessInformation.taxId" })
                                 @Html.ValidationMessageFor(model => model.TaxId)
                                 <span class="note">@Html.Sitecore().Field("Note - Employer Identification Number")</span>
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                                 <input type="radio" name="tin" id="tin-ssn" ng-model="tin" value="ssn" />
                                 <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Label - Social Security Number")</label>
-                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { data_val_if = "tin == 'ssn'", data_val_required = "", ng_model = "businessInformation.socialSecurityNumber" })
+                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { data_val_if = "tin == 'ssn'", data_val_required = "", data_val="true", data_val_regex="", data_val_regex_pattern="^\\d{3}[-]?\\d{2}[-]?\\d{4}$", ng_model = "businessInformation.socialSecurityNumber" })
                                 @Html.ValidationMessageFor(model => model.SocialSecurityNumber)
                                 <span class="note">@Html.Sitecore().Field("Note - Social Security Number")</span>
                             </div>
@@ -443,14 +445,16 @@
                         <hr />
                         <div class="group">
                             <div class="item group-col">
-                                <label>@Html.Sitecore().Field("Label - Signature") <a href="#" tooltip="@Html.Sitecore().Field("Signature Tooltip")"><i class="icon-tooltip"></i></a></label>
-                                <div class="signature" ng-click="showSignatureModal('signature')" ng-class="{empty:!businessInformation.signature}">
+                                <label>@Html.Sitecore().Field("Label - Signature") <a href="" tooltip-html-unsafe="@Html.Sitecore().Field("Signature Tooltip").ToHtmlString()"><i class="icon-tooltip"></i></a></label>
+                                <div class="signature" ng-click="showSignatureModal('signature')" ng-class="{empty:!businessInformation.signature}" @Html.Validation().ErrorClass(m => m.CustomerSignature)>
                                     <span ng-if="!businessInformation.signature">@Html.Sitecore().Field("Text - Add Signature")</span>
                                     <span ng-if="businessInformation.signature">
                                         <span class="signature-name" ng-if="businessInformation.signatureImage == null">{{ businessInformation.signature }}</span>
                                         <span ng-if="businessInformation.signatureImage != null"><img ng-src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
                                         <a href="">@Html.Sitecore().Field("Text - Edit Signature")</a>
                                     </span>
+                                    @Html.HiddenFor(m => m.CustomerSignature, new { ng_model = "businessInformation.signature" })
+                                    @Html.ValidationMessageFor(model => model.CustomerSignature)
                                 </div>
                                 <ul class="checkbox-list">
                                     <li>
@@ -468,12 +472,12 @@
                             <p>@Html.Sitecore().Field("Text - Please Fill Out Information")</p>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.SignatoryName)>
                                 <label for="@Html.IdFor(m => m.SignatoryName)">@Html.Sitecore().Field("Label - Type Your Name")</label>
-                                @Html.TextBoxFor(m => m.SignatoryName, new { data_val_if = "!businessInformation.signatory", data_val_required = "", ng_model = "businessInformation.signatoryName" })
+                                @Html.TextBoxFor(m => m.SignatoryName, new { data_val_if = "!businessInformation.signatory", data_val = "true", data_val_required = "", ng_model = "businessInformation.signatoryName" })
                                 @Html.ValidationMessageFor(model => model.SignatoryName)
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.SignatoryRelation)>
                                 <label for="@Html.IdFor(m => m.SignatoryRelation)">@Html.Sitecore().Field("Label - Relation To US Person")</label>
-                                @Html.TextBoxFor(m => m.SignatoryRelation, new { data_val_if = "!businessInformation.signatory", data_val_required = "", ng_model = "businessInformation.signatoryRelation" })
+                                @Html.TextBoxFor(m => m.SignatoryRelation, new { data_val_if = "!businessInformation.signatory", data_val = "true", data_val_required = "", ng_model = "businessInformation.signatoryRelation" })
                                 @Html.ValidationMessageFor(model => model.SignatoryRelation)
                             </div>
                         </div>
@@ -504,7 +508,7 @@
                                     </li>
                                     <li>
                                         <div class="terms">
-                                            @Html.Sitecore().Field("Text - Certification")
+                                            @Html.Sitecore().Field("Text - Terms and Conditions")
                                         </div>
                                     </li>
                                     <li @Html.Validation().ErrorClass(m => m.TcpaPreference)>

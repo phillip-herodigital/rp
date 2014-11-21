@@ -2,6 +2,13 @@
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
 
+    // start over on refresh
+    $scope.$watch('dataPlans', function(newValue, oldValue) {
+        if (newValue == null) {
+            $scope.resetEnrollment();
+        }
+    });
+
     $scope.dataPlans = $scope.mobileEnrollmentService.getDataPlans($scope.mobileEnrollmentService.selectedNetwork.value);
 
     console.log($scope.dataPlans);
