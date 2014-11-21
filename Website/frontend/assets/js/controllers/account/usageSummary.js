@@ -18,31 +18,45 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
     $scope.getUsageStats = function(){
         var range = $scope.dateRanges[$scope.currentRangeId];
+
         //BEGIN dummy data
+        var dummyModifier = (range.id * ((new Date()).getTime() - range.begin)) / $scope.dateRanges.length;
         $scope.deviceUsageStats = [{
-            name: 'Jordan Campbell',
-            number: '123-456-7890',
+            name: 'Jordan\'s Phone',
+            number: '402-249-1975',
             imageURL: '#',
             messageMax: 'unlimited',
             minuteMax: 'unlimited',
             usage: {
-                data: 1930000000 + ((new Date()).getTime() - range.begin),
+                data: 689000000 + dummyModifier,
                 messages: 49,
                 minutes: 926,
             }
-        },{
-            name: 'Jennifer Campbell',
-            number: '123-867-5309',
+        }, {
+            name: 'Jason\'s Phone',
+            number: '402-249-1822',
             imageURL: '#',
             messageMax: 'unlimited',
             minuteMax: 'unlimited',
             usage: {
-                data: 2500000000 + ((new Date()).getTime() - range.end),
-                messages: 372,
-                minutes: 1873,
+                data: 2450000000 + dummyModifier,
+                messages: 842,
+                minutes: 643,
+            }
+        }, {
+            name: 'Jennifer Campbell',
+            number: '402-249-1823',
+            imageURL: '#',
+            messageMax: 'unlimited',
+            minuteMax: 'unlimited',
+            usage: {
+                data: 3270000000 + dummyModifier,
+                messages: 152,
+                minutes: 773,
             }
         }];
         //END dummy data
+
         updateUsageTotals();
     }
 

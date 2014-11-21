@@ -1801,12 +1801,14 @@ article.mobile {
 		}
 		&:first-child {
 			text-align: left;
-		}
-		.device-image {
-			float: left;
-		}
-		.device-details{
-			float: right;
+			padding: 0px 20px;
+			div {
+				float: left;
+				padding: 0px 10px;
+			}
+			.device-image {
+				padding-left: 0px;
+			}
 		}
 	}
 }
