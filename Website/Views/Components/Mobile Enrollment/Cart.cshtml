@@ -27,7 +27,7 @@
                     <div class="cart-product clearfix" ng-repeat="item in cart.items">
                         <div class="description" ng-if="item.type == 'new'">
                             <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
-                            <div class="condition" ng-if="item.buyingOption == 'Lease24'">24-Month Lease</div>
+                            <div class="condition" ng-if="item.buyingOption == 'Lease24'">@Html.Sitecore().Field("24-Month Lease")</div>
                             <div class="description">{{ item.device.brand }} {{ item.device.name }}</div>
                             <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
                             <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
@@ -38,10 +38,11 @@
                             <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>
                             <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
                         </div>
+                        <div class="description">@Html.Sitecore().Field("Activation Fee")</div>
                         <div class="rate">{{ item.activationFee | currency }}</div>
                         <div ng-if="item.warranty == 'accept'" class="warranty">
                             <div class="description">@Html.Sitecore().Field("Phone Warranty")</div>
-                            <div class="rate">$9.95/@Html.Sitecore().Field("Month Abbreviation")</div>
+                            <div class="rate">@Html.Sitecore().Field("Warranty Cost")/@Html.Sitecore().Field("Month Abbreviation")</div>
                         </div>
                     </div>
                 </div>

@@ -86,9 +86,12 @@
                 device: device,
                 id: device.id,
                 price: ($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24,
+                salesTax: parseFloat(parseFloat(($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24, 10) * .07).toFixed(2),
                 buyingOption: $scope.phoneOptions.purchaseOption,
+                activationFee: $scope.activationFee,
                 size: $scope.phoneOptions.size,
                 color: $scope.phoneOptions.color,
+                imageFront: device.imageFront,
                 warranty: $scope.phoneOptions.warranty,
                 number: $scope.phoneOptions.number,
                 sku: selectedModel.sku

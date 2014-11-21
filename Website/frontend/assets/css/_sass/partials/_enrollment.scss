@@ -1516,12 +1516,12 @@ $enrollment-module-vertical-padding: 20px;
         .rate {
             text-align: right;
             float: right;
+            font-weight: normal;
             &.device-price {
                 margin-top: 19px;
             }
             span {
                 display: inline;
-                font-weight: 600;
                 font-style: normal; 
                 font-size: 16px;
             }
@@ -1538,6 +1538,18 @@ $enrollment-module-vertical-padding: 20px;
         &.order-summary {
             h2 {
                 margin-bottom: 10px;
+                padding: 10px 0;
+                border-bottom: 1px solid #eaeaea;
+            }
+            i {
+                margin-top: 10px;
+            }
+            h3 {
+                color: #333;
+                font-size: 15px;
+                font-weight: 600;
+                text-transform: none;
+                margin: 0;
             }
             .cart-product:first-child {
                 margin-top: 0;
@@ -2442,11 +2454,17 @@ $enrollment-module-vertical-padding: 20px;
         float: right;
         width: 30%;
         text-align: right;
+        &.device-price {
+            margin-top: 24px;
+        }
     }
     .plan-summary-image, .phone-summary-image {
         position: absolute;
         left: 20px;
         top: 0;
+        img {
+            max-width: 60px;
+        }
         @include breakpoint(small) {
             position: relative;
         }
@@ -2459,6 +2477,9 @@ $enrollment-module-vertical-padding: 20px;
         }
         &.no-img {
             padding-left: 0;
+        }
+        .items-monthly {
+            margin-top: 20px;
         }
         @include breakpoint(small) {
             padding-left: 0;
