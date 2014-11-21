@@ -262,9 +262,9 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
 
         var total = 0;
         for (var i=0; i<service.cart.items.length; i++) {
-            total += parseFloat(service.cart.items[i].price, 10);
-            total += parseFloat(service.cart.items[i].activationFee, 10);
-            total += parseFloat(service.cart.items[i].salesTax, 10);
+            total += (typeof service.cart.items[i].price != 'undefined') ? parseFloat(service.cart.items[i].price, 10) : 0;
+            total += (typeof service.cart.items[i].activationFee != 'undefined') ? parseFloat(service.cart.items[i].activationFee, 10) : 0;
+            total += (typeof service.cart.items[i].salesTax != 'undefined') ? parseFloat(service.cart.items[i].salesTax, 10) : 0;
         }
 
         return total + service.getProratedCost();
@@ -274,8 +274,8 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         var plan = service.cart.dataPlan;
         var total = parseFloat(plan.price, 10) + service.getTotalFees();
         for (var i=0; i<service.cart.items.length; i++) {
-            total += (service.cart.items[i].warranty == 'accept') ? 9.99 : 0;
-            total += (service.cart.items[i].buyingOption != 'New') ? parseFloat(service.cart.items[i].price, 10) : 0;
+            total += (typeof service.cart.items[i].warranty != 'undefined' && service.cart.items[i].warranty == 'accept') ? 9.99 : 0;
+            total += (typeof service.cart.items[i].buyingOption != 'undefined' && service.cart.items[i].buyingOption != 'New') ? parseFloat(service.cart.items[i].price, 10) : 0;
         }
         return total;
     };
