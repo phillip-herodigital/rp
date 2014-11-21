@@ -10,11 +10,11 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     //Make some dummy date ranges
     for(var i = 0; i < 15; i++){
         var month = 1000 * 60 * 60 * 24 * 30;
-        var stamp = (new Date()).getTime();
-        $scope.dateRanges.push({id: i, begin: stamp - (month * i) - month, end: stamp - (month * i)});
+        var now = (new Date()).getTime();
+        $scope.dateRanges.push({id: i, begin: now - (month * i) - month, end: now - (month * i)});
     }
 
-    $scope.currentRangeId = angular.toJson($scope.dateRanges[0].id);
+    $scope.currentRangeId = $scope.dateRanges[0].id;
 
     $scope.getUsageStats = function(){
         var range = $scope.dateRanges[$scope.currentRangeId];
