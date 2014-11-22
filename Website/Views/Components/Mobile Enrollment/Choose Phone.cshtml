@@ -16,9 +16,10 @@
                         <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'new' }" ng-click="mobileEnrollment.phoneTypeTab = 'new'">
                             <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
                         </div>
-                        <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()">
+                        <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'">
                             <h1>@Html.Sitecore().Field("Header - Bring Your Own Phone")</h1>
                         </div>
+                        <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'"></div>
                     </header>
                 <toggle-pane name="new" value="mobileEnrollment.phoneTypeTab">
                     <div class="content" ng-if="!selectedPhone">
