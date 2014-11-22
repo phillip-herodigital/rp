@@ -221,5 +221,11 @@ namespace StreamEnergy.Services.Clients
             var account = subAccount as DomainModels.Accounts.GeorgiaGasAccount;
             return account.Id;
         }
+
+
+        IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            return new StreamEnergy.DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = subAccount.Id };
+        }
     }
 }

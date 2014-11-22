@@ -55,6 +55,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.redis = redis;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            enrollmentController.Dispose();
+        }
+
         #region Account Balances & Payments
 
         [HttpGet]
@@ -965,7 +971,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await accountService.GetAccountDetails(target);
             var subAccount = target.SubAccounts.First(acct => acct.Id == request.SubAccountId);
-
+            if (!await accountService.CheckRenewalEligibility(target, subAccount))
+            {
+                return new SetupRenewalResponse
+                {
+                    IsSuccess = false
+                };
+            }
             await enrollmentController.Initialize(null);
 
             return new SetupRenewalResponse

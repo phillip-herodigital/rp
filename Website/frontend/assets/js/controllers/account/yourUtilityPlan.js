@@ -35,7 +35,7 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
         $http.post('/api/account/setupRenewal', accountData)
         .success(function (data) {
             if (data.isSuccess) {
-                $window.location.href = '/enrollment';
+                $window.location = '/enrollment';
             }
         })
     };

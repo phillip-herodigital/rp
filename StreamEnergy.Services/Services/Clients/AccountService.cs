@@ -8,6 +8,8 @@ using Microsoft.Practices.Unity;
 using System.Net.Http;
 using Legacy = StreamEnergy.DomainModels.Accounts.Legacy;
 using System.IO;
+using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -611,7 +613,13 @@ namespace StreamEnergy.Services.Clients
                 IsEligible = data.IsEligible,
                 RenewalDate = (DateTime)data.EligibilityDate,
                 EligibilityWindowInDays = (int)data.EligibilityWindow,
+                Capabilities = new IServiceCapability[] { 
+                    new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal }, 
+                    new CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Residential }, 
+                    locAdapter.GetRenewalServiceCapability(subAccount)
+                }
             });
+
             return true;
         }
     }

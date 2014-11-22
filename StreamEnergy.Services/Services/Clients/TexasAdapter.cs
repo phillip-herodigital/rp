@@ -203,5 +203,11 @@ namespace StreamEnergy.Services.Clients
         {
             return null;
         }
+
+
+        IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

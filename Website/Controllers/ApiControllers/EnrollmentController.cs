@@ -18,6 +18,7 @@ using StreamEnergy.Logging;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Enrollment;
 using StreamEnergy.Processes;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -122,8 +123,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Location = new Location 
                     { 
                         Address = account.SubAccounts.First().ServiceAddress,
-                        Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
-                    },
+                        Capabilities = account.Capabilities.OfType<RenewalAccountCapability>().Single().Capabilities
+                    }
+                    /*
                     SelectedOffers = new SelectedOffer[] 
                     { 
                         new SelectedOffer 
@@ -135,6 +137,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             } 
                         }
                     }
+                     */
                 }
             };
             await stateHelper.StateMachine.Process();
