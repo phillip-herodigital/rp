@@ -11,9 +11,9 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
     {
         public const string Qualifier = "GeorgiaGas";
 
-        public string CapabilityType { get { return Qualifier; } }
+        public virtual string CapabilityType { get { return Qualifier; } }
 
-        public string AglcPremisesNumber { get; set; }
+        public virtual string AglcPremisesNumber { get; set; }
 
         string ISearchable.GetUniqueField()
         {

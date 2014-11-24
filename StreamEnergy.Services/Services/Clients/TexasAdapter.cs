@@ -205,7 +205,7 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.ISubAccount subAccount)
+        IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
             throw new NotImplementedException();
         }

@@ -616,7 +616,7 @@ namespace StreamEnergy.Services.Clients
                 Capabilities = new IServiceCapability[] { 
                     new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal }, 
                     new CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Residential }, 
-                    locAdapter.GetRenewalServiceCapability(subAccount)
+                    locAdapter.GetRenewalServiceCapability(account, subAccount)
                 }
             });
 

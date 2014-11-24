@@ -83,8 +83,7 @@ namespace StreamEnergy.Services.Clients
         {
             var georgiaService = location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
             var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
-
-
+           
             return new LocationOfferSet
             {
                 Offers = (from product in streamConnectProductResponse.Products
@@ -223,9 +222,9 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.ISubAccount subAccount)
+        IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
-            return new StreamEnergy.DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = subAccount.Id };
+            return new StreamEnergy.DomainModels.Enrollments.GeorgiaGas.RenewalCapability { Account = account, SubAccount = subAccount };
         }
     }
 }
