@@ -479,7 +479,8 @@ namespace StreamEnergy.Services.Clients
                 },
                 SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
                 ProductType = data.AccountDetails.ProductType,
-                TcpaPreference = tcpa
+                TcpaPreference = tcpa,
+                BillingDeliveryPreference = data.AccountDetails.BillDeliveryTypePreference,
             };
             account.SystemOfRecord = data.AccountDetails.SystemOfRecord;
             account.AccountNumber = data.AccountDetails.SystemOfRecordAccountNumber;
@@ -556,7 +557,8 @@ namespace StreamEnergy.Services.Clients
                     MobilePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
                     AccountEmailAddress = details.ContactInfo.Email != null ? details.ContactInfo.Email.Address : null,
                     Address = StreamConnectUtilities.ToStreamConnectAddress(details.BillingAddress),
-                    TCPAPreference = details.TcpaPreference == null ? "NA" : (details.TcpaPreference.Value ? "Yes" : "No")
+                    TCPAPreference = details.TcpaPreference == null ? "NA" : (details.TcpaPreference.Value ? "Yes" : "No"),
+                    BillDeliveryTypePreference = details.BillingDeliveryPreference,
                 });
 
             if (response.IsSuccessStatusCode)
