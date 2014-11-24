@@ -42,6 +42,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 		} else {
 			requestData.billingAddress = $scope.formData.billingAddress;
 		}
+		requestData.disablePrintedInvoices = $scope.formData.disablePrintedInvoices;
 
 		$scope.isLoading = true;
 
