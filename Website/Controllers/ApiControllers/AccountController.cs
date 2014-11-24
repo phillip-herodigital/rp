@@ -963,6 +963,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public async Task<SetupRenewalResponse> SetupRenewal(SetupRenewalRequest request)
         {
+            bool isSuccess = false;
+
             if (currentUser.Accounts != null)
             {
                 currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
@@ -971,19 +973,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await accountService.GetAccountDetails(target);
             var subAccount = target.SubAccounts.First(acct => acct.Id == request.SubAccountId);
-            if (!await accountService.CheckRenewalEligibility(target, subAccount))
+            var isElibible = await accountService.CheckRenewalEligibility(target, subAccount);
+
+            if (isElibible)
             {
-                return new SetupRenewalResponse
-                {
-                    IsSuccess = false
-                };
+                await enrollmentController.Initialize(null);
+                isSuccess = await enrollmentController.SetupRenewal(target, subAccount);
             }
-            await enrollmentController.Initialize(null);
 
             return new SetupRenewalResponse
             {
-                IsSuccess = await enrollmentController.SetupRenewal(target, subAccount)
+                IsSuccess = isSuccess
             };
+
+            
         }
 
         #endregion

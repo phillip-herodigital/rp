@@ -95,6 +95,10 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         enrollmentService.resetEnrollment();
     };
 
+    $scope.resetRenewal = function () {
+        enrollmentService.resetRenewal();
+    };
+
     /**
     * Size of object
     *

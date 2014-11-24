@@ -16,7 +16,8 @@
             <form data-val-bind-messages="validations">
                 <article class="form enrollment__box">
                     <header>
-                        <h1>@Html.Sitecore().Field("Choose Header")</h1>
+                        <h1 ng-if="!isRenewal">@Html.Sitecore().Field("Choose Header")</h1>
+                        <h1 ng-if="isRenewal">@Html.Sitecore().Field("Renew Header")</h1>
                     </header>
                     <div class="content">
                         <p>@Html.Sitecore().Field("Choose Paragraph")</p>
@@ -30,7 +31,8 @@
                 <div class="buttons">
                     <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
                     <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
-                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" >@Html.Sitecore().Field("Cancel Enrollment Button")</button>
+                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" ng-if="!isRenewal">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
+                    <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal">@Html.Sitecore().Field("Cancel Renewal Button")</button>
                 </div>
                 <div class="footnotes">
                     <div class="item warning" ng-if="isCartFull">
