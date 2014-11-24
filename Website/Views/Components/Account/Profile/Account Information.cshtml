@@ -79,6 +79,17 @@
                     </div>
                 </div>
             </div>
+            <hr class="content-divider" />
+            <div class="edit-preferences">
+                <div class="item">
+                    <ul class="checkbox-list">
+                        <li>
+                            <input type="checkbox" id="disablePrintedInvoices" ng-model="formData.disablePrintedInvoices" />
+                            <label for="disablePrintedInvoices">@Html.Sitecore().Field("Printed Invoices Text")</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <footer>
             <div class="buttons">
