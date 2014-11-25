@@ -61,8 +61,7 @@
             <ul class="info">
                 @*<li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Credit Card Text")</li>*@
                 <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Billing Address Text")</li>
-                @* Sprint BYOD is disabled for this release *@
-                <li ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'">
+                <li ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                     <i class="icon-imei"></i> @Html.Sitecore().Field("IMEI Number Text") <br />
                     @Html.Sitecore().Field("Bring Your Own Phone Text")
                 </li>
