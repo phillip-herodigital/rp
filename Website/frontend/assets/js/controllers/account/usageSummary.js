@@ -19,6 +19,13 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             limit: 0
         }
     };
+    $scope.estimatedTotalData = 7800000000;
+    $scope.graphScale = {
+        low: 0,
+        middle: 0,
+        high: 0
+    };
+    $scope.hasOverage = false;
 
 
     //Make some dummy date ranges
@@ -40,8 +47,8 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             number: '402-249-1975',
             id: 0,
             data: {
-                usage: 689000000 + dummyModifier,
-                limit:  1.2 * (689000000 + dummyModifier)
+                usage: 589000000 + dummyModifier,
+                limit:  1.2 * (589000000 + dummyModifier)
             },
             messages: {
                 usage: 49,
@@ -86,14 +93,14 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         }];
         //END dummy data
 
-        updatedeviceTotals();
+        updateDeviceTotals();
     }
 
     $scope.getDeviceImageURL = function (deviceId) {
         return '#'; //'http://library.columbia.edu/content/dam/libraryweb/locations/sciencelib/dsc/ERIWG_mobile/iphone_icon.png';
     }
 
-    function updatedeviceTotals(){
+    function updateDeviceTotals(){
         _.each(['data', 'messages', 'minutes'], function (field) {
             $scope.deviceTotal[field].usage = _.reduce($scope.deviceUsageStats, function(total,device){
                 return total + device[field].usage;
@@ -102,6 +109,25 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 return total + device[field].limit;
             }, 0);
         });
+        
+        //$scope.deviceTotal.data.usage *= 1.5;
+
+        $scope.hasOverage = $scope.deviceTotal.data.usage > $scope.deviceTotal.data.limit;
+        var highBytes = $scope.hasOverage ? $scope.deviceTotal.data.usage : $scope.deviceTotal.data.limit;
+        $scope.graphScale.high = Math.ceil(highBytes / 1000000000);
+        $scope.graphScale.middle = Math.round($scope.graphScale.high / 2);
+
+        var usedPct =  (($scope.deviceTotal.data.usage / 1000000000) / $scope.graphScale.high) * 100;
+        var estimatedPct = (($scope.estimatedTotalData / 1000000000) / $scope.graphScale.high) * 100 - usedPct;
+        var currentPct = (($scope.deviceTotal.data.limit / 1000000000) / $scope.graphScale.high) * 100;
+        if ($scope.hasOverage) {
+            estimatedPct = 0;
+            d3.select(".chart").attr("class", "chart overage");
+        }
+        d3.select(".used").style("width", usedPct + '%');
+        d3.select(".estimated").style("width", estimatedPct + '%');
+        d3.select(".remain").style("width", 100 - (usedPct + estimatedPct) + '%');
+        d3.select(".current-data").style("width", currentPct + '%');
     }
 
     $scope.getUsageStats();
