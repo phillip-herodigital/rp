@@ -1,4 +1,4 @@
-﻿<article class="grey-box mobile" ng-controller="MakePaymentCtrl">
+﻿<article class="grey-box mobile usage-summary" ng-controller="MakePaymentCtrl">
     <header class="clearfix">
         <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
 
@@ -9,10 +9,98 @@
         <div>
             <form>
                 <div class="group">
-                    <div class="item current-data">
+                    <div class="item current-usage">
                         <p>@Html.Sitecore().Field("Current Usage Text")</p>
+                        <div class="chart">
+                            <span class="graph used width-80">
+                                <span class="picket"></span>
+                                <span class="label">Usage: 6.31 GB of 6.5 GB</span>
+                            </span>
+                            <span class="graph estimated width-10">
+                            </span>
+                            <span class="graph remain width-10">
+                                <span class="picket"></span>
+                                <span class="label">Estimated: 7.3 GB</span>
+                            </span>
+                            <div class="current-data">
+                                <div class="picket"></div>
+                                <div class="label">6.5 GB <br />Current Data</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="item historical-data">
+                    <div class="item historical-usage">
+                        <p>@Html.Sitecore().Field("Historical Usage Text")</p>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="item current-usage">
+                        <p>@Html.Sitecore().Field("Current Usage Text")</p>
+                        <div class="chart overage">
+                            <span class="graph used width-80">
+                                <span class="picket"></span>
+                                <span class="label">Usage: 7.21 GB of 6.5 GB</span>
+                            </span>
+                            <span class="graph estimated width-00">
+                            </span>
+                            <span class="graph remain width-20">
+                                <span class="picket"></span>
+                                <span class="label">Estimated: 7.3 GB</span>
+                            </span>
+                            <div class="current-data">
+                                <div class="picket"></div>
+                                <div class="label">6.5 GB <br />Current Data</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item historical-usage">
+                        <p>@Html.Sitecore().Field("Historical Usage Text")</p>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="item current-usage">
+                        <p>@Html.Sitecore().Field("Current Usage Text")</p>
+                        <div class="chart">
+                            <span class="graph used width-10">
+                                <span class="picket"></span>
+                                <span class="label">Usage: 6.31 GB of 6.5 GB</span>
+                            </span>
+                            <span class="graph estimated width-80">
+                            </span>
+                            <span class="graph remain width-10">
+                                <span class="picket"></span>
+                                <span class="label">Estimated: 7.3 GB</span>
+                            </span>
+                            <div class="current-data">
+                                <div class="picket"></div>
+                                <div class="label">6.5 GB <br />Current Data</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item historical-usage">
+                        <p>@Html.Sitecore().Field("Historical Usage Text")</p>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="item current-usage">
+                        <p>@Html.Sitecore().Field("Current Usage Text")</p>
+                        <div class="chart overage">
+                            <span class="graph used width-10">
+                                <span class="picket"></span>
+                                <span class="label">Usage: 7.21 GB of 6.5 GB</span>
+                            </span>
+                            <span class="graph estimated width-00">
+                            </span>
+                            <span class="graph remain width-90">
+                                <span class="picket"></span>
+                                <span class="label">Estimated: 7.3 GB</span>
+                            </span>
+                            <div class="current-data">
+                                <div class="picket"></div>
+                                <div class="label">6.5 GB <br />Current Data</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item historical-usage">
                         <p>@Html.Sitecore().Field("Historical Usage Text")</p>
                     </div>
                 </div>
