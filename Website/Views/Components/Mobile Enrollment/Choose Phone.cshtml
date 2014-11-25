@@ -195,8 +195,15 @@
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
                                         <div class="button button-type-border">
-                                                <label>@Html.Sitecore().Field("Label - Enter Existing Number")</label>
-                                                <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^\d{3}[^\d]?\d{3}[^\d]?\d{4}$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.number.type == 'existing'" data-val-required="" />
+                                            <label>@Html.Sitecore().Field("Label - Enter Existing Number")</label>
+                                            <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^\d{3}[^\d]?\d{3}[^\d]?\d{4}$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.number.type == 'existing'" data-val-required="" />
+                                            <div class="previous-provider">
+                                                <label>@Html.Sitecore().Field("Label - Previous Service Provider")</label>
+                                                <select name="previousServiceProvider" ng-model="mobileEnrollmentService.previousServiceProvider" ng-options="provider.name for provider in previousServiceProviders" data-val="true" data-val-required></select>
+                                            </div>
+                                            <div class="transfer-number">
+                                                @Html.Sitecore().Field("Transfer Number Text")
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new'">
