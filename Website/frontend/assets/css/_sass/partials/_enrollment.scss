@@ -1670,6 +1670,8 @@ $enrollment-module-vertical-padding: 20px;
             left: 0;
             right: 0;
             background: #fff;
+            margin-top: 1px;
+            margin-bottom: 10px;
             @include opacity(.95);
         }
         span.text {

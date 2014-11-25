@@ -5,6 +5,14 @@
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.showNetworks = true;
 
+    if (window.location.href.indexOf('sprintBuyPhone') > 0) {
+        $scope.mobileEnrollmentSettings.sprintBuyPhone = true;
+    }
+
+    if (window.location.href.indexOf('sprintByod') > 0) {
+        $scope.mobileEnrollmentSettings.sprintByod = true;
+    }
+
     /*$scope.updateAvailableNetworks = function(state) {
         //Grab the available networks here, for now return the only two we have
         if (_.contains(excludedStates, state)) {

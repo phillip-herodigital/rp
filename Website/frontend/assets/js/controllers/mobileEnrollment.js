@@ -3,6 +3,7 @@
     // Use the service to track everything we want to submit with the order
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.isLoading = mobileEnrollmentService.isLoading;
+    $scope.mobileEnrollmentSettings = { sprintBuyPhone: '', sprintByod: ''};
 
     $scope.$watch(function () { return mobileEnrollmentService.isLoading; }, function (newValue) {
         $scope.isLoading = newValue;

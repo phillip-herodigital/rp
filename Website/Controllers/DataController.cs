@@ -40,7 +40,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult PreviousProviders()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Previous Providers");
             var data = item.Children.Select(child => new { name = child.Name, display = child.Fields["Display Text"].Value });
 
             return this.Content(StreamEnergy.Json.Stringify(data));
@@ -87,6 +87,19 @@ namespace StreamEnergy.MyStream.Controllers
                 name = child.Fields["Product Name"].Value,
                 description = child.Fields["Product Description"].Value
             });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
+        public ActionResult MobileEnrollmentSettings()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
+
+            var data =  new
+            {
+                sprintBuyPhone = !string.IsNullOrEmpty(item.Fields["Sprint Buy Phone"].Value),
+                sprintByod = !string.IsNullOrEmpty(item.Fields["Sprint BYOD"].Value)
+            };
 
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
