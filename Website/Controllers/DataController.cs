@@ -40,7 +40,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult PreviousProviders()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Previous Providers");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers");
             var data = item.Children.Select(child => new { name = child.Name, display = child.Fields["Display Text"].Value });
 
             return this.Content(StreamEnergy.Json.Stringify(data));
