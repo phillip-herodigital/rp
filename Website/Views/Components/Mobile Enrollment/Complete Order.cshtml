@@ -35,7 +35,7 @@
                             </div>
                             <div class="description" ng-if="item.type == 'new'">
                                 <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
-                                <div class="condition" ng-if="item.buyingOption == 'Lease24'">24-Month Lease</div>
+                                <div class="condition" ng-if="item.buyingOption == 'Lease24'">@Html.Sitecore().Field("24 Month Lease")</div>
                                 <h2>{{ item.device.brand }} {{ item.device.name }}</h2>
                                 <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
                                 <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
