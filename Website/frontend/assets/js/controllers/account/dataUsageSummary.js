@@ -25,8 +25,9 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         high: 0
     };
     $scope.hasOverage = false;
-
     $scope.recentDataUsage = [];
+    $scope.currentBillingPeriodDate = -1;
+    $scope.billingDaysRemaining = 0;
 
     //BEGIN dummy data
     $scope.deviceUsageStats = [{
@@ -81,6 +82,8 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     //END dummy data
 
     $scope.init = function () {
+        $scope.currentBillingPeriodDate = getCurrentBillingDate();
+        $scope.billingDaysRemaining = Math.round((getNextBillingDate() - (new Date()).getTime()) / (24 * 60 * 60 * 1000));
         calculateDeviceTotals();
         renderCurrentDataUsageComponent();
         renderHistoricDataUsageComponent();
@@ -99,6 +102,21 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             recentDataUsage.push($scope.deviceTotal.data.usage * (1 + Math.random() - 0.5) / 1000000000);
         }
         return recentDataUsage;
+        //END dummy data
+    }
+
+    function getNextBillingDate() {
+        //BEGIN dummy data
+
+        var month = 1000 * 60 * 60 * 24 * 30;
+        var days = ((new Date()).getTime() % (1000 * 60 * 60 * 24 * 7 * 4.3)) ;
+        return (new Date()).getTime() + month - days;
+        //END dummy data
+    }
+
+    function getCurrentBillingDate() {
+        //BEGIN dummy data
+        return (new Date()).getTime() - (1000 * 60 * 60 * 24 * 30);
         //END dummy data
     }
 
