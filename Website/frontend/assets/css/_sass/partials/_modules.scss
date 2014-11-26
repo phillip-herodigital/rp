@@ -1937,7 +1937,7 @@ article.usage-summary {
 		}
 
 		.estimated {
-			background-color: #888888;
+			background-color: #bbbbbb;
 			border-left: none;
 			border-right:none;
 			border-radius: 0px;
@@ -1953,7 +1953,8 @@ article.usage-summary {
 				border-color: #bbbbbb;
 				color: #000000;
 				background-color: #eeeeee;
-				float: right;
+				float: left;
+				left: -60px;
 			}
 			.picket {
 				top: -31px;
