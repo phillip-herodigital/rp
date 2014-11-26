@@ -64,7 +64,7 @@
             color: undefined,
             size: undefined,
             //condition: undefined,
-            warranty: undefined,
+            //warranty: undefined,
             number: undefined,
         };
     };
