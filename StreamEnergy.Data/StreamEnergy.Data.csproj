@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201411201913592_AddPhonePurchase.Designer.cs">
       <DependentUpon>201411201913592_AddPhonePurchase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411262002348_AdditionalDeviceDetails.cs" />
+    <Compile Include="Migrations\201411262002348_AdditionalDeviceDetails.Designer.cs">
+      <DependentUpon>201411262002348_AdditionalDeviceDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Data\MobileEnrollment\DataContext.cs" />
     <Compile Include="Data\MobileEnrollment\EnrollmentRecord.cs" />
@@ -99,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411201913592_AddPhonePurchase.resx">
       <DependentUpon>201411201913592_AddPhonePurchase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411262002348_AdditionalDeviceDetails.resx">
+      <DependentUpon>201411262002348_AdditionalDeviceDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

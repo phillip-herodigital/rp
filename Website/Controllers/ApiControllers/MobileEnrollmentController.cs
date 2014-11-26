@@ -66,6 +66,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 { "Price", context.Price ?? "" },
                 { "Warranty", context.Warranty ?? "" },
                 { "DeviceMake", context.DeviceMake ?? "" },    
+                { "DeviceColor", context.DeviceColor ?? "" },
+                { "DeviceSize", context.DeviceSize ?? "" },
                 { "DeviceModel", context.DeviceModel ?? "" },    
                 { "DeviceSerial", context.DeviceSerial ?? "" },    
                 { "SimNumber", context.SimNumber ?? "" },    

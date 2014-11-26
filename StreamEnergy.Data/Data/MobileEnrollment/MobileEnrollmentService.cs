@@ -57,6 +57,8 @@ namespace StreamEnergy.Data.MobileEnrollment
                     Warranty = data.Warranty,
                     DeviceMake = data.DeviceMake,
                     DeviceModel = data.DeviceModel,
+                    DeviceColor = data.DeviceColor,
+                    DeviceSize = data.DeviceSize,
                     DeviceSerial = data.DeviceSerial,
                     SimNumber = data.SimNumber,
                     NewNumber = data.NewNumber,
