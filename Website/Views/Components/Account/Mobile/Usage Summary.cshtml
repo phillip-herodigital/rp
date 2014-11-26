@@ -1,4 +1,4 @@
-﻿<article class="grey-box mobile usage-summary" ng-controller="AcctUsageSummaryCtrl">
+﻿<article class="grey-box mobile usage-summary" ng-controller="DataUsageSummaryCtrl">
     <header class="clearfix">
         <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
     </header>
@@ -8,7 +8,7 @@
                 <div class="group">
                     <div class="item current-usage">
                         <p>@Html.Sitecore().Field("Current Usage Text")</p>
-                        <div class="chart">
+                        <div class="usage-meter">
                             <span class="graph used">
                                 <span class="picket"></span>
                                 <span class="label">Usage: {{ deviceTotal.data.usage  / 1000000000 | number : 2}} GB of {{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB</span>
@@ -35,12 +35,20 @@
                             </div>
                             <div class="current-data">
                                 <div class="picket"></div>
-                                <div class="label">{{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB <br />Current Data</div>
+                                <div class="label">{{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB <br />@Html.Sitecore().Field("Data Plan")</div>
                             </div>
                         </div>
                     </div>
                     <div class="item historical-usage">
                         <p>@Html.Sitecore().Field("Historical Usage Text")</p>
+                        <div>
+                            <div class="historical-graph"></div>
+                            <div class="current-limit">
+                                <div class="limit-line"></div>
+                                <div class="limit-label">{{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB </div>
+                            </div>
+                        </div>
+                        <div class="view-details">@Html.Sitecore().Field("Historical Usage Link")</div>
                     </div>
                 </div>
             </form>

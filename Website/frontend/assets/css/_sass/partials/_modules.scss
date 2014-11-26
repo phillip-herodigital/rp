@@ -1863,15 +1863,25 @@ article.mobile {
 
 article.usage-summary {
 	.current-usage, .historical-usage {
-		width: 50%;
+		padding: 0px 10px;
+	}
+	.current-usage {
+		width: 60%; 
+		margin-bottom: -60px;
+	}
+	.historical-usage {
+		border-left: solid 1px #aaa;
+		width: 40%
 	}
 	@media only screen and (max-width: 780px) {	
 		.current-usage, .historical-usage {
 			width: 100%;
 		}
+		.historical-usage {
+			border-left: none;
+		}
 	}
-
-	.chart {
+	.usage-meter {
 		padding: 80px 0px 40px;
 		.picket {
 			width:0px;
@@ -1961,7 +1971,6 @@ article.usage-summary {
 				border-color: #888888;
 				background-color: #888888;
 				left: 5%;
-				width: 20%;
 				float: right;
 			}
 			.picket {    
@@ -2030,7 +2039,43 @@ article.usage-summary {
 			}
 		}
 	}
+	.historical-usage {
+		.historical-graph span {
+			clear: right;
+			float: left;
+			padding: 0px;
+			margin: 0 1px;
+			width: 5%;
+			position: relative;
+			border: none;
+		}
+		.current-limit {
+			position: relative;
+			z-index: 50;
+			color: #888;
+			.limit-label {
+				white-space: nowrap;
+				float: left;
+				clear: right;
+				width: 20%;
+				position: relative;
+				top: -10px;
+			}
+			.limit-line {
+				width: 80%;
+				float: left;
+				clear: right;
+				border-bottom: solid 1px #888;
+			}
+		}
+		.view-details {
+			clear: both;
+			float: none;
+			padding-top: 30px;
+		}
+	}
 }
+
 .international {
 	.content {
 		p {

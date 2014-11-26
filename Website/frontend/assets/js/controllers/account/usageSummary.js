@@ -1,4 +1,4 @@
-﻿/* My Usage Summary Controller
+﻿/* Account Usage Summary Controller
  *
  */
 ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', function ($scope, $rootScope, $http, breakpoint) {
@@ -19,14 +19,6 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             limit: 0
         }
     };
-    $scope.estimatedTotalData = 7800000000;
-    $scope.graphScale = {
-        low: 0,
-        middle: 0,
-        high: 0
-    };
-    $scope.hasOverage = false;
-
 
     //Make some dummy date ranges
     for(var i = 0; i < 4; i++){
@@ -109,25 +101,6 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 return total + device[field].limit;
             }, 0);
         });
-        
-        //$scope.deviceTotal.data.usage *= 1.5;
-
-        $scope.hasOverage = $scope.deviceTotal.data.usage > $scope.deviceTotal.data.limit;
-        var highBytes = $scope.hasOverage ? $scope.deviceTotal.data.usage : $scope.deviceTotal.data.limit;
-        $scope.graphScale.high = Math.ceil(highBytes / 1000000000);
-        $scope.graphScale.middle = Math.round($scope.graphScale.high / 2);
-
-        var usedPct =  (($scope.deviceTotal.data.usage / 1000000000) / $scope.graphScale.high) * 100;
-        var estimatedPct = (($scope.estimatedTotalData / 1000000000) / $scope.graphScale.high) * 100 - usedPct;
-        var currentPct = (($scope.deviceTotal.data.limit / 1000000000) / $scope.graphScale.high) * 100;
-        if ($scope.hasOverage) {
-            estimatedPct = 0;
-            d3.select(".chart").attr("class", "chart overage");
-        }
-        d3.select(".used").style("width", usedPct + '%');
-        d3.select(".estimated").style("width", estimatedPct + '%');
-        d3.select(".remain").style("width", 100 - (usedPct + estimatedPct) + '%');
-        d3.select(".current-data").style("width", currentPct + '%');
     }
 
     $scope.getUsageStats();
