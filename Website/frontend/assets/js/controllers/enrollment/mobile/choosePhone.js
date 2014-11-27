@@ -89,6 +89,8 @@
                 salesTax: parseFloat(parseFloat(($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24, 10) * .07).toFixed(2),
                 buyingOption: $scope.phoneOptions.purchaseOption,
                 activationFee: $scope.activationFee,
+                make: { make: device.brand },
+                model: { modelName: device.name },
                 size: $scope.phoneOptions.size,
                 color: $scope.phoneOptions.color,
                 imageFront: device.imageFront,

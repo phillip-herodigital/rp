@@ -60,6 +60,8 @@
         var userContext = {
             deviceMake: (typeof item.make != 'undefined') ? item.make.make : null,
             deviceModel: (typeof item.model != 'undefined') ? item.model.modelName : null,
+            deviceColor: item.color,
+            deviceSize: item.size,
             deviceSerial: item.imeiNumber,
             simNumber: item.simNumber,
             newNumber: (item.number.type == 'new') ? item.number.value : null,

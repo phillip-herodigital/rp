@@ -20,6 +20,8 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public string Warranty { get; set; }
         public string DeviceMake { get; set; }
         public string DeviceModel { get; set; }
+        public string DeviceColor { get; set; }
+        public string DeviceSize { get; set; }
         public string DeviceSerial { get; set; }
         public string SimNumber { get; set; }
         public string NewNumber { get; set; }

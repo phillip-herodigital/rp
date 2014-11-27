@@ -75,6 +75,10 @@ namespace StreamEnergy.Data.MobileEnrollment
 
         public string DeviceModel { get; set; }
 
+        public string DeviceColor { get; set; }
+
+        public string DeviceSize { get; set; }
+
         public string DeviceSerial { get; set; }
 
         public string SimNumber { get; set; }
