@@ -5,7 +5,7 @@
 <article class="module marketing wrapper blog-post">
     <header>
         <h3>@Html.Sitecore().Field("Title")</h3>
-        <p class="date">@Html.Sitecore().Field("Posted On Text"): <time datetime="@postDate.ToString("O")">@Html.Sitecore().Field("Date", new { format = "MMMM d, yyyy" })</time></p>
+        <p class="date">@Html.Sitecore().Field("Posted On Text"): <time datetime="@postDate.ToString("yyyy-MM-dd")">@Html.Sitecore().Field("Date", new { format = "MMMM d, yyyy" })</time></p>
     </header>
     @Html.Sitecore().Field("Content")
 </article>

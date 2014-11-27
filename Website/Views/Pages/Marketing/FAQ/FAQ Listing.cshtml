@@ -1,12 +1,15 @@
-﻿@model IEnumerable<Sitecore.Data.Items.Item>
+﻿@using Sitecore.Shell.Applications.MarketingAutomation.Extensions
+@model IEnumerable<Sitecore.Data.Items.Item>
 @{
     <dl class="faq">
         @foreach (var item in Model)
         {
             var faqStatesField = (Sitecore.Data.Fields.MultilistField)item.Fields["FAQ States"];
-            var states = string.Join(" ", faqStatesField.GetItems().Select(stateItem => stateItem.Name));
-            <dt data-collasped data-states="@states" onclick="this.hasAttribute('data-collasped') ? this.removeAttribute('data-collasped') : this.setAttribute('data-collasped','data-collasped')">@Html.Sitecore().Field("FAQ Question", item)</dt>
-            <dd data-states="@states">@Html.Sitecore().Field("FAQ Answer", item)</dd>
+            var states = faqStatesField.GetItems().Select(stateItem => stateItem.Name).ToArray();
+            var statesData = string.Join(" ", states);
+            var jsStatesArray = states.ToJson();
+            <dt data-ng-show="@(jsStatesArray).indexOf(pane) != -1" data-collasped data-states="@statesData" onclick="this.hasAttribute('data-collasped') ? this.removeAttribute('data-collasped') : this.setAttribute('data-collasped','data-collasped')">@Html.Sitecore().Field("FAQ Question", item)</dt>
+            <dd data-ng-show="@(jsStatesArray).indexOf(pane) != -1" data-states="@states">@Html.Sitecore().Field("FAQ Answer", item)</dd>
         }
     </dl>
 }

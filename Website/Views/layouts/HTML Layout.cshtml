@@ -1,4 +1,5 @@
-﻿@{
+﻿@using StreamEnergy.MyStream.Utility
+@{
     var pageTitle = "";
     var pageTitleField = Html.Sitecore().CurrentItem.Fields["Page Title"];
     if (pageTitleField != null)
@@ -56,25 +57,11 @@
     <!-- End Google Tag Manager -->
     <div ng-if="hasMobileNav" ng-include="'mobileNav'" mobile-nav="0"></div>
     @Html.Sitecore().Placeholder("header")
-    <article>
-        <header>
-            <h2 style="@Html.AsBackgroundStyle("Banner Image")">
-                <span>@Html.Sitecore().Field("Banner Text")</span>
-            </h2>
-            <div class="content">
-                <ol>
-                    <li><b>Overview</b></li>
-                    @* @foreach (SiteMapNode node in rootNode.ChildNodes)
-                {
-                    <li>@NavigationHelper.Item(node)</li>
-                } *@
-                </ol>
-            </div>
-        </header>
-        <main class="content">
+    <main>
+        <div class="content">
             @Html.Sitecore().Placeholder("content")
-        </main>
-    </article>
+        </div>
+    </main>
     @Html.Sitecore().Placeholder("footer")
     @Html.Sitecore().Placeholder("extras")
     <script type="text/javascript" src="/frontend/utilities/foresee/foresee-trigger.js"></script>

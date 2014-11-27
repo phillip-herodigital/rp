@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Lucene.Net.Documents;
-using Sitecore.ContentSearch.ComputedFields;
 using Sitecore.ContentSearch.Utilities;
 using Sitecore.Data;
+using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Mvc.Presentation;
-using Sitecore.Rocks.Server.QueryAnalyzers.Opcodes;
-using Sitecore.Shell.Applications.ContentEditor;
 
 namespace StreamEnergy.MyStream.Utility
 {
@@ -17,16 +13,23 @@ namespace StreamEnergy.MyStream.Utility
     {
         public override SiteMapNode FindSiteMapNode(string rawUrl)
         {
-            var renderingItem = RenderingContext.Current.Rendering.Item;
-            return renderingItem != null ? null : FindSiteMapNodeCore(renderingItem);
+            return FindSiteMapNodeCore(Sitecore.Context.Item);
         }
 
         private SiteMapNode FindSiteMapNodeCore(Item item)
         {
-            foreach (Item child in item.Children)
+            var renderingItem = RenderingContext.Current.Rendering.Item;
+            if (renderingItem == null)
+                return null;
+
+            foreach (var itemOrAncestor in item.GetAncestorsAndSelf())
             {
-                Sitecore.Data.Fields.LinkField linkField = item.Fields["Navigation Link"];
-                return linkField.TargetID == Sitecore.Context.Item.ID ? CreateSiteMapNode(child) : FindSiteMapNodeCore(child);
+                foreach (var navigationItem in renderingItem.GetDescendantsAndSelf())
+                {
+                    LinkField linkField = navigationItem.Fields["Navigation Link"];
+                    if (linkField != null && linkField.TargetID == itemOrAncestor.ID)
+                        return new ItemSiteMapNode(this, navigationItem);
+                }
             }
 
             return null;
@@ -34,7 +37,7 @@ namespace StreamEnergy.MyStream.Utility
 
         public override SiteMapNodeCollection GetChildNodes(SiteMapNode node)
         {
-            return new SiteMapNodeCollection(Sitecore.Context.Database.GetItem(ID.Parse(node.Key)).Children.Select(CreateSiteMapNode).ToArray());
+            return new SiteMapNodeCollection(Sitecore.Context.Database.GetItem(ID.Parse(node.Key)).Children.Select(i => (SiteMapNode)new ItemSiteMapNode(this, i)).ToArray());
         }
 
         public override SiteMapNode GetParentNode(SiteMapNode node)
@@ -42,28 +45,60 @@ namespace StreamEnergy.MyStream.Utility
             var item = Sitecore.Context.Database.GetItem(ID.Parse(node.Key));
             if (item.TemplateName != "Navigation Item" || item.Parent == null)
                 return null;
-            return CreateSiteMapNode(Sitecore.Context.Database.GetItem(ID.Parse(node.Key)).Parent);
+            return new ItemSiteMapNode(this, Sitecore.Context.Database.GetItem(ID.Parse(node.Key)).Parent);
         }
 
         protected override SiteMapNode GetRootNodeCore()
         {
             var rootNode = RenderingContext.Current.Rendering.Item;
-            return CreateSiteMapNode(rootNode);
+            return new ItemSiteMapNode(this, rootNode);
+        }
+    }
+
+    public class ItemSiteMapNode : SiteMapNode
+    {
+        public ItemSiteMapNode(SiteMapProvider provider, Item item)
+            : base(provider, item.ID.ToString())
+        {
+            Item = item;
+            if (item.TemplateName != "Navigation Item")
+                return;
+
+            LinkField linkField = item.Fields["Navigation Link"];
+            if (linkField == null) return;
+
+            Title = linkField.Text;
         }
 
-        protected SiteMapNode CreateSiteMapNode(Item item)
+        public Item Item { get; set; }
+    }
+
+    public static class SiteMapNodeExtensions
+    {
+        public static int Level(this SiteMapNode node)
         {
-            if (item == null)
-                return null;
-            var node = new SiteMapNode(this, item.ID.ToString());
-            if (item.TemplateName == "Navigation Item")
+            var level = 0;
+            while (node.ParentNode != null)
             {
-                Sitecore.Data.Fields.LinkField linkField = item.Fields["Navigation Link"];
-                node.Title = linkField.Text;
-                node.Url = linkField.Url;
+                level++;
+                node = node.ParentNode;
             }
-            
-            return node;
+
+            return level;
+        }
+
+        public static IEnumerable<SiteMapNode> GetAncestors(this SiteMapNode node)
+        {
+            while (node.ParentNode != null)
+            {
+                node = node.ParentNode;
+                yield return node;
+            }
+        }
+
+        public static SiteMapNode GetAncestor(this SiteMapNode node, int level)
+        {
+            return GetAncestors(node).Skip(level).FirstOrDefault();
         }
     }
 }

@@ -1,83 +1,115 @@
-﻿@{
-    var parentMenu = Html.Sitecore().CurrentItem;
-    var currentID = Sitecore.Context.Item.ID;
-    var parentID = Sitecore.Context.Item.ParentID;
-    var targetObject = from entry in parentMenu.Children.OfType<Sitecore.Data.Items.Item>().Select((item, index) => new { item, index })
-                       let field = (Sitecore.Data.Fields.LinkField)entry.item.Fields["Navigation Link"]
-                       let targetItem = ((Sitecore.Data.Fields.LinkField)entry.item.Fields["Navigation Link"]).TargetItem
-                       select new
-                       {
-                           Item = entry.item,
-                           SubNavNum = entry.index + 1,
-                           Selected = targetItem != null && targetItem.ID == currentID,
-                           SubNavItems = from Sitecore.Data.Items.Item subitem in entry.item.Children
-                                         let subTargetItem = ((Sitecore.Data.Fields.LinkField)subitem.Fields["Navigation Link"]).TargetItem
-                                         select new
-                                         {
-                                             Item = subitem,
-                                             Selected = subTargetItem != null && (subTargetItem.ID == currentID || subTargetItem.ID == parentID),
-                                         }
-                       };
-
-    // Included ToArray to force Select to happen once, even though we have two foreach
-    var target = targetObject.ToArray();
-    var selectedNavItem = 0;
-    var selectedParentItem = target.FirstOrDefault(i => i.Selected || i.SubNavItems.Any(si => si.Selected));
-    if (selectedParentItem != null)
-    {
-        selectedNavItem = selectedParentItem.SubNavNum;
-    }
-
-    var languageLinkUrlLanguage = (Sitecore.Context.Language.Name == "es") ? "en" : "es";
-    var languageLinkText = (Sitecore.Context.Language.Name == "es") ? "In English" : "En Español";
-
-    var languageLinkUrl = Sitecore.Links.LinkManager.GetItemUrl(Sitecore.Context.Item, new Sitecore.Links.UrlOptions()
+﻿@using Sitecore.Data.Fields
+@using Sitecore.Data.Items
+@using Sitecore.Links
+@using StreamEnergy.MyStream.Utility
+@{
+    Func<string, bool> isLanguageSpanish = languageTag => languageTag.ToLowerInvariant() == "es" || languageTag.StartsWith("es-", StringComparison.InvariantCultureIgnoreCase);
+    var languageLinkUrlLanguage = isLanguageSpanish(Sitecore.Context.Language.Name) ? "en" : Sitecore.Context.Language.Name;
+    var languageLinkText = isLanguageSpanish(languageLinkUrlLanguage) ? "In English" : "En Español";
+    var languageLinkUrl = LinkManager.GetItemUrl(Sitecore.Context.Item, new UrlOptions()
     {
         Language = Sitecore.Globalization.Language.Parse(languageLinkUrlLanguage),
     });
 
     var loggedIn = Sitecore.Context.IsLoggedIn;
     var username = Sitecore.Context.User.LocalName;
+}
+@helper NavigationAnchor(Item item)
+{
+    var navigationLinkField = (LinkField)item.Fields["Navigation Link"];
+    if (navigationLinkField == null || navigationLinkField.TargetID.IsNull)
+    {
+        @item.Name
+    }
+    else
+    {
+        @Html.Sitecore().Field("Navigation Link", item)
+    }
+}
 
+@helper NavigationListItem(Item item, bool selected)
+{
+    if (selected)
+    {
+        <b>@NavigationAnchor(item)</b>
+    }
+    else
+    {
+        @NavigationAnchor(item)
+    }
 }
 <header>
     <div class="content">
         <h1><a href="/"><img src="/Images/Logo.png" alt="Stream - Connected Home"></a></h1>
         <ol>
-            @foreach (var item in target)
-            {
-                <li>
-                    @if (item.Selected || item.SubNavItems.Any(subItem => subItem.Selected))
+            @{
+                string headingLevel2 = null;
+                foreach (ItemSiteMapNode node in SiteMap.RootNode.ChildNodes)
+                {
+                    var selected = SiteMap.CurrentNode != null && (SiteMap.CurrentNode.Key == node.Key || SiteMap.CurrentNode.IsDescendantOf(node));
+                    <li id="@Html.Id(node.Item.Name)-NavigationItem-Navigation-Global">
+                        @NavigationListItem(node.Item, selected)
+                        @if (selected && node.HasChildNodes)
+                        {
+                            var navigationLinkField = (LinkField)node.Item.Fields["Navigation Link"];
+                            headingLevel2 = navigationLinkField.Text;
+                            <ol>
+                                @foreach (ItemSiteMapNode childNode in node.ChildNodes)
+                                {
+                                    selected = SiteMap.CurrentNode != null && (SiteMap.CurrentNode.Key == childNode.Key || SiteMap.CurrentNode.IsDescendantOf(childNode));
+                                    if (selected)
+                                    {
+                                        navigationLinkField = childNode.Item.Fields["Navigation Link"];
+                                        headingLevel2 = navigationLinkField.Text;
+                                    }
+                                    <li>
+                                        @NavigationListItem(childNode.Item, selected)
+                                    </li>
+                                }
+                            </ol>
+                        }
+                    </li>
+                }
+            }
+        </ol>
+        <aside id="UserActions-Header-Global">
+            <a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText.Replace(" ", "\u00A0")</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span style="letter-spacing: 0.026em;"><a href="/manage/">My&nbsp;Account</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="">Pay&nbsp;My&nbsp;Bill</a></span>
+        </aside>
+    </div>
+    <nav>
+        <h2 style="@Html.AsBackgroundStyle("Banner Image", Sitecore.Context.Item)">
+            <span class="content">@headingLevel2</span>
+        </h2>
+        <div class="content">
+            @{
+                if (SiteMap.CurrentNode != null)
+                {
+                    var level = SiteMap.CurrentNode.Level();
+                    if (level >= 2)
                     {
-                        <b>@Html.Sitecore().Field("Navigation Link", item.Item)</b>
-                    }
-                    else
-                    {
-                        @Html.Sitecore().Field("Navigation Link", item.Item)
-                    }
-                    @if ((item.Selected || item.SubNavItems.Any(subItem => subItem.Selected)) && item.SubNavItems.Any())
-                    {
+                        var rootNode = (level == 2 ? SiteMap.CurrentNode : SiteMap.CurrentNode.GetAncestor(level - 2)) as ItemSiteMapNode;
+                        var navigationLinkField = (LinkField)rootNode.Item.Fields["Navigation Link"];
                         <ol>
-                            @foreach (var subItem in item.SubNavItems)
+                            <li>
+                                @if (navigationLinkField.TargetID == Sitecore.Context.Item.ID)
+                                {
+                                    <b><a href="@(string.IsNullOrEmpty(rootNode.Url) ? null :rootNode.Url)" target="@(string.IsNullOrEmpty(navigationLinkField.Target) ? null : navigationLinkField.Target)" title="@(string.IsNullOrEmpty(navigationLinkField.Title) ? null : navigationLinkField.Title)">Overview</a></b>
+                                }
+                                else
+                                {
+                                    <a href="@(string.IsNullOrEmpty(rootNode.Url) ? null :rootNode.Url)" target="@(string.IsNullOrEmpty(navigationLinkField.Target) ? null : navigationLinkField.Target)" title="@(string.IsNullOrEmpty(navigationLinkField.Title) ? null : navigationLinkField.Title)">Overview</a>
+                                }
+                            </li>
+                            @foreach (ItemSiteMapNode childNode in rootNode.ChildNodes)
                             {
                                 <li>
-                                    @if (subItem.Selected)
-                                    {
-                                        <b>@Html.Sitecore().Field("Navigation Link", subItem.Item)</b>
-                                    }
-                                    else
-                                    {
-                                        @Html.Sitecore().Field("Navigation Link", subItem.Item)
-                                    }
+                                    @NavigationListItem(childNode.Item, SiteMap.CurrentNode != null && (SiteMap.CurrentNode.Key == childNode.Key || SiteMap.CurrentNode.IsDescendantOf(childNode)))
                                 </li>
                             }
                         </ol>
                     }
-                </li>
+                }
             }
-        </ol>
-        <aside id="UserActions-Header-Global">
-            <a href="@languageLinkUrl" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText.Replace(" ", "\u00A0")</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span style="letter-spacing: 0.026em;"><a href="/manage/">My&nbsp;Account</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="">Pay&nbsp;My&nbsp;Bill</a></span>
-        </aside>
-    </div>
+        </div>
+    </nav>
 </header>

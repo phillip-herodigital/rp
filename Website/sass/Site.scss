@@ -1,8 +1,5 @@
 ﻿@import "compass";
-
-
 @import "_Generic.scss";
-
 
 body {
     position: relative;
@@ -15,10 +12,12 @@ body {
 
     > header {
         position: relative;
-        height: 160px;
+        z-index: 100;
+        
         background: url('../Images/header_background_gloabl.png') top repeat-x;
 
         > .content {
+            height: 160px;
             > h1 {
                 position: absolute;
                 left: 120px;
@@ -82,6 +81,60 @@ body {
                 }
             }
         }
+
+        > nav {
+            background-color: #eff2f3;
+            > h2 {
+                height: 214px;
+                line-height: 214px;
+                font-size: 48px;
+                color: white;
+                letter-spacing: -0.029px;
+                background-size: cover;
+                padding: 0;
+                margin: 0;
+
+
+                span {
+                    line-height: 59.43px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-left: 120px;
+                }
+            }
+            > .content {
+                > ol {
+                    font-size: 16px;
+                    font-weight: 400;
+                    height: 68px;
+                    left: 0;
+                    margin: 0;
+                    padding: 0;
+
+                    > li {
+                        display: inline-block;
+                        padding: 0 21px;
+                        line-height: 68px;
+                        cursor: default;
+
+                        a {
+                            color: $dark-grey-color-2;
+                        }
+
+                        b {
+                            color: #1991cf;
+                            font-weight: inherit;
+                            display: inline-block;
+                            background: url('../Images/nav-second-level-selected-indicator.png') bottom center no-repeat;
+
+                            a{
+                                color: inherit;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     > article {
@@ -91,6 +144,7 @@ body {
             background-color: #eff2f3; /* rl('../Images/header_background_article.png') repeat-x bottom; */
             position: relative;
             z-index: 100;
+
             > h2 {
                 height: 214px;
                 line-height: 214px;
@@ -138,11 +192,15 @@ body {
                 }
             }
         }
+    }
 
-        main {
+    main {
+        background: url('../images/pattern_bg.png') repeat-y center;
+
+        > .content {
             background-color: white;
             box-shadow: -7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 );
-            margin: 0;
+            margin: 0 auto;
             max-width: 1280px;
         }
     }
@@ -205,7 +263,6 @@ body {
                             line-height: 26.22px;
                             list-style: none;
                             /* width: 185px; */
-
                             li {
                                 margin: 0;
                                 padding: 0;
@@ -222,15 +279,31 @@ body {
 @import "Componets/FAQ";
 
 $moduleMargin: 120px / 1280px * 100%;
+
+.marketing.wrapper {
+    padding: 0 $moduleMargin;
+    background: url('../../images/Modules/module_background.png') no-repeat center top;
+
+    &:first-child {
+        background-image: none;
+    }
+}
+
 .module {
     padding: 0 $moduleMargin;
     background: url('../../images/Modules/module_background.png') no-repeat center top;
+
+    &:first-child {
+        background-image: none;
+    }
+
     @import "Modules/_PhotoLockup.scss";
     @import "Modules/_Quote.scss";
     @import "Modules/_FullHtml.scss";
     @import "Modules/_Questions.scss";
     @import "Modules/_StatesEnroll.scss";
 }
+
 
 
 @keyframes slideopen {

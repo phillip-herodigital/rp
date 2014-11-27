@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Sitecore.Form.Web.UI.Controls
+@{
     var stateFaqs = new Dictionary<string, List<Sitecore.Data.Items.Item>>();
     foreach (Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
     {
@@ -24,8 +25,9 @@
         {"washington-dc", "Washington DC Title"}
     };
 }
-<form style="height: 82px" class="module">
-    <select>
+<form style="height: 82px" class="module" data-ng-init="pane = 'texas'">
+    <p>It looks liek you’re in Texas. Use the dropdown to select another State</p>
+    <select data-ng-model="pane">
         @foreach (var state in stateFaqs.Keys)
         {
             <option value="@state" selected="@(state == "texas" ? "selected" : null)">@Html.Sitecore().Field(stateTitleFieldNames[state])</option>
@@ -33,7 +35,18 @@
     </select>
 </form>
 <div class="module">
-    
-    @Html.Partial("~/Views/Pages/Marketing/FAQ/FAQ Listing.cshtml", Html.Sitecore().CurrentItem.Children)
+    @foreach (var state in stateFaqs.Keys)
+    {
+        <article data-ng-show="pane == @state.ToJson()">
+            <h3>@Html.Sitecore().Field(stateTitleFieldNames[state]) FAQ’s</h3>
+            <dl class="faq">
+                @foreach (var item in stateFaqs[state])
+                {
+                    <dt data-collasped onclick="this.hasAttribute('data-collasped') ? this.removeAttribute('data-collasped') : this.setAttribute('data-collasped','data-collasped')">@Html.Sitecore().Field("FAQ Question", item)</dt>
+                    <dd>@Html.Sitecore().Field("FAQ Answer", item)</dd>
+                }
+            </dl>
+        </article>
+    }
     <div style="clear: both;"></div>
 </div>

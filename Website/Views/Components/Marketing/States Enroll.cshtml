@@ -1,5 +1,18 @@
-﻿@using Sitecore.Data.Fields
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using Sitecore.Data.Fields
 @{
+    var stateNames = new Dictionary<string, string>()
+    {
+        {"texas", "Texas"},
+        {"georgia", "Georgia"},
+        {"pennsylvania", "Pennsylvania"},
+        {"maryland", "Maryland"},
+        {"newjersey", "New Jersey"},
+        {"newyork", "New York"},
+        {"washingtondc", "Washington DC"}
+    };
+
     var stateEnroll = new Dictionary<string, string>()
     {
         {"texas", "/enrollment?BC_ID=1&RefSite=SCS&CO_LA=US_EN&State=GA&AccountType=R"},
@@ -13,19 +26,41 @@
 
     var stateRateLinks = new Dictionary<string, string>()
     {
-        {"texas", ((LinkField)Html.Sitecore().CurrentItem.Fields["Texas View Rates Link"]).Url},
-        {"georgia", ((LinkField)Html.Sitecore().CurrentItem.Fields["Georgia View Rates Link"]).Url},
-        {"pennsylvania", ((LinkField)Html.Sitecore().CurrentItem.Fields["Pennsylvania View Rates Link"]).Url},
-        {"maryland", ((LinkField)Html.Sitecore().CurrentItem.Fields["Maryland View Rates Link"]).Url},
-        {"newjersey", ((LinkField)Html.Sitecore().CurrentItem.Fields["New Jersey View Rates Link"]).Url},
-        {"newyork", ((LinkField)Html.Sitecore().CurrentItem.Fields["New York View Rates Link"]).Url},
-        {"washingtondc", ((LinkField)Html.Sitecore().CurrentItem.Fields["DC View Rates Link"]).Url}
+        {"texas", ((LinkField) Html.Sitecore().CurrentRendering.Item.Fields["Texas View Rates Link"]).Url},
+        {"georgia", ((LinkField) Html.Sitecore().CurrentItem.Fields["Georgia View Rates Link"]).Url},
+        {"pennsylvania", ((LinkField) Html.Sitecore().CurrentItem.Fields["Pennsylvania View Rates Link"]).Url},
+        {"maryland", ((LinkField) Html.Sitecore().CurrentItem.Fields["Maryland View Rates Link"]).Url},
+        {"newjersey", ((LinkField) Html.Sitecore().CurrentItem.Fields["New Jersey View Rates Link"]).Url},
+        {"newyork", ((LinkField) Html.Sitecore().CurrentItem.Fields["New York View Rates Link"]).Url},
+        {"washingtondc", ((LinkField) Html.Sitecore().CurrentItem.Fields["DC View Rates Link"]).Url}
     };
+    
+    
+    
+    var stateEnrollData = new JObject();
+    foreach (var state in stateNames.Keys)
+    {
+        stateEnrollData.Add(state, new JObject { { "name", stateNames[state] }, { "enrollUrl", stateEnroll[state] }, { "rateUrl", stateRateLinks[state] } });
+    }
 }
+@helper StateSelect(Dictionary<string, string> stateNames)
+{
+
+    <select data-ng-model="pane">
+        @foreach (var name in stateNames)
+        {
+            <option value="@name.Key" data-ng-value="@name.Key">@name.Value</option>
+        }
+    </select>
+}
+
 <form class="module marketing state-tabs states-enroll" state-tabs="texas">
     <h3>
-        Choose you area to get started
+        Energy Rates &amp; Details
     </h3>
-    <p>It looks like you're in @Html.DropDownList("state", stateEnroll.Select(s => new SelectListItem() { Value = s.Value, Text = s.Key })) <button class="action">Get Stated</button></p>
-    <p><a href="">View Rates</a><br><a href="">View Details</a></p>
+    <p id="GetStarted-StateEnroll-Module">It looks like you're in @StateSelect(stateNames) <button data-ng-click="$window.alert('Test')" class="action">Get Stated</button></p>
+    <p id="ViewLinks-StateEnroll-Module"><a href="">View Rates</a><br><a href="">View Details</a></p>
+    <script>
+        var stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));
+    </script>
 </form>
