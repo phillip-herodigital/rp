@@ -1,34 +1,60 @@
-﻿<article class="grey-box mobile" ng-controller="MakePaymentCtrl">
+﻿<article class="grey-box mobile usage-summary" ng-controller="DataUsageSummaryCtrl" ng-init="init()">
     <header class="clearfix">
         <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
-        <div class="header-right">
-            <select>
-                <option>@Html.Sitecore().Field("Select Option")</option>
-                <option>@Html.Sitecore().Field("Select Option 2")</option>
-            </select>
-        </div>
     </header>
-    
     <div class="content">
-        <div class="notice alert">
-            <p>@Html.Sitecore().Field("Notice Text")</p>
-        </div>
         <div>
             <form>
                 <div class="group">
-                    <div class="item current-data">
+                    <div class="item current-usage">
                         <p>@Html.Sitecore().Field("Current Usage Text")</p>
+                        <div class="usage-meter">
+                            <span class="graph used">
+                                <span class="picket"></span>
+                                <span class="label">Usage: {{ deviceTotal.data.usage  / 1000000000 | number : 2}} GB of {{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB</span>
+                            </span>
+                            <span class="graph estimated">
+                            </span>
+                            <span class="graph remain">
+                                <span class="picket"></span>
+                                <span class="label">Estimated: {{ estimatedTotalData  / 1000000000 | number : 1 }} GB</span>
+                            </span>
+                            <div class="scale">
+                                <div class="scale-label low">
+                                    <span class="picket"></span>
+                                    <span class="label">{{ graphScale.low }} GB</span>
+                                </div>
+                                <div class="scale-label mid">
+                                    <span class="picket"></span>
+                                    <span class="label">{{ graphScale.middle }}  GB</span>
+                                </div>
+                                <div class="scale-label high">
+                                    <span class="picket"></span>
+                                    <span class="label">{{ graphScale.high }}  GB</span>
+                                </div>
+                            </div>
+                            <div class="current-data">
+                                <div class="picket"></div>
+                                <div class="label">{{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB <br />@Html.Sitecore().Field("Data Plan")</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="item historical-data">
+                    <div class="item historical-usage">
                         <p>@Html.Sitecore().Field("Historical Usage Text")</p>
+                        <div>
+                            <div class="historical-graph"></div>
+                            <div class="current-limit">
+                                <div class="limit-line"></div>
+                                <div class="limit-label">{{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB </div>
+                            </div>
+                        </div>
+                        <div class="view-details">@Html.Sitecore().Field("Historical Usage Link")</div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
     <footer>
         <p>@Html.Sitecore().Field("Footer Text")</p>
     </footer>
 </article>
-
