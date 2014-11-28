@@ -68,32 +68,37 @@ small.legal {
 }
 
 /* line 4, ../sass/Site.scss */
+select {
+  box-shadow: none;
+}
+
+/* line 8, ../sass/Site.scss */
 body {
   position: relative;
-  color: #555a5c;
+  color: #333;
   padding: 0;
   margin: 0;
   font-family: "proxima-nova", sans-serif;
   font-weight: 300;
 }
-/* line 13, ../sass/Site.scss */
+/* line 17, ../sass/Site.scss */
 body > header {
   position: relative;
   z-index: 100;
   background: url("../Images/header_background_gloabl.png") top repeat-x;
 }
-/* line 19, ../sass/Site.scss */
+/* line 23, ../sass/Site.scss */
 body > header > .content {
   height: 160px;
 }
-/* line 21, ../sass/Site.scss */
+/* line 25, ../sass/Site.scss */
 body > header > .content > h1 {
   position: absolute;
   left: 120px;
   top: 25px;
   margin: 0;
 }
-/* line 28, ../sass/Site.scss */
+/* line 32, ../sass/Site.scss */
 body > header > .content > ol {
   text-transform: uppercase;
   margin: 0;
@@ -104,7 +109,7 @@ body > header > .content > ol {
   font-size: 18px;
   letter-spacing: .020em;
 }
-/* line 38, ../sass/Site.scss */
+/* line 42, ../sass/Site.scss */
 body > header > .content > ol li {
   cursor: default;
   display: block;
@@ -113,7 +118,7 @@ body > header > .content > ol li {
   position: relative;
   left: 530px;
 }
-/* line 46, ../sass/Site.scss */
+/* line 50, ../sass/Site.scss */
 body > header > .content > ol li b {
   font-weight: 400;
   color: #1991cf !important;
@@ -121,11 +126,11 @@ body > header > .content > ol li b {
   background: url("../images/nav-first-level-selected-indicator.png") bottom center no-repeat;
   height: 48px;
 }
-/* line 54, ../sass/Site.scss */
+/* line 58, ../sass/Site.scss */
 body > header > .content > ol li a {
   color: inherit;
 }
-/* line 59, ../sass/Site.scss */
+/* line 63, ../sass/Site.scss */
 body > header > .content > ol li > ol {
   height: 51px;
   position: absolute;
@@ -138,162 +143,112 @@ body > header > .content > ol li > ol {
   font-size: 16px;
   color: #4f4c4d;
 }
-/* line 71, ../sass/Site.scss */
+/* line 75, ../sass/Site.scss */
 body > header > .content > ol li > ol > li {
   display: inline-block;
 }
-/* line 74, ../sass/Site.scss */
+/* line 78, ../sass/Site.scss */
 body > header > .content > ol li > ol > li b {
   display: inline;
   height: auto;
   background: none;
 }
-/* line 85, ../sass/Site.scss */
+/* line 89, ../sass/Site.scss */
 body > header > nav {
   background-color: #eff2f3;
 }
-/* line 87, ../sass/Site.scss */
+/* line 91, ../sass/Site.scss */
 body > header > nav > h2 {
   height: 214px;
+  line-height: 52px;
   line-height: 214px;
   font-size: 48px;
   color: white;
-  letter-spacing: -0.029px;
   background-size: cover;
   padding: 0;
   margin: 0;
+  text-transform: uppercase;
 }
-/* line 98, ../sass/Site.scss */
+/* line 104, ../sass/Site.scss */
 body > header > nav > h2 span {
-  line-height: 59.43px;
-  display: inline-block;
+  display: block;
   vertical-align: middle;
-  margin-left: 120px;
+  margin: 0 auto;
+  max-width: 1280px;
 }
-/* line 106, ../sass/Site.scss */
+/* line 109, ../sass/Site.scss */
+body > header > nav > h2 span span {
+  margin: 0 120px;
+}
+/* line 115, ../sass/Site.scss */
 body > header > nav > .content > ol {
   font-size: 16px;
   font-weight: 400;
   height: 68px;
   left: 0;
-  margin: 0;
+  margin: 0 120px;
   padding: 0;
 }
-/* line 114, ../sass/Site.scss */
+/* line 123, ../sass/Site.scss */
 body > header > nav > .content > ol > li {
   display: inline-block;
   padding: 0 21px;
   line-height: 68px;
   cursor: default;
 }
-/* line 120, ../sass/Site.scss */
+/* line 129, ../sass/Site.scss */
 body > header > nav > .content > ol > li a {
   color: #4f4c4d;
 }
-/* line 124, ../sass/Site.scss */
+/* line 133, ../sass/Site.scss */
 body > header > nav > .content > ol > li b {
   color: #1991cf;
   font-weight: inherit;
   display: inline-block;
   background: url("../Images/nav-second-level-selected-indicator.png") bottom center no-repeat;
 }
-/* line 130, ../sass/Site.scss */
+/* line 139, ../sass/Site.scss */
 body > header > nav > .content > ol > li b a {
   color: inherit;
 }
-/* line 140, ../sass/Site.scss */
-body > article {
-  background: url("../images/pattern_bg.png") repeat-y center;
-}
-/* line 143, ../sass/Site.scss */
-body > article > header {
-  background-color: #eff2f3;
-  /* rl('../Images/header_background_article.png') repeat-x bottom; */
-  position: relative;
-  z-index: 100;
-}
-/* line 148, ../sass/Site.scss */
-body > article > header > h2 {
-  height: 214px;
-  line-height: 214px;
-  font-size: 48px;
-  color: white;
-  letter-spacing: -0.029px;
-  background-size: cover;
-  padding: 0;
-  margin: 0;
-}
-/* line 159, ../sass/Site.scss */
-body > article > header > h2 span {
-  line-height: 59.43px;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 120px;
-}
-/* line 168, ../sass/Site.scss */
-body > article > header > .content > ol {
-  font-size: 16px;
-  font-weight: 400;
-  height: 68px;
-  left: 0;
-  margin: 0;
-  padding: 0;
-}
-/* line 176, ../sass/Site.scss */
-body > article > header > .content > ol > li {
-  display: inline-block;
-  padding: 0 21px;
-  line-height: 68px;
-  cursor: default;
-}
-/* line 182, ../sass/Site.scss */
-body > article > header > .content > ol > li a {
-  color: #4f4c4d;
-}
-/* line 186, ../sass/Site.scss */
-body > article > header > .content > ol > li b {
-  font-weight: 600;
-  display: inline-block;
-  background: url("../Images/nav-second-level-selected-indicator.png") bottom center no-repeat;
-}
-/* line 197, ../sass/Site.scss */
+/* line 149, ../sass/Site.scss */
 body main {
   background: url("../images/pattern_bg.png") repeat-y center;
 }
-/* line 200, ../sass/Site.scss */
+/* line 152, ../sass/Site.scss */
 body main > .content {
   background-color: white;
   box-shadow: -7px 0 7px -7px rgba(112, 112, 112, 0.15), 7px 0 7px -7px rgba(112, 112, 112, 0.15);
   margin: 0 auto;
   max-width: 1280px;
 }
-/* line 208, ../sass/Site.scss */
+/* line 160, ../sass/Site.scss */
 body > footer {
   clear: both;
   padding-bottom: 8px;
   background: transparent url("../Images/footer-section-bottom-rule.png") center bottom repeat-x;
 }
-/* line 213, ../sass/Site.scss */
+/* line 165, ../sass/Site.scss */
 body > footer > address {
   background-color: #eff2f3;
   font-style: normal;
 }
-/* line 217, ../sass/Site.scss */
+/* line 169, ../sass/Site.scss */
 body > footer > address .content {
   width: 1040px;
 }
-/* line 222, ../sass/Site.scss */
+/* line 174, ../sass/Site.scss */
 body > footer > .group {
   background: #2f9bce;
   border-top: 1px solid #f5f5f5;
   color: white;
 }
-/* line 227, ../sass/Site.scss */
+/* line 179, ../sass/Site.scss */
 body > footer > .group > .content {
   background: #2f9bce url("../Images/LogoWhite.png") no-repeat 12px 371px;
   width: 1040px;
 }
-/* line 231, ../sass/Site.scss */
+/* line 183, ../sass/Site.scss */
 body > footer > .group > .content > nav {
   clear: both;
   height: 424px;
@@ -303,11 +258,11 @@ body > footer > .group > .content > nav {
   font-size: 13px;
   font-weight: 400;
 }
-/* line 240, ../sass/Site.scss */
+/* line 192, ../sass/Site.scss */
 body > footer > .group > .content > nav a {
   color: inherit;
 }
-/* line 244, ../sass/Site.scss */
+/* line 196, ../sass/Site.scss */
 body > footer > .group > .content > nav > section {
   font-size: 13px;
   line-height: 26.22px;
@@ -315,14 +270,14 @@ body > footer > .group > .content > nav > section {
   float: left;
   width: 20%;
 }
-/* line 251, ../sass/Site.scss */
+/* line 203, ../sass/Site.scss */
 body > footer > .group > .content > nav > section > h3 {
   font-size: 16px;
   text-transform: uppercase;
   line-height: 21.23px;
   color: white;
 }
-/* line 258, ../sass/Site.scss */
+/* line 210, ../sass/Site.scss */
 body > footer > .group > .content > nav > section > ul {
   margin: 0;
   padding: 0;
@@ -332,7 +287,7 @@ body > footer > .group > .content > nav > section > ul {
   list-style: none;
   /* width: 185px; */
 }
-/* line 266, ../sass/Site.scss */
+/* line 218, ../sass/Site.scss */
 body > footer > .group > .content > nav > section > ul li {
   margin: 0;
   padding: 0;
@@ -552,22 +507,22 @@ dl.faq > dd {
   transition: height 0.5s ease;
 }
 
-/* line 283, ../sass/Site.scss */
+/* line 235, ../sass/Site.scss */
 .marketing.wrapper {
   padding: 0 9.375%;
   background: url("../../images/Modules/module_background.png") no-repeat center top;
 }
-/* line 287, ../sass/Site.scss */
+/* line 239, ../sass/Site.scss */
 .marketing.wrapper:first-child {
   background-image: none;
 }
 
-/* line 292, ../sass/Site.scss */
+/* line 244, ../sass/Site.scss */
 .module {
   padding: 0 9.375%;
   background: url("../../images/Modules/module_background.png") no-repeat center top;
 }
-/* line 296, ../sass/Site.scss */
+/* line 248, ../sass/Site.scss */
 .module:first-child {
   background-image: none;
 }
@@ -715,36 +670,44 @@ dl.faq > dd {
   line-height: 83px;
   float: left;
   font-size: 20px;
+  letter-spacing: .001em;
 }
-/* line 13, ../sass/Modules/_StatesEnroll.scss */
+/* line 14, ../sass/Modules/_StatesEnroll.scss */
 .module.states-enroll p {
-  float: left;
   margin: 0;
   padding: 0;
   font-size: 16px;
   line-height: 22px;
+  letter-spacing: 0;
 }
-/* line 21, ../sass/Modules/_StatesEnroll.scss */
+/* line 22, ../sass/Modules/_StatesEnroll.scss */
 .module.states-enroll #GetStarted-StateEnroll-Module {
+  position: absolute;
+  right: 250px;
+  width: 500px;
   line-height: 83px;
 }
-/* line 25, ../sass/Modules/_StatesEnroll.scss */
+/* line 29, ../sass/Modules/_StatesEnroll.scss */
 .module.states-enroll #ViewLinks-StateEnroll-Module {
+  position: absolute;
+  right: 140px;
   line-height: 1em;
   padding: 25.5px 0;
+  font-size: 14px;
+  line-height: 17px;
 }
-/* line 28, ../sass/Modules/_StatesEnroll.scss */
+/* line 37, ../sass/Modules/_StatesEnroll.scss */
 .module.states-enroll #ViewLinks-StateEnroll-Module a {
   font-weight: normal;
 }
 
 @keyframes slideopen {
-  /* line 310, ../sass/Site.scss */
+  /* line 262, ../sass/Site.scss */
   0% {
     height: 0;
   }
 
-  /* line 314, ../sass/Site.scss */
+  /* line 266, ../sass/Site.scss */
   100% {
     height: 500px;
   }

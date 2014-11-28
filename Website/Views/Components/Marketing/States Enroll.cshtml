@@ -26,13 +26,13 @@
 
     var stateRateLinks = new Dictionary<string, string>()
     {
-        {"texas", ((LinkField) Html.Sitecore().CurrentRendering.Item.Fields["Texas View Rates Link"]).Url},
-        {"georgia", ((LinkField) Html.Sitecore().CurrentItem.Fields["Georgia View Rates Link"]).Url},
-        {"pennsylvania", ((LinkField) Html.Sitecore().CurrentItem.Fields["Pennsylvania View Rates Link"]).Url},
-        {"maryland", ((LinkField) Html.Sitecore().CurrentItem.Fields["Maryland View Rates Link"]).Url},
-        {"newjersey", ((LinkField) Html.Sitecore().CurrentItem.Fields["New Jersey View Rates Link"]).Url},
-        {"newyork", ((LinkField) Html.Sitecore().CurrentItem.Fields["New York View Rates Link"]).Url},
-        {"washingtondc", ((LinkField) Html.Sitecore().CurrentItem.Fields["DC View Rates Link"]).Url}
+        {"texas", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentRendering.Item.Fields["Texas View Rates Link"]).TargetItem)},
+        {"georgia", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["Georgia View Rates Link"]).TargetItem)},
+        {"pennsylvania", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["Pennsylvania View Rates Link"]).TargetItem)},
+        {"maryland", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["Maryland View Rates Link"]).TargetItem)},
+        {"newjersey", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["New Jersey View Rates Link"]).TargetItem)},
+        {"newyork", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["New York View Rates Link"]).TargetItem)},
+        {"washingtondc", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["DC View Rates Link"]).TargetItem)}
     };
     
     
@@ -49,7 +49,7 @@
     <select data-ng-model="pane">
         @foreach (var name in stateNames)
         {
-            <option value="@name.Key" data-ng-value="@name.Key">@name.Value</option>
+            <option value="@name.Key">@name.Value</option>
         }
     </select>
 }
@@ -58,9 +58,9 @@
     <h3>
         Energy Rates &amp; Details
     </h3>
-    <p id="GetStarted-StateEnroll-Module">It looks like you're in @StateSelect(stateNames) <button data-ng-click="$window.alert('Test')" class="action">Get Stated</button></p>
-    <p id="ViewLinks-StateEnroll-Module"><a href="">View Rates</a><br><a href="">View Details</a></p>
+    <p id="GetStarted-StateEnroll-Module">It looks like you're in @StateSelect(stateNames) <button data-ng-click="goToEnrollUrl()" class="action">Get Stated</button></p>
+    <p id="ViewLinks-StateEnroll-Module"><a data-ng-href="{{stateEnrollData[pane].rateUrl}}">View Rates</a><br><a href="">View Details</a></p>
     <script>
-        var stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));
+        window.stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));
     </script>
 </form>

@@ -1,9 +1,13 @@
 ﻿@import "compass";
 @import "_Generic.scss";
 
+select {
+    box-shadow:none;
+}
+
 body {
     position: relative;
-    color: $default-color;
+    color: #333;
     padding: 0;
     margin: 0;
     font-family: "proxima-nova", sans-serif;
@@ -86,20 +90,25 @@ body {
             background-color: #eff2f3;
             > h2 {
                 height: 214px;
+                line-height: 52px;
                 line-height: 214px;
                 font-size: 48px;
                 color: white;
-                letter-spacing: -0.029px;
                 background-size: cover;
                 padding: 0;
                 margin: 0;
 
+                text-transform: uppercase;
+
 
                 span {
-                    line-height: 59.43px;
-                    display: inline-block;
+                    display: block;
                     vertical-align: middle;
-                    margin-left: 120px;
+                    margin: 0 auto;
+                    max-width: 1280px;
+                    span {
+                        margin: 0 120px;
+                    }
                 }
             }
             > .content {
@@ -108,7 +117,7 @@ body {
                     font-weight: 400;
                     height: 68px;
                     left: 0;
-                    margin: 0;
+                    margin: 0 120px;
                     padding: 0;
 
                     > li {
@@ -130,63 +139,6 @@ body {
                             a{
                                 color: inherit;
                             }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    > article {
-        background: url('../images/pattern_bg.png') repeat-y center;
-
-        > header {
-            background-color: #eff2f3; /* rl('../Images/header_background_article.png') repeat-x bottom; */
-            position: relative;
-            z-index: 100;
-
-            > h2 {
-                height: 214px;
-                line-height: 214px;
-                font-size: 48px;
-                color: white;
-                letter-spacing: -0.029px;
-                background-size: cover;
-                padding: 0;
-                margin: 0;
-
-
-                span {
-                    line-height: 59.43px;
-                    display: inline-block;
-                    vertical-align: middle;
-                    margin-left: 120px;
-                }
-            }
-
-            > .content {
-                > ol {
-                    font-size: 16px;
-                    font-weight: 400;
-                    height: 68px;
-                    left: 0;
-                    margin: 0;
-                    padding: 0;
-
-                    > li {
-                        display: inline-block;
-                        padding: 0 21px;
-                        line-height: 68px;
-                        cursor: default;
-
-                        a {
-                            color: $dark-grey-color-2;
-                        }
-
-                        b {
-                            font-weight: 600;
-                            display: inline-block;
-                            background: url('../Images/nav-second-level-selected-indicator.png') bottom center no-repeat;
                         }
                     }
                 }

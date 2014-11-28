@@ -6,6 +6,7 @@ using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Mvc.Presentation;
+using Sitecore.Shell.Framework.Commands;
 
 namespace StreamEnergy.MyStream.Utility
 {
@@ -13,26 +14,19 @@ namespace StreamEnergy.MyStream.Utility
     {
         public override SiteMapNode FindSiteMapNode(string rawUrl)
         {
-            return FindSiteMapNodeCore(Sitecore.Context.Item);
+            return FindSiteMapNode(Sitecore.Context.Item);
         }
 
-        private SiteMapNode FindSiteMapNodeCore(Item item)
+        public SiteMapNode FindSiteMapNode(Item item)
         {
             var renderingItem = RenderingContext.Current.Rendering.Item;
             if (renderingItem == null)
                 return null;
 
-            foreach (var itemOrAncestor in item.GetAncestorsAndSelf())
-            {
-                foreach (var navigationItem in renderingItem.GetDescendantsAndSelf())
-                {
-                    LinkField linkField = navigationItem.Fields["Navigation Link"];
-                    if (linkField != null && linkField.TargetID == itemOrAncestor.ID)
-                        return new ItemSiteMapNode(this, navigationItem);
-                }
-            }
-
-            return null;
+            return (from navigationItem in renderingItem.GetDescendantsAndSelf()
+                let linkField = navigationItem.Fields["Navigation Link"]
+                where (LinkField) linkField != null && ((LinkField) linkField).TargetID == item.ID
+                select new ItemSiteMapNode(this, navigationItem)).FirstOrDefault();
         }
 
         public override SiteMapNodeCollection GetChildNodes(SiteMapNode node)

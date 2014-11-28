@@ -1,4 +1,7 @@
-﻿@using Sitecore.Data.Fields
+﻿@using System.Web.UI.WebControls
+@using Sitecore.Configuration.Providers
+@using Sitecore.ContentSearch.ComputedFields
+@using Sitecore.Data.Fields
 @using Sitecore.Data.Items
 @using Sitecore.Links
 @using StreamEnergy.MyStream.Utility
@@ -41,12 +44,25 @@
 <header>
     <div class="content">
         <h1><a href="/"><img src="/Images/Logo.png" alt="Stream - Connected Home"></a></h1>
+        <aside id="UserActions-Header-Global">
+            <a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText.Replace(" ", "\u00A0")</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span style="letter-spacing: 0.026em;"><a href="/manage/">My&nbsp;Account</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="">Pay&nbsp;My&nbsp;Bill</a></span>
+        </aside>
         <ol>
             @{
+                var selectedNode = SiteMap.CurrentNode;
+                if (selectedNode == null)
+                {
+                    var provider = SiteMap.Provider as NavigationSiteMapProvider;
+                    if (provider != null)
+                    {
+                        selectedNode = Sitecore.Context.Item.GetAncestors().Select(provider.FindSiteMapNode).FirstOrDefault(node => node != null);
+                    }
+                }
+                
                 string headingLevel2 = null;
                 foreach (ItemSiteMapNode node in SiteMap.RootNode.ChildNodes)
                 {
-                    var selected = SiteMap.CurrentNode != null && (SiteMap.CurrentNode.Key == node.Key || SiteMap.CurrentNode.IsDescendantOf(node));
+                    var selected = selectedNode != null && (selectedNode.Key == node.Key || selectedNode.IsDescendantOf(node));
                     <li id="@Html.Id(node.Item.Name)-NavigationItem-Navigation-Global">
                         @NavigationListItem(node.Item, selected)
                         @if (selected && node.HasChildNodes)
@@ -56,7 +72,7 @@
                             <ol>
                                 @foreach (ItemSiteMapNode childNode in node.ChildNodes)
                                 {
-                                    selected = SiteMap.CurrentNode != null && (SiteMap.CurrentNode.Key == childNode.Key || SiteMap.CurrentNode.IsDescendantOf(childNode));
+                                    selected = selectedNode.Key == childNode.Key || selectedNode.IsDescendantOf(childNode);
                                     if (selected)
                                     {
                                         navigationLinkField = childNode.Item.Fields["Navigation Link"];
@@ -72,22 +88,19 @@
                 }
             }
         </ol>
-        <aside id="UserActions-Header-Global">
-            <a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText.Replace(" ", "\u00A0")</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span style="letter-spacing: 0.026em;"><a href="/manage/">My&nbsp;Account</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="">Pay&nbsp;My&nbsp;Bill</a></span>
-        </aside>
     </div>
     <nav>
         <h2 style="@Html.AsBackgroundStyle("Banner Image", Sitecore.Context.Item)">
-            <span class="content">@headingLevel2</span>
+            <span><span>@headingLevel2</span></span>
         </h2>
         <div class="content">
             @{
-                if (SiteMap.CurrentNode != null)
+                if (selectedNode != null)
                 {
-                    var level = SiteMap.CurrentNode.Level();
+                    var level = selectedNode.Level();
                     if (level >= 2)
                     {
-                        var rootNode = (level == 2 ? SiteMap.CurrentNode : SiteMap.CurrentNode.GetAncestor(level - 2)) as ItemSiteMapNode;
+                        var rootNode = (level == 2 ? selectedNode : selectedNode.GetAncestor(level - 2)) as ItemSiteMapNode;
                         var navigationLinkField = (LinkField)rootNode.Item.Fields["Navigation Link"];
                         <ol>
                             <li>
@@ -103,7 +116,7 @@
                             @foreach (ItemSiteMapNode childNode in rootNode.ChildNodes)
                             {
                                 <li>
-                                    @NavigationListItem(childNode.Item, SiteMap.CurrentNode != null && (SiteMap.CurrentNode.Key == childNode.Key || SiteMap.CurrentNode.IsDescendantOf(childNode)))
+                                    @NavigationListItem(childNode.Item, selectedNode.Key == childNode.Key || selectedNode.IsDescendantOf(childNode))
                                 </li>
                             }
                         </ol>
