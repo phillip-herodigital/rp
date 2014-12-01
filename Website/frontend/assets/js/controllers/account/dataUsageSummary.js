@@ -1,8 +1,8 @@
 ﻿/* Data Usage Summary Controller
  *
  */
-ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', function ($scope, $rootScope, $http, breakpoint) {
-
+ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'notificationService', function ($scope, $rootScope, $http, breakpoint, notificationService) {
+    var GIGA = 1000000000;
     $scope.deviceUsageStats = [];
     $scope.deviceTotal = {
         data: {
@@ -87,11 +87,22 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         calculateDeviceTotals();
         renderCurrentDataUsageComponent();
         renderHistoricDataUsageComponent();
+        if ($scope.estimatedTotalData >= $scope.deviceTotal.data.limit) {
+            notificationService.notify('Data Usage Alert',
+                'Your plan is at ' + round($scope.deviceTotal.data.usage / GIGA, 2) +
+                ' of ' + round($scope.deviceTotal.data.limit / GIGA, 2) +
+                'GB and is predicted to go over this month. <a href="#">Upgrade Plan</a>');
+        }
+    }
+
+    function round(num, p) {
+        var m = Math.pow(10, p);
+        return Math.round(num * m) / m;
     }
 
     function getEstimatedTotalData() {
         //BEGIN dummy data
-        return $scope.deviceTotal.data.usage * (1 + Math.random());
+        return $scope.deviceTotal.data.usage * (1+ Math.random());
         //END dummy data
     }
 
@@ -99,7 +110,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         //BEGIN dummy data
         var recentDataUsage = [];
         for (var i = 0; i < months; i++) {
-            recentDataUsage.push($scope.deviceTotal.data.usage * (1 + Math.random() - 0.5) / 1000000000);
+            recentDataUsage.push($scope.deviceTotal.data.usage * (1 + Math.random() - 0.5) / GIGA);
         }
         return recentDataUsage;
         //END dummy data
@@ -140,18 +151,28 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         }
 
         var highBytes = _.max(dataPoints);
-        $scope.graphScale.high = Math.ceil(highBytes / 1000000000);
+        $scope.graphScale.high = Math.ceil(highBytes / GIGA);
         if (_.some(dataPoints, function (point) { return (point / highBytes) > 0.9 })) {
             $scope.graphScale.high += 1;
         }
         $scope.graphScale.middle = Math.round($scope.graphScale.high / 2);
+
+        _.each($scope.deviceUsageStats, function (device) {
+            if (device.data.usage >= device.data.limit) {
+                notificationService.notify('Data Overage Alert',
+                    'Your plan for ' + device.number +
+                    ' is at ' + round(device.data.usage / GIGA, 2) +
+                    ' of ' + round(device.data.limit / GIGA, 2) +
+                    'GB. <a href="#">Upgrade Plan</a>');
+            }
+        });
     }
 
     function renderCurrentDataUsageComponent() {
         //Current Data Usage Component
-        var usedPct = (($scope.deviceTotal.data.usage / 1000000000) / $scope.graphScale.high) * 100;
-        var estimatedPct = (($scope.estimatedTotalData / 1000000000) / $scope.graphScale.high) * 100 - usedPct;
-        var currentPct = (($scope.deviceTotal.data.limit / 1000000000) / $scope.graphScale.high) * 100;
+        var usedPct = (($scope.deviceTotal.data.usage / GIGA) / $scope.graphScale.high) * 100;
+        var estimatedPct = (($scope.estimatedTotalData / GIGA) / $scope.graphScale.high) * 100 - usedPct;
+        var currentPct = (($scope.deviceTotal.data.limit / GIGA) / $scope.graphScale.high) * 100;
         if ($scope.hasOverage) {
             estimatedPct = 0;
             d3.select(".usage-meter").attr("class", "usage-meter overage");

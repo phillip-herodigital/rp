@@ -1,24 +1,23 @@
 ﻿ngApp.factory('notificationService', ['$document', function ($document) {
+    var className = 'notifications';
 
-    var Levels = {INFO: 0, WARN: 1, ERROR: 2, CRITICAL: 3};
-    var className = 'notification-area';
-
-    function showNotification(subject, message, level) {
+    function showNotification(subject, message) {
         var $elems = $document.find('.' + className);
-        decorateElement($elems, level);
-        $elems.html("<h1>" + subject + "</h1><p>" + message + "</p>");
+        $elems.append('<div class="message">' +
+            '<a href="javascript:void(0)" class="remove"><img alt="Remove" src="#"></a>' +
+                '<div>' + 
+                    '<h5>' + subject + '</h5>' +
+                    '<p>' + message + '</p>' +
+                '</div>' +
+            '</div>');
     }
 
-    function decorateElement($elements, level) { };
-
+    $document.ready(function ($) {
+        $('.' + className + ' .message .remove').on('click', function () {
+            $(this).parent().remove();
+        });
+    });
     return {
-        notify: function (subject, message, level) {
-            if (!level && level !== 0) {
-                return showNotification(subject, message, Levels.INFO);
-            } else {
-                return showNotification(subject, message, level);
-            }
-        },
-        level: Levels
+        notify: showNotification
     };
 }]);
