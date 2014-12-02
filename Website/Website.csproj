@@ -765,7 +765,6 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="frontend\assets\css\_sass\global.css">
       <DependentUpon>global.scss</DependentUpon>
     </Content>
@@ -2682,8 +2681,6 @@
     <Content Include="frontend\assets\i\favicon.ico" />
     <Content Include="frontend\assets\i\favicon.png" />
     <Content Include="frontend\assets\i\gas-key.png" />
-    <Content Include="frontend\assets\i\icon-s2addea571b.png" />
-    <Content Include="frontend\assets\i\icon2x-s531b03ad07.png" />
     <Content Include="frontend\assets\i\icon2x\24months.png" />
     <Content Include="frontend\assets\i\icon2x\6months.png" />
     <Content Include="frontend\assets\i\icon2x\alert.png" />
@@ -4047,9 +4044,6 @@
     <Content Include="frontend\assets\css\_sass\partials\_ui.scss" />
     <Content Include="frontend\assets\css\_sass\partials\_variables.scss" />
     <Content Include="config.rb" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <Content Include="images\AT&amp;T_logo_%28horizontal%29.svg.png" />
     <Content Include="images\background-nav-second-level.png" />
