@@ -268,7 +268,7 @@
                                     </label>
                                     <div class="btn-group-options">
                                         <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
-                                        <input type="text" name="simNumber" ng-model="phoneOptions.simNumber" />
+                                        <input type="text" name="simNumber" ng-model="phoneOptions.simNumber" data-val="true" data-val-required data-val-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
                                         <span class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></span>
                                     </div>
                                 </div>
