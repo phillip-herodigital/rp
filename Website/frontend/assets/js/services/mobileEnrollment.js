@@ -118,7 +118,11 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     }
 
     service.getPhones = function() {
-        return phones;
+        if (typeof service.selectedNetwork != 'undefined') {
+            return _.filter(phones, function(phone) { return _.contains(phone.networks, service.selectedNetwork.id); });
+        } else {
+            return null;
+        } 
     };
 
     service.getItemPrice = function(priceObject) {
@@ -130,9 +134,13 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         }
     };
 
-    service.getPricesForSize = function(id, size) {
+    service.getPricesForPhone = function(id, size, color) {
         var item = _.where(this.getPhones(), { id: id })[0];
-        return _.where(item.models, { size: size });
+        if (typeof item != 'undefined') {
+            return _.where(item.models, { size: size, color: color, network: service.selectedNetwork.value });
+        } else {
+            return null;
+        }
     };
 
     service.getConditionPrice = function(id, condition) {
@@ -143,12 +151,40 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         return _.min(models, function(model){ return model.price; }).price;
     };
 
+    service.get24LeasePrice = function(id) {
+        var item = _.where(this.getPhones(), { id: id })[0];
+        var models =  _.filter(item.models, 'lease24');
+
+        //Return the lowest price for the condition
+        return _.min(models, function(model){ return model.lease24; }).lease24;
+    };
+
     service.getPhoneSizes = function(id) {
         var item = _.where(this.getPhones(), { id: id })[0];
-        var sizes =  _.uniq(_.pluck(item.models, 'size'));
-        return _.sortBy(sizes, function(size) {
-            return size;
-        })
+        if (typeof item != 'undefined') {
+            var sizes =  _.uniq(_.where(item.models, { network: service.selectedNetwork.value }), 'size');
+            return _.sortBy(sizes, function(size) {
+                if (size.size.length < 5) {
+                    return '0' + size.size;
+                } else {
+                    return size.size;
+                }
+            })
+        } else {
+            return null;
+        }
+    };
+
+    service.getPhoneColors = function(id) {
+        var item = _.where(this.getPhones(), { id: id })[0];
+        if (typeof item != 'undefined') {
+            var colors =  _.uniq(_.where(item.models, { network: service.selectedNetwork.value }), 'color');
+            return _.sortBy(colors, function(color) {
+                return color.color;
+            })
+        } else {
+            return null;
+        }
     };
 
     service.getItemConditions = function(priceObject) {
@@ -226,7 +262,9 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
 
         var total = 0;
         for (var i=0; i<service.cart.items.length; i++) {
-            total += parseFloat(service.cart.items[i].activationFee, 10);
+            total += (typeof service.cart.items[i].price != 'undefined') ? parseFloat(service.cart.items[i].price, 10) : 0;
+            total += (typeof service.cart.items[i].activationFee != 'undefined') ? parseFloat(service.cart.items[i].activationFee, 10) : 0;
+            total += (typeof service.cart.items[i].salesTax != 'undefined') ? parseFloat(service.cart.items[i].salesTax, 10) : 0;
         }
 
         return total + service.getProratedCost();
@@ -234,7 +272,12 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
 
     service.getEstimatedMonthlyTotal = function() {
         var plan = service.cart.dataPlan;
-        return parseFloat(plan.price, 10) + service.getTotalFees();
+        var total = parseFloat(plan.price, 10) + service.getTotalFees();
+        for (var i=0; i<service.cart.items.length; i++) {
+            total += (typeof service.cart.items[i].warranty != 'undefined' && service.cart.items[i].warranty == 'accept') ? 9.99 : 0;
+            total += (typeof service.cart.items[i].buyingOption != 'undefined' && service.cart.items[i].buyingOption != 'New') ? parseFloat(service.cart.items[i].price, 10) : 0;
+        }
+        return total;
     };
 
     service.resetEnrollment = function () {

@@ -24,16 +24,12 @@ namespace StreamEnergy.Services.Clients
             // Obtain page 1 of the document
             PdfPage objPage = objDoc.Pages[1];
 
-            // Create empty param object to be used throughout the app
-            PdfParam objParam = objPDF.CreateParam(null);
-
             PdfFont objFont = objDoc.Fonts["Helvetica-Bold"]; // a standard font
-
-            ((dynamic)objPage.Annots[1]).FieldValue = name;
-            ((dynamic)objPage.Annots[2]).FieldValue = businessName ?? "";
 
             var textFields = new
             {
+                name = ((dynamic)objPage.Annots[1]),
+                businessName = ((dynamic)objPage.Annots[2]),
                 llcTaxClassification = ((dynamic)objPage.Annots[9]),
                 otherBusinessType = ((dynamic)objPage.Annots[11]),
                 exemptPayeeCode = ((dynamic)objPage.Annots[12]),
@@ -49,70 +45,101 @@ namespace StreamEnergy.Services.Clients
                 employerIdentificationNumber2 = ((dynamic)objPage.Annots[22]),
             };
 
+            setFieldValue(objPage, textFields.name, name, objFont);
+            setFieldValue(objPage, textFields.businessName, businessName, objFont);
+
             switch(businessType)
             {
                 case W9BusinessClassification.IndividualSoleProprietor:
-                    ((dynamic)objPage.Annots[3]).FieldActiveState = "On";
+                    checkBox(objPage, (dynamic)objPage.Annots[3], objFont);
                     break;
                 case W9BusinessClassification.CCorporation:
-                    ((dynamic)objPage.Annots[4]).FieldActiveState = "On";
+                    checkBox(objPage, (dynamic)objPage.Annots[4], objFont);
                     break;
                 case W9BusinessClassification.SCorporation:
-                    ((dynamic)objPage.Annots[5]).FieldActiveState = "On";
+                    checkBox(objPage, (dynamic)objPage.Annots[5], objFont);
                     break;
                 case W9BusinessClassification.Partnership:
-                    ((dynamic)objPage.Annots[6]).FieldActiveState = "On";
+                    checkBox(objPage, (dynamic)objPage.Annots[6], objFont);
                     break;
                 case W9BusinessClassification.TrustEstate:
-                    ((dynamic)objPage.Annots[7]).FieldActiveState = "On";
+                    checkBox(objPage, (dynamic)objPage.Annots[7], objFont);
                     break;
                 case W9BusinessClassification.LLC:
-                    ((dynamic)objPage.Annots[8]).FieldActiveState = "On";
+                    checkBox(objPage, (dynamic)objPage.Annots[8], objFont);
                     break;
                 case W9BusinessClassification.Other:
-                    ((dynamic)objPage.Annots[10]).FieldActiveState = "On";
+                    checkBox(objPage, (dynamic)objPage.Annots[10], objFont);
                     break;
             }
 
             if (businessType == W9BusinessClassification.LLC && !string.IsNullOrEmpty(businessTypeAdditional))
             {
-                textFields.llcTaxClassification.FieldValue = businessTypeAdditional;
+                setFieldValue(objPage, textFields.llcTaxClassification, businessTypeAdditional, objFont);
             }
             if (businessType == W9BusinessClassification.Other && !string.IsNullOrEmpty(businessTypeAdditional))
             {
-                textFields.otherBusinessType.FieldValue = businessTypeAdditional;
+                setFieldValue(objPage, textFields.otherBusinessType, businessTypeAdditional, objFont);
             }
-            textFields.exemptPayeeCode.FieldValue = exemptPayeeCode ?? "";
-            textFields.exemptFatcaExemtionCode.FieldValue = fatcaExemtionCode ?? "";
+            setFieldValue(objPage, textFields.exemptPayeeCode, exemptPayeeCode, objFont);
+            setFieldValue(objPage, textFields.exemptFatcaExemtionCode, fatcaExemtionCode, objFont);
 
-            textFields.address.FieldValue = address.Line1 + (string.IsNullOrEmpty(address.Line2) ? "" : ", " + address.Line2);
-            textFields.cityStateZip.FieldValue = string.Format("{0}, {1} {2}", address.City, address.StateAbbreviation, address.PostalCode5);
-            textFields.listAccountNumbers.FieldValue = currentAccountNumbers ?? "";
+            setFieldValue(objPage, textFields.address, address.Line1 + (string.IsNullOrEmpty(address.Line2) ? "" : ", " + address.Line2), objFont);
+            setFieldValue(objPage, textFields.cityStateZip, string.Format("{0}, {1} {2}", address.City, address.StateAbbreviation, address.PostalCode5), objFont);
+            setFieldValue(objPage, textFields.listAccountNumbers, currentAccountNumbers, objFont);
 
             if (!string.IsNullOrEmpty(socialSecurityNumber))
             {
-                textFields.ssn1.FieldValue = socialSecurityNumber.Substring(0, 3);
-                textFields.ssn2.FieldValue = socialSecurityNumber.Substring(3, 2);
-                textFields.ssn3.FieldValue = socialSecurityNumber.Substring(5);
+                socialSecurityNumber = System.Text.RegularExpressions.Regex.Replace(socialSecurityNumber, "[^\\d]", "");
+
+                setTinFieldValue(objPage, textFields.ssn1, socialSecurityNumber.Substring(0, 3), objFont);
+                setTinFieldValue(objPage, textFields.ssn2, socialSecurityNumber.Substring(3, 2), objFont);
+                setTinFieldValue(objPage, textFields.ssn3, socialSecurityNumber.Substring(5), objFont);
             }
 
             if (!string.IsNullOrEmpty(employerIdentificationNumber))
             {
-                textFields.employerIdentificationNumber1.FieldValue = employerIdentificationNumber.Substring(0, 2);
-                textFields.employerIdentificationNumber2.FieldValue = employerIdentificationNumber.Substring(2);
+                employerIdentificationNumber = System.Text.RegularExpressions.Regex.Replace(employerIdentificationNumber, "[^\\d]", "");
+
+                setTinFieldValue(objPage, textFields.employerIdentificationNumber1, employerIdentificationNumber.Substring(0, 2), objFont);
+                setTinFieldValue(objPage, textFields.employerIdentificationNumber2, employerIdentificationNumber.Substring(2), objFont);
             }
 
-            // Date
-            objPage.Canvas.DrawText(date.ToString("MMM d, yyyy"), "x=412, y=265", objFont);
+            setFieldValue(objPage, null, date.ToString("MMM d, yyyy"), objFont, 412, 265);
 
             // Signature - taken from a .gif file (image itself) and .bmp (mask)
             PdfImage objSignatureImg = objDoc.OpenImage(signature);
 
             objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=252; scalex=.25, scaley=.25");
+            objDoc.Form.Flatten();
 
             byte[] pdf = objDoc.SaveToMemory();
             
             return pdf;
+        }
+
+        private void setTinFieldValue(PdfPage page, dynamic field, string text, PdfFont font)
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                float left = 4;
+                foreach (var letter in text)
+                {
+                    setFieldValue(page, field, letter.ToString(), font, left, -5);
+                    left += 14.5f;
+                }
+            }
+        }
+        private void setFieldValue(PdfPage page, dynamic field, string text, PdfFont font, float shiftLeft = 5, float shiftDown = 0)
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                page.Canvas.DrawText(text, string.Format("x={0}, y={1}", (field != null ? field.Rect.Left : 0) + shiftLeft, (field != null ? field.Rect.Top : 0) + shiftDown), font);
+            }
+        }
+        private void checkBox(PdfPage page, dynamic field, PdfFont font)
+        {
+            setFieldValue(page, field, "X", font, 1, 2);
         }
     }
 }

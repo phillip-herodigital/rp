@@ -91,5 +91,18 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult MobileEnrollmentSettings()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
+
+            var data =  new
+            {
+                sprintBuyPhone = !string.IsNullOrEmpty(item.Fields["Sprint Buy Phone"].Value),
+                sprintByod = !string.IsNullOrEmpty(item.Fields["Sprint BYOD"].Value)
+            };
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
     }
 }

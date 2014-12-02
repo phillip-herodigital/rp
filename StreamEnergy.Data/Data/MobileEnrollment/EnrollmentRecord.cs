@@ -64,9 +64,20 @@ namespace StreamEnergy.Data.MobileEnrollment
         public string SourceId { get; set; }
         public string OrderId { get; set; }
 
+        public string Network { get; set; }
+
+        public string NewDeviceSku { get; set; }
+        public string BuyingOption { get; set; }
+        public string Price { get; set; }
+        public string Warranty { get; set; }
+
         public string DeviceMake { get; set; }
 
         public string DeviceModel { get; set; }
+
+        public string DeviceColor { get; set; }
+
+        public string DeviceSize { get; set; }
 
         public string DeviceSerial { get; set; }
 
@@ -75,6 +86,8 @@ namespace StreamEnergy.Data.MobileEnrollment
         public string NewNumber { get; set; }
 
         public string PortInNumber { get; set; }
+
+        public string PreviousServiceProvider { get; set; }
 
         public string PlanId { get; set; }
 

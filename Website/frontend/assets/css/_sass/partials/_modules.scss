@@ -1780,26 +1780,303 @@ article.mobile {
 .usage-details {
 	.filters {
 		margin: 0;
+		float: right;
+
 		.group .item {
 			label {
-				margin-top: 9px;
+				margin-top: 15px;
 			}
 			&.usage-period {
 				float: right;
 			}
 		}
 	}
-	table tbody tr td, th {
+
+	.device-short{
+		display: none;
+	}
+	
+	.device-full {
+		display: block;
+	}
+	table tbody tr td, th, tfoot td {
 		text-align: center;
+		background-color: #ffffff;
+		border: 1px solid #eaeaea;
 		.top {
 			border-bottom: 1px solid #eaeaea;
 			padding: 10px 0;
 		}
 		&:first-child {
 			text-align: left;
+			padding: 0px 20px;
+			div {
+				float: left;
+				padding: 0px 10px;
+			}
+			div.device-image {
+				padding: 5px;
+				img{
+					width: 30px;
+				}
+			}
+		}
+		strong {
+			white-space: nowrap;
+		}	
+	}
+
+	@media only screen and (max-width: 599px){
+		header {
+			.filters {
+				float:left;
+			}
+		}
+
+		table tbody tr td, th, tfoot td {
+			.top {
+				padding: 0px 0;
+			}
+			&:first-child {
+				padding: 0px 0px;
+			}
+		}	
+	}
+
+	@media only screen and (max-width: 480px){
+		header {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+		.device-short {
+			display: block;
+		}
+		.device-full {
+			display: none;
+		}
+		table tbody tr td, th, tfoot td {
+			padding-left: 2px;
+			padding-right: 2px;
 		}
 	}
 }
+
+article.usage-summary {
+	.current-usage, .historical-usage {
+		padding: 0px 10px;
+	}
+	.current-usage {
+		width: 60%; 
+		margin-bottom: -60px;
+	}
+	.historical-usage {
+		border-left: solid 1px #aaa;
+		width: 40%
+	}
+	@media only screen and (max-width: 780px) {	
+		.current-usage, .historical-usage {
+			width: 100%;
+		}
+		.historical-usage {
+			border-left: none;
+		}
+	}
+	.usage-meter {
+		padding: 80px 0px 40px;
+		.picket {
+			width:0px;
+			border: none;
+			border-right: solid 1px #f00;
+			float: inherit;
+			position: relative;
+			height: 40px;
+			z-index: 90;
+		}
+		.label {
+			overflow: visible;
+			position: relative;
+			clear: both;
+			float: left;
+			z-index: 100;
+			border-radius: 10px;
+			border: solid 1px;
+			color: #ffffff;
+			padding: 5px;
+			min-width: 130px;
+			white-space: nowrap;
+			text-align: center;
+		}
+
+		.graph {
+			height: 30px;
+			border: solid 1px #bbb;
+			border-radius: 20px;
+			display: inline-block;
+			margin: 0px;
+			padding: 0px;
+			float:left;
+		}
+		.used {
+			background-color: #1ad;
+			border-right: none;
+			border-top-right-radius: 0px;
+			border-bottom-right-radius: 0px;
+			.label {
+				top: -80px;
+				border-color: #1ad;
+				background-color: #1ad;
+				left: 5%;
+			}
+			.picket {
+				border-color: #1ad;
+				clear: both;
+				float: left;
+				top: -12px;
+				left: 25%;
+			}
+		}
+
+		.estimated {
+			background-color: #bbbbbb;
+			border-left: none;
+			border-right:none;
+			border-radius: 0px;
+		}
+
+		.remain {
+			background-color: #eeeeee;
+			border-left:none;
+			border-top-left-radius: 0px;
+			border-bottom-left-radius: 0px;
+			.label {
+				top: -125px;
+				border-color: #bbbbbb;
+				color: #000000;
+				background-color: #eeeeee;
+				float: left;
+				left: -60px;
+			}
+			.picket {
+				top: -31px;
+				border-color: #bbbbbb;
+				height: 60px;
+				width:0px;
+			}
+		}
+		 .current-data {
+			position: relative;
+			top: -76px;
+			z-index: 200;
+			width: 65%;
+			.label {
+				border-color: #888888;
+				background-color: #888888;
+				left: 5%;
+				float: right;
+			}
+			.picket {    
+				border-color: #888888;
+				height: 40px;
+				float: right;
+			}
+		 
+		 }
+
+		 .scale {
+			width: 100%;
+			height: 60px;
+			position: relative;
+			left: -10px;
+			div, span {
+				color: #ccc;
+				border: none; 
+				float: left;
+				clear: right;
+				width: 25%;
+			}
+			.picket {
+				border-left: solid 1px #ccc;
+				left: 20px;
+				height: 15px;
+				top: 5px;
+				width: 100%;
+			}
+			
+			.label {
+				text-align: left;
+			}
+			.low {
+				width: 50%;
+			}
+			.high {
+				.picket {
+					border-left: none;
+					border-right: solid 1px #ccc;
+					left: 0px;
+					float: right;
+				}
+				.label {
+					text-align: right;
+					right: -20px;
+					float: right;
+					clear: both;
+				}
+			}
+		 }
+
+		&.overage { 
+			.used {
+				background-color: #d30;
+				border-color: #d30;
+				.picket, .label {
+					background-color: #d30;
+					border-color: #d30;
+				}
+			}
+			.remain {
+				.label, .picket {
+					display: none;
+				}
+			}
+		}
+	}
+	.historical-usage {
+		.historical-graph span {
+			clear: right;
+			float: left;
+			padding: 0px;
+			margin: 0 1px;
+			width: 5%;
+			position: relative;
+			border: none;
+		}
+		.current-limit {
+			position: relative;
+			z-index: 50;
+			color: #888;
+			.limit-label {
+				white-space: nowrap;
+				float: left;
+				clear: right;
+				width: 20%;
+				position: relative;
+				top: -10px;
+			}
+			.limit-line {
+				width: 80%;
+				float: left;
+				clear: right;
+				border-bottom: solid 1px #888;
+			}
+		}
+		.view-details {
+			clear: both;
+			float: none;
+			padding-top: 30px;
+		}
+	}
+}
+
 .international {
 	.content {
 		p {

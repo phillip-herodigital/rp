@@ -172,6 +172,42 @@ ngApp.filter('phoneFilter', function() {
   }
 });
 
+ngApp.filter('orderByPrice', function() {
+  return function(items, field, reverse) {
+    var filtered = [];
+    
+    angular.forEach(items, function(item) {
+        filtered.push(item);
+    });
+
+    filtered.sort(function (a, b) {
+        var aPrice = getConditionToCompare(a),
+            bPrice = getConditionToCompare(b);
+
+        return (parseFloat(aPrice, 10) > parseFloat(bPrice, 10) ? 1 : -1);
+    });
+
+    if(reverse) filtered.reverse();
+    return filtered;
+
+    function getConditionToCompare(item) {
+        if(getConditionPrice(item, 'New')) {
+            return getConditionPrice(item, 'New');
+        } else if(getConditionPrice(item, 'Reconditioned') && !getConditionPrice(item, 'New')) {
+            return getConditionPrice(item, 'Reconditioned');
+        }
+
+    }
+
+    function getConditionPrice(item, condition) {
+        var models =  _.where(item.models, { condition: condition });
+
+        //Return the lowest price for the condition
+        return _.min(models, function(model){ return model.price; }).price;
+    }
+  };
+});
+
 ngApp.filter('addSpaces', function () {
     return function (name) {
         var formattedName = '';
@@ -191,7 +227,8 @@ ngApp.filter('maskNumber', function () {
         if (!number) {
             return;
         }
-        formattedNumber = number.replace(/^[0-9]{5}/, '*****');
+        var newNumber = number.replace(/[^0-9]/g, '');
+        formattedNumber = (newNumber.length == 8) ? newNumber.replace(/^[0-9]{4}/, '****') : newNumber.replace(/^[0-9]{5}/, '*****');
         return formattedNumber;
     };
 });

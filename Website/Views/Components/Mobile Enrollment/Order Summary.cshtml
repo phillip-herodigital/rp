@@ -11,15 +11,19 @@
                         <i class="icon-billed-today pull-right"></i>
                         <h2>@Html.Sitecore().Field("To Be Billed Today")</h2>
 
-                        @*<div class="description">
-                            <span class="model">{{ ctrl.mobileService.getCart().phone.name }}</span> <br />
-                            <span class="options">{{ ctrl.mobileService.getCart().model.size }}, {{ ctrl.mobileService.getCart().color.value }}</span> <br />
+                        <div class="clearfix" ng-if="item.type=='new'">
+                            <div class="description">
+                                <h3>{{ item.device.brand }} {{ item.device.name }}</h3>
+                            </div>
+                            <div class="rate">{{ item.price | currency }}<span ng-if="item.buyingOption == 'Lease24'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>
                         </div>
-                        <div class="rate">{{ ctrl.mobileService.getCart().model.price | currency }}</div>
-                        *@
-                        <div class="clearfix" ng-if="item.type=='existing'">
+                        <div class="clearfix">
                             <div class="description">@Html.Sitecore().Field("Initial Activation Fee")</div>
                             <div class="rate">{{ item.activationFee | currency }}</div>
+                        </div>
+                        <div class="clearfix" ng-if="item.type=='new'">
+                            <div class="description">@Html.Sitecore().Field("Estimated Sales Tax")</div>
+                            <div class="rate">{{ item.salesTax | currency }}</div>
                         </div>
                         <div class="clearfix">
                             <div class="description">@Html.Sitecore().Field("Prorated 1st Month Plan Cost")</div>
@@ -32,12 +36,29 @@
                         <i class="icon-billed-monthly pull-right"></i>
                         <h2>@Html.Sitecore().Field("To Be Billed Monthly")</h2>
                         <div class="clearfix">
-                            <div class="description">@Html.Sitecore().Field("Monthly Plan Cost").Format(new { size = "{{ cart.dataPlan.data }}" })</div>
+                            <div class="description" ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Monthly Plan Cost").Format(new { size = "{{ cart.dataPlan.data }}" })</div>
+                            <div class="description" ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Monthly Plan Cost").Format(new { size = "{{ cart.dataPlan.data }}" })</div>
                             <div class="rate">{{ cart.dataPlan.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
                         </div>
                         <div class="clearfix">
                             <div class="description">@Html.Sitecore().Field("Estimated Taxes and Fees")</div>
                             <div class="rate">{{ mobileEnrollmentService.getTotalFees() | currency }}</div>
+                        </div>
+                        <div ng-repeat="item in cart.items" class="items-monthly">
+                            <div class="clearfix" ng-if="item.warranty == 'accept'">
+                                <div class="description">
+                                    <h3>@Html.Sitecore().Field("Phone Warranty")</h3>
+                                    {{ item.device.brand }} {{ item.device.name }}
+                                </div>
+                                <div class="rate">@Html.Sitecore().Field("Warranty Cost")/@Html.Sitecore().Field("Month Abbreviation")</div>
+                            </div>
+                            <div class="clearfix" ng-if="item.buyingOption == 'Lease24'">
+                                <div class="description">
+                                    <h3>@Html.Sitecore().Field("Monthly Lease Cost")</h3>
+                                    @Html.Sitecore().Field("Leased") {{ item.device.brand }} {{ item.device.name }}
+                                </div>
+                                <div class="rate">{{ item.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
+                            </div>
                         </div>
                         <div class="total">@Html.Sitecore().Field("Estimated Monthly Bill"): <strong>{{ mobileEnrollmentService.getEstimatedMonthlyTotal() | currency }}</strong></div>
                     </div>
@@ -54,7 +75,7 @@
             </div>
         </article>
         *@
-        <article class="enrollment__box plain-text">
+        <article class="enrollment__box plain-text" ng-if="false">
             <header>
                 <h1>@Html.Sitecore().Field("Questions Header")</h1>
             </header>

@@ -42,6 +42,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return BadRequest(ModelState);
             }
 
+            try
+            {
+                var plain = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(context.AssociateId));
+                var parts = plain.Split('|');
+                context.AssociateId = parts[0];
+            }
+            catch
+            {
+                context.AssociateId = "A2";
+            }
+
             var w9Pdf = w9Generator.GenerateW9(context.BusinessInformationName, context.BusinessName, context.BusinessTaxClassification, context.AdditionalTaxClassification, context.ExemptCode, context.FatcaCode, context.BusinessAddress, context.CurrentAccountNumbers, context.SocialSecurityNumber, context.TaxId, context.SignatureImage, DateTime.Now);
             var result = await mobileEnrollment.RecordEnrollment(context, w9Pdf);
 
@@ -49,12 +60,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await emailService.SendEmail(emailTemplate, settings.GetSettingsValue("Marketing Form Email Addresses", "Mobile Enrollment Email Address"), new System.Collections.Specialized.NameValueCollection ()
             {
-                { "DeviceMake", context.DeviceMake },    
-                { "DeviceModel", context.DeviceModel },    
-                { "DeviceSerial", context.DeviceSerial },    
-                { "SimNumber", context.SimNumber },    
+                { "Network", context.Network ?? "" },
+                { "NewDeviceSku", context.NewDeviceSku ?? "" },
+                { "BuyingOption", context.BuyingOption ?? "" },
+                { "Price", context.Price ?? "" },
+                { "Warranty", context.Warranty ?? "" },
+                { "DeviceMake", context.DeviceMake ?? "" },    
+                { "DeviceColor", context.DeviceColor ?? "" },
+                { "DeviceSize", context.DeviceSize ?? "" },
+                { "DeviceModel", context.DeviceModel ?? "" },    
+                { "DeviceSerial", context.DeviceSerial ?? "" },    
+                { "SimNumber", context.SimNumber ?? "" },    
                 { "NewNumber", context.NewNumber ?? "" },    
                 { "PortInNumber", context.PortInNumber ?? "" },    
+                { "PreviousServiceProvider", context.PreviousServiceProvider ?? "" },
                 { "PlanId", context.PlanId }, 
                 { "AssociateId", context.AssociateId ?? "" },
                 { "Name", context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last },    

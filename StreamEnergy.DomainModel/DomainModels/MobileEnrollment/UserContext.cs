@@ -12,13 +12,21 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
 {
     [Serializable]
     public class UserContext : ISanitizable
-    {    
+    {
+        public string Network { get; set; }
+        public string NewDeviceSku { get; set; }
+        public string BuyingOption { get; set; }
+        public string Price { get; set; }
+        public string Warranty { get; set; }
         public string DeviceMake { get; set; }
         public string DeviceModel { get; set; }
+        public string DeviceColor { get; set; }
+        public string DeviceSize { get; set; }
         public string DeviceSerial { get; set; }
         public string SimNumber { get; set; }
         public string NewNumber { get; set; }
         public string PortInNumber { get; set; }
+        public string PreviousServiceProvider { get; set; }
         public string PlanId { get; set; }
         public string AssociateId { get; set; }
         public string SourceId { get; set; }
