@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using Sitecore.ContentSearch.Utilities;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.Links;
 using Sitecore.Mvc.Presentation;
+using Sitecore.Shell.Applications.ContentEditor;
 using Sitecore.Shell.Framework.Commands;
 
 namespace StreamEnergy.MyStream.Utility
@@ -24,9 +27,9 @@ namespace StreamEnergy.MyStream.Utility
                 return null;
 
             return (from navigationItem in renderingItem.GetDescendantsAndSelf()
-                let linkField = navigationItem.Fields["Navigation Link"]
-                where (LinkField) linkField != null && ((LinkField) linkField).TargetID == item.ID
-                select new ItemSiteMapNode(this, navigationItem)).FirstOrDefault();
+                    let linkField = navigationItem.Fields["Navigation Link"]
+                    where (LinkField)linkField != null && ((LinkField)linkField).TargetID == item.ID
+                    select new ItemSiteMapNode(this, navigationItem)).FirstOrDefault();
         }
 
         public override SiteMapNodeCollection GetChildNodes(SiteMapNode node)
@@ -62,6 +65,18 @@ namespace StreamEnergy.MyStream.Utility
             if (linkField == null) return;
 
             Title = linkField.Text;
+            Url = linkField.Url;
+            Description = linkField.Title;
+            Attributes = new NameValueCollection
+            {
+                {"Anchor", linkField.Anchor},
+                {"Class", linkField.Class},
+                {"Target", linkField.Target}
+            };
+
+            if (!linkField.IsInternal) return;
+            Title = string.IsNullOrEmpty(linkField.Text) ? (linkField.TargetItem != null ? linkField.TargetItem.DisplayName : null) : linkField.Text;
+            Url = linkField.TargetItem != null ? LinkManager.GetItemUrl(linkField.TargetItem) : null;
         }
 
         public Item Item { get; set; }

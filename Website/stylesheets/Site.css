@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* line 37, ../sass/_Generic.scss */
+/* line 39, ../sass/_Generic.scss */
 .action, .button {
   border-radius: 10px;
   background-image: -moz-linear-gradient(90deg, #0071b9 0%, #01a3dd 100%);
@@ -16,63 +16,94 @@
   text-transform: none !important;
 }
 
-/* line 53, ../sass/_Generic.scss */
+/* line 55, ../sass/_Generic.scss */
 button.action {
   border-style: none;
 }
 
-/* line 57, ../sass/_Generic.scss */
+/* line 59, ../sass/_Generic.scss */
 .content {
-  width: 1280px;
+  max-width: 1280px;
   margin: 0 auto;
   position: relative;
 }
 
-/* line 63, ../sass/_Generic.scss */
+/* line 65, ../sass/_Generic.scss */
 .clear {
   clear: both;
 }
 
-/* line 67, ../sass/_Generic.scss */
+/* line 69, ../sass/_Generic.scss */
 a.action {
   display: inline-block;
 }
 
-/* line 72, ../sass/_Generic.scss */
+/* line 74, ../sass/_Generic.scss */
 a {
   text-decoration: none;
   color: #2f85b9;
 }
 
-/* line 77, ../sass/_Generic.scss */
+/* line 79, ../sass/_Generic.scss */
 b {
   color: #0192d1;
 }
 
-/* line 81, ../sass/_Generic.scss */
+/* line 83, ../sass/_Generic.scss */
 h3 {
   font: 300 40px/35.97px proxima-nova, sans-serif;
   letter-spacing: -0.029em;
   color: #222a4c;
 }
-/* line 21, ../sass/_Generic.scss */
+/* line 23, ../sass/_Generic.scss */
 h3 b {
   text-transform: uppercase;
   color: #0192d1;
 }
 
-/* line 85, ../sass/_Generic.scss */
+/* line 87, ../sass/_Generic.scss */
 small.legal {
   font-size: 10px;
   color: #b4b4b4;
 }
 
-/* line 4, ../sass/Site.scss */
+/* line 93, ../sass/_Generic.scss */
+main h3 {
+  text-align: center;
+}
+/* line 95, ../sass/_Generic.scss */
+main h3 strong {
+  font-weight: inherit;
+  text-transform: uppercase;
+}
+/* line 103, ../sass/_Generic.scss */
+main .mobile h3 strong {
+  color: #28ade0;
+}
+/* line 111, ../sass/_Generic.scss */
+main .energy h3 strong {
+  color: #f8a244;
+}
+/* line 119, ../sass/_Generic.scss */
+main .protective h3 strong {
+  color: #51b35a;
+}
+
+/* Old Styles Overrides */
+/* line 5, ../sass/Site.scss */
 select {
   box-shadow: none;
 }
 
 /* line 8, ../sass/Site.scss */
+th {
+  border: 1px solid #e8e8e8;
+  background-color: #efefef;
+  font-weight: 600;
+}
+
+/* */
+/* line 15, ../sass/Site.scss */
 body {
   position: relative;
   color: #333;
@@ -81,24 +112,24 @@ body {
   font-family: "proxima-nova", sans-serif;
   font-weight: 300;
 }
-/* line 17, ../sass/Site.scss */
+/* line 23, ../sass/Site.scss */
 body > header {
   position: relative;
   z-index: 100;
   background: url("../Images/header_background_gloabl.png") top repeat-x;
 }
-/* line 23, ../sass/Site.scss */
+/* line 28, ../sass/Site.scss */
 body > header > .content {
   height: 160px;
 }
-/* line 25, ../sass/Site.scss */
+/* line 31, ../sass/Site.scss */
 body > header > .content > h1 {
   position: absolute;
   left: 120px;
   top: 25px;
   margin: 0;
 }
-/* line 32, ../sass/Site.scss */
+/* line 38, ../sass/Site.scss */
 body > header > .content > ol {
   text-transform: uppercase;
   margin: 0;
@@ -109,7 +140,7 @@ body > header > .content > ol {
   font-size: 18px;
   letter-spacing: .020em;
 }
-/* line 42, ../sass/Site.scss */
+/* line 48, ../sass/Site.scss */
 body > header > .content > ol li {
   cursor: default;
   display: block;
@@ -118,7 +149,7 @@ body > header > .content > ol li {
   position: relative;
   left: 530px;
 }
-/* line 50, ../sass/Site.scss */
+/* line 56, ../sass/Site.scss */
 body > header > .content > ol li b {
   font-weight: 400;
   color: #1991cf !important;
@@ -126,11 +157,11 @@ body > header > .content > ol li b {
   background: url("../images/nav-first-level-selected-indicator.png") bottom center no-repeat;
   height: 48px;
 }
-/* line 58, ../sass/Site.scss */
+/* line 64, ../sass/Site.scss */
 body > header > .content > ol li a {
   color: inherit;
 }
-/* line 63, ../sass/Site.scss */
+/* line 69, ../sass/Site.scss */
 body > header > .content > ol li > ol {
   height: 51px;
   position: absolute;
@@ -143,22 +174,23 @@ body > header > .content > ol li > ol {
   font-size: 16px;
   color: #4f4c4d;
 }
-/* line 75, ../sass/Site.scss */
+/* line 81, ../sass/Site.scss */
 body > header > .content > ol li > ol > li {
   display: inline-block;
 }
-/* line 78, ../sass/Site.scss */
+/* line 84, ../sass/Site.scss */
 body > header > .content > ol li > ol > li b {
   display: inline;
-  height: auto;
   background: none;
 }
-/* line 89, ../sass/Site.scss */
-body > header > nav {
+/* line 96, ../sass/Site.scss */
+body > article > header {
   background-color: #eff2f3;
+  position: relative;
+  z-index: 100;
 }
-/* line 91, ../sass/Site.scss */
-body > header > nav > h2 {
+/* line 101, ../sass/Site.scss */
+body > article > header > h2 {
   height: 214px;
   line-height: 52px;
   line-height: 214px;
@@ -169,19 +201,19 @@ body > header > nav > h2 {
   margin: 0;
   text-transform: uppercase;
 }
-/* line 104, ../sass/Site.scss */
-body > header > nav > h2 span {
+/* line 113, ../sass/Site.scss */
+body > article > header > h2 span {
   display: block;
   vertical-align: middle;
   margin: 0 auto;
   max-width: 1280px;
 }
-/* line 109, ../sass/Site.scss */
-body > header > nav > h2 span span {
+/* line 119, ../sass/Site.scss */
+body > article > header > h2 span span {
   margin: 0 120px;
 }
-/* line 115, ../sass/Site.scss */
-body > header > nav > .content > ol {
+/* line 126, ../sass/Site.scss */
+body > article > header > .content > ol {
   font-size: 16px;
   font-weight: 400;
   height: 68px;
@@ -189,38 +221,27 @@ body > header > nav > .content > ol {
   margin: 0 120px;
   padding: 0;
 }
-/* line 123, ../sass/Site.scss */
-body > header > nav > .content > ol > li {
+/* line 134, ../sass/Site.scss */
+body > article > header > .content > ol > li {
   display: inline-block;
   padding: 0 21px;
   line-height: 68px;
   cursor: default;
 }
-/* line 129, ../sass/Site.scss */
-body > header > nav > .content > ol > li a {
+/* line 140, ../sass/Site.scss */
+body > article > header > .content > ol > li a {
   color: #4f4c4d;
 }
-/* line 133, ../sass/Site.scss */
-body > header > nav > .content > ol > li b {
+/* line 144, ../sass/Site.scss */
+body > article > header > .content > ol > li b {
   color: #1991cf;
   font-weight: inherit;
   display: inline-block;
   background: url("../Images/nav-second-level-selected-indicator.png") bottom center no-repeat;
 }
-/* line 139, ../sass/Site.scss */
-body > header > nav > .content > ol > li b a {
+/* line 150, ../sass/Site.scss */
+body > article > header > .content > ol > li b a {
   color: inherit;
-}
-/* line 149, ../sass/Site.scss */
-body main {
-  background: url("../images/pattern_bg.png") repeat-y center;
-}
-/* line 152, ../sass/Site.scss */
-body main > .content {
-  background-color: white;
-  box-shadow: -7px 0 7px -7px rgba(112, 112, 112, 0.15), 7px 0 7px -7px rgba(112, 112, 112, 0.15);
-  margin: 0 auto;
-  max-width: 1280px;
 }
 /* line 160, ../sass/Site.scss */
 body > footer {
@@ -229,24 +250,24 @@ body > footer {
   background: transparent url("../Images/footer-section-bottom-rule.png") center bottom repeat-x;
 }
 /* line 165, ../sass/Site.scss */
+body > footer .content {
+  padding-left: 9.375%;
+  padding-right: 9.375%;
+}
+/* line 170, ../sass/Site.scss */
 body > footer > address {
   background-color: #eff2f3;
   font-style: normal;
 }
-/* line 169, ../sass/Site.scss */
-body > footer > address .content {
-  width: 1040px;
-}
-/* line 174, ../sass/Site.scss */
+/* line 175, ../sass/Site.scss */
 body > footer > .group {
   background: #2f9bce;
   border-top: 1px solid #f5f5f5;
   color: white;
 }
-/* line 179, ../sass/Site.scss */
+/* line 180, ../sass/Site.scss */
 body > footer > .group > .content {
   background: #2f9bce url("../Images/LogoWhite.png") no-repeat 12px 371px;
-  width: 1040px;
 }
 /* line 183, ../sass/Site.scss */
 body > footer > .group > .content > nav {
@@ -291,6 +312,18 @@ body > footer > .group > .content > nav > section > ul {
 body > footer > .group > .content > nav > section > ul li {
   margin: 0;
   padding: 0;
+}
+
+/* line 230, ../sass/Site.scss */
+main {
+  background: url("../images/pattern_bg.png") repeat-y center;
+}
+/* line 233, ../sass/Site.scss */
+main > .content {
+  background-color: white;
+  box-shadow: -7px 0 7px -7px rgba(112, 112, 112, 0.15), 7px 0 7px -7px rgba(112, 112, 112, 0.15);
+  margin: 0 auto;
+  max-width: 1280px;
 }
 
 /* line 1, ../sass/_Global.scss */
@@ -507,24 +540,32 @@ dl.faq > dd {
   transition: height 0.5s ease;
 }
 
-/* line 235, ../sass/Site.scss */
+/* line 246, ../sass/Site.scss */
 .marketing.wrapper {
   padding: 0 9.375%;
   background: url("../../images/Modules/module_background.png") no-repeat center top;
 }
-/* line 239, ../sass/Site.scss */
+/* line 250, ../sass/Site.scss */
 .marketing.wrapper:first-child {
   background-image: none;
 }
+/* line 254, ../sass/Site.scss */
+.marketing.wrapper:last-child {
+  padding-bottom: 80px;
+}
 
-/* line 244, ../sass/Site.scss */
+/* line 259, ../sass/Site.scss */
 .module {
   padding: 0 9.375%;
   background: url("../../images/Modules/module_background.png") no-repeat center top;
 }
-/* line 248, ../sass/Site.scss */
+/* line 263, ../sass/Site.scss */
 .module:first-child {
   background-image: none;
+}
+/* line 267, ../sass/Site.scss */
+.module:last-child {
+  padding-bottom: 80px;
 }
 /* line 1, ../sass/Modules/_PhotoLockup.scss */
 .module.photoLockup {
@@ -539,20 +580,41 @@ dl.faq > dd {
 .module.photoLockup > .content, .module.photoLockup > img {
   float: left;
 }
-/* line 13, ../sass/Modules/_PhotoLockup.scss */
+@media only screen and (max-width: 768px) {
+  /* line 9, ../sass/Modules/_PhotoLockup.scss */
+  .module.photoLockup > .content, .module.photoLockup > img {
+    float: none;
+    width: 100%;
+    height: auto;
+  }
+}
+/* line 19, ../sass/Modules/_PhotoLockup.scss */
 .module.photoLockup > .content {
   width: 463px;
   margin: 0;
 }
-/* line 18, ../sass/Modules/_PhotoLockup.scss */
+@media only screen and (max-width: 768px) {
+  /* line 19, ../sass/Modules/_PhotoLockup.scss */
+  .module.photoLockup > .content {
+    width: 100%;
+  }
+}
+/* line 28, ../sass/Modules/_PhotoLockup.scss */
 .module.photoLockup > img {
   width: 502px;
 }
-/* line 22, ../sass/Modules/_PhotoLockup.scss */
+/* line 32, ../sass/Modules/_PhotoLockup.scss */
 .module.photoLockup > .content + img, .module.photoLockup > img + .content {
   float: right;
 }
-/* line 26, ../sass/Modules/_PhotoLockup.scss */
+@media only screen and (max-width: 768px) {
+  /* line 32, ../sass/Modules/_PhotoLockup.scss */
+  .module.photoLockup > .content + img, .module.photoLockup > img + .content {
+    float: none;
+    width: 100%;
+  }
+}
+/* line 41, ../sass/Modules/_PhotoLockup.scss */
 .module.photoLockup h2, .module.photoLockup h3 {
   font-size: 31.99px;
   line-height: 48.91px;
@@ -572,9 +634,9 @@ dl.faq > dd {
   padding: 45px 0;
   background-image: none;
 }
-/* line 10, ../sass/Modules/_Quote.scss */
+/* line 11, ../sass/Modules/_Quote.scss */
 .module.quote blockquote {
-  margin: 0 298px 0 225px;
+  margin: 0 23.28125% 0 17.57813%;
 }
 /* line 15, ../sass/Modules/_Quote.scss */
 .module.quote blockquote p:first-of-type {
@@ -607,7 +669,7 @@ dl.faq > dd {
   margin-top: 40px;
 }
 /* line 45, ../sass/Modules/_Quote.scss */
-.module.quote blockquote p .lead {
+.module.quote blockquote p strong, .module.quote blockquote p .lead {
   font-size: 36px;
   line-height: 60px;
   font-style: italic;
@@ -699,16 +761,4 @@ dl.faq > dd {
 /* line 37, ../sass/Modules/_StatesEnroll.scss */
 .module.states-enroll #ViewLinks-StateEnroll-Module a {
   font-weight: normal;
-}
-
-@keyframes slideopen {
-  /* line 262, ../sass/Site.scss */
-  0% {
-    height: 0;
-  }
-
-  /* line 266, ../sass/Site.scss */
-  100% {
-    height: 500px;
-  }
 }

@@ -7,9 +7,9 @@
     padding: 45px 0;
     background-image: none;
 
+
     blockquote {
-        margin: 0 298px 0 225px;
-        
+        margin: 0 percentage(298/1280) 0 percentage(225/1280);
 
         p {
             &:first-of-type {
@@ -42,7 +42,7 @@
                 margin-top: 40px;
             }
 
-            .lead {
+            strong, .lead {
                 font-size: 36px;
                 line-height: 60px;
                 font-style: italic;

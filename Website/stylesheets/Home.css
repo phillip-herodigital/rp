@@ -1,101 +1,193 @@
-/* line 2, ../sass/Home.scss */
-#SevicesOverview_Home_Module nav {
-  height: 145px;
-  background-color: #2f9bce;
-  color: white;
-}
-/* line 6, ../sass/Home.scss */
-#SevicesOverview_Home_Module nav section {
-  float: left;
-}
-
-/* line 11, ../sass/Home.scss */
-section#home-Plans {
-  background: url("/Images/Modules/Home/Plans/module_background.png") center top no-repeat;
-}
-/* line 14, ../sass/Home.scss */
-section#home-Plans h4 {
-  height: 129px;
+/* line 3, ../sass/Home.scss */
+#SwitchStreamMobile-Home #OrParagrah-SwitchStreamMobile-Home {
+  font-size: 24px;
+  text-transform: uppercase;
+  width: 66px;
+  height: 66px;
+  border-radius: 33px;
+  line-height: 66px;
+  background-color: #f2f2f2;
   text-align: center;
-  font: 300 36px/48.92px proxima-nova, sans-serif;
-  color: #222a4c;
+  color: #4f4c4d;
+  letter-spacing: 0;
+  position: absolute;
+  left: 50%;
+  margin-left: -33px;
+  top: 300px;
 }
-/* line 21, ../sass/Home.scss */
-section#home-Plans article {
-  border: solid 1px #cccccc;
-  border-radius: 5px;
-  background-color: white;
-  width: 233px;
-  height: 374px;
-  text-align: center;
-  float: left;
-  margin: 0 12px;
+@media only screen and (max-width: 768px) {
+  /* line 3, ../sass/Home.scss */
+  #SwitchStreamMobile-Home #OrParagrah-SwitchStreamMobile-Home {
+    position: static;
+    margin: 10px auto;
+  }
 }
-/* line 31, ../sass/Home.scss */
-section#home-Plans article h5 {
-  font-size: 22px;
-  line-height: 29.02px;
-  font-weight: normal;
-  color: #1b1816;
-  letter-spacing: -0.022em;
+/* line 25, ../sass/Home.scss */
+#SwitchStreamMobile-Home #ShopPhones-SwitchStreamMobile-Home {
+  background: url("../images/Modules/Global/SwitchMobile/ShopPhones.jpg") top left no-repeat;
+  padding: 217px 100px 0 60px;
+}
+@media only screen and (max-width: 768px) {
+  /* line 25, ../sass/Home.scss */
+  #SwitchStreamMobile-Home #ShopPhones-SwitchStreamMobile-Home {
+    padding-left: 0;
+    padding-right: 0;
+    float: none;
+    background-position: top center;
+    width: 100%;
+  }
 }
 /* line 38, ../sass/Home.scss */
-section#home-Plans article h5 img {
-  width: 100px;
+#SwitchStreamMobile-Home #BringDevice-SwitchStreamMobile-Home {
+  background: url("../images/Modules/Global/SwitchMobile/BringPhones.jpg") top right no-repeat;
+  padding: 217px 0 0 134px;
 }
-/* line 44, ../sass/Home.scss */
-section#home-Plans article p strong {
-  font-size: 16px;
-  font-weight: normal;
-  color: #000;
-  letter-spacing: 0;
-  line-height: 26px;
+@media only screen and (max-width: 768px) {
+  /* line 38, ../sass/Home.scss */
+  #SwitchStreamMobile-Home #BringDevice-SwitchStreamMobile-Home {
+    padding-left: 0;
+    padding-right: 0;
+    float: none;
+    background-position: top center;
+    width: 100%;
+  }
 }
 /* line 51, ../sass/Home.scss */
-section#home-Plans article p strong strong {
-  font-size: 20px;
-  line-height: 29px;
+#SwitchStreamMobile-Home article {
+  width: 50%;
+  float: left;
 }
 /* line 55, ../sass/Home.scss */
-section#home-Plans article p strong strong strong {
-  font-size: 24px;
-}
-/* line 62, ../sass/Home.scss */
-section#home-Plans article .action {
-  width: 166px;
+#SwitchStreamMobile-Home article h4 {
+  font-size: 2em;
+  letter-spacing: -0.029em;
+  font-weight: 300;
 }
 
-/* line 68, ../sass/Home.scss */
-#EnergyOverview_Services {
-  background: url("../Images/Modules/Services/section-rule_energy-overview.png") center bottom repeat-x;
-  font-size: 20px;
-  line-height: 30px;
-  padding-bottom: 8px;
-}
-/* line 75, ../sass/Home.scss */
-#EnergyOverview_Services .content header {
+/* line 63, ../sass/Home.scss */
+#PlansThatWorkMobile-Home {
   text-align: center;
-  width: 827px;
-  margin: 0 auto;
-  margin-bottom: 64px;
+  color: black;
 }
-/* line 81, ../sass/Home.scss */
-#EnergyOverview_Services .content header h3 {
-  padding-top: 72px;
-  padding-bottom: 50px;
+/* line 67, ../sass/Home.scss */
+#PlansThatWorkMobile-Home > p {
+  font-size: 19.9px;
+  line-height: 29.84px;
+  letter-spacing: 0.017em;
 }
-/* line 87, ../sass/Home.scss */
-#EnergyOverview_Services .content b {
-  color: #f8a244;
+/* line 74, ../sass/Home.scss */
+#PlansThatWorkMobile-Home > ol li {
+  display: inline-block;
+  width: 33%;
 }
-/* line 91, ../sass/Home.scss */
-#EnergyOverview_Services .content > section {
-  float: left;
+@media only screen and (max-width: 768px) {
+  /* line 74, ../sass/Home.scss */
+  #PlansThatWorkMobile-Home > ol li {
+    margin: 0;
+    float: none;
+    width: 100%;
+  }
+}
+/* line 82, ../sass/Home.scss */
+#PlansThatWorkMobile-Home > ol li:before {
+  margin-right: 5px;
+  content: url(../images/check.png);
+}
+
+/* line 90, ../sass/Home.scss */
+#Plans-Component {
+  border: 1px solid #e5e5e5;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+/* line 95, ../sass/Home.scss */
+#Plans-Component article {
   width: 50%;
+  float: left;
 }
-/* line 97, ../sass/Home.scss */
-#EnergyOverview_Services .module.quote {
-  background: #71b243;
-  text-align: left;
-  color: white !important;
+/* line 99, ../sass/Home.scss */
+#Plans-Component article h4 {
+  position: relative;
+  font-size: 11px;
+  line-height: 2em;
+  letter-spacing: 0;
+  color: #012f50;
+}
+/* line 106, ../sass/Home.scss */
+#Plans-Component article h4 strong {
+  font-weight: 600;
+}
+/* line 110, ../sass/Home.scss */
+#Plans-Component article h4 span {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  margin-left: -20px;
+}
+/* line 118, ../sass/Home.scss */
+#Plans-Component article h5 {
+  padding-top: 50px;
+  background: center top no-repeat;
+  font-size: 22px;
+  line-height: 29.02px;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+/* line 128, ../sass/Home.scss */
+#Plans-Component article.indvidualPlans h5 {
+  background-image: url("../images/single_phone.png");
+}
+/* line 134, ../sass/Home.scss */
+#Plans-Component article.groupPlans h5 {
+  background-image: url("../images/multi_phone.png");
+}
+
+/* line 141, ../sass/Home.scss */
+#ProtectiveServices-Home {
+  padding-top: 80px;
+}
+/* line 144, ../sass/Home.scss */
+#ProtectiveServices-Home article {
+  float: left;
+  width: 28.20513%;
+  margin: 0 3.84615%;
+  line-height: 1.5em;
+  letter-spacing: -0.005em;
+  padding-top: 80px;
+}
+/* line 145, ../sass/Home.scss */
+#ProtectiveServices-Home article h4 {
+  color: #222a4c;
+}
+@media only screen and (max-width: 768px) {
+  /* line 144, ../sass/Home.scss */
+  #ProtectiveServices-Home article {
+    margin: 0;
+    float: none;
+    width: 100%;
+  }
+}
+/* line 163, ../sass/Home.scss */
+#ProtectiveServices-Home article:first-of-type {
+  margin-left: 0;
+}
+/* line 167, ../sass/Home.scss */
+#ProtectiveServices-Home article:last-of-type {
+  margin-right: 0;
+}
+/* line 171, ../sass/Home.scss */
+#ProtectiveServices-Home .services {
+  padding-top: 80px;
+}
+/* line 175, ../sass/Home.scss */
+#ProtectiveServices-Home .identityTheft {
+  background: url("../images/mask_icon.png") no-repeat center top;
+}
+/* line 179, ../sass/Home.scss */
+#ProtectiveServices-Home .onlineBackupAndProtection {
+  background: url("../images/cloud_protection_icon.png") no-repeat center top;
+}
+/* line 183, ../sass/Home.scss */
+#ProtectiveServices-Home .creditMonitoring {
+  background: url("../images/monitor_icon.png") no-repeat center top;
 }

@@ -1,7 +1,4 @@
-﻿@using System.Web.UI.WebControls
-@using Sitecore.Configuration.Providers
-@using Sitecore.ContentSearch.ComputedFields
-@using Sitecore.Data.Fields
+﻿@using Sitecore.Data.Fields
 @using Sitecore.Data.Items
 @using Sitecore.Links
 @using StreamEnergy.MyStream.Utility
@@ -16,11 +13,19 @@
 
     var loggedIn = Sitecore.Context.IsLoggedIn;
     var username = Sitecore.Context.User.LocalName;
+
+    const string openTag = "article";
+
+    if (Context.Items["openTag"] == null)
+    {
+        Context.Items.Add("openTag", openTag);
+    }
+        
 }
 @helper NavigationAnchor(Item item)
 {
     var navigationLinkField = (LinkField)item.Fields["Navigation Link"];
-    if (navigationLinkField == null || navigationLinkField.TargetID.IsNull)
+    if (navigationLinkField == null || (navigationLinkField.TargetID.IsNull && string.IsNullOrEmpty(navigationLinkField.Url)))
     {
         @item.Name
     }
@@ -58,7 +63,7 @@
                         selectedNode = Sitecore.Context.Item.GetAncestors().Select(provider.FindSiteMapNode).FirstOrDefault(node => node != null);
                     }
                 }
-                
+
                 string headingLevel2 = null;
                 foreach (ItemSiteMapNode node in SiteMap.RootNode.ChildNodes)
                 {
@@ -89,40 +94,45 @@
             }
         </ol>
     </div>
-    <nav>
-        <h2 style="@Html.AsBackgroundStyle("Banner Image", Sitecore.Context.Item)">
-            <span><span>@headingLevel2</span></span>
-        </h2>
-        <div class="content">
-            @{
-                if (selectedNode != null)
+</header>
+@if (!string.IsNullOrEmpty(openTag))
+{
+    @Html.Raw(string.Format("<{0}>", openTag))
+}
+<header>
+    <h2 style="@Html.AsBackgroundStyle("Banner Image", Sitecore.Context.Item)">
+        <span><span>@headingLevel2</span></span>
+    </h2>
+    <div class="content">
+        @{
+            if (selectedNode != null)
+            {
+                var level = selectedNode.Level();
+                if (level >= 2)
                 {
-                    var level = selectedNode.Level();
-                    if (level >= 2)
-                    {
-                        var rootNode = (level == 2 ? selectedNode : selectedNode.GetAncestor(level - 2)) as ItemSiteMapNode;
-                        var navigationLinkField = (LinkField)rootNode.Item.Fields["Navigation Link"];
-                        <ol>
-                            <li>
-                                @if (navigationLinkField.TargetID == Sitecore.Context.Item.ID)
-                                {
-                                    <b><a href="@(string.IsNullOrEmpty(rootNode.Url) ? null :rootNode.Url)" target="@(string.IsNullOrEmpty(navigationLinkField.Target) ? null : navigationLinkField.Target)" title="@(string.IsNullOrEmpty(navigationLinkField.Title) ? null : navigationLinkField.Title)">Overview</a></b>
-                                }
-                                else
-                                {
-                                    <a href="@(string.IsNullOrEmpty(rootNode.Url) ? null :rootNode.Url)" target="@(string.IsNullOrEmpty(navigationLinkField.Target) ? null : navigationLinkField.Target)" title="@(string.IsNullOrEmpty(navigationLinkField.Title) ? null : navigationLinkField.Title)">Overview</a>
-                                }
-                            </li>
-                            @foreach (ItemSiteMapNode childNode in rootNode.ChildNodes)
+                    var rootNode = (level == 2 ? selectedNode : selectedNode.GetAncestor(level - 2)) as ItemSiteMapNode;
+                    var navigationLinkField = (LinkField)rootNode.Item.Fields["Navigation Link"];
+                    <ol>
+                        <li>
+                            @if (navigationLinkField.TargetID == Sitecore.Context.Item.ID)
                             {
-                                <li>
-                                    @NavigationListItem(childNode.Item, selectedNode.Key == childNode.Key || selectedNode.IsDescendantOf(childNode))
-                                </li>
+                                <b><a href="@(string.IsNullOrEmpty(rootNode.Url) ? null :rootNode.Url)" target="@(string.IsNullOrEmpty(navigationLinkField.Target) ? null : navigationLinkField.Target)" title="@(string.IsNullOrEmpty(navigationLinkField.Title) ? null : navigationLinkField.Title)">Overview</a></b>
                             }
-                        </ol>
-                    }
+                            else
+                            {
+                                <a href="@(string.IsNullOrEmpty(rootNode.Url) ? null :rootNode.Url)" target="@(string.IsNullOrEmpty(navigationLinkField.Target) ? null : navigationLinkField.Target)" title="@(string.IsNullOrEmpty(navigationLinkField.Title) ? null : navigationLinkField.Title)">Overview</a>
+                            }
+                        </li>
+                        @foreach (ItemSiteMapNode childNode in rootNode.ChildNodes)
+                        {
+                            <li>
+                                @NavigationListItem(childNode.Item, selectedNode.Key == childNode.Key || selectedNode.IsDescendantOf(childNode))
+                            </li>
+                        }
+                    </ol>
                 }
             }
-        </div>
-    </nav>
+        }
+    </div>
+    @Html.Sitecore().Placeholder("HeaderExtra")
 </header>

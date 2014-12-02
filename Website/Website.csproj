@@ -762,9 +762,13 @@
   <ItemGroup>
     <Content Include="App_Browsers\Form.browser" />
     <Content Include="App_Browsers\XamlPage.browser" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="frontend\assets\css\_sass\global.css">
       <DependentUpon>global.scss</DependentUpon>
     </Content>
@@ -3646,11 +3650,16 @@
     <Content Include="frontend\assets\css\_sass\partials\_ui.scss" />
     <Content Include="frontend\assets\css\_sass\partials\_variables.scss" />
     <Content Include="config.rb" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <Content Include="images\AT&amp;T_logo_%28horizontal%29.svg.png" />
     <Content Include="images\background-nav-second-level.png" />
     <Content Include="images\bbb_logo.png" />
     <Content Include="images\call-icon.png" />
+    <Content Include="images\check.png" />
+    <Content Include="images\cloud_protection_icon.png" />
     <Content Include="images\dsa_logo.png" />
     <Content Include="images\email-icon.png" />
     <Content Include="images\footer-section-bottom-rule.png" />
@@ -3660,11 +3669,16 @@
     <Content Include="images\Logo.png" />
     <Content Include="images\LogoWhite.png" />
     <Content Include="images\Componets\FAQs\minus.png" />
+    <Content Include="images\mask_icon.png" />
+    <Content Include="images\Modules\Global\SwitchMobile\BringPhones.jpg" />
+    <Content Include="images\Modules\Global\SwitchMobile\ShopPhones.jpg" />
     <Content Include="images\Modules\Home\Plans\header-rule.png" />
     <Content Include="images\Modules\Home\Plans\module_background.png" />
     <Content Include="images\Modules\module_background.png" />
     <Content Include="images\Modules\Questions\top_border.png" />
     <Content Include="images\Modules\Services\section-rule_energy-overview.png" />
+    <Content Include="images\monitor_icon.png" />
+    <Content Include="images\multi_phone.png" />
     <Content Include="images\nav-first-level-selected-indicator.png" />
     <Content Include="images\nav-second-level-selected-indicator.png" />
     <Content Include="images\nav-third-level-background.png" />
@@ -3672,35 +3686,11 @@
     <Content Include="images\pattern_bg.png" />
     <Content Include="images\sample.jpg" />
     <Content Include="images\section-rule.png" />
+    <Content Include="images\section_break_home.png" />
+    <Content Include="images\single_phone.png" />
     <Content Include="images\social.png" />
     <Content Include="images\Sprint logo.png" />
-    <Content Include="sass\ie.scss">
-      <Compile>True</Compile>
-      <Minify>True</Minify>
-      <OutputFolder>D:\Users\Jonathan\Source\Repos\MyStream.com\Website\stylesheets</OutputFolder>
-      <IgnoreWarnings>True</IgnoreWarnings>
-      <IgnoreErrors>True</IgnoreErrors>
-      <CompileStyle>Nested</CompileStyle>
-      <DebugInfo>False</DebugInfo>
-    </Content>
-    <Content Include="sass\print.scss">
-      <Compile>True</Compile>
-      <Minify>True</Minify>
-      <OutputFolder>D:\Users\Jonathan\Source\Repos\MyStream.com\Website\stylesheets</OutputFolder>
-      <IgnoreWarnings>True</IgnoreWarnings>
-      <IgnoreErrors>True</IgnoreErrors>
-      <CompileStyle>Nested</CompileStyle>
-      <DebugInfo>False</DebugInfo>
-    </Content>
-    <Content Include="sass\screen.scss">
-      <Compile>True</Compile>
-      <Minify>True</Minify>
-      <OutputFolder>D:\Users\Jonathan\Source\Repos\MyStream.com\Website\stylesheets</OutputFolder>
-      <IgnoreWarnings>True</IgnoreWarnings>
-      <IgnoreErrors>True</IgnoreErrors>
-      <CompileStyle>Nested</CompileStyle>
-      <DebugInfo>False</DebugInfo>
-    </Content>
+    <Content Include="images\stream_logo.png" />
     <Content Include="sass\Componets\_FAQs_StillHaveQuestions.scss" />
     <Content Include="sass\Modules\Shop\_ServicesOverview.scss" />
     <Content Include="sass\Modules\_Questions.scss" />
@@ -3713,6 +3703,12 @@
     <Content Include="sass\Modules\_PhotoLockup.scss" />
     <Content Include="sass\Modules\_FullHtml.scss" />
     <Content Include="sass\Modules\_StatesEnroll.scss" />
+    <Content Include="sass\Home.scss" />
+    <Content Include="sass\Modules\Scss1.scss" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
     <Content Include="layouts\EmailCampaign\Newsletter Layout.aspx" />
@@ -3780,6 +3776,9 @@
     <Content Include="layouts\xmlcontrol.aspx" />
     <Content Include="Scripts\angular.unobtrusive.validation.js" />
     <Content Include="Scripts\angular.unobtrusive.validation.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="sitecore\apps\css\ab.testing.css" />
     <Content Include="sitecore\apps\css\ellipsis-xbl.xml" />
     <Content Include="sitecore\apps\css\images\bg-arrow-collapse.gif" />
@@ -4161,6 +4160,10 @@
     <Content Include="Views\Pages\Marketing\FAQ\Upgrade FAQ Landing.cshtml" />
     <Content Include="Views\Components\Mobile Enrollment\Order Summary.cshtml" />
     <Content Include="Views\Components\Mobile Enrollment\Cart.cshtml" />
+    <Content Include="Views\Pages\Marketing\Home\HomePage.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Pages\Marketing\Home\HomeHeader.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -4177,10 +4180,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="images\Modules\Global\" />
     <Folder Include="images\Modules\Home\ServicesOverview\" />
     <Folder Include="layouts\EmailCampaign\Imported\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

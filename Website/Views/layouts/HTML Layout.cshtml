@@ -37,6 +37,7 @@
     @Styles.Render("~/frontend/assets/css/bundle")
     @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle")
     <link href="~/stylesheets/Site.css" rel="stylesheet">
+    <link href="~/stylesheets/Home.css" rel="stylesheet">
     @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
     {
         @Scripts.Render("~/frontend/assets/js/legacybundle");
@@ -49,19 +50,26 @@
     <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 </head>
-<body class="@Html.Sitecore().Field("Body CSS Classes")" ng-controller="MainCtrl">
+<body class="@Html.Sitecore().Field("Body CSS Classes")" data-ng-controller="MainCtrl">
 
     <!-- Google Tag Manager -->
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-NMT3GS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>(function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f); })(window, document, 'script', 'dataLayer', 'GTM-NMT3GS');</script>
     <!-- End Google Tag Manager -->
-    <div ng-if="hasMobileNav" ng-include="'mobileNav'" mobile-nav="0"></div>
+    <div data-ng-if="hasMobileNav" data-ng-include="'mobileNav'" mobile-nav="0"></div>
     @Html.Sitecore().Placeholder("header")
+    @{
+        var openTag = Context.Items["openTag"];
+    }
     <main>
         <div class="content">
             @Html.Sitecore().Placeholder("content")
         </div>
     </main>
+    @if (openTag != null)
+    {
+        @Html.Raw(string.Format("</{0}>", openTag))
+    }
     @Html.Sitecore().Placeholder("footer")
     @Html.Sitecore().Placeholder("extras")
     <script type="text/javascript" src="/frontend/utilities/foresee/foresee-trigger.js"></script>

@@ -8,6 +8,8 @@ $header-importance-color: #46a2c9;
 
 $link-color: #2f86ba;
 
+$breakPoint: 768px;
+
 @mixin heading1 {
     font: 300 59.99px/59.99px proxima-nova, sans-serif;
     color: #000;
@@ -55,7 +57,7 @@ button.action {
 }
 
 .content {
-    width: 1280px;
+    max-width: 1280px;
     margin: 0 auto;
     position: relative;
 }
@@ -85,4 +87,38 @@ h3 {
 small.legal {
     font-size: 10px;
     color: #b4b4b4;
+}
+
+main {
+h3 {
+    text-align: center;
+        strong {
+            font-weight: inherit;
+            text-transform: uppercase;
+        }
+    }
+
+.mobile {
+    h3 {
+        strong {
+            color: #28ade0;
+        }
+    }
+}
+
+.energy {
+    h3 {
+        strong {
+            color: #f8a244;
+        }
+    }
+}
+
+.protective {
+    h3 {
+        strong {
+            color: #51b35a;
+        }
+    }
+}
 }
