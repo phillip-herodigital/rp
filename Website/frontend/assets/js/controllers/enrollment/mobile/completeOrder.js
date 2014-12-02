@@ -60,11 +60,13 @@
         var userContext = {
             deviceMake: (typeof item.make != 'undefined') ? item.make.make : null,
             deviceModel: (typeof item.model != 'undefined') ? item.model.modelName : null,
+            deviceColor: item.color,
+            deviceSize: item.size,
             deviceSerial: item.imeiNumber,
             simNumber: item.simNumber,
             newNumber: (item.number.type == 'new') ? item.number.value : null,
             portInNumber: (item.number.type == 'existing') ? item.number.value : null,
-            previousServiceProvider: mobileEnrollmentService.previousServiceProvider != null ? mobileEnrollmentService.previousServiceProvider.name : null,
+            previousServiceProvider: (item.number.type == 'existing' && mobileEnrollmentService.previousServiceProvider != null) ? mobileEnrollmentService.previousServiceProvider.name : null,
             planId: $scope.cart.dataPlan.planId,
             contactInfo: $scope.accountInformation.contactInfo,
             billingAddress: $scope.accountInformation.billingAddress,
@@ -90,7 +92,12 @@
             agreeToTerms: $scope.businessInformation.agreeToTerms,
             tcpaPreference: $scope.businessInformation.tcpaPreference,
             associateId: $scope.associateId,
-            restoreData: angular.toJson(mobileEnrollmentService.getRestoreData())
+            restoreData: angular.toJson(mobileEnrollmentService.getRestoreData()),
+            network: $scope.mobileEnrollmentService.selectedNetwork.name,
+            newDeviceSku: item.sku,
+            buyingOption: item.buyingOption,
+            price: item.price,
+            warranty: item.warranty
         }
 
         // send the post

@@ -5,15 +5,16 @@
     $scope.phoneFilters = {
         condition: undefined,
         brand: [],
-        os: []
+        os: [],
+        phoneOrder: 'high'
     };
 
     $scope.selectedPhone = undefined;
     $scope.phoneOptions = {
         color: undefined,
         size: undefined,
-        condition: undefined,
-        warranty: undefined,
+        //condition: undefined,
+        //warranty: undefined,
         number: undefined
     };
 
@@ -44,8 +45,8 @@
         var item = _.where(mobileEnrollmentService.getPhones(), { id: id })[0];
 
         $scope.selectedPhone = item;
-        $scope.phoneOptions.color = item.colors[0].color;
-        $scope.phoneOptions.size = item.models[0].size;
+        $scope.phoneOptions.color = mobileEnrollmentService.getPhoneColors(id)[0].color;
+        $scope.phoneOptions.size = mobileEnrollmentService.getPhoneSizes(id)[0].size;
     };
 
     $scope.phoneOptionsValid = function() {
@@ -62,9 +63,9 @@
         $scope.phoneOptions = {
             color: undefined,
             size: undefined,
-            condition: undefined,
-            warranty: undefined,
-            number: undefined
+            //condition: undefined,
+            //warranty: undefined,
+            number: undefined,
         };
     };
 
@@ -74,18 +75,28 @@
     $scope.addDeviceToCart = function() {
 
         var item = {},
-        device;
+        device,
+        selectedModel;
 
         if ($scope.mobileEnrollment.phoneTypeTab == "new") { 
             device = $scope.selectedPhone;
+            selectedModel = _.where(device.models, { size: $scope.phoneOptions.size, color: $scope.phoneOptions.color, network: $scope.mobileEnrollmentService.selectedNetwork.value })[0];
             item = {
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 device: device,
                 id: device.id,
-                price: _.where(device.models, { size: $scope.phoneOptions.size, condition: $scope.phoneOptions.condition })[0].price,
-                buyingOption: _.where(device.models, { size: $scope.phoneOptions.size, condition: $scope.phoneOptions.condition })[0],
-                color: _.where(device.colors, { color: $scope.phoneOptions.color})[0],
-                warranty: $scope.phoneOptions.warranty
+                price: ($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24,
+                salesTax: parseFloat(parseFloat(($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24, 10) * .07).toFixed(2),
+                buyingOption: $scope.phoneOptions.purchaseOption,
+                activationFee: $scope.activationFee,
+                make: { make: device.brand },
+                model: { modelName: device.name },
+                size: $scope.phoneOptions.size,
+                color: $scope.phoneOptions.color,
+                imageFront: device.imageFront,
+                warranty: $scope.phoneOptions.warranty,
+                number: $scope.phoneOptions.number,
+                sku: selectedModel.sku
             };
         }
         else {
@@ -133,8 +144,12 @@
     /**
      * Change the ordering of the phones
      */
-    $scope.setPhoneOrder = function(value) {
+    $scope.setPhoneOrder = function() {
 
+    };
+
+    $scope.isPhoneOrderReversed = function() {
+        return $scope.phoneFilters.phoneOrder == 'high';
     };
 
     $scope.showUnlockingModal = function () {

@@ -543,7 +543,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Email = account.Details.ContactInfo.Email,
                 ServiceAddress = serviceAddress,
                 SameAsService = sameAsService,
-                BillingAddress = account.Details.BillingAddress
+                BillingAddress = account.Details.BillingAddress,
+                DisablePrintedInvoices = account.Details.BillingDeliveryPreference == "Email",
             };
         }
 
@@ -563,6 +564,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
                 account.Details.ContactInfo.Email = new DomainModels.Email { Address = request.Email.Address };
                 account.Details.BillingAddress = request.BillingAddress;
+                account.Details.BillingDeliveryPreference = request.DisablePrintedInvoices ? "Email" : "DirectMail";
                 success = await accountService.SetAccountDetails(account, account.Details);
             }
 

@@ -18,5 +18,6 @@ namespace StreamEnergy.MyStream.Models.Account
         public Address ServiceAddress { get; set; }
         public bool SameAsService { get; set; }
         public Address BillingAddress { get; set; }
+        public bool DisablePrintedInvoices { get; set; }
     }
 }
