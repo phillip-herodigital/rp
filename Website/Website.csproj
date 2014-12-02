@@ -840,8 +840,6 @@
     <Content Include="frontend\assets\i\favicon.ico" />
     <Content Include="frontend\assets\i\favicon.png" />
     <Content Include="frontend\assets\i\gas-key.png" />
-    <Content Include="frontend\assets\i\icon-s2addea571b.png" />
-    <Content Include="frontend\assets\i\icon2x-s531b03ad07.png" />
     <Content Include="frontend\assets\i\icon2x\24months.png" />
     <Content Include="frontend\assets\i\icon2x\6months.png" />
     <Content Include="frontend\assets\i\icon2x\alert.png" />
