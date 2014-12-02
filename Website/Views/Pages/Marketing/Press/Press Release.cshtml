@@ -1,9 +1,7 @@
-﻿<article class="marketing wrapper press">
-    @{
-        <div class="post">
-            <h2>@Html.Sitecore().Field("Title")</h2>
-            <p class="date">@Html.Sitecore().Field("Posted On Text"): @Sitecore.Web.UI.WebControls.FieldRenderer.Render(Html.Sitecore().CurrentItem, "Date", "format=MMMM d, yyyy")</p>
-            <p>@Html.Sitecore().Field("Content")</p>
-        </div>
-    }
+﻿<article class="module marketing wrapper press">
+    <header>
+        <h3>@Html.Sitecore().Field("Title")</h3>
+        <p class="date">@Html.Sitecore().Field("Posted On Text"): @Html.Sitecore().Field("Date", new { format = "MMMM d, yyyy" })</p>
+    </header>
+    @Html.Sitecore().Field("Content")
 </article>

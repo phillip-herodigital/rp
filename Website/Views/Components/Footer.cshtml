@@ -1,98 +1,91 @@
 @{
-	var showSuperFooter = true;
-	var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"];
-	if (hideSuperFooterField == null)
-	{
-		hideSuperFooterField = Sitecore.Context.Item.Fields["Hide Super Footer"];
-	}
-	if (hideSuperFooterField != null && hideSuperFooterField.Value == "1")
-	{
-		showSuperFooter = false;
-	}
+    var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"] ?? Sitecore.Context.Item.Fields["Hide Super Footer"];
+    var showSuperFooter = hideSuperFooterField == null || hideSuperFooterField.Value != "1";
 }
+<footer>
+    <address id="Contact-Footer-Global">
+        <div class="content">
+            <p id="HelpText-Contact-Footer-Global">Need help? Contact our <strong>support</strong> team for questions or check out our <strong><a href="/faq"><abbr title="Frequently Asked Questions">FAQs</abbr> section</a></strong>.</p>
+            <p id="ContactMethods-Contact-Footer-Global"><a href="tel:+1-800-953-4537"><img src="~/Images/call-icon.png" alt="Call"> 1-800-953-4537</a><span> or </span><a href="mailto:support@mystream.com"><img src="~/Images/email-icon.png" alt="email"> support@mystream.com</a></p>
+            <div class="clear"></div>
+        </div>
+    </address>
+    <div class="group">
+        <div class="content">
+            @if (showSuperFooter)
+            {
+                <nav>
+                    <section>
+                        <h3>Shop</h3>
+                        <ul>
+                            <li><a href="">Mobile Services</a></li>
+                            <li><a href="">Energy Services</a></li>
+                            <li><a href="/services/homelife">HomeLife Services</a></li>
+                            <li><a href="">Protective Services</a></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>About</h3>
+                        <ul>
+                            <li><a href="/company/corporate-team">Corporate Team</a></li>
+                            <li><a href="/blog">Blog</a></li>
+                            <li><a href="/company/press">Press</a></li>
+                            <li><a href="/company/philanthropy">Philanthropy</a></li>
+                            <li><a href="/company/careers">Careers</a></li>
+                            <li><a href="http://myigniteevents.streampoint.com/" target="_blank">Events</a></li>
+                            <li><a href="/terms-of-use">Terms of Use</a></li>
+                            <li><a href="/privacy-policy">Privacy Policy</a></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Opportunity</h3>
+                        <ul>
+                            <li><a href="/opportunity/why-stream-energy">Why Energy?</a></li>
+                            <li><a href="">Why Mobile?</a></li>
+                            <li><a href="/opportunity/how-it-works">How it Works</a></li>
+                            <li><a href="/opportunity/compensation-plan">Compensation Plan</a></li>
+                            <li><a href="/opportunity/start-a-business">Start a Business</a></li>
+                            <li><a href="/leader">Top Leaders</a></li>
+                            <li><a href="">Get Free Energy</a></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Support</h3>
+                        <ul>
+                            <li><a href="/contact">Contact Us</a></li>
+                            <li><a href="/faq"><abbr title="Frequently Asked Questions">FAQs</abbr></a></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>My Account</h3>
+                        <ul>
+                            <li><a href="">Manage My Free Energy</a></li>
+                            <li><a href="">Login to PowerCenter</a></li>
+                            <li><a href="">Pay My Bill</a></li>
+                        </ul>
+                    </section>
 
-<footer class="site-footer">
-	<div class="gridPromos">
-		<div class="wrapper">
-			<hr />
-			<div class="grid border three">
-				<div class="col">
-					<h4>Get Our Newsletter</h4>
-					<div class="input-group input-group-mobile collapsed">
-						<div class="input-group-control">
-							<input class="" placeholder="Email Address" type="text" value="">
-						</div>
-						<div class="input-group-btn">
-							<button type="button" class="plain">Go <i class="icon-arrow-right-white"></i></button>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<h4>Follow Stream Energy</h4>
-					<ul class="follow-stream-energy inline-list">
-						<li>
-							<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F1streamenergy&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=120713508108869" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe>
-						</li>
-						<li>
-							<a href="https://twitter.com/share" class="twitter-share-button" data-url="https://twitter.com/1streamenergy" data-via="	1streamenergy">Tweet</a>
-							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-						</li>
-					</ul>
-				</div>
-				<div class="col">
-					<h4>Connect with Stream</h4>
-					<ul class="connect-with-stream inline-list">
-						<li><a href=""><i class="icon-facebook-dark"></i></a></li>
-						<li><a href=""><i class="icon-twitter-dark"></i></a></li>
-						<li><a href=""><i class="icon-youtube-dark"></i></a></li>
-						<li><a href=""><i class="icon-pinterest-dark"></i></a></li>
-					</ul>
-
-					@* @Html.Sitecore().Field("Social Links") *@
-				</div>
-			</div>
-		</div>
-	</div>
-	@if (showSuperFooter)
-	{
-	<div class="super-footer">
-		<div class="wrapper clearfix">
-			<div class="grid three">
-				<div class="col badges">
-					@Html.Sitecore().Field("First Column Links")
-				</div>
-				<div class="col">
-					
-				</div>
-				<div class="col">
-					
-				</div>
-				<div class="col">
-					<h2>@Html.Sitecore().Field("Quick Links Header")</h2>
-					@Html.Sitecore().Field("Quick Links")
-				</div>
-				<div class="col">
-					<h2>@Html.Sitecore().Field("Social Header")</h2>
-					@Html.Sitecore().Field("Social Links")
-				</div>
-			</div>
-		</div>
-	</div>
-	}
-	@if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
-	{
-		<div class="wrapper clearfix footnotes">
-			@Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
-		</div>
-	}
-	<div class="wrapper clearfix copyright">
-		<p>@Html.Sitecore().Field("Copyright Content")</p>
-		<ul>
-			<li><a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895" target="_blank"><i class="icon-bbb"></i></a></li>
-			<li><a href="http://www.dsa.org/ethics/" target="_blank"><i class="icon-dsa"></i></a></li>
-		</ul>
-	</div>
-	<div class="legal">
-		@Html.Sitecore().Field("Legal Links")
-	</div>
+                    <img src="~/images/social.png" usemap="#SocialMap-Footer-Global">
+                    <map id="SocialMap-Footer-Global" name="SocialMap-Footer-Global">
+                        <area alt="Facebook" coords="0,0,33,33" href="https://www.facebook.com/1streamenergy">
+                        <area alt="Twitter" coords="49,0,82,33" href="http://twitter.com/1streamenergy">
+                        <area alt="YouTube" coords="103,0,136,33" href="http://www.youtube.com/user/StreamEnergy1">
+                        <area alt="Pinterest" coords="156,0,189,33" href="http://www.pinterest.com/streamenergy/">
+                    </map>
+                    <div style="clear: both"></div>
+                </nav>
+            }
+            <div id="Legal-Footer-Global">
+                <p>
+                    <small class="legal">
+                        © 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, & DC<br>
+                        (TX #10104, GA #GM-38, NJ #ESL-0109 & GSL-0120, PA #A-2010-2181867 & A-2012-2308991, MD #IR-2072 & IR-2742, NY #STRM, DC EA11-11)
+                    </small>
+                </p>
+                <p id="BbcAndDsa-Legal-Footer-Global">
+                    <a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895"><abbr title="Better Business Bureau®"><img src="~/images/bbb_logo.png" alt="BBB"></abbr></a> <a href="http://www.dsa.org/ethics/"><abbr title="Direct Selling Association"><img src="~/images/dsa_logo.png" alt="DSA"></abbr></a>
+                </p>
+            </div>
+        </div>
+    </div>
 </footer>

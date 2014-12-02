@@ -5,7 +5,7 @@
     classes.Add(sc.LookupItem("Accent Color").SafeFieldValue("Css Class").Prefix("accent-"));
     classes.Add(sc.CurrentItem["Custom CSS Class"]);
 }
-<article class="marketing marketingIntro wrapper @string.Join(" ", classes)">
+<article class="module marketing marketingIntro wrapper @string.Join(" ", classes)">
     <p class="intro">@Html.Sitecore().Field("Intro")</p>
     <hr />
     <div class="body">

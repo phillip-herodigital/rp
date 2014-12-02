@@ -24,5 +24,6 @@ namespace StreamEnergy.MyStream.Models.Account
         [Required]
         public DomainModels.Address BillingAddress { get; set; }
 
+        public bool DisablePrintedInvoices { get; set; }
     }
 }

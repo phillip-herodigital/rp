@@ -1,0 +1,124 @@
+﻿$default-color: #555a5c;
+$importance-color: #0192d1;
+
+$dark-grey-color-1: #333;
+$dark-grey-color-2: #4f4c4d;
+$header-color: #222a4c;
+$header-importance-color: #46a2c9;
+
+$link-color: #2f86ba;
+
+$breakPoint: 768px;
+
+@mixin heading1 {
+    font: 300 59.99px/59.99px proxima-nova, sans-serif;
+    color: #000;
+}
+
+@mixin heading2 {
+    font: 300 40px/35.97px proxima-nova, sans-serif;
+    letter-spacing: -0.029em;
+    color: $header-color;
+
+    b {
+        text-transform: uppercase;
+        color: $importance-color;
+    }
+}
+
+@mixin heading3 {
+    font: 300 36px/48.92px proxima-nova, sans-serif;
+    color: $header-color;
+}
+
+@mixin heading4 {
+    font: normal 24.01px/38.07px proxima-nova, sans-serif;
+    color: $header-color;
+}
+
+.action, .button {
+    border-radius: 10px;
+    background-image: -moz-linear-gradient( 90deg, rgb(0,113,185) 0%, rgb(1,163,221) 100%);
+    background-image: -webkit-linear-gradient( 90deg, rgb(0,113,185) 0%, rgb(1,163,221) 100%);
+    background-image: -ms-linear-gradient( 90deg, rgb(0,113,185) 0%, rgb(1,163,221) 100%);
+    box-shadow: 1.5px 2.598px 4px 10px rgb( 85, 53, 91 );
+    padding: 10px;
+    color: white;
+    letter-spacing: 0.026em;
+    font-size: 16px;
+    font-weight: normal;
+    border-radius: 9px;
+    box-shadow: 0px 2.598px 4px 2px rgba( 85, 53, 91, 0.25);
+    text-transform: none !important;
+}
+
+button.action {
+    border-style: none;
+}
+
+.content {
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.clear {
+    clear: both;
+}
+
+a.action {
+    display: inline-block;
+}
+
+
+a {
+    text-decoration: none;
+    color: #2f85b9;
+}
+
+b {
+    color: #0192d1;
+}
+
+h3 {
+    @include heading2;
+}
+
+small.legal {
+    font-size: 10px;
+    color: #b4b4b4;
+}
+
+main {
+h3 {
+    text-align: center;
+        strong {
+            font-weight: inherit;
+            text-transform: uppercase;
+        }
+    }
+
+.mobile {
+    h3 {
+        strong {
+            color: #28ade0;
+        }
+    }
+}
+
+.energy {
+    h3 {
+        strong {
+            color: #f8a244;
+        }
+    }
+}
+
+.protective {
+    h3 {
+        strong {
+            color: #51b35a;
+        }
+    }
+}
+}
