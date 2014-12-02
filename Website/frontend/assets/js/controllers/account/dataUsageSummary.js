@@ -87,12 +87,23 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         calculateDeviceTotals();
         renderCurrentDataUsageComponent();
         renderHistoricDataUsageComponent();
+
+        //Display notifications (if necessary)
         if ($scope.estimatedTotalData >= $scope.deviceTotal.data.limit) {
             notificationService.notify('Data Usage Alert',
                 'Your plan is at ' + round($scope.deviceTotal.data.usage / GIGA, 2) +
                 ' of ' + round($scope.deviceTotal.data.limit / GIGA, 2) +
                 'GB and is predicted to go over this month. <a href="#">Upgrade Plan</a>');
         }
+        _.each($scope.deviceUsageStats, function (device) {
+            if (device.data.usage >= device.data.limit) {
+                notificationService.notify('Data Overage Alert',
+                    'Your plan for ' + device.number +
+                    ' is at ' + round(device.data.usage / GIGA, 2) +
+                    ' of ' + round(device.data.limit / GIGA, 2) +
+                    'GB. <a href="#">Upgrade Plan</a>');
+            }
+        });
     }
 
     function round(num, p) {
@@ -156,16 +167,6 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             $scope.graphScale.high += 1;
         }
         $scope.graphScale.middle = Math.round($scope.graphScale.high / 2);
-
-        _.each($scope.deviceUsageStats, function (device) {
-            if (device.data.usage >= device.data.limit) {
-                notificationService.notify('Data Overage Alert',
-                    'Your plan for ' + device.number +
-                    ' is at ' + round(device.data.usage / GIGA, 2) +
-                    ' of ' + round(device.data.limit / GIGA, 2) +
-                    'GB. <a href="#">Upgrade Plan</a>');
-            }
-        });
     }
 
     function renderCurrentDataUsageComponent() {
@@ -195,7 +196,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
         d3.select(".historical-graph").style("padding-top", function () {
             if (_.max($scope.recentDataUsage) / $scope.graphScale.high < .75) {
-                var current = ((($scope.deviceTotal.data.limit / 1000000000) / $scope.graphScale.high) * 100);
+                var current = ((($scope.deviceTotal.data.limit / GIGA) / $scope.graphScale.high) * 100);
                 return 10 + (100 - current) + 'px';
             }
             return '0px';
@@ -208,7 +209,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 return maxUsage - (d / $scope.graphScale.high * 100) + 'px';
             })
             .style("background-color", function (d) {
-                if (d >= $scope.deviceTotal.data.limit / 1000000000) {
+                if (d >= $scope.deviceTotal.data.limit / GIGA) {
                     return "#d30";
                 } else {
                     return "#ddd";
@@ -217,7 +218,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             .text(' ');
 
         d3.select(".current-limit").style("top", function () {
-            return "-" + ((($scope.deviceTotal.data.limit / 1000000000) / $scope.graphScale.high) * 100) + "px";
+            return "-" + ((($scope.deviceTotal.data.limit / GIGA) / $scope.graphScale.high) * 100) + "px";
         });
     }
 
