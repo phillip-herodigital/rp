@@ -1,87 +1,74 @@
-﻿@{
-    System.Web.HtmlString pageHeader = null;
-    IEnumerable<Sitecore.Data.Items.Item> itemsToShow = Html.Sitecore().CurrentItem.Children.OrderByDescending(i => ((Sitecore.Data.Fields.DateField)i.Fields["Date"]).DateTime).ToArray();
-    IEnumerable<KeyValuePair<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>> categories = null;
-    var cats = new List<KeyValuePair<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>>();
-    foreach (Sitecore.Data.Items.Item item in itemsToShow)
-    {
-        var categoriesField = (Sitecore.Data.Fields.MultilistField)item.Fields["Categories"];
-        
-        foreach(var cat in categoriesField.GetItems())
-        {
-            if (!cats.Any(c => c.Key.ID == cat.ID))
-            {
-                cats.Add(new KeyValuePair<Sitecore.Data.Items.Item,List<Sitecore.Data.Items.Item>>(cat, new List<Sitecore.Data.Items.Item>()));
-            }
-            cats.First(c => c.Key.ID == cat.ID).Value.Add(item);
-        }
-    }
-    categories = cats.OrderBy(c => c.Key.Name);
+﻿@using System.Linq
+@using Sitecore.Data.Fields
+@using Sitecore.Data.Items
+@using Humanizer
+@using StreamEnergy.MyStream.Utility
+@{
+    string pageHeader = null;
 
-    var archives = from item in itemsToShow
-                   group item by Html.Sitecore().Field("Date", item, new { format = "yyyyMM" }).ToString();
-
-    if (categories.Any(c => c.Key.Name == Request.Params["category"]))
+    IEnumerable<Item> blogPostItems = Html.Sitecore().CurrentItem.Children.OrderByDescending(i => ((DateField)i.Fields["Date"]).DateTime).ToArray();
+    var categoriesCounts = blogPostItems.SelectMany(blogItem => ((MultilistField) blogItem.Fields["Categories"]).GetItems()).GroupBy(categoryItem => categoryItem.ID).Select(g => new KeyValuePair<Item, int>(g.First(), g.Count())).OrderBy(kv => kv.Key["Category Title"]);
+    var archiveMonths = blogPostItems.Select(item =>
     {
-        var cat = categories.FirstOrDefault(c => c.Key.Name == Request.Params["category"]);
-        itemsToShow = cat.Value;
-        pageHeader = Html.Sitecore().Field("Category Title", cat.Key);
+        var date = ((DateField)item.Fields["Date"]).DateTime;
+        return new DateTime(date.Year, date.Month, 1);
+    }).Distinct().OrderByDescending(date => date);
+
+    var categories = categoriesCounts.Where(i => i.Key.Name == Request.QueryString["catgory"]).Select(i => i.Key).ToArray();
+    if (categories.Any())
+    {
+        pageHeader = categories.Select(c => c["Category Title"]).Humanize();
     }
 
-    if (archives.Any(c => Html.Sitecore().Field("Date", c.First(), new { format = "yyyyMM" }).ToString() == Request.Params["archive"]))
+    var archiveMonth = archiveMonths.Cast<DateTime?>().FirstOrDefault(m => m.Value.ToString("yyyyMM") == Request.QueryString["archive"]);
+    if (archiveMonth.HasValue)
     {
-        itemsToShow = archives.FirstOrDefault(c => Html.Sitecore().Field("Date", c.First(), new { format = "yyyyMM" }).ToString() == Request.Params["archive"]);
-        pageHeader = pageHeader = Html.Sitecore().Field("Date", itemsToShow.First(), new { format = "MMMM yyyy" });
+        pageHeader = archiveMonth.Value.ToString("MMMM yyyy");
     }
-    var paginationHelper = Html.GetPaginationHelper<Sitecore.Data.Items.Item>(itemsToShow);
+    
+    blogPostItems = blogPostItems
+        .Where(blogItem => (!categories.Any() || ((MultilistField)blogItem.Fields["Categories"]).GetItems().Any(categoryItem =>  categories.Select(c => c.ID).Contains(categoryItem.ID))) && (archiveMonth == null || ((DateField)blogItem.Fields["Date"]).DateTime.ToString("yyyyMM") == archiveMonth.Value.ToString("yyyyMM")))
+        .OrderByDescending(blogItem => ((DateField)blogItem.Fields["Date"]).DateTime);
+
+    var paginationHelper = Html.GetPaginationHelper(blogPostItems);
 }
-<section class="layout cols-2 wrapper">
-    <section class="layout cols-1">
-        <article class="marketing blog">
+<div class="layout cols-2 wrapper">
+    <div class="layout cols-1">
+        <article class="module marketing blog">
             @if (pageHeader != null)
             {
-                <h1>@pageHeader</h1>
+                <h3>@pageHeader</h3>
             }
-            @{
-                foreach (Sitecore.Data.Items.Item item in paginationHelper.CurrentItems)
-                {
-                    <div class="post">
-                        <h2><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h2>
-                        <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Html.Sitecore().Field("Date", item, new { format= "MMMM d, yyyy" }) | @Html.Sitecore().Field("By Text", item): @Html.Sitecore().Field("Author", item)</p>
-                        @{
-                    if (!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()))
-                    {
-                        @Html.Sitecore().Field("Excerpt", item)
-                    }
-                    else
-                    {
-                        @Html.Raw(Html.Sitecore().Field("Content", item).ToHtmlString().Substring(0, 200) + "&hellip;")
-                    }
-                        }
+            @foreach (var item in paginationHelper.CurrentItems)
+            {
+                <article class="post">
+                    <header>
+                        <h4><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h4>
+                        <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Html.Sitecore().Field("Date", item, new { format = "MMMM d, yyyy" }) | @Html.Sitecore().Field("By Text", item): @Html.Sitecore().Field("Author", item)</p>
+                    </header>
+                    @(!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()) ? Html.Sitecore().Field("Excerpt", item) : Html.Truncate(item["Content"], 200))
+                    <footer>
                         <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text", item)</a></p>
-                    </div>
-                    <hr />
-                }
+                    </footer>
+                </article>
             }
             @paginationHelper.GetPaginationHtml()
         </article>
-    </section>
+    </div>
     <aside>
-        <article class="marketing blog-list">
-            <button>@Html.Sitecore().Field("Categories Text")</button>
-            <ul>
-                @foreach (var category in categories)
-                {
-                    <li><a href="?category=@category.Key.Name">@Html.Sitecore().Field("Category Title", category.Key) (@category.Value.Count)</a></li>
-                }
-            </ul>
-            <button>@Html.Sitecore().Field("Archives Text")</button>
-            <ul>
-                @foreach (var i in archives)
-                {
-                    <li><a href="?archive=@Html.Sitecore().Field("Date", i.First(), new { format= "yyyyMM" })">@Html.Sitecore().Field("Date", i.First(), new { format = "MMMM yyyy" })</a></li>
-                }
-            </ul>
-        </article>
+        <h3>@Html.Sitecore().Field("Categories Text")</h3>
+        <ul>
+            @foreach (var categoryCount in categoriesCounts)
+            {
+                <li><a href="?catgory=@Url.Encode(categoryCount.Key.Name)">@Html.Sitecore().Field("Category Title", categoryCount.Key) (@categoryCount.Value)</a></li>
+            }
+        </ul>
+        <h3>@Html.Sitecore().Field("Archives Text")</h3>
+        <ul>
+            @foreach (var month in archiveMonths)
+            {
+                <li><a href="?archive=@Url.Encode(month.ToString("yyyyMM"))">@month.ToString("MMMM yyyy")</a></li>
+            }
+        </ul>
     </aside>
-</section>
+</div>
