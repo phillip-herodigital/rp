@@ -1917,18 +1917,18 @@ article.usage-summary {
 			float:left;
 		}
 		.used {
-			background-color: #1ad;
+			background-color: $brand-primary-color;;
 			border-right: none;
 			border-top-right-radius: 0px;
 			border-bottom-right-radius: 0px;
 			.label {
 				top: -80px;
-				border-color: #1ad;
-				background-color: #1ad;
+				border-color: $brand-primary-color;;
+				background-color: $brand-primary-color;;
 				left: 5%;
 			}
 			.picket {
-				border-color: #1ad;
+				border-color: $brand-primary-color;;
 				clear: both;
 				float: left;
 				top: -12px;
