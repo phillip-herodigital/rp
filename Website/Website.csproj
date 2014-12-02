@@ -822,7 +822,6 @@
     <Content Include="sass\Modules\_FullHtml.scss" />
     <Content Include="sass\Modules\_StatesEnroll.scss" />
     <Content Include="sass\Home.scss" />
-    <Content Include="sass\Modules\Scss1.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
