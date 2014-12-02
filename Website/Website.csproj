@@ -1057,7 +1057,6 @@
     <Content Include="frontend\assets\js\controllers\account\accountSelector.js" />
     <Content Include="frontend\assets\js\controllers\account\addNewAccount.js" />
     <Content Include="frontend\assets\js\controllers\account\enrolledAccounts.js" />
-    <Content Include="frontend\assets\js\controllers\account\enrollmentConfirmation.js" />
     <Content Include="frontend\assets\js\controllers\account\makePayment.js" />
     <Content Include="frontend\assets\js\controllers\account\myEnergyUsage.js" />
     <Content Include="frontend\assets\js\controllers\account\myInvoices.js" />
@@ -1065,8 +1064,6 @@
     <Content Include="frontend\assets\js\controllers\account\notificationSettings.js" />
     <Content Include="frontend\assets\js\controllers\account\onlineAccount.js" />
     <Content Include="frontend\assets\js\controllers\account\utilityProviders.js" />
-    <Content Include="frontend\assets\js\controllers\account\yourElectricityPlan.js" />
-    <Content Include="frontend\assets\js\controllers\account\yourGasPlan.js" />
     <Content Include="frontend\assets\js\controllers\authentication\changePassword.js" />
     <Content Include="frontend\assets\js\controllers\authentication\createAccount.js" />
     <Content Include="frontend\assets\js\controllers\authentication\forgotUsername.js" />
@@ -1113,12 +1110,6 @@
     <Content Include="frontend\assets\js\directives\state-tabs.js" />
     <Content Include="frontend\assets\js\directives\sub-nav.js" />
     <Content Include="frontend\assets\js\directives\table.js" />
-    <Content Include="frontend\assets\js\directives\tokenize-card.js" />
-    <Content Include="frontend\assets\js\directives\validation-bind-messages.js" />
-    <Content Include="frontend\assets\js\directives\validation-error.js" />
-    <Content Include="frontend\assets\js\directives\validation-message.js" />
-    <Content Include="frontend\assets\js\directives\validation-summary.js" />
-    <Content Include="frontend\assets\js\directives\validation.js" />
     <Content Include="frontend\assets\js\directives\value.js" />
     <Content Include="frontend\assets\js\filters\filters.js" />
     <Content Include="frontend\assets\js\libs\angular-animate\.bower.json" />
@@ -2169,7 +2160,6 @@
     <Content Include="frontend\assets\js\libs\underscore\README.md" />
     <Content Include="frontend\assets\js\libs\underscore\underscore.js" />
     <Content Include="frontend\assets\js\modules\mask-jquery.js" />
-    <Content Include="frontend\assets\js\providers\validation.js" />
     <Content Include="frontend\assets\js\services\breakpoint.js" />
     <Content Include="frontend\assets\js\services\enrollment\cart.js" />
     <Content Include="frontend\assets\js\services\enrollment\enrollment.js" />
