@@ -822,10 +822,6 @@
     <Content Include="sass\Modules\_FullHtml.scss" />
     <Content Include="sass\Modules\_StatesEnroll.scss" />
     <Content Include="sass\Home.scss" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
     <Content Include="layouts\EmailCampaign\Newsletter Layout.aspx" />
@@ -893,9 +889,6 @@
     <Content Include="layouts\xmlcontrol.aspx" />
     <Content Include="Scripts\angular.unobtrusive.validation.js" />
     <Content Include="Scripts\angular.unobtrusive.validation.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="sitecore\apps\css\ab.testing.css" />
     <Content Include="sitecore\apps\css\ellipsis-xbl.xml" />
     <Content Include="sitecore\apps\css\images\bg-arrow-collapse.gif" />
