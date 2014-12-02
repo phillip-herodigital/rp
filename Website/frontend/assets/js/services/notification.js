@@ -1,15 +1,24 @@
 ﻿ngApp.factory('notificationService', ['$document', function ($document) {
-    var className = 'notifications';
+    _.templateSettings = {
+        interpolate: /\{\{(.+?)\}\}/g
+    };
 
+    var className = 'notifications';
+    var tmpl = '<div class="notice alert">' +
+            '<a href="javascript:void(0)" class="remove"></a>' +
+                '<div>' +
+                    '<h5>{{ subject }}</h5>' +
+                    '<p>{{ message }}</p>' +
+                '</div>' +
+            '</div>';
     function showNotification(subject, message) {
         var $elems = $document.find('.' + className);
-        $elems.append('<div class="notice alert">' +
-            '<a href="javascript:void(0)" class="remove"></a>' +
-                '<div>' + 
-                    '<h5>' + subject + '</h5>' +
-                    '<p>' + message + '</p>' +
-                '</div>' +
-            '</div>');
+        $elems.append(
+            _.template(tmpl)({
+                subject: subject,
+                message: message
+            })
+        );
     }
 
     $document.ready(function ($) {
@@ -18,6 +27,7 @@
         });
     });
     return {
-        notify: showNotification
+        notify: showNotification,
+        className: className
     };
 }]);
