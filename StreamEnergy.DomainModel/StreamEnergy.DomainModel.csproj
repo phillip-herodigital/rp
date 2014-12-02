@@ -212,10 +212,6 @@
     <Compile Include="DomainModels\Enrollments\PayingDepositState.cs" />
     <Compile Include="DomainModels\Enrollments\PremiseVerificationResult.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
-    <Compile Include="DomainModels\Enrollments\Renewal\Offer.cs" />
-    <Compile Include="DomainModels\Enrollments\Renewal\OfferOptionPolicy.cs" />
-    <Compile Include="DomainModels\Enrollments\Renewal\OfferOptionRules.cs" />
-    <Compile Include="DomainModels\Enrollments\Renewal\OfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\RenewalResult.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\SaveEnrollmentState.cs" />

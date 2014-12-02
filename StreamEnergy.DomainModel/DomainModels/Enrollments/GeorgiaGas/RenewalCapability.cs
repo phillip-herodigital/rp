@@ -18,7 +18,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         {
             get
             {
-                return SubAccount.Id;
+                return SubAccount != null ? SubAccount.Id : null;
             }
             set
             {
