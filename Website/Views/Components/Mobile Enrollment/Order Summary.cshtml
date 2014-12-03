@@ -15,7 +15,7 @@
                             <div class="description">
                                 <h3>{{ item.device.brand }} {{ item.device.name }}</h3>
                             </div>
-                            <div class="rate"><span ng-if="item.buyingOption == 'New'">{{ item.price | currency }}</span><span ng-if="item.buyingOption == 'Lease24'">$0.00</span></div>
+                            <div class="rate">{{ item.price | currency }}<span ng-if="item.buyingOption == 'Lease24'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>
                         </div>
                         <div class="clearfix">
                             <div class="description">@Html.Sitecore().Field("Initial Activation Fee")</div>
