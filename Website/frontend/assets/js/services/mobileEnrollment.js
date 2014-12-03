@@ -261,11 +261,8 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     service.getTotalDueToday = function() {
 
         var total = 0;
-        for (var i = 0; i < service.cart.items.length; i++) {
-            if (service.cart.items[i].buyingOption == 'New') {
-                total += (typeof service.cart.items[i].price != 'undefined') ? parseFloat(service.cart.items[i].price, 10) : 0;
-            }
-            
+        for (var i=0; i<service.cart.items.length; i++) {
+            total += (typeof service.cart.items[i].price != 'undefined') ? parseFloat(service.cart.items[i].price, 10) : 0;
             total += (typeof service.cart.items[i].activationFee != 'undefined') ? parseFloat(service.cart.items[i].activationFee, 10) : 0;
             total += (typeof service.cart.items[i].salesTax != 'undefined') ? parseFloat(service.cart.items[i].salesTax, 10) : 0;
         }
