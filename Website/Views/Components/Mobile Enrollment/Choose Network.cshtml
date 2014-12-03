@@ -60,7 +60,6 @@
                     </table>
                     @foreach (var network in Model.MobileNetworks)
                     {
-                        @* Using idividual tabls and the wrapper so we can put the "Coming Soon" overlay over the Sprint table. Should combine back into one table when both networks launch. *@
                         <div class="choose-network-table-wrapper">
                             <table class="choose-network-table">
                                 <tbody>
@@ -69,25 +68,44 @@
                                         <td class="coverage">@Html.Raw(network.Coverage)</td>
                                         <td class="devices">@Html.Raw(network.Device)</td>
                                         <td class="select-network">
-                                            @Html.Sitecore().Field("Text - Get Started").Format(new { price = @network.StartingPrice })
-                                            @*<button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')">@Html.Sitecore().Field("Button - Shop Devices")</button>*@
-                                            <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'existing')">
-                                                @Html.Sitecore().Field("Button - Get Started")
-                                            </button>
+                                            @Html.Sitecore().Field("Text - Get Started").Format(new { price = @network.StartingPrice, network = @network.Name })
+                                            <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                            <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'existing')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintByod">@Html.Sitecore().Field("Button - Bring My Own Phone")</button>
+                                            <span ng-if="'@network.Value' == 'sprint' && !mobileEnrollmentSettings.sprintByod">@Html.Sitecore().Field("BYOD Coming Soon Text")</span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            @if (network.Value == "sprint")
-                            {
+                            <div ng-if="'@network.Value' == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintByod">
                                 <div class="overlay"></div>
                                 <span class="text">@Html.Sitecore().Field("Coming Soon Text")</span>
-                            }
+                            </div>
                         </div>
                     }
+                    </div>
                 </div>
-            </div>
-        </article>
-        <p class="footnotes" ng-if="showNetworks">@Html.Sitecore().Field("Footnotes")</p>
-    </section>
-</div>
+            </article>
+
+            <article class="enrollment__box enrollment__choose-network">
+                <div class="content">
+                    <div class="stretch-full">
+                        <div class="choose-network-table-wrapper">
+                            <table class="choose-network-table">
+                                <tbody>
+                                    <tr>
+                                        <td>@Html.Sitecore().Field("Text - Trade and Save")</td>
+                                        <td class="devices">@Html.Sitecore().Field("Image - Trade and Save")</td>
+                                        <td class="select-network">
+                                            @Html.Sitecore().Field("Link - Trade and Save")
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <p class="footnotes" ng-if="showNetworks">@Html.Sitecore().Field("Footnotes")</p>
+        </section>
+    </div>

@@ -60,7 +60,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await emailService.SendEmail(emailTemplate, settings.GetSettingsValue("Marketing Form Email Addresses", "Mobile Enrollment Email Address"), new System.Collections.Specialized.NameValueCollection ()
             {
+                { "Network", context.Network ?? "" },
+                { "NewDeviceSku", context.NewDeviceSku ?? "" },
+                { "BuyingOption", context.BuyingOption ?? "" },
+                { "Price", context.Price ?? "" },
+                { "Warranty", context.Warranty ?? "" },
                 { "DeviceMake", context.DeviceMake ?? "" },    
+                { "DeviceColor", context.DeviceColor ?? "" },
+                { "DeviceSize", context.DeviceSize ?? "" },
                 { "DeviceModel", context.DeviceModel ?? "" },    
                 { "DeviceSerial", context.DeviceSerial ?? "" },    
                 { "SimNumber", context.SimNumber ?? "" },    

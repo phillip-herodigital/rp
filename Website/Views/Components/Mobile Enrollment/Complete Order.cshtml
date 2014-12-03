@@ -20,7 +20,6 @@
                     <p>@Html.Sitecore().Field("Complete Order Description")</p>
                 </header>
                 <div class="content">
-
                     <div class="phone-summary" ng-repeat="item in cart.items">
                         <div class="line-item clearfix">
                             @*
@@ -31,14 +30,17 @@
                                 </div>
                             *@
                             <div class="phone-summary-image">
-                                <i class="icon-byod"></i>
+                                <img ng-src="{{ item.imageFront }}" ng-if="item.type == 'new'" />
+                                <i class="icon-byod" ng-if="item.type == 'existing'"></i>
                             </div>
                             <div class="description" ng-if="item.type == 'new'">
-                                <div class="condition">{{ item.buyingOption.condition }}</div>
-                                <div>{{ item.device.name }}</div>
-                                <div class="options">{{ item.buyingOption.size }}, {{ item.buyingOption.color.value }}</div>
+                                <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
+                                <div class="condition" ng-if="item.buyingOption == 'Lease24'">@Html.Sitecore().Field("24 Month Lease")</div>
+                                <h2>{{ item.device.brand }} {{ item.device.name }}</h2>
+                                <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
                                 <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
                             </div>
+                            <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption == 'Lease24'">/mo</span></div>
                             <div class="description" ng-if="item.type == 'existing'">
                                 <h2>@Html.Sitecore().Field("Bring Your Own Device")</h2>
                                 <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>
@@ -51,6 +53,13 @@
                                 <p class="note">@Html.Sitecore().Field("Activation Fee Description")</p>
                             </div>
                             <div class="rate">{{ item.activationFee | currency }}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-if="item.type == 'new'">
+                            <div class="description">
+                                <h3>@Html.Sitecore().Field("Sales Tax Text")</h3>
+                                <p class="note">@Html.Sitecore().Field("Sales Tax Description")</p>
+                            </div>
+                            <div class="rate">{{ item.salesTax | currency }}</div>
                         </div>
                         @*
                             <div class="line-item clearfix">
@@ -75,7 +84,8 @@
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Monthly Plan Cost")</h2>
-                                <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                                 <p><a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
                             <div class="rate">{{ mobileEnrollmentService.getProratedCost() | currency }}</div>
@@ -96,10 +106,11 @@
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h2>@Html.Sitecore().Field("Header - Estimated Monthly Plan")</h2>
-                                <p>@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                                 <p><a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                             </div>
-                            <div class="rate">{{ cart.dataPlan.price | currency }}/mo</div>
+                            <div class="rate">{{ cart.dataPlan.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
                         </div>
                         <div class="line-item clearfix">
                             <div class="description">
@@ -115,6 +126,22 @@
                                 </dl>
                             </div>
                             <div class="rate">{{ mobileEnrollmentService.getTotalFees() | currency }}</div>
+                        </div>
+                        <div ng-repeat="item in cart.items" class="items-monthly">
+                            <div class="line-item clearfix" ng-if="item.warranty == 'accept'">
+                                <div class="description">
+                                    <h3>@Html.Sitecore().Field("Phone Warranty Text")</h3>
+                                    <p>{{ item.device.brand }} {{ item.device.name }}</p>
+                                </div>
+                                <div class="rate">@Html.Sitecore().Field("Warranty Cost")/@Html.Sitecore().Field("Month Abbreviation")</div>
+                            </div>
+                            <div class="line-item clearfix" ng-if="item.buyingOption == 'Lease24'">
+                                <div class="description">
+                                    <h3>@Html.Sitecore().Field("Monthly Lease Cost Text")</h3>
+                                    <p>@Html.Sitecore().Field("Leased Text") {{ item.device.brand }} {{ item.device.name }}</p>
+                                </div>
+                                <div class="rate">{{ item.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -448,7 +475,7 @@
                                     <span ng-if="!businessInformation.signature">@Html.Sitecore().Field("Text - Add Signature")</span>
                                     <span ng-if="businessInformation.signature">
                                         <span class="signature-name" ng-if="businessInformation.signatureImage == null">{{ businessInformation.signature }}</span>
-                                        <span ng-if="businessInformation.signatureImage != null"><img ng-src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
+                                        <span ng-if="businessInformation.signatureImage != null" class="signature-image"><img ng-src="data:image/png;base64,{{ businessInformation.signatureImage }}" /></span>
                                         <a href="">@Html.Sitecore().Field("Text - Edit Signature")</a>
                                     </span>
                                     @Html.HiddenFor(m => m.CustomerSignature, new { ng_model = "businessInformation.signature" })
@@ -554,7 +581,7 @@
                     <div class="tab-content" ng-show="selectedTab == 'type'">
                         <div class="item" @Html.Validation().ErrorClass(m => m.CustomerSignature)>
                             <label for="@Html.IdFor(m => m.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
-                            @Html.TextBoxFor(m => m.CustomerSignature, new { ng_model = "formData.name" })
+                            @Html.TextBoxFor(m => m.CustomerSignature, new { ng_model = "formData.name", data_val = "true", data_val_required = "" })
                             @Html.ValidationMessageFor(model => model.CustomerSignature)
                         </div>
                         <div class="item">
