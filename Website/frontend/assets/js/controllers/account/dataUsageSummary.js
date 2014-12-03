@@ -2,7 +2,7 @@
  *
  */
 ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', function ($scope, $rootScope, $http, breakpoint) {
-
+    var GIGA = 1000000000;
     $scope.deviceUsageStats = [];
     $scope.deviceTotal = {
         data: {
@@ -99,7 +99,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         //BEGIN dummy data
         var recentDataUsage = [];
         for (var i = 0; i < months; i++) {
-            recentDataUsage.push($scope.deviceTotal.data.usage * (1 + Math.random() - 0.5) / 1000000000);
+            recentDataUsage.push($scope.deviceTotal.data.usage * (1 + Math.random() - 0.5) / GIGA);
         }
         return recentDataUsage;
         //END dummy data
@@ -140,7 +140,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         }
 
         var highBytes = _.max(dataPoints);
-        $scope.graphScale.high = Math.ceil(highBytes / 1000000000);
+        $scope.graphScale.high = Math.ceil(highBytes / GIGA);
         if (_.some(dataPoints, function (point) { return (point / highBytes) > 0.9 })) {
             $scope.graphScale.high += 1;
         }
@@ -149,9 +149,9 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
     function renderCurrentDataUsageComponent() {
         //Current Data Usage Component
-        var usedPct = (($scope.deviceTotal.data.usage / 1000000000) / $scope.graphScale.high) * 100;
-        var estimatedPct = (($scope.estimatedTotalData / 1000000000) / $scope.graphScale.high) * 100 - usedPct;
-        var currentPct = (($scope.deviceTotal.data.limit / 1000000000) / $scope.graphScale.high) * 100;
+        var usedPct = (($scope.deviceTotal.data.usage / GIGA) / $scope.graphScale.high) * 100;
+        var estimatedPct = (($scope.estimatedTotalData / GIGA) / $scope.graphScale.high) * 100 - usedPct;
+        var currentPct = (($scope.deviceTotal.data.limit / GIGA) / $scope.graphScale.high) * 100;
         if ($scope.hasOverage) {
             estimatedPct = 0;
             d3.select(".usage-meter").attr("class", "usage-meter overage");
@@ -174,7 +174,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
         d3.select(".historical-graph").style("padding-top", function () {
             if (_.max($scope.recentDataUsage) / $scope.graphScale.high < .75) {
-                var current = ((($scope.deviceTotal.data.limit / 1000000000) / $scope.graphScale.high) * 100);
+                var current = ((($scope.deviceTotal.data.limit / GIGA) / $scope.graphScale.high) * 100);
                 return 10 + (100 - current) + 'px';
             }
             return '0px';
@@ -187,7 +187,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 return maxUsage - (d / $scope.graphScale.high * 100) + 'px';
             })
             .style("background-color", function (d) {
-                if (d >= $scope.deviceTotal.data.limit / 1000000000) {
+                if (d >= $scope.deviceTotal.data.limit / GIGA) {
                     return "#d30";
                 } else {
                     return "#ddd";
@@ -196,7 +196,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             .text(' ');
 
         d3.select(".current-limit").style("top", function () {
-            return "-" + ((($scope.deviceTotal.data.limit / 1000000000) / $scope.graphScale.high) * 100) + "px";
+            return "-" + ((($scope.deviceTotal.data.limit / GIGA) / $scope.graphScale.high) * 100) + "px";
         });
     }
 
