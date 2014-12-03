@@ -861,6 +861,7 @@ article.balances-payments {
 .notifications {
 	width: 100%;
 	.notice {
+		clear: both;
 		border: solid 1px #fb0;
 		background-color: #fff8d0;
 		div {
@@ -887,9 +888,16 @@ article.balances-payments {
 			background-color: #eee;
 			border: 1px solid #ccc;
 		}
+		&.alert {
+			padding-left: 50px;
+		}
 	}
 }
 
+.content section article .notifications .notice {
+	border-radius: 0px;
+	border-collapse: collapse;
+}
 
 article.energy-usage {
 	.graph-header {

@@ -79,7 +79,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             limit: -1
         }
     }];
-    //END dummy data
+    
 
     $scope.init = function () {
         $scope.currentBillingPeriodDate = getCurrentBillingDate();
@@ -90,18 +90,22 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
         //Display notifications (if necessary)
         if ($scope.estimatedTotalData >= $scope.deviceTotal.data.limit) {
-            notificationService.notify('Data Usage Alert',
-                'Your plan is at ' + round($scope.deviceTotal.data.usage / GIGA, 2) +
-                ' of ' + round($scope.deviceTotal.data.limit / GIGA, 2) +
-                'GB and is predicted to go over this month. <a href="#">Upgrade Plan</a>');
+            notificationService.notify(
+                'Data Usage Alert',
+                'Your plan is at {{ used }} of {{ limit }} GB and is predicted to go over this month. <a href="#">Upgrade Plan</a>', {
+                    used: round($scope.deviceTotal.data.usage / GIGA, 2),
+                    limit: round($scope.deviceTotal.data.limit / GIGA, 2)
+            });
         }
         _.each($scope.deviceUsageStats, function (device) {
             if (device.data.usage >= device.data.limit) {
-                notificationService.notify('Data Overage Alert',
-                    'Your plan for ' + device.number +
-                    ' is at ' + round(device.data.usage / GIGA, 2) +
-                    ' of ' + round(device.data.limit / GIGA, 2) +
-                    'GB. <a href="#">Upgrade Plan</a>');
+                notificationService.notify(
+                    'Data Overage Alert',
+                    'Your plan for {{ account }} is at {{ used }} of {{ limit }} GB. <a href="#">Upgrade Plan</a>', {
+                        account: device.number,
+                        used: round(device.data.usage / GIGA, 2),
+                        limit: round(device.data.limit / GIGA, 2)
+                });
             }
         });
     }
@@ -200,8 +204,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 return 10 + (100 - current) + 'px';
             }
             return '0px';
-        }).selectAll("div").data($scope.recentDataUsage).enter()
-        .append("span")
+        }).selectAll("div").data($scope.recentDataUsage).enter().append("span")
             .style("height", function (d) {
                 return (d / $scope.graphScale.high) * 100 + 'px';
             })
