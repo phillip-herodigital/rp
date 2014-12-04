@@ -1,5 +1,4 @@
-﻿@using StreamEnergy.MyStream.Utility
-@{
+﻿@{
     var pageTitle = "";
     var pageTitleField = Html.Sitecore().CurrentItem.Fields["Page Title"];
     if (pageTitleField != null)
@@ -21,10 +20,13 @@
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
+
     <title>@pageTitle</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="format-detection" content="telephone=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <link rel="shortcut icon" type="image/ico" href="/frontend/assets/i/favicon.ico" />
 
     <!--[if lte IE 8]> @* from https://docs.angularjs.org/guide/ie *@
@@ -36,8 +38,7 @@
     <![endif]-->
     @Styles.Render("~/frontend/assets/css/bundle")
     @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle")
-    <link href="~/stylesheets/Site.css" rel="stylesheet">
-    <link href="~/stylesheets/Home.css" rel="stylesheet">
+
     @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
     {
         @Scripts.Render("~/frontend/assets/js/legacybundle");
@@ -49,29 +50,46 @@
 
     <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
+
 </head>
-<body class="@Html.Sitecore().Field("Body CSS Classes")" data-ng-controller="MainCtrl">
+<body class="@Html.Sitecore().Field("Body CSS Classes")" ng-controller="MainCtrl">
 
     <!-- Google Tag Manager -->
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-NMT3GS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>(function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f); })(window, document, 'script', 'dataLayer', 'GTM-NMT3GS');</script>
     <!-- End Google Tag Manager -->
-    <div data-ng-if="hasMobileNav" data-ng-include="'mobileNav'" mobile-nav="0"></div>
-    @Html.Sitecore().Placeholder("header")
-    @{
-        var openTag = Context.Items["openTag"];
-    }
-    <main>
-        <div class="content">
-            @Html.Sitecore().Placeholder("content")
+
+    <div class="page-wrapper" ng-class="{open:sidebarOpen}">
+        <div ng-if="hasMobileNav" ng-include="'mobileNav'" mobile-nav="0"></div>
+        <div class="page-content">
+            @Html.Sitecore().Placeholder("header")
+
+            @{ var bannerImage = Html.Sitecore().CurrentItem["Banner Image"]; }
+            @if (bannerImage != null && !string.IsNullOrEmpty(bannerImage.ToString()))
+            {
+                var bannerCssClassField = Html.Sitecore().CurrentItem.Fields["Banner CSS Class"];
+                <div class="banner @(bannerCssClassField != null ? bannerCssClassField.Value : "marketing")" style="@Html.AsBackgroundStyle("Banner Image")">
+                    @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Text").ToString()))
+                    {
+                        <div class="inner">
+                            <div class="wrapper">
+                                @Html.Sitecore().Field("Banner Text")
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            <section class="layout cols-1">
+
+                @Html.Sitecore().Placeholder("content")
+
+            </section>
+
+            @Html.Sitecore().Placeholder("footer")
         </div>
-    </main>
-    @if (openTag != null)
-    {
-        @Html.Raw(string.Format("</{0}>", openTag))
-    }
-    @Html.Sitecore().Placeholder("footer")
+    </div>
     @Html.Sitecore().Placeholder("extras")
     <script type="text/javascript" src="/frontend/utilities/foresee/foresee-trigger.js"></script>
+
 </body>
 </html>
