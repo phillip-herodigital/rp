@@ -11,16 +11,13 @@
         Language = Sitecore.Globalization.Language.Parse(languageLinkUrlLanguage),
     });
 
-    var loggedIn = Sitecore.Context.IsLoggedIn;
-    var username = Sitecore.Context.User.LocalName;
-
     const string openTag = "article";
 
     if (Context.Items["openTag"] == null)
     {
         Context.Items.Add("openTag", openTag);
     }
-        
+
 }
 @helper NavigationAnchor(Item item)
 {
@@ -50,7 +47,14 @@
     <div class="content">
         <h1><a href="/"><img src="/Images/Logo.png" alt="Stream - Connected Home"></a></h1>
         <aside id="UserActions-Header-Global">
-            <a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText.Replace(" ", "\u00A0")</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span style="letter-spacing: 0.026em;"><a href="/manage/">My&nbsp;Account</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="">Pay&nbsp;My&nbsp;Bill</a></span>
+            @if (Sitecore.Context.IsLoggedIn)
+            {
+                <text>Welcome,&nbsp;</text>@Sitecore.Context.User.LocalName<text>&nbsp;&nbsp;&nbsp;</text><a href="/account">My Account</a><text>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</text><a href="/account/profile">My Profile</a><text>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</text><a href="/api/authentication/logout">Logout</a>
+            }
+            else
+            {
+                <a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText.Replace(" ", "\u00A0")</a><text>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</text><span style="letter-spacing: 0.026em;"><a href="/manage/">My&nbsp;Account</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="">Pay&nbsp;My&nbsp;Bill</a></span>
+            }
         </aside>
         <ol>
             @{
