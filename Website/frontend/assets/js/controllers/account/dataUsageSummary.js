@@ -139,9 +139,9 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             dataPoints.push($scope.estimatedTotalData);
         }
 
-        var highBytes = _.max(dataPoints);
-        $scope.graphScale.high = Math.ceil(highBytes / GIGA);
-        if (_.some(dataPoints, function (point) { return (point / highBytes) > 0.9 })) {
+        var maxBytes = _.max(dataPoints);
+        $scope.graphScale.high = Math.ceil(maxBytes / GIGA);
+        if (_.some(dataPoints, function (point) { return (point / maxBytes) > 0.9 })) {
             $scope.graphScale.high += 1;
         }
         $scope.graphScale.middle = Math.round($scope.graphScale.high / 2);
@@ -163,6 +163,15 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             d3.select(".remain .label").style("float", "right").style("left", "0px");
         }
         d3.select(".current-data").style("width", currentPct + '%');
+        d3.select(".breakdown")
+            .style("bottom", Math.round(255 + $scope.deviceUsageStats.length * 28) + 'px')
+            .style("margin-bottom", '-' + Math.round(255 + $scope.deviceUsageStats.length * 28) + 'px');
+        $('.used').on('mouseenter', function () {
+            $(this).parent().find('.breakdown').show();
+        });
+        $('.used').on('mouseleave', function () {
+            $(this).parent().find('.breakdown').hide();
+        });
     }
 
     function renderHistoricDataUsageComponent() {

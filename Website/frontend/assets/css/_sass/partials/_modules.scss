@@ -1881,6 +1881,61 @@ article.usage-summary {
 			border-left: none;
 		}
 	}
+	.breakdown {
+		z-index: 250;
+		border: solid 1px #bbb;
+		border-radius: 10px;
+		background-color: #eee;
+		float: left;
+		clear: both;
+		display:none;
+		left: 5%;
+		position: relative;
+		max-width: 250px;
+		
+		.device-number {
+			white-space: nowrap;
+		}
+
+		table, th,tr,td {
+			border: none;
+			font-size: 13px; 
+		}
+
+		thead tr {
+			border-bottom: solid 1px #bbb;
+			td {
+				text-align: center;
+			}
+		}
+
+
+		&:after, &:before {
+			top: 100%;
+			left: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		} 
+
+		&:after {
+			border-color: rgba(238, 238, 238, 0);
+			border-top-color: #eee;
+			border-width: 10px;
+			margin-left: -10px;
+		}
+
+		&:before {
+			border-color: rgba(221, 221, 221, 0);
+			border-top-color: #bbb;
+			border-width: 11px;
+			margin-left: -12px;
+		}
+
+	}
 	.usage-meter {
 		padding: 80px 0px 40px;
 		.picket {
@@ -1921,6 +1976,7 @@ article.usage-summary {
 			border-right: none;
 			border-top-right-radius: 0px;
 			border-bottom-right-radius: 0px;
+			cursor: pointer;
 			.label {
 				top: -80px;
 				border-color: $brand-primary-color;;
