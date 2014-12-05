@@ -1,7 +1,7 @@
 ﻿/* Data Usage Summary Controller
  *
  */
-ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', function ($scope, $rootScope, $http, breakpoint) {
+ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'notificationService', function ($scope, $rootScope, $http, breakpoint, notificationService) {
     var GIGA = 1000000000;
     $scope.deviceUsageStats = [];
     $scope.deviceTotal = {
@@ -79,7 +79,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             limit: -1
         }
     }];
-    //END dummy data
+    
 
     $scope.init = function () {
         $scope.currentBillingPeriodDate = getCurrentBillingDate();
@@ -87,11 +87,37 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         calculateDeviceTotals();
         renderCurrentDataUsageComponent();
         renderHistoricDataUsageComponent();
+
+        //Display notifications (if necessary)
+        if ($scope.estimatedTotalData >= $scope.deviceTotal.data.limit) {
+            notificationService.notify(
+                'Data Usage Alert',
+                'Your plan is at {{ used }} of {{ limit }} GB and is predicted to go over this month. <a href="#">Upgrade Plan</a>', {
+                    used: round($scope.deviceTotal.data.usage / GIGA, 2),
+                    limit: round($scope.deviceTotal.data.limit / GIGA, 2)
+            });
+        }
+        _.each($scope.deviceUsageStats, function (device) {
+            if (device.data.usage >= device.data.limit) {
+                notificationService.notify(
+                    'Data Overage Alert',
+                    'Your plan for {{ account }} is at {{ used }} of {{ limit }} GB. <a href="#">Upgrade Plan</a>', {
+                        account: device.number,
+                        used: round(device.data.usage / GIGA, 2),
+                        limit: round(device.data.limit / GIGA, 2)
+                });
+            }
+        });
+    }
+
+    function round(num, p) {
+        var m = Math.pow(10, p);
+        return Math.round(num * m) / m;
     }
 
     function getEstimatedTotalData() {
         //BEGIN dummy data
-        return $scope.deviceTotal.data.usage * (1 + Math.random());
+        return $scope.deviceTotal.data.usage * (1+ Math.random());
         //END dummy data
     }
 
@@ -187,8 +213,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 return 10 + (100 - current) + 'px';
             }
             return '0px';
-        }).selectAll("div").data($scope.recentDataUsage).enter()
-        .append("span")
+        }).selectAll("div").data($scope.recentDataUsage).enter().append("span")
             .style("height", function (d) {
                 return (d / $scope.graphScale.high) * 100 + 'px';
             })

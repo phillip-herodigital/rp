@@ -848,6 +848,57 @@ article.balances-payments {
 		}
 	}
 }
+
+.layout section.notifications {
+	margin: 0px;
+	width: 100%;
+	.notice {
+		border-radius: 10px;
+		margin: 0px 0px 20px;
+	}
+}
+
+.notifications {
+	width: 100%;
+	.notice {
+		clear: both;
+		border: solid 1px #fb0;
+		background-color: #fff8d0;
+		div {
+			padding-right: 20px;
+			h5{
+				margin: 0;
+				padding: 0;
+			}
+			p {
+				margin: 0;
+				padding: 0 20px 0 0;
+			}
+		}
+		a.remove {
+			float: right;
+			clear: left;
+			width: 25px;
+			height: 25px;
+			margin-top: 2px;
+			cursor: pointer;
+			background: url(../i/icon/close.png) no-repeat 50%;
+		}
+		a.remove:hover {
+			background-color: #eee;
+			border: 1px solid #ccc;
+		}
+		&.alert {
+			padding-left: 50px;
+		}
+	}
+}
+
+.content section article .notifications .notice {
+	border-radius: 0px;
+	border-collapse: collapse;
+}
+
 article.energy-usage {
 	.graph-header {
 		padding: 15px 40px 0px 30px;
