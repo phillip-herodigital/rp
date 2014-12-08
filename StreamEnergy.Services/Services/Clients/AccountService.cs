@@ -477,6 +477,7 @@ namespace StreamEnergy.Services.Clients
                     PostalCode5 = data.AccountDetails.BillingAddress.Zip,
                     StateAbbreviation = data.AccountDetails.BillingAddress.State,
                 },
+                CustomerType = data.AccountDetails.CustomerType,
                 SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
                 ProductType = data.AccountDetails.ProductType,
                 TcpaPreference = tcpa,
@@ -617,7 +618,7 @@ namespace StreamEnergy.Services.Clients
                 EligibilityWindowInDays = (int)data.EligibilityWindow,
                 Capabilities = new IServiceCapability[] { 
                     new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal }, 
-                    new CustomerTypeCapability { CustomerType = EnrollmentCustomerType.Residential }, 
+                    new CustomerTypeCapability { CustomerType = (account.Details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial }, 
                     locAdapter.GetRenewalServiceCapability(account, subAccount)
                 }
             });
