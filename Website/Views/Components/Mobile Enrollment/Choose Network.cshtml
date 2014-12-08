@@ -1,7 +1,7 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChooseNetwork
 @using StreamEnergy.DomainModels.MobileEnrollment
 
-<div ng-if="mobileEnrollment.currentStep == 'choose-network'" ng-controller="MobileEnrollmentChooseNetworkCtrl">
+<div id="phoneFlowNetwork" class="enrollment" ng-show="stepsService.isStepVisible('phoneFlowNetwork')" ng-controller="MobileEnrollmentChooseNetworkCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
@@ -81,31 +81,29 @@
                                 <span class="text">@Html.Sitecore().Field("Coming Soon Text")</span>
                             </div>
                         </div>
-                            }
-                        </div>
-                </div>
-            </article>
-
-            <article class="enrollment__box enrollment__choose-network">
-                <div class="content">
-                    <div class="stretch-full">
-                        <div class="choose-network-table-wrapper">
-                            <table class="choose-network-table">
-                                <tbody>
-                                    <tr>
-                                        <td>@Html.Sitecore().Field("Text - Trade and Save")</td>
-                                        <td class="devices">@Html.Sitecore().Field("Image - Trade and Save")</td>
-                                        <td class="select-network">
-                                            @Html.Sitecore().Field("Link - Trade and Save")
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    }
                 </div>
             </div>
         </article>
-
+        <article class="enrollment__box enrollment__choose-network">
+            <div class="content">
+                <div class="stretch-full">
+                    <div class="choose-network-table-wrapper">
+                        <table class="choose-network-table">
+                            <tbody>
+                                <tr>
+                                    <td>@Html.Sitecore().Field("Text - Trade and Save")</td>
+                                    <td class="devices">@Html.Sitecore().Field("Image - Trade and Save")</td>
+                                    <td class="select-network">
+                                        @Html.Sitecore().Field("Link - Trade and Save")
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
         <p class="footnotes" ng-if="showNetworks">@Html.Sitecore().Field("Footnotes")</p>
     </section>
 </div>

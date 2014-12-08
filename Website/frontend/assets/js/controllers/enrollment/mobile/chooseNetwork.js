@@ -26,6 +26,8 @@
         $scope.mobileEnrollment.phoneTypeTab = phoneType;
         $scope.mobileEnrollmentService.selectedNetwork = _.where($scope.mobileEnrollmentService.availableNetworks, { value: network })[0];;
         $scope.setCurrentStep('choose-phone');
+        $scope.mobileEnrollmentService.selectedNetwork = _.where($scope.mobileEnrollmentService.availableNetworks, { value: network })[0];
+        $scope.completeStep();
     };
 
     /*$scope.isAvailableNetwork = function(network) {
@@ -36,5 +38,13 @@
         //$scope.updateAvailableNetworks(newValue);
         $scope.showNetworks = !_.contains(excludedStates, newValue);
     });
+
+    /**
+     * Complete the Choose Network Step
+     * @return {[type]} [description]
+     */
+    $scope.completeStep = function () {
+        $scope.setCurrentStep('phoneFlowDevices');
+    };
 
 }]);
