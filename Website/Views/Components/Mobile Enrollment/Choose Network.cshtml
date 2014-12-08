@@ -2,10 +2,10 @@
 @using StreamEnergy.DomainModels.MobileEnrollment
 
 <div id="phoneFlowNetwork" class="enrollment" ng-show="stepsService.isStepVisible('phoneFlowNetwork')" ng-controller="MobileEnrollmentChooseNetworkCtrl">
-    <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
-        <div class="wrapper">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+        <div class="wrapper clearfix">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("Page Title")</span><br />
+                <span class="block">@Html.Sitecore().Field("Page Title")</span><br />
             </h1>
         </div>
     </div>

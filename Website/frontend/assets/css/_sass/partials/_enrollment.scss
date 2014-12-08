@@ -349,11 +349,13 @@
     background-color: $enrollment-light-border-color;
     margin-bottom: 40px;
     .wrapper {
-        padding-top: 70px;
+        height: 150px;
+        padding-top: 50px;
     }
     h1 {
         line-height: 0;
-        font-size: 60px;
+        font-size: 48px;
+        text-transform: uppercase;
         span {
             line-height: 1.1;
         }
