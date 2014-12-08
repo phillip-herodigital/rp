@@ -2,13 +2,15 @@
     <div class="enrollment enrollment__order-confirmation">
         <section>
             <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
-            <h1 ng-if="customerType != 'commercial' && confirmationSuccess">@Html.Sitecore().Field("Order Confirmation")</h1>
+            <h1 ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Order Confirmation")</h1>
             <h1 ng-if="customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Order Submitted")</h1>
-            <h1 ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Request Received")</h1>
+            <h1 ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Confirmation")</h1>
+            <h1 ng-if="customerType == 'commercial' && !isRenewal">@Html.Sitecore().Field("Request Received")</h1>
 
-            <p ng-if="customerType != 'commercial' && confirmationSuccess">@Html.Sitecore().Field("Confirmation Paragraph")</p>
+            <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Confirmation Paragraph")</p>
             <p ng-if="customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Submitted Paragraph")</p>
-            <article ng-if="customerType == 'commercial'" class="commercial-next-steps enrollment__box">
+            <p ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Paragraph")</p>
+            <article ng-if="customerType == 'commercial' && !isRenewal" class="commercial-next-steps enrollment__box">
                 <div class="content">
                     @Html.Sitecore().Field("Commercial Next Steps")
                 </div>
