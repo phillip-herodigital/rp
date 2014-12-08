@@ -335,8 +335,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                      select oldSelections.FirstOrDefault() ??
                                         new SelectedOffer
                                         {
-                                            Offer = offer,
-                                            OfferOption = null
+                                            Offer = offer
                                         }).ToArray();
             return result;
         }

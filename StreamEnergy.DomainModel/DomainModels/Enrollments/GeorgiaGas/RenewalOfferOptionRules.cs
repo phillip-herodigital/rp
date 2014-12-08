@@ -11,5 +11,10 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         public const string Qualifier = "GeorgiaGasRenewal";
 
         public override string OptionRulesType { get { return RenewalOfferOptionRules.Qualifier; } }
+
+        public override IOfferOption GetInitialOptions()
+        {
+            return new RenewalOfferOption();
+        }
     }
 }
