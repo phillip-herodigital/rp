@@ -86,19 +86,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         Address = account.SubAccounts.First().ServiceAddress,
                         Capabilities = account.Capabilities.OfType<RenewalAccountCapability>().Single().Capabilities
                     }
-                    /*
-                    SelectedOffers = new SelectedOffer[] 
-                    { 
-                        new SelectedOffer 
-                        { 
-                            Offer = new DomainModels.Enrollments.Renewal.Offer 
-                            { 
-                                RenewingAccount = account,
-                                RenewingSubAccount = subAccount
-                            } 
-                        }
-                    }
-                     */
                 }
             };
             await stateHelper.StateMachine.Process();
