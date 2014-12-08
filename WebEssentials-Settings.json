@@ -151,7 +151,8 @@
     "OutputDirectory": null,
     "OutputStyle": "Expanded",
     "ProcessSourceMapsForEditorEnhancements": false,
-    "ShowPreviewPane": false
+    "ShowPreviewPane": false,
+    "UseRubyRuntime": false
   },
   "Sprite": {
     "CssOutputDirectory": null,
