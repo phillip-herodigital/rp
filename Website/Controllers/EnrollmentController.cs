@@ -42,6 +42,14 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult EnrollmentDefaultState()
+        {
+            bool useRemoteEnrollment;
+            NameValueCollection queryString;
+            StreamEnergy.MyStream.Conditions.EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out queryString);
+            return this.Content((queryString["St"] ?? queryString["State"] ?? "").ToUpper() == "GA" ? "GA" : "TX");
+        }
+
         public ActionResult EnrollmentNav()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Pages/Enrollment/Enrollment Page");
