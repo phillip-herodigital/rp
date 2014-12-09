@@ -65,11 +65,13 @@ namespace StreamEnergy.DomainModels.Enrollments
                                   from offer in service.SelectedOffers
                                   select new { service, offer })
             {
+                var details = await data.offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(data.service.Location, data.offer.Offer);
+                data.offer.OfferOption = details.GetInitialOptions();
                 rules.Add(new Service.LocationOfferDetails<IOfferOptionRules>
                 {
                     Location = data.service.Location,
                     Offer = data.offer.Offer,
-                    Details = await data.offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(data.service.Location, data.offer.Offer)
+                    Details = details
                 });
             }
             internalContext.OfferOptionRules = rules.ToArray();

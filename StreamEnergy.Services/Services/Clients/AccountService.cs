@@ -8,6 +8,8 @@ using Microsoft.Practices.Unity;
 using System.Net.Http;
 using Legacy = StreamEnergy.DomainModels.Accounts.Legacy;
 using System.IO;
+using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -475,6 +477,7 @@ namespace StreamEnergy.Services.Clients
                     PostalCode5 = data.AccountDetails.BillingAddress.Zip,
                     StateAbbreviation = data.AccountDetails.BillingAddress.State,
                 },
+                CustomerType = data.AccountDetails.CustomerType,
                 SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
                 ProductType = data.AccountDetails.ProductType,
                 TcpaPreference = tcpa,
@@ -613,7 +616,13 @@ namespace StreamEnergy.Services.Clients
                 IsEligible = data.IsEligible,
                 RenewalDate = (DateTime)data.EligibilityDate,
                 EligibilityWindowInDays = (int)data.EligibilityWindow,
+                Capabilities = new IServiceCapability[] { 
+                    new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal }, 
+                    new CustomerTypeCapability { CustomerType = (account.Details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial }, 
+                    locAdapter.GetRenewalServiceCapability(account, subAccount)
+                }
             });
+
             return true;
         }
     }

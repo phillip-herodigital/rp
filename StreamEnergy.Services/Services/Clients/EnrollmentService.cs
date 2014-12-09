@@ -688,16 +688,18 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        async Task<StreamAsync<RenewalResult>> IEnrollmentService.BeginRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount, DomainModels.Enrollments.Renewal.OfferOption renewalOptions)
+        async Task<StreamAsync<RenewalResult>> IEnrollmentService.BeginRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount, IOffer offer, IOfferOption renewalOptions)
         {
+            var georgiaGasOffer = offer as DomainModels.Enrollments.GeorgiaGas.Offer;
             var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(subAccount));
 
             account.Capabilities.RemoveAll(r => r.CapabilityType == DomainModels.Accounts.RenewalAccountCapability.Qualifier);
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals", new
                 {
                     SystemOfRecordAccountNumber = account.AccountNumber,
-                    ProductId = locAdapter.GetProductId(subAccount),
-                    StartDate = renewalOptions.RenewalDate,
+                    ProductCode = georgiaGasOffer.Code,
+                    ProductId = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1],
+                    //StartDate = ???,
                     CustomerLast4 = account.Details.SsnLastFour,
                     SystemOfRecord = account.SystemOfRecord,
                     ProductType = account.Details.ProductType,
@@ -731,7 +733,7 @@ namespace StreamEnergy.Services.Clients
             asyncResult.Data = new RenewalResult
             {
                 ConfirmationNumber = (string)jobject.CisAccountNumber,
-                IsSuccess = (string)jobject.RenewalDate == "Success",
+                IsSuccess = (string)jobject.Status == "Success",
                 RenewalDate = (DateTime)jobject.RenewalDate,
                 ContractStartDate = (DateTime)jobject.ContractStartDate,
                 ContractEndDate = (DateTime)jobject.ContractEndDate,

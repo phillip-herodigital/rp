@@ -36,5 +36,7 @@ namespace StreamEnergy.Services.Clients
         string GetProductId(DomainModels.Accounts.ISubAccount subAccount);
 
         string GetUtilityAccountNumber(DomainModels.Accounts.ISubAccount subAccount);
+
+        IServiceCapability GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount);
     }
 }

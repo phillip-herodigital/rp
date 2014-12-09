@@ -492,6 +492,23 @@ article.message {
     }
 }
 
+article.renew-plan {
+    button.primary {
+        float: right;
+        margin-top: 20px;
+    }
+    .grid {
+        p {
+            margin-top: 0px;
+        }
+        @include breakpoint(small) {
+            .col button {
+                float: none;
+            }
+        }
+    }
+}
+
 article.plan {
     padding-bottom: 5px;
     .plan-table {
