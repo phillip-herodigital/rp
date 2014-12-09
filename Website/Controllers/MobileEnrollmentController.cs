@@ -171,7 +171,8 @@ namespace StreamEnergy.MyStream.Controllers
                 Description = child.Fields["Network Description"].Value,
                 Coverage = child.Fields["Network Coverage"].Value,
                 Device = child.Fields["Network Devices"].Value,
-                StartingPrice = child.Fields["Starting Price"].Value
+                StartingPrice = child.Fields["Starting Price"].Value,
+                Header = child.Fields["Network Header"].Value
             });
 
             return View("~/Views/Components/Mobile Enrollment/Choose Network.cshtml", new ChooseNetwork

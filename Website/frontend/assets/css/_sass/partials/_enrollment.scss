@@ -1812,19 +1812,23 @@
 }
 
 .enrollment__choose-network {
-    header {
+    .choose-location {
+        font-size: 20px;
+        padding: 10px $enrollment-module-horizontal-padding;
         select {
-            font-size: 16px;
+            padding-top: 0;
             width: auto;
+            line-height: 1;
         }
     }
-    /*.update-link {
-        font-size: 15px;
-        color: #257ab3;
-        &:hover {
-            background: transparent;
-        }
-    }*/
+    h2 {
+        color: #333;
+        font-size: 32px;
+    }
+    h3 { 
+        //text-align: center; 
+        font-weight: 400;
+    }
     .no-networks-available {
         .stretch-full {
             background: #f7f7f7;
@@ -1857,14 +1861,7 @@
             font-weight: 400;
             text-align: center;
         }
-        h2 {
-            color: #333;
-            font-weight: 400;
-        }
-        h3 { 
-            //text-align: center; 
-            font-weight: 400;
-        }
+        
     }
     .choose-network-table-wrapper {
         position: relative;
@@ -1939,12 +1936,6 @@
             padding: 7px 16px;
             font-weight: normal;
         }
-        h2 {
-            font-size: 20px;
-            font-weight: bold;
-            text-transform: none;
-            color: #333;
-        }
         td {
             padding: 20px;
             vertical-align: top;
@@ -1955,12 +1946,10 @@
             background: #fefefe;
             font-weight: normal;
             text-transform: uppercase;
-            border-top: none;
             text-align: center;
         }
         td, th {
-            border-left: none;
-            border-right: none;
+            border: none;
         }
         tr {
             background: none;
