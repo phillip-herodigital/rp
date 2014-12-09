@@ -91,6 +91,13 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         $scope.supportedUtilityStates = _(availableStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css } }).value();
     };
 
+    $scope.assignEnrollmentDefaultState = function (state) {
+        if ($scope.data == null) {
+            $scope.data = {};
+        }
+        $scope.data.serviceState = state;
+    };
+
     $scope.resetEnrollment = function () {
         enrollmentService.resetEnrollment();
     };

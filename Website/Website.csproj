@@ -535,6 +535,7 @@
   <ItemGroup>
     <Compile Include="Conditions\CookieCryptography.cs" />
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
+    <Compile Include="Conditions\EnrollmentTrafficCopHelper.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
