@@ -16,5 +16,11 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
         {
             return new IOfferPaymentAmount[0];
         }
+
+
+        public virtual IOfferOption GetInitialOptions()
+        {
+            return null;
+        }
     }
 }

@@ -55,6 +55,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.redis = redis;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            enrollmentController.Dispose();
+        }
+
         #region Account Balances & Payments
 
         [HttpGet]
@@ -369,10 +375,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var accountDetails = await accountService.GetAccountDetails(account, false);
+            var renewalEligibility = await accountService.CheckRenewalEligibility(account, account.SubAccounts.First());
 
             return new GetUtilityPlanResponse
             {
-                SubAccounts = account.SubAccounts
+                AccountId = account.StreamConnectAccountId,
+                SubAccounts = account.SubAccounts,
+                RenewalCapability = (account.Details.CustomerType == "Residential") ? account.GetCapability<RenewalAccountCapability>() : null
             };
         }
 
@@ -956,6 +965,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public async Task<SetupRenewalResponse> SetupRenewal(SetupRenewalRequest request)
         {
+            bool isSuccess = false;
+
             if (currentUser.Accounts != null)
             {
                 currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
@@ -964,13 +975,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await accountService.GetAccountDetails(target);
             var subAccount = target.SubAccounts.First(acct => acct.Id == request.SubAccountId);
+            var isElibible = await accountService.CheckRenewalEligibility(target, subAccount);
 
-            await enrollmentController.Initialize(null);
+            if (isElibible)
+            {
+                await enrollmentController.Initialize(null);
+                isSuccess = await enrollmentController.SetupRenewal(target, subAccount);
+            }
 
             return new SetupRenewalResponse
             {
-                IsSuccess = await enrollmentController.SetupRenewal(target, subAccount)
+                IsSuccess = isSuccess
             };
+
+            
         }
 
         #endregion

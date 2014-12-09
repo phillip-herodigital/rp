@@ -55,7 +55,7 @@ namespace StreamEnergy.MyStream.Conditions
             bool useRemoteEnrollment;
             NameValueCollection queryString;
 
-            HandlePersistence(out useRemoteEnrollment, out queryString);
+            EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out queryString, Percentage);
 
             dependencies.EnrollmentParameters.Initialize(queryString);
 
@@ -100,57 +100,5 @@ namespace StreamEnergy.MyStream.Conditions
 
             return false;
         }
-
-        private void HandlePersistence(out bool useRemoteEnrollment, out NameValueCollection queryString)
-        {
-            if (!LoadFromCookie(dependencies.Context.Request.Cookies[cookieName], out queryString, out useRemoteEnrollment))
-            {
-                useRemoteEnrollment = random.NextDouble() * 100 >= Percentage;
-                queryString = dependencies.Context.Request.QueryString;
-            }
-            else if (dependencies.Context.Request.QueryString.Keys.Count > 0)
-            {
-                queryString = dependencies.Context.Request.QueryString;
-            }
-
-            if (Percentage <= 0)
-            {
-                useRemoteEnrollment = true;
-            }
-            else if (Percentage >= 100)
-            {
-                useRemoteEnrollment = false;
-            }
-
-            WriteCookie(queryString, useRemoteEnrollment);
-        }
-
-        private void WriteCookie(NameValueCollection queryString, bool useRemoteEnrollment)
-        {
-            var cookieRawValue = (useRemoteEnrollment ? "1" : "0") + queryString.ToString();
-
-            dependencies.Context.Response.AppendCookie(new HttpCookie(cookieName, Cryptography.Encrypt(cookieRawValue, cookieEncryptionPassword))
-            {
-                Expires = DateTime.Today.AddDays(30),
-                HttpOnly = true
-            });
-        }
-
-        private bool LoadFromCookie(HttpCookie httpCookie, out NameValueCollection queryString, out bool useRemoteEnrollment)
-        {
-            queryString = null;
-            useRemoteEnrollment = false;
-            if (httpCookie == null)
-                return false;
-
-            var cookieRawValue = Cryptography.Decrypt(httpCookie.Value, cookieEncryptionPassword);
-            if (string.IsNullOrEmpty(cookieRawValue))
-                return false;
-
-            useRemoteEnrollment = cookieRawValue[0] == '1';
-            queryString = HttpUtility.ParseQueryString(cookieRawValue.Substring(1));
-            return true;
-        }
-
     }
 }
