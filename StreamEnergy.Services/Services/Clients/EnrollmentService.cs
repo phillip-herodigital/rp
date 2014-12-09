@@ -733,7 +733,7 @@ namespace StreamEnergy.Services.Clients
             asyncResult.Data = new RenewalResult
             {
                 ConfirmationNumber = (string)jobject.CisAccountNumber,
-                IsSuccess = (string)jobject.RenewalDate == "Success",
+                IsSuccess = (string)jobject.Status == "Success",
                 RenewalDate = (DateTime)jobject.RenewalDate,
                 ContractStartDate = (DateTime)jobject.ContractStartDate,
                 ContractEndDate = (DateTime)jobject.ContractEndDate,

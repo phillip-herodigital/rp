@@ -28,6 +28,7 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
     });
 
     $scope.setupRenewal = function() {
+        $scope.isLoading = true;
         var accountData = {
             accountId: $scope.accountId,
             subAccountId: $scope.utilityPlan.id

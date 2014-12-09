@@ -1,7 +1,7 @@
 ﻿<div ng-controller="AcctYourUtilityPlanCtrl">
     
     <article class="plain renew-plan" ng-if="renewal.isEligible">
-        <div class="notice alert">
+        <div class="notice alert" loading-indicator>
             <div class="grid two">
                 <div class="col">
                     <strong>@Html.Sitecore().Field("Renew Plan Text")</strong>

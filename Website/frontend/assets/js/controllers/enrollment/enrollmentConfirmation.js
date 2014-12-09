@@ -6,7 +6,6 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     $scope.customerType = '';
     $scope.confirmationSuccess = false;
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
-    $scope.isRenewal = enrollmentService.isRenewal;
 
     $scope.onPrint = function() {
         window.print();

@@ -77,6 +77,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await stateHelper.EnsureInitialized();
             stateHelper.State = typeof(ServiceInformationState);
             stateHelper.Context.IsRenewal = true;
+            stateHelper.Context.ContactInfo = account.Details.ContactInfo;
+            stateHelper.Context.MailingAddress = account.Details.BillingAddress;
             stateHelper.Context.Services = new LocationServices[]
             {
                 new LocationServices 
