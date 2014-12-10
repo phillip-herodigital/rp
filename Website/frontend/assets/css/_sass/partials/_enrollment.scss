@@ -132,6 +132,7 @@
     .footnotes {
         clear: both;
         font-size: 14px;
+        color: #999999;
     }
 
     .time-remaining-mobile {
@@ -429,9 +430,9 @@
 .enrollment__box {
     overflow: visible;
     border-color: $enrollment-dark-border-color;
-    background-color: #fefefe;
+    background-color: #fdfdfd;
     header {
-        background-color: #fefefe;
+        background-color: #fdfdfd;
         background-image: none;
         border-bottom: 1px solid $enrollment-light-border-color;
     }
@@ -1824,15 +1825,15 @@
     h2 {
         color: #333;
         font-size: 32px;
+        margin-top: 0;
     }
     h3 { 
-        //text-align: center; 
         font-weight: 400;
     }
     .no-networks-available {
         .stretch-full {
-            background: #f7f7f7;
             @include border-radius(0 0 10px 10px);
+            margin: -20px;
         }
         .col {
             padding: 0 30px 0 80px;
@@ -1855,6 +1856,10 @@
             text-align: center;
         }
         p.intro {
+            @include retina-background('no-plans-bg.png', 'enrollment');
+            background-color: #fdfdfd;
+            background-position: top center;
+            background-repeat: no-repeat;
             margin: 0;
             padding-top: 30px;
             font-size: 20px;
@@ -1872,8 +1877,6 @@
             left: 0;
             right: 0;
             background: #fff;
-            margin-top: 1px;
-            margin-bottom: 10px;
             @include opacity(.95);
         }
         span.text {
@@ -1892,41 +1895,81 @@
         }
     }
     .choose-network-table {
-        .plans {
-            width: 33%;
+        .description {
+            display: inline-block;
+            width: 50%;
+            vertical-align: top;
+            p:first-child {
+                margin-top: 0;
+            }
             ul {
-                padding-left: 10px;
+                list-style: none;
+                padding-left: 0;
+                li {
+                    @include retina-background('gray-check.png', 'icon');
+                    background-repeat: no-repeat;
+                    background-position-y: 8px;
+                    padding-left: 15px;
+                }
+            }
+            .network-map {
+                float: left;
+                font-size: 18px;
+                font-weight: 600;
+                margin: 10px 0;
+                .powered-by {
+                    display: block;
+                    margin-top: 5px;
+                    font-size: 11px;
+                    img {
+                        vertical-align: middle;
+                        margin-left: 5px;
+                    }
+                }
+            }
+            .map-image {
+                float: right;
+                margin: 0 25px;
             }
             .footnotes {
-                padding-top: 0;
+                padding-top: 15px;
                 font-size: 10px;
             }
         }
-        .coverage {
-            text-align: center;
-            width: 19%;
-        }
-        .devices {
-            text-align: center;
+        .plan {
+            display: inline-block;
             width: 24%;
-        }
-        .select-network {
-            width: 24%;
+            height: 275px;
             text-align: center;
+            border: 2px solid $enrollment-light-border-color;
+            @include border-radius(5px);
+            background-color: #fff;
+            padding: 10px;
+            .plan-type {
+                font-size: 18px;
+                @include retina-background('plan-type-bg.png', 'enrollment');
+                background-position: bottom center;
+                background-repeat: no-repeat;
+                margin: 5px 0;
+                padding-bottom: 20px;
+            }
             .starting-price {
-                font-size: 16px;
-            }
-            .price {
-                font-size: 24px;
-            }
-            .network {
-                margin-bottom: 6px;
-            }
-            p {
                 font-weight: 600;
-                &.note {
-                    color: #999;
+                font-size: 16px;
+                .price {
+                    font-size: 24px;
                 }
+            }
+            .more-info {
+                font-size: 15px;
+                height: 60px;
+                .upgrade {
+                    display: block;
+                    font-size: 13px;
+                }
+            }
+            &:last-child {
+                margin-left: 10px;
             }
         }
         button, .button {
@@ -1936,30 +1979,21 @@
             padding: 7px 16px;
             font-weight: normal;
         }
-        td {
-            padding: 20px;
-            vertical-align: top;
-        }
-        th {
-            padding: 8px 20px;
-            color: #999;
-            background: #fefefe;
-            font-weight: normal;
-            text-transform: uppercase;
-            text-align: center;
-        }
-        td, th {
-            border: none;
-        }
-        tr {
-            background: none;
-        }
-        tbody tr:last-child td {
-            border-bottom: 0;
-        }
+        
         @include breakpoint (medium-large) {
             .button {
                 margin-top: 40px;
+            }
+        }
+    }
+    @include breakpoint(medium) {
+        .choose-network-table {
+            .description {
+                display: block;
+                width: 100% !important;
+            }
+            .plan {
+                width: 48.5% !important;
             }
         }
     }
@@ -1990,12 +2024,22 @@
             }
         }
         .choose-network-table {
-            thead { 
-                display: none;
-            }
-            tbody, tr, td {
+            .description, .plan {
                 display: block;
                 width: 100% !important;
+            }
+            .description {
+                .map-image {
+                    float: none;
+                    margin: 0;
+                    text-align: center;
+                    img {
+                        margin-top: 10px;
+                    }
+                }
+            }
+            .plan:last-child {
+                margin: 20px 0;
             }
         }
     }

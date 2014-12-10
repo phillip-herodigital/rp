@@ -57,23 +57,19 @@
         {
             <article class="enrollment__box enrollment__choose-network">
                 <div class="content">
-                    <h2>@Html.Raw(network.Header)</h2>
                     <div class="choose-network-table-wrapper">
-                        <table class="choose-network-table">
-                            <tbody>
-                                <tr>
-                                    <td class="plans">@Html.Raw(network.Description)</td>
-                                    <td class="coverage">@Html.Raw(network.Coverage)</td>
-                                    <td class="devices">@Html.Raw(network.Device)</td>
-                                    <td class="select-network">
-                                        @Html.Sitecore().Field("Text - Get Started").Format(new { price = @network.StartingPrice, network = @network.Name })
-                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
-                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'existing')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintByod">@Html.Sitecore().Field("Button - Bring My Own Phone")</button>
-                                        <span ng-if="'@network.Value' == 'sprint' && !mobileEnrollmentSettings.sprintByod">@Html.Sitecore().Field("BYOD Coming Soon Text")</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <h2>@Html.Raw(network.Header)</h2>
+                        <div class="choose-network-table">
+                            <div class="description">@Html.Raw(network.Description)</div>
+                            <div class="plan">
+                                @Html.Raw(network.IndividualPlans)
+                                <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                            </div>
+                            <div class="plan">
+                                @Html.Raw(network.GroupPlans)
+                                <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                            </div>
+                        </div>
                         <div ng-if="'@network.Value' == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintByod">
                             <div class="overlay"></div>
                             <span class="text">@Html.Sitecore().Field("Coming Soon Text")</span>
@@ -84,6 +80,8 @@
         }
         </div>
 
+        @* Trade in program *@
+        @*
         <article class="enrollment__box enrollment__choose-network">
             <div class="content">
                 <div class="stretch-full">
@@ -103,7 +101,7 @@
                 </div>
             </div>
         </article>
-
+        *@
         <p class="footnotes" ng-if="showNetworks">@Html.Sitecore().Field("Footnotes")</p>
 
     </section>
