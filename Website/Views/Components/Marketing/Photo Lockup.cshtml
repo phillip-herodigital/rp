@@ -19,7 +19,6 @@
     classes.Add(sc.LookupItem("Background Image Position").SafeFieldValue("CSS Class"));
     var id = !string.IsNullOrEmpty(sc.CurrentItem["Custom ID"]) ? " id=\"" + sc.CurrentItem["Custom ID"] + "\"" : "";
 }
-
 @if (Html.Sitecore().HasValue("Quote"))
 {
     <aside class="module quote @string.Join(" ", classes)" style="background-color: #71b243; color: white">
@@ -37,43 +36,44 @@
 }
 else if (!string.IsNullOrEmpty(Html.Sitecore().Field("Content").ToString()))
 {
-    <article class="module photoLockup">
-        @if (!Html.Sitecore().CurrentItem.IsChecked("Image on Right").GetValueOrDefault())
-        {
-            if (Sitecore.Context.PageMode.IsPageEditorEditing)
+    <article class="marketing photoLockup">
+        <div class="wrapper">
+            @if (!Html.Sitecore().CurrentItem.IsChecked("Image on Right").GetValueOrDefault())
+            {
+                if (Sitecore.Context.PageMode.IsPageEditorEditing)
+                {
+                    @Html.Sitecore().Field("Background Image", new { width = 502, alt = "" });
+                }
+                else
+                {
+                    var document = new HtmlDocument();
+                    document.LoadHtml(Html.Sitecore().Field("Background Image", new { width = 502, alt = "" }).ToString());
+                    document.DocumentNode.SetAttributeValue("alt", null);
+                    @Html.Raw(document.DocumentNode.OuterHtml)
+                }
+            }
+            <div class="content">
+                @if (Html.Sitecore().HasValue("Header") || Html.Sitecore().HasValue("Sub Header"))
+                {
+                    <header>
+                        @if (Html.Sitecore().HasValue("Header"))
+                        {
+                            <h2>@Html.Sitecore().Field("Header")</h2>
+                        }
+                        @if (Html.Sitecore().HasValue("Sub Header"))
+                        {
+                            <p>@Html.Sitecore().Field("Sub Header")</p>
+                        }
+                    </header>
+                }
+                @Html.Sitecore().Field("Content")
+                @Html.Sitecore().Field("Button")
+            </div>
+            @if (Html.Sitecore().CurrentItem.IsChecked("Image on Right").GetValueOrDefault())
             {
                 @Html.Sitecore().Field("Background Image", new { width = 502, alt = "" });
             }
-            else
-            {
-                var document = new HtmlDocument();
-                document.LoadHtml(Html.Sitecore().Field("Background Image", new { width = 502, alt = "" }).ToString());
-                document.DocumentNode.SetAttributeValue("alt", null);
-                @Html.Raw(document.DocumentNode.OuterHtml)
-            }
-        }
-        <div class="content">
-            @if (Html.Sitecore().HasValue("Header") || Html.Sitecore().HasValue("Sub Header"))
-            {
-                <header>
-                    @if (Html.Sitecore().HasValue("Header"))
-                    {
-                        <h2>@Html.Sitecore().Field("Header")</h2>
-                    }
-                    @if (Html.Sitecore().HasValue("Sub Header"))
-                    {
-                        <p>@Html.Sitecore().Field("Sub Header")</p>
-                    }
-                </header>
-            }
-
-            @Html.Sitecore().Field("Content")
-            @Html.Sitecore().Field("Button")
+            <div style="clear: both;"></div>
         </div>
-        @if (Html.Sitecore().CurrentItem.IsChecked("Image on Right").GetValueOrDefault())
-        {
-            @Html.Sitecore().Field("Background Image", new { width = 502, alt = "" });
-        }
-        <div style="clear: both;"></div>
     </article>
 }

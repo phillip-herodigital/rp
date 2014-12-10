@@ -63,28 +63,9 @@
         <div ng-if="hasMobileNav" ng-include="'mobileNav'" mobile-nav="0"></div>
         <div class="page-content">
             @Html.Sitecore().Placeholder("header")
-
-            @{ var bannerImage = Html.Sitecore().CurrentItem["Banner Image"]; }
-            @if (bannerImage != null && !string.IsNullOrEmpty(bannerImage.ToString()))
-            {
-                var bannerCssClassField = Html.Sitecore().CurrentItem.Fields["Banner CSS Class"];
-                <div class="banner @(bannerCssClassField != null ? bannerCssClassField.Value : "marketing")" style="@Html.AsBackgroundStyle("Banner Image")">
-                    @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Text").ToString()))
-                    {
-                        <div class="inner">
-                            <div class="wrapper">
-                                @Html.Sitecore().Field("Banner Text")
-                            </div>
-                        </div>
-                    }
-                </div>
-            }
             <section class="layout cols-1">
-
                 @Html.Sitecore().Placeholder("content")
-
             </section>
-
             @Html.Sitecore().Placeholder("footer")
         </div>
     </div>

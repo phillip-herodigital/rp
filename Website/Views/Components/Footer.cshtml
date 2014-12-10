@@ -8,16 +8,16 @@
     var supportEMail = Html.Sitecore().CurrentItem["Support E-Mail"];
 }
 <footer class="site-footer">
-    <address id="Contact-Footer-Global">
-        <div class="content">
-            <div id="HelpText-Contact-Footer-Global">@Html.Sitecore().Field("Support Message")</div>
-            <p id="ContactMethods-Contact-Footer-Global"><a href="tel:+@suportPhoneNumber"><img src="~/Images/call-icon.png" alt="Support Number:"> @Html.Sitecore().Field("Support Phone Number")</a></p>
-            <p><a href="mailto:@supportEMail"><img src="~/Images/email-icon.png" alt="E-Mail:"> @Html.Sitecore().Field("Support E-Mail")</a></p>
+    <address>
+        <div class="wrapper">
+            <div class="support-text">@Html.Sitecore().Field("Support Message")</div>
+            <p class="support-number"><a href="@Html.Sitecore().CurrentItem["Support Phone Number URI"]"><img src="~/Images/call-icon.png" alt="@Html.Sitecore().Translate("Call"):"> @Html.Sitecore().Field("Support Phone Number")</a></p>
+            <p class="support-email"><a href="mailto:@supportEMail"><img src="~/Images/email-icon.png" alt="E-Mail:"> @Html.Sitecore().Field("Support E-Mail")</a></p>
             <div class="clear"></div>
         </div>
     </address>
     <div class="group">
-        <div class="content">
+        <div class="wrapper">
             @if (showSuperFooter)
             {
                 <nav>
@@ -33,7 +33,7 @@
                             </ul>
                         </section>
                     }
-                    <img src="~/images/social.png" usemap="#SocialMap-Footer-Global">
+                    <img class="social" src="~/images/social.png" usemap="#SocialMap-Footer-Global">
                     <map id="SocialMap-Footer-Global" name="SocialMap-Footer-Global">
                         <area alt="Facebook" coords="0,0,33,33" href="https://www.facebook.com/1streamenergy">
                         <area alt="Twitter" coords="49,0,82,33" href="http://twitter.com/1streamenergy">
