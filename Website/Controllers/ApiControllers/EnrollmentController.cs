@@ -259,7 +259,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                              from service in services.DefaultIfEmpty()
                                              select new LocationServices
                                              {
-                                                 Location = service.Location,
+                                                 Location = service != null ? service.Location : location,
                                                  SelectedOffers = service != null ? service.SelectedOffers : null
                                              }).ToArray();
 
@@ -327,9 +327,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, Dictionary<Location, LocationOfferSet> allOffers)
         {
             allOffers = allOffers ?? new Dictionary<Location, LocationOfferSet>();
-            var locationOffers = allOffers.ContainsKey(oldService.Location) ? allOffers[oldService.Location].Offers : Enumerable.Empty<IOffer>();
             var result = oldService ?? new LocationServices();
-            result.Location = oldService.Location;
+            IEnumerable<IOffer> locationOffers;
+            if (stateHelper.Context.IsRenewal)
+            {
+                locationOffers = allOffers.ContainsKey(oldService.Location) ? allOffers[oldService.Location].Offers : Enumerable.Empty<IOffer>();
+                result.Location = oldService.Location;
+            }
+            else
+            {
+                locationOffers = allOffers.ContainsKey(newSelection.Location) ? allOffers[newSelection.Location].Offers : Enumerable.Empty<IOffer>();
+                result.Location = newSelection.Location;
+            }
+            
             result.SelectedOffers = (from entry in newSelection.OfferIds
                                      join oldSelection in result.SelectedOffers ?? Enumerable.Empty<SelectedOffer>() on entry equals oldSelection.Offer.Id into oldSelections
                                      let offer = locationOffers.Where(offer => offer.Id == entry).FirstOrDefault()

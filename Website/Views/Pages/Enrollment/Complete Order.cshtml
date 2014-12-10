@@ -133,11 +133,11 @@
                     <button type="submit" class="primary" ng-if="customerType != 'commercial' && !isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Button")</button>
                     <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                     <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
-                    <button type="submit" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
+                    <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
                         <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
                         <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>
                     </button>
-                    <button type="submit" class="tertiary" ng-if="isRenewal" ng-click="resetRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                    <button type="button" class="tertiary" ng-if="isRenewal" ng-click="resetRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
 
                 </div>
             </form>
