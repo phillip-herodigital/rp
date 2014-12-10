@@ -1,11 +1,10 @@
 ﻿@using Sitecore.Data.Fields
-@{
-    var postDate = ((DateField)Html.Sitecore().CurrentItem.Fields["Date"]).DateTime;
-}
-<article class="module marketing wrapper blog-post">
-    <header>
-        <h3>@Html.Sitecore().Field("Title")</h3>
-        <p class="date">@Html.Sitecore().Field("Posted On Text"): <time datetime="@postDate.ToString("yyyy-MM-dd")">@Html.Sitecore().Field("Date", new { format = "MMMM d, yyyy" })</time></p>
-    </header>
-    @Html.Sitecore().Field("Content")
+<article class="marketing wrapper blog">
+    @{
+        <div class="blog-post">
+            <h2>@Html.Sitecore().Field("Title")</h2>
+            <p class="date">@Html.Sitecore().Field("Posted On Text"): @Html.Sitecore().Field("Date", new { format = "MMMM d, yyyy" })</p>
+            @Html.Sitecore().Field("Content")
+        </div>
+    }
 </article>
