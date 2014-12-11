@@ -112,6 +112,10 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                 'planSelection': {
                     name: 'phoneFlowPlans',
                     previous: ['phoneFlowNetwork', 'phoneFlowDevices']
+                },
+                'planSettings': {
+                    name: 'accountInformation',
+                    previous: ['phoneFlowNetwork', 'phoneFlowDevices', 'phoneFlowPlans']
                 }
              }
     }

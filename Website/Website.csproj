@@ -746,7 +746,6 @@
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\MobileEnrollment\ChoosePhone.cs" />
     <Compile Include="Models\MobileEnrollment\ChooseNetwork.cs" />
-    <Compile Include="Models\MobileEnrollment\AccountInformation.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\Temp\GenerateW9.cs" />

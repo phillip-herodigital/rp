@@ -285,5 +285,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         $window.location.href = '/mobile-enrollment';
     };
 
+    
+
     return service;
 }]);
