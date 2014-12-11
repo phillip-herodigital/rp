@@ -48,21 +48,14 @@ namespace StreamEnergy.Services.Clients
                 var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
                 var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
 
-                var parameters = System.Web.HttpUtility.ParseQueryString("");
-                parameters["ServiceAddress.City"] = location.Address.City;
-                parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
-                parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
-                parameters["ServiceAddress.StreetLine2"] = location.Address.Line2;
-                parameters["ServiceAddress.Zip"] = location.Address.PostalCode5;
-
-                parameters["CustomerType"] = customerType.CustomerType.ToString("g");
-                parameters["EnrollmentType"] = serviceStatus.EnrollmentType.ToString("g");
-
                 var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
-                parameters["UtilityAccountNumber"] = locAdapter.GetUtilityAccountNumber(location.Capabilities);
-                parameters["SystemOfRecord"] = locAdapter.GetSystemOfRecord(location.Capabilities);
-
-                var response = await streamConnectClient.GetAsync("/api/v1/products?" + parameters.ToString());
+                
+                var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/products", new
+                {
+                    CustomerType = customerType.CustomerType.ToString("g"),
+                    EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
+                    Details = locAdapter.GetProductRequest(location),
+                });
 
                 response.EnsureSuccessStatusCode();
                 var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());

@@ -87,5 +87,10 @@ namespace Cis2AureaAccountImport
         {
             throw new NotImplementedException();
         }
+
+        public object GetProductRequest(StreamEnergy.DomainModels.Enrollments.Location location)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

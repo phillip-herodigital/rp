@@ -36,5 +36,7 @@ namespace StreamEnergy.Services.Clients
         string GetProductId(DomainModels.Accounts.ISubAccount subAccount);
 
         string GetUtilityAccountNumber(DomainModels.Accounts.ISubAccount subAccount);
+
+        object GetProductRequest(Location location);
     }
 }

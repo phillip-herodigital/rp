@@ -203,5 +203,15 @@ namespace StreamEnergy.Services.Clients
         {
             return null;
         }
+
+        object ILocationAdapter.GetProductRequest(Location location)
+        {
+            return new
+            {
+                ServiceType = "Utility",
+                ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
+                UtilityAccountNumber = ((ILocationAdapter)this).GetUtilityAccountNumber(location.Capabilities),
+            };
+        }
     }
 }

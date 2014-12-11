@@ -221,5 +221,15 @@ namespace StreamEnergy.Services.Clients
             var account = subAccount as DomainModels.Accounts.GeorgiaGasAccount;
             return account.Id;
         }
+
+        object ILocationAdapter.GetProductRequest(Location location)
+        {
+            return new
+            {
+                ServiceType = "Utility",
+                ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
+                UtilityAccountNumber = ((ILocationAdapter)this).GetUtilityAccountNumber(location.Capabilities),
+            };
+        }
     }
 }
