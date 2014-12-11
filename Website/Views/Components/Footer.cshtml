@@ -1,10 +1,7 @@
-@using System.Text
-@using Sitecore.Data.Items
 @{
     var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"] ?? Sitecore.Context.Item.Fields["Hide Super Footer"];
     var showSuperFooter = hideSuperFooterField == null || hideSuperFooterField.Value != "1";
 
-    var suportPhoneNumber = Html.Sitecore().CurrentItem["Support Phone Number"];
     var supportEMail = Html.Sitecore().CurrentItem["Support E-Mail"];
 }
 <footer class="site-footer">
@@ -23,7 +20,7 @@
                 <nav>
                     @foreach (var linkGroupItem in Html.Sitecore().CurrentItem.Children.Where(item => item.TemplateName == "Link Group"))
                     {
-                        <section>
+                        <div>
                             <h3>@Html.Sitecore().Field("Name", linkGroupItem)</h3>
                             <ul>
                                 @foreach (var navigationItemItem in linkGroupItem.Children.Where(item => item.TemplateName == "Navigation Item"))
@@ -31,7 +28,7 @@
                                     <li>@Html.Sitecore().Field("Navigation Link", navigationItemItem)</li>
                                 }
                             </ul>
-                        </section>
+                        </div>
                     }
                     <img class="social" src="~/images/social.png" usemap="#SocialMap-Footer-Global">
                     <map id="SocialMap-Footer-Global" name="SocialMap-Footer-Global">
@@ -43,13 +40,13 @@
                     <div style="clear: both"></div>
                 </nav>
             }
-            <div id="Legal-Footer-Global">
+            <div class="site-footer-legal">
                 <p>
                     <small class="legal">
                         @Html.Sitecore().Field("Copyright Content")
                     </small>
                 </p>
-                <p id="BbcAndDsa-Legal-Footer-Global">
+                <p class="site-footer-bba-dsa">
                     <a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895"><abbr title="Better Business Bureau®"><img src="~/images/bbb_logo.png" alt="BBB"></abbr></a> <a href="http://www.dsa.org/ethics/"><abbr title="Direct Selling Association"><img src="~/images/dsa_logo.png" alt="DSA"></abbr></a>
                 </p>
             </div>

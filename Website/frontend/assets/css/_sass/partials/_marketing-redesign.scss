@@ -1,68 +1,9 @@
-.site-header {
-    background: image-url("marketing/redesign/header_background_gloabl.png") repeat-x;
-
-    .logo {
-        background-image: image-url("marketing/redesign/Logo.png");
-        height: image-height("marketing/redesign/Logo.png");
-        margin-top: 31px;
-        margin-bottom: 28px;
-        width: image-width("marketing/redesign/Logo.png");
-    }
-
-    .utility {
-        font-weight: 300;
-        padding: 0 35px 0 30px;
-        right: 162px;
-        color: #4f4c4d;
-        font-size: 14px;
-        letter-spacing: 0;
-        height: 32px;
-        line-height: 32px;
-
-        a {
-            color: inherit;
-        }
-    }
-
-    nav.main-nav {
-        height: 109px;
-        margin: 0;
-        float: none;
-        position: absolute;
-        top: 62px;
-        left: 385px;
-
-        ul {
-            text-transform: uppercase;
-            font-weight: 400;
-            color: #013c5b;
-            letter-spacing: .020em;
-
-            li {
-                height: 48px;
-
-                &.selected {
-                    color: #1991cf !important;
-                    background: url('/images/nav-first-level-selected-indicator.png') bottom center no-repeat;
-                    height: 48px;
-                }
-
-                a {
-                    color: inherit;
-                    font-weight: 400;
-                    font-size: 18px;
-                }
-            }
-        }
-    }
-}
-
 .page-content {
-    background: url('/images/pattern_bg.png') repeat-y center;
+    background: image-url('marketing/redesign/pattern_bg.png') repeat-y center;
 
-    section.layout.cols-1 {
+    > section.layout.cols-1 {
         background-color: white;
-        box-shadow: -7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 );
+        @include box-shadow(-7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 ));
         margin: 0 auto;
         max-width: 1280px;
     }
@@ -71,18 +12,12 @@
         ul {
             li {
                 &.selected {
-                    background: url('/Images/nav-second-level-selected-indicator.png') bottom center no-repeat;
+                    background: image-url('marketing/redesign/nav-second-level-selected-indicator.png') bottom center no-repeat;
                 }
             }
         }
     }
 }
-
-.sub-nav ul li a {
-    text-transform: none;
-    font-weight: 300;
-}
-
 
 .home-page {
     .banner.marketing {
@@ -198,7 +133,7 @@ article.marketing {
 
     .wrapper {
         padding: $marketing-wrapper-padding;
-        background: url('/images/Modules/module_background.png') no-repeat center top;
+        background: image-url('marketing/redesign/Modules/module_background.png') no-repeat center top;
     }
 
     img {
