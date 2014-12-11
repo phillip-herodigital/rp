@@ -101,6 +101,12 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             delete steps.utilityFlowService;
             delete steps.accountInformation;
             delete steps.verifyIdentity;
+            flows.utility = {
+                'planSelection': {
+                    name: 'utilityFlowPlans',
+                    previous: ['utilityFlowService']
+                }
+            };
             isRenewal = true;
         },
 
