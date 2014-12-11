@@ -201,6 +201,10 @@
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\MobileServiceProvider.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\Offer.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\OfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\ServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\MonthlyOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferPaymentAmount.cs" />
