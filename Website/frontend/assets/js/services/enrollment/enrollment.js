@@ -183,6 +183,22 @@
         return makeCall('selectedOffers', data, overrideServerStep);
     };
 
+    /**
+    * Set choose network
+    * 
+    * @return {object}            Promise object returned when API call has successfully completed.
+    */
+    service.setChooseNetwork = function () {
+        //Create our empty networks object
+        var data = { 'mobileNetworks': [] };
+        /*
+        angular.forEach(enrollmentCartService.services, function (address) {
+            data.locations.push(address.location);
+        });
+        */
+        return makeCall('chooseNetwork', data);
+    };
+
     service.cleanseAddresses = function (addresses) {
         service.isLoading = true;
         var deferred = $q.defer();

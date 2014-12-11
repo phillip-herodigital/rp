@@ -18,6 +18,7 @@ using StreamEnergy.Logging;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Enrollment;
 using StreamEnergy.Processes;
+using StreamEnergy.MyStream.Models.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -536,6 +537,27 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             return resultData;
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<ClientData> ChooseNetwork([FromBody]ChooseNetwork value)
+        {
+            await Initialize();
+            await ResetPreAccountInformation();
+            stateMachine.Context.AgreeToTerms = false;
+            stateMachine.Context.Services = (from network in value.MobileNetworks
+                                             select new LocationServices
+                                             {
+                                                 Location = new Location(),
+                                                 SelectedOffers = null
+                                             }).ToArray();
+
+            await stateMachine.ContextUpdated();
+
+            await stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
+
+            return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
     }
 }
