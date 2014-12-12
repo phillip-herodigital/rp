@@ -33,8 +33,8 @@ namespace StreamEnergy.MyStream.Utility
                 return null;
 
             return (from navigationItem in renderingItem.GetDescendantsAndSelf()
-                    let linkField = navigationItem.Fields["Navigation Link"]
-                    where (LinkField)linkField != null && ((LinkField)linkField).TargetID == item.ID
+                    let linkField = (LinkField)navigationItem.Fields["Navigation Link"]
+                    where linkField != null && linkField.TargetID == item.ID
                     select new ItemSiteMapNode(this, navigationItem)).FirstOrDefault();
         }
 
