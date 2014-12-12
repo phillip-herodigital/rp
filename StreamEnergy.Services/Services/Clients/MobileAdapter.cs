@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using StreamEnergy.DomainModels.Enrollments.Mobile;
+using Mobile = StreamEnergy.DomainModels.Enrollments.Mobile;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -11,7 +11,7 @@ namespace StreamEnergy.Services.Clients
     {
         bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
         {
-            return capabilities.Any(cap => cap is ServiceCapability);
+            return capabilities.Any(cap => cap is Mobile.ServiceCapability);
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities, DomainModels.Enrollments.IOffer offer)
@@ -69,7 +69,7 @@ namespace StreamEnergy.Services.Clients
                           let product = products.First()
                           //let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode)
                           //where productData != null
-                          select new Offer
+                          select new Mobile.Offer
                           {
                               Id = product.ProductId,
                               Provider = product.Provider.ToString(),
@@ -100,7 +100,8 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.SkipPremiseVerification(DomainModels.Enrollments.Location location)
         {
-            throw new NotImplementedException();
+            var capability = location.Capabilities.OfType<Mobile.ServiceCapability>().Single();
+            return true;
         }
 
         dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, DomainModels.Enrollments.UserContext context, DomainModels.Enrollments.LocationServices service, DomainModels.Enrollments.SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId, object depositObject)
@@ -128,7 +129,7 @@ namespace StreamEnergy.Services.Clients
             return new
             {
                 ServiceType = "Mobile",
-                Network = location.Capabilities.OfType<ServiceCapability>().Single().ServiceProvider.ToString("g"),
+                Network = location.Capabilities.OfType<Mobile.ServiceCapability>().Single().ServiceProvider.ToString("g"),
                 ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
             };
         }
