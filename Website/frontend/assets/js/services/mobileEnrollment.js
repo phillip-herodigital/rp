@@ -145,7 +145,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
 
     service.getConditionPrice = function(id, condition) {
         var item = _.where(this.getPhones(), { id: id })[0];
-        var models =  _.where(item.models, { condition: condition });
+        var models = _.where(item.models, { condition: condition, network: service.selectedNetwork.value });
 
         //Return the lowest price for the condition
         return _.min(models, function(model){ return model.price; }).price;
