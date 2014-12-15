@@ -16,7 +16,7 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities, DomainModels.Enrollments.IOffer offer)
         {
-            throw new NotImplementedException();
+            return offer.OfferType == Mobile.Offer.Qualifier;
         }
 
         bool ILocationAdapter.IsFor(DomainModels.Address serviceAddress, string productType)
@@ -46,7 +46,7 @@ namespace StreamEnergy.Services.Clients
 
         string ILocationAdapter.GetCommodityType()
         {
-            throw new NotImplementedException();
+            return "Mobile";
         }
 
         Newtonsoft.Json.Linq.JObject ILocationAdapter.GetProvider(DomainModels.Enrollments.IOffer offer)
@@ -61,12 +61,35 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.LocationOfferSet ILocationAdapter.LoadOffers(DomainModels.Enrollments.Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
+            var mockProducts = new StreamConnect.Product[] 
+                {
+                    new StreamConnect.Product
+                    {
+                        ProductId = "111",
+                        Provider = "ATT",
+                        ProductCode = "1GB"
+                    },
+                    new StreamConnect.Product
+                    {
+                        ProductId = "222",
+                        Provider = "ATT",
+                        ProductCode = "2GB"
+                    },
+                    new StreamConnect.Product
+                    {
+                        ProductId = "333",
+                        Provider = "ATT",
+                        ProductCode = "3GB"
+                    }
+
+                };
+            
             return new DomainModels.Enrollments.LocationOfferSet
             {
-                Offers = (from product in streamConnectProductResponse.Products
-                          where product.Rates.Any(r => r.Unit == "Therm")
-                          group product by product.ProductCode into products
-                          let product = products.First()
+                Offers = (from product in mockProducts //streamConnectProductResponse.Products
+                          //where product.Rates.Any(r => r.Unit == "Therm")
+                          //group product by product.ProductCode into products
+                          //let product = products.First()
                           //let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode)
                           //where productData != null
                           select new Mobile.Offer
@@ -100,7 +123,6 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.SkipPremiseVerification(DomainModels.Enrollments.Location location)
         {
-            var capability = location.Capabilities.OfType<Mobile.ServiceCapability>().Single();
             return true;
         }
 

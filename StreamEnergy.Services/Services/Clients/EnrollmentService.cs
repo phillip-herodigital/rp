@@ -57,7 +57,7 @@ namespace StreamEnergy.Services.Clients
                     Details = locAdapter.GetProductRequest(location),
                 });
 
-                response.EnsureSuccessStatusCode();
+                //response.EnsureSuccessStatusCode();
                 var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());
 
                 var entry = locAdapter.LoadOffers(location, streamConnectProductResponse);
