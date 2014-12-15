@@ -324,6 +324,26 @@
     </table>
 </script>
 
+<script type="text/ng-template" id="completeOrder/Mobile">
+    @*<h3>Electricity</h3>*@
+    <table class="verify-order-table">
+        <tbody>
+            <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
+                <td class="description">
+                    paymentsDue/Deposit
+                    <h4>{{selectedOffer.offer.name}}</h4>
+                    @*<p>{{selectedOffer.offer.description}}</p>*@
+                </td>
+                <td class="rate">
+                    {{selectedOffer.offer.rate | currency}} kWh
+                </td>
+            </tr>
+            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></tr>
+            <tr ng-repeat-end></tr>
+        </tbody>
+    </table>
+</script>
+
 <script type="text/ng-template" id="paymentsDue/Deposit">
     <tr>
         <td class="sub-charge">

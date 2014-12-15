@@ -2212,8 +2212,10 @@
     }
     .filters {
         font-size: 13px;
-        background: #fff;
-        padding: 10px $enrollment-module-horizontal-padding;
+        background: #fdfdfd;
+        padding: 10px $enrollment-module-horizontal-padding !important;
+        border-bottom: none !important;
+        margin-bottom: 30px !important;
         .item.group-col {
             margin-top: 0;
             .block-label {
@@ -2235,16 +2237,17 @@
                 &.brands, &.os {
                     width: 100%;
                 }
-        }
+            }
         }
         button {
-            font-size: 14px;
+            font-size: 16px;
+            color: #333;
             background: transparent;
             border: 1px solid transparent;
-            color: #999;
             padding: 4px 15px;
-            &.active {
-                border: 1px solid $enrollment-light-border-color;
+            text-transform: none;
+            text-shadow: none;
+            &.active, &:hover {
                 color: #333;
             }
         }
@@ -2326,7 +2329,7 @@
             vertical-align: middle;
             border-bottom: 1px solid #ddd;
             &.active {
-                background: #fff;
+                background: #fdfdfd;
                 border-bottom: none;
                 h1 { 
                     color: #0971ce; 
@@ -2335,6 +2338,7 @@
             }
             h1 {
                 padding: 2px 20px;
+                margin: 10px 0;
                 font-size: 20px;
             }
             &:first-child {
@@ -2349,12 +2353,24 @@
         }
     }
     .phone-selector {
-        .col {
-            border: none;
-            vertical-align: top;
-            padding: 25px 20px;
-            width: 33.3333%;
-            text-align: center;
+        .grid {
+            @include retina-background('horizontal-border.png', 'enrollment');
+            background-color: #fdfdfd;
+            background-position: top center;
+            background-repeat: no-repeat;
+            .col {
+                @include retina-background('vertical-border.png', 'enrollment');
+                background-color: #fdfdfd;
+                background-position: right top;
+                background-repeat: no-repeat;
+                vertical-align: top;
+                padding: 0 20px 25px;
+                width: 33.3333%;
+                text-align: center;
+                &:last-child {
+                    border: none;
+                }
+            }
         }
         h3 {
             font-size: 18px;
@@ -2367,6 +2383,7 @@
         }
         button {
             width: 100%;
+            text-transform: none;
         }
         .product-image {
             margin-bottom: 16px;

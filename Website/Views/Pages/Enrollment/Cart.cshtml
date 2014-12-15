@@ -113,6 +113,31 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="cart/Mobile">
+    <div class="cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
+            <i class="icon-delete"></i>
+        </div>
+        <div class="description">
+            <i class="icon-gas-icon"></i>
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+            </div>
+        </div>
+        <div class="rate">
+            {{selectedOffer.offer.rate}}&cent;
+            <span>@Html.Sitecore().Field("Per Therm")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
 <script type="text/ng-template" id="cart/TexasElectricityCommercialQuote">
 </script>
 
