@@ -105,7 +105,7 @@
                                     <a href="" class="pull-left" ng-click="clearPhoneSelection()">&#8592; @Html.Sitecore().Field("Back to All Phones")</a>
                                 </div>
                                 <div class="phone-details" data-additional-fields>
-                                    <h1>@Html.Raw(phone.Name)</h1>
+                                    <h1>@Html.Raw(phone.Brand) @Html.Raw(phone.Name)</h1>
                                     <div class="description">
                                         @Html.Raw(phone.Description)
                                     </div>
@@ -183,6 +183,7 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <hr />
                                     <div class="item">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
@@ -214,9 +215,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <footer>
-                                <button type="submit" ng-if="mobileEnrollment.phoneTypeTab == 'new'" ng-disabled="!phoneOptionsValid()" data-val-submit>@Html.Sitecore().Field("Button - Add to Cart")</button>
-                            </footer>
                         </form>
                     </toggle-pane>
                 }
@@ -303,11 +301,14 @@
                                 </div>
                             </div>
                         </div>
-                        <footer>
-                            <button type="submit" data-val-submit>@Html.Sitecore().Field("Button - Configure Data")</button>
-                        </footer>
                     </form>
                 </toggle-pane>
+            </article>
+            <article class="enrollment__box enrollment__choose-device form">
+                <header>
+                    Want to add another phone to your plan?
+                </header>
+
             </article>
             <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
         </section>
