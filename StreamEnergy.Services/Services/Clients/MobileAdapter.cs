@@ -128,7 +128,6 @@ namespace StreamEnergy.Services.Clients
             return new
             {
                 ServiceType = "Mobile",
-                Network = location.Capabilities.OfType<ServiceCapability>().Single().ServiceProvider.ToString("g"),
                 ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
             };
         }

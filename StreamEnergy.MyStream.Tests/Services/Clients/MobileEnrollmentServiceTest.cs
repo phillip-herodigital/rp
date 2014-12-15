@@ -31,7 +31,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Enrollments")]
         [TestCategory("StreamConnect Mobile Enrollments")]
-        public void GetProductsGeorgiaZipTest()
+        public void GetProductsMobileTest()
         {
             // Assign
             StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
@@ -47,7 +47,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Address = new DomainModels.Address { StateAbbreviation = "FL", PostalCode5 = "33418", },
                         Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.Mobile.ServiceCapability { ServiceProvider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint },
+                            new DomainModels.Enrollments.Mobile.ServiceCapability { },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
