@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using StreamEnergy.DomainModels;
 using System.Collections.Specialized;
 using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity;
-using Renewal = StreamEnergy.DomainModels.Enrollments.Renewal;
 
 namespace StreamEnergy.MyStream.Tests
 {
@@ -40,7 +39,6 @@ namespace StreamEnergy.MyStream.Tests
         private Address mailingAddress;
         private Address previousAddress;
         private Location specificRenewalLocation;
-        private Renewal.OfferOption renewalOption;
 
         [TestInitialize]
         public void InitializeTest()
@@ -224,10 +222,10 @@ namespace StreamEnergy.MyStream.Tests
                 Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
                 Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
             };
-            renewalOption = new Renewal.OfferOption
-            {
-                RenewalDate = DateTime.Today.AddDays(7)
-            };
+            //renewalOption = new Renewal.OfferOption
+            //{
+            //    RenewalDate = DateTime.Today.AddDays(7)
+            //};
             contactInfo = new DomainModels.CustomerContact
             {
                 Name = new DomainModels.Name { First = "Test", Last = "Person" },
@@ -424,21 +422,21 @@ namespace StreamEnergy.MyStream.Tests
             })));
             mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>(), It.IsAny<IOffer>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
 
-            mockEnrollmentService.Setup(m => m.BeginRenewal(It.IsAny<DomainModels.Accounts.Account>(), It.IsAny<DomainModels.Accounts.ISubAccount>(), It.IsAny<DomainModels.Enrollments.Renewal.OfferOption>()))
-                .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
-                {
-                    IsCompleted = false
-                }));
-            mockEnrollmentService.Setup(m => m.EndRenewal(It.IsAny<StreamAsync<DomainModels.Enrollments.RenewalResult>>()))
-                .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
-                {
-                    Data = new DomainModels.Enrollments.RenewalResult
-                    {
-                        ConfirmationNumber = "88664422",
-                        IsSuccess = true
-                    },
-                    IsCompleted = true
-                }));
+            //mockEnrollmentService.Setup(m => m.BeginRenewal(It.IsAny<DomainModels.Accounts.Account>(), It.IsAny<DomainModels.Accounts.ISubAccount>(), It.IsAny<DomainModels.Enrollments.Renewal.OfferOption>()))
+            //    .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
+            //    {
+            //        IsCompleted = false
+            //    }));
+            //mockEnrollmentService.Setup(m => m.EndRenewal(It.IsAny<StreamAsync<DomainModels.Enrollments.RenewalResult>>()))
+            //    .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
+            //    {
+            //        Data = new DomainModels.Enrollments.RenewalResult
+            //        {
+            //            ConfirmationNumber = "88664422",
+            //            IsSuccess = true
+            //        },
+            //        IsCompleted = true
+            //    }));
             
         }
 
@@ -1668,258 +1666,258 @@ namespace StreamEnergy.MyStream.Tests
 
         #region Renewal
 
-        [TestMethod]
-        public void PostRenewalAccountInformationTest()
-        {
-            // Arrange
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<InternalContext>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>, InternalContext>((a, b, services, ctx) =>
-            {
-                return Task.FromResult(from loc in services
-                                       from offer in loc.SelectedOffers
-                                       select new DomainModels.Enrollments.Service.LocationOfferDetails<OfferPayment>
-                                       {
-                                           Location = loc.Location,
-                                           Offer = offer.Offer,
-                                           Details = new OfferPayment
-                                           {
-                                               RequiredAmounts = new IOfferPaymentAmount[] 
-                                                   { 
-                                                       new DepositOfferPaymentAmount { DollarAmount = 0 }
-                                                   },
-                                               OngoingAmounts = new IOfferPaymentAmount[] { },
-                                               PostBilledAmounts = new IOfferPaymentAmount[] { },
-                                           }
-                                       });
-            });
+        //[TestMethod]
+        //public void PostRenewalAccountInformationTest()
+        //{
+        //    // Arrange
+        //    var session = container.Resolve<EnrollmentController.SessionHelper>();
+        //    mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<InternalContext>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>, InternalContext>((a, b, services, ctx) =>
+        //    {
+        //        return Task.FromResult(from loc in services
+        //                               from offer in loc.SelectedOffers
+        //                               select new DomainModels.Enrollments.Service.LocationOfferDetails<OfferPayment>
+        //                               {
+        //                                   Location = loc.Location,
+        //                                   Offer = offer.Offer,
+        //                                   Details = new OfferPayment
+        //                                   {
+        //                                       RequiredAmounts = new IOfferPaymentAmount[] 
+        //                                           { 
+        //                                               new DepositOfferPaymentAmount { DollarAmount = 0 }
+        //                                           },
+        //                                       OngoingAmounts = new IOfferPaymentAmount[] { },
+        //                                       PostBilledAmounts = new IOfferPaymentAmount[] { },
+        //                                   }
+        //                               });
+        //    });
 
-            session.EnsureInitialized().Wait();
-            session.Context = new UserContext
-            {
-                IsRenewal = true,
-                Services = new[] 
-                {
-                    new LocationServices
-                    {
-                        Location = specificRenewalLocation,
-                        SelectedOffers = new SelectedOffer[] 
-                        { 
-                            new SelectedOffer 
-                            { 
-                                Offer = new DomainModels.Enrollments.Renewal.Offer 
-                                { 
-                                    RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty) 
-                                    { 
-                                    } 
-                                } 
-                            }
-                        }
-                    }
-                }
-            };
-            session.InternalContext = new InternalContext
-            {
-                AllOffers = new Dictionary<Location, LocationOfferSet> 
-                { 
-                    { 
-                        specificRenewalLocation, new LocationOfferSet 
-                        { 
-                            Offers = new IOffer[]
-                            {
-                                new DomainModels.Enrollments.Renewal.Offer 
-                                { 
-                                    RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
-                                } 
-                            }
-                        } 
-                    }
-                }
-            };
-            session.State = typeof(DomainModels.Enrollments.AccountInformationState);
-            var request = new Models.Enrollment.AccountInformation
-            {
-                Cart = new[] 
-                {
-                    new Models.Enrollment.CartEntry 
-                    {
-                        Location = specificRenewalLocation,
-                        OfferInformationByType = new Dictionary<string,Models.Enrollment.OfferInformation>
-                        {
-                            {
-                                "Renewal",
-                                new Models.Enrollment.OfferInformation
-                                {
-                                    OfferSelections = new []
-                                    {
-                                        new Models.Enrollment.OfferSelection
-                                        {
-                                            OfferId = "",
-                                            OfferOption = renewalOption
-                                        }
-                                    }
-                                }
-                            }
-                        }.ToArray()
-                    }
-                },
-            };
+        //    session.EnsureInitialized().Wait();
+        //    session.Context = new UserContext
+        //    {
+        //        IsRenewal = true,
+        //        Services = new[] 
+        //        {
+        //            new LocationServices
+        //            {
+        //                Location = specificRenewalLocation,
+        //                SelectedOffers = new SelectedOffer[] 
+        //                { 
+        //                    new SelectedOffer 
+        //                    { 
+        //                        Offer = new DomainModels.Enrollments.Renewal.Offer 
+        //                        { 
+        //                            RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty) 
+        //                            { 
+        //                            } 
+        //                        } 
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    };
+        //    session.InternalContext = new InternalContext
+        //    {
+        //        AllOffers = new Dictionary<Location, LocationOfferSet> 
+        //        { 
+        //            { 
+        //                specificRenewalLocation, new LocationOfferSet 
+        //                { 
+        //                    Offers = new IOffer[]
+        //                    {
+        //                        new DomainModels.Enrollments.Renewal.Offer 
+        //                        { 
+        //                            RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
+        //                        } 
+        //                    }
+        //                } 
+        //            }
+        //        }
+        //    };
+        //    session.State = typeof(DomainModels.Enrollments.AccountInformationState);
+        //    var request = new Models.Enrollment.AccountInformation
+        //    {
+        //        Cart = new[] 
+        //        {
+        //            new Models.Enrollment.CartEntry 
+        //            {
+        //                Location = specificRenewalLocation,
+        //                OfferInformationByType = new Dictionary<string,Models.Enrollment.OfferInformation>
+        //                {
+        //                    {
+        //                        "Renewal",
+        //                        new Models.Enrollment.OfferInformation
+        //                        {
+        //                            OfferSelections = new []
+        //                            {
+        //                                new Models.Enrollment.OfferSelection
+        //                                {
+        //                                    OfferId = "",
+        //                                    OfferOption = renewalOption
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                }.ToArray()
+        //            }
+        //        },
+        //    };
 
-            using (var controller = container.Resolve<EnrollmentController>())
-            {
-                controller.Initialize().Wait();
+        //    using (var controller = container.Resolve<EnrollmentController>())
+        //    {
+        //        controller.Initialize().Wait();
 
-                // Act
-                var result = controller.AccountInformation(request).Result;
+        //        // Act
+        //        var result = controller.AccountInformation(request).Result;
 
-                // Assert
-                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
-            }
+        //        // Assert
+        //        Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
+        //    }
 
-            Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
-            Assert.IsTrue(session.InternalContext.AllOffers.ContainsKey(specificRenewalLocation));
-            Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == ""));
-            Assert.IsTrue(session.Context.Services.First().SelectedOffers.First().OfferOption is DomainModels.Enrollments.Renewal.OfferOption);
-        }
+        //    Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
+        //    Assert.IsTrue(session.InternalContext.AllOffers.ContainsKey(specificRenewalLocation));
+        //    Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == ""));
+        //    Assert.IsTrue(session.Context.Services.First().SelectedOffers.First().OfferOption is DomainModels.Enrollments.Renewal.OfferOption);
+        //}
 
-        [TestMethod]
-        public void PostRenewalConfirmOrderTest()
-        {
-            // Arrange
-            var offers = new Dictionary<Location, LocationOfferSet> 
-                { 
-                    { 
-                        specificRenewalLocation, new LocationOfferSet 
-                        { 
-                            Offers = new IOffer[]
-                            {
-                                new DomainModels.Enrollments.Renewal.Offer 
-                                { 
-                                    RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
-                                } 
-                            }
-                        } 
-                    }
-                };
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.EnsureInitialized().Wait();
-            session.Context = new UserContext
-            {
-                IsRenewal = true,
-                Services = new[]
-                { 
-                    new LocationServices
-                    {
-                        Location = specificRenewalLocation,
-                        SelectedOffers = new SelectedOffer[] 
-                        { 
-                            new SelectedOffer 
-                            { 
-                                Offer = offers[specificRenewalLocation].Offers.First(),
-                                OfferOption = renewalOption
-                            }
-                        }
-                    }
-                },
-            };
-            session.InternalContext = new InternalContext
-            {
-                AllOffers = offers,
-                IdentityCheck = null,
-                EnrollmentSaveState = null,
-                Deposit = null,
-            };
-            session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
-            var request = new Models.Enrollment.ConfirmOrder
-            {
-                AgreeToTerms = true,
-            };
+        //[TestMethod]
+        //public void PostRenewalConfirmOrderTest()
+        //{
+        //    // Arrange
+        //    var offers = new Dictionary<Location, LocationOfferSet> 
+        //        { 
+        //            { 
+        //                specificRenewalLocation, new LocationOfferSet 
+        //                { 
+        //                    Offers = new IOffer[]
+        //                    {
+        //                        new DomainModels.Enrollments.Renewal.Offer 
+        //                        { 
+        //                            RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
+        //                        } 
+        //                    }
+        //                } 
+        //            }
+        //        };
+        //    var session = container.Resolve<EnrollmentController.SessionHelper>();
+        //    session.EnsureInitialized().Wait();
+        //    session.Context = new UserContext
+        //    {
+        //        IsRenewal = true,
+        //        Services = new[]
+        //        { 
+        //            new LocationServices
+        //            {
+        //                Location = specificRenewalLocation,
+        //                SelectedOffers = new SelectedOffer[] 
+        //                { 
+        //                    new SelectedOffer 
+        //                    { 
+        //                        Offer = offers[specificRenewalLocation].Offers.First(),
+        //                        OfferOption = renewalOption
+        //                    }
+        //                }
+        //            }
+        //        },
+        //    };
+        //    session.InternalContext = new InternalContext
+        //    {
+        //        AllOffers = offers,
+        //        IdentityCheck = null,
+        //        EnrollmentSaveState = null,
+        //        Deposit = null,
+        //    };
+        //    session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
+        //    var request = new Models.Enrollment.ConfirmOrder
+        //    {
+        //        AgreeToTerms = true,
+        //    };
 
-            using (var controller = container.Resolve<EnrollmentController>())
-            {
-                controller.Initialize().Wait();
+        //    using (var controller = container.Resolve<EnrollmentController>())
+        //    {
+        //        controller.Initialize().Wait();
 
-                // Act
-                var result = controller.ConfirmOrder(request).Result;
+        //        // Act
+        //        var result = controller.ConfirmOrder(request).Result;
 
-                // Assert
-                Assert.AreEqual(true, result.IsLoading);
-            }
+        //        // Assert
+        //        Assert.AreEqual(true, result.IsLoading);
+        //    }
 
-            Assert.IsNotNull(session.InternalContext.RenewalResult);
-            Assert.IsFalse(session.InternalContext.RenewalResult.IsCompleted);
-            Assert.AreEqual(typeof(DomainModels.Enrollments.PlaceOrderState), session.State);
-        }
+        //    Assert.IsNotNull(session.InternalContext.RenewalResult);
+        //    Assert.IsFalse(session.InternalContext.RenewalResult.IsCompleted);
+        //    Assert.AreEqual(typeof(DomainModels.Enrollments.PlaceOrderState), session.State);
+        //}
 
-        [TestMethod]
-        public void PostRenewalResumeConfirmOrderTest()
-        {
-            // Arrange
-            var offers = new Dictionary<Location, LocationOfferSet> 
-                { 
-                    { 
-                        specificRenewalLocation, new LocationOfferSet 
-                        { 
-                            Offers = new IOffer[]
-                            {
-                                new DomainModels.Enrollments.Renewal.Offer 
-                                { 
-                                    RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
-                                } 
-                            }
-                        } 
-                    }
-                };
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.EnsureInitialized().Wait();
-            session.Context = new UserContext
-            {
-                AdditionalAuthorizations = new Dictionary<AdditionalAuthorization,bool>(),
-                IsRenewal = true,
-                Services = new[]
-                { 
-                    new LocationServices
-                    {
-                        Location = specificRenewalLocation,
-                        SelectedOffers = new SelectedOffer[] 
-                        { 
-                            new SelectedOffer 
-                            { 
-                                Offer = offers[specificRenewalLocation].Offers.First(),
-                                OfferOption = renewalOption
-                            }
-                        }
-                    }
-                },
-                AgreeToTerms = true
-            };
-            session.InternalContext = new InternalContext
-            {
-                AllOffers = offers,
-                IdentityCheck = null,
-                EnrollmentSaveState = null,
-                Deposit = null,
-                RenewalResult = new StreamAsync<RenewalResult>
-                {
-                    IsCompleted = false
-                }
-            };
-            session.State = typeof(DomainModels.Enrollments.PlaceOrderState);
+        //[TestMethod]
+        //public void PostRenewalResumeConfirmOrderTest()
+        //{
+        //    // Arrange
+        //    var offers = new Dictionary<Location, LocationOfferSet> 
+        //        { 
+        //            { 
+        //                specificRenewalLocation, new LocationOfferSet 
+        //                { 
+        //                    Offers = new IOffer[]
+        //                    {
+        //                        new DomainModels.Enrollments.Renewal.Offer 
+        //                        { 
+        //                            RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
+        //                        } 
+        //                    }
+        //                } 
+        //            }
+        //        };
+        //    var session = container.Resolve<EnrollmentController.SessionHelper>();
+        //    session.EnsureInitialized().Wait();
+        //    session.Context = new UserContext
+        //    {
+        //        AdditionalAuthorizations = new Dictionary<AdditionalAuthorization,bool>(),
+        //        IsRenewal = true,
+        //        Services = new[]
+        //        { 
+        //            new LocationServices
+        //            {
+        //                Location = specificRenewalLocation,
+        //                SelectedOffers = new SelectedOffer[] 
+        //                { 
+        //                    new SelectedOffer 
+        //                    { 
+        //                        Offer = offers[specificRenewalLocation].Offers.First(),
+        //                        OfferOption = renewalOption
+        //                    }
+        //                }
+        //            }
+        //        },
+        //        AgreeToTerms = true
+        //    };
+        //    session.InternalContext = new InternalContext
+        //    {
+        //        AllOffers = offers,
+        //        IdentityCheck = null,
+        //        EnrollmentSaveState = null,
+        //        Deposit = null,
+        //        RenewalResult = new StreamAsync<RenewalResult>
+        //        {
+        //            IsCompleted = false
+        //        }
+        //    };
+        //    session.State = typeof(DomainModels.Enrollments.PlaceOrderState);
 
-            using (var controller = container.Resolve<EnrollmentController>())
-            {
-                controller.Initialize().Wait();
+        //    using (var controller = container.Resolve<EnrollmentController>())
+        //    {
+        //        controller.Initialize().Wait();
 
-                // Act
-                var result = controller.Resume().Result;
+        //        // Act
+        //        var result = controller.Resume().Result;
 
-                // Assert
-                Assert.AreEqual(false, result.IsLoading);
-                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
-                Assert.AreEqual("88664422", result.Cart.Single().OfferInformationByType.First(e => e.Key == Renewal.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
-            }
+        //        // Assert
+        //        Assert.AreEqual(false, result.IsLoading);
+        //        Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
+        //        Assert.AreEqual("88664422", result.Cart.Single().OfferInformationByType.First(e => e.Key == Renewal.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
+        //    }
 
-            Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
-        }
+        //    Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
+        //}
         #endregion
     }
 }

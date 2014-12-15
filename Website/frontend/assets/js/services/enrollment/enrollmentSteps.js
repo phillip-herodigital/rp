@@ -7,7 +7,8 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
     //Only currentStep is visible
     var currentStep = {};
     var initialFlow,
-        currentFlow;
+        currentFlow,
+        isRenewal;
 
     //List of steps for the enrollment process
     var steps = {};
@@ -98,7 +99,15 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
 
         setRenewal: function () {
             delete steps.utilityFlowService;
+            delete steps.accountInformation;
             delete steps.verifyIdentity;
+            flows.utility = {
+                'planSelection': {
+                    name: 'utilityFlowPlans',
+                    previous: []
+                }
+            };
+            isRenewal = true;
         },
 
         setInitialFlow: function (flow) {
@@ -140,6 +149,10 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             }
             else if (expectedState == 'errorHardStop') {
                 $window.location.href = '/enrollment/please-contact';
+            }
+            else if (expectedState == 'planSettings' && isRenewal) {
+                service.setStep('reviewOrder');
+                service.setMaxStep('reviewOrder');
             }
             else if (flows[currentFlow] && flows[currentFlow][expectedState]) {
                 for (var i = 0; i < flows[currentFlow][expectedState].previous.length; i++) {

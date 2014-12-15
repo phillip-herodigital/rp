@@ -14,6 +14,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
+    $scope.isRenewal = enrollmentService.isRenewal;
 
     /**
     * Complete Enrollment Section

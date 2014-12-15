@@ -59,10 +59,12 @@ namespace StreamEnergy.DomainModels.Enrollments
                 var svc = context.Services.Single().SelectedOffers.Single();
                 if (internalContext.RenewalResult == null)
                 {
+                    var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<GeorgiaGas.RenewalCapability>().First();
                     internalContext.RenewalResult = await enrollmentService.BeginRenewal(
-                        (svc.Offer as Enrollments.Renewal.Offer).RenewingAccount,
-                        (svc.Offer as Enrollments.Renewal.Offer).RenewingSubAccount, 
-                        (svc.OfferOption as Enrollments.Renewal.OfferOption));
+                        renewalCapability.Account,
+                        renewalCapability.SubAccount,
+                        svc.Offer,
+                        svc.OfferOption);
                     return this.GetType();
                 }
                 else

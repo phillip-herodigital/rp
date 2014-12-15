@@ -18,6 +18,7 @@ using StreamEnergy.Logging;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Enrollment;
 using StreamEnergy.Processes;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -69,45 +70,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.Reset();
         }
 
-        [HttpGet]
-        [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<HttpResponseMessage> DemoSetupRenewal()
-        {
-            await Initialize();
-            stateHelper.Reset();
-            await stateHelper.EnsureInitialized();
-            stateHelper.State = typeof(ServiceInformationState);
-            stateHelper.Context.IsRenewal = true;
-            stateHelper.Context.Services = new LocationServices[]
-            {
-                new LocationServices 
-                { 
-                    Location = new Location 
-                    { 
-                        Address = new Address { Line1 = "3620 Huffines Blvd", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                        Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
-                    },
-                    SelectedOffers = new SelectedOffer[] 
-                    { 
-                        new SelectedOffer 
-                        { 
-                            Offer = new DomainModels.Enrollments.Renewal.Offer 
-                            { 
-                                RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty) 
-                                { 
-                                } 
-                            } 
-                        }
-                    }
-                }
-            };
-            await stateHelper.StateMachine.Process();
-
-            var response = Request.CreateResponse(HttpStatusCode.Found);
-            response.Headers.Location = new Uri(Request.RequestUri, "/enrollment");
-            return response;
-        }
-
         [NonAction]
         public async Task<bool> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
@@ -115,6 +77,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await stateHelper.EnsureInitialized();
             stateHelper.State = typeof(ServiceInformationState);
             stateHelper.Context.IsRenewal = true;
+            stateHelper.Context.ContactInfo = account.Details.ContactInfo;
+            stateHelper.Context.MailingAddress = account.Details.BillingAddress;
             stateHelper.Context.Services = new LocationServices[]
             {
                 new LocationServices 
@@ -122,18 +86,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Location = new Location 
                     { 
                         Address = account.SubAccounts.First().ServiceAddress,
-                        Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
-                    },
-                    SelectedOffers = new SelectedOffer[] 
-                    { 
-                        new SelectedOffer 
-                        { 
-                            Offer = new DomainModels.Enrollments.Renewal.Offer 
-                            { 
-                                RenewingAccount = account,
-                                RenewingSubAccount = subAccount
-                            } 
-                        }
+                        Capabilities = account.Capabilities.OfType<RenewalAccountCapability>().Single().Capabilities
                     }
                 }
             };
@@ -306,7 +259,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                              from service in services.DefaultIfEmpty()
                                              select new LocationServices
                                              {
-                                                 Location = location,
+                                                 Location = service != null ? service.Location : location,
                                                  SelectedOffers = service != null ? service.SelectedOffers : null
                                              }).ToArray();
 
@@ -325,7 +278,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.Services = (from newSelection in value.Selection
-                                             join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
+                                             join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location.Address equals oldService.Location.Address into oldServices
                                              select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
             await ResetPreAccountInformation();
 
@@ -335,7 +288,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 await stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
             stateMachine.Context.Services = (from newSelection in value.Selection
-                                             join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
+                                             join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location.Address equals oldService.Location.Address into oldServices
                                              select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
@@ -374,9 +327,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, Dictionary<Location, LocationOfferSet> allOffers)
         {
             allOffers = allOffers ?? new Dictionary<Location, LocationOfferSet>();
-            var locationOffers = allOffers.ContainsKey(newSelection.Location) ? allOffers[newSelection.Location].Offers : Enumerable.Empty<IOffer>();
             var result = oldService ?? new LocationServices();
-            result.Location = newSelection.Location;
+            IEnumerable<IOffer> locationOffers;
+            if (stateHelper.Context.IsRenewal)
+            {
+                locationOffers = allOffers.ContainsKey(oldService.Location) ? allOffers[oldService.Location].Offers : Enumerable.Empty<IOffer>();
+                result.Location = oldService.Location;
+            }
+            else
+            {
+                locationOffers = allOffers.ContainsKey(newSelection.Location) ? allOffers[newSelection.Location].Offers : Enumerable.Empty<IOffer>();
+                result.Location = newSelection.Location;
+            }
+            
             result.SelectedOffers = (from entry in newSelection.OfferIds
                                      join oldSelection in result.SelectedOffers ?? Enumerable.Empty<SelectedOffer>() on entry equals oldSelection.Offer.Id into oldSelections
                                      let offer = locationOffers.Where(offer => offer.Id == entry).FirstOrDefault()
@@ -384,8 +347,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                      select oldSelections.FirstOrDefault() ??
                                         new SelectedOffer
                                         {
-                                            Offer = offer,
-                                            OfferOption = null
+                                            Offer = offer
                                         }).ToArray();
             return result;
         }
@@ -455,10 +417,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             var allOffers = stateMachine.InternalContext.AllOffers ?? new Dictionary<Location, LocationOfferSet>(); ;
             stateMachine.Context.Services = (from cartEntry in request.Cart
-                                             let locationOffers = allOffers.ContainsKey(cartEntry.Location) ? allOffers[cartEntry.Location].Offers : Enumerable.Empty<IOffer>()
+                                             let oldService = (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()).SingleOrDefault(l => l.Location.Address == cartEntry.Location.Address)
+                                             let location = (oldService != null) ? oldService.Location : cartEntry.Location
+                                             let locationOffers = allOffers.ContainsKey(location) ? allOffers[location].Offers : Enumerable.Empty<IOffer>()
                                              select new LocationServices
                                              {
-                                                 Location = cartEntry.Location,
+                                                 Location = location,
                                                  SelectedOffers = (from type in cartEntry.OfferInformationByType
                                                                    from offerInfo in type.Value.OfferSelections
                                                                    let offer = locationOffers.Where(offer => offer.Id == offerInfo.OfferId).FirstOrDefault()

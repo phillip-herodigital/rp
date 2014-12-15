@@ -1,4 +1,19 @@
 ﻿<div ng-controller="AcctYourUtilityPlanCtrl">
+    
+    <article class="plain renew-plan" ng-if="renewal.isEligible && false">
+        <div class="notice alert" loading-indicator>
+            <div class="grid two">
+                <div class="col">
+                    <strong>@Html.Sitecore().Field("Renew Plan Text")</strong>
+                    <p>@Html.Sitecore().Field("Renew Date Text")</p>
+                </div>
+                <div class="col">
+                    <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
+                </div>
+            </div>
+        </div>
+    </article>
+
     <article class="plan" ng-init="georgiaProducts = @(Html.Action("GeorgiaProducts", "Data").ToHtmlString());">
         <header>
             <h2>@Html.Sitecore().Field("Your Gas Plan Text")</h2>
@@ -59,18 +74,19 @@
                 </tr>
             </tbody>
         </table>
-
-        <footer class="renew-plan" ng-show="utilityPlan.isRenewable">
+        @*
+        <footer class="renew-plan" ng-show="!renewal.isEligible">
             <div class="grid two">
                 <div class="col">
                     <h3>@Html.Sitecore().Field("Renew Plan Text")</h3>
-                    <p>@Html.Sitecore().Field("Renew Date Text") {{ utilityPlan.renewDate }}</p>
+                    <p>@Html.Sitecore().Field("Renew Date Text") {{ renewal.renewalDate }}</p>
                 </div>
                 <div class="col">
                     <button class="primary">@Html.Sitecore().Field("Renew Button Text")</button>
                 </div>
             </div>
         </footer>
+        *@
     </article>
 
     <article class="plan" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
@@ -129,6 +145,7 @@
                 </tr>
             </tbody>
         </table>
+        @*
         <footer class="renew-plan" ng-show="utilityPlan.isRenewable">
             <div class="grid two">
                 <div class="col">
@@ -140,5 +157,6 @@
                 </div>
             </div>
         </footer>
+        *@
     </article>
 </div>
