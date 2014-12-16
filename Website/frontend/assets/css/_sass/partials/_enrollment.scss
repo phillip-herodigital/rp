@@ -427,10 +427,11 @@
     }
     @include breakpoint(small) {
         .wrapper {
-            padding-top: 60px;
+            padding-top: 25px;
         }
         h1 {
             font-size: 30px;
+            font-weight: 300;
             max-width: 50%;
             .small {
                 font-size: 16px;
@@ -2120,7 +2121,7 @@
         @include breakpoint(small) {
             label {
                 width: 100% !important;
-    }
+            }
         }
     }
     .simple-options-item {
@@ -2130,6 +2131,9 @@
         }
         .btn-group-options {
             width: auto;
+            @include breakpoint(small) {
+                width: 100%;
+            }
         }
     }
     .icon-close {
@@ -2151,6 +2155,9 @@
         }
         a {
             float: left;
+            @include breakpoint(small) {
+                margin-right: 5px;
+            }
         }
         .black {
             background: #3a393b;
@@ -2274,6 +2281,10 @@
             &.active, &:hover {
                 color: #333;
             }
+            i {
+                height: 17px;
+                width:17px;
+            }
         }
         select {
             margin-top: -3px;
@@ -2329,6 +2340,7 @@
         .button {
             padding-top: 10px;
             padding-bottom: 10px;
+            text-align: left;
         }
         .previous-provider {
             margin-top: 1em;
@@ -2397,6 +2409,10 @@
                 }
                 @include breakpoint (small) {
                     width: auto;
+                    @include retina-background('horizontal-border.png', 'enrollment');
+                    background-color: #fdfdfd;
+                    background-position: center bottom;
+                    background-repeat: no-repeat;
                 }
             }
         }
@@ -2594,10 +2610,11 @@
         }
         .new-line-or {
             position: absolute;
-            top: 40%;
+            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            margin: 0 auto;
+            margin: auto;
             width: 35px;
             height: 35px;
             border: 1px solid #e6e6e6;
@@ -2608,13 +2625,32 @@
             padding: 8px 0;
             @include border-radius(50%);
         }
-
+        @include breakpoint(small) {
+            .new-line {
+                display: block;
+                width: 100%;
+                padding: 25px 0;
+                &:first-child {
+                    border-right: none;
+                    border-bottom: 1px solid #e6e6e6;
+                    padding-right: 0;
+                }
+                &:last-child {
+                    padding-left: 0;
+                }
+            }
+            .new-line-content {
+                padding-left: 10px;
+            }
+        }
     }
     .complete-step{
         display: inline-block;
-        float: right;
         font-weight: 600;
-        margin: 7px 15px;
+        margin: 7px 15px 7px 65px;
+        @include breakpoint(small-medium) {
+            margin: 10px 0;
+        }
     }
     .footnotes {
         padding-top: 35px;

@@ -325,8 +325,8 @@
 
             <div class="enrollment__choose-device">
                 <div class="buttons" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
-                    <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Continue Button")</button>
                     <span class="complete-step">@Html.Sitecore().Field("Complete Step Text")</span>
+                    <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Continue Button")</button>
                     <button type="submit" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Button")</button>
                 </div>
                 <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
