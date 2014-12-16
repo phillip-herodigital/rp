@@ -51,7 +51,7 @@ namespace StreamEnergy.Services.Clients
             return capability.AglcPremisesNumber;
         }
 
-        string ILocationAdapter.GetSystemOfRecord(IEnumerable<IServiceCapability> capabilities)
+        string ILocationAdapter.GetSystemOfRecord()
         {
             return "ISTA";
         }
@@ -130,38 +130,29 @@ namespace StreamEnergy.Services.Clients
             return capability.AglcPremisesNumber == null;
         }
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, UserContext context, LocationServices service, SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId, object depositObject)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
-            var georgiaGasOffer = offer.Offer as GeorgiaGas.Offer;
-            var georgiaGasService = service.Location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
-            var serviceStatus = service.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
-            var customerType = service.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
+            var georgiaGasOffer = account.Offer.Offer as GeorgiaGas.Offer;
+            var georgiaGasService = account.Location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
+            var serviceStatus = account.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
+            var customerType = account.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
 
             return new
             {
-                GlobalCustomerId = globalCustomerId.ToString(),
-                SalesInfo = salesInfo,
-                CustomerType = customerType.CustomerType.ToString("g"),
-                EnrollmentAccountId = enrollmentAccountId ?? Guid.Empty,
-                FirstName = context.ContactInfo.Name.First,
-                LastName = context.ContactInfo.Name.Last,
-                BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
-                HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
-                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
-                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
-                SSN = context.SocialSecurityNumber,
-                CurrentProvider = context.PreviousProvider,
-                EmailAddress = context.ContactInfo.Email.Address,
+                ServiceType = "Utility",
+                // TODO - this isn't the right key... but it could be.
+                Key = account.EnrollmentAccountId,
+
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    SelectedMoveInDate = (offer.OfferOption is GeorgiaGas.MoveInOfferOption) ? ((GeorgiaGas.MoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
+                    SelectedMoveInDate = (account.Offer.OfferOption is GeorgiaGas.MoveInOfferOption) ? ((GeorgiaGas.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
                     UtilityProvider = JObject.Parse(georgiaGasOffer.Provider),
-                    UtilityAccountNumber = (offer.OfferOption is GeorgiaGas.SwitchOfferOption) ? ((GeorgiaGas.SwitchOfferOption)offer.OfferOption).AglcNumber : georgiaGasService.AglcPremisesNumber,
+                    UtilityAccountNumber = (account.Offer.OfferOption is GeorgiaGas.SwitchOfferOption) ? ((GeorgiaGas.SwitchOfferOption)account.Offer.OfferOption).AglcNumber : georgiaGasService.AglcPremisesNumber,
                     Product = JObject.Parse(georgiaGasOffer.Product),
-                    ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
+                    ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Gas",
-                    Deposit = depositObject
+                    Deposit = StreamConnectUtilities.ToStreamConnectDeposit(account.OfferPayments, account.Offer.WaiveDeposit),
                 }
             };
         }
@@ -229,6 +220,25 @@ namespace StreamEnergy.Services.Clients
                 ServiceType = "Utility",
                 ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
                 UtilityAccountNumber = ((ILocationAdapter)this).GetUtilityAccountNumber(location.Capabilities),
+            };
+        }
+
+        OfferPayment ILocationAdapter.GetOfferPayment(dynamic entry, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option)
+        {
+            decimal deposit = 0;
+            if (assessDeposit && entry.Premise.Deposit != null)
+                deposit = (decimal)entry.Premise.Deposit.Amount.Value;
+            return new OfferPayment
+            {
+                EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
+                OngoingAmounts = new IOfferPaymentAmount[] 
+                        {
+                        },
+                RequiredAmounts = new IOfferPaymentAmount[] 
+                        {
+                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.SystemOfRecord, DepositAccount = entry.SystemOfRecordAccountNumber }
+                        },
+                PostBilledAmounts = optionRules.GetPostBilledPayments(option)
             };
         }
     }

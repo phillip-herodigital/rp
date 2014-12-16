@@ -2,6 +2,9 @@
 
     var excludedStates = ['AK', 'HI', 'PR'];
 
+    $scope.data = { serviceState: 'TX' };
+    $scope.data.serviceLocation = {};
+
     $scope.showNetworks = true;
 
     if (window.location.href.indexOf('sprintBuyPhone') > 0) {
@@ -27,8 +30,29 @@
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {  
-        //enrollmentCartService.addService({ location: $scope.data.serviceLocation });
-        enrollmentService.setChooseNetwork();
+        // mock this data for now
+        $scope.data.serviceLocation.address = {
+            line1: '222 Peachtree Dr',
+            line2: '',
+            city: 'Riverdale',
+            stateAbbreviation: 'GA', 
+            postalCode5: '30274'
+        };
+
+        $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
+        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": "residential" });
+        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile", "serviceProvider": "ATT" });
+
+
+        var activeService = enrollmentCartService.getActiveService();
+        if (activeService) {
+            activeService.location = $scope.data.serviceLocation;
+            enrollmentService.setSelectedOffers();
+        }
+        else {
+            enrollmentCartService.addService({ location: $scope.data.serviceLocation });
+            enrollmentService.setServiceInformation();
+        }
     };
 
 }]);

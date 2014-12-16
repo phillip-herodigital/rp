@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using StreamEnergy.DomainModels.Enrollments.Mobile;
+using Mobile = StreamEnergy.DomainModels.Enrollments.Mobile;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -11,12 +11,12 @@ namespace StreamEnergy.Services.Clients
     {
         bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
         {
-            return capabilities.Any(cap => cap is ServiceCapability);
+            return capabilities.Any(cap => cap is Mobile.ServiceCapability);
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities, DomainModels.Enrollments.IOffer offer)
         {
-            throw new NotImplementedException();
+            return offer.OfferType == Mobile.Offer.Qualifier;
         }
 
         bool ILocationAdapter.IsFor(DomainModels.Address serviceAddress, string productType)
@@ -39,14 +39,9 @@ namespace StreamEnergy.Services.Clients
             throw new NotImplementedException();
         }
 
-        string ILocationAdapter.GetSystemOfRecord(IEnumerable<DomainModels.IServiceCapability> capabilities)
-        {
-            throw new NotImplementedException();
-        }
-
         string ILocationAdapter.GetCommodityType()
         {
-            throw new NotImplementedException();
+            return "Mobile";
         }
 
         Newtonsoft.Json.Linq.JObject ILocationAdapter.GetProvider(DomainModels.Enrollments.IOffer offer)
@@ -61,15 +56,38 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.LocationOfferSet ILocationAdapter.LoadOffers(DomainModels.Enrollments.Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
+            var mockProducts = new StreamConnect.Product[] 
+                {
+                    new StreamConnect.Product
+                    {
+                        ProductId = "111",
+                        Provider = "ATT",
+                        ProductCode = "1GB"
+                    },
+                    new StreamConnect.Product
+                    {
+                        ProductId = "222",
+                        Provider = "ATT",
+                        ProductCode = "2GB"
+                    },
+                    new StreamConnect.Product
+                    {
+                        ProductId = "333",
+                        Provider = "ATT",
+                        ProductCode = "3GB"
+                    }
+
+                };
+            
             return new DomainModels.Enrollments.LocationOfferSet
             {
-                Offers = (from product in streamConnectProductResponse.Products
-                          where product.Rates.Any(r => r.Unit == "Therm")
-                          group product by product.ProductCode into products
-                          let product = products.First()
+                Offers = (from product in mockProducts //streamConnectProductResponse.Products
+                          //where product.Rates.Any(r => r.Unit == "Therm")
+                          //group product by product.ProductCode into products
+                          //let product = products.First()
                           //let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode)
                           //where productData != null
-                          select new Offer
+                          select new Mobile.Offer
                           {
                               Id = product.ProductId,
                               Provider = product.Provider.ToString(),
@@ -100,10 +118,10 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.SkipPremiseVerification(DomainModels.Enrollments.Location location)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, DomainModels.Enrollments.UserContext context, DomainModels.Enrollments.LocationServices service, DomainModels.Enrollments.SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId, object depositObject)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
             throw new NotImplementedException();
         }
@@ -130,6 +148,17 @@ namespace StreamEnergy.Services.Clients
                 ServiceType = "Mobile",
                 ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
             };
+        }
+
+
+        string ILocationAdapter.GetSystemOfRecord()
+        {
+            return "BeQuick";
+        }
+
+        DomainModels.Enrollments.OfferPayment ILocationAdapter.GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, DomainModels.Enrollments.IOfferOptionRules optionRules, DomainModels.Enrollments.IOfferOption option)
+        {
+            throw new NotImplementedException();
         }
     }
 }

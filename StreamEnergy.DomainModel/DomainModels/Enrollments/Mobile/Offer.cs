@@ -35,6 +35,12 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
             get { return ""; }
         }
 
+        public IList<Rate> Rates { get; set; }
+
+        public int Term { get; set; }
+
+        public MobileInventory[] MobileInventory { get; set; }
+
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
             return container.Resolve<OfferOptionPolicy>();

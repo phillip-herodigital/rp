@@ -169,6 +169,7 @@
     <Compile Include="DomainModels\CustomerContact.cs" />
     <Compile Include="DomainModels\Emails\IEmailService.cs" />
     <Compile Include="DomainModels\Enrollments\AdditionalAuthorization.cs" />
+    <Compile Include="DomainModels\Enrollments\AsyncPlaceOrderState.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDate.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDateClassification.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDatePolicy.cs" />
@@ -201,9 +202,11 @@
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\MobileInventory.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\MobileServiceProvider.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\Offer.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\OfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\Rate.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\ServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\MonthlyOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
