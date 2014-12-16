@@ -19,28 +19,6 @@
     }
 }
 
-article.marketing {
-    @each $theme in $themes {
-        @if map-get($theme, name) != "white" {
-            &.bg-#{map-get($theme, name)} {
-                > .wrapper {
-                    background-image: none;
-                }
-            }
-        }
-    }
-
-    > .wrapper {
-        background: image-url('marketing/redesign/Modules/module_background.png') no-repeat center top;
-    }
-
-    &:first-of-type {
-        > .wapper {
-            background-image: none;
-        }
-    }
-}
-
 .banner.marketing {
     height: 214px;
     line-height: 52px;
@@ -112,103 +90,229 @@ dl.faq {
     }
 }
 
-article.photoLockup {
-    background-color: white;
-    border-style: none !important;
-    margin-bottom: 0 !important;
-    font-size: 15.99px;
-    line-height: 23.99px;
-    color: black;
+article {
+    &.marketingIntro {
+        p.intro {
+            font-size: 20px;
+            margin: 1em percentage(100/1040);
+            letter-spacing: (17/1000);
+        }
 
-    .wrapper {
-        padding-top: 80px;
-        padding-bottom: 80px;
+        &.mobile {
+            &.plans {
+                text-align: center;
+                color: black;
 
-        > .content, > img {
-            float: left;
+                ol.points {
+                    li {
+                        &:before {
+                            margin-right: 5px;
+                            content: image-url('marketing/redesign/check.png');
+                        }
+                    }
+                }
 
-            @include breakpoint(small) {
-                float: none;
-                width: 100%;
-                height: auto;
+                h2 {
+                    position: relative;
+                    font-size: 11px;
+                    line-height: 2em;
+                    letter-spacing: 0;
+                    color: #012f50;
+
+                    strong {
+                        font-weight: 600;
+                    }
+
+                    span {
+                        position: absolute;
+                        top: 25px;
+                        left: 50%;
+                        margin-left: -20px;
+                    }
+                }
+
+                h3 {
+                    padding-top: 50px;
+                    background: center top no-repeat;
+                    font-size: 22px;
+                    line-height: 29.02px;
+                    letter-spacing: -0.01em;
+                    font-weight: 600;
+                }
+
+
+                .indvidualPlans {
+
+                    h3 {
+                        background-image: image-url('marketing/redesign/single_phone.png');
+                    }
+                }
+
+                .groupPlans {
+                    h3 {
+                        background-image: image-url('marketing/redesign/multi_phone.png');
+                    }
+                }
+            }
+        }
+    }
+
+    &.marketing {
+        @each $theme in $themes {
+            @if map-get($theme, name) != "white" {
+                &.bg-#{map-get($theme, name)} {
+                    > .wrapper {
+                        background-image: none;
+                    }
+                }
             }
         }
 
-        > .content {
-            width: 463px;
-            margin: 0;
-            padding: 0 !important;
+        &.mobile {
+            h1 {
+                strong, b {
+                    color: #28ade0
+                }
+            }
+        }
 
-            blockquote {
-                p {
-                    &:first-of-type {
-                        text-indent: -11px;
-                        font-size: 18px;
-                        line-height: 26.44px;
-                        position: relative;
+        &.energy {
+            h1 {
+                strong, b {
+                    color: #f8a244
+                }
+            }
+        }
 
-                        &::before {
-                            content: "\201C";
+        &.protect {
+            h1 {
+                strong, b {
+                    color: #51b35a
+                }
+            }
+        }
+
+        h1 {
+            font: 300 40px/35.97px proxima-nova, sans-serif;
+            letter-spacing: -0.029em;
+            text-align: center;
+            color: inherit;
+
+            b, strong {
+                text-transform: uppercase;
+                font-weight: 300;
+            }
+        }
+
+        > .wrapper {
+            background: image-url('marketing/redesign/Modules/module_background.png') no-repeat center top;
+        }
+
+        &:first-of-type {
+            > .wapper {
+                background-image: none;
+            }
+        }
+    }
+
+    &.photoLockup {
+        background-color: white;
+        border-style: none !important;
+        margin-bottom: 0 !important;
+        font-size: 15.99px;
+        line-height: 23.99px;
+        color: black;
+
+        .wrapper {
+            padding-top: 80px;
+            padding-bottom: 80px;
+
+            > .content, > img {
+                float: left;
+
+                @include breakpoint(small) {
+                    float: none;
+                    width: 100%;
+                    height: auto;
+                }
+            }
+
+            > .content {
+                width: 463px;
+                margin: 0;
+                padding: 0 !important;
+
+                blockquote {
+                    p {
+                        &:first-of-type {
+                            text-indent: -11px;
+                            font-size: 18px;
+                            line-height: 26.44px;
+                            position: relative;
+
+                            &::before {
+                                content: "\201C";
+                                color: rgba(255,255,255,.3);
+                                font-size: 135.61px;
+                                position: absolute;
+                                left: -45px;
+                                top: 55px;
+                            }
+                        }
+
+                        &:last-of-type::after {
+                            content: "\201D";
                             color: rgba(255,255,255,.3);
                             font-size: 135.61px;
                             position: absolute;
-                            left: -45px;
-                            top: 55px;
+                            margin-left: 10px;
+                            margin-top: 40px;
+                        }
+
+                        .lead {
+                            font-size: 36px;
+                            line-height: 60px;
+                            font-style: italic;
                         }
                     }
 
-                    &:last-of-type::after {
-                        content: "\201D";
-                        color: rgba(255,255,255,.3);
-                        font-size: 135.61px;
-                        position: absolute;
-                        margin-left: 10px;
-                        margin-top: 40px;
-                    }
+                    footer {
+                        border-radius: 0;
+                        border-top: none;
+                        padding: 0;
+                        margin-top: 10px;
+                        font-size: 14.23px;
+                        line-height: 35.87px;
 
-                    .lead {
-                        font-size: 36px;
-                        line-height: 60px;
-                        font-style: italic;
-                    }
-                }
+                        cite {
+                            &::before {
+                                content: "\2014 ";
+                            }
 
-                footer {
-                    border-radius: 0;
-                    border-top: none;
-                    padding: 0;
-                    margin-top: 10px;
-                    font-size: 14.23px;
-                    line-height: 35.87px;
-
-                    cite {
-                        &::before{
-                            content: "\2014 ";
+                            text-transform: uppercase;
+                            font-style: normal;
                         }
-                        text-transform: uppercase;
-                        font-style: normal;
                     }
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
                 }
             }
 
-            @include breakpoint(small) {
-                width: 100%;
+            > img {
+                width: 502px;
             }
-        }
 
-        > img {
-            width: 502px;
-        }
+            > .content + img, > img + .content {
+                float: right;
 
-        > .content + img, > img + .content {
-            float: right;
-
-            @include breakpoint(small) {
-                float: none;
-                width: 100%;
+                @include breakpoint(small) {
+                    float: none;
+                    width: 100%;
+                }
             }
-        }
-        /* h2, h3 {
+            /* h2, h3 {
             font-size: 31.99px;
             line-height: 48.91px;
             letter-spacing: 0;
@@ -217,64 +321,95 @@ article.photoLockup {
             padding-top: 0;
             margin-top: 0;
         } */
+        }
     }
-}
 
-article.states-enroll {
-    background-image: none;
+    &.protective-services {
+        h2 {
+            color: #222a4c;
+        }
 
-    .wrapper {
+        .col {
+            padding-top: 100px;
+        }
+
+
+        .identityTheft {
+            background: image-url('marketing/redesign/mask_icon.png') no-repeat center top;
+        }
+
+        .onlineBackupAndProtection {
+            background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top;
+        }
+
+        .creditMonitoring {
+            background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top;
+        }
+    }
+
+    &.states-enroll {
         background-image: none;
-        height: 83px;
-        padding: 0;
-        max-width: 1040px;
-        margin: 0 auto;
 
-        &.grid {
-            .col {
-                width: auto;
-                vertical-align: middle;
+        .wrapper {
+            background-image: none;
+            height: 83px;
+            padding: 0;
+            max-width: 1040px;
+            margin: 0 auto;
+
+            &.grid {
+                .col {
+                    width: auto;
+                    vertical-align: middle;
+                }
             }
-        }
 
-        h3 {
-            margin: 0;
-            padding: 0;
-            line-height: 83px;
-            float: left;
-            font-size: 20px;
-            letter-spacing: .001em;
-        }
+            h3 {
+                margin: 0;
+                padding: 0;
+                line-height: 83px;
+                float: left;
+                font-size: 20px;
+                letter-spacing: .001em;
+            }
 
-        p {
-            margin: 0;
-            padding: 0;
-            font-size: 16px;
-            line-height: 22px;
-            letter-spacing: 0;
-        }
+            p {
+                margin: 0;
+                padding: 0;
+                font-size: 16px;
+                line-height: 22px;
+                letter-spacing: 0;
+            }
 
-        #GetStarted-StateEnroll-Module {
-            position: absolute;
-            right: 250px;
-            width: 500px;
-            line-height: 83px;
-        }
+            #GetStarted-StateEnroll-Module {
+                position: absolute;
+                right: 250px;
+                width: 500px;
+                line-height: 83px;
+            }
 
-        #ViewLinks-StateEnroll-Module {
-            position: absolute;
-            right: 140px;
-            line-height: 1em;
-            padding: 25.5px 0;
-            font-size: 14px;
-            line-height: 17px;
+            #ViewLinks-StateEnroll-Module {
+                position: absolute;
+                right: 140px;
+                line-height: 1em;
+                padding: 25.5px 0;
+                font-size: 14px;
+                line-height: 17px;
 
-            a {
-                font-weight: normal;
+                a {
+                    font-weight: normal;
+                }
             }
         }
     }
 }
+
+
+
+
+
+
+
 
 .director-banner.stretch {
     margin: 0;
@@ -285,6 +420,7 @@ article.states-enroll {
 }
 
 $breakPoint: 768px;
+
 #SwitchStreamMobile-Home {
     #OrParagrah-SwitchStreamMobile-Home {
         font-size: 24px;
@@ -328,7 +464,7 @@ $breakPoint: 768px;
         @media only screen and (max-width: $breakPoint) {
             padding-left: 0;
             padding-right: 0;
-            float:none;
+            float: none;
             background-position: top center;
             width: 100%;
         }
@@ -346,129 +482,9 @@ $breakPoint: 768px;
     }
 }
 
-#PlansThatWorkMobile-Home {
-    text-align: center;
-    color: black;
-
-    > p {
-        font-size: 19.9px;
-        line-height: 29.84px;
-        letter-spacing: 0.017em;
-    }
-
-    > ol {
-        li {
-            display: inline-block;
-            width: 33%;
-             @media only screen and (max-width: $breakPoint) {
-            margin: 0;
-            float: none;
-            width: 100%;
-        }
-            &:before {
-                margin-right: 5px;
-                content: url(../images/check.png);
-            }
-        }
-    }
-}
 
 #Plans-Component {
     border: 1px solid #e5e5e5;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-
-    article {
-        width: 50%;
-        float: left;
-
-        h4 {
-            position: relative;
-            font-size: 11px;
-            line-height: 2em;
-            letter-spacing: 0;
-            color: #012f50;
-
-            strong {
-                font-weight: 600;
-            }
-
-            span {
-                position: absolute;
-                top: 25px;
-                left: 50%;
-                margin-left: -20px;
-            }
-        }
-
-        h5 {
-            padding-top: 50px;
-            background: center top no-repeat;
-            font-size: 22px;
-            line-height: 29.02px;
-            letter-spacing: -0.01em;
-            font-weight: 600;
-        }
-
-        &.indvidualPlans {
-            h5 {
-                background-image: image-url('marketing/redesign/single_phone.png');
-            }
-        }
-
-        &.groupPlans {
-            h5 {
-                background-image: image-url('marketing/redesign/multi_phone.png');
-            }
-        }
-    }
 }
-
-#ProtectiveServices-Home {
-    padding-top: 80px;
-
-    article {
-        h4 {
-            color: #222a4c;
-        }
-
-        float: left;
-        width: percentage(880 / 3 / 1040);
-        margin: 0 (percentage(40 / 1040));
-        line-height: 1.5em;
-        letter-spacing: -0.005em;
-        padding-top: 80px;
-
-        @media only screen and (max-width: $breakPoint) {
-            margin: 0;
-            float: none;
-            width: 100%;
-        }
-    }
-
-    article:first-of-type {
-        margin-left: 0;
-    }
-
-    article:last-of-type {
-        margin-right: 0;
-    }
-
-    .services {
-        padding-top: 80px;
-    }
-
-    .identityTheft {
-        background: image-url('marketing/redesign/mask_icon.png') no-repeat center top;
-    }
-
-    .onlineBackupAndProtection {
-        background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top;
-    }
-
-    .creditMonitoring {
-        background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top;
-    }
-}
-
-
