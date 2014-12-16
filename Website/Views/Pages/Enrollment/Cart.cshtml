@@ -34,15 +34,19 @@
                 </div>
             </div>
         </article>
-        <article class="enrollment__box" ng-if="customerType != 'commercial'">
+        <article class="enrollment__box documents" ng-if="customerType != 'commercial'">
             <header>
                 @Html.Sitecore().Field("Documents Description")
             </header>
             <ul class="info">
+                <li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Documents Credit Card")</li>
+                <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Documents Billing Address")</li>
                 <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
-                <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
                 <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+                <li><i class="icon-imei"></i> @Html.Sitecore().Field("Documents MEID Number")</li>
+             
+                <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
+                <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->   
             </ul>
         </article>
         <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && cartHasTxLocation()">
