@@ -23,7 +23,7 @@
     if (selectedNode != null)
     {
         var level = selectedNode.Level();
-        thirdLevelRootNode = level < 2 ? null : (level == 2 ? selectedNode : selectedNode.GetAncestor(level - 2)) as ItemSiteMapNode;
+        thirdLevelRootNode = level < 2 ? null : (level == 2 ? selectedNode : selectedNode.GetAncestor(level - 3)) as ItemSiteMapNode;
     }
 
     var topLevelNavigation = SiteMap.RootNode.ChildNodes.Cast<ItemSiteMapNode>().Select((n, i) => new { Value = n, Number = i + 1 }).ToArray();
