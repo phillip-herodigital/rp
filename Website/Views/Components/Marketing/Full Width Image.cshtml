@@ -4,6 +4,11 @@
     var sc = Html.Sitecore();
     classes.Add(sc.CurrentItem["Custom CSS Class"]);
 }
-<div class="marketing full-width-image @string.Join(" ", classes)">
-    @Html.Sitecore().Field("Image", new { width = 1280, style = "width: 100%" })
-</div>
+<article class="marketing full-width-image @string.Join(" ", classes)" style="@Html.AsBackgroundStyle("Image")">
+    @{
+        if (Sitecore.Context.PageMode.IsPageEditorEditing)
+        {
+            @Html.Sitecore().Field("Image")
+        }
+    }
+</article>
