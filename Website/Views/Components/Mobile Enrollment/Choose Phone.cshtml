@@ -9,7 +9,7 @@
         </div>
     </div>
     @* Two-column Layout for Choose Device *@
-    <section class="wrapper layout cols-2">
+    <div class="wrapper layout cols-2">
         <section>
             <article class="enrollment__box enrollment__choose-device form">
                 <header class="tabbed-header clearfix">
@@ -304,16 +304,38 @@
                     </form>
                 </toggle-pane>
             </article>
-            <article class="enrollment__box enrollment__choose-device form">
+            <article class="enrollment__box enrollment__choose-device" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
                 <header>
-                    Want to add another phone to your plan?
+                    <h3>@Html.Sitecore().Field("Add Line Header")</h3>
                 </header>
-
+                <div class="content additional-device">
+                    <div class="new-line">
+                        @Html.Sitecore().Field("Bring A Device")
+                        <a href="" ng-click="">@Html.Sitecore().Field("Bring A Device Link")</a>
+                    </div>
+                    <div class="new-line-or">
+                        @Html.Sitecore().Field("Or")
+                    </div>
+                    <div class="new-line">
+                        @Html.Sitecore().Field("Shop Phones")
+                        <a href="" ng-click="">@Html.Sitecore().Field("Shop Phones Link")</a>
+                    </div>
+                </div>
             </article>
-            <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
+
+            <div class="enrollment__choose-device">
+                <div class="buttons" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
+                    <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Continue Button")</button>
+                    <span class="complete-step">@Html.Sitecore().Field("Complete Step Text")</span>
+                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Button")</button>
+                </div>
+                <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
+            </div>
         </section>
-        
-    </section>
+        <aside>
+            <div ng-include src="'cart-template'"></div>
+        </aside>
+    </div>
 </div>
 
 <script type="text/ng-template" id="networkUnlocking/att">
