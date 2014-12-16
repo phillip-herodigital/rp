@@ -492,7 +492,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Assert.IsTrue(saveResult.IsCompleted);
                 if (saveResult.Data.Results.Length > 0)
                 {
-                    Assert.IsTrue(saveResult.Data.Results.All(r => !string.IsNullOrEmpty(r.Details.StreamReferenceNumber)));
+                    Assert.IsTrue(saveResult.Data.Results.All(r => !string.IsNullOrEmpty(r.Details.EnrollmentAccountKeyJson)));
                     foreach (var r in saveResult.Data.Results)
                     {
                         enrollmentService.DeleteEnrollment(globalCustomerId, r.Details.GlobalEnrollmentAccountId).Wait();
@@ -803,18 +803,24 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var result = enrollmentService.PlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                var result = enrollmentService.BeginPlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
                 {
                     GlobalCustomerId = globalCustomerId,
                     EnrollmentSaveState = saveResult,
                     Deposit = deposits,
-                }).Result;
+                }, null).Result;
+                
+                while (!result.IsCompleted)
+                {
+                    result = enrollmentService.EndPlaceOrder(result, saveResult.Data).Result;
+                }
 
                 // Assert
                 Assert.IsNotNull(result);
-                Assert.IsTrue(result.Any());
-                Assert.IsTrue(result.First().Details.IsSuccess);
-                Assert.IsNotNull(result.First().Details.ConfirmationNumber);
+                Assert.IsNotNull(result.Data);
+                Assert.IsTrue(result.Data.Any());
+                Assert.IsTrue(result.Data.First().Details.IsSuccess);
+                Assert.IsNotNull(result.Data.First().Details.ConfirmationNumber);
             }
         }
 
@@ -908,17 +914,27 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var result = enrollmentService.PayDeposit(offerPayments, saveResult.Data.Results, new DomainModels.Payments.TokenizedCard
-                    {
-                        CardToken = TestData.CardToken,
-                        BillingZipCode = "75201",
-                        ExpirationDate = DateTime.Today.AddDays(60),
-                        SecurityCode = "123"
-                    }, userContext).Result;
+                var result = enrollmentService.BeginPlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                {
+                    GlobalCustomerId = gcid,
+                    EnrollmentSaveState = saveResult,
+                    Deposit = new[] { offerPayment },
+                }, new DomainModels.Payments.TokenizedCard
+                {
+                    CardToken = TestData.CardToken,
+                    BillingZipCode = "75201",
+                    ExpirationDate = DateTime.Today.AddDays(60),
+                    SecurityCode = "123"
+                }).Result;
+                while (!result.IsCompleted)
+                {
+                    result = enrollmentService.EndPlaceOrder(result, saveResult.Data).Result;
+                }
 
                 // Assert
-                Assert.AreEqual(1, result.Count());
-                Assert.IsNotNull(result.First().Details.ConfirmationNumber);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(1, result.Data.Count());
+                Assert.IsNotNull(result.Data.First().Details.PaymentConfirmation.ConfirmationNumber);
             }
         }
 

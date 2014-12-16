@@ -182,6 +182,7 @@
     <Compile Include="Services\Clients\AccountService.cs" />
     <Compile Include="Services\Clients\AsyncSendingManager.cs" />
     <Compile Include="Services\Clients\EmailContact.cs" />
+    <Compile Include="Services\Clients\EnrollmentAccountDetails.cs" />
     <Compile Include="Services\Clients\GeorgiaAdapter.cs" />
     <Compile Include="Services\Clients\HttpMessageLogger.cs" />
     <Compile Include="Services\Clients\ILocationAdapter.cs" />
@@ -216,7 +217,6 @@
     <Compile Include="Services\Clients\Interceptors\ServiceInterceptorResolver.cs" />
     <Compile Include="Services\Clients\StreamConnectContainerSetup.cs" />
     <Compile Include="Services\Clients\StreamConnect\Answer.cs" />
-    <Compile Include="Services\Clients\StreamConnect\CreateOrUpdateEnrollmentResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Customer.cs" />
     <Compile Include="Services\Clients\StreamConnect\CustomerResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Fee.cs" />

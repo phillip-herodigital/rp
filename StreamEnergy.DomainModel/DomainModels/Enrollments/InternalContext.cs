@@ -24,6 +24,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IEnumerable<Service.LocationOfferDetails<OfferPayment>> Deposit { get; set; }
 
+        public StreamAsync<IEnumerable<Service.LocationOfferDetails<Service.PlaceOrderResult>>> PlaceOrderAsyncResult { get; set; }
+
         public IEnumerable<Service.LocationOfferDetails<Service.PlaceOrderResult>> PlaceOrderResult { get; set; }
 
         public Guid GlobalCustomerId { get; set; }
@@ -35,7 +37,5 @@ namespace StreamEnergy.DomainModels.Enrollments
         public NameValueCollection EnrollmentDpiParameters { get; set; }
 
         public StreamAsync<RenewalResult> RenewalResult { get; set; }
-
-        public IEnumerable<Service.LocationOfferDetails<Payments.PaymentResult>> PaymentResult { get; set; }
     }
 }

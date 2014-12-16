@@ -50,9 +50,8 @@ namespace StreamEnergy.Services.Clients
             return capability.EsiId;
         }
 
-        string ILocationAdapter.GetSystemOfRecord(IEnumerable<IServiceCapability> capabilities)
+        string ILocationAdapter.GetSystemOfRecord()
         {
-            var capability = capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
             return "CIS1";
         }
 
@@ -139,31 +138,22 @@ namespace StreamEnergy.Services.Clients
 
 
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, UserContext context, LocationServices service, SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId, dynamic depositObject)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
-            var texasElectricityOffer = offer.Offer as TexasElectricity.Offer;
-            var texasService = service.Location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
-            var serviceStatus = service.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
-            var customerType = service.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
+            var texasElectricityOffer = account.Offer.Offer as TexasElectricity.Offer;
+            var texasService = account.Location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
+            var serviceStatus = account.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
+            var customerType = account.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
             return new
             {
-                GlobalCustomerId = globalCustomerId.ToString(),
-                SalesInfo = salesInfo,
-                CustomerType = customerType.CustomerType.ToString("g"),
-                EnrollmentAccountId = enrollmentAccountId ?? Guid.Empty,
-                FirstName = context.ContactInfo.Name.First,
-                LastName = context.ContactInfo.Name.Last,
-                BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
-                HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
-                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
-                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
-                SSN = context.SocialSecurityNumber,
-                CurrentProvider = context.PreviousProvider,
-                EmailAddress = context.ContactInfo.Email.Address,
+                ServiceType = "Utility",
+                // TODO - this isn't the right key... but it could be.
+                Key = account.EnrollmentAccountId,
+
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    SelectedMoveInDate = (offer.OfferOption is TexasElectricity.MoveInOfferOption) ? ((TexasElectricity.MoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
+                    SelectedMoveInDate = (account.Offer.OfferOption is TexasElectricity.MoveInOfferOption) ? ((TexasElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
                     UtilityProvider = JObject.Parse(texasElectricityOffer.Provider),
                     UtilityAccountNumber = texasService.EsiId,
                     Product = new
@@ -172,9 +162,9 @@ namespace StreamEnergy.Services.Clients
                         ProductCode = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1],
                         Term = texasElectricityOffer.TermMonths
                     },
-                    ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
+                    ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Electricity",
-                    Deposit = depositObject
+                    Deposit = StreamConnectUtilities.ToStreamConnectDeposit(account.OfferPayments, account.Offer.WaiveDeposit),
                 }
             };
         }
@@ -212,6 +202,25 @@ namespace StreamEnergy.Services.Clients
                 ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
                 UtilityAccountNumber = ((ILocationAdapter)this).GetUtilityAccountNumber(location.Capabilities),
             };
+        }
+
+        OfferPayment ILocationAdapter.GetOfferPayment(dynamic entry, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option)
+        {
+            decimal deposit = 0;
+            if (assessDeposit && entry.Premise.Deposit != null)
+                deposit = (decimal)entry.Premise.Deposit.Amount.Value;
+            return new OfferPayment
+                    {
+                        EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
+                        OngoingAmounts = new IOfferPaymentAmount[] 
+                        {
+                        },
+                        RequiredAmounts = new IOfferPaymentAmount[] 
+                        {
+                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.SystemOfRecord, DepositAccount = entry.SystemOfRecordAccountNumber }
+                        },
+                        PostBilledAmounts = optionRules.GetPostBilledPayments(option)
+                    };
         }
     }
 }

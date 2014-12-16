@@ -39,11 +39,6 @@ namespace StreamEnergy.Services.Clients
             throw new NotImplementedException();
         }
 
-        string ILocationAdapter.GetSystemOfRecord(IEnumerable<DomainModels.IServiceCapability> capabilities)
-        {
-            throw new NotImplementedException();
-        }
-
         string ILocationAdapter.GetCommodityType()
         {
             return "Mobile";
@@ -126,7 +121,7 @@ namespace StreamEnergy.Services.Clients
             return true;
         }
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, DomainModels.Enrollments.UserContext context, DomainModels.Enrollments.LocationServices service, DomainModels.Enrollments.SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId, object depositObject)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
             throw new NotImplementedException();
         }
@@ -151,9 +146,19 @@ namespace StreamEnergy.Services.Clients
             return new
             {
                 ServiceType = "Mobile",
-                Network = location.Capabilities.OfType<Mobile.ServiceCapability>().Single().ServiceProvider.ToString("g"),
                 ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
             };
+        }
+
+
+        string ILocationAdapter.GetSystemOfRecord()
+        {
+            return "BeQuick";
+        }
+
+        DomainModels.Enrollments.OfferPayment ILocationAdapter.GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, DomainModels.Enrollments.IOfferOptionRules optionRules, DomainModels.Enrollments.IOfferOption option)
+        {
+            throw new NotImplementedException();
         }
     }
 }
