@@ -1,15 +1,15 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChoosePhone
 
 <div id="phoneFlowDevices" class="enrollment" ng-show="stepsService.isStepVisible('phoneFlowDevices')" ng-controller="MobileEnrollmentChoosePhoneCtrl" ng-init="bringYourOwnDevices = @(Html.Action("BringYourOwnDevices", "MobileEnrollment").ToHtmlString()); remainingMinutes = '@Html.Sitecore().Field("Remaining Minutes Number")'; activationFee = '@Html.Sitecore().Field("Activation Fee")'; previousServiceProviders = @(Html.Action("PreviousServiceProviders", "MobileEnrollment").ToHtmlString());">
-    <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("Page Title")</span><br />
+                <span class="block">@Html.Sitecore().Field("Page Title")</span><br />
             </h1>
         </div>
     </div>
     @* Two-column Layout for Choose Device *@
-    <section class="wrapper layout cols-2">
+    <div class="wrapper layout cols-2">
         <section>
             <article class="enrollment__box enrollment__choose-device form">
                 <header class="tabbed-header clearfix">
@@ -44,7 +44,7 @@
                                         </select>
                                     </div>
                                     <div class="item">
-                                        <button class="plain filter-button" type="button" ng-click="displayFilters = !displayFilters">@Html.Sitecore().Field("Filter Text")</button>
+                                        <button class="plain filter-button" type="button" ng-click="displayFilters = !displayFilters">@Html.Sitecore().Field("Filter Text") <i class="icon-expand-gray"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                                     <a href="" class="pull-left" ng-click="clearPhoneSelection()">&#8592; @Html.Sitecore().Field("Back to All Phones")</a>
                                 </div>
                                 <div class="phone-details" data-additional-fields>
-                                    <h1>@Html.Raw(phone.Name)</h1>
+                                    <h1>@Html.Raw(phone.Brand) @Html.Raw(phone.Name)</h1>
                                     <div class="description">
                                         @Html.Raw(phone.Description)
                                     </div>
@@ -183,6 +183,7 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <hr />
                                     <div class="item">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
@@ -214,9 +215,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <footer>
-                                <button type="submit" ng-if="mobileEnrollment.phoneTypeTab == 'new'" ng-disabled="!phoneOptionsValid()" data-val-submit>@Html.Sitecore().Field("Button - Add to Cart")</button>
-                            </footer>
                         </form>
                     </toggle-pane>
                 }
@@ -224,10 +222,10 @@
                 <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                     <form data-val-bind-messages="validations" ng-submit="addDeviceToCart()">
                         <div class="content bring-your-own">
-                            <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
+                            <div class="byo-intro" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
                                 @Html.Sitecore().Field("Bring Your Phone - ATT Instructions")
                             </div>
-                            <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+                            <div class="byo-intro" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
                                 @Html.Sitecore().Field("Bring Your Phone - Sprint Instructions")
                             </div>
                             <hr />
@@ -303,16 +301,41 @@
                                 </div>
                             </div>
                         </div>
-                        <footer>
-                            <button type="submit" data-val-submit>@Html.Sitecore().Field("Button - Configure Data")</button>
-                        </footer>
                     </form>
                 </toggle-pane>
             </article>
-            <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
+            <article class="enrollment__box enrollment__choose-device" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
+                <header>
+                    <h3>@Html.Sitecore().Field("Add Line Header")</h3>
+                </header>
+                <div class="content additional-device">
+                    <div class="new-line">
+                        @Html.Sitecore().Field("Bring A Device")
+                        <a href="" ng-click="">@Html.Sitecore().Field("Bring A Device Link")</a>
+                    </div>
+                    <div class="new-line-or">
+                        @Html.Sitecore().Field("Or")
+                    </div>
+                    <div class="new-line">
+                        @Html.Sitecore().Field("Shop Phones")
+                        <a href="" ng-click="">@Html.Sitecore().Field("Shop Phones Link")</a>
+                    </div>
+                </div>
+            </article>
+
+            <div class="enrollment__choose-device">
+                <div class="buttons" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
+                    <span class="complete-step">@Html.Sitecore().Field("Complete Step Text")</span>
+                    <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Continue Button")</button>
+                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Button")</button>
+                </div>
+                <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
+            </div>
         </section>
-        
-    </section>
+        <aside>
+            <div ng-include src="'cart-template'"></div>
+        </aside>
+    </div>
 </div>
 
 <script type="text/ng-template" id="networkUnlocking/att">
