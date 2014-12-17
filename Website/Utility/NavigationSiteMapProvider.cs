@@ -1,48 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
-using Sitecore.ContentSearch.Utilities;
+using Sitecore;
+using Sitecore.Configuration;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Links;
 using Sitecore.Mvc.Presentation;
-using Sitecore.Shell.Applications.ContentEditor;
-using Sitecore.Shell.Framework.Commands;
+using Sitecore.Xml.Xsl;
 
 namespace StreamEnergy.MyStream.Utility
 {
     public class NavigationSiteMapProvider : SiteMapProvider
     {
-        public override SiteMapNode FindSiteMapNode(string rawUrl)
+        public override SiteMapNode CurrentNode
         {
-            return FindSiteMapNode(Sitecore.Context.Item);
+            get { return FindSiteMapNode(Context.Item); }
         }
 
-        public SiteMapNode FindSiteMapNode(Item item)
+        public override SiteMapNode FindSiteMapNode(string rawUrl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual SiteMapNode FindSiteMapNode(Item item)
         {
             var renderingItem = RenderingContext.Current.Rendering.Item;
             if (renderingItem == null)
                 return null;
 
             return (from navigationItem in renderingItem.GetDescendantsAndSelf()
-                    let linkField = navigationItem.Fields["Navigation Link"]
-                    where (LinkField)linkField != null && ((LinkField)linkField).TargetID == item.ID
+                    let linkField = (LinkField)navigationItem.Fields["Navigation Link"]
+                    where linkField != null && linkField.TargetID == item.ID
+                    where ((CheckboxField)navigationItem.Fields["Is Primary"]).Checked
                     select new ItemSiteMapNode(this, navigationItem)).FirstOrDefault();
         }
 
         public override SiteMapNodeCollection GetChildNodes(SiteMapNode node)
         {
-            return new SiteMapNodeCollection(Sitecore.Context.Database.GetItem(ID.Parse(node.Key)).Children.Select(i => (SiteMapNode)new ItemSiteMapNode(this, i)).ToArray());
+            return new SiteMapNodeCollection(Context.Database.GetItem(ID.Parse(node.Key)).Children.Select(i => (SiteMapNode)new ItemSiteMapNode(this, i)).ToArray());
         }
 
         public override SiteMapNode GetParentNode(SiteMapNode node)
         {
-            var item = Sitecore.Context.Database.GetItem(ID.Parse(node.Key));
+            var item = Context.Database.GetItem(ID.Parse(node.Key));
             if (item.TemplateName != "Navigation Item" || item.Parent == null)
                 return null;
-            return new ItemSiteMapNode(this, Sitecore.Context.Database.GetItem(ID.Parse(node.Key)).Parent);
+            return new ItemSiteMapNode(this, Context.Database.GetItem(ID.Parse(node.Key)).Parent);
         }
 
         protected override SiteMapNode GetRootNodeCore()
@@ -52,34 +59,40 @@ namespace StreamEnergy.MyStream.Utility
         }
     }
 
-    public class ItemSiteMapNode : SiteMapNode
+    public sealed class ItemSiteMapNode : SiteMapNode
     {
         public ItemSiteMapNode(SiteMapProvider provider, Item item)
             : base(provider, item.ID.ToString())
         {
             Item = item;
-            if (item.TemplateName != "Navigation Item")
-                return;
-
             LinkField linkField = item.Fields["Navigation Link"];
-            if (linkField == null) return;
-
-            Title = linkField.Text;
-            Url = linkField.Url;
-            Description = linkField.Title;
-            Attributes = new NameValueCollection
+            if (linkField != null)
             {
-                {"Anchor", linkField.Anchor},
-                {"Class", linkField.Class},
-                {"Target", linkField.Target}
-            };
+                Description = linkField.Title;
+                Attributes = new NameValueCollection
+                {
+                    {"Class", linkField.Class},
+                    {"Target", linkField.Target}
+                };
+            }
 
-            if (!linkField.IsInternal) return;
-            Title = string.IsNullOrEmpty(linkField.Text) ? (linkField.TargetItem != null ? linkField.TargetItem.DisplayName : null) : linkField.Text;
-            Url = linkField.TargetItem != null ? LinkManager.GetItemUrl(linkField.TargetItem) : null;
+            Title = linkField == null ? string.Empty : linkField.Text;
+            if (string.IsNullOrEmpty(Title) && linkField != null && linkField.TargetItem != null)
+                Title = linkField.TargetItem.DisplayName ?? string.Empty;
+              
+            Url = GetUrl(linkField) ?? string.Empty;
+            if (linkField != null && linkField.LinkType == "javascript")
+                Url = "javascript:" + HttpUtility.UrlEncode(Url).Replace("+", "%20");
         }
 
         public Item Item { get; set; }
+
+        private string GetUrl(XmlField field)
+        {
+            var defaultUrlOptions = LinkManager.GetDefaultUrlOptions();
+            defaultUrlOptions.SiteResolving = Settings.Rendering.SiteResolving;
+            return field != null ? new LinkUrl().GetUrl(field, Item.Database) : LinkManager.GetItemUrl(Item, defaultUrlOptions);
+        }
     }
 
     public static class SiteMapNodeExtensions
