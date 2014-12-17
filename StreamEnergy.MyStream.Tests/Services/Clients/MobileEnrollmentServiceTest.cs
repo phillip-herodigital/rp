@@ -66,5 +66,740 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             }
         }
 
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        public void PostVerificationsIdTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            var gcid = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
+
+            using (new Timer())
+            {
+                // Act
+                var firstCheck = enrollmentService.BeginIdentityCheck(gcid,
+                    name: TestData.IdentityCheckName(),
+                    ssn: TestData.IdentityCheckSsn,
+                    mailingAddress: TestData.IdentityCheckMailingAddress()).Result;
+
+                // Assert
+                Assert.IsNotNull(firstCheck);
+                Assert.IsTrue(firstCheck.IsCompleted);
+                Assert.IsNotNull(firstCheck.Data.IdentityCheckId);
+
+                // Since we're really verifying the API, not actually testing our code, there's no reason to follow the AAA test standard.
+                // Don't take this as an example of OK - this should be multiple tests, with either initial setup or in the "assign" section.
+
+                // Act - Step 2
+                var secondCheck = enrollmentService.BeginIdentityCheck(gcid,
+                    name: TestData.IdentityCheckName(),
+                    ssn: TestData.IdentityCheckSsn,
+                    mailingAddress: TestData.IdentityCheckMailingAddress(),
+                    identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
+                    {
+                        PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
+                        SelectedAnswers = firstCheck.Data.IdentityQuestions.ToDictionary(q => q.QuestionId, q => q.Answers[0].AnswerId)
+                    }).Result;
+
+                // Assert
+                Assert.IsNotNull(secondCheck);
+                Assert.IsFalse(secondCheck.IsCompleted);
+
+                // Act - Step 3 - async response
+                do
+                {
+                    secondCheck = enrollmentService.EndIdentityCheck(secondCheck).Result;
+                } while (!secondCheck.IsCompleted);
+
+                // Assert
+                Assert.IsTrue(secondCheck.IsCompleted);
+                Assert.AreEqual(0, secondCheck.Data.IdentityQuestions.Length);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        public void PostVerificationsCreditTest()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            var gcid = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
+
+            using (new Timer())
+            {
+                // Act - Step 1
+                var creditCheck = enrollmentService.BeginCreditCheck(gcid,
+                    name: TestData.CreditCheckContactInfo().Name,
+                    ssn: "123456789",
+                    address: TestData.CreditCheckAddress()).Result;
+
+                // Assert
+                Assert.IsNotNull(creditCheck);
+                Assert.IsFalse(creditCheck.IsCompleted);
+
+                // Act - Step 2 - async response
+                do
+                {
+                    creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+                } while (!creditCheck.IsCompleted);
+
+                // Assert
+                Assert.IsTrue(creditCheck.IsCompleted);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Mobile Enrollments")]
+        public void LoadOfferPaymentsTest()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            var gcid = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "FL", PostalCode5 = "33418", },
+                Capabilities = new DomainModels.IServiceCapability[]
+                {
+                    new DomainModels.Enrollments.Mobile.ServiceCapability { },
+                    new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                    new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var mobileOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.Mobile.Offer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
+                Services = new DomainModels.Enrollments.LocationServices[]
+                {
+                    new DomainModels.Enrollments.LocationServices 
+                    { 
+                        Location = location, 
+                        SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                        {
+                            new DomainModels.Enrollments.SelectedOffer
+                            {
+                                Offer = mobileOffer,
+                                OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
+                                { 
+                                    ActivationDate = DateTime.Today.AddDays(3),
+
+                                }
+                            }
+                        }
+                    }
+                },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+            Mock<DomainModels.Enrollments.IOfferOptionRules> mockRules = new Mock<DomainModels.Enrollments.IOfferOptionRules>();
+            mockRules.Setup(r => r.GetPostBilledPayments(It.IsAny<DomainModels.Enrollments.IOfferOption>())).Returns(new DomainModels.Enrollments.IOfferPaymentAmount[0]);
+            var internalContext = new DomainModels.Enrollments.InternalContext
+            {
+                OfferOptionRules = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>[] 
+                        { 
+                            new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>
+                            {
+                                Location = location,
+                                Offer = mobileOffer,
+                                Details = mockRules.Object
+                            }
+                        }
+            };
+            var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext, null).Result;
+            while (!saveResult.IsCompleted)
+            {
+                saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+            }
+
+            var creditCheck = enrollmentService.BeginCreditCheck(gcid,
+                name: TestData.CreditCheckContactInfo().Name,
+                ssn: TestData.CreditCheckSsn,
+                address: TestData.CreditCheckAddress()).Result;
+            do
+            {
+                creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+            } while (!creditCheck.IsCompleted);
+
+            internalContext.IdentityCheck = new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { Data = new DomainModels.Enrollments.Service.IdentityCheckResult { IdentityAccepted = true }, IsCompleted = true };
+
+            using (new Timer())
+            {
+                // Act
+                var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services, internalContext).Result;
+
+                // Assert
+                Assert.IsNotNull(offerPayments);
+                var offerPayment = offerPayments.Single();
+                Assert.IsTrue(offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().Single().DollarAmount >= 0);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Mobile Enrollments")]
+        public void PostVerifyPremiseTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+
+            using (new Timer())
+            {
+                // Act
+                var result = enrollmentService.VerifyPremise(new DomainModels.Enrollments.Location
+                {
+                    Address = new DomainModels.Address { StateAbbreviation = "FL", PostalCode5 = "33418", },
+                    Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.Mobile.ServiceCapability { },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+                }).Result;
+
+                // Assert
+                Assert.AreEqual(DomainModels.Enrollments.PremiseVerificationResult.Success, result);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Mobile Enrollments")]
+        public void PostEnrollmentsCreate()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "FL", PostalCode5 = "33418", },
+                Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.Mobile.ServiceCapability { },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var mobileOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.Mobile.Offer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
+                Services = new DomainModels.Enrollments.LocationServices[]
+                    {
+                        new DomainModels.Enrollments.LocationServices 
+                        { 
+                            Location = location, 
+                            SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                            {
+                                new DomainModels.Enrollments.SelectedOffer
+                                {
+                                    Offer = mobileOffer,
+                                    OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
+                                    { 
+                                        ActivationDate = DateTime.Today.AddDays(3),
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+
+            using (new Timer())
+            {
+                // Act
+                var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, null).Result;
+
+                // Assert
+                Assert.IsFalse(saveResult.IsCompleted);
+                Assert.IsNotNull(saveResult.ResponseLocation);
+
+                // Act - Step 3 - async response
+                while (!saveResult.IsCompleted)
+                {
+                    saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+                }
+
+                // Assert
+                Assert.IsTrue(saveResult.IsCompleted);
+                if (saveResult.Data.Results.Length > 0)
+                {
+                    Assert.IsTrue(saveResult.Data.Results.All(r => !string.IsNullOrEmpty(r.Details.EnrollmentAccountKeyJson)));
+                    foreach (var r in saveResult.Data.Results)
+                    {
+                        enrollmentService.DeleteEnrollment(globalCustomerId, r.Details.GlobalEnrollmentAccountId).Wait();
+                    }
+                }
+                else
+                {
+                    Assert.Fail("No data from Stream Connect");
+                }
+            }
+        }
+
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Mobile Enrollments")]
+        public void PostEnrollmentsUpdate()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "FL", PostalCode5 = "33418", },
+                Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.Mobile.ServiceCapability { },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var mobileOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.Mobile.Offer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
+                Services = new DomainModels.Enrollments.LocationServices[]
+                    {
+                        new DomainModels.Enrollments.LocationServices 
+                        { 
+                            Location = location, 
+                            SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                            {
+                                new DomainModels.Enrollments.SelectedOffer
+                                {
+                                    Offer = mobileOffer,
+                                    OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
+                                    { 
+                                        ActivationDate = DateTime.Today.AddDays(3),
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+
+            var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, null).Result;
+
+            Assert.IsFalse(saveResult.IsCompleted);
+            Assert.IsNotNull(saveResult.ResponseLocation);
+
+            while (!saveResult.IsCompleted)
+            {
+                saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+            }
+
+            userContext.ContactInfo = new DomainModels.CustomerContact
+            {
+                Name = new DomainModels.Name
+                {
+                    First = "REBECCA",
+                    Last = "DELEON"
+                },
+                Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2230987654" } },
+                Email = new DomainModels.Email { Address = "test@example.com" },
+            };
+
+            using (new Timer())
+            {
+                // Act
+                saveResult = enrollmentService.BeginSaveUpdateEnrollment(globalCustomerId, saveResult.Data, userContext, null, null).Result;
+
+                // Assert
+                Assert.IsFalse(saveResult.IsCompleted);
+                Assert.IsNotNull(saveResult.ResponseLocation);
+
+                // Act - Step 2 - async response
+                while (!saveResult.IsCompleted)
+                {
+                    saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+                }
+
+                // Assert
+                Assert.IsTrue(saveResult.IsCompleted);
+                if (saveResult.Data.Results.Length > 0)
+                {
+
+                }
+                else
+                {
+                    Assert.Fail("No data from Stream Connect");
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Mobile Enrollments")]
+        public void PostEnrollmentsUpsert()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "FL", PostalCode5 = "33418", },
+                Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.Mobile.ServiceCapability { },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var mobileOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.Mobile.Offer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
+                Services = new DomainModels.Enrollments.LocationServices[]
+                    {
+                        new DomainModels.Enrollments.LocationServices 
+                        { 
+                            Location = location, 
+                            SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                            {
+                                new DomainModels.Enrollments.SelectedOffer
+                                {
+                                    Offer = mobileOffer,
+                                    OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
+                                    { 
+                                        ActivationDate = DateTime.Today.AddDays(3),
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+
+            var saveResult = new DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
+            {
+                Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult { Results = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>[0] },
+                IsCompleted = true,
+            };
+
+            using (new Timer())
+            {
+                // Act
+                saveResult = enrollmentService.BeginSaveUpdateEnrollment(globalCustomerId, saveResult.Data, userContext, null, null).Result;
+
+                // Assert
+                Assert.IsFalse(saveResult.IsCompleted);
+                Assert.IsNotNull(saveResult.ResponseLocation);
+
+                // Act - Step 2 - async response
+                while (!saveResult.IsCompleted)
+                {
+                    saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+                }
+
+                // Assert
+                Assert.IsTrue(saveResult.IsCompleted);
+                if (saveResult.Data.Results.Length > 0)
+                {
+
+                }
+                else
+                {
+                    Assert.Fail("No data from Stream Connect");
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Mobile Enrollments")]
+        public void PostEnrollmentsFinalize()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "FL", PostalCode5 = "33418", },
+                Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.Mobile.ServiceCapability { },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var mobileOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.Mobile.Offer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
+                Services = new DomainModels.Enrollments.LocationServices[]
+                    {
+                        new DomainModels.Enrollments.LocationServices 
+                        { 
+                            Location = location, 
+                            SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                            {
+                                new DomainModels.Enrollments.SelectedOffer
+                                {
+                                    Offer = mobileOffer,
+                                    OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
+                                    { 
+                                        ActivationDate = DateTime.Today.AddDays(3),
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+            var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, null).Result;
+            while (!saveResult.IsCompleted)
+            {
+                saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+            }
+
+            var creditCheck = enrollmentService.BeginCreditCheck(globalCustomerId,
+                name: TestData.CreditCheckContactInfo().Name,
+                ssn: TestData.CreditCheckSsn,
+                address: TestData.CreditCheckAddress()).Result;
+            do
+            {
+                creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+            } while (!creditCheck.IsCompleted);
+
+            var firstCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
+                name: TestData.IdentityCheckName(),
+                ssn: TestData.IdentityCheckSsn,
+                mailingAddress: TestData.IdentityCheckMailingAddress()).Result;
+
+            var secondCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
+                name: TestData.IdentityCheckName(),
+                ssn: TestData.IdentityCheckSsn,
+                mailingAddress: TestData.IdentityCheckMailingAddress(),
+                identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
+                {
+                    PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
+                    SelectedAnswers = firstCheck.Data.IdentityQuestions.ToDictionary(q => q.QuestionId, q => q.Answers[0].AnswerId)
+                }).Result;
+
+            do
+            {
+                secondCheck = enrollmentService.EndIdentityCheck(secondCheck).Result;
+            } while (!secondCheck.IsCompleted);
+
+            Mock<DomainModels.Enrollments.IOfferOptionRules> mockRules = new Mock<DomainModels.Enrollments.IOfferOptionRules>();
+            mockRules.Setup(r => r.GetPostBilledPayments(It.IsAny<DomainModels.Enrollments.IOfferOption>())).Returns(new DomainModels.Enrollments.IOfferPaymentAmount[0]);
+            var deposits = enrollmentService.LoadOfferPayments(globalCustomerId, saveResult.Data, userContext.Services, new DomainModels.Enrollments.InternalContext
+            {
+                GlobalCustomerId = globalCustomerId,
+                EnrollmentSaveState = saveResult,
+                IdentityCheck = secondCheck,
+                OfferOptionRules = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>[] 
+                { 
+                    new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>
+                    {
+                        Location = location,
+                        Offer = mobileOffer,
+                        Details = mockRules.Object
+                    }
+                }
+            }).Result;
+
+            using (new Timer())
+            {
+                // Act
+                var result = enrollmentService.BeginPlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                {
+                    GlobalCustomerId = globalCustomerId,
+                    EnrollmentSaveState = saveResult,
+                    Deposit = deposits,
+                }, null).Result;
+
+                while (!result.IsCompleted)
+                {
+                    result = enrollmentService.EndPlaceOrder(result, saveResult.Data).Result;
+                }
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.IsNotNull(result.Data);
+                Assert.IsTrue(result.Data.Any());
+                Assert.IsTrue(result.Data.First().Details.IsSuccess);
+                Assert.IsNotNull(result.Data.First().Details.ConfirmationNumber);
+            }
+        }
+
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Mobile Enrollments")]
+        public void PostDepositsTest()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            var gcid = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "FL", PostalCode5 = "33418", },
+                Capabilities = new DomainModels.IServiceCapability[]
+                {
+                    new DomainModels.Enrollments.Mobile.ServiceCapability { },
+                    new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                    new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var mobileOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.Mobile.Offer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
+                Services = new DomainModels.Enrollments.LocationServices[]
+                {
+                    new DomainModels.Enrollments.LocationServices 
+                    { 
+                        Location = location, 
+                        SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                        {
+                            new DomainModels.Enrollments.SelectedOffer
+                            {
+                                Offer = mobileOffer,
+                                OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
+                                { 
+                                    ActivationDate = DateTime.Today.AddDays(3),
+
+                                }
+                            }
+                        }
+                    }
+                },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+            Mock<DomainModels.Enrollments.IOfferOptionRules> mockRules = new Mock<DomainModels.Enrollments.IOfferOptionRules>();
+            mockRules.Setup(r => r.GetPostBilledPayments(It.IsAny<DomainModels.Enrollments.IOfferOption>())).Returns(new DomainModels.Enrollments.IOfferPaymentAmount[0]);
+            var internalContext = new DomainModels.Enrollments.InternalContext
+            {
+                OfferOptionRules = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>[] 
+                        { 
+                            new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>
+                            {
+                                Location = location,
+                                Offer = mobileOffer,
+                                Details = mockRules.Object
+                            }
+                        }
+            };
+            var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext, null).Result;
+            while (!saveResult.IsCompleted)
+            {
+                saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+            }
+
+            var creditCheck = enrollmentService.BeginCreditCheck(gcid,
+                name: TestData.CreditCheckContactInfo().Name,
+                ssn: TestData.CreditCheckSsn,
+                address: TestData.CreditCheckAddress()).Result;
+            do
+            {
+                creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+            } while (!creditCheck.IsCompleted);
+            var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services, internalContext).Result;
+            var offerPayment = offerPayments.Single();
+            if (offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().First().DollarAmount == 0)
+                Assert.Inconclusive("No deposit assessed.");
+
+            using (new Timer())
+            {
+                // Act
+                var result = enrollmentService.BeginPlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                {
+                    GlobalCustomerId = gcid,
+                    EnrollmentSaveState = saveResult,
+                    Deposit = new[] { offerPayment },
+                }, new DomainModels.Payments.TokenizedCard
+                {
+                    CardToken = TestData.CardToken,
+                    BillingZipCode = "75201",
+                    ExpirationDate = DateTime.Today.AddDays(60),
+                    SecurityCode = "123"
+                }).Result;
+                while (!result.IsCompleted)
+                {
+                    result = enrollmentService.EndPlaceOrder(result, saveResult.Data).Result;
+                }
+
+                // Assert
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(1, result.Data.Count());
+                Assert.IsNotNull(result.Data.First().Details.PaymentConfirmation.ConfirmationNumber);
+            }
+        }
     }
 }

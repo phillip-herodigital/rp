@@ -205,7 +205,9 @@
     <Compile Include="DomainModels\Enrollments\Mobile\MobileInventory.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\MobileServiceProvider.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\Offer.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\OfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\OfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\OfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\Rate.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\ServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\MonthlyOfferPaymentAmount.cs" />
