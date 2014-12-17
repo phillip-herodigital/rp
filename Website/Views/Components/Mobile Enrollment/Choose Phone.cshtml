@@ -222,10 +222,10 @@
                 <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                     <form data-val-bind-messages="validations" ng-submit="addDeviceToCart()">
                         <div class="content bring-your-own">
-                            <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
+                            <div class="byo-intro" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
                                 @Html.Sitecore().Field("Bring Your Phone - ATT Instructions")
                             </div>
-                            <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+                            <div class="byo-intro" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
                                 @Html.Sitecore().Field("Bring Your Phone - Sprint Instructions")
                             </div>
                             <hr />

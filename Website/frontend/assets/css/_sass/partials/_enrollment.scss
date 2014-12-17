@@ -367,6 +367,12 @@
         .button {
             display: table-cell;
         }
+        label {
+            font-weight: 300 !important;
+        }
+        input[type="text"], select {
+            margin: 5px 0;
+        }
     }
 }
 
@@ -2370,13 +2376,13 @@
                 border-bottom: none;
                 h1 { 
                     color: #0971ce; 
-                    font-size: 26px;
+                    font-size: 24px;
                 }
             }
             h1 {
                 padding: 2px 20px;
                 margin: 10px 0;
-                font-size: 20px;
+                font-size: 18px;
             }
             &:first-child {
                 border-right: 1px solid $enrollment-light-border-color;
@@ -2475,14 +2481,61 @@
         }
     }
     .bring-your-own {
+        .byo-intro {
+            .intro-text {
+                width: 66%;
+                display: inline-block;
+                h2 {
+                    color: #000;
+                    font-size: 28px;
+                    margin: 0;
+                }
+                a {
+                    font-weight: 600;
+                }
+                ol {
+                    padding-left: 0;
+                    margin-bottom: 0;
+                    counter-reset: li;
+                    > li {
+                        list-style: none;
+                        clear: left;
+                        margin-bottom: 15px;
+                        &:before {
+                            content: counter(li) ". ";
+                            counter-increment: li;
+                            float: left;
+                            font-weight: 600;
+                            margin-bottom: 15px;
+                            width: 22px;
+                        }
+                    }
+                }
+            }
+            .intro-image {
+                width: 30%;
+                display: inline-block;
+                float: right;
+                margin-top: 40px;
+            }
+            @include breakpoint(small) {
+                .intro-text {
+                    width: 100%;
+                }
+                .intro-image {
+                    float: none;
+                    width: 100%;
+                    margin-top: 20px;
+                    text-align: center;
+                }
+            }
+        }
         div.info {
+            margin-top: -10px;
             padding: 10px;
             background: #f7f7f7;
             font-size: 14px;
         }
-        /*input[type="text"] {
-            width: 100%;
-        }*/
         .note {
             font-size: 14px;
         }
@@ -2491,82 +2544,6 @@
                 width: 100% !important;
             }
         }
-        /*@include breakpoint(medium-large) {
-            .grid {
-                .col:first-child {
-                    width: 33%;
-                }
-                .col:last-child {
-                    width: 67%;
-                }
-            }
-        }
-        .note {
-            font-size: 14px;
-        }
-        ul.phone-number {
-            @extend .clearfix;
-            @include layout-list();
-            li {
-                display: inline;
-                a {
-                    @include border-radius(5px);
-                    float: left;
-                    width: 49%;
-                    margin-right: 2%;
-                    padding: 5px 10px;
-                    background-color: #FFF;
-                    @include background-image(linear-gradient(to top, #F7F7F7 0%, #FFF 100%));
-                    border: 1px solid #ccc;
-                    text-align: center;
-                }
-                &:last-child a {
-                    margin-right: 0;
-                }
-                &.selected a {
-                    @include box-shadow(inset 0 0 2px rgba(251, 247, 194, 0.75));
-                    border: 2px solid #3189BB;
-                    margin-top: -1px;
-                }
-            }
-        }
-        .phone-number-field {
-            @include border-radius(5px);
-            position: relative;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #FFF;
-            @include background-image(linear-gradient(to top, #F7F7F7 0%, #FFF 100%));
-            border: 1px solid #ccc;
-            input[type="text"] {
-                width: 50%;
-            }
-            &:after, &:before {
-                bottom: 100%;
-                left: 25%;
-                border: solid transparent;
-                content: " ";
-                height: 0;
-                width: 0;
-                position: absolute;
-                pointer-events: none;
-            }
-            &:after {
-                border-color: rgba(255, 255, 255, 0);
-                border-bottom-color: #fff;
-                border-width: 10px;
-                margin-left: -10px;
-            }
-            &:before {
-                border-color: rgba(0, 0, 0, 0);
-                border-bottom-color: #ccc;
-                border-width: 11px;
-                margin-left: -11px;
-            }
-            &.transfer:after, &.transfer:before {
-                left: 75%;
-            }
-        }*/
     }
     h3 {
         margin: 0;
