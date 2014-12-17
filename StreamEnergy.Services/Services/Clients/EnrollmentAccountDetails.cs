@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -11,7 +12,7 @@ namespace StreamEnergy.Services.Clients
 
         public DomainModels.Enrollments.SelectedOffer Offer { get; set; }
 
-        public Guid? EnrollmentAccountId { get; set; }
+        public JObject EnrollmentAccountKey { get; set; }
 
         public DomainModels.Enrollments.OfferPayment OfferPayments { get; set; }
 
