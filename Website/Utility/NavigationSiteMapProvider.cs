@@ -35,6 +35,7 @@ namespace StreamEnergy.MyStream.Utility
             return (from navigationItem in renderingItem.GetDescendantsAndSelf()
                     let linkField = (LinkField)navigationItem.Fields["Navigation Link"]
                     where linkField != null && linkField.TargetID == item.ID
+                    where ((CheckboxField)navigationItem.Fields["Is Primary"]).Checked
                     select new ItemSiteMapNode(this, navigationItem)).FirstOrDefault();
         }
 

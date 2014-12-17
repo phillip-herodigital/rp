@@ -3,8 +3,9 @@
 
     .utility {
         a:before {
-           content: "\A0\A0|\A0\A0\A0";
+            content: "\A0\A0|\A0\A0\A0";
         }
+
         > a:first-of-type:before {
             content: none;
         }
@@ -100,6 +101,10 @@ dl.faq {
 }
 
 article {
+    > *:last-child {
+        border-radius: 0;
+    }
+
     &.marketingIntro {
         p.intro {
             font-size: 20px;
@@ -180,7 +185,7 @@ article {
         &.mobile {
             h1 {
                 strong, b {
-                    color: #28ade0
+                    color: #28ade0;
                 }
             }
         }
@@ -188,7 +193,7 @@ article {
         &.energy {
             h1 {
                 strong, b {
-                    color: #f8a244
+                    color: #f8a244;
                 }
             }
         }
@@ -196,7 +201,7 @@ article {
         &.protect {
             h1 {
                 strong, b {
-                    color: #51b35a
+                    color: #51b35a;
                 }
             }
         }
@@ -413,13 +418,6 @@ article {
     }
 }
 
-
-
-
-
-
-
-
 .director-banner.stretch {
     margin: 0;
 
@@ -427,6 +425,51 @@ article {
         background-image: none;
     }
 }
+
+.service-links {
+    background-color: #f7f8f9;
+    @include box-shadow(0px 10px 5px 0px rgba(50, 50, 50, 0.3));
+    position: relative;
+    z-index: 100;
+
+
+    .wrapper {
+        padding: $marketing-wrapper-padding;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .col {
+        font-size: 16px;
+        letter-spacing: (29em/1000em);
+        background: -30px center no-repeat;
+
+        h2 {
+            font-size: 24px;
+            color: black;
+            letter-spacing: 0;
+        }
+
+        p {
+            margin-right: 150px;
+        }
+
+        &.mobile {
+            background-image: image-url('marketing/redesign/Modules/Home/HomeHeader/home_header_mobile_icon.png');
+        }
+
+        &.energy {
+            background-image: image-url('marketing/redesign/Modules/Home/HomeHeader/home_header_energy_icon.png');
+        }
+
+        &.protect {
+            background-image: image-url('marketing/redesign/Modules/Home/HomeHeader/home_header_protect_icon.png');
+        }
+    }
+}
+
+
 
 $breakPoint: 768px;
 
