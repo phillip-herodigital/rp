@@ -1,0 +1,542 @@
+.page-content {
+    background: image-url('marketing/redesign/pattern_bg.png') repeat-y center;
+
+    .utility {
+        a:before {
+            content: "\A0\A0|\A0\A0\A0";
+        }
+
+        > a:first-of-type:before {
+            content: none;
+        }
+    }
+
+    > section.layout.cols-1 {
+        background-color: white;
+        @include box-shadow(-7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 ));
+        margin: 0 auto;
+        max-width: 1280px;
+    }
+
+    > .sub-nav {
+        ul {
+            li {
+                &.selected {
+                    background: image-url('marketing/redesign/nav-second-level-selected-indicator.png') bottom center no-repeat;
+                }
+            }
+        }
+    }
+}
+
+.banner.marketing {
+    height: 214px;
+    line-height: 52px;
+    line-height: 214px;
+    font-size: 48px;
+    color: white;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+button, a.button {
+    @include background-image(linear-gradient(to bottom, rgb(1,163,221), rgb(0,113,185)));
+    padding: 10px !important;
+    color: white;
+    letter-spacing: 0.026em;
+    font-size: 16px;
+    font-weight: normal;
+    @include border-radius(9px);
+    @include box-shadow(rgba( 85, 53, 91, 0.25) 0px 2.598px 4px 2px);
+    text-transform: none !important;
+}
+
+dl.faq {
+    color: #595a5d;
+    width: 582px;
+
+    > dt {
+        font-size: 16px;
+        letter-spacing: 0;
+        font-weight: 600;
+        cursor: pointer;
+        padding-left: 18px;
+        position: relative;
+
+        &:before {
+            content: image-url('marketing/redesign/Componets/FAQs/minus.png');
+            vertical-align: top;
+            position: absolute;
+            left: -18px;
+        }
+
+        &[data-collasped] {
+            &:before {
+                content: image-url('marketing/redesign/Componets/FAQs/plus.png');
+            }
+
+            + dd {
+                height: 0;
+                overflow: hidden;
+                margin-top: 0;
+            }
+        }
+    }
+
+    > dd {
+        font-weight: normal;
+        line-height: 19px;
+        font-size: 14px;
+        margin: 16px 0 50px 26px;
+        color: #595a5d;
+        letter-spacing: 0.041em;
+        height: auto;
+        -moz-transition: height 0.5s ease;
+        -o-transition: height 0.5s ease;
+        -webkit-transition: height 0.5s ease;
+        transition: height 0.5s ease;
+    }
+}
+
+article {
+    > *:last-child {
+        border-radius: 0;
+    }
+
+    &.marketingIntro {
+        p.intro {
+            font-size: 20px;
+            margin: 1em percentage(100/1040);
+            letter-spacing: (17/1000);
+        }
+
+        &.mobile {
+            &.plans {
+                text-align: center;
+                color: black;
+
+                ol.points {
+                    li {
+                        &:before {
+                            margin-right: 5px;
+                            content: image-url('marketing/redesign/check.png');
+                        }
+                    }
+                }
+
+                h2 {
+                    position: relative;
+                    font-size: 11px;
+                    line-height: 2em;
+                    letter-spacing: 0;
+                    color: #012f50;
+
+                    strong {
+                        font-weight: 600;
+                    }
+
+                    span {
+                        position: absolute;
+                        top: 25px;
+                        left: 50%;
+                        margin-left: -20px;
+                    }
+                }
+
+                h3 {
+                    padding-top: 50px;
+                    background: center top no-repeat;
+                    font-size: 22px;
+                    line-height: 29.02px;
+                    letter-spacing: -0.01em;
+                    font-weight: 600;
+                }
+
+
+                .indvidualPlans {
+
+                    h3 {
+                        background-image: image-url('marketing/redesign/single_phone.png');
+                    }
+                }
+
+                .groupPlans {
+                    h3 {
+                        background-image: image-url('marketing/redesign/multi_phone.png');
+                    }
+                }
+            }
+        }
+    }
+
+    &.marketing {
+        @each $theme in $themes {
+            @if map-get($theme, name) != "white" {
+                &.bg-#{map-get($theme, name)} {
+                    > .wrapper {
+                        background-image: none;
+                    }
+                }
+            }
+        }
+
+        &.mobile {
+            h1 {
+                strong, b {
+                    color: #28ade0;
+                }
+            }
+        }
+
+        &.energy {
+            h1 {
+                strong, b {
+                    color: #f8a244;
+                }
+            }
+        }
+
+        &.protect {
+            h1 {
+                strong, b {
+                    color: #51b35a;
+                }
+            }
+        }
+
+        h1 {
+            font: 300 40px/35.97px proxima-nova, sans-serif;
+            letter-spacing: -0.029em;
+            text-align: center;
+            color: inherit;
+
+            b, strong {
+                text-transform: uppercase;
+                font-weight: 300;
+            }
+        }
+
+        > .wrapper {
+            background: image-url('marketing/redesign/Modules/module_background.png') no-repeat center top;
+        }
+
+        &:first-of-type {
+            > .wapper {
+                background-image: none;
+            }
+        }
+    }
+
+    &.photoLockup {
+        background-color: white;
+        border-style: none !important;
+        margin-bottom: 0 !important;
+        font-size: 15.99px;
+        line-height: 23.99px;
+        color: black;
+
+        .wrapper {
+            padding-top: 80px;
+            padding-bottom: 80px;
+
+            > .content, > img {
+                float: left;
+
+                @include breakpoint(small) {
+                    float: none;
+                    width: 100%;
+                    height: auto;
+                }
+            }
+
+            > .content {
+                width: 463px;
+                margin: 0;
+                padding: 0 !important;
+
+                blockquote {
+                    p {
+                        &:first-of-type {
+                            text-indent: -11px;
+                            font-size: 18px;
+                            line-height: 26.44px;
+                            position: relative;
+
+                            &::before {
+                                content: "\201C";
+                                color: rgba(255,255,255,.3);
+                                font-size: 135.61px;
+                                position: absolute;
+                                left: -45px;
+                                top: 55px;
+                            }
+                        }
+
+                        &:last-of-type::after {
+                            content: "\201D";
+                            color: rgba(255,255,255,.3);
+                            font-size: 135.61px;
+                            position: absolute;
+                            margin-left: 10px;
+                            margin-top: 40px;
+                        }
+
+                        .lead {
+                            font-size: 36px;
+                            line-height: 60px;
+                            font-style: italic;
+                        }
+                    }
+
+                    footer {
+                        border-radius: 0;
+                        border-top: none;
+                        padding: 0;
+                        margin-top: 10px;
+                        font-size: 14.23px;
+                        line-height: 35.87px;
+
+                        cite {
+                            &::before {
+                                content: "\2014 ";
+                            }
+
+                            text-transform: uppercase;
+                            font-style: normal;
+                        }
+                    }
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
+            }
+
+            > img {
+                width: 502px;
+            }
+
+            > .content + img, > img + .content {
+                float: right;
+
+                @include breakpoint(small) {
+                    float: none;
+                    width: 100%;
+                }
+            }
+            /* h2, h3 {
+            font-size: 31.99px;
+            line-height: 48.91px;
+            letter-spacing: 0;
+            color: #4f4c4d;
+            font-weight: 300;
+            padding-top: 0;
+            margin-top: 0;
+        } */
+        }
+    }
+
+    &.protective-services {
+        h2 {
+            color: #222a4c;
+        }
+
+        .col {
+            padding-top: 100px;
+        }
+
+
+        .identityTheft {
+            background: image-url('marketing/redesign/mask_icon.png') no-repeat center top;
+        }
+
+        .onlineBackupAndProtection {
+            background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top;
+        }
+
+        .creditMonitoring {
+            background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top;
+        }
+    }
+
+    &.states-enroll {
+        background-image: none;
+
+        .wrapper {
+            background-image: none;
+            height: 83px;
+            padding: 0;
+            max-width: 1040px;
+            margin: 0 auto;
+
+            &.grid {
+                .col {
+                    width: auto;
+                    vertical-align: middle;
+                }
+            }
+
+            h3 {
+                margin: 0;
+                padding: 0;
+                line-height: 83px;
+                float: left;
+                font-size: 20px;
+                letter-spacing: .001em;
+            }
+
+            p {
+                margin: 0;
+                padding: 0;
+                font-size: 16px;
+                line-height: 22px;
+                letter-spacing: 0;
+            }
+
+            #GetStarted-StateEnroll-Module {
+                position: absolute;
+                right: 250px;
+                width: 500px;
+                line-height: 83px;
+            }
+
+            #ViewLinks-StateEnroll-Module {
+                position: absolute;
+                right: 140px;
+                line-height: 1em;
+                padding: 25.5px 0;
+                font-size: 14px;
+                line-height: 17px;
+
+                a {
+                    font-weight: normal;
+                }
+            }
+        }
+    }
+}
+
+.director-banner.stretch {
+    margin: 0;
+
+    .wrapper {
+        background-image: none;
+    }
+}
+
+.service-links {
+    background-color: #f7f8f9;
+    @include box-shadow(0px 10px 5px 0px rgba(50, 50, 50, 0.3));
+    position: relative;
+    z-index: 100;
+
+
+    .wrapper {
+        padding: $marketing-wrapper-padding;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .col {
+        font-size: 16px;
+        letter-spacing: (29em/1000em);
+        background: -30px center no-repeat;
+
+        h2 {
+            font-size: 24px;
+            color: black;
+            letter-spacing: 0;
+        }
+
+        p {
+            margin-right: 150px;
+        }
+
+        &.mobile {
+            background-image: image-url('marketing/redesign/Modules/Home/HomeHeader/home_header_mobile_icon.png');
+        }
+
+        &.energy {
+            background-image: image-url('marketing/redesign/Modules/Home/HomeHeader/home_header_energy_icon.png');
+        }
+
+        &.protect {
+            background-image: image-url('marketing/redesign/Modules/Home/HomeHeader/home_header_protect_icon.png');
+        }
+    }
+}
+
+
+
+$breakPoint: 768px;
+
+#SwitchStreamMobile-Home {
+    #OrParagrah-SwitchStreamMobile-Home {
+        font-size: 24px;
+        text-transform: uppercase;
+        width: 66px;
+        height: 66px;
+        border-radius: 33px;
+        line-height: 66px;
+        background-color: #f2f2f2;
+        text-align: center;
+        color: #4f4c4d;
+        letter-spacing: 0;
+        position: absolute;
+        left: 50%;
+        margin-left: -33px;
+        top: 300px;
+
+        @media only screen and (max-width: $breakPoint) {
+            position: static;
+            margin: 10px auto;
+        }
+    }
+
+    #ShopPhones-SwitchStreamMobile-Home {
+        background: image-url('marketing/redesign/Modules/Global/SwitchMobile/ShopPhones.jpg') top left no-repeat;
+        padding: 217px 100px 0 60px;
+
+        @media only screen and (max-width: $breakPoint) {
+            padding-left: 0;
+            padding-right: 0;
+            float: none;
+            background-position: top center;
+            width: 100%;
+        }
+    }
+
+    #BringDevice-SwitchStreamMobile-Home {
+        background: image-url('marketing/redesign/Modules/Global/SwitchMobile/BringPhones.jpg') top right no-repeat;
+        padding: 217px 0 0 134px;
+
+        @media only screen and (max-width: $breakPoint) {
+            padding-left: 0;
+            padding-right: 0;
+            float: none;
+            background-position: top center;
+            width: 100%;
+        }
+    }
+
+    article {
+        width: 50%;
+        float: left;
+
+        h4 {
+            font-size: 2em;
+            letter-spacing: -0.029em;
+            font-weight: 300;
+        }
+    }
+}
+
+
+#Plans-Component {
+    border: 1px solid #e5e5e5;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}

@@ -189,6 +189,10 @@
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\MoveInOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\Offer.cs" />
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\OfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\RenewalCapability.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\RenewalOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\RenewalOfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\RenewalOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\SwitchOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\OfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\ServiceCapability.cs" />
@@ -217,10 +221,6 @@
     <Compile Include="DomainModels\Enrollments\PayingDepositState.cs" />
     <Compile Include="DomainModels\Enrollments\PremiseVerificationResult.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
-    <Compile Include="DomainModels\Enrollments\Renewal\Offer.cs" />
-    <Compile Include="DomainModels\Enrollments\Renewal\OfferOptionPolicy.cs" />
-    <Compile Include="DomainModels\Enrollments\Renewal\OfferOptionRules.cs" />
-    <Compile Include="DomainModels\Enrollments\Renewal\OfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\RenewalResult.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\SaveEnrollmentState.cs" />

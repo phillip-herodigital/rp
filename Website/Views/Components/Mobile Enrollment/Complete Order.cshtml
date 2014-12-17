@@ -115,7 +115,7 @@
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h3>@Html.Sitecore().Field("Tax and Other Fees Text")</h3>
-                                <a href="" ng-click="toggleBreakdown()">@Html.Sitecore().Field("Show Breakdown Link Text")</a>
+                                <a href="" ng-click="toggleBreakdown()"><span ng-show="!isBreakdownShown">@Html.Sitecore().Field("Show Breakdown Link Text")</span><span ng-show="isBreakdownShown">@Html.Sitecore().Field("Hide Breakdown Link Text")</span></a>
                                 <dl ng-show="isBreakdownShown">
                                     <dt>@Html.Sitecore().Field("Sales and Use Tax Text")</dt>
                                     <dd>{{ cart.dataPlan.fees.salesUseTax | currency }}</dd>

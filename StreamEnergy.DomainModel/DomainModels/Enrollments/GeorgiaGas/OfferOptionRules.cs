@@ -15,5 +15,10 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         {
             return new IOfferPaymentAmount[0];
         }
+
+        public virtual IOfferOption GetInitialOptions()
+        {
+            return null;
+        }
     }
 }

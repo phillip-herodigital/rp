@@ -54,13 +54,13 @@
     </select>
 }
 
-<form class="module marketing state-tabs states-enroll" state-tabs="texas">
-    <h3>
-        Energy Rates &amp; Details
-    </h3>
-    <p id="GetStarted-StateEnroll-Module">It looks like you're in @StateSelect(stateNames) <button data-ng-click="goToEnrollUrl()" class="action">Get Stated</button></p>
-    <p id="ViewLinks-StateEnroll-Module"><a data-ng-href="{{stateEnrollData[pane].rateUrl}}">View Rates</a><br><a href="">View Details</a></p>
-    <script>
-        window.stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));
-    </script>
-</form>
+<article class="marketing state-tabs states-enroll" state-tabs="texas">
+    <div class="wrapper grid 3">
+        <p class="col">Energy Rates &amp; Details</p>
+        <p class="col">It looks like you’re in @StateSelect(stateNames) <button data-ng-click="goToEnrollUrl()" class="action">Get Stated</button></p>
+        <p class="col"><a data-ng-href="{{stateEnrollData[pane].rateUrl}}">View Rates</a><br><a href="">View Details</a></p>
+        <script>
+            window.stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));
+        </script>
+    </div>
+</article>

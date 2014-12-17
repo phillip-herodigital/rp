@@ -5,6 +5,7 @@
 ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', '$window', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse, $window) {
     var hasSubmitted = false;
     $scope.currentLocationInfo = enrollmentCartService.getActiveService;
+    $scope.isRenewal = enrollmentService.isRenewal;
 
     $scope.footnotes = {};
     $scope.activeFootnotes = [];

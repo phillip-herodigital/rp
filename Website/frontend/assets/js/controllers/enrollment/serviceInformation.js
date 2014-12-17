@@ -4,10 +4,12 @@
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService) {
     // TODO - chose state by geoIP
-    if ($location.absUrl().indexOf('State=GA') > 0) {
-        $scope.data = { serviceState: 'GA' };
-    } else {
-        $scope.data = { serviceState: 'TX' };
+    if (!$scope.data || !$scope.data.serviceState) {
+        if ($location.absUrl().indexOf('State=GA') > 0) {
+            $scope.data = { serviceState: 'GA' };
+        } else {
+            $scope.data = { serviceState: 'TX' };
+        }
     }
     $scope.getActiveServiceIndex = enrollmentCartService.getActiveServiceIndex;
 
