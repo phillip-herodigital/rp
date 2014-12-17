@@ -1,6 +1,15 @@
 .page-content {
     background: image-url('marketing/redesign/pattern_bg.png') repeat-y center;
 
+    .utility {
+        a:before {
+           content: "\A0\A0|\A0\A0\A0";
+        }
+        > a:first-of-type:before {
+            content: none;
+        }
+    }
+
     > section.layout.cols-1 {
         background-color: white;
         @include box-shadow(-7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 ));

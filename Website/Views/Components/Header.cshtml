@@ -74,11 +74,11 @@
         <div class="utility">
             @if (Sitecore.Context.IsLoggedIn)
             {
-                <text>Welcome,&nbsp;</text>@Sitecore.Context.User.LocalName<text>&nbsp;&nbsp;&nbsp;</text><a href="/account">My Account</a><text>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</text><a href="/account/profile">My Profile</a><text>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</text><a href="/api/authentication/logout">Logout</a>
+                <text>Welcome,</text> @Sitecore.Context.User.LocalName <a href="/account">My Account</a> <a href="/account/profile">My Profile</a> <a href="/api/authentication/logout">Logout</a>
             }
             else
             {
-                <a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText.Replace(" ", "\u00A0")</a><text>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</text><span style="letter-spacing: 0.026em;"><a href="/manage/">My&nbsp;Account</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="/pay/">Pay&nbsp;My&nbsp;Bill</a></span>
+                <a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a> <span style="letter-spacing: 0.026em;"><a href="/manage/">My Account</a> <a href="/pay/">Pay My Bill</a></span>
             }
         </div>
         <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
