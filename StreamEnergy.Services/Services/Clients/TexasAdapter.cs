@@ -147,8 +147,8 @@ namespace StreamEnergy.Services.Clients
             return new
             {
                 ServiceType = "Utility",
-                // TODO - this isn't the right key... but it could be.
-                Key = account.EnrollmentAccountId,
+                Key = account.EnrollmentAccountKey,
+                RequestUniqueKey = account.RequestUniqueKey,
 
                 Premise = new
                 {

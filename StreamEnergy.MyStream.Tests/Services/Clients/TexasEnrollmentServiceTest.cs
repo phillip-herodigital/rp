@@ -15,7 +15,7 @@ using StreamEnergy.Logging;
 namespace StreamEnergy.MyStream.Tests.Services.Clients
 {
     [TestClass]
-    public class EnrollmentServiceTest
+    public class TexasEnrollmentServiceTest
     {
         private static Unity.Container container;
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
@@ -9,12 +10,12 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
     {
         bool IOfferOptionPolicy.AcceptsOptions(IOfferOption offerOption)
         {
-            throw new NotImplementedException();
+            return offerOption is OfferOption;
         }
 
         System.Threading.Tasks.Task<IOfferOptionRules> IOfferOptionPolicy.GetOptionRules(Location location, IOffer offer)
         {
-            throw new NotImplementedException();
+            return Task.FromResult<IOfferOptionRules>(new OfferOptionRules());
         }
     }
 }

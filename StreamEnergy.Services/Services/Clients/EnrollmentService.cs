@@ -198,7 +198,9 @@ namespace StreamEnergy.Services.Clients
             var responseObject = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
             if ((string)responseObject["Status"] == "Success")
             {
-                var enrollmentResponses = responseObject["EnrollmentResponses"].ToArray<dynamic>();
+                var enrollmentResponses = from customer in (IEnumerable<dynamic>)responseObject["EnrollmentResponses"]
+                                          from account in (IEnumerable<dynamic>)customer.Accounts
+                                          select account;
 
                 asyncResult.Data = new EnrollmentSaveResult
                     {
@@ -207,7 +209,7 @@ namespace StreamEnergy.Services.Clients
                                    from offerWithIndex in service.SelectedOffers.Select((offer, index) => new { offer, index })
                                    let offer = offerWithIndex.offer
                                    let index = serviceWithIndex.index.ToString() + " " + offerWithIndex.index.ToString()
-                                   join entry in enrollmentResponses on index equals entry.UniqueKey
+                                   join entry in enrollmentResponses on index equals entry.UniqueKey.ToString()
                                    select new LocationOfferDetails<EnrollmentSaveEntry>
                                    {
                                        Details = new EnrollmentSaveEntry
@@ -257,6 +259,16 @@ namespace StreamEnergy.Services.Clients
                         return temp.Details;
                     return null;
                 };
+            Func<LocationServices, SelectedOffer, JObject> findSaveId = (service, offer) =>
+            {
+                if (enrollmentSaveResult == null)
+                    return null;
+                return enrollmentSaveResult.Results
+                    .Where(r => r.Offer.OfferType == offer.Offer.OfferType && r.Location == service.Location)
+                    .Select(r => JObject.Parse(r.Details.EnrollmentAccountKeyJson))
+                    .FirstOrDefault();
+            };
+
             // Note - updates are being applied to the same location if the offer types match.
             // If there is an offer type where we can have multiple at a single location,
             // this logic will need to change again.
@@ -265,14 +277,14 @@ namespace StreamEnergy.Services.Clients
                            from offerWithIndex in service.SelectedOffers.Select((offer, index) => new { offer, index })
                            let offer = offerWithIndex.offer
                            let index = serviceWithIndex.index.ToString() + " " + offerWithIndex.index.ToString()
-                           let previousSaveId = enrollmentSaveResult == null ? null : enrollmentSaveResult.Results.Where(r => r.Offer.OfferType == offer.Offer.OfferType && r.Location == service.Location).Select(r => (Guid?)r.Details.GlobalEnrollmentAccountId).FirstOrDefault()
+                           let previousSaveId = findSaveId(service, offer)
                            let locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(service.Location.Capabilities, offer.Offer))
                            let accountDetails = new EnrollmentAccountDetails 
                            { 
                                RequestUniqueKey = index, 
                                Location = service.Location, 
                                Offer = offer, 
-                               EnrollmentAccountId = previousSaveId, 
+                               EnrollmentAccountKey = previousSaveId, 
                                OfferPayments = findOfferPayment(service, offer) 
                            }
                            group accountDetails by locAdapter into systemOfRecordSet
