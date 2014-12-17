@@ -213,6 +213,11 @@ namespace StreamEnergy.Services.Clients
             return account.Id;
         }
 
+        IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
+        {
+            return new StreamEnergy.DomainModels.Enrollments.GeorgiaGas.RenewalCapability { Account = account, SubAccount = subAccount };
+        }
+
         object ILocationAdapter.GetProductRequest(Location location)
         {
             return new

@@ -18,5 +18,10 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         {
             return new IOfferPaymentAmount[0];
         }
+
+        public virtual IOfferOption GetInitialOptions()
+        {
+            return null;
+        }
     }
 }
