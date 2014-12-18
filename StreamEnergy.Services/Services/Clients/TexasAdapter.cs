@@ -36,7 +36,7 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(DomainModels.Accounts.ISubAccount subAccount)
         {
-            return false;
+            return subAccount is DomainModels.Accounts.TexasElectricityAccount;
         }
 
         bool ILocationAdapter.NeedProvider(Location location)
@@ -186,7 +186,9 @@ namespace StreamEnergy.Services.Clients
 
         string ILocationAdapter.GetProvider(DomainModels.Accounts.ISubAccount subAccount)
         {
-            return null;
+            var account = subAccount as DomainModels.Accounts.TexasElectricityAccount;
+
+            return account.ProviderId;
         }
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(Address serviceAddress, dynamic details)
@@ -206,35 +208,37 @@ namespace StreamEnergy.Services.Clients
 
                 var rate = (details.Product.Rates != null && details.Product.Rates.Count > 0) ? details.Product.Rates[0] : null;
 
-                //result.ProviderId = details.UtilityProvider.Id;
-                //result.Rate = (rate != null) ? (decimal)(rate.Value ?? 0) : 0;
-                //result.RateType = (rate != null && rate.Type == "Fixed") ? RateType.Fixed : RateType.Variable;
-                //result.TermMonths = details.Product.Term;
-                //result.ProductId = details.Product.ProductId;
-                //result.ProductCode = details.Product.ProductCode;
-                //result.ProductName = productData.Fields["Name"] ?? details.Product.Name;
-                //result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
-                //result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
-                result.CustomerType = details.customerType;
-                result.ProductType = details.productType;
+                result.ProviderId = details.UtilityProvider.Id;
+                result.Rate = (rate != null) ? (decimal)(rate.Value ?? 0) : 0;
+                result.RateType = (rate != null && rate.Type == "Fixed") ? RateType.Fixed : RateType.Variable;
+                result.TermMonths = details.Product.Term;
+                result.ProductId = details.Product.ProductId;
+                result.ProductCode = details.Product.ProductCode;
+                result.ProductName = productData.Fields["Name"] ?? details.Product.Name;
+                result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
+                result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
+                result.CustomerType = details.CustomerType;
+                result.ProductType = details.ProductType;
             }
             return result;
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)
         {
-            return null;
+            var account = subAccount as DomainModels.Accounts.TexasElectricityAccount;
+            return account.ProductId;
         }
 
         string ILocationAdapter.GetUtilityAccountNumber(DomainModels.Accounts.ISubAccount subAccount)
         {
-            return null;
+            var account = subAccount as DomainModels.Accounts.TexasElectricityAccount;
+            return account.Id;
         }
 
 
         IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
-            throw new NotImplementedException();
+            return new StreamEnergy.DomainModels.Enrollments.TexasElectricity.RenewalCapability { Account = account, SubAccount = subAccount };
         }
     }
 }

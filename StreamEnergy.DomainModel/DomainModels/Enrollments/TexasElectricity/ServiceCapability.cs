@@ -12,9 +12,9 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
     {
         public const string Qualifier = "TexasElectricity";
 
-        public string CapabilityType { get { return Qualifier; } }
+        public virtual string CapabilityType { get { return Qualifier; } }
 
-        public string EsiId { get; set; }
+        public virtual string EsiId { get; set; }
 
         [Required]
         public string Tdu { get; set; }
@@ -40,7 +40,7 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 
         public override int GetHashCode()
         {
-            return Qualifier.GetHashCode() ^ (EsiId ?? "").GetHashCode() ^ Tdu.GetHashCode();
+            return Qualifier.GetHashCode() ^ (EsiId ?? "").GetHashCode() ^ (Tdu ?? "").GetHashCode();
         }
 
         public string Address { get; set; }

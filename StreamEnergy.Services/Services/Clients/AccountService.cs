@@ -585,7 +585,9 @@ namespace StreamEnergy.Services.Clients
                     UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
                     ProductType = locAdapter.GetCommodityType(),
                     ProviderId = locAdapter.GetProvider(account.SubAccounts.First()),
-                    CustomerLast4 = account.Details.SsnLastFour
+                    CustomerLast4 = account.Details.SsnLastFour,
+                    SystemOfRecord = account.SystemOfRecord,
+                    SystemOfRecordAccountNumber = account.AccountNumber,
                 });
 
             if (!response.IsSuccessStatusCode)
