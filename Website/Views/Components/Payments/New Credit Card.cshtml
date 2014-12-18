@@ -20,11 +20,11 @@
         </div>
         <div class="item zip-code" @Html.Validation().ErrorClass(m => m.BillingZipCode)>
             <label for="@Html.IdFor(m => m.BillingZipCode)">@Html.Sitecore().Field("Zip Code Label"):</label>
-            @Html.TextBoxFor(m => m.BillingZipCode, new { data_val_if="ccCtrl.validate", ng_model="ccCtrl.billingZip", class="small" })
+            @Html.TextBoxFor(m => m.BillingZipCode, new { data_val_if="ccCtrl.validate", ng_model="ccCtrl.billingZip", @class="small" })
         </div>
         <div class="item security-code" @Html.Validation().ErrorClass(m => m.SecurityCode)>
             <label for="@Html.IdFor(m => m.SecurityCode)">@Html.Sitecore().Field("Security Code Label"):</label>
-            @Html.TextBoxFor(m => m.SecurityCode, new { ng_model = "ccCtrl.securityCode", data_val_if="ccCtrl.validate", class="small" })
+            @Html.TextBoxFor(m => m.SecurityCode, new { ng_model = "ccCtrl.securityCode", data_val_if="ccCtrl.validate", @class="small" })
         </div>
         <div class="item example">
             <a href="" ng-click="ccCtrl.creditCardExample=true" class="single-link">@Html.Sitecore().Field("See Example Link Label")</a>

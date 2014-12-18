@@ -191,7 +191,34 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(Address serviceAddress, dynamic details)
         {
-            return null;
+            var result = new DomainModels.Accounts.TexasElectricityAccount
+            {
+                Id = details.UtilityAccountNumber,
+                ServiceAddress = serviceAddress
+            };
+
+            if (details.Product != null)
+            {
+                var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.Product.ProductCode) ?? new SitecoreProductInfo
+                {
+                    Fields = new System.Collections.Specialized.NameValueCollection()
+                };
+
+                var rate = (details.Product.Rates != null && details.Product.Rates.Count > 0) ? details.Product.Rates[0] : null;
+
+                //result.ProviderId = details.UtilityProvider.Id;
+                //result.Rate = (rate != null) ? (decimal)(rate.Value ?? 0) : 0;
+                //result.RateType = (rate != null && rate.Type == "Fixed") ? RateType.Fixed : RateType.Variable;
+                //result.TermMonths = details.Product.Term;
+                //result.ProductId = details.Product.ProductId;
+                //result.ProductCode = details.Product.ProductCode;
+                //result.ProductName = productData.Fields["Name"] ?? details.Product.Name;
+                //result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
+                //result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
+                result.CustomerType = details.customerType;
+                result.ProductType = details.productType;
+            }
+            return result;
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)

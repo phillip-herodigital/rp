@@ -534,9 +534,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
             var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
 
-            if (account.SubAccounts != null && (account.SubAccounts[0]) != null && (account.SubAccounts[0]).SubAccountType == "GeorgiaGas")
+            if (account.SubAccounts != null && (account.SubAccounts[0]) != null)
             {
-                serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
+                if (account.SubAccounts[0].SubAccountType == "GeorgiaGas")
+                {
+                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
+                }
+                else if (account.SubAccounts[0].SubAccountType == "TexasElectricity")
+                {
+                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.TexasElectricityAccount)(account.SubAccounts[0])).ServiceAddress;
+                }
             }
             
             if (serviceAddress.Equals(account.Details.BillingAddress))

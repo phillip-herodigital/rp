@@ -481,7 +481,7 @@ namespace StreamEnergy.Services.Clients
                 TcpaPreference = tcpa,
                 BillingDeliveryPreference = data.Account.AccountBillingDetails.BillDeliveryTypePreference,
             };
-            account.SystemOfRecord = data.Account.AccountBillingDetails.SystemOfRecord;
+            account.SystemOfRecord = data.Account.SystemOfRecord;
             account.AccountNumber = data.Account.SystemOfRecordAccountNumber;
             account.Balance = new AccountBalance
             {
