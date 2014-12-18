@@ -224,7 +224,6 @@
     <Compile Include="Services\Clients\StreamConnect\IdVerificationChallengeResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\IdVerificationQuestion.cs" />
     <Compile Include="Services\Clients\StreamConnect\MoveInDate.cs" />
-    <Compile Include="Services\Clients\StreamConnect\Product.cs" />
     <Compile Include="Services\Clients\StreamConnect\ProductResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Rate.cs" />
     <Compile Include="Services\Clients\StreamConnect\VerifyPremiseResponse.cs" />

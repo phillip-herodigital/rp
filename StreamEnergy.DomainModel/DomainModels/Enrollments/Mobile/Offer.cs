@@ -25,15 +25,9 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
             get { return Offer.Qualifier; }
         }
 
-        public string Name
-        {
-            get { return ""; }
-        }
+        public string Name { get; set; }
 
-        public string Description
-        {
-            get { return ""; }
-        }
+        public string Description { get; set; }
 
         public IList<Rate> Rates { get; set; }
 
@@ -45,5 +39,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         {
             return container.Resolve<OfferOptionPolicy>();
         }
+
+        public KeyValuePair<string, string>[] Footnotes { get; set; }
     }
 }

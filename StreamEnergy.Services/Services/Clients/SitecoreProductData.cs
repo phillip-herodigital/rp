@@ -19,16 +19,16 @@ namespace StreamEnergy.Services.Clients
 
 
 
-        public SitecoreProductInfo GetTexasElectricityProductData(StreamConnect.Product product)
+        public SitecoreProductInfo GetTexasElectricityProductData(string productCode, string providerName)
         {
 
             if (taxonomy != null)
             {
-                var item = taxonomy.Axes.GetItem("Products/*/" + product.ProductCode);
+                var item = taxonomy.Axes.GetItem("Products/*/" + productCode);
 
                 if (item != null)
                 {
-                    var providerData = item.Axes.GetChild(product.Provider["Name"].ToString());
+                    var providerData = item.Axes.GetChild(providerName.ToString());
 
                     if (providerData != null)
                     {
@@ -37,7 +37,7 @@ namespace StreamEnergy.Services.Clients
                             Fields = new NameValueCollection
                             {
                                 { "Name", item["Product Name"] },
-                                { "Description", LoadProductDescription(product, item) },
+                                { "Description", LoadProductDescription(providerName, item) },
                                 { "Minimum Usage Fee", item["Minimum Usage Fee"] },
                                 { "TDU Charges", item["TDU Charges"] },
                                 { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src },
@@ -53,10 +53,10 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
-        private string LoadProductDescription(StreamConnect.Product product, Sitecore.Data.Items.Item item)
+        private string LoadProductDescription(string providerName, Sitecore.Data.Items.Item item)
         {
             var desc = item["Product Description"];
-            var tdu = product.Provider["Name"].ToString().Replace(" ", "");
+            var tdu = providerName.Replace(" ", "");
             var rateTiers = Sitecore.Web.WebUtil.ParseUrlParameters(item["Rate Tiers"]);
 
             foreach(var key in rateTiers.AllKeys)
@@ -111,6 +111,27 @@ namespace StreamEnergy.Services.Clients
                     }
                 }
             }
+        }
+
+
+        public SitecoreProductInfo GetMobileProductData(string productId)
+        {
+            // TODO
+            return new SitecoreProductInfo
+            {
+                Fields = new NameValueCollection(),
+                Footnotes = new KeyValuePair<string, string>[0],
+            };
+        }
+
+        public SitecoreProductInfo GetMobileInventoryData(string inventoryId)
+        {
+            // TODO
+            return new SitecoreProductInfo
+            {
+                Fields = new NameValueCollection(),
+                Footnotes = new KeyValuePair<string, string>[0],
+            };
         }
     }
 }

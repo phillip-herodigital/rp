@@ -88,10 +88,10 @@ namespace StreamEnergy.Services.Clients
             return new LocationOfferSet
             {
                 Offers = (from product in streamConnectProductResponse.Products
-                          where product.Rates.Any(r => r.Unit == "Therm")
+                          where ((IEnumerable<dynamic>)product.Rates).Any(r => r.Unit == "Therm")
                           group product by product.ProductCode into products
                           let product = products.First()
-                          let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode)
+                          let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode.ToString())
                           where productData != null
                           select new GeorgiaGas.Offer
                           {
@@ -105,9 +105,9 @@ namespace StreamEnergy.Services.Clients
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],
 
-                              Rate = product.Rates.First(r => r.EnergyType == "Average").Value,
+                              Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value,
                               TermMonths = product.Term,
-                              RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
+                              RateType = ((IEnumerable<dynamic>)product.Rates).Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               CancellationFee = productData.Fields["Early Termination Fee"],
                               MonthlyServiceCharge = productData.Fields["Monthly Service Charge"],
 
