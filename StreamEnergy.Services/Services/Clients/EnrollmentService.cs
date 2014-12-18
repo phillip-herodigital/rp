@@ -458,7 +458,7 @@ namespace StreamEnergy.Services.Clients
                 assessDeposit = internalContext.IdentityCheck.Data.IdentityAccepted;
             }
 
-            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + streamCustomerId + "/enrollments");
+            var response = await streamConnectClient.GetAsync("/api/v1-1/customers/" + streamCustomerId + "/enrollments");
             response.EnsureSuccessStatusCode();
 
             dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
@@ -466,23 +466,26 @@ namespace StreamEnergy.Services.Clients
             var locationOfferByEnrollmentAccountId = enrollmentSaveStates.Results.ToDictionary(r => r.Details.GlobalEnrollmentAccountId);
             var offerPaymentResults = new List<LocationOfferDetails<OfferPayment>>();
 
-            foreach (var entry in result.EnrollmentAccounts)
+            foreach (var customer in result.EnrollmentCustomers)
             {
-                var enrollmentAccountId = Guid.Parse((string)entry.EnrollmentAccountId.Value);
-                if (locationOfferByEnrollmentAccountId.ContainsKey(enrollmentAccountId))
+                foreach (var entry in customer.Accounts)
                 {
-                    var location = locationOfferByEnrollmentAccountId[enrollmentAccountId].Location;
-                    var offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer;
-                    var option = services.First(s => s.Location == location).SelectedOffers.First(s => s.Offer.Id == offer.Id).OfferOption;
-                    var optionRules = internalContext.OfferOptionRules.First(rule => rule.Location == location && rule.Offer.Id == offer.Id).Details;
-                    var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
+                    var enrollmentAccountId = Guid.Parse((string)entry.Key.EnrollmentAccountId.Value);
+                    if (locationOfferByEnrollmentAccountId.ContainsKey(enrollmentAccountId))
+                    {
+                        var location = locationOfferByEnrollmentAccountId[enrollmentAccountId].Location;
+                        var offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer;
+                        var option = services.First(s => s.Location == location).SelectedOffers.First(s => s.Offer.Id == offer.Id).OfferOption;
+                        var optionRules = internalContext.OfferOptionRules.First(rule => rule.Location == location && rule.Offer.Id == offer.Id).Details;
+                        var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
 
-                    offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
-                        {
-                            Location = location,
-                            Offer = offer,
-                            Details = locAdapter.GetOfferPayment(entry, assessDeposit, optionRules, option)
-                        });
+                        offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
+                            {
+                                Location = location,
+                                Offer = offer,
+                                Details = locAdapter.GetOfferPayment(entry, assessDeposit, optionRules, option)
+                            });
+                    }
                 }
             }
 
@@ -547,12 +550,49 @@ namespace StreamEnergy.Services.Clients
         //}
 
 
-        async Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> IEnrollmentService.BeginPlaceOrder(IEnumerable<LocationServices> services, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations, InternalContext internalContext, DomainModels.Payments.IPaymentInfo paymentInfo)
+        async Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> IEnrollmentService.BeginPlaceOrder(Name name, IEnumerable<LocationServices> services, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations, InternalContext internalContext, DomainModels.Payments.IPaymentInfo paymentInfo)
         {
             var streamCustomerId = internalContext.GlobalCustomerId;
             var originalSaveState = internalContext.EnrollmentSaveState.Data;
             var depositInfo = internalContext.Deposit;
-            // TODO - update
+            
+            List<object> initialPayments = new List<object>();
+            if (paymentInfo is DomainModels.Payments.TokenizedCard)
+            {
+                var card = (DomainModels.Payments.TokenizedCard)paymentInfo;
+                foreach (var deposit in from deposit in internalContext.Deposit
+                                        let amt = deposit.Details.RequiredAmounts.OfType<DepositOfferPaymentAmount>().SingleOrDefault()
+                                        where amt != null
+                                        where !services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit || !amt.CanBeWaived
+                                        group new { deposit.Location, deposit.Offer, amt.DollarAmount } by new { amt.SystemOfRecord, amt.DepositAccount })
+                {
+                    var depositAmount = deposit.Sum(d => d.DollarAmount);
+                    if (depositAmount == 0)
+                    {
+                        continue;
+                    }
+
+                    initialPayments.Add(new
+                    {
+                        PaymentDate = DateTime.Today,
+                        InvoiceType = "Deposit",
+                        Amount = depositAmount,
+                        StreamAccountNumber = deposit.Key.DepositAccount,
+                        CustomerName = name.First + " " + name.Last,
+                        SystemOfRecord = deposit.Key.SystemOfRecord,
+                        PaymentAccount = new
+                        {
+                            Token = card.CardToken,
+                            AccountType = "Unknown",
+                            ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
+                            Name = name.First + " " + name.Last,
+                            Postal = card.BillingZipCode,
+                        },
+                        Cvv = card.SecurityCode
+                    });
+                }
+            }
+
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
                 GlobalCustomerID = streamCustomerId,
                 Authorizations = new[] { new KeyValuePair<string, bool>("TermsAndConditions", true) }.Concat(additionalAuthorizations.SelectMany(ConvertAuthorization)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
@@ -567,7 +607,8 @@ namespace StreamEnergy.Services.Clients
                                          EnrollmentAccountId = orderEntry.Details.GlobalEnrollmentAccountId,
                                          DepositWaiverRequested = offer.WaiveDeposit,
                                          DepositPaymentMade = deposit && !offer.WaiveDeposit
-                                     }
+                                     },
+                InitialPayments = initialPayments
             });
 
             var asyncUrl = response.Headers.Location;

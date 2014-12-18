@@ -76,7 +76,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
             {
-                internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context.Services, context.AdditionalAuthorizations, internalContext, context.PaymentInfo);
+                internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context.ContactInfo.Name, context.Services, context.AdditionalAuthorizations, internalContext, context.PaymentInfo);
 
                 foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                 {

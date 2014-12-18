@@ -372,7 +372,7 @@ namespace StreamEnergy.MyStream.Tests
                                                }
                                            });
                 });
-            mockEnrollmentService.Setup(m => m.BeginPlaceOrder(It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<Dictionary<AdditionalAuthorization, bool>>(), It.IsAny<DomainModels.Enrollments.InternalContext>(), It.IsAny<DomainModels.Payments.IPaymentInfo>()))
+            mockEnrollmentService.Setup(m => m.BeginPlaceOrder(It.IsAny<Name>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<Dictionary<AdditionalAuthorization, bool>>(), It.IsAny<DomainModels.Enrollments.InternalContext>(), It.IsAny<DomainModels.Payments.IPaymentInfo>()))
                 .Returns(Task.FromResult(new StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>
                 {
                     IsCompleted = false

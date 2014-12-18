@@ -167,7 +167,28 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.OfferPayment ILocationAdapter.GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, DomainModels.Enrollments.IOfferOptionRules optionRules, DomainModels.Enrollments.IOfferOption option)
         {
-            throw new NotImplementedException();
+            return new DomainModels.Enrollments.OfferPayment
+            {
+                EnrollmentAccountNumber = streamAccountDetails.Key.SystemOfRecordId,
+                RequiredAmounts = ((IEnumerable<dynamic>)streamAccountDetails.InitialPayments).Select(ToRequiredAmount).ToArray(),
+                OngoingAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
+                PostBilledAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
+            };
+        }
+
+        private DomainModels.Enrollments.IOfferPaymentAmount ToRequiredAmount(dynamic arg)
+        {
+            switch ((string)arg.Name.ToString())
+            {
+                case "Total":
+                    return new TotalPaymentAmount { DollarAmount = Convert.ToDecimal(arg.Amount.ToString()) };
+                case "Tax Total":
+                    return new TaxTotalPaymentAmount { DollarAmount = Convert.ToDecimal(arg.Amount.ToString()) };
+                case "Sub Total":
+                    return new SubTotalPaymentAmount { DollarAmount = Convert.ToDecimal(arg.Amount.ToString()) };
+                default:
+                    throw new NotSupportedException();
+            }
         }
     }
 }

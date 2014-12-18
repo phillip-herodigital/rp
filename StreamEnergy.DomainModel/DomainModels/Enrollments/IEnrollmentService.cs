@@ -36,7 +36,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services, InternalContext internalContext);
 
-        Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> BeginPlaceOrder(IEnumerable<LocationServices> services, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations, InternalContext internalContext, Payments.IPaymentInfo paymentInfo);
+        Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> BeginPlaceOrder(Name name, IEnumerable<LocationServices> services, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations, InternalContext internalContext, Payments.IPaymentInfo paymentInfo);
 
         Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> EndPlaceOrder(StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> asyncResult, EnrollmentSaveResult saveState);
 
