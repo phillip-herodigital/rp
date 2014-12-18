@@ -73,7 +73,7 @@
         display: inline-block;
         float: right;
         text-transform: none;
-        font-weight: 300;
+        font-weight: 400;
         &.secondary {
             background-color: $enrollment-secondary-button-background;
             color: $enrollment-secondary-button-color;
@@ -91,8 +91,10 @@
             text-shadow: none;
             text-transform: none;
             float: left;
+            font-weight: 300;
+            @include box-shadow(none);
             @include breakpoint(medium-large) {
-                margin-left: -17px;
+                margin-left: -11px;
             }
         }
     }
@@ -220,7 +222,7 @@
     }
 
     hr.content-divider {
-        margin: 25px (-$enrollment-module-horizontal-padding);
+        margin: 24px (-$enrollment-module-horizontal-padding);
     }
 
     form div.additional-field-group {
@@ -363,6 +365,7 @@
                 border: 2px solid #3189bb;
                 color: #3189bb;
             }
+            @include box-shadow(none);
         }
         .button {
             display: table-cell;
@@ -1608,10 +1611,6 @@
 
     .total {
         text-align: right;
- }
-
-    hr.content-divider {
-        margin: 25px (-$enrollment-module-horizontal-padding);
     }
 
     form div.additional-field-group {
@@ -1963,18 +1962,19 @@
         .plan {
             display: inline-block;
             width: 24%;
-            height: 275px;
+            height: 290px;
             text-align: center;
             border: 2px solid $enrollment-light-border-color;
             @include border-radius(5px);
             background-color: #fff;
-            padding: 10px;
+            padding: 20px;
+            vertical-align: top;
             .plan-type {
                 font-size: 18px;
                 @include retina-background('plan-type-bg.png', 'enrollment');
                 background-position: bottom center;
                 background-repeat: no-repeat;
-                margin: 5px 0;
+                margin: 0;
                 padding-bottom: 20px;
             }
             .starting-price {
@@ -1998,11 +1998,12 @@
         }
         button, .button {
             text-transform: none;
-            width: 100%;
+            width: 85%;
             margin-bottom: 8px;
-            padding: 7px 16px;
+            padding: 8px !important;
             font-weight: normal;
             @include background-image(linear-gradient(to top, #287db5 0%, #3891c0 100%));
+            @include box-shadow(none);
         }
         
         @include breakpoint (medium-large) {
@@ -2294,9 +2295,10 @@
             color: #333;
             background: transparent;
             border: 1px solid transparent;
-            padding: 4px 15px;
+            padding: 2px !important;
             text-transform: none;
             text-shadow: none;
+            @include box-shadow(none);
             &.active, &:hover {
                 color: #333;
             }
@@ -2443,6 +2445,7 @@
             width: 100%;
             text-transform: none;
             @include background-image(linear-gradient(to top, #287db5 0%, #3891c0 100%));
+            @include box-shadow(none);
         }
         .product-image {
             margin-bottom: 16px;
@@ -2631,8 +2634,8 @@
     }
     .complete-step{
         display: inline-block;
-        font-weight: 600;
-        margin: 7px 15px 7px 65px;
+        font-weight: 400;
+        margin: 10px 15px 10px 90px;
         @include breakpoint(small-medium) {
             margin: 10px 0;
         }
