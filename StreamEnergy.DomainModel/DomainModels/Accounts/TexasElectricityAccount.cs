@@ -19,6 +19,8 @@ namespace StreamEnergy.DomainModels.Accounts
         [Required(ErrorMessage = "Service Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Service Address ")]
         public Address ServiceAddress { get; set; }
+        public string CustomerType { get; set; }
+        public string ProductType { get; set; }
 
         void ISanitizable.Sanitize()
         {

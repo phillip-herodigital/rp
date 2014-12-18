@@ -702,7 +702,7 @@ namespace StreamEnergy.Services.Clients
                     //StartDate = ???,
                     CustomerLast4 = account.Details.SsnLastFour,
                     SystemOfRecord = account.SystemOfRecord,
-                    ProductType = account.Details.ProductType,
+                    ProductType = subAccount.ProductType,
                     UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
                     EmailAddress = account.Details.ContactInfo.Email == null ? null : account.Details.ContactInfo.Email.Address,
                     ProviderId = locAdapter.GetProvider(subAccount),
