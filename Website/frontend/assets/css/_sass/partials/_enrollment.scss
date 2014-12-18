@@ -317,7 +317,7 @@
         position: relative;
         &:after, &:before {
             display: none;
-            bottom: -28px;
+            bottom: -25px;
             left: 50%;
             border: solid transparent;
             content: " ";
@@ -2142,8 +2142,14 @@
             }
         }
     }
+    .all-phones {
+        font-size: 14px;
+    }
     .icon-close {
         cursor: pointer;
+    }
+    .details-links {
+        font-weight: 400;
     }
     .colors {
         .color-name {
@@ -2225,8 +2231,15 @@
                 width: 15px;
                 height: 15px;
                 display: block;
-
             }
+        }
+    }
+    .sizes {
+        margin-bottom: -4px;
+    }
+    .btn-size {
+        &:after, &:before {
+            bottom: -30px;
         }
     }
     .size {
@@ -2238,7 +2251,7 @@
         }
         .lease-box {
             display: block;
-            margin-top: 17px;
+            margin-top: 16px;
         }
     }
     .warranty-options {
@@ -2327,19 +2340,14 @@
         .phone-image-large {
             width: 100%;
             text-align: center;
-    }
-    .phone-details {
-            width: 100%;
-    }
-    }
-    .btn-phone-number {
-        &:after, &:before {
-            bottom: -26px;
+        }
+        .phone-details {
+                width: 100%;
         }
     }
     .phone-number-group {
         line-height: 34px;
-        margin-top: 17px;
+        margin-top: 16px;
         input {
             width: 55px;
         }
