@@ -48,5 +48,8 @@ namespace StreamEnergy.DomainModels.Accounts
         public string ProductDescription { get; set; }
 
         public string EarlyTerminationFee { get; set; }
+
+        public string CustomerType { get; set; }
+        public string ProductType { get; set; }
     }
 }

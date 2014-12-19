@@ -375,7 +375,7 @@ namespace StreamEnergy.Services.Clients
             if (response.IsSuccessStatusCode)
             {
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
-                if (data.Status == "Success" && data.AssociateAccountResults[0].Status == "Success")
+                if (data.Status == "Success" && ((IEnumerable<dynamic>)data.AssociateAccountResults).Any(a => a.Status == "Success"))
                 {
                     return new Account(globalCustomerId, Guid.Parse((string)data.AssociateAccountResults[0].GlobalAccountId))
                         {
@@ -425,14 +425,14 @@ namespace StreamEnergy.Services.Clients
             return true;
         }
 
-        async Task<Account> IAccountService.GetAccountDetails(string accountNumber)
+        async Task<Account> IAccountService.GetAccountDetails(string accountNumber, string last4 = "")
         {
             if (cis2AureaAccountMapping.ContainsKey(accountNumber))
             {
                 accountNumber = cis2AureaAccountMapping[accountNumber];
             }
             
-            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?systemOfRecordAccountNumber=" + accountNumber);
+            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?systemOfRecordAccountNumber=" + accountNumber + (!string.IsNullOrEmpty(last4) ? "&last4Ssn=" + last4 : ""));
 
             if (response.IsSuccessStatusCode)
             {
@@ -454,15 +454,15 @@ namespace StreamEnergy.Services.Clients
 
         private void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
         {
-            var homePhone = (data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() });
-            var mobilePhone = (data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() });
+            var homePhone = (data.Account.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.Account.AccountCustomer.HomePhone.Value.ToString() });
+            var mobilePhone = (data.Account.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.Account.AccountCustomer.MobilePhone.Value.ToString() });
             var tcpa = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"));
             account.Details = new AccountDetails
             {
                 ContactInfo = new DomainModels.CustomerContact
                 {
-                    Name = new DomainModels.Name { First = data.AccountDetails.AccountCustomer.FirstName, Last = data.AccountDetails.AccountCustomer.LastName },
-                    Email = new DomainModels.Email { Address = data.AccountDetails.AccountCustomer.EmailAddress },
+                    Name = new DomainModels.Name { First = data.Account.AccountCustomer.FirstName, Last = data.Account.AccountCustomer.LastName },
+                    Email = new DomainModels.Email { Address = data.Account.AccountCustomer.EmailAddress },
                     Phone = new DomainModels.Phone[] 
                                     { 
                                         homePhone,
@@ -471,38 +471,27 @@ namespace StreamEnergy.Services.Clients
                 },
                 BillingAddress = new DomainModels.Address
                 {
-                    Line1 = data.AccountDetails.BillingAddress.StreetLine1,
-                    Line2 = data.AccountDetails.BillingAddress.StreetLine2,
-                    City = data.AccountDetails.BillingAddress.City,
-                    PostalCode5 = data.AccountDetails.BillingAddress.Zip,
-                    StateAbbreviation = data.AccountDetails.BillingAddress.State,
+                    Line1 = data.Account.AccountBillingDetails.BillingAddress.StreetLine1,
+                    Line2 = data.Account.AccountBillingDetails.BillingAddress.StreetLine2,
+                    City = data.Account.AccountBillingDetails.BillingAddress.City,
+                    PostalCode5 = data.Account.AccountBillingDetails.BillingAddress.Zip,
+                    StateAbbreviation = data.Account.AccountBillingDetails.BillingAddress.State,
                 },
-                CustomerType = data.AccountDetails.CustomerType,
-                SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
-                ProductType = data.AccountDetails.ProductType,
+                SsnLastFour = ((object)data.Account.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
                 TcpaPreference = tcpa,
-                BillingDeliveryPreference = data.AccountDetails.BillDeliveryTypePreference,
+                BillingDeliveryPreference = data.Account.AccountBillingDetails.BillDeliveryTypePreference,
             };
-            account.SystemOfRecord = data.AccountDetails.SystemOfRecord;
-            account.AccountNumber = data.AccountDetails.SystemOfRecordAccountNumber;
+            account.SystemOfRecord = data.Account.SystemOfRecord;
+            account.AccountNumber = data.Account.SystemOfRecordAccountNumber;
             account.Balance = new AccountBalance
             {
-                Balance = (decimal)data.AccountDetails.BalanceDue.Value,
-                DueDate = (DateTime)data.AccountDetails.BalanceDueDate.Value,
+                Balance = (decimal)data.Account.AccountBillingDetails.BalanceDue.Value,
+                DueDate = (DateTime)data.Account.AccountBillingDetails.BalanceDueDate.Value,
             };
-            if (data.AccountDetails.ServiceAddress != null)
-            {
-                account.SubAccounts = new ISubAccount[]
-                {
-                    CreateSubAccount(data.AccountDetails)
-                };
-            }
-            else
-            {
-                account.SubAccounts = new ISubAccount[0];
-            }
-
-            var methodId = data.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.AutoPayGlobalPaymentMethodId.ToString());
+            account.SubAccounts = (from premise in (IEnumerable<dynamic>)data.Account.AccountDetails.Premises
+                                   select (ISubAccount)CreateSubAccount(premise)).ToArray();
+            
+            var methodId = data.Account.AccountBillingDetails.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.Account.AccountBillingDetails.AutoPayGlobalPaymentMethodId.ToString());
             account.AutoPay = new DomainModels.Payments.AutoPaySetting
             {
                 IsEnabled = methodId != Guid.Empty,
@@ -512,7 +501,7 @@ namespace StreamEnergy.Services.Clients
             account.Capabilities.RemoveAll(cap => cap is ExternalPaymentAccountCapability || cap is PaymentMethodAccountCapability || cap is PaymentSchedulingAccountCapability);
             account.Capabilities.Add(new ExternalPaymentAccountCapability
             {
-                UtilityProvider = data.AccountDetails.ProviderId,
+                UtilityProvider = null, //TODO - Needed for NE accounts
             });
             account.Capabilities.Add(new PaymentMethodAccountCapability
             {
@@ -596,7 +585,9 @@ namespace StreamEnergy.Services.Clients
                     UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
                     ProductType = locAdapter.GetCommodityType(),
                     ProviderId = locAdapter.GetProvider(account.SubAccounts.First()),
-                    CustomerLast4 = account.Details.SsnLastFour
+                    CustomerLast4 = account.Details.SsnLastFour,
+                    SystemOfRecord = account.SystemOfRecord,
+                    SystemOfRecordAccountNumber = account.AccountNumber,
                 });
 
             if (!response.IsSuccessStatusCode)
@@ -618,7 +609,7 @@ namespace StreamEnergy.Services.Clients
                 EligibilityWindowInDays = (int)data.EligibilityWindow,
                 Capabilities = new IServiceCapability[] { 
                     new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal }, 
-                    new CustomerTypeCapability { CustomerType = (account.Details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial }, 
+                    new CustomerTypeCapability { CustomerType = (subAccount.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial }, 
                     locAdapter.GetRenewalServiceCapability(account, subAccount)
                 }
             });

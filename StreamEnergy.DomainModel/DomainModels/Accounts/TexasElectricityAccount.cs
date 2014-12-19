@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using ResponsivePath.Validation;
+using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
@@ -19,6 +20,19 @@ namespace StreamEnergy.DomainModels.Accounts
         [Required(ErrorMessage = "Service Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Service Address ")]
         public Address ServiceAddress { get; set; }
+        public string CustomerType { get; set; }
+        public string ProductType { get; set; }
+        public string ProviderId { get; set; }
+
+        public RateType RateType { get; set; }
+        public decimal Rate { get; set; }
+        public int TermMonths { get; set; }
+        public string ProductId { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductName { get; set; }
+        public string ProductDescription { get; set; }
+
+        public string EarlyTerminationFee { get; set; }
 
         void ISanitizable.Sanitize()
         {
