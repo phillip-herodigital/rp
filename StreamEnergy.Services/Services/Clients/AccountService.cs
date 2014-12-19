@@ -432,7 +432,7 @@ namespace StreamEnergy.Services.Clients
                 accountNumber = cis2AureaAccountMapping[accountNumber];
             }
             
-            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?systemOfRecordAccountNumber=" + accountNumber + "&last4Ssn=" + last4);
+            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?systemOfRecordAccountNumber=" + accountNumber + (!string.IsNullOrEmpty(last4) ? "&last4Ssn=" + last4 : ""));
 
             if (response.IsSuccessStatusCode)
             {
