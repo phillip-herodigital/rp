@@ -561,7 +561,7 @@ namespace StreamEnergy.Services.Clients
             {
                 var card = (DomainModels.Payments.TokenizedCard)paymentInfo;
                 foreach (var deposit in from deposit in internalContext.Deposit
-                                        let amt = deposit.Details.RequiredAmounts.OfType<DepositOfferPaymentAmount>().SingleOrDefault()
+                                        let amt = deposit.Details.RequiredAmounts.OfType<IInitialPaymentAmount>().SingleOrDefault()
                                         where amt != null
                                         where !services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit || !amt.CanBeWaived
                                         group new { deposit.Location, deposit.Offer, amt.DollarAmount } by new { amt.SystemOfRecord, amt.DepositAccount })
@@ -633,7 +633,9 @@ namespace StreamEnergy.Services.Clients
             if (result.Status.Value == "Success")
             {
                 asyncResult.Data = (from saved in originalSaveState.Results
-                                    let response = (dynamic)((IEnumerable<dynamic>)result.EnrollmentResponses).First(r => r.GlobalEnrollmentAccountId == saved.Details.GlobalEnrollmentAccountId)
+                                    let response = ((IEnumerable<dynamic>)result.EnrollmentResponses)
+                                        .SelectMany(r => (IEnumerable<dynamic>)r.Accounts)
+                                        .First(r => r.GlobalEnrollmentAccountId == saved.Details.GlobalEnrollmentAccountId)
                                     select new LocationOfferDetails<PlaceOrderResult>
                                     {
                                         Location = saved.Location,
@@ -641,12 +643,25 @@ namespace StreamEnergy.Services.Clients
                                         Details = new PlaceOrderResult
                                         {
                                             ConfirmationNumber = response.EnrollmentReferenceNumber,
-                                            IsSuccess = response.Status.Value == "Success"
+                                            IsSuccess = true,
+                                            PaymentConfirmation = ToPaymentResult(response.PaymentResponse),
                                         }
                                     }).ToArray();
             }
 
             return asyncResult;
+        }
+
+        private DomainModels.Payments.PaymentResult ToPaymentResult(dynamic paymentResponse)
+        {
+            if (paymentResponse == null)
+                return null;
+
+            return new DomainModels.Payments.PaymentResult
+            {
+                ConfirmationNumber = paymentResponse.ConfirmationNumber,
+                ConvenienceFee = (decimal)paymentResponse.ConvenienceFee.Value,
+            };
         }
 
         async Task<PlaceOrderResult> IEnrollmentService.PlaceCommercialQuotes(UserContext context)

@@ -170,25 +170,29 @@ namespace StreamEnergy.Services.Clients
             return new DomainModels.Enrollments.OfferPayment
             {
                 EnrollmentAccountNumber = streamAccountDetails.Key.SystemOfRecordId,
-                RequiredAmounts = ((IEnumerable<dynamic>)streamAccountDetails.InitialPayments).Select(ToRequiredAmount).ToArray(),
+                RequiredAmounts = ToRequiredAmount((IEnumerable<dynamic>)streamAccountDetails.InitialPayments, streamAccountDetails.Key),
                 OngoingAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
                 PostBilledAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
             };
         }
 
-        private DomainModels.Enrollments.IOfferPaymentAmount ToRequiredAmount(dynamic arg)
+        private DomainModels.Enrollments.IOfferPaymentAmount[] ToRequiredAmount(IEnumerable<dynamic> streamConnectFees, dynamic key)
         {
-            switch ((string)arg.Name.ToString())
+            if (!streamConnectFees.Any())
             {
-                case "Total":
-                    return new TotalPaymentAmount { DollarAmount = Convert.ToDecimal(arg.Amount.ToString()) };
-                case "Tax Total":
-                    return new TaxTotalPaymentAmount { DollarAmount = Convert.ToDecimal(arg.Amount.ToString()) };
-                case "Sub Total":
-                    return new SubTotalPaymentAmount { DollarAmount = Convert.ToDecimal(arg.Amount.ToString()) };
-                default:
-                    throw new NotSupportedException();
+                return new DomainModels.Enrollments.IOfferPaymentAmount[0];
             }
+            return new[] 
+            {  
+                new TotalPaymentAmount 
+                {
+                    DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Total").Amount.ToString()),
+                    TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Tax Total").Amount.ToString()),
+                    SubTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Sub Total").Amount.ToString()),
+                    SystemOfRecord = key.SystemOfRecord,
+                    DepositAccount = key.SystemOfRecordId,
+                }
+            };
         }
     }
 }

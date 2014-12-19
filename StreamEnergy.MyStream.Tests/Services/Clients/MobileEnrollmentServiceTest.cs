@@ -751,18 +751,18 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
             }
 
-            var creditCheck = enrollmentService.BeginCreditCheck(gcid,
-                name: TestData.CreditCheckContactInfo().Name,
-                ssn: TestData.CreditCheckSsn,
-                address: TestData.CreditCheckAddress()).Result;
-            do
-            {
-                creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
-            } while (!creditCheck.IsCompleted);
+            //var creditCheck = enrollmentService.BeginCreditCheck(gcid,
+            //    name: TestData.CreditCheckContactInfo().Name,
+            //    ssn: TestData.CreditCheckSsn,
+            //    address: TestData.CreditCheckAddress()).Result;
+            //do
+            //{
+            //    creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+            //} while (!creditCheck.IsCompleted);
             var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services, internalContext).Result;
             var offerPayment = offerPayments.Single();
-            if (offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().First().DollarAmount == 0)
-                Assert.Inconclusive("No deposit assessed.");
+            if (offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.Mobile.TotalPaymentAmount>().First().DollarAmount == 0)
+                Assert.Fail("No initial payments assessed.");
 
             using (new Timer())
             {

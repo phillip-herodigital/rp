@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
-    public class TotalPaymentAmount : IOfferPaymentAmount
+    public class TotalPaymentAmount : IInitialPaymentAmount
     {
 
         public const string Qualifier = "MobileTotal";
@@ -27,5 +27,13 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         {
             get { return false; }
         }
+
+        public dynamic TaxTotal { get; set; }
+
+        public dynamic SubTotal { get; set; }
+
+        public string SystemOfRecord { get; set; }
+
+        public string DepositAccount { get; set; }
     }
 }

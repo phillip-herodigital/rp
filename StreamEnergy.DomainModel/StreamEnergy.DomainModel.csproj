@@ -197,6 +197,7 @@
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityCheckHardStopState.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
+    <Compile Include="DomainModels\Enrollments\IInitialPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\InstallationOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\Location.cs" />
@@ -210,8 +211,6 @@
     <Compile Include="DomainModels\Enrollments\Mobile\OfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\Rate.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\ServiceCapability.cs" />
-    <Compile Include="DomainModels\Enrollments\Mobile\SubTotalPaymentAmount.cs" />
-    <Compile Include="DomainModels\Enrollments\Mobile\TaxTotalPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\TotalPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\MonthlyOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
