@@ -100,27 +100,24 @@
             </ul>
         </nav>
     </div>
-    @if (selectedNodeLevel > 0)
-    {
-        <nav class="sub-nav">
-            @foreach (var node in topLevelNavigation)
-            {
-                <div class="wrapper" sub-nav="@node.Number" ng-cloak ng-class="{ hidden: subnav != @node.Number }" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()">
-                    <ul ng-style="{'margin-left': marginLeft}">
-                        @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
-                        {
-                            var selected = selectedNode != null && (childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode));
-                            <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
-                        }
-                        @if (!node.Value.HasChildNodes)
-                        {
-                            <li><a>&nbsp;</a></li>
-                        }
-                    </ul>
-                </div>
-            }
-        </nav>
-    }
+    <nav class="sub-nav">
+        @foreach (var node in topLevelNavigation)
+        {
+            <div class="wrapper" sub-nav="@node.Number" ng-cloak ng-class="{ hidden: subnav != @node.Number }" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()">
+                <ul ng-style="{'margin-left': marginLeft}">
+                    @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
+                    {
+                        var selected = selectedNode != null && (childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode));
+                        <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
+                    }
+                    @if (!node.Value.HasChildNodes)
+                    {
+                        <li><a>&nbsp;</a></li>
+                    }
+                </ul>
+            </div>
+        }
+    </nav>
 </header>
 @if (Sitecore.Context.Item.Fields["Banner Image"] != null && Sitecore.Context.Item.Fields["Banner Image"].HasValue)
 {

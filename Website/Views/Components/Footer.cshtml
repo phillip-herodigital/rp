@@ -13,43 +13,43 @@
             <div class="clear"></div>
         </div>
     </address>
-    <div class="group">
-        <div class="wrapper">
-            @if (showSuperFooter)
+    <div class="wrapper">
+        @if (showSuperFooter)
+        {
+            <div class="grid five">
+            @foreach (var linkGroupItem in Html.Sitecore().CurrentItem.Children.Where(item => item.TemplateName == "Link Group"))
             {
-                <nav>
-                    @foreach (var linkGroupItem in Html.Sitecore().CurrentItem.Children.Where(item => item.TemplateName == "Link Group"))
-                    {
-                        <div>
-                            <h3>@Html.Sitecore().Field("Name", linkGroupItem)</h3>
-                            <ul>
-                                @foreach (var navigationItemItem in linkGroupItem.Children.Where(item => item.TemplateName == "Navigation Item"))
-                                {
-                                    <li>@Html.Sitecore().Field("Navigation Link", navigationItemItem)</li>
-                                }
-                            </ul>
-                        </div>
-                    }
-                    <img class="social" src="~/frontend/assets/i/marketing/redesign/social.png" usemap="#SocialMap-Footer-Global">
-                    <map id="SocialMap-Footer-Global" name="SocialMap-Footer-Global">
-                        <area alt="Facebook" coords="0,0,33,33" href="https://www.facebook.com/1streamenergy">
-                        <area alt="Twitter" coords="49,0,82,33" href="http://twitter.com/1streamenergy">
-                        <area alt="YouTube" coords="103,0,136,33" href="http://www.youtube.com/user/StreamEnergy1">
-                        <area alt="Pinterest" coords="156,0,189,33" href="http://www.pinterest.com/streamenergy/">
-                    </map>
-                    <div style="clear: both"></div>
-                </nav>
+                <div class="col">
+                    <h3>@Html.Sitecore().Field("Name", linkGroupItem)</h3>
+                    <ul>
+                        @foreach (var navigationItemItem in linkGroupItem.Children.Where(item => item.TemplateName == "Navigation Item"))
+                        {
+                            <li>@Html.Sitecore().Field("Navigation Link", navigationItemItem)</li>
+                        }
+                    </ul>
+                </div>
             }
-            <div class="site-footer-legal">
-                <p>
-                    <small class="legal">
-                        @Html.Sitecore().Field("Copyright Content")
-                    </small>
-                </p>
-                <p class="site-footer-bba-dsa">
-                    <a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895"><abbr title="Better Business Bureau®"><img src="~/frontend/assets/i/marketing/redesign/bbb_logo.png" alt="BBB"></abbr></a> <a href="http://www.dsa.org/ethics/"><abbr title="Direct Selling Association"><img src="~/frontend/assets/i/marketing/redesign/dsa_logo.png" alt="DSA"></abbr></a>
-                </p>
             </div>
+            <ul>
+                <li><a href="https://www.facebook.com/1streamenergy" target="_blank"><i class="icon-facebook"></i></a></li>
+                <li><a href="http://twitter.com/1streamenergy" target="_blank"><i class="icon-twitter"></i></li>
+                <li><a href="http://www.youtube.com/user/StreamEnergy1" target="_blank"><i class="icon-youtube"></i></a></li>
+                <li><a href="http://www.pinterest.com/streamenergy/" target="_blank"><i class="icon-pinterest"></i></a></li>
+            </ul>
+        }
+        <div class="site-footer-legal">
+            <p>
+                <small class="legal">
+                    @Html.Sitecore().Field("Copyright Content")
+                </small>
+            </p>
+            <!--<p class="site-footer-bba-dsa">
+                <a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895"><abbr title="Better Business Bureau®"><img src="~/frontend/assets/i/marketing/redesign/bbb_logo.png" alt="BBB"></abbr></a> <a href="http://www.dsa.org/ethics/"><abbr title="Direct Selling Association"><img src="~/frontend/assets/i/marketing/redesign/dsa_logo.png" alt="DSA"></abbr></a>
+            </p>-->
+            <ul>
+                <li><a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895" target="_blank"><i class="icon-bbb"></i></a></li>
+                <li><a href="http://www.dsa.org/ethics/" target="_blank"><i class="icon-dsa"></i></a></li>
+            </ul>
         </div>
     </div>
 </footer>
