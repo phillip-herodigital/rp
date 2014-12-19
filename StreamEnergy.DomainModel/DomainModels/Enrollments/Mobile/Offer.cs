@@ -41,5 +41,9 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         }
 
         public KeyValuePair<string, string>[] Footnotes { get; set; }
+
+        public string ParentOfferId { get; set; }
+
+        public bool IsParentOffer { get; set; }
     }
 }
