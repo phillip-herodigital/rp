@@ -85,11 +85,11 @@ namespace StreamEnergy.Services.Clients
                               Description = productData.Fields["Description"],
 
                               Rates = new[] {
-                                  new Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
+                                  new Mobile.Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
                               },
                               MobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
                                                  let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
-                                                 select new MobileInventory
+                                                 select new Mobile.MobileInventory
                                                  {
                                                      Id = (string)inventoryType.Id,
                                                      TypeId = (string)inventoryType.TypeId,
@@ -190,7 +190,7 @@ namespace StreamEnergy.Services.Clients
             }
             return new[] 
             {  
-                new TotalPaymentAmount 
+                new Mobile.TotalPaymentAmount 
                 {
                     DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Total").Amount.ToString()),
                     TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Tax Total").Amount.ToString()),
