@@ -1238,6 +1238,7 @@
     <Content Include="Views\Components\Mobile Enrollment\Cart.cshtml" />
     <Content Include="Views\Pages\Marketing\Home\HomePage.cshtml" />
     <Content Include="Views\Pages\Marketing\Home\HomeHeader.cshtml" />
+    <Content Include="Views\Components\Account\Utility Services\Your Utility Plan.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
