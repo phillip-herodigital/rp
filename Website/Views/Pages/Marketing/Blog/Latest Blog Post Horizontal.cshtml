@@ -1,8 +1,9 @@
-﻿@using MoreLinq
-@{
-    var item = Sitecore.Context.Database.GetItem("{1B4D52BC-80FA-416B-9AC1-8ED588D78224}").Children.MaxBy(i => ((Sitecore.Data.Fields.DateField)i.Fields["Date"]).DateTime);
+﻿@{
+    var item = Sitecore.Context.Database.GetItem("{1B4D52BC-80FA-416B-9AC1-8ED588D78224}").Children.OrderByDescending(i => ((Sitecore.Data.Fields.DateField)i.Fields["Date"]).DateTime).First();
 }
-<article class="module marketing full-html bg-grey accent-blue home-latest">
-    <h3>@Html.Sitecore().Field("Module Title")</h3>
-    <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></p>
+<article class="marketing full-html bg-grey accent-blue home-latest">
+    <div class="wrapper">
+        <h3>@Html.Sitecore().Field("Module Title")</h3>
+        <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></p>
+    </div>
 </article>

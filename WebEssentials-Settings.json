@@ -144,14 +144,15 @@
   "Scss": {
     "CompileOnBuild": false,
     "CompileOnSave": false,
-    "EnableChainCompilation": false,
-    "GenerateSourceMaps": false,
+    "EnableChainCompilation": true,
+    "GenerateSourceMaps": true,
     "MinifyInPlace": false,
     "NumberPrecision": 5,
     "OutputDirectory": null,
     "OutputStyle": "Expanded",
-    "ProcessSourceMapsForEditorEnhancements": false,
-    "ShowPreviewPane": false
+    "ProcessSourceMapsForEditorEnhancements": true,
+    "ShowPreviewPane": false,
+    "UseRubyRuntime": true
   },
   "Sprite": {
     "CssOutputDirectory": null,

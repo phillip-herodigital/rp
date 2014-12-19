@@ -140,6 +140,18 @@
     };
 
     /**
+     * Reset renewal process.
+     * 
+     * @return {object}            Promise object returned when API call has successfully completed.
+     */
+    service.resetRenewal = function () {
+        $http.get(urlPrefix + 'reset')
+        .success(function () {
+            $window.location = '/account/energy-services';
+        })
+    };
+
+    /**
     * Set service information
     * 
     * @return {object}            Promise object returned when API call has successfully completed.

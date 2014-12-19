@@ -91,8 +91,9 @@ namespace StreamEnergy.Interpreters
                         case "DC":
                         case "NE":
                             return BuildTokenizedUrl;
+                        default:
+                            return () => (ServiceType == "GAS") ? "/services/gas" : "/services/electricity";
                     }
-                    break;
                 case "C":
 
                     switch (State)
@@ -108,8 +109,9 @@ namespace StreamEnergy.Interpreters
                         case "DC":
                         case "NE":
                             return BuildTokenizedUrl;
+                        default:
+                            return () => BuildCommercialRFQUrl();
                     }
-                    break;
             }
             return null;
         }

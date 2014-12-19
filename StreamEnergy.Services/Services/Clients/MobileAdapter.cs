@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using StreamEnergy.DomainModels.Enrollments.Mobile;
+using StreamEnergy.DomainModels.Enrollments;
 using Mobile = StreamEnergy.DomainModels.Enrollments.Mobile;
+using StreamEnergy.DomainModels;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -85,11 +86,11 @@ namespace StreamEnergy.Services.Clients
                               Description = productData.Fields["Description"],
 
                               Rates = new[] {
-                                  new Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
+                                  new Mobile.Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
                               },
                               MobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
                                                  let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
-                                                 select new MobileInventory
+                                                 select new Mobile.MobileInventory
                                                  {
                                                      Id = (string)inventoryType.Id,
                                                      TypeId = (string)inventoryType.TypeId,
@@ -125,14 +126,14 @@ namespace StreamEnergy.Services.Clients
                 Key = account.EnrollmentAccountKey,
                 RequestUniqueKey = account.RequestUniqueKey,
 
-                MobileProvider = (account.Offer.Offer as Offer).Provider,
-                PhoneNumber = (account.Offer.OfferOption as OfferOption).PhoneNumber,
+                MobileProvider = (account.Offer.Offer as Mobile.Offer).Provider,
+                PhoneNumber = (account.Offer.OfferOption as Mobile.OfferOption).PhoneNumber,
                 PlanId = account.Offer.Offer.Id,
-                ActivationDate = (account.Offer.OfferOption as OfferOption).ActivationDate,
-                EsnNumber = (account.Offer.OfferOption as OfferOption).EsnNumber,
-                SimNumber = (account.Offer.OfferOption as OfferOption).SimNumber,
-                ImeiNumber = (account.Offer.OfferOption as OfferOption).ImeiNumber,
-                TransferPhoneNumber = (account.Offer.OfferOption as OfferOption).TransferPhoneNumber,
+                ActivationDate = (account.Offer.OfferOption as Mobile.OfferOption).ActivationDate,
+                EsnNumber = (account.Offer.OfferOption as Mobile.OfferOption).EsnNumber,
+                SimNumber = (account.Offer.OfferOption as Mobile.OfferOption).SimNumber,
+                ImeiNumber = (account.Offer.OfferOption as Mobile.OfferOption).ImeiNumber,
+                TransferPhoneNumber = (account.Offer.OfferOption as Mobile.OfferOption).TransferPhoneNumber,
             };
         }
 
@@ -147,6 +148,11 @@ namespace StreamEnergy.Services.Clients
         }
 
         string ILocationAdapter.GetUtilityAccountNumber(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            throw new NotImplementedException();
+        }
+
+        IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
             throw new NotImplementedException();
         }
@@ -185,7 +191,7 @@ namespace StreamEnergy.Services.Clients
             }
             return new[] 
             {  
-                new TotalPaymentAmount 
+                new Mobile.TotalPaymentAmount 
                 {
                     DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Total").Amount.ToString()),
                     TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Tax Total").Amount.ToString()),

@@ -39,6 +39,8 @@ namespace StreamEnergy.Services.Clients
 
         object GetProductRequest(Location location);
 
+        IServiceCapability GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount);
+
         OfferPayment GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option);
     }
 }

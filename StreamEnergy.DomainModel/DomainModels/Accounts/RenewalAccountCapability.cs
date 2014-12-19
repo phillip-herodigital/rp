@@ -21,5 +21,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public DateTime RenewalDate { get; set; }
 
         public int EligibilityWindowInDays { get; set; }
+
+        public IServiceCapability[] Capabilities { get; set; }
     }
 }
