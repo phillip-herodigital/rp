@@ -11,6 +11,14 @@ namespace StreamEnergy.Services.Clients
 {
     class MobileAdapter : ILocationAdapter
     {
+        private readonly ISitecoreProductData sitecoreProductData;
+
+        public MobileAdapter(ISitecoreProductData sitecoreProductData)
+        {
+            this.sitecoreProductData = sitecoreProductData;
+        }
+
+
         bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
         {
             return capabilities.Any(cap => cap is Mobile.ServiceCapability);
@@ -58,37 +66,12 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.LocationOfferSet ILocationAdapter.LoadOffers(DomainModels.Enrollments.Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
-            var mockProducts = new StreamConnect.Product[] 
-                {
-                    new StreamConnect.Product
-                    {
-                        ProductId = "111",
-                        Provider = "ATT",
-                        ProductCode = "1GB"
-                    },
-                    new StreamConnect.Product
-                    {
-                        ProductId = "222",
-                        Provider = "ATT",
-                        ProductCode = "2GB"
-                    },
-                    new StreamConnect.Product
-                    {
-                        ProductId = "333",
-                        Provider = "ATT",
-                        ProductCode = "3GB"
-                    }
-
-                };
-            
             return new DomainModels.Enrollments.LocationOfferSet
             {
-                Offers = (from product in mockProducts //streamConnectProductResponse.Products
-                          //where product.Rates.Any(r => r.Unit == "Therm")
-                          //group product by product.ProductCode into products
-                          //let product = products.First()
-                          //let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode)
-                          //where productData != null
+                Offers = (from product in streamConnectProductResponse.Products
+                          let productData = sitecoreProductData.GetMobileProductData((string)product.ProductId)
+                          where productData != null
+                          where product.MobileInventory != null
                           select new Mobile.Offer
                           {
                               Id = product.ProductId,
@@ -98,16 +81,27 @@ namespace StreamEnergy.Services.Clients
 
                               //EnrollmentType = serviceStatus.EnrollmentType,
 
-                              //Name = productData.Fields["Name"],
-                              //Description = productData.Fields["Description"],
+                              Name = productData.Fields["Name"],
+                              Description = productData.Fields["Description"],
 
-                              //Rate = product.Rates.First(r => r.EnergyType == "Average").Value,
+                              Rates = new[] {
+                                  new Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
+                              },
+                              MobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
+                                                 let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
+                                                 select new MobileInventory
+                                                 {
+                                                     Id = (string)inventoryType.Id,
+                                                     TypeId = (string)inventoryType.TypeId,
+                                                     Name = inventoryData.Fields["Name"],
+                                                     Price = Convert.ToDecimal(inventoryType.Price.ToString()),
+                                                 }).ToArray(),
                               //TermMonths = product.Term,
                               //RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               //CancellationFee = productData.Fields["Early Termination Fee"],
                               //MonthlyServiceCharge = productData.Fields["Monthly Service Charge"],
 
-                              //Footnotes = productData.Footnotes,
+                              Footnotes = productData.Footnotes,
 
                               //Documents = new Dictionary<string, Uri>
                               //{
@@ -179,7 +173,32 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.OfferPayment ILocationAdapter.GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, DomainModels.Enrollments.IOfferOptionRules optionRules, DomainModels.Enrollments.IOfferOption option)
         {
-            throw new NotImplementedException();
+            return new DomainModels.Enrollments.OfferPayment
+            {
+                EnrollmentAccountNumber = streamAccountDetails.Key.SystemOfRecordId,
+                RequiredAmounts = ToRequiredAmount((IEnumerable<dynamic>)streamAccountDetails.InitialPayments, streamAccountDetails.Key),
+                OngoingAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
+                PostBilledAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
+            };
+        }
+
+        private DomainModels.Enrollments.IOfferPaymentAmount[] ToRequiredAmount(IEnumerable<dynamic> streamConnectFees, dynamic key)
+        {
+            if (!streamConnectFees.Any())
+            {
+                return new DomainModels.Enrollments.IOfferPaymentAmount[0];
+            }
+            return new[] 
+            {  
+                new TotalPaymentAmount 
+                {
+                    DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Total").Amount.ToString()),
+                    TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Tax Total").Amount.ToString()),
+                    SubTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Sub Total").Amount.ToString()),
+                    SystemOfRecord = key.SystemOfRecord,
+                    DepositAccount = key.SystemOfRecordId,
+                }
+            };
         }
     }
 }

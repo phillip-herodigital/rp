@@ -803,7 +803,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var result = enrollmentService.BeginPlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                var result = enrollmentService.BeginPlaceOrder(TestData.IdentityCheckName(), userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
                 {
                     GlobalCustomerId = globalCustomerId,
                     EnrollmentSaveState = saveResult,
@@ -914,7 +914,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var result = enrollmentService.BeginPlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                var result = enrollmentService.BeginPlaceOrder(TestData.IdentityCheckName(), userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
                 {
                     GlobalCustomerId = gcid,
                     EnrollmentSaveState = saveResult,

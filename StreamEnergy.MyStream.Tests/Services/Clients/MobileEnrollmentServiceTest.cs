@@ -228,17 +228,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
             }
 
-            var creditCheck = enrollmentService.BeginCreditCheck(gcid,
-                name: TestData.CreditCheckContactInfo().Name,
-                ssn: TestData.CreditCheckSsn,
-                address: TestData.CreditCheckAddress()).Result;
-            do
-            {
-                creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
-            } while (!creditCheck.IsCompleted);
-
-            internalContext.IdentityCheck = new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { Data = new DomainModels.Enrollments.Service.IdentityCheckResult { IdentityAccepted = true }, IsCompleted = true };
-
             using (new Timer())
             {
                 // Act
@@ -247,7 +236,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 // Assert
                 Assert.IsNotNull(offerPayments);
                 var offerPayment = offerPayments.Single();
-                Assert.IsTrue(offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().Single().DollarAmount >= 0);
+                Assert.IsTrue(offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.Mobile.TotalPaymentAmount>().Single().DollarAmount >= 0);
             }
         }
 
@@ -616,34 +605,34 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
             }
 
-            var creditCheck = enrollmentService.BeginCreditCheck(globalCustomerId,
-                name: TestData.CreditCheckContactInfo().Name,
-                ssn: TestData.CreditCheckSsn,
-                address: TestData.CreditCheckAddress()).Result;
-            do
-            {
-                creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
-            } while (!creditCheck.IsCompleted);
+            //var creditCheck = enrollmentService.BeginCreditCheck(globalCustomerId,
+            //    name: TestData.CreditCheckContactInfo().Name,
+            //    ssn: TestData.CreditCheckSsn,
+            //    address: TestData.CreditCheckAddress()).Result;
+            //do
+            //{
+            //    creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+            //} while (!creditCheck.IsCompleted);
 
-            var firstCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
-                name: TestData.IdentityCheckName(),
-                ssn: TestData.IdentityCheckSsn,
-                mailingAddress: TestData.IdentityCheckMailingAddress()).Result;
+            //var firstCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
+            //    name: TestData.IdentityCheckName(),
+            //    ssn: TestData.IdentityCheckSsn,
+            //    mailingAddress: TestData.IdentityCheckMailingAddress()).Result;
 
-            var secondCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
-                name: TestData.IdentityCheckName(),
-                ssn: TestData.IdentityCheckSsn,
-                mailingAddress: TestData.IdentityCheckMailingAddress(),
-                identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
-                {
-                    PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
-                    SelectedAnswers = firstCheck.Data.IdentityQuestions.ToDictionary(q => q.QuestionId, q => q.Answers[0].AnswerId)
-                }).Result;
+            //var secondCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
+            //    name: TestData.IdentityCheckName(),
+            //    ssn: TestData.IdentityCheckSsn,
+            //    mailingAddress: TestData.IdentityCheckMailingAddress(),
+            //    identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
+            //    {
+            //        PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
+            //        SelectedAnswers = firstCheck.Data.IdentityQuestions.ToDictionary(q => q.QuestionId, q => q.Answers[0].AnswerId)
+            //    }).Result;
 
-            do
-            {
-                secondCheck = enrollmentService.EndIdentityCheck(secondCheck).Result;
-            } while (!secondCheck.IsCompleted);
+            //do
+            //{
+            //    secondCheck = enrollmentService.EndIdentityCheck(secondCheck).Result;
+            //} while (!secondCheck.IsCompleted);
 
             Mock<DomainModels.Enrollments.IOfferOptionRules> mockRules = new Mock<DomainModels.Enrollments.IOfferOptionRules>();
             mockRules.Setup(r => r.GetPostBilledPayments(It.IsAny<DomainModels.Enrollments.IOfferOption>())).Returns(new DomainModels.Enrollments.IOfferPaymentAmount[0]);
@@ -651,7 +640,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 GlobalCustomerId = globalCustomerId,
                 EnrollmentSaveState = saveResult,
-                IdentityCheck = secondCheck,
+                //IdentityCheck = secondCheck,
                 OfferOptionRules = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>[] 
                 { 
                     new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>
@@ -666,7 +655,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var result = enrollmentService.BeginPlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                var result = enrollmentService.BeginPlaceOrder(TestData.IdentityCheckName(),userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
                 {
                     GlobalCustomerId = globalCustomerId,
                     EnrollmentSaveState = saveResult,
@@ -762,23 +751,23 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
             }
 
-            var creditCheck = enrollmentService.BeginCreditCheck(gcid,
-                name: TestData.CreditCheckContactInfo().Name,
-                ssn: TestData.CreditCheckSsn,
-                address: TestData.CreditCheckAddress()).Result;
-            do
-            {
-                creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
-            } while (!creditCheck.IsCompleted);
+            //var creditCheck = enrollmentService.BeginCreditCheck(gcid,
+            //    name: TestData.CreditCheckContactInfo().Name,
+            //    ssn: TestData.CreditCheckSsn,
+            //    address: TestData.CreditCheckAddress()).Result;
+            //do
+            //{
+            //    creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+            //} while (!creditCheck.IsCompleted);
             var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services, internalContext).Result;
             var offerPayment = offerPayments.Single();
-            if (offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().First().DollarAmount == 0)
-                Assert.Inconclusive("No deposit assessed.");
+            if (offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.Mobile.TotalPaymentAmount>().First().DollarAmount == 0)
+                Assert.Fail("No initial payments assessed.");
 
             using (new Timer())
             {
                 // Act
-                var result = enrollmentService.BeginPlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                var result = enrollmentService.BeginPlaceOrder(TestData.IdentityCheckName(), userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
                 {
                     GlobalCustomerId = gcid,
                     EnrollmentSaveState = saveResult,

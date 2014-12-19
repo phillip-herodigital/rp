@@ -95,10 +95,10 @@ namespace StreamEnergy.Services.Clients
             {
                 Offers = (from product in streamConnectProductResponse.Products
                           // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
-                          where product.Rates.All(r => r.Unit == "$/kwh")
+                          where ((IEnumerable<dynamic>)product.Rates).All(r => r.Unit == "$/kwh")
                           group product by product.ProductCode into products
                           let product = products.First(p => p.Provider["Name"].ToString() == providerName)
-                          let productData = sitecoreProductData.GetTexasElectricityProductData(product)
+                          let productData = sitecoreProductData.GetTexasElectricityProductData(product.ProductCode.ToString(), product.Provider.Name.ToString())
                           where productData != null
                           select new TexasElectricity.Offer
                           {
@@ -110,13 +110,13 @@ namespace StreamEnergy.Services.Clients
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],
 
-                              Rate = product.Rates.First(r => r.EnergyType == "Average").Value * 100,
-                              StreamEnergyCharge = product.Rates.First(r => r.EnergyType == "Energy").Value * 100,
+                              Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value * 100,
+                              StreamEnergyCharge = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Energy").Value * 100,
                               MinimumUsageFee = productData.Fields["Minimum Usage Fee"],
                               TduCharges = productData.Fields["TDU Charges"],
                               TermMonths = product.Term,
-                              RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
-                              TerminationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
+                              RateType = ((IEnumerable<dynamic>)product.Rates).Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
+                              TerminationFee = ((IEnumerable<dynamic>)product.Fees).Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
 
                               Footnotes = productData.Footnotes,
 
