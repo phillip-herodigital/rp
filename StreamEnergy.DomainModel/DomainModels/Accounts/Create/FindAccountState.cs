@@ -40,10 +40,9 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
         protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            internalContext.Account = await service.GetAccountDetails(context.AccountNumber);
-            if (internalContext.Account != null && internalContext.Account.Details.SsnLastFour != context.SsnLastFour)
+            internalContext.Account = await service.GetAccountDetails(context.AccountNumber, context.SsnLastFour);
+            if (internalContext.Account == null)
             {
-                internalContext.Account = null;
                 await redis.StringIncrementAsync(redisPrefix + context.AccountNumber);
                 await redis.KeyExpireAsync(redisPrefix + context.AccountNumber, TimeSpan.FromMinutes(30));
             }

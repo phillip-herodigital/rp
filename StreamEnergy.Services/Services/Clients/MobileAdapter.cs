@@ -79,7 +79,8 @@ namespace StreamEnergy.Services.Clients
                               Code = product.ProductCode,
                               Product = Newtonsoft.Json.JsonConvert.SerializeObject(product),
 
-                              //EnrollmentType = serviceStatus.EnrollmentType,
+                              ParentOfferId = product.ParentGroupProductId,
+                              IsParentOffer = product.IsParentOffer,
 
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],

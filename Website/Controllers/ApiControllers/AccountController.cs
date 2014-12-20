@@ -381,7 +381,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 AccountId = account.StreamConnectAccountId,
                 SubAccounts = account.SubAccounts,
-                RenewalCapability = (account.Details.CustomerType == "Residential") ? account.GetCapability<RenewalAccountCapability>() : null
+                RenewalCapability = (account.SubAccounts.First().CustomerType == "Residential") ? account.GetCapability<RenewalAccountCapability>() : null
             };
         }
 
@@ -534,9 +534,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
             var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
 
-            if (account.SubAccounts != null && (account.SubAccounts[0]) != null && (account.SubAccounts[0]).SubAccountType == "GeorgiaGas")
+            if (account.SubAccounts != null && (account.SubAccounts[0]) != null)
             {
-                serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
+                if (account.SubAccounts[0].SubAccountType == "GeorgiaGas")
+                {
+                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
+                }
+                else if (account.SubAccounts[0].SubAccountType == "TexasElectricity")
+                {
+                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.TexasElectricityAccount)(account.SubAccounts[0])).ServiceAddress;
+                }
             }
             
             if (serviceAddress.Equals(account.Details.BillingAddress))
@@ -694,6 +701,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var validations = validation.CompleteValidate(request);
 
             // make sure the account isn't already associated
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            }
             var existingAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             if (existingAccount != null)
             {
@@ -709,10 +720,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 validations = validations.Concat(new[] { val });
             }
 
-            var internalAccount = await accountService.GetAccountDetails(request.AccountNumber);
-            if (internalAccount != null && internalAccount.Details.SsnLastFour != request.SsnLast4)
+            var internalAccount = await accountService.GetAccountDetails(request.AccountNumber, request.SsnLast4);
+            if (internalAccount == null)
             {
-                internalAccount = null;
                 await redis.StringIncrementAsync(redisPrefix + request.AccountNumber);
                 await redis.KeyExpireAsync(redisPrefix + request.AccountNumber, TimeSpan.FromMinutes(30));
             }
@@ -967,7 +977,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             bool isSuccess = false;
 
-            if (currentUser.Accounts != null)
+            if (currentUser.Accounts == null)
             {
                 currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             }
