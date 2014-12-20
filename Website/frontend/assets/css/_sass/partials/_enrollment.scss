@@ -1840,9 +1840,18 @@
         font-size: 20px;
         padding: 10px $enrollment-module-horizontal-padding;
         select {
-            padding-top: 0;
             width: auto;
-            line-height: 1;
+        }
+        .zip-code {
+            width: 100px;
+            margin-right: 5px;
+        }
+        button {
+            text-transform: none;
+            padding: 5px 15px !important;
+            font-weight: normal;
+            @include background-image(linear-gradient(to top, #287db5 0%, #3891c0 100%));
+            @include box-shadow(none);
         }
     }
     h2 {

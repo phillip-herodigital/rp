@@ -1,6 +1,8 @@
-﻿ngApp.controller('MobileEnrollmentChooseNetworkCtrl', ['$scope', '$filter', '$modal', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'mobileEnrollmentService', function ($scope, $filter, $modal, enrollmentService, enrollmentCartService, enrollmentStepsService, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentChooseNetworkCtrl', ['$scope', '$filter', '$modal', '$http', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'mobileEnrollmentService', function ($scope, $filter, $modal, $http, enrollmentService, enrollmentCartService, enrollmentStepsService, mobileEnrollmentService) {
 
     var excludedStates = ['AK', 'HI', 'PR'];
+
+    $scope.mobileEnrollmentService = mobileEnrollmentService;
 
     $scope.data = { serviceState: 'TX' };
     $scope.data.serviceLocation = {};
@@ -24,6 +26,14 @@
     $scope.$watch('mobileEnrollmentService.state', function (newValue, oldValue) {
         $scope.showNetworks = !_.contains(excludedStates, newValue);
     });
+
+    $scope.lookupZip = function () {
+        $http.get('/api/addresses/lookupZip/' + $scope.postalCode5)
+        .success(function (data) {
+            mobileEnrollmentService.state = data[0];
+            mobileEnrollmentService.postalCode5 = $scope.postalCode5;
+        })
+    };
 
     /**
      * Complete the Choose Network Step
