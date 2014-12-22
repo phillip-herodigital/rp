@@ -425,7 +425,7 @@ namespace StreamEnergy.Services.Clients
             return true;
         }
 
-        async Task<Account> IAccountService.GetAccountDetails(string accountNumber, string last4 = "")
+        async Task<Account> IAccountService.GetAccountDetails(string accountNumber, string last4)
         {
             if (cis2AureaAccountMapping.ContainsKey(accountNumber))
             {
