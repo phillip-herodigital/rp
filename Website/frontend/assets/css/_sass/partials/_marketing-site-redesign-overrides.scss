@@ -128,24 +128,9 @@ article {
                     }
                 }
 
-                h2 {
-                    position: relative;
-                    font-size: 11px;
-                    line-height: 2em;
-                    letter-spacing: 0;
-                    color: #012f50;
 
-                    strong {
-                        font-weight: 600;
-                    }
 
-                    span {
-                        position: absolute;
-                        top: 25px;
-                        left: 50%;
-                        margin-left: -20px;
-                    }
-                }
+
 
                 h3 {
                     padding-top: 50px;
@@ -155,7 +140,6 @@ article {
                     letter-spacing: -0.01em;
                     font-weight: 600;
                 }
-
 
                 .indvidualPlans {
 
@@ -224,7 +208,7 @@ article {
             background: image-url('marketing/redesign/Modules/module_background.png') no-repeat center top;
         }
 
-        &:first-of-type {
+        &:first-of-type, &:first-child {
             > .wapper {
                 background-image: none;
             }
@@ -528,6 +512,29 @@ article {
     }
 }
 
+.mobile-poweredBy {
+    color: #012f50 !important;
+    font-size: 11px !important;
+    letter-spacing: 0;
+    line-height: 2em;
+    position: relative;
+    width: 128px;
+    overflow: visible;
+
+    strong {
+        font-weight: 600;
+    }
+
+    span {
+        left: 40px;
+        position: absolute;
+        top: 25px;
+        display: block;
+        text-align: left;
+        white-space: nowrap;
+    }
+}
+
 .protective-services {
     h2 {
         color: #222a4c;
@@ -553,7 +560,32 @@ article {
 
 .mobile-pricing-plans {
 
+    ol.points {
+        margin-bottom: 50px;
+        li {
+            &:before {
+                margin-right: 5px;
+                content: image-url('marketing/redesign/check.png');
+            }
+        }
+    }
+
+    .grid {
+            margin: 0;
+            width: 100%;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
     .overview {
+        border: 1px solid #e5e5e5;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        width: 100%;
+        border-spacing: 0;
+        
+
+
         h2 {
             position: relative;
             font-size: 11px;
@@ -574,19 +606,9 @@ article {
             }
         }
 
-        border: 1px solid #e5e5e5;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        width: 100%;
-        border-spacing: 0;
-        margin: 0;
 
-        .grid {
-            margin: 0;
-            width: 100%;
-            border-spacing: 0;
-            border-collapse: collapse;
-        }
+
+        
 
         .col {
             border: 1px solid #e5e5e5;
@@ -603,6 +625,27 @@ article {
             }
 
             .col {
+                h3 {
+                    padding-top: 50px;
+                    background: center top no-repeat;
+                    font-size: 22px;
+                    line-height: 29.02px;
+                    letter-spacing: -0.01em;
+                    font-weight: 600;
+                }
+
+                &.indvidualPlans {
+                    h3 {
+                        background-image: image-url('marketing/redesign/single_phone.png');
+                    }
+                }
+
+                &.groupPlans {
+                    h3 {
+                        background-image: image-url('marketing/redesign/multi_phone.png');
+                    }
+                }
+
                 padding: 10px;
                 border: 1px solid #e5e5e5;
                 border-bottom-style: none;
@@ -630,10 +673,18 @@ article {
             width: percentage(310/1040);
             text-align: left;
             padding: 20px;
+
+            @include breakpoint(small) {
+                width: 100%;
+            }
         }
 
         .col:nth-child(2) {
             width: percentage((1040 - 310)/1040);
+
+            @include breakpoint(small) {
+                width: 100%;
+            }
         }
 
         .mobile-plans-pricing-table {
@@ -756,6 +807,50 @@ article {
         &.trade-and-save {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/trade-and-save.png");
+            }
+        }
+    }
+}
+
+.mobile-plans-price-selector {
+    .col:first-child {
+        width: percentage(266/1040);
+
+        @include breakpoint(small) {
+            width: 100%;
+        }
+    }
+
+    table {
+        border-radius: 5px;
+
+        thead {
+            background-color: #fbfbfb;
+        }
+
+        tfoot {
+            background-color: #eff2f3;
+
+            td {
+                text-align: left;
+            }
+        }
+
+        td {
+            text-align: center;
+        }
+
+        button {
+            border: 1px solid #e5e5e5;
+            background-color: #fbfbfb;
+            background-image: none;
+            color: black;
+            box-shadow: none;
+            text-shadow: none;
+
+            &.selected {
+                border: 2px #0192d1 solid;
+                color: #0192d1;
             }
         }
     }

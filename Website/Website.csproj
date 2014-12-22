@@ -996,12 +996,12 @@
     <Content Include="frontend\assets\i\bg\ui-slider-handle.png" />
     <Content Include="frontend\assets\i\chart-bg.png" />
     <Content Include="frontend\assets\i\electric-key.png" />
-    <Content Include="frontend\assets\i\email\banner.jpg" />
-    <Content Include="frontend\assets\i\email\facebook.png" />
-    <Content Include="frontend\assets\i\email\left-image.jpg" />
-    <Content Include="frontend\assets\i\email\linkedin.png" />
-    <Content Include="frontend\assets\i\email\logo.jpg" />
-    <Content Include="frontend\assets\i\email\twitter.png" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\email\banner.jpg" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\email\facebook.png" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\email\left-image.jpg" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\email\linkedin.png" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\email\logo.jpg" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\email\twitter.png" />
     <Content Include="frontend\assets\i\enrollment\headers\addpaymentinformation.jpg" />
     <Content Include="frontend\assets\i\enrollment\headers\chooseyourplan.jpg" />
     <Content Include="frontend\assets\i\enrollment\headers\confirmorder.jpg" />
@@ -1318,8 +1318,8 @@
     <Content Include="frontend\assets\i\marketing\redesign\call-icon.png" />
     <Content Include="frontend\assets\i\marketing\redesign\check.png" />
     <Content Include="frontend\assets\i\marketing\redesign\cloud_protection_icon.png" />
-    <Content Include="frontend\assets\i\marketing\redesign\Componets\FAQs\minus.png" />
-    <Content Include="frontend\assets\i\marketing\redesign\Componets\FAQs\plus.png" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\email\Componets\FAQs\minus.png" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\email\Componets\FAQs\plus.png" />
     <Content Include="frontend\assets\i\marketing\redesign\dsa_logo.png" />
     <Content Include="frontend\assets\i\marketing\redesign\email-icon.png" />
     <Content Include="frontend\assets\i\marketing\redesign\footer-section-bottom-rule.png" />
@@ -1328,13 +1328,17 @@
     <Content Include="frontend\assets\i\marketing\redesign\Logo.png" />
     <Content Include="frontend\assets\i\marketing\redesign\LogoWhite.png" />
     <Content Include="frontend\assets\i\marketing\redesign\mask_icon.png" />
-    <Content Include="frontend\assets\i\marketing\redesign\Modules\Global\SwitchMobile\BringPhones.jpg" />
-    <Content Include="frontend\assets\i\marketing\redesign\Modules\Global\SwitchMobile\ShopPhones.jpg" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\Global\SwitchMobile\BringPhones.jpg" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\Global\SwitchMobile\ShopPhones.jpg" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\HomeHeader\home_header_energy_icon.png" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\HomeHeader\home_header_mobile_icon.png" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\HomeHeader\home_header_protect_icon.png" />
     <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\Plans\header-rule.png" />
     <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\Plans\module_background.png" />
     <Content Include="frontend\assets\i\marketing\redesign\Modules\module_background.png" />
-    <Content Include="frontend\assets\i\marketing\redesign\Modules\Questions\top_border.png" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\Global\Questions\top_border.png" />
     <Content Include="frontend\assets\i\marketing\redesign\Modules\Services\section-rule_energy-overview.png" />
+    <Content Include="frontend\assets\i\marketing\redesign\Modules\Home\HomeHeader\service_links_break.png" />
     <Content Include="frontend\assets\i\marketing\redesign\monitor_icon.png" />
     <Content Include="frontend\assets\i\marketing\redesign\multi_phone.png" />
     <Content Include="frontend\assets\i\marketing\redesign\nav-first-level-selected-indicator.png" />
@@ -3063,6 +3067,9 @@
     <Content Include="Views\Components\Mobile Enrollment\Cart.cshtml" />
     <Content Include="Views\Pages\Marketing\Home\HomePage.cshtml" />
     <Content Include="Views\Pages\Marketing\Home\HomeHeader.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Mobile.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -3079,7 +3086,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="frontend\assets\i\marketing\redesign\Modules\Home\ServicesOverview\" />
+    <Folder Include="frontend\assets\i\marketing\redesign\Modules\ServicesOverview\" />
     <Folder Include="layouts\EmailCampaign\Imported\" />
   </ItemGroup>
   <PropertyGroup>
