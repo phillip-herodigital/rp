@@ -141,21 +141,27 @@ namespace StreamEnergy.Services.Clients
 
         dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
+            var offer = (account.Offer.Offer as Mobile.Offer);
+            var offerOption = (account.Offer.OfferOption as Mobile.OfferOption);
             return new
             {
                 ServiceType = "Mobile",
                 Key = account.EnrollmentAccountKey,
                 RequestUniqueKey = account.RequestUniqueKey,
 
-                MobileProvider = (account.Offer.Offer as Mobile.Offer).Provider,
-                PhoneNumber = (account.Offer.OfferOption as Mobile.OfferOption).PhoneNumber,
+                MobileProvider = offer.Provider,
+                PhoneNumber = offerOption.PhoneNumber,
                 PlanId = account.Offer.Offer.Id,
-                ActivationDate = (account.Offer.OfferOption as Mobile.OfferOption).ActivationDate,
-                EsnNumber = (account.Offer.OfferOption as Mobile.OfferOption).EsnNumber,
-                SimNumber = (account.Offer.OfferOption as Mobile.OfferOption).SimNumber,
-                ImeiNumber = (account.Offer.OfferOption as Mobile.OfferOption).ImeiNumber,
-                InventoryItemId = (account.Offer.OfferOption as Mobile.OfferOption).InventoryItemId,
-                TransferPhoneNumber = (account.Offer.OfferOption as Mobile.OfferOption).TransferPhoneNumber,
+                ActivationDate = offerOption.ActivationDate,
+                EsnNumber = offerOption.EsnNumber,
+                SimNumber = offerOption.SimNumber,
+                ImeiNumber = offerOption.ImeiNumber,
+                InventoryItemId = offerOption.InventoryItemId,
+                TransferPhoneNumber = offerOption.TransferPhoneNumber,
+                UseInstallmentPlan = offerOption.UseInstallmentPlan,
+                InventoryInstallmentPlanByCredit = offerOption.UseInstallmentPlan
+                    ? new { A = offer.InstallmentPlan.ByCreditRating.A, B = offer.InstallmentPlan.ByCreditRating.B, C = offer.InstallmentPlan.ByCreditRating.C }
+                    : null,
             };
         }
 
