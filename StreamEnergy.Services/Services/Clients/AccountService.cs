@@ -375,7 +375,7 @@ namespace StreamEnergy.Services.Clients
             if (response.IsSuccessStatusCode)
             {
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
-                if (data.Status == "Success" && data.AssociateAccountResults[0].Status == "Success")
+                if (data.Status == "Success" && ((IEnumerable<dynamic>)data.AssociateAccountResults).Any(a => a.Status == "Success"))
                 {
                     return new Account(globalCustomerId, Guid.Parse((string)data.AssociateAccountResults[0].GlobalAccountId))
                         {
@@ -425,14 +425,14 @@ namespace StreamEnergy.Services.Clients
             return true;
         }
 
-        async Task<Account> IAccountService.GetAccountDetails(string accountNumber)
+        async Task<Account> IAccountService.GetAccountDetails(string accountNumber, string last4 = "")
         {
             if (cis2AureaAccountMapping.ContainsKey(accountNumber))
             {
                 accountNumber = cis2AureaAccountMapping[accountNumber];
             }
             
-            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?systemOfRecordAccountNumber=" + accountNumber);
+            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?systemOfRecordAccountNumber=" + accountNumber + (!string.IsNullOrEmpty(last4) ? "&last4Ssn=" + last4 : ""));
 
             if (response.IsSuccessStatusCode)
             {
@@ -481,7 +481,7 @@ namespace StreamEnergy.Services.Clients
                 TcpaPreference = tcpa,
                 BillingDeliveryPreference = data.Account.AccountBillingDetails.BillDeliveryTypePreference,
             };
-            account.SystemOfRecord = data.Account.AccountBillingDetails.SystemOfRecord;
+            account.SystemOfRecord = data.Account.SystemOfRecord;
             account.AccountNumber = data.Account.SystemOfRecordAccountNumber;
             account.Balance = new AccountBalance
             {
@@ -585,7 +585,9 @@ namespace StreamEnergy.Services.Clients
                     UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
                     ProductType = locAdapter.GetCommodityType(),
                     ProviderId = locAdapter.GetProvider(account.SubAccounts.First()),
-                    CustomerLast4 = account.Details.SsnLastFour
+                    CustomerLast4 = account.Details.SsnLastFour,
+                    SystemOfRecord = account.SystemOfRecord,
+                    SystemOfRecordAccountNumber = account.AccountNumber,
                 });
 
             if (!response.IsSuccessStatusCode)
