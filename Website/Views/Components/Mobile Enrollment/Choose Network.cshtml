@@ -13,8 +13,10 @@
     <section class="wrapper layout">
         <article class="enrollment__box enrollment__choose-network">
             <div class="content choose-location">
+                @*<select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display | addSpaces for state in stateNames"></select>*@
                 @Html.Sitecore().Field("Header - Choose Network")
-                <select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display | addSpaces for state in stateNames"></select>
+                <input type="text" ng-model="postalCode5" class="zip-code" data-val="true" data-val-required /> 
+                <button type="button" ng-disabled="postalCode5.length != 5" ng-click="lookupZip()">Go</button>
             </div>
                 
         </article>
@@ -73,6 +75,10 @@
                         <div ng-if="'@network.Value' == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintByod">
                             <div class="overlay"></div>
                             <span class="text">@Html.Sitecore().Field("Coming Soon Text")</span>
+                        </div>
+                        <div ng-if="mobileEnrollmentService.postalCode5.length != 5">
+                            <div class="overlay"></div>
+                            <span class="text">@Html.Sitecore().Field("Enter Zip Text")</span>
                         </div>
                     </div>
                 </div>

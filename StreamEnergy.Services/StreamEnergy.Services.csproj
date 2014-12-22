@@ -192,9 +192,11 @@
     <Compile Include="Services\Clients\SitecoreProductData.cs" />
     <Compile Include="Services\Clients\SitecoreProductInfo.cs" />
     <Compile Include="Services\Clients\SmartyStreets\ISmartyStreetService.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\SmartyCityState.cs" />
     <Compile Include="Services\Clients\SmartyStreets\SmartyResponse.cs" />
     <Compile Include="Services\Clients\SmartyStreets\SmartyStreetAddress.cs" />
     <Compile Include="Services\Clients\SmartyStreets\SmartyStreetService.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\SmartyZipResponse.cs" />
     <Compile Include="Services\Clients\SmartyStreets\UncleansedAddress.cs" />
     <Compile Include="Services\Clients\SmartyStreets\UnderscoreMappingResolver.cs" />
     <Compile Include="Services\Clients\StreamConnectUtilities.cs" />

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
+    [Serializable]
     public class MobileInventory
     {
         public string Id { get; set; }

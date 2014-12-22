@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using StreamEnergy.DomainModels.Enrollments;
 using Mobile = StreamEnergy.DomainModels.Enrollments.Mobile;
 using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Enrollments.Mobile;
 using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.Services.Clients
@@ -83,6 +84,8 @@ namespace StreamEnergy.Services.Clients
                               ParentOfferId = product.ParentGroupProductId,
                               IsParentOffer = product.IsParentOffer,
 
+                              InstallmentPlan = GetInstallmentPlanIds(productData, products: streamConnectProductResponse.Products),
+
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],
 
@@ -114,6 +117,24 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
+        private InstallmentPlanDetails GetInstallmentPlanIds(SitecoreProductInfo productData, IEnumerable<dynamic> products)
+        {
+            // TODO - update to match Sitecore
+            var mandatoryIds = Enumerable.Empty<string>(); // new string[] { -- TODO - product ids -- }
+
+            return new InstallmentPlanDetails
+            {
+                IsInstallmentPlanAvailable = mandatoryIds.All(id => (from product in products 
+                                                                     select (string)product.ProductId).Contains(id)),
+                ByCreditRating = new CreditRatingInstallmentPlan
+                {
+                    A = null, // TODO
+                    B = null, // TODO
+                    C = null, // TODO
+                },
+            };
+        }
+
         bool ILocationAdapter.SkipPremiseVerification(DomainModels.Enrollments.Location location)
         {
             return true;
@@ -134,6 +155,7 @@ namespace StreamEnergy.Services.Clients
                 EsnNumber = (account.Offer.OfferOption as Mobile.OfferOption).EsnNumber,
                 SimNumber = (account.Offer.OfferOption as Mobile.OfferOption).SimNumber,
                 ImeiNumber = (account.Offer.OfferOption as Mobile.OfferOption).ImeiNumber,
+                InventoryItemId = (account.Offer.OfferOption as Mobile.OfferOption).InventoryItemId,
                 TransferPhoneNumber = (account.Offer.OfferOption as Mobile.OfferOption).TransferPhoneNumber,
             };
         }
@@ -215,6 +237,12 @@ namespace StreamEnergy.Services.Clients
                     DepositAccount = key.SystemOfRecordId,
                 }
             };
+        }
+
+
+        bool ILocationAdapter.HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities)
+        {
+            return false;
         }
     }
 }

@@ -1,6 +1,8 @@
 ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($rootScope, $window) {
     var service = {
         state: 'TX',
+        postalCode5: '',
+        planType: 'residential',
         availableNetworks: [],
         selectedNetwork: undefined,
         cart: {

@@ -76,9 +76,9 @@ namespace StreamEnergy.DomainModels.Enrollments
                     }
                 }
             }
-            else if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            else
             {
-                internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context.ContactInfo.Name, context.Services, context.AdditionalAuthorizations, internalContext, context.PaymentInfo);
+                internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context, internalContext);
 
                 foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                 {
@@ -91,17 +91,6 @@ namespace StreamEnergy.DomainModels.Enrollments
                         placeOrderResult.Details.IsSuccess = false;
                     }
                 }
-            }
-            else
-            {
-                var results = await enrollmentService.PlaceCommercialQuotes(context);
-                internalContext.PlaceOrderResult = (from service in context.Services
-                                                    select new Service.LocationOfferDetails<Service.PlaceOrderResult>()
-                                                    {
-                                                        Location = service.Location,
-                                                        Details = results,
-                                                        Offer = service.SelectedOffers.First().Offer,
-                                                    }).ToArray();
             }
             
             if (context.OnlineAccount != null)

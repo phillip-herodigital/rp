@@ -5,9 +5,10 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
-    [Serializable]
-    public class Rate
+    public class CreditRatingInstallmentPlan
     {
-        public decimal RateAmount { get; set; }
+        public string A { get; set; }
+        public string B { get; set; }
+        public string C { get; set; }
     }
 }

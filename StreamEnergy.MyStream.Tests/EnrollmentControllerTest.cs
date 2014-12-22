@@ -370,7 +370,7 @@ namespace StreamEnergy.MyStream.Tests
                                                }
                                            });
                 });
-            mockEnrollmentService.Setup(m => m.BeginPlaceOrder(It.IsAny<Name>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<Dictionary<AdditionalAuthorization, bool>>(), It.IsAny<DomainModels.Enrollments.InternalContext>(), It.IsAny<DomainModels.Payments.IPaymentInfo>()))
+            mockEnrollmentService.Setup(m => m.BeginPlaceOrder(It.IsAny<UserContext>(), It.IsAny<DomainModels.Enrollments.InternalContext>()))
                 .Returns(Task.FromResult(new StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>
                 {
                     IsCompleted = false
@@ -393,14 +393,6 @@ namespace StreamEnergy.MyStream.Tests
                         }
                     }
                 }));
-            mockEnrollmentService.Setup(m => m.PlaceCommercialQuotes(It.IsAny<UserContext>())).Returns<UserContext>(uc =>
-                {
-                    return Task.FromResult(new DomainModels.Enrollments.Service.PlaceOrderResult 
-                    {
-                        ConfirmationNumber = "87654321",
-                        IsSuccess = true
-                    });
-                });
             //mockEnrollmentService.Setup(m => m.PayDeposit(It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>>(),
             //    It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>>(),
             //    It.IsAny<DomainModels.Payments.IPaymentInfo>(),

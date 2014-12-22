@@ -550,20 +550,41 @@ namespace StreamEnergy.Services.Clients
         //}
 
 
-        async Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> IEnrollmentService.BeginPlaceOrder(Name name, IEnumerable<LocationServices> services, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations, InternalContext internalContext, DomainModels.Payments.IPaymentInfo paymentInfo)
+        async Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> IEnrollmentService.BeginPlaceOrder(UserContext context, InternalContext internalContext)
         {
+            var hasSpecialCommercial = (from service in context.Services
+                                        let locAdapter = enrollmentLocationAdapters.FirstOrDefault(e => e.IsFor(service.Location.Capabilities))
+                                        select locAdapter.HasSpecialCommercialEnrollment(service.Location.Capabilities)).Any(e => e);
+
+            if (hasSpecialCommercial)
+            {
+                // WARNING - if this is mixed special enrollment vs. standard enrollment, the standard enrollment gets skipped!
+                var results = await PlaceCommercialQuotes(context);
+                return new StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>
+                    {
+                        IsCompleted = true,
+                        Data = (from service in context.Services
+                                select new LocationOfferDetails<PlaceOrderResult>()
+                                {
+                                    Location = service.Location,
+                                    Details = results,
+                                    Offer = service.SelectedOffers.First().Offer,
+                                }).ToArray()
+                    };
+            }
+
             var streamCustomerId = internalContext.GlobalCustomerId;
             var originalSaveState = internalContext.EnrollmentSaveState.Data;
             var depositInfo = internalContext.Deposit;
             
             List<object> initialPayments = new List<object>();
-            if (paymentInfo is DomainModels.Payments.TokenizedCard)
+            if (context.PaymentInfo is DomainModels.Payments.TokenizedCard)
             {
-                var card = (DomainModels.Payments.TokenizedCard)paymentInfo;
+                var card = (DomainModels.Payments.TokenizedCard)context.PaymentInfo;
                 foreach (var deposit in from deposit in internalContext.Deposit
                                         let amt = deposit.Details.RequiredAmounts.OfType<IInitialPaymentAmount>().SingleOrDefault()
                                         where amt != null
-                                        where !services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit || !amt.CanBeWaived
+                                        where !context.Services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit || !amt.CanBeWaived
                                         group new { deposit.Location, deposit.Offer, amt.DollarAmount } by new { amt.SystemOfRecord, amt.DepositAccount })
                 {
                     var depositAmount = deposit.Sum(d => d.DollarAmount);
@@ -578,14 +599,14 @@ namespace StreamEnergy.Services.Clients
                         InvoiceType = "Deposit",
                         Amount = depositAmount,
                         StreamAccountNumber = deposit.Key.DepositAccount,
-                        CustomerName = name.First + " " + name.Last,
+                        CustomerName = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
                         SystemOfRecord = deposit.Key.SystemOfRecord,
                         PaymentAccount = new
                         {
                             Token = card.CardToken,
                             AccountType = "Unknown",
                             ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
-                            Name = name.First + " " + name.Last,
+                            Name = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
                             Postal = card.BillingZipCode,
                         },
                         Cvv = card.SecurityCode
@@ -595,11 +616,11 @@ namespace StreamEnergy.Services.Clients
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
                 GlobalCustomerID = streamCustomerId,
-                Authorizations = new[] { new KeyValuePair<string, bool>("TermsAndConditions", true) }.Concat(additionalAuthorizations.SelectMany(ConvertAuthorization)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                Authorizations = new[] { new KeyValuePair<string, bool>("TermsAndConditions", true) }.Concat(context.AdditionalAuthorizations.SelectMany(ConvertAuthorization)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
                 EnrollmentAccounts = from orderEntry in originalSaveState.Results
                                      join depositAmounts in depositInfo on new { orderEntry.Location, orderEntry.Offer.Id } equals new { depositAmounts.Location, depositAmounts.Offer.Id }
                                      let deposit = depositAmounts.Details.RequiredAmounts.Any(amt => amt is DepositOfferPaymentAmount && amt.DollarAmount > 0)
-                                     join locationService in services on orderEntry.Location equals locationService.Location
+                                     join locationService in context.Services on orderEntry.Location equals locationService.Location
                                      let offer = locationService.SelectedOffers.FirstOrDefault(o => o.Offer.Id == orderEntry.Offer.Id)
                                      where offer != null
                                      select new
@@ -664,7 +685,7 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        async Task<PlaceOrderResult> IEnrollmentService.PlaceCommercialQuotes(UserContext context)
+        public async Task<PlaceOrderResult> PlaceCommercialQuotes(UserContext context)
         {
             List<object> premises = new List<object>();
             foreach (var serviceLocation in context.Services)

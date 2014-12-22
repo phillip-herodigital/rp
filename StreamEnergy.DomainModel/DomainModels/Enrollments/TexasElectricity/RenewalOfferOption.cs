@@ -8,7 +8,7 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
     [Serializable]
     public class RenewalOfferOption : OfferOption
     {
-        public const string Qualifier = "TexasElectricityRenewal";
+        public new const string Qualifier = "TexasElectricityRenewal";
 
         public override string OptionType
         {
