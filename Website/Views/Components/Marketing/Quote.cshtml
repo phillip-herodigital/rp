@@ -11,7 +11,7 @@
     }
     
 }
-<article id="@(Html.Sitecore().CurrentItem["Custom ID"] == string.Empty ? null : Html.Sitecore().CurrentItem["Custom ID"])" class="marketing quote @string.Join(" ", classes)" style="background-color: #@color">
+<article id="@(Html.Sitecore().CurrentItem["Custom ID"] == string.Empty ? null : Html.Sitecore().CurrentItem["Custom ID"])" class="marketing quote @string.Join(" ", classes)" style="background-color: @color">
     <blockquote>
         @Html.Sitecore().Field("Quote")
         @if (Html.Sitecore().HasValue("Cite"))
