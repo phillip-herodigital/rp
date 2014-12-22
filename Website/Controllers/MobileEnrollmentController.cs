@@ -113,6 +113,7 @@ namespace StreamEnergy.MyStream.Controllers
                         federalAccessCharge = plans.Fields["Federal Access Charge"].Value,
                         streamLineCharge = plans.Fields["Stream Line Charge"].Value
                     },
+                    DataDescription = plans.Fields["Data Description"].Value,
                     Recommended = plans.Fields["Recommended"].Value,
                     HoursMusic = plans.Fields["Hours Music"].Value,
                     HoursMovies = plans.Fields["Hours Movies"].Value,

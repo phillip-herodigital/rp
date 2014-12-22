@@ -80,7 +80,7 @@ namespace StreamEnergy.Services.Clients
                               Product = Newtonsoft.Json.JsonConvert.SerializeObject(product),
 
                               ParentOfferId = product.ParentGroupProductId,
-                              IsParentOffer = product.IsParentOffer,
+                              IsParentOffer = (product.IsParentOffer != null) ? product.IsParentOffer : false,
 
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],

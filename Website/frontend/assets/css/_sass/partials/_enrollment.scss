@@ -2655,13 +2655,24 @@
 }
 
 .enrollment__configure-data {
+    header {
+        border-bottom: none;
+        padding-bottom: 0;
+        h1 {
+            font-size: 24px;
+        }
+    }
     .mobile-plans-header {
         margin-bottom: 30px;
+        font-size: 18px;
     }
     .mobile-plans {
         text-align: center;
         width: 100%;
         @include experimental-value(width, calc(100% + 14px)); // Better alignment for everything except IE8 with this
+        p {
+            font-size: 12px;
+        }
         .button {
             padding-top: 0;
             padding-bottom: 0;
@@ -2669,6 +2680,9 @@
         .is-recommended,
         .is-special-offer {
             @include border-radius(0 0 5px 5px);
+            @include breakpoint(small) {
+                margin-top: 25px;
+            }
         }
         .recommended,
         .special-offer {
@@ -2685,10 +2699,6 @@
             line-height: 22px;
             text-transform: uppercase;
             @include border-radius(5px 5px 0 0);
-            @include breakpoint(small) {
-                position: relative;
-                top: 0;
-            }
         }
         .special-offer {
             border: 2px solid #e6e6e6;
@@ -2724,18 +2734,18 @@
             }
         }
         .size {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .price {
             position: relative;
-            margin-top: 10px;
-            font-size: 20px;
+            font-size: 18px;
         }
         .details {
             @include layout-list();
             text-align: left;
+            margin: 15px 0 0 0;
             li {
                 margin-bottom: 10px;
                 padding-left: 20px;
@@ -2744,14 +2754,16 @@
                     margin-left: -20px;
                 }
                 > span {
-                    font-size: 11px;
+                    font-size: 9px;
                     color: #999;
+                    text-transform: uppercase;
                 }
             }
         }
         .time {
             color: #333;
-            font-size: 14px;
+            font-size: 12px;
+            text-transform: none;
         }
         span {
             display: inline-block;
@@ -2762,9 +2774,21 @@
     }
     hr {
         margin: 10px 0;
+        border: none;
+        @include retina-background('data-plan-bg.png', 'enrollment');
+        background-position: center top;
+        background-repeat: no-repeat;
+        height: 5px;
     }
     footer {
-        background: #f7f7f7;
+        @include background-image(linear-gradient(to top, #fff 0%, #f7f7f7 100%));
+        h3 {
+            font-size: 18px;
+            margin: 0;
+        }
+        p {
+            font-size: 14px;
+        }
         .overages-billed {
             float: right;
             width: 100px;

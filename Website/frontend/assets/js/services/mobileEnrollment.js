@@ -4,7 +4,11 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         postalCode5: '',
         planType: 'residential',
         availableNetworks: [],
-        selectedNetwork: undefined,
+        selectedNetwork: {
+            id: '',
+            name:  '',
+            value: '',
+        },
         cart: {
             items: [
                 /*{

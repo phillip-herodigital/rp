@@ -1,13 +1,13 @@
-<div id="configure-data" ng-if="mobileEnrollment.currentStep == 'configure-data'" ng-controller="MobileEnrollmentConfigureDataCtrl" ng-init="remainingMinutes = '@Html.Sitecore().Field("Remaining Minutes Number")';">
-    <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+<div id="phoneFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('phoneFlowPlans')" ng-controller="MobileEnrollmentConfigureDataCtrl" ng-init="setTimeRemaining('phoneFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("Page Title")</span><br />
+                <span class="block">@Html.Sitecore().Field("Page Title")</span><br />
             </h1>
         </div>
     </div>
     @* Two-column layout for Configure Data *@
-    <section class="wrapper layout cols-2">
+    <div class="wrapper layout cols-2">
         <section>
             <article class="enrollment__box enrollment__configure-data">
                 <header>
@@ -20,7 +20,8 @@
                             <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
                             <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
                             <p>
-                                <span class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">GB</span></span>
+                                <span class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">GB</span></span><br />
+                                {{ plan.dataDescription }}
                             </p>
                             <hr />
                             <ul class="details">
@@ -36,7 +37,6 @@
                                 </span>
                             </p>
                         </div>
-                        @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
                     </div>
                     <p class="footnotes">@Html.Sitecore().Field("Special Offer Footnote")</p>
                 </div>
@@ -46,10 +46,14 @@
                 </footer>
             </article>
             <div class="clearfix">
-                <button type="button" class="plain plain-footer" ng-click="resetEnrollment()">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
-                <button type="submit" class="pull-right" ng-click="setCurrentStep('complete-order');" ng-disabled="!formFields.chosenPlanId">@Html.Sitecore().Field("Button - Next")</button>
+                <div class="buttons">
+                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!formFields.chosenPlanId">@Html.Sitecore().Field("Button - Next")</button>
+                    <button type="button" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
+                </div>
             </div>
         </section>
-        
-    </section>
+        <aside>
+            <div ng-include src="'cart-template'"></div>
+        </aside>
+    </div>
 </div>

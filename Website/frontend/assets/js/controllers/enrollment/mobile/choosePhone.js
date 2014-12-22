@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
 
@@ -20,15 +20,6 @@
 
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
     $scope.displayFilters = false; // Display the extra phone filters
-
-    // start over on refresh
-    /*
-    $scope.$watch('mobileEnrollment.phoneTypeTab', function(newValue, oldValue) {
-        if (newValue !== 'existing') {
-            $scope.resetEnrollment();
-        }
-    });
-*/
 
     $scope.setPhoneNumberType = function(type) {
         $scope.phoneNumberType = type;
@@ -164,6 +155,14 @@
             'scope': $scope,
             'templateUrl': templateUrl
         })
+    };
+
+    /**
+     * Complete the Choose Network Step
+     * @return {[type]} [description]
+     */
+    $scope.completeStep = function () {  
+        enrollmentStepsService.setStep('phoneFlowPlans');
     };
 
 }]);

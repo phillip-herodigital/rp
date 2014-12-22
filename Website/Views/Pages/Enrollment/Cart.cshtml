@@ -12,17 +12,25 @@
             <div class="content">
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
                 <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
-                    <h2>@Html.Sitecore().Field("Energy Plan")</h2>
-                    <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || !locationHasService(location)">
-                        <i class="icon-delete"></i>
+                    <div class="utility-plan" ng-if="false">
+                        <h2>@Html.Sitecore().Field("Energy Plan")</h2>
+                        <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || !locationHasService(location)">
+                            <i class="icon-delete"></i>
+                        </div>
+                        <address>
+                            <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+                            {{ location.location.address | address }}<br />
+                            <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
+                        </address>
+                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                            <div ng-include src="'cart/' + offerInformation.key"></div>
+                        </div>
                     </div>
-                    <address>
-                        <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                        {{ location.location.address | address }}<br />
-                        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
-                    </address>
-                    <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                        <div ng-include src="'cart/' + offerInformation.key"></div>
+                    <div class="mobile-plan">
+                        <h2>Mobile Services</h2>
+                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                            <div ng-include src="'cart/' + offerInformation.key"></div>
+                        </div>
                     </div>
                 </div>
                 @*<div class="buttons">
@@ -41,8 +49,8 @@
             <ul class="info">
                 <li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Documents Credit Card")</li>
                 <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Documents Billing Address")</li>
-                <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+                <li ng-if="false"><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
+                <li ng-if="false"><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
                 <li><i class="icon-imei"></i> @Html.Sitecore().Field("Documents MEID Number")</li>
              
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
