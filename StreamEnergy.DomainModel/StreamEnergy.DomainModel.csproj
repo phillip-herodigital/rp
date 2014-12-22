@@ -128,6 +128,7 @@
     <Compile Include="DomainModels\Accounts\CurrentUser.cs" />
     <Compile Include="DomainModels\Accounts\Customer.cs" />
     <Compile Include="DomainModels\Accounts\ExternalPaymentAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\MobileAccount.cs" />
     <Compile Include="DomainModels\Accounts\ICurrentUser.cs" />
     <Compile Include="DomainModels\Accounts\ImpersonationUtility.cs" />
     <Compile Include="DomainModels\Accounts\ImportSource.cs" />
@@ -207,6 +208,8 @@
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\CreditRatingInstallmentPlan.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\InstallmentPlanDetails.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\MobileInventory.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\MobileServiceProvider.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\Offer.cs" />

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using StreamEnergy.DomainModels.Enrollments;
 using Mobile = StreamEnergy.DomainModels.Enrollments.Mobile;
 using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Enrollments.Mobile;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -31,12 +33,12 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(DomainModels.Address serviceAddress, string productType)
         {
-            throw new NotImplementedException();
+            return productType == "Mobile";
         }
 
         bool ILocationAdapter.IsFor(DomainModels.Accounts.ISubAccount subAccount)
         {
-            throw new NotImplementedException();
+            return subAccount is MobileAccount;
         }
 
         bool ILocationAdapter.NeedProvider(DomainModels.Enrollments.Location location)
@@ -82,6 +84,8 @@ namespace StreamEnergy.Services.Clients
                               ParentOfferId = product.ParentGroupProductId,
                               IsParentOffer = (product.IsParentOffer != null) ? product.IsParentOffer : false,
 
+                              InstallmentPlan = GetInstallmentPlanIds(productData, products: streamConnectProductResponse.Products),
+
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],
 
@@ -113,6 +117,24 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
+        private InstallmentPlanDetails GetInstallmentPlanIds(SitecoreProductInfo productData, IEnumerable<dynamic> products)
+        {
+            // TODO - update to match Sitecore
+            var mandatoryIds = Enumerable.Empty<string>(); // new string[] { -- TODO - product ids -- }
+
+            return new InstallmentPlanDetails
+            {
+                IsInstallmentPlanAvailable = mandatoryIds.All(id => (from product in products 
+                                                                     select (string)product.ProductId).Contains(id)),
+                ByCreditRating = new CreditRatingInstallmentPlan
+                {
+                    A = null, // TODO
+                    B = null, // TODO
+                    C = null, // TODO
+                },
+            };
+        }
+
         bool ILocationAdapter.SkipPremiseVerification(DomainModels.Enrollments.Location location)
         {
             return true;
@@ -120,27 +142,47 @@ namespace StreamEnergy.Services.Clients
 
         dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
+            var offer = (account.Offer.Offer as Mobile.Offer);
+            var offerOption = (account.Offer.OfferOption as Mobile.OfferOption);
             return new
             {
                 ServiceType = "Mobile",
                 Key = account.EnrollmentAccountKey,
                 RequestUniqueKey = account.RequestUniqueKey,
 
-                MobileProvider = (account.Offer.Offer as Mobile.Offer).Provider,
-                PhoneNumber = (account.Offer.OfferOption as Mobile.OfferOption).PhoneNumber,
+                MobileProvider = offer.Provider,
+                PhoneNumber = offerOption.PhoneNumber,
                 PlanId = account.Offer.Offer.Id,
-                ActivationDate = (account.Offer.OfferOption as Mobile.OfferOption).ActivationDate,
-                EsnNumber = (account.Offer.OfferOption as Mobile.OfferOption).EsnNumber,
-                SimNumber = (account.Offer.OfferOption as Mobile.OfferOption).SimNumber,
-                ImeiNumber = (account.Offer.OfferOption as Mobile.OfferOption).ImeiNumber,
-                InventoryItemId = (account.Offer.OfferOption as Mobile.OfferOption).InventoryItemId,
-                TransferPhoneNumber = (account.Offer.OfferOption as Mobile.OfferOption).TransferPhoneNumber,
+                ActivationDate = offerOption.ActivationDate,
+                EsnNumber = offerOption.EsnNumber,
+                SimNumber = offerOption.SimNumber,
+                ImeiNumber = offerOption.ImeiNumber,
+                InventoryItemId = offerOption.InventoryItemId,
+                TransferPhoneNumber = offerOption.TransferPhoneNumber,
+                UseInstallmentPlan = offerOption.UseInstallmentPlan,
+                InventoryInstallmentPlanByCredit = offerOption.UseInstallmentPlan
+                    ? new { A = offer.InstallmentPlan.ByCreditRating.A, B = offer.InstallmentPlan.ByCreditRating.B, C = offer.InstallmentPlan.ByCreditRating.C }
+                    : null,
             };
         }
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(DomainModels.Address serviceAddress, dynamic details)
         {
-            throw new NotImplementedException();
+            return new MobileAccount()
+            {
+                PhoneNumber = details.PhoneNumber,
+                SerialNumber = details.SerialNumber,
+                PurchaseType = details.PurchaseType,
+                EquipmentId = details.EquipmentId,
+                PlanId = details.Plan.PlanId,
+                PlanPrice = double.Parse(details.Plan.Price),
+                PlanDataAvailable = double.Parse(details.Plan.DataAvailable),
+                PlanName = details.Plan.Name,
+                Carrier = details.Carrier,
+                ActivationDate = DateTime.Parse(details.ActivationDate),
+                LastBillDate = DateTime.Parse(details.LastBillDate),
+                NextBillDate = DateTime.Parse(details.NextBillDate),
+            };
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)

@@ -21,6 +21,10 @@ footer.site-footer {
         > .wrapper {
             background: #2f9bce image-url('marketing/redesign/LogoWhite.png') no-repeat 12px 371px;
 
+            @include breakpoint(small) {
+                background-image: none;
+            }
+
             > nav {
                 clear: both;
                 height: 424px;
@@ -31,8 +35,8 @@ footer.site-footer {
                 font-weight: 400;
 
                 @include breakpoint(small) {
-                        height: auto;
-                    }
+                    height: auto;
+                }
 
                 a {
                     color: inherit;
@@ -79,6 +83,10 @@ footer.site-footer {
         position: absolute;
         bottom: 100px;
         right: 0;
+
+        @include breakpoint(small) {
+            position: static;
+        }
     }
 }
 
@@ -100,6 +108,11 @@ footer.site-footer {
     a {
         font-weight: 400;
     }
+
+    @include breakpoint(small) {
+        margin: 0;
+        width: 100%;
+    }
 }
 
 .support-number, .support-email {
@@ -118,6 +131,11 @@ footer.site-footer {
         color: inherit;
         float: left;
         width: (1040px - 415px) / 2 / 1040px * 100%;
+
+        @include breakpoint(small) {
+            margin: 0;
+            width: 100%;
+        }
     }
 
     span {
@@ -147,6 +165,10 @@ footer.site-footer {
         position: absolute;
         right: 0;
         bottom: 28px;
+
+        @include breakpoint(small) {
+            position: static;
+        }
 
         img {
             vertical-align: middle;

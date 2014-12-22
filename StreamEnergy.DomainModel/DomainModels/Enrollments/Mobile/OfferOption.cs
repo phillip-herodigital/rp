@@ -25,6 +25,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         public string SimNumber { get; set; }
         public string ImeiNumber { get; set; }
         public string InventoryItemId { get; set; }
+        public bool UseInstallmentPlan { get; set; }
         public bool TransferPhoneNumber { get; set; }
     }
 }
