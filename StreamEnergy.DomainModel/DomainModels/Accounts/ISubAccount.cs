@@ -11,6 +11,8 @@ namespace StreamEnergy.DomainModels.Accounts
         string SubAccountType { get; }
         string Key { get;  }
         string Id { get; }
+        string CustomerType { get; }
+        string ProductType { get; }
 
         Address ServiceAddress { get; }
     }

@@ -538,6 +538,23 @@ article.message {
 	}
 }
 
+article.renew-plan {
+    button.primary {
+        float: right;
+        margin-top: 20px;
+    }
+    .grid {
+        p {
+            margin-top: 0px;
+        }
+        @include breakpoint(small) {
+            .col button {
+                float: none;
+            }
+        }
+    }
+}
+
 article.plan {
     padding-bottom: 5px;
     .plan-table {
@@ -848,6 +865,57 @@ article.balances-payments {
 		}
 	}
 }
+
+.layout section.notifications {
+	margin: 0px;
+	width: 100%;
+	.notice {
+		border-radius: 10px;
+		margin: 0px 0px 20px;
+	}
+}
+
+.notifications {
+	width: 100%;
+	.notice {
+		clear: both;
+		border: solid 1px #fb0;
+		background-color: #fff8d0;
+		div {
+			padding-right: 20px;
+			h5{
+				margin: 0;
+				padding: 0;
+			}
+			p {
+				margin: 0;
+				padding: 0 20px 0 0;
+			}
+		}
+		a.remove {
+			float: right;
+			clear: left;
+			width: 25px;
+			height: 25px;
+			margin-top: 2px;
+			cursor: pointer;
+			background: url(../i/icon/close.png) no-repeat 50%;
+		}
+		a.remove:hover {
+			background-color: #eee;
+			border: 1px solid #ccc;
+		}
+		&.alert {
+			padding-left: 50px;
+		}
+	}
+}
+
+.content section article .notifications .notice {
+	border-radius: 0px;
+	border-collapse: collapse;
+}
+
 article.energy-usage {
 	.graph-header {
 		padding: 15px 40px 0px 30px;
@@ -1881,6 +1949,61 @@ article.usage-summary {
 			border-left: none;
 		}
 	}
+	.breakdown {
+		z-index: 250;
+		border: solid 1px #bbb;
+		border-radius: 10px;
+		background-color: #eee;
+		float: left;
+		clear: both;
+		display:none;
+		left: 5%;
+		position: relative;
+		max-width: 250px;
+		
+		.device-number {
+			white-space: nowrap;
+		}
+
+		table, th,tr,td {
+			border: none;
+			font-size: 13px; 
+		}
+
+		thead tr {
+			border-bottom: solid 1px #bbb;
+			td {
+				text-align: center;
+			}
+		}
+
+
+		&:after, &:before {
+			top: 100%;
+			left: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		} 
+
+		&:after {
+			border-color: rgba(238, 238, 238, 0);
+			border-top-color: #eee;
+			border-width: 10px;
+			margin-left: -10px;
+		}
+
+		&:before {
+			border-color: rgba(221, 221, 221, 0);
+			border-top-color: #bbb;
+			border-width: 11px;
+			margin-left: -12px;
+		}
+
+	}
 	.usage-meter {
 		padding: 80px 0px 40px;
 		.picket {
@@ -1917,18 +2040,19 @@ article.usage-summary {
 			float:left;
 		}
 		.used {
-			background-color: #1ad;
+			background-color: $brand-primary-color;;
 			border-right: none;
 			border-top-right-radius: 0px;
 			border-bottom-right-radius: 0px;
+			cursor: pointer;
 			.label {
 				top: -80px;
-				border-color: #1ad;
-				background-color: #1ad;
+				border-color: $brand-primary-color;;
+				background-color: $brand-primary-color;;
 				left: 5%;
 			}
 			.picket {
-				border-color: #1ad;
+				border-color: $brand-primary-color;;
 				clear: both;
 				float: left;
 				top: -12px;
@@ -2065,7 +2189,7 @@ article.usage-summary {
 			.limit-line {
 				width: 80%;
 				float: left;
-				clear: right;
+				clear: both;
 				border-bottom: solid 1px #888;
 			}
 		}

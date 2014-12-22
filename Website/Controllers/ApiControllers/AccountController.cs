@@ -55,6 +55,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.redis = redis;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            enrollmentController.Dispose();
+        }
+
         #region Account Balances & Payments
 
         [HttpGet]
@@ -369,10 +375,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var accountDetails = await accountService.GetAccountDetails(account, false);
+            var renewalEligibility = await accountService.CheckRenewalEligibility(account, account.SubAccounts.First());
 
             return new GetUtilityPlanResponse
             {
-                SubAccounts = account.SubAccounts
+                AccountId = account.StreamConnectAccountId,
+                SubAccounts = account.SubAccounts,
+                RenewalCapability = (account.SubAccounts.First().CustomerType == "Residential") ? account.GetCapability<RenewalAccountCapability>() : null
             };
         }
 
@@ -525,9 +534,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
             var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
 
-            if (account.SubAccounts != null && (account.SubAccounts[0]) != null && (account.SubAccounts[0]).SubAccountType == "GeorgiaGas")
+            if (account.SubAccounts != null && (account.SubAccounts[0]) != null)
             {
-                serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
+                if (account.SubAccounts[0].SubAccountType == "GeorgiaGas")
+                {
+                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
+                }
+                else if (account.SubAccounts[0].SubAccountType == "TexasElectricity")
+                {
+                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.TexasElectricityAccount)(account.SubAccounts[0])).ServiceAddress;
+                }
             }
             
             if (serviceAddress.Equals(account.Details.BillingAddress))
@@ -685,6 +701,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var validations = validation.CompleteValidate(request);
 
             // make sure the account isn't already associated
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            }
             var existingAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             if (existingAccount != null)
             {
@@ -700,10 +720,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 validations = validations.Concat(new[] { val });
             }
 
-            var internalAccount = await accountService.GetAccountDetails(request.AccountNumber);
-            if (internalAccount != null && internalAccount.Details.SsnLastFour != request.SsnLast4)
+            var internalAccount = await accountService.GetAccountDetails(request.AccountNumber, request.SsnLast4);
+            if (internalAccount == null)
             {
-                internalAccount = null;
                 await redis.StringIncrementAsync(redisPrefix + request.AccountNumber);
                 await redis.KeyExpireAsync(redisPrefix + request.AccountNumber, TimeSpan.FromMinutes(30));
             }
@@ -956,7 +975,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public async Task<SetupRenewalResponse> SetupRenewal(SetupRenewalRequest request)
         {
-            if (currentUser.Accounts != null)
+            bool isSuccess = false;
+
+            if (currentUser.Accounts == null)
             {
                 currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             }
@@ -964,13 +985,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await accountService.GetAccountDetails(target);
             var subAccount = target.SubAccounts.First(acct => acct.Id == request.SubAccountId);
+            var isElibible = await accountService.CheckRenewalEligibility(target, subAccount);
 
-            await enrollmentController.Initialize(null);
+            if (isElibible)
+            {
+                await enrollmentController.Initialize(null);
+                isSuccess = await enrollmentController.SetupRenewal(target, subAccount);
+            }
 
             return new SetupRenewalResponse
             {
-                IsSuccess = await enrollmentController.SetupRenewal(target, subAccount)
+                IsSuccess = isSuccess
             };
+
+            
         }
 
         #endregion

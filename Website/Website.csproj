@@ -539,6 +539,7 @@
   <ItemGroup>
     <Compile Include="Conditions\CookieCryptography.cs" />
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
+    <Compile Include="Conditions\EnrollmentTrafficCopHelper.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
@@ -2597,6 +2598,8 @@
     <Content Include="frontend\utilities\foresee\stripeback.png" />
     <Content Include="frontend\utilities\foresee\tracker.html" />
     <Content Include="frontend\utilities\foresee\truste.png" />
+    <Content Include="frontend\*" />
+    <Content Include="frontend\**\*" />
     <Content Include="Data\web.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Settings.config" />
     <Content Include="App_Config\Include\Sitecore.EmailCampaign.config" />
@@ -3052,6 +3055,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Mobile.cshtml" />
     <Content Include="Views\Components\Marketing\Quote.cshtml" />
+    <Content Include="Views\Components\Account\Utility Services\Your Utility Plan.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

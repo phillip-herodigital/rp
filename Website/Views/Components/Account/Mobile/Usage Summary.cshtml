@@ -12,6 +12,7 @@
                             <span class="graph used">
                                 <span class="picket"></span>
                                 <span class="label">Usage: {{ deviceTotal.data.usage  / 1000000000 | number : 2}} GB of {{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB</span>
+
                             </span>
                             <span class="graph estimated">
                             </span>
@@ -36,6 +37,20 @@
                             <div class="current-data">
                                 <div class="picket"></div>
                                 <div class="label">{{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB <br />@Html.Sitecore().Field("Data Plan")</div>
+                            </div>
+                            <div class="breakdown">
+                                <table>
+                                    <thead>
+                                        <tr><td colspan="2">Usage Breakdown</td></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="device in deviceUsageStats">
+
+                                            <td class="device-name">{{ device.name | limitTo : 24 }}</td>
+                                            <td class="device-number">{{ device.data.usage / 1000000000 | number : 2 }} GB</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

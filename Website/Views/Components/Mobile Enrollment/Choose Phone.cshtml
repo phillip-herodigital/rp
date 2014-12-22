@@ -12,16 +12,14 @@
     <section class="wrapper layout cols-2">
         <section>
             <article class="enrollment__box enrollment__choose-device form">
-                    <header class="tabbed-header clearfix">
-                        <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'new' }" ng-click="mobileEnrollment.phoneTypeTab = 'new'" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">
-                            <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
-                        </div>
-                        <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone"></div>
-                        <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
-                            <h1>@Html.Sitecore().Field("Header - Bring Your Own Phone")</h1>
-                        </div>
-                        <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintByod"></div>
-                    </header>
+                <header ng-class="{ 'tabbed-header': mobileEnrollmentService.selectedNetwork.value != 'sprint' || (mobileEnrollmentSettings.sprintByod && mobileEnrollmentSettings.sprintBuyPhone) }" class="clearfix">
+                    <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'new' }" ng-click="mobileEnrollment.phoneTypeTab = 'new'" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">
+                        <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
+                    </div>
+                    <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
+                        <h1>@Html.Sitecore().Field("Header - Bring Your Own Phone")</h1>
+                    </div>
+                </header>
                 <toggle-pane name="new" value="mobileEnrollment.phoneTypeTab">
                     <div class="content" ng-if="!selectedPhone">
                         <div class="filters">
@@ -190,8 +188,8 @@
                                         <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
                                     </label>
                                     <div class="btn-group btn-group-options">
-                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'">@Html.Sitecore().Field("Assign New Number")</a>
-                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'">@Html.Sitecore().Field("Transfer My Number")</a>
+                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'" ng-change="phoneOptions.number.value = ''">@Html.Sitecore().Field("Assign New Number")</a>
+                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'" ng-change="phoneOptions.number.value = ''">@Html.Sitecore().Field("Transfer My Number")</a>
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
                                         <div class="button button-type-border">
@@ -268,7 +266,7 @@
                                     </label>
                                     <div class="btn-group-options">
                                         <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
-                                        <input type="text" name="simNumber" ng-model="phoneOptions.simNumber" />
+                                        <input type="text" name="simNumber" ng-model="phoneOptions.simNumber" data-val="true" data-val-required data-val-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
                                         <span class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></span>
                                     </div>
                                 </div>

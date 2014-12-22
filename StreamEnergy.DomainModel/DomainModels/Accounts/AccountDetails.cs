@@ -14,8 +14,6 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public string SsnLastFour { get; set; }
 
-        public string ProductType { get; set; }
-
         public bool? TcpaPreference { get; set; }
 
         public string BillingDeliveryPreference { get; set; }

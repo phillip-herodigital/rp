@@ -8,6 +8,8 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class GetUtilityPlanResponse
     {
+        public Guid AccountId { get; set; }
         public ISubAccount[] SubAccounts { get; set; }
+        public RenewalAccountCapability RenewalCapability { get; set; }
     }
 }

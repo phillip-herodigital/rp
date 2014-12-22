@@ -51,7 +51,7 @@
 
     $scope.phoneOptionsValid = function() {
         //check $scope.phoneOptions
-        return _.isNotEmpty($scope.phoneOptions);
+        return (_.isNotEmpty($scope.phoneOptions) && $scope.phoneOptions.purchaseOption);
     };
 
     /**

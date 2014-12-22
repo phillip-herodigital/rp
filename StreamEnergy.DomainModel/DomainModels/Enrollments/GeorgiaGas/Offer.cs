@@ -18,20 +18,21 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         // A value from Stream Connect that, as of yet, has no value to us other than passing it back in.
         public string Provider { get; set; }
 
-        public string OfferType
+        public virtual string OfferType
         {
             get { return Offer.Qualifier; }
         }
 
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
-            if (EnrollmentType == Enrollments.EnrollmentType.MoveIn)
-            {
-                return container.Resolve<MoveInOfferOptionPolicy>();
-            }
-            else
-            {
-                return container.Resolve<SwitchOfferOptionPolicy>();
+            switch (EnrollmentType) {
+                case Enrollments.EnrollmentType.MoveIn:
+                    return container.Resolve<MoveInOfferOptionPolicy>(); 
+                case Enrollments.EnrollmentType.Switch:
+                    return container.Resolve<SwitchOfferOptionPolicy>();
+                case Enrollments.EnrollmentType.Renewal:
+                    return container.Resolve<RenewalOfferOptionPolicy>();
+                default: throw new NotSupportedException();
             }
         }
 
