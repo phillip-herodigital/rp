@@ -207,6 +207,8 @@
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\CreditRatingInstallmentPlan.cs" />
+    <Compile Include="DomainModels\Enrollments\Mobile\InstallmentPlanDetails.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\MobileInventory.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\MobileServiceProvider.cs" />
     <Compile Include="DomainModels\Enrollments\Mobile\Offer.cs" />
