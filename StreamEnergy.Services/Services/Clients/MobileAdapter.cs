@@ -133,6 +133,7 @@ namespace StreamEnergy.Services.Clients
                 EsnNumber = (account.Offer.OfferOption as Mobile.OfferOption).EsnNumber,
                 SimNumber = (account.Offer.OfferOption as Mobile.OfferOption).SimNumber,
                 ImeiNumber = (account.Offer.OfferOption as Mobile.OfferOption).ImeiNumber,
+                InventoryItemId = (account.Offer.OfferOption as Mobile.OfferOption).InventoryItemId,
                 TransferPhoneNumber = (account.Offer.OfferOption as Mobile.OfferOption).TransferPhoneNumber,
             };
         }
