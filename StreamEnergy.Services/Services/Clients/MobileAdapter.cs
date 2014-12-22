@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using StreamEnergy.DomainModels.Enrollments;
 using Mobile = StreamEnergy.DomainModels.Enrollments.Mobile;
 using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -31,12 +32,12 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(DomainModels.Address serviceAddress, string productType)
         {
-            throw new NotImplementedException();
+            return productType == "Mobile";
         }
 
         bool ILocationAdapter.IsFor(DomainModels.Accounts.ISubAccount subAccount)
         {
-            throw new NotImplementedException();
+            return subAccount is MobileAccount;
         }
 
         bool ILocationAdapter.NeedProvider(DomainModels.Enrollments.Location location)
@@ -139,7 +140,21 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(DomainModels.Address serviceAddress, dynamic details)
         {
-            throw new NotImplementedException();
+            return new MobileAccount()
+            {
+                PhoneNumber = details.PhoneNumber,
+                SerialNumber = details.SerialNumber,
+                PurchaseType = details.PurchaseType,
+                EquipmentId = details.EquipmentId,
+                PlanId = details.Plan.PlanId,
+                PlanPrice = double.Parse(details.Plan.Price),
+                PlanDataAvailable = double.Parse(details.Plan.DataAvailable),
+                PlanName = details.Plan.Name,
+                Carrier = details.Carrier,
+                ActivationDate = DateTime.Parse(details.ActivationDate),
+                LastBillDate = DateTime.Parse(details.LastBillDate),
+                NextBillDate = DateTime.Parse(details.NextBillDate),
+            };
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)

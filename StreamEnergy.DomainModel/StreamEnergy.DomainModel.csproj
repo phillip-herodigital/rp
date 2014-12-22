@@ -128,6 +128,7 @@
     <Compile Include="DomainModels\Accounts\CurrentUser.cs" />
     <Compile Include="DomainModels\Accounts\Customer.cs" />
     <Compile Include="DomainModels\Accounts\ExternalPaymentAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\MobileAccount.cs" />
     <Compile Include="DomainModels\Accounts\ICurrentUser.cs" />
     <Compile Include="DomainModels\Accounts\ImpersonationUtility.cs" />
     <Compile Include="DomainModels\Accounts\ImportSource.cs" />
