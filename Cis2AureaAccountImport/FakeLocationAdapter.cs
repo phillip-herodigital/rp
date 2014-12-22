@@ -97,5 +97,11 @@ namespace Cis2AureaAccountImport
         {
             throw new NotImplementedException();
         }
+
+
+        public StreamEnergy.DomainModels.IServiceCapability GetRenewalServiceCapability(StreamEnergy.DomainModels.Accounts.Account account, StreamEnergy.DomainModels.Accounts.ISubAccount subAccount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
