@@ -6,11 +6,23 @@
     classes.Add(sc.CurrentItem["Custom CSS Class"]);
 }
 <article class="marketing marketingIntro wrapper @string.Join(" ", classes)">
-    <p class="intro">@Html.Sitecore().Field("Intro")</p>
-    <hr />
-    <div class="body">
-        @Html.Sitecore().Field("Body")
+    <div class="wrapper">
+        @if (Html.Sitecore().HasValue("Heading"))
+        {
+            <h1>@Html.Sitecore().Field("Heading")</h1>
+        }
+        @if (Html.Sitecore().HasValue("Intro"))
+        {
+            <p class="intro">@Html.Sitecore().Field("Intro")</p>
+        }
+        @if (Html.Sitecore().HasValue("Body") || !string.IsNullOrEmpty(Html.Sitecore().Field("Action Button").ToString()))
+        {
+            <hr />
+            <div class="body">
+                @Html.Sitecore().Field("Body")
 
-        <p>@Html.Sitecore().Field("Action Button")</p>
+                <p>@Html.Sitecore().Field("Action Button")</p>
+            </div>
+        }
     </div>
 </article>
