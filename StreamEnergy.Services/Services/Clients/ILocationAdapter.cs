@@ -42,5 +42,7 @@ namespace StreamEnergy.Services.Clients
         IServiceCapability GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount);
 
         OfferPayment GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option);
+
+        bool HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities);
     }
 }

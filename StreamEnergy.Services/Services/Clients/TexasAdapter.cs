@@ -258,5 +258,11 @@ namespace StreamEnergy.Services.Clients
                         PostBilledAmounts = optionRules.GetPostBilledPayments(option)
                     };
         }
+
+
+        bool ILocationAdapter.HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities)
+        {
+            return capabilities.OfType<CustomerTypeCapability>().SingleOrDefault().CustomerType == EnrollmentCustomerType.Commercial;
+        }
     }
 }

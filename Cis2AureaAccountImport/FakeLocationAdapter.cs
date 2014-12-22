@@ -103,5 +103,11 @@ namespace Cis2AureaAccountImport
         {
             throw new NotImplementedException();
         }
+
+
+        public bool HasSpecialCommercialEnrollment(IEnumerable<StreamEnergy.DomainModels.IServiceCapability> capabilities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

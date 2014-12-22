@@ -202,5 +202,11 @@ namespace StreamEnergy.Services.Clients
                 }
             };
         }
+
+
+        bool ILocationAdapter.HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities)
+        {
+            return false;
+        }
     }
 }

@@ -365,7 +365,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public void PostEnrollmentsCommercial()
         {
             // Assign
-            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            var enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
             
             using (new Timer())
             {
@@ -796,15 +796,18 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         }
                     }).Result;
 
+            userContext.ContactInfo = new DomainModels.CustomerContact { Name = TestData.IdentityCheckName() };
+            userContext.AdditionalAuthorizations = new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>();
+
             using (new Timer())
             {
                 // Act
-                var result = enrollmentService.BeginPlaceOrder(TestData.IdentityCheckName(), userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                var result = enrollmentService.BeginPlaceOrder(userContext, new DomainModels.Enrollments.InternalContext
                     {
                         GlobalCustomerId = globalCustomerId,
                         EnrollmentSaveState = saveResult,
                         Deposit = deposits,
-                    }, null).Result;
+                    }).Result;
                 while (!result.IsCompleted)
                 {
                     result = enrollmentService.EndPlaceOrder(result, saveResult.Data).Result;
@@ -906,20 +909,24 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             if (offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().First().DollarAmount == 0)
                 Assert.Inconclusive("No deposit assessed.");
 
+            userContext.ContactInfo = new DomainModels.CustomerContact { Name = TestData.IdentityCheckName() };
+            userContext.AdditionalAuthorizations = new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>();
+            userContext.PaymentInfo = new DomainModels.Payments.TokenizedCard
+            {
+                CardToken = TestData.CardToken,
+                BillingZipCode = "75201",
+                ExpirationDate = DateTime.Today.AddDays(60),
+                SecurityCode = "123"
+            };
+
             using (new Timer())
             {
                 // Act
-                var result = enrollmentService.BeginPlaceOrder(TestData.IdentityCheckName(), userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                var result = enrollmentService.BeginPlaceOrder(userContext, new DomainModels.Enrollments.InternalContext
                 {
                     GlobalCustomerId = gcid,
                     EnrollmentSaveState = saveResult,
                     Deposit = new[] { offerPayment },
-                }, new DomainModels.Payments.TokenizedCard
-                {
-                    CardToken = TestData.CardToken,
-                    BillingZipCode = "75201",
-                    ExpirationDate = DateTime.Today.AddDays(60),
-                    SecurityCode = "123"
                 }).Result;
                 while (!result.IsCompleted)
                 {
