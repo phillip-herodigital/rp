@@ -440,7 +440,7 @@
     .utility {
         font-weight: 300;
         padding: 0 35px 0 30px;
-        right: 162px;
+        right: 0;
         color: #4f4c4d;
         font-size: 14px;
         letter-spacing: 0;
@@ -449,6 +449,14 @@
 
         a {
             color: inherit;
+        }
+
+        a:before {
+            content: "\A0\A0|\A0\A0\A0";
+        }
+
+        > a:first-of-type:before {
+            content: none;
         }
     }
 
@@ -487,6 +495,7 @@
 
 .banner.marketing {
     letter-spacing: 0;
+    background-position: top center;
     .wrapper {
         padding: 0;
     }
