@@ -1,7 +1,4 @@
 ﻿@using HtmlAgilityPack
-@using Sitecore.ContentSearch.ComputedFields
-@using Sitecore.Data.Items
-@using Sitecore.Extensions
 @{
     var sc = Html.Sitecore();
 
@@ -18,7 +15,6 @@
     classes.Add(sc.LookupItem("Border Color").SafeFieldValue("CSS Class").Prefix("border border-"));
     classes.Add(sc.CurrentItem["Custom Css Class"]);
     classes.Add(sc.LookupItem("Background Image Position").SafeFieldValue("CSS Class"));
-    var id = !string.IsNullOrEmpty(sc.CurrentItem["Custom ID"]) ? " id=\"" + sc.CurrentItem["Custom ID"] + "\"" : "";
 }
 @if (!Html.Sitecore().HasValue("Background Image"))
 {

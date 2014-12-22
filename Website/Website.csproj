@@ -2601,22 +2601,8 @@
     <Content Include="App_Config\Include\Sitecore.Speak.Settings.config" />
     <Content Include="App_Config\Include\Sitecore.EmailCampaign.config" />
     <Content Include="Data\fw9.pdf" />
-    <Content Include="config.rb" />
     <Content Include="frontend\assets\css\_sass\partials\_marketing-site-redesign-overrides.scss" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
-    <Content Include="sass\Componets\_FAQs_StillHaveQuestions.scss" />
-    <Content Include="sass\Modules\Shop\_ServicesOverview.scss" />
-    <Content Include="sass\Modules\_Questions.scss" />
-    <Content Include="sass\Modules\_Quote.scss" />
-    <Content Include="sass\Site.scss" />
-    <Content Include="sass\Componets\_FAQ.scss" />
-    <Content Include="sass\_Generic.scss" />
-    <Content Include="sass\_Global.scss" />
-    <Content Include="sass\_Reset.scss" />
-    <Content Include="sass\Modules\_PhotoLockup.scss" />
-    <Content Include="sass\Modules\_FullHtml.scss" />
-    <Content Include="sass\Modules\_StatesEnroll.scss" />
-    <Content Include="sass\Home.scss" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
     <Content Include="layouts\EmailCampaign\Newsletter Layout.aspx" />
@@ -2816,11 +2802,6 @@
     <Content Include="sitecore\RedirectUrlPage.aspx" />
     <Content Include="sitecore\Unsubscribe.aspx" />
     <Content Include="sitecore\UnsubscribeFromAll.aspx" />
-    <Content Include="stylesheets\Home.css" />
-    <Content Include="stylesheets\ie.css" />
-    <Content Include="stylesheets\print.css" />
-    <Content Include="stylesheets\screen.css" />
-    <Content Include="stylesheets\Site.css" />
     <Content Include="upload\readme.txt" />
     <Content Include="webedit.css" />
     <Content Include="xsl\system\WebEdit\Hidden Rendering.xslt" />
@@ -3070,6 +3051,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Mobile.cshtml" />
+    <Content Include="Views\Components\Marketing\Quote.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

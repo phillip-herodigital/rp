@@ -379,6 +379,69 @@ article {
             }
         }
     }
+
+    &.quote {
+        font-size: 18px;
+        line-height: 26.44px;
+        position: relative;
+        margin: 0;
+        color: white;
+        padding: 20px 0;
+        background-image: none;
+
+
+        blockquote {
+            margin: 0 percentage(298/1280) 0 percentage(225/1280);
+
+            p {
+                padding-left: 0;
+                &:first-of-type {
+                    text-indent: -11px;
+                    font-size: 18px;
+                    line-height: 26.44px;
+                    position: relative;
+
+                    &::before {
+                        content: "\201C";
+                        color: rgba(255,255,255,.3);
+                        font-size: 135.61px;
+                        position: absolute;
+                        left: -45px;
+                        top: 55px;
+                    }
+                }
+
+                &:last-of-type::after {
+                    content: "\201D";
+                    color: rgba(255,255,255,.3);
+                    font-size: 135.61px;
+                    position: absolute;
+                    margin-left: 10px;
+                    margin-top: 40px;
+                }
+
+                strong.lead {
+                    font-size: 30px;
+                    line-height: 60px;
+                    font-style: italic;
+                    font-weight: 300;
+                }
+            }
+
+            footer {
+                margin-top: 10px;
+                font-size: 14.23px;
+                line-height: 35.87px;
+                padding: 0;
+                border-style: none;
+
+                cite {
+                    text-transform: uppercase;
+                    font-style: normal;
+                }
+            }
+        }
+    }
 }
 
 .director-banner.stretch {
@@ -562,6 +625,7 @@ article {
 
     ol.points {
         margin-bottom: 50px;
+
         li {
             &:before {
                 margin-right: 5px;
@@ -571,11 +635,11 @@ article {
     }
 
     .grid {
-            margin: 0;
-            width: 100%;
-            border-spacing: 0;
-            border-collapse: collapse;
-        }
+        margin: 0;
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+    }
 
     .overview {
         border: 1px solid #e5e5e5;
@@ -583,7 +647,7 @@ article {
         border-top-right-radius: 5px;
         width: 100%;
         border-spacing: 0;
-        
+
 
 
         h2 {
@@ -608,7 +672,7 @@ article {
 
 
 
-        
+
 
         .col {
             border: 1px solid #e5e5e5;

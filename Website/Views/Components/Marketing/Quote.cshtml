@@ -1,0 +1,24 @@
+﻿@using Sitecore.Data
+@using Sitecore.Data.Fields
+@{
+    var classes = new List<string> {Html.Sitecore().CurrentItem["Custom Css Class"]};
+    var color = "#333";
+    
+    var themeItem = Sitecore.Context.Database.GetItem(ID.Parse(Html.Sitecore().CurrentItem["Theme"]));
+    if (themeItem != null)
+    {
+        color = "#" + themeItem["Color"];
+    }
+    
+}
+<article id="@(Html.Sitecore().CurrentItem["Custom ID"] == string.Empty ? null : Html.Sitecore().CurrentItem["Custom ID"])" class="marketing quote @string.Join(" ", classes)" style="background-color: #@color">
+    <blockquote>
+        @Html.Sitecore().Field("Quote")
+        @if (Html.Sitecore().HasValue("Cite"))
+        {
+            <footer>
+                — <cite>@Html.Sitecore().Field("Cite")</cite>
+            </footer>
+        }
+    </blockquote>
+</article>
