@@ -5,8 +5,8 @@
 		position: relative;
 	}
 	.logo {
-		//@include image-replace("bg/logo-desktop.png", "bg2x/logo-desktop.png");
-		@include image-replace("marketing/redesign/Logo.png");
+		@include image-replace("bg/logo-desktop.png", "bg2x/logo-desktop.png");
+		//@include image-replace("marketing/redesign/Logo.png");
 		float: left;
 		margin-top: 30px;
         margin-bottom: 28px;
@@ -22,6 +22,17 @@
         a {
             color: inherit;
         }
+        ul {
+            @include inline-block-list();
+            display: inline;
+			li {
+				border-left: 1px solid #4f4c4d;
+				padding: 0 1em;
+			}
+			li:first-child {
+				border: none;
+			}
+		}
 		.account-link {
 			@include border-radius(0 0 5px 5px);
 			@include box-shadow(0 1px 1px rgba(0, 0, 0, .25));
@@ -191,22 +202,15 @@
 			.logo {
 				position: absolute;
 				left: 50%;
-				top: 18px;
+				top: 10px;
 				margin-top: 0;
-                @include image-replace("bg/logo-desktop-enrollment.png", "bg2x/logo-desktop-enrollment.png");
-				margin-left: (image-width("bg/logo-desktop-enrollment.png") / 2) * -1;
+				margin-left: (image-width("bg/logo-desktop.png") / 2) * -1;
 				}
 			.nav-toggle {
 				margin-top: 22px;
 			}
 		}
 	}
-    @include breakpoint(small) {
-        > .wrapper .logo {
-            @include image-replace("bg/logo-mobile-enrollment.png", "bg2x/logo-mobile-enrollment.png");
-			margin-left: (image-width("bg/logo-mobile-enrollment.png") / 2) * -1;
-        }
-    }
 }
 
 .tertiary-nav {
@@ -315,13 +319,11 @@
  */
 .banner {	
 	overflow: hidden;
-	margin-bottom: 30px;
 	background-size: cover;
 	background-position: 50%;
 	background-repeat: no-repeat;
 	.wrapper {
-		padding-top: 80px;
-		padding-bottom: 80px;
+		padding: 36px 0;
 	}
 	h1 {
 		font-size: 70px;

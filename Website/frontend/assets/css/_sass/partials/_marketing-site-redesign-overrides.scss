@@ -43,18 +43,6 @@ a.significant {
     text-transform: uppercase;
 }
 
-button, a.button {
-    @include background-image(linear-gradient(to bottom, rgb(1,163,221), rgb(0,113,185)));
-    padding: 10px !important;
-    color: white;
-    letter-spacing: 0.026em;
-    font-size: 16px;
-    font-weight: normal;
-    @include border-radius(9px);
-    @include box-shadow(rgba( 85, 53, 91, 0.25) 0px 2.598px 4px 2px);
-    text-transform: none !important;
-}
-
 dl.faq {
     color: #595a5d;
     width: 582px;

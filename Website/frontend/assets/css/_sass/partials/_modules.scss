@@ -121,6 +121,9 @@ article {
 				@include border-radius(0);
 			}
 		}
+		.account-selector {
+            padding: 15px;
+        }
 	}
 
     .account-selector {
@@ -629,7 +632,7 @@ article.plan {
             border-left: none;
             border-right: none;
             .fixed, .variable {
-					position: absolute;
+				position: absolute;
                 top: 40px;
                 left: -40px;
                 text-transform: uppercase;
@@ -640,10 +643,10 @@ article.plan {
                 @include rotate(-90deg);
 				}
             .fixed {
-                background: #053d5a;
+                background: #75bbe7;
 				}
             .variable {
-                background: #79bb4b;
+                background: #5b95a2;
 				}
 					}
         .plan-name {
