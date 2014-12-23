@@ -47,6 +47,7 @@ namespace StreamEnergy.Pipelines
                 .Include("~/frontend/assets/js/libs/angular-scroll/angular-scroll.min.js")
                 .Include("~/frontend/assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js")
                 .Include("~/frontend/assets/js/libs/angular-ui-slider/src/slider.js")
+                .Include("~/frontend/assets/js/libs/angular-google-maps/dist/angular-google-maps.js")
                 .Include("~/frontend/assets/js/libs/d3/d3.js")
                 .Include("~/frontend/assets/js/libs/d3/line-chart.js")
                 .Include("~/frontend/assets/js/app.js")
