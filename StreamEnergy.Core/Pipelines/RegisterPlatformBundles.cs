@@ -26,10 +26,10 @@ namespace StreamEnergy.Pipelines
                 .Include("~/frontend/assets/css/partials/print.css"));
 
             bundles.Add(CommonScripts(new ScriptBundle("~/frontend/assets/js/bundle")
-                .Include("~/frontend/assets/js/libs/lodash/lodash.js")));
+                .Include("~/frontend/assets/js/libs/lodash/dist/lodash.js")));
 
             bundles.Add(CommonScripts(new ScriptBundle("~/frontend/assets/js/legacybundle")
-                .Include("~/frontend/assets/js/libs/lodash/lodash.compat.js")));
+                .Include("~/frontend/assets/js/libs/lodash/dist/lodash.compat.js")));
         }
 
         private Bundle CommonScripts(Bundle scriptBundle)

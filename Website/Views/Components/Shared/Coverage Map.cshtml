@@ -1,0 +1,33 @@
+﻿<script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+
+<article class="coverage-map" ng-controller="CoverageMapCtrl">
+    <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
+        <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
+    </ui-gmap-google-map>
+
+    <div id="gmap-search"></div>
+
+    <script type="text/ng-template" id="searchbox.tpl.html">
+        <input type="text" placeholder="Search Box" style="width: 50%;">
+    </script>
+    <ul>
+        <li>
+            <input type="checkbox" ng-model="layers.att_voice" /> <label>ATT Voice</label>
+        </li>
+        <li>
+            <input type="checkbox" ng-model="layers.att_data" /> <label>ATT Data</label>
+        </li>
+        <li>
+            <input type="checkbox" ng-model="layers.att_lte" /> <label>ATT LTE</label>
+        </li>
+        <li>
+            <input type="checkbox" ng-model="layers.sprint_voice" /> <label>Sprint Voice</label>
+        </li>
+        <li>
+            <input type="checkbox" ng-model="layers.sprint_data" /> <label>Sprint Data</label>
+        </li>
+        <li>
+            <input type="checkbox" ng-model="layers.sprint_lte" /> <label>Sprint LTE</label>
+        </li>
+    </ul>
+</article>

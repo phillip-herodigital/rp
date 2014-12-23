@@ -10,7 +10,7 @@
         "angular-ui-utils": "latest",
 		"angular-scroll": "latest",
         "angular-google-maps": "latest",
-        "underscore": "latest",
+        "lodash": "latest",
         "respond": "latest"
     }
 }
