@@ -3,7 +3,8 @@ ngApp = angular.module("ngApp", ['ui.bootstrap',
                                  'unobtrusive.validation',
                                  'maskJQuery',
                                  'duScroll',
-                                 'n3-line-chart']);
+                                 'n3-line-chart',
+                                 'uiGmapgoogle-maps']);
 
 // Init Application
 ngApp.value("appName", "ngApp");

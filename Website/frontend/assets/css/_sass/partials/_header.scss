@@ -1,20 +1,38 @@
 .site-header {
-	background: #fff;
+	background: #fff image-url("marketing/redesign/header_background_gloabl.png") repeat-x;;
 	@include transition(left linear .2s); 
 	.wrapper {
 		position: relative;
 	}
 	.logo {
 		@include image-replace("bg/logo-desktop.png", "bg2x/logo-desktop.png");
+		//@include image-replace("marketing/redesign/Logo.png");
 		float: left;
-		margin-top: 33px;
+		margin-top: 30px;
+        margin-bottom: 28px;
 	}
 	.utility {
-		position: absolute;
-		right: 0;
-		height: 30px;
-		font-size: $font-size-xsmall;
-		font-weight: 600;
+        float: right;
+		height: 50px;
+        padding: 15px 10px;
+        color: #4f4c4d;
+        font-size: $font-size-xsmall;
+		font-weight: 300;
+        letter-spacing: 0;
+        a {
+            color: inherit;
+        }
+        ul {
+            @include inline-block-list();
+            display: inline;
+			li {
+				border-left: 1px solid #4f4c4d;
+				padding: 0 1em;
+			}
+			li:first-child {
+				border: none;
+			}
+		}
 		.account-link {
 			@include border-radius(0 0 5px 5px);
 			@include box-shadow(0 1px 1px rgba(0, 0, 0, .25));
@@ -37,7 +55,7 @@
 		clear: right;
 		text-align: right;
 		margin: 10px 0 -1px 10px;
-        position: relative;
+        //position: relative;
 		> ul {
 			@include inline-block-list();
 			margin: 0 auto;
@@ -49,21 +67,57 @@
                 overflow:visible;
             }
 			li {
+                height: 48px;
 				font-size: 15px;
 				line-height: 1.4; /* This fixes the partial-pixel height on IE */
 		        a {
 			        padding: 6px 10px 4px;	
 			        float: left;
-			        display: block;		
+			        display: block;	
+                    color: inherit;
+                    font-size: 18px;	
 		        }
+                &.selected {
+                    color: #1991cf !important;
+                    background: image-url('marketing/redesign/nav-first-level-selected-indicator.png') bottom center no-repeat;
+                    height: 48px;
+                }
             }
 
             li.nav-opportunity {
-                position: absolute;
-                left: 464px;
+               margin-left: 50px;
             }
 	    }
     }
+    nav.sub-nav {
+		background-color: #f1f1f1;
+		min-height: 50px;
+		ul {
+			@include inline-block-list();
+	        display: inline;
+	        margin: 0 auto;
+			font-size: $font-size-small;
+			li {
+				a {
+					display: inline-block;
+					color: $nav-sub-color;
+					padding: $nav-sub-padding;
+				}
+				&.selected a {
+					color: $nav-sub-hover-color;
+				}
+			}
+		}
+	    @include breakpoint(medium) {
+	        .wrapper {
+	            padding: 0 10px;
+	            ul li a {
+	                padding-left: 5px;
+	                padding-right: 5px;
+	            }
+	        }
+	    }
+	}
 	@include breakpoint(small) {
 		height: 57px;
 		position: fixed;
@@ -148,124 +202,15 @@
 			.logo {
 				position: absolute;
 				left: 50%;
-				top: 18px;
+				top: 10px;
 				margin-top: 0;
-                @include image-replace("bg/logo-desktop-enrollment.png", "bg2x/logo-desktop-enrollment.png");
-				margin-left: (image-width("bg/logo-desktop-enrollment.png") / 2) * -1;
+				margin-left: (image-width("bg/logo-desktop.png") / 2) * -1;
 				}
 			.nav-toggle {
 				margin-top: 22px;
 			}
 		}
 	}
-    @include breakpoint(small) {
-        > .wrapper .logo {
-            @include image-replace("bg/logo-mobile-enrollment.png", "bg2x/logo-mobile-enrollment.png");
-			margin-left: (image-width("bg/logo-mobile-enrollment.png") / 2) * -1;
-        }
-    }
-}
-
-/*
-	Main page navigation
- */
-.main-nav {
-	float: right;
-	margin: 70px 0 -1px 0;
-	> ul {
-		@include inline-block-list();
-		width: 100%;
-		font-size: 0; /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
-		text-transform: uppercase;
-		white-space: nowrap;
-		overflow: visible;
-		li {
-			position: relative;
-			a {
-				display: block;
-				color: $nav-primary-color;
-				padding: $nav-primary-padding;
-				font-weight: 600;
-				font-size: $nav-font-size;
-				line-height: 1;
-			}
-			&.selected {
-				.triangle {
-					display: block;
-				}
-				a{
-					color: $nav-primary-hover-color;
-				}
-			}
-            button, a.button {
-                color: #fff;
-                padding: 5px 15px;
-                font-size: 15px;
-            }
-		}
-	}
-	.icon-cart-small {
-		margin: -1px 0 0 8px;
-	}
-	.triangle {
-		display: none;
-		position: absolute;
-		bottom: 0;
-		left: 50%;
-		margin-left: -10px;
-		width: 0;
-		height: 0;
-		border-style: solid;
-		border-width: 0 10px 12px 10px;
-		border-color: transparent transparent #f1f1f1 transparent;
-
-		&:after {
-			content: "";
-			position: absolute;
-			width: 16px;
-			height: 16px;
-			@include rotate(45deg);
-			box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.05);
-			background: #f1f1f1;
-			left: 50%;
-			margin-left: -8px;
-			margin-top: 3px;
-			border-top: 1px solid #ddd;
-			border-left: 1px solid #ddd;
-		}
-	}
-}
-
-.sub-nav {
-	background-color: #f1f1f1;
-	min-height: 50px;
-	ul {
-		@include inline-block-list();
-        display: inline;
-        margin: 0 auto;
-		font-size: $font-size-small;
-		li {
-			a {
-				display: inline-block;
-				color: $nav-sub-color;
-				padding: $nav-sub-padding;
-				font-weight: 600;
-				text-transform: uppercase;
-			}
-			&.selected a {
-				color: $nav-sub-hover-color;
-			}
-		}
-	}
-    @include breakpoint(medium) {
-        .wrapper {
-            padding: 0 10px;
-            ul li a {
-                padding-left: 5px;
-                padding-right: 5px;
-            }
-        }
-    }
 }
 
 .tertiary-nav {
@@ -285,7 +230,7 @@
 				display: inline-block;
 				color: $nav-tertiary-color;
 				padding: $nav-tertiary-padding;
-				font-weight: 600;
+				//font-weight: 600;
 			}
 			&.selected {
 				.triangle {
@@ -374,16 +319,14 @@
  */
 .banner {	
 	overflow: hidden;
-	margin-bottom: 30px;
 	background-size: cover;
 	background-position: 50%;
 	background-repeat: no-repeat;
 	.wrapper {
-		padding-top: 80px;
-		padding-bottom: 80px;
+		padding: 36px 0;
 	}
 	h1 {
-		font-size: 70px;
+		font-size: 48px;
 		font-weight: 100;
 	}
 	h1, p {
@@ -426,84 +369,9 @@
 	}		
 }
 
-.site-header {
-    background: image-url("marketing/redesign/header_background_gloabl.png") repeat-x;
-
-    .logo {
-        background-image: image-url("marketing/redesign/Logo.png");
-        height: image-height("marketing/redesign/Logo.png");
-        margin-top: 31px;
-        margin-bottom: 28px;
-        width: image-width("marketing/redesign/Logo.png");
-    }
-
-    .utility {
-        font-weight: 300;
-        padding: 0 35px 0 30px;
-        right: 0;
-        color: #4f4c4d;
-        font-size: 14px;
-        letter-spacing: 0;
-        height: 32px;
-        line-height: 32px;
-
-        a {
-            color: inherit;
-        }
-
-        a:before {
-            content: "\A0\A0|\A0\A0\A0";
-        }
-
-        > a:first-of-type:before {
-            content: none;
-        }
-    }
-
-    nav.main-nav {
-        height: 109px;
-        margin: 0;
-        float: none;
-        position: absolute;
-        top: 62px;
-        left: 385px;
-
-        ul {
-            text-transform: uppercase;
-            font-weight: 400;
-            color: #013c5b;
-            letter-spacing: .020em;
-
-            li {
-                height: 48px;
-
-                &.selected {
-                    color: #1991cf !important;
-                    background: image-url('marketing/redesign/nav-first-level-selected-indicator.png') bottom center no-repeat;
-                    height: 48px;
-                }
-
-                a {
-                    color: inherit;
-                    font-weight: 400;
-                    font-size: 18px;
-                }
-            }
-        }
-    }
-}
-
 .banner.marketing {
     letter-spacing: 0;
-    background-position: top center;
     .wrapper {
         padding: 0;
     }
-}
-
-
-
-.sub-nav ul li a {
-    text-transform: none;
-    font-weight: 300;
 }
