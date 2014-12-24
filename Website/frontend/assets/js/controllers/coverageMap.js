@@ -74,7 +74,7 @@ ngApp.controller('CoverageMapCtrl', ['$scope', 'uiGmapGoogleMapApi', function ($
         });
         if ($scope.mapInstance) {
             if (layers.length) {
-                $scope.mapInstance.overlayMapTypes.setAt(0, new ARCOverlay('d8bfd6a09d07263c52ecb75b5a470a90', layers.join(','), 0.65));
+                $scope.mapInstance.overlayMapTypes.setAt(0, new ARCOverlay('d8bfd6a09d07263c52ecb75b5a470a90', layers.join(','), 0.75));
             } else {
                 $scope.mapInstance.overlayMapTypes.clear();
             }
