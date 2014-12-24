@@ -14,7 +14,7 @@ ngApp.controller('CoverageMapCtrl', ['$scope', 'uiGmapGoogleMapApi', function ($
         });
     };
 
-    var events = {
+    /*var events = {
         places_changed: function (searchBox) {
             $scope.mapInstance.setCenter(searchBox.getPlaces()[0].geometry.location);
             if (searchBox.getPlaces()[0].geometry.viewport) {
@@ -23,16 +23,34 @@ ngApp.controller('CoverageMapCtrl', ['$scope', 'uiGmapGoogleMapApi', function ($
                 $scope.mapInstance.setZoom(15);
             }
         }
-    }
-    $scope.searchbox = { template: 'searchbox.tpl.html', events: events };
+    }*/
+    $scope.searchbox = {
+        template: 'searchbox.tpl.html',
+        events: {
+            places_changed: function (searchBox) {
+                $scope.mapInstance.setCenter(searchBox.getPlaces()[0].geometry.location);
+                if (searchBox.getPlaces()[0].geometry.viewport) {
+                    $scope.mapInstance.fitBounds(searchBox.getPlaces()[0].geometry.viewport);
+                } else {
+                    $scope.mapInstance.setZoom(15);
+                }
+            }
+        }
+    };
+
+    $scope.selectedNetwork = 'att';
 
     $scope.layers = {
-        att_voice: true,
-        att_data: true,
-        att_lte: true,
-        sprint_voice: true,
-        sprint_data: true,
-        sprint_lte: true
+        att: {
+            att_voice: true,
+            att_data: true,
+            att_lte: true
+        },
+        sprint: {
+            sprint_voice: true,
+            sprint_data: true,
+            sprint_lte: true
+        }
     };
 
     $scope.map = {
@@ -61,13 +79,17 @@ ngApp.controller('CoverageMapCtrl', ['$scope', 'uiGmapGoogleMapApi', function ($
         }
     });
 
+    $scope.$watch('selectedNetwork', function (newVal, oldVal) {
+        $scope.updateMapLayers();
+    }, true);
+
     $scope.$watch('layers', function (newVal, oldVal) {
         $scope.updateMapLayers();
     }, true);
 
     $scope.updateMapLayers = function () {
         var layers = [];
-        angular.forEach($scope.layers, function (value, key) {
+        angular.forEach($scope.layers[$scope.selectedNetwork], function (value, key) {
             if (value == true) {
                 layers.push(key);
             }

@@ -2388,10 +2388,11 @@ article.coverage-map {
 			line-height: 50px;
 			padding: 1px 15px;
 			border: 1px solid #cecece;
+			outline: none;
 			&.active {
 				margin-top: -1px;
 				border: 2px solid #3189bb;
-				padding: 0 15px;
+				padding: 0 14px;
 			}
 		}
 	}
