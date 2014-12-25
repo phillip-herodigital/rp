@@ -3,7 +3,6 @@
  */
 ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'notificationService', function ($scope, $rootScope, $http, breakpoint, notificationService) {
     var GIGA = 1000000000;
-    $scope.deviceUsageStats = [];
     $scope.deviceTotal = {
         data: {
             usage: 0,
@@ -11,11 +10,11 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         },
         messages: {
             usage: 0,
-            limit: 0
+            limit: -1
         },
         minutes: {
             usage: 0,
-            limit: 0
+            limit: -1
         }
     };
     $scope.estimatedTotalData= 0;
@@ -29,85 +28,69 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     $scope.currentBillingPeriodDate = -1;
     $scope.billingDaysRemaining = 0;
 
-    //BEGIN dummy data
-    $scope.deviceUsageStats = [{
-        name: 'Jordan\'s Phone',
-        number: '402-249-1975',
-        id: 0,
-        data: {
-            usage: 589000000,
-            limit: 1.2 * (589000000)
-        },
-        messages: {
-            usage: 49,
-            limit: -1
-        },
-        minutes: {
-            usage: 926,
-            limit: -1
-        }
-    }, {
-        name: 'Jason\'s Phone',
-        number: '402-249-1822',
-        id: 0,
-        data: {
-            usage: 2450000000,
-            limit: 1.2 * (2450000000)
-        },
-        messages: {
-            usage: 842,
-            limit: -1
-        },
-        minutes: {
-            usage: 643,
-            limit: -1
-        }
-    }, {
-        name: 'Jennifer Campbell',
-        number: '402-249-1823',
-        id: 0,
-        data: {
-            usage: 3270000000,
-            limit: 1.2 * (3270000000)
-        },
-        messages: {
-            usage: 152,
-            limit: -1
-        },
-        minutes: {
-            usage: 773,
-            limit: -1
-        }
-    }];
-    
-
     $scope.init = function () {
+        $scope.data = {
+            lastBillingDate: new Date(new Date().setDate(new Date().getDate() - 10)),
+            nextBillingDate: new Date(new Date().setDate(new Date().getDate() + 20)),
+            dataUsageLimit: 6 * 1000000000,
+            deviceUsageStats: [
+                {
+                    name: 'Jordan Phone',
+                    number: '402-249-1975',
+                    id: 0,
+                    data: {
+                        usage: 589000000
+                    },
+                    messages: {
+                        usage: 49
+                    },
+                    minutes: {
+                        usage: 926
+                    }
+                },
+                {
+                    name: 'Adam Phone',
+                    number: '715-892-3215',
+                    id: 0,
+                    data: {
+                        usage: 1835000000
+                    },
+                    messages: {
+                        usage: 49
+                    },
+                    minutes: {
+                        usage: 926
+                    }
+                },
+            ]
+        };
+
         $scope.currentBillingPeriodDate = getCurrentBillingDate();
         $scope.billingDaysRemaining = Math.round((getNextBillingDate() - (new Date()).getTime()) / (24 * 60 * 60 * 1000));
         calculateDeviceTotals();
         renderCurrentDataUsageComponent();
-        renderHistoricDataUsageComponent();
+        //renderHistoricDataUsageComponent();
 
         //Display notifications (if necessary)
-        if ($scope.estimatedTotalData >= $scope.deviceTotal.data.limit) {
-            notificationService.notify(
-                'Data Usage Alert',
-                'Your plan is at {{ used }} of {{ limit }} GB and is predicted to go over this month. <a href="#">Upgrade Plan</a>', {
-                    used: round($scope.deviceTotal.data.usage / GIGA, 2),
-                    limit: round($scope.deviceTotal.data.limit / GIGA, 2)
-            });
-        }
-        _.each($scope.deviceUsageStats, function (device) {
-            if (device.data.usage >= device.data.limit) {
-                notificationService.notify(
-                    'Data Overage Alert',
-                    'Your plan for {{ account }} is at {{ used }} of {{ limit }} GB. <a href="#">Upgrade Plan</a>', {
-                        account: device.number,
-                        used: round(device.data.usage / GIGA, 2),
-                        limit: round(device.data.limit / GIGA, 2)
-                });
-            }
-        });
+        //if ($scope.estimatedTotalData >= $scope.deviceTotal.data.limit) {
+        //    notificationService.notify(
+        //        'Data Usage Alert',
+        //        'Your plan is at {{ used }} of {{ limit }} GB and is predicted to go over this month. <a href="#">Upgrade Plan</a>', {
+        //            used: round($scope.deviceTotal.data.usage / GIGA, 2),
+        //            limit: round($scope.deviceTotal.data.limit / GIGA, 2)
+        //    });
+        //}
+        //_.each($scope.deviceUsageStats, function (device) {
+        //    if (device.data.usage >= device.data.limit) {
+        //        notificationService.notify(
+        //            'Data Overage Alert',
+        //            'Your plan for {{ account }} is at {{ used }} of {{ limit }} GB. <a href="#">Upgrade Plan</a>', {
+        //                account: device.number,
+        //                used: round(device.data.usage / GIGA, 2),
+        //                limit: round(device.data.limit / GIGA, 2)
+        //        });
+        //    }
+        //});
     }
 
     function round(num, p) {
@@ -116,45 +99,32 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     }
 
     function getEstimatedTotalData() {
-        //BEGIN dummy data
-        return $scope.deviceTotal.data.usage * (1+ Math.random());
-        //END dummy data
+        return $scope.deviceTotal.data.usage * (($scope.data.nextBillingDate - $scope.data.lastBillingDate) / (new Date() - $scope.data.lastBillingDate));
     }
 
     function getRecentDataUsage(months) {
-        //BEGIN dummy data
         var recentDataUsage = [];
         for (var i = 0; i < months; i++) {
-            recentDataUsage.push($scope.deviceTotal.data.usage * (1 + Math.random() - 0.5) / GIGA);
+            recentDataUsage.push($scope.deviceTotal.data.usage / GIGA);
         }
         return recentDataUsage;
-        //END dummy data
     }
 
     function getNextBillingDate() {
-        //BEGIN dummy data
-
-        var month = 1000 * 60 * 60 * 24 * 30;
-        var days = ((new Date()).getTime() % (1000 * 60 * 60 * 24 * 7 * 4.3)) ;
-        return (new Date()).getTime() + month - days;
-        //END dummy data
+        return $scope.data.nextBillingDate.getTime();
     }
 
     function getCurrentBillingDate() {
-        //BEGIN dummy data
-        return (new Date()).getTime() - (1000 * 60 * 60 * 24 * 30);
-        //END dummy data
+        return $scope.data.lastBillingDate.getTime();
     }
 
     function calculateDeviceTotals() {
         _.each(['data', 'messages', 'minutes'], function (field) {
-            $scope.deviceTotal[field].usage = _.reduce($scope.deviceUsageStats, function (total, device) {
+            $scope.deviceTotal[field].usage = _.reduce($scope.data.deviceUsageStats, function (total, device) {
                 return total + device[field].usage;
             }, 0);
-            $scope.deviceTotal[field].limit = _.reduce($scope.deviceUsageStats, function (total, device) {
-                return total + device[field].limit;
-            }, 0);
         });
+        $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit;
 
         $scope.hasOverage = $scope.deviceTotal.data.usage > $scope.deviceTotal.data.limit;
         $scope.estimatedTotalData = getEstimatedTotalData();
@@ -190,8 +160,8 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         }
         d3.select(".current-data").style("width", currentPct + '%');
         d3.select(".breakdown")
-            .style("bottom", Math.round(255 + $scope.deviceUsageStats.length * 28) + 'px')
-            .style("margin-bottom", '-' + Math.round(255 + $scope.deviceUsageStats.length * 28) + 'px');
+            .style("bottom", Math.round(255 + $scope.data.deviceUsageStats.length * 28) + 'px')
+            .style("margin-bottom", '-' + Math.round(255 + $scope.data.deviceUsageStats.length * 28) + 'px');
         $('.used').on('mouseenter', function () {
             $(this).parent().find('.breakdown').show();
         });
