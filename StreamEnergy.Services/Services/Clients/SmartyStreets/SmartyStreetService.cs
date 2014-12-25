@@ -91,12 +91,20 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
             {
                 var result = JsonConvert.DeserializeObject<SmartyZipResponse[]>(await response.Content.ReadAsStringAsync().ConfigureAwait(false), settings);
 
-                var statesArray = (from entry in result
-                                  where entry.InputIndex == 0
-                                  select (from cityState in entry.CityStates
-                                          select cityState.StateAbbreviation).Distinct()).First().ToArray();
+                if (result[0].CityStates != null)
+                {
+                    var statesArray = (from entry in result
+                                       where entry.InputIndex == 0
+                                       select (from cityState in entry.CityStates
+                                               select cityState.StateAbbreviation).Distinct()).First().ToArray();
 
-                return statesArray;
+                    return statesArray;
+                }
+                else
+                {
+                    return new string[0];
+                }
+                
             }
             else
             {

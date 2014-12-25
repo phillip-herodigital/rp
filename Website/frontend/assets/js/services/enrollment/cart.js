@@ -197,6 +197,19 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                    return l.location.address.stateAbbreviation;
                }).contains('TX');
         },
+        cartHasMobile: function () {
+            return _(services)
+               .map(function (l) {
+                   return l.location.capabilities;
+               }).contains('Mobile');
+        },
+        cartHasUtility: function () {
+            var capabilities = _(services)
+               .map(function (l) {
+                   return l.location.capabilities;
+               });
+            return (capabilities.contains('Gas') || capabilities.contains('Gas'));
+        },
         locationHasService: function (location) {
             if (!location.offerInformationByType)
                 return false;

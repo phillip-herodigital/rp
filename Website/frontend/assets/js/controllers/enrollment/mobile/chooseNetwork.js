@@ -6,7 +6,6 @@
 
     $scope.data = { serviceState: 'TX' };
     $scope.data.serviceLocation = {};
-
     $scope.showNetworks = true;
 
     if (window.location.href.indexOf('sprintBuyPhone') > 0) {
@@ -28,10 +27,14 @@
     });
 
     $scope.lookupZip = function () {
+        enrollmentService.isLoading = true;
         $http.get('/api/addresses/lookupZip/' + $scope.postalCode5)
         .success(function (data) {
-            mobileEnrollmentService.state = data[0];
-            mobileEnrollmentService.postalCode5 = $scope.postalCode5;
+            enrollmentService.isLoading = false;
+            if (data.length != 0) {
+                mobileEnrollmentService.state = data[0];
+                mobileEnrollmentService.postalCode5 = $scope.postalCode5;
+            }
         })
     };
 
@@ -42,16 +45,16 @@
     $scope.completeStep = function () {  
         // mock this data for now
         $scope.data.serviceLocation.address = {
-            line1: '222 Peachtree Dr',
+            line1: '',
             line2: '',
-            city: 'Riverdale',
-            stateAbbreviation: 'GA', 
-            postalCode5: '30274'
+            city: '',
+            stateAbbreviation: mobileEnrollmentService.state, 
+            postalCode5: mobileEnrollmentService.postalCode5
         };
 
         $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
-        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": "residential" });
-        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile", "serviceProvider": "ATT" });
+        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": mobileEnrollmentService.planType });
+        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile", "serviceProvider": mobileEnrollmentService.selectedNetwork });
 
 
         var activeService = enrollmentCartService.getActiveService();

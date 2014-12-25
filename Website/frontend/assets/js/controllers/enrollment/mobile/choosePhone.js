@@ -63,7 +63,7 @@
     /**
      * Adds the currently selected phone to the cart
      */
-    $scope.addDeviceToCart = function() {
+    $scope.addDeviceToCart = function(phoneType) {
 
         var item = {},
         device,
@@ -102,8 +102,8 @@
             };
         }
 
-        mobileEnrollmentService.addItemToCart(item);
-        $scope.setCurrentStep('configure-data');
+        //mobileEnrollmentService.addItemToCart(item);
+        //$scope.setCurrentStep('configure-data');
     };
 
     /**

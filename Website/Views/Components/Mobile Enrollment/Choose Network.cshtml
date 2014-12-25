@@ -15,9 +15,11 @@
             <article class="enrollment__box enrollment__choose-network">
                 <div class="content choose-location">
                     @*<select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display | addSpaces for state in stateNames"></select>*@
+                <form ng-submit="lookupZip()" data-val-bind-messages="validations">
                     @Html.Sitecore().Field("Header - Choose Network")
-                    <input type="text" ng-model="postalCode5" class="zip-code" data-val="true" data-val-required /> 
-                    <button type="button" ng-disabled="postalCode5.length != 5" ng-click="lookupZip()">Go</button>
+                    <input type="text" ng-model="postalCode5" class="zip-code" data-val="true" data-val-required data-val-length="" data-val-length-min="5" data-val-length-max="5" />
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Zip Code Button")</button>
+                </form>
                 </div>
                 
             </article>

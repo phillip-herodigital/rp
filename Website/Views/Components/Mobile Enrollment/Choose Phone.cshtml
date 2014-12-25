@@ -12,6 +12,7 @@
     <section class="layout">
         <div class="wrapper cols-2">
             <section>
+            <form name="addDevice" data-val-bind-messages="validations" ng-submit="completeStep()">
                 <article class="enrollment__box enrollment__choose-device form">
                     <header class="tabbed-header clearfix">
                         <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'new' }" ng-click="mobileEnrollment.phoneTypeTab = 'new'" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">
@@ -99,7 +100,6 @@
                     @foreach (var phone in Model.MobilePhones)
                     {
                         <toggle-pane name="@Html.Raw(phone.Name)" value="selectedPhone.name">
-                            <form data-val-bind-messages="validations" ng-submit="addDeviceToCart()">
                                 <div class="content">
                                     <div class="clearfix">
                                         <i class="icon-close pull-right" ng-click="clearPhoneSelection()"></i>
@@ -216,12 +216,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </toggle-pane>
                     }
                     @* Bring Your Own Phone Template *@
                     <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
-                        <form data-val-bind-messages="validations" ng-submit="addDeviceToCart()">
                             <div class="content bring-your-own">
                                 <div class="byo-intro" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
                                     @Html.Sitecore().Field("Bring Your Phone - ATT Instructions")
@@ -302,7 +300,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
                     </toggle-pane>
                 </article>
                 <article class="enrollment__box enrollment__choose-device" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
@@ -312,25 +309,26 @@
                     <div class="content additional-device">
                         <div class="new-line">
                             @Html.Sitecore().Field("Bring A Device")
-                            <a href="" ng-click="">@Html.Sitecore().Field("Bring A Device Link")</a>
+                            <a href="" ng-click="addDeviceToCart('byod')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Bring A Device Link")</a>
                         </div>
                         <div class="new-line-or">
                             @Html.Sitecore().Field("Or")
                         </div>
                         <div class="new-line">
                             @Html.Sitecore().Field("Shop Phones")
-                            <a href="" ng-click="">@Html.Sitecore().Field("Shop Phones Link")</a>
+                            <a href="" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Shop Phones Link")</a>
                         </div>
                     </div>
                 </article>
                 <div class="enrollment__choose-device">
                     <div class="buttons" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
                         <span class="complete-step">@Html.Sitecore().Field("Complete Step Text")</span>
-                        <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Continue Button")</button>
+                        <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
                         <button type="button" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Button")</button>
                     </div>
                     <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
                 </div>
+            </form>
             </section>
             <aside>
                 <div ng-include src="'cart-template'"></div>

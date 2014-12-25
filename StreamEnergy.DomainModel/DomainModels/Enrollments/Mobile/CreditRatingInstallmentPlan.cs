@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
+    [Serializable]
     public class CreditRatingInstallmentPlan
     {
         public string A { get; set; }
