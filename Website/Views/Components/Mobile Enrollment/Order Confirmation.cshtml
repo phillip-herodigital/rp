@@ -7,9 +7,10 @@
         </div>
     </div>
     @* Two-column layout for Complete Order *@
-    <section class="wrapper layout cols-2">
-        <section>
-            @*<article class="enrollment__box enrollment__order-notice">
+    <section class="layout">
+        <div class="wrapper cols-2">
+            <section>
+                @*<article class="enrollment__box enrollment__order-notice">
                     <header>
                         <h1>You're Almost There!</h1>
                     </header>
@@ -19,63 +20,63 @@
                         <p>For questions on your request for service, call 1-800-STREAM.</p>
                     </div>
                 </article>*@
-            <article class="enrollment__box enrollment__confirmation">
-                <header>
-                    <h1>@Html.Sitecore().Field("Header - Confirmation")</h1>
-                </header>
-                <div class="content">
-                    @Html.Sitecore().Field("Text - Confirmation")
-                </div>
-                <footer>
-                    @Html.Sitecore().Field("Text - W9").Format(new { pdfLink = "ng-href=\"/api/mobileEnrollment/w9/temp/{{mobileEnrollmentService.confirmationId}}\" target=\"_blank\"" })
-                    @*<p><i class="icon-pdf"></i> <a ng-href="/api/mobileEnrollment/w9/temp/{{mobileEnrollmentService.confirmationId}}" target="_blank">@Html.Sitecore().Field("Link Text - W9")</a></p>*@
-                </footer>
-            </article>
-            <article class="enrollment__box enrollment__mobile-order-details">
-                <header>
-                    <h1>@Html.Sitecore().Field("Header - Order Summary")</h1>
-                </header>
-                <div class="content">
-                    <div class="phone-summary" ng-repeat="item in cart.items">
-                        <div class="line-item clearfix">
-                            @*
+                <article class="enrollment__box enrollment__confirmation">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Header - Confirmation")</h1>
+                    </header>
+                    <div class="content">
+                        @Html.Sitecore().Field("Text - Confirmation")
+                    </div>
+                    <footer>
+                        @Html.Sitecore().Field("Text - W9").Format(new { pdfLink = "ng-href=\"/api/mobileEnrollment/w9/temp/{{mobileEnrollmentService.confirmationId}}\" target=\"_blank\"" })
+                        @*<p><i class="icon-pdf"></i> <a ng-href="/api/mobileEnrollment/w9/temp/{{mobileEnrollmentService.confirmationId}}" target="_blank">@Html.Sitecore().Field("Link Text - W9")</a></p>*@
+                    </footer>
+                </article>
+                <article class="enrollment__box enrollment__mobile-order-details">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Header - Order Summary")</h1>
+                    </header>
+                    <div class="content">
+                        <div class="phone-summary" ng-repeat="item in cart.items">
+                            <div class="line-item clearfix">
+                                @*
                                 <div class="description">
                                     <!--<span class="condition">Reconditioned</span>-->
                                     <h2>Bring Your Own Device</h2>
                                     <span class="model">Apple iPhone 4S</span> <a href="">@Html.Sitecore().Field("Edit Link Text")</a>
                                 </div>
-                            *@
-                            <div class="phone-summary-image">
-                                <img ng-src="{{ item.imageFront }}" ng-if="item.type == 'new'" />
-                                <i class="icon-byod" ng-if="item.type == 'existing'"></i>
+                                *@
+                                <div class="phone-summary-image">
+                                    <img ng-src="{{ item.imageFront }}" ng-if="item.type == 'new'" />
+                                    <i class="icon-byod" ng-if="item.type == 'existing'"></i>
+                                </div>
+                                <div class="description" ng-if="item.type == 'new'">
+                                    <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
+                                    <div class="condition" ng-if="item.buyingOption == 'Lease24'">@Html.Sitecore().Field("24 Month Lease")</div>
+                                    <h2>{{ item.device.brand }} {{ item.device.name }}</h2>
+                                    <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
+                                </div>
+                                <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption == 'Lease24'">/mo</span></div>
+                                <div class="description" ng-if="item.type == 'existing'">
+                                    <h2>@Html.Sitecore().Field("Bring Your Own Device")</h2>
+                                    <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>
+                                </div>
                             </div>
-                            <div class="description" ng-if="item.type == 'new'">
-                                <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
-                                <div class="condition" ng-if="item.buyingOption == 'Lease24'">@Html.Sitecore().Field("24 Month Lease")</div>
-                                <h2>{{ item.device.brand }} {{ item.device.name }}</h2>
-                                <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
+                            <div class="line-item clearfix">
+                                <div class="description">
+                                    <h3>@Html.Sitecore().Field("Initial Activation Fee Text")</h3>
+                                    <p class="note">@Html.Sitecore().Field("Activation Fee Description")</p>
+                                </div>
+                                <div class="rate">{{ item.activationFee | currency }}</div>
                             </div>
-                            <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption == 'Lease24'">/mo</span></div>
-                            <div class="description" ng-if="item.type == 'existing'">
-                                <h2>@Html.Sitecore().Field("Bring Your Own Device")</h2>
-                                <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>
+                            <div class="line-item clearfix" ng-if="item.type == 'new'">
+                                <div class="description">
+                                    <h3>@Html.Sitecore().Field("Sales Tax Text")</h3>
+                                    <p class="note">@Html.Sitecore().Field("Sales Tax Description")</p>
+                                </div>
+                                <div class="rate">{{ item.salesTax | currency }}</div>
                             </div>
-                        </div>
-                        <div class="line-item clearfix">
-                            <div class="description">
-                                <h3>@Html.Sitecore().Field("Initial Activation Fee Text")</h3>
-                                <p class="note">@Html.Sitecore().Field("Activation Fee Description")</p>
-                            </div>
-                            <div class="rate">{{ item.activationFee | currency }}</div>
-                        </div>
-                        <div class="line-item clearfix" ng-if="item.type == 'new'">
-                            <div class="description">
-                                <h3>@Html.Sitecore().Field("Sales Tax Text")</h3>
-                                <p class="note">@Html.Sitecore().Field("Sales Tax Description")</p>
-                            </div>
-                            <div class="rate">{{ item.salesTax | currency }}</div>
-                        </div>
-                        @*
+                            @*
                             <div class="line-item clearfix">
                                 <div class="description">
                                     <h3>@Html.Sitecore().Field("Coverage Warranty Text")</h3>
@@ -88,96 +89,96 @@
                                 </div>
                                 <div class="rate"></div>
                             </div>
-                        *@
-                    </div>
-                    <hr />
-                    <div class="plan-summary">
-                        <div class="plan-summary-image">
-                            <i class="icon-plan-summary"></i>
+                            *@
                         </div>
-                        <div class="line-item clearfix">
-                            <div class="description">
-                                <h2>@Html.Sitecore().Field("Header - Monthly Plan Cost")</h2>
-                                <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
-                                <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                        <hr />
+                        <div class="plan-summary">
+                            <div class="plan-summary-image">
+                                <i class="icon-plan-summary"></i>
                             </div>
-                            <div class="rate">{{ mobileEnrollmentService.getProratedCost() | currency }}</div>
-                        </div>
-                    </div>
-                </div>
-                <footer>
-                    @Html.Sitecore().Field("Total Due Now Text") <strong>{{ mobileEnrollmentService.getTotalDueToday() | currency }}</strong>
-                </footer>
-            </article>
-            <article class="enrollment__box enrollment__mobile-order-details">
-                <header>
-                    <h1>@Html.Sitecore().Field("Header - Estimated Monthly Cost")</h1>
-                </header>
-                <div class="content">
-                    <div class="plan-summary no-img">
-                        <div class="line-item clearfix">
-                            <div class="description">
-                                <h2>@Html.Sitecore().Field("Header - Estimated Monthly Plan")</h2>
-                                <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
-                                <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
-                            </div>
-                            <div class="rate">{{ cart.dataPlan.price | currency }}/mo</div>
-                        </div>
-                        <div class="line-item clearfix">
-                            <div class="description">
-                                <h3>@Html.Sitecore().Field("Tax and Other Fees Text")</h3>
-                            </div>
-                            <div class="rate">{{ mobileEnrollmentService.getTotalFees() | currency }}</div>
-                        </div>
-                        <div ng-repeat="item in cart.items" class="items-monthly">
-                            <div class="line-item clearfix" ng-if="item.warranty == 'accept'">
+                            <div class="line-item clearfix">
                                 <div class="description">
-                                    <h3>@Html.Sitecore().Field("Phone Warranty Text")</h3>
-                                    <p>{{ item.device.brand }} {{ item.device.name }}</p>
+                                    <h2>@Html.Sitecore().Field("Header - Monthly Plan Cost")</h2>
+                                    <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                    <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                                 </div>
-                                <div class="rate">@Html.Sitecore().Field("Warranty Cost")/@Html.Sitecore().Field("Month Abbreviation")</div>
+                                <div class="rate">{{ mobileEnrollmentService.getProratedCost() | currency }}</div>
                             </div>
-                            <div class="line-item clearfix" ng-if="item.buyingOption == 'Lease24'">
+                        </div>
+                    </div>
+                    <footer>
+                        @Html.Sitecore().Field("Total Due Now Text") <strong>{{ mobileEnrollmentService.getTotalDueToday() | currency }}</strong>
+                    </footer>
+                </article>
+                <article class="enrollment__box enrollment__mobile-order-details">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Header - Estimated Monthly Cost")</h1>
+                    </header>
+                    <div class="content">
+                        <div class="plan-summary no-img">
+                            <div class="line-item clearfix">
                                 <div class="description">
-                                    <h3>@Html.Sitecore().Field("Monthly Lease Cost Text")</h3>
-                                    <p>@Html.Sitecore().Field("Leased Text") {{ item.device.brand }} {{ item.device.name }}</p>
+                                    <h2>@Html.Sitecore().Field("Header - Estimated Monthly Plan")</h2>
+                                    <p ng-if="cart.dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
+                                    <p ng-if="cart.dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ cart.dataPlan.data }}" })</p>
                                 </div>
-                                <div class="rate">{{ item.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
+                                <div class="rate">{{ cart.dataPlan.price | currency }}/mo</div>
+                            </div>
+                            <div class="line-item clearfix">
+                                <div class="description">
+                                    <h3>@Html.Sitecore().Field("Tax and Other Fees Text")</h3>
+                                </div>
+                                <div class="rate">{{ mobileEnrollmentService.getTotalFees() | currency }}</div>
+                            </div>
+                            <div ng-repeat="item in cart.items" class="items-monthly">
+                                <div class="line-item clearfix" ng-if="item.warranty == 'accept'">
+                                    <div class="description">
+                                        <h3>@Html.Sitecore().Field("Phone Warranty Text")</h3>
+                                        <p>{{ item.device.brand }} {{ item.device.name }}</p>
+                                    </div>
+                                    <div class="rate">@Html.Sitecore().Field("Warranty Cost")/@Html.Sitecore().Field("Month Abbreviation")</div>
+                                </div>
+                                <div class="line-item clearfix" ng-if="item.buyingOption == 'Lease24'">
+                                    <div class="description">
+                                        <h3>@Html.Sitecore().Field("Monthly Lease Cost Text")</h3>
+                                        <p>@Html.Sitecore().Field("Leased Text") {{ item.device.brand }} {{ item.device.name }}</p>
+                                    </div>
+                                    <div class="rate">{{ item.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <footer>
-                    @Html.Sitecore().Field("Text - Estimated Monthly Bill") <strong>{{ mobileEnrollmentService.getEstimatedMonthlyTotal() | currency }}</strong>
-                </footer>
-            </article>
-            <article class="enrollment__box enrollment__mobile-order-details">
-                <div class="content">
-                    <div class="grid">
-                        <div class="col">
-                            <h2>@Html.Sitecore().Field("Header - Personal Information")</h2>
-                            <div class="contact">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
-                            <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
-                            <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
-                        </div>
-                        <div class="col">
-                            <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
-                            <div class="contact">{{ accountInformation.businessInformationName }}</div>
-                            <div class="contact" ng-if="businessInformation.socialSecurityNumber">SSN: {{ businessInformation.socialSecurityNumber | maskNumber }}</div>
-                            <div class="contact" ng-if="businessInformation.taxId">EIN: {{ businessInformation.taxId | maskNumber }}</div>
-                            <div class="contact" ng-if="!businessInformation.businessAddressSame">
-                                {{ businessInformation.businessAddress.line1 }} {{ businessInformation.businessAddress.line2 }}<br>
-                                {{ businessInformation.businessAddress.city }}, {{ businessInformation.businessAddress.stateAbbreviation }} {{ businessInformation.businessAddress.postalCode5 }}
+                    <footer>
+                        @Html.Sitecore().Field("Text - Estimated Monthly Bill") <strong>{{ mobileEnrollmentService.getEstimatedMonthlyTotal() | currency }}</strong>
+                    </footer>
+                </article>
+                <article class="enrollment__box enrollment__mobile-order-details">
+                    <div class="content">
+                        <div class="grid">
+                            <div class="col">
+                                <h2>@Html.Sitecore().Field("Header - Personal Information")</h2>
+                                <div class="contact">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
+                                <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
+                                <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
                             </div>
-                            <div class="contact" ng-if="businessInformation.businessAddressSame">
-                                {{ accountInformation.billingAddress.line1 }} {{ accountInformation.billingAddress.line2 }}<br>
-                                {{ accountInformation.billingAddress.city }}, {{ accountInformation.billingAddress.stateAbbreviation }} {{ accountInformation.billingAddress.postalCode5 }}
+                            <div class="col">
+                                <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
+                                <div class="contact">{{ accountInformation.businessInformationName }}</div>
+                                <div class="contact" ng-if="businessInformation.socialSecurityNumber">SSN: {{ businessInformation.socialSecurityNumber | maskNumber }}</div>
+                                <div class="contact" ng-if="businessInformation.taxId">EIN: {{ businessInformation.taxId | maskNumber }}</div>
+                                <div class="contact" ng-if="!businessInformation.businessAddressSame">
+                                    {{ businessInformation.businessAddress.line1 }} {{ businessInformation.businessAddress.line2 }}<br>
+                                    {{ businessInformation.businessAddress.city }}, {{ businessInformation.businessAddress.stateAbbreviation }} {{ businessInformation.businessAddress.postalCode5 }}
+                                </div>
+                                <div class="contact" ng-if="businessInformation.businessAddressSame">
+                                    {{ accountInformation.billingAddress.line1 }} {{ accountInformation.billingAddress.line2 }}<br>
+                                    {{ accountInformation.billingAddress.city }}, {{ accountInformation.billingAddress.stateAbbreviation }} {{ accountInformation.billingAddress.postalCode5 }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </article>
-            @* DEC 3 Content...
+                </article>
+                @* DEC 3 Content...
                 <article class="enrollment__box">
                     <header>
                         <h1>@Html.Sitecore().Field("Header - Accessories")</h1>
@@ -198,24 +199,25 @@
                         <p><i class="icon-pdf"></i> <a href="">@Html.Sitecore().Field("Link Text - W9")</a></p>
                     </div>
                 </article>
-            *@
-            <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
-        </section>
-        <aside>
-            <div class="enrollment__cart">
-                <article class="enrollment__box trade-and-save">
-                    <h3>@Html.Sitecore().Field("Trade and Save Header")</h3>
-                    <p>@Html.Sitecore().Field("Trade and Save Image")</p>
-                    <p>@Html.Sitecore().Field("Trade and Save Link")</p>
-                </article>
-            </div>
-            <div class="enrollment__cart" ng-if="false">
-                <article class="enrollment__box">
-                    <header>
-                        <h1>@Html.Sitecore().Field("Questions Header")</h1>
-                    </header>
-                </article>
-            </div>
-        </aside>
+                *@
+                <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
+            </section>
+            <aside>
+                <div class="enrollment__cart">
+                    <article class="enrollment__box trade-and-save">
+                        <h3>@Html.Sitecore().Field("Trade and Save Header")</h3>
+                        <p>@Html.Sitecore().Field("Trade and Save Image")</p>
+                        <p>@Html.Sitecore().Field("Trade and Save Link")</p>
+                    </article>
+                </div>
+                <div class="enrollment__cart" ng-if="false">
+                    <article class="enrollment__box">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Questions Header")</h1>
+                        </header>
+                    </article>
+                </div>
+            </aside>
+        </div>
     </section>
 </div>

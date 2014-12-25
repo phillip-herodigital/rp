@@ -1,9 +1,9 @@
 module.exports = function(grunt) {
  
 	grunt.registerTask('watch', [ 'watch' ]);
-	grunt.registerTask('compass', [ 'compass' ]);
-	grunt.registerTask('default', [ 'compass', 'watch' ]);
-	grunt.registerTask('img', [ 'image_resize' ]);
+	grunt.registerTask('compass', [ 'compass:dist' ]);
+	grunt.registerTask('default', [ 'compass:dist', 'watch' ]);
+	grunt.registerTask('img', [ 'image_resize', 'compass:clean', 'compass:dist' ]);
  
 	grunt.initConfig({
 		watch: {
@@ -27,13 +27,19 @@ module.exports = function(grunt) {
 			},
 			sass: {
 				files: ['**/*.scss'],
-				tasks: ['compass']
+				tasks: ['compass:dist']
 			}
 		},
 		compass: {
 			dist: {
 				options: {
 					config: 'config.rb'
+				}
+			},
+			clean: {
+				options: {
+					config: 'config.rb',
+					clean: true
 				}
 			}
 		},

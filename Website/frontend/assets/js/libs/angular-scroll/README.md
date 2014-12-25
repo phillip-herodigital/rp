@@ -5,7 +5,7 @@ Only dependent on AngularJS (no jQuery). 8K minified or 2K gzipped.
 
 Example
 -------
-Check out [the live demo](http://durated.github.io/angular-scroll/) or the [source code](https://github.com/durated/angular-scroll/blob/master/example/index.html).
+Check out [the live demo](http://oblador.github.io/angular-scroll/) or the [source code](https://github.com/oblador/angular-scroll/blob/master/example/index.html).
 
 Install
 -------
@@ -13,14 +13,14 @@ With bower:
 
     $ bower install angular-scroll
 
-Or download the [production version](https://raw.github.com/durated/angular-scroll/master/angular-scroll.min.js) or the [development version](https://raw.github.com/durated/angular-scroll/master/angular-scroll.js). 
+Or download the [production version](https://raw.github.com/oblador/angular-scroll/master/angular-scroll.min.js) or the [development version](https://raw.github.com/oblador/angular-scroll/master/angular-scroll.js). 
 
 Don't forget to add `duScroll` to your module dependencies. 
 
 `angular.element` Scroll API
 ----------------------------
 
-This module extends the `angular.element` object with a few jQuery like functions. Note that `$document` is an `angular.element`, for usage example see below.
+This module extends the `angular.element` object with a few jQuery like functions. Note that `$document` is an `angular.element`, for usage example see below. In case of name collisions existing jQuery or jqlite functions will be preserved, just use the prefixed version: ie `.duScrollTo()` instead of `.scrollTo()`.
 
 #### `.scrollTo( left, top [, duration [, easing ] ] )`
 Scrolls the element/window to the specified left/top position. If `duration` is specified the scrolling is animated for n milliseconds. If `easing` is ommited the animation will default to the `duScrollEasing` function.
@@ -31,11 +31,17 @@ Alias of `.scrollToElement`.
 #### `.scrollToElement( element [, offset, [, duration [, easing ] ] ] )`
 Scrolls to the specified element, if `offset` is passed it will be subtracted from the elements position which is good if one uses floating menus. 
 
+#### `.scrollToElementAnimated( element [, offset, [, duration [, easing ] ] ] )`
+Convenience function. Works exactly the same as `scrollToElement` but uses the default values from `duScrollOffset`, `duScrollDuration` and `duScrollEasing` unless otherwise specified. 
+
 #### `.scrollTop|scrollLeft( )`
 Returns current scroll position. 
 
 #### `.scrollTop|scrollLeft( top [, duration [, easing ] ] )` 
 Scrolls to specified position in either axis, with optional animation. 
+
+#### `.scrollTopAnimated|scrollLeftAnimated( top [, duration [, easing ] ] )` 
+Convenience function like `scrollToElementAnimated` but for `scrollTop`/`scrollLeft`. 
 
 #### Promises
 Animated scrolling returns a `$q` promise, it will resolve when the scrolling has finished or be rejected if cancelled (by starting another scroll animation before it finished).
@@ -61,6 +67,23 @@ angular.module('myApp', ['duScroll']).
 );
 ```
 
+The above example can be achieved by configuration instead of arguments:
+
+```js
+angular.module('myApp', ['duScroll'])
+  .value('duScrollDuration', 2000)
+  .value('duScrollOffset', 30)
+  .controller('myCtrl', function($scope, $document) {
+    $document.scrollTopAnimated(400).then(function() {
+      console && console.log('You just scrolled to the top!');
+    });
+
+    var someElement = angular.element(document.getElementById('some-id'));
+    $document.scrollToElementAnimated(someElement);
+  }
+);
+```
+
 
 Directives
 ----------
@@ -72,7 +95,7 @@ Provides smooth anchor scrolling.
 ```
 
 ### `du-scrollspy`
-Observes wether the target element is at the top of the viewport (or container) and adds an `active` class if so. Takes optional `offset` and `duration` attributes which is passed on to `.scrollTo`,
+Observes whether the target element is at the top of the viewport (or container) and adds an `active` class if so. Takes optional `offset` and `duration` attributes which is passed on to `.scrollTo`,
 
 ```html
 <a href="#anchor" du-scrollspy>Am i active?</a>
@@ -119,7 +142,7 @@ If your links lie outside of the scrollable element, wrap them with the `du-scro
 ```
 
 ### [All in together now](http://www.youtube.com/watch?v=cx4KtTezEFg&feature=kp)
-The directives play well together, try [the demo](http://durated.github.io/angular-scroll/container.html) or inspect its [source code](https://github.com/durated/angular-scroll/blob/master/example/container.html).
+The directives play well together, try [the demo](http://oblador.github.io/angular-scroll/container.html) or inspect its [source code](https://github.com/oblador/angular-scroll/blob/master/example/container.html).
 
 ```html
 <ul du-spy-context du-scroll-container="scroll-container">
@@ -185,6 +208,13 @@ Set the `duScrollGreedy` value to `true` if the elements you are observing are n
 
 ```js
 angular.module('myApp', ['duScroll']).value('duScrollGreedy', true);
+```
+
+### Offset
+To change default offset (in pixels) for the `du-smooth-scroll` directive:
+
+```js
+angular.module('myApp', ['duScroll']).value('duScrollOffset', 30);
 ```
 
 Events

@@ -13,9 +13,9 @@
         chosenPlanId: undefined
     };
 
-    if($scope.mobileEnrollmentService.cart.dataPlan) {
-        $scope.formFields.chosenPlanId = $scope.mobileEnrollmentService.cart.dataPlan.id;
-    }
+    //if(enrollmentCartService.cart.dataPlan) {
+    //    $scope.formFields.chosenPlanId = $scope.mobileEnrollmentService.cart.dataPlan.id;
+    //}
 
     $scope.$watch('formFields.chosenPlanId', function(newValue, oldValue) {
         if (newValue !== oldValue) {

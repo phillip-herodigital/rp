@@ -418,7 +418,7 @@
  */
 .enrollment__banner {
     background-color: $enrollment-light-border-color;
-    margin-bottom: 40px;
+    //margin-bottom: 40px;
     .wrapper {
         height: 150px;
         padding-top: 50px;
@@ -1287,6 +1287,15 @@
             font-size: 15px;
             font-weight: 600;
             text-transform: none;
+        }
+        .mobile-plan {
+            h2 {
+                margin-bottom: 5px;
+            }
+            .plan-type {
+                font-size: 14px;
+                font-weight: 600;
+            }
         }
     }
     .cart-product {
