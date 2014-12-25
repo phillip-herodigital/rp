@@ -2,72 +2,15 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     var service = {
         state: 'TX',
         postalCode5: '',
-        planType: 'residential',
+        planType: 'Residential',
         availableNetworks: [],
         selectedNetwork: {
-            id: '',
-            name:  '',
-            value: '',
-        },
-        cart: {
-            items: [
-                /*{
-                    id: undefined,
-                    type: undefined, // New or Existing
-                    name: undefined,
-                    make: undefined,
-                    model: undefined,
-                    imeiNumber: undefined,
-                    simNumber: undefined,
-                    warranty: false,
-                    color: {
-                        name: undefined,
-                        value: undefined
-                    },
-                    //plan: undefined,
-                    number: {
-                        type: undefined,
-                        value: undefined
-                    }
-                }*/
-            ],
-            dataPlan: {
-                /*price: undefined,
-                includedData: {
-                    amount: undefined,
-                    cost: undefined
-                },
-                additionalData: {
-                    amount: undefined,
-                    cost: undefined
-                }*/
-            }
         },
         contactInformation: {
-
         },
         businessInformation: {
-
         },
         terms: {
-
-        },
-        accountInformation: {
-            contactInfo: {
-                name: {
-                    first: '',
-                    last: ''
-                },
-                phone: [{
-                    number: '',
-                    category: ''
-                }],
-                email: {
-                    address: ''
-                }
-            },
-            socialSecurityNumber: '',
-            secondaryContactInfo: {}
         }
     },
     //networks = [],

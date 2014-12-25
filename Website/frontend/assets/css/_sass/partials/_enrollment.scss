@@ -1288,6 +1288,15 @@
             font-weight: 600;
             text-transform: none;
         }
+        .mobile-plan {
+            h2 {
+                margin-bottom: 5px;
+            }
+            .plan-type {
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
     }
     .cart-product {
         margin: 10px 0;
