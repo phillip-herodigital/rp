@@ -44,10 +44,10 @@
                                         <tr><td colspan="2">Usage Breakdown</td></tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="device in data.deviceUsageStats">
+                                        <tr ng-repeat="device in data.deviceUsage">
 
-                                            <td class="device-name">{{ device.name | limitTo : 24 }}</td>
-                                            <td class="device-number">{{ device.data.usage / 1000000000 | number : 2 }} GB</td>
+                                            <td class="device-name">{{ device.number | limitTo : 24 }}</td>
+                                            <td class="device-number">{{ device.dataUsage / 1000000000 | number : 2 }} GB</td>
                                         </tr>
                                     </tbody>
                                 </table>

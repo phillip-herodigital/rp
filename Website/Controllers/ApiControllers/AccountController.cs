@@ -159,6 +159,53 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Mobile Usage
+        [HttpPost]
+        public async Task<GetMobileUsageResponse> GetMobileUsage(GetMobileUsageRequest request)
+        {
+            var accountNumber = request.AccountNumber;
+
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            }
+
+            var account = currentUser.Accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
+
+            if (account == null)
+            {
+                return null;
+            }
+
+            var startDate = request.StartDate.HasValue ? request.StartDate.Value : DateTime.Now;
+            var endDate = request.EndDate.HasValue ? request.EndDate.Value : DateTime.Now.AddDays(-30);
+
+            if (await accountService.GetAccountUsageDetails(account, startDate, endDate, false))
+            {
+                return new GetMobileUsageResponse()
+                {
+                    NextBillingDate = startDate,
+                    LastBillingDate = endDate,
+                    DataUsageLimit = 6 * 1000000000d,
+                    DeviceUsage = from row in account.Usage
+                                  let device = row.Key as MobileAccount
+                                  let usage = row.Value as MobileAccountUsage
+                                  select new MobileUsage()
+                                  {
+                                      Name = device.EquipmentId,
+                                      Number = device.PhoneNumber,
+                                      Id = device.Id,
+                                      DataUsage = usage.DataUsage,
+                                      MessagesUsage = usage.MessagesUsage,
+                                      MinutesUsage = usage.MinutesUsage,
+                                  },
+                };
+            }
+
+            return null;
+        }
+        #endregion
+
         #region Invoices
 
         [HttpGet]
@@ -705,11 +752,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             }
-            var existingAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
-            if (existingAccount != null)
+            if (currentUser.Accounts != null)
             {
-                var val = new ValidationResult("Account Already Associated", new[] { "AccountNumber" });
-                validations = validations.Concat(new[] { val });
+                var existingAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+                if (existingAccount != null)
+                {
+                    var val = new ValidationResult("Account Already Associated", new[] { "AccountNumber" });
+                    validations = validations.Concat(new[] { val });
+                }
             }
             
             // locked out after 5 tries

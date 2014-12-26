@@ -616,5 +616,38 @@ namespace StreamEnergy.Services.Clients
 
             return true;
         }
+
+        async Task<bool> IAccountService.GetAccountUsageDetails(Account account, DateTime startDate, DateTime endDate, bool forceRefresh)
+        {
+            if (account.Usage != null && !forceRefresh)
+            {
+                return true;
+            }
+
+            var response = await streamConnectClient.GetAsync(string.Format("api/v1/customers/{0}/accounts/{1}/usage?startDate={2}&endDate={3}", account.StreamConnectCustomerId.ToString(), account.StreamConnectAccountId.ToString(), startDate.ToString(), endDate.ToString()));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            if (data.Status != "Success")
+            {
+                return false;
+            }
+
+            account.Usage = (from usage in (IEnumerable<dynamic>)data.UsageDetail
+                             select new KeyValuePair<ISubAccount, AccountUsage>(CreateSubAccount(usage.Device), new MobileAccountUsage()
+                             {
+                                 StartDate = (DateTime)usage.StartDate,
+                                 EndDate = (DateTime)usage.EndDate,
+                                 DataUsage = (decimal)usage.DataUsage,
+                                 MessagesUsage = (decimal)usage.MessagesUsage,
+                                 MinutesUsage = (decimal)usage.MinutesUsage,
+                             })).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            return true;
+        }
     }
 }

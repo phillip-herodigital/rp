@@ -29,46 +29,26 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     $scope.billingDaysRemaining = 0;
 
     $scope.init = function () {
-        $scope.data = {
-            lastBillingDate: new Date(new Date().setDate(new Date().getDate() - 10)),
-            nextBillingDate: new Date(new Date().setDate(new Date().getDate() + 20)),
-            dataUsageLimit: 6 * 1000000000,
-            deviceUsageStats: [
-                {
-                    name: 'Jordan Phone',
-                    number: '402-249-1975',
-                    id: 0,
-                    data: {
-                        usage: 589000000
-                    },
-                    messages: {
-                        usage: 49
-                    },
-                    minutes: {
-                        usage: 926
-                    }
-                },
-                {
-                    name: 'Adam Phone',
-                    number: '715-892-3215',
-                    id: 0,
-                    data: {
-                        usage: 1835000000
-                    },
-                    messages: {
-                        usage: 49
-                    },
-                    minutes: {
-                        usage: 926
-                    }
-                },
-            ]
-        };
+        $http({
+            method: 'POST',
+            url: '/api/account/getMobileUsage',
+            data: {
+                accountNumber: '1691',
+            },
+            headers: { 'Content-Type': 'application/JSON' }
+        })
+			.success(function (data, status, headers, config) {
+			    $scope.data = data;
+			    data.lastBillingDate = new Date(data.lastBillingDate);
+			    data.nextBillingDate = new Date(data.nextBillingDate);
 
-        $scope.currentBillingPeriodDate = getCurrentBillingDate();
-        $scope.billingDaysRemaining = Math.round((getNextBillingDate() - (new Date()).getTime()) / (24 * 60 * 60 * 1000));
-        calculateDeviceTotals();
-        renderCurrentDataUsageComponent();
+			    $scope.currentBillingPeriodDate = getCurrentBillingDate();
+			    $scope.billingDaysRemaining = Math.round((getNextBillingDate() - (new Date()).getTime()) / (24 * 60 * 60 * 1000));
+			    calculateDeviceTotals();
+			    renderCurrentDataUsageComponent();
+			});
+        //$scope.data = { "lastBillingDate": "2014-11-26T10:05:17.7947958-08:00", "nextBillingDate": "2014-12-26T10:05:17.7947958-08:00", "dataUsageLimit": 6000000000.0, "deviceUsage": [{ "number": "1234561156", "dataUsage": 1073741824.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }, { "number": "1234561158", "dataUsage": 1073741824.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }, { "number": "1234561155", "dataUsage": 0.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }, { "number": "1234561157", "dataUsage": -1073741824.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }] };
+
         //renderHistoricDataUsageComponent();
 
         //Display notifications (if necessary)
@@ -119,11 +99,9 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     }
 
     function calculateDeviceTotals() {
-        _.each(['data', 'messages', 'minutes'], function (field) {
-            $scope.deviceTotal[field].usage = _.reduce($scope.data.deviceUsageStats, function (total, device) {
-                return total + device[field].usage;
-            }, 0);
-        });
+        $scope.deviceTotal.data.usage = _.reduce($scope.data.deviceUsage, function (total, device) {
+            return total + device.dataUsage;
+        }, 0);
         $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit;
 
         $scope.hasOverage = $scope.deviceTotal.data.usage > $scope.deviceTotal.data.limit;
@@ -150,7 +128,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         var currentPct = (($scope.deviceTotal.data.limit / GIGA) / $scope.graphScale.high) * 100;
         if ($scope.hasOverage) {
             estimatedPct = 0;
-            d3.select(".usage-meter").attr("class", "usage-meter overage");
+            d3.select(".usage-meter").attr("class", "usage-meter clearfix overage");
         }
         d3.select(".used").style("width", usedPct + '%');
         d3.select(".estimated").style("width", estimatedPct + '%');
@@ -160,8 +138,8 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         }
         d3.select(".current-data").style("width", currentPct + '%');
         d3.select(".breakdown")
-            .style("bottom", Math.round(255 + $scope.data.deviceUsageStats.length * 28) + 'px')
-            .style("margin-bottom", '-' + Math.round(255 + $scope.data.deviceUsageStats.length * 28) + 'px');
+            .style("bottom", Math.round(255 + $scope.data.deviceUsage.length * 28) + 'px')
+            .style("margin-bottom", '-' + Math.round(255 + $scope.data.deviceUsage.length * 28) + 'px');
         $('.used').on('mouseenter', function () {
             $(this).parent().find('.breakdown').show();
         });

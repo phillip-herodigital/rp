@@ -669,6 +669,8 @@
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
     <Compile Include="Models\Account\GetAutoPayStatusRequest.cs" />
     <Compile Include="Models\Account\GetAutoPayStatusResponse.cs" />
+    <Compile Include="Models\Account\GetMobileUsageResponse.cs" />
+    <Compile Include="Models\Account\GetMobileUsageRequest.cs" />
     <Compile Include="Models\Account\GetEnergyUsageRequest.cs" />
     <Compile Include="Models\Account\GetEnergyUsageResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
@@ -707,6 +709,7 @@
     <Compile Include="Models\Account\UpdateNotificationSettingsResponse.cs" />
     <Compile Include="Models\Account\UpdateOnlineAccountRequest.cs" />
     <Compile Include="Models\Account\UpdateOnlineAccountResponse.cs" />
+    <Compile Include="Models\Account\MobileUsage.cs" />
     <Compile Include="Models\Account\UtilityUsage.cs" />
     <Compile Include="Models\Angular\GridTable\Column.cs" />
     <Compile Include="Models\Angular\GridTable\ColumnSchemaAttribute.cs" />
