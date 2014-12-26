@@ -441,8 +441,9 @@ article {
 }
 
 .service-links {
-    background-color: #f7f8f9;
     @include box-shadow(0px 0px 30px 0px rgba(0, 0, 0, .2));
+    padding: 20px 0;
+    background-color: #f7f8f9;
     position: relative;
     z-index: 100;
 
@@ -465,15 +466,20 @@ article {
 
         .inner {
             background: right center no-repeat;
-            padding-right: 120px;
+            padding: 0 70px 0 20px;
             margin-right: 30px;
         }
 
 
         h2 {
+            margin: 0 0 5px 0;
             font-size: 24px;
             color: black;
             letter-spacing: 0;
+        }
+
+        p {
+            margin-top: 0;
         }
 
 
@@ -612,6 +618,7 @@ article {
 .mobile-pricing-plans {
 
     ol.points {
+        @include layout-list();
         margin-bottom: 50px;
 
         li {
