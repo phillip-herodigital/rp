@@ -20,6 +20,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
     $scope.mobileEnrollmentService = mobileEnrollmentService;
+    $scope.getCartDevices = enrollmentCartService.getCartDevices;
 
     /**
     * Show Bill Account Example Modal

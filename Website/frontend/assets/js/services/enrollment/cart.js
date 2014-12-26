@@ -2,7 +2,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
     var services = [],
         cart = {
             activeServiceIndex: -1,
-            isCartOpen: false
+            isCartOpen: false,
+            items: [],
+            dataPlan: null
         },
         maxResidentialItems = 3,
         maxCommercialItems = 70;
@@ -94,6 +96,77 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return result;
         },
 
+        getCartDevices: function() {
+            return cart.items;
+        },
+
+        getCartDataPlan: function() {
+            return cart.dataPlan;
+        },
+
+        addDeviceToCart: function(item) {
+            console.log(item);
+            cart.items.push(item);
+        },
+
+        addDataPlanToCart: function(planId) {
+            var plan = _.where(service.getDataPlans(service.selectedNetwork.value).plans, { id: planId })[0];
+            console.log(plan);
+            cart.dataPlan = plan;
+        },
+
+        getProratedCost: function() {
+            var plan = cart.dataPlan;
+            // a and b are javascript Date objects
+            var dateDiffInDays = function(a, b) {
+                var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+                // Discard the time and time-zone information.
+                var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+                var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+                
+                return Math.floor((utc1 - utc2) / _MS_PER_DAY);
+            };
+            var billingCycleEnds = 24;
+            var today = new Date();
+            var monthOffset = (today.getDate() <= billingCycleEnds) ? 1 : 0;
+            var startBillingDate = new Date();
+            startBillingDate.setDate(billingCycleEnds);
+            startBillingDate.setMonth(startBillingDate.getMonth() - monthOffset);
+
+            var daysInBillingCycle = new Date(startBillingDate.getFullYear(), startBillingDate.getMonth() + 1, 0).getDate(); // setting the day to 0 gets the previous month, so we're adding +1 to the billing month.
+            var daysIntoBillingCycle = dateDiffInDays(today, startBillingDate) - 1;
+            var multiplier = (daysInBillingCycle - daysIntoBillingCycle) / daysInBillingCycle;
+
+            return (parseFloat(plan.price, 10) + service.getTotalFees()) * multiplier;
+
+        },
+
+        getTotalFees: function() {
+            var plan = cart.dataPlan;
+            return parseFloat(plan.fees.salesUseTax, 10) + parseFloat(plan.fees.federalAccessCharge, 10) + parseFloat(plan.fees.streamLineCharge, 10);
+        },
+
+        getTotalDueToday: function() {
+            var total = 0;
+            for (var i=0; i<cart.items.length; i++) {
+                total += (typeof cart.items[i].price != 'undefined') ? parseFloat(cart.items[i].price, 10) : 0;
+                total += (typeof cart.items[i].activationFee != 'undefined') ? parseFloat(cart.items[i].activationFee, 10) : 0;
+                total += (typeof cart.items[i].salesTax != 'undefined') ? parseFloat(cart.items[i].salesTax, 10) : 0;
+            }
+
+            return total + getProratedCost();
+        },
+
+        getEstimatedMonthlyTotal: function() {
+            var plan = cart.dataPlan;
+            var total = parseFloat(plan.price, 10) + getTotalFees();
+            for (var i=0; i<cart.items.length; i++) {
+                total += (typeof cart.items[i].warranty != 'undefined' && cart.items[i].warranty == 'accept') ? 9.99 : 0;
+                total += (typeof cart.items[i].buyingOption != 'undefined' && cart.items[i].buyingOption != 'New') ? parseFloat(cart.items[i].price, 10) : 0;
+            }
+            return total;
+        },
+
         /**
 		 * Set the plan for the current service based on the offer type
 		 * @param  {[type]} plan
@@ -136,10 +209,15 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         getCartCount: function () {
 
             //Get the count for all utility products
-            return _(services)
+            var utility = _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
                 .size();
+
+            //Get the count for all mobile products
+            var mobile = cart.items.length;
+
+            return utility + mobile;
         },
 
         /**

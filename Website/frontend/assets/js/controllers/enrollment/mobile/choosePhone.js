@@ -38,6 +38,7 @@
         $scope.selectedPhone = item;
         $scope.phoneOptions.color = mobileEnrollmentService.getPhoneColors(id)[0].color;
         $scope.phoneOptions.size = mobileEnrollmentService.getPhoneSizes(id)[0].size;
+        enrollmentStepsService.scrollToStep('phoneFlowDevices');
     };
 
     $scope.phoneOptionsValid = function() {
@@ -102,7 +103,10 @@
             };
         }
 
-        //mobileEnrollmentService.addItemToCart(item);
+        enrollmentCartService.addDeviceToCart(item);
+        $scope.mobileEnrollment.phoneTypeTab = phoneType; 
+        $scope.clearPhoneSelection();
+        enrollmentStepsService.scrollToStep('phoneFlowDevices');
         //$scope.setCurrentStep('configure-data');
     };
 

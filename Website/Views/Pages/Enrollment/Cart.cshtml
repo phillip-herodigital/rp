@@ -31,9 +31,7 @@
                         <div class="plan-type">
                             {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
                         </div>
-                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                            <div ng-include src="'cart/' + offerInformation.key"></div>
-                        </div>
+                        <div ng-include src="'cart/Mobile'"></div>
                     </div>
                 </div>
                 @*<div class="buttons">
@@ -129,27 +127,26 @@
 </script>
 
 <script type="text/ng-template" id="cart/Mobile">
-    <div class="cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
-            <i class="icon-delete"></i>
-        </div>
-        <div class="description">
-            <i class="icon-gas-icon"></i>
-            <div class="plan-text">
-                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
-                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+    <div class="cart-product clearfix" ng-repeat="item in getCartDevices()">
+        <div>
+            <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
+            <div class="condition" ng-if="item.buyingOption == 'Lease24'">@Html.Sitecore().Field("24-Month Lease")</div>
+            <div class="condition" ng-if="item.type == 'existing'">@Html.Sitecore().Field("Bring Your Own Device")</div>
+            <div class="description">
+                {{ item.make.make }} {{ item.model.modelName }}
+                <div class="options" ng-if="item.type == 'new'"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
+                <div class="options" ng-if="item.type == 'existing'">@Html.Sitecore().Field("SIM") {{ item.simNumber }}</div>
+                <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
             </div>
         </div>
-        <div class="rate">
-            {{selectedOffer.offer.rate}}&cent;
-            <span>@Html.Sitecore().Field("Per Therm")</span>
+        <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption == 'Lease24'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>
+        <div class="rate device-price" ng-if="item.type == 'existing'">$0.00</div>
+        
+        <div ng-if="item.warranty == 'accept'" class="warranty">
+            <div class="description">@Html.Sitecore().Field("Phone Warranty")</div>
+            <div class="rate">@Html.Sitecore().Field("Warranty Cost")/@Html.Sitecore().Field("Month Abbreviation")</div>
         </div>
-        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
-            @Html.Sitecore().Field("Connection Fee")
-        </div>
-        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
-            {{selectedOffer.offerOption.connectionFee | currency}}
-        </div>
+
     </div>
 </script>
 

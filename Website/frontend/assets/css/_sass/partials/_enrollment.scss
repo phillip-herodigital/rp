@@ -1301,7 +1301,7 @@
     .cart-product {
         margin: 10px 0;
         padding-top: 10px;
-        border-top: 2px solid #eaeaea;
+        border-top: 1px solid #eaeaea;
         &:last-child {
             margin-bottom: 0;
         }
@@ -1337,8 +1337,9 @@
     .description {
         position: relative;
         float: left;
-        width: 60%;
-        font-size: 15px;
+        width: 70%;
+        font-size: 14px;
+        font-weight: 400;
         .icon-electricity, .icon-gas-icon {
             position: absolute;
             top: 4px;
@@ -1349,6 +1350,27 @@
         }
         a {
             font-size: 13px;
+        }
+        .options {
+            clear: both;
+            font-size: 13px;
+            color: #666;
+        }
+    }
+    .condition {
+        color: #949494;
+        font-size: 10px;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+    .rate {
+        text-align: right;
+        float: right;
+        font-size: 14px;
+        font-weight: 600;
+        span {
+            display: inline;
+            font-style: normal;
         }
     }
     .fees {
@@ -2591,9 +2613,13 @@
             &:last-child {
                 padding-left: 20px;
             }
-            a {
-                font-weight: 600;
+            button {
+                background: none;
+                @include box-shadow(none);
+                padding: 0 !important;
+                color: $link-primary-color;
                 font-size: 15px;
+                font-weight: 600;
             }
         }
         .new-line-image {
