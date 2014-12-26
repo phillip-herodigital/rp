@@ -3056,6 +3056,7 @@
     <Content Include="Views\Pages\Marketing\Services\Mobile.cshtml" />
     <Content Include="Views\Components\Marketing\Quote.cshtml" />
     <Content Include="Views\Components\Account\Utility Services\Your Utility Plan.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Mobile FAQs.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
