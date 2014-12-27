@@ -60,34 +60,39 @@
                 }
                 @if (!Sitecore.Context.IsLoggedIn)
                 {
-                    <li><a href="/pay/">Pay my Bill</a></li>
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     <li><a href="/manage/">Manage My Account</a></li>
+                    <li><a href="/pay/">Pay my Bill</a></li>
                 }
                 else
                 {
+                    <li><a href="/account">My Account</a></li>
+                    <li><a href="/account/profile">My Profile</a></li>
                     <li><a href="/api/authentication/logout">Logout</a></li>
-                    <li><a href="/faq">Help</a></li>
-                    <li><a href="/contact">Contact Us</a></li>
                 }
             </ul>
         </nav>
     </script>
     <div class="wrapper">
-        <a href="/" class="logo">Stream - Connected Home</a>
+        <a href="/" class="logo">Stream</a>
         <div class="utility">
             @if (Sitecore.Context.IsLoggedIn)
             {
                 <text>Welcome,</text>
                 @Sitecore.Context.User.LocalName
-                <a href="/account">My Account</a>
-                <a href="/account/profile">My Profile</a>
-                <a href="/api/authentication/logout">Logout</a>
+                <ul>
+                    <li><a href="/account">My Account</a></li>
+                    <li><a href="/account/profile">My Profile</a></li>
+                    <li><a href="/api/authentication/logout">Logout</a></li>
+                </ul>
             }
             else
             {
-                <a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a>
-                <span style="letter-spacing: 0.026em;"><a href="/manage/">My Account</a> <a href="/pay/">Pay My Bill</a></span>
+                <ul>
+                    <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                    <li><a href="/manage/">My Account</a></li>
+                    <li><a href="/pay/">Pay My Bill</a></li>
+                </ul>
             }
         </div>
         <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
@@ -100,27 +105,24 @@
             </ul>
         </nav>
     </div>
-    @if (selectedNodeLevel > 0)
-    {
-        <nav class="sub-nav">
-            @foreach (var node in topLevelNavigation)
-            {
-                <div class="wrapper" sub-nav="@node.Number" ng-cloak ng-class="{ hidden: subnav != @node.Number }" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()">
-                    <ul ng-style="{'margin-left': marginLeft}">
-                        @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
-                        {
-                            var selected = selectedNode != null && (childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode));
-                            <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
-                        }
-                        @if (!node.Value.HasChildNodes)
-                        {
-                            <li><a>&nbsp;</a></li>
-                        }
-                    </ul>
-                </div>
-            }
-        </nav>
-    }
+    <nav class="sub-nav">
+        @foreach (var node in topLevelNavigation)
+        {
+            <div class="wrapper" sub-nav="@node.Number" ng-cloak ng-class="{ hidden: subnav != @node.Number }" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()">
+                <ul ng-style="{'margin-left': marginLeft}">
+                    @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
+                    {
+                        var selected = selectedNode != null && (childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode));
+                        <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
+                    }
+                    @if (!node.Value.HasChildNodes)
+                    {
+                        <li><a>&nbsp;</a></li>
+                    }
+                </ul>
+            </div>
+        }
+    </nav>
 </header>
 @if (Sitecore.Context.Item.Fields["Banner Image"] != null && Sitecore.Context.Item.Fields["Banner Image"].HasValue)
 {
@@ -148,7 +150,7 @@
 }
 @if (selectedNodeLevel > 2 || selectedNodeLevel == 2 && selectedNode.HasChildNodes)
 {
-    <nav class="sub-nav">
+    <nav class="tertiary-nav">
         @if (thirdLevelRootNode != null)
         {
             <div class="wrapper">

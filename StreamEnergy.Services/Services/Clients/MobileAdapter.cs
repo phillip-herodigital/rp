@@ -175,13 +175,13 @@ namespace StreamEnergy.Services.Clients
                 PurchaseType = details.PurchaseType,
                 EquipmentId = details.EquipmentId,
                 PlanId = details.Plan.PlanId,
-                PlanPrice = double.Parse(details.Plan.Price),
-                PlanDataAvailable = double.Parse(details.Plan.DataAvailable),
+                PlanPrice = (double)details.Plan.Price,
+                PlanDataAvailable = (double)details.Plan.DataAvailable,
                 PlanName = details.Plan.Name,
                 Carrier = details.Carrier,
-                ActivationDate = DateTime.Parse(details.ActivationDate),
-                LastBillDate = DateTime.Parse(details.LastBillDate),
-                NextBillDate = DateTime.Parse(details.NextBillDate),
+                ActivationDate = (DateTime)details.ActivationDate,
+                LastBillDate = (DateTime)details.LastBillDate,
+                NextBillDate = (DateTime)details.NextBillDate,
             };
         }
 

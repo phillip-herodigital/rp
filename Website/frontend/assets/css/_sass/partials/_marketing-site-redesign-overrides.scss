@@ -1,14 +1,14 @@
 .page-content {
-    background: image-url('marketing/redesign/pattern_bg.png') repeat-y center;
+    //background: image-url('marketing/redesign/pattern_bg.png') repeat-y center;
 
 
 
-    > section.layout.cols-1 {
-        background-color: white;
-        @include box-shadow(-7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 ));
-        margin: 0 auto;
-        max-width: 1280px;
-    }
+    // > section.layout.cols-1 {
+    //     background-color: white;
+    //     @include box-shadow(-7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 ));
+    //     margin: 0 auto;
+    //     max-width: 1280px;
+    // }
 
     > .sub-nav {
         ul {
@@ -41,18 +41,6 @@ a.significant {
     padding: 0;
     margin: 0;
     text-transform: uppercase;
-}
-
-button, a.button {
-    @include background-image(linear-gradient(to bottom, rgb(1,163,221), rgb(0,113,185)));
-    padding: 10px !important;
-    color: white;
-    letter-spacing: 0.026em;
-    font-size: 16px;
-    font-weight: normal;
-    @include border-radius(9px);
-    @include box-shadow(rgba( 85, 53, 91, 0.25) 0px 2.598px 4px 2px);
-    text-transform: none !important;
 }
 
 dl.faq {
@@ -453,8 +441,9 @@ article {
 }
 
 .service-links {
+    @include box-shadow(0px 0px 30px 0px rgba(0, 0, 0, .2));
+    padding: 20px 0;
     background-color: #f7f8f9;
-    @include box-shadow(0px 10px 5px 0px rgba(50, 50, 50, 0.3));
     position: relative;
     z-index: 100;
 
@@ -477,15 +466,20 @@ article {
 
         .inner {
             background: right center no-repeat;
-            padding-right: 120px;
+            padding: 0 70px 0 20px;
             margin-right: 30px;
         }
 
 
         h2 {
+            margin: 0 0 5px 0;
             font-size: 24px;
             color: black;
             letter-spacing: 0;
+        }
+
+        p {
+            margin-top: 0;
         }
 
 
@@ -624,6 +618,7 @@ article {
 .mobile-pricing-plans {
 
     ol.points {
+        @include layout-list();
         margin-bottom: 50px;
 
         li {

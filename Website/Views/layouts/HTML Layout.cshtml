@@ -63,7 +63,7 @@
         <div ng-if="hasMobileNav" ng-include="'mobileNav'" mobile-nav="0"></div>
         <div class="page-content">
             @Html.Sitecore().Placeholder("header")
-            <section class="layout cols-1">
+            <section class="layout @Html.Sitecore().Field("Layout CSS Classes")">
                 @Html.Sitecore().Placeholder("content")
             </section>
             @Html.Sitecore().Placeholder("footer")

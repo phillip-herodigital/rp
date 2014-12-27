@@ -440,7 +440,7 @@ article.leaders {
 	.director-banner {
 		background-color: #ac1f2d;
 		padding: 15px;
-		margin-bottom: 40px;
+		//margin-bottom: 40px;
 		h2 {
 			color: #fff;
 		}
@@ -507,6 +507,11 @@ article.director-list {
 	}
 }
 article.leader {
+	&.marketing {
+		h1 {
+			text-align: left;
+		}
+	}
 	p.img {
 		float: left;
 		margin-right: 2em;
