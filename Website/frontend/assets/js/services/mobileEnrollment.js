@@ -58,12 +58,13 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         dataPlans = data;
     };
 
-    service.getDataPlans = function(network) {
-        if(network) {
-            return _.where(dataPlans, { name: network })[0];
+    service.getDataPlans = function() {
+        if (typeof service.selectedNetwork.name != 'undefined') {
+            return _.where(dataPlans, { name: service.selectedNetwork.value })[0].plans; 
         } else {
-            return dataPlans;
-        }
+            return null;
+        } 
+        return service.dataPlans.plans;
     }
 
     service.getPhones = function() {

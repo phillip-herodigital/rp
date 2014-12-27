@@ -19,6 +19,7 @@
     $scope.chooseNetwork = function(network, phoneType) {
         $scope.mobileEnrollment.phoneTypeTab = phoneType;
         mobileEnrollmentService.selectedNetwork = _.where($scope.mobileEnrollmentService.availableNetworks, { value: network })[0];
+
         enrollmentStepsService.setStep('phoneFlowDevices');
     };
 
@@ -55,8 +56,12 @@
                 }
 
                 // if no plans come back, show the "no plans available" dialog
-                if (enrollmentCartService.cart[0].eligibility != 'success') {
+                var address = enrollmentCartService.getActiveService();
+                if (address.eligibility && address.eligibility != "success") {
                     $scope.showNetworks = false;
+                } 
+                else {
+                    $scope.showNetworks = true;
                 }
             }
             else {
@@ -64,5 +69,5 @@
             }
         })
     };
-    
+
 }]);

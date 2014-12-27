@@ -16,7 +16,7 @@
                 <div class="content">
                     <h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>
                     <div class="btn-group btn-group-options mobile-plans">
-                        <div class="button" ng-model="formFields.chosenPlanId" btn-radio="plan.id" ng-repeat="plan in dataPlans.plans" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
+                        <div class="button" ng-model="formFields.chosenPlanId" btn-radio="plan.id" ng-repeat="plan in mobileEnrollmentService.getDataPlans()" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
                             <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
                             <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
                             <p>

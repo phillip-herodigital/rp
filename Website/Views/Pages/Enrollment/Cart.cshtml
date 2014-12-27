@@ -28,8 +28,29 @@
                     </div>
                     <div class="mobile-plan">
                         <h2>@Html.Sitecore().Field("Mobile Services")</h2>
-                        <div class="plan-type">
+                        <div class="plan-type" ng-if="getCartDataPlan() == null">
                             {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
+                        </div>
+                        <div class="plan-type clearfix" ng-if="getCartDataPlan() != null">
+                            <div class="description" ng-if="getDevicesCount() == 1">
+                                @Html.Sitecore().Field("Individual Plan")
+                                <div class="options">
+                                    {{ getDevicesCount() }} @Html.Sitecore().Field("Line Text") &amp; {{ dataPlan.data }}<span ng-if="dataPlan.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
+                                </div>
+                                <div class="links">
+                                    <a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link")</a> | <a href="" ng-click="addDevice()">@Html.Sitecore().Field("Add Device Link")</a>
+                                </div>
+                            </div>
+                            <div class="description" ng-if="getDevicesCount() > 1">
+                                @Html.Sitecore().Field("Group Plan")
+                                <div class="options">
+                                    {{ getDevicesCount() }} @Html.Sitecore().Field("Lines Text") &amp; {{ dataPlan.data }}<span ng-if="dataPlan.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
+                                </div>
+                                <div class="links">
+                                    <a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link")</a> | <a href="" ng-click="addDevice()">@Html.Sitecore().Field("Add Device Link")</a>
+                                </div>
+                            </div>
+                            <div class="rate">{{ dataPlan.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
                         </div>
                         <div ng-include src="'cart/Mobile'"></div>
                     </div>

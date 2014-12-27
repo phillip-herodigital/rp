@@ -100,6 +100,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return cart.items;
         },
 
+        getDevicesCount: function() {
+            return cart.items.length;
+        },
+
         getCartDataPlan: function() {
             return cart.dataPlan;
         },
@@ -109,8 +113,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             cart.items.push(item);
         },
 
-        addDataPlanToCart: function(planId) {
-            var plan = _.where(service.getDataPlans(service.selectedNetwork.value).plans, { id: planId })[0];
+        addDataPlanToCart: function(plan) {
             console.log(plan);
             cart.dataPlan = plan;
         },

@@ -104,10 +104,11 @@
         }
 
         enrollmentCartService.addDeviceToCart(item);
-        $scope.mobileEnrollment.phoneTypeTab = phoneType; 
-        $scope.clearPhoneSelection();
-        enrollmentStepsService.scrollToStep('phoneFlowDevices');
-        //$scope.setCurrentStep('configure-data');
+        if (phoneType) {
+            $scope.mobileEnrollment.phoneTypeTab = phoneType; 
+            $scope.clearPhoneSelection();
+            enrollmentStepsService.scrollToStep('phoneFlowDevices');
+        }
     };
 
     /**
@@ -166,6 +167,7 @@
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {  
+        $scope.addDeviceToCart();
         enrollmentStepsService.setStep('phoneFlowPlans');
     };
 
