@@ -159,12 +159,12 @@
                                                         <span class="purchase-price">{{ model.lease20 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                     </a>
                                                     *@
-                                                    <a href="" class="button btn-group-arrow" ng-model="phoneOptions.purchaseOption" btn-radio="'Lease24'" ng-click="isOpen = true">
-                                                        <span class="purchase-type">@Html.Sitecore().Field("24 Month Lease")</span>
-                                                        <span class="purchase-price">{{ model.lease24 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
+                                                    <a href="" class="button btn-group-arrow" ng-click="$parent.isOpen = true" ng-repeat="plan in model.installmentPlans | filter: { creditGroup: 'A' }" ng-model="phoneOptions.purchaseOption" btn-radio="{{ plan.sku }}">
+                                                        <span class="purchase-type">{{ plan.months }}@Html.Sitecore().Field("Month Installment")</span>
+                                                        <span class="purchase-price">{{ plan.price | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                     </a>
                                                     <span class="lease-box button" slide-down-show="isOpen">
-                                                        @Html.Sitecore().Field("24 Month Lease Text")
+                                                        @Html.Sitecore().Field("Month Installment Text")
                                                     </span>
                                                 </div>
                                             </div>
