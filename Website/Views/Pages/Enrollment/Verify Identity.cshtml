@@ -8,54 +8,56 @@
             </h1>
         </div>
     </div>
-    <div class="wrapper layout cols-2 enrollment__verify-identity">
-        <aside class="enrollment__nav">
-            <div ng-include ng-if="true" src="'enrollment-nav-template'" ng-init="name = 'verifyIdentity'"></div>
-        </aside>
-        <section>
-            <form data-val-bind-messages="validations" ng-submit="completeStep()">
-                <article class="enrollment__box form">
-                    <header>
-                        <h1>@Html.Sitecore().Field("Verify Header")</h1>
-                    </header>
-                    <div class="content">
-                        <!--<p>@Html.Sitecore().Field("Verify Paragraph")</p>-->
-                        <p>@Html.Sitecore().Field("Skip This Step")</p>
-                        <div class="form">
-                            @using (var idQuestion = Html.ClientRepeater(m => m.SelectedIdentityAnswers, "{{$index}}"))
-                            {
-                                <div class="item" ng-repeat="question in getIdentityQuestions()" @idQuestion.Validation().ErrorClass(m => m.Value)>
-                                    <label>{{question.questionText}}</label>
-                                    <ul class="checkbox-list">
-                                        @using (var idAnswer = Html.ClientRepeater(m => m.SelectedIdentityAnswers, "{{$parent.$index}}"))
-                                        {
-                                            <li ng-repeat="answers in question.answers">
-                                                <input type="radio" data-val="true" data-val-required="@Html.Sitecore().Field("Selected Identity Answers Required")" id="@(idAnswer.Fix(h => h.IdFor(e => e.Value)))[{{$index}}]" name="@(idAnswer.NameFor(e => e.Value))" ng-model="selectedIdentityAnswers[question.questionId]" ng-value="answers.answerId">
-                                                <label for="@(idAnswer.Fix(h => h.IdFor(e => e.Value)))[{{$index}}]" class="security-answer">{{answers.answerText}}</label>
-                                            </li>
-                                        }
-                                    </ul>
-                                    @idQuestion.ValidationMessageFor(e => e.Value)
-                                </div>
-                            }
+    <section class="layout">
+        <div class="wrapper cols-2 enrollment__verify-identity">
+            <aside class="enrollment__nav">
+                <div ng-include ng-if="true" src="'enrollment-nav-template'" ng-init="name = 'verifyIdentity'"></div>
+            </aside>
+            <section>
+                <form data-val-bind-messages="validations" ng-submit="completeStep()">
+                    <article class="enrollment__box form">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Verify Header")</h1>
+                        </header>
+                        <div class="content">
+                            <!--<p>@Html.Sitecore().Field("Verify Paragraph")</p>-->
+                            <p>@Html.Sitecore().Field("Skip This Step")</p>
+                            <div class="form">
+                                @using (var idQuestion = Html.ClientRepeater(m => m.SelectedIdentityAnswers, "{{$index}}"))
+                                {
+                                    <div class="item" ng-repeat="question in getIdentityQuestions()" @idQuestion.Validation().ErrorClass(m => m.Value)>
+                                        <label>{{question.questionText}}</label>
+                                        <ul class="checkbox-list">
+                                            @using (var idAnswer = Html.ClientRepeater(m => m.SelectedIdentityAnswers, "{{$parent.$index}}"))
+                                            {
+                                                <li ng-repeat="answers in question.answers">
+                                                    <input type="radio" data-val="true" data-val-required="@Html.Sitecore().Field("Selected Identity Answers Required")" id="@(idAnswer.Fix(h => h.IdFor(e => e.Value)))[{{$index}}]" name="@(idAnswer.NameFor(e => e.Value))" ng-model="selectedIdentityAnswers[question.questionId]" ng-value="answers.answerId">
+                                                    <label for="@(idAnswer.Fix(h => h.IdFor(e => e.Value)))[{{$index}}]" class="security-answer">{{answers.answerText}}</label>
+                                                </li>
+                                            }
+                                        </ul>
+                                        @idQuestion.ValidationMessageFor(e => e.Value)
+                                    </div>
+                                }
+                            </div>
                         </div>
+                    </article>
+                    <div class="buttons">
+                        <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                        <button type="submit" class="tertiary" ng-click="resetEnrollment();">
+                            <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
+                            <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>
+                        </button>
                     </div>
-                </article>
-                <div class="buttons">
-                    <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Button")</button>
-                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">
-                        <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
-                        <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>
-                    </button>
-                </div>
-                <div class="hide-medium-large time-remaining-mobile">
-                    <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
-                    <p><a href="">@Html.Sitecore().Field("Info Needed")</a></p>
-                </div>
-            </form>
-        </section>
-        <aside>
-            <div ng-include ng-if="true" src="'cart-template'"></div>
-        </aside>
-    </div>
+                    <div class="hide-medium-large time-remaining-mobile">
+                        <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
+                        <p><a href="">@Html.Sitecore().Field("Info Needed")</a></p>
+                    </div>
+                </form>
+            </section>
+            <aside>
+                <div ng-include ng-if="true" src="'cart-template'"></div>
+            </aside>
+        </div>
+    </section>
 </div>

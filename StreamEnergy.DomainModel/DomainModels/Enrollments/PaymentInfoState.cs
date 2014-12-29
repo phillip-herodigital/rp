@@ -45,10 +45,6 @@ namespace StreamEnergy.DomainModels.Enrollments
             {
                 internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveUpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context, internalContext.EnrollmentDpiParameters, internalContext.Deposit);
             }
-            if (CalculateDeposit(context, internalContext) != 0)
-            {
-                internalContext.PaymentResult = await enrollmentService.PayDeposit(internalContext.Deposit, internalContext.EnrollmentSaveState.Data.Results, context.PaymentInfo, context);
-            }
             return await base.InternalProcess(context, internalContext);
         }
 

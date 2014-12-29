@@ -29,5 +29,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                        select entry.cleansed.Except(new[] { entry.original }).ToArray()).ToArray();
             return results;
         }
+
+        [HttpGet]
+        [Route("lookupZip/{postalCode5}")]
+        public async Task<String[]> LookupZip(string postalCode5)
+        {
+            return await service.LookupZip(postalCode5);
+        }
+
     }
 }

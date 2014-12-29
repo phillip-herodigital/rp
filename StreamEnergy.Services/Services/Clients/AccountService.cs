@@ -425,7 +425,7 @@ namespace StreamEnergy.Services.Clients
             return true;
         }
 
-        async Task<Account> IAccountService.GetAccountDetails(string accountNumber, string last4 = "")
+        async Task<Account> IAccountService.GetAccountDetails(string accountNumber, string last4)
         {
             if (cis2AureaAccountMapping.ContainsKey(accountNumber))
             {
@@ -488,7 +488,7 @@ namespace StreamEnergy.Services.Clients
                 Balance = (decimal)data.Account.AccountBillingDetails.BalanceDue.Value,
                 DueDate = (DateTime)data.Account.AccountBillingDetails.BalanceDueDate.Value,
             };
-            account.SubAccounts = (from premise in (IEnumerable<dynamic>)data.Account.AccountDetails.Premises
+            account.SubAccounts = (from premise in (IEnumerable<dynamic>)(data.Account.AccountDetails.Premises ?? data.Account.AccountDetails.Devices)
                                    select (ISubAccount)CreateSubAccount(premise)).ToArray();
             
             var methodId = data.Account.AccountBillingDetails.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.Account.AccountBillingDetails.AutoPayGlobalPaymentMethodId.ToString());
@@ -519,14 +519,14 @@ namespace StreamEnergy.Services.Clients
 
         private ISubAccount CreateSubAccount(dynamic details)
         {
-            var serviceAddress = new DomainModels.Address
+            var serviceAddress = details.ServiceAddress != null ? new DomainModels.Address
                             {
                                 Line1 = details.ServiceAddress.StreetLine1,
                                 Line2 = details.ServiceAddress.StreetLine2,
                                 City = details.ServiceAddress.City,
                                 PostalCode5 = details.ServiceAddress.Zip,
                                 StateAbbreviation = details.ServiceAddress.State,
-                            };
+                            } : new DomainModels.Address();
 
             var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(serviceAddress, (string)details.ProductType));
 

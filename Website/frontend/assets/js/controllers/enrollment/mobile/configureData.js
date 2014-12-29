@@ -1,29 +1,22 @@
-﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
-
-    // start over on refresh
-    $scope.$watch('dataPlans', function(newValue, oldValue) {
-        if (newValue == null) {
-            $scope.resetEnrollment();
-        }
-    });
-
-    $scope.dataPlans = $scope.mobileEnrollmentService.getDataPlans($scope.mobileEnrollmentService.selectedNetwork.value);
-
-    console.log($scope.dataPlans);
+    $scope.dataPlan = {};
+    //$scope.getDataPlans = $scope.mobileEnrollmentService.getDataPlans($scope.mobileEnrollmentService.selectedNetwork.value);
 
     $scope.formFields = {
         chosenPlanId: undefined
     };
 
-    if($scope.mobileEnrollmentService.cart.dataPlan) {
-        $scope.formFields.chosenPlanId = $scope.mobileEnrollmentService.cart.dataPlan.id;
-    }
+    //if(enrollmentCartService.cart.dataPlan) {
+    //    $scope.formFields.chosenPlanId = $scope.mobileEnrollmentService.cart.dataPlan.id;
+    //}
 
     $scope.$watch('formFields.chosenPlanId', function(newValue, oldValue) {
         if (newValue !== oldValue) {
-            $scope.mobileEnrollmentService.addDataPlanToCart(newValue);
+            var plan = _.where(mobileEnrollmentService.getDataPlans(), { id: newValue })[0];
+            $scope.dataPlan = plan;
+            enrollmentCartService.addDataPlanToCart(plan);
         }
     });
 

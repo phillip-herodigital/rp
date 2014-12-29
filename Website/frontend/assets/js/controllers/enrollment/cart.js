@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the cart on enrollment page.
  */
-ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService, $modal) {
+ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentStepsService, enrollmentService, mobileEnrollmentService, enrollmentCartService, $modal) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.accountInformationService = accountInformationService;*/
@@ -17,6 +17,12 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.cartHasTDU = enrollmentCartService.cartHasTDU;
     $scope.locationHasService = enrollmentCartService.locationHasService;
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
+    $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
+    $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
+    $scope.mobileEnrollmentService = mobileEnrollmentService;
+    $scope.getCartDevices = enrollmentCartService.getCartDevices;
+    $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
+    $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
 
     /**
     * Show Bill Account Example Modal

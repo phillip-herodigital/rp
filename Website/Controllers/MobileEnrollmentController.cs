@@ -43,8 +43,6 @@ namespace StreamEnergy.MyStream.Controllers
                     Network = obj.Fields["Network"].Value.ToLower(),
                     Condition = obj.Fields["Condition"].Value,
                     Price = obj.Fields["Price New"].Value,
-                    Lease20 = obj.Fields["20 Mo Lease Price"].Value,
-                    Lease24 = obj.Fields["24 Mo Lease Price"].Value,
                     Sku = obj.Fields["SKU"].Value
                 })
             });
@@ -113,6 +111,7 @@ namespace StreamEnergy.MyStream.Controllers
                         federalAccessCharge = plans.Fields["Federal Access Charge"].Value,
                         streamLineCharge = plans.Fields["Stream Line Charge"].Value
                     },
+                    DataDescription = plans.Fields["Data Description"].Value,
                     Recommended = plans.Fields["Recommended"].Value,
                     HoursMusic = plans.Fields["Hours Music"].Value,
                     HoursMovies = plans.Fields["Hours Movies"].Value,
@@ -171,7 +170,10 @@ namespace StreamEnergy.MyStream.Controllers
                 Description = child.Fields["Network Description"].Value,
                 Coverage = child.Fields["Network Coverage"].Value,
                 Device = child.Fields["Network Devices"].Value,
-                StartingPrice = child.Fields["Starting Price"].Value
+                StartingPrice = child.Fields["Starting Price"].Value,
+                Header = child.Fields["Network Header"].Value,
+                IndividualPlans = child.Fields["Individual Plans"].Value,
+                GroupPlans = child.Fields["Group Plans"].Value
             });
 
             return View("~/Views/Components/Mobile Enrollment/Choose Network.cshtml", new ChooseNetwork

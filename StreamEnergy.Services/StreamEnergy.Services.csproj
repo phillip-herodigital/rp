@@ -182,17 +182,21 @@
     <Compile Include="Services\Clients\AccountService.cs" />
     <Compile Include="Services\Clients\AsyncSendingManager.cs" />
     <Compile Include="Services\Clients\EmailContact.cs" />
+    <Compile Include="Services\Clients\EnrollmentAccountDetails.cs" />
     <Compile Include="Services\Clients\GeorgiaAdapter.cs" />
     <Compile Include="Services\Clients\HttpMessageLogger.cs" />
     <Compile Include="Services\Clients\ILocationAdapter.cs" />
     <Compile Include="Services\Clients\ISitecoreProductData.cs" />
+    <Compile Include="Services\Clients\MobileAdapter.cs" />
     <Compile Include="Services\Clients\PaymentService.cs" />
     <Compile Include="Services\Clients\SitecoreProductData.cs" />
     <Compile Include="Services\Clients\SitecoreProductInfo.cs" />
     <Compile Include="Services\Clients\SmartyStreets\ISmartyStreetService.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\SmartyCityState.cs" />
     <Compile Include="Services\Clients\SmartyStreets\SmartyResponse.cs" />
     <Compile Include="Services\Clients\SmartyStreets\SmartyStreetAddress.cs" />
     <Compile Include="Services\Clients\SmartyStreets\SmartyStreetService.cs" />
+    <Compile Include="Services\Clients\SmartyStreets\SmartyZipResponse.cs" />
     <Compile Include="Services\Clients\SmartyStreets\UncleansedAddress.cs" />
     <Compile Include="Services\Clients\SmartyStreets\UnderscoreMappingResolver.cs" />
     <Compile Include="Services\Clients\StreamConnectUtilities.cs" />
@@ -215,7 +219,6 @@
     <Compile Include="Services\Clients\Interceptors\ServiceInterceptorResolver.cs" />
     <Compile Include="Services\Clients\StreamConnectContainerSetup.cs" />
     <Compile Include="Services\Clients\StreamConnect\Answer.cs" />
-    <Compile Include="Services\Clients\StreamConnect\CreateOrUpdateEnrollmentResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Customer.cs" />
     <Compile Include="Services\Clients\StreamConnect\CustomerResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Fee.cs" />
@@ -223,7 +226,6 @@
     <Compile Include="Services\Clients\StreamConnect\IdVerificationChallengeResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\IdVerificationQuestion.cs" />
     <Compile Include="Services\Clients\StreamConnect\MoveInDate.cs" />
-    <Compile Include="Services\Clients\StreamConnect\Product.cs" />
     <Compile Include="Services\Clients\StreamConnect\ProductResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Rate.cs" />
     <Compile Include="Services\Clients\StreamConnect\VerifyPremiseResponse.cs" />

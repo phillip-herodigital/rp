@@ -38,7 +38,7 @@ namespace Cis2AureaAccountImport
             throw new NotImplementedException();
         }
 
-        public string GetSystemOfRecord(IEnumerable<StreamEnergy.DomainModels.IServiceCapability> capabilities)
+        public string GetSystemOfRecord()
         {
             throw new NotImplementedException();
         }
@@ -68,11 +68,6 @@ namespace Cis2AureaAccountImport
             throw new NotImplementedException();
         }
 
-        public dynamic ToEnrollmentAccount(Guid globalCustomerId, StreamEnergy.DomainModels.Enrollments.UserContext context, StreamEnergy.DomainModels.Enrollments.LocationServices service, StreamEnergy.DomainModels.Enrollments.SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId = null, object depositObject = null)
-        {
-            throw new NotImplementedException();
-        }
-
         public StreamEnergy.DomainModels.Accounts.ISubAccount BuildSubAccount(StreamEnergy.DomainModels.Address serviceAddress, dynamic details)
         {
             return new FakeSubAccount();
@@ -88,7 +83,29 @@ namespace Cis2AureaAccountImport
             throw new NotImplementedException();
         }
 
-        StreamEnergy.DomainModels.IServiceCapability ILocationAdapter.GetRenewalServiceCapability(StreamEnergy.DomainModels.Accounts.Account account, StreamEnergy.DomainModels.Accounts.ISubAccount subAccount)
+        public object GetProductRequest(StreamEnergy.DomainModels.Enrollments.Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public dynamic ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
+        {
+            throw new NotImplementedException();
+        }
+
+        public StreamEnergy.DomainModels.Enrollments.OfferPayment GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, StreamEnergy.DomainModels.Enrollments.IOfferOptionRules optionRules, StreamEnergy.DomainModels.Enrollments.IOfferOption option)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public StreamEnergy.DomainModels.IServiceCapability GetRenewalServiceCapability(StreamEnergy.DomainModels.Accounts.Account account, StreamEnergy.DomainModels.Accounts.ISubAccount subAccount)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool HasSpecialCommercialEnrollment(IEnumerable<StreamEnergy.DomainModels.IServiceCapability> capabilities)
         {
             throw new NotImplementedException();
         }

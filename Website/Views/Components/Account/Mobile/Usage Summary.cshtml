@@ -5,10 +5,10 @@
     <div class="content">
         <div>
             <form>
-                <div class="group">
+                <div>
                     <div class="item current-usage">
                         <p>@Html.Sitecore().Field("Current Usage Text")</p>
-                        <div class="usage-meter">
+                        <div class="usage-meter clearfix">
                             <span class="graph used">
                                 <span class="picket"></span>
                                 <span class="label">Usage: {{ deviceTotal.data.usage  / 1000000000 | number : 2}} GB of {{ deviceTotal.data.limit / 1000000000 | number : 2 }} GB</span>
@@ -44,7 +44,7 @@
                                         <tr><td colspan="2">Usage Breakdown</td></tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="device in deviceUsageStats">
+                                        <tr ng-repeat="device in data.deviceUsageStats">
 
                                             <td class="device-name">{{ device.name | limitTo : 24 }}</td>
                                             <td class="device-number">{{ device.data.usage / 1000000000 | number : 2 }} GB</td>
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="item historical-usage">
+                    @*<div class="item historical-usage">
                         <p>@Html.Sitecore().Field("Historical Usage Text")</p>
                         <div>
                             <div class="historical-graph"></div>
@@ -64,12 +64,12 @@
                             </div>
                         </div>
                         <div class="view-details">@Html.Sitecore().Field("Historical Usage Link")</div>
-                    </div>
+                    </div>*@
                 </div>
             </form>
         </div>
     </div>
     <footer>
-        <p>@Html.Sitecore().Field("Footer Text")</p>
+        @Html.Sitecore().Field("Footer Text")
     </footer>
 </article>

@@ -13,5 +13,8 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public string Coverage { get; set; }
         public string Device { get; set; }
         public string StartingPrice { get; set; }
+        public string Header { get; set; }
+        public string IndividualPlans { get; set; }
+        public string GroupPlans { get; set; }
     }
 }

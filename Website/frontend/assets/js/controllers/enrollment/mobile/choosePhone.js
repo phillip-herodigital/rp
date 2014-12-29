@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
 
@@ -21,15 +21,6 @@
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
     $scope.displayFilters = false; // Display the extra phone filters
 
-    // start over on refresh
-    /*
-    $scope.$watch('mobileEnrollment.phoneTypeTab', function(newValue, oldValue) {
-        if (newValue !== 'existing') {
-            $scope.resetEnrollment();
-        }
-    });
-*/
-
     $scope.setPhoneNumberType = function(type) {
         $scope.phoneNumberType = type;
     };
@@ -47,6 +38,7 @@
         $scope.selectedPhone = item;
         $scope.phoneOptions.color = mobileEnrollmentService.getPhoneColors(id)[0].color;
         $scope.phoneOptions.size = mobileEnrollmentService.getPhoneSizes(id)[0].size;
+        enrollmentStepsService.scrollToStep('phoneFlowDevices');
     };
 
     $scope.phoneOptionsValid = function() {
@@ -72,7 +64,7 @@
     /**
      * Adds the currently selected phone to the cart
      */
-    $scope.addDeviceToCart = function() {
+    $scope.addDeviceToCart = function(phoneType) {
 
         var item = {},
         device,
@@ -111,8 +103,12 @@
             };
         }
 
-        mobileEnrollmentService.addItemToCart(item);
-        $scope.setCurrentStep('configure-data');
+        enrollmentCartService.addDeviceToCart(item);
+        if (phoneType) {
+            $scope.mobileEnrollment.phoneTypeTab = phoneType; 
+            $scope.clearPhoneSelection();
+            enrollmentStepsService.scrollToStep('phoneFlowDevices');
+        }
     };
 
     /**
@@ -164,6 +160,15 @@
             'scope': $scope,
             'templateUrl': templateUrl
         })
+    };
+
+    /**
+     * Complete the Choose Network Step
+     * @return {[type]} [description]
+     */
+    $scope.completeStep = function () {  
+        $scope.addDeviceToCart();
+        enrollmentStepsService.setStep('phoneFlowPlans');
     };
 
 }]);

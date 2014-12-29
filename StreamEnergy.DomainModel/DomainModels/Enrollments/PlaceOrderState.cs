@@ -76,9 +76,9 @@ namespace StreamEnergy.DomainModels.Enrollments
                     }
                 }
             }
-            else if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            else
             {
-                internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(context.Services, context.AdditionalAuthorizations, internalContext)).ToArray();
+                internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context, internalContext);
 
                 foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                 {
@@ -92,23 +92,14 @@ namespace StreamEnergy.DomainModels.Enrollments
                     }
                 }
             }
-            else
-            {
-                var results = await enrollmentService.PlaceCommercialQuotes(context);
-                internalContext.PlaceOrderResult = (from service in context.Services
-                                                    select new Service.LocationOfferDetails<Service.PlaceOrderResult>()
-                                                    {
-                                                        Location = service.Location,
-                                                        Details = results,
-                                                        Offer = service.SelectedOffers.First().Offer,
-                                                    }).ToArray();
-            }
             
             if (context.OnlineAccount != null)
             {
                 await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.Address);
             }
 
+            if (internalContext.PlaceOrderAsyncResult != null)
+                return typeof(AsyncPlaceOrderState);
             return await base.InternalProcess(context, internalContext);
         }
 

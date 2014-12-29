@@ -17,7 +17,7 @@ namespace StreamEnergy.Services.Clients
         bool NeedProvider(Location location);
 
         string GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities);
-        string GetSystemOfRecord(IEnumerable<IServiceCapability> capabilities);
+        string GetSystemOfRecord();
         string GetCommodityType();
         Newtonsoft.Json.Linq.JObject GetProvider(IOffer offer);
         string GetProvider(DomainModels.Accounts.ISubAccount subAccount);
@@ -26,7 +26,7 @@ namespace StreamEnergy.Services.Clients
 
         bool SkipPremiseVerification(Location location);
 
-        dynamic ToEnrollmentAccount(Guid globalCustomerId, UserContext context, LocationServices service, SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId = null, object depositObject = null);
+        dynamic ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account);
 
         DomainModels.Accounts.ISubAccount BuildSubAccount(Address serviceAddress, dynamic details);
 
@@ -37,6 +37,12 @@ namespace StreamEnergy.Services.Clients
 
         string GetUtilityAccountNumber(DomainModels.Accounts.ISubAccount subAccount);
 
+        object GetProductRequest(Location location);
+
         IServiceCapability GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount);
+
+        OfferPayment GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option);
+
+        bool HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities);
     }
 }
