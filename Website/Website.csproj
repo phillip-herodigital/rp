@@ -3201,6 +3201,7 @@
     <Content Include="Views\Components\Marketing\Quote.cshtml" />
     <Content Include="Views\Components\Account\Utility Services\Your Utility Plan.cshtml" />
     <Content Include="Views\Components\Shared\Coverage Map.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
