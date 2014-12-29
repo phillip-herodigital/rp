@@ -1,13 +1,8 @@
 ﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
-
-    $scope.$watch(enrollmentCartService.getActiveService, function (address) {
-        $scope.planSelection = { selectedOffers: {} };
-        $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
-        
-        $scope.dataPlans = $scope.mobileEnrollmentService.getDataPlans($scope.mobileEnrollmentService.selectedNetwork.value);
-    });
+    $scope.dataPlan = {};
+    //$scope.getDataPlans = $scope.mobileEnrollmentService.getDataPlans($scope.mobileEnrollmentService.selectedNetwork.value);
 
     $scope.formFields = {
         chosenPlanId: undefined
@@ -19,7 +14,9 @@
 
     $scope.$watch('formFields.chosenPlanId', function(newValue, oldValue) {
         if (newValue !== oldValue) {
-            $scope.mobileEnrollmentService.addDataPlanToCart(newValue);
+            var plan = _.where(mobileEnrollmentService.getDataPlans(), { id: newValue })[0];
+            $scope.dataPlan = plan;
+            enrollmentCartService.addDataPlanToCart(plan);
         }
     });
 

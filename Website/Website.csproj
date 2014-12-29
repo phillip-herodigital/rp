@@ -3070,10 +3070,7 @@
     <Content Include="Views\Components\Account\Profile\Notification Settings.cshtml" />
     <Content Include="Views\Components\Account\Profile\Remove Account Modal.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Homelife Services.cshtml" />
-    <Content Include="Views\Components\Account\Sidebar Widgets\Mobile\Add a Device.cshtml" />
-    <Content Include="Views\Components\Account\Sidebar Widgets\Mobile\International Long Distance.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Mobile\Quick Links.cshtml" />
-    <Content Include="Views\Components\Account\Sidebar Widgets\Mobile\Setup Autopay.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Profile Subnav.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Promo.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Thermostat.cshtml" />
@@ -3206,7 +3203,9 @@
     <Content Include="Views\Pages\Marketing\Services\Mobile.cshtml" />
     <Content Include="Views\Components\Marketing\Quote.cshtml" />
     <Content Include="Views\Components\Account\Utility Services\Your Utility Plan.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Mobile FAQs.cshtml" />
     <Content Include="Views\Components\Shared\Coverage Map.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

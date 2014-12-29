@@ -1,0 +1,95 @@
+﻿<article class="marketing marketingIntro mobile mobile-pricing-plans">
+    <div class="wrapper">
+        <div class="overview grid two">
+            <div class="col">
+                <h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>powered by: <strong>AT&amp;T</strong></span></h2>
+                <div class="grid two">
+                    <div class="indvidualPlans col">
+                        <h3>@Html.Sitecore().Field("Individual Plans")</h3>
+                        @Html.Sitecore().Field("ATT Individual Plan Description")
+                        <p>
+                            <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
+                        </p>
+                        <p>@Html.Sitecore().Field("More Details")</p>
+                    </div>
+                    <div class="groupPlans col">
+                        <h3>@Html.Sitecore().Field("Group Plans")</h3>
+                        @Html.Sitecore().Field("ATT Group Plan Description")
+                        <p>
+                            <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
+                        </p>
+                        <p>@Html.Sitecore().Field("More Details")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>powered by: <strong>Sprint</strong></span></h2>
+                <div class="grid two">
+                    <div class="indvidualPlans col">
+                        <h3>@Html.Sitecore().Field("Individual Plans")</h3>
+                        @Html.Sitecore().Field("Sprint Individual Plan Description")
+                        <p>
+                            <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
+                        </p>
+                        <p>@Html.Sitecore().Field("More Details")</p>
+                    </div>
+                    <div class="groupPlans col">
+                        <h3>@Html.Sitecore().Field("Group Plans")</h3>
+                        @Html.Sitecore().Field("Sprint Group Plan Description")
+                        <p>
+                            <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
+                        </p>
+                        <p>@Html.Sitecore().Field("More Details")</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="detail grid">
+            <div class="col">
+                <h2>@Html.Sitecore().Field("Plan Pricing Header")</h2>
+                @Html.Sitecore().Field("Plan Pricing Content")
+            </div>
+            <div class="col">
+                <table class="mobile-plans-pricing-table">
+                    <thead>
+                        <tr>
+                            <th>@Html.Sitecore().Field("Data")</th>
+                            <th>1 GB</th>
+                            <th>2 GB</th>
+                            <th>3 GB</th>
+                            <th>5 GB</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>@Html.Sitecore().Field("Monthly Cost")</th>
+                            <td>$35/mo</td>
+                            <td>$45/mo</td>
+                            <td>$55/mo</td>
+                            <td>$70/mo</td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <th>@Html.Sitecore().Field("Nationwide Calling")</th>
+                            <td>@Html.Sitecore().Field("Unlimited")</td>
+                            <td>@Html.Sitecore().Field("Unlimited")</td>
+                            <td>@Html.Sitecore().Field("Unlimited")</td>
+                            <td>@Html.Sitecore().Field("Unlimited")</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.Sitecore().Field("Nationwide Calling")</th>
+                            <td>@Html.Sitecore().Field("Unlimited")</td>
+                            <td>@Html.Sitecore().Field("Unlimited")</td>
+                            <td>@Html.Sitecore().Field("Unlimited")</td>
+                            <td>@Html.Sitecore().Field("Unlimited")</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="notes">
+                    @Html.Sitecore().Field("Plan Pricing Footer")
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

@@ -156,7 +156,7 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setServiceInformation = function () {
+    service.setServiceInformation = function (overrideServerStep) {
         //Create our empty locations object
         var data = { 'locations': [] };
 
@@ -164,7 +164,7 @@
             data.locations.push(address.location);
         });
 
-        return makeCall('serviceInformation', data);
+        return makeCall('serviceInformation', data, overrideServerStep);
     };
 
     /**

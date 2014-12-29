@@ -309,14 +309,14 @@
                     <div class="content additional-device">
                         <div class="new-line">
                             @Html.Sitecore().Field("Bring A Device")
-                            <a href="" ng-click="addDeviceToCart('byod')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Bring A Device Link")</a>
+                            <button type="button" ng-click="addDeviceToCart('existing')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Bring A Device Link")</button>
                         </div>
                         <div class="new-line-or">
                             @Html.Sitecore().Field("Or")
                         </div>
                         <div class="new-line">
                             @Html.Sitecore().Field("Shop Phones")
-                            <a href="" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Shop Phones Link")</a>
+                            <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Shop Phones Link")</button>
                         </div>
                     </div>
                 </article>

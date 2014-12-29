@@ -38,6 +38,7 @@
         $scope.selectedPhone = item;
         $scope.phoneOptions.color = mobileEnrollmentService.getPhoneColors(id)[0].color;
         $scope.phoneOptions.size = mobileEnrollmentService.getPhoneSizes(id)[0].size;
+        enrollmentStepsService.scrollToStep('phoneFlowDevices');
     };
 
     $scope.phoneOptionsValid = function() {
@@ -102,8 +103,12 @@
             };
         }
 
-        //mobileEnrollmentService.addItemToCart(item);
-        //$scope.setCurrentStep('configure-data');
+        enrollmentCartService.addDeviceToCart(item);
+        if (phoneType) {
+            $scope.mobileEnrollment.phoneTypeTab = phoneType; 
+            $scope.clearPhoneSelection();
+            enrollmentStepsService.scrollToStep('phoneFlowDevices');
+        }
     };
 
     /**
@@ -162,6 +167,7 @@
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {  
+        $scope.addDeviceToCart();
         enrollmentStepsService.setStep('phoneFlowPlans');
     };
 
