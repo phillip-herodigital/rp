@@ -675,6 +675,13 @@ article.additional-support-sidebar {
 
 .mobile-pricing-plans {
 
+    div.intro {
+        margin: 1em 20px;
+        font-size: 22px;
+        line-height: 1.5;
+        text-align: center;
+    }
+
     ol.points {
         @include layout-list();
         margin-bottom: 50px;
@@ -701,8 +708,6 @@ article.additional-support-sidebar {
         width: 100%;
         border-spacing: 0;
 
-
-
         h2 {
             position: relative;
             font-size: 11px;
@@ -722,10 +727,6 @@ article.additional-support-sidebar {
                 margin-left: -20px;
             }
         }
-
-
-
-
 
         .col {
             border: 1px solid #e5e5e5;
