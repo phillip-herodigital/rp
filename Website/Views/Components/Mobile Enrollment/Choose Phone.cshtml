@@ -70,7 +70,13 @@
                                     @* Would like to change this out for using the model, but getting rid of ng-repeat will take some extra work *@
                                     <div class="grid three" ng-repeat="phone in mobileEnrollmentService.getPhones() | orderByPrice: mobileServices.getPhones():isPhoneOrderReversed() | phoneFilter: phoneFilters | partition: 3">
                                         <div class="col" ng-repeat="item in phone">
-                                            <div class="product-image"><img ng-src="{{ item.imageFront }}" /></div>
+                                            <div class="product-image">
+                                                <img ng-src="{{ item.imageFront }}" />
+                                                <div ng-if="!mobileEnrollmentService.getStock(item.id)">
+                                                    <div class="overlay"></div>
+                                                    <span class="text">@Html.Sitecore().Field("Out of Stock")</span>
+                                                </div>
+                                            </div>
                                             <h3>{{ item.brand }}&reg; {{ item.name }}</h3>
                                             <div class="price">
                                                 <div ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'New')">
@@ -81,9 +87,9 @@
                                                     <span>@Html.Sitecore().Field("Reconditioned From")</span>
                                                     {{ mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned') | currency }}
                                                 </div>
-                                                <span class="lease">@Html.Sitecore().Field("Lease From") {{ mobileEnrollmentService.get24LeasePrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")</span>
+                                                <span class="lease" ng-if="mobileEnrollmentService.getLeasePrice(item.id)">@Html.Sitecore().Field("Lease From") {{ mobileEnrollmentService.getLeasePrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                             </div>
-                                            <button ng-click="setSelectedPhone(item.id)">@Html.Sitecore().Field("Button - Select Phone")</button>
+                                            <button ng-click="setSelectedPhone(item.id)" ng-disabled="!mobileEnrollmentService.getStock(item.id)">@Html.Sitecore().Field("Button - Select Phone")</button>
                                         </div>
                                         <div class="col" ng-if="phone.length % 3 == 2"></div>
                                         <div class="col" ng-if="phone.length % 3 == 1"></div>
@@ -136,9 +142,10 @@
                                         <div class="item simple-options-item" ng-if="mobileEnrollmentService.getPhoneSizes('@phone.Id')[0].size != ''">
                                             <label>@Html.Sitecore().Field("Select Size")</label>
                                             <div class="btn-group btn-group-options sizes">
-                                                <a href="" ng-repeat="size in mobileEnrollmentService.getPhoneSizes('@phone.Id')" class="button btn-group-arrow btn-size" ng-model="phoneOptions.size" btn-radio="'{{ size.size }}'">
+                                                <button ng-repeat="size in mobileEnrollmentService.getPhoneSizes('@phone.Id')" class="button btn-group-arrow btn-size" ng-model="phoneOptions.size" btn-radio="'{{ size.size }}'" ng-disabled="!size.inStock">
                                                     <span class="size">{{ size.size }}</span>
-                                                </a>
+                                                    <span class="oos" ng-if="!size.inStock"> @Html.Sitecore().Field("Out of Stock")</span>
+                                                </button>
                                             </div>
                                         </div>
                                         <hr class="content-divider">
@@ -149,7 +156,7 @@
                                             </label>
                                             <div class="btn-group btn-group-options purchase-options">
                                                 <div ng-repeat="model in mobileEnrollmentService.getPricesForPhone('@phone.Id', phoneOptions.size, phoneOptions.color)" data-additional-fields>
-                                                    <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'{{ model.condition }}'" ng-click="isOpen = false">
+                                                    <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'{{ model.condition }}'" ng-click="isOpen = false" ng-show="model.inStock">
                                                         <span class="purchase-type">{{ model.condition }}</span>
                                                         <span class="purchase-price">{{ model.price | currency }}</span>
                                                     </a>
@@ -159,7 +166,7 @@
                                                         <span class="purchase-price">{{ model.lease20 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                     </a>
                                                     *@
-                                                    <a href="" class="button btn-group-arrow" ng-click="$parent.isOpen = true" ng-repeat="plan in model.installmentPlans | filter: { creditGroup: 'A' }" ng-model="phoneOptions.purchaseOption" btn-radio="{{ plan.sku }}">
+                                                    <a href="" class="button btn-group-arrow" ng-click="$parent.isOpen = true" ng-repeat="plan in model.installmentPlans | filter: { creditGroup: 'A' }" ng-model="phoneOptions.purchaseOption" btn-radio="{{ plan.sku }}" ng-show="plan.inStock">
                                                         <span class="purchase-type">{{ plan.months }}@Html.Sitecore().Field("Month Installment")</span>
                                                         <span class="purchase-price">{{ plan.price | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                     </a>

@@ -54,6 +54,10 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         phones = data;
     };
 
+    service.getPhoneData = function () {
+        return phones;
+    };
+
     service.setDataPlans = function(data) {
         dataPlans = data;
     };
@@ -101,12 +105,30 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         return _.min(models, function(model){ return model.price; }).price;
     };
 
-    service.get24LeasePrice = function(id) {
+    service.getLeasePrice = function(id) {
         var item = _.where(this.getPhones(), { id: id })[0];
-        var models =  _.filter(item.models, 'lease24');
+        var models =  _.filter(item.models, 'installmentPlans');
 
-        //Return the lowest price for the condition
-        return _.min(models, function(model){ return model.lease24; }).lease24;
+        //Return the lowest lease price
+        var plans = _.min(models, function(model){ return model.installmentPlans[0].price; });
+        if (typeof plans.installmentPlans != 'undefined') {
+            return plans.installmentPlans[0].price;
+        } else {
+            return null;
+        }
+    };
+
+    service.getStock = function(id) {
+        var item = _.where(this.getPhones(), { id: id })[0];
+        //Return true if any of the models or installment plans are in stock
+        var stock = _.filter(item.models, function(model) {
+            return (model.inStock || model.installmentPlans[0].inStock) && model.network == service.selectedNetwork.value
+        });
+        if (stock.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
     };
 
     service.getPhoneSizes = function(id) {
@@ -128,7 +150,9 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     service.getPhoneColors = function(id) {
         var item = _.where(this.getPhones(), { id: id })[0];
         if (typeof item != 'undefined') {
-            var colors =  _.uniq(_.where(item.models, { network: service.selectedNetwork.value }), 'color');
+            var colors =  _.uniq( _.filter(item.models, function(model) {
+                return (model.inStock || model.installmentPlans[0].inStock) && model.network == service.selectedNetwork.value
+            }), 'color');
             return _.sortBy(colors, function(color) {
                 return color.color;
             })

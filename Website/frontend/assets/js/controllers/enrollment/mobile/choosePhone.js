@@ -76,7 +76,7 @@
             item = {
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 device: device,
-                id: device.id,
+                id: ($scope.phoneOptions.purchaseOption == "New") ? device.id : $scope.phoneOptions.purchaseOption,
                 price: ($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24,
                 salesTax: parseFloat(parseFloat(($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24, 10) * .07).toFixed(2),
                 buyingOption: $scope.phoneOptions.purchaseOption,

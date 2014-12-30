@@ -84,7 +84,7 @@ namespace StreamEnergy.Services.Clients
                               ParentOfferId = product.ParentGroupProductId,
                               IsParentOffer = (product.IsParentOffer != null) ? product.IsParentOffer : false,
 
-                              InstallmentPlan = GetInstallmentPlanIds(productData, products: streamConnectProductResponse.Products),
+                              //InstallmentPlan = GetInstallmentPlanIds(productData, products: streamConnectProductResponse.Products),
 
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],

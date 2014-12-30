@@ -2282,12 +2282,19 @@
         margin-bottom: -4px;
     }
     .btn-size {
+        margin-right: 5px;
         &:after, &:before {
             bottom: -30px;
         }
     }
     .size {
         font-weight: 600;
+    }
+    .oos {
+        font-size: 10px;
+        font-style: italic;
+        font-weight: 600;
+        text-transform: uppercase;
     }
     .purchase-options {
         .purchase-price {
@@ -2501,6 +2508,29 @@
                 bottom: 0;
                 left: 50%;
                 margin-left: -35px;
+            }
+            div.overlay {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #fff;
+                @include opacity(.95);
+            }
+            span.text {
+                display: block;
+                width: 70%;
+                position: absolute;
+                top: 50%;
+                left: 15%;
+                padding: 7px;
+                text-align: center;
+                color: #fff;
+                font-size: 15px;
+                font-weight: 600;
+                background-color: #778995;
+                @include border-radius(7px);
             }
         }
         .price {
