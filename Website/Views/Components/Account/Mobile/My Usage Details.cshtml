@@ -10,11 +10,11 @@
                                 @Html.Sitecore().Field("Bill Usage") {{ range.begin | date : format : longDate }} - {{ range.end | date : format : longDate }}
                             </option>
                         </select>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
-</header>
+            </form>
+        </div>
+    </header>
     <div>
         <table>
             <thead>
@@ -26,14 +26,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="device in deviceUsage">
+                <tr ng-repeat="device in data.deviceUsage">
                     <td>
                         <div class="device-full">
                             <div class="device-image"><img src="{{ getDeviceImageURL(device.id) }}" /></div>
                             <div class="device-details">
-                                <strong>{{ device.name }}</strong>
-                                <br />{{ device.number }}
-                                <br />@Html.Sitecore().Field("Usage Details Link")
+                                @*<strong>{{ device.name }}</strong>
+                                <br />*@{{ device.number }}
+                                @*<br />@Html.Sitecore().Field("Usage Details Link")*@
                             </div>
                         </div>
                         <div class="device-short">
@@ -92,7 +92,7 @@
                     </td>
                     <td>
                         <div class="device-full">
-                            @Html.Sitecore().Field("Message Total")<br />
+                            @Html.Sitecore().Field("Messages Total")<br />
                             <strong>{{ deviceTotal.messages.usage | number }}</strong>
                         </div>
                         <div class="device-short">

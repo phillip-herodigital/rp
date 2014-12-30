@@ -32,75 +32,30 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     $scope.getUsageStats = function(){
         var range = $scope.dateRanges[$scope.currentRangeId];
 
-        //BEGIN dummy data
-        var dummyModifier = (range.id * ((new Date()).getTime() - range.begin)) / $scope.dateRanges.length;
-        $scope.deviceUsageStats = [{
-            name: 'Jordan\'s Phone',
-            number: '402-249-1975',
-            id: 0,
+        $http({
+            method: 'POST',
+            url: '/api/account/getMobileUsage',
             data: {
-                usage: 589000000 + dummyModifier,
-                limit:  1.2 * (589000000 + dummyModifier)
+                accountNumber: '1691',
             },
-            messages: {
-                usage: 49,
-                limit: -1
-            },
-            minutes: {
-                usage: 926,
-                limit: -1
-            }
-        }, {
-            name: 'Jason\'s Phone',
-            number: '402-249-1822',
-            id: 0,
-            data: {
-                usage: 2450000000 + dummyModifier,
-                limit:  1.2 * (2450000000 + dummyModifier)
-            },
-            messages: {
-                usage: 842,
-                limit: -1
-            },
-            minutes: {
-                usage: 643,
-                limit: -1
-            }
-        }, {
-            name: 'Jennifer Campbell',
-            number: '402-249-1823',
-            id: 0,
-            data: {
-                usage: 3270000000 + dummyModifier,
-                limit:  1.2 * (3270000000 + dummyModifier)
-            },
-            messages: {
-                usage: 152,
-                limit: -1
-            },
-            minutes: {
-                usage: 773,
-                limit: -1
-            }
-        }];
-        //END dummy data
+            headers: { 'Content-Type': 'application/JSON' }
+        })
+			.success(function (data, status, headers, config) {
+			    $scope.data = data;
 
-        updateDeviceTotals();
+			    $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit;
+			    updateDeviceTotals();
+			});
     }
 
     $scope.getDeviceImageURL = function (deviceId) {
         return '#'; //'http://library.columbia.edu/content/dam/libraryweb/locations/sciencelib/dsc/ERIWG_mobile/iphone_icon.png';
     }
 
-    function updateDeviceTotals(){
-        _.each(['data', 'messages', 'minutes'], function (field) {
-            $scope.deviceTotal[field].usage = _.reduce($scope.deviceUsageStats, function(total,device){
-                return total + device[field].usage;
-            }, 0);
-            $scope.deviceTotal[field].limit = _.reduce($scope.deviceUsageStats, function (total, device) {
-                return total + device[field].limit;
-            }, 0);
-        });
+    function updateDeviceTotals() {
+        $scope.deviceTotal.data.usage = _.reduce($scope.data.deviceUsage, function (total, device) {
+            return total + device.dataUsage;
+        }, 0);
     }
 
     $scope.getUsageStats();

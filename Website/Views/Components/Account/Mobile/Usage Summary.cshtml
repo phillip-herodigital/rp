@@ -46,7 +46,7 @@
                                     <tbody>
                                         <tr ng-repeat="device in data.deviceUsage">
 
-                                            <td class="device-name">{{ device.number | limitTo : 24 }}</td>
+                                            <td class="device-name">{{ device.number | phone }}</td>
                                             <td class="device-number">{{ device.dataUsage / 1000000000 | number : 2 }} GB</td>
                                         </tr>
                                     </tbody>
