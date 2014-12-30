@@ -169,8 +169,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
             }
+            var accountInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
 
-            var account = currentUser.Accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
+            var account = accountInvoices.FirstOrDefault(a => a.AccountNumber == accountNumber);
 
             if (account == null)
             {

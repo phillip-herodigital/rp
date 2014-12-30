@@ -16,5 +16,10 @@ namespace StreamEnergy.DomainModels.Accounts
         public DateTime DueDate { get; set; }
 
         public bool PdfAvailable { get; set; }
+
+        /// <summary>
+        /// Only populated for mobile invoices currently
+        /// </summary>
+        public DateTime? InvoiceDate { get; set; }
     }
 }
