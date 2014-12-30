@@ -1,49 +1,70 @@
 ﻿<article class="marketing marketingIntro mobile mobile-pricing-plans">
     <div class="wrapper">
-        <div class="overview grid two">
+        @if (Html.Sitecore().HasValue("Heading"))
+        {
+            <h1>@Html.Sitecore().Field("Heading")</h1>
+        }
+        @if (Html.Sitecore().HasValue("Intro"))
+        {
+            <div class="intro">@Html.Sitecore().Field("Intro")</div>
+        }
+        <div class="overview grid">
             <div class="col">
                 <h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>powered by: <strong>AT&amp;T</strong></span></h2>
-                <div class="grid two">
+                <div class="grid">
+                    @if (Html.Sitecore().HasValue("Show ATT Individual Plans"))
+                    {
                     <div class="indvidualPlans col">
                         <h3>@Html.Sitecore().Field("Individual Plans")</h3>
                         @Html.Sitecore().Field("ATT Individual Plan Description")
                         <p>
                             <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
                         </p>
-                        <p>@Html.Sitecore().Field("More Details")</p>
+                        <p>@Html.Sitecore().Field("ATT Individual More Details")</p>
                     </div>
+                    }
+                    @if (Html.Sitecore().HasValue("Show ATT Group Plans"))
+                    {
                     <div class="groupPlans col">
                         <h3>@Html.Sitecore().Field("Group Plans")</h3>
                         @Html.Sitecore().Field("ATT Group Plan Description")
                         <p>
                             <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
                         </p>
-                        <p>@Html.Sitecore().Field("More Details")</p>
+                        <p>@Html.Sitecore().Field("ATT Group More Details")</p>
                     </div>
+                    }
                 </div>
             </div>
             <div class="col">
                 <h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>powered by: <strong>Sprint</strong></span></h2>
-                <div class="grid two">
+                <div class="grid">
+                    @if (Html.Sitecore().HasValue("Show Sprint Individual Plans"))
+                    {
                     <div class="indvidualPlans col">
                         <h3>@Html.Sitecore().Field("Individual Plans")</h3>
                         @Html.Sitecore().Field("Sprint Individual Plan Description")
                         <p>
                             <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
                         </p>
-                        <p>@Html.Sitecore().Field("More Details")</p>
+                        <p>@Html.Sitecore().Field("Sprint Individual More Details")</p>
                     </div>
+                    }
+                    @if (Html.Sitecore().HasValue("Show Sprint Group Plans"))
+                    {
                     <div class="groupPlans col">
                         <h3>@Html.Sitecore().Field("Group Plans")</h3>
                         @Html.Sitecore().Field("Sprint Group Plan Description")
                         <p>
                             <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
                         </p>
-                        <p>@Html.Sitecore().Field("More Details")</p>
+                        <p>@Html.Sitecore().Field("Sprint Group More Details")</p>
                     </div>
+                    }
                 </div>
             </div>
         </div>
+        @*
         <div class="detail grid">
             <div class="col">
                 <h2>@Html.Sitecore().Field("Plan Pricing Header")</h2>
@@ -91,5 +112,6 @@
                 </div>
             </div>
         </div>
+        *@
     </div>
 </article>

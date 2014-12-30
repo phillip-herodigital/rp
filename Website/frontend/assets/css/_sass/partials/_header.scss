@@ -103,8 +103,10 @@
 					color: $nav-sub-color;
 					padding: $nav-sub-padding;
 				}
-				&.selected a {
-					color: $nav-sub-hover-color;
+				&.selected {
+					a {
+						color: $nav-sub-hover-color;
+					}
 				}
 			}
 		}
@@ -215,7 +217,8 @@
 
 .tertiary-nav {
 	background-color: #f1f1f1;
-	min-height: 49px;
+	min-height: 50px;
+	border-top: 1px solid #e1e1e1;
 	ul {
 		@include inline-block-list();
 		position: relative;
@@ -233,6 +236,7 @@
 				//font-weight: 600;
 			}
 			&.selected {
+				background: image-url('marketing/redesign/nav-second-level-selected-indicator.png') bottom center no-repeat;
 				.triangle {
 					display: block;
 				}

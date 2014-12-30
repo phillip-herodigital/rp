@@ -1,0 +1,9 @@
+﻿<div class="banner" style="@Html.AsBackgroundStyle("Banner Image", Sitecore.Context.Item)">
+    <carousel interval="myInterval">
+        <slide ng-repeat="slide in slides" active="slide.active">
+            <div class="wrapper">
+                {{ slide.text }}
+            </div>
+        </slide>
+    </carousel>
+</div>

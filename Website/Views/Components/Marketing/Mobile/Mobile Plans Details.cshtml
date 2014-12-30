@@ -1,0 +1,81 @@
+﻿<article class="marketing mobile mobile-plans-price-selector" ng-controller="MobilePlansDetailsCtrl">
+    <div class="wrapper">
+        <h1>@Html.Sitecore().Field("Header")</h1>
+        <div class="grid" id="@Html.Sitecore().Field("Network ID")-individual">
+            <div class="col">
+                <div class="mobile-poweredBy"><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png" /> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("Network Name")</strong></span></div>
+                <h3>@Html.Sitecore().Field("Individual Plans - Header")</h3>
+                <p>@Html.Sitecore().Field("Individual Plans - Details")</p>
+            </div>
+            <div class="col">
+                <table>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">@Html.Sitecore().Field("Individual Plans - Footer")</td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <th>@Html.Sitecore().Field("Individual Plans - Data")</th>
+                            <td>@Html.Sitecore().Field("Individual Plans - Plan 1 Data") GB</td>
+                            <td>@Html.Sitecore().Field("Individual Plans - Plan 2 Data") GB</td>
+                            <td>@Html.Sitecore().Field("Individual Plans - Plan 3 Data") GB</td>
+                            <td>@Html.Sitecore().Field("Individual Plans - Plan 4 Data") GB</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.Sitecore().Field("Individual Plans - Monthly Cost")</th>
+                            <td>$@Html.Sitecore().Field("Individual Plans - Plan 1 Cost")/mo</td>
+                            <td>$@Html.Sitecore().Field("Individual Plans - Plan 2 Cost")/mo</td>
+                            <td>$@Html.Sitecore().Field("Individual Plans - Plan 3 Cost")/mo</td>
+                            <td>$@Html.Sitecore().Field("Individual Plans - Plan 4 Cost")/mo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr />
+        <div class="grid" id="@Html.Sitecore().Field("Network ID")-group">
+            <div class="col">
+                <div class="mobile-poweredBy"><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png" /> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("Network Name")</strong></span></div>
+                <h3>@Html.Sitecore().Field("Group Plans - Header")</h3>
+                <p>@Html.Sitecore().Field("Group Plans - Details")</p>
+            </div>
+            <div class="col">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                @Html.Sitecore().Field("Group Plans - Number Lines") 
+                                <button ng-class="{active:numLines == 2}" ng-model="numLines" btn-radio="2">2 @Html.Sitecore().Field("Group Plans - Lines")</button> 
+                                <button ng-class="{active:numLines == 3}" ng-model="numLines" btn-radio="3">3 @Html.Sitecore().Field("Group Plans - Lines")</button>
+                                <button ng-class="{active:numLines == 4}" ng-model="numLines" btn-radio="4">4 @Html.Sitecore().Field("Group Plans - Lines")</button>
+                                @*<button>@Html.Sitecore().Field("Group Plans - Need More")</button>*@
+                            </th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">@Html.Sitecore().Field("Group Plans - Footer")</td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <th>@Html.Sitecore().Field("Group Plans - Shared Data")</th>
+                            <td>@Html.Sitecore().Field("Group Plans - Plan 1 Data") GB</td>
+                            <td>@Html.Sitecore().Field("Group Plans - Plan 2 Data") GB</td>
+                            <td>@Html.Sitecore().Field("Group Plans - Plan 3 Data") GB</td>
+                            <td>@Html.Sitecore().Field("Group Plans - Plan 4 Data") GB</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.Sitecore().Field("Group Plans - Monthly Cost")</th>
+                            <td>${{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 1 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) }}/mo</td>
+                            <td>${{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 2 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) }}/mo</td>
+                            <td>${{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 3 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) }}/mo</td>
+                            <td>${{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 4 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) }}/mo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</article>
