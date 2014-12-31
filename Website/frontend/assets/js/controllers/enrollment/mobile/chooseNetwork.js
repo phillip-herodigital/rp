@@ -18,8 +18,6 @@
 
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         var availableDevices = [];
-        $scope.planSelection = { selectedOffers: {} };
-        $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
         if (address && address.offerInformationByType) {
             // change the stock and add prices for the phones we get back from BeQuick
             angular.forEach(address.offerInformationByType[0].value.availableOffers, function (entry) {

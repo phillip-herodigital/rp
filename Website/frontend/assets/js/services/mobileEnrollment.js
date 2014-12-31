@@ -13,8 +13,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         terms: {
         }
     },
-    //networks = [],
-    dataPlans = [],
     phones = [];
 
     service.getRestoreData = function() {
@@ -57,19 +55,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     service.getPhoneData = function () {
         return phones;
     };
-
-    service.setDataPlans = function(data) {
-        dataPlans = data;
-    };
-
-    service.getDataPlans = function() {
-        if (typeof service.selectedNetwork.name != 'undefined') {
-            return _.where(dataPlans, { name: service.selectedNetwork.value })[0].plans; 
-        } else {
-            return null;
-        } 
-        return service.dataPlans.plans;
-    }
 
     service.getPhones = function() {
         if (typeof service.selectedNetwork != 'undefined') {

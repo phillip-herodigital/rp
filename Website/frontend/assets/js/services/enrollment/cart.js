@@ -3,8 +3,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         cart = {
             activeServiceIndex: -1,
             isCartOpen: false,
-            items: [],
-            dataPlan: null
+            items: []
         },
         maxResidentialItems = 3,
         maxCommercialItems = 70;
@@ -104,18 +103,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return cart.items.length;
         },
 
-        getCartDataPlan: function() {
-            return cart.dataPlan;
-        },
-
         addDeviceToCart: function(item) {
-            console.log(item);
             cart.items.push(item);
-        },
-
-        addDataPlanToCart: function(plan) {
-            console.log(plan);
-            cart.dataPlan = plan;
         },
 
         getProratedCost: function() {
