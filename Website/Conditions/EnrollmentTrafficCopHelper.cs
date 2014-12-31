@@ -48,6 +48,9 @@ namespace StreamEnergy.MyStream.Conditions
                 queryString = newQueryString;
             }
 
+            queryString["St"] = queryString["St"] ?? queryString["State"] ?? "";
+            queryString.Remove("State");
+
             if (Percentage <= 0)
             {
                 useRemoteEnrollment = true;
