@@ -116,12 +116,33 @@ namespace StreamEnergy.Services.Clients
 
         public SitecoreProductInfo GetMobileProductData(string productId)
         {
-            // TODO
-            return new SitecoreProductInfo
+            if (taxonomy != null && !string.IsNullOrEmpty(productId))
             {
-                Fields = new NameValueCollection(),
-                Footnotes = new KeyValuePair<string, string>[0],
-            };
+                var item = taxonomy.Axes.GetItem("Modules/Mobile/Mobile Data Plans/*/" + productId);
+
+                if (item != null)
+                {
+                    return new SitecoreProductInfo
+                    {
+                        Fields = new NameValueCollection
+                        {
+                            { "Name", item["Product Name"] },
+                            { "Data", item["Data"] },
+                            { "Hours Music", item["Hours Music"] },
+                            { "Hours Movies", item["Hours Movies"] },
+                            { "Web Pages", item["Web Pages"] },
+                            { "Recommended", item["Recommended"] },
+                            { "Special Offer", item["Special Offer"] },
+                            { "Special Offer Text", item["Special Offer Text"] },
+                            { "Special Offer Original Price", item["Special Offer Original Price"] },
+                        },
+                        Footnotes = new KeyValuePair<string, string>[0]
+                    };
+                }
+            }
+
+            return null;
+
         }
 
         public SitecoreProductInfo GetMobileInventoryData(string inventoryId)

@@ -71,7 +71,7 @@
 
                 $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
                 $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": mobileEnrollmentService.planType });
-                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile", "serviceProvider": mobileEnrollmentService.selectedNetwork });
+                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
 
 
                 var activeService = enrollmentCartService.getActiveService();

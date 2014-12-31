@@ -151,7 +151,7 @@
     <div class="cart-product clearfix" ng-repeat="item in getCartDevices()">
         <div>
             <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
-            <div class="condition" ng-if="item.buyingOption == 'Lease24'">@Html.Sitecore().Field("24-Month Lease")</div>
+            <div class="condition" ng-if="item.buyingOption != 'New'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment")</div>
             <div class="condition" ng-if="item.type == 'existing'">@Html.Sitecore().Field("Bring Your Own Device")</div>
             <div class="description">
                 {{ item.make.make }} {{ item.model.modelName }}
@@ -160,7 +160,7 @@
                 <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
             </div>
         </div>
-        <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption == 'Lease24'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>
+        <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption != 'New'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>
         <div class="rate device-price" ng-if="item.type == 'existing'">$0.00</div>
         
         <div ng-if="item.warranty == 'accept'" class="warranty">
