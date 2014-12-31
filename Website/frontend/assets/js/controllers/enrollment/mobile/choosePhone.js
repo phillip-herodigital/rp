@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
 
@@ -38,7 +38,7 @@
         $scope.selectedPhone = item;
         $scope.phoneOptions.color = mobileEnrollmentService.getPhoneColors(id)[0].color;
         $scope.phoneOptions.size = mobileEnrollmentService.getPhoneSizes(id)[0].size;
-        enrollmentStepsService.scrollToStep('phoneFlowDevices');
+        scrollService.scrollTo('chooseDevice', jQuery('header.site-header').height() * -1, 0, angular.noop);
     };
 
     $scope.phoneOptionsValid = function() {
