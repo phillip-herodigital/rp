@@ -268,17 +268,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                }).contains('TX');
         },
         cartHasMobile: function () {
-            return _(services)
-               .map(function (l) {
-                   return l.location.capabilities;
-               }).contains('Mobile');
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType').contains('Mobile');
         },
         cartHasUtility: function () {
-            var capabilities = _(services)
-               .map(function (l) {
-                   return l.location.capabilities;
-               });
-            return (capabilities.contains('Gas') || capabilities.contains('Gas'));
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType').contains('Utility');
         },
         locationHasService: function (location) {
             if (!location.offerInformationByType)

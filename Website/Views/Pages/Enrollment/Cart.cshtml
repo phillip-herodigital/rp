@@ -26,7 +26,7 @@
                             <div ng-include src="'cart/' + offerInformation.key"></div>
                         </div>
                     </div>
-                    <div class="mobile-plan">
+                    <div class="mobile-plan" ng-if="cartHasMobile()">
                         <h2>@Html.Sitecore().Field("Mobile Services")</h2>
                         <div class="plan-type" ng-show="getCartCount() - getDevicesCount() == 0">
                             {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
@@ -51,11 +51,11 @@
                 @Html.Sitecore().Field("Documents Description")
             </header>
             <ul class="info">
-                <li><i class="icon-credit-card"></i> @Html.Sitecore().Field("Documents Credit Card")</li>
-                <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Documents Billing Address")</li>
-                <li ng-if="false"><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                <li ng-if="false"><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-                <li><i class="icon-imei"></i> @Html.Sitecore().Field("Documents MEID Number")</li>
+                <li ng-if="cartHasMobile()"><i class="icon-credit-card"></i> @Html.Sitecore().Field("Documents Credit Card")</li>
+                <li ng-if="cartHasMobile()"><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Documents Billing Address")</li>
+                <li ng-if="cartHasUtility()"><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
+                <li ng-if="cartHasUtility()"><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+                <li ng-if="cartHasMobile()"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents MEID Number")</li>
              
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
                 <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->   
