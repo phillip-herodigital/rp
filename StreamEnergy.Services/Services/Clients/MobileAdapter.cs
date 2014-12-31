@@ -87,7 +87,14 @@ namespace StreamEnergy.Services.Clients
                               //InstallmentPlan = GetInstallmentPlanIds(productData, products: streamConnectProductResponse.Products),
 
                               Name = productData.Fields["Name"],
-                              Description = productData.Fields["Description"],
+                              Data = productData.Fields["Data"],
+                              HoursMusic = productData.Fields["Hours Music"],
+                              HoursMovies = productData.Fields["Hours Movies"],
+                              WebPages = productData.Fields["Web Pages"],
+                              Recommended = productData.Fields["Recommended"] == "1" ? true : false,
+                              SpecialOffer = productData.Fields["Special Offer"] == "1" ? true : false,
+                              SpecialOfferText = productData.Fields["Special Offer Text"],
+                              SpecialOfferOriginalPrice = productData.Fields["Special Offer Original Price"],
 
                               Rates = new[] {
                                   new Mobile.Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
@@ -101,18 +108,9 @@ namespace StreamEnergy.Services.Clients
                                                      Name = inventoryData.Fields["Name"],
                                                      Price = Convert.ToDecimal(inventoryType.Price.ToString()),
                                                  }).ToArray(),
-                              //TermMonths = product.Term,
-                              //RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
-                              //CancellationFee = productData.Fields["Early Termination Fee"],
-                              //MonthlyServiceCharge = productData.Fields["Monthly Service Charge"],
 
                               Footnotes = productData.Footnotes,
 
-                              //Documents = new Dictionary<string, Uri>
-                              //{
-                              //    { "LetterOfAgency", new Uri(productData.Fields["Letter of Agency"], UriKind.Relative) },
-                              //    { "TermsAndDisclosures", new Uri(productData.Fields["Terms and Disclosures"], UriKind.Relative) },
-                              //}
                           }).ToArray()
             };
         }

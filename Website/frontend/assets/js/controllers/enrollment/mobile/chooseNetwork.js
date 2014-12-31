@@ -18,8 +18,6 @@
 
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         var availableDevices = [];
-        $scope.planSelection = { selectedOffers: {} };
-        $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
         if (address && address.offerInformationByType) {
             // change the stock and add prices for the phones we get back from BeQuick
             angular.forEach(address.offerInformationByType[0].value.availableOffers, function (entry) {
@@ -62,16 +60,15 @@
                 mobileEnrollmentService.postalCode5 = $scope.postalCode5;
 
                 $scope.data.serviceLocation.address = {
-                    line1: '',
-                    line2: '',
-                    city: '',
+                    line1: 'Line1',
+                    city: 'City',
                     stateAbbreviation: data[0], 
                     postalCode5: $scope.postalCode5
                 };
 
                 $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
                 $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": mobileEnrollmentService.planType });
-                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile", "serviceProvider": mobileEnrollmentService.selectedNetwork });
+                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
 
 
                 var activeService = enrollmentCartService.getActiveService();

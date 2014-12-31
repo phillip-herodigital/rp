@@ -13,8 +13,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         terms: {
         }
     },
-    //networks = [],
-    dataPlans = [],
     phones = [];
 
     service.getRestoreData = function() {
@@ -58,19 +56,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         return phones;
     };
 
-    service.setDataPlans = function(data) {
-        dataPlans = data;
-    };
-
-    service.getDataPlans = function() {
-        if (typeof service.selectedNetwork.name != 'undefined') {
-            return _.where(dataPlans, { name: service.selectedNetwork.value })[0].plans; 
-        } else {
-            return null;
-        } 
-        return service.dataPlans.plans;
-    }
-
     service.getPhones = function() {
         if (typeof service.selectedNetwork != 'undefined') {
             return _.filter(phones, function(phone) { return _.contains(phone.networks, service.selectedNetwork.id); });
@@ -103,6 +88,19 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
 
         //Return the lowest price for the condition
         return _.min(models, function(model){ return model.price; }).price;
+    };
+
+    service.getLeaseMonths = function(id, plan) {
+        var item = _.where(this.getPhones(), { id: id })[0];
+        var model =  _.find(item.models, function(model) {
+            return model.installmentPlans[0].sku == plan;
+        });
+
+        if (typeof model.installmentPlans != 'undefined') {
+            return model.installmentPlans[0].months;
+        } else {
+            return null;
+        }
     };
 
     service.getLeasePrice = function(id) {

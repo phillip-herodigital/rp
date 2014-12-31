@@ -801,13 +801,11 @@
             span {
                 font-size: 12px;
                 text-transform: none;
-                font-weight: normal;
             }
         }
         .term {
             font-size: 18px;
             font-style: italic;
-            font-weight: 600;
             span {
                 font-size: 12px;
                 text-transform: none;
@@ -1326,13 +1324,14 @@
         line-height: 14px;
         font-weight: 600;
         text-align: center;
+        /*
         span {
             display: block;
-            font-weight: normal;
             font-style: italic;
             font-size: 12px;
             line-height: 12px;
         }
+        */
     }
     .description {
         position: relative;
@@ -2808,7 +2807,6 @@
         .size {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 5px;
         }
         .price {
             position: relative;
