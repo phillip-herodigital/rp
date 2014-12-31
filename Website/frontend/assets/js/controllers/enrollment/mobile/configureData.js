@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
+﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.currentLocationInfo = enrollmentCartService.getActiveService;
@@ -51,8 +51,8 @@
         $scope.setCurrentStep('choose-phone');
     };
 
-    $scope.setDataPlan = function() {
-        $scope.setCurrentStep('complete-order');
+    $scope.completeStep = function() {
+        enrollmentService.setSelectedOffers(false)
     };
 
 }]);

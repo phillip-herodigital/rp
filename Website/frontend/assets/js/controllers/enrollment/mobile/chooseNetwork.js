@@ -60,9 +60,8 @@
                 mobileEnrollmentService.postalCode5 = $scope.postalCode5;
 
                 $scope.data.serviceLocation.address = {
-                    line1: '',
-                    line2: '',
-                    city: '',
+                    line1: 'Line1',
+                    city: 'City',
                     stateAbbreviation: data[0], 
                     postalCode5: $scope.postalCode5
                 };

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
+    [Serializable]
     public class OfferOptionRules : IOfferOptionRules
     {
         public const string Qualifier = "Mobile";
