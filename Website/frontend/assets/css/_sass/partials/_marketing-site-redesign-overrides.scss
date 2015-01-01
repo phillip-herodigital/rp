@@ -500,7 +500,7 @@ article.additional-support-sidebar {
 
 .service-links {
     @include box-shadow(0px 0px 30px 0px rgba(0, 0, 0, .2));
-    padding: 20px 0;
+    padding: 20px;
     background-color: #f7f8f9;
     position: relative;
     z-index: 100;
@@ -516,16 +516,16 @@ article.additional-support-sidebar {
     .col {
         font-size: 16px;
         letter-spacing: (29em/1000em);
-        background: image-url('marketing/redesign/Modules/HomeHeader/service_links_break.png') no-repeat center right;
+        //background: image-url('marketing/redesign/Modules/HomeHeader/service_links_break.png') no-repeat center right;
 
-        &:last-child {
-            background-image: none;
-        }
+        //&:last-child {
+        //    background-image: none;
+        //}
 
         .inner {
             background: right center no-repeat;
             padding: 0 70px 0 20px;
-            margin-right: 30px;
+            //margin-right: 30px;
         }
 
 
@@ -733,6 +733,14 @@ article.additional-support-sidebar {
             border-collapse: collapse;
             border-bottom-style: none;
 
+            @include breakpoint(small) {
+                border: 0;
+                border-bottom: 1px solid #e5e5e5;
+                &:last-child {
+                    border-bottom: 0;
+                }
+            }
+
             &:first-of-type {
                 border-left-style: none;
                 border-right-style: none;
@@ -767,6 +775,11 @@ article.additional-support-sidebar {
                 padding: 10px;
                 border: 1px solid #e5e5e5;
                 border-bottom-style: none;
+
+                @include breakpoint(small) {
+                    border: 0;
+                    border-top: 1px solid #e5e5e5;
+                }
 
                 &:first-of-type {
                     border-left-style: none;
@@ -858,15 +871,15 @@ article.additional-support-sidebar {
 
 .mobile-manage-links {
     .col {
-        background: image-url("marketing/redesign/Modules/divider.png") center left no-repeat;
+        //background: image-url("marketing/redesign/Modules/divider.png") center left no-repeat;
 
-        &:first-child {
-            background-image: none;
-        }
+        // &:first-child {
+        //     background-image: none;
+        // }
 
         .inner {
             padding-top: 100px;
-            margin: 0 30px;
+            //margin: 0 30px;
             background: center top no-repeat;
         }
 
@@ -898,15 +911,15 @@ article.additional-support-sidebar {
 
 .mobile-additional-services {
     .col {
-        background: image-url("marketing/redesign/Modules/divider.png") center left no-repeat;
+        // background: image-url("marketing/redesign/Modules/divider.png") center left no-repeat;
 
-        &:first-child {
-            background-image: none;
-        }
+        // &:first-child {
+        //     background-image: none;
+        // }
 
         .inner {
             padding-top: 140px;
-            margin: 0 30px;
+            //margin: 0 30px;
             background: center top no-repeat;
         }
 

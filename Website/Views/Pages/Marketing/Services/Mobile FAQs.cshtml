@@ -1,34 +1,36 @@
-﻿<section class="layout cols-2 wrapper">
-    <section class="layout cols-1">
-        <article class="marketing faq">
-            @foreach (Sitecore.Data.Items.Item faqGroupItem in Html.Sitecore().CurrentItem.Children)
-            {
-                <h1>@Html.Sitecore().Field("Name", faqGroupItem)</h1>
-                <dl class="faq">
-                    @foreach (Sitecore.Data.Items.Item faqItem in faqGroupItem.Children)
-                    {
-                        <dt data-collasped onclick=" this.hasAttribute('data-collasped') ? this.removeAttribute('data-collasped') : this.setAttribute('data-collasped', 'data-collasped') ">@Html.Sitecore().Field("FAQ Question", faqItem)</dt>
-                        <dd>@Html.Sitecore().Field("FAQ Answer", faqItem)</dd>
-                    }
-                </dl>
-            }
-        </article>
-    </section>
-    <aside>
-        <article class="marketing additional-support-sidebar">
-            <div class="inner">
-                <h1>Still have questions?</h1>
-                <p class="contact-message">
-                    Contact one of our Specialist today!
-                </p>
-                <ul>
-                    <li><a href="">What are the requirement for bring my own Deivce?</a></li>
-                    <li><a href="">Can I transfer my number?</a></li>
-                </ul>
-                <p>
-                    Or call customer service: <a href="tel:+1-800-787-326">1-800-STREAM</a>
-                </p>
-            </div>
-        </article>
-    </aside>
+﻿<section class="layout">
+    <div class="wrapper cols-2">
+        <aside>
+            <article class="marketing additional-support-sidebar">
+                <div class="inner">
+                    <h1>Still have questions?</h1>
+                    <p class="contact-message">
+                        Contact one of our Specialist today!
+                    </p>
+                    <ul>
+                        <li><a href="">What are the requirement for bring my own Deivce?</a></li>
+                        <li><a href="">Can I transfer my number?</a></li>
+                    </ul>
+                    <p>
+                        Or call customer service: <a href="tel:+1-800-787-326">1-800-STREAM</a>
+                    </p>
+                </div>
+            </article>
+        </aside>
+        <section>
+            <article class="marketing faq">
+                @foreach (Sitecore.Data.Items.Item faqGroupItem in Html.Sitecore().CurrentItem.Children)
+                {
+                    <h1>@Html.Sitecore().Field("Name", faqGroupItem)</h1>
+                    <dl class="faq">
+                        @foreach (Sitecore.Data.Items.Item faqItem in faqGroupItem.Children)
+                        {
+                            <dt data-collasped onclick=" this.hasAttribute('data-collasped') ? this.removeAttribute('data-collasped') : this.setAttribute('data-collasped', 'data-collasped') ">@Html.Sitecore().Field("FAQ Question", faqItem)</dt>
+                            <dd>@Html.Sitecore().Field("FAQ Answer", faqItem)</dd>
+                        }
+                    </dl>
+                }
+            </article>
+        </section>
+    </div>
 </section>

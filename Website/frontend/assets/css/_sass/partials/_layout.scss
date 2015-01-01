@@ -251,7 +251,7 @@ $mobile-nav-margin: 15px;
 			width: 20%;
 		}
 		&.border .col {
-			border-left: 1px solid #cccccc;
+			border-left: 1px solid #f2f2f2;
 			padding: 0 30px;
 			&:first-child {
 				border-left: 0;
@@ -259,6 +259,27 @@ $mobile-nav-margin: 15px;
 			}
 			&:last-child {
 				padding-right: 0;
+			}
+		}
+		&.bg {
+			.col {
+				background: #f3f3f3;
+				padding: 20px;
+			}
+		}
+	}
+}
+@include breakpoint(small) {
+	.grid {
+		&.border .col {
+			border-top: 1px solid #f2f2f2;
+			padding: 20px 0;
+			&:first-child {
+				border-top: 0;
+				padding-top: 0;
+			}
+			&:last-child {
+				padding-bottom: 0;
 			}
 		}
 		&.bg {

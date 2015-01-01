@@ -55,7 +55,7 @@ ngApp.controller('CoverageMapCtrl', ['$scope', 'uiGmapGoogleMapApi', function ($
 
     $scope.map = {
         center: { latitude: 38.850033, longitude: -98.6500523 },
-        zoom: 3,
+        zoom: 4,
         options: {
             disableDefaultUI: false,
             scrollwheel: false,
