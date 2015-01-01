@@ -87,6 +87,7 @@ namespace StreamEnergy.Services.Clients
                               //InstallmentPlan = GetInstallmentPlanIds(productData, products: streamConnectProductResponse.Products),
 
                               Name = productData.Fields["Name"],
+                              Description = productData.Fields["Name"],
                               Data = productData.Fields["Data"],
                               HoursMusic = productData.Fields["Hours Music"],
                               HoursMovies = productData.Fields["Hours Movies"],

@@ -256,7 +256,7 @@
                                     </div>
                                 }
                             </div>
-                            <div ng-show="cartHasUtility() && hasMoveIn && customerType != 'commercial'" class="previous-address">
+                            <div ng-if="cartHasUtility() && hasMoveIn && customerType != 'commercial'" class="previous-address">
                                 <h3>@Html.Sitecore().Field("Previous Address Header")</h3>
                                 @using (var previousAddress = Html.Shortcut(m => m.PreviousAddress))
                                 {
