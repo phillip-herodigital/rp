@@ -5,7 +5,7 @@
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService) {
     // TODO - chose state by geoIP
     if (!$scope.data || !$scope.data.serviceState) {
-        if ($location.absUrl().indexOf('State=GA') > 0) {
+        if ($location.absUrl().indexOf('State=GA') > 0 || $location.absUrl().indexOf('St=GA') > 0) {
             $scope.data = { serviceState: 'GA' };
         } else {
             $scope.data = { serviceState: 'TX' };
