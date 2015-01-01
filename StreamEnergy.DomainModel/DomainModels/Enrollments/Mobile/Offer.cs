@@ -29,6 +29,22 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
 
         public string Description { get; set; }
 
+        public string Data { get; set; }
+
+        public string HoursMusic { get; set; }
+
+        public string HoursMovies { get; set; }
+
+        public string WebPages { get; set; }
+
+        public bool Recommended { get; set; }
+
+        public bool SpecialOffer { get; set; }
+
+        public string SpecialOfferText { get; set; }
+
+        public string SpecialOfferOriginalPrice { get; set; }
+
         public IList<Rate> Rates { get; set; }
 
         public int Term { get; set; }

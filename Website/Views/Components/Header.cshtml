@@ -60,7 +60,7 @@
                 }
                 @if (!Sitecore.Context.IsLoggedIn)
                 {
-                    <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                    @*<li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>*@
                     <li><a href="/manage/">Manage My Account</a></li>
                     <li><a href="/pay/">Pay my Bill</a></li>
                 }
@@ -89,7 +89,7 @@
             else
             {
                 <ul>
-                    <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                    @*<li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>*@
                     <li><a href="/manage/">My Account</a></li>
                     <li><a href="/pay/">Pay My Bill</a></li>
                 </ul>

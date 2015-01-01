@@ -16,6 +16,33 @@
         $scope.mobileEnrollmentSettings.sprintByod = true;
     }
 
+    $scope.$watch(enrollmentCartService.getActiveService, function (address) {
+        var availableDevices = [];
+        if (address && address.offerInformationByType) {
+            // change the stock and add prices for the phones we get back from BeQuick
+            angular.forEach(address.offerInformationByType[0].value.availableOffers, function (entry) {
+                availableDevices.push(entry.mobileInventory);
+            });
+            _(availableDevices).flatten().uniq('id').forEach(function(device) { 
+                _.find(mobileEnrollmentService.getPhoneData(), function(phone) {
+                    _.find(phone.models, function(model) {
+                        if (model.sku == device.id) {
+                            model.inStock = true;
+                            model.price = device.price;
+                        } else {
+                            _.find(model.installmentPlans, function(installmentPlan) {
+                                if (installmentPlan.sku == device.id) {
+                                    installmentPlan.inStock = true;
+                                    installmentPlan.price = device.price;
+                                }
+                            })
+                        }
+                    })
+                });
+            });
+        }
+    });
+
     $scope.chooseNetwork = function(network, phoneType) {
         $scope.mobileEnrollment.phoneTypeTab = phoneType;
         mobileEnrollmentService.selectedNetwork = _.where($scope.mobileEnrollmentService.availableNetworks, { value: network })[0];
@@ -33,17 +60,17 @@
                 mobileEnrollmentService.postalCode5 = $scope.postalCode5;
 
                 $scope.data.serviceLocation.address = {
-                    line1: '',
-                    line2: '',
-                    city: '',
+                    line1: 'Line1',
+                    city: 'City',
                     stateAbbreviation: data[0], 
                     postalCode5: $scope.postalCode5
                 };
 
                 $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
-                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": mobileEnrollmentService.planType });
-                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile", "serviceProvider": mobileEnrollmentService.selectedNetwork });
+                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": mobileEnrollmentService.planType.toLowerCase() });
+                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
 
+                $scope.$parent.customerType = mobileEnrollmentService.planType.toLowerCase();
 
                 var activeService = enrollmentCartService.getActiveService();
                 if (activeService) {
@@ -53,6 +80,7 @@
                 else {
                     enrollmentCartService.addService({ location: $scope.data.serviceLocation });
                     enrollmentService.setServiceInformation(true);
+                    activeService = enrollmentCartService.getActiveService();
                 }
 
                 // if no plans come back, show the "no plans available" dialog

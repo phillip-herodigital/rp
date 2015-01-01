@@ -42,8 +42,18 @@ namespace StreamEnergy.MyStream.Controllers
                     ColorClass = (Char.ToLowerInvariant(obj.Fields["Color"].Value[0]) + obj.Fields["Color"].Value.Substring(1)).Trim(),
                     Network = obj.Fields["Network"].Value.ToLower(),
                     Condition = obj.Fields["Condition"].Value,
-                    Price = obj.Fields["Price New"].Value,
-                    Sku = obj.Fields["SKU"].Value
+                    //Price = obj.Fields["Price New"].Value,
+                    Sku = obj.Fields["SKU"].Value,
+                    InStock = false,
+                    InstallmentPlans = GetAllInstallmentPlans(obj).Select(plan => new
+                    {
+                        Months = plan.Fields["Number of Months"].Value,
+                        CreditGroup = plan.Fields["Credit Group"].Value,
+                        //Price = plan.Fields["Price"].Value,
+                        Sku = plan.Fields["SKU"].Value,
+                        InStock = false
+
+                    })
                 })
             });
 
@@ -125,21 +135,6 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
-        /*public ActionResult MobileEnrollmentNetworks()
-        {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");
-            var data = item.Children.Select(child => new
-            {
-                name = child.Fields["Network Name"].Value,
-                value = child.Fields["Network Value"].Value,
-                description = child.Fields["Network Description"].Value,
-                coverage = child.Fields["Network Coverage"].Value,
-                devices = child.Fields["Network Devices"].Value
-            });
-
-            return this.Content(StreamEnergy.Json.Stringify(data));
-        }*/
-
         public static IEnumerable<MobileColor> GetAllColors(NameValueCollection item) {
             var data = item.AllKeys.Select(key => new MobileColor { Value = key, Color = item[key] });
             return data;
@@ -156,6 +151,12 @@ namespace StreamEnergy.MyStream.Controllers
         {
             Item[] allPhoneModels = Sitecore.Context.Database.SelectItems("fast:/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Pricing//*[(@@templateid='{151B1A5D-FE85-4FEF-8779-1D2E328391C9}')]");
             IEnumerable<Item> data = allPhoneModels.Where(item => new Sitecore.Data.ID(item.Fields["Model"].Value) == phoneID);
+            return data;
+        }
+
+        public static IEnumerable<Item> GetAllInstallmentPlans(Item phoneItem)
+        {
+            IEnumerable<Item> data = phoneItem.Children;
             return data;
         }
 

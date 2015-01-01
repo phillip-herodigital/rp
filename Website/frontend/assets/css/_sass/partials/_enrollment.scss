@@ -53,9 +53,8 @@
         }
         label {
             display: inline;
-            &.enroll-options {
-                font-weight: 300;
-            }
+            font-size: 16px;
+            font-weight: 300;
         }
     }
 
@@ -78,6 +77,7 @@
             background-color: $enrollment-secondary-button-background;
             color: $enrollment-secondary-button-color;
             margin-right: 10px;
+            text-shadow: none;
             @include breakpoint(small-medium){
                 margin-top: 10px;
                 margin-right: 0;
@@ -115,7 +115,7 @@
             display: none;
         }
     }
-    
+
     .error {
         color: #c84545;
         input, select {
@@ -222,7 +222,11 @@
     }
 
     hr.content-divider {
-        margin: 24px (-$enrollment-module-horizontal-padding);
+        margin: 20px 0;
+    }
+
+    form div.additional-field-item {
+        margin-bottom: 10px !important;
     }
 
     form div.additional-field-group {
@@ -230,7 +234,10 @@
         margin-right: (-$enrollment-module-horizontal-padding);
         padding-left: $enrollment-module-horizontal-padding;
         padding-right: $enrollment-module-horizontal-padding;
+        margin-bottom: 0;
+        background-color: $enrollment-secondary-color;
     }
+
 
     @include breakpoint(small) {
         #state-select {
@@ -247,6 +254,14 @@
         }
         .datepicker-input {
             width: 100%;
+            @include retina-background('calendar.png', 'icon'); 
+            background-position: 98% center;
+            background-repeat: no-repeat;
+
+            //Remove the Clear field (X) in IE10+
+            &::-ms-clear {
+                display: none;
+            }
         }
         .datepicker {
             position: relative;
@@ -255,6 +270,7 @@
             }
             table {
                 width: 100%;
+                max-width: 320px;
                 td {
                     padding: 2px 3px;
                     @include breakpoint(small) {
@@ -519,8 +535,9 @@
     }
     &.form label, form label {
         text-transform: none !important;
-        font-weight: 600;
-        font-size: inherit;
+        font-weight: 500;
+        font-size: 14px;
+        color: #000;
         margin-bottom: 8px;
     }
     hr {
@@ -801,13 +818,11 @@
             span {
                 font-size: 12px;
                 text-transform: none;
-                font-weight: normal;
             }
         }
         .term {
             font-size: 18px;
             font-style: italic;
-            font-weight: 600;
             span {
                 font-size: 12px;
                 text-transform: none;
@@ -978,7 +993,7 @@
     .availibility {
         margin-top: 8px;
     }
-    .previous-address {
+    .mailing-address, .previous-address {
         margin-bottom: 20px;
     }
     .aglc-example {
@@ -987,14 +1002,15 @@
             margin-left: 10px;
         }
     }
-    form div.secondary-contact-group {
-        margin-bottom: 15px;
-    }
     .zip-code {
         @include breakpoint(small-medium) {
             clear: left;
             margin-top: 20px;
         }
+    }
+    h3 {
+        font-size: 18px;
+        font-weight: 400
     }
 }
 
@@ -1326,13 +1342,14 @@
         line-height: 14px;
         font-weight: 600;
         text-align: center;
+        /*
         span {
             display: block;
-            font-weight: normal;
             font-style: italic;
             font-size: 12px;
             line-height: 12px;
         }
+        */
     }
     .description {
         position: relative;
@@ -1527,208 +1544,12 @@
                         right: 2%;
                         top: 45px;
                     }
-        }
-    }
+                }
+            }
         }
     }
  }
 
-/*
-    Generic styling for enrollment pages
- */
-.enrollment {
-    .checkbox-list {
-        li { 
-            margin-bottom : 4px;
-        }
-        label {
-			display: inline;
-        }
-    }
-
-    .center {
-        text-align: center;
-    }
-
-    .icon-blue-arrow-up, .icon-blue-arrow-down {
-        margin-top: -2px;
-    }
-
-    .buttons .button, .buttons button, .enrollment-btn {
-        background-color: $enrollment-primary-button-background;
-        color: $enrollment-primary-button-color;
-
-        &.secondary {
-            background-color: $enrollment-secondary-button-background;
-            color: $enrollment-secondary-button-color;
-            text-shadow: none;
-        }
-    }
-    
-    .error {
-        color: #c84545;
-        input, select {
-            border-color: #c84545;
-        }
-    }
-        
-    .wrapper {
-        position: relative;
-        overflow: visible;
-        padding-bottom: 50px;
-    }
-
-    .time-remaining-mobile {
-        text-align: center;
-        .time-remaining {
-            text-transform: uppercase;
-            font-size: 14px;
-            width: 75%;
-            margin: 0 auto;
-        }
-    }
-
-    .item--no-input {
-        label {
-            margin-bottom: 3px;
-        }
-    }
-
-    .terms-agreement {
-        margin-bottom: 20px;
-    }
-
-    .verify-order-table {
-        .sub-charge { 
-            padding-left: 30px;
-        }
-        .rate {
-            text-align: right;
-        }
-        h4 { 
-            margin: 0 0 10px;
-        }
-        th, td {
-            border: none;
-            padding: 0;
-            vertical-align: top;
-        }
-        tr:last-child {
-            td {
-                padding-bottom: 0;
-            }
-        }
-
-        @include breakpoint(small) {
-            h4 {
-                margin-bottom: 0;
-            }
-            td {
-                display: block;
-                }
-            .docs {
-                text-align: left;
-            }
-            .sub-charge {
-                padding-left: 0;
-                margin-bottom: 6px;
-        }
-            .description {
-                margin-bottom: 6px;
-    }
-            .rate {
-                margin-bottom: 15px;
-                text-align: left;
-            }
-        }
-    }
-
-    .total {
-        text-align: right;
-    }
-
-    form div.additional-field-group {
-        margin-left: (-$enrollment-module-horizontal-padding);
-        margin-right: (-$enrollment-module-horizontal-padding);
-        padding-left: $enrollment-module-horizontal-padding;
-        padding-right: $enrollment-module-horizontal-padding;
-    }
-
-    @include breakpoint(small) {
-        #state-select {
-            margin-top: 5px;
-        }
-        .buttons {
-            text-align: center;
-            button {
-                min-width: 150px;
-            }
-            button + button {
-                margin-top: 8px;
-            }
-        }
-        .datepicker {
-            position: relative;
-            .pull-right, .pull-left {
-                width: 35px;
-            }
-            table {
-                width: 100%;
-                max-width: 320px;
-                td {
-                    padding: 2px 3px;
-                }
-            }
-        }
-        .datepicker-input {
-            @include retina-background('calendar.png', 'icon'); 
-            background-position: 98% center;
-            background-repeat: no-repeat;
-
-            //Remove the Clear field (X) in IE10+
-            &::-ms-clear {
-                display: none;
-            }
-        }
-        .dropdown-menu {
-            font-size: 13px;
-        }
-        .time-remaining-mobile {
-            margin-top: 10px;
-            .time-remaining {
-                width: 160px;
-                font-size: 11px;
-            }
-        }
-        h1 {
-            font-size: 30px;
-            line-height: 1.1;
-        }
-        .plan-selection-table {
-            tr.details-row {
-                td div {
-                    padding: 0 15px;
-                }
-            }
-            .plan-name {
-                text-align: left;
-            }
-            .plan-actions {
-                border-left: none;
-                button, .button {
-                    float: right;
-                    min-width: 120px;
-                }
-            }
-            .view-details {
-                display: inline;
-                float: left;
-                margin-top: 12px;
-            }
-        }
-
-    }
-}
 
 
 /*
@@ -2282,12 +2103,19 @@
         margin-bottom: -4px;
     }
     .btn-size {
+        margin-right: 5px;
         &:after, &:before {
             bottom: -30px;
         }
     }
     .size {
         font-weight: 600;
+    }
+    .oos {
+        font-size: 10px;
+        font-style: italic;
+        font-weight: 600;
+        text-transform: uppercase;
     }
     .purchase-options {
         .purchase-price {
@@ -2501,6 +2329,29 @@
                 bottom: 0;
                 left: 50%;
                 margin-left: -35px;
+            }
+            div.overlay {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #fff;
+                @include opacity(.95);
+            }
+            span.text {
+                display: block;
+                width: 70%;
+                position: absolute;
+                top: 50%;
+                left: 15%;
+                padding: 7px;
+                text-align: center;
+                color: #fff;
+                font-size: 15px;
+                font-weight: 600;
+                background-color: #778995;
+                @include border-radius(7px);
             }
         }
         .price {
@@ -2778,7 +2629,6 @@
         .size {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 5px;
         }
         .price {
             position: relative;

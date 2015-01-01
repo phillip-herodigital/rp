@@ -8,6 +8,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.validations = [];
     $scope.addressOptions = {};
     $scope.modal = {};
+    $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
 
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
 

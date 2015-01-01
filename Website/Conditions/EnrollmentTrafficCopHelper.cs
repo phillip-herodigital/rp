@@ -30,7 +30,7 @@ namespace StreamEnergy.MyStream.Conditions
             if (!LoadFromCookie(dependencies.Context.Request.Cookies[cookieName], out queryString, out useRemoteEnrollment))
             {
                 useRemoteEnrollment = random.NextDouble() * 100 >= Percentage;
-                queryString = dependencies.Context.Request.QueryString;
+                queryString = HttpUtility.ParseQueryString(dependencies.Context.Request.QueryString.ToString());
             }
             else if (dependencies.Context.Request.QueryString.Keys.Count > 0)
             {
@@ -47,6 +47,9 @@ namespace StreamEnergy.MyStream.Conditions
                 }
                 queryString = newQueryString;
             }
+
+            queryString["St"] = dependencies.Context.Request.QueryString["St"] ?? dependencies.Context.Request.QueryString["State"] ?? queryString["St"] ?? queryString["State"] ?? "";
+            queryString.Remove("State");
 
             if (Percentage <= 0)
             {
