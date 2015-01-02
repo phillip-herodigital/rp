@@ -7,6 +7,7 @@
 }
 <article class="marketing @string.Join(" ", componentClasses)">
     <div class="wrapper">
+        @Html.Sitecore().Field("Header")
         @{
             var divClass = "two";
             if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Column Four Content"].Value))
@@ -26,5 +27,6 @@
                 }
             </div>
         }
+        @Html.Sitecore().Field("Footer")
     </div>
 </article>
