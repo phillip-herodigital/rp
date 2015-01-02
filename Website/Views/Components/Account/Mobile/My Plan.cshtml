@@ -1,131 +1,127 @@
-﻿<div class="enrollment" ng-controller="ChangeMobilePlanCtrl">
-    <div class="wrapper layout cols-2">
-        <section>
-            <article class="enrollment__box enrollment__configure-data" ng-if="activeStep == 1">
-                <header>
-                    <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
-                </header>
-                <div class="content">
-                    <h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>
-                    <div class="btn-group btn-group-options mobile-plans">
-                        <div class="button" btn-radio="plan.id" ng-repeat="plan in getDataPlans()" ng-class="{'is-special-offer':plan.specialOffer}">
-                            <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
-                            <p>
-                                <span class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">GB</span></span><br />
-                                {{ plan.dataDescription }}
-                            </p>
-                            <hr />
-                            <ul class="details">
-                                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} hours</span></span></li>
-                                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} hours</span></span></li>
-                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.hoursWebBrowsing }} web pages</span></span></li>
-                            </ul>
-                            <hr />
-                            <p>
-                                <span class="price">
-                                    <span class="original-price" ng-if="plan.specialOffer">{{ plan.specialOfferOriginalPrice | currency }}/mo</span>
-                                    {{ plan.price | currency }}/mo<span ng-if="plan.specialOffer">*</span>
-                                </span>
-                            </p>
-                            <div class="buttons">
-                                <button type="submit" class="primary" ng-if="plan.id != currentPlan.id" ng-click="selectPlan(plan);">Upgrade @Html.Sitecore().Field("Button - Next")</button>
-                                <span ng-if="plan.id == currentPlan.id">Currently Selected Plan</span>
-                            </div>
-                        </div>
+﻿<div class="enrollment" ng-controller="ChangeMobilePlanCtrl" loading-indicator>
+    <article class="enrollment__box enrollment__configure-data" ng-if="activeStep == 1">
+        <header>
+            <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
+            <span class="account">@Html.Sitecore().Field("Label - Account") {{ selectedAccount }}</span>
+        </header>
+        <div class="content">
+            <div class="btn-group btn-group-options mobile-plans">
+                <div class="button" ng-repeat="plan in getDataPlans()" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
+                    <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
+                    <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
+                    <p>
+                        <span class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">GB</span></span><br />
+                        {{ plan.dataDescription }}
+                    </p>
+                    <hr />
+                    <ul class="details">
+                        <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} hours</span></span></li>
+                        <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} hours</span></span></li>
+                        <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.hoursWebBrowsing }} web pages</span></span></li>
+                    </ul>
+                    <hr />
+                    <p>
+                        <span class="price">
+                            <span class="original-price" ng-if="plan.specialOffer">{{ plan.specialOfferOriginalPrice | currency }}/mo</span>
+                            {{ plan.price | currency }}/mo<span ng-if="plan.specialOffer">*</span>
+                        </span>
+                    </p>
+                    <div class="buttons">
+                        <button type="submit" class="primary" ng-if="plan.id != currentPlan.id" ng-click="selectPlan(plan);"><span ng-if="plan.data < currentPlan.data">@Html.Sitecore().Field("Button - Select Plan")</span><span ng-if="plan.data >= currentPlan.data">@Html.Sitecore().Field("Button - Upgrade")</span></button>
+                        <span ng-if="plan.id == currentPlan.id">@Html.Sitecore().Field("Current Plan")</span>
                     </div>
                 </div>
-                <footer>
-                    <h3>@Html.Sitecore().Field("Header - What About Overages")</h3>
-                    @Html.Sitecore().Field("Text - What About Overages")
-                </footer>
-            </article>
+            </div>
+        </div>
+        <footer>
+            <h3>@Html.Sitecore().Field("Header - What About Overages")</h3>
+            @Html.Sitecore().Field("Text - What About Overages")
+        </footer>
+    </article>
+    <article class="white-box mobile upgrade" ng-if="activeStep == 2">
+        <header>
+            <h2>@Html.Sitecore().Field("Header Text")</h2>
+            <span class="account">@Html.Sitecore().Field("Label - Account") {{ selectedAccount }}</span>
+        </header>
+        <form>
+            <div class="content">
+                <p><strong>@Html.Sitecore().Field("Upgrade Start Date")</strong> {{ effectiveDate | date:'MMMM d, yyyy' }}</p>
+                <hr />
+                <p><strong>@Html.Sitecore().Field("New Plan")</strong> {{ formFields.chosenPlan.data }}<span ng-if="formFields.chosenPlan.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Shared Data") <a href="javascript:void(0);" ng-click="setActiveStep(1)" class="right-button">@Html.Sitecore().Field("Button - Change Plan")</a></p>
+                <hr />
+                <table class="plan-differences">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>@Html.Sitecore().Field("Table Current Header")</th>
+                            <th class="new-header">@Html.Sitecore().Field("Table New Header")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="2">@Html.Sitecore().Field("Monthly Shared Data")</td>
+                            <td>{{ currentPlan.data }} <span ng-if="currentPlan.data != 'Unlimited'">GB</span></td>
+                            <td class="new">{{ formFields.chosenPlan.data }} <span ng-if="formFields.chosenPlan.data != 'Unlimited'">GB</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.Sitecore().Field("Mobile Share Plan Fee")</td>
+                            <td>{{ currentPlan.price | currency }}/mo</td>
+                            <td class="new">{{ formFields.chosenPlan.price | currency }}/mo</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><span class="total"><strong>@Html.Sitecore().Field("Monthly Total")</strong></span></td>
+                            <td>{{ currentPlan.price | currency }}/mo</td>
+                            <td class="new">{{ formFields.chosenPlan.price | currency }}/mo</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5><strong>@Html.Sitecore().Field("Taxes and Fees")</strong></h5>
+                <p>@Html.Sitecore().Field("Overage Paragraph")</p>
+                <h5><strong>@Html.Sitecore().Field("Terms and Conditions Header")</strong></h5>
 
-            <article class="white-box mobile upgrade" ng-if="activeStep == 2">
-                <header>
-                    <h2>@Html.Sitecore().Field("Header Text")</h2>
-                </header>
-                <form>
-                    <div class="content">
-                        <p><strong>@Html.Sitecore().Field("Upgrade Start Date")</strong> Sunday, June 29, 2014</p>
-                        <hr />
-                        <p><strong>@Html.Sitecore().Field("New Plan")</strong> {{ chosenPlan.name }} <a href="javascript:void(0);" ng-click="activeStep = 1" class="right-button">@Html.Sitecore().Field("Button - Change Plan")</a></p>
-                        <hr />
-                        <table class="plan-differences">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th>@Html.Sitecore().Field("Table Current Header")</th>
-                                    <th class="new-header">@Html.Sitecore().Field("Table New Header")</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="2">@Html.Sitecore().Field("Monthly Shared Data")</td>
-                                    <td>{{ currentPlan.data }} <span ng-if="currentPlan.data != 'Unlimited'">GB</span></td>
-                                    <td class="new">{{ chosenPlan.data }} <span ng-if="chosenPlan.data != 'Unlimited'">GB</span></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">@Html.Sitecore().Field("Mobile Share Plan Fee")</td>
-                                    <td>{{ currentPlan.price | currency }}/mo</td>
-                                    <td class="new">{{ chosenPlan.price | currency }}/mo</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><span class="total"><strong>@Html.Sitecore().Field("Monthly Total")</strong></span></td>
-                                    <td>{{ currentPlan.price | currency }}/mo</td>
-                                    <td class="new">{{ chosenPlan.price | currency }}/mo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h5><strong>@Html.Sitecore().Field("Taxes and Fees")</strong></h5>
-                        <p>@Html.Sitecore().Field("Overage Paragraph")</p>
-                        <h5><strong>@Html.Sitecore().Field("Terms and Conditions Header")</strong></h5>
-                        <form>
-                            <p><input type="checkbox" />@Html.Sitecore().Field("Agree to Terms")</p>
-                        </form>
-                        <textarea>@Html.Sitecore().Field("Terms Paragraph")</textarea>
-                    </div>
-                    <footer>
-                        <div class="buttons">
-                            <p class="footer-left link"><a href="javascript:void(0);">@Html.Sitecore().Field("Button - Cancel")</a></p>
-                            <p class="footer-left"><a href="javascript:void(0);" class="button secondary">@Html.Sitecore().Field("Button - Back")</a></p>
-                            <p><a href="javascript:void(0);" ng-click="confirmChange()" class="button">@Html.Sitecore().Field("Button - Confirm")</a></p>
-                        </div>
-                    </footer>
-                </form>
-            </article>
+                <p><input id="agreeToTerms" ng-model="formFields.agreeToTerms" type="checkbox" /><label for="agreeToTerms">@Html.Sitecore().Field("Agree to Terms")</label></p>
 
-            <article class="white-box mobile upgrade-effective" ng-if="activeStep == 3">
-                <header>
-                    <p>@Html.Sitecore().Field("Upgrade Effective")<strong>Sunday, June 29, 2014.</strong></p>
-                    <span class="icon-close"></span>
-                </header>
-                <div class="content">
-                    <form>
-                        <div class="group clearfix">
-                            <div class="item paragraph">
-                                <p><strong>@Html.Sitecore().Field("My New Plan")</strong> {{ chosenPlan.name }}</p>
-                            </div>
-                            <div class="item price">
-                                <p>{{ chosenPlan.price | currency }}/mo</p>
-                            </div>
-                        </div>
-                    </form>
+                <textarea>@Html.Sitecore().Field("Terms Paragraph")</textarea>
+            </div>
+            <footer>
+                <div class="buttons">
+                    <p class="footer-left link"><a href="setActiveStep(1)">@Html.Sitecore().Field("Button - Cancel")</a></p>
+                    <p class="footer-left"><a href="javascript:void(0);" ng-click="setActiveStep(1)" class="button secondary">@Html.Sitecore().Field("Button - Back")</a></p>
+                    <p><a href="javascript:void(0);" ng-click="confirmChange()" ng-disabled="formFields.agreeToTerms != true" class="button" ng-class="{'disabled':formFields.agreeToTerms != true,}">@Html.Sitecore().Field("Button - Confirm")</a></p>
                 </div>
-                <footer class="clearfix">
-                    <div class="footer-right">
-                        <dl class="clearfix">
-                            <dt><strong>@Html.Sitecore().Field("New Monthly Total")</strong></dt>
-                            <dd>{{ chosenPlan.price | currency }}/mo</dd>
-                            <dt><strong>@Html.Sitecore().Field("Total Due Today")</strong></dt>
-                            <dd>$0.00</dd>
-                        </dl>
+            </footer>
+        </form>
+    </article>
+    <article class="white-box mobile upgrade-effective" ng-if="activeStep == 3">
+        <header>
+            <p>@Html.Sitecore().Field("Upgrade Effective")<strong> {{ effectiveDate | date:'MMMM d, yyyy' }}.</strong></p>
+            <span class="icon-close" ng-click="setActiveStep(1)"></span>
+        </header>
+        <div class="content">
+            <form>
+                <div class="group clearfix">
+                    <div class="item paragraph">
+                        <p><strong>@Html.Sitecore().Field("Label - New Shared Data")</strong> {{ formFields.chosenPlan.data }}<span ng-if="formFields.chosenPlan.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Shared Data")</p>
                     </div>
-                    <div class="footer-left receipt">
-                        <a href="javascript:window.print()">@Html.Sitecore().Field("Print Receipt")</a>
+                    <div class="item price">
+                        <p>{{ formFields.chosenPlan.price | currency }}/mo</p>
                     </div>
-                </footer>
-            </article>
-        </section>
-    </div>
+                </div>
+            </form>
+        </div>
+        <footer class="clearfix">
+            <div class="footer-right">
+                <dl class="clearfix">
+                    <dt><strong>@Html.Sitecore().Field("New Monthly Total")</strong></dt>
+                    <dd>{{ formFields.chosenPlan.price | currency }}/mo</dd>
+                    <dt><strong>@Html.Sitecore().Field("Total Due Today")</strong></dt>
+                    <dd>$0.00</dd>
+                </dl>
+            </div>
+            <div class="footer-left receipt">
+                <a class="receipt" href="javascript:window.print()"><i class="icon-printer"></i> @Html.Sitecore().Field("Print Receipt")</a>
+            </div>
+        </footer>
+    </article>
 </div>
