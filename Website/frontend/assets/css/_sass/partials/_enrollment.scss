@@ -8,6 +8,10 @@
     Generic styling for enrollment pages
  */
 .enrollment {
+    &[loading-indicator],
+    [loading-indicator] {
+        position: relative;
+    }
     #state-select {
         button {
             border-color: #cfcfcf;
@@ -2550,6 +2554,9 @@
         h1 {
             font-size: 24px;
         }
+        span.account {
+            float: right;
+        }
     }
     .mobile-plans-header {
         margin-bottom: 30px;
@@ -2659,6 +2666,12 @@
         }
         span {
             display: inline-block;
+        }
+        .buttons {
+            button {
+                float: none;
+                margin-bottom: 1em;
+            }
         }
     }
     h3 {
