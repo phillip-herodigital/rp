@@ -3,16 +3,13 @@
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br />
+                <span class="block">@Html.Sitecore().Field("Banner Header Text")</span><br />
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
-    <section class="layout">
+    <div class="layout">
         <div class="wrapper cols-2 enrollment__verify-identity">
-            <aside class="enrollment__nav">
-                <div ng-include ng-if="true" src="'enrollment-nav-template'" ng-init="name = 'verifyIdentity'"></div>
-            </aside>
             <section>
                 <form data-val-bind-messages="validations" ng-submit="completeStep()">
                     <article class="enrollment__box form">
@@ -59,5 +56,5 @@
                 <div ng-include ng-if="true" src="'cart-template'"></div>
             </aside>
         </div>
-    </section>
+    </div>
 </div>

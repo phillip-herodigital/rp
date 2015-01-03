@@ -74,6 +74,7 @@ namespace StreamEnergy.Services.Clients
                           let productData = sitecoreProductData.GetMobileProductData((string)product.ProductId)
                           where productData != null
                           where product.MobileInventory != null
+                          let childOffer = streamConnectProductResponse.Products.FirstOrDefault(p => p.ParentGroupProductId == product.ProductId)
                           select new Mobile.Offer
                           {
                               Id = product.ProductId,
@@ -81,8 +82,8 @@ namespace StreamEnergy.Services.Clients
                               Code = product.ProductCode,
                               Product = Newtonsoft.Json.JsonConvert.SerializeObject(product),
 
-                              ParentOfferId = product.ParentGroupProductId,
-                              IsParentOffer = (product.IsParentOffer != null) ? product.IsParentOffer : false,
+                              ChildOfferId = (childOffer != null) ? childOffer.ProductId : null,
+                              IsParentOffer = (product.IsParentGroup != null) ? product.IsParentGroup : false,
 
                               //InstallmentPlan = GetInstallmentPlanIds(productData, products: streamConnectProductResponse.Products),
 

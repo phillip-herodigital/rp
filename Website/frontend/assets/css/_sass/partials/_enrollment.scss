@@ -2106,6 +2106,11 @@
     .sizes {
         margin-bottom: -4px;
     }
+    .btn-color {
+        &:after, &:before {
+            bottom: -20px;
+        }
+    }
     .btn-size {
         margin-right: 5px;
         &:after, &:before {

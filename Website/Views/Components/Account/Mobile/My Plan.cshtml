@@ -23,7 +23,7 @@
                     <p>
                         <span class="price">
                             <span class="original-price" ng-if="plan.specialOffer">{{ plan.specialOfferOriginalPrice | currency }}/mo</span>
-                            {{ plan.price | currency }}/mo<span ng-if="plan.specialOffer">*</span>
+                            {{ plan.rates[0].rateAmount | currency }}/mo<span ng-if="plan.specialOffer">*</span>
                         </span>
                     </p>
                     <div class="buttons">
