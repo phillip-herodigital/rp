@@ -1,7 +1,7 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', '$filter', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, mobileEnrollmentService, scrollService, $timeout, enrollmentCartService, $filter) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', '$filter', function ($scope, $anchorScroll, $location, enrollmentStepsService, enrollmentService, mobileEnrollmentService, scrollService, $timeout, enrollmentCartService, $filter) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
     $scope.mobileEnrollmentService = mobileEnrollmentService;
@@ -18,10 +18,12 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         $scope.isLoading = newValue;
     });
 
-    //Go ahead and set the first step to be utility for now
-    //Need to determine how the first step will be activated
-    //Or if we need to go ahead and activate multiple based on a saved card
-    enrollmentStepsService.setInitialFlow('phone');
+    //Set the first step based on query string
+    if ($location.absUrl().toLowerCase().indexOf('servicetype=mob') > 0) {
+        enrollmentStepsService.setInitialFlow('phone');
+    } else {
+        enrollmentStepsService.setInitialFlow('utility');
+    }
 
     $scope.setTimeRemaining = enrollmentStepsService.setTimeRemaining;
 
