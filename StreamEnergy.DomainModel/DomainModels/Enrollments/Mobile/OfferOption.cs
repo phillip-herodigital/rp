@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
+    [Serializable]
     public class OfferOption : IOfferOption
     {
         public const string Qualifier = "Mobile";

@@ -34,6 +34,7 @@ namespace StreamEnergy.DomainModels
                     { Enrollments.GeorgiaGas.MoveInOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.MoveInOfferOption) },
                     { Enrollments.GeorgiaGas.RenewalOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.RenewalOfferOption) },
                     { Enrollments.GeorgiaGas.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.GeorgiaGas.CommercialQuoteOption) },
+                    { Enrollments.Mobile.OfferOption.Qualifier, typeof(Enrollments.Mobile.OfferOption) },
                 }
             });
 

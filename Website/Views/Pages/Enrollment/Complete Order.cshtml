@@ -4,8 +4,8 @@
         <div class="wrapper clearfix">
             <h1>
                 <span class="block">@Html.Sitecore().Field("Banner Header Text")</span><br />
-                <span class="block" ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Banner Sub Header Text")</span>
-                <span class="block" ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Quote Banner Sub Header Text")</span>
+                <span class="block" ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Banner Sub Header Text")</span>
+                <span class="block" ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Quote Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
@@ -14,8 +14,8 @@
             <section>
                 <article class="form enrollment__box" ng-if="!isRenewal">
                     <header>
-                        <h1 ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Complete Order")</h1>
-                        <h1 ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Complete Quote")</h1>
+                        <h1 ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Complete Order")</h1>
+                        <h1 ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Complete Quote")</h1>
                     </header>
                     <div class="content">
                         <p ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Almost Done")</p>
@@ -139,41 +139,42 @@
                     </div>
                 </form>
             </section>
+            @*
             <aside>
                 <div ng-include ng-if="true" src="'cart-template'"></div>
             </aside>
-            @*
-                <aside>
-                    <div class="enrollment__cart">
-                        <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
-                            <header>
-                                <h1>@Html.Sitecore().Field("Order Breakdown Header")</h1>
-                            </header>
-                            <div class="content">
-                                <div class="billed-today">
-                                    <p><strong>@Html.Sitecore().Field("Billed Today Text")</strong></p>
-                                    <div ng-repeat="(id, location) in getCartItems()">
-                                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                                            <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <hr>
-                                <div class="billed-monthly">
-                                    <p><strong>@Html.Sitecore().Field("Billed Monthly Text")</strong></p>
-                                    <div ng-repeat="(id, location) in getCartItems()">
-                                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                                            <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </aside>
             *@
+            <aside>
+                <div class="enrollment__cart">
+                    <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Order Breakdown Header")</h1>
+                        </header>
+                        <div class="content">
+                            <div class="billed-today">
+                                <p><strong>@Html.Sitecore().Field("Billed Today Text")</strong></p>
+                                <div ng-repeat="(id, location) in getCartItems()">
+                                    <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                                        <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="billed-monthly">
+                                <p><strong>@Html.Sitecore().Field("Billed Monthly Text")</strong></p>
+                                <div ng-repeat="(id, location) in getCartItems()">
+                                    <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                                        <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </aside>
+            
         </div>
     </div>
 </div>
@@ -194,6 +195,13 @@
     </dl>
 </script>
 
+<script type="text/ng-template" id="completeOrderCartToday/Mobile">
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dt>{{selectedOffer.offer.name}}</dt>
+        <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
+    </dl>
+</script>
+
 <script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricity">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dl class="clearfix">
@@ -203,6 +211,14 @@
 </script>
 
 <script type="text/ng-template" id="completeOrderCartMonthly/GeorgiaGas">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dl class="clearfix">
+            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" src="'paymentsCart/' + payment.offerPaymentAmountType" />
+        </dl>
+    </div>
+</script>
+
+<script type="text/ng-template" id="completeOrderCartMonthly/Mobile">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dl class="clearfix">
             <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" src="'paymentsCart/' + payment.offerPaymentAmountType" />
@@ -275,6 +291,29 @@
     @*<h3>Electricity</h3>*@
     <table class="verify-order-table">
         <tbody>
+            <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
+                @*<td class="description">
+                        <h4>{{selectedOffer.offer.name}}</h4>
+                        <p>{{selectedOffer.offer.description}}</p>
+                    </td>
+                    <td class="rate">
+                        {{selectedOffer.offer.rate | currency}} kWh
+                    </td>*@
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></table>
+                </td>
+            </tr>
+            <tr ng-repeat-end></tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/ng-template" id="completeOrder/Mobile">
+    @*<h3>Electricity</h3>*@
+    <table class="verify-order-table">
+        <tbody>TEST
             <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
                 @*<td class="description">
                         <h4>{{selectedOffer.offer.name}}</h4>

@@ -39,11 +39,36 @@
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
         enrollmentStepsService.setMaxStep('phoneFlowPlans');
-        if (typeof selectedOffers != 'undefined') {
-            // Add the temporary items array to the selected offer
+        var activeService = enrollmentCartService.getActiveService();
+        var activeServiceIndex = enrollmentCartService.getActiveServiceIndex();
+        if (typeof activeService != 'undefined' && typeof selectedOffers.Mobile != 'undefined') {
+            var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
+            var offerId = _(offerInformationForType.value.availableOffers).find({ 'id': selectedOffers.Mobile }).id;
+            var childId = _(offerInformationForType.value.availableOffers).find({ 'id': selectedOffers.Mobile }).childOfferId;
+            var devices = enrollmentCartService.getCartDevices();
 
-            // Map the offers to arrays because, although mobile (which this controller is for) does not allow multiple offers of a type, the cart service does.
-            enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { if (offer) { return [offer]; } else return []; }).value());
+            // Add plan for each device, and add to the selected offers array
+            for (var i = 0, len = devices.length; i < len; i++) {
+                var device = devices[i];
+                var offer = { offerId: (i == 0) ? offerId : childId };
+                offer.offerOption = {
+                    optionType: 'Mobile',
+                    activationDate: new Date(),
+                    phoneNumber: device.phoneNumber,
+                    esnNumber: device.esnNumber,
+                    simNumber: device.simNumber,
+                    imeiNumber: device.imeiNumber,
+                    inventoryItemId: device.id,
+                    transferPhoneNumber: (device.phoneNumber == null) ? false : true,
+                    useInstallmentPlan: device.buyingOption == 'New' ? false : true,
+                };
+                offerInformationForType.value.offerSelections.push(offer);
+            };
+            _.find(enrollmentCartService.services[activeServiceIndex].offerInformationByType, function(offerType) {
+                if (offerType.key == 'Mobile') {
+                    offerType.value = offerInformationForType.value;
+                }
+            });
         }
     });
 
@@ -52,7 +77,7 @@
     };
 
     $scope.completeStep = function() {
-        enrollmentService.setSelectedOffers(false)
+        enrollmentService.setAccountInformation();
     };
 
 }]);
