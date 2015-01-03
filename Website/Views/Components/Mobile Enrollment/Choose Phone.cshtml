@@ -133,7 +133,7 @@
                                         <div class="item simple-options-item">
                                             <label>@Html.Sitecore().Field("Select Color")</label>
                                             <div class="btn-group btn-group-options colors">
-                                                <a href="" ng-repeat="color in mobileEnrollmentService.getPhoneColors('@phone.Id')" ng-class="{'btn-group-arrow': mobileEnrollmentService.getPhoneSizes('@phone.Id')[0].size == ''}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'">
+                                                <a href="" ng-repeat="color in mobileEnrollmentService.getPhoneColors('@phone.Id')" ng-class="{'btn-group-arrow btn-color': mobileEnrollmentService.getPhoneSizes('@phone.Id')[0].size == ''}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'">
                                                     <span class="button {{ color.colorClass }}"></span>
                                                     <span class="color-name">{{ color.color }}</span>
                                                 </a>
