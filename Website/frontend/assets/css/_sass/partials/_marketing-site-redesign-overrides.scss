@@ -256,7 +256,7 @@ article {
                 blockquote {
                     p {
                         &:first-of-type {
-                            text-indent: -11px;
+                            //text-indent: -11px;
                             font-size: 18px;
                             line-height: 26.44px;
                             position: relative;
@@ -267,7 +267,7 @@ article {
                                 font-size: 135.61px;
                                 position: absolute;
                                 left: -45px;
-                                top: 55px;
+                                top: 40px;
                             }
                         }
 
@@ -281,8 +281,8 @@ article {
                         }
 
                         .lead {
-                            font-size: 36px;
-                            line-height: 60px;
+                            font-size: 24px;
+                            //line-height: 60px;
                             font-style: italic;
                         }
                     }
@@ -419,7 +419,7 @@ article {
                         font-size: 135.61px;
                         position: absolute;
                         left: -45px;
-                        top: 55px;
+                        top: 45px;
                     }
                 }
 
@@ -434,7 +434,7 @@ article {
 
                 strong.lead {
                     font-size: 30px;
-                    line-height: 60px;
+                    line-height: 40px;
                     font-style: italic;
                     font-weight: 300;
                 }

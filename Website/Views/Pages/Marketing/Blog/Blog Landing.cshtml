@@ -32,44 +32,46 @@
 
     var paginationHelper = Html.GetPaginationHelper(blogPostItems);
 }
-<section class="layout cols-2 wrapper">
-    <section class="layout cols-1">
-        <article class="marketing blog">
-            @if (pageHeader != null)
-            {
-                <h1>@pageHeader</h1>
-            }
-            @{
-                foreach (var item in paginationHelper.CurrentItems)
+<div class="layout">
+    <div class="wrapper cols-2">
+        <section>
+            <article class="marketing blog">
+                @if (pageHeader != null)
                 {
-                    <div class="post">
-                        <h2><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h2>
-                        <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Html.Sitecore().Field("Date", item, new { format = "MMMM d, yyyy" }) | @Html.Sitecore().Field("By Text", item): @Html.Sitecore().Field("Author", item)</p>
-                        @(!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()) ? Html.Sitecore().Field("Excerpt", item) : Html.Truncate(item["Content"], 200))
-                        <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text", item)</a></p>
-                    </div>
-                    <hr />
+                    <h1>@pageHeader</h1>
                 }
-            }
-            @paginationHelper.GetPaginationHtml()
-        </article>
-    </section>
-    <aside>
-        <article class="marketing blog-list">
-            <button>@Html.Sitecore().Field("Categories Text")</button>
-            <ul>
-                @foreach (var category in categoriesCounts)
-                {
-                    <li><a href="?category=@Url.Encode(category.Key.Name)">@Html.Sitecore().Field("Category Title", category.Key) (@category.Value)</a></li>
+                @{
+                    foreach (var item in paginationHelper.CurrentItems)
+                    {
+                        <div class="post">
+                            <h2><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h2>
+                            <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Html.Sitecore().Field("Date", item, new { format = "MMMM d, yyyy" }) | @Html.Sitecore().Field("By Text", item): @Html.Sitecore().Field("Author", item)</p>
+                            @(!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()) ? Html.Sitecore().Field("Excerpt", item) : Html.Truncate(item["Content"], 200))
+                            <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text", item)</a></p>
+                        </div>
+                        <hr />
+                    }
                 }
-            </ul>
-            <button>@Html.Sitecore().Field("Archives Text")</button>
-            <ul>
-                @foreach (var month in archiveMonths)
-                {
-                    <li><a href="?archive=@Url.Encode(month.ToString("yyyyMM"))">@month.ToString("MMMM yyyy")</a></li>
-                }
-            </ul>
-        </article>
-    </aside>
-</section>
+                @paginationHelper.GetPaginationHtml()
+            </article>
+        </section>
+        <aside>
+            <article class="marketing blog-list">
+                <h3>@Html.Sitecore().Field("Categories Text")</h3>
+                <ul>
+                    @foreach (var category in categoriesCounts)
+                    {
+                        <li><a href="?category=@Url.Encode(category.Key.Name)">@Html.Sitecore().Field("Category Title", category.Key) (@category.Value)</a></li>
+                    }
+                </ul>
+                <h3>@Html.Sitecore().Field("Archives Text")</h3>
+                <ul>
+                    @foreach (var month in archiveMonths)
+                    {
+                        <li><a href="?archive=@Url.Encode(month.ToString("yyyyMM"))">@month.ToString("MMMM yyyy")</a></li>
+                    }
+                </ul>
+            </article>
+        </aside>
+    </div>
+</div>
