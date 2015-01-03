@@ -1,0 +1,25 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using Sitecore.Data.Fields
+@{
+    var item = Html.Sitecore().CurrentRendering.Item; 
+    var slides = new JArray();
+    for (var i = 1; i <= 4; i++) {
+        if (item.Fields["Slide " + i + " Image"].HasValue) {
+            slides.Add(new JObject {
+                { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField)item.Fields["Slide " + i + " Image"]).MediaItem) },
+                { "text", item.Fields["Slide " + i + " Text"].Value }
+            });
+        }
+    }
+}
+
+<carousel interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
+    <slide ng-repeat="slide in slides" active="slide.active">
+        <div class="banner marketing" ng-style="{'background-image':'url('+slide.image+')'}">
+            <div class="wrapper">
+                {{ slide.text }}
+            </div>
+        </div>
+    </slide>
+</carousel>

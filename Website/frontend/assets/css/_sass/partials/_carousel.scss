@@ -5,83 +5,86 @@
 
 // Wrapper for the slide container and indicators
 .carousel {
-  position: relative;
+    position: relative;
+    .wrapper {
+        text-align: left;
+    }
 }
 
 .carousel-inner {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-
-  // Account for jankitude on images
-  .wrapper {
-    background-size: cover;
-  }
-
-  > .item {
-    display: none;
     position: relative;
-    @include transition(.6s ease-in-out left);
-
-    // WebKit CSS3 transforms for supported devices
-    @media all and (transform-3d), (-webkit-transform-3d) {
-      transition: transform .6s ease-in-out;
-      backface-visibility: hidden;
-      perspective: 1000;
-
-      &.next,
-      &.active.right {
-        transform: translate3d(100%, 0, 0);
-        left: 0;
-      }
-      &.prev,
-      &.active.left {
-        transform: translate3d(-100%, 0, 0);
-        left: 0;
-      }
-      &.next.left,
-      &.prev.right,
-      &.active {
-        transform: translate3d(0, 0, 0);
-        left: 0;
-      }
-    }
-  }
-
-  > .active,
-  > .next,
-  > .prev {
-    display: block;
-  }
-
-  > .active {
-    left: 0;
-  }
-
-  > .next,
-  > .prev {
-    position: absolute;
-    top: 0;
+    overflow: hidden;
     width: 100%;
-  }
 
-  > .next {
-    left: 100%;
-  }
-  > .prev {
-    left: -100%;
-  }
-  > .next.left,
-  > .prev.right {
-    left: 0;
-  }
+    // Account for jankitude on images
+    .wrapper {
+        background-size: cover;
+    }
 
-  > .active.left {
-    left: -100%;
-  }
-  > .active.right {
-    left: 100%;
-  }
+    > .item {
+        display: none;
+        position: relative;
+        @include transition(.6s ease-in-out left);
+
+        // WebKit CSS3 transforms for supported devices
+        @media all and (transform-3d), (-webkit-transform-3d) {
+            transition: transform .6s ease-in-out;
+            backface-visibility: hidden;
+            perspective: 1000;
+
+            &.next,
+            &.active.right {
+                transform: translate3d(100%, 0, 0);
+                left: 0;
+            }
+            &.prev,
+            &.active.left {
+                transform: translate3d(-100%, 0, 0);
+                left: 0;
+            }
+            &.next.left,
+            &.prev.right,
+            &.active {
+                transform: translate3d(0, 0, 0);
+                left: 0;
+            }
+        }
+    }
+
+    > .active,
+    > .next,
+    > .prev {
+        display: block;
+    }
+
+    > .active {
+        left: 0;
+    }
+
+    > .next,
+    > .prev {
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    > .next {
+        left: 100%;
+    }
+    > .prev {
+        left: -100%;
+    }
+    > .next.left,
+    > .prev.right {
+        left: 0;
+    }
+
+    > .active.left {
+        left: -100%;
+    }
+    > .active.right {
+        left: 100%;
+    }
 
 }
 
@@ -89,68 +92,68 @@
 // ---------------------------
 
 .carousel-control {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 15%;
-  font-size: 12px;
-  text-align: center;
-
-  // Set gradients for backgrounds
-  &.left {
-  }
-  &.right {
-    left: auto;
-    right: 0;
-  }
-
-  // Hover/focus state
-  &:hover,
-  &:focus {
-    outline: 0;
-    text-decoration: none;
-  }
-
-  // Toggles
-  .icon-prev,
-  .icon-next,
-  .glyphicon-chevron-left,
-  .glyphicon-chevron-right {
     position: absolute;
-    top: 50%;
-    z-index: 5;
-    display: inline-block;
-  }
-  .icon-prev,
-  .glyphicon-chevron-left {
-    left: 50%;
-    margin-left: -10px;
-  }
-  .icon-next,
-  .glyphicon-chevron-right {
-    right: 50%;
-    margin-right: -10px;
-  }
-  .icon-prev,
-  .icon-next {
-    width:  20px;
-    height: 20px;
-    margin-top: -10px;
-    font-family: serif;
-  }
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 15%;
+    font-size: 12px;
+    text-align: center;
+
+    // Set gradients for backgrounds
+    &.left {
+    }
+    &.right {
+        left: auto;
+        right: 0;
+    }
+
+    // Hover/focus state
+    &:hover,
+    &:focus {
+        outline: 0;
+        text-decoration: none;
+    }
+
+    // Toggles
+    .icon-prev,
+    .icon-next,
+    .glyphicon-chevron-left,
+    .glyphicon-chevron-right {
+        position: absolute;
+        top: 50%;
+        z-index: 5;
+        display: inline-block;
+    }
+    .icon-prev,
+    .glyphicon-chevron-left {
+        left: 50%;
+        margin-left: -10px;
+    }
+    .icon-next,
+    .glyphicon-chevron-right {
+        right: 50%;
+        margin-right: -10px;
+    }
+    .icon-prev,
+    .icon-next {
+        width:  20px;
+        height: 20px;
+        margin-top: -10px;
+        font-family: serif;
+    }
 
 
-  .icon-prev {
-    &:before {
-      content: '\2039';// SINGLE LEFT-POINTING ANGLE QUOTATION MARK (U+2039)
+    .icon-prev {
+        &:before {
+            content: '\2039';// SINGLE LEFT-POINTING ANGLE QUOTATION MARK (U+2039)
+        }
     }
-  }
-  .icon-next {
-    &:before {
-      content: '\203a';// SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (U+203A)
+    .icon-next {
+        &:before {
+            content: '\203a';// SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (U+203A)
+        }
     }
-  }
 }
 
 // Optional indicator pips
@@ -159,29 +162,29 @@
 // slide your carousel holds.
 
 .carousel-indicators {
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  z-index: 15;
-  padding-left: 0;
-  list-style: none;
-  text-align: center;
-  margin: 0;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    z-index: 15;
+    padding-left: 0;
+    list-style: none;
+    text-align: center;
+    margin: 0;
 
-  li {
-    display: inline-block;
-    width:  13px;
-    height: 13px;
-    margin-left: 6px;
-    text-indent: -999px;
-    border-radius: 10px;
-    cursor: pointer;
-    background-color: #fff;
-    @include opacity(.7);
-  }
-  .active {
-    background-color: $link-primary-color;
-  }
+    li {
+        display: inline-block;
+        width:  13px;
+        height: 13px;
+        margin-left: 6px;
+        text-indent: -999px;
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: #fff;
+        @include opacity(.7);
+    }
+    .active {
+        background-color: $link-primary-color;
+    }
 }
 
 // Optional captions
@@ -194,29 +197,29 @@
 // Scale up controls for tablets and up
 @media screen and (min-width: 768px) {
 
-  // Scale up the controls a smidge
-  .carousel-control {
-    .glyphicon-chevron-left,
-    .glyphicon-chevron-right,
-    .icon-prev,
-    .icon-next {
-      width: 30px;
-      height: 30px;
-      margin-top: -15px;
-      font-size: 30px;
+    // Scale up the controls a smidge
+    .carousel-control {
+        .glyphicon-chevron-left,
+        .glyphicon-chevron-right,
+        .icon-prev,
+        .icon-next {
+            width: 30px;
+            height: 30px;
+            margin-top: -15px;
+            font-size: 30px;
+        }
+        .glyphicon-chevron-left,
+        .icon-prev {
+            margin-left: -15px;
+        }
+        .glyphicon-chevron-right,
+        .icon-next {
+            margin-right: -15px;
+        }
     }
-    .glyphicon-chevron-left,
-    .icon-prev {
-      margin-left: -15px;
-    }
-    .glyphicon-chevron-right,
-    .icon-next {
-      margin-right: -15px;
-    }
-  }
 
-  // Move up the indicators
-  .carousel-indicators {
-    bottom: 20px;
-  }
+    // Move up the indicators
+    .carousel-indicators {
+        bottom: 20px;
+    }
 }
