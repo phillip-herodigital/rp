@@ -8,13 +8,13 @@
             </h1>
         </div>
     </div>
-    <div class="wrapper layout cols-2">
-        <div class="wrapper">
+    <div class="layout">
+        <div class="wrapper cols-2">
             <aside class="enrollment__nav">
                 <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowService'"></div>
             </aside>
             <section>
-                <form data-val-bind-messages="validations" ng-submit="completeStep();" >
+                <form data-val-bind-messages="validations" ng-submit="completeStep();">
                     <article class="form enrollment__box">
                         <header>
                             @Html.Sitecore().Field("Header Text")
@@ -36,24 +36,24 @@
                                 <hr class="content-divider" />
                             </div>
                             @Html.Sitecore().Field("Body Text")
-                        
+
                             @using (var currentService = Html.ClientRepeater(m => m.Services, "getActiveServiceIndex()"))
                             {
-                            
-                            <!--<div class="item customer-type">
+
+                                <!--<div class="item customer-type">
                                 <label for="customer-type">@Html.Sitecore().Field("Interest Label")</label>
                                 <select id="customer-type" name="customer-type" ng-model="$parent.customerType" ng-disabled="cartLocationsCount > 0" ng-change="assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
                                     @Html.Sitecore().Field("Customer Types")
                                 </select>
                             </div>-->
-                        
-                            <div class="item full service-address">
-                                <div class="input-group">
-                                    <div class="input-group-control">
-                                        <label for="@currentService.IdFor(s => s.Location)" ng-switch on="data.serviceState">
-                                            <span ng-switch-when="TX">@Html.Sitecore().Field("TX Address Label")</span><span ng-switch-when="GA">@Html.Sitecore().Field("GA Address Label")</span><span ng-switch-default>@Html.Sitecore().Field("Zip Only Label")</span>:
-                                        </label>
-                                        @currentService.TextBoxFor(s => s.Location, new
+
+                                <div class="item full service-address">
+                                    <div class="input-group">
+                                        <div class="input-group-control">
+                                            <label for="@currentService.IdFor(s => s.Location)" ng-switch on="data.serviceState">
+                                                <span ng-switch-when="TX">@Html.Sitecore().Field("TX Address Label")</span><span ng-switch-when="GA">@Html.Sitecore().Field("GA Address Label")</span><span ng-switch-default>@Html.Sitecore().Field("Zip Only Label")</span>:
+                                            </label>
+                                            @currentService.TextBoxFor(s => s.Location, new
                                         {
                                             @class = "typeahead state-select-typeahead",
                                             ng_model = "data.serviceLocation",
@@ -64,11 +64,11 @@
                                             ng_class = "{'loading' : loadingServiceAddress}",
                                             autocomplete = "off"
                                         })
-                                    </div>
-                                    <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right"></div>
-                                    @currentService.ValidationMessageFor(s => s.Location)
-                                </div><!-- /input-group -->
-                            </div>
+                                        </div>
+                                        <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right"></div>
+                                        @currentService.ValidationMessageFor(s => s.Location)
+                                    </div><!-- /input-group -->
+                                </div>
                             }
                             <div class="item warning" ng-if="isCartFull && isNewServiceAddress">
                                 @Html.Sitecore().Field("Maximum Addresses Message Text")
@@ -104,7 +104,7 @@
                                 </ul>
                             </div>
                             *@
-                        
+
                         </div>
                     </article>
                     <div class="buttons">
