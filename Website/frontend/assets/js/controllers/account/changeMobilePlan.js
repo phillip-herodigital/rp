@@ -1,91 +1,58 @@
-ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
+ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.activeStep = 1;
 
     $scope.formFields = {
-        chosenPlanId: undefined
+        chosenPlan: null,
+        agreeToTerms: false
+    };
+
+    $scope.setActiveStep = function(step) {
+        $scope.activeStep = step;
+    }
+
+    var dataPlans = null;
+    $scope.init = function () {
+        $scope.isLoading = true;
+
+        $scope.selectedAccount = "6091";
+
+        $http({
+            method: 'POST',
+            url: '/api/account/mobileGetPlanOptions',
+            data: { 'accountNumber': $scope.selectedAccount },
+            headers: { 'Content-Type': 'application/JSON' }
+        })
+		.success(function (data, status, headers, config) {
+		    $scope.effectiveDate = data.effectiveDate;
+		    dataPlans = data.dataPlans;
+		    $scope.currentPlan = dataPlans[0];
+			$scope.isLoading = false;
+		});
+
+        $scope.isLoading = false;
     };
 
     $scope.getDataPlans = function () {
-        $scope.currentPlan = {
-            id: "1234",
-            specialOffer: false,
-            data: 5,
-            dataDescription: "whatever",
-            hoursMusic: "10",
-            hoursMovies: "4",
-            hoursWebBrowsing: "25",
-            specialOfferOriginalPrice: "",
-            price: "25.99"
-        };
-        $scope.chosenPlan = {
-            id: "1235",
-            name: "4GB Unlimited Voice, Data &amp; Text",
-            specialOffer: false,
-            data: 6,
-            dataDescription: "whatever",
-            hoursMusic: "10",
-            hoursMovies: "4",
-            hoursWebBrowsing: "25",
-            specialOfferOriginalPrice: "",
-            price: "35.99"
-        };
-        return [
-            {
-                id: "1234",
-                specialOffer: false,
-                data: 5,
-                dataDescription: "whatever",
-                hoursMusic: "10",
-                hoursMovies: "4",
-                hoursWebBrowsing: "25",
-                specialOfferOriginalPrice: "",
-                price: "25.99"
-            },
-            {
-                id: "1235",
-                specialOffer: false,
-                data: 6,
-                dataDescription: "whatever",
-                hoursMusic: "10",
-                hoursMovies: "4",
-                hoursWebBrowsing: "25",
-                specialOfferOriginalPrice: "",
-                price: "35.99"
-            },
-            {
-                id: "1236",
-                specialOffer: false,
-                data: 7,
-                dataDescription: "whatever",
-                hoursMusic: "10",
-                hoursMovies: "4",
-                hoursWebBrowsing: "25",
-                specialOfferOriginalPrice: "",
-                price: "35.99"
-            },
-            {
-                id: "1237",
-                specialOffer: false,
-                data: 8,
-                dataDescription: "whatever",
-                hoursMusic: "10",
-                hoursMovies: "4",
-                hoursWebBrowsing: "25",
-                specialOfferOriginalPrice: "",
-                price: "35.99"
-            },
-        ];
-        $scope.setCurrentStep('choose-phone');
+        return dataPlans;
     };
 
     $scope.selectPlan = function (plan) {
-        $scope.chosenPlan = plan;
+        $scope.formFields.chosenPlan = plan;
         $scope.activeStep = 2;
     };
 
     $scope.confirmChange = function () {
-        $scope.activeStep = 3;
+        if ($scope.formFields.agreeToTerms) {
+            $scope.isLoading = true;
+
+            //make service call...
+            $scope.activeStep = 3;
+            $scope.currentPlan = $scope.formFields.chosenPlan;
+            $scope.isLoading = false;
+        }
     };
+
+    $scope.init();
 }]);

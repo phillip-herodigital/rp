@@ -220,7 +220,7 @@ article {
         }
 
         &:first-of-type, &:first-child {
-            > .wapper {
+            > .wrapper {
                 background-image: none;
             }
         }
@@ -498,36 +498,20 @@ article.additional-support-sidebar {
     }
 }
 
-.service-links {
+article.service-links {
     @include box-shadow(0px 0px 30px 0px rgba(0, 0, 0, .2));
-    padding: 20px;
     background-color: #f7f8f9;
     position: relative;
     z-index: 100;
 
-
-    .wrapper {
-        padding: $marketing-wrapper-padding;
-        max-width: 1040px;
-        margin: 0 auto;
-        padding: 0;
+    > .wrapper {
+        padding: 20px 0;
+        background: none;
     }
 
-    .col {
-        font-size: 16px;
-        letter-spacing: (29em/1000em);
-        //background: image-url('marketing/redesign/Modules/HomeHeader/service_links_break.png') no-repeat center right;
-
-        //&:last-child {
-        //    background-image: none;
-        //}
-
-        .inner {
-            background: right center no-repeat;
-            padding: 0 70px 0 20px;
-            //margin-right: 30px;
-        }
-
+    .grid .col {
+        background: right center no-repeat;
+        padding-right: 70px;
 
         h2 {
             margin: 0 0 5px 0;
@@ -542,21 +526,16 @@ article.additional-support-sidebar {
 
 
         &.mobile {
-            .inner {
-                background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_mobile_icon.png');
-            }
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_mobile_icon.png');
         }
 
         &.energy {
-            .inner {
-                background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_energy_icon.png');
-            }
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_energy_icon.png');
         }
 
         &.protect {
-            .inner {
-                background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
-            }
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
+            padding-right: 70px;
         }
     }
 }
@@ -654,8 +633,8 @@ article.additional-support-sidebar {
     h2 {
         color: #222a4c;
     }
-
-    .col {
+    
+    .grid .col {
         padding-top: 100px;
     }
 
@@ -673,18 +652,9 @@ article.additional-support-sidebar {
     }
 }
 
-.mobile-pricing-plans {
-
-    div.intro {
-        margin: 1em 20px;
-        font-size: 22px;
-        line-height: 1.5;
-        text-align: center;
-    }
-
+article.mobile-plan-intro {
     ol.points {
         @include layout-list();
-        margin-bottom: 50px;
 
         li {
             &:before {
@@ -692,6 +662,21 @@ article.additional-support-sidebar {
                 content: image-url('marketing/redesign/check.png');
             }
         }
+    }
+}
+
+article.mobile-pricing-plans {
+
+    // div.intro {
+    //     margin: 1em 20px;
+    //     font-size: 22px;
+    //     line-height: 1.5;
+    //     text-align: center;
+    // }
+
+    > div.wrapper {
+        padding-top: 0;
+        background-image: none;
     }
 
     .grid {

@@ -207,6 +207,110 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         #endregion
 
+        #region Mobile ChangePlan
+        [HttpPost]
+        public async Task<GetMobilePlanOptionsResponse> MobileGetPlanOptions(GetMobilePlanOptionsRequest request)
+        {
+            var accountNumber = request.AccountNumber;
+
+            if (currentUser.Accounts == null || false)
+            {
+                currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            }
+
+            var account = currentUser.Accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
+
+            if (account == null)
+            {
+                return null;
+            }
+
+            return new GetMobilePlanOptionsResponse()
+            {
+                CurrentPlanId = "1235",
+                EffectiveDate = DateTime.Now,
+                DataPlans = new DomainModels.Enrollments.Mobile.Offer[] {
+                    new DomainModels.Enrollments.Mobile.Offer()
+                    {
+                        Id = "1234",
+                        Data = "5",
+                        Description = "Whatever",
+                        HoursMovies = "4",
+                        HoursMusic = "10",
+                        Name = "5GB Unlimited Voice, Data &amp; Text",
+                        Recommended = false,
+                        SpecialOffer = false,
+                        WebPages = "25",
+                        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
+                        {
+                            new DomainModels.Enrollments.Mobile.Rate()
+                            {
+                                RateAmount = 25.99M,
+                            },
+                        },
+                    },
+                    new DomainModels.Enrollments.Mobile.Offer()
+                    {
+                        Id = "1235",
+                        Data = "6",
+                        Description = "Whatever",
+                        HoursMovies = "6",
+                        HoursMusic = "14",
+                        Name = "6GB Unlimited Voice, Data &amp; Text",
+                        Recommended = false,
+                        SpecialOffer = false,
+                        WebPages = "30",
+                        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
+                        {
+                            new DomainModels.Enrollments.Mobile.Rate()
+                            {
+                                RateAmount = 35.99M,
+                            },
+                        },
+                    },
+                    new DomainModels.Enrollments.Mobile.Offer()
+                    {
+                        Id = "1236",
+                        Data = "7",
+                        Description = "Whatever",
+                        HoursMovies = "8",
+                        HoursMusic = "18",
+                        Name = "7GB Unlimited Voice, Data &amp; Text",
+                        Recommended = false,
+                        SpecialOffer = false,
+                        WebPages = "35",
+                        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
+                        {
+                            new DomainModels.Enrollments.Mobile.Rate()
+                            {
+                                RateAmount = 45.99M,
+                            },
+                        },
+                    },
+                    new DomainModels.Enrollments.Mobile.Offer()
+                    {
+                        Id = "1237",
+                        Data = "8",
+                        Description = "Whatever",
+                        HoursMovies = "10",
+                        HoursMusic = "20",
+                        Name = "8GB Unlimited Voice, Data &amp; Text",
+                        Recommended = false,
+                        SpecialOffer = false,
+                        WebPages = "40",
+                        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
+                        {
+                            new DomainModels.Enrollments.Mobile.Rate()
+                            {
+                                RateAmount = 55.99M,
+                            },
+                        },
+                    },
+                },
+            };
+        }
+        #endregion
+
         #region Invoices
 
         [HttpGet]

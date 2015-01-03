@@ -2271,6 +2271,9 @@ article.usage-summary {
 			float: right;
 		}
 	}
+    header span.account {
+        float: right;
+    }
 	.content {
 		hr {
 			border: none;
@@ -2352,12 +2355,16 @@ article.upgrade-effective {
 		.footer-right {
 			float: right;
 			dt {
+                clear: both;
+                float: left;
 				width: 150px;
 				text-align: right;
 			}
 			dd {
-				margin-left: 25px;
-				width: auto;
+                float: right;
+                width: 125px;
+                margin-left: 0;
+                text-align: right;
 			}
 			@include breakpoint(small) {
 				dt {

@@ -1,13 +1,5 @@
 ﻿<article class="marketing marketingIntro mobile mobile-pricing-plans">
     <div class="wrapper">
-        @if (Html.Sitecore().HasValue("Heading"))
-        {
-            <h1>@Html.Sitecore().Field("Heading")</h1>
-        }
-        @if (Html.Sitecore().HasValue("Intro"))
-        {
-            <div class="intro">@Html.Sitecore().Field("Intro")</div>
-        }
         <div class="overview grid">
             <div class="col">
                 <h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("ATT")</strong></span></h2>
