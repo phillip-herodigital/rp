@@ -9,6 +9,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.addressOptions = {};
     $scope.modal = {};
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
+    $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
 
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
 
@@ -51,6 +52,14 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
      * @return {[type]} [description]
      */
     $scope.utilityAddresses = function () {
+        //Keep a temporary array for the typeahead service addresses
+
+        //Don't do this, digest loop error
+        //$scope.accountInformation.serviceAddress = [];
+        return enrollmentCartService.services;
+    };
+
+    $scope.mobileAddresses = function () {
         //Keep a temporary array for the typeahead service addresses
 
         //Don't do this, digest loop error
