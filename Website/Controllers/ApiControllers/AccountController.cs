@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using ResponsivePath.Validation;
 using Sitecore.Links;
 using StackExchange.Redis;
+using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -37,10 +38,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
         private readonly ICurrentUser currentUser;
         private readonly EnrollmentController enrollmentController;
+        private readonly IEnrollmentService enrollmentService;
         private readonly IDatabase redis;
         private const string redisPrefix = "AddNewAccount_FindAccount_";
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis, IEnrollmentService enrollmentService)
         {
             this.container = container;
             this.accountService = accountService;
@@ -53,6 +55,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.currentUser = currentUser;
             this.enrollmentController = enrollmentController;
             this.redis = redis;
+            this.enrollmentService = enrollmentService;
         }
 
         protected override void Dispose(bool disposing)
@@ -207,7 +210,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         #endregion
 
-        #region Mobile ChangePlan
+        #region Mobile Change Plan
         [HttpPost]
         public async Task<GetMobilePlanOptionsResponse> MobileGetPlanOptions(GetMobilePlanOptionsRequest request)
         {
@@ -225,88 +228,110 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return null;
             }
 
+            var plans = await enrollmentService.LoadOffers(new Location[] {
+                new Location() {
+                    Address = account.Details.BillingAddress,
+                    Capabilities = new StreamEnergy.DomainModels.IServiceCapability[]
+                    {
+                        new ServiceStatusCapability() {
+                            EnrollmentType = EnrollmentType.MoveIn,
+                        },
+                        new CustomerTypeCapability() {
+                            CustomerType = EnrollmentCustomerType.Commercial,
+                        },
+                        new DomainModels.Enrollments.Mobile.ServiceCapability(),
+                    }
+                },
+            });
+
+
             return new GetMobilePlanOptionsResponse()
             {
                 CurrentPlanId = "1235",
                 EffectiveDate = DateTime.Now,
-                DataPlans = new DomainModels.Enrollments.Mobile.Offer[] {
-                    new DomainModels.Enrollments.Mobile.Offer()
-                    {
-                        Id = "1234",
-                        Data = "5",
-                        Description = "Whatever",
-                        HoursMovies = "4",
-                        HoursMusic = "10",
-                        Name = "5GB Unlimited Voice, Data &amp; Text",
-                        Recommended = false,
-                        SpecialOffer = false,
-                        WebPages = "25",
-                        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
-                        {
-                            new DomainModels.Enrollments.Mobile.Rate()
-                            {
-                                RateAmount = 25.99M,
-                            },
-                        },
-                    },
-                    new DomainModels.Enrollments.Mobile.Offer()
-                    {
-                        Id = "1235",
-                        Data = "6",
-                        Description = "Whatever",
-                        HoursMovies = "6",
-                        HoursMusic = "14",
-                        Name = "6GB Unlimited Voice, Data &amp; Text",
-                        Recommended = false,
-                        SpecialOffer = false,
-                        WebPages = "30",
-                        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
-                        {
-                            new DomainModels.Enrollments.Mobile.Rate()
-                            {
-                                RateAmount = 35.99M,
-                            },
-                        },
-                    },
-                    new DomainModels.Enrollments.Mobile.Offer()
-                    {
-                        Id = "1236",
-                        Data = "7",
-                        Description = "Whatever",
-                        HoursMovies = "8",
-                        HoursMusic = "18",
-                        Name = "7GB Unlimited Voice, Data &amp; Text",
-                        Recommended = false,
-                        SpecialOffer = false,
-                        WebPages = "35",
-                        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
-                        {
-                            new DomainModels.Enrollments.Mobile.Rate()
-                            {
-                                RateAmount = 45.99M,
-                            },
-                        },
-                    },
-                    new DomainModels.Enrollments.Mobile.Offer()
-                    {
-                        Id = "1237",
-                        Data = "8",
-                        Description = "Whatever",
-                        HoursMovies = "10",
-                        HoursMusic = "20",
-                        Name = "8GB Unlimited Voice, Data &amp; Text",
-                        Recommended = false,
-                        SpecialOffer = false,
-                        WebPages = "40",
-                        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
-                        {
-                            new DomainModels.Enrollments.Mobile.Rate()
-                            {
-                                RateAmount = 55.99M,
-                            },
-                        },
-                    },
-                },
+                DataPlans = (from offer in plans.First().Value.Offers
+                             let mobileOffer = offer as DomainModels.Enrollments.Mobile.Offer
+                             where mobileOffer != null
+                             where (account.SubAccounts.Count() == 1 && mobileOffer.IsParentOffer == false) || (account.SubAccounts.Count() > 1 && mobileOffer.IsParentOffer == true)
+                             select mobileOffer).ToArray(),
+                //DataPlans = new DomainModels.Enrollments.Mobile.Offer[] {
+                //    new DomainModels.Enrollments.Mobile.Offer()
+                //    {
+                //        Id = "1234",
+                //        Data = "5",
+                //        Description = "Whatever",
+                //        HoursMovies = "4",
+                //        HoursMusic = "10",
+                //        Name = "5GB Unlimited Voice, Data &amp; Text",
+                //        Recommended = false,
+                //        SpecialOffer = false,
+                //        WebPages = "25",
+                //        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
+                //        {
+                //            new DomainModels.Enrollments.Mobile.Rate()
+                //            {
+                //                RateAmount = 25.99M,
+                //            },
+                //        },
+                //    },
+                //    new DomainModels.Enrollments.Mobile.Offer()
+                //    {
+                //        Id = "1235",
+                //        Data = "6",
+                //        Description = "Whatever",
+                //        HoursMovies = "6",
+                //        HoursMusic = "14",
+                //        Name = "6GB Unlimited Voice, Data &amp; Text",
+                //        Recommended = false,
+                //        SpecialOffer = false,
+                //        WebPages = "30",
+                //        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
+                //        {
+                //            new DomainModels.Enrollments.Mobile.Rate()
+                //            {
+                //                RateAmount = 35.99M,
+                //            },
+                //        },
+                //    },
+                //    new DomainModels.Enrollments.Mobile.Offer()
+                //    {
+                //        Id = "1236",
+                //        Data = "7",
+                //        Description = "Whatever",
+                //        HoursMovies = "8",
+                //        HoursMusic = "18",
+                //        Name = "7GB Unlimited Voice, Data &amp; Text",
+                //        Recommended = false,
+                //        SpecialOffer = false,
+                //        WebPages = "35",
+                //        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
+                //        {
+                //            new DomainModels.Enrollments.Mobile.Rate()
+                //            {
+                //                RateAmount = 45.99M,
+                //            },
+                //        },
+                //    },
+                //    new DomainModels.Enrollments.Mobile.Offer()
+                //    {
+                //        Id = "1237",
+                //        Data = "8",
+                //        Description = "Whatever",
+                //        HoursMovies = "10",
+                //        HoursMusic = "20",
+                //        Name = "8GB Unlimited Voice, Data &amp; Text",
+                //        Recommended = false,
+                //        SpecialOffer = false,
+                //        WebPages = "40",
+                //        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
+                //        {
+                //            new DomainModels.Enrollments.Mobile.Rate()
+                //            {
+                //                RateAmount = 55.99M,
+                //            },
+                //        },
+                //    },
+                //},
             };
         }
         #endregion
@@ -337,6 +362,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 AccountNumber = account.AccountNumber,
                 ServiceType = account.AccountType,
                 InvoiceNumber = invoice.InvoiceNumber,
+                InvoiceDate = invoice.InvoiceDate,
                 InvoiceAmount = invoice.InvoiceAmount,
                 DueDate = invoice.DueDate,
                 CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,

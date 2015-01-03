@@ -1,6 +1,4 @@
 ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
-
-    $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.activeStep = 1;
 
     $scope.formFields = {
@@ -16,7 +14,7 @@ ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function
     $scope.init = function () {
         $scope.isLoading = true;
 
-        $scope.selectedAccount = "6091";
+        $scope.selectedAccount = "1691";
 
         $http({
             method: 'POST',
@@ -30,8 +28,6 @@ ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function
 		    $scope.currentPlan = dataPlans[0];
 			$scope.isLoading = false;
 		});
-
-        $scope.isLoading = false;
     };
 
     $scope.getDataPlans = function () {

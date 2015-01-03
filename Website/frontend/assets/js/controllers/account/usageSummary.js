@@ -46,6 +46,20 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 			    $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit;
 			    updateDeviceTotals();
 			});
+
+        $http({
+            method: 'GET',
+            url: '/api/account/getInvoices',
+            headers: { 'Content-Type': 'application/JSON' }
+        })
+			.success(function (data, status, headers, config) {
+			    //$scope.data = data;
+
+			    console.log(data);
+
+			    //$scope.deviceTotal.data.limit = $scope.data.dataUsageLimit;
+			    //updateDeviceTotals();
+			});
     }
 
     $scope.getDeviceImageURL = function (deviceId) {
@@ -55,6 +69,12 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     function updateDeviceTotals() {
         $scope.deviceTotal.data.usage = _.reduce($scope.data.deviceUsage, function (total, device) {
             return total + device.dataUsage;
+        }, 0);
+        $scope.deviceTotal.minutes.usage = _.reduce($scope.data.deviceUsage, function (total, device) {
+            return total + device.minutesUsage;
+        }, 0);
+        $scope.deviceTotal.messages.usage = _.reduce($scope.data.deviceUsage, function (total, device) {
+            return total + device.messagesUsage;
         }, 0);
     }
 
