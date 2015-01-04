@@ -1223,7 +1223,7 @@
     <Content Include="Views\Pages\Marketing\Services\Mobile FAQs.cshtml" />
     <Content Include="Views\Components\Shared\Coverage Map.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Plans.cshtml" />
-    <Content Include="Views\Components\Shared\Carousel.cshtml" />
+    <Content Include="Views\Components\Marketing\Carousel.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Details.cshtml" />
     <Content Include="Views\Components\Marketing\HTML Grid.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">

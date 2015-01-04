@@ -2,65 +2,29 @@
 @using Newtonsoft.Json.Linq
 @using Sitecore.Data.Fields
 @{
-    var stateNames = new Dictionary<string, string>()
-    {
-        {"texas", "Texas"},
-        {"georgia", "Georgia"},
-        {"pennsylvania", "Pennsylvania"},
-        {"maryland", "Maryland"},
-        {"newjersey", "New Jersey"},
-        {"newyork", "New York"},
-        {"washingtondc", "Washington DC"}
-    };
-
-    var stateEnroll = new Dictionary<string, string>()
-    {
-        {"texas", "/enrollment?BC_ID=1&RefSite=SCS&CO_LA=US_EN&State=TX&AccountType=R&ServiceType=Ele"},
-        {"georgia", "/enrollment?BC_ID=1&RefSite=SCS&CO_LA=US_EN&State=GA&AccountType=R&ServiceType=Gas"},
-        {"pennsylvania", "/enrollment?BC_ID=1&RefSiteId=6&St=PA&AccountType=R&CO_LA=US_EN&ServiceType=Ele"},
-        {"maryland", "/enrollment?BC_ID=1&RefSiteId=6&St=MD&AccountType=R&CO_LA=US_EN&ServiceType=Ele"},
-        {"newjersey", "/enrollment?BC_ID=1&RefSiteId=6&St=NJ&AccountType=R&CO_LA=US_EN&ServiceType=Ele"},
-        {"newyork", "/enrollment?BC_ID=1&RefSiteId=6&St=NY&AccountType=R&CO_LA=US_EN&ServiceType=Ele"},
-        {"washingtondc", "/enrollment?BC_ID=1&RefSiteId=6&St=DC&AccountType=R&CO_LA=US_EN&ServiceType=Ele"}
-    };
-
-    var stateRateLinks = new Dictionary<string, string>()
-    {
-        {"texas", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentRendering.Item.Fields["Texas View Rates Link"]).TargetItem)},
-        {"georgia", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["Georgia View Rates Link"]).TargetItem)},
-        {"pennsylvania", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["Pennsylvania View Rates Link"]).TargetItem)},
-        {"maryland", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["Maryland View Rates Link"]).TargetItem)},
-        {"newjersey", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["New Jersey View Rates Link"]).TargetItem)},
-        {"newyork", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["New York View Rates Link"]).TargetItem)},
-        {"washingtondc", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentItem.Fields["DC View Rates Link"]).TargetItem)}
-    };
+    var item = Html.Sitecore().CurrentRendering.Item;
+    var states = ((NameValueListField)item.Fields["State Names"]).NameValues;
     
-    
-    
-    var stateEnrollData = new JObject();
-    foreach (var state in stateNames.Keys)
+    var stateEnrollData = new JArray();
+    foreach (var state in states)
     {
-        stateEnrollData.Add(state, new JObject { { "name", stateNames[state] }, { "enrollUrl", stateEnroll[state] }, { "rateUrl", stateRateLinks[state] } });
+        stateEnrollData.Add(new JObject {
+            { "key", state.ToString() },
+            { "name", Server.UrlDecode(states[state.ToString()].ToString()) },
+            { "enrollmentURL", item.Fields[state.ToString() + " Enrollment Link"].ToString() },
+            { "rateURL", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentRendering.Item.Fields[state.ToString() + " Rates Link"]).TargetItem) }
+        });
     }
 }
-@helper StateSelect(Dictionary<string, string> stateNames)
-{
 
-    <select data-ng-model="pane">
-        @foreach (var name in stateNames)
-        {
-            <option value="@name.Key">@name.Value</option>
-        }
-    </select>
-}
-
-<article class="marketing state-tabs states-enroll" state-tabs="texas">
-    <div class="wrapper grid 3">
-        <p class="col">Energy Rates &amp; Details</p>
-        <p class="col">It looks like you’re in @StateSelect(stateNames) <button data-ng-click="goToEnrollUrl()" class="action">Get Stated</button></p>
-        <p class="col"><a data-ng-href="{{stateEnrollData[pane].rateUrl}}">View Rates</a><br><a href="">View Details</a></p>
-        <script>
-            window.stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));
-        </script>
+<article class="marketing state-tabs states-enroll" state-selector="TX" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));'>
+    <div class="wrapper grid">
+        <div class="col"><h3>@Html.Sitecore().Field("Header")</h3></div>
+        <div class="col">
+            @Html.Sitecore().Field("Location")
+            <select ng-options="item.key as item.name for item in stateEnrollData" ng-model="selectedStateKey"></select>
+            <a class="button" ng-href="{{ selectedState.enrollmentURL }}">@Html.Sitecore().Field("Get Started")</a>
+        </div>
+        <div class="col"><a data-ng-href="{{ selectedState.rateURL }}">@Html.Sitecore().Field("View Rates")</a></div>
     </div>
 </article>
