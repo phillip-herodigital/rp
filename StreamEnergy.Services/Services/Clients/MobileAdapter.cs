@@ -168,6 +168,7 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(DomainModels.Address serviceAddress, dynamic details)
         {
+            var productData = sitecoreProductData.GetMobileProductData((string)details.Plan.PlanId);
             return new MobileAccount()
             {
                 PhoneNumber = details.PhoneNumber,
@@ -176,12 +177,12 @@ namespace StreamEnergy.Services.Clients
                 EquipmentId = details.EquipmentId,
                 PlanId = details.Plan.PlanId,
                 PlanPrice = (double)details.Plan.Price,
-                PlanDataAvailable = (double)details.Plan.DataAvailable,
+                PlanDataAvailable = productData != null ? Convert.ToDouble(productData.Fields["Data"]) : 0,
                 PlanName = details.Plan.Name,
+                ParentGroupProductId = details.Plan.ParentGroupProductId,
+                IsParentGroup = (bool)details.Plan.IsParentGroup,
                 Carrier = details.Carrier,
                 ActivationDate = (DateTime)details.ActivationDate,
-                LastBillDate = (DateTime)details.LastBillDate,
-                NextBillDate = (DateTime)details.NextBillDate,
             };
         }
 

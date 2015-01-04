@@ -31,6 +31,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
     $scope.getUsageStats = function(){
         var range = $scope.dateRanges[$scope.currentRangeId];
+        $scope.isLoading = true;
 
         $http({
             method: 'POST',
@@ -41,6 +42,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             headers: { 'Content-Type': 'application/JSON' }
         })
 			.success(function (data, status, headers, config) {
+			    $scope.isLoading = false;
 			    $scope.data = data;
 
 			    $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit;

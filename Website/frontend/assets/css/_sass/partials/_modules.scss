@@ -1933,6 +1933,9 @@ article.mobile {
 }
 
 article.usage-summary {
+    .loadingMessage {
+        z-index: 500;
+    }
 	.current-usage, .historical-usage {
 		padding: 0px 10px;
 	}

@@ -458,30 +458,41 @@ namespace StreamEnergy.Services.Clients
             var homePhone = (data.Account.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.Account.AccountCustomer.HomePhone.Value.ToString() });
             var mobilePhone = (data.Account.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.Account.AccountCustomer.MobilePhone.Value.ToString() });
             var tcpa = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"));
-            account.Details = new AccountDetails
+            if (data.Account.ServiceType == "Mobile")
             {
-                ContactInfo = new DomainModels.CustomerContact
+                account.Details = new MobileAccountDetails()
                 {
-                    Name = new DomainModels.Name { First = data.Account.AccountCustomer.FirstName, Last = data.Account.AccountCustomer.LastName },
-                    Email = new DomainModels.Email { Address = data.Account.AccountCustomer.EmailAddress },
-                    Phone = new DomainModels.Phone[] 
-                                    { 
-                                        homePhone,
-                                        mobilePhone,
-                                    }.Where(p => p != null).ToArray()
-                },
-                BillingAddress = new DomainModels.Address
-                {
-                    Line1 = data.Account.AccountBillingDetails.BillingAddress.StreetLine1,
-                    Line2 = data.Account.AccountBillingDetails.BillingAddress.StreetLine2,
-                    City = data.Account.AccountBillingDetails.BillingAddress.City,
-                    PostalCode5 = data.Account.AccountBillingDetails.BillingAddress.Zip,
-                    StateAbbreviation = data.Account.AccountBillingDetails.BillingAddress.State,
-                },
-                SsnLastFour = ((object)data.Account.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
-                TcpaPreference = tcpa,
-                BillingDeliveryPreference = data.Account.AccountBillingDetails.BillDeliveryTypePreference,
+                    NextBillDate = (DateTime)data.Account.AccountDetails.NextBillDate,
+                    LastBillDate = (DateTime)data.Account.AccountDetails.LastBillDate,
+                };
+                account.AccountType = data.Account.ServiceType;
+            }
+            else
+            {
+                account.Details = new AccountDetails();
+            }
+            account.Details.ContactInfo = new DomainModels.CustomerContact
+            {
+                Name = new DomainModels.Name { First = data.Account.AccountCustomer.FirstName, Last = data.Account.AccountCustomer.LastName },
+                Email = new DomainModels.Email { Address = data.Account.AccountCustomer.EmailAddress },
+                Phone = new DomainModels.Phone[] 
+                                { 
+                                    homePhone,
+                                    mobilePhone,
+                                }.Where(p => p != null).ToArray()
             };
+            account.Details.BillingAddress = new DomainModels.Address
+            {
+                Line1 = data.Account.AccountBillingDetails.BillingAddress.StreetLine1,
+                Line2 = data.Account.AccountBillingDetails.BillingAddress.StreetLine2,
+                City = data.Account.AccountBillingDetails.BillingAddress.City,
+                PostalCode5 = data.Account.AccountBillingDetails.BillingAddress.Zip,
+                StateAbbreviation = data.Account.AccountBillingDetails.BillingAddress.State,
+            };
+            account.Details.SsnLastFour = ((object)data.Account.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0');
+            account.Details.TcpaPreference = tcpa;
+            account.Details.BillingDeliveryPreference = data.Account.AccountBillingDetails.BillDeliveryTypePreference;
+
             account.SystemOfRecord = data.Account.SystemOfRecord;
             account.AccountNumber = data.Account.SystemOfRecordAccountNumber;
             account.Balance = new AccountBalance

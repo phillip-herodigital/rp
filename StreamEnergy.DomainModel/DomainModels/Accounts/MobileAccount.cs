@@ -50,6 +50,8 @@ namespace StreamEnergy.DomainModels.Accounts
         public double PlanPrice { get; set; }
         public double PlanDataAvailable { get; set; }
         public string PlanName { get; set; }
+        public string ParentGroupProductId { get; set; }
+        public bool IsParentGroup { get; set; }
         public string Carrier { get; set; }
         public DateTime ActivationDate { get; set; }
         public DateTime LastBillDate { get; set; }

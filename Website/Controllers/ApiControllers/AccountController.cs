@@ -181,15 +181,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return null;
             }
 
-            var startDate = request.StartDate.HasValue ? request.StartDate.Value : DateTime.Now;
-            var endDate = request.EndDate.HasValue ? request.EndDate.Value : DateTime.Now.AddDays(-30);
+            var mobileAccountDetails = (MobileAccountDetails)account.Details;
+
+            var startDate = request.StartDate.HasValue ? request.StartDate.Value : mobileAccountDetails.LastBillDate;
+            var endDate = request.EndDate.HasValue ? request.EndDate.Value : mobileAccountDetails.NextBillDate;
 
             if (await accountService.GetAccountUsageDetails(account, startDate, endDate, false))
             {
                 return new GetMobileUsageResponse()
                 {
-                    NextBillingDate = startDate,
-                    LastBillingDate = endDate,
+                    NextBillingDate = endDate,
+                    LastBillingDate = startDate,
                     DataUsageLimit = 6 * 1000000000d,
                     DeviceUsage = from row in account.Usage
                                   let device = row.Key as MobileAccount

@@ -29,6 +29,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     $scope.billingDaysRemaining = 0;
 
     $scope.init = function () {
+        $scope.isLoading = true;
         $http({
             method: 'POST',
             url: '/api/account/getMobileUsage',
@@ -46,6 +47,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 			    $scope.billingDaysRemaining = Math.round((getNextBillingDate() - (new Date()).getTime()) / (24 * 60 * 60 * 1000));
 			    calculateDeviceTotals();
 			    renderCurrentDataUsageComponent();
+			    $scope.isLoading = false;
 			});
         //$scope.data = { "lastBillingDate": "2014-11-26T10:05:17.7947958-08:00", "nextBillingDate": "2014-12-26T10:05:17.7947958-08:00", "dataUsageLimit": 6000000000.0, "deviceUsage": [{ "number": "1234561156", "dataUsage": 1073741824.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }, { "number": "1234561158", "dataUsage": 1073741824.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }, { "number": "1234561155", "dataUsage": 0.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }, { "number": "1234561157", "dataUsage": -1073741824.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }] };
 
