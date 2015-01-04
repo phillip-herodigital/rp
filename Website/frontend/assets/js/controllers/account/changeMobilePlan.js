@@ -10,24 +10,29 @@ ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function
         $scope.activeStep = step;
     }
 
+    $scope.$watch('selectedAccount.accountNumber', function (newVal) {
+        if (newVal) {
+            $scope.selectedAcct = newVal;
+
+            $http({
+                method: 'POST',
+                url: '/api/account/mobileGetPlanOptions',
+                data: { 'accountNumber': $scope.selectedAcct },
+                headers: { 'Content-Type': 'application/JSON' }
+            })
+		    .success(function (data, status, headers, config) {
+		        $scope.effectiveDate = data.effectiveDate;
+		        dataPlans = data.dataPlans;
+		        $scope.currentPlan = dataPlans[0];
+		        $scope.isLoading = false;
+		    });
+        }
+    });
+
     var dataPlans = null;
     $scope.init = function () {
         $scope.isLoading = true;
-
-        $scope.selectedAccount = "1691";
-
-        $http({
-            method: 'POST',
-            url: '/api/account/mobileGetPlanOptions',
-            data: { 'accountNumber': $scope.selectedAccount },
-            headers: { 'Content-Type': 'application/JSON' }
-        })
-		.success(function (data, status, headers, config) {
-		    $scope.effectiveDate = data.effectiveDate;
-		    dataPlans = data.dataPlans;
-		    $scope.currentPlan = dataPlans[0];
-			$scope.isLoading = false;
-		});
+        $scope.selectedAcct = null;
     };
 
     $scope.getDataPlans = function () {

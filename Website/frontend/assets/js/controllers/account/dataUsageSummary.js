@@ -28,16 +28,17 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     $scope.currentBillingPeriodDate = -1;
     $scope.billingDaysRemaining = 0;
 
-    $scope.init = function () {
-        $scope.isLoading = true;
-        $http({
-            method: 'POST',
-            url: '/api/account/getMobileUsage',
-            data: {
-                accountNumber: '1691',
-            },
-            headers: { 'Content-Type': 'application/JSON' }
-        })
+    $scope.$watch('selectedAccount.accountNumber', function(newVal) { 
+        if (newVal) {
+            $scope.isLoading = true;
+            $http({
+                method: 'POST',
+                url: '/api/account/getMobileUsage',
+                data: {
+                    accountNumber: newVal,
+                },
+                headers: { 'Content-Type': 'application/JSON' }
+            })
 			.success(function (data, status, headers, config) {
 			    $scope.data = data;
 			    data.lastBillingDate = new Date(data.lastBillingDate);
@@ -49,6 +50,12 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 			    renderCurrentDataUsageComponent();
 			    $scope.isLoading = false;
 			});
+        }
+    });
+
+    $scope.init = function () {
+        $scope.isLoading = true;
+        
         //$scope.data = { "lastBillingDate": "2014-11-26T10:05:17.7947958-08:00", "nextBillingDate": "2014-12-26T10:05:17.7947958-08:00", "dataUsageLimit": 6000000000.0, "deviceUsage": [{ "number": "1234561156", "dataUsage": 1073741824.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }, { "number": "1234561158", "dataUsage": 1073741824.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }, { "number": "1234561155", "dataUsage": 0.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }, { "number": "1234561157", "dataUsage": -1073741824.0, "messagesUsage": 0.0, "minutesUsage": 0.0 }] };
 
         //renderHistoricDataUsageComponent();

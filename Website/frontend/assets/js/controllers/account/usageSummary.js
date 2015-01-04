@@ -29,6 +29,15 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
     $scope.currentRangeId = $scope.dateRanges[0].id;
 
+    var acct = null;
+    $scope.isLoading = true;
+    $scope.$watch('selectedAccount.accountNumber', function (newVal) {
+        if (newVal) {
+            acct = newVal;
+            $scope.getUsageStats();
+        }
+    });
+
     $scope.getUsageStats = function(){
         var range = $scope.dateRanges[$scope.currentRangeId];
         $scope.isLoading = true;
@@ -37,7 +46,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             method: 'POST',
             url: '/api/account/getMobileUsage',
             data: {
-                accountNumber: '1691',
+                accountNumber: acct,
             },
             headers: { 'Content-Type': 'application/JSON' }
         })
@@ -79,7 +88,5 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             return total + device.messagesUsage;
         }, 0);
     }
-
-    $scope.getUsageStats();
     
 }]);
