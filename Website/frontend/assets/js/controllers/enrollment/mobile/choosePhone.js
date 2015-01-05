@@ -76,7 +76,7 @@
             item = {
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 device: device,
-                id: ($scope.phoneOptions.purchaseOption == "New") ? device.id : $scope.phoneOptions.purchaseOption,
+                id: device.id,
                 price: ($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : mobileEnrollmentService.getLeasePrice(device.id),
                 salesTax: parseFloat(parseFloat(($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24, 10) * .07).toFixed(2),
                 installmentMonths: ($scope.phoneOptions.purchaseOption == "New") ? null : mobileEnrollmentService.getLeaseMonths(device.id, $scope.phoneOptions.purchaseOption),
@@ -94,6 +94,7 @@
         }
         else {
             item = {
+                id: 7,
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 make: $scope.phoneOptions.make,
                 model: $scope.phoneOptions.model,

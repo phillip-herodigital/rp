@@ -99,6 +99,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return cart.items;
         },
 
+        getCartDataPlan: function() {
+            var dataPlan = [];
+            var selectedPlan = _(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('offerSelections').first();
+            if (selectedPlan.length) {
+                dataPlan.push(_(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: selectedPlan[0].offerId }).first());
+            }
+
+            return dataPlan;
+        },
+
         getDevicesCount: function() {
             return cart.items.length;
         },
@@ -168,7 +178,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             //Set the active plans
             _(plans).keys().forEach(function (key) {
                 var offerInformationForType = _(activeService.offerInformationByType).where({ key: key }).first();
-                offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) { return { offerId: plan }; }).value();
+                offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) {
+                    return _.find(offerInformationForType.value.offerSelections,  { 'offerId': plan });
+                }).value();
                 updateOffer(offerInformationForType);
             });
         },
