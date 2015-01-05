@@ -42,10 +42,10 @@
                     </td>
                     <td>
                         <div class="device-full">
-                            <strong>{{ device.dataUsage / 1000000000 | number }} GB</strong>
+                            <strong>{{ device.dataUsage | gigabyte }} GB</strong>
                         </div>
                         <div class="device-short">
-                            <strong>{{ device.dataUsage / 1000000000 | number : 1}} GB</strong>
+                            <strong>{{ device.dataUsage | gigabyte:1 }} GB</strong>
                         </div>
                     </td>
                     <td>
@@ -82,12 +82,12 @@
                     <td>
                         <div class="device-full">
                             @Html.Sitecore().Field("Data Total")<br />
-                            <strong>{{ deviceTotal.data.usage / 1000000000 | number }} GB</strong>
+                            <strong>{{ deviceTotal.data.usage | gigabyte }} GB</strong>
                             @Html.Sitecore().Field("Of")
-                            <strong>{{ deviceTotal.data.limit < 0 ? 'unlimited' :  (deviceTotal.data.limit / 1000000000 | number) }} GB</strong>
+                            <strong>{{ deviceTotal.data.limit < 0 ? 'unlimited' :  (deviceTotal.data.limit | number) }} GB</strong>
                         </div>
                         <div class="device-short">
-                            <strong>{{ deviceTotal.data.usage / 1000000000 | number : 1}} GB</strong>
+                            <strong>{{ deviceTotal.data.usage | gigabyte:1 }} GB</strong>
                         </div>
                     </td>
                     <td>
