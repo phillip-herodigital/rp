@@ -192,7 +192,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 {
                     NextBillingDate = endDate,
                     LastBillingDate = startDate,
-                    DataUsageLimit = 6 * 1000000000d,
+                    DataUsageLimit = account.Usage.Max(p => ((MobileAccount)p.Key).PlanDataAvailable),
                     DeviceUsage = from row in account.Usage
                                   let device = row.Key as MobileAccount
                                   let usage = row.Value as MobileAccountUsage
