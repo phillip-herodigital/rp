@@ -124,7 +124,7 @@
         }
     </nav>
 </header>
-@if (Sitecore.Context.Item.Fields["Banner Image"] != null && Sitecore.Context.Item.Fields["Banner Image"].HasValue)
+@if (Sitecore.Context.Item.Fields["Banner Image"] != null && Sitecore.Context.Item.Fields["Banner Image"].Value != "" && Sitecore.Context.Item.Fields["Banner Image"].HasValue)
 {
     var renderBannerText = Sitecore.Context.Item.Fields["Banner Text"] != null && (Sitecore.Context.PageMode.IsPageEditorEditing || Sitecore.Context.Item.Fields["Banner Text"].HasValue);
     var renderNavText = thirdLevelRootNode != null && !string.IsNullOrEmpty(thirdLevelRootNode.Title);
