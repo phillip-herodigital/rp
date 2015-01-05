@@ -164,12 +164,15 @@
 .carousel-indicators {
     position: absolute;
     bottom: 10px;
+    left: 20px;
     right: 20px;
+    max-width: 1040px;
+    margin: 0 auto;
     z-index: 15;
     padding-left: 0;
     list-style: none;
     text-align: center;
-    margin: 0;
+    text-align: right;
 
     li {
         display: inline-block;
