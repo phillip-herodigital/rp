@@ -1242,6 +1242,11 @@ namespace StreamEnergy.MyStream.Tests
                 // Act
                 var result = await controller.ConfirmOrder(request);
 
+                while (result.IsLoading)
+                {
+                    result = controller.Resume().Result;
+                }
+
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
                 Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
@@ -1252,11 +1257,11 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public async Task PostConfirmOrderFailPaymentTest()
+        public void PostConfirmOrderFailPaymentTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            await session.EnsureInitialized();
+            session.EnsureInitialized().Wait();
             session.Context = new UserContext
             {
                 Services = new[]
@@ -1305,13 +1310,37 @@ namespace StreamEnergy.MyStream.Tests
                 },
                 AgreeToTerms = true,
             };
+            // includes payments now
+            mockEnrollmentService.Setup(m => m.EndPlaceOrder(It.IsAny<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>()))
+                .Returns(Task.FromResult<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(new StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>()
+                {
+                    IsCompleted = true,
+                    Data = new[] 
+                    {
+                        new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                        {
+                            Offer = offers.First(),
+                            Location = specificLocation,
+                            Details = new DomainModels.Enrollments.Service.PlaceOrderResult
+                            {
+                                ConfirmationNumber = "87654321",
+                                IsSuccess = false
+                            }
+                        }
+                    }
+                }));
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
-                await controller.Initialize();
+                controller.Initialize().Wait();
 
                 // Act
-                var result = await controller.ConfirmOrder(request);
+                var result = controller.ConfirmOrder(request).Result;
+
+                while (result.IsLoading)
+                {
+                    result = controller.Resume().Result;
+                }
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
@@ -1383,6 +1412,11 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Act
                 var result = await controller.ConfirmOrder(request);
+
+                while (result.IsLoading)
+                {
+                    result = controller.Resume().Result;
+                }
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
@@ -1573,11 +1607,11 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public async Task CommercialPostConfirmOrderTest()
+        public void CommercialPostConfirmOrderTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            await session.EnsureInitialized();
+            session.EnsureInitialized().Wait();
             session.Context = new UserContext
             {
                 Services = new[]
@@ -1629,10 +1663,15 @@ namespace StreamEnergy.MyStream.Tests
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
-                await controller.Initialize();
+                controller.Initialize().Wait();
 
                 // Act
-                var result = await controller.ConfirmOrder(request);
+                var result = controller.ConfirmOrder(request).Result;
+
+                while (result.IsLoading)
+                {
+                    result = controller.Resume().Result;
+                }
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);

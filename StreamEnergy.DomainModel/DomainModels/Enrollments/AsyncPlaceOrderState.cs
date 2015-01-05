@@ -22,6 +22,18 @@ namespace StreamEnergy.DomainModels.Enrollments
             {
                 internalContext.PlaceOrderAsyncResult = await enrollmentService.EndPlaceOrder(internalContext.PlaceOrderAsyncResult, internalContext.EnrollmentSaveState.Data);
                 internalContext.PlaceOrderResult = internalContext.PlaceOrderAsyncResult.Data;
+
+                foreach (var placeOrderResult in internalContext.PlaceOrderResult)
+                {
+                    if (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted)
+                    {
+                        placeOrderResult.Details.IsSuccess = false;
+                    }
+                    else if (context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
+                    {
+                        placeOrderResult.Details.IsSuccess = false;
+                    }
+                }
             }
 
             if (!internalContext.PlaceOrderAsyncResult.IsCompleted)

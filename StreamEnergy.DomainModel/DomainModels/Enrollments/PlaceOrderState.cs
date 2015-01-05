@@ -76,21 +76,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                     }
                 }
             }
-            else
             {
                 internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context, internalContext);
-
-                foreach (var placeOrderResult in internalContext.PlaceOrderResult)
-                {
-                    if (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted)
-                    {
-                        placeOrderResult.Details.IsSuccess = false;
-                    }
-                    else if (context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
-                    {
-                        placeOrderResult.Details.IsSuccess = false;
-                    }
-                }
             }
             
             if (context.OnlineAccount != null)
@@ -106,6 +93,10 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
             if (context.IsRenewal && !internalContext.RenewalResult.IsCompleted)
+            {
+                return true;
+            }
+            else if (!internalContext.PlaceOrderAsyncResult.IsCompleted)
             {
                 return true;
             }
