@@ -32,7 +32,7 @@
                             <div class="device-image"><img src="{{ getDeviceImageURL(device.id) }}" /></div>
                             <div class="device-details">
                                 @*<strong>{{ device.name }}</strong>
-                                    <br />*@{{ device.number }}
+                                    <br />*@{{ device.number | phone }}
                                 @*<br />@Html.Sitecore().Field("Usage Details Link")*@
                             </div>
                         </div>

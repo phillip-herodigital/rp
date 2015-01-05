@@ -74,7 +74,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     }
 
     $scope.getDeviceImageURL = function (deviceId) {
-        return '#'; //'http://library.columbia.edu/content/dam/libraryweb/locations/sciencelib/dsc/ERIWG_mobile/iphone_icon.png';
+        return '/frontend/assets/i/icon/phone-generic.png';
     }
 
     function updateDeviceTotals() {
