@@ -23,7 +23,7 @@ ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function
 		    .success(function (data, status, headers, config) {
 		        $scope.effectiveDate = data.effectiveDate;
 		        dataPlans = data.dataPlans;
-		        $scope.currentPlan = dataPlans[0];
+		        $scope.currentPlan = _.find(dataPlans, { 'id': data.currentPlanId });
 		        $scope.isLoading = false;
 		    });
         }
@@ -48,10 +48,25 @@ ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function
         if ($scope.formFields.agreeToTerms) {
             $scope.isLoading = true;
 
-            //make service call...
-            $scope.activeStep = 3;
-            $scope.currentPlan = $scope.formFields.chosenPlan;
-            $scope.isLoading = false;
+            $http({
+                method: 'POST',
+                url: '/api/account/changeMobilePlan',
+                data: {
+                    'accountNumber': $scope.selectedAcct,
+                    'oldPlanId': $scope.currentPlan.id,
+                    'newPlanId': $scope.formFields.chosenPlan.id,
+                    'newChildPlanId': $scope.formFields.chosenPlan.childOfferId
+                },
+                headers: { 'Content-Type': 'application/JSON' }
+            })
+		    .success(function (data, status, headers, config) {
+		        if (data.success)
+		        {
+                    $scope.activeStep = 3;
+		            $scope.currentPlan = $scope.formFields.chosenPlan;
+		            $scope.isLoading = false;
+		        }
+		    });
         }
     };
 

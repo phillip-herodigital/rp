@@ -221,7 +221,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             var accountNumber = request.AccountNumber;
 
-            if (currentUser.Accounts == null || false)
+            if (currentUser.Accounts == null)
             {
                 currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
             }
@@ -229,6 +229,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var account = currentUser.Accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
 
             if (account == null)
+            {
+                return null;
+            }
+            if (account.Details == null  && !await accountService.GetAccountDetails(account, true))
             {
                 return null;
             }
@@ -250,93 +254,49 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             });
 
 
+            var subAccountForPlan = (account.SubAccounts.Count() == 0 ? account.SubAccounts[0] : account.SubAccounts.FirstOrDefault(sa => ((MobileAccount)sa).IsParentGroup == true)) as MobileAccount;
             return new GetMobilePlanOptionsResponse()
             {
-                CurrentPlanId = "1235",
+                CurrentPlanId = subAccountForPlan != null ? subAccountForPlan.PlanId : null,
                 EffectiveDate = DateTime.Now,
                 DataPlans = (from offer in plans.First().Value.Offers
                              let mobileOffer = offer as DomainModels.Enrollments.Mobile.Offer
                              where mobileOffer != null
                              where (account.SubAccounts.Count() == 1 && mobileOffer.IsParentOffer == false) || (account.SubAccounts.Count() > 1 && mobileOffer.IsParentOffer == true)
                              select mobileOffer).ToArray(),
-                //DataPlans = new DomainModels.Enrollments.Mobile.Offer[] {
-                //    new DomainModels.Enrollments.Mobile.Offer()
-                //    {
-                //        Id = "1234",
-                //        Data = "5",
-                //        Description = "Whatever",
-                //        HoursMovies = "4",
-                //        HoursMusic = "10",
-                //        Name = "5GB Unlimited Voice, Data &amp; Text",
-                //        Recommended = false,
-                //        SpecialOffer = false,
-                //        WebPages = "25",
-                //        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
-                //        {
-                //            new DomainModels.Enrollments.Mobile.Rate()
-                //            {
-                //                RateAmount = 25.99M,
-                //            },
-                //        },
-                //    },
-                //    new DomainModels.Enrollments.Mobile.Offer()
-                //    {
-                //        Id = "1235",
-                //        Data = "6",
-                //        Description = "Whatever",
-                //        HoursMovies = "6",
-                //        HoursMusic = "14",
-                //        Name = "6GB Unlimited Voice, Data &amp; Text",
-                //        Recommended = false,
-                //        SpecialOffer = false,
-                //        WebPages = "30",
-                //        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
-                //        {
-                //            new DomainModels.Enrollments.Mobile.Rate()
-                //            {
-                //                RateAmount = 35.99M,
-                //            },
-                //        },
-                //    },
-                //    new DomainModels.Enrollments.Mobile.Offer()
-                //    {
-                //        Id = "1236",
-                //        Data = "7",
-                //        Description = "Whatever",
-                //        HoursMovies = "8",
-                //        HoursMusic = "18",
-                //        Name = "7GB Unlimited Voice, Data &amp; Text",
-                //        Recommended = false,
-                //        SpecialOffer = false,
-                //        WebPages = "35",
-                //        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
-                //        {
-                //            new DomainModels.Enrollments.Mobile.Rate()
-                //            {
-                //                RateAmount = 45.99M,
-                //            },
-                //        },
-                //    },
-                //    new DomainModels.Enrollments.Mobile.Offer()
-                //    {
-                //        Id = "1237",
-                //        Data = "8",
-                //        Description = "Whatever",
-                //        HoursMovies = "10",
-                //        HoursMusic = "20",
-                //        Name = "8GB Unlimited Voice, Data &amp; Text",
-                //        Recommended = false,
-                //        SpecialOffer = false,
-                //        WebPages = "40",
-                //        Rates = new List<DomainModels.Enrollments.Mobile.Rate>()
-                //        {
-                //            new DomainModels.Enrollments.Mobile.Rate()
-                //            {
-                //                RateAmount = 55.99M,
-                //            },
-                //        },
-                //    },
-                //},
+            };
+        }
+
+        [HttpPost]
+        public async Task<ChangePlanResponse> ChangeMobilePlan(ChangePlanRequest request)
+        {
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            }
+
+            var account = currentUser.Accounts.FirstOrDefault(a => a.AccountNumber == request.AccountNumber);
+
+            if (account == null)
+            {
+                return new ChangePlanResponse()
+                {
+                    Success = false,
+                };
+            }
+            if (account.Details == null  && !await accountService.GetAccountDetails(account, true))
+            {
+                return new ChangePlanResponse()
+                {
+                    Success = false,
+                };
+            }
+
+            var response = await accountService.ChangePlan(account, request.OldPlanId, request.NewPlanId, request.NewChildPlanId);
+
+            return new ChangePlanResponse()
+            {
+                Success = response,
             };
         }
         #endregion
