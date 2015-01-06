@@ -661,5 +661,26 @@ namespace StreamEnergy.Services.Clients
 
             return true;
         }
+
+        async Task<bool> IAccountService.ChangePlan(Account account, string oldPlanId, string newPlanId, string newChildPlanId)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync(string.Format("/api/v1/customers/{0}/accounts/{1}/changePlan", account.StreamConnectCustomerId.ToString(), account.StreamConnectAccountId.ToString()),
+                new
+                {
+                    OldToNewPlanIds = (from subAcct in account.SubAccounts
+                                      let phone = subAcct as MobileAccount
+                                      where phone.PlanId == oldPlanId || phone.ParentGroupProductId == oldPlanId
+                                      select new KeyValuePair<string, string>(phone.PlanId, phone.PlanId == oldPlanId ? newPlanId : newChildPlanId)).Distinct().ToDictionary(k => k.Key, k => k.Value),
+                });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return (data.Status == "Success");
+        }
     }
 }

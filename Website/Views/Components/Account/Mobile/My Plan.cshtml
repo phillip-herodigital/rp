@@ -27,7 +27,7 @@
                         </span>
                     </p>
                     <div class="buttons">
-                        <button type="submit" class="primary" ng-if="plan.id != currentPlan.id" ng-click="selectPlan(plan);"><span ng-if="plan.data < currentPlan.data">@Html.Sitecore().Field("Button - Select Plan")</span><span ng-if="plan.data >= currentPlan.data">@Html.Sitecore().Field("Button - Upgrade")</span></button>
+                        <button type="submit" class="primary" ng-if="plan.id != currentPlan.id" ng-click="selectPlan(plan);"><span ng-if="plan.data < currentPlan.data || !currentPlan.data">@Html.Sitecore().Field("Button - Select Plan")</span><span ng-if="plan.data >= currentPlan.data">@Html.Sitecore().Field("Button - Upgrade")</span></button>
                         <span ng-if="plan.id == currentPlan.id">@Html.Sitecore().Field("Current Plan")</span>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
     <article class="white-box mobile upgrade" ng-if="activeStep == 2">
         <header>
             <h2>@Html.Sitecore().Field("Header Text")</h2>
-            <span class="account">@Html.Sitecore().Field("Label - Account") {{ selectedAccount }}</span>
+            <span class="account">@Html.Sitecore().Field("Label - Account") {{ selectedAcct }}</span>
         </header>
         <form>
             <div class="content">
@@ -66,13 +66,13 @@
                         </tr>
                         <tr>
                             <td colspan="2">@Html.Sitecore().Field("Mobile Share Plan Fee")</td>
-                            <td>{{ currentPlan.price | currency }}/mo</td>
-                            <td class="new">{{ formFields.chosenPlan.price | currency }}/mo</td>
+                            <td>{{ currentPlan.rates[0].rateAmount | currency }}/mo</td>
+                            <td class="new">{{ formFields.chosenPlan.rates[0].rateAmount | currency }}/mo</td>
                         </tr>
                         <tr>
                             <td colspan="2"><span class="total"><strong>@Html.Sitecore().Field("Monthly Total")</strong></span></td>
-                            <td>{{ currentPlan.price | currency }}/mo</td>
-                            <td class="new">{{ formFields.chosenPlan.price | currency }}/mo</td>
+                            <td>{{ currentPlan.rates[0].rateAmount | currency }}/mo</td>
+                            <td class="new">{{ formFields.chosenPlan.rates[0].rateAmount | currency }}/mo</td>
                         </tr>
                     </tbody>
                 </table>
@@ -105,7 +105,7 @@
                         <p><strong>@Html.Sitecore().Field("Label - New Shared Data")</strong> {{ formFields.chosenPlan.data }}<span ng-if="formFields.chosenPlan.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Shared Data")</p>
                     </div>
                     <div class="item price">
-                        <p>{{ formFields.chosenPlan.price | currency }}/mo</p>
+                        <p>{{ formFields.chosenPlan.rates[0].rateAmount | currency }}/mo</p>
                     </div>
                 </div>
             </form>
@@ -114,7 +114,7 @@
             <div class="footer-right">
                 <dl class="clearfix">
                     <dt><strong>@Html.Sitecore().Field("New Monthly Total")</strong></dt>
-                    <dd>{{ formFields.chosenPlan.price | currency }}/mo</dd>
+                    <dd>{{ formFields.chosenPlan.rates[0].rateAmount | currency }}/mo</dd>
                     <dt><strong>@Html.Sitecore().Field("Total Due Today")</strong></dt>
                     <dd>$0.00</dd>
                 </dl>
