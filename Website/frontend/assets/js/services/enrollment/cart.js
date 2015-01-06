@@ -118,7 +118,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         getProratedCost: function() {
-            var plan = cart.dataPlan;
+            var plan = enrollmentCartService.getCartDataPlan();
             // a and b are javascript Date objects
             var dateDiffInDays = function(a, b) {
                 var _MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -139,13 +139,13 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             var daysIntoBillingCycle = dateDiffInDays(today, startBillingDate) - 1;
             var multiplier = (daysInBillingCycle - daysIntoBillingCycle) / daysInBillingCycle;
 
-            return (parseFloat(plan.price, 10) + service.getTotalFees()) * multiplier;
+            return (parseFloat(plan[0].rates[0].rateAmount, 10) + enrollmentCartService.getTotalFees()) * multiplier;
 
         },
 
         getTotalFees: function() {
-            var plan = cart.dataPlan;
-            return parseFloat(plan.fees.salesUseTax, 10) + parseFloat(plan.fees.federalAccessCharge, 10) + parseFloat(plan.fees.streamLineCharge, 10);
+            var plan = enrollmentCartService.getCartDataPlan();
+            return 0;//parseFloat(plan[0].fees.salesUseTax, 10) + parseFloat(plan[0].fees.federalAccessCharge, 10) + parseFloat(plan[0].fees.streamLineCharge, 10);
         },
 
         getTotalDueToday: function() {
