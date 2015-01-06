@@ -543,6 +543,7 @@
     <Compile Include="Conditions\EnrollmentTrafficCopHelper.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
+    <Compile Include="Controllers\ApiControllers\SitecoreController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\ApiControllers\TempController.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
