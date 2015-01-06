@@ -130,11 +130,11 @@
 </script>
 
 <script type="text/ng-template" id="cart/Mobile">
-    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+    <div ng-repeat="selectedOffer in getCartDataPlan()">
         <div class="description" ng-if="getDevicesCount() == 1">
             @Html.Sitecore().Field("Individual Plan")
             <div class="options">
-                {{ getDevicesCount() }} @Html.Sitecore().Field("Line Text") &amp; {{ selectedOffer.offer.data }}<span ng-if="selectedOffer.offer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
+                {{ getDevicesCount() }} @Html.Sitecore().Field("Line Text") &amp; {{ selectedOffer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
             </div>
             <div class="links">
                 <a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link")</a> | <a href="" ng-click="addDevice()">@Html.Sitecore().Field("Add Device Link")</a>
@@ -143,13 +143,13 @@
         <div class="description" ng-if="getDevicesCount() > 1">
             @Html.Sitecore().Field("Group Plan")
             <div class="options">
-                {{ getDevicesCount() }} @Html.Sitecore().Field("Lines Text") &amp; {{ selectedOffer.offer.data }}<span ng-if="selectedOffer.offer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
+                {{ getDevicesCount() }} @Html.Sitecore().Field("Lines Text") &amp; {{ selectedOffer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
             </div>
             <div class="links">
                 <a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link")</a> | <a href="" ng-click="addDevice()">@Html.Sitecore().Field("Add Device Link")</a>
             </div>
         </div>
-        <div class="rate">{{ selectedOffer.offer.rates[0].rateAmount | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
+        <div class="rate">{{ selectedOffer.rates[0].rateAmount | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
     </div>
 </script>
 

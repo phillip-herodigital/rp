@@ -39,12 +39,16 @@
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
         enrollmentStepsService.setMaxStep('phoneFlowPlans');
+        // clear selected offers
+        enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { return []; }).value());     
+
         var activeService = enrollmentCartService.getActiveService();
         var activeServiceIndex = enrollmentCartService.getActiveServiceIndex();
-        if (typeof activeService != 'undefined' && typeof selectedOffers.Mobile != 'undefined') {
+        if (typeof activeService != 'undefined' && selectedOffers.Mobile != null) {
             var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
-            var offerId = _(offerInformationForType.value.availableOffers).find({ 'id': selectedOffers.Mobile }).id;
-            var childId = _(offerInformationForType.value.availableOffers).find({ 'id': selectedOffers.Mobile }).childOfferId;
+            var selectedOffer = _(offerInformationForType.value.availableOffers).find({ 'id': selectedOffers.Mobile });
+            var offerId = selectedOffer.id;
+            var childId = selectedOffer.childOfferId;
             var devices = enrollmentCartService.getCartDevices();
 
             // Add plan for each device, and add to the selected offers array
@@ -53,6 +57,8 @@
                 var offer = { offerId: (i == 0) ? offerId : childId };
                 offer.offerOption = {
                     optionType: 'Mobile',
+                    data: selectedOffer.data,
+                    rates: selectedOffer.rates,
                     activationDate: new Date(),
                     phoneNumber: device.phoneNumber,
                     esnNumber: device.esnNumber,

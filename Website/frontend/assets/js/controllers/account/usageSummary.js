@@ -3,7 +3,9 @@
  */
 ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', function ($scope, $rootScope, $http, breakpoint) {
 
-    $scope.dateRanges = [];
+    var GIGA = 1000000000;
+
+    //$scope.dateRanges = [];
     $scope.deviceUsageStats = [];
     $scope.deviceTotal = {
         data: {
@@ -21,13 +23,13 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     };
 
     //Make some dummy date ranges
-    for(var i = 0; i < 4; i++){
-        var month = 1000 * 60 * 60 * 24 * 30;
-        var now = (new Date()).getTime();
-        $scope.dateRanges.push({id: i, begin: now - (month * i) - month, end: now - (month * i)});
-    }
+    // for(var i = 0; i < 4; i++){
+    //     var month = 1000 * 60 * 60 * 24 * 30;
+    //     var now = (new Date()).getTime();
+    //     $scope.dateRanges.push({id: i, begin: now - (month * i) - month, end: now - (month * i)});
+    // }
 
-    $scope.currentRangeId = $scope.dateRanges[0].id;
+    // $scope.currentRangeId = $scope.dateRanges[0].id;
 
     var acct = null;
     $scope.isLoading = true;
@@ -39,7 +41,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     });
 
     $scope.getUsageStats = function(){
-        var range = $scope.dateRanges[$scope.currentRangeId];
+        //var range = $scope.dateRanges[$scope.currentRangeId];
         $scope.isLoading = true;
 
         $http({
@@ -50,31 +52,18 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             },
             headers: { 'Content-Type': 'application/JSON' }
         })
-			.success(function (data, status, headers, config) {
-			    $scope.isLoading = false;
-			    $scope.data = data;
+        .success(function (data, status, headers, config) {
+            $scope.isLoading = false;
+            $scope.data = data;
 
-			    $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit;
-			    updateDeviceTotals();
-			});
+            $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit * GIGA;
+            updateDeviceTotals();
+        });
 
-        $http({
-            method: 'GET',
-            url: '/api/account/getInvoices',
-            headers: { 'Content-Type': 'application/JSON' }
-        })
-			.success(function (data, status, headers, config) {
-			    //$scope.data = data;
-
-			    console.log(data);
-
-			    //$scope.deviceTotal.data.limit = $scope.data.dataUsageLimit;
-			    //updateDeviceTotals();
-			});
     }
 
     $scope.getDeviceImageURL = function (deviceId) {
-        return '#'; //'http://library.columbia.edu/content/dam/libraryweb/locations/sciencelib/dsc/ERIWG_mobile/iphone_icon.png';
+        return '/frontend/assets/i/icon/phone-generic.png';
     }
 
     function updateDeviceTotals() {

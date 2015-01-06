@@ -232,3 +232,13 @@ ngApp.filter('maskNumber', function () {
         return formattedNumber;
     };
 });
+
+ngApp.filter('gigabyte', function() {
+    return function (number, fractionSize) {
+
+        var GIGA = 1000000000,
+        fractionSize = typeof fractionSize !== 'undefined' ? fractionSize : 2;
+        return Math.round(number / GIGA * Math.pow(10, fractionSize)) / Math.pow(10, fractionSize);
+
+    }
+});
