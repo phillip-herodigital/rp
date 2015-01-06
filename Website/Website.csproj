@@ -670,7 +670,9 @@
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
     <Compile Include="Models\Account\GetAutoPayStatusRequest.cs" />
     <Compile Include="Models\Account\GetAutoPayStatusResponse.cs" />
+    <Compile Include="Models\Account\ChangePlanRequest.cs" />
     <Compile Include="Models\Account\GetMobilePlanOptionsRequest.cs" />
+    <Compile Include="Models\Account\ChangePlanResponse.cs" />
     <Compile Include="Models\Account\GetMobilePlanOptionsResponse.cs" />
     <Compile Include="Models\Account\GetMobileUsageResponse.cs" />
     <Compile Include="Models\Account\GetMobileUsageRequest.cs" />

@@ -85,7 +85,6 @@ namespace StreamEnergy.Services.Clients
                               ChildOfferId = (childOffer != null) ? childOffer.ProductId : null,
                               IsParentOffer = (product.IsParentGroup != null) ? product.IsParentGroup : false,
 
-                              //InstallmentPlan = GetInstallmentPlanIds(productData, products: streamConnectProductResponse.Products),
 
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Name"],
@@ -109,6 +108,7 @@ namespace StreamEnergy.Services.Clients
                                                      TypeId = (string)inventoryType.TypeId,
                                                      Name = inventoryData.Fields["Name"],
                                                      Price = Convert.ToDecimal(inventoryType.Price.ToString()),
+                                                     InstallmentPlan = GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory),
                                                  }).ToArray(),
 
                               Footnotes = productData.Footnotes,
@@ -117,15 +117,16 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        private InstallmentPlanDetails GetInstallmentPlanIds(SitecoreProductInfo productData, IEnumerable<dynamic> products)
+        private InstallmentPlanDetails GetInstallmentPlanIds(SitecoreProductInfo inventoryData, IEnumerable<dynamic> supportedInventoryTypes)
         {
             // TODO - update to match Sitecore
-            var mandatoryIds = Enumerable.Empty<string>(); // new string[] { -- TODO - product ids -- }
+            var mandatoryIds = Enumerable.Empty<string>(); // new string[] { -- TODO - inventory ids from sitecore -- }
 
+            // The "supportedInventoryTypes" are configured on BeQuick's system. If one doesn't match, then we can't offer the installment plan for this product.
             return new InstallmentPlanDetails
             {
-                IsInstallmentPlanAvailable = mandatoryIds.All(id => (from product in products 
-                                                                     select (string)product.ProductId).Contains(id)),
+                IsInstallmentPlanAvailable = mandatoryIds.All(id => (from inventoryType in supportedInventoryTypes 
+                                                                     select (string)inventoryType.Id).Contains(id)),
                 ByCreditRating = new CreditRatingInstallmentPlan
                 {
                     A = null, // TODO
@@ -144,6 +145,7 @@ namespace StreamEnergy.Services.Clients
         {
             var offer = (account.Offer.Offer as Mobile.Offer);
             var offerOption = (account.Offer.OfferOption as Mobile.OfferOption);
+            var selectedInventory = offer.MobileInventory.First(mi => mi.Id == offerOption.InventoryItemId);
             return new
             {
                 ServiceType = "Mobile",
@@ -161,7 +163,7 @@ namespace StreamEnergy.Services.Clients
                 TransferPhoneNumber = offerOption.TransferPhoneNumber,
                 UseInstallmentPlan = offerOption.UseInstallmentPlan,
                 InventoryInstallmentPlanByCredit = offerOption.UseInstallmentPlan
-                    ? new { A = offer.InstallmentPlan.ByCreditRating.A, B = offer.InstallmentPlan.ByCreditRating.B, C = offer.InstallmentPlan.ByCreditRating.C }
+                    ? new { A = selectedInventory.InstallmentPlan.ByCreditRating.A, B = selectedInventory.InstallmentPlan.ByCreditRating.B, C = selectedInventory.InstallmentPlan.ByCreditRating.C }
                     : null,
             };
         }

@@ -16,5 +16,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         public string Name { get; set; }
 
         public decimal Price { get; set; }
+
+        public InstallmentPlanDetails InstallmentPlan { get; set; }
     }
 }
