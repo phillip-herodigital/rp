@@ -3,70 +3,51 @@
         <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
     </header>
     <div class="content">
-        <div>
-            <form>
-                <div>
-                    <div class="item current-usage">
-                        <p>@Html.Sitecore().Field("Current Usage Text")</p>
-                        <div class="usage-meter clearfix">
-                            <span class="graph used">
-                                <span class="picket"></span>
-                                <span class="label">Usage: {{ deviceTotal.data.usage | gigabyte }} GB of {{ deviceTotal.data.limit }} GB</span>
-
-                            </span>
-                            <span class="graph estimated">
-                            </span>
-                            <span class="graph remain">
-                                <span class="picket"></span>
-                                <span class="label">Estimated: {{ estimatedTotalData | gigabyte }} GB</span>
-                            </span>
-                            <div class="scale">
-                                <div class="scale-label low">
-                                    <span class="picket"></span>
-                                    <span class="label">{{ graphScale.low }} GB</span>
-                                </div>
-                                <div class="scale-label mid">
-                                    <span class="picket"></span>
-                                    <span class="label">{{ graphScale.middle }}  GB</span>
-                                </div>
-                                <div class="scale-label high">
-                                    <span class="picket"></span>
-                                    <span class="label">{{ graphScale.high }}  GB</span>
-                                </div>
-                            </div>
-                            <div class="current-data">
-                                <div class="picket"></div>
-                                <div class="label">{{ deviceTotal.data.limit | gigabyte }} GB <br />@Html.Sitecore().Field("Data Plan")</div>
-                            </div>
-                            <div class="breakdown">
-                                <table>
-                                    <thead>
-                                        <tr><td colspan="2">Usage Breakdown</td></tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="device in data.deviceUsage">
-
-                                            <td class="device-name">{{ device.number | phone }}</td>
-                                            <td class="device-number">{{ device.dataUsage | gigabyte }} GB</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+        <p>@Html.Sitecore().Field("Current Usage Text")</p>
+        <div class="current-usage" ng-show="data.deviceUsage.length">
+            <div class="usage-meter clearfix" ng-class="{overage: data.totalUsage > data.dataUsageLimit}">
+                <span class="bar estimated" ng-style="{width: getPercentage(data.estimatedUsage, data.graphScale.low, data.graphScale.high)+'%'}">
+                    <span class="picket"></span>
+                    <span class="label">Estimated: {{ data.estimatedUsage | gigabyte }} GB</span>
+                </span>
+                <span class="bar used" ng-style="{width:getPercentage(data.totalUsage, data.graphScale.low, data.graphScale.high)+'%'}">
+                    <span class="picket"></span>
+                    <span class="label" ng-mouseover="showBreakdown = true" ng-mouseleave="showBreakdown = false">
+                        Usage: {{ data.totalUsage | gigabyte }} GB of {{ data.dataUsageLimit | gigabyte }} GB
+                        <div class="breakdown" ng-show="showBreakdown">
+                            <table>
+                                <thead>
+                                    <tr><td colspan="2">Usage Breakdown</td></tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="device in data.deviceUsage">
+                                        <td class="device-name">{{ device.number | phone }}</td>
+                                        <td class="device-number">{{ device.dataUsage | gigabyte }} GB</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                    @*<div class="item historical-usage">
-                        <p>@Html.Sitecore().Field("Historical Usage Text")</p>
-                        <div>
-                            <div class="historical-graph"></div>
-                            <div class="current-limit">
-                                <div class="limit-line"></div>
-                                <div class="limit-label">{{ deviceTotal.data.limit | gigabyte }} GB </div>
-                            </div>
-                        </div>
-                        <div class="view-details">@Html.Sitecore().Field("Historical Usage Link")</div>
-                    </div>*@
+                    </span>
+                </span>
+                <span class="bar total" ng-style="{width:getPercentage(data.dataUsageLimit, data.graphScale.low, data.graphScale.high)+'%'}">
+                    <span class="picket"></span>
+                    <span class="label">{{ data.dataUsageLimit | gigabyte }} GB <br />@Html.Sitecore().Field("Data Plan")</span>
+                </span>
+            </div>
+            <div class="scale">
+                <div class="scale-label low">
+                    <span class="picket"></span>
+                    <span class="label">{{ data.graphScale.low }} GB</span>
                 </div>
-            </form>
+                <div class="scale-label mid">
+                    <span class="picket"></span>
+                    <span class="label">{{ data.graphScale.middle }}  GB</span>
+                </div>
+                <div class="scale-label high">
+                    <span class="picket"></span>
+                    <span class="label">{{ data.graphScale.high }}  GB</span>
+                </div>
+            </div>
         </div>
     </div>
     <footer>
