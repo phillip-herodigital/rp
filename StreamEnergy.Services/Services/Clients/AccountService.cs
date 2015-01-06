@@ -74,7 +74,7 @@ namespace StreamEnergy.Services.Clients
                         DueDate = invoice.DueDate,
                         InvoiceAmount = (decimal)invoice.AmountDue.Value,
                         PdfAvailable = invoice.PdfAvailable,
-                        InvoiceDate = (DateTime)invoice.InvoiceDate != null ? invoice.InvoiceDate : null,
+                        InvoiceDate = invoice.InvoiceDate != null ? (DateTime?)invoice.InvoiceDate : null,
                     } by new AccountFactory.AccountKey
                     {
                         StreamConnectCustomerId = globalCustomerId,
