@@ -7,7 +7,36 @@
 .carousel {
     position: relative;
     .wrapper {
+        height: 420px;
         text-align: left;
+        .content {
+            width: 50%;
+            em {
+                font-size: 26px;
+                text-transform: uppercase;
+            }
+            h1 {
+                font-size: 52px;
+                color: #013c5b;
+                strong {
+                    font-weight: 300;
+                    color: #1086c7;
+                    text-transform: uppercase;
+                }
+            }
+        }
+        @include breakpoint(small) {
+            height: 200px;
+            .content {
+                width: 90%;
+                em {
+                    font-size: 18px;
+                }
+                h1 {
+                    font-size: 26px;
+                }
+            }
+        }
     }
 }
 
@@ -16,14 +45,10 @@
     overflow: hidden;
     width: 100%;
 
-    // Account for jankitude on images
-    .wrapper {
-        background-size: cover;
-    }
-
     > .item {
         display: none;
         position: relative;
+        background-size: cover;
         @include transition(.6s ease-in-out left);
 
         // WebKit CSS3 transforms for supported devices
@@ -90,77 +115,14 @@
 
 // Left/right controls for nav
 // ---------------------------
-
 .carousel-control {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 15%;
-    font-size: 12px;
-    text-align: center;
-
-    // Set gradients for backgrounds
-    &.left {
-    }
-    &.right {
-        left: auto;
-        right: 0;
-    }
-
-    // Hover/focus state
-    &:hover,
-    &:focus {
-        outline: 0;
-        text-decoration: none;
-    }
-
-    // Toggles
-    .icon-prev,
-    .icon-next,
-    .glyphicon-chevron-left,
-    .glyphicon-chevron-right {
-        position: absolute;
-        top: 50%;
-        z-index: 5;
-        display: inline-block;
-    }
-    .icon-prev,
-    .glyphicon-chevron-left {
-        left: 50%;
-        margin-left: -10px;
-    }
-    .icon-next,
-    .glyphicon-chevron-right {
-        right: 50%;
-        margin-right: -10px;
-    }
-    .icon-prev,
-    .icon-next {
-        width:  20px;
-        height: 20px;
-        margin-top: -10px;
-        font-family: serif;
-    }
-
-
-    .icon-prev {
-        &:before {
-            content: '\2039';// SINGLE LEFT-POINTING ANGLE QUOTATION MARK (U+2039)
-        }
-    }
-    .icon-next {
-        &:before {
-            content: '\203a';// SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (U+203A)
-        }
-    }
+    display: none;
 }
 
 // Optional indicator pips
 //
 // Add an unordered list with the following class and add a list item for each
 // slide your carousel holds.
-
 .carousel-indicators {
     position: absolute;
     bottom: 10px;
@@ -187,42 +149,5 @@
     }
     .active {
         background-color: $link-primary-color;
-    }
-}
-
-// Optional captions
-// -----------------------------
-// Hidden by default for smaller viewports
-.carousel-caption {
-}
-
-
-// Scale up controls for tablets and up
-@media screen and (min-width: 768px) {
-
-    // Scale up the controls a smidge
-    .carousel-control {
-        .glyphicon-chevron-left,
-        .glyphicon-chevron-right,
-        .icon-prev,
-        .icon-next {
-            width: 30px;
-            height: 30px;
-            margin-top: -15px;
-            font-size: 30px;
-        }
-        .glyphicon-chevron-left,
-        .icon-prev {
-            margin-left: -15px;
-        }
-        .glyphicon-chevron-right,
-        .icon-next {
-            margin-right: -15px;
-        }
-    }
-
-    // Move up the indicators
-    .carousel-indicators {
-        bottom: 20px;
     }
 }
