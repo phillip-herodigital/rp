@@ -25,13 +25,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
                 foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                 {
-                    if (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted)
+                    if (placeOrderResult.Details.IsSuccess)
                     {
-                        placeOrderResult.Details.IsSuccess = false;
-                    }
-                    else if (context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
-                    {
-                        placeOrderResult.Details.IsSuccess = false;
+                        if (context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
+                        {
+                            placeOrderResult.Details.IsSuccess = false;
+                        }
                     }
                 }
             }

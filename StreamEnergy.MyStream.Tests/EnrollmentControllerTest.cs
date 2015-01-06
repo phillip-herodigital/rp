@@ -1660,6 +1660,25 @@ namespace StreamEnergy.MyStream.Tests
                 },
                 AgreeToTerms = true,
             };
+            mockEnrollmentService.Setup(m => m.EndPlaceOrder(It.IsAny<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>()))
+                .Returns(Task.FromResult<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(new StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>()
+                {
+                    IsCompleted = true,
+                    Data = new[] 
+                    {
+                        new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                        {
+                            Offer = offers.First(),
+                            Location = specificLocation,
+                            Details = new DomainModels.Enrollments.Service.PlaceOrderResult
+                            {
+                                ConfirmationNumber = "87654321",
+                                // the EnrollmentService class overrides the success because there is no identity check, which is what we're expecting anyway.
+                                IsSuccess = false
+                            }
+                        }
+                    }
+                }));
 
             using (var controller = container.Resolve<EnrollmentController>())
             {

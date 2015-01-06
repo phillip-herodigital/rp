@@ -629,7 +629,8 @@ namespace StreamEnergy.Services.Clients
                                          DepositWaiverRequested = offer.WaiveDeposit,
                                          DepositPaymentMade = deposit && !offer.WaiveDeposit
                                      },
-                InitialPayments = initialPayments
+                InitialPayments = initialPayments,
+                RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted
             });
 
             var asyncUrl = response.Headers.Location;
