@@ -84,7 +84,7 @@
                             @Html.Sitecore().Field("Data Total")<br />
                             <strong>{{ deviceTotal.data.usage | gigabyte }} GB</strong>
                             @Html.Sitecore().Field("Of")
-                            <strong>{{ deviceTotal.data.limit < 0 ? 'unlimited' :  (deviceTotal.data.limit | number) }} GB</strong>
+                            <strong>{{ deviceTotal.data.limit < 0 ? 'unlimited' : (deviceTotal.data.limit | gigabyte) }} GB</strong>
                         </div>
                         <div class="device-short">
                             <strong>{{ deviceTotal.data.usage | gigabyte:1 }} GB</strong>
