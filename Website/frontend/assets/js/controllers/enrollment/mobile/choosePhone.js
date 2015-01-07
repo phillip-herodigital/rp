@@ -77,9 +77,9 @@
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 device: device,
                 id: selectedModel.sku,
-                price: ($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : mobileEnrollmentService.getLeasePrice(device.id),
+                price: ($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : mobileEnrollmentService.getInstallmentPrice(device.id),
                 salesTax: parseFloat(parseFloat(($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24, 10) * .07).toFixed(2),
-                installmentMonths: ($scope.phoneOptions.purchaseOption == "New") ? null : mobileEnrollmentService.getLeaseMonths(device.id, $scope.phoneOptions.purchaseOption),
+                installmentMonths: ($scope.phoneOptions.purchaseOption == "New") ? null : mobileEnrollmentService.getInstallmentMonths(device.id, $scope.phoneOptions.purchaseOption),
                 buyingOption: $scope.phoneOptions.purchaseOption,
                 activationFee: $scope.activationFee,
                 make: { make: device.brand },
@@ -95,6 +95,7 @@
         else {
             item = {
                 id: 7,
+                buyingOption: "BYOD",
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 make: $scope.phoneOptions.make,
                 model: $scope.phoneOptions.model,

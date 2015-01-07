@@ -102,11 +102,11 @@ namespace StreamEnergy.Services.Clients
                               },
                               MobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
                                                  let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
+                                                 where inventoryData != null
                                                  select new Mobile.MobileInventory
                                                  {
                                                      Id = (string)inventoryType.Id,
                                                      TypeId = (string)inventoryType.TypeId,
-                                                     Name = inventoryData.Fields["Name"],
                                                      Price = Convert.ToDecimal(inventoryType.Price.ToString()),
                                                      InstallmentPlan = GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory),
                                                  }).ToArray(),
@@ -119,19 +119,18 @@ namespace StreamEnergy.Services.Clients
 
         private InstallmentPlanDetails GetInstallmentPlanIds(SitecoreProductInfo inventoryData, IEnumerable<dynamic> supportedInventoryTypes)
         {
-            // TODO - update to match Sitecore
-            var mandatoryIds = Enumerable.Empty<string>(); // new string[] { -- TODO - inventory ids from sitecore -- }
+            var mandatoryIds = new string[] { inventoryData.Fields["A Group SKU"], inventoryData.Fields["B Group SKU"], inventoryData.Fields["C Group SKU"] };
 
             // The "supportedInventoryTypes" are configured on BeQuick's system. If one doesn't match, then we can't offer the installment plan for this product.
             return new InstallmentPlanDetails
             {
-                IsInstallmentPlanAvailable = mandatoryIds.All(id => (from inventoryType in supportedInventoryTypes 
-                                                                     select (string)inventoryType.Id).Contains(id)),
+                IsInstallmentPlanAvailable = mandatoryIds.All(id => (from inventoryType in supportedInventoryTypes
+                                                                        select (string)inventoryType.Id).Contains(id)),
                 ByCreditRating = new CreditRatingInstallmentPlan
                 {
-                    A = null, // TODO
-                    B = null, // TODO
-                    C = null, // TODO
+                    A = inventoryData.Fields["A Group SKU"],
+                    B = inventoryData.Fields["B Group SKU"],
+                    C = inventoryData.Fields["B Group SKU"],
                 },
             };
         }

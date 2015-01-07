@@ -90,10 +90,10 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         return _.min(models, function(model){ return model.price; }).price;
     };
 
-    service.getLeaseMonths = function(id, plan) {
+    service.getInstallmentMonths = function(id, plan) {
         var item = _.where(this.getPhones(), { id: id })[0];
         var model =  _.find(item.models, function(model) {
-            return model.installmentPlans[0].sku == plan;
+            return model.installmentPlans[0].aGroupSku == plan;
         });
 
         if (typeof model.installmentPlans != 'undefined') {
@@ -103,7 +103,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         }
     };
 
-    service.getLeasePrice = function(id) {
+    service.getInstallmentPrice = function(id) {
         var item = _.where(this.getPhones(), { id: id })[0];
         var models =  _.filter(item.models, 'installmentPlans');
 
