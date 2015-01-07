@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -244,6 +245,42 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return View("~/Views/Components/Mobile Enrollment/Order Summary.cshtml");
         }
+
+        [System.Web.Http.HttpPost]
+        public string Validas(string username, string password, string carrier)
+        {
+            using (var client = new HttpClient())
+            {
+
+                var json = String.Format("\"LoginUsername\":\"{0}\",\"LoginPassword\":\"{1}\"," +
+                                         "\"LoginChallenge\":\"\",\"Carrier\":\"{2}\",\"DownloadBillHistory\":\"true\"," +
+                                         "\"DownloadCurrentMonthBill\":\"true\",\"GetProfileDetails\":\"true\"," +
+                                         "\"GetDeviceDetails\":\"true\",\"MaxBillingResults\":\"1\"",
+                                         username, password, carrier);
+                json = "{" + json + "}";
+                var sign = new System.Security.Cryptography.HMACSHA1(System.Text.Encoding.ASCII.GetBytes("6964220bb159b2728309dd7fb21ae886"));
+                var result = sign.ComputeHash(System.Text.Encoding.ASCII.GetBytes(json));
+                var signed = BitConverter.ToString(result).Replace("-", string.Empty);
+
+                // Add a new Request Message
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, "http://api10.savelovegive.com:3000/api/scrape/extract");
+
+                // Add our custom headers
+                requestMessage.Headers.Add("v-pk", "c3c35a59ac39157d074807d2123822e1");
+                requestMessage.Headers.Add("v-sign", signed);
+
+                // Set the JSON content
+                var stringContent = new StringContent(json.ToString());
+                requestMessage.Content = stringContent;
+
+                // Send the request to the server
+                var response = client.SendAsync(requestMessage).Result;
+
+                // Get the response
+                return response.Content.ReadAsStringAsync().Result;
+            }
+        }
+
 
     }
 }
