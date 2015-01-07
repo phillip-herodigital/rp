@@ -23,7 +23,7 @@
             angular.forEach(address.offerInformationByType[0].value.availableOffers, function (entry) {
                 availableDevices.push(entry.mobileInventory);
             });
-            _(availableDevices).flatten().uniq('id').forEach(function(device) { 
+            _(availableDevices).flatten().filter().uniq('id').forEach(function (device) {
                 _.find(mobileEnrollmentService.getPhoneData(), function(phone) {
                     _.find(phone.models, function(model) {
                         if (model.sku == device.id) {
