@@ -1053,7 +1053,17 @@
  */
 .enrollment__verify-identity {
     .enrollment__box.form {
+        header {
+            p {
+                float: left;
+            }
+        }
+        label.security-question {
+            font-size: 17px;
+            font-weight: 500;
+        }
         label.security-answer {
+            font-size: 15px;
             font-weight: 300;
         }
     }
