@@ -173,7 +173,6 @@ namespace StreamEnergy.Services.Clients
             {
                 PhoneNumber = details.PhoneNumber,
                 SerialNumber = details.SerialNumber,
-                PurchaseType = details.PurchaseType,
                 EquipmentId = details.EquipmentId,
                 PlanId = details.Plan.PlanId,
                 PlanPrice = (double)details.Plan.Price,
