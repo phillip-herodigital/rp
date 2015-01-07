@@ -2648,3 +2648,224 @@ article.opportunity-more-information.accent-red {
         color: #aa2130;
     }
 }
+
+article.marketing.mobile.mobile-plans-usage-calculator {
+    @include border-radius(4 4 4 4);
+
+	.tabHeaders {
+		width: 100%;
+	    list-style: none;
+	    padding: 0;
+	    margin: 0;
+		
+		.tabHeader {
+	        width: 50%;
+		    float: left;
+		    border: 1px solid #f0f0f0;
+		    padding: 5px 5px 0px 5px;
+		}
+
+		.active {
+			border-bottom: none;
+		}
+	}
+
+	li:first-child {
+		border-right: none;
+	}
+
+
+
+
+	.blue {
+		color: rgb(41, 136, 200);
+	}
+
+	.calculator {
+	    border-left:   1px solid #f0f0f0;
+	    border-bottom: 1px solid #f0f0f0;
+	    border-right:  1px solid #f0f0f0;
+		clear: both;
+
+
+		#connect {
+			padding: 10px;
+			.selectCarrier {
+				.carrierButtons {
+					list-style: none;
+					.carrierButton {
+				    	display: inline;
+				    	.selected {
+				    		background-image: url('/frontend/assets/i/marketing/redesign/nav-first-level-selected-indicator.png');
+				    	} 
+				    	.carrierIcon {
+					    	border: 1px solid #f0f0f0;
+				    	}
+					}
+				}
+			}		
+			.login {
+
+				.loginFields {
+					background-color: rgb(241, 241, 241);
+					input[type="text"] {
+						width: 80%;
+					}
+				}
+			}
+		}
+
+		#manual {
+			.left {
+				width: 40%;
+			}
+			.right {
+				width: 60%;
+			}
+
+			.numLines {
+				.button {
+					background: white;
+					color: inherit;
+					margin: 0 2px;
+					border: 1px solid #f0f0f0;
+				}
+
+				.active {
+					background: rgb(41, 136, 200);
+				}
+			}
+
+			.sliderContainer {
+				width: 80%;
+				.slider {
+					height: 23px;
+
+					.ui-slider-handle {
+						width: 10px;
+						top: 10px
+					}
+
+					.ui-slider-range {
+						background:  rgb(41, 136, 200); 
+					}
+				}
+			}
+
+			.sliderLabels {
+				width: 80%;
+				text-align: center;
+				position: relative;
+
+				.none {
+					position: absolute;
+					left: 2px;
+				}
+
+				.alot {
+					position: absolute;
+					right: 2px;
+				}
+			}
+
+			.suggestion {
+
+				.recommendedLabelContainer {
+					position: relative;
+					width: 100%;
+					height:24px;
+					padding: 5px 10px;
+
+					.recommended {
+						position: absolute;
+						top: -5px;
+
+						.recommendedLabel {
+							width: 160px;
+							height: 24px;
+							position: relative;
+							top: 0px;
+							.recommendedLabelTop {
+								background: #073464;
+								position: absolute;
+								width: 160px;
+								color: white;
+								text-align: center;
+							}
+							.recommendedLabelCarat {
+								top: 22px;
+								position: absolute;
+							}
+						}
+					}
+				}
+
+				.estimatedData {
+					padding: 5px 10px;
+
+					.frame {
+				        @include border-radius($button-border-radius);
+
+						position: relative;
+						width: 100%;
+						height: 24px;
+						border: 1px solid #f0f0f0;
+						background: #fff;
+
+						.recommended {
+				        	@include border-radius($button-border-radius);
+							position: absolute;
+							z-index: 100;
+							background: #073464;
+							height:22px
+						}
+
+						.estimate {
+					        @include border-radius($button-border-radius);
+							position: absolute;
+							z-index: 1000;
+							height:22px;
+							background:  rgb(41, 136, 200); 
+						}
+						.estimatedDataLabel {
+							position: absolute;
+							z-index: 10000;
+							top: 1px;
+							color: #fff;
+
+						}
+					}
+
+					.dataLabels {
+						position: relative;
+						width: 100%;
+						.dataLabel {
+							width: 20%;
+						}
+					}
+
+				}
+			}
+
+			.table {
+				display: table;
+				width: 100%;
+
+				.table-row {
+					display: table-row;
+
+					.table-cell {
+						display: table-cell;
+						border: 1px solid #f0f0f0;
+					}
+
+					.label {
+						width: 25%;
+					}
+
+				}
+			}
+		}
+
+	}
+}
