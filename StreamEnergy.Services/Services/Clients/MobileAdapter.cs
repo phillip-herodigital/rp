@@ -102,13 +102,12 @@ namespace StreamEnergy.Services.Clients
                               },
                               MobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
                                                  let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
-                                                 where inventoryData != null
                                                  select new Mobile.MobileInventory
                                                  {
                                                      Id = (string)inventoryType.Id,
                                                      TypeId = (string)inventoryType.TypeId,
                                                      Price = Convert.ToDecimal(inventoryType.Price.ToString()),
-                                                     InstallmentPlan = GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory),
+                                                     InstallmentPlan = (inventoryData != null) ? GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory) : null,
                                                  }).ToArray(),
 
                               Footnotes = productData.Footnotes,
