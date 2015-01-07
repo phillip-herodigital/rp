@@ -56,7 +56,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public DateTime LastBillDate { get; set; }
         public DateTime NextBillDate { get; set; }
 
-        public string CustomerType { get; set; }
-        public string ProductType { get; set; }
+        public Enrollments.EnrollmentCustomerType CustomerType { get; set; }
+        public string ProductType { get { return "Mobile"; } }
     }
 }

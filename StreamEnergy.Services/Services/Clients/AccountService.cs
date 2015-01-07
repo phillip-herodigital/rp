@@ -593,6 +593,16 @@ namespace StreamEnergy.Services.Clients
                 await ((IAccountService)this).GetAccountDetails(account, false);
             }
 
+            if (subAccount.CustomerType == EnrollmentCustomerType.Commercial)
+            {
+                // We don't support commercial enrollments at this time.
+                account.Capabilities.Add(new RenewalAccountCapability
+                {
+                    IsEligible = false
+                });
+                return true;
+            }
+
             var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(subAccount));
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals/eligibility/",
@@ -625,7 +635,7 @@ namespace StreamEnergy.Services.Clients
                 EligibilityWindowInDays = (int)data.EligibilityWindow,
                 Capabilities = new IServiceCapability[] { 
                     new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal }, 
-                    new CustomerTypeCapability { CustomerType = (subAccount.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial }, 
+                    new CustomerTypeCapability { CustomerType = subAccount.CustomerType }, 
                     locAdapter.GetRenewalServiceCapability(account, subAccount)
                 }
             });

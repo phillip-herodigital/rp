@@ -23,7 +23,7 @@ namespace Cis2AureaAccountImport
             get { throw new NotImplementedException(); }
         }
 
-        string ISubAccount.CustomerType
+        StreamEnergy.DomainModels.Enrollments.EnrollmentCustomerType ISubAccount.CustomerType
         {
             get { throw new NotImplementedException(); }
         }
