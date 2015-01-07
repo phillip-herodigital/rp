@@ -15,11 +15,9 @@
 }
 
 <carousel interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
-    <slide ng-repeat="slide in slides" active="slide.active">
-        <div class="banner marketing" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
-            <div class="wrapper">
-                {{ slide.text }}
-            </div>
+    <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
+        <div class="wrapper">
+            <div class="content" ng-bind-html="slide.text | html"></div>
         </div>
     </slide>
 </carousel>

@@ -1,6 +1,8 @@
 ﻿<article class="marketing mobile mobile-plans-price-selector" ng-controller="MobilePlansDetailsCtrl">
     <div class="wrapper">
         <h1>@Html.Sitecore().Field("Header")</h1>
+        @if (Html.Sitecore().HasValue("Show Individual Plans"))
+        {
         <div class="grid" id="@Html.Sitecore().Field("Network ID")-individual">
             <div class="col">
                 <div class="mobile-poweredBy"><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png" /> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("Network Name")</strong></span></div>
@@ -33,7 +35,13 @@
                 </table>
             </div>
         </div>
+        }
+        @if (Html.Sitecore().HasValue("Show Individual Plans") && Html.Sitecore().HasValue("Show Group Plans"))
+        {
         <hr />
+        }
+        @if (Html.Sitecore().HasValue("Show Group Plans"))
+        {
         <div class="grid" id="@Html.Sitecore().Field("Network ID")-group">
             <div class="col">
                 <div class="mobile-poweredBy"><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png" /> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("Network Name")</strong></span></div>
@@ -77,5 +85,6 @@
                 </table>
             </div>
         </div>
+        }
     </div>
 </article>
