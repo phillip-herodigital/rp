@@ -61,7 +61,7 @@
                 <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->   
             </ul>
         </article>
-        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && cartHasTxLocation()">
+        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && !isRenewal && cartHasTxLocation()">
             <header>
                 <p><strong>@Html.Sitecore().Field("Outage Header")</strong></p>
             </header>
