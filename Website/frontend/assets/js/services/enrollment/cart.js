@@ -283,7 +283,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType').contains('Mobile');
         },
         cartHasUtility: function () {
-            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType').contains('Utility');
+            var capabilities = _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType').filter().flatten();
+            return capabilities.contains('Utility') || _(capabilities).filter(function(capability){ if (_(capability).contains("Renewal")) {return capability} }).some();
         },
         locationHasService: function (location) {
             if (!location.offerInformationByType)
