@@ -49,7 +49,7 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public string EarlyTerminationFee { get; set; }
 
-        public string CustomerType { get; set; }
-        public string ProductType { get; set; }
+        public Enrollments.EnrollmentCustomerType CustomerType { get; set; }
+        public string ProductType { get { return "Gas"; } }
     }
 }

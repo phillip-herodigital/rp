@@ -528,7 +528,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 AccountId = account.StreamConnectAccountId,
                 SubAccounts = account.SubAccounts,
-                RenewalCapability = (account.SubAccounts.First().CustomerType == "Residential") ? account.GetCapability<RenewalAccountCapability>() : null
+                RenewalCapability = account.GetCapability<RenewalAccountCapability>()
             };
         }
 

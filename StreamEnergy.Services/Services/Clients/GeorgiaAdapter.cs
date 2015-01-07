@@ -199,8 +199,7 @@ namespace StreamEnergy.Services.Clients
                 result.ProductName = productData.Fields["Name"] ?? details.Product.Name;
                 result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
                 result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
-                result.CustomerType = details.CustomerType;
-                result.ProductType = details.ProductType;
+                result.CustomerType = (details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial;
             }
             return result;
         }
