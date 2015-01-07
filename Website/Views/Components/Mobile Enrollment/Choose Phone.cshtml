@@ -87,7 +87,7 @@
                                                         <span>@Html.Sitecore().Field("Reconditioned From")</span>
                                                         {{ mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned') | currency }}
                                                     </div>
-                                                    <span class="lease" ng-if="mobileEnrollmentService.getLeasePrice(item.id)">@Html.Sitecore().Field("Lease From") {{ mobileEnrollmentService.getLeasePrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")</span>
+                                                    <span class="lease" ng-if="mobileEnrollmentService.getInstallmentPrice(item.id)">@Html.Sitecore().Field("Lease From") {{ mobileEnrollmentService.getInstallmentPrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                 </div>
                                                 <button ng-click="setSelectedPhone(item.id)" ng-disabled="!mobileEnrollmentService.getStock(item.id)">@Html.Sitecore().Field("Button - Select Phone")</button>
                                             </div>
@@ -166,7 +166,7 @@
                                                         <span class="purchase-price">{{ model.lease20 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                     </a>
                                                     *@
-                                                    <a href="" class="button btn-group-arrow" ng-click="$parent.isOpen = true" ng-repeat="plan in model.installmentPlans | filter: { creditGroup: 'A' }" ng-model="phoneOptions.purchaseOption" btn-radio="{{ plan.sku }}" ng-show="plan.inStock">
+                                                    <a href="" class="button btn-group-arrow" ng-click="$parent.isOpen = true" ng-repeat="plan in model.installmentPlans" ng-model="phoneOptions.purchaseOption" btn-radio="{{ plan.aGroupSku }}" ng-show="plan.inStock">
                                                         <span class="purchase-type">{{ plan.months }}@Html.Sitecore().Field("Month Installment")</span>
                                                         <span class="purchase-price">{{ plan.price | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                     </a>

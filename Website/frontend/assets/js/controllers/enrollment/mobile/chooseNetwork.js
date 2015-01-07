@@ -31,7 +31,7 @@
                             model.price = device.price;
                         } else {
                             _.find(model.installmentPlans, function(installmentPlan) {
-                                if (installmentPlan.sku == device.id) {
+                                if (installmentPlan.aGroupSku == device.id) {
                                     installmentPlan.inStock = true;
                                     installmentPlan.price = device.price;
                                 }

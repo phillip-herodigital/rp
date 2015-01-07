@@ -42,15 +42,14 @@ namespace StreamEnergy.MyStream.Controllers
                     ColorClass = (Char.ToLowerInvariant(obj.Fields["Color"].Value[0]) + obj.Fields["Color"].Value.Substring(1)).Trim(),
                     Network = obj.Fields["Network"].Value.ToLower(),
                     Condition = obj.Fields["Condition"].Value,
-                    //Price = obj.Fields["Price New"].Value,
                     Sku = obj.Fields["SKU"].Value,
                     InStock = false,
                     InstallmentPlans = GetAllInstallmentPlans(obj).Select(plan => new
                     {
                         Months = plan.Fields["Number of Months"].Value,
-                        CreditGroup = plan.Fields["Credit Group"].Value,
-                        //Price = plan.Fields["Price"].Value,
-                        Sku = plan.Fields["SKU"].Value,
+                        AGroupSku = plan.Fields["A Group SKU"].Value,
+                        BGroupSku = plan.Fields["B Group SKU"].Value,
+                        CGroupSku = plan.Fields["C Group SKU"].Value,
                         InStock = false
 
                     })

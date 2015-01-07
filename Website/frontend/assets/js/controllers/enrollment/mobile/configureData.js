@@ -61,12 +61,12 @@
                     rates: selectedOffer.rates,
                     activationDate: new Date(),
                     phoneNumber: device.phoneNumber,
-                    esnNumber: device.esnNumber,
+                    esnNumber: device.imeiNumber,
                     simNumber: device.simNumber,
                     imeiNumber: device.imeiNumber,
                     inventoryItemId: device.id,
                     transferPhoneNumber: (device.phoneNumber == null) ? false : true,
-                    useInstallmentPlan: device.buyingOption == 'New' ? false : true,
+                    useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'BYOD') ? false : true,
                 };
                 offerInformationForType.value.offerSelections.push(offer);
             };
