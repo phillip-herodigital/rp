@@ -56,7 +56,14 @@ namespace StreamEnergy.MyStream.Controllers
                 })
             });
 
-            return this.Content(StreamEnergy.Json.Stringify(data));
+            try
+            {
+                return this.Content(StreamEnergy.Json.Stringify(data.ToArray()));
+            }
+            catch
+            {
+                return this.Content("[]");
+            }
         }
 
         public ActionResult BringYourOwnDevices()

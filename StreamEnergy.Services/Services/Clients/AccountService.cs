@@ -376,12 +376,16 @@ namespace StreamEnergy.Services.Clients
             if (response.IsSuccessStatusCode)
             {
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
-                if (data.Status == "Success" && ((IEnumerable<dynamic>)data.AssociateAccountResults).Any(a => a.Status == "Success"))
+                if (data.Status == "Success")
                 {
-                    return new Account(globalCustomerId, Guid.Parse((string)data.AssociateAccountResults[0].GlobalAccountId))
-                        {
-                            AccountNumber = accountNumber
-                        };
+                    var associated = ((IEnumerable<dynamic>)data.AssociateAccountResults).FirstOrDefault(a => a.Status == "Success");
+                    if (associated != null)
+                    {
+                        return new Account(globalCustomerId, Guid.Parse((string)associated.GlobalAccountId))
+                            {
+                                AccountNumber = accountNumber
+                            };
+                    }
                 }
             }
             return null;
