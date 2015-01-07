@@ -1229,6 +1229,7 @@
     <Content Include="Views\Components\Marketing\Carousel.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Details.cshtml" />
     <Content Include="Views\Components\Marketing\HTML Grid.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Usage Calculator.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

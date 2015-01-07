@@ -1,0 +1,475 @@
+﻿<article class="marketing mobile mobile-plans-usage-calculator" ng-controller="MobileUsageCalculatorCtrl">
+    <script>
+        var UsageCalculator = {
+            tabs: [
+                {
+                    title: '@Html.Sitecore().Field("Connect Account Tab")',
+                    url: 'connect.tpl.html'
+                }, 
+                {
+                    title: '@Html.Sitecore().Field("Manually Enter Tab")',
+                    url: 'manual.tpl.html'
+                }
+            ],
+            sliderVals: [
+                @Html.Sitecore().Field("None"),
+                @Html.Sitecore().Field("Some"),
+                @Html.Sitecore().Field("A Lot")
+            ]
+        }
+    </script>
+    <div class="wrapper">
+        <h1>@Html.Sitecore().Field("Header")</h1>
+        <div id="tabs">
+            <ul class="tabHeaders">
+                <li class="tabHeader"
+                    ng-repeat="tab in tabs"
+                    ng-class="{active:isActiveTab(tab.url)}"
+                    ng-click="onClickTab(tab)">{{tab.title}}</li>
+            </ul>
+            <div class="calculator">
+            	<h1>@Html.Sitecore().Field("Helping YOU find the BEST PLAN")</h1>
+                <div ng-include="currentTab"></div>
+            </div>
+        </div>
+        <script type="text/ng-template" id="connect.tpl.html">
+            <div id="connect" ng-show="!connected">
+                <h1>@Html.Sitecore().Field("Connect with your Account")</h1>
+                <div class="selectCarrier row">
+	                <div class="selectCarrierText col pull-left">
+                        <h4>@Html.Sitecore().Field("Select Carrier")</h4>
+		                <p>@Html.Sitecore().Field("Select Carrier Text")</p>
+		            </div>
+                    <div class="col pull-right">
+    		            <ul class="carrierButtons">
+    		            	<li class="carrierButton att" ng-class="isConnectCarrierSelected('att')"
+                             ng-click="selectCarrierConnect('att')">
+                                <img class="carrierIcon" src="http://placehold.it/120x80">
+    		            	</li>
+    		            	<li class="carrierButton sprint" ng-class="isConnectCarrierSelected('sprint')" 
+                            ng-click="selectCarrierConnect('sprint')">
+                                <img class="carrierIcon" src="http://placehold.it/120x80">
+    		            	</li>
+    		            	<li class="carrierButton verizon" ng-class="isConnectCarrierSelected('verizon')"
+                             ng-click="selectCarrierConnect('verizon')">
+                                <img class="carrierIcon" src="http://placehold.it/120x80">
+    		            	</li>
+    		            	<li class="carrierButton tmobile" ng-class="isConnectCarrierSelected('tmobile')"
+                            ng-click="selectCarrierConnect('tmobile')">
+                                <img class="carrierIcon" src="http://placehold.it/120x80">
+    		            	</li>
+    		            </ul>
+                    </div>
+		        </div>
+                <div class="login row">
+                    <div class="grid loginFields">
+                        <div class="">
+                            @Html.Sitecore().Field("Log In Text") 
+                            <span ng-bind="connectCarrier"></span>
+                            @Html.Sitecore().Field("Log In Text2")
+                        </div>
+                        <div class="grid three">
+                            <div class="col">
+                                <span>@Html.Sitecore().Field("Username")</span><br>
+                                <input type="text"><br>
+                                @Html.Sitecore().Field("Forgot Username Link", new {text = @Html.Sitecore().Field("Forgot Username")})
+                            </div>
+                            <div class="col">
+                                <span>@Html.Sitecore().Field("Password")</span><br>
+                                <input type="text"><br>
+                                @Html.Sitecore().Field("Forgot Password Link", new {text = @Html.Sitecore().Field("Forgot Password")})
+                            </div>
+                            <div class="col">
+                                <span>@Html.Sitecore().Field("Security Question")</span><br>
+                                <input type="text"><br>
+                                @Html.Sitecore().Field("Security Question Link", new {text = @Html.Sitecore().Field("Cant Remember Security Question")})
+                            </div>
+                        </div>
+                    </div>
+			        <div class="loginSubmit row">
+			        	<div class="acceptTerms col pull-left">
+			        		<input type="checkbox" class="acceptCheckbox"/>
+                            @Html.Sitecore().Field("Agree text")
+			        	</div>
+			        	<div class="submitButton col pull-right">
+			        		<input type="submit" class="button" ng-click="update(user)" value="@Html.Sitecore().Field("Calculate Savings")" />
+			        	</div>
+			        </div>
+                </div>
+            </div>
+            <div id="connected" ng-show="connected">
+            	<h2>@Html.Sitecore().Field("Here's your Savings Analysis")</h2>
+            	<div class="table">
+            		<div class="table-header">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Network Provider")
+            			</div>
+            			<div class="table-cell">
+            				<!-- verizon logo -->
+            			</div>
+            			<div class="table-cell">
+            				<!-- stream sprint -->
+            			</div>
+            			<div class="table-cell">
+            				<!-- stream att -->
+            			</div>
+            		</div>
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Phone Lines")
+            			</div>
+            			<div></div>
+            			<div></div>
+        				<div></div>
+            		</div>
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Monthly Data")
+            			</div>
+            			<div></div>
+            			<div></div>
+        				<div></div>
+            		</div>
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Text & Talk")
+            			</div>
+            			<div></div>
+            			<div></div>
+        				<div></div>
+            		</div>
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Monthly Cost")
+            			</div>
+            			<div></div>
+            			<div></div>
+        				<div></div>
+            		</div>
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Total Cost of ownership over ")
+            				<select ng-option=""/><br/>
+            				<a class="hideBreakdown" ng-click="hideBreakdown">@Html.Sitecore().Field("hide breakdown")</a>
+            			</div>
+            			<div></div>
+            			<div></div>
+        				<div></div>
+            		</div>
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Monthly Cost")
+            			</div>
+            			<div></div>
+            			<div></div>
+        				<div></div>
+            		</div>
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Early Termination Fee")
+            			</div>
+            			<div></div>
+            			<div></div>
+        				<div></div>
+            		</div>
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Leased Device Payoff Fee")
+            			</div>
+            			<div></div>
+            			<div></div>
+        				<div></div>
+            		</div>
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Activation Fee")
+            			</div>
+            			<div></div>
+            			<div></div>
+        				<div></div>
+            		</div>   
+            		<div class="table-row">
+            			<div class="table-cell">
+            				@Html.Sitecore().Field("Plan Selection")
+            			</div>
+            			<div>
+            				<img src="" ng-show="selectedCarrier == 'verizon'">
+            				<img src="" ng-show="selectedCarrier != 'verizon'">
+            			</div>
+            			<div>
+            				<img src="" ng-show="selectedCarrier == 'sprint'">
+            				<img src="" ng-show="selectedCarrier != 'sprint'">            			
+            			</div>
+        				<div>
+            				<img src="" ng-show="selectedCarrier == 'att'">
+            				<img src="" ng-show="selectedCarrier != 'att'">        				
+        				</div>
+            		</div>            		         		            		
+            	</div>
+            	<div class="col">
+            		<!-- phone trade in footer -->
+            	</div>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="manual.tpl.html">
+            <div id="manual">
+            	<div class=" manualHeader col">
+	                <h4>@Html.Sitecore().Field("Use Calculator Text")</h4>
+    			</div>
+    			<div class="grid">
+    				<div class="col left">
+    					<img src="">
+    					<span>@Html.Sitecore().Field("Number of Phone Lines")</span>
+    				</div>
+    				<div class="col right numLines">
+    					<div class="button lineButton" ng-class="{active: manualCalculator.lines == 1}" 
+                            ng-click="setLines(1)">1</div>
+    					<div class="button lineButton" ng-class="{active: manualCalculator.lines == 2}" 
+                            ng-click="setLines(2)">2</div>
+    					<div class="button lineButton" ng-class="{active: manualCalculator.lines == 3}" 
+                            ng-click="setLines(3)">3</div>
+    					<div class="button lineButton" ng-class="{active: manualCalculator.lines == 4}" 
+                            ng-click="setLines(4)">4</div>
+    					<div class="button lineButton" ng-class="{active: manualCalculator.lines == 5}" 
+                            ng-click="setLines(5)">5</div>
+    					<div class="button lineButton" ng-class="{active: manualCalculator.lines == 6}" 
+                            ng-click="setLines(6)">6</div>
+    				</div>
+    			</div>    
+    			<div class="grid">
+    				<div class="col left">
+                        <div class="icon pull-left">
+    						<img src="http://placehold.it/25x60">
+                        </div>
+                        <div class="pull-left">
+    						<span>@Html.Sitecore().Field("Emails Sent Received")</span><br/>
+    						<span>@Html.Sitecore().Field("No Attachments Text")</span>
+                        </div>
+    				</div>
+    				<div class="col right">
+                        <div class="sliderContainer">
+        				    <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.emails"></div>
+                        </div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+    				</div>
+    			</div>
+    			<div class="grid">
+    				<div class="col left">
+                        <div class="icon pull-left">
+                            <img src="http://placehold.it/25x60">
+                        </div>
+                        <div class="pull-left">
+    						<span>@Html.Sitecore().Field("Uploaded Pictures")</span><br/>
+           					<span>@Html.Sitecore().Field("Posting Pictures Text")</span>
+                        </div>
+    				</div>
+    				<div class="col right">
+                        <div class="sliderContainer">
+                            <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.pictures"></div>
+                        </div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+    				</div>
+    			</div>
+    			<div class="grid">
+    				<div class="col left">
+                        <div class="icon pull-left">
+                            <img src="http://placehold.it/25x60">
+                        </div>
+                        <div class="pull-left">
+    						<span>@Html.Sitecore().Field("Streaming Music")</span><br/>
+	       					<span>@Html.Sitecore().Field("Music Services Text")</span>
+                        </div>
+    				</div>
+    				<div class="col right">
+                        <div class="sliderContainer">
+                            <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.music"></div>
+                        </div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+    				</div>
+    			</div>
+    			<div class="grid">
+    				<div class="col left">
+                        <div class="icon pull-left">
+                            <img src="http://placehold.it/25x60">
+                        </div>
+                        <div class="pull-left">
+    						<span>@Html.Sitecore().Field("Stream Video")</span><br/>
+	       					<span>@Html.Sitecore().Field("Stream Services Text")</span>
+                        </div>
+    				</div>
+    				<div class="col right">
+                        <div class="sliderContainer">
+                            <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.video"></div>
+                        </div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+    				</div>
+    			</div>
+    			<div class="grid">
+    				<div class="col left">
+                        <div class="icon pull-left">
+                            <img src="http://placehold.it/25x60">
+                        </div>
+                        <div class="pull-left">
+    						<span>@Html.Sitecore().Field("Web Surfing")</span><br/>
+	       					<span>@Html.Sitecore().Field("Web Pages Text")</span>
+                        </div>
+    				</div>
+    				<div class="col right">
+                        <div class="sliderContainer">
+                            <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.surfing"></div>
+                        </div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+    				</div>
+    			</div>  
+    			<div class="suggestion row">
+    				<span class="suggestionText">@Html.Sitecore().Field("Based on your estimated usage")</span>
+    				<span ng-bind="calculatorTotal"></span>
+                    <!-- usage graph -->
+                    <div class="recommendedLabelContainer">
+                        <div class="recommended" ng-style="{left: recommendedLabelLeft() + 'px'}">
+                            <div class="recommendedLabel">
+                                <span class="recommendedLabelTop">@Html.Sitecore().Field("Recommended Data")</span>
+                                <img class="recommendedLabelCarat" src="http://placehold.it/160x10">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="estimatedData">
+
+                        <div class="frame">
+                            <div class="recommended" ng-style="{width: calculatorRecommendationInPct() + '%'}"></div>
+                            <div class="estimate" ng-style="{width: calculatorTotalInPct() + '%'}"></div>
+                            <div class="estimatedDataLabel" ng-style="{left: estimateLabelLeft() + 'px'}">
+                                @Html.Sitecore().Field("Estimated Usage"): <span ng-bind="calculatorTotalInGB()"></span>GB
+                            </div>
+                        </div>
+                        <div class="dataLabels grid">
+                            <div class="dataLabel col">
+                                <span class="pull-left">0GB</span>
+                                <span class="pull-right">2GB</span>
+                            </div>
+                            <div class="dataLabel col">
+                                <span class="pull-right">4GB</span>
+                            </div>
+                            <div class="dataLabel col">
+                                <span class="pull-right">6GB</span>
+                            </div>
+                            <div class="dataLabel col">
+                                <span class="pull-right">8GB</span>
+                            </div>
+                            <div class="dataLabel col">
+                                <span class="pull-right">@Html.Sitecore().Field("Unlimited")</span>
+                            </div>
+                    </div>
+    			</div>  			    
+    			<div class="table">
+    				<div class="table-row">
+    					<div class="table-cell label">
+            				@Html.Sitecore().Field("Network Provider")
+    					</div>
+    					<div class="table-cell">
+    						<!-- stream sprint logo -->
+                            <img src="https://placehold.it/160x60">
+    					</div>
+    					<div class="table-cell">
+    						<!-- stream att logo -->
+                            <img src="https://placehold.it/160x60">
+    					</div>
+    				</div>
+    				<div class="table-row">
+    					<div class="table-cell label">
+    						@Html.Sitecore().Field("Coverage Map")
+    					</div>
+    					<div class="table-cell label">
+    						<div class="col">
+    							<img src="https://placehold.it/200x80">
+    						</div>
+    						<div>
+    							<span>@Html.Sitecore().Field("Nationwide CDMA Network")
+    							<a href="#">@Html.Sitecore().Field("Launch Coverage Map")</a>
+    						</div>
+    					</div>
+    					<div class="table-cell label">
+    						<div class="col">
+    							<img src="https://placehold.it/200x80">
+    						</div>
+    						<div>
+    							<span>@Html.Sitecore().Field("Nationwide GSM Network")
+    							<a href="#">@Html.Sitecore().Field("Launch Coverage Map")</a>
+    						</div>    					
+    					</div>
+    				</div>
+    				<div class="table-row">
+    					<div class="table-cell label">
+    						@Html.Sitecore().Field("Phone Lines")
+    					</div>
+    					<div class="table-cell">
+    					</div>
+    					<div class="table-cell">
+    					</div>
+    				</div>
+    				<div class="table-row">
+    					<div class="table-cell label">
+    						@Html.Sitecore().Field("Monthly Data")
+    					</div>
+    					<div class="table-cell">
+    					</div>
+    					<div class="table-cell">
+    					</div>
+    				</div>
+    				<div class="table-row">
+    					<div class="table-cell label">
+    						@Html.Sitecore().Field("Text And Talk")
+    					</div>
+    					<div class="table-cell">
+    					</div>
+    					<div class="table-cell">
+    					</div>
+    				</div>
+    				<div class="table-row">
+    					<div class="table-cell label">
+    						@Html.Sitecore().Field("Monthly Cost")
+    					</div>
+    					<div class="table-cell">
+    					</div>
+    					<div class="table-cell">
+    					</div>
+    				</div>
+    				<div class="table-row">
+    					<div class="table-cell label">
+    						@Html.Sitecore().Field("Plan Selection")
+    					</div>
+    					<div class="table-cell">
+    						<input type="button" class="button" ng-click="selectPlan('sprint')" value="@Html.Sitecore().Field("Select Sprint Plan")"/>
+    					</div>
+    					<div class="table-cell">
+    						<input type="button" class="button" ng-click="selectPlan('att')" value="@Html.Sitecore().Field("Select ATT Plan")"/>
+    					</div>
+    				</div>    				    				
+    			</div>			    			    			
+            </div>
+        </script>
+    </div>
+</article>
+
+
