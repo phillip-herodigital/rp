@@ -157,12 +157,13 @@
     <div class="cart-product clearfix" ng-repeat="item in getCartDevices()">
         <div>
             <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
-            <div class="condition" ng-if="item.buyingOption != 'New'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment")</div>
+            <div class="condition" ng-if="item.buyingOption != 'New' && item.buyingOption != 'BYOD'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment")</div>
             <div class="condition" ng-if="item.type == 'existing'">@Html.Sitecore().Field("Bring Your Own Device")</div>
             <div class="description">
                 {{ item.make.make }} {{ item.model.modelName }}
                 <div class="options" ng-if="item.type == 'new'"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
-                <div class="options" ng-if="item.type == 'existing'">@Html.Sitecore().Field("SIM") {{ item.simNumber }}</div>
+                <div class="options" ng-if="item.type == 'existing' && item.simNumber">@Html.Sitecore().Field("SIM") {{ item.simNumber }}</div>
+                <div class="options" ng-if="item.type == 'existing' && !item.simNumber">@Html.Sitecore().Field("IMEI") {{ item.imeiNumber }}</div>
                 <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
             </div>
         </div>

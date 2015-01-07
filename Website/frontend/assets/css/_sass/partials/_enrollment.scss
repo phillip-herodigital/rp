@@ -1053,7 +1053,17 @@
  */
 .enrollment__verify-identity {
     .enrollment__box.form {
+        header {
+            p {
+                float: left;
+            }
+        }
+        label.security-question {
+            font-size: 17px;
+            font-weight: 500;
+        }
         label.security-answer {
+            font-size: 15px;
             font-weight: 300;
         }
     }
@@ -1134,6 +1144,7 @@
             float: right;
             font-size: 14px;
             color: #979797;
+            padding-top: 3px;
         }
     }
     .content {
@@ -1151,9 +1162,6 @@
         }
         .model {
             margin: 0;
-        }
-        .options {
-
         }
         .description {
             float: left;
@@ -1204,9 +1212,6 @@
                 word-wrap: break-word;
                 margin-bottom: 10px;
             }
-        }
-        a {
-            
         }
         h2 {
             font-weight: 600;
@@ -2222,7 +2227,7 @@
     .btn-size {
         margin-right: 5px;
         &:after, &:before {
-            bottom: -30px;
+            bottom: -25px;
         }
     }
     .size {
