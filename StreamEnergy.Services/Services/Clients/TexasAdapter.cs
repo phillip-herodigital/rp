@@ -192,7 +192,7 @@ namespace StreamEnergy.Services.Clients
 
             if (details.Product != null)
             {
-                var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.Product.ProductCode) ?? new SitecoreProductInfo
+                var productData = sitecoreProductData.GetTexasElectricityProductData((string)details.Product.ProductCode, null) ?? new SitecoreProductInfo
                 {
                     Fields = new System.Collections.Specialized.NameValueCollection()
                 };
