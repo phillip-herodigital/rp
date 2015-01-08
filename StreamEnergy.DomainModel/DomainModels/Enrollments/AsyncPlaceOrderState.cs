@@ -21,15 +21,18 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (!internalContext.PlaceOrderAsyncResult.IsCompleted)
             {
                 internalContext.PlaceOrderAsyncResult = await enrollmentService.EndPlaceOrder(internalContext.PlaceOrderAsyncResult, internalContext.EnrollmentSaveState.Data);
-                internalContext.PlaceOrderResult = internalContext.PlaceOrderAsyncResult.Data;
 
-                foreach (var placeOrderResult in internalContext.PlaceOrderResult)
+                if (internalContext.PlaceOrderAsyncResult.IsCompleted)
                 {
-                    if (placeOrderResult.Details.IsSuccess)
+                    internalContext.PlaceOrderResult = internalContext.PlaceOrderAsyncResult.Data;
+                    foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                     {
-                        if (context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
+                        if (placeOrderResult.Details.IsSuccess)
                         {
-                            placeOrderResult.Details.IsSuccess = false;
+                            if (context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
+                            {
+                                placeOrderResult.Details.IsSuccess = false;
+                            }
                         }
                     }
                 }
