@@ -20,7 +20,7 @@
         var availableDevices = [];
         if (address && _.filter(address.offerInformationByType, {'key': 'Mobile'}).length != 0) {
             // change the stock and add prices for the phones we get back from BeQuick
-            angular.forEach(_.filter(address.offerInformationByType, {'key': 'Mobile'}).value.availableOffers, function (entry) {
+            angular.forEach(_.filter(address.offerInformationByType, {'key': 'Mobile'})[0].value.availableOffers, function (entry) {
                 availableDevices.push(entry.mobileInventory);
             });
             _(availableDevices).flatten().filter().uniq('id').forEach(function (device) {
