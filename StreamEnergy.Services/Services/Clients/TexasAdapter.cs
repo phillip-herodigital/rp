@@ -207,8 +207,7 @@ namespace StreamEnergy.Services.Clients
                 result.ProductName = productData.Fields["Name"] ?? details.Product.Name;
                 result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
                 result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
-                result.CustomerType = details.CustomerType;
-                result.ProductType = details.ProductType;
+                result.CustomerType = (details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial;
             }
             return result;
         }
@@ -227,7 +226,7 @@ namespace StreamEnergy.Services.Clients
 
         IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
-            return new StreamEnergy.DomainModels.Enrollments.TexasElectricity.RenewalCapability { Account = account, SubAccount = subAccount };
+            return new StreamEnergy.DomainModels.Enrollments.TexasElectricity.RenewalCapability { Account = account, SubAccount = subAccount, Tdu = "NA" };
         }
 
         object ILocationAdapter.GetProductRequest(Location location)

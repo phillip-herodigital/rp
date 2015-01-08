@@ -179,7 +179,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             _(plans).keys().forEach(function (key) {
                 var offerInformationForType = _(activeService.offerInformationByType).where({ key: key }).first();
                 offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) {
-                    return _.find(offerInformationForType.value.offerSelections,  { 'offerId': plan });
+                    return _.find(offerInformationForType.value.offerSelections, { 'offerId': plan }) || { offerId: plan };
                 }).value();
                 updateOffer(offerInformationForType);
             });

@@ -1,18 +1,15 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
 <div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl" ng-init="setTimeRemaining('utilityFlowService', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-    <div class="banner enrollment__banner enrollment__banner--service-info" style="@Html.AsBackgroundStyle("Banner Image")">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
-            <h1 class="center">
-                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br />
+            <h1>
+                <span class="block">@Html.Sitecore().Field("Banner Header Text")</span><br />
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
     <div class="layout">
         <div class="wrapper cols-2">
-            <aside class="enrollment__nav">
-                <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowService'"></div>
-            </aside>
             <section>
                 <form data-val-bind-messages="validations" ng-submit="completeStep();">
                     <article class="form enrollment__box">

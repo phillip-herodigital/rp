@@ -3,16 +3,13 @@
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br />
+                <span class="block">@Html.Sitecore().Field("Banner Header Text")</span><br />
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
-    <section class="layout">
+    <div class="layout">
         <div class="wrapper cols-2">
-            <aside class="enrollment__nav">
-                <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowPlans'"></div>
-            </aside>
             <section>
                 <form data-val-bind-messages="validations">
                     <article class="form enrollment__box">
@@ -55,7 +52,7 @@
                 <div ng-include ng-if="true" src="'cart-template'"></div>
             </aside>
         </div>
-    </section>
+    </div>
 </div>
 
 <div id="utilityFlowPlans" class="enrollment" ng-if="customerType == 'commercial'" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl" ng-init="setTimeRemaining('utilityFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">

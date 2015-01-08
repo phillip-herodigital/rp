@@ -376,12 +376,16 @@ namespace StreamEnergy.Services.Clients
             if (response.IsSuccessStatusCode)
             {
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
-                if (data.Status == "Success" && ((IEnumerable<dynamic>)data.AssociateAccountResults).Any(a => a.Status == "Success"))
+                if (data.Status == "Success")
                 {
-                    return new Account(globalCustomerId, Guid.Parse((string)data.AssociateAccountResults[0].GlobalAccountId))
-                        {
-                            AccountNumber = accountNumber
-                        };
+                    var associated = ((IEnumerable<dynamic>)data.AssociateAccountResults).FirstOrDefault(a => a.Status == "Success");
+                    if (associated != null)
+                    {
+                        return new Account(globalCustomerId, Guid.Parse((string)associated.GlobalAccountId))
+                            {
+                                AccountNumber = accountNumber
+                            };
+                    }
                 }
             }
             return null;
@@ -589,6 +593,16 @@ namespace StreamEnergy.Services.Clients
                 await ((IAccountService)this).GetAccountDetails(account, false);
             }
 
+            if (subAccount.CustomerType == EnrollmentCustomerType.Commercial)
+            {
+                // We don't support commercial enrollments at this time.
+                account.Capabilities.Add(new RenewalAccountCapability
+                {
+                    IsEligible = false
+                });
+                return true;
+            }
+
             var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(subAccount));
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals/eligibility/",
@@ -621,7 +635,7 @@ namespace StreamEnergy.Services.Clients
                 EligibilityWindowInDays = (int)data.EligibilityWindow,
                 Capabilities = new IServiceCapability[] { 
                     new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal }, 
-                    new CustomerTypeCapability { CustomerType = (subAccount.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial }, 
+                    new CustomerTypeCapability { CustomerType = subAccount.CustomerType }, 
                     locAdapter.GetRenewalServiceCapability(account, subAccount)
                 }
             });

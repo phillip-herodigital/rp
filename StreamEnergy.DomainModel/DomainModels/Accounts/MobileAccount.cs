@@ -44,7 +44,6 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public string PhoneNumber { get; set; }
         public string SerialNumber { get; set; }
-        public string PurchaseType { get; set; }
         public string EquipmentId { get; set; }
         public string PlanId { get; set; }
         public double PlanPrice { get; set; }
@@ -57,7 +56,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public DateTime LastBillDate { get; set; }
         public DateTime NextBillDate { get; set; }
 
-        public string CustomerType { get; set; }
-        public string ProductType { get; set; }
+        public Enrollments.EnrollmentCustomerType CustomerType { get; set; }
+        public string ProductType { get { return "Mobile"; } }
     }
 }

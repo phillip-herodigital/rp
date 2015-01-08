@@ -523,7 +523,7 @@
     border-color: $enrollment-dark-border-color;
     background-color: #fdfdfd;
     header {
-        background-color: #fdfdfd;
+        background-color: #fff;
         background-image: none;
         border-bottom: 1px solid $enrollment-light-border-color;
     }
@@ -1053,7 +1053,17 @@
  */
 .enrollment__verify-identity {
     .enrollment__box.form {
+        header {
+            p {
+                float: left;
+            }
+        }
+        label.security-question {
+            font-size: 17px;
+            font-weight: 500;
+        }
         label.security-answer {
+            font-size: 15px;
             font-weight: 300;
         }
     }
