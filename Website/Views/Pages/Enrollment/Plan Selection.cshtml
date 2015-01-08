@@ -117,7 +117,7 @@
         <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
             <thead class="hide-small">
                 <tr>
-                    <th colspan="2" class="plan-header">@Html.Sitecore().Field("Electricity Plan Name")</th>
+                    <th class="plan-header">@Html.Sitecore().Field("Electricity Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")<sup>{{footnoteIndices['TexasElectricity']['Electricity Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")<sup>{{footnoteIndices['TexasElectricity']['Electricity Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Fees") <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
@@ -134,12 +134,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="vertical">
-                        <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</div>
-                        <div class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</div>
-                    </th>
                     <td class="plan-name hide-small">
-                        {{plan.name}}                        
+                        <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</span>
+                        <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</span>
+                        <div class="plan-title">{{plan.name}}</div>                        
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
@@ -162,7 +160,7 @@
                             <i class="icon-check"></i>
                         </span>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
                     </td>
@@ -174,7 +172,7 @@
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
                         </a>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
                     </td>
@@ -222,7 +220,7 @@
         <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
             <thead class="hide-small">
                 <tr>
-                    <th colspan="2" class="plan-header">@Html.Sitecore().Field("Gas Plan Name")</th>
+                    <th class="plan-header">@Html.Sitecore().Field("Gas Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Rate")<sup>{{footnoteIndices['GeorgiaGas']['Gas Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Term")<sup>{{footnoteIndices['GeorgiaGas']['Gas Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Fees") <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
@@ -239,12 +237,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="vertical">
-                        <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Gas Fixed")</div>
-                        <div class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Gas Variable")</div>
-                    </th>
                     <td class="plan-name hide-small">
-                        {{plan.name}}
+                        <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Gas Fixed")</span>
+                        <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Gas Variable")</span>
+                        <div class="plan-title">{{plan.name}}</div>
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Gas View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
@@ -267,7 +263,7 @@
                             <i class="icon-check"></i>
                         </span>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Gas Button")</span>
                         </button>
                     </td>
@@ -279,7 +275,7 @@
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
                         </a>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Gas Button")</span>
                         </button>
                     </td>

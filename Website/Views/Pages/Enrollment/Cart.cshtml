@@ -14,7 +14,7 @@
                 <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
                     <div class="utility-plan" ng-if="cartHasUtility()">
                         <h2>@Html.Sitecore().Field("Energy Plan")</h2>
-                        <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || !locationHasService(location)">
+                        <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || !locationHasService(location) && !isRenewal">
                             <i class="icon-delete"></i>
                         </div>
                         <address>
@@ -40,13 +40,15 @@
                 @*<div class="buttons">
                         <a href="" class="button" ng-show="getCartCount()">Checkout Now</a>
                     </div>*@
+            </div>
+            <footer>
                 <div class="time">
                     <i class="icon-clock"></i>
                     @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
                 </div>
-            </div>
+            </footer>
         </article>
-        <article class="enrollment__box documents" ng-if="customerType != 'commercial'">
+        <article class="enrollment__box documents" ng-if="customerType != 'commercial' && !isRenewal">
             <header>
                 @Html.Sitecore().Field("Documents Description")
             </header>
@@ -56,9 +58,9 @@
                 <li ng-if="cartHasUtility()"><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
                 <li ng-if="cartHasUtility()"><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
                 <li ng-if="cartHasMobile()"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents MEID Number")</li>
-             
+
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
-                <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->   
+            <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
             </ul>
         </article>
         <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && !isRenewal && cartHasTxLocation()">
@@ -117,7 +119,7 @@
             </div>
         </div>
         <div class="rate">
-            {{selectedOffer.offer.rate}}&cent;
+            ${{selectedOffer.offer.rate}}
             <span>@Html.Sitecore().Field("Per Therm")</span>
         </div>
         <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
