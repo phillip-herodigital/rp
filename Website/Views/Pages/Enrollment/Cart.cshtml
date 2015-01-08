@@ -14,7 +14,7 @@
                 <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
                     <div class="utility-plan" ng-if="cartHasUtility()">
                         <h2>@Html.Sitecore().Field("Energy Plan")</h2>
-                        <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || !locationHasService(location)">
+                        <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || !locationHasService(location) && !isRenewal">
                             <i class="icon-delete"></i>
                         </div>
                         <address>
@@ -40,11 +40,13 @@
                 @*<div class="buttons">
                         <a href="" class="button" ng-show="getCartCount()">Checkout Now</a>
                     </div>*@
+            </div>
+            <footer>
                 <div class="time">
                     <i class="icon-clock"></i>
                     @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
                 </div>
-            </div>
+            </footer>
         </article>
         <article class="enrollment__box documents" ng-if="customerType != 'commercial' && !isRenewal">
             <header>
@@ -117,7 +119,7 @@
             </div>
         </div>
         <div class="rate">
-            {{selectedOffer.offer.rate}}&cent;
+            ${{selectedOffer.offer.rate}}
             <span>@Html.Sitecore().Field("Per Therm")</span>
         </div>
         <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">

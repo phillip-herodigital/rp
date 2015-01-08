@@ -220,24 +220,23 @@
                             <h1>@Html.Sitecore().Field("Order Breakdown Header")</h1>
                         </header>
                         <div class="content">
-                            <div class="billed-today">
-                                <p><strong>@Html.Sitecore().Field("Billed Today Text")</strong></p>
-                                <div ng-repeat="(id, location) in getCartItems()">
-                                    <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                                        <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <hr>
-                            <div class="billed-monthly">
-                                <p><strong>@Html.Sitecore().Field("Billed Monthly Text")</strong></p>
+                            <div class="billed-today" ng-if="!isRenewal">
+                                <div class="billed-title">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
                                 <div ng-repeat="(id, location) in getCartItems()">
                                     <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                                         <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>
                                     </div>
                                 </div>
 
+                            </div>
+                            <hr ng-if="!isRenewal">
+                            <div class="billed-monthly">
+                                <div class="billed-title">@Html.Sitecore().Field("Billed Monthly Text")<i class="icon-billed-monthly"></i></div>
+                                <div ng-repeat="(id, location) in getCartItems()">
+                                    <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                                        <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -274,16 +273,21 @@
 <script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricity">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dl class="clearfix">
-            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" src="'paymentsCart/' + payment.offerPaymentAmountType" />
+            <dt>{{selectedOffer.offer.name}}</dt>
+            <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
         </dl>
     </div>
 </script>
 
 <script type="text/ng-template" id="completeOrderCartMonthly/GeorgiaGas">
-    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <dl class="clearfix">
-            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" src="'paymentsCart/' + payment.offerPaymentAmountType" />
-        </dl>
+    <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <span class="plan">{{ selectedOffer.offer.name }}</span>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate}}
+            <span>@Html.Sitecore().Field("Per Therm")</span>
+        </div>
     </div>
 </script>
 

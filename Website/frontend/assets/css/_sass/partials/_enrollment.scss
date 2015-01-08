@@ -715,6 +715,7 @@
                 background: #f6f6f6;
                 color: #646464;
                 text-transform: uppercase;
+                font-size: 13px;
                 font-weight: 600;
                 text-align: center;
                 padding: 10px 15px;
@@ -725,13 +726,14 @@
                 }
                 &.plan-header {
                     text-align: left;
-                    padding-left: 32px;
+                    padding-left: 20px;
                 }
             }
         }
         td, th {
             text-align: center;
             border-bottom: none;
+            vertical-align: text-top;
             > span, > a {
                 color: #828282;
                 font-size: 13px;
@@ -774,7 +776,14 @@
         }        
         button {
             white-space: nowrap;
+            background-image: none;
+            width: 100%;
             margin-right: 0 !important;
+            &.secondary {
+                color: #5cab0d;
+                border: none;
+                outline: none;
+            }
         }
         .vertical {
             padding: 0;
@@ -802,10 +811,30 @@
             }
         }
         .plan-name {
-            position: relative;
+            .fixed, .variable {
+                text-transform: uppercase;
+                color: #fff;
+                font-size: 10px;
+                font-weight: 600;
+                padding: 2px 4px;
+                margin: 5px 0;
+                display: inline-block;
+            }
+            .fixed {
+                background: #75bbe7;
+            }
+            .variable {
+                background: #5b95a2;
+            }
+            .plan-title {
+                clear: both;
+            }
             font-size: 18px;
+            font-weight: 600;
             text-align: left;
             border-left: none;
+            padding-left: 20px;
+            vertical-align: top;
             @include breakpoint(small) {
                 padding-right: 45px;
             }
@@ -815,39 +844,23 @@
             font-weight: normal;
             margin-top: 15px;
             font-size: 12px;}
-        .rate {
+        .rate, .term, .fees {
+            width: 120px;
             font-size: 18px;
             font-style: italic;
             font-weight: 600;
+            padding: 33px 15px;
             span {
                 font-size: 12px;
-                text-transform: none;
-            }
-        }
-        .term {
-            font-size: 18px;
-            font-style: italic;
-            span {
-                font-size: 12px;
-                text-transform: none;
-                font-weight: normal;
-            }
-        }
-        .fees {
-            width: 140px;
-            font-size: 18px;
-            font-style: italic;
-            font-weight: 600;
-            span {
-                font-size: 12px;
-                text-transform: none;
-                font-weight: normal;
+                font-weight: 600;
             }
         }
         .select-plan {
-            width: 126px;
             position: relative;
+            width: 130px;
+            padding: 15px;
             border-right: none;
+            vertical-align: middle;
         }
         .selected-icon {
             position: absolute;
@@ -857,7 +870,7 @@
             height: 0;
             border-style: solid;
             border-width: 0 45px 45px 0;
-            border-color: transparent $enrollment-primary-color transparent transparent;
+            border-color: transparent #5cab0d transparent transparent;
             i {
                 position: absolute;
                 right: -38px;
@@ -939,16 +952,21 @@
         dt {
             font-weight: 600;
             width: 40%;
+            display: inline-block
         }
         dd {
             width: 60%;
             text-align: left;
+            display: inline-block
         }
     }
     .ga-plan-selection-fees {
         width: 50%;
-        dt, dd {
-            width: 50%;
+        dt {
+            width: 60%;
+        }
+        dd {
+            width: auto;
         }
     }
     @include breakpoint(small-medium) {
@@ -1323,14 +1341,19 @@
 .enrollment__cart {
     margin-bottom: 15px;
     line-height: 1.35;
-    header, .content, footer {
-        padding: 0 17px;
+    .enrollment__box {
         background-color: #fafafa;
     }
     header {
-        padding-top: 15px;
-        padding-bottom: 15px;
-        margin-bottom: 15px;
+        background-color: #fafafa;
+        padding: 15px 17px;
+    }
+    .content {
+        background-color: #fff;
+        padding: 15px 17px;
+    }
+    footer {
+        padding: 0 17px;
     }
     hr {
         margin: 15px 0;
@@ -1445,6 +1468,13 @@
             margin-top: 15px;
         }*/
     }
+    .monthly-product {
+        margin: 10px 0;
+        padding-top: 10px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
     .delete {
         cursor: pointer;
         float: right;
@@ -1455,18 +1485,16 @@
         float: left;
         width: 29%;
         margin-top: 2px;
-        font-size: 16px;
-        line-height: 14px;
+        text-align: right;
+        float: right;
+        font-size: 14px;
         font-weight: 600;
-        text-align: center;
-        /*
         span {
             display: block;
-            font-style: italic;
-            font-size: 12px;
-            line-height: 12px;
+            text-transform: uppercase;
+            color: #999;
+            font-size: 10px;
         }
-        */
     }
     .description {
         position: relative;
@@ -1499,16 +1527,6 @@
         font-size: 10px;
         font-weight: 400;
         text-transform: uppercase;
-    }
-    .rate {
-        text-align: right;
-        float: right;
-        font-size: 14px;
-        font-weight: 600;
-        span {
-            display: inline;
-            font-style: normal;
-        }
     }
     .fees {
         float: left;
@@ -1572,6 +1590,15 @@
     	color: #ccc;
     	font-weight: 600;
     	font-size: $font-size-base;
+    }
+    .billed-title {
+        color: #848484;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        i {
+            float: right;
+        }
     }
     @include breakpoint(small) {
         display: none;
