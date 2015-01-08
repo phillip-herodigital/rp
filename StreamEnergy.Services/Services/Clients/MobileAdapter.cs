@@ -250,5 +250,11 @@ namespace StreamEnergy.Services.Clients
         {
             return false;
         }
+
+
+        void ILocationAdapter.GetRenewalValues(IOffer offer, out string code, out string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
