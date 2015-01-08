@@ -71,13 +71,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<GetAccountBalancesResponse> GetAccountBalances()
         {
             currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
-            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var accountInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
 
             return new GetAccountBalancesResponse
             {
                 Accounts =  from account in currentUser.Accounts
-                            let invoice = acocuntInvoices.First(t => t.AccountNumber == account.AccountNumber && t.Invoices != null).Invoices.LastOrDefault()
-                            select CreateViewAccountBalances(account, invoice)
+                            let invoiceAcct = accountInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
+                            select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.LastOrDefault() : null)
             };
         }
 
@@ -93,7 +93,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
             };
 
-            if (invoice.PdfAvailable)
+            if (invoice != null && invoice.PdfAvailable)
             {
                 result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
             }
@@ -384,7 +384,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<GetAccountBalancesTableResponse> GetAccountBalancesTable()
         {
             currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
-            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var accountInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
             
             return new GetAccountBalancesTableResponse
             {
@@ -392,8 +392,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 {
                     ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
                     Values = from account in currentUser.Accounts
-                             let invoice = acocuntInvoices.First(t => t.AccountNumber == account.AccountNumber && t.Invoices != null).Invoices.LastOrDefault()
-                             select CreateViewAccountBalances(account, invoice)
+                             let invoiceAcct = accountInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
+                             select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.LastOrDefault() : null)
                 }
             };
         }
