@@ -283,7 +283,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType').contains('Mobile');
         },
         cartHasUtility: function () {
-            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType').contains('Utility');
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType').intersection(['TexasElectricity','GeorgiaGas']).some();
         },
         locationHasService: function (location) {
             if (!location.offerInformationByType)
