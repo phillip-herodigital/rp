@@ -208,6 +208,7 @@
     <Compile Include="DomainModels\Enrollments\IInitialPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\InstallationOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\IRenewalCapability.cs" />
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />

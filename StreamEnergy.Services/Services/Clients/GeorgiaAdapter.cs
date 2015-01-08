@@ -255,5 +255,13 @@ namespace StreamEnergy.Services.Clients
         {
             return capabilities.OfType<CustomerTypeCapability>().SingleOrDefault().CustomerType == EnrollmentCustomerType.Commercial;
         }
+
+
+        void ILocationAdapter.GetRenewalValues(IOffer offer, out string code, out string id)
+        {
+            var georgiaGasOffer = offer as GeorgiaGas.Offer;
+            code = georgiaGasOffer.Code;
+            id = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1];
+        }
     }
 }

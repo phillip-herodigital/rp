@@ -109,5 +109,11 @@ namespace Cis2AureaAccountImport
         {
             throw new NotImplementedException();
         }
+
+
+        public void GetRenewalValues(StreamEnergy.DomainModels.Enrollments.IOffer offer, out string code, out string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -24,13 +24,15 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
-            if (EnrollmentType == Enrollments.EnrollmentType.MoveIn)
+            switch (EnrollmentType)
             {
-                return container.Resolve<MoveInOfferOptionPolicy>();
-            }
-            else
-            {
-                return container.Resolve<OfferOptionPolicy>();
+                case Enrollments.EnrollmentType.MoveIn:
+                    return container.Resolve<MoveInOfferOptionPolicy>();
+                case Enrollments.EnrollmentType.Switch:
+                    return container.Resolve<OfferOptionPolicy>();
+                case Enrollments.EnrollmentType.Renewal:
+                    return container.Resolve<RenewalOfferOptionPolicy>();
+                default: throw new NotSupportedException();
             }
         }
 
