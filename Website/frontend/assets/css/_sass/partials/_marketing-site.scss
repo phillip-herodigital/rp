@@ -2702,12 +2702,52 @@ article.marketing.mobile.mobile-plans-usage-calculator {
 				}
 			}		
 			.login {
-
+				margin: 10px 0;
+				padding: 10px;
 				.loginFields {
 					background-color: rgb(241, 241, 241);
 					input[type="text"] {
 						width: 80%;
 					}
+				}
+			}
+			.loginSubmit {
+				margin: 10px 0;
+				.acceptTerms {
+					text-align: left;
+					p {
+						display: inline;
+					}
+				}
+				.submitButton {
+					text-align: right;
+				}
+			}
+		}
+
+		#connected {
+
+			.message {
+				background-color: rgb(242, 255, 255);
+				padding: 15px;
+			}
+
+			.results {
+				.col {
+					text-align: center;
+				}
+				.label {
+					text-align: left;
+				}
+			}
+
+			.logo {
+				position: relative;
+				span {
+					position: absolute;
+					top: 25px;
+					left: 50%;
+					margin-left: -20px;
 				}
 			}
 		}

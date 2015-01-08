@@ -1,4 +1,4 @@
-ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', function ($scope) {
+ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.tabs = UsageCalculator.tabs;
 
     $scope.sliderVals = UsageCalculator.sliderVals;
@@ -12,7 +12,11 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', function ($scope) {
         surfing:  500
     }
 
-    $scope.connectCarrier = '';
+    $scope.connected = false;
+
+    $scope.connect = {
+        acceptTermsCheckbox: false
+    };
 
     $scope.calculatorTotal = 0;
 
@@ -44,13 +48,79 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', function ($scope) {
     };
 
     $scope.isConnectCarrierSelected = function(carrier) {
-        return carrier === $scope.connectCarrier ? 'selected' : '';
+        return carrier === $scope.connect.carrier ? 'selected' : '';
     }
 
 	$scope.selectCarrierConnect = function(carrier) {
-		$scope.connectCarrier = carrier;
+		$scope.connect.carrier = carrier;
 	};
 
+    $scope.callValidas = function() {
+        if(! $scope.connect.acceptTermsCheckbox) {
+            alert("Must accept terms");
+            return;
+        }   
+        if(! $scope.connect.username || ! $scope.connect.password || ! $scope.connect.carrier) {
+            alert("Required fields");
+            return;
+        }
+
+        $http({
+            method  : 'POST',
+            url     : '/en/services/mobile/validas-endpoint',
+            data    : {  
+                        username: $scope.connect.username, 
+                        password: $scope.connect.password,
+                        carrier:  $scope.connect.carrier 
+                      },
+            headers : { 'Content-Type': 'application/JSON' } 
+        })  
+
+        .success(function (data, status, headers, config) {
+            $scope.connect.validas = data;
+            $scope.connected = true;
+        });
+    };
+
+    $scope.getSprintRecommendation = function() {
+        return $scope.getRecommendationForCarrier('sprint');
+    };
+
+    $scope.getAttRecommendation = function() {
+        return $scope.getRecommendationForCarrier('att');
+    };
+
+    $scope.getRecommendationForCarrier = function(carrier) {
+        if(typeof($scope.connect.validas) === 'undefined') { return false; }
+
+        var r = $.grep($scope.connect.validas.recommendations, function(n, i) {
+            return n.Carrier.toLowerCase() === carrier.toLowerCase();
+        });
+        if(r && r.length > 0) { return r[0]; }
+        return null;
+    };
+
+
+    $scope.attPlans = function() {
+        return $scope.plansForCarrier('att');
+    };
+
+    $scope.sprintPlans = function() {
+        return $scope.plansForCarrier('sprint');
+    };
+
+    $scope.plansForCarrier = function(carrier) {
+        return $.grep(DataPlans.plans, function(n){return n.carrier.toLowerCase() === carrier.toLowerCase();})[0].plans;
+    };
+
+    $scope.getAttPlanById = function(id) {
+        return $.grep($scope.attPlans(), function(n){return n.planId === id;})[0];
+    }
+
+    $scope.getSprintPlanById = function(id) {
+        return $.grep($scope.sprintPlans(), function(n){return n.planId === id;})[0];
+    }
+ 
     $scope.setLines = function(lines) {
         $scope.manualCalculator.lines = lines;
     };
@@ -96,26 +166,42 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', function ($scope) {
         $scope.recalculate();
     }, true);
 
-
-    $scope.callValidas() {
-        $.ajax({
-            type: "POST",
-            url: "/en/services/mobile/validas-endpoint",
-            data: { 
-                name:     $scope.username, 
-                password: $scope.password,
-                carrier:  $scope.connectCarrier 
-            }
-        })
-        .done(function( msg ) {
-            // todo: stuff
-        })
-        .fail(function(){
-            console.log("Validas verifiation failed.");
-        });
-    }
-
-
     $scope.selectCarrierConnect('att');
+
+
+/* 
+    $scope.connect.validas = {
+        averageMonthlyCost: 65,
+        averageMonthlyData: 593,
+        billingCount: 1,
+        leasedPayoffFee: 0,
+        network: "att",
+        phoneLines: 1,
+        recommendations: [
+            {
+                AdditionalLineCharge: 15,
+                Carrier: "Att",
+                Cost: 47,
+                DataIncluded: 1000,
+                Id: "65",
+                MaxLines: 1,
+                PerMbOverage: 0.15,
+                RecommendationCost: 47
+            },
+            {
+                AdditionalLineCharge: 0,
+                Carrier: "Sprint",
+                Cost: 30,
+                DataIncluded: 1000,
+                Id: "27",
+                MaxLines: 1,
+                PerMbOverage: 0.15,
+                RecommendationCost: 30
+            }
+        ]
+    };
+    $scope.connected = true;
+   */
+
 
 }]);
