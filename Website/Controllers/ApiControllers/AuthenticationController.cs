@@ -42,6 +42,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly ImpersonationUtility impersonation;
         private readonly UserProfileLocator profileLocator;
         private readonly ILogger logger;
+        private Models.Account.KubraLoginHelper kubraLoginHelper;
         
         #region Session Helper Classes
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
@@ -61,7 +62,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation, UserProfileLocator profileLocator, ILogger logger)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation, UserProfileLocator profileLocator, ILogger logger, Models.Account.KubraLoginHelper kubraLoginHelper)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
@@ -76,6 +77,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.impersonation = impersonation;
             this.profileLocator = profileLocator;
             this.logger = logger;
+            this.kubraLoginHelper = kubraLoginHelper;
         }
 
         protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
@@ -117,36 +119,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             Validate(request, "request");
             if (ModelState.IsValid)
             {
-                // validate the return URI
-                Uri requestUri = new Uri(request.Uri);
-                string returnUri = HttpUtility.ParseQueryString(requestUri.Query).Get("item");
-
-                var helper = new System.Web.Mvc.UrlHelper(System.Web.HttpContext.Current.Request.RequestContext);
-                bool isLocal = helper.IsLocalUrl(returnUri);
-
-                if (string.IsNullOrEmpty(returnUri) || !isLocal)
-                {
-                    returnUri = "/account";
-                }
-   
-                var response = Request.CreateResponse(new LoginResponse()
-                {
-                    Success = true,
-                    ReturnURI = returnUri
-                });
-
-                if (request.RememberMe)
-                    AddRememberMeCookie(response, request.Username);
-                else
-                    RemoveRememberMeCookie(response);
-
-                AddAuthenticationCookie(response, request.Username);
-                return Task.FromResult(response);
+               return Task.FromResult(HandleValidLogin(request));
             }
             else
             {
-                var user = request.Domain.AccountPrefix + request.Username;
-                var profile = profileLocator.Locate(user);
+                var prefixedUsername = request.Domain.AccountPrefix + request.Username;
+                var profile = profileLocator.Locate(prefixedUsername);
                 if (profile != null && profile.ImportSource != null)
                 {
                     // we do something special for imported users
@@ -157,15 +135,64 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                 {
                                     Redirect = "/en/auth/reset-password?username=" + request.Username
                                 }));
+                        case ImportSource.KubraAccounts:
+                            return kubraLoginHelper.Login(request).ContinueWith(loginTask =>
+                                {
+                                    if (loginTask.Result)
+                                    {
+                                        // update password to match, since it was a successful authentication
+
+                                        var user = Membership.GetUser(prefixedUsername);
+                                        user.ChangePassword(user.ResetPassword(), request.Password);
+
+                                        return HandleValidLogin(request);
+                                    }
+                                    else
+                                        return HandleInvalidLogin();
+                                });
                     }
                 }
             }
 
-            return Task.FromResult(Request.CreateResponse(new LoginResponse
-                    {
-                        Success = false,
-                        Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("My Stream Account"))
-                    }));
+            return Task.FromResult(HandleInvalidLogin());
+        }
+
+        private HttpResponseMessage HandleValidLogin(LoginRequest request)
+        {
+            // validate the return URI
+            Uri requestUri = new Uri(request.Uri);
+            string returnUri = HttpUtility.ParseQueryString(requestUri.Query).Get("item");
+
+            var helper = new System.Web.Mvc.UrlHelper(System.Web.HttpContext.Current.Request.RequestContext);
+            bool isLocal = helper.IsLocalUrl(returnUri);
+
+            if (string.IsNullOrEmpty(returnUri) || !isLocal)
+            {
+                returnUri = "/account";
+            }
+
+            var response = Request.CreateResponse(new LoginResponse()
+            {
+                Success = true,
+                ReturnURI = returnUri
+            });
+
+            if (request.RememberMe)
+                AddRememberMeCookie(response, request.Username);
+            else
+                RemoveRememberMeCookie(response);
+
+            AddAuthenticationCookie(response, request.Username);
+            return response;
+        }
+
+        private HttpResponseMessage HandleInvalidLogin()
+        {
+            return Request.CreateResponse(new LoginResponse
+            {
+                Success = false,
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("My Stream Account"))
+            });
         }
 
         #endregion
