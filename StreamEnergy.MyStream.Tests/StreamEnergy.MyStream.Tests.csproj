@@ -219,6 +219,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContainerSetup.cs" />
+    <Compile Include="Models\KubraLoginHelperTest.cs" />
     <Compile Include="Services\Clients\PaymentServiceTest.cs" />
     <Compile Include="Services\Clients\AccountServiceTest.cs" />
     <Compile Include="Services\Clients\TexasEnrollmentServiceTest.cs" />

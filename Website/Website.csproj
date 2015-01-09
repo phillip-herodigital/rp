@@ -692,6 +692,7 @@
     <Compile Include="Models\Account\GetUtilityProvidersResponse.cs" />
     <Compile Include="Models\Account\Invoice.cs" />
     <Compile Include="Models\Account\GetOnlineAccountResponse.cs" />
+    <Compile Include="Models\Account\KubraLoginHelper.cs" />
     <Compile Include="Models\Account\MakeMultiplePaymentsRequest.cs" />
     <Compile Include="Models\Account\MakeMultiplePaymentsResponse.cs" />
     <Compile Include="Models\Account\MakeOneTimePaymentRequest.cs" />
