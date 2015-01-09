@@ -66,7 +66,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                                   select new { service, offer })
             {
                 var details = await data.offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(data.service.Location, data.offer.Offer);
-                data.offer.OfferOption = details.GetInitialOptions();
+                data.offer.OfferOption = data.offer.OfferOption ?? details.GetInitialOptions();
                 rules.Add(new Service.LocationOfferDetails<IOfferOptionRules>
                 {
                     Location = data.service.Location,

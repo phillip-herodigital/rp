@@ -4,10 +4,10 @@
 
 body {
 	margin: 0;
-	font-size: 16px;
-	line-height: 1.375;
-	color: #333333;
-	background-color: #ffffff;
+	font-size: $font-size-base;
+	line-height: $line-height;
+	color: $text-primary-color;
+	background: $body-bg image-url('marketing/redesign/pattern_bg.png') repeat-y center;
 }
 
 html,
@@ -15,17 +15,17 @@ button,
 input,
 select,
 textarea {
-	font-family: "proxima-nova-n3", "proxima-nova", Helvetica, Arial, sans-serif; // "proxima-nova-n3" to fix IE8 issue: http://help.typekit.com/customer/portal/articles/6855-Using-multiple-weights-and-styles
-    font-weight: 300;
+	font-family: $font-family;
+    font-weight: $font-weight;
 }
 
 a {
-	color: #0971ce;
+	color: $link-primary-color;
 	text-decoration: none;
 }
 
 dl {
-	dt {
+	/* dt {
 		float: left;
 		clear: both;
 		width: 50%;
@@ -35,10 +35,22 @@ dl {
 		width: 50%;
 		margin: 0;
 		text-align: right;
+	} */
+}
+
+hr {
+	border: none;
+	border-top: 1px solid $dark-border-color;
+	margin: 25px 0;
+}
+
+ul, ol {
+	ul, ol {
+		margin: 0;
 	}
 }
 
-.clearfix {
+.clearfix, .wrapper {
 	*zoom: 1;
 	&:before, &:after {
 		display: table;
@@ -66,7 +78,40 @@ dl {
 
 .actions {
 	float: right;
-	text-transform: uppercase;
+	text-transform: uppercase; 
+	p {
+		margin: 6px 0 0;
+	}
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.pull-right {
+	float: right;
+}
+
+.pull-left {
+	float: left;
+}
+
+.visually-hidden {
+	visibility: hidden;
+}
+
+.footnotes {
+    clear: both;
+    font-size: 14px;
+    color: #999999;
 }
 
 //Round icon wrappers
@@ -110,21 +155,241 @@ dl {
 
 @include breakpoint(small) {
 	.hide-small {
-		display: none;
+		display: none !important;
 	}
 }
 @include breakpoint(medium) {
 	.hide-medium {
-		display: none;
+		display: none !important;
 	}
 }
 @include breakpoint(medium-large) {
 	.hide-medium-large {
-		display: none;
+		display: none !important;
 	}
 }
 @include breakpoint(large) {
 	.hide-large {
-		display: none;
+		display: none !important;
 	}
+}
+
+//Generic loading message overlay
+.loadingMessage {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: url(../i/white-alpha-90.png) repeat;
+	background: rgba(255, 255, 255, 0.9);
+	z-index: 2;
+	span {
+		$height: 32px;
+		$width: 130px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: block;
+		width: $width;
+		height: $height;
+		margin: ($height / 2 * -1) 0 0 ($width / 2 * -1);
+		text-transform: uppercase;
+		font-weight: bold;
+		img {
+			margin-right: 5px;
+			vertical-align: middle;
+		}
+	}
+}
+
+.inline-list {
+	@extend .clearfix;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	> li {
+		padding: 0;
+		float: left;
+	}
+}
+
+.display-list {
+	list-style-type: none;
+	padding: 0;
+	> li {
+		padding: 0;
+	}
+}
+
+//Generic notices
+.notice {
+	margin-bottom: 15px;
+	border-radius: 15px;
+	padding: 20px 30px 20px 45px;
+	background-repeat: no-repeat;
+	background-position: 15px 24px;
+	position: relative;
+	p {
+		margin: 0px;
+	}
+	.icon-close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+	&.alert {
+		border: 1px solid darken($brand-alert, 15%);
+		background-color: $brand-alert;
+		@include retina-background("alert.png", "icon");
+		background-position: 20px 23px;
+	}
+	&.message {
+		border: 1px solid darken($brand-message, 15%);
+		background-color: $brand-message;
+		@include retina-background("message.png", "icon");
+	}
+	&.error {
+		border: 1px solid darken($brand-error, 15%);
+		background-color: $brand-error;
+		@include retina-background("error.png", "icon");
+	}
+	&.success {
+		border: 1px solid darken($brand-success, 15%);
+		background-color: $brand-success;
+		@include retina-background("success.png", "icon");
+	}
+}
+
+//Round icon wrappers
+.ico-wrapper {
+	position: relative;
+	display: inline-block;
+	width: 70px;
+	height: 70px;
+	text-align: center;
+	background: $brand-primary-color;
+	line-height: 70px;
+	@include border-radius(100%);
+	i {
+		margin: 0;
+		display: inline-block;
+	}
+	&:after {
+		content: '';
+		width: 70px;
+		height: 70px;
+		background-color: #fff;
+		opacity: .08;
+		display: block;
+		position: absolute;
+		top: 0;
+		@include rotate(45deg);
+		clip: rect(0px 70px 35px 0px);
+	}
+
+	&.large {
+		width: 120px;
+		height: 120px;
+		line-height: 120px;
+		&:after {
+			width: 120px;
+			height: 120px;
+			clip: rect(0px 120px 60px 0px);
+		}
+	}
+}
+
+
+.faq {
+	.panel {
+        // http://stackoverflow.com/questions/15430675/jquery-slidetoggle-and-css-border-radius-propery-show-wired-in-ie10
+        display: inline-block;
+        width: 100%;
+		.question {
+			margin: 0;
+			a {
+				//@include retina-background("collapse-filled.png", "icon");
+				background-position: left center;
+				background-repeat: no-repeat;				
+				color: #696969;
+				display: block;
+				padding: 12px 0 12px 30px;
+				font-weight: 600;
+			}
+			a.collapsed {
+				//@include retina-background("expand-filled.png", "icon");
+			}
+		}
+		.q {
+			float: left;
+			font-size: 26px;
+			margin: 10px 0px 0 10px;
+			color: #bbb;
+			display: none;
+		}
+		.panel-content {
+			padding-bottom: 10px;
+			padding-left: 30px;
+			.answer-hr {
+				display: none;
+				border: 3px solid #eaeaea;
+				width: 90%;
+				margin-top: 0; //Prevent jumping in the slide animation
+			}
+			.a {
+				float: left;
+				font-size: 26px;
+				margin: 5px 0px 0 10px;
+				display: none;
+			}
+			.answer {
+				p:first-child {
+					margin-top: 0;
+				}
+			}
+		}
+	}
+	.faq-hr {
+		border: 1px solid #f3f3f3;
+		margin: 10px 0;
+	}
+}
+
+#state-select {
+    button {
+        border-color: #cfcfcf;
+        @include box-shadow(none);
+    }
+    .icon {
+        background-position: 10px center;
+        background-repeat: no-repeat;
+        padding-left: 40px;
+    }
+    .texas {
+        @include retina-background('texas-icon.png');
+        
+    }
+    .georgia {
+        @include retina-background('georgia-icon.png');
+    }
+    .pennsylvania {
+        @include retina-background('pennsylvania-icon.png');
+    }
+    .maryland {
+        @include retina-background('maryland-icon.png');
+    }
+    .new-jersey {
+        @include retina-background('newjersey-icon.png');
+    }
+    .new-york {
+        @include retina-background('newyork-icon.png');
+    }
+    .washington-dc {
+        @include retina-background('dc-icon.png');
+    }
+    .dropdown-menu {
+        li {
+        }
+    }
 }

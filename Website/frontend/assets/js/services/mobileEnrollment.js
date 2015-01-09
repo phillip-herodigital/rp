@@ -1,71 +1,18 @@
 ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($rootScope, $window) {
     var service = {
         state: 'TX',
+        postalCode5: '',
+        planType: 'Residential',
         availableNetworks: [],
-        selectedNetwork: undefined,
-        cart: {
-            items: [
-                /*{
-                    id: undefined,
-                    type: undefined, // New or Existing
-                    name: undefined,
-                    make: undefined,
-                    model: undefined,
-                    imeiNumber: undefined,
-                    simNumber: undefined,
-                    warranty: false,
-                    color: {
-                        name: undefined,
-                        value: undefined
-                    },
-                    //plan: undefined,
-                    number: {
-                        type: undefined,
-                        value: undefined
-                    }
-                }*/
-            ],
-            dataPlan: {
-                /*price: undefined,
-                includedData: {
-                    amount: undefined,
-                    cost: undefined
-                },
-                additionalData: {
-                    amount: undefined,
-                    cost: undefined
-                }*/
-            }
+        selectedNetwork: {
         },
         contactInformation: {
-
         },
         businessInformation: {
-
         },
         terms: {
-
-        },
-        accountInformation: {
-            contactInfo: {
-                name: {
-                    first: '',
-                    last: ''
-                },
-                phone: [{
-                    number: '',
-                    category: ''
-                }],
-                email: {
-                    address: ''
-                }
-            },
-            socialSecurityNumber: '',
-            secondaryContactInfo: {}
         }
     },
-    //networks = [],
-    dataPlans = [],
     phones = [];
 
     service.getRestoreData = function() {
@@ -105,17 +52,9 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         phones = data;
     };
 
-    service.setDataPlans = function(data) {
-        dataPlans = data;
+    service.getPhoneData = function () {
+        return phones;
     };
-
-    service.getDataPlans = function(network) {
-        if(network) {
-            return _.where(dataPlans, { name: network })[0];
-        } else {
-            return dataPlans;
-        }
-    }
 
     service.getPhones = function() {
         if (typeof service.selectedNetwork != 'undefined') {
@@ -145,18 +84,49 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
 
     service.getConditionPrice = function(id, condition) {
         var item = _.where(this.getPhones(), { id: id })[0];
-        var models =  _.where(item.models, { condition: condition });
+        var models = _.where(item.models, { condition: condition, network: service.selectedNetwork.value });
 
         //Return the lowest price for the condition
         return _.min(models, function(model){ return model.price; }).price;
     };
 
-    service.get24LeasePrice = function(id) {
+    service.getInstallmentMonths = function(id, plan) {
         var item = _.where(this.getPhones(), { id: id })[0];
-        var models =  _.filter(item.models, 'lease24');
+        var model =  _.find(item.models, function(model) {
+            return model.installmentPlans[0].aGroupSku == plan;
+        });
 
-        //Return the lowest price for the condition
-        return _.min(models, function(model){ return model.lease24; }).lease24;
+        if (typeof model.installmentPlans != 'undefined') {
+            return model.installmentPlans[0].months;
+        } else {
+            return null;
+        }
+    };
+
+    service.getInstallmentPrice = function(id) {
+        var item = _.where(this.getPhones(), { id: id })[0];
+        var models =  _.filter(item.models, 'installmentPlans');
+
+        //Return the lowest lease price
+        var plans = _.min(models, function(model){ return model.installmentPlans[0].price; });
+        if (typeof plans.installmentPlans != 'undefined') {
+            return plans.installmentPlans[0].price;
+        } else {
+            return null;
+        }
+    };
+
+    service.getStock = function(id) {
+        var item = _.where(this.getPhones(), { id: id })[0];
+        //Return true if any of the models or installment plans are in stock
+        var stock = _.filter(item.models, function(model) {
+            return (model.inStock || model.installmentPlans[0].inStock) && model.network == service.selectedNetwork.value
+        });
+        if (stock.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
     };
 
     service.getPhoneSizes = function(id) {
@@ -178,7 +148,9 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
     service.getPhoneColors = function(id) {
         var item = _.where(this.getPhones(), { id: id })[0];
         if (typeof item != 'undefined') {
-            var colors =  _.uniq(_.where(item.models, { network: service.selectedNetwork.value }), 'color');
+            var colors =  _.uniq( _.filter(item.models, function(model) {
+                return (model.inStock || model.installmentPlans[0].inStock) && model.network == service.selectedNetwork.value
+            }), 'color');
             return _.sortBy(colors, function(color) {
                 return color.color;
             })
@@ -197,92 +169,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
 
     service.getOSs = function() {
         return _.uniq(_.pluck(phones, "os"));
-    };
-
-    /**
-     * Set the cart options
-     * @param {[type]} value [description]
-     */
-    service.getCart = function(phoneName) {
-        return service.cart;
-    };
-
-    service.getCartItems = function() {
-        return service.cart.items;
-    }
-
-    service.getCartDataPlan = function() {
-        return service.cart.dataPlan;
-    }
-
-    service.addItemToCart = function(item) {
-        // since we're only allowing one phone on launch reset
-        service.cart.items = [];
-        service.cart.items.push(item);
-    };
-
-    service.addDataPlanToCart = function(planId) {
-        var plan = _.where(service.getDataPlans(service.selectedNetwork.value).plans, { id: planId })[0];
-        console.log(plan);
-        service.cart.dataPlan = plan;
-    };
-
-    service.getProratedCost = function() {
-        var plan = service.cart.dataPlan;
-        // a and b are javascript Date objects
-        var dateDiffInDays = function(a, b) {
-            var _MS_PER_DAY = 1000 * 60 * 60 * 24;
-            // Discard the time and time-zone information.
-            var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-            var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-            
-            return Math.floor((utc1 - utc2) / _MS_PER_DAY);
-        };
-        var billingCycleEnds = 24;
-        var today = new Date();
-        var monthOffset = (today.getDate() <= billingCycleEnds) ? 1 : 0;
-        var startBillingDate = new Date();
-        startBillingDate.setDate(billingCycleEnds);
-        startBillingDate.setMonth(startBillingDate.getMonth() - monthOffset);
-
-        var daysInBillingCycle = new Date(startBillingDate.getFullYear(), startBillingDate.getMonth() + 1, 0).getDate(); // setting the day to 0 gets the previous month, so we're adding +1 to the billing month.
-        var daysIntoBillingCycle = dateDiffInDays(today, startBillingDate) - 1;
-        var multiplier = (daysInBillingCycle - daysIntoBillingCycle) / daysInBillingCycle;
-
-        return (parseFloat(plan.price, 10) + service.getTotalFees()) * multiplier;
-
-    };
-
-    service.getTotalFees = function() {
-        var plan = service.cart.dataPlan;
-        return parseFloat(plan.fees.salesUseTax, 10) + parseFloat(plan.fees.federalAccessCharge, 10) + parseFloat(plan.fees.streamLineCharge, 10);
-    }
-
-    service.getTotalDueToday = function() {
-
-        var total = 0;
-        for (var i=0; i<service.cart.items.length; i++) {
-            total += (typeof service.cart.items[i].price != 'undefined') ? parseFloat(service.cart.items[i].price, 10) : 0;
-            total += (typeof service.cart.items[i].activationFee != 'undefined') ? parseFloat(service.cart.items[i].activationFee, 10) : 0;
-            total += (typeof service.cart.items[i].salesTax != 'undefined') ? parseFloat(service.cart.items[i].salesTax, 10) : 0;
-        }
-
-        return total + service.getProratedCost();
-    };
-
-    service.getEstimatedMonthlyTotal = function() {
-        var plan = service.cart.dataPlan;
-        var total = parseFloat(plan.price, 10) + service.getTotalFees();
-        for (var i=0; i<service.cart.items.length; i++) {
-            total += (typeof service.cart.items[i].warranty != 'undefined' && service.cart.items[i].warranty == 'accept') ? 9.99 : 0;
-            total += (typeof service.cart.items[i].buyingOption != 'undefined' && service.cart.items[i].buyingOption != 'New') ? parseFloat(service.cart.items[i].price, 10) : 0;
-        }
-        return total;
-    };
-
-    service.resetEnrollment = function () {
-        // since we're not storing anyhting, a reload will reset
-        $window.location.href = '/mobile-enrollment';
     };
 
     return service;

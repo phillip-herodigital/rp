@@ -42,14 +42,28 @@ namespace StreamEnergy.MyStream.Controllers
                     ColorClass = (Char.ToLowerInvariant(obj.Fields["Color"].Value[0]) + obj.Fields["Color"].Value.Substring(1)).Trim(),
                     Network = obj.Fields["Network"].Value.ToLower(),
                     Condition = obj.Fields["Condition"].Value,
-                    Price = obj.Fields["Price New"].Value,
-                    Lease20 = obj.Fields["20 Mo Lease Price"].Value,
-                    Lease24 = obj.Fields["24 Mo Lease Price"].Value,
-                    Sku = obj.Fields["SKU"].Value
+                    Sku = obj.Fields["SKU"].Value,
+                    InStock = false,
+                    InstallmentPlans = GetAllInstallmentPlans(obj).Select(plan => new
+                    {
+                        Months = plan.Fields["Number of Months"].Value,
+                        AGroupSku = plan.Fields["A Group SKU"].Value,
+                        BGroupSku = plan.Fields["B Group SKU"].Value,
+                        CGroupSku = plan.Fields["C Group SKU"].Value,
+                        InStock = false
+
+                    })
                 })
             });
 
-            return this.Content(StreamEnergy.Json.Stringify(data));
+            try
+            {
+                return this.Content(StreamEnergy.Json.Stringify(data.ToArray()));
+            }
+            catch
+            {
+                return this.Content("[]");
+            }
         }
 
         public ActionResult BringYourOwnDevices()
@@ -113,6 +127,7 @@ namespace StreamEnergy.MyStream.Controllers
                         federalAccessCharge = plans.Fields["Federal Access Charge"].Value,
                         streamLineCharge = plans.Fields["Stream Line Charge"].Value
                     },
+                    DataDescription = plans.Fields["Data Description"].Value,
                     Recommended = plans.Fields["Recommended"].Value,
                     HoursMusic = plans.Fields["Hours Music"].Value,
                     HoursMovies = plans.Fields["Hours Movies"].Value,
@@ -125,21 +140,6 @@ namespace StreamEnergy.MyStream.Controllers
 
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
-
-        /*public ActionResult MobileEnrollmentNetworks()
-        {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");
-            var data = item.Children.Select(child => new
-            {
-                name = child.Fields["Network Name"].Value,
-                value = child.Fields["Network Value"].Value,
-                description = child.Fields["Network Description"].Value,
-                coverage = child.Fields["Network Coverage"].Value,
-                devices = child.Fields["Network Devices"].Value
-            });
-
-            return this.Content(StreamEnergy.Json.Stringify(data));
-        }*/
 
         public static IEnumerable<MobileColor> GetAllColors(NameValueCollection item) {
             var data = item.AllKeys.Select(key => new MobileColor { Value = key, Color = item[key] });
@@ -160,6 +160,12 @@ namespace StreamEnergy.MyStream.Controllers
             return data;
         }
 
+        public static IEnumerable<Item> GetAllInstallmentPlans(Item phoneItem)
+        {
+            IEnumerable<Item> data = phoneItem.Children;
+            return data;
+        }
+
         public ActionResult ChooseNetwork()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Networks");
@@ -171,7 +177,10 @@ namespace StreamEnergy.MyStream.Controllers
                 Description = child.Fields["Network Description"].Value,
                 Coverage = child.Fields["Network Coverage"].Value,
                 Device = child.Fields["Network Devices"].Value,
-                StartingPrice = child.Fields["Starting Price"].Value
+                StartingPrice = child.Fields["Starting Price"].Value,
+                Header = child.Fields["Network Header"].Value,
+                IndividualPlans = child.Fields["Individual Plans"].Value,
+                GroupPlans = child.Fields["Group Plans"].Value
             });
 
             return View("~/Views/Components/Mobile Enrollment/Choose Network.cshtml", new ChooseNetwork

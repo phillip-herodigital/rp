@@ -1,177 +1,613 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
 <!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
 <!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-
-	<title>Title</title>
+	<title>Marketing Home Page</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
 	<link href="assets/css/global.css" rel="stylesheet" />
 
-	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
-	<script src="assets/js/libs/modernizr/modernizr.js"></script>
-	<script src="assets/js/libs/angular/angular.min.js"></script>
-	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
+    <script src="assets/js/libs/lodash/lodash.js"></script>
+    <script src="assets/js/libs/modernizr/modernizr.js"></script>
+    <script src="assets/js/libs/respond/dest/respond.min.js"></script>
+    <script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+    <script src="assets/js/vendor/jqueryuicustom.js"></script>
+    <script src="assets/js/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+    <script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-scroll/angular-scroll.js"></script>
+    <!-- <script src="assets/js/libs/angular-touch/angular-touch.min.js"></script> -->
+    <script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="assets/js/libs/angular-ui-slider/src/slider.js"></script>
+    <script src="assets/js/libs/d3/d3.js"></script>
+    <script src="assets/js/libs/d3/line-chart.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="/Scripts/angular.unobtrusive.validation.min.js" type="text/javascript"></script>
+    <script src="assets/js/modules/mask-jquery.js"></script>
+    <script src="assets/js/config/datepicker.js"></script>
+    <script src="assets/js/config/validation-exactvalue.js"></script>
+    <script src="assets/js/services/breakpoint.js"></script>
+    <script src="assets/js/services/modalFactory.js"></script>
+    <script src="assets/js/services/scroll.js"></script>
+    <script src="assets/js/services/enrollment/cart.js"></script>
+    <script src="assets/js/services/enrollment/enrollment.js"></script>
+    <script src="assets/js/services/enrollment/enrollmentSteps.js"></script>
+    <script src="assets/js/filters/filters.js"></script>
+    <script src="assets/js/directives/additional-fields.js"></script>
+    <script src="assets/js/directives/bankAccountPayment.js"></script>
+    <script src="assets/js/directives/creditCardPayment.js"></script>
+    <script src="assets/js/directives/currencyInput.js"></script>
+    <script src="assets/js/directives/datepicker-date-class.js"></script>
+    <script src="assets/js/directives/datepicker.js"></script>
+    <script src="assets/js/directives/dropdown-select.js"></script>
+    <script src="assets/js/directives/fixedFix.js"></script>
+    <script src="assets/js/directives/float-labels.js"></script>
+    <script src="assets/js/directives/loading-indicator.js"></script>
+    <script src="assets/js/directives/main-nav.js"></script>
+    <script src="assets/js/directives/mobile-nav.js"></script>
+    <script src="assets/js/directives/pagination.js"></script>
+    <script src="assets/js/directives/scroll-anchor.js"></script>
+    <script src="assets/js/directives/scroll-to.js"></script>
+    <script src="assets/js/directives/slide-down-show.js"></script>
+    <script src="assets/js/directives/slide-toggle.js"></script>
+    <script src="assets/js/directives/state-tabs.js"></script>
+    <script src="assets/js/directives/sub-nav.js"></script>
+    <script src="assets/js/directives/table.js"></script>
+    <script src="assets/js/directives/tokenize-card.js"></script>
+    <script src="assets/js/directives/typeahead-popup-fix.js"></script>
+    <script src="assets/js/directives/value.js"></script>
+    <script src="assets/js/controllers/accountBalances.js"></script>
+    <script src="assets/js/controllers/frontendElements.js"></script>
+    <script src="assets/js/controllers/homelifeservices.js"></script>
+    <script src="assets/js/controllers/login.js"></script>
+    <script src="assets/js/controllers/main.js"></script>
+    <script src="assets/js/controllers/marketing.js"></script>
+    <script src="assets/js/controllers/template.js"></script>
+    <script src="assets/js/controllers/account/account.js"></script>
+    <script src="assets/js/controllers/account/accountInformation.js"></script>
+    <script src="assets/js/controllers/account/accountSelector.js"></script>
+    <script src="assets/js/controllers/account/addNewAccount.js"></script>
+    <script src="assets/js/controllers/account/enrolledAccounts.js"></script>
+    <script src="assets/js/controllers/account/enrollmentConfirmation.js"></script>
+    <script src="assets/js/controllers/account/makePayment.js"></script>
+    <script src="assets/js/controllers/account/myEnergyUsage.js"></script>
+    <script src="assets/js/controllers/account/myInvoices.js"></script>
+    <script src="assets/js/controllers/account/myPayments.js"></script>
+    <script src="assets/js/controllers/account/notificationSettings.js"></script>
+    <script src="assets/js/controllers/account/onlineAccount.js"></script>
+    <script src="assets/js/controllers/account/paymentAccountsListingCtrl.js"></script>
+    <script src="assets/js/controllers/account/utilityProviders.js"></script>
+    <script src="assets/js/controllers/account/yourElectricityPlan.js"></script>
+    <script src="assets/js/controllers/account/yourGasPlan.js"></script>
+    <script src="assets/js/controllers/authentication/changePassword.js"></script>
+    <script src="assets/js/controllers/authentication/createAccount.js"></script>
+    <script src="assets/js/controllers/authentication/forgotUsername.js"></script>
+    <script src="assets/js/controllers/authentication/login.js"></script>
+    <script src="assets/js/controllers/authentication/resetPassword.js"></script>
+    <script src="assets/js/controllers/enrollment/accountInformation.js"></script>
+    <script src="assets/js/controllers/enrollment/billingAddress.js"></script>
+    <script src="assets/js/controllers/enrollment/cart.js"></script>
+    <script src="assets/js/controllers/enrollment/completeOrder.js"></script>
+    <script src="assets/js/controllers/enrollment/main.js"></script>
+    <script src="assets/js/controllers/enrollment/multipleTdu.js"></script>
+    <script src="assets/js/controllers/enrollment/OfferOptions-TexasElectricity.js"></script>
+    <script src="assets/js/controllers/enrollment/planSelection.js"></script>
+    <script src="assets/js/controllers/enrollment/selectPlan.js"></script>
+    <script src="assets/js/controllers/enrollment/serviceInformation.js"></script>
+    <script src="assets/js/controllers/enrollment/verifyIdentity.js"></script>
+    <script src="assets/js/controllers/enrollment/zipToAddress.js"></script>
+    <script src="assets/js/controllers/payments/addBankAccount.js"></script>
+    <script src="assets/js/controllers/payments/addCreditCard.js"></script>
+    <script src="assets/js/controllers/payments/autoPay.js"></script>
+    <script src="assets/js/controllers/payments/bankAccountPayment.js"></script>
+    <script src="assets/js/controllers/payments/creditCardPayment.js"></script>
+    <script src="assets/js/controllers/payments/paymentOneTime.js"></script>
 
-	<script src="assets/js/app.js"></script>
-	<script src="assets/js/controllers/main.js"></script>
-	<script src="assets/js/controllers/marketing.js"></script>
-
-	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
-	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
+    <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
+    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 </head>
-<body ng-controller="MainCtrl">
+<body ng-controller="MainCtrl" class="home-page">
 	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
-		<nav>
-			<ul>
-				<li ng-repeat="item in navLinks">
-					<a href="{{item.href}}">{{item.name}}</a>
-				</li>
-			</ul>
-		</nav>
 		<div class="page-content">
-			<header class="site-header">
-				<div class="wrapper">
-					<a href="/" class="logo">Logo</a>
-					<p class="utility"><a href="#">Manage My Account</a></p>
-					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
-				</div>
-				<nav>
-					<ul class="wrapper">
-						<li><a href="#">Rates, Products, &amp; Services</a></li>
-						<li class="selected"><a href="#">Opportunity</a></li>
-						<li><a href="#">Company</a></li>
-						<li><a href="#">Contact Us</a></li>
-						<li><a href="#">Pay My Bill</a></li>
-					</ul>
-				</nav>
-			</header>
+            <header class="site-header ng-scope" main-nav="0" data-fixed-fix="">
+                <script id="mobileNav" type="text/ng-template">
+                    <nav class="mobile-nav" mobile-nav="0">
+                        <ul>
+                            <li ng-class="{ opened: subnav == 1 }">
+                                <span>
+                                    <span class="arrow" ng-click="toggleSubnav(1)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 1, 'icon-nav-arrow-collapsed': subnav != 1}"></i></span>
+                                    <a href="/en/services">Shop</a>
+                                </span>
+                                <ul ng-hide="subnav != 1">
+                                    <li><a href="/en/services/enroll">Become a Customer</a></li>
+                                    <li><a href="/en/services/renew">Renew My Contract</a></li>
+                                    <li><a href="/en/services/free-energy">Free Energy</a></li>
+                                    <li><a href="/en/services/enroll/commercial">For Business</a></li>
+                                    <li><a href="/en/services/electricity">Electricity</a></li>
+                                    <li><a href="/en/services/gas">Gas</a></li>
+                                    <li><a href="/en/services/homelife">HomeLife Services</a></li>
+                                    <li><a href="/en/services/clean-energy">Clean Energy</a></li>
+                                </ul>
+                            </li>
+                            <li ng-class="{ opened: subnav == 2 }">
+                                <span>
+                                    <span class="arrow" ng-click="toggleSubnav(2)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 2, 'icon-nav-arrow-collapsed': subnav != 2}"></i></span>
+                                    <a href="/en/opportunity">About</a>
+                                </span>
+                                <ul ng-hide="subnav != 2">
+                                    <li><a href="/en/opportunity/why-stream-energy">Why Stream Energy?</a></li>
+                                    <li><a href="/en/opportunity/why-energy">Why Energy?</a></li>
+                                    <li><a href="/en/opportunity/how-it-works">How It Works</a></li>
+                                    <li><a href="/en/opportunity/compensation-plan">Compensation Plan</a></li>
+                                    <li><a href="/en/opportunity/start-a-business">Start a Business</a></li>
+                                    <li><a href="/en/leader">Top Leaders</a></li>
+                                </ul>
+                            </li>
+                            <li ng-class="{ opened: subnav == 3 }">
+                                <span>
+                                    <span class="arrow" ng-click="toggleSubnav(3)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 3, 'icon-nav-arrow-collapsed': subnav != 3}"></i></span>
+                                    <a href="/en/company">Support</a>
+                                </span>
+                                <ul ng-hide="subnav != 3">
+                                    <li><a href="/en/company/about">About</a></li>
+                                    <li><a href="/en/company/corporate-team">Corporate Team</a></li>
+                                    <li><a href="/en/blog">Blog</a></li>
+                                    <li><a href="/en/company/press">Press</a></li>
+                                    <li><a href="/en/company/philanthropy">Philanthropy</a></li>
+                                    <li><a href="/en/company/careers">Careers</a></li>
+                                    <li><a target="_blank" href="http://myigniteevents.streampoint.com/">Events</a></li>
+                                </ul>
+                            </li>
+                            <li ng-class="{ opened: subnav == 4 }">
+                                <span>
+                                    <span class="arrow" ng-click="toggleSubnav(4)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 4, 'icon-nav-arrow-collapsed': subnav != 4}"></i></span>
+                                    <a href="/en/contact">Cart<i class="icon-cart-small"></i></a>
+                                </span>
+                                <ul ng-hide="subnav != 4">
+                                    <li><a href="/en/faq">Customer FAQs</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/pay/" class="button">Pay My Bill</a></li>
+                            <li><a href="/es">Español</a></li>
+                            <li><a href="/manage/">Manage My Account</a></li>
+                        </ul>
+                    </nav>
+                </script>
+                <nav class="profile-nav">
+                    <div class="wrapper">
+                        <ul>
+                            <li>Welcome, Justin</li>
+                            <li><a href="">My Profile</a></li>
+                            <li><a href="">Support</a></li>
+                            <li><a href="">Logout</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="shadow-wrapper">
+                    <div class="wrapper">
+                        <a href="/" class="logo">Logo</a>
+                        <div class="utility">
+                            <a href="/es">Español</a><a class="account-link" href="/manage/">Manage My Account</a>
+                        </div>
+                        <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+                        <nav class="main-nav">
+                            <ul class="wrapper">
+                                    <li class="nav-1 selected" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
+                                        <a href="/en/services">Shop</a>
+                                        <span class="triangle"></span>
+                                    </li>
+                                    <li class="nav-2" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==2 }">
+                                        <a href="/en/opportunity">About</a>
+                                        <span class="triangle"></span>
+                                    </li>
+                                    <li class="nav-3" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==3 }">
+                                        <a href="/en/company">Support</a>
+                                        <span class="triangle"></span>
+                                    </li>
+                                    <li class="nav-4" ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==4 }">
+                                        <a href="/en/contact">Cart<i class="icon-cart-small"></i></a>
+                                        <span class="triangle"></span>
+                                    </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <nav class="sub-nav">
+                    <div class="wrapper ng-scope hidden" sub-nav="1" ng-class="{ hidden: subnav != 1 }" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
+                        <ul ng-style="{'margin-left': marginLeft}" style="margin-left: 0px;">
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/services/enroll">Mobile Services</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/services/renew">Utility Services</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/services/free-energy">Homelife Services</a></li>
+                        </ul>
+                    </div>
+                    <div class="wrapper ng-scope hidden" sub-nav="2" ng-class="{ hidden: subnav != 2 }" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()">
+                        <ul ng-style="{'margin-left': marginLeft}" style="margin-left: 222px;">
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/why-stream-energy">Why Stream Energy?</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/why-energy">Why Energy?</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/how-it-works">How It Works</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/compensation-plan">Compensation Plan</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/start-a-business">Start a Business</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/leader">Top Leaders</a></li>
+                        </ul>
+                    </div>
+                    <div class="wrapper ng-scope hidden" sub-nav="3" ng-class="{ hidden: subnav != 3 }" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()">
+                        <ul ng-style="{'margin-left': marginLeft}" style="margin-left: 449px;">
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/about">About</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/corporate-team">Corporate Team</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/blog">Blog</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/press">Press</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/philanthropy">Philanthropy</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/careers">Careers</a></li>
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" target="_blank" href="http://myigniteevents.streampoint.com/">Events</a></li>
+                        </ul>
+                    </div>
+                    <div class="wrapper ng-scope hidden" sub-nav="4" ng-class="{ hidden: subnav != 4 }" ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()">
+                        <ul ng-style="{'margin-left': marginLeft}" style="margin-left: 767px;">
+                            <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/faq">Customer FAQs</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
 
-			<div class="banner marketing" style="background-image: url(assets/i/marketing/header-home-01.jpg)"></div>
-			
-			<section class="layout cols-1" ng-controller="MarketingCtrl">
 
-				<article class="marketing loginHorizontal">
-					<div class="wrapper">
-						<span class="text">My Stream Account</span>
-						<form>
-							<div class="group">
-								<div class="item">
-									<ul class="radio-list">
-										<li><input type="radio" name="loginState" value="texas" id="loginState[texas]" checked="checked" /> <label for="loginState[texas]">Texas</label></li>
-										<li><input type="radio" name="loginState" value="georgia" id="loginState[georgia]" /> <label for="loginState[georgia]">Georgia</label></li>
-									</ul>
-								</div>
-								<div class="item">
-									<input type="text" name="username" placeholder="Username" />
-								</div>
-								<div class="item">
-									<input type="password" name="password" placeholder="Password" />
-								</div>
-								<div class="item">
-									<button type="submit">Login</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</article>
+            <article class="marketing section-divider">
+                <div class="wrapper">
+                    <div class="grid three">
+                        <a href="#mobile-services" class="col" du-scrollspy du-smooth-scroll>
+                            <h4><i class="icon-mobile-small"></i> Mobile Services</h4>
+                        </a>
+                        <a href="#utility-services" class="col" du-scrollspy du-smooth-scroll>
+                            <h4><i class="icon-utility-small"></i> Utility Services</h4>
+                        </a>
+                        <a href="#homelife-services" class="col" du-scrollspy du-smooth-scroll>
+                            <h4><i class="icon-homelife-small"></i> Homelife Services</h4>
+                        </a>
+                    </div>
+                </div>
+            </article>
 
-				<article class="marketing gridPromos">
-					<div class="wrapper">
-						<div class="grid three">
-							<div class="col accent-blue">
-								<img src="assets/i/tmp/lightbulb-large.png" alt="" />
-								<h4><strong>Become</strong> A Customer</h4>
-								<p>It&#8217;s easy.<br />
-								Click here to start today.</p>
-								<p><a href="#" class="button">Sign Up</a></p>
-							</div>
-							<div class="col accent-green">
-								<img src="assets/i/tmp/freeenergy-large.png" alt="" />
-								<h4><strong>Get</strong> Free Energy</h4>
-								<p>Say goodbye to gas and electric bills forever<sup>1</sup>.</p>
-								<p><a href="#" class="button">Free Energy</a></p>
-							</div>
-							<div class="col accent-orange">
-								<img src="assets/i/tmp/money-large.png" alt="" />
-								<h4><strong>Build</strong> Residual Income</h4>
-								<p>Earn monthly income with The Ignite Opportunity.</p>
-								<p><a href="#" class="button">Opportunity</a></p>
-							</div>
-						</div>
-					</div>
-				</article>
 
-				<article class="marketing full-html center bg-grey accent-blue home-latest">
-					<div class="wrapper">
-						<h3>The latest from Stream Energy</h3>
-						<p><a href="#">Splash for Hope, sponsored by Stream Energy, July 9 at Hawaiian Falls Garland</a></p>
-					</div>
-				</article>
+            <section class="layout home-top-content">
+                <carousel>
+                    <slide>
+                        <div class="banner marketing" style="background-image: url(assets/i/marketing/banner-home.jpg)">
+                            <div class="wrapper">
+                                <div class="carousel-caption text-left">
+                                    <h1>More and more people<br /> are joining Stream<br /> Every Day</h1>
+                                    <a href="" class="button large">Shop Services</a>
+                                </div>
+                            </div>
+                        </div>
+                    </slide>
+                    <slide>
+                        <div class="banner marketing" style="background-image: url(assets/i/marketing/banner-home.jpg)">
+                            <div class="wrapper">
+                                <div class="carousel-caption text-left">
+                                    <h1>More and more people<br /> are joining Stream<br /> Every Day</h1>
+                                    <a href="" class="button large">Shop Services</a>
+                                </div>
+                            </div>
+                        </div>
+                    </slide>
+                </carousel>
 
-				<article class="marketing photoLockup bg-green">
-					<div class="photo" style="background-image: url(assets/i/marketing/home-test1.jpg)"></div>
-					<div class="text">
-						<div class="inner">
-							<blockquote>
-								<p><span class="lead">In less than three months of being with Stream</span> I’ve already qualified for Free Energy! And for someone who has a one-income household, that’s huge. Thanks, Stream!</p>
-							</blockquote>
-							<p class="cite">&mdash; Veronyka Y. Corpus Christi, TX</p>
-							<a href="#" class="button">Enroll Now</a>
-						</div>
-					</div>
-				</article>
+                <article class="marketing gridPromos home-page-services">
+                    <div class="wrapper">
+                        <div class="grid three">
+                            <div class="col">
+                                <h4>Mobile Services</h4>
+                                <p>Phones &amp; Plans lorem ipsem dolor sit amet.</p>
+                                <p><a href="#mobile-services" du-smooth-scroll>Phones &amp; Plans <i class="icon-arrow-right"></i></a></p>
+                                <span class="ico-wrapper">
+                                    <i class="icon-mobile"></i>
+                                </span>
+                            </div>
+                            <div class="col">
+                                <h4>Utility Services</h4>
+                                <p>Gas &amp; Electricity lorem dolor sit ameolor lorem ips.</p>
+                                <p><a href="#utility-services" du-smooth-scroll>Gas &amp; Electricity <i class="icon-arrow-right"></i></a></p>
+                                <span class="ico-wrapper">
+                                    <i class="icon-home-utility"></i>
+                                </span>
+                            </div>
+                            <div class="col">
+                                <h4>Homelife Services</h4>
+                                <p>Protection you need lorem dolor sit ameolor lorem ips.</p>
+                                <p><a href="#homelife-services" du-smooth-scroll>Protection &amp; Security <i class="icon-arrow-right"></i></a></p>
+                                <span class="ico-wrapper">
+                                    <i class="icon-homelife"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
 
-				<article class="marketing photoLockup right-img accent-orange">
-					<div class="photo" style="background-image: url(assets/i/marketing/home-test2.jpg)"></div>
-					<div class="text">
-						<div class="inner">
-							<blockquote>
-								<p><span class="lead">I am so glad i made the decision to start my own business with stream energy and the ignite opportunity.</span> Being able to earn an extra stream of income by simply sharing with people how they can save on their energy bill immediately made sense to me. In just a short period of time, this business has allowed us the lifestyle we had only dreamed of--more time with our family and financial freedom.</p>
-							</blockquote>
-							<p class="cite">&mdash; Jerry S. Houston, TX</p>
-							<a href="#" class="button">Learn More</a>
-						</div>
-					</div>
-				</article>
+            <section class="layout home-content-layout">
+                <article class="marketing home-page-switch-mobile">
+                    <span id="mobile-services"></span>
+                    <div class="wrapper">
+                        <h1 class="text-center">It’s <span>easy</span> to <span>switch</span> to Stream Mobile</h1>
+                        <div class="grid two">
+                            <div class="col col-smartphones">
+                                <img src="assets/i/marketing/home-switch-mobile-left.jpg" alt="">
+                                <h2>Shop our SmartPhones</h2>
+                                <p>Unlimited Voice, Text, and Data on a leading nationwide 4G network starts at $39/month, with other great rate plans to choose from.</p>
+                                <a href="" class="button large">Shop Smart Phones</a>
+                                <div class="text-divider"><span>Or</span></div>
+                            </div>
+                            <div class="col col-own-phone">
+                                <img src="assets/i/marketing/home-switch-mobile-right.jpg" alt="">
+                                <h2>Bring your own Phone</h2>
+                                <p>A simple switch of your SIM card gets you on the Stream Mobile high-speed network, with great rate plans to choose from.</p>
+                                <a href="" class="button large">Get Started</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
 
-			</section>
 
+                <article class="marketing nationwide-coverage">
+                    <div class="wrapper">
+                        <h2>Nationwide 4G Coverage</h2>
+                        <p>Unlimited Voice, Text, and Data on a leading nationwide 4G network starts at $39/month, with other great rate plans to choose from.</p>
+                    </div>
+                </article>
+
+
+                <article class="marketing find-coverage">
+                    <div class="wrapper">
+                        <h3><i class="icon-coverage"></i>Find Coverage Near Me</h3>
+                        <div class="input-group">
+                            <div class="input-group-control">
+                                <input class="input--large" placeholder="Enter Zip Code or Address" type="text" value="">
+                            </div>
+                            <div class="input-group-btn">
+                                <button type="button" class="large">Check Coverage</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="marketing quote">
+                    <div class="wrapper">
+                        <div class="quote-wrapper">
+                            <h2>Stream Mobile has changed the way we approach data.</h2>
+                            <p class="quote-text">Stream’s coverage is excellent, data speeds are great, and we now communicate better than ever before.</p>
+                            <p class="quote-author">– Jeremy P</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="marketing text-callout">
+                    <span id="utility-services"></span>
+                    <div class="wrapper">
+                        <h1>Electricity and Gas that <span>fit</span> your <span>lifestyle</span> </h1>
+                        <p>Electricity isn’t a luxury, it’s a necessity. Everyone needs it, every single day. Stream Energy offers competitive energy products to make life a little easier and can provide for all your electricity needs. From keeping your lights on to cooling your house, powering your technology and your power tools, Stream Energy can power your home or business.</p>
+                    </div>
+                </article>
+
+                <article class="marketing vertical-cta">
+                    <div class="wrapper">
+                        <div class="grid two">
+                            <div class="col col-first">
+                                <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-electricity.jpg) right top no-repeat">
+                                </div>
+                                <h2>Shop Electricity</h2>
+                                <p>From keeping your lights on to turning up the air conditioning and powering your tools, electricity is an essential service for every home and business.</p>
+                                <a href="" class="button large">Shop Electricity</a>
+                            </div>
+                            <div class="col col-last">
+                                <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-gas.jpg) left top no-repeat">
+                                </div>
+                                <h2>Shop Natural Gas</h2>
+                                <p>Whether you’re cooking meals or heating your home, natural gas is a great way to use power at home and at the office.</p>
+                                <a href="" class="button large">Shop Natural Gas</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="marketing quote">
+                    <div class="wrapper">
+                        <div class="quote-wrapper">
+                            <h2>We forget just how painfully dim the world was before electricity.</h2>
+                            <p class="quote-text">A candle, a good candle, provides barely a hundredth of the illumination of a single 100 watt light bulb.</p>
+                            <p class="quote-author">– Bill B</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="marketing text-callout">
+                    <span id="homelife-services"></span>
+                    <div class="wrapper">
+                        <h1>When it comes to <span>improving</span> your <span>life</span>, Stream Energy has you covered.</h1>
+                        <p>With Stream Energy’s new Homelife Services, we now offer all customers the necessary tools to live a safer, easier life. Not only do we give our customers their first month free, but when you bundle more than one service together, you’ll save. These special rates–up to 70% off the regular market value–are our way of saying thanks.</p>
+                    </div>
+                </article>
+
+                <article class="marketing homelife-services-promo">
+                    <div class="wrapper">
+                        <div class="grid three">
+                            <div class="col">
+                                <div class="col-wrapper">
+                                    <i class="icon-identity-theft"></i>
+                                    <h3>Identity Theft Monitoring</h3>
+                                    <p>With Identity theft on the rise, we’ve developed a service to help safeguard your identity.</p>
+                                    <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-wrapper">
+                                    <i class="icon-online-backup"></i>
+                                    <h3>Online Backup & Protection</h3>
+                                    <p>Keep your computers running smoothly with Stream Energy’s technology support and automatic data backup services.</p>
+                                    <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-wrapper">
+                                    <i class="icon-credit-monitoring"></i>
+                                    <h3>Credit Monitoring</h3>
+                                    <p>Stream Energy’s credit monitoring allows you to review your past credit history, check your current score, and plan for the future.</p>
+                                    <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="marketing horizontal-photo-cta">
+                    <div class="wrapper clearfix">
+                        <div class="layout">
+                            <div class="aside">
+                                <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
+                            </div>
+                            <div class="cta-content">
+                                <h2>Bundle &amp; Save</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                                <p><a href="" class="button">Get Started</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="home-top-content">
+                <article class="marketing home-questions">
+                    <div class="wrapper">
+                        <div class="grid border">
+                            <div class="col two-third">
+                                <h2>Have Questions?</h2>
+                                <div class="faq">
+                                    <div class="panel" slide-toggle>
+                                        <p class="question">
+                                            <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
+                                        </p>
+                                        <div class="panel-content slide-toggle">
+                                            <div class="answer">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel" slide-toggle>
+                                        <p class="question">
+                                            <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
+                                        </p>
+                                        <div class="panel-content slide-toggle">
+                                            <div class="answer">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel" slide-toggle>
+                                        <p class="question">
+                                            <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
+                                        </p>
+                                        <div class="panel-content slide-toggle">
+                                            <div class="answer">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p><a href="">Show 18 More Questions <i class="icon-arrow-right"></i></a></p>
+                            </div>
+                            <div class="col one-third">
+                                <h2>Still Have Questions?</h2>
+                                <p class="contact-specialists">Contact one of our Specialists today!</p>
+                                <p>Or call customer service: <span class="tel">1-800-STREAM</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+   
 			<footer class="site-footer">
+                <div class="gridPromos">
+                    <div class="wrapper">
+                        <hr />
+                        <div class="grid border three">
+                            <div class="col">
+                                <h4>Get Our Newsletter</h4>
+                                <div class="input-group input-group-mobile collapsed">
+                                    <div class="input-group-control">
+                                        <input class="" placeholder="Email Address" type="text" value="">
+                                    </div>
+                                    <div class="input-group-btn">
+                                        <button type="button" class="plain">Go <i class="icon-arrow-right-white"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h4>Follow Stream Energy</h4>
+                                <ul class="follow-stream-energy inline-list">
+                                    <li>
+                                        <iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F1streamenergy&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=120713508108869" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe>
+                                    </li>
+                                    <li>
+                                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://twitter.com/1streamenergy" data-via="    1streamenergy">Tweet</a>
+                                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h4>Connect with Stream</h4>
+                                <ul class="connect-with-stream inline-list">
+                                    <li><a href=""><i class="icon-facebook-dark"></i></a></li>
+                                    <li><a href=""><i class="icon-twitter-dark"></i></a></li>
+                                    <li><a href=""><i class="icon-youtube-dark"></i></a></li>
+                                    <li><a href=""><i class="icon-pinterest-dark"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 				<div class="super-footer">
 					<div class="wrapper">
-						<div class="grid three">
+						<div class="grid clearfix">
 							<div class="col">
 								<ul>
-									<li><a href="#"><img src="assets/i/img-footer-get-free-energy.png" alt="Get Free Energy" width="159" height="44" /></a></li>
-									<li><a href="#"><img src="assets/i/img-footer-renew-my-contract.png" alt="Renew My Contract" width="120" height="45" /></a></li>
+									<li><a href="#"><img src="assets/i/logo-footer.png" alt="Stream Energy | Ignite" width="224" height="54" /></a></li>
 								</ul>
 							</div>
-							<div class="col quick-links">
-								<h2><i class="icon-quicklinks"></i> Quick Links</h2>
-								<ul>
-									<li><a href="#">Account Overview</a></li>
-									<li><a href="#">Utility Services</a></li>
-									<li><a href="#">Homelife Services</a></li>
-									<li><a href="#">My Profile</a></li>
-								</ul>
+                            <div class="col">
+                                <h2>Shop</h2>
+                                <ul>
+                                    <li><a href="#">Mobile Services</a></li>
+                                    <li><a href="#">Utility Services</a></li>
+                                    <li><a href="#">Homelife Services</a></li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h2>About</h2>
+                                <ul>
+                                    <li><a href="">The Ignite Opportunity</a></li>
+                                    <li><a href="">Blog</a></li>
+                                    <li><a href="">Careers</a></li>
+                                </ul>
+                            </div>
+							<div class="col">
+								<h2>Quick Links</h2>
+                                <ul>
+                                    <li><a href="">Press</a></li>
+                                    <li><a href="">Contact</a></li>
+                                    <li><a href="">Philanthropy</a></li>
+                                </ul>
 							</div>
-							<div class="col social">
-								<h2><i class="icon-social"></i> Social</h2>
-								<ul>
-									<li><a href="#"><i class="icon-facebook"></i> Facebook</a></li>
-									<li><a href="#"><i class="icon-twitter"></i> Twitter</a></li>
-									<li><a href="#"><i class="icon-youtube"></i> YouTube</a></li>
-									<li><a href="#"><i class="icon-pinterest"></i> Pinterest</a></li>
-								</ul>
+							<div class="col">
+								<h2>My Account</h2>
+                                <ul>
+                                    <li><a href="">Manage My Free Energy</a></li>
+                                    <li><a href="">Login To Power Center</a></li>
+                                </ul>
 							</div>
 						</div>
+                        <a href="#" class="bottom-footer-logo hide-medium-large"><img src="assets/i/logo-footer.png" alt="Stream Energy | Ignite" width="224" height="54" /></a>
 					</div>
 				</div>
 				<div class="wrapper copyright">

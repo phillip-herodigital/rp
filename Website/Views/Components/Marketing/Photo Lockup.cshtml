@@ -1,4 +1,5 @@
-﻿@{
+﻿@using HtmlAgilityPack
+@{
     var sc = Html.Sitecore();
 
     var classes = new List<string>();
@@ -14,52 +15,73 @@
     classes.Add(sc.LookupItem("Border Color").SafeFieldValue("CSS Class").Prefix("border border-"));
     classes.Add(sc.CurrentItem["Custom Css Class"]);
     classes.Add(sc.LookupItem("Background Image Position").SafeFieldValue("CSS Class"));
-    var id = !string.IsNullOrEmpty(sc.CurrentItem["Custom ID"]) ? " id=\"" + sc.CurrentItem["Custom ID"] + "\"" : "";
 }
-<article @Html.Raw(id) class="marketing photoLockup @string.Join(" ", classes)">
-    <div class="photo" style="@Html.AsBackgroundStyle("Background Image")">
-        @{
-            if (Sitecore.Context.PageMode.IsPageEditorEditing)
+@if (!Html.Sitecore().HasValue("Background Image"))
+{
+    <aside class="module quote @string.Join(" ", classes)" style="background-color: #71b243; color: white">
+        <blockquote>
+            @Html.Sitecore().Field("Quote")
+            @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Citation").ToString()))
             {
-                @Html.Sitecore().Field("Background Image")
+                <footer>
+                    — <cite>@Html.Sitecore().Field("Citation")</cite><br>
+                    @Html.Sitecore().Field("Button")
+                </footer>
             }
-        }
-    </div>
-    <div class="text">
-        <div class="inner">
-            @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Header").ToString()))
+        </blockquote>
+    </aside>
+}
+else
+{
+    <article id="@(sc.CurrentItem["Custom ID"] == string.Empty ? null : sc.CurrentItem["Custom ID"])" class="marketing photoLockup @string.Join(" ", classes)">
+        <div class="wrapper">
+            @if (!Html.Sitecore().CurrentItem.IsChecked("Image on Right").GetValueOrDefault())
+            {
+                if (Sitecore.Context.PageMode.IsPageEditorEditing)
+                {
+                    @Html.Sitecore().Field("Background Image", new { width = 502, alt = "" });
+                }
+                else
+                {
+                    var document = new HtmlDocument();
+                    document.LoadHtml(Html.Sitecore().Field("Background Image", new { width = 502, alt = "" }).ToString());
+                    document.DocumentNode.SetAttributeValue("alt", null);
+                    @Html.Raw(document.DocumentNode.OuterHtml)
+                }
+            }
+            <div class="content">
+
+                @if (Html.Sitecore().HasValue("Header"))
                 {
                     <h2>@Html.Sitecore().Field("Header")</h2>
                 }
-            }
-            @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Sub Header").ToString()))
+                @if (Html.Sitecore().HasValue("Sub Header"))
                 {
                     <h3>@Html.Sitecore().Field("Sub Header")</h3>
                 }
-            }
-            @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Quote").ToString()))
+                @if (Html.Sitecore().HasValue("Quote"))
                 {
-                    <blockquote>
-                        <div>@Html.Sitecore().Field("Quote")</div>
-                    </blockquote>
+                    <aside class="quote">
+                        <blockquote>
+                            @Html.Sitecore().Field("Quote")
+                            @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Citation").ToString()))
+                            {
+                                <footer>
+                                    <cite>@Html.Sitecore().Field("Citation")</cite><br>
+                                    @Html.Sitecore().Field("Button")
+                                </footer>
+                            }
+                        </blockquote>
+                    </aside>
                 }
+                @Html.Sitecore().Field("Content")
+                @Html.Sitecore().Field("Button")
+            </div>
+            @if (Html.Sitecore().CurrentItem.IsChecked("Image on Right").GetValueOrDefault())
+            {
+                @Html.Sitecore().Field("Background Image", new { width = 502, alt = "" });
             }
-            @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Citation").ToString()))
-                {
-                    <p class="cite">&mdash; @Html.Sitecore().Field("Citation")</p>
-                }
-            }
-            @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Content").ToString()))
-                {
-                    @Html.Sitecore().Field("Content")
-                }
-            }
-            @Html.Sitecore().Field("Button")
+            <div style="clear: both;"></div>
         </div>
-    </div>
-</article>
+    </article>
+}

@@ -59,7 +59,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 var svc = context.Services.Single().SelectedOffers.Single();
                 if (internalContext.RenewalResult == null)
                 {
-                    var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<GeorgiaGas.RenewalCapability>().First();
+                    var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<IRenewalCapability>().First();
                     internalContext.RenewalResult = await enrollmentService.BeginRenewal(
                         renewalCapability.Account,
                         renewalCapability.SubAccount,
@@ -76,32 +76,9 @@ namespace StreamEnergy.DomainModels.Enrollments
                     }
                 }
             }
-            else if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
-            {
-                internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(context.Services, context.AdditionalAuthorizations, internalContext)).ToArray();
-
-                foreach (var placeOrderResult in internalContext.PlaceOrderResult)
-                {
-                    if (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted)
-                    {
-                        placeOrderResult.Details.IsSuccess = false;
-                    }
-                    else if (context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
-                    {
-                        placeOrderResult.Details.IsSuccess = false;
-                    }
-                }
-            }
             else
             {
-                var results = await enrollmentService.PlaceCommercialQuotes(context);
-                internalContext.PlaceOrderResult = (from service in context.Services
-                                                    select new Service.LocationOfferDetails<Service.PlaceOrderResult>()
-                                                    {
-                                                        Location = service.Location,
-                                                        Details = results,
-                                                        Offer = service.SelectedOffers.First().Offer,
-                                                    }).ToArray();
+                internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context, internalContext);
             }
             
             if (context.OnlineAccount != null)
@@ -109,12 +86,18 @@ namespace StreamEnergy.DomainModels.Enrollments
                 await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.Address);
             }
 
+            if (internalContext.PlaceOrderAsyncResult != null)
+                return typeof(AsyncPlaceOrderState);
             return await base.InternalProcess(context, internalContext);
         }
 
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
             if (context.IsRenewal && !internalContext.RenewalResult.IsCompleted)
+            {
+                return true;
+            }
+            else if (internalContext.PlaceOrderAsyncResult != null && !internalContext.PlaceOrderAsyncResult.IsCompleted)
             {
                 return true;
             }

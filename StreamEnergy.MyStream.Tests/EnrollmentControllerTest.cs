@@ -259,8 +259,8 @@ namespace StreamEnergy.MyStream.Tests
                             Location = specificLocation,
                             Offer = offers.First(o => o.Id == "Centerpoint/24-month-fixed-rate"),
                             Details = new DomainModels.Enrollments.Service.EnrollmentSaveEntry 
-                            { 
-                                StreamReferenceNumber = "stream",
+                            {
+                                EnrollmentAccountKeyJson = "{}",
                                 GlobalEnrollmentAccountId = Guid.NewGuid(),
                             }
                         }
@@ -370,49 +370,50 @@ namespace StreamEnergy.MyStream.Tests
                                                }
                                            });
                 });
-            mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<Dictionary<AdditionalAuthorization, bool>>(), It.IsAny<DomainModels.Enrollments.InternalContext>()))
-                .Returns(Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>(new[] 
+            mockEnrollmentService.Setup(m => m.BeginPlaceOrder(It.IsAny<UserContext>(), It.IsAny<DomainModels.Enrollments.InternalContext>()))
+                .Returns(Task.FromResult(new StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>
                 {
-                    new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                    IsCompleted = false
+                }));
+            mockEnrollmentService.Setup(m => m.EndPlaceOrder(It.IsAny<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>()))
+                .Returns(Task.FromResult<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(new StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>()
+                {
+                    IsCompleted = true,
+                    Data = new[] 
                     {
-                        Offer = offers.First(),
-                        Location = specificLocation,
-                        Details = new DomainModels.Enrollments.Service.PlaceOrderResult
+                        new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
                         {
-                            ConfirmationNumber = "87654321",
-                            IsSuccess = true
+                            Offer = offers.First(),
+                            Location = specificLocation,
+                            Details = new DomainModels.Enrollments.Service.PlaceOrderResult
+                            {
+                                ConfirmationNumber = "87654321",
+                                IsSuccess = true
+                            }
                         }
                     }
                 }));
-            mockEnrollmentService.Setup(m => m.PlaceCommercialQuotes(It.IsAny<UserContext>())).Returns<UserContext>(uc =>
-                {
-                    return Task.FromResult(new DomainModels.Enrollments.Service.PlaceOrderResult 
-                    {
-                        ConfirmationNumber = "87654321",
-                        IsSuccess = true
-                    });
-                });
-            mockEnrollmentService.Setup(m => m.PayDeposit(It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>>(),
-                It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>>(),
-                It.IsAny<DomainModels.Payments.IPaymentInfo>(),
-                It.IsAny<UserContext>())).Returns<
-                    IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>,
-                    IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>,
-                    DomainModels.Payments.IPaymentInfo, 
-                    UserContext>((services, a,b,c) =>
-            {
-                return Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>>((from svc in services
-                                                                                                                                                 select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>
-                                                                                                                                                 {
-                                                                                                                                                     Location = svc.Location,
-                                                                                                                                                     Offer = svc.Offer,
-                                                                                                                                                     Details = new DomainModels.Payments.PaymentResult
-                                                                                                                                                     {
-                                                                                                                                                         ConfirmationNumber = "816729435",
-                                                                                                                                                         ConvenienceFee = 2.45m
-                                                                                                                                                     }
-                                                                                                                                                 }).ToArray());
-            });
+            //mockEnrollmentService.Setup(m => m.PayDeposit(It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>>(),
+            //    It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>>(),
+            //    It.IsAny<DomainModels.Payments.IPaymentInfo>(),
+            //    It.IsAny<UserContext>())).Returns<
+            //        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>,
+            //        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>,
+            //        DomainModels.Payments.IPaymentInfo, 
+            //        UserContext>((services, a,b,c) =>
+            //{
+            //    return Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>>((from svc in services
+            //                                                                                                                                     select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>
+            //                                                                                                                                     {
+            //                                                                                                                                         Location = svc.Location,
+            //                                                                                                                                         Offer = svc.Offer,
+            //                                                                                                                                         Details = new DomainModels.Payments.PaymentResult
+            //                                                                                                                                         {
+            //                                                                                                                                             ConfirmationNumber = "816729435",
+            //                                                                                                                                             ConvenienceFee = 2.45m
+            //                                                                                                                                         }
+            //                                                                                                                                     }).ToArray());
+            //});
 
             mockEnrollmentService.Setup(s => s.LoadOffers(It.IsAny<IEnumerable<Location>>()))
                 .Returns<IEnumerable<Location>>(locations => Task.FromResult(locations.ToDictionary(location => location, location =>
@@ -1241,6 +1242,11 @@ namespace StreamEnergy.MyStream.Tests
                 // Act
                 var result = await controller.ConfirmOrder(request);
 
+                while (result.IsLoading)
+                {
+                    result = controller.Resume().Result;
+                }
+
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
                 Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricity.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
@@ -1251,11 +1257,11 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public async Task PostConfirmOrderFailPaymentTest()
+        public void PostConfirmOrderFailPaymentTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            await session.EnsureInitialized();
+            session.EnsureInitialized().Wait();
             session.Context = new UserContext
             {
                 Services = new[]
@@ -1304,35 +1310,37 @@ namespace StreamEnergy.MyStream.Tests
                 },
                 AgreeToTerms = true,
             };
-
-            mockEnrollmentService.Setup(m => m.PayDeposit(It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>>(),
-                It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>>(),
-                It.IsAny<DomainModels.Payments.IPaymentInfo>(),
-                It.IsAny<UserContext>())).Returns<
-                    IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>,
-                    IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>>,
-                    DomainModels.Payments.IPaymentInfo,
-                    UserContext>((services, a, b, c) =>
+            // includes payments now
+            mockEnrollmentService.Setup(m => m.EndPlaceOrder(It.IsAny<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>()))
+                .Returns(Task.FromResult<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(new StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>()
+                {
+                    IsCompleted = true,
+                    Data = new[] 
                     {
-                        return Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>>((from svc in services
-                                                                                                                                                         select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>
-                                                                                                                                                         {
-                                                                                                                                                             Location = svc.Location,
-                                                                                                                                                             Offer = svc.Offer,
-                                                                                                                                                             Details = new DomainModels.Payments.PaymentResult
-                                                                                                                                                             {
-                                                                                                                                                                 ConfirmationNumber = null,
-                                                                                                                                                                 ConvenienceFee = 0
-                                                                                                                                                             }
-                                                                                                                                                         }).ToArray());
-                    });
+                        new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                        {
+                            Offer = offers.First(),
+                            Location = specificLocation,
+                            Details = new DomainModels.Enrollments.Service.PlaceOrderResult
+                            {
+                                ConfirmationNumber = "87654321",
+                                IsSuccess = false
+                            }
+                        }
+                    }
+                }));
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
-                await controller.Initialize();
+                controller.Initialize().Wait();
 
                 // Act
-                var result = await controller.ConfirmOrder(request);
+                var result = controller.ConfirmOrder(request).Result;
+
+                while (result.IsLoading)
+                {
+                    result = controller.Resume().Result;
+                }
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
@@ -1404,6 +1412,11 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Act
                 var result = await controller.ConfirmOrder(request);
+
+                while (result.IsLoading)
+                {
+                    result = controller.Resume().Result;
+                }
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
@@ -1594,11 +1607,11 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public async Task CommercialPostConfirmOrderTest()
+        public void CommercialPostConfirmOrderTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            await session.EnsureInitialized();
+            session.EnsureInitialized().Wait();
             session.Context = new UserContext
             {
                 Services = new[]
@@ -1647,13 +1660,37 @@ namespace StreamEnergy.MyStream.Tests
                 },
                 AgreeToTerms = true,
             };
+            mockEnrollmentService.Setup(m => m.EndPlaceOrder(It.IsAny<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>()))
+                .Returns(Task.FromResult<StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>>(new StreamAsync<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>()
+                {
+                    IsCompleted = true,
+                    Data = new[] 
+                    {
+                        new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                        {
+                            Offer = offers.First(),
+                            Location = specificLocation,
+                            Details = new DomainModels.Enrollments.Service.PlaceOrderResult
+                            {
+                                ConfirmationNumber = "87654321",
+                                // the EnrollmentService class overrides the success because there is no identity check, which is what we're expecting anyway.
+                                IsSuccess = false
+                            }
+                        }
+                    }
+                }));
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
-                await controller.Initialize();
+                controller.Initialize().Wait();
 
                 // Act
-                var result = await controller.ConfirmOrder(request);
+                var result = controller.ConfirmOrder(request).Result;
+
+                while (result.IsLoading)
+                {
+                    result = controller.Resume().Result;
+                }
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);

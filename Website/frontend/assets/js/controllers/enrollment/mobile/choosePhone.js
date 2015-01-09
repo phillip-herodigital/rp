@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
 
@@ -21,15 +21,6 @@
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
     $scope.displayFilters = false; // Display the extra phone filters
 
-    // start over on refresh
-    /*
-    $scope.$watch('mobileEnrollment.phoneTypeTab', function(newValue, oldValue) {
-        if (newValue !== 'existing') {
-            $scope.resetEnrollment();
-        }
-    });
-*/
-
     $scope.setPhoneNumberType = function(type) {
         $scope.phoneNumberType = type;
     };
@@ -47,6 +38,7 @@
         $scope.selectedPhone = item;
         $scope.phoneOptions.color = mobileEnrollmentService.getPhoneColors(id)[0].color;
         $scope.phoneOptions.size = mobileEnrollmentService.getPhoneSizes(id)[0].size;
+        scrollService.scrollTo('chooseDevice', jQuery('header.site-header').height() * -1, 0, angular.noop);
     };
 
     $scope.phoneOptionsValid = function() {
@@ -72,7 +64,7 @@
     /**
      * Adds the currently selected phone to the cart
      */
-    $scope.addDeviceToCart = function() {
+    $scope.addDeviceToCart = function(phoneType) {
 
         var item = {},
         device,
@@ -84,9 +76,10 @@
             item = {
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 device: device,
-                id: device.id,
-                price: ($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24,
+                id: selectedModel.sku,
+                price: ($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : mobileEnrollmentService.getInstallmentPrice(device.id),
                 salesTax: parseFloat(parseFloat(($scope.phoneOptions.purchaseOption == "New") ? selectedModel.price : selectedModel.lease24, 10) * .07).toFixed(2),
+                installmentMonths: ($scope.phoneOptions.purchaseOption == "New") ? null : mobileEnrollmentService.getInstallmentMonths(device.id, $scope.phoneOptions.purchaseOption),
                 buyingOption: $scope.phoneOptions.purchaseOption,
                 activationFee: $scope.activationFee,
                 make: { make: device.brand },
@@ -95,24 +88,30 @@
                 color: $scope.phoneOptions.color,
                 imageFront: device.imageFront,
                 warranty: $scope.phoneOptions.warranty,
-                number: $scope.phoneOptions.number,
+                phoneNumber: ($scope.phoneOptions.number.type == "new") ? null : $scope.phoneOptions.number.value,
                 sku: selectedModel.sku
             };
         }
         else {
             item = {
+                id: 7,
+                buyingOption: "BYOD",
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 make: $scope.phoneOptions.make,
                 model: $scope.phoneOptions.model,
                 activationFee: $scope.activationFee,
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
-                number: $scope.phoneOptions.number
+                phoneNumber: ($scope.phoneOptions.number.type == "new") ? null : $scope.phoneOptions.number.value,
             };
         }
 
-        mobileEnrollmentService.addItemToCart(item);
-        $scope.setCurrentStep('configure-data');
+        enrollmentCartService.addDeviceToCart(item);
+        if (phoneType) {
+            $scope.mobileEnrollment.phoneTypeTab = phoneType; 
+            $scope.clearPhoneSelection();
+            enrollmentStepsService.scrollToStep('phoneFlowDevices');
+        }
     };
 
     /**
@@ -164,6 +163,15 @@
             'scope': $scope,
             'templateUrl': templateUrl
         })
+    };
+
+    /**
+     * Complete the Choose Network Step
+     * @return {[type]} [description]
+     */
+    $scope.completeStep = function () {  
+        $scope.addDeviceToCart();
+        enrollmentStepsService.setStep('phoneFlowPlans');
     };
 
 }]);

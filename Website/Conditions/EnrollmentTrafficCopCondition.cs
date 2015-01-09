@@ -76,7 +76,7 @@ namespace StreamEnergy.MyStream.Conditions
 
             redirect = redirect || (dependencies.EnrollmentParameters.AccountType == "C");
 
-            redirect = redirect || (dependencies.EnrollmentParameters.ServiceType == "MOB");
+            //redirect = redirect || (dependencies.EnrollmentParameters.ServiceType == "MOB");
 
             if (!string.IsNullOrEmpty(dependencies.Settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
             {

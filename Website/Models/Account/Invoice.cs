@@ -24,6 +24,8 @@ namespace StreamEnergy.MyStream.Models.Account
 
         [ColumnSchema("Invoice Amount")]
         public decimal InvoiceAmount { get; set; }
+        
+        public DateTime? InvoiceDate { get; set; }
 
         [ColumnSchema("Due Date")]
         public DateTime DueDate { get; set; }

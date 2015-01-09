@@ -8,7 +8,7 @@ namespace StreamEnergy.Services.Clients.StreamConnect
 {
     public class ProductResponse
     {
-        public IEnumerable<Product> Products { get; set; }
+        public IEnumerable<dynamic> Products { get; set; }
         public string Status { get; set; }
         public string ResponseMessage { get; set; }
     }

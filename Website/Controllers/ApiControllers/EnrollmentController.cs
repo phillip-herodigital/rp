@@ -108,7 +108,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
-            var paymentConfirmations = stateMachine.InternalContext.PaymentResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
             var renewalConfirmations = (stateMachine.InternalContext.RenewalResult != null ? stateMachine.InternalContext.RenewalResult.Data : null) ?? new RenewalResult();
             var standardValidation = (currentFinalStates.Contains(stateMachine.State) ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
             IEnumerable<ValidationResult> supplementalValidation;
@@ -120,7 +119,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
                 || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
                 || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
-                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted);
+                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted)
+                || (stateMachine.InternalContext.PlaceOrderAsyncResult != null && !stateMachine.InternalContext.PlaceOrderAsyncResult.IsCompleted);
 
             return new ClientData
             {
@@ -159,10 +159,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id)
                                                                                     .Where(entry =>
                                                                                     {
-                                                                                        var paymentConfirmation = paymentConfirmations.Where(pc => pc.Location == entry.Location && pc.Offer.Id == entry.Offer.Id).SingleOrDefault();
-                                                                                        if (paymentConfirmation == null)
-                                                                                            return true;
-                                                                                        return !string.IsNullOrEmpty(paymentConfirmation.Details.ConfirmationNumber);
+                                                                                        var paymentConfirmation = entry.Details.PaymentConfirmation;
+                                                                                        return paymentConfirmation == null || !string.IsNullOrEmpty(paymentConfirmation.ConfirmationNumber);
                                                                                     })
                                                                                     .Select(entry => entry.Details.IsSuccess).SingleOrDefault()
                                                                                     || renewalConfirmations.IsSuccess,
@@ -259,7 +257,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                              from service in services.DefaultIfEmpty()
                                              select new LocationServices
                                              {
-                                                 Location = service.Location,
+                                                 Location = service != null ? service.Location : location,
                                                  SelectedOffers = service != null ? service.SelectedOffers : null
                                              }).ToArray();
 
@@ -327,9 +325,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, Dictionary<Location, LocationOfferSet> allOffers)
         {
             allOffers = allOffers ?? new Dictionary<Location, LocationOfferSet>();
-            var locationOffers = allOffers.ContainsKey(oldService.Location) ? allOffers[oldService.Location].Offers : Enumerable.Empty<IOffer>();
             var result = oldService ?? new LocationServices();
-            result.Location = oldService.Location;
+            IEnumerable<IOffer> locationOffers;
+            if (stateHelper.Context.IsRenewal)
+            {
+                locationOffers = allOffers.ContainsKey(oldService.Location) ? allOffers[oldService.Location].Offers : Enumerable.Empty<IOffer>();
+                result.Location = oldService.Location;
+            }
+            else
+            {
+                locationOffers = allOffers.ContainsKey(newSelection.Location) ? allOffers[newSelection.Location].Offers : Enumerable.Empty<IOffer>();
+                result.Location = newSelection.Location;
+            }
+            
             result.SelectedOffers = (from entry in newSelection.OfferIds
                                      join oldSelection in result.SelectedOffers ?? Enumerable.Empty<SelectedOffer>() on entry equals oldSelection.Offer.Id into oldSelections
                                      let offer = locationOffers.Where(offer => offer.Id == entry).FirstOrDefault()
@@ -459,6 +467,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
+            if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard)
+            {
+                ((DomainModels.Payments.TokenizedCard)stateMachine.Context.PaymentInfo).Name = stateMachine.Context.ContactInfo.Name.First + " " + stateMachine.Context.ContactInfo.Name.Last;
+            }
             stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
             foreach (var locationService in stateMachine.Context.Services)

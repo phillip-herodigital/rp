@@ -23,6 +23,16 @@ namespace Cis2AureaAccountImport
             get { throw new NotImplementedException(); }
         }
 
+        StreamEnergy.DomainModels.Enrollments.EnrollmentCustomerType ISubAccount.CustomerType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        string ISubAccount.ProductType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         StreamEnergy.DomainModels.Address ISubAccount.ServiceAddress
         {
             get { throw new NotImplementedException(); }

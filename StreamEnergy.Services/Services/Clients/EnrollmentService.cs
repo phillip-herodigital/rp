@@ -48,21 +48,14 @@ namespace StreamEnergy.Services.Clients
                 var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
                 var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
 
-                var parameters = System.Web.HttpUtility.ParseQueryString("");
-                parameters["ServiceAddress.City"] = location.Address.City;
-                parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
-                parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
-                parameters["ServiceAddress.StreetLine2"] = location.Address.Line2;
-                parameters["ServiceAddress.Zip"] = location.Address.PostalCode5;
-
-                parameters["CustomerType"] = customerType.CustomerType.ToString("g");
-                parameters["EnrollmentType"] = serviceStatus.EnrollmentType.ToString("g");
-
                 var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
-                parameters["UtilityAccountNumber"] = locAdapter.GetUtilityAccountNumber(location.Capabilities);
-                parameters["SystemOfRecord"] = locAdapter.GetSystemOfRecord(location.Capabilities);
-
-                var response = await streamConnectClient.GetAsync("/api/v1/products?" + parameters.ToString());
+                
+                var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/products", new
+                {
+                    CustomerType = customerType.CustomerType.ToString("g"),
+                    EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
+                    Details = locAdapter.GetProductRequest(location),
+                });
 
                 response.EnsureSuccessStatusCode();
                 var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());
@@ -122,7 +115,7 @@ namespace StreamEnergy.Services.Clients
             parameters["Address.StreetLine2"] = location.Address.Line2;
             parameters["Address.Zip"] = location.Address.PostalCode5;
             parameters["UtilityAccountNumber"] = locAdapter.GetUtilityAccountNumber(location.Capabilities);
-            parameters["SystemOfRecord"] = locAdapter.GetSystemOfRecord(location.Capabilities);
+            parameters["SystemOfRecord"] = locAdapter.GetSystemOfRecord();
             if (locAdapter.NeedProvider(location))
             {
                 var provider = locAdapter.GetProvider(offer);
@@ -186,35 +179,9 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        async Task<StreamAsync<EnrollmentSaveResult>> IEnrollmentService.BeginSaveEnrollment(Guid globalCustomerId, UserContext context, NameValueCollection dpiParameters)
+        Task<StreamAsync<EnrollmentSaveResult>> IEnrollmentService.BeginSaveEnrollment(Guid globalCustomerId, UserContext context, NameValueCollection dpiParameters)
         {
-            dpiEnrollmentParameters.Initialize(dpiParameters);
-            var salesInfo = dpiEnrollmentParameters.ToStreamConnectSalesInfo();
-
-            var request = (from service in context.Services
-                           from offer in service.SelectedOffers
-                           let locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(service.Location.Capabilities, offer.Offer))
-                           select locAdapter.ToEnrollmentAccount(globalCustomerId, context, service, offer, salesInfo)).ToArray();
-            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
-            response.EnsureSuccessStatusCode();
-
-            var asyncUrl = response.Headers.Location;
-            return new StreamAsync<EnrollmentSaveResult>
-            {
-                IsCompleted = false,
-                ResponseLocation = asyncUrl
-            };
-        }
-
-        private object BuildDepositObject(SelectedOffer offer, OfferPayment offerPayment)
-        {
-            if (offerPayment == null)
-                return null;
-            return new
-            {
-                Amount = offerPayment.RequiredAmounts.OfType<DepositOfferPaymentAmount>().FirstOrDefault().DollarAmount,
-                IsWaived = offer.WaiveDeposit,
-            };
+            return ((IEnrollmentService)this).BeginSaveUpdateEnrollment(globalCustomerId, null, context, dpiParameters, null);
         }
 
         async Task<StreamAsync<EnrollmentSaveResult>> IEnrollmentService.EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> asyncResult, UserContext context)
@@ -231,25 +198,28 @@ namespace StreamEnergy.Services.Clients
             var responseObject = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
             if ((string)responseObject["Status"] == "Success")
             {
-                var enrollmentResponses = responseObject["EnrollmentResponses"].ToObject<IEnumerable<StreamConnect.CreateOrUpdateEnrollmentResponse>>();
+                var enrollmentResponses = from customer in (IEnumerable<dynamic>)responseObject["EnrollmentResponses"]
+                                          from account in (IEnumerable<dynamic>)customer.Accounts
+                                          select account;
 
                 asyncResult.Data = new EnrollmentSaveResult
                     {
-                        Results = (from entry in enrollmentResponses
-                                   select new EnrollmentSaveEntry
+                        Results = (from serviceWithIndex in context.Services.Select((service, index) => new { service, index })
+                                   let service = serviceWithIndex.service
+                                   from offerWithIndex in service.SelectedOffers.Select((offer, index) => new { offer, index })
+                                   let offer = offerWithIndex.offer
+                                   let index = serviceWithIndex.index.ToString() + " " + offerWithIndex.index.ToString()
+                                   join entry in enrollmentResponses on index equals entry.UniqueKey.ToString()
+                                   select new LocationOfferDetails<EnrollmentSaveEntry>
                                    {
-                                       StreamReferenceNumber = entry.EnrollmentReferenceNumber,
-                                       GlobalEnrollmentAccountId = entry.GlobalEnrollmentAccountId,
-                                   })
-                                   .Zip(from service in context.Services
-                                        from offer in service.SelectedOffers
-                                        select new { service, offer }, (enrollResult, serviceOffer) =>
-                                        new LocationOfferDetails<EnrollmentSaveEntry>
-                                        {
-                                            Details = enrollResult,
-                                            Location = serviceOffer.service.Location,
-                                            Offer = serviceOffer.offer.Offer
-                                        }).ToArray()
+                                       Details = new EnrollmentSaveEntry
+                                       {
+                                           EnrollmentAccountKeyJson = entry.Key.ToString(),
+                                           GlobalEnrollmentAccountId = entry.Key.EnrollmentAccountId,
+                                       },
+                                       Location = service.Location,
+                                       Offer = offer.Offer
+                                   }).ToArray()
                     };
             }
             else
@@ -267,11 +237,14 @@ namespace StreamEnergy.Services.Clients
 
         async Task<StreamAsync<EnrollmentSaveResult>> IEnrollmentService.BeginSaveUpdateEnrollment(Guid globalCustomerId, EnrollmentSaveResult enrollmentSaveResult, UserContext context, NameValueCollection dpiParameters, IEnumerable<LocationOfferDetails<OfferPayment>> offerPayments)
         {
-            foreach (var oldEnrollmentAccountId in from oldResult in enrollmentSaveResult.Results
-                                                   where !context.Services.Any(svcLoc => svcLoc.Location == oldResult.Location && svcLoc.SelectedOffers.Any(o => o.Offer.OfferType == oldResult.Offer.OfferType))
-                                                   select oldResult.Details.GlobalEnrollmentAccountId)
+            if (enrollmentSaveResult != null)
             {
-                await ((IEnrollmentService)this).DeleteEnrollment(globalCustomerId, oldEnrollmentAccountId);
+                foreach (var oldEnrollmentAccountId in from oldResult in enrollmentSaveResult.Results
+                                                       where !context.Services.Any(svcLoc => svcLoc.Location == oldResult.Location && svcLoc.SelectedOffers.Any(o => o.Offer.OfferType == oldResult.Offer.OfferType))
+                                                       select oldResult.Details.GlobalEnrollmentAccountId)
+                {
+                    await ((IEnrollmentService)this).DeleteEnrollment(globalCustomerId, oldEnrollmentAccountId);
+                }
             }
 
 
@@ -286,16 +259,55 @@ namespace StreamEnergy.Services.Clients
                         return temp.Details;
                     return null;
                 };
+            Func<LocationServices, SelectedOffer, JObject> findSaveId = (service, offer) =>
+            {
+                if (enrollmentSaveResult == null)
+                    return null;
+                return enrollmentSaveResult.Results
+                    .Where(r => r.Offer.OfferType == offer.Offer.OfferType && r.Location == service.Location)
+                    .Select(r => JObject.Parse(r.Details.EnrollmentAccountKeyJson))
+                    .FirstOrDefault();
+            };
 
             // Note - updates are being applied to the same location if the offer types match.
             // If there is an offer type where we can have multiple at a single location,
             // this logic will need to change again.
-            var request = (from service in context.Services
-                           from offer in service.SelectedOffers
-                           let previousSaveId = enrollmentSaveResult.Results.Where(r => r.Offer.OfferType == offer.Offer.OfferType && r.Location == service.Location).Select(r => (Guid?)r.Details.GlobalEnrollmentAccountId).FirstOrDefault()
+            var request = (from serviceWithIndex in context.Services.Select((service, index) => new { service, index })
+                           let service = serviceWithIndex.service
+                           from offerWithIndex in service.SelectedOffers.Select((offer, index) => new { offer, index })
+                           let offer = offerWithIndex.offer
+                           let index = serviceWithIndex.index.ToString() + " " + offerWithIndex.index.ToString()
+                           let previousSaveId = findSaveId(service, offer)
                            let locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(service.Location.Capabilities, offer.Offer))
-                           select locAdapter.ToEnrollmentAccount(globalCustomerId, context, service, offer, salesInfo, previousSaveId ?? Guid.Empty, BuildDepositObject(offer, findOfferPayment(service, offer)))).ToArray();
-            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
+                           let accountDetails = new EnrollmentAccountDetails 
+                           { 
+                               RequestUniqueKey = index, 
+                               Location = service.Location, 
+                               Offer = offer, 
+                               EnrollmentAccountKey = previousSaveId, 
+                               OfferPayments = findOfferPayment(service, offer) 
+                           }
+                           group accountDetails by locAdapter into systemOfRecordSet
+                           let customerType = systemOfRecordSet.First().Location.Capabilities.OfType<CustomerTypeCapability>().Single()
+                           select new
+                           {
+                               GlobalCustomerId = globalCustomerId.ToString(),
+                               SystemOfRecord = systemOfRecordSet.Key.GetSystemOfRecord(),
+                               SalesInfo = salesInfo,
+                               CustomerType = customerType.CustomerType.ToString("g"),
+                               FirstName = context.ContactInfo.Name.First,
+                               LastName = context.ContactInfo.Name.Last,
+                               BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
+                               HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
+                               CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
+                               WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
+                               SSN = context.SocialSecurityNumber,
+                               CurrentProvider = context.PreviousProvider,
+                               EmailAddress = context.ContactInfo.Email.Address,
+                               Accounts = from account in systemOfRecordSet
+                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account)
+                           }).ToArray();
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1-1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
             response.EnsureSuccessStatusCode();
 
             var asyncUrl = response.Headers.Location;
@@ -446,7 +458,7 @@ namespace StreamEnergy.Services.Clients
                 assessDeposit = internalContext.IdentityCheck.Data.IdentityAccepted;
             }
 
-            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + streamCustomerId + "/enrollments");
+            var response = await streamConnectClient.GetAsync("/api/v1-1/customers/" + streamCustomerId + "/enrollments");
             response.EnsureSuccessStatusCode();
 
             dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
@@ -454,114 +466,161 @@ namespace StreamEnergy.Services.Clients
             var locationOfferByEnrollmentAccountId = enrollmentSaveStates.Results.ToDictionary(r => r.Details.GlobalEnrollmentAccountId);
             var offerPaymentResults = new List<LocationOfferDetails<OfferPayment>>();
 
-            foreach (var entry in result.EnrollmentAccounts)
+            foreach (var customer in result.EnrollmentCustomers)
             {
-                var enrollmentAccountId = Guid.Parse((string)entry.EnrollmentAccountId.Value);
-                if (locationOfferByEnrollmentAccountId.ContainsKey(enrollmentAccountId))
+                foreach (var entry in customer.Accounts)
                 {
-                    decimal deposit = 0;
-                    if (assessDeposit && entry.Premise.Deposit != null)
-                        deposit = (decimal)entry.Premise.Deposit.Amount.Value;
+                    var enrollmentAccountId = Guid.Parse((string)entry.Key.EnrollmentAccountId.Value);
+                    if (locationOfferByEnrollmentAccountId.ContainsKey(enrollmentAccountId))
+                    {
+                        var location = locationOfferByEnrollmentAccountId[enrollmentAccountId].Location;
+                        var offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer;
+                        var option = services.First(s => s.Location == location).SelectedOffers.First(s => s.Offer.Id == offer.Id).OfferOption;
+                        var optionRules = internalContext.OfferOptionRules.First(rule => rule.Location == location && rule.Offer.Id == offer.Id).Details;
+                        var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
 
-                    var location = locationOfferByEnrollmentAccountId[enrollmentAccountId].Location;
-                    var offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer;
-                    var option = services.First(s => s.Location == location).SelectedOffers.First(s => s.Offer.Id == offer.Id).OfferOption;
-                    var optionRules = internalContext.OfferOptionRules.First(rule => rule.Location == location && rule.Offer.Id == offer.Id).Details;
-
-                    offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
-                        {
-                            Location = location,
-                            Offer = offer,
-                            Details = new OfferPayment
+                        offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
                             {
-                                EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
-                                OngoingAmounts = new IOfferPaymentAmount[] 
-                                {
-                                },
-                                RequiredAmounts = new IOfferPaymentAmount[] 
-                                {
-                                    // TODO future - installation fees
-                                    new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.SystemOfRecord, DepositAccount = entry.SystemOfRecordAccountNumber }
-                                },
-                                PostBilledAmounts = optionRules.GetPostBilledPayments(option)
-                            }
-                        });
+                                Location = location,
+                                Offer = offer,
+                                Details = locAdapter.GetOfferPayment(entry, assessDeposit, optionRules, option)
+                            });
+                    }
                 }
             }
 
             return offerPaymentResults;
         }
 
-        async Task<IEnumerable<LocationOfferDetails<DomainModels.Payments.PaymentResult>>> IEnrollmentService.PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, DomainModels.Payments.IPaymentInfo paymentInfo, UserContext context)
+        //async Task<IEnumerable<LocationOfferDetails<DomainModels.Payments.PaymentResult>>> IEnrollmentService.PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, DomainModels.Payments.IPaymentInfo paymentInfo, UserContext context)
+        //{
+        //    var card = paymentInfo as DomainModels.Payments.TokenizedCard;
+        //    if (card == null)
+        //        return Enumerable.Empty<LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
+
+        //    List<LocationOfferDetails<DomainModels.Payments.PaymentResult>> result = new List<LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
+        //    foreach (var deposit in from deposit in depositData
+        //                            let amt = deposit.Details.RequiredAmounts.OfType<DepositOfferPaymentAmount>().SingleOrDefault()
+        //                            where amt != null
+        //                            where !context.Services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit || !amt.CanBeWaived
+        //                            group new { deposit.Location, deposit.Offer, amt.DollarAmount } by new { amt.SystemOfRecord, amt.DepositAccount })
+        //    {
+        //        var depositAmount = deposit.Sum(d => d.DollarAmount);
+        //        if (depositAmount == 0)
+        //        {
+        //            continue;
+        //        }
+
+        //        var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/one-time", new
+        //        {
+        //            PaymentDate = DateTime.Today,
+        //            InvoiceType = "Deposit",
+        //            Amount = depositAmount,
+        //            StreamAccountNumber = deposit.Key.DepositAccount,
+        //            CustomerName = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
+        //            SystemOfRecord = deposit.Key.SystemOfRecord,
+        //            PaymentAccount = new
+        //            {
+        //                Token = card.CardToken,
+        //                AccountType = "Unknown",
+        //                ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
+        //                Name = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
+        //                Postal = card.BillingZipCode,
+        //            },
+        //            Cvv = card.SecurityCode
+        //        });
+        //        dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+        //        foreach (var entry in deposit)
+        //        {
+        //            result.Add(new LocationOfferDetails<DomainModels.Payments.PaymentResult>
+        //                {
+        //                    Location = entry.Location,
+        //                    Offer = entry.Offer,
+        //                    Details = new DomainModels.Payments.PaymentResult
+        //                    {
+        //                        ConfirmationNumber = jobject.ConfirmationNumber,
+        //                        ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
+        //                    }
+        //                });
+        //        }
+        //    }
+
+        //    return result.ToArray();
+        //}
+
+
+        async Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> IEnrollmentService.BeginPlaceOrder(UserContext context, InternalContext internalContext)
         {
-            var card = paymentInfo as DomainModels.Payments.TokenizedCard;
-            if (card == null)
-                return Enumerable.Empty<LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
+            var hasSpecialCommercial = (from service in context.Services
+                                        let locAdapter = enrollmentLocationAdapters.FirstOrDefault(e => e.IsFor(service.Location.Capabilities))
+                                        select locAdapter.HasSpecialCommercialEnrollment(service.Location.Capabilities)).Any(e => e);
 
-            List<LocationOfferDetails<DomainModels.Payments.PaymentResult>> result = new List<LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
-            foreach (var deposit in from deposit in depositData
-                                    let amt = deposit.Details.RequiredAmounts.OfType<DepositOfferPaymentAmount>().SingleOrDefault()
-                                    where amt != null
-                                    where !context.Services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit || !amt.CanBeWaived
-                                    group new { deposit.Location, deposit.Offer, amt.DollarAmount } by new { amt.SystemOfRecord, amt.DepositAccount })
+            if (hasSpecialCommercial)
             {
-                var depositAmount = deposit.Sum(d => d.DollarAmount);
-                if (depositAmount == 0)
-                {
-                    continue;
-                }
-
-                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/one-time", new
-                {
-                    PaymentDate = DateTime.Today,
-                    InvoiceType = "Deposit",
-                    Amount = depositAmount,
-                    StreamAccountNumber = deposit.Key.DepositAccount,
-                    CustomerName = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
-                    SystemOfRecord = deposit.Key.SystemOfRecord,
-                    PaymentAccount = new
+                // WARNING - if this is mixed special enrollment vs. standard enrollment, the standard enrollment gets skipped!
+                var results = await PlaceCommercialQuotes(context);
+                return new StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>
                     {
-                        Token = card.CardToken,
-                        AccountType = "Unknown",
-                        ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
-                        Name = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
-                        Postal = card.BillingZipCode,
-                    },
-                    Cvv = card.SecurityCode
-                });
-                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
-
-                foreach (var entry in deposit)
-                {
-                    result.Add(new LocationOfferDetails<DomainModels.Payments.PaymentResult>
-                        {
-                            Location = entry.Location,
-                            Offer = entry.Offer,
-                            Details = new DomainModels.Payments.PaymentResult
-                            {
-                                ConfirmationNumber = jobject.ConfirmationNumber,
-                                ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
-                            }
-                        });
-                }
+                        IsCompleted = true,
+                        Data = (from service in context.Services
+                                select new LocationOfferDetails<PlaceOrderResult>()
+                                {
+                                    Location = service.Location,
+                                    Details = results,
+                                    Offer = service.SelectedOffers.First().Offer,
+                                }).ToArray()
+                    };
             }
 
-            return result.ToArray();
-        }
-
-
-        async Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations, InternalContext internalContext)
-        {
             var streamCustomerId = internalContext.GlobalCustomerId;
             var originalSaveState = internalContext.EnrollmentSaveState.Data;
             var depositInfo = internalContext.Deposit;
-            var finalizeResponse = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
+            
+            List<object> initialPayments = new List<object>();
+            if (context.PaymentInfo is DomainModels.Payments.TokenizedCard)
+            {
+                var card = (DomainModels.Payments.TokenizedCard)context.PaymentInfo;
+                foreach (var deposit in from deposit in internalContext.Deposit
+                                        let amt = deposit.Details.RequiredAmounts.OfType<IInitialPaymentAmount>().SingleOrDefault()
+                                        where amt != null
+                                        where !context.Services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit || !amt.CanBeWaived
+                                        group new { deposit.Location, deposit.Offer, amt.DollarAmount } by new { amt.SystemOfRecord, amt.DepositAccount })
+                {
+                    var depositAmount = deposit.Sum(d => d.DollarAmount);
+                    if (depositAmount == 0)
+                    {
+                        continue;
+                    }
+
+                    initialPayments.Add(new
+                    {
+                        PaymentDate = DateTime.Today,
+                        InvoiceType = "Deposit",
+                        Amount = depositAmount,
+                        StreamAccountNumber = deposit.Key.DepositAccount,
+                        CustomerName = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
+                        SystemOfRecord = deposit.Key.SystemOfRecord,
+                        PaymentAccount = new
+                        {
+                            Token = card.CardToken,
+                            AccountType = "Unknown",
+                            ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
+                            Name = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
+                            Postal = card.BillingZipCode,
+                        },
+                        Cvv = card.SecurityCode
+                    });
+                }
+            }
+
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
                 GlobalCustomerID = streamCustomerId,
-                Authorizations = new[] { new KeyValuePair<string, bool>("TermsAndConditions", true) }.Concat(additionalAuthorizations.SelectMany(ConvertAuthorization)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                Authorizations = new[] { new KeyValuePair<string, bool>("TermsAndConditions", true) }.Concat(context.AdditionalAuthorizations.SelectMany(ConvertAuthorization)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
                 EnrollmentAccounts = from orderEntry in originalSaveState.Results
                                      join depositAmounts in depositInfo on new { orderEntry.Location, orderEntry.Offer.Id } equals new { depositAmounts.Location, depositAmounts.Offer.Id }
                                      let deposit = depositAmounts.Details.RequiredAmounts.Any(amt => amt is DepositOfferPaymentAmount && amt.DollarAmount > 0)
-                                     join locationService in services on orderEntry.Location equals locationService.Location
+                                     join locationService in context.Services on orderEntry.Location equals locationService.Location
                                      let offer = locationService.SelectedOffers.FirstOrDefault(o => o.Offer.Id == orderEntry.Offer.Id)
                                      where offer != null
                                      select new
@@ -569,31 +628,65 @@ namespace StreamEnergy.Services.Clients
                                          EnrollmentAccountId = orderEntry.Details.GlobalEnrollmentAccountId,
                                          DepositWaiverRequested = offer.WaiveDeposit,
                                          DepositPaymentMade = deposit && !offer.WaiveDeposit
-                                     }
+                                     },
+                InitialPayments = initialPayments,
+                RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted
             });
+
+            var asyncUrl = response.Headers.Location;
+            return new StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>
+            {
+                IsCompleted = false,
+                ResponseLocation = asyncUrl
+            };
+        }
+
+        async Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> IEnrollmentService.EndPlaceOrder(StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> asyncResult, EnrollmentSaveResult originalSaveState)
+        {
+            var finalizeResponse = await streamConnectClient.GetAsync(asyncResult.ResponseLocation);
+            if (finalizeResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return asyncResult;
+            }
             finalizeResponse.EnsureSuccessStatusCode();
             dynamic result = Json.Read<JObject>(await finalizeResponse.Content.ReadAsStringAsync());
 
+            asyncResult.IsCompleted = true;
             if (result.Status.Value == "Success")
             {
-                return (from saved in originalSaveState.Results
-                        let response = (dynamic)((IEnumerable<dynamic>)result.EnrollmentResponses).First(r => r.GlobalEnrollmentAccountId == saved.Details.GlobalEnrollmentAccountId)
-                        select new LocationOfferDetails<PlaceOrderResult>
-                {
-                    Location = saved.Location,
-                    Offer = saved.Offer,
-                    Details = new PlaceOrderResult 
-                    { 
-                        ConfirmationNumber = response.EnrollmentReferenceNumber, 
-                        IsSuccess = response.Status.Value == "Success" 
-                    }
-                }).ToArray();
+                asyncResult.Data = (from saved in originalSaveState.Results
+                                    let response = ((IEnumerable<dynamic>)result.EnrollmentResponses)
+                                        .SelectMany(r => (IEnumerable<dynamic>)r.Accounts)
+                                        .First(r => r.GlobalEnrollmentAccountId == saved.Details.GlobalEnrollmentAccountId)
+                                    select new LocationOfferDetails<PlaceOrderResult>
+                                    {
+                                        Location = saved.Location,
+                                        Offer = saved.Offer,
+                                        Details = new PlaceOrderResult
+                                        {
+                                            ConfirmationNumber = response.EnrollmentReferenceNumber,
+                                            IsSuccess = true,
+                                            PaymentConfirmation = ToPaymentResult(response.PaymentResponse),
+                                        }
+                                    }).ToArray();
             }
 
-            return Enumerable.Empty<LocationOfferDetails<PlaceOrderResult>>();
+            return asyncResult;
         }
 
-        async Task<PlaceOrderResult> IEnrollmentService.PlaceCommercialQuotes(UserContext context)
+        private DomainModels.Payments.PaymentResult ToPaymentResult(dynamic paymentResponse)
+        {
+            if (paymentResponse == null)
+                return null;
+
+            return new DomainModels.Payments.PaymentResult
+            {
+                ConfirmationNumber = paymentResponse.ConfirmationNumber,
+                ConvenienceFee = (decimal)paymentResponse.ConvenienceFee.Value,
+            };
+        }
+
+        public async Task<PlaceOrderResult> PlaceCommercialQuotes(UserContext context)
         {
             List<object> premises = new List<object>();
             foreach (var serviceLocation in context.Services)
@@ -690,19 +783,22 @@ namespace StreamEnergy.Services.Clients
 
         async Task<StreamAsync<RenewalResult>> IEnrollmentService.BeginRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount, IOffer offer, IOfferOption renewalOptions)
         {
-            var georgiaGasOffer = offer as DomainModels.Enrollments.GeorgiaGas.Offer;
             var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(subAccount));
+
+            string code, id;
+
+            locAdapter.GetRenewalValues(offer, out code, out id);
 
             account.Capabilities.RemoveAll(r => r.CapabilityType == DomainModels.Accounts.RenewalAccountCapability.Qualifier);
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals", new
                 {
                     SystemOfRecordAccountNumber = account.AccountNumber,
-                    ProductCode = georgiaGasOffer.Code,
-                    ProductId = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1],
+                    ProductCode = code,
+                    ProductId = id,
                     //StartDate = ???,
                     CustomerLast4 = account.Details.SsnLastFour,
                     SystemOfRecord = account.SystemOfRecord,
-                    ProductType = account.Details.ProductType,
+                    ProductType = subAccount.ProductType,
                     UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
                     EmailAddress = account.Details.ContactInfo.Email == null ? null : account.Details.ContactInfo.Email.Address,
                     ProviderId = locAdapter.GetProvider(subAccount),
@@ -734,9 +830,9 @@ namespace StreamEnergy.Services.Clients
             {
                 ConfirmationNumber = (string)jobject.CisAccountNumber,
                 IsSuccess = (string)jobject.Status == "Success",
-                RenewalDate = (DateTime)jobject.RenewalDate,
-                ContractStartDate = (DateTime)jobject.ContractStartDate,
-                ContractEndDate = (DateTime)jobject.ContractEndDate,
+                RenewalDate = (DateTime?)jobject.RenewalDate,
+                ContractStartDate = (DateTime?)jobject.ContractStartDate,
+                ContractEndDate = (DateTime?)jobject.ContractEndDate,
             };
             return asyncResult;
         }

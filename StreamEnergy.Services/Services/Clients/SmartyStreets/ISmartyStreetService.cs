@@ -10,5 +10,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
         Task<IEnumerable<Address>> CleanseAddress(UncleansedAddress[] addresses);
 
         Task<DomainModels.Address[][]> CleanseAddressOptions(DomainModels.Address[] addresses);
+
+        Task<String[]> LookupZip(string postalCode5);
     }
 }

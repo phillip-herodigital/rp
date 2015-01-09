@@ -1,0 +1,32 @@
+﻿@{
+    var sc = Html.Sitecore();
+    var componentClasses = new List<string>();
+    var gridClasses = new List<string>();
+    componentClasses.Add(sc.CurrentItem["Component CSS Classes"]);
+    gridClasses.Add(sc.CurrentItem["Grid CSS Classes"]);
+}
+<article class="marketing @string.Join(" ", componentClasses)">
+    <div class="wrapper">
+        @Html.Sitecore().Field("Header")
+        @{
+            var divClass = "two";
+            if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Column Four Content"].Value))
+            {
+                divClass = "four";
+            }
+            else if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Column Three Content"].Value))
+            {
+                divClass = "three";
+            }
+            <div class="grid @string.Join(" ", gridClasses) @divClass">
+                @foreach (var num in new[] { "Column One", "Column Two", "Column Three", "Column Four" }.Where(num => !string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields[num + " Content"].Value)))
+                {
+                    <div class="col @Html.Sitecore().Field(num + " Classes")">
+                        @Html.Sitecore().Field(num + " Content")
+                    </div>
+                }
+            </div>
+        }
+        @Html.Sitecore().Field("Footer")
+    </div>
+</article>

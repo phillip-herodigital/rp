@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using ResponsivePath.Validation;
 using Sitecore.Links;
 using StackExchange.Redis;
+using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -37,10 +38,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
         private readonly ICurrentUser currentUser;
         private readonly EnrollmentController enrollmentController;
+        private readonly IEnrollmentService enrollmentService;
         private readonly IDatabase redis;
         private const string redisPrefix = "AddNewAccount_FindAccount_";
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis, IEnrollmentService enrollmentService)
         {
             this.container = container;
             this.accountService = accountService;
@@ -53,6 +55,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.currentUser = currentUser;
             this.enrollmentController = enrollmentController;
             this.redis = redis;
+            this.enrollmentService = enrollmentService;
         }
 
         protected override void Dispose(bool disposing)
@@ -68,13 +71,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<GetAccountBalancesResponse> GetAccountBalances()
         {
             currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
-            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var accountInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
 
             return new GetAccountBalancesResponse
             {
                 Accounts =  from account in currentUser.Accounts
-                            let invoice = acocuntInvoices.First(t => t.AccountNumber == account.AccountNumber && t.Invoices != null).Invoices.LastOrDefault()
-                            select CreateViewAccountBalances(account, invoice)
+                            let invoiceAcct = accountInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
+                            select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.LastOrDefault() : null)
             };
         }
 
@@ -90,7 +93,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
             };
 
-            if (invoice.PdfAvailable)
+            if (invoice != null && invoice.PdfAvailable)
             {
                 result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
             }
@@ -159,6 +162,149 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Mobile Usage
+        [HttpPost]
+        public async Task<GetMobileUsageResponse> GetMobileUsage(GetMobileUsageRequest request)
+        {
+            var accountNumber = request.AccountNumber;
+
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            }
+
+            var account = currentUser.Accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
+
+            if (account == null)
+            {
+                return null;
+            }
+            if (account.Details == null && !await accountService.GetAccountDetails(account, true))
+            {
+                return null;
+            }
+
+            var mobileAccountDetails = account.Details as MobileAccountDetails;
+            if (mobileAccountDetails == null)
+            {
+                return null;
+            }
+
+            var startDate = request.StartDate.HasValue ? request.StartDate.Value : mobileAccountDetails.LastBillDate;
+            var endDate = request.EndDate.HasValue ? request.EndDate.Value : mobileAccountDetails.NextBillDate;
+
+            if (await accountService.GetAccountUsageDetails(account, startDate, endDate, false))
+            {
+                return new GetMobileUsageResponse()
+                {
+                    NextBillingDate = endDate,
+                    LastBillingDate = startDate,
+                    DataUsageLimit = account.Usage.Max(p => ((MobileAccount)p.Key).PlanDataAvailable),
+                    DeviceUsage = from row in account.Usage
+                                  let device = row.Key as MobileAccount
+                                  let usage = row.Value as MobileAccountUsage
+                                  select new MobileUsage()
+                                  {
+                                      Name = device.EquipmentId,
+                                      Number = device.PhoneNumber,
+                                      Id = device.Id,
+                                      DataUsage = usage.DataUsage,
+                                      MessagesUsage = usage.MessagesUsage,
+                                      MinutesUsage = usage.MinutesUsage,
+                                  },
+                };
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region Mobile Change Plan
+        [HttpPost]
+        public async Task<GetMobilePlanOptionsResponse> MobileGetPlanOptions(GetMobilePlanOptionsRequest request)
+        {
+            var accountNumber = request.AccountNumber;
+
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            }
+
+            var account = currentUser.Accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
+
+            if (account == null)
+            {
+                return null;
+            }
+            if (account.Details == null  && !await accountService.GetAccountDetails(account, true))
+            {
+                return null;
+            }
+
+            var plans = await enrollmentService.LoadOffers(new Location[] {
+                new Location() {
+                    Address = account.Details.BillingAddress,
+                    Capabilities = new StreamEnergy.DomainModels.IServiceCapability[]
+                    {
+                        new ServiceStatusCapability() {
+                            EnrollmentType = EnrollmentType.MoveIn,
+                        },
+                        new CustomerTypeCapability() {
+                            CustomerType = EnrollmentCustomerType.Commercial,
+                        },
+                        new DomainModels.Enrollments.Mobile.ServiceCapability(),
+                    }
+                },
+            });
+
+
+            var subAccountForPlan = (account.SubAccounts.Count() == 0 ? account.SubAccounts[0] : account.SubAccounts.FirstOrDefault(sa => ((MobileAccount)sa).IsParentGroup == true)) as MobileAccount;
+            return new GetMobilePlanOptionsResponse()
+            {
+                CurrentPlanId = subAccountForPlan != null ? subAccountForPlan.PlanId : null,
+                EffectiveDate = DateTime.Now,
+                DataPlans = (from offer in plans.First().Value.Offers
+                             let mobileOffer = offer as DomainModels.Enrollments.Mobile.Offer
+                             where mobileOffer != null
+                             where (account.SubAccounts.Count() == 1 && mobileOffer.IsParentOffer == false) || (account.SubAccounts.Count() > 1 && mobileOffer.IsParentOffer == true)
+                             select mobileOffer).ToArray(),
+            };
+        }
+
+        [HttpPost]
+        public async Task<ChangePlanResponse> ChangeMobilePlan(ChangePlanRequest request)
+        {
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            }
+
+            var account = currentUser.Accounts.FirstOrDefault(a => a.AccountNumber == request.AccountNumber);
+
+            if (account == null)
+            {
+                return new ChangePlanResponse()
+                {
+                    Success = false,
+                };
+            }
+            if (account.Details == null  && !await accountService.GetAccountDetails(account, true))
+            {
+                return new ChangePlanResponse()
+                {
+                    Success = false,
+                };
+            }
+
+            var response = await accountService.ChangePlan(account, request.OldPlanId, request.NewPlanId, request.NewChildPlanId);
+
+            return new ChangePlanResponse()
+            {
+                Success = response,
+            };
+        }
+        #endregion
+
         #region Invoices
 
         [HttpGet]
@@ -185,6 +331,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 AccountNumber = account.AccountNumber,
                 ServiceType = account.AccountType,
                 InvoiceNumber = invoice.InvoiceNumber,
+                InvoiceDate = invoice.InvoiceDate,
                 InvoiceAmount = invoice.InvoiceAmount,
                 DueDate = invoice.DueDate,
                 CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
@@ -237,7 +384,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<GetAccountBalancesTableResponse> GetAccountBalancesTable()
         {
             currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
-            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var accountInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
             
             return new GetAccountBalancesTableResponse
             {
@@ -245,8 +392,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 {
                     ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
                     Values = from account in currentUser.Accounts
-                             let invoice = acocuntInvoices.First(t => t.AccountNumber == account.AccountNumber && t.Invoices != null).Invoices.LastOrDefault()
-                             select CreateViewAccountBalances(account, invoice)
+                             let invoiceAcct = accountInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
+                             select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.LastOrDefault() : null)
                 }
             };
         }
@@ -381,7 +528,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 AccountId = account.StreamConnectAccountId,
                 SubAccounts = account.SubAccounts,
-                RenewalCapability = (account.Details.CustomerType == "Residential") ? account.GetCapability<RenewalAccountCapability>() : null
+                RenewalCapability = account.GetCapability<RenewalAccountCapability>()
             };
         }
 
@@ -534,9 +681,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
             var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
 
-            if (account.SubAccounts != null && (account.SubAccounts[0]) != null && (account.SubAccounts[0]).SubAccountType == "GeorgiaGas")
+            if (account.SubAccounts != null && (account.SubAccounts[0]) != null)
             {
-                serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
+                if (account.SubAccounts[0].SubAccountType == "GeorgiaGas")
+                {
+                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
+                }
+                else if (account.SubAccounts[0].SubAccountType == "TexasElectricity")
+                {
+                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.TexasElectricityAccount)(account.SubAccounts[0])).ServiceAddress;
+                }
             }
             
             if (serviceAddress.Equals(account.Details.BillingAddress))
@@ -694,11 +848,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var validations = validation.CompleteValidate(request);
 
             // make sure the account isn't already associated
-            var existingAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
-            if (existingAccount != null)
+            if (currentUser.Accounts == null)
             {
-                var val = new ValidationResult("Account Already Associated", new[] { "AccountNumber" });
-                validations = validations.Concat(new[] { val });
+                currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            }
+            if (currentUser.Accounts != null)
+            {
+                var existingAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+                if (existingAccount != null)
+                {
+                    var val = new ValidationResult("Account Already Associated", new[] { "AccountNumber" });
+                    validations = validations.Concat(new[] { val });
+                }
             }
             
             // locked out after 5 tries
@@ -709,10 +870,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 validations = validations.Concat(new[] { val });
             }
 
-            var internalAccount = await accountService.GetAccountDetails(request.AccountNumber);
-            if (internalAccount != null && internalAccount.Details.SsnLastFour != request.SsnLast4)
+            var internalAccount = await accountService.GetAccountDetails(request.AccountNumber, request.SsnLast4);
+            if (internalAccount == null)
             {
-                internalAccount = null;
                 await redis.StringIncrementAsync(redisPrefix + request.AccountNumber);
                 await redis.KeyExpireAsync(redisPrefix + request.AccountNumber, TimeSpan.FromMinutes(30));
             }
@@ -967,7 +1127,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             bool isSuccess = false;
 
-            if (currentUser.Accounts != null)
+            if (currentUser.Accounts == null)
             {
                 currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             }

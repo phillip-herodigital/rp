@@ -1,0 +1,137 @@
+button, .button {
+	@include border-radius($button-border-radius);
+	display: inline-block;
+	padding: $button-padding;
+	background-color: $button-primary-bg;
+	border: 0;
+	color: $button-primary-color;
+	text-align: center;
+	font-size: $button-font-size;
+	font-weight: $button-font-weight;
+	line-height: $line-height;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+	@include background-image(linear-gradient(lighten($button-primary-bg, 25%), $button-primary-bg));
+
+	&:hover {
+		background-color: #6b6b6b;
+		@include background-image(linear-gradient(lighten($button-primary-bg, 30%), lighten($button-primary-bg, 5%)));
+		color: #fff;
+	}
+
+	&:disabled, &.disabled {
+		color: $button-disabled-color;
+		background-color: $button-disabled-bg;
+		background-image: none;
+		opacity: .5;
+		cursor: default;
+	}
+
+	&.small {
+		font-size: $button-small-font-size;
+		padding: $button-small-padding;
+	}
+
+	&.large {
+		font-size: $button-large-font-size;
+		padding: $button-large-padding;
+	}
+
+	&.secondary {
+ 		color: $button-secondary-color;
+ 		text-shadow: 0 1px 0 rgba(255, 255, 255, .1);
+ 		background-color: $button-secondary-bg;
+ 		border: 1px solid $input-border-color;
+ 		@include background-image(linear-gradient(#fcfcfc, #f1f1f1));
+ 	}
+
+ 	&.tertiary {
+ 		background-color: $button-tertiary-bg;
+ 		background-image: none;
+ 		color: $button-tertiary-color;
+ 		&.disabled {
+ 			color: lighten($text-primary-color, 30%);
+ 		}
+ 	}
+
+ 	&.grey {
+ 		background-color: #e9e9e9;
+ 		@include background-image(linear-gradient(#eee, #e9e9e9));
+ 		color: $text-primary-color;
+ 	}
+
+ 	&.green {
+ 		background-color: #56a21f;
+ 		@include background-image(linear-gradient(#55be0d, #56a21f));
+ 	}
+
+ 	&.teal {
+ 		background-color: #17b0ae;
+		@include background-image(linear-gradient(#1cbfbd, #17b0ae));
+ 	}
+
+	&.plain {
+		background: none;
+		color: #333;
+	}
+
+	&.link {
+		background-color: transparent;
+		background-image: none;
+		color: $link-primary-color;
+		text-shadow: none;
+	}
+
+	&.social {
+		display: inline-block;
+		width: 190px;
+		position: relative;
+		padding-left: 50px;
+		.icon-holder {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			width: 40px;
+			text-align: center;
+			i {
+				position: absolute;
+				top: 15px;
+				left: 13px;
+			}
+		}
+	}
+
+	&.facebook {
+		background: #4a6aa9;
+		border: 1px solid #3e5c9b;
+		.icon-holder {
+			border-right: 1px solid #3e5c9b;
+			i {
+				left: 16px;
+			}
+		}
+	}
+
+	&.twitter {
+		background: #36a5ca;
+		border: 1px solid #2a86a6;
+		.icon-holder {
+			border-right: 1px solid #2a86a6;
+			i {
+				top: 16px;
+			}
+		}
+	}
+
+	&.linkedin {
+		background: #2386bb;
+		border: 1px solid #1f557e;
+		.icon-holder {
+			border-right: 1px solid #1f557e;
+		}
+	}
+
+	/*i {
+		margin: -4px 5px 0 0;
+	}*/
+}

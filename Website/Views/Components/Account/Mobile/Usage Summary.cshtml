@@ -1,34 +1,56 @@
-﻿<article class="grey-box mobile" ng-controller="MakePaymentCtrl">
+﻿<article class="grey-box mobile usage-summary" ng-controller="DataUsageSummaryCtrl" ng-init="init()" loading-indicator>
     <header class="clearfix">
         <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
-        <div class="header-right">
-            <select>
-                <option>@Html.Sitecore().Field("Select Option")</option>
-                <option>@Html.Sitecore().Field("Select Option 2")</option>
-            </select>
-        </div>
     </header>
-    
     <div class="content">
-        <div class="notice alert">
-            <p>@Html.Sitecore().Field("Notice Text")</p>
-        </div>
-        <div>
-            <form>
-                <div class="group">
-                    <div class="item current-data">
-                        <p>@Html.Sitecore().Field("Current Usage Text")</p>
-                    </div>
-                    <div class="item historical-data">
-                        <p>@Html.Sitecore().Field("Historical Usage Text")</p>
-                    </div>
+        <p>@Html.Sitecore().Field("Current Usage Text")</p>
+        <div class="current-usage" ng-show="data.deviceUsage.length">
+            <div class="usage-meter clearfix" ng-class="{overage: data.totalUsage > data.dataUsageLimit}">
+                <span class="bar estimated" ng-style="{width: getPercentage(data.estimatedUsage, data.graphScale.low, data.graphScale.high)+'%'}">
+                    <span class="picket"></span>
+                    <span class="label">Estimated: {{ data.estimatedUsage | gigabyte }} GB</span>
+                </span>
+                <span class="bar used" ng-style="{width:getPercentage(data.totalUsage, data.graphScale.low, data.graphScale.high)+'%'}">
+                    <span class="picket"></span>
+                    <span class="label" ng-mouseover="showBreakdown = true" ng-mouseleave="showBreakdown = false">
+                        Usage: {{ data.totalUsage | gigabyte }} GB of {{ data.dataUsageLimit | gigabyte }} GB
+                        <div class="breakdown" ng-show="showBreakdown">
+                            <table>
+                                <thead>
+                                    <tr><td colspan="2">Usage Breakdown</td></tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="device in data.deviceUsage">
+                                        <td class="device-name">{{ device.number | phone }}</td>
+                                        <td class="device-number">{{ device.dataUsage | gigabyte }} GB</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </span>
+                </span>
+                <span class="bar total" ng-style="{width:getPercentage(data.dataUsageLimit, data.graphScale.low, data.graphScale.high)+'%'}">
+                    <span class="picket"></span>
+                    <span class="label">{{ data.dataUsageLimit | gigabyte }} GB <br />@Html.Sitecore().Field("Data Plan")</span>
+                </span>
+            </div>
+            <div class="scale">
+                <div class="scale-label low">
+                    <span class="picket"></span>
+                    <span class="label">{{ data.graphScale.low }} GB</span>
                 </div>
-            </form>
+                <div class="scale-label mid">
+                    <span class="picket"></span>
+                    <span class="label">{{ data.graphScale.middle }}  GB</span>
+                </div>
+                <div class="scale-label high">
+                    <span class="picket"></span>
+                    <span class="label">{{ data.graphScale.high }}  GB</span>
+                </div>
+            </div>
         </div>
     </div>
-
     <footer>
-        <p>@Html.Sitecore().Field("Footer Text")</p>
+        @Html.Sitecore().Field("Footer Text")
     </footer>
 </article>
-

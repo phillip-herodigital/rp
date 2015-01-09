@@ -36,7 +36,7 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(DomainModels.Accounts.ISubAccount subAccount)
         {
-            return false;
+            return subAccount is DomainModels.Accounts.TexasElectricityAccount;
         }
 
         bool ILocationAdapter.NeedProvider(Location location)
@@ -50,9 +50,8 @@ namespace StreamEnergy.Services.Clients
             return capability.EsiId;
         }
 
-        string ILocationAdapter.GetSystemOfRecord(IEnumerable<IServiceCapability> capabilities)
+        string ILocationAdapter.GetSystemOfRecord()
         {
-            var capability = capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
             return "CIS1";
         }
 
@@ -96,10 +95,11 @@ namespace StreamEnergy.Services.Clients
             {
                 Offers = (from product in streamConnectProductResponse.Products
                           // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
-                          where product.Rates.All(r => r.Unit == "$/kwh")
+                          where ((IEnumerable<dynamic>)product.Rates).All(r => r.Unit == "$/kwh")
+                          where texasService is TexasElectricity.RenewalCapability || product.Provider["Name"].ToString() == providerName
                           group product by product.ProductCode into products
-                          let product = products.First(p => p.Provider["Name"].ToString() == providerName)
-                          let productData = sitecoreProductData.GetTexasElectricityProductData(product)
+                          let product = products.First()
+                          let productData = sitecoreProductData.GetTexasElectricityProductData(product.ProductCode.ToString(), product.Provider.Name.ToString())
                           where productData != null
                           select new TexasElectricity.Offer
                           {
@@ -111,13 +111,13 @@ namespace StreamEnergy.Services.Clients
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],
 
-                              Rate = product.Rates.First(r => r.EnergyType == "Average").Value * 100,
-                              StreamEnergyCharge = product.Rates.First(r => r.EnergyType == "Energy").Value * 100,
+                              Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value * 100,
+                              StreamEnergyCharge = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Energy").Value * 100,
                               MinimumUsageFee = productData.Fields["Minimum Usage Fee"],
                               TduCharges = productData.Fields["TDU Charges"],
                               TermMonths = product.Term,
-                              RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
-                              TerminationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
+                              RateType = ((IEnumerable<dynamic>)product.Rates).Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
+                              TerminationFee = ((IEnumerable<dynamic>)product.Fees).Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
 
                               Footnotes = productData.Footnotes,
 
@@ -139,31 +139,22 @@ namespace StreamEnergy.Services.Clients
 
 
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, UserContext context, LocationServices service, SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId, dynamic depositObject)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
-            var texasElectricityOffer = offer.Offer as TexasElectricity.Offer;
-            var texasService = service.Location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
-            var serviceStatus = service.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
-            var customerType = service.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
+            var texasElectricityOffer = account.Offer.Offer as TexasElectricity.Offer;
+            var texasService = account.Location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
+            var serviceStatus = account.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
+            var customerType = account.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
             return new
             {
-                GlobalCustomerId = globalCustomerId.ToString(),
-                SalesInfo = salesInfo,
-                CustomerType = customerType.CustomerType.ToString("g"),
-                EnrollmentAccountId = enrollmentAccountId ?? Guid.Empty,
-                FirstName = context.ContactInfo.Name.First,
-                LastName = context.ContactInfo.Name.Last,
-                BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
-                HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
-                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
-                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
-                SSN = context.SocialSecurityNumber,
-                CurrentProvider = context.PreviousProvider,
-                EmailAddress = context.ContactInfo.Email.Address,
+                ServiceType = "Utility",
+                Key = account.EnrollmentAccountKey,
+                RequestUniqueKey = account.RequestUniqueKey,
+
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    SelectedMoveInDate = (offer.OfferOption is TexasElectricity.MoveInOfferOption) ? ((TexasElectricity.MoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
+                    SelectedMoveInDate = (account.Offer.OfferOption is TexasElectricity.MoveInOfferOption) ? ((TexasElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
                     UtilityProvider = JObject.Parse(texasElectricityOffer.Provider),
                     UtilityAccountNumber = texasService.EsiId,
                     Product = new
@@ -172,9 +163,9 @@ namespace StreamEnergy.Services.Clients
                         ProductCode = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1],
                         Term = texasElectricityOffer.TermMonths
                     },
-                    ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
+                    ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Electricity",
-                    Deposit = depositObject
+                    Deposit = StreamConnectUtilities.ToStreamConnectDeposit(account.OfferPayments, account.Offer.WaiveDeposit),
                 }
             };
         }
@@ -186,28 +177,100 @@ namespace StreamEnergy.Services.Clients
 
         string ILocationAdapter.GetProvider(DomainModels.Accounts.ISubAccount subAccount)
         {
-            return null;
+            var account = subAccount as DomainModels.Accounts.TexasElectricityAccount;
+
+            return account.ProviderId;
         }
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(Address serviceAddress, dynamic details)
         {
-            return null;
+            var result = new DomainModels.Accounts.TexasElectricityAccount
+            {
+                Id = details.UtilityAccountNumber,
+                ServiceAddress = serviceAddress
+            };
+
+            if (details.Product != null)
+            {
+                var productData = sitecoreProductData.GetTexasElectricityProductData((string)details.Product.ProductCode, null) ?? new SitecoreProductInfo
+                {
+                    Fields = new System.Collections.Specialized.NameValueCollection()
+                };
+
+                var rate = (details.Product.Rates != null && details.Product.Rates.Count > 0) ? details.Product.Rates[0] : null;
+
+                result.ProviderId = details.UtilityProvider.Id;
+                result.Rate = (rate != null) ? (decimal)(rate.Value ?? 0) : 0;
+                result.RateType = (rate != null && rate.Type == "Fixed") ? RateType.Fixed : RateType.Variable;
+                result.TermMonths = details.Product.Term;
+                result.ProductId = details.Product.ProductId;
+                result.ProductCode = details.Product.ProductCode;
+                result.ProductName = productData.Fields["Name"] ?? details.Product.Name;
+                result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
+                result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
+                result.CustomerType = (details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial;
+            }
+            return result;
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)
         {
-            return null;
+            var account = subAccount as DomainModels.Accounts.TexasElectricityAccount;
+            return account.ProductId;
         }
 
         string ILocationAdapter.GetUtilityAccountNumber(DomainModels.Accounts.ISubAccount subAccount)
         {
-            return null;
+            var account = subAccount as DomainModels.Accounts.TexasElectricityAccount;
+            return account.Id;
         }
-
 
         IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
-            throw new NotImplementedException();
+            return new StreamEnergy.DomainModels.Enrollments.TexasElectricity.RenewalCapability { Account = account, SubAccount = subAccount, Tdu = "NA" };
+        }
+
+        object ILocationAdapter.GetProductRequest(Location location)
+        {
+            return new
+            {
+                ServiceType = "Utility",
+                ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
+                UtilityAccountNumber = ((ILocationAdapter)this).GetUtilityAccountNumber(location.Capabilities),
+            };
+        }
+
+        OfferPayment ILocationAdapter.GetOfferPayment(dynamic entry, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option)
+        {
+            decimal deposit = 0;
+            if (assessDeposit && entry.Premise.Deposit != null)
+                deposit = (decimal)entry.Premise.Deposit.Amount.Value;
+            return new OfferPayment
+                    {
+                        EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
+                        OngoingAmounts = new IOfferPaymentAmount[] 
+                        {
+                        },
+                        RequiredAmounts = new IOfferPaymentAmount[] 
+                        {
+                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.SystemOfRecord, DepositAccount = entry.SystemOfRecordAccountNumber }
+                        },
+                        PostBilledAmounts = optionRules.GetPostBilledPayments(option)
+                    };
+        }
+
+
+        bool ILocationAdapter.HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities)
+        {
+            return capabilities.OfType<CustomerTypeCapability>().SingleOrDefault().CustomerType == EnrollmentCustomerType.Commercial;
+        }
+
+
+        void ILocationAdapter.GetRenewalValues(IOffer offer, out string code, out string id)
+        {
+            var texasElectricityOffer = offer as TexasElectricity.Offer;
+            id = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1];
+            code = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1];
         }
     }
 }

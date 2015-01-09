@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels.Enrollments
 {
     [Serializable]
-    public class DepositOfferPaymentAmount : IOfferPaymentAmount
+    public class DepositOfferPaymentAmount : IInitialPaymentAmount
     {
         public const string Qualifier = "Deposit";
 

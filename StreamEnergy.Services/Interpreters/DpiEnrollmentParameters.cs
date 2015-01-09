@@ -72,10 +72,6 @@ namespace StreamEnergy.Interpreters
 
         public Func<string> GetTargetDpiUrlBuilder()
         {
-            if (ServiceType == "MOB")
-            {
-                return () => "/mobile-enrollment?" + queryString.ToString();
-            }
             switch (AccountType)
             {
                 case "R":

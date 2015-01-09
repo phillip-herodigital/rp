@@ -12,6 +12,8 @@ namespace StreamEnergy.DomainModels.Accounts
         public string Key { get; set; }
         public string Id { get; set; }
         public Address ServiceAddress { get; set; }
+        public Enrollments.EnrollmentCustomerType CustomerType { get; set; }
+        public string ProductType { get; set; }
 
         public void Sanitize()
         {

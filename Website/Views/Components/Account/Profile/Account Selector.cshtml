@@ -10,7 +10,7 @@
                     </div>
                     <div class="item" ng-if="allowSubAccount && currentAccount.subAccounts">
                         <label for="SubAccount">{{ currentAccount.subAccountLabel }}</label>
-                        <select name="SubAccount" id="SubAccount" ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                        <select class="input--small" name="SubAccount" id="SubAccount" ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
                     </div>
                 </div>
             </form>

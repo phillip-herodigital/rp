@@ -10,11 +10,11 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public bool IsSuccess { get; set; }
 
-        public DateTime RenewalDate { get; set; }
+        public DateTime? RenewalDate { get; set; }
 
-        public DateTime ContractStartDate { get; set; }
+        public DateTime? ContractStartDate { get; set; }
 
-        public DateTime ContractEndDate { get; set; }
+        public DateTime? ContractEndDate { get; set; }
 
         public string ConfirmationNumber { get; set; }
     }

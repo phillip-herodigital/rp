@@ -1,5 +1,5 @@
 ﻿@{
-    Sitecore.Data.Items.Item item = Sitecore.Context.Database.GetItem("{1B4D52BC-80FA-416B-9AC1-8ED588D78224}").Children.OrderByDescending(i => ((Sitecore.Data.Fields.DateField)i.Fields["Date"]).DateTime).First();
+    var item = Sitecore.Context.Database.GetItem("{1B4D52BC-80FA-416B-9AC1-8ED588D78224}").Children.OrderByDescending(i => ((Sitecore.Data.Fields.DateField)i.Fields["Date"]).DateTime).First();
 }
 <article class="marketing full-html bg-grey accent-blue home-latest">
     <div class="wrapper">

@@ -1,9 +1,10 @@
-﻿<article class="marketing wrapper blog">
+﻿@using Sitecore.Data.Fields
+<article class="marketing wrapper blog">
     @{
         <div class="blog-post">
             <h2>@Html.Sitecore().Field("Title")</h2>
-            <p class="date">@Html.Sitecore().Field("Posted On Text"): @Sitecore.Web.UI.WebControls.FieldRenderer.Render(Html.Sitecore().CurrentItem, "Date", "format=MMMM d, yyyy")</p>
-            <p>@Html.Sitecore().Field("Content")</p>
+            <p class="date">@Html.Sitecore().Field("Posted On Text"): @Html.Sitecore().Field("Date", new { format = "MMMM d, yyyy" })</p>
+            @Html.Sitecore().Field("Content")
         </div>
     }
 </article>

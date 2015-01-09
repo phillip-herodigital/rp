@@ -2,7 +2,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
     var services = [],
         cart = {
             activeServiceIndex: -1,
-            isCartOpen: false
+            isCartOpen: false,
+            items: []
         },
         maxResidentialItems = 3,
         maxCommercialItems = 70;
@@ -94,6 +95,80 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return result;
         },
 
+        getCartDevices: function() {
+            return cart.items;
+        },
+
+        getCartDataPlan: function() {
+            var dataPlan = [];
+            var selectedPlan = _(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('offerSelections').first();
+            if (selectedPlan.length > 0) {
+                dataPlan.push(_(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: selectedPlan[0].offerId }).first());
+            }
+
+            return dataPlan;
+        },
+
+        getDevicesCount: function() {
+            return cart.items.length;
+        },
+
+        addDeviceToCart: function(item) {
+            cart.items.push(item);
+        },
+
+        getProratedCost: function() {
+            var plan = enrollmentCartService.getCartDataPlan();
+            // a and b are javascript Date objects
+            var dateDiffInDays = function(a, b) {
+                var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+                // Discard the time and time-zone information.
+                var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+                var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+                
+                return Math.floor((utc1 - utc2) / _MS_PER_DAY);
+            };
+            var billingCycleEnds = 24;
+            var today = new Date();
+            var monthOffset = (today.getDate() <= billingCycleEnds) ? 1 : 0;
+            var startBillingDate = new Date();
+            startBillingDate.setDate(billingCycleEnds);
+            startBillingDate.setMonth(startBillingDate.getMonth() - monthOffset);
+
+            var daysInBillingCycle = new Date(startBillingDate.getFullYear(), startBillingDate.getMonth() + 1, 0).getDate(); // setting the day to 0 gets the previous month, so we're adding +1 to the billing month.
+            var daysIntoBillingCycle = dateDiffInDays(today, startBillingDate) - 1;
+            var multiplier = (daysInBillingCycle - daysIntoBillingCycle) / daysInBillingCycle;
+
+            return (parseFloat(plan[0].rates[0].rateAmount, 10) + enrollmentCartService.getTotalFees()) * multiplier;
+
+        },
+
+        getTotalFees: function() {
+            var plan = enrollmentCartService.getCartDataPlan();
+            return 0;//parseFloat(plan[0].fees.salesUseTax, 10) + parseFloat(plan[0].fees.federalAccessCharge, 10) + parseFloat(plan[0].fees.streamLineCharge, 10);
+        },
+
+        getTotalDueToday: function() {
+            var total = 0;
+            for (var i=0; i<cart.items.length; i++) {
+                total += (typeof cart.items[i].price != 'undefined') ? parseFloat(cart.items[i].price, 10) : 0;
+                total += (typeof cart.items[i].activationFee != 'undefined') ? parseFloat(cart.items[i].activationFee, 10) : 0;
+                total += (typeof cart.items[i].salesTax != 'undefined') ? parseFloat(cart.items[i].salesTax, 10) : 0;
+            }
+
+            return total + getProratedCost();
+        },
+
+        getEstimatedMonthlyTotal: function() {
+            var plan = cart.dataPlan;
+            var total = parseFloat(plan.price, 10) + getTotalFees();
+            for (var i=0; i<cart.items.length; i++) {
+                total += (typeof cart.items[i].warranty != 'undefined' && cart.items[i].warranty == 'accept') ? 9.99 : 0;
+                total += (typeof cart.items[i].buyingOption != 'undefined' && cart.items[i].buyingOption != 'New') ? parseFloat(cart.items[i].price, 10) : 0;
+            }
+            return total;
+        },
+
         /**
 		 * Set the plan for the current service based on the offer type
 		 * @param  {[type]} plan
@@ -103,7 +178,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             //Set the active plans
             _(plans).keys().forEach(function (key) {
                 var offerInformationForType = _(activeService.offerInformationByType).where({ key: key }).first();
-                offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) { return { offerId: plan }; }).value();
+                offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) {
+                    return _.find(offerInformationForType.value.offerSelections, { 'offerId': plan }) || { offerId: plan };
+                }).value();
                 updateOffer(offerInformationForType);
             });
         },
@@ -136,10 +213,15 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         getCartCount: function () {
 
             //Get the count for all utility products
-            return _(services)
+            var utility = _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
                 .size();
+
+            //Get the count for all mobile products
+            var mobile = cart.items.length;
+
+            return utility + mobile;
         },
 
         /**
@@ -196,6 +278,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                .map(function (l) {
                    return l.location.address.stateAbbreviation;
                }).contains('TX');
+        },
+        cartHasMobile: function () {
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
+                .intersection(['Mobile'])
+                .some();
+        },
+        cartHasUtility: function () {
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
+                .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
+                .some();
         },
         locationHasService: function (location) {
             if (!location.offerInformationByType)

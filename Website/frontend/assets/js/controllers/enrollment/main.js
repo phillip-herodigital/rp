@@ -1,22 +1,29 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', '$filter', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService, $filter) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', '$filter', function ($scope, $anchorScroll, $location, enrollmentStepsService, enrollmentService, mobileEnrollmentService, scrollService, $timeout, enrollmentCartService, $filter) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
+    $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.customerType = 'residential';
     $scope.cartLocationsCount = 0;
     $scope.isCartFull = false;
     $scope.isLoading = enrollmentService.isLoading;
+    $scope.mobileEnrollment = {
+        currentStep: 'choose-network',
+        phoneTypeTab: 'new'
+    };
 
     $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
         $scope.isLoading = newValue;
     });
 
-    //Go ahead and set the first step to be utility for now
-    //Need to determine how the first step will be activated
-    //Or if we need to go ahead and activate multiple based on a saved card
-    enrollmentStepsService.setInitialFlow('utility');
+    //Set the first step based on query string
+    if ($location.absUrl().toLowerCase().indexOf('servicetype=mob') > 0) {
+        enrollmentStepsService.setInitialFlow('phone');
+    } else {
+        enrollmentStepsService.setInitialFlow('utility');
+    }
 
     $scope.setTimeRemaining = enrollmentStepsService.setTimeRemaining;
 
