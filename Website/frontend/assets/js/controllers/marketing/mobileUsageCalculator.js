@@ -15,6 +15,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     $scope.connected = false;
 
     $scope.connect = {
+        username: "5164496292",
+        password: "37Beetlestone",
         acceptTermsCheckbox: false
     };
 
@@ -46,10 +48,6 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     $scope.isActiveTab = function(tabUrl) {
         return tabUrl == $scope.currentTab;
     };
-
-    $scope.isConnectCarrierSelected = function(carrier) {
-        return carrier === $scope.connect.carrier ? 'selected' : '';
-    }
 
 	$scope.selectCarrierConnect = function(carrier) {
 		$scope.connect.carrier = carrier;

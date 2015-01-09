@@ -492,6 +492,37 @@ article.plain {
 	}
 }
 
+article.tabs {
+	.tabbed-header {
+        display: table;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        border-bottom: none;
+        .tab {
+            display: table-cell;
+            width: 50%;
+            @include background-image(linear-gradient(to top, #f7f7f7 0%, #fff 100%));
+            cursor: pointer;
+            vertical-align: middle;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            padding: 10px 20px;
+            font-size: 18px;
+            &.active {
+                background: #fdfdfd;
+                background-image: none;
+                border-bottom: none;
+                font-size: 24px;
+            }
+            &:last-child {
+                border-right: 0;
+            }
+        }
+    }
+}
+
 article.account {
 	.field-validation-valid {
 		display: block;
@@ -1674,7 +1705,7 @@ article.mobile {
 		}
 	}
 	.content {
-		padding: 15px;
+		//padding: 15px;
 		.right-button {
 			float: right;
 			margin-bottom: 10px;
