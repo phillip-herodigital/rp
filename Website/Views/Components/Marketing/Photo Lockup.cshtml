@@ -75,7 +75,7 @@ else
                     </aside>
                 }
                 @Html.Sitecore().Field("Content")
-                @Html.Sitecore().Field("Button")
+                <p>@Html.Sitecore().Field("Button")</p>
             </div>
             @if (Html.Sitecore().CurrentItem.IsChecked("Image on Right").GetValueOrDefault())
             {
