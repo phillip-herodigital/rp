@@ -96,7 +96,7 @@ namespace StreamEnergy.Services.Clients
                 Offers = (from product in streamConnectProductResponse.Products
                           // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
                           where ((IEnumerable<dynamic>)product.Rates).All(r => r.Unit == "$/kwh")
-                          where product.Provider["Name"].ToString() == providerName
+                          where texasService is TexasElectricity.RenewalCapability || product.Provider["Name"].ToString() == providerName
                           group product by product.ProductCode into products
                           let product = products.First()
                           let productData = sitecoreProductData.GetTexasElectricityProductData(product.ProductCode.ToString(), product.Provider.Name.ToString())
@@ -192,7 +192,7 @@ namespace StreamEnergy.Services.Clients
 
             if (details.Product != null)
             {
-                var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.Product.ProductCode) ?? new SitecoreProductInfo
+                var productData = sitecoreProductData.GetTexasElectricityProductData((string)details.Product.ProductCode, null) ?? new SitecoreProductInfo
                 {
                     Fields = new System.Collections.Specialized.NameValueCollection()
                 };
@@ -263,6 +263,14 @@ namespace StreamEnergy.Services.Clients
         bool ILocationAdapter.HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities)
         {
             return capabilities.OfType<CustomerTypeCapability>().SingleOrDefault().CustomerType == EnrollmentCustomerType.Commercial;
+        }
+
+
+        void ILocationAdapter.GetRenewalValues(IOffer offer, out string code, out string id)
+        {
+            var texasElectricityOffer = offer as TexasElectricity.Offer;
+            id = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1];
+            code = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1];
         }
     }
 }

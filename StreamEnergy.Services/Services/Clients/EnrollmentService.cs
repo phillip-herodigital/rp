@@ -783,15 +783,18 @@ namespace StreamEnergy.Services.Clients
 
         async Task<StreamAsync<RenewalResult>> IEnrollmentService.BeginRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount, IOffer offer, IOfferOption renewalOptions)
         {
-            var georgiaGasOffer = offer as DomainModels.Enrollments.GeorgiaGas.Offer;
             var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(subAccount));
+
+            string code, id;
+
+            locAdapter.GetRenewalValues(offer, out code, out id);
 
             account.Capabilities.RemoveAll(r => r.CapabilityType == DomainModels.Accounts.RenewalAccountCapability.Qualifier);
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals", new
                 {
                     SystemOfRecordAccountNumber = account.AccountNumber,
-                    ProductCode = georgiaGasOffer.Code,
-                    ProductId = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1],
+                    ProductCode = code,
+                    ProductId = id,
                     //StartDate = ???,
                     CustomerLast4 = account.Details.SsnLastFour,
                     SystemOfRecord = account.SystemOfRecord,
@@ -827,9 +830,9 @@ namespace StreamEnergy.Services.Clients
             {
                 ConfirmationNumber = (string)jobject.CisAccountNumber,
                 IsSuccess = (string)jobject.Status == "Success",
-                RenewalDate = (DateTime)jobject.RenewalDate,
-                ContractStartDate = (DateTime)jobject.ContractStartDate,
-                ContractEndDate = (DateTime)jobject.ContractEndDate,
+                RenewalDate = (DateTime?)jobject.RenewalDate,
+                ContractStartDate = (DateTime?)jobject.ContractStartDate,
+                ContractEndDate = (DateTime?)jobject.ContractEndDate,
             };
             return asyncResult;
         }

@@ -59,7 +59,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 var svc = context.Services.Single().SelectedOffers.Single();
                 if (internalContext.RenewalResult == null)
                 {
-                    var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<GeorgiaGas.RenewalCapability>().First();
+                    var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<IRenewalCapability>().First();
                     internalContext.RenewalResult = await enrollmentService.BeginRenewal(
                         renewalCapability.Account,
                         renewalCapability.SubAccount,
@@ -76,6 +76,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                     }
                 }
             }
+            else
             {
                 internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context, internalContext);
             }
@@ -96,7 +97,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             {
                 return true;
             }
-            else if (!internalContext.PlaceOrderAsyncResult.IsCompleted)
+            else if (internalContext.PlaceOrderAsyncResult != null && !internalContext.PlaceOrderAsyncResult.IsCompleted)
             {
                 return true;
             }

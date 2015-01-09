@@ -44,5 +44,7 @@ namespace StreamEnergy.Services.Clients
         OfferPayment GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option);
 
         bool HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities);
+
+        void GetRenewalValues(IOffer offer, out string code, out string id);
     }
 }

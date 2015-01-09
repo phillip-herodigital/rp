@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    public class RenewalCapability: ServiceCapability
+    public class RenewalCapability : ServiceCapability, IRenewalCapability
     {
         public new const string Qualifier = "TexasElectricityRenewal";
 
@@ -31,6 +31,6 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 
         [Newtonsoft.Json.JsonIgnore]
         public DomainModels.Accounts.ISubAccount SubAccount { get; set; }
-        
+       
     }
 }
