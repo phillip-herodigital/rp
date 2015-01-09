@@ -57,6 +57,42 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
+    * Change Mobile Plan
+    */
+    $scope.changeMobilePlan = function (service) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
+    };
+
+    /**
+    * Edit Mobile Device
+    */
+    $scope.editMobileDevice = function (service) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
+    };
+
+    /**
+    * Add Mobile Device
+    */
+    $scope.addMobileDevice = function (service) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+    };
+
+    /**
     * Edit Address
     */
     $scope.editUtilityAddress = function (service, isCartOpen) {

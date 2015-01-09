@@ -196,6 +196,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             }
         },
 
+        removeMobileOffers: function (service) {
+            var byType = _(service.offerInformationByType).find({ key: 'Mobile' });
+            byType.value.offerSelections = [];
+        },
+
         removeService: function (service) {
             var index = _(services).indexOf(service);
             services.splice(index, 1);

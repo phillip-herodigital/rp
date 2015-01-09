@@ -24,6 +24,8 @@
         }
     };
 
+
+
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         //$scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
@@ -35,6 +37,13 @@
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;
                 }
             });
+        }
+    });
+
+    // clear the plan selection when any device is added to the cart
+    $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            $scope.planSelection = { selectedOffers: {} };
         }
     });
 

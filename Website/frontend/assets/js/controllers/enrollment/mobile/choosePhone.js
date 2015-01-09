@@ -171,6 +171,14 @@
      */
     $scope.completeStep = function () {  
         $scope.addDeviceToCart();
+        var activeService = enrollmentCartService.getActiveService()
+        var dataPlan = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
+        
+        // reset the dataplan if one is selected
+        if (typeof dataPlan != 'undefined' && dataPlan.value.offerSelections.length > 0){
+            enrollmentCartService.removeMobileOffers(activeService);
+        }
+        $scope.clearPhoneSelection();
         enrollmentStepsService.setStep('phoneFlowPlans');
     };
 

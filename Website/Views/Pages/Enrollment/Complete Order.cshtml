@@ -280,7 +280,7 @@
         </div>
         <div class="rate">
             {{selectedOffer.offer.rate}}&cent;
-            <span>@Html.Sitecore().Field("Per kWh")</span>
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
         </div>
     </div>
 </script>
@@ -292,7 +292,7 @@
         </div>
         <div class="rate">
             ${{selectedOffer.offer.rate}}
-            <span>@Html.Sitecore().Field("Per Therm")</span>
+            <span class="energy-unit">@Html.Sitecore().Field("Per Therm")</span>
         </div>
     </div>
 </script>
