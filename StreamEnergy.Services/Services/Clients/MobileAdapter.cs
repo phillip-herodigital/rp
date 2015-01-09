@@ -75,44 +75,59 @@ namespace StreamEnergy.Services.Clients
                           where productData != null
                           where product.MobileInventory != null
                           let childOffer = streamConnectProductResponse.Products.FirstOrDefault(p => p.ParentGroupProductId == product.ProductId)
-                          select new Mobile.Offer
-                          {
-                              Id = product.ProductId,
-                              Provider = product.Provider.ToString(),
-                              Code = product.ProductCode,
-                              Product = Newtonsoft.Json.JsonConvert.SerializeObject(product),
+                          from offer in (IEnumerable<Mobile.Offer>)GenerateOffers(product, productData, childOffer)
+                          select offer).ToArray()
+            };
+        }
 
-                              ChildOfferId = (childOffer != null) ? childOffer.ProductId : null,
-                              IsParentOffer = (product.IsParentGroup != null) ? product.IsParentGroup : false,
+        private IEnumerable<Mobile.Offer> GenerateOffers(dynamic product, SitecoreProductInfo productData, dynamic childOffer)
+        {
+            yield return GenerateSingleOffer(product, productData, childOffer);
+            if (childOffer != null)
+            {
+                yield return GenerateSingleOffer(childOffer, productData, null);
+            }
+        }
+
+        private Offer GenerateSingleOffer(dynamic product, SitecoreProductInfo productData, dynamic childOffer)
+        {
+            return new Mobile.Offer
+            {
+                Id = product.ProductId,
+                Provider = product.Provider.ToString(),
+                Code = product.ProductCode,
+                Product = Newtonsoft.Json.JsonConvert.SerializeObject(product),
+
+                ChildOfferId = (childOffer != null) ? childOffer.ProductId : null,
+                IsParentOffer = (product.IsParentGroup != null) ? product.IsParentGroup : false,
 
 
-                              Name = productData.Fields["Name"],
-                              Description = productData.Fields["Name"],
-                              Data = productData.Fields["Data"],
-                              HoursMusic = productData.Fields["Hours Music"],
-                              HoursMovies = productData.Fields["Hours Movies"],
-                              WebPages = productData.Fields["Web Pages"],
-                              Recommended = productData.Fields["Recommended"] == "1" ? true : false,
-                              SpecialOffer = productData.Fields["Special Offer"] == "1" ? true : false,
-                              SpecialOfferText = productData.Fields["Special Offer Text"],
-                              SpecialOfferOriginalPrice = productData.Fields["Special Offer Original Price"],
+                Name = productData.Fields["Name"],
+                Description = productData.Fields["Name"],
+                Data = productData.Fields["Data"],
+                HoursMusic = productData.Fields["Hours Music"],
+                HoursMovies = productData.Fields["Hours Movies"],
+                WebPages = productData.Fields["Web Pages"],
+                Recommended = productData.Fields["Recommended"] == "1" ? true : false,
+                SpecialOffer = productData.Fields["Special Offer"] == "1" ? true : false,
+                SpecialOfferText = productData.Fields["Special Offer Text"],
+                SpecialOfferOriginalPrice = productData.Fields["Special Offer Original Price"],
 
-                              Rates = new[] {
+                Rates = new[] {
                                   new Mobile.Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
                               },
-                              MobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
-                                                 let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
-                                                 select new Mobile.MobileInventory
-                                                 {
-                                                     Id = (string)inventoryType.Id,
-                                                     TypeId = (string)inventoryType.TypeId,
-                                                     Price = Convert.ToDecimal(inventoryType.Price.ToString()),
-                                                     InstallmentPlan = (inventoryData != null) ? GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory) : null,
-                                                 }).ToArray(),
+                MobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
+                                   let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
+                                   select new Mobile.MobileInventory
+                                   {
+                                       Id = (string)inventoryType.Id,
+                                       TypeId = (string)inventoryType.TypeId,
+                                       Price = Convert.ToDecimal(inventoryType.Price.ToString()),
+                                       InstallmentPlan = (inventoryData != null) ? GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory) : null,
+                                   }).ToArray(),
 
-                              Footnotes = productData.Footnotes,
+                Footnotes = productData.Footnotes,
 
-                          }).ToArray()
             };
         }
 

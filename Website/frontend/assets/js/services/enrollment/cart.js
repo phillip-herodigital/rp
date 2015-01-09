@@ -102,7 +102,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         getCartDataPlan: function() {
             var dataPlan = [];
             var selectedPlan = _(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('offerSelections').first();
-            if (selectedPlan.length) {
+            if (selectedPlan.length > 0) {
                 dataPlan.push(_(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: selectedPlan[0].offerId }).first());
             }
 
@@ -280,7 +280,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                }).contains('TX');
         },
         cartHasMobile: function () {
-            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType').contains('Mobile');
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
+                .intersection(['Mobile'])
+                .some();
         },
         cartHasUtility: function () {
             return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')

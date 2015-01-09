@@ -1470,9 +1470,14 @@
     }
     .monthly-product {
         margin: 10px 0;
-        padding-top: 10px;
         &:last-child {
             margin-bottom: 0;
+        }
+        .description {
+            font-weight: 600;
+        }
+        .rate {
+            font-weight: 400;
         }
     }
     .delete {
@@ -1596,8 +1601,18 @@
         font-size: 14px;
         font-weight: 600;
         text-transform: uppercase;
+        margin-bottom: 20px;
         i {
             float: right;
+        }
+    }
+    .billed-monthly, .billed-today {
+        h3 {
+            margin: 10px 0 0;
+            font-size: 12px;
+            font-weight: 600;
+            color: #727272;
+            text-transform: uppercase;
         }
     }
     @include breakpoint(small) {

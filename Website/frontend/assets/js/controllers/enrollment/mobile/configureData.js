@@ -27,7 +27,7 @@
         $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
-                if (entry.value && _(entry.key).contains("Mobile") && entry.value.offerSelections.length) {
+                if (entry.value && _(entry.key).contains('Mobile') && entry.value.offerSelections.length) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.offerSelections[0].offerId;
                 } else if (entry.value && entry.value.availableOffers.length == 1) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;

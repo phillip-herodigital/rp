@@ -234,7 +234,10 @@
                                 <div class="billed-title">@Html.Sitecore().Field("Billed Monthly Text")<i class="icon-billed-monthly"></i></div>
                                 <div ng-repeat="(id, location) in getCartItems()">
                                     <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                                        <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>
+                                        <h3 ng-if="offerInformation.key != 'Mobile'">@Html.Sitecore().Field("Energy Services Text")</h3>
+                                        <h3 ng-if="offerInformation.key == 'Mobile'">@Html.Sitecore().Field("Mobile Services Text")</h3>
+                                        @*{{offerInformation}}
+    <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>*@
                                     </div>
                                 </div>
                             </div>
