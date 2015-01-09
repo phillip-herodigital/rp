@@ -2692,21 +2692,23 @@ article.mobile.mobile-plans-usage-calculator {
 					}
 				}
 			}		
-			.loginFields {
-				margin-top: 10px;
-				margin-bottom: 10px;
-				padding: $module-vertical-padding $module-horizontal-padding;
-				background-color: #fbfbfc;
-				border-top: 1px solid #ccc;
-				border-bottom: 1px solid #ccc;
-			}
-			.buttons {
-				p {
-					display: inline;
+			form {
+				padding-bottom: 10px;
+				.loginFields {
+					margin-top: 10px;
+					margin-bottom: 10px;
+					padding: $module-vertical-padding $module-horizontal-padding;
+					background-color: #fbfbfc;
+					border-top: 1px solid #ccc;
+					border-bottom: 1px solid #ccc;
+				}
+				.buttons {
+					p {
+						display: inline;
+					}
 				}
 			}
 		}
-
 		.bill-scrape {
 			.message-table {
 				background-color: rgb(242, 255, 255);
