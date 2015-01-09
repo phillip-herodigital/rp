@@ -1907,6 +1907,9 @@ article.free-energy.picture-promo {
 	background-image: url('../i/marketing/free-energy.jpg');
 	background-repeat: no-repeat;
 	background-position: center;
+	.wrapper {
+		background: none;
+	}
 	.promo-content {
 		color: #fff;
 		width: 345px;
