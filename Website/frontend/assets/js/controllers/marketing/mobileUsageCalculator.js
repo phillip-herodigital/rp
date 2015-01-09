@@ -278,7 +278,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
         $scope.selectCarrierConnect('att');
 
-        /* */
+        /*
             $scope.connect.validas = {
                 billingCount: 1,
                 network: 'att',
@@ -311,7 +311,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 ]
             };
             $scope.connected = true;
-       /* */
+       */
     };
 
     $scope.init();
