@@ -82,14 +82,14 @@ namespace StreamEnergy.Services.Clients
 
         private IEnumerable<Mobile.Offer> GenerateOffers(dynamic product, SitecoreProductInfo productData, dynamic childOffer)
         {
-            yield return GenerateSingleOffer(product, productData, childOffer);
+            yield return GenerateSingleOffer(product, productData, childOffer, false);
             if (childOffer != null)
             {
-                yield return GenerateSingleOffer(childOffer, productData, null);
+                yield return GenerateSingleOffer(childOffer, productData, null, true);
             }
         }
 
-        private Offer GenerateSingleOffer(dynamic product, SitecoreProductInfo productData, dynamic childOffer)
+        private Offer GenerateSingleOffer(dynamic product, SitecoreProductInfo productData, dynamic childOffer, bool isChildOffer)
         {
             return new Mobile.Offer
             {
@@ -100,7 +100,7 @@ namespace StreamEnergy.Services.Clients
 
                 ChildOfferId = (childOffer != null) ? childOffer.ProductId : null,
                 IsParentOffer = (product.IsParentGroup != null) ? product.IsParentGroup : false,
-
+                IsChildOffer = isChildOffer,
 
                 Name = productData.Fields["Name"],
                 Description = productData.Fields["Name"],

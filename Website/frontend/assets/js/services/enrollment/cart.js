@@ -102,10 +102,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         getCartDataPlan: function() {
             var dataPlan = [];
             var selectedPlan = _(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('offerSelections').first();
-            if (selectedPlan.length > 0) {
+            if (typeof selectedPlan != 'undefined' && selectedPlan.length > 0) {
                 dataPlan.push(_(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: selectedPlan[0].offerId }).first());
             }
-
             return dataPlan;
         },
 
