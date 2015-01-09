@@ -329,7 +329,7 @@ div.tabbable {
 }
 
 .ui-slider {
-	height: 26px;
+	height: 24px;
 	border: 1px solid #d9d9d9;
 	@include border-radius(10px);
 	@include background-clip(padding-box);
@@ -338,16 +338,16 @@ div.tabbable {
 	position: relative;
 	.ui-slider-handle {
 		position: absolute;
-		width: 35px;
-		height: 45px;
+		width: 24px;
+		height: 42px;
 		display: inline-block;
-		margin-left: -17px;
-		margin-top: -10px;
+		margin-left: -12px;
+		margin-top: -8px;
 		@include retina-background('ui-slider-handle.png');
 		outline: none;
 	}
 	.ui-slider-range {
-		background-color: #0068bc;
+		background-color: #2988c8;
 		height: 24px;
 		position: absolute;
 		@include border-radius(10px 0 0 10px);

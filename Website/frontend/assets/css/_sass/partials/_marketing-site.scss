@@ -2646,151 +2646,112 @@ article.opportunity-more-information.accent-red {
     }
 }
 
-article.marketing.mobile.mobile-plans-usage-calculator {
-    @include border-radius(4 4 4 4);
-
-	.tabHeaders {
-		width: 100%;
-	    list-style: none;
-	    padding: 0;
-	    margin: 0;
-		
-		.tabHeader {
-	        width: 50%;
-		    float: left;
-		    border: 1px solid #f0f0f0;
-		    padding: 5px 5px 0px 5px;
-		}
-
-		.active {
-			border-bottom: none;
-		}
+article.mobile.mobile-plans-usage-calculator {
+    
+	.tab-wrapper {
+		@include border-radius(5px);
+		border: 1px solid #ccc;
+		overflow: hidden;
 	}
 
-	li:first-child {
-		border-right: none;
-	}
-
-
-
-
-	.blue {
-		color: rgb(41, 136, 200);
-	}
-
-	.calculator {
-	    border-left:   1px solid #f0f0f0;
-	    border-bottom: 1px solid #f0f0f0;
-	    border-right:  1px solid #f0f0f0;
-		clear: both;
-
-
-		#connect {
-			padding: 10px;
-			.selectCarrier {
-				.carrierButtons {
-					list-style: none;
-					.carrierButton {
-				    	display: inline;
-				    	.selected {
-				    		background-image: url('/frontend/assets/i/marketing/redesign/nav-first-level-selected-indicator.png');
-				    	} 
-				    	.carrierIcon {
-					    	border: 1px solid #f0f0f0;
-				    	}
+	.content {
+	    
+		.login {
+			h4 {
+				margin-bottom: 10px;
+			}
+			ul.network-toggle {
+				@include inline-block-list();
+				float: right;
+				a {
+					@include background-image(linear-gradient(to top, #FFF 0%, #F7F7F7 100%));
+					@include border-radius(10px);
+					@include box-shadow(inset 0 0 2px rgba(251, 247, 194, 0.75));
+					display: block;
+					height: 50px;
+					line-height: 50px;
+					padding: 1px 15px;
+					border: 1px solid #cecece;
+					outline: none;
+					&.active {
+						margin-top: -1px;
+						border: 2px solid #3189bb;
+						padding: 0 14px;
 					}
 				}
 			}		
-			.login {
-				margin: 10px 0;
-				padding: 10px;
-				.loginFields {
-					background-color: rgb(241, 241, 241);
-					input[type="text"] {
-						width: 80%;
-					}
-				}
-			}
-			.loginSubmit {
-				margin: 10px 0;
-				.acceptTerms {
-					text-align: left;
-					p {
-						display: inline;
-					}
-				}
-				.submitButton {
-					text-align: right;
-				}
+			.loginFields {
+				margin-top: 10px;
+				margin-bottom: 10px;
+				padding: $module-vertical-padding $module-horizontal-padding;
+				background-color: #fbfbfc;
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
 			}
 		}
 
-		#connected {
+		.bill-scrape {
 
 			.message {
 				background-color: rgb(242, 255, 255);
 				padding: 15px;
 			}
 
-			.results {
-				.col {
-					text-align: center;
-				}
-				.label {
-					text-align: left;
-				}
-			}
-
-			.logo {
-				position: relative;
-				span {
-					position: absolute;
-					top: 25px;
-					left: 50%;
-					margin-left: -20px;
-				}
-			}
 		}
 
-		#manual {
-			.left {
-				width: 40%;
+		.manual-calculator {
+
+			.grid {
+				padding: 20px 0;
+				border-bottom: 1px solid #eee;
+				@include breakpoint(small) {
+					.col {
+						padding: 0 10px;
+						margin-bottom: 10px;
+					}
+				}
 			}
-			.right {
-				width: 60%;
+			@include breakpoint(medium-large) {
+				.grid {
+					margin: 0 ($module-horizontal-padding * -1);
+					@include experimental-value(width, calc(100% + #{$module-horizontal-padding * 2})); // Better alignment for everything except IE8 with this
+				}
+				.left {
+					width: 40%;
+				}
+				.right {
+					width: 60%;
+				}
 			}
 
 			.numLines {
 				.button {
-					background: white;
+					@include border-radius(5px);
 					color: inherit;
 					margin: 0 2px;
 					border: 1px solid #f0f0f0;
+					background-color: #FBFBFB;
+					@include background-image(linear-gradient(to top, #F1F1F1 0%, #FFF 100%));
 				}
 
 				.active {
-					background: rgb(41, 136, 200);
+					border-color: #0b7fb5;
+					background-color: #1593CD;
+					@include background-image(linear-gradient(to top, rgba(12, 131, 186, 0.71) 0%, rgba(34, 172, 236, 0.71) 100%));
+					color: #fff;
 				}
 			}
 
-			.sliderContainer {
-				width: 80%;
-				.slider {
-					height: 23px;
-
-					.ui-slider-handle {
-						width: 10px;
-						top: 10px
-					}
-
-					.ui-slider-range {
-						background:  rgb(41, 136, 200); 
-					}
+			.icon {
+				width: 60px;
+				text-align: center;
+				@include breakpoint(small) {
+					display: none;
 				}
 			}
 
 			.sliderLabels {
-				width: 80%;
+				margin-top: 10px;
 				text-align: center;
 				position: relative;
 
@@ -2807,38 +2768,8 @@ article.marketing.mobile.mobile-plans-usage-calculator {
 
 			.suggestion {
 
-				.recommendedLabelContainer {
-					position: relative;
-					width: 100%;
-					height:24px;
-					padding: 5px 10px;
-
-					.recommended {
-						position: absolute;
-						top: -5px;
-
-						.recommendedLabel {
-							width: 160px;
-							height: 24px;
-							position: relative;
-							top: 0px;
-							.recommendedLabelTop {
-								background: #073464;
-								position: absolute;
-								width: 160px;
-								color: white;
-								text-align: center;
-							}
-							.recommendedLabelCarat {
-								top: 22px;
-								position: absolute;
-							}
-						}
-					}
-				}
-
 				.estimatedData {
-					padding: 5px 10px;
+					padding: 50px 10px 15px 10px;
 
 					.frame {
 				        @include border-radius($button-border-radius);
@@ -2846,37 +2777,60 @@ article.marketing.mobile.mobile-plans-usage-calculator {
 						position: relative;
 						width: 100%;
 						height: 24px;
-						border: 1px solid #f0f0f0;
-						background: #fff;
+						border: 1px solid #d9d9d9;
+						background-color: #e9e9e9;
+						@include box-shadow(inset 0 1px 3px rgba(0,0,0,.15));
 
 						.recommended {
 				        	@include border-radius($button-border-radius);
 							position: absolute;
+							height: 22px;
 							z-index: 100;
 							background: #073464;
-							height:22px
+							.label {
+								@include border-radius(5px);
+								position: absolute;
+								top: -40px;
+								right: -18px;
+								padding: 3px 10px;
+								background: #073464;
+								color: #fff;
+								font-size: 14px;
+								white-space: nowrap;
+								&:after {
+									content: "";
+									position: absolute;
+									top: 100%;
+									right: 10px;
+									border-left: 10px solid transparent;
+									border-right: 10px solid transparent;
+									border-top: 10px solid #073464;
+								}
+							}
 						}
 
 						.estimate {
 					        @include border-radius($button-border-radius);
 							position: absolute;
 							z-index: 1000;
-							height:22px;
+							height: 22px;
 							background:  rgb(41, 136, 200); 
 						}
 						.estimatedDataLabel {
 							position: absolute;
 							z-index: 10000;
 							top: 1px;
+							padding: 0 10px;
 							color: #fff;
-
 						}
 					}
 
 					.dataLabels {
-						position: relative;
+						@extend .clearfix;
 						width: 100%;
+						margin: 10px 0 0 0;
 						.dataLabel {
+							float: left;
 							width: 20%;
 						}
 					}
@@ -2884,23 +2838,30 @@ article.marketing.mobile.mobile-plans-usage-calculator {
 				}
 			}
 
-			.table {
-				display: table;
-				width: 100%;
+		}
 
-				.table-row {
-					display: table-row;
+		.plan-table {
+			display: table;
+			border-collapse: collapse;
+			width: 100%;
 
-					.table-cell {
-						display: table-cell;
-						border: 1px solid #f0f0f0;
-					}
+			.table-row {
+				display: table-row;
 
-					.label {
-						width: 25%;
-					}
-
+				.table-cell {
+					display: table-cell;
+					border: 1px solid #f0f0f0;
+					padding: 10px;
 				}
+
+				.current-plan {
+					background: #f3f3f4;
+				}
+
+				.label {
+					width: 25%;
+				}
+
 			}
 		}
 
