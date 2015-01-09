@@ -2651,13 +2651,22 @@ article.opportunity-more-information.accent-red {
 
 article.mobile.mobile-plans-usage-calculator {
     
+	h1 {
+		p {
+			.blue {
+				color: #1593CD;
+			}
+		}
+	}
+
 	.tab-wrapper {
 		@include border-radius(5px);
-		border: 1px solid #ccc;
+		border: 1px solid #ccc;		
 		overflow: hidden;
 	}
 
 	.content {
+	    padding-bottom: 0px;
 	    
 		.login {
 			h4 {
@@ -2691,13 +2700,35 @@ article.mobile.mobile-plans-usage-calculator {
 				border-top: 1px solid #ccc;
 				border-bottom: 1px solid #ccc;
 			}
+			.buttons {
+				p {
+					display: inline;
+				}
+			}
 		}
 
 		.bill-scrape {
-
-			.message {
+			.message-table {
 				background-color: rgb(242, 255, 255);
 				padding: 15px;
+				display: table;
+				border-collapse: collapse;	
+				@include border-radius(5px);
+
+	
+				.table-row {
+					display: table-row;
+					.table-cell {
+						display: table-cell;
+						border: 1px solid #eee;
+						text-align: center;
+						padding: 10px;
+					}
+				}
+			}
+			.savingsAnalysis {
+				text-align: center;
+				padding: 25px 0;
 			}
 
 		}
@@ -2855,6 +2886,15 @@ article.mobile.mobile-plans-usage-calculator {
 					display: table-cell;
 					border: 1px solid #f0f0f0;
 					padding: 10px;
+					text-align: center;
+
+					.coverageMap {
+						text-align: center;
+					}
+
+					.coverageMapLink {
+						text-align: center;
+					}
 				}
 
 				.current-plan {
@@ -2863,6 +2903,15 @@ article.mobile.mobile-plans-usage-calculator {
 
 				.label {
 					width: 25%;
+					text-align: left;
+				}
+
+				.expand2Cols {
+					width: 50%;
+				}
+
+				.expand3Cols {
+					width: 75%;
 				}
 
 			}
