@@ -22,8 +22,10 @@
 
         var attIndividualActivationFee    = planRecommendations.Fields["ATT Consumer Individual Activation Fee"].Value;
         var attGroupActivationFee         = planRecommendations.Fields["ATT Consumer Group Activation Fee"].Value;
+        var attExtraLineFee               = planRecommendations.Fields["ATT Extra Line Fee"].Value;
         var sprintIndividualActivationFee = planRecommendations.Fields["Sprint Consumer Individual Activation Fee"].Value;
         var sprintGroupActivationFee      = planRecommendations.Fields["Sprint Consumer Group Activation Fee"].Value;
+        var sprintExtraLineFee            = planRecommendations.Fields["Sprint Extra Line Fee"].Value;
     }
 
     <script>
@@ -38,7 +40,8 @@
                             activation: @attIndividualActivationFee
                         },
                         group: {
-                            activation: @attGroupActivationFee
+                            activation: @attGroupActivationFee,
+                            extraLineFee: @attExtraLineFee
                         }
                     }
                 }
@@ -52,7 +55,8 @@
                             activation: @sprintIndividualActivationFee
                         },
                         group: {
-                            activation: @sprintGroupActivationFee
+                            activation: @sprintGroupActivationFee,
+                            extraLineFee: @sprintExtraLineFee
                         }
                     }
                 }
@@ -171,8 +175,6 @@
                 <form name="form">
                     <div class="stretch loginFields">
                         @Html.Sitecore().Field("Log In Text")
-                        <span ng-bind="connect.carrier"></span>
-                        @Html.Sitecore().Field("Log In Text2")
                         <div class="group">
                             <div class="item">
                                 <label>@Html.Sitecore().Field("Username")</label>
@@ -211,7 +213,7 @@
                         <div class="table-cell">
                             @Html.Sitecore().Field("Were Showing") 
                             <strong>
-                                <span ng-bind="connect.validas.phoneLines">
+                                <span ng-bind="connect.validas.phoneLines"></span>
                                 <span ng-show="connect.validas.phoneLines == 1">@Html.Sitecore().Field("Line")</span>
                                 <span ng-show="connect.validas.phoneLines > 1">@Html.Sitecore().Field("Lines")</span>
                             </strong>
@@ -223,6 +225,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="grid savingsAnalysis">
                 	<h3>@Html.Sitecore().Field("Savings Analysis")</h3>
                 </div>
@@ -233,7 +236,7 @@
                                 @Html.Sitecore().Field("Network Provider")
                             </div>
                             <div class="table-cell current-plan">
-                                {{ connect.validas.network }}
+                                <i class="icon-{{ connect.validas.network }}"></i>
                             </div>
                             <div class="table-cell" ng-class="{expand2Cols: !hasAttRecommendation()}" ng-show="hasSprintRecommendation()">
                                 <div class="mobile-poweredBy" ng-style="{left: logoLeft2Col('sprint')}">
@@ -304,15 +307,26 @@
                         </div>
                         <div class="table-row">
                             <div class="table-cell label">
-                                @Html.Sitecore().Field("Total Cost of ownership over ")
-                                <select ng-option="" /><br />
-                                <a class="hideBreakdown" ng-click="hideBreakdown">@Html.Sitecore().Field("hide breakdown")</a>
+                                @Html.Sitecore().Field("Total Cost of ownership over")
+                                <select ng-model="formData.selectedTimeframe" ng-options="item.months as item.label for item in timeframe"></select><br />
+                                <a href="" class="hideBreakdown" ng-click="showBreakdown = !showBreakdown">
+                                    <span ng-if="showBreakdown">@Html.Sitecore().Field("hide breakdown")</span>
+                                    <span ng-if="!showBreakdown">@Html.Sitecore().Field("show breakdown")</span>
+                                </a>
                             </div>
-                            <div class="table-cell current-plan"></div>
-                            <div class="table-cell" ng-class="{expand2Cols: !hasAttRecommendation()}" ng-show="hasSprintRecommendation()"></div>
-                            <div class="table-cell" ng-class="{expand2Cols: !hasSprintRecommendation()}" ng-show="hasAttRecommendation()"></div>
+                            <div class="table-cell tco current-plan">
+                                <span class="bar" ng-style="{'height': getTCOHeight('currentPlan') }" ng-bind="calculateTCO('currentPlan') | currency"></span>
+                            </div>
+                            <div class="table-cell tco" ng-class="{expand2Cols: !hasAttRecommendation()}" ng-show="hasSprintRecommendation()">
+                                <span class="savings"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('sprint') | currency"></span> @Html.Sitecore().Field("Savings")</span><br />
+                                <span class="bar" ng-style="{'height': getTCOHeight('sprint') }" ng-bind="calculateTCO('sprint') | currency"></span>
+                            </div>
+                            <div class="table-cell tco" ng-class="{expand2Cols: !hasSprintRecommendation()}" ng-show="hasAttRecommendation()">
+                                <span class="savings"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('att') | currency"></span> @Html.Sitecore().Field("Savings")</span><br />
+                                <span class="bar" ng-style="{'height': getTCOHeight('att') }" ng-bind="calculateTCO('att') | currency"></span>
+                            </div>
                         </div>
-                        <div class="table-row">
+                        <div class="table-row" ng-show="showBreakdown">
                             <div class="table-cell label">
                                 @Html.Sitecore().Field("Early Termination Fee")
                             </div>
@@ -324,7 +338,7 @@
                                 $<span ng-bind="connect.validas.totalEtf.toFixed(2)"></span>
                             </div>
                         </div>
-                        <div class="table-row">
+                        <div class="table-row" ng-show="showBreakdown">
                             <div class="table-cell label">
                                 @Html.Sitecore().Field("Leased Device Payoff Fee")
                             </div>
@@ -336,7 +350,7 @@
                                 $<span ng-bind="connect.validas.leasedPayoffFee.toFixed(2)"></span>
                             </div>
                         </div>
-                        <div class="table-row">
+                        <div class="table-row" ng-show="showBreakdown">
                             <div class="table-cell label">
                                 @Html.Sitecore().Field("Activation Fee")
                             </div>
@@ -357,7 +371,7 @@
                                 <div class="activationFee" ng-show="connect.validas.phoneLines > 1">
                                     $<span ng-bind="(connect.validas.phoneLines * att().fees.consumer.group.activation)"></span>
                                     ( <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines") )
-                                </div>                            
+                                </div>
                             </div>
                         </div>
                         <div class="table-row">
@@ -368,18 +382,19 @@
                                 <span class="currentPlan">@Html.Sitecore().Field("Current Plan")</span>
                             </div>
                             <div class="table-cell" ng-class="{expand2Cols: !hasAttRecommendation()}" ng-show="hasSprintRecommendation()">
-                                <input type="button" class="button" value="@Html.Sitecore().Field("Select Sprint Plan")">
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getAttRecommendation().planId}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
                             </div>
                             <div class="table-cell" ng-class="{expand2Cols: !hasSprintRecommendation()}" ng-show="hasAttRecommendation()">
-                                <input type="button" class="button" value="@Html.Sitecore().Field("Select ATT Plan")">
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getSprintRecommendation().planId}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="grid">
-                    <span>@Html.Sitecore().Field("Phone Trade In Text").</span>
+                <div class="trade-and-save stretch">
+                    @Html.Sitecore().Field("Phone Trade In Text")
+                    @*<strong ng-bind="connect.validas.tradeInValue | currency"></strong>
                     <span>@Html.Sitecore().Field("Phone Trade In Text2")</span>
-                    <span>@Html.Sitecore().Field("Phone Trade In Text3")</span>
+                    <span>@Html.Sitecore().Field("Phone Trade In Text3")</span>*@
                 </div>
             </div>
         </script>

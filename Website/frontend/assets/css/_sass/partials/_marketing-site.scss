@@ -2733,6 +2733,14 @@ article.mobile.mobile-plans-usage-calculator {
 				padding: 25px 0;
 			}
 
+			.trade-and-save {
+				padding: 10px 20px 10px 130px;
+				background-color: #fbfbfc;
+				@include retina-background("trade-and-save.png");
+				background-position: 20px center;
+				background-repeat: no-repeat;
+			}
+
 		}
 
 		.manual-calculator {
@@ -2897,6 +2905,29 @@ article.mobile.mobile-plans-usage-calculator {
 					.coverageMapLink {
 						text-align: center;
 					}
+					
+					&.tco {
+						vertical-align: bottom;
+						.savings {
+							color: #368ebe;
+							font-size: 14px;
+						}
+						.bar {
+							display: inline-block;
+							height: 80px;
+							margin-bottom: -10px;
+							padding: 10px;
+							background: #e4e4e4;
+							vertical-align: bottom;
+						}
+						&.current-plan {
+							.bar {
+								background: #a1a1a1;
+								color: #fff;
+							}
+						}
+					}
+
 				}
 
 				.current-plan {

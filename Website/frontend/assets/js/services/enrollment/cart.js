@@ -102,10 +102,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         getCartDataPlan: function() {
             var dataPlan = [];
             var selectedPlan = _(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('offerSelections').first();
-            if (selectedPlan.length > 0) {
+            if (typeof selectedPlan != 'undefined' && selectedPlan.length > 0) {
                 dataPlan.push(_(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: selectedPlan[0].offerId }).first());
             }
-
             return dataPlan;
         },
 
@@ -115,6 +114,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         addDeviceToCart: function(item) {
             cart.items.push(item);
+        },
+
+        removeDeviceFromCart: function(item) {
+            var i = _(cart.items).indexOf(item);
+            cart.items.splice(i, 1);
         },
 
         getProratedCost: function() {
@@ -197,6 +201,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             }
         },
 
+        removeMobileOffers: function (service) {
+            var byType = _(service.offerInformationByType).find({ key: 'Mobile' });
+            byType.value.offerSelections = [];
+        },
+
         removeService: function (service) {
             var index = _(services).indexOf(service);
             services.splice(index, 1);
@@ -268,7 +277,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         cartHasTDU: function (tdu) {
             return _(services)
                .map(function (l) {
-                   if (l.location.address.stateAbbreviation == "TX") {
+                   if (l.location.address.stateAbbreviation == "TX" && _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).size() != 0) {
                        return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
                    }
                }).contains(tdu);

@@ -61,5 +61,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         public string ChildOfferId { get; set; }
 
         public bool IsParentOffer { get; set; }
+
+        public bool IsChildOffer { get; set; }
     }
 }

@@ -24,7 +24,7 @@
                         @Html.Sitecore().Field("Text - What About Overages")
                     </footer>
                 </article>
-                <article class="enrollment__box enrollment__configure-data" ng-show="planSelection.selectedOffers['Mobile'].length">
+                <article class="enrollment__box enrollment__configure-data" ng-show="planSelection.selectedOffers['Mobile'].length && customerType != 'commercial'">
                     <div class="content additional-services">
                         <h3>@Html.Sitecore().Field("Additional Services Header")</h3>
                         <div class="additional-service">

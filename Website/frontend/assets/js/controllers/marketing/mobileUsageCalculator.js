@@ -145,6 +145,51 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return _.find($scope.sprintPlans(), function(n){return n.planId === id;});
     };
 
+    $scope.calculateTCO = function(plan) {
+        var total = 0,
+        monthlyPrice = 0,
+        activationFee = 0;
+
+        if (plan == 'att') {
+            monthlyPrice = $scope.getAttRecommendation().price;
+            extraLineFee = ($scope.connect.validas.phoneLines - 1) * $scope.att().fees.consumer.group.extraLineFee;
+            monthlyPrice += extraLineFee;
+            activationFee = $scope.sprint().fees.consumer.individual.activation;
+        } else if (plan == 'sprint') {
+            monthlyPrice = $scope.getSprintRecommendation().price;
+            extraLineFee = ($scope.connect.validas.phoneLines - 1) * $scope.sprint().fees.consumer.group.extraLineFee;
+            monthlyPrice += extraLineFee;
+            activationFee = $scope.att().fees.consumer.individual.activation;
+        } else {
+            monthlyPrice = $scope.connect.validas.averageMonthlyCost;
+        }
+
+        total = monthlyPrice * $scope.formData.selectedTimeframe;
+
+        total += $scope.connect.validas.totalEtf;
+        total += $scope.connect.validas.leasedPayoffFee;
+        total += activationFee * $scope.connect.validas.phoneLines;
+
+        return total;
+    };
+
+    $scope.getTCOHeight = function(plan) {
+        var currentPlanHeight = 80,
+        maxPlanHeight = 100,
+        planHeight = 0;
+
+        if (plan == 'currentPlan') {
+            return currentPlanHeight + "px";
+        }
+        else {
+            planHeight = $scope.calculateTCO(plan) / $scope.calculateTCO('currentPlan') * 100;
+            if (planHeight > maxPlanHeight) {
+                planHeight = maxPlanHeight;
+            }
+            return planHeight + "px";
+        }
+    };
+
     $scope.logoLeft3Col = function(carrier) {
         return carrier == 'sprint' ? 
             $scope.hasAttRecommendation() ? '60px' : '300px' 
@@ -257,6 +302,22 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
             range: 'min'
         };
 
+        $scope.showBreakdown = false;
+
+        $scope.formData = {
+            selectedTimeframe: 24
+        };
+        $scope.timeframe = [
+            {
+                'label': '1 Year',
+                'months': 12
+            },
+            {
+                'label': '2 Years',
+                'months': 24
+            }
+        ];
+
         $scope.attRecommendedConsumerPlans    = [];
         $scope.sprintRecommendedConsumerPlans = [];
         $scope.sprintRecommendedGroupPlans    = [];
@@ -278,40 +339,39 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
         $scope.selectCarrierConnect('att');
 
-        /*
-            $scope.connect.validas = {
-                billingCount: 1,
-                network: 'att',
-                phoneLines: 2,
-                averageMonthlyData: 593,
-                averageMonthlyCost: 65,
-                totalEtf: 0,
-                leasedPayoffFee: 0,
-                recommendations: [
-                    {
-                        AdditionalLineCharge: 15,
-                        Carrier: "Att",
-                        Cost: 47,
-                        DataIncluded: 1000,
-                        Id: "65",
-                        MaxLines: 1,
-                        PerMbOverage: 0.15,
-                        RecommendationCost: 47
-                    },
-                    {
-                        AdditionalLineCharge: 0,
-                        Carrier: "Sprint",
-                        Cost: 30,
-                        DataIncluded: 1000,
-                        Id: "27",
-                        MaxLines: 1,
-                        PerMbOverage: 0.15,
-                        RecommendationCost: 30
-                    }
-                ]
-            };
-            $scope.connected = true;
-       */
+        $scope.connect.validas = {
+            "billingCount": 1,
+            "network": "att",
+            "phoneLines": 1,
+            "averageMonthlyData": 593,
+            "averageMonthlyCost": 65,
+            "totalEtf": 0,
+            "leasedPayoffFee": 0,
+            "recommendations": [
+                {
+                    "Id": "65",
+                    "Carrier": "Att",
+                    "Cost": 47,
+                    "PerMbOverage": 0.15,
+                    "AdditionalLineCharge": 15,
+                    "DataIncluded": 1000,
+                    "MaxLines": 1,
+                    "RecommendationCost": 47
+                },
+                {
+                    "Id": "27",
+                    "Carrier": "Sprint",
+                    "Cost": 30,
+                    "PerMbOverage": 0.15,
+                    "AdditionalLineCharge": 0,
+                    "DataIncluded": 1000,
+                    "MaxLines": 1,
+                    "RecommendationCost": 30
+                }
+            ]
+        };
+        $scope.connected = true;
+
     };
 
     $scope.init();
