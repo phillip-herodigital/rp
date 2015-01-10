@@ -1,7 +1,5 @@
 ﻿ngApp.controller('MobileEnrollmentChooseNetworkCtrl', ['$scope', '$filter', '$modal', '$http', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'mobileEnrollmentService', function ($scope, $filter, $modal, $http, enrollmentService, enrollmentCartService, enrollmentStepsService, mobileEnrollmentService) {
 
-    var excludedStates = ['AK', 'HI', 'PR'];
-
     $scope.mobileEnrollmentService = mobileEnrollmentService;
 
     $scope.data = { serviceState: 'TX' };
@@ -83,9 +81,9 @@
                     activeService = enrollmentCartService.getActiveService();
                 }
 
-                // if no plans come back, show the "no plans available" dialog
-                var address = enrollmentCartService.getActiveService();
-                if (address.eligibility && address.eligibility != "success") {
+                // if no plans come back, or the state is in the excluded list, show the "no plans available" dialog
+                var activeService = enrollmentCartService.getActiveService();
+                if (!_(data[0]).intersection($scope.mobileEnrollmentSettings.excludedStates) || activeService.eligibility != 'success') {
                     $scope.showNetworks = false;
                 } 
                 else {

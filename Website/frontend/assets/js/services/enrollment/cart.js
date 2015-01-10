@@ -277,7 +277,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         cartHasTDU: function (tdu) {
             return _(services)
                .map(function (l) {
-                   if (l.location.address.stateAbbreviation == "TX") {
+                   if (l.location.address.stateAbbreviation == "TX" && _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).size() != 0) {
                        return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
                    }
                }).contains(tdu);
