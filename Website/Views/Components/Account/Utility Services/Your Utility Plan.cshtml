@@ -127,7 +127,13 @@
                         </p>
                         <div class="details-arrow"></div>*@
                     </td>
-                    <td class="center"><i class="icon-month-to-month" ng-show="utilityPlan.terms = 'Month-to-Month'"></i><p>{{ utilityPlan.terms }}</p></td>
+                    <td class="term" ng-if="utilityPlan.termMonths != '1'">
+                        @Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{utilityPlan.termMonths}}" })
+                    </td>
+                    <td class="term" ng-if="utilityPlan.termMonths == '1'">
+                        <i class="icon-month-to-month"></i>
+                        @Html.Sitecore().Field("Electricity Month To Month")
+                    </td>
                     <td class="center" ng-if="utilityPlan.fees"><span class="plan-cost">{{ utilityPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
                 </tr>
                 <tr class="expand-details additional-fields">
