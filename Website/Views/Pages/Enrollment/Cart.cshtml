@@ -166,7 +166,7 @@
                 <div class="options" ng-if="item.type == 'new'"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
                 <div class="options" ng-if="item.type == 'existing' && item.simNumber">@Html.Sitecore().Field("SIM") {{ item.simNumber }}</div>
                 <div class="options" ng-if="item.type == 'existing' && !item.simNumber">@Html.Sitecore().Field("IMEI") {{ item.imeiNumber }}</div>
-                <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
+                <a href="" ng-click="editMobileDevice(item)">@Html.Sitecore().Field("Edit Phone Link")</a>
             </div>
         </div>
         <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span class="per-month" ng-if="item.buyingOption != 'New'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>

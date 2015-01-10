@@ -165,13 +165,23 @@
         })
     };
 
+    $scope.$watch(mobileEnrollmentService.getEditedDevice, function (device) {
+        if (device.id != null) {
+            if (device.id == '7') {
+                $scope.mobileEnrollment.phoneTypeTab = 'existing';
+            } else {
+                $scope.setSelectedPhone(device.device.id);
+            }
+        }
+    });
+
     /**
      * Complete the Choose Network Step
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {  
         $scope.addDeviceToCart();
-        var activeService = enrollmentCartService.getActiveService()
+        var activeService = enrollmentCartService.getActiveService();
         var dataPlan = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
         
         // reset the dataplan if one is selected

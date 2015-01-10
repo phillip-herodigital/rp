@@ -71,13 +71,16 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Edit Mobile Device
     */
-    $scope.editMobileDevice = function (service) {
+    $scope.editMobileDevice = function (item) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
         }
-        enrollmentCartService.setActiveService(service);
-        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
+        //update the editedDevice object so the Choose Phone page can get its state
+        mobileEnrollmentService.editedDevice = item;
+        //remove the device from the cart items array
+        enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
     };
 
     /**

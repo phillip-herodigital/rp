@@ -116,6 +116,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             cart.items.push(item);
         },
 
+        removeDeviceFromCart: function(item) {
+            var i = _(cart.items).indexOf(item);
+            cart.items.splice(i, 1);
+        },
+
         getProratedCost: function() {
             var plan = enrollmentCartService.getCartDataPlan();
             // a and b are javascript Date objects
