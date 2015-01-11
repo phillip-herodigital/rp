@@ -29,29 +29,33 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 	};
 
     $scope.callValidas = function() {
-        if(! $scope.connect.acceptTermsCheckbox) {
-            alert("Must accept terms");
-            return;
-        }   
-        if(! $scope.connect.username || ! $scope.connect.password || ! $scope.connect.carrier) {
-            alert("Required fields");
-            return;
-        }
+
+        console.log('ran');
+
+        $scope.isLoading = true;
+        $scope.validasErrors = null;
 
         $http({
-            method  : 'POST',
-            url     : '/en/services/mobile/validas-endpoint',
-            data    : {  
-                        username: $scope.connect.username, 
-                        password: $scope.connect.password,
-                        carrier:  $scope.connect.carrier 
-                      },
-            headers : { 'Content-Type': 'application/JSON' } 
+            method: 'POST',
+            url: '/en/services/mobile/validas-endpoint',
+            data: {  
+                username: $scope.connect.username, 
+                password: $scope.connect.password,
+                securityAnswer: $scope.connect.securityAnswer,
+                carrier:  $scope.connect.carrier 
+            },
+            headers: {
+                'Content-Type': 'application/JSON'
+            } 
         })  
-
         .success(function (data, status, headers, config) {
-            $scope.connect.validas = data;
-            $scope.connected = true;
+            $scope.isLoading = false;
+            if (data.Success == false) {
+                $scope.validasErrors = data.Messages;
+            } else {
+                $scope.connect.validas = data;
+                $scope.connected = true;
+            }
         });
     };
 
@@ -149,6 +153,10 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         var total = 0,
         monthlyPrice = 0,
         activationFee = 0;
+
+        if (!$scope.connect.validas) {
+            return;
+        }
 
         if (plan == 'att') {
             monthlyPrice = $scope.getAttRecommendation().price;
@@ -270,6 +278,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
 
     $scope.init = function() {
+
+        $scope.isLoading = false;
+
         $scope.tabs = UsageCalculator.tabs;
 
         $scope.sliderVals = UsageCalculator.sliderVals;
@@ -277,8 +288,6 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         $scope.connected = false;
 
         $scope.connect = {
-            username: "5164496292",
-            password: "37Beetlestone",
             acceptTermsCheckbox: false
         };
 
@@ -337,8 +346,17 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         });
         $scope.sprintRecommendedGroupPlans = $scope.cleanAndSortPlanCollection($scope.sprintRecommendedGroupPlans);
 
-        $scope.selectCarrierConnect('att');
+        //$scope.selectCarrierConnect('att');
 
+
+
+
+
+        
+        $scope.connect.username = "5164496292";
+        $scope.connect.password = "37Beetlestone";
+
+        /*
         $scope.connect.validas = {
             "billingCount": 1,
             "network": "att",
@@ -370,7 +388,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 }
             ]
         };
-        $scope.connected = true;
+        $scope.connected = true;*/
 
     };
 

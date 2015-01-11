@@ -41,6 +41,12 @@
                 </ul>
             </div>
         }
+        @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
+        {
+            <div class="wrapper clearfix footnotes">
+                @Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
+            </div>
+        }
         <div class="site-footer-legal">
             <ul>
                 <li><a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895" target="_blank"><i class="icon-bbb"></i></a></li>
