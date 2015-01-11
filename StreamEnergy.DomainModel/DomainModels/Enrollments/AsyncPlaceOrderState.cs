@@ -16,6 +16,23 @@ namespace StreamEnergy.DomainModels.Enrollments
             this.enrollmentService = enrollmentService;
         }
 
+        public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
+        {
+            if (context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            {
+                if (validationResult.MemberNames.Any(m => m.StartsWith("OnlineAccount")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("SelectedIdentityAnswers")))
+                    return true;
+            }
+            if (!context.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) || !context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
+            {
+                if (validationResult.MemberNames.Any(m => m.StartsWith("PreviousAddress")))
+                    return true;
+            }
+            return base.IgnoreValidation(validationResult, context, internalContext);
+        }
+
         protected override async System.Threading.Tasks.Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
             if (!internalContext.PlaceOrderAsyncResult.IsCompleted)
