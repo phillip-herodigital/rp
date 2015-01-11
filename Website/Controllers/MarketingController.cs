@@ -38,6 +38,13 @@ namespace StreamEnergy.MyStream.Controllers
             return View("~/Views/Pages/Marketing/Contact/Contact.cshtml", model);
         }
 
+        public ActionResult UsageCalculator()
+        {
+            var model = new StreamEnergy.MyStream.Models.Marketing.UsageCalculator();
+
+            return View("~/Views/Components/Marketing/Mobile/Mobile Usage Calculator.cshtml", model);
+        }
+
         [HttpPost]
         [Mvc.ErrorSitecoreTranslation]
         public ActionResult ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)

@@ -254,16 +254,16 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public string Validas(string username, string password, string carrier)
+        public string Validas(string username, string password, string securityAnswer, string carrier)
         {
             using (var client = new HttpClient())
             {
 
                 var json = String.Format("\"LoginUsername\":\"{0}\",\"LoginPassword\":\"{1}\"," +
-                                         "\"LoginChallenge\":\"\",\"Carrier\":\"{2}\",\"DownloadBillHistory\":\"true\"," +
+                                         "\"LoginChallenge\":\"{2}\",\"Carrier\":\"{3}\",\"DownloadBillHistory\":\"true\"," +
                                          "\"DownloadCurrentMonthBill\":\"true\",\"GetProfileDetails\":\"true\"," +
                                          "\"GetDeviceDetails\":\"true\",\"MaxBillingResults\":\"1\"",
-                                         username, password, carrier);
+                                         username, password, securityAnswer, carrier);
                 json = "{" + json + "}";
                 var sign = new System.Security.Cryptography.HMACSHA1(System.Text.Encoding.ASCII.GetBytes("6964220bb159b2728309dd7fb21ae886"));
                 var result = sign.ComputeHash(System.Text.Encoding.ASCII.GetBytes(json));

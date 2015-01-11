@@ -1,4 +1,6 @@
-﻿@using Sitecore.Mvc.Extensions
+﻿@model StreamEnergy.MyStream.Models.Marketing.UsageCalculator
+@using Sitecore.Mvc.Extensions
+
 <article class="marketing mobile tabs mobile-plans-usage-calculator" ng-controller="MobileUsageCalculatorCtrl">
     
     @{
@@ -122,9 +124,10 @@
             music:    @Html.Sitecore().Field("Music"),
             video:    @Html.Sitecore().Field("Video"),
             surfing:  @Html.Sitecore().Field("Surfing")
-        }
+        };
 
     </script>
+
     <div class="wrapper">
         <h1>@Html.Sitecore().Field("Header")</h1>
         <div class="tab-wrapper">
@@ -134,14 +137,12 @@
                     ng-class="{active:isActiveTab(tab.url)}"
                     ng-click="onClickTab(tab)">{{tab.title}}</li>
             </ul>
-            <div class="content">
-                @*<h1>@Html.Sitecore().Field("Helping YOU find the BEST PLAN")</h1>*@
+            <div class="content" loading-indicator>
                 <div ng-include="currentTab"></div>
             </div>
         </div>
         <script type="text/ng-template" id="connect.tpl.html">
             <div class="login" ng-show="!connected">
-                @*<h1>@Html.Sitecore().Field("Connect with your Account")</h1>*@
                 <div class="selectCarrier clearfix">
 	                <div class="selectCarrierText col pull-left">
                         <h4>@Html.Sitecore().Field("Select Carrier")</h4>
@@ -172,18 +173,24 @@
     		            </ul>
                     </div>
 		        </div>
-                <form name="form">
+                <form ng-if="connect.carrier" ng-submit="callValidas()" data-val-bind-messages="validations">
                     <div class="stretch loginFields">
                         @Html.Sitecore().Field("Log In Text")
+                        <div class="notice error" ng-show="validasErrors" ng-cloak>
+                            <p ng-repeat="error in validasErrors">{{ error }}</p>
+                        </div>
+                        @Html.ValidationSummary()
                         <div class="group">
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Username")</label>
-                                <input type="text" ng-model="connect.username" />
+                            <div class="item" @Html.Validation().ErrorClass(model => model.Username)>
+                                <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username")</label>
+                                @Html.TextBoxFor(m => m.Username, new { ng_model = "connect.username" })
+                                @Html.ValidationMessageFor(model => model.Username)
                                 <span class="note">@Html.Sitecore().Field("Forgot Username Link", new { text = @Html.Sitecore().Field("Forgot Username") })</span>
                             </div>
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Password")</label>
-                                <input type="text" ng-model="connect.password" />
+                            <div class="item" @Html.Validation().ErrorClass(model => model.Password)>
+                                <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password")</label>
+                                @Html.PasswordFor(m => m.Password, new { ng_model = "connect.password" })
+                                @Html.ValidationMessageFor(model => model.Password)
                                 <span class="note">@Html.Sitecore().Field("Forgot Password Link", new { text = @Html.Sitecore().Field("Forgot Password") })</span>
                             </div>
                             <div class="item">
@@ -194,10 +201,14 @@
                         </div>
                     </div>
                     <div class="buttons">
-                        <div class="pull-left">
-                            <input type="checkbox" class="acceptCheckbox" ng-model="connect.acceptTermsCheckbox" /> @Html.Sitecore().Field("Agree text")
+                        <div class="item pull-left">
+                            <ul class="checkbox-list">
+                                <li @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
+                                    @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "connect.acceptTermsCheckbox" }) <label for="@Html.IdFor(m => m.AgreeToTerms)">@Html.Sitecore().Field("Agree text")</label>
+                                </li>
+                            </ul>
                         </div>
-                        <input type="submit" class="button" ng-click="callValidas()" value="@Html.Sitecore().Field("Calculate Savings")" />
+                        <button type="submit" data-val-submit>@Html.Sitecore().Field("Calculate Savings")</button>
                     </div>
                 </form>
             </div>
@@ -392,9 +403,6 @@
                 </div>
                 <div class="trade-and-save stretch">
                     @Html.Sitecore().Field("Phone Trade In Text")
-                    @*<strong ng-bind="connect.validas.tradeInValue | currency"></strong>
-                    <span>@Html.Sitecore().Field("Phone Trade In Text2")</span>
-                    <span>@Html.Sitecore().Field("Phone Trade In Text3")</span>*@
                 </div>
             </div>
         </script>
@@ -649,12 +657,20 @@
     					    <div class="table-cell label">
     						    @Html.Sitecore().Field("Plan Selection")
     					    </div>
+                            <div class="table-cell" ng-class="{expand3Cols: !hasAttRecommendation()}" ng-show="hasSprintRecommendation()">
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getAttRecommendation().planId}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
+                            </div>
+                            <div class="table-cell" ng-class="{expand3Cols: !hasSprintRecommendation()}" ng-show="hasAttRecommendation()">
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getSprintRecommendation().planId}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
+                            </div>
+                            @*
     					    <div class="table-cell" ng-class="{expand3Cols: !hasAttRecommendation()}" ng-show="hasSprintRecommendation()">
-    						    <input type="button" class="button" ng-click="selectPlan('sprint')" value="@Html.Sitecore().Field("Select Sprint Plan")"/>
+    						    <a href="" class="button" ng-click="selectPlan('sprint')">@Html.Sitecore().Field("Select Sprint Plan")</a>
     					    </div>
     					    <div class="table-cell" ng-class="{expand3Cols: !hasSprintRecommendation()}" ng-show="hasAttRecommendation()">
-    						    <input type="button" class="button" ng-click="selectPlan('att')" value="@Html.Sitecore().Field("Select ATT Plan")"/>
+    						    <a href="" class="button" ng-click="selectPlan('att')">@Html.Sitecore().Field("Select ATT Plan")</a>
     					    </div>
+                            *@
     				    </div>    				    				
     			    </div>			    			    			
                 </div>
@@ -662,5 +678,3 @@
         </script>
     </div>
 </article>
-
-

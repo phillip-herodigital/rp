@@ -753,6 +753,7 @@
     <Compile Include="Models\Enrollment\SelectedOfferSet.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
+    <Compile Include="Models\Marketing\UsageCalculator.cs" />
     <Compile Include="Models\Marketing\CommercialQuote.cs" />
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\MobileEnrollment\ChoosePhone.cs" />
