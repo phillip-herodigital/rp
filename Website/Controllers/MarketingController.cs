@@ -14,6 +14,9 @@ using System.Web.Mvc;
 using StreamEnergy.DomainModels.Emails;
 using Legacy = StreamEnergy.DomainModels.Accounts.Legacy;
 using System.Threading.Tasks;
+using Sitecore.Data.Items;
+using Sitecore.Data.Fields;
+using Sitecore.Data;
 
 namespace StreamEnergy.MyStream.Controllers
 {
@@ -40,9 +43,142 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult UsageCalculator()
         {
-            var model = new StreamEnergy.MyStream.Models.Marketing.UsageCalculator();
+            
+            var model = new StreamEnergy.MyStream.Models.Marketing.UsageCalculator()
+            {
+                ShowBillScrape = Request.QueryString["mode"] == "connect"
+            };
 
             return View("~/Views/Components/Marketing/Mobile/Mobile Usage Calculator.cshtml", model);
+        }
+
+        public ActionResult GetUsageCalculatorData()
+        {
+            var planRecommendationItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Plan Recommendations/Plan Recommendations");
+            MultilistField attConsumerIndividualPlans = planRecommendationItem.Fields["ATT Consumer Individual Plans"];
+            MultilistField attConsumerGroupPlans = planRecommendationItem.Fields["ATT Consumer Group Plans"];
+            MultilistField sprintConsumerIndividualPlans = planRecommendationItem.Fields["Sprint Consumer Individual Plans"];
+            MultilistField sprintConsumerGroupPlans = planRecommendationItem.Fields["Sprint Consumer Group Plans"];
+
+            var recommendedPlans = new
+            {
+                ATT = new
+                {
+                    Individual = new List<object>(),
+                    Group = new List<object>()
+                },
+                Sprint = new
+                {
+                    Individual = new List<object>(),
+                    Group = new List<object>()
+                }
+            };
+
+            foreach (ID id in attConsumerIndividualPlans.TargetIDs)
+            {
+                Item targetItem = Sitecore.Context.Database.Items[id];
+                recommendedPlans.ATT.Individual.Add(new
+                {
+                    ID = targetItem.ID.ToString(),
+                    PlanId = targetItem.Fields["Plan ID"].Value,
+                    data = targetItem.Fields["Data"].Value,
+                    price = targetItem.Fields["Price"].Value
+                });
+            }
+
+            foreach (ID id in attConsumerGroupPlans.TargetIDs)
+            {
+                Item targetItem = Sitecore.Context.Database.Items[id];
+                recommendedPlans.ATT.Group.Add(new
+                {
+                    ID = targetItem.ID.ToString(),
+                    PlanId = targetItem.Fields["Plan ID"].Value,
+                    data = targetItem.Fields["Data"].Value,
+                    price = targetItem.Fields["Price"].Value
+                });
+            }
+
+            foreach (ID id in sprintConsumerIndividualPlans.TargetIDs)
+            {
+                Item targetItem = Sitecore.Context.Database.Items[id];
+                recommendedPlans.Sprint.Individual.Add(new
+                {
+                    ID = targetItem.ID.ToString(),
+                    PlanId = targetItem.Fields["Plan ID"].Value,
+                    data = targetItem.Fields["Data"].Value,
+                    price = targetItem.Fields["Price"].Value
+                });
+            }
+
+            foreach (ID id in sprintConsumerGroupPlans.TargetIDs)
+            {
+                Item targetItem = Sitecore.Context.Database.Items[id];
+                recommendedPlans.Sprint.Group.Add(new
+                {
+                    ID = targetItem.ID.ToString(),
+                    PlanId = targetItem.Fields["Plan ID"].Value,
+                    data = targetItem.Fields["Data"].Value,
+                    price = targetItem.Fields["Price"].Value
+                });
+            }
+
+            List<object> carriers = new List<object>();
+            carriers.Add(new
+            {
+                key = "att",
+                name = "AT&T",
+                fees = new
+                {
+                    IndividualActivationFee = planRecommendationItem.Fields["ATT Consumer Individual Activation Fee"].Value,
+                    attGroupActivationFee = planRecommendationItem.Fields["ATT Consumer Group Activation Fee"].Value,
+                    attExtraLineFee = planRecommendationItem.Fields["ATT Extra Line Fee"].Value
+                }
+            });
+            carriers.Add(new
+            {
+                key = "sprint",
+                name = "Sprint",
+                fees = new
+                {
+                    IndividualActivationFee = planRecommendationItem.Fields["ATT Consumer Individual Activation Fee"].Value,
+                    attGroupActivationFee = planRecommendationItem.Fields["ATT Consumer Group Activation Fee"].Value,
+                    attExtraLineFee = planRecommendationItem.Fields["ATT Extra Line Fee"].Value
+                }
+            });
+            carriers.Add(new
+            {
+                key = "verizon",
+                name = "Verizon"
+            });
+            carriers.Add(new
+            {
+                key = "tmobile",
+                name = "T-Mobile"
+            });
+
+            var sliderValues = new List<string>();
+            sliderValues.Add(planRecommendationItem.Fields["None"].Value);
+            sliderValues.Add(planRecommendationItem.Fields["Some"].Value);
+            sliderValues.Add(planRecommendationItem.Fields["Alot"].Value);
+
+            var dataMultipliers = new
+            {
+                emails = planRecommendationItem.Fields["Emails"].Value,
+                pictures = planRecommendationItem.Fields["Pictures"].Value,
+                music = planRecommendationItem.Fields["Music"].Value,
+                video = planRecommendationItem.Fields["Video"].Value,
+                surfing = planRecommendationItem.Fields["Surfing"].Value
+            };
+
+            var data = new
+            {
+                recommendedPlans = recommendedPlans,
+                carriers = carriers,
+                sliderValues = sliderValues,
+                dataMultipliers = dataMultipliers
+            };
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
         [HttpPost]

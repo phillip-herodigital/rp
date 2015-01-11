@@ -2,7 +2,11 @@
     <div class="wrapper">
         <div class="overview grid">
             <div class="col">
-                <h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("ATT")</strong></span></h2>
+                <div class="mobile-poweredBy">
+                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
+                    <span>powered by: <strong>@Html.Sitecore().Field("ATT") </strong></span>
+                </div>
+                @*<h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("ATT")</strong></span></h2>*@
                 <div class="grid">
                     @if (Html.Sitecore().HasValue("Show ATT Individual Plans"))
                     {
@@ -29,7 +33,11 @@
                 </div>
             </div>
             <div class="col">
-                <h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("Sprint")</strong></span></h2>
+                <div class="mobile-poweredBy">
+                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
+                    <span>powered by: <strong>@Html.Sitecore().Field("Sprint") </strong></span>
+                </div>
+                @*<h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("Sprint")</strong></span></h2>*@
                 <div class="grid">
                     @if (Html.Sitecore().HasValue("Show Sprint Individual Plans"))
                     {

@@ -10,6 +10,8 @@ namespace StreamEnergy.MyStream.Models.Marketing
     public class UsageCalculator
     {
 
+        public bool ShowBillScrape { get; set; }
+
         [Required(ErrorMessage = "Username Required")]
         public string Username { get; set; }
 

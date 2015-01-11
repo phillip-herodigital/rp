@@ -30,8 +30,6 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
     $scope.callValidas = function() {
 
-        console.log('ran');
-
         $scope.isLoading = true;
         $scope.validasErrors = null;
 
@@ -198,22 +196,6 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         }
     };
 
-    $scope.logoLeft3Col = function(carrier) {
-        return carrier == 'sprint' ? 
-            $scope.hasAttRecommendation() ? '60px' : '300px' 
-        :
-            $scope.hasSprintRecommendation() ? '60px' : '300px'
-        ;
-    };
-
-    $scope.logoLeft2Col = function(carrier) {
-        return carrier == 'sprint' ? 
-            $scope.hasAttRecommendation() ? '60px' : '170px' 
-        :
-            $scope.hasSprintRecommendation() ? '60px' : '170px'
-        ;
-    };
-
     $scope.cleanAndSortPlanCollection = function(coll) {
         _(coll).map(function(plan) {
             if(plan.data.toLowerCase() === 'unlimited') {
@@ -234,8 +216,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     $scope.recalculate = function() {
 
         var subtotal = 0;
-        for(var key in DataMultipliers) {
-            subtotal += ( DataMultipliers[key] * $scope.sliderVals[$scope.manualCalculator[key]] )
+        for(var key in $scope.serverData.dataMultipliers) {
+            subtotal += ( $scope.serverData.dataMultipliers[key] * $scope.sliderVals[$scope.manualCalculator[key]] )
         }
 
         $scope.calculatorTotal = subtotal * $scope.manualCalculator.lines;
@@ -265,7 +247,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     };      
 
     $scope.estimateLabelLeft = function() {
-        return Math.max($('.estimate').width() - $('.estimatedDataLabel').width() - 5, 0);
+        return Math.max($('.estimate').width() - $('.estimatedDataLabel').width() - 15, 0);
     }
 
     $scope.recommendedLabelLeft = function() {
@@ -276,14 +258,16 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         $scope.recalculate();
     }, true);
 
+    $scope.init = function(serverData) {
 
-    $scope.init = function() {
+        $scope.serverData = serverData;
 
         $scope.isLoading = false;
 
         $scope.tabs = UsageCalculator.tabs;
+        $scope.currentTab = UsageCalculator.currentTab;
 
-        $scope.sliderVals = UsageCalculator.sliderVals;
+        $scope.sliderVals = $scope.serverData.sliderValues;
 
         $scope.connected = false;
 
@@ -292,8 +276,6 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         };
 
         $scope.calculatorTotal = 0;
-
-        $scope.currentTab = 'connect.tpl.html';
 
         $scope.manualCalculator = {
             lines: 1,
@@ -346,13 +328,11 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         });
         $scope.sprintRecommendedGroupPlans = $scope.cleanAndSortPlanCollection($scope.sprintRecommendedGroupPlans);
 
-        //$scope.selectCarrierConnect('att');
 
 
 
 
 
-        
         $scope.connect.username = "5164496292";
         $scope.connect.password = "37Beetlestone";
 
@@ -391,7 +371,5 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         $scope.connected = true;*/
 
     };
-
-    $scope.init();
 
 }]);
