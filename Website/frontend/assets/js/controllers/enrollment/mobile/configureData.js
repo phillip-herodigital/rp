@@ -12,19 +12,23 @@
             var provider = mobileEnrollmentService.selectedNetwork.value,
             devicesCount = enrollmentCartService.getDevicesCount();
         
-            if (devicesCount > 1) {
-                return plan.provider.toLowerCase() == provider && plan.isParentOffer;
+            if (devicesCount == 0) {
+                return null;
+            } else if (devicesCount == 1) {
+                return plan.provider.toLowerCase() == provider && !plan.isParentOffer && !plan.isChildOffer;
             } else {
-                return plan.provider.toLowerCase() == provider && !plan.isParentOffer;
+                return plan.provider.toLowerCase() == provider && plan.isParentOffer && !plan.isChildOffer;
             }
         } else {
             return null;
         }
     };
 
+
+
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
-        $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
+        //$scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
                 if (entry.value && _(entry.key).contains('Mobile') && entry.value.offerSelections.length) {
@@ -33,6 +37,13 @@
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;
                 }
             });
+        }
+    });
+
+    // clear the plan selection when any device is added to the cart
+    $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            $scope.planSelection = { selectedOffers: {} };
         }
     });
 

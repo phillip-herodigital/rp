@@ -156,7 +156,7 @@
                                             </label>
                                             <div class="btn-group btn-group-options purchase-options">
                                                 <div ng-repeat="model in mobileEnrollmentService.getPricesForPhone('@phone.Id', phoneOptions.size, phoneOptions.color)" data-additional-fields>
-                                                    <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'{{ model.condition }}'" ng-click="isOpen = false" ng-show="model.inStock">
+                                                    <a href="" class="button" ng-model="phoneOptions.purchaseOption" btn-radio="'{{ model.condition }}'" ng-click="isOpen = false" ng-show="model.inStock" data-val="true" data-val-required>
                                                         <span class="purchase-type">{{ model.condition }}</span>
                                                         <span class="purchase-price">{{ model.price | currency }}</span>
                                                     </a>
@@ -166,7 +166,7 @@
                                                         <span class="purchase-price">{{ model.lease20 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                     </a>
                                                     *@
-                                                    <a href="" class="button btn-group-arrow" ng-click="$parent.isOpen = true" ng-repeat="plan in model.installmentPlans" ng-model="phoneOptions.purchaseOption" btn-radio="{{ plan.aGroupSku }}" ng-show="plan.inStock">
+                                                    <a href="" class="button btn-group-arrow" ng-click="$parent.isOpen = true" ng-repeat="plan in model.installmentPlans" ng-model="phoneOptions.purchaseOption" btn-radio="{{ plan.aGroupSku }}" ng-show="plan.inStock" data-val="true" data-val-required>
                                                         <span class="purchase-type">{{ plan.months }}@Html.Sitecore().Field("Month Installment")</span>
                                                         <span class="purchase-price">{{ plan.price | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                     </a>
@@ -198,7 +198,7 @@
                                                 <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
                                             </label>
                                             <div class="btn-group btn-group-options">
-                                                <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'">@Html.Sitecore().Field("Assign New Number")</a>
+                                                <a href="" class="button btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'">@Html.Sitecore().Field("Assign New Number")</a>
                                                 <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'">@Html.Sitecore().Field("Transfer My Number")</a>
                                             </div>
                                             <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
@@ -214,7 +214,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new'">
+                                            <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new' && false">
                                                 <div class="button button-type-border">
                                                     <label>@Html.Sitecore().Field("Label - Enter Area Code")</label>
                                                     <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{3}$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.number.type == 'new'" data-val-required="" />
@@ -282,7 +282,7 @@
                                             <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
                                         </label>
                                         <div class="btn-group btn-group-options">
-                                            <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'" data-val="true" data-val-required ng-change="phoneOptions.number.value = ''">@Html.Sitecore().Field("Assign New Number")</a>
+                                            <a href="" class="button btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'" data-val="true" data-val-required ng-change="phoneOptions.number.value = ''">@Html.Sitecore().Field("Assign New Number")</a>
                                             <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'" data-val="true" data-val-required ng-change="phoneOptions.number.value = ''">@Html.Sitecore().Field("Transfer My Number")</a>
                                         </div>
                                         <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
@@ -298,7 +298,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new'">
+                                        <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new' && false">
                                             <div class="button button-type-border">
                                                 <label>@Html.Sitecore().Field("Label - Enter Area Code")</label>
                                                 <input type="text" ng-model="phoneOptions.number.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{3}$" data-val-if="mobileEnrollment.phoneTypeTab == 'existing' && phoneOptions.number.type == 'new'" data-val-required="" />

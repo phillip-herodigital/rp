@@ -236,8 +236,8 @@
                                     <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                                         <h3 ng-if="offerInformation.key != 'Mobile'">@Html.Sitecore().Field("Energy Services Text")</h3>
                                         <h3 ng-if="offerInformation.key == 'Mobile'">@Html.Sitecore().Field("Mobile Services Text")</h3>
-                                        @*{{offerInformation}}
-    <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>*@
+                                        @*{{offerInformation}}*@
+                                        <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>
                                     </div>
                                 </div>
                             </div>
@@ -274,11 +274,14 @@
 </script>
 
 <script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricity">
-    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <dl class="clearfix">
-            <dt>{{selectedOffer.offer.name}}</dt>
-            <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
-        </dl>
+    <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <span class="plan">{{ selectedOffer.offer.name }}</span>
+        </div>
+        <div class="rate">
+            {{selectedOffer.offer.rate}}&cent;
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
+        </div>
     </div>
 </script>
 
@@ -289,16 +292,19 @@
         </div>
         <div class="rate">
             ${{selectedOffer.offer.rate}}
-            <span>@Html.Sitecore().Field("Per Therm")</span>
+            <span class="energy-unit">@Html.Sitecore().Field("Per Therm")</span>
         </div>
     </div>
 </script>
 
 <script type="text/ng-template" id="completeOrderCartMonthly/Mobile">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <dl class="clearfix">
-            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" src="'paymentsCart/' + payment.offerPaymentAmountType" />
-        </dl>
+        <div class="description">
+            <span class="plan">Monthly Plan w/ {{ selectedOffer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span></span>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate}}/mo
+        </div>
     </div>
 </script>
 

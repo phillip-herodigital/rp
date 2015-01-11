@@ -339,7 +339,7 @@
         position: relative;
         &:after, &:before {
             display: none;
-            bottom: -25px;
+            bottom: -26px;
             left: 50%;
             border: solid transparent;
             content: " ";
@@ -1494,7 +1494,7 @@
         float: right;
         font-size: 14px;
         font-weight: 600;
-        span {
+        span.energy-unit {
             display: block;
             text-transform: uppercase;
             color: #999;
@@ -2263,13 +2263,13 @@
     }
     .btn-color {
         &:after, &:before {
-            bottom: -20px;
+            bottom: -21px;
         }
     }
     .btn-size {
         margin-right: 5px;
         &:after, &:before {
-            bottom: -25px;
+            bottom: -26px;
         }
     }
     .size {

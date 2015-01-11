@@ -21,7 +21,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
-        if (address && address.location.address.stateAbbreviation == "TX" && !$scope.isRenewal)
+        if (address && address.location.address.stateAbbreviation == "TX" && !$scope.isRenewal && _(address.location.capabilities).filter({ capabilityType: "TexasElectricity" }).size() != 0)
         {
             $scope.provider = _(address.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
         }
@@ -91,10 +91,10 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
 
     $scope.footnoteDisplay = ['*', '†', '‡'];
 
-    //Once a plan is selected, check through all available and see if a selection happend
+    //Once a non-mobile plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
         enrollmentStepsService.setMaxStep('utilityFlowPlans');
-        if (typeof selectedOffers != 'undefined') {
+        if (typeof selectedOffers != 'undefined' && typeof selectedOffers.Mobile == 'undefined') {
             // Map the offers to arrays because, although utilities (which this controller is for) does not allow multiple offers of a type, the cart service does.
             enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { if (offer) { return [offer]; } else return []; }).value());
         }

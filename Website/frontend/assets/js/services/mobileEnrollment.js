@@ -4,6 +4,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         postalCode5: '',
         planType: 'Residential',
         availableNetworks: [],
+        editedDevice: {},
         selectedNetwork: {
         },
         contactInformation: {
@@ -62,6 +63,10 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         } else {
             return null;
         } 
+    };
+
+    service.getEditedDevice = function() {
+        return service.editedDevice;
     };
 
     service.getItemPrice = function(priceObject) {
