@@ -121,6 +121,18 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             cart.items.splice(i, 1);
         },
 
+        getOfferData: function(offerId) {
+            return _(services)
+            .pluck('offerInformationByType').flatten().filter({ key: "Mobile" })
+            .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().data;
+        },
+
+        getOfferPrice: function(offerId) {
+            return _(services)
+            .pluck('offerInformationByType').flatten().filter({ key: "Mobile" })
+            .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().rates[0].rateAmount;
+        },
+
         getProratedCost: function() {
             var plan = enrollmentCartService.getCartDataPlan();
             // a and b are javascript Date objects
@@ -228,7 +240,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .size();
 
             //Get the count for all mobile products
-            var mobile = cart.items.length;
+            var dataPlan = (utility > 0) ? _(services)
+                .pluck('offerInformationByType').flatten().filter({ key: "Mobile" })
+                .pluck('value').filter().pluck('offerSelections').flatten().filter()
+                .size() : 0;
+            var mobile = (dataPlan > 0) ? 1 : cart.items.length;
 
             return utility + mobile;
         },

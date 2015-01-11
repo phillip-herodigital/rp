@@ -21,6 +21,8 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
     $scope.getProratedCost = enrollmentCartService.getProratedCost;
+    $scope.getOfferData = enrollmentCartService.getOfferData;
+    $scope.getOfferPrice = enrollmentCartService.getOfferPrice;
 
     /**
     * Complete Enrollment Section
