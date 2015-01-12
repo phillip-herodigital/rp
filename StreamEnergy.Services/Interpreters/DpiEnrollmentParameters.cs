@@ -34,7 +34,7 @@ namespace StreamEnergy.Interpreters
 
         public string AccountType
         {
-            get { return (queryString["AccountType"] ?? "").ToUpper(); }
+            get { return (queryString["AccountType"] ?? "R").ToUpper(); }
         }
 
         public string ServiceType

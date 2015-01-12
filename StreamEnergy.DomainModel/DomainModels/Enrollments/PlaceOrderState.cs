@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StreamEnergy.DomainModels.Accounts.Create;
+using StreamEnergy.DomainModels.MobileEnrollment;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -86,6 +87,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                 await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.Address);
             }
 
+            if (context.W9BusinessData != null)
+                return typeof(GenerateW9State);
             if (internalContext.PlaceOrderAsyncResult != null)
                 return typeof(AsyncPlaceOrderState);
             return await base.InternalProcess(context, internalContext);
