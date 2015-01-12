@@ -123,9 +123,9 @@
                                 <span ng-show="connect.validas.phoneLines > 1">@Html.Sitecore().Field("Lines")</span>
                             </strong>
                             @Html.Sitecore().Field("Averaged")
-                            <strong><span ng-bind="(connect.validas.averageMonthlyData/1024).toFixed(1)"></span>GB</strong>@Html.Sitecore().Field("Per Month")
+                            <strong><span ng-bind="(connect.validas.averageMonthlyData/1024) | number:1"></span>GB</strong>@Html.Sitecore().Field("Per Month")
                             @Html.Sitecore().Field("At A Price Of")
-                            <strong>$<span ng-bind="connect.validas.averageMonthlyCost.toFixed(2)"></span></strong>@Html.Sitecore().Field("Per Month").
+                            <strong><span ng-bind="connect.validas.averageMonthlyCost | currency"></span></strong>@Html.Sitecore().Field("Per Month").
                             <a href='#' ng-click="resetConnect()">@Html.Sitecore().Field("Login With A Different Account")</a>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                                 @Html.Sitecore().Field("Monthly Data")
                             </div>
                             <div class="table-cell current-plan">
-                                <span ng-bind="(connect.validas.averageMonthlyData / 1024).toFixed(1)"></span> GB
+                                <span ng-bind="(connect.validas.averageMonthlyData / 1024) | number:1"></span> GB
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 <span ng-bind="getValidasRecommendation('sprint').data"></span> GB
@@ -201,13 +201,13 @@
                                 @Html.Sitecore().Field("Monthly Cost")
                             </div>
                             <div class="table-cell current-plan">
-                                $<span ng-bind="connect.validas.averageMonthlyCost.toFixed(2)"></span>
+                                <span ng-bind="connect.validas.averageMonthlyCost | currency"></span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                $<span ng-bind="getValidasRecommendation('sprint').price.toFixed(2)"></span>
+                                <span ng-bind="getValidasRecommendation('sprint').price | currency"></span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                $<span ng-bind="getValidasRecommendation('att').price.toFixed(2)"></span>
+                                <span ng-bind="getValidasRecommendation('att').price | currency"></span>
                             </div>
                         </div>
                         <div class="table-row">
@@ -237,10 +237,10 @@
                             </div>
                             <div class="table-cell current-plan">-</div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                $<span ng-bind="connect.validas.totalEtf.toFixed(2)"></span>
+                                <span ng-bind="connect.validas.totalEtf | currency"></span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                $<span ng-bind="connect.validas.totalEtf.toFixed(2)"></span>
+                                <span ng-bind="connect.validas.totalEtf | currency"></span>
                             </div>
                         </div>
                         <div class="table-row" ng-show="showBreakdown">
@@ -249,10 +249,10 @@
                             </div>
                             <div class="table-cell current-plan">-</div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                $<span ng-bind="connect.validas.leasedPayoffFee.toFixed(2)"></span>
+                                <span ng-bind="connect.validas.leasedPayoffFee | currency"></span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                $<span ng-bind="connect.validas.leasedPayoffFee.toFixed(2)"></span>
+                                <span ng-bind="connect.validas.leasedPayoffFee | currency"></span>
                             </div>
                         </div>
                         <div class="table-row" ng-show="showBreakdown">
