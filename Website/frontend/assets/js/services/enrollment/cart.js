@@ -133,6 +133,45 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().rates[0].rateAmount;
         },
 
+        getDeviceTax: function (deviceId) {
+            return _(services)
+                .pluck('offerInformationByType').flatten().filter()
+                .pluck('value').filter().pluck('offerSelections').flatten()
+                .filter(function(offer){
+                    if (offer.offerOption.inventoryItemId == deviceId){ 
+                        return offer
+                    }
+                }).pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
+                .pluck('taxTotal').filter()
+                .reduce(sum, 0);
+        },
+
+        getDeviceActivationFee: function (deviceId) {
+            return _(services)
+                .pluck('offerInformationByType').flatten().filter()
+                .pluck('value').filter().pluck('offerSelections').flatten()
+                .filter(function(offer){
+                    if (offer.offerOption.inventoryItemId == deviceId){ 
+                        return offer
+                    }
+                }).pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
+                .pluck('taxTotal').filter()
+                .reduce(sum, 0);
+        },
+
+        getDeviceDeposit: function (deviceId) {
+            return _(services)
+                .pluck('offerInformationByType').flatten().filter()
+                .pluck('value').filter().pluck('offerSelections').flatten()
+                .filter(function(offer){
+                    if (offer.offerOption.inventoryItemId == deviceId){ 
+                        return offer
+                    }
+                }).pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
+                .pluck('subTotal').filter()
+                .reduce(sum, 0);
+        },
+
         getProratedCost: function() {
             var plan = enrollmentCartService.getCartDataPlan();
             // a and b are javascript Date objects
