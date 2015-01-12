@@ -341,7 +341,7 @@
                         
                     </div>
                     <div class="buttons">
-                        <button type="submit" class="primary" ng-if="customerType != 'commercial' || cartHasMobile() && !isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                        <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Button")</button>
                         <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                         <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                         <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">

@@ -63,7 +63,7 @@ namespace StreamEnergy.MyStream.Conditions
 
             var targetDpiUrl = dependencies.EnrollmentParameters.GetTargetDpiUrlBuilder();
 
-            if (targetDpiUrl == null)
+            if (targetDpiUrl == null || queryString["renewal"] == "true")
                 return false;
 
             bool redirect = false;
