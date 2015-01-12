@@ -2,55 +2,64 @@
     <header class="clearfix">
         <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
     </header>
-    <div class="content">
-        <p>@Html.Sitecore().Field("Current Usage Text")</p>
-        <div class="current-usage" ng-show="data.deviceUsage.length">
-            <div class="usage-meter clearfix" ng-class="{overage: data.totalUsage > data.dataUsageLimit}">
-                <span class="bar estimated" ng-style="{width: getPercentage(data.estimatedUsage, data.graphScale.low, data.graphScale.high)+'%'}">
-                    <span class="picket"></span>
-                    <span class="label">Estimated: {{ data.estimatedUsage | gigabyte }} GB</span>
-                </span>
-                <span class="bar used" ng-style="{width:getPercentage(data.totalUsage, data.graphScale.low, data.graphScale.high)+'%'}">
-                    <span class="picket"></span>
-                    <span class="label" ng-mouseover="showBreakdown = true" ng-mouseleave="showBreakdown = false">
-                        Usage: {{ data.totalUsage | gigabyte }} GB of {{ data.dataUsageLimit | gigabyte }} GB
-                        <div class="breakdown" ng-show="showBreakdown">
-                            <table>
-                                <thead>
-                                    <tr><td colspan="2">Usage Breakdown</td></tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="device in data.deviceUsage">
-                                        <td class="device-name">{{ device.number | phone }}</td>
-                                        <td class="device-number">{{ device.dataUsage | gigabyte }} GB</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+    <div class="noUsage" ng-show="noUsage">
+        @Html.Sitecore().Field("No Usage Text")
+    </div>
+    <div class="usage-summary-content">
+        <div class="noUsageOverlay">
+            <span class="bg"></span>
+            <span class="sample">Sample Data</span>
+        </div>
+        <div class="content">
+            <p>@Html.Sitecore().Field("Current Usage Text")</p>
+            <div class="current-usage" ng-show="data.deviceUsage.length">
+                <div class="usage-meter clearfix" ng-class="{overage: data.totalUsage > data.dataUsageLimit}">
+                    <span class="bar estimated" ng-style="{width: getPercentage(data.estimatedUsage, data.graphScale.low, data.graphScale.high)+'%'}">
+                        <span class="picket"></span>
+                        <span class="label">Estimated: {{ data.estimatedUsage | gigabyte }} GB</span>
                     </span>
-                </span>
-                <span class="bar total" ng-style="{width:getPercentage(data.dataUsageLimit, data.graphScale.low, data.graphScale.high)+'%'}">
-                    <span class="picket"></span>
-                    <span class="label">{{ data.dataUsageLimit | gigabyte }} GB <br />@Html.Sitecore().Field("Data Plan")</span>
-                </span>
-            </div>
-            <div class="scale">
-                <div class="scale-label low">
-                    <span class="picket"></span>
-                    <span class="label">{{ data.graphScale.low }} GB</span>
+                    <span class="bar used" ng-style="{width:getPercentage(data.totalUsage, data.graphScale.low, data.graphScale.high)+'%'}">
+                        <span class="picket"></span>
+                        <span class="label" ng-mouseover="showBreakdown = true" ng-mouseleave="showBreakdown = false">
+                            Usage: {{ data.totalUsage | gigabyte }} GB of {{ data.dataUsageLimit | gigabyte }} GB
+                            <div class="breakdown" ng-show="showBreakdown">
+                                <table>
+                                    <thead>
+                                        <tr><td colspan="2">Usage Breakdown</td></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="device in data.deviceUsage">
+                                            <td class="device-name">{{ device.number | phone }}</td>
+                                            <td class="device-number">{{ device.dataUsage | gigabyte }} GB</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </span>
+                    </span>
+                    <span class="bar total" ng-style="{width:getPercentage(data.dataUsageLimit, data.graphScale.low, data.graphScale.high)+'%'}">
+                        <span class="picket"></span>
+                        <span class="label">{{ data.dataUsageLimit | gigabyte }} GB <br />@Html.Sitecore().Field("Data Plan")</span>
+                    </span>
                 </div>
-                <div class="scale-label mid">
-                    <span class="picket"></span>
-                    <span class="label">{{ data.graphScale.middle }}  GB</span>
-                </div>
-                <div class="scale-label high">
-                    <span class="picket"></span>
-                    <span class="label">{{ data.graphScale.high }}  GB</span>
+                <div class="scale">
+                    <div class="scale-label low">
+                        <span class="picket"></span>
+                        <span class="label">{{ data.graphScale.low }} GB</span>
+                    </div>
+                    <div class="scale-label mid">
+                        <span class="picket"></span>
+                        <span class="label">{{ data.graphScale.middle }}  GB</span>
+                    </div>
+                    <div class="scale-label high">
+                        <span class="picket"></span>
+                        <span class="label">{{ data.graphScale.high }}  GB</span>
+                    </div>
                 </div>
             </div>
         </div>
+        <footer>
+            @Html.Sitecore().Field("Footer Text")
+        </footer>
     </div>
-    <footer>
-        @Html.Sitecore().Field("Footer Text")
-    </footer>
 </article>

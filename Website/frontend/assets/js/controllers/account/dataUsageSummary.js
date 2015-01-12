@@ -17,6 +17,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     };
 
     $scope.showBreakdown = false;
+    $scope.noUsage = false;
 
     $scope.$watch('selectedAccount.accountNumber', function(newVal) { 
         if (newVal) {
@@ -31,7 +32,17 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             })
 			.success(function (data, status, headers, config) {
                 $scope.data = angular.extend($scope.data, data);
-                //$scope.data = angular.extend($scope.data, {"lastBillingDate":"2015-01-01T00:00:00","nextBillingDate":"2015-01-30T00:00:00","dataUsageLimit":15.0,"deviceUsage":[{"number":"1234561156","dataUsage":2873560776.33811,"messagesUsage":541.0,"minutesUsage":322.0},{"number":"1234561157","dataUsage":309601205.144169,"messagesUsage":834.0,"minutesUsage":21.0},{"number":"1234561155","dataUsage":68811227.5320427,"messagesUsage":247.0,"minutesUsage":623.0},{"number":"1234561158","dataUsage":3114350753.95024,"messagesUsage":128.0,"minutesUsage":720.0}]});
+                
+                if (_.every($scope.data.deviceUsage, function (d) { return (d.dataUsage == null); })) {
+                    $scope.noUsage = true;
+                    for (var i = 0, device; device = $scope.data.deviceUsage[i]; i++) {
+                        var rand = Math.sin(device.number) * 1000;
+                        rand -= rand - Math.floor(rand);
+                        device.dataUsage = 1000000 * rand;
+                        device.minutesUsage = Math.round(rand * .5);
+                        device.messagesUsage = Math.round(rand * .75);
+                    }
+                }
 
 			    $scope.data.lastBillingDate = new Date($scope.data.lastBillingDate);
                 $scope.data.nextBillingDate = new Date($scope.data.nextBillingDate);

@@ -81,13 +81,12 @@
                     activeService = enrollmentCartService.getActiveService();
                 }
 
-                // if no plans come back, or the state is in the excluded list, show the "no plans available" dialog
-                var activeService = enrollmentCartService.getActiveService();
-                if (!_(data[0]).intersection($scope.mobileEnrollmentSettings.excludedStates) || activeService.eligibility != 'success') {
-                    $scope.showNetworks = false;
+                // if the state is in the excluded list, show the "no plans available" dialog
+                if (_(data[0]).intersection($scope.mobileEnrollmentSettings.excludedStates)) {
+                    $scope.showNetworks = true;
                 } 
                 else {
-                    $scope.showNetworks = true;
+                    $scope.showNetworks = false;
                 }
             }
             else {

@@ -193,29 +193,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var startDate = request.StartDate.HasValue ? request.StartDate.Value : mobileAccountDetails.LastBillDate;
             var endDate = request.EndDate.HasValue ? request.EndDate.Value : mobileAccountDetails.NextBillDate;
 
-            if (await accountService.GetAccountUsageDetails(account, startDate, endDate, false))
-            {
-                return new GetMobileUsageResponse()
-                {
-                    NextBillingDate = endDate,
-                    LastBillingDate = startDate,
-                    DataUsageLimit = account.Usage.Max(p => ((MobileAccount)p.Key).PlanDataAvailable),
-                    DeviceUsage = from row in account.Usage
-                                  let device = row.Key as MobileAccount
-                                  let usage = row.Value as MobileAccountUsage
-                                  select new MobileUsage()
-                                  {
-                                      Name = device.EquipmentId,
-                                      Number = device.PhoneNumber,
-                                      Id = device.Id,
-                                      DataUsage = usage.DataUsage,
-                                      MessagesUsage = usage.MessagesUsage,
-                                      MinutesUsage = usage.MinutesUsage,
-                                  },
-                };
-            }
+            await accountService.GetAccountUsageDetails(account, startDate, endDate, false);
 
-            return null;
+            var response = new GetMobileUsageResponse()
+            {
+                NextBillingDate = mobileAccountDetails.NextBillDate,
+                LastBillingDate = mobileAccountDetails.LastBillDate,
+                DataUsageLimit = account.SubAccounts.Cast<MobileAccount>().Max(p => p.PlanDataAvailable),
+                DeviceUsage = from device in account.SubAccounts.Cast<MobileAccount>()
+                              let usage = (MobileAccountUsage)(account.Usage != null ? account.Usage.FirstOrDefault(u => u.Key == device).Value : null)
+                              select new MobileUsage()
+                              {
+                                  Name = device.EquipmentId,
+                                  Number = device.PhoneNumber,
+                                  Id = device.Id,
+                                  DataUsage = usage != null ? usage.DataUsage : (decimal?)null,
+                                  MessagesUsage = usage != null ? usage.MessagesUsage : (decimal?)null,
+                                  MinutesUsage = usage != null ? usage.MinutesUsage : (decimal?)null,
+
+                              },
+            };
+
+            return response;
         }
         #endregion
 
@@ -240,10 +239,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 return null;
             }
-
+            var mobileDetails = account.Details as MobileAccountDetails;
             var plans = await enrollmentService.LoadOffers(new Location[] {
                 new Location() {
-                    Address = account.Details.BillingAddress,
+                    Address = new DomainModels.Address()
+                    {
+                        PostalCode5 = !string.IsNullOrEmpty(account.Details.BillingAddress.PostalCode5) ? account.Details.BillingAddress.PostalCode5 : "75039",
+                        StateAbbreviation = account.Details.BillingAddress.StateAbbreviation ?? "TX",
+                    },
                     Capabilities = new StreamEnergy.DomainModels.IServiceCapability[]
                     {
                         new ServiceStatusCapability() {
@@ -258,17 +261,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             });
 
 
-            var subAccountForPlan = (account.SubAccounts.Count() == 0 ? account.SubAccounts[0] : account.SubAccounts.FirstOrDefault(sa => ((MobileAccount)sa).IsParentGroup == true)) as MobileAccount;
-            return new GetMobilePlanOptionsResponse()
+            var subAccountForPlan = (account.SubAccounts.Count() == 1 ? account.SubAccounts[0] : account.SubAccounts.FirstOrDefault(sa => ((MobileAccount)sa).IsParentGroup == true)) as MobileAccount;
+            var response = new GetMobilePlanOptionsResponse()
             {
                 CurrentPlanId = subAccountForPlan != null ? subAccountForPlan.PlanId : null,
                 EffectiveDate = DateTime.Now,
                 DataPlans = (from offer in plans.First().Value.Offers
                              let mobileOffer = offer as DomainModels.Enrollments.Mobile.Offer
-                             where mobileOffer != null
+                             where mobileOffer != null && !mobileOffer.IsChildOffer
+                             where mobileOffer.Provider == subAccountForPlan.Carrier
                              where (account.SubAccounts.Count() == 1 && mobileOffer.IsParentOffer == false) || (account.SubAccounts.Count() > 1 && mobileOffer.IsParentOffer == true)
-                             select mobileOffer).ToArray(),
+                             select mobileOffer).OrderBy(o => o.Data).ToArray(),
             };
+            return response;
         }
 
         [HttpPost]
