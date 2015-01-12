@@ -98,16 +98,16 @@
                         <div class="content">
                             <p>@Html.Sitecore().Field("Text - Business Information")</p>
                             <div class="group">
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.BusinessInformationName)>
-                                    <label for="@Html.IdFor(m => m.BusinessInformationName)">@Html.Sitecore().Field("Label - Name")</label>
-                                    @Html.TextBoxFor(m => m.BusinessInformationName, new { ng_model = "businessInformationName" })
-                                    @Html.ValidationMessageFor(model => model.BusinessInformationName)
+                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.W9BusinessData.BusinessInformationName)>
+                                    <label for="@Html.IdFor(m => m.W9BusinessData.BusinessInformationName)">@Html.Sitecore().Field("Label - Name")</label>
+                                    @Html.TextBoxFor(m => m.W9BusinessData.BusinessInformationName, new { ng_model = "w9BusinessData.businessInformationName" })
+                                    @Html.ValidationMessageFor(model => model.W9BusinessData.BusinessInformationName)
                                     <span class="note">@Html.Sitecore().Field("Note - Name")</span>
                                 </div>
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.BusinessName)>
-                                    <label for="@Html.IdFor(m => m.BusinessName)">@Html.Sitecore().Field("Label - Business Name")</label>
-                                    @Html.TextBoxFor(m => m.BusinessName, new { ng_model = "businessName" })
-                                    @Html.ValidationMessageFor(model => model.BusinessName)
+                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.W9BusinessData.BusinessName)>
+                                    <label for="@Html.IdFor(m => m.W9BusinessData.BusinessName)">@Html.Sitecore().Field("Label - Business Name")</label>
+                                    @Html.TextBoxFor(m => m.W9BusinessData.BusinessName, new { ng_model = "w9BusinessData.businessName" })
+                                    @Html.ValidationMessageFor(model => model.W9BusinessData.BusinessName)
                                     <span class="note">@Html.Sitecore().Field("Note - Business Name")</span>
                                 </div>
                             </div>
@@ -116,23 +116,23 @@
                                 <label>@Html.Sitecore().Field("Federal Tax Classification")</label>
                                 <ul class="checkbox-list inline">
                                     <li>
-                                        <input type="radio" name="taxClassification" ng-model="taxClassification" value="IndividualSoleProprietor" checked /> <label>@Html.Sitecore().Field("Label - Individual")</label>
+                                        <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="IndividualSoleProprietor" checked /> <label>@Html.Sitecore().Field("Label - Individual")</label>
                                     </li>
                                     <li>
-                                        <input type="radio" name="taxClassification" ng-model="taxClassification" value="CCorporation" /> <label>@Html.Sitecore().Field("Label - C Corporation")</label>
+                                        <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="CCorporation" /> <label>@Html.Sitecore().Field("Label - C Corporation")</label>
                                     </li>
                                     <li>
-                                        <input type="radio" name="taxClassification" ng-model="taxClassification" value="SCorporation" /> <label>@Html.Sitecore().Field("Label - S Corporation")</label>
+                                        <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="SCorporation" /> <label>@Html.Sitecore().Field("Label - S Corporation")</label>
                                     </li>
                                     <li>
-                                        <input type="radio" name="taxClassification" ng-model="taxClassification" value="Partnership" /> <label>@Html.Sitecore().Field("Label - Partnership")</label>
+                                        <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="Partnership" /> <label>@Html.Sitecore().Field("Label - Partnership")</label>
                                     </li>
                                     <li>
-                                        <input type="radio" name="taxClassification" ng-model="taxClassification" value="TrustEstate" /> <label>@Html.Sitecore().Field("Label - Trust Estate")</label>
+                                        <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="TrustEstate" /> <label>@Html.Sitecore().Field("Label - Trust Estate")</label>
                                     </li>
                                     <li>
-                                        <input type="radio" name="taxClassification" ng-model="taxClassification" value="LLC" /> <label>@Html.Sitecore().Field("Label - Limited Liability Company")</label>
-                                        <select ng-model="llcClassification">
+                                        <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="LLC" /> <label>@Html.Sitecore().Field("Label - Limited Liability Company")</label>
+                                        <select ng-model="w9BusinessData.llcClassification">
                                             <option value="">Choose</option>
                                             <option value="LLC - As an @Html.Sitecore().Field("Label - Individual")">As an @Html.Sitecore().Field("Label - Individual")</option>
                                             <option value="LLC - As a @Html.Sitecore().Field("Label - Partnership")">As a @Html.Sitecore().Field("Label - Partnership")</option>
@@ -141,23 +141,23 @@
                                         </select>
                                     </li>
                                     <li>
-                                        <input type="radio" name="taxClassification" ng-model="taxClassification" value="Other" /> <label>@Html.Sitecore().Field("Label - Other")</label>
-                                        <input type="text" ng-model="otherClassification" />
+                                        <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="Other" /> <label>@Html.Sitecore().Field("Label - Other")</label>
+                                        <input type="text" ng-model="w9BusinessData.otherClassification" />
                                     </li>
                                 </ul>
                             </div>
                             <div class="item">
                                 <label>@Html.Sitecore().Field("Text - Exemptions")</label>
                                 <ul class="checkbox-list">
-                                    <li @Html.Validation().ErrorClass(m => m.ExemptCode)>
-                                        <input type="checkbox" ng-model="hasExemptCode" /> <label for="@Html.IdFor(m => m.ExemptCode)">@Html.Sitecore().Field("Label - Exempt Payee Code")</label>
-                                        @Html.TextBoxFor(m => m.ExemptCode, new { data_val_if = "hasExemptCode", ng_model = "exemptCode" })
-                                        @Html.ValidationMessageFor(model => model.ExemptCode)
+                                    <li @Html.Validation().ErrorClass(m => m.W9BusinessData.ExemptCode)>
+                                        <input type="checkbox" ng-model="w9BusinessData.hasExemptCode" /> <label for="@Html.IdFor(m => m.W9BusinessData.ExemptCode)">@Html.Sitecore().Field("Label - Exempt Payee Code")</label>
+                                        @Html.TextBoxFor(m => m.W9BusinessData.ExemptCode, new { data_val_if = "w9BusinessData.hasExemptCode", ng_model = "w9BusinessData.exemptCode" })
+                                        @Html.ValidationMessageFor(model => model.W9BusinessData.ExemptCode)
                                     </li>
-                                    <li @Html.Validation().ErrorClass(m => m.FatcaCode)>
-                                        <input type="checkbox" ng-model="hasFATCACode" /> <label for="@Html.IdFor(m => m.FatcaCode)">@Html.Sitecore().Field("Label - Exempt From FATCA")</label>
-                                        @Html.TextBoxFor(m => m.FatcaCode, new { data_val_if = "hasFATCACode", ng_model = "fatcaCode" })
-                                        @Html.ValidationMessageFor(model => model.FatcaCode)
+                                    <li @Html.Validation().ErrorClass(m => m.W9BusinessData.FatcaCode)>
+                                        <input type="checkbox" ng-model="hasFATCACode" /> <label for="@Html.IdFor(m => m.W9BusinessData.FatcaCode)">@Html.Sitecore().Field("Label - Exempt From FATCA")</label>
+                                        @Html.TextBoxFor(m => m.W9BusinessData.FatcaCode, new { data_val_if = "hasFATCACode", ng_model = "w9BusinessData.fatcaCode" })
+                                        @Html.ValidationMessageFor(model => model.W9BusinessData.FatcaCode)
                                     </li>
                                 </ul>
                             </div>
@@ -171,25 +171,25 @@
                                     </li>
                                 </ul>
                             </div>
-                            @using (var businessAddress = Html.Shortcut(m => m.BusinessAddress))
+                            @using (var businessAddress = Html.Shortcut(m => m.W9BusinessData.BusinessAddress))
                             {
                                 <div ng-hide="businessAddressSame" class="item">
                                     <div class="group">
                                         <div class="item group-col" @(businessAddress.Validation().ErrorClass(m => m.Line1))>
                                             <label for="@businessAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1")</label>
-                                            @businessAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "!businessAddressSame", ng_model = "businessAddress.line1" }))
+                                            @businessAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "!businessAddressSame", ng_model = "w9BusinessData.businessAddress.line1" }))
                                             @businessAddress.ValidationMessageFor(m => m.Line1)
                                         </div>
                                         <div class="item group-col" @businessAddress.Validation().ErrorClass(m => m.Line2)>
                                             <label for="@businessAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2")</label>
-                                            @businessAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "!businessAddressSame", ng_model = "businessAddress.line2" }))
+                                            @businessAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "!businessAddressSame", ng_model = "w9BusinessData.businessAddress.line2" }))
                                             @businessAddress.ValidationMessageFor(m => m.Line2)
                                         </div>
                                     </div>
                                     <div class="group">
                                         <div class="item group-col" @businessAddress.Validation().ErrorClass(m => m.City)>
                                             <label for="@businessAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City")</label>
-                                            @businessAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "!businessAddressSame", ng_model = "businessAddress.city" }))
+                                            @businessAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "!businessAddressSame", ng_model = "w9BusinessData.businessAddress.city" }))
                                             @businessAddress.ValidationMessageFor(m => m.City)
                                         </div>
                                         <div class="item" @businessAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
@@ -199,23 +199,23 @@
                                                         new
                                                         {
                                                             data_val_if = "!businessAddressSame",
-                                                            ng_model = "businessAddress.stateAbbreviation",
+                                                            ng_model = "w9BusinessData.businessAddress.stateAbbreviation",
                                                             ng_options = "state.abbreviation as state.display for state in usStates"
                                                         }))
                                             @businessAddress.ValidationMessageFor(m => m.StateAbbreviation)
                                         </div>
                                         <div class="item zip-code" @businessAddress.Validation().ErrorClass(m => m.PostalCode5)>
                                             <label for="@businessAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Code")</label>
-                                            @businessAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!businessAddressSame", ng_model = "businessAddress.postalCode5" }))
+                                            @businessAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!businessAddressSame", ng_model = "w9BusinessData.businessAddress.postalCode5" }))
                                             @businessAddress.ValidationMessageFor(m => m.PostalCode5)
                                         </div>
                                     </div>
                                 </div>
                             }
-                            <div class="item" @Html.Validation().ErrorClass(m => m.CurrentAccountNumbers)>
-                                <label for="@Html.IdFor(m => m.CurrentAccountNumbers)">@Html.Sitecore().Field("Label - List Account Numbers")</label>
-                                @Html.TextBoxFor(m => m.CurrentAccountNumbers, new { ng_model = "currentAccountNumbers" })
-                                @Html.ValidationMessageFor(model => model.CurrentAccountNumbers)
+                            <div class="item" @Html.Validation().ErrorClass(m => m.W9BusinessData.CurrentAccountNumbers)>
+                                <label for="@Html.IdFor(m => m.W9BusinessData.CurrentAccountNumbers)">@Html.Sitecore().Field("Label - List Account Numbers")</label>
+                                @Html.TextBoxFor(m => m.W9BusinessData.CurrentAccountNumbers, new { ng_model = "w9BusinessData.currentAccountNumbers" })
+                                @Html.ValidationMessageFor(model => model.W9BusinessData.CurrentAccountNumbers)
                             </div>
                             @* Use this info from the previous step
                             <hr />
@@ -244,10 +244,10 @@
                             <div class="terms-agreement">
                                 <div class="item">
                                     <ul class="checkbox-list">
-                                        <li @Html.Validation().ErrorClass(m => m.CustomerCertification)>
-                                            @Html.CheckBoxFor(m => m.CustomerCertification, new { ng_model = "customerCertification" })
-                                            <label for="@Html.IdFor(m => m.CustomerCertification)">@Html.Sitecore().Field("Label - Certification")</label>
-                                            @Html.ValidationMessageFor(model => model.CustomerCertification)
+                                        <li @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerCertification)>
+                                            @Html.CheckBoxFor(m => m.W9BusinessData.CustomerCertification, new { ng_model = "w9BusinessData.customerCertification" })
+                                            <label for="@Html.IdFor(m => m.W9BusinessData.CustomerCertification)">@Html.Sitecore().Field("Label - Certification")</label>
+                                            @Html.ValidationMessageFor(model => model.W9BusinessData.CustomerCertification)
                                         </li>
                                     </ul>
                                     <div class="terms">
@@ -259,15 +259,15 @@
                             <div class="group">
                                 <div class="item group-col">
                                     <label>@Html.Sitecore().Field("Label - Signature") <a href="" tooltip-html-unsafe="@Html.Sitecore().Field("Signature Tooltip").ToHtmlString()"><i class="icon-tooltip"></i></a></label>
-                                    <div class="signature" ng-click="showSignatureModal('signature')" ng-class="{empty:!customerSignature}" @Html.Validation().ErrorClass(m => m.CustomerSignature)>
-                                        <span ng-if="!customerSignature">@Html.Sitecore().Field("Text - Add Signature")</span>
-                                        <span ng-if="customerSignature">
-                                            <span class="signature-name" ng-if="signatureImage == null">{{ customerSignature }}</span>
-                                            <span ng-if="signatureImage != null" class="signature-image"><img ng-src="data:image/png;base64,{{ signatureImage }}" /></span>
+                                    <div class="signature" ng-click="showSignatureModal('signature')" ng-class="{empty:!customerSignature}" @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerSignature)>
+                                        <span ng-if="!w9BusinessData.customerSignature">@Html.Sitecore().Field("Text - Add Signature")</span>
+                                        <span ng-if="w9BusinessData.customerSignature">
+                                            <span class="signature-name" ng-if="w9BusinessData.signatureImage == null">{{ w9BusinessData.customerSignature }}</span>
+                                            <span ng-if="w9BusinessData.signatureImage != null" class="signature-image"><img ng-src="data:image/png;base64,{{ w9BusinessData.signatureImage }}" /></span>
                                             <a href="">@Html.Sitecore().Field("Text - Edit Signature")</a>
                                         </span>
-                                        @Html.HiddenFor(m => m.CustomerSignature, new { ng_model = "customerSignature" })
-                                        @Html.ValidationMessageFor(model => model.CustomerSignature)
+                                        @Html.HiddenFor(m => m.W9BusinessData.CustomerSignature, new { ng_model = "w9BusinessData.customerSignature" })
+                                        @Html.ValidationMessageFor(model => model.W9BusinessData.CustomerSignature)
                                     </div>
                                     <ul class="checkbox-list">
                                         <li>
@@ -283,15 +283,15 @@
                             <div class="group additional-name" ng-show="!signatory">
                                 <hr />
                                 <p>@Html.Sitecore().Field("Text - Please Fill Out Information")</p>
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.SignatoryName)>
-                                    <label for="@Html.IdFor(m => m.SignatoryName)">@Html.Sitecore().Field("Label - Type Your Name")</label>
-                                    @Html.TextBoxFor(m => m.SignatoryName, new { data_val_if = "!signatory", data_val = "true", data_val_required = "", ng_model = "signatoryName" })
-                                    @Html.ValidationMessageFor(model => model.SignatoryName)
+                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.W9BusinessData.SignatoryName)>
+                                    <label for="@Html.IdFor(m => m.W9BusinessData.SignatoryName)">@Html.Sitecore().Field("Label - Type Your Name")</label>
+                                    @Html.TextBoxFor(m => m.W9BusinessData.SignatoryName, new { data_val_if = "!signatory", data_val = "true", data_val_required = "", ng_model = "w9BusinessData.signatoryName" })
+                                    @Html.ValidationMessageFor(model => model.W9BusinessData.SignatoryName)
                                 </div>
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.SignatoryRelation)>
-                                    <label for="@Html.IdFor(m => m.SignatoryRelation)">@Html.Sitecore().Field("Label - Relation To US Person")</label>
-                                    @Html.TextBoxFor(m => m.SignatoryRelation, new { data_val_if = "!signatory", data_val = "true", data_val_required = "", ng_model = "signatoryRelation" })
-                                    @Html.ValidationMessageFor(model => model.SignatoryRelation)
+                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.W9BusinessData.SignatoryRelation)>
+                                    <label for="@Html.IdFor(m => m.W9BusinessData.SignatoryRelation)">@Html.Sitecore().Field("Label - Relation To US Person")</label>
+                                    @Html.TextBoxFor(m => m.W9BusinessData.SignatoryRelation, new { data_val_if = "!signatory", data_val = "true", data_val_required = "", ng_model = "w9BusinessData.signatoryRelation" })
+                                    @Html.ValidationMessageFor(model => model.W9BusinessData.SignatoryRelation)
                                 </div>
                             </div>
                         </div>
@@ -807,10 +807,10 @@
                 </ul>
                 <form data-val-bind-messages="validations" ng-submit="submit()">
                     <div class="tab-content" ng-show="selectedTab == 'type'">
-                        <div class="item" @Html.Validation().ErrorClass(m => m.CustomerSignature)>
-                            <label for="@Html.IdFor(m => m.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
-                            @Html.TextBoxFor(m => m.CustomerSignature, new { ng_model = "formData.name", data_val = "true", data_val_required = "" })
-                            @Html.ValidationMessageFor(model => model.CustomerSignature)
+                        <div class="item" @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerSignature)>
+                            <label for="@Html.IdFor(m => m.W9BusinessData.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
+                            @Html.TextBoxFor(m => m.W9BusinessData.CustomerSignature, new { ng_model = "formData.name", data_val = "true", data_val_required = "" })
+                            @Html.ValidationMessageFor(model => model.W9BusinessData.CustomerSignature)
                         </div>
                         <div class="item">
                             <label>@Html.Sitecore().Field("Label - Preview")</label>
@@ -821,10 +821,10 @@
                         <button type="submit" data-val-submit>@Html.Sitecore().Field("Button - Accept Signature")</button>
                     </div>
                     <div class="tab-content" ng-show="selectedTab == 'draw'">
-                        <div class="item" @Html.Validation().ErrorClass(m => m.CustomerSignature)>
-                            <label for="@Html.IdFor(m => m.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
-                            @Html.TextBoxFor(m => m.CustomerSignature, new { ng_model = "formData.name" })
-                            @Html.ValidationMessageFor(model => model.CustomerSignature)
+                        <div class="item" @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerSignature)>
+                            <label for="@Html.IdFor(m => m.W9BusinessData.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
+                            @Html.TextBoxFor(m => m.W9BusinessData.CustomerSignature, new { ng_model = "formData.name" })
+                            @Html.ValidationMessageFor(model => model.W9BusinessData.CustomerSignature)
                         </div>
                         <div class="item">
                             <label>@Html.Sitecore().Field("Label - Draw Your Signature")</label>
