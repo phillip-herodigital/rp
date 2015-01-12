@@ -23,6 +23,9 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getProratedCost = enrollmentCartService.getProratedCost;
     $scope.getOfferData = enrollmentCartService.getOfferData;
     $scope.getOfferPrice = enrollmentCartService.getOfferPrice;
+    $scope.getDeviceTax = enrollmentCartService.getDeviceTax;
+    $scope.getDeviceActivationFee = enrollmentCartService.getDeviceActivationFee;
+    $scope.getDeviceDeposit = enrollmentCartService.getDeviceDeposit;
 
     /**
     * Complete Enrollment Section

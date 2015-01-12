@@ -217,21 +217,27 @@
         <div class="description" ng-if="item.type == 'existing'">
             @Html.Sitecore().Field("Bring Your Own Device")
         </div>
-
-        <div class="description fee">
-            @Html.Sitecore().Field("Initial Activation Fee Text")
+        <div ng-if="getDeviceActivationFee(item.id) > 0">
+            <div class="description fee">
+                @Html.Sitecore().Field("Initial Activation Fee Text")
+            </div>
+            <div class="rate">{{ getDeviceActivationFee(item.id) | currency }}</div>
         </div>
-        <div class="rate">{{ item.activationFee | currency }}</div>
-
-        <div class="description fee" ng-if="item.salesTax">
-            @Html.Sitecore().Field("Sales Tax Text")
+        
+        <div ng-if="item.type == 'new' && getDeviceTax(item.id)">
+            <div class="description fee">
+                @Html.Sitecore().Field("Sales Tax Text")
+            </div>
+            <div class="rate">{{ getDeviceTax(item.id) | currency }}</div>
         </div>
-        <div class="rate" ng-if="item.salesTax">{{ item.salesTax | currency }}</div>
-
-        <div class="description fee" ng-if="item.deposit">
-            Deposit
+        
+        <div ng-if="item.type == 'new' && item.installmentMonths != null && getDeviceDeposit(item.id) > 0">
+            <div class="description fee">
+                @Html.Sitecore().Field("Deposit Text")
+            </div>
+            <div class="rate">{{ getDeviceDeposit(item.id) | currency }}</div>
         </div>
-        <div class="rate" ng-if="item.deposit">{{ item.deposit | currency }}</div>
+        
 
 
     </div>
@@ -444,19 +450,26 @@
                         <a href="" ng-click="editDevice()">@Html.Sitecore().Field("Edit Phone Link")</a>
                     </div>
                 </div>
-                <div class="line-item clearfix">
+                <div class="line-item clearfix" ng-if="getDeviceActivationFee(item.id) > 0">
                     <div class="description">
                         <h3>@Html.Sitecore().Field("Initial Activation Fee Text")</h3>
                         <p class="note">@Html.Sitecore().Field("Activation Fee Description")</p>
                     </div>
-                    <div class="rate">{{ item.activationFee | currency }}</div>
+                    <div class="rate">{{ getDeviceActivationFee(item.id) | currency }}</div>
                 </div>
-                <div class="line-item clearfix" ng-if="item.type == 'new'">
+                <div class="line-item clearfix" ng-if="item.type == 'new' && getDeviceTax(item.id)">
                     <div class="description">
                         <h3>@Html.Sitecore().Field("Sales Tax Text")</h3>
                         <p class="note">@Html.Sitecore().Field("Sales Tax Description")</p>
                     </div>
-                    <div class="rate">{{ item.salesTax | currency }}</div>
+                    <div class="rate">{{ getDeviceTax(item.id) | currency }}</div>
+                </div>
+                <div class="line-item clearfix" ng-if="item.type == 'new' && item.installmentMonths != null && getDeviceDeposit(item.id) > 0">
+                    <div class="description">
+                        <h3>@Html.Sitecore().Field("Deposit Due Text")</h3>
+                        <p class="note">@Html.Sitecore().Field("Deposit Description")</p>
+                    </div>
+                    <div class="rate">{{ getDeviceDeposit(item.id) | currency }}</div>
                 </div>
             </div>
             <div class="plan-summary" ng-if="false">
