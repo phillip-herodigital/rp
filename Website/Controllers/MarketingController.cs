@@ -54,11 +54,24 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult GetUsageCalculatorData()
         {
-            var planRecommendationItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Plan Recommendations/Plan Recommendations");
+            Item dataPlansItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Data Plans");
+            Item planRecommendationItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Plan Recommendations/Plan Recommendations");
             MultilistField attConsumerIndividualPlans = planRecommendationItem.Fields["ATT Consumer Individual Plans"];
             MultilistField attConsumerGroupPlans = planRecommendationItem.Fields["ATT Consumer Group Plans"];
             MultilistField sprintConsumerIndividualPlans = planRecommendationItem.Fields["Sprint Consumer Individual Plans"];
             MultilistField sprintConsumerGroupPlans = planRecommendationItem.Fields["Sprint Consumer Group Plans"];
+
+            var dataPlans = dataPlansItem.Children.Select(child => new
+            {
+                Carrier = child.Name.ToLower(),
+                Plans = child.Children.Select(plans => new
+                {
+                    ID = plans.ID.ToString(),
+                    PlanId = plans.Fields["Plan ID"].Value,
+                    data = plans.Fields["Data"].Value,
+                    price = plans.Fields["Price"].Value
+                })
+            });
 
             var recommendedPlans = new
             {
@@ -129,9 +142,8 @@ namespace StreamEnergy.MyStream.Controllers
                 name = "AT&T",
                 fees = new
                 {
-                    IndividualActivationFee = planRecommendationItem.Fields["ATT Consumer Individual Activation Fee"].Value,
-                    attGroupActivationFee = planRecommendationItem.Fields["ATT Consumer Group Activation Fee"].Value,
-                    attExtraLineFee = planRecommendationItem.Fields["ATT Extra Line Fee"].Value
+                    ActivationFee = planRecommendationItem.Fields["ATT Activation Fee"].Value,
+                    ExtraLineFee = planRecommendationItem.Fields["ATT Extra Line Fee"].Value
                 }
             });
             carriers.Add(new
@@ -140,9 +152,8 @@ namespace StreamEnergy.MyStream.Controllers
                 name = "Sprint",
                 fees = new
                 {
-                    IndividualActivationFee = planRecommendationItem.Fields["ATT Consumer Individual Activation Fee"].Value,
-                    attGroupActivationFee = planRecommendationItem.Fields["ATT Consumer Group Activation Fee"].Value,
-                    attExtraLineFee = planRecommendationItem.Fields["ATT Extra Line Fee"].Value
+                    ActivationFee = planRecommendationItem.Fields["ATT Activation Fee"].Value,
+                    ExtraLineFee = planRecommendationItem.Fields["ATT Extra Line Fee"].Value
                 }
             });
             carriers.Add(new
@@ -172,6 +183,7 @@ namespace StreamEnergy.MyStream.Controllers
 
             var data = new
             {
+                dataPlans = dataPlans,
                 recommendedPlans = recommendedPlans,
                 carriers = carriers,
                 sliderValues = sliderValues,

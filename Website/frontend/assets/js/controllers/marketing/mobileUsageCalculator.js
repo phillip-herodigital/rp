@@ -1,20 +1,7 @@
 ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($scope, $http) {
 
-    $scope.att = function() {
-       return  _.find(Carriers, function(carrier){ return carrier.key === 'att'})
-    };
-
-    $scope.sprint = function() {
-       return  _.find(Carriers, function(carrier){ return carrier.key === 'sprint'})
-    };
-
-    $scope.verizon = function() {
-       return  _.find(Carriers, function(carrier){ return carrier.key === 'verizon'})
-    };
-
-    $scope.tmobile = function() {
-       return  _.find(Carriers, function(carrier){ return carrier.key === 'tmobile'})
-    };
+    // Main Functionality
+    // --------------------------------------------------
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
@@ -24,9 +11,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return tabUrl == $scope.currentTab;
     };
 
-	$scope.selectCarrierConnect = function(carrier) {
-		$scope.connect.carrier = carrier;
-	};
+    $scope.selectCarrierConnect = function(carrier) {
+        $scope.connect.carrier = carrier;
+    };
 
     $scope.callValidas = function() {
 
@@ -61,9 +48,21 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         $scope.connected = false;
     };
 
+    $scope.getPlanByPlanId = function(planId) {
+        var allPlans = _.flatten($scope.serverData.dataPlans, 'plans');
+        return _.find(allPlans, { planId: planId });
+    };
+
+    $scope.getCarrier = function(carrier) {
+        return _.find($scope.serverData.carriers, { key: carrier });
+    };
+
+    // Bill Scrape
+    // --------------------------------------------------
+
     $scope.getSprintRecommendation = function() {
         if($scope.currentTab === 'connect.tpl.html') {
-            return $scope.getRecommendationForCarrier('sprint');
+            return $scope.getValidasRecommendation('sprint');
         } else {
             return $scope.findBestPlanFromCarrier('sprint')
         }
@@ -75,7 +74,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
     $scope.getAttRecommendation = function() {
         if($scope.currentTab === 'connect.tpl.html') {
-            return $scope.getRecommendationForCarrier('att');
+            return $scope.getValidasRecommendation('att');
         } else {
             return $scope.findBestPlanFromCarrier('att');
         }
@@ -85,7 +84,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return $scope.getAttRecommendation() != null;
     };
 
-    $scope.getRecommendationForCarrier = function(carrier) {
+    $scope.getValidasRecommendation = function(carrier) {
         if(typeof($scope.connect.validas) === 'undefined') { return false; }
 
         var validasPlan = _.find($scope.connect.validas.recommendations, function(n, i) {
@@ -93,58 +92,10 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         });
 
         if(validasPlan) {
-            return carrier == 'sprint' ? $scope.getSprintPlanByPlanId(validasPlan.Id) : $scope.getAttPlanByPlanId(validasPlan.Id);
+            return $scope.getPlanByPlanId(validasPlan.Id);
         } else {
             return null;
         }
-    };
-
-    $scope.findBestPlanFromCarrier = function(carrier) {
-        var coll = null;
-
-        if($scope.manualCalculator.lines == 1) {
-            if(carrier === 'sprint') {
-                coll = $scope.sprintRecommendedConsumerPlans;
-            } else {
-                coll = $scope.attRecommendedConsumerPlans;
-            }
-        } else if(carrier === 'sprint') {
-            coll = $scope.sprintRecommendedGroupPlans;
-        }
-        
-        if(coll == null) { return coll; }
-
-        return _.find(coll, function(plan) {
-            return plan.data > $scope.calculatorTotalInGB(); // no ceiling, use the real value
-        });
-    };
-
-    $scope.attPlans = function() {
-        return $scope.plansForCarrier('att');
-    };
-
-    $scope.sprintPlans = function() {
-        return $scope.plansForCarrier('sprint');
-    };
-
-    $scope.plansForCarrier = function(carrier) {
-        return _.find(DataPlans.plans, function(n){return n.carrier.toLowerCase() === carrier.toLowerCase();}).plans;
-    };
-
-    $scope.getAttPlanById = function(id) {
-        return _.find($scope.attPlans(), function(n){return n.id === id;});
-    };
-
-    $scope.getSprintPlanById = function(id) {
-        return _.find($scope.sprintPlans(), function(n){return n.id === id;});
-    };
- 
-    $scope.getAttPlanByPlanId = function(id) {
-        return _.find($scope.attPlans(), function(n){return n.planId === id;});
-    };
-
-    $scope.getSprintPlanByPlanId = function(id) {
-        return _.find($scope.sprintPlans(), function(n){return n.planId === id;});
     };
 
     $scope.calculateTCO = function(plan) {
@@ -196,6 +147,13 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         }
     };
 
+    // Manual Calculator
+    // --------------------------------------------------
+
+    $scope.getManualRecommendation = function(carrier) {
+        return $scope.findBestPlanFromCarrier(carrier);
+    };
+
     $scope.cleanAndSortPlanCollection = function(coll) {
         _(coll).map(function(plan) {
             if(plan.data.toLowerCase() === 'unlimited') {
@@ -207,10 +165,6 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         });
 
         return  _.sortBy(coll, 'data');
-    };
- 
-    $scope.setLines = function(lines) {
-        $scope.manualCalculator.lines = lines;
     };
 
     $scope.recalculate = function() {
@@ -250,32 +204,94 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return Math.max($('.estimate').width() - $('.estimatedDataLabel').width() - 15, 0);
     }
 
-    $scope.recommendedLabelLeft = function() {
+    /*$scope.recommendedLabelLeft = function() {
         return Math.max($('.frame .recommended').width() - $('.recommendedLabelContainer .recommended').width() - 5, 0);
-    };
+    };*/
 
     $scope.$watch('manualCalculator', function(newVal, oldVal) {
         $scope.recalculate();
     }, true);
 
+    // TODO: Cleanup / Remove
+    // --------------------------------------------------
+
+
+
+
+    $scope.att = function() {
+       return  _.find(Carriers, function(carrier){ return carrier.key === 'att'})
+    };
+
+    $scope.sprint = function() {
+       return  _.find(Carriers, function(carrier){ return carrier.key === 'sprint'})
+    };
+
+    $scope.verizon = function() {
+       return  _.find(Carriers, function(carrier){ return carrier.key === 'verizon'})
+    };
+
+    $scope.tmobile = function() {
+       return  _.find(Carriers, function(carrier){ return carrier.key === 'tmobile'})
+    };
+
+    $scope.findBestPlanFromCarrier = function(carrier) {
+        var coll = null;
+
+        if($scope.manualCalculator.lines == 1) {
+            if(carrier === 'sprint') {
+                coll = $scope.sprintRecommendedConsumerPlans;
+            } else {
+                coll = $scope.attRecommendedConsumerPlans;
+            }
+        } else if(carrier === 'sprint') {
+            coll = $scope.sprintRecommendedGroupPlans;
+        }
+        
+        if(coll == null) { return coll; }
+
+        return _.find(coll, function(plan) {
+            return plan.data > $scope.calculatorTotalInGB(); // no ceiling, use the real value
+        });
+    };
+
+    $scope.attPlans = function() {
+        return $scope.plansForCarrier('att');
+    };
+
+    $scope.sprintPlans = function() {
+        return $scope.plansForCarrier('sprint');
+    };
+
+    $scope.plansForCarrier = function(carrier) {
+        return _.find(DataPlans.plans, function(n){return n.carrier.toLowerCase() === carrier.toLowerCase();}).plans;
+    };
+
+    $scope.getAttPlanById = function(id) {
+        return _.find($scope.attPlans(), function(n){return n.id === id;});
+    };
+
+    $scope.getSprintPlanById = function(id) {
+        return _.find($scope.sprintPlans(), function(n){return n.id === id;});
+    };
+
     $scope.init = function(serverData) {
 
         $scope.serverData = serverData;
+
+        console.log($scope.getCarrier('sprint'))
+
+        //console.log($scope.getPlanByPlanId("13"));
+
+        // Main
 
         $scope.isLoading = false;
 
         $scope.tabs = UsageCalculator.tabs;
         $scope.currentTab = UsageCalculator.currentTab;
 
+        // Manual Calculator
+
         $scope.sliderVals = $scope.serverData.sliderValues;
-
-        $scope.connected = false;
-
-        $scope.connect = {
-            acceptTermsCheckbox: false
-        };
-
-        $scope.calculatorTotal = 0;
 
         $scope.manualCalculator = {
             lines: 1,
@@ -294,7 +310,6 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         };
 
         $scope.showBreakdown = false;
-
         $scope.formData = {
             selectedTimeframe: 24
         };
@@ -308,6 +323,18 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 'months': 24
             }
         ];
+
+        $scope.calculatorTotal = 0;
+
+        // Bill Scrape
+
+        $scope.connected = false;
+
+        $scope.connect = {
+            acceptTermsCheckbox: false
+        };
+
+        // Cleanup / Remove
 
         $scope.attRecommendedConsumerPlans    = [];
         $scope.sprintRecommendedConsumerPlans = [];
@@ -336,7 +363,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         $scope.connect.username = "5164496292";
         $scope.connect.password = "37Beetlestone";
 
-        /*
+        
         $scope.connect.validas = {
             "billingCount": 1,
             "network": "att",
@@ -368,7 +395,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 }
             ]
         };
-        $scope.connected = true;*/
+        $scope.connected = true;
 
     };
 
