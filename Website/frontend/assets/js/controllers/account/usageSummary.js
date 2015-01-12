@@ -27,6 +27,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
         if (newVal) {
             acct = newVal;
+            firstLoad = true;
             $scope.getUsageStats();
             loadInvoices();
         }

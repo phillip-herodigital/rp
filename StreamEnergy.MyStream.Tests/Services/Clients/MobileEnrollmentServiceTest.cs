@@ -194,7 +194,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
                                 { 
                                     ActivationDate = DateTime.Today.AddDays(3),
-
+                                    InventoryItemId = mobileOffer.MobileInventory.First().Id,
                                 }
                             }
                         }
@@ -307,7 +307,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                     OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
                                     { 
                                         ActivationDate = DateTime.Today.AddDays(3),
-
+                                        InventoryItemId = mobileOffer.MobileInventory.First().Id,
                                     }
                                 }
                             }
@@ -394,7 +394,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                     OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
                                     { 
                                         ActivationDate = DateTime.Today.AddDays(3),
-
+                                        InventoryItemId = mobileOffer.MobileInventory.First().Id,
                                     }
                                 }
                             }
@@ -497,6 +497,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                     OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
                                     { 
                                         ActivationDate = DateTime.Today.AddDays(3),
+                                        InventoryItemId = mobileOffer.MobileInventory.First().Id,
 
                                     }
                                 }
@@ -585,6 +586,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                     OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
                                     { 
                                         ActivationDate = DateTime.Today.AddDays(3),
+                                        InventoryItemId = mobileOffer.MobileInventory.First().Id,
 
                                     }
                                 }
@@ -720,6 +722,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 OfferOption = new DomainModels.Enrollments.Mobile.OfferOption 
                                 { 
                                     ActivationDate = DateTime.Today.AddDays(3),
+                                    InventoryItemId = mobileOffer.MobileInventory.First().Id,
 
                                 }
                             }

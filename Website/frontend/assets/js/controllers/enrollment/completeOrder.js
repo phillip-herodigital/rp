@@ -10,6 +10,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         creditCard: {}
     };
 
+    $scope.w9BusinessData = {};
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
@@ -50,7 +51,8 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                     additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                     agreeToTerms: $scope.completeOrder.agreeToTerms,
                     paymentInfo: paymentInfo,
-                    depositWaivers: depositWaivers
+                    depositWaivers: depositWaivers,
+                    w9BusinessData: $scope.w9BusinessData
                 });
             });
         } else {
@@ -58,7 +60,8 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
                 paymentInfo: null,
-                depositWaivers: depositWaivers
+                depositWaivers: depositWaivers,
+                w9BusinessData: $scope.w9BusinessData
             });
         }
 
@@ -132,8 +135,8 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
             },0);
         });
         signatureModalInstance.result.then(function (modalData) {
-            $scope.signatureImage = (modalData.selectedTab == 'draw') ? $sigdiv.jSignature("getData", "image")[1] : modalData.image;
-            $scope.customerSignature = modalData.name;
+            $scope.w9BusinessData.signatureImage = (modalData.selectedTab == 'draw') ? $sigdiv.jSignature("getData", "image")[1] : modalData.image;
+            $scope.w9BusinessData.customerSignature = modalData.name;
         });
     };
 
