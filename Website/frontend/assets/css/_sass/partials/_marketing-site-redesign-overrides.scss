@@ -607,25 +607,21 @@ article.service-links {
 }
 
 .mobile-poweredBy {
+    display: inline-block;
     color: #012f50 !important;
     font-size: 11px !important;
     letter-spacing: 0;
-    line-height: 2em;
-    position: relative;
     width: 128px;
-    overflow: visible;
+    max-width: 100%;
 
     strong {
         font-weight: 600;
     }
 
     span {
-        left: 40px;
-        position: absolute;
-        top: 25px;
         display: block;
-        text-align: left;
-        white-space: nowrap;
+        margin-top: -.65em;
+        text-align: right;
     }
 }
 
@@ -693,24 +689,8 @@ article.mobile-pricing-plans {
         width: 100%;
         border-spacing: 0;
 
-        h2 {
-            position: relative;
-            font-size: 11px;
-            line-height: 2em;
-            letter-spacing: 0;
-            color: #012f50;
-            margin: 20px;
-
-            strong {
-                font-weight: 600;
-            }
-
-            span {
-                position: absolute;
-                top: 25px;
-                left: 50%;
-                margin-left: -20px;
-            }
+        .mobile-poweredBy {
+            margin: 20px 0;
         }
 
         .col {

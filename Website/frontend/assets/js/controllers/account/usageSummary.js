@@ -1,11 +1,10 @@
 ﻿/* Account Usage Summary Controller
  *
  */
-ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', function ($scope, $rootScope, $http, breakpoint) {
+ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'jQuery', function ($scope, $rootScope, $http, breakpoint, $) {
 
     var GIGA = 1000000000;
 
-    //$scope.dateRanges = [];
     $scope.deviceUsageStats = [];
     $scope.deviceTotal = {
         data: {
@@ -22,33 +21,61 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         }
     };
 
-    //Make some dummy date ranges
-    // for(var i = 0; i < 4; i++){
-    //     var month = 1000 * 60 * 60 * 24 * 30;
-    //     var now = (new Date()).getTime();
-    //     $scope.dateRanges.push({id: i, begin: now - (month * i) - month, end: now - (month * i)});
-    // }
-
-    // $scope.currentRangeId = $scope.dateRanges[0].id;
-
     var acct = null;
     $scope.isLoading = true;
+    $scope.noUsage = false;
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
         if (newVal) {
             acct = newVal;
             $scope.getUsageStats();
+            loadInvoices();
         }
     });
 
+    var invoices = null;
+    var loadInvoices = function () {
+        $http({
+            method: 'GET',
+            url: '/api/account/getInvoices',
+            data: {
+                accountNumber: acct,
+            },
+            headers: { 'Content-Type': 'application/JSON' }
+        })
+        .success(function (data, status, headers, config) {
+            invoices = data.invoices.values;
+            addInvoiceRanges();
+        });
+    };
+
+    var addInvoiceRanges = function () {
+        if ($scope.isLoading || !invoices) return;
+        for (var i = 0, invoice; invoice = invoices[i]; i++) {
+            var nextInvoice = invoices[i + 1];
+            if (nextInvoice) {
+                $scope.dateRanges.push({
+                    begin: new Date(nextInvoice.invoiceDate),
+                    end: new Date(invoice.invoiceDate),
+                    id: i + 2,
+                });
+            }
+        }
+    };
+    
+    var firstLoad = true;
+
     $scope.getUsageStats = function(){
-        //var range = $scope.dateRanges[$scope.currentRangeId];
         $scope.isLoading = true;
 
+        var dateRange = _.find($scope.dateRanges, { id: parseInt($scope.currentRangeId) });
+        
         $http({
             method: 'POST',
             url: '/api/account/getMobileUsage',
             data: {
                 accountNumber: acct,
+                startDate: dateRange != null ? dateRange.begin : null,
+                endDate: dateRange != null ? dateRange.end : null,
             },
             headers: { 'Content-Type': 'application/JSON' }
         })
@@ -56,6 +83,20 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             $scope.isLoading = false;
             $scope.data = data;
 
+            if (firstLoad)
+            {
+                $scope.dateRanges = [
+                    {
+                        begin: new Date(data.lastBillingDate),
+                        end: new Date(data.nextBillingDate),
+                        id: 1,
+                    }
+                ];
+                $scope.currentRangeId = 1;
+                addInvoiceRanges();
+                firstLoad = false;
+            }
+            
             $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit * GIGA;
             updateDeviceTotals();
         });
@@ -66,7 +107,18 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         return '/frontend/assets/i/icon/phone-generic.png';
     }
 
-    function updateDeviceTotals() {
+    var updateDeviceTotals = function () {
+        if (_.every($scope.data.deviceUsage, function (d) { return (d.dataUsage == null); })) {
+            $scope.noUsage = true;
+            for (var i = 0, device; device = $scope.data.deviceUsage[i]; i++) {
+                var rand = Math.sin(device.number) * 1000;
+                rand -= rand - Math.floor(rand);
+                device.dataUsage = 1000000 * rand;
+                device.minutesUsage = Math.round(rand * .5);
+                device.messagesUsage = Math.round(rand * .75);
+            }
+        }
+
         $scope.deviceTotal.data.usage = _.reduce($scope.data.deviceUsage, function (total, device) {
             return total + device.dataUsage;
         }, 0);
@@ -76,6 +128,11 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         $scope.deviceTotal.messages.usage = _.reduce($scope.data.deviceUsage, function (total, device) {
             return total + device.messagesUsage;
         }, 0);
-    }
+    };
     
+    $scope.getSampleDivStyles = function () {
+        return {
+            'height': $('article.usage-details table').height() + 'px',
+        };
+    };
 }]);

@@ -1894,6 +1894,43 @@ article.mobile {
 		}
 	}
 
+    div.noUsage {
+        background: #f0fafb;
+        border: 1px solid #b6d9dc;
+        padding: 1em;
+        p {
+            margin: 0;
+        }
+    }
+    tr.noUsageOverlay td {
+        position: relative;
+        padding: 0;
+
+        div {
+            position: absolute;
+            width: 100%;
+
+            span.bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #fff;
+                opacity: .75;
+            }
+            span.sample {
+                z-index: 1;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin: -15px 0 0 -85px;
+                font-size: 2em;
+                color: #6d6d6d;
+            }
+        }
+    }
+
 	.device-short{
 		display: none;
 	}
@@ -1967,6 +2004,45 @@ article.usage-summary {
 	.current-usage {
 		padding: 70px 0;
 	}
+
+    div.noUsage {
+        background: #f0fafb;
+        border: 1px solid #b6d9dc;
+        padding: 1em;
+        p {
+            margin: 0;
+        }
+    }
+    div.usage-summary-content {
+        position: relative;
+
+        div.noUsageOverlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+
+            span.bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #fff;
+                opacity: .75;
+            }
+            span.sample {
+                z-index: 1;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin: -15px 0 0 -85px;
+                font-size: 2em;
+                color: #6d6d6d;
+            }
+        }
+    }
+
 	.usage-meter {
 		@include border-radius(5px);
 		@include box-shadow(inset -0.7px 0.7px 3px rgba(0, 0, 0, 0.15));

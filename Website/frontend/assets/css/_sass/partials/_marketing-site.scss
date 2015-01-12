@@ -2781,6 +2781,10 @@ article.mobile.mobile-plans-usage-calculator {
 					border: 1px solid #f0f0f0;
 					background-color: #FBFBFB;
 					@include background-image(linear-gradient(to top, #F1F1F1 0%, #FFF 100%));
+					@include breakpoint(small) {
+						padding-left: 12px;
+						padding-right: 12px;
+					}
 				}
 
 				.active {
@@ -2871,6 +2875,7 @@ article.mobile.mobile-plans-usage-calculator {
 							top: 1px;
 							padding: 0 10px;
 							color: #fff;
+							white-space: nowrap;
 						}
 					}
 
@@ -2925,6 +2930,9 @@ article.mobile.mobile-plans-usage-calculator {
 							padding: 10px;
 							background: #e4e4e4;
 							vertical-align: bottom;
+							@include breakpoint(small) {
+								font-size: 12px;
+							}
 						}
 						&.current-plan {
 							.bar {
@@ -2944,14 +2952,6 @@ article.mobile.mobile-plans-usage-calculator {
 					width: 25%;
 					text-align: left;
 				}
-
-				/*.expand2Cols {
-					width: 50%;
-				}
-
-				.expand3Cols {
-					width: 75%;
-				}*/
 
 			}
 		}
