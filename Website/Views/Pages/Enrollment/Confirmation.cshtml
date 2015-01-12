@@ -210,9 +210,10 @@
     </div>
     <div class="mobile-services">
         <div ng-repeat="dataPlan in getCartDataPlan()">
-            <div class="phone-summary" ng-repeat="item in getCartDevices()">
+            <div class="phone-summary" ng-repeat="item in getConfirmationDevices()">
                 <div class="line-item clearfix">
                     <div class="phone-summary-image">
+                        {{ item }}
                         <img ng-src="{{ item.imageFront }}" ng-if="item.type == 'new'" />
                         <i class="icon-byod" ng-if="item.type == 'existing'"></i>
                     </div>

@@ -167,7 +167,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                         return offer
                     }
                 }).pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
-                .pluck('taxTotal').filter()
+                .pluck('activationFee').filter()
                 .reduce(sum, 0);
         },
 

@@ -1,5 +1,8 @@
 ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'mobileEnrollmentService', function ($scope, $window, enrollmentService, enrollmentStepsService, enrollmentCartService, mobileEnrollmentService) {
     $scope.accountInformation = {};
+    var confirmationDevices = [];
+    var allPhones = [];
+    var selectedDevices = [];
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
@@ -23,14 +26,13 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
         window.print();
     };
 
-    $scope.getCartDevices = function() {
-        /*
-        var devices = enrollmentCartService.getConfirmationDevices();
-        var allPhones = mobileEnrollmentService.getPhoneData();
-        return _(devices).map(function(device) { 
+    $scope.$watch(mobileEnrollmentService.getPhoneData, function (phoneData) {
+        allPhones = phoneData;
+        confirmationDevices = enrollmentCartService.getConfirmationDevices();
+        selectedDevices = _(confirmationDevices).map(function(device) { 
             var selected = _(allPhones).find(function(phone) { 
                 if ( _(phone.models).pluck('sku').flatten().filter().contains(device) ) { 
-                    return phone 
+                    return phone;
                 } 
             }); 
             var model = _(selected.models).where({'sku': device}).first(); 
@@ -43,7 +45,10 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
                 'type': (device == '7') ? 'existing' : 'new' 
             } 
         });
-        */
+    });
+
+    $scope.getConfirmationDevices = function() {
+        return selectedDevices;
     }
 
     /**
