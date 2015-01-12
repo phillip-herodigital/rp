@@ -16,8 +16,15 @@
         </div>
     </header>
     <div>
+        <div class="noUsage" ng-show="noUsage">
+            @Html.Sitecore().Field("No Usage Text")
+        </div>
         <table>
             <thead>
+                <tr class="noUsageOverlay" ng-show="noUsage">
+                    <td></td>
+                    <td colspan="3"><div ng-style="getSampleDivStyles()"><span class="bg"></span><span class="sample">Sample Data</span></div></td>
+                </tr>
                 <tr>
                     <th><div>@Html.Sitecore().Field("Member Header")</div></th>
                     <th>@Html.Sitecore().Field("Data Header")</th>
