@@ -11,9 +11,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return tabUrl == $scope.currentTab;
     };
 
-    $scope.selectCarrierConnect = function(carrier) {
+    /*$scope.selectCarrierConnect = function(carrier) {
         $scope.connect.carrier = carrier;
-    };
+    };*/
 
     $scope.callValidas = function() {
 
@@ -57,32 +57,16 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return _.find($scope.serverData.carriers, { key: carrier });
     };
 
+    $scope.hasRecommendationForCarrier = function(carrier) {
+        if($scope.currentTab === 'connect.tpl.html') {
+            return $scope.getValidasRecommendation(carrier);
+        } else {
+            return $scope.getManualRecommendation(carrier);
+        }
+    };
+
     // Bill Scrape
     // --------------------------------------------------
-
-    $scope.getSprintRecommendation = function() {
-        if($scope.currentTab === 'connect.tpl.html') {
-            return $scope.getValidasRecommendation('sprint');
-        } else {
-            return $scope.findBestPlanFromCarrier('sprint')
-        }
-    };
-
-    $scope.hasSprintRecommendation = function() {
-        return $scope.getSprintRecommendation() != null;
-    };
-
-    $scope.getAttRecommendation = function() {
-        if($scope.currentTab === 'connect.tpl.html') {
-            return $scope.getValidasRecommendation('att');
-        } else {
-            return $scope.findBestPlanFromCarrier('att');
-        }
-    };
-
-    $scope.hasAttRecommendation = function() {
-        return $scope.getAttRecommendation() != null;
-    };
 
     $scope.getValidasRecommendation = function(carrier) {
         if(typeof($scope.connect.validas) === 'undefined') { return false; }
@@ -108,15 +92,15 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         }
 
         if (plan == 'att') {
-            monthlyPrice = $scope.getAttRecommendation().price;
-            extraLineFee = ($scope.connect.validas.phoneLines - 1) * $scope.att().fees.consumer.group.extraLineFee;
+            monthlyPrice = $scope.getValidasRecommendation('att').price;
+            extraLineFee = ($scope.connect.validas.phoneLines - 1) * $scope.getCarrier('att').fees.extraLineFee;
             monthlyPrice += extraLineFee;
-            activationFee = $scope.sprint().fees.consumer.individual.activation;
+            activationFee = $scope.getCarrier('att').fees.activationFee;
         } else if (plan == 'sprint') {
-            monthlyPrice = $scope.getSprintRecommendation().price;
-            extraLineFee = ($scope.connect.validas.phoneLines - 1) * $scope.sprint().fees.consumer.group.extraLineFee;
+            monthlyPrice = $scope.getValidasRecommendation('sprint').price;
+            extraLineFee = ($scope.connect.validas.phoneLines - 1) * $scope.getCarrier('sprint').fees.extraLineFee;
             monthlyPrice += extraLineFee;
-            activationFee = $scope.att().fees.consumer.individual.activation;
+            activationFee = $scope.getCarrier('sprint').fees.activationFee;
         } else {
             monthlyPrice = $scope.connect.validas.averageMonthlyCost;
         }
@@ -151,31 +135,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     // --------------------------------------------------
 
     $scope.getManualRecommendation = function(carrier) {
-        return $scope.findBestPlanFromCarrier(carrier);
-    };
-
-    $scope.cleanAndSortPlanCollection = function(coll) {
-        _(coll).map(function(plan) {
-            if(plan.data.toLowerCase() === 'unlimited') {
-                plan.data = 1000000;
-            } else {
-                plan.data = parseInt(plan.data);
-            }
-            return plan;
-        });
-
-        return  _.sortBy(coll, 'data');
-    };
-
-    $scope.recalculate = function() {
-
-        var subtotal = 0;
-        for(var key in $scope.serverData.dataMultipliers) {
-            subtotal += ( $scope.serverData.dataMultipliers[key] * $scope.sliderVals[$scope.manualCalculator[key]] )
-        }
-
-        $scope.calculatorTotal = subtotal * $scope.manualCalculator.lines;
-
+        return findBestPlanFromCarrier(carrier);
     };
 
     $scope.calculatorTotalInGB = function(ceil) {
@@ -204,47 +164,25 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return Math.max($('.estimate').width() - $('.estimatedDataLabel').width() - 15, 0);
     }
 
-    /*$scope.recommendedLabelLeft = function() {
-        return Math.max($('.frame .recommended').width() - $('.recommendedLabelContainer .recommended').width() - 5, 0);
-    };*/
-
     $scope.$watch('manualCalculator', function(newVal, oldVal) {
-        $scope.recalculate();
+        var subtotal = 0;
+        for(var key in $scope.serverData.dataMultipliers) {
+            subtotal += ( $scope.serverData.dataMultipliers[key] * $scope.sliderVals[$scope.manualCalculator[key]] )
+        }
+        $scope.calculatorTotal = subtotal * $scope.manualCalculator.lines;
     }, true);
 
-    // TODO: Cleanup / Remove
-    // --------------------------------------------------
-
-
-
-
-    $scope.att = function() {
-       return  _.find(Carriers, function(carrier){ return carrier.key === 'att'})
-    };
-
-    $scope.sprint = function() {
-       return  _.find(Carriers, function(carrier){ return carrier.key === 'sprint'})
-    };
-
-    $scope.verizon = function() {
-       return  _.find(Carriers, function(carrier){ return carrier.key === 'verizon'})
-    };
-
-    $scope.tmobile = function() {
-       return  _.find(Carriers, function(carrier){ return carrier.key === 'tmobile'})
-    };
-
-    $scope.findBestPlanFromCarrier = function(carrier) {
+    var findBestPlanFromCarrier = function(carrier) {
         var coll = null;
 
         if($scope.manualCalculator.lines == 1) {
             if(carrier === 'sprint') {
-                coll = $scope.sprintRecommendedConsumerPlans;
+                coll = $scope.serverData.recommendedPlans.sprint.individual;
             } else {
-                coll = $scope.attRecommendedConsumerPlans;
+                coll = $scope.serverData.recommendedPlans.att.individual;
             }
         } else if(carrier === 'sprint') {
-            coll = $scope.sprintRecommendedGroupPlans;
+            coll = $scope.serverData.recommendedPlans.sprint.group;
         }
         
         if(coll == null) { return coll; }
@@ -254,42 +192,37 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         });
     };
 
-    $scope.attPlans = function() {
-        return $scope.plansForCarrier('att');
-    };
+    var cleanAndSortManualPlanCollection = function(coll) {
+        _(coll).map(function(plan) {
+            if(plan.data.toLowerCase() === 'unlimited') {
+                plan.data = 1000000;
+            } else {
+                plan.data = parseInt(plan.data);
+            }
+            return plan;
+        });
 
-    $scope.sprintPlans = function() {
-        return $scope.plansForCarrier('sprint');
-    };
-
-    $scope.plansForCarrier = function(carrier) {
-        return _.find(DataPlans.plans, function(n){return n.carrier.toLowerCase() === carrier.toLowerCase();}).plans;
-    };
-
-    $scope.getAttPlanById = function(id) {
-        return _.find($scope.attPlans(), function(n){return n.id === id;});
-    };
-
-    $scope.getSprintPlanById = function(id) {
-        return _.find($scope.sprintPlans(), function(n){return n.id === id;});
+        return  _.sortBy(coll, 'data');
     };
 
     $scope.init = function(serverData) {
 
         $scope.serverData = serverData;
 
-        console.log($scope.getCarrier('sprint'))
-
-        //console.log($scope.getPlanByPlanId("13"));
-
-        // Main
+        // Main Functionality
+        // --------------------------------------------------
 
         $scope.isLoading = false;
 
         $scope.tabs = UsageCalculator.tabs;
         $scope.currentTab = UsageCalculator.currentTab;
 
+        $scope.serverData.recommendedPlans.att.individual = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.att.individual);
+        $scope.serverData.recommendedPlans.sprint.individual = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.sprint.individual);
+        $scope.serverData.recommendedPlans.sprint.group = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.sprint.group);
+
         // Manual Calculator
+        // --------------------------------------------------
 
         $scope.sliderVals = $scope.serverData.sliderValues;
 
@@ -327,44 +260,19 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         $scope.calculatorTotal = 0;
 
         // Bill Scrape
+        // --------------------------------------------------
 
         $scope.connected = false;
 
         $scope.connect = {
             acceptTermsCheckbox: false
         };
-
-        // Cleanup / Remove
-
-        $scope.attRecommendedConsumerPlans    = [];
-        $scope.sprintRecommendedConsumerPlans = [];
-        $scope.sprintRecommendedGroupPlans    = [];
-
-        _.forEach(UsageCalculator.attRecommendedConsumerPlanIds.split('|'), function(id) {
-            $scope.attRecommendedConsumerPlans.push($scope.getAttPlanById(id));
-        });
-        $scope.attRecommendedConsumerPlans = $scope.cleanAndSortPlanCollection($scope.attRecommendedConsumerPlans);
-
-        _.forEach(UsageCalculator.sprintRecommendedConsumerPlanIds.split('|'), function(id) {
-            $scope.sprintRecommendedConsumerPlans.push($scope.getSprintPlanById(id));
-        });
-        $scope.sprintRecommendedConsumerPlans = $scope.cleanAndSortPlanCollection($scope.sprintRecommendedConsumerPlans);
-
-        _.forEach(UsageCalculator.sprintRecommendedGroupPlanIds.split('|'), function(id) {
-            $scope.sprintRecommendedGroupPlans.push($scope.getSprintPlanById(id));
-        });
-        $scope.sprintRecommendedGroupPlans = $scope.cleanAndSortPlanCollection($scope.sprintRecommendedGroupPlans);
-
-
-
-
-
-
+        
+        
         $scope.connect.username = "5164496292";
         $scope.connect.password = "37Beetlestone";
 
-        
-        $scope.connect.validas = {
+        /*$scope.connect.validas = {
             "billingCount": 1,
             "network": "att",
             "phoneLines": 1,
@@ -395,7 +303,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 }
             ]
         };
-        $scope.connected = true;
+        $scope.connected = true;*/
 
     };
 
