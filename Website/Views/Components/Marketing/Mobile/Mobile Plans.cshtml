@@ -14,9 +14,9 @@
                         <h3>@Html.Sitecore().Field("Individual Plans")</h3>
                         @Html.Sitecore().Field("ATT Individual Plan Description")
                         <p>
-                            <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
+                            <a class="button" href="@Html.Sitecore().Field("Button - Get Started Link")">@Html.Sitecore().Field("Button - Get Started")</a>
                         </p>
-                        <p>@Html.Sitecore().Field("ATT Individual More Details")</p>
+                        @Html.Sitecore().Field("ATT Individual More Details")
                     </div>
                     }
                     @if (Html.Sitecore().HasValue("Show ATT Group Plans"))
@@ -25,9 +25,9 @@
                         <h3>@Html.Sitecore().Field("Group Plans")</h3>
                         @Html.Sitecore().Field("ATT Group Plan Description")
                         <p>
-                            <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
+                            <a class="button" href="@Html.Sitecore().Field("Button - Get Started Link")">@Html.Sitecore().Field("Button - Get Started")</a>
                         </p>
-                        <p>@Html.Sitecore().Field("ATT Group More Details")</p>
+                        @Html.Sitecore().Field("ATT Group More Details")
                     </div>
                     }
                 </div>
@@ -45,9 +45,9 @@
                         <h3>@Html.Sitecore().Field("Individual Plans")</h3>
                         @Html.Sitecore().Field("Sprint Individual Plan Description")
                         <p>
-                            <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
+                            <a class="button" href="@Html.Sitecore().Field("Button - Get Started Link")">@Html.Sitecore().Field("Button - Get Started")</a>
                         </p>
-                        <p>@Html.Sitecore().Field("Sprint Individual More Details")</p>
+                        @Html.Sitecore().Field("Sprint Individual More Details")
                     </div>
                     }
                     @if (Html.Sitecore().HasValue("Show Sprint Group Plans"))
@@ -56,9 +56,9 @@
                         <h3>@Html.Sitecore().Field("Group Plans")</h3>
                         @Html.Sitecore().Field("Sprint Group Plan Description")
                         <p>
-                            <a class="button" href="">@Html.Sitecore().Field("Button - Get Started")</a>
+                            <a class="button" href="@Html.Sitecore().Field("Button - Get Started Link")">@Html.Sitecore().Field("Button - Get Started")</a>
                         </p>
-                        <p>@Html.Sitecore().Field("Sprint Group More Details")</p>
+                        @Html.Sitecore().Field("Sprint Group More Details")
                     </div>
                     }
                 </div>
