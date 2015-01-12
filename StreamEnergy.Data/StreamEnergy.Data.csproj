@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataContainerSetup.cs" />
+    <Compile Include="Data\Documents\DocumentStore.cs" />
     <Compile Include="Migrations\201411130202117_Initial.cs" />
     <Compile Include="Migrations\201411130202117_Initial.Designer.cs">
       <DependentUpon>201411130202117_Initial.cs</DependentUpon>
