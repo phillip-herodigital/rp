@@ -1,78 +1,93 @@
-<div ng-controller="EnrollmentConfirmationCtrl" ng-init="setServerData(@((Request.QueryString["phantomjs"] != null ? Html.Raw("'deferred'") : Html.Action("ClientData", "Enrollment")).ToHtmlString()));">
+<div ng-controller="EnrollmentConfirmationCtrl" ng-init="setServerData(@((Request.QueryString["phantomjs"] != null ? Html.Raw("'deferred'") : Html.Action("ClientData", "Enrollment")).ToHtmlString())); mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString()));">
     <div class="enrollment enrollment__order-confirmation">
         <section>
-            <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
-            <h1 ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Order Confirmation")</h1>
-            <h1 ng-if="customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Order Submitted")</h1>
-            <h1 ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Confirmation")</h1>
-            <h1 ng-if="customerType == 'commercial' && !isRenewal">@Html.Sitecore().Field("Request Received")</h1>
-
-            <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Confirmation Paragraph")</p>
-            <p ng-if="customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Submitted Paragraph")</p>
-            <p ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Paragraph")</p>
-            <article ng-if="customerType == 'commercial' && !isRenewal" class="commercial-next-steps enrollment__box">
+            <article class="commercial-next-steps enrollment__box">
+                <header>
+                    <h1 ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Order Confirmation")</h1>
+                    <h1 ng-if="customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Order Submitted")</h1>
+                    <h1 ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Confirmation")</h1>
+                    <h1 ng-if="customerType == 'commercial' && !isRenewal">@Html.Sitecore().Field("Request Received")</h1>
+                    <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
+                </header>
+                <div class="content">
+                    <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Confirmation Paragraph")</p>
+                    <p ng-if="customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Submitted Paragraph")</p>
+                    <p ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Paragraph")</p>
+                    <p ng-if="confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Confirmation Number") <strong>{{ confirmationNumber }}</strong></p>
+                </div>
+            </article>
+            <article ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" class="commercial-next-steps enrollment__box">
                 <div class="content">
                     @Html.Sitecore().Field("Commercial Next Steps")
                 </div>
             </article>
-
             <article class="verify-order enrollment__box">
+                <header>
+                    <h1>@Html.Sitecore().Field("Header - Order Summary")</h1>
+                </header>
                 <div class="form content">
                     <div ng-repeat="(id, service) in getCartItems()">
-                        <div class="item item--no-input">
-                            <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                            <strong>{{ service.location.address | address }}</strong>
-                        </div>
-                        <hr ng-if="customerType != 'commercial'" />
+                        @*
+                            <div class="item item--no-input">
+                                <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                                <strong>{{ service.location.address | address }}</strong>
+                            </div>
+                            <hr ng-if="customerType != 'commercial'" />
+                        *@
                         <div ng-repeat="offerInformation in service.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                             <div ng-include src="'serviceConfirmation/' + offerInformation.key"></div>
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
-                    <hr class="content-divider" ng-if="getCartTotal() > 0">
-                    <div class="total" ng-if="getCartTotal() > 0">
-                        <strong>{{ getCartTotal() | currency }}</strong>
-                    </div>                    
                 </div>
+                <footer ng-if="getCartTotal() > 0">
+                    <div class="total">
+                        @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                    </div>
+                </footer>
             </article>
-
             <article class="enrollment__box confirm-personal-info">
-                <header>
-                    <h1>@Html.Sitecore().Field("Personal Information Header")</h1>                    
-                </header>
                 <div class="content">
-                    <dl class="clearfix">
-                        <dt>@Html.Sitecore().Field("First Name")</dt>
-                        <dd>{{ accountInformation.contactInfo.name.first }}</dd>
-                        <dt>@Html.Sitecore().Field("Last Name")</dt>
-                        <dd>{{ accountInformation.contactInfo.name.last }}</dd>
-                        <dt>@Html.Sitecore().Field("Phone Number")</dt>
-                        <dd>{{ accountInformation.contactInfo.phone[0].number | phone }}</dd>
-                        <dt>@Html.Sitecore().Field("Email")</dt>
-                        <dd>{{ accountInformation.contactInfo.email.address }}</dd>
-                        <dt>@Html.Sitecore().Field("Mailing Address")</dt>
-                        <dd>{{ accountInformation.mailingAddress | address }}</dd>
-                        <dt ng-if="accountInformation.secondaryContactInfo.first">@Html.Sitecore().Field("Secondary Contact")</dt>
-                        <dd ng-if="accountInformation.secondaryContactInfo.first">{{ accountInformation.secondaryContactInfo.first }} {{ accountInformation.secondaryContactInfo.last }}</dd>
-                    </dl>
+                    <div class="grid">
+                        <div class="col">
+                            <h2>@Html.Sitecore().Field("Header - Personal Information")</h2>
+                            <div class="contact">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
+                            <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
+                            <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
+                        </div>
+                        <div class="col" ng-if="accountInformation.businessInformationName">
+                            <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
+                            <div class="contact">{{ accountInformation.businessInformationName }}</div>
+                            <div class="contact" ng-if="businessInformation.socialSecurityNumber">SSN: {{ businessInformation.socialSecurityNumber | maskNumber }}</div>
+                            <div class="contact" ng-if="businessInformation.taxId">EIN: {{ businessInformation.taxId | maskNumber }}</div>
+                            <div class="contact" ng-if="!businessInformation.businessAddressSame">
+                                {{ businessInformation.businessAddress.line1 }} {{ businessInformation.businessAddress.line2 }}<br>
+                                {{ businessInformation.businessAddress.city }}, {{ businessInformation.businessAddress.stateAbbreviation }} {{ businessInformation.businessAddress.postalCode5 }}
+                            </div>
+                            <div class="contact" ng-if="businessInformation.businessAddressSame">
+                                {{ accountInformation.billingAddress.line1 }} {{ accountInformation.billingAddress.line2 }}<br>
+                                {{ accountInformation.billingAddress.city }}, {{ accountInformation.billingAddress.stateAbbreviation }} {{ accountInformation.billingAddress.postalCode5 }}
+                            </div>
+                        </div>
+                    </div>
                     <div ng-if="customerType == 'residential' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
-                    <div ng-if="customerType == 'residential' && !cartHasTxLocation()">@Html.Sitecore().Field("GA Terms Notice")</div>
+                    <div ng-if="customerType == 'residential' && !cartHasTxLocation()&& !cartHasMobile()">@Html.Sitecore().Field("GA Terms Notice")</div>
                 </div>
             </article>
             @*
-            <article class="enrollment__box confirm-next-steps">
-                <header>
-                    <h1>@Html.Sitecore().Field("Next Steps Header")</h1>
-                </header>
-                <div class="promo-box horizontal content clearfix">
-                    <h3>@Html.Sitecore().Field("Account Tour")</h3>
-                    <div class="avatar">
-                        <i class="icon-house"></i>
+                <article class="enrollment__box confirm-next-steps">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Next Steps Header")</h1>
+                    </header>
+                    <div class="promo-box horizontal content clearfix">
+                        <h3>@Html.Sitecore().Field("Account Tour")</h3>
+                        <div class="avatar">
+                            <i class="icon-house"></i>
+                        </div>
+                        <p>@Html.Sitecore().Field("Login Paragraph")</p>
+                        <p><a class="button" href="">@Html.Sitecore().Field("Take Tour")</a></p>
                     </div>
-                    <p>@Html.Sitecore().Field("Login Paragraph")</p>
-                    <p><a class="button" href="">@Html.Sitecore().Field("Take Tour")</a></p>
-                </div>
-            </article>
+                </article>
             *@
         </section>
     </div>
@@ -179,6 +194,78 @@
         <dt>@Html.Sitecore().Field("Confirmation Number")</dt>
         <dd>{{ selectedOffer.confirmationNumber }}</dd>
     </dl>
+</script>
+
+<script type="text/ng-template" id="serviceConfirmation/Mobile">
+    <div class="services-header">
+        <div class="service-title">
+            @Html.Sitecore().Field("Mobile Services Header Text")
+        </div>
+        <div class="service-description" ng-if="getDevicesCount() == 1">
+            {{ getDevicesCount() }} @Html.Sitecore().Field("Individual Plan Text")
+        </div>
+        <div class="service-description" ng-if="getDevicesCount() > 1">
+            {{ getDevicesCount() }} @Html.Sitecore().Field("Group Plan Text")
+        </div>
+    </div>
+    <div class="mobile-services">
+        <div ng-repeat="dataPlan in getCartDataPlan()">
+            <div class="phone-summary" ng-repeat="item in getCartDevices()">
+                <div class="line-item clearfix">
+                    <div class="phone-summary-image">
+                        <img ng-src="{{ item.imageFront }}" ng-if="item.type == 'new'" />
+                        <i class="icon-byod" ng-if="item.type == 'existing'"></i>
+                    </div>
+                    <div class="description" ng-if="item.type == 'new'">
+                        <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
+                        <div class="condition" ng-if="item.buyingOption != 'New'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment Plan")</div>
+                        <h2>{{ item.device.brand }} {{ item.device.name }}</h2>
+                        <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
+                    </div>
+                    <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption != 'New'">@Html.Sitecore().Field("Per Month Text")</span></div>
+                    <div class="description" ng-if="item.type == 'existing'">
+                        <h2>@Html.Sitecore().Field("Bring Your Own Device")</h2>
+                        <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>
+                    </div>
+                </div>
+                <div class="line-item clearfix" ng-if="getDeviceActivationFee(item.id) > 0">
+                    <div class="description">
+                        <h3>@Html.Sitecore().Field("Initial Activation Fee Text")</h3>
+                        <p class="note">@Html.Sitecore().Field("Activation Fee Description")</p>
+                    </div>
+                    <div class="rate">{{ getDeviceActivationFee(item.id) | currency }}</div>
+                </div>
+                <div class="line-item clearfix" ng-if="item.type == 'new' && getDeviceTax(item.id)">
+                    <div class="description">
+                        <h3>@Html.Sitecore().Field("Sales Tax Text")</h3>
+                        <p class="note">@Html.Sitecore().Field("Sales Tax Description")</p>
+                    </div>
+                    <div class="rate">{{ getDeviceTax(item.id) | currency }}</div>
+                </div>
+                <div class="line-item clearfix" ng-if="item.type == 'new' && item.installmentMonths != null && getDeviceDeposit(item.id) > 0">
+                    <div class="description">
+                        <h3>@Html.Sitecore().Field("Deposit Due Text")</h3>
+                        <p class="note">@Html.Sitecore().Field("Deposit Description")</p>
+                    </div>
+                    <div class="rate">{{ getDeviceDeposit(item.id) | currency }}</div>
+                </div>
+            </div>
+            <div class="plan-summary" ng-if="false">
+                <div class="plan-summary-image">
+                    <i class="icon-plan-summary"></i>
+                </div>
+                <div class="line-item clearfix">
+                    <div class="description">
+                        <h2>@Html.Sitecore().Field("Header - Monthly Plan Cost")</h2>
+                        <p ng-if="dataPlan.data != 'Unlimited'">@Html.Sitecore().Field("Text - Monthly Plan Details").Format(new { size = "{{ dataPlan.data }}" })</p>
+                        <p ng-if="dataPlan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited Plan Details").Format(new { size = "{{ dataPlan.data }}" })</p>
+                        <p><a href="" ng-click="editPlan()">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                    </div>
+                    <div class="rate">{{ getProratedCost() | currency }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script type="text/ng-template" id="payments/Deposit">

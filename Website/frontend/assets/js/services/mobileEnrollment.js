@@ -57,6 +57,10 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         return phones;
     };
 
+    service.getPhoneDetails = function (deviceId) {
+        return _.filter(phones, { id: deviceId });
+    };
+
     service.getPhones = function() {
         if (typeof service.selectedNetwork != 'undefined') {
             return _.filter(phones, function(phone) { return _.contains(phone.networks, service.selectedNetwork.id); });

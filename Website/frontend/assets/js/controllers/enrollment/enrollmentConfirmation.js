@@ -1,15 +1,50 @@
-ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $window, enrollmentService, enrollmentStepsService, enrollmentCartService) {
+ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'mobileEnrollmentService', function ($scope, $window, enrollmentService, enrollmentStepsService, enrollmentCartService, mobileEnrollmentService) {
     $scope.accountInformation = {};
 
+    $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
     $scope.customerType = '';
     $scope.confirmationSuccess = false;
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
+    $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
+    $scope.cartHasMobile = enrollmentCartService.cartHasMobile;  
+    $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
+    $scope.getDevicesCount = enrollmentCartService.getConfirmationDevicesCount;
+    $scope.getProratedCost = enrollmentCartService.getProratedCost;
+    $scope.getOfferData = enrollmentCartService.getOfferData;
+    $scope.getOfferPrice = enrollmentCartService.getOfferPrice;
+    $scope.getDeviceTax = enrollmentCartService.getDeviceTax;
+    $scope.getDeviceActivationFee = enrollmentCartService.getDeviceActivationFee;
+    $scope.getDeviceDeposit = enrollmentCartService.getDeviceDeposit;
+    $scope.getPhoneDetails = mobileEnrollmentService.getPhoneDetails;
 
     $scope.onPrint = function() {
         window.print();
     };
+
+    $scope.getCartDevices = function() {
+        /*
+        var devices = enrollmentCartService.getConfirmationDevices();
+        var allPhones = mobileEnrollmentService.getPhoneData();
+        return _(devices).map(function(device) { 
+            var selected = _(allPhones).find(function(phone) { 
+                if ( _(phone.models).pluck('sku').flatten().filter().contains(device) ) { 
+                    return phone 
+                } 
+            }); 
+            var model = _(selected.models).where({'sku': device}).first(); 
+            return { 
+                'id': device,
+                'device': selected, 
+                'imageFront': selected.imageFront, 
+                'size': model.size, 
+                'color': model.color,
+                'type': (device == '7') ? 'existing' : 'new' 
+            } 
+        });
+        */
+    }
 
     /**
      * Get the server data and populate the form
@@ -39,6 +74,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
 
             // find out if we got a successful confirmation
             $scope.confirmationSuccess = $scope.getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationSuccess;
+            $scope.confirmationNumber = $scope.getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber;
 
             // if it's a commercial enrollment, and we don't get a success message, redirect to the error page
             if ($scope.customerType == 'commercial' && !$scope.confirmationSuccess) {

@@ -1342,6 +1342,141 @@
             }
         }
     }
+    .confirm-personal-info {
+        .contact {
+            float: left;
+            width: 100%;
+            @include breakpoint(small) {
+                word-wrap: break-word;
+                margin-bottom: 10px;
+            }
+        }
+        a {
+            font-size: 15px;
+        }
+        h2 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            margin-top: 0;
+            color: #333;
+            font-size: 24px;
+        }
+    }
+    .services-header {
+        background-color: #fafafa;
+        padding: 5px 20px;
+        margin: -20px -20px 0;
+        .service-title {
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .service-description {
+            display: inline-block;
+            float: right;
+            font-size: 14px;
+            color: #979797;
+            padding-top: 3px;
+        }
+    }
+    .content {
+        background-color: #fff;
+    }
+    .mobile-services {
+        .plan-details {
+
+        }
+        .condition {
+            color: #999;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .model {
+            margin: 0;
+        }
+        .description {
+            width: 70%;
+            float: none;
+            display: inline-block;
+        }
+        .line-item {
+            margin-top: 20px;
+        }
+        .rate {
+            width: 29%;
+            display: inline-block;
+            text-align: right;
+            font-weight: 600;
+            vertical-align: top;
+            &.device-price {
+                margin-top: 17px;
+            }
+        }
+        .plan-summary-image, .phone-summary-image {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            img {
+                max-width: 60px;
+            }
+            @include breakpoint(small) {
+                position: relative;
+            }
+        }
+        .plan-summary, .phone-summary {
+            padding-left: 100px;
+            position: relative;
+            margin: 20px 0 40px;
+            border-bottom: 1px solid #e6e6e6;
+            padding-bottom: 30px;
+            &:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }
+            &.no-img {
+                padding-left: 0;
+            }
+            .items-monthly {
+                margin-top: 20px;
+            }
+            @include breakpoint(small) {
+                padding-left: 0;
+            }
+        }
+        .phone-summary {
+            min-height: 140px;
+        }
+        .contact {
+            float: left;
+            width: 100%;
+            @include breakpoint(small) {
+                word-wrap: break-word;
+                margin-bottom: 10px;
+            }
+        }
+        h2 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            margin-top: 0;
+            color: #333;
+            font-size: 20px;
+        }
+        h3 {
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 16px;
+        }
+        footer {
+            text-align: right;
+        }
+        p {
+            margin: 0 0 5px;
+            font-size: 16px;
+        }
+    }
     @include breakpoint(small) {
         dl {
             dt, dd {
