@@ -1,6 +1,14 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.UsageCalculator
 @using Sitecore.Mvc.Extensions
 
+@if(Model.IsModal)
+{
+    <div class="modal-header">
+        @Html.Sitecore().Field("Modal Header")
+    </div>
+    @Html.Raw("<div class=\"modal-body scrollable\">")
+}
+
 <article class="marketing mobile tabs mobile-plans-usage-calculator" ng-controller="MobileUsageCalculatorCtrl" ng-init="init(@(Html.Action("GetUsageCalculatorData", "Marketing").ToHtmlString()))">
 
     <script>
@@ -15,12 +23,13 @@
                     url: 'manual.tpl.html'
                 }
             ],
-            currentTab: "@(Model.ShowBillScrape ? "connect.tpl.html" : "manual.tpl.html")"
+            currentTab: "@(Model.ShowBillScrape ? "connect.tpl.html" : "manual.tpl.html")",
+            isModal:   "@Model.IsModal".toLowerCase()
         };
     </script>
 
     <div class="wrapper">
-        <h1>@Html.Sitecore().Field("Header")</h1>
+        <h1 ng-show="!isModal">@Html.Sitecore().Field("Header")</h1>
         <div class="tab-wrapper">
             @if (Model.ShowBillScrape)
             {
@@ -297,7 +306,7 @@
 
         <script type="text/ng-template" id="manual.tpl.html">
             <div class="manual-calculator">
-                <h4>@Html.Sitecore().Field("Use Calculator Text")</h4>
+                <h4>@Html.Sitecore().Field("Use Calculator Text")</h4>      
                 <div class="grid">
                     <div class="col left clearfix">
                         <div class="icon pull-left">
@@ -445,7 +454,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="stretch">
+                <div class="stretch" ng-show="!isModal">
                     <div class="plan-table">
                         <div class="table-row">
                             <div class="table-cell label">
@@ -562,3 +571,7 @@
         </script>
     </div>
 </article>
+@if(Model.IsModal)
+{
+    @Html.Raw("</div>")
+}

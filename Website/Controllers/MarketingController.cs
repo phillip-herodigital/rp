@@ -1,4 +1,5 @@
-﻿using StreamEnergy.DomainModels;
+﻿using Sitecore.Mvc.Presentation;
+using StreamEnergy.DomainModels;
 using StreamEnergy.Services.Clients;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.MyStream.Models.Marketing;
@@ -46,7 +47,10 @@ namespace StreamEnergy.MyStream.Controllers
             
             var model = new StreamEnergy.MyStream.Models.Marketing.UsageCalculator()
             {
-                ShowBillScrape = Request.QueryString["mode"] == "connect"
+                ShowBillScrape = Request.QueryString["mode"] == "connect",
+                IsModal      = GetValueFromCurrentRenderingParameters("IsModal") != null &&
+                               GetValueFromCurrentRenderingParameters("IsModal").Length > 0 && 
+                               Boolean.Parse(GetValueFromCurrentRenderingParameters("IsModal"))
             };
 
             return View("~/Views/Components/Marketing/Mobile/Mobile Usage Calculator.cshtml", model);
@@ -393,6 +397,15 @@ namespace StreamEnergy.MyStream.Controllers
             }
 
             return View("~/Views/Pages/Marketing/Services/HomeLife Services.cshtml", model);
+        }
+
+        public static string GetValueFromCurrentRenderingParameters(string parameterName)
+        {
+            var rc = RenderingContext.CurrentOrNull;
+            if (rc == null || rc.Rendering == null) return (string)null;
+            var parametersAsString = rc.Rendering.Properties["Parameters"];
+            var parameters = HttpUtility.ParseQueryString(parametersAsString);
+            return parameters[parameterName];
         }
     }
 }

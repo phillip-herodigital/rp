@@ -209,6 +209,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
         $scope.serverData = serverData;
 
+        $scope.isModal = UsageCalculator.isModal; 
+
         // Main Functionality
         // --------------------------------------------------
 
