@@ -253,6 +253,7 @@
     <Compile Include="DomainModels\Enrollments\TexasElectricity\RenewalOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\RenewalOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\RenewalOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\W9BusinessData.cs" />
     <Compile Include="DomainModels\ISearchable.cs" />
     <Compile Include="DomainModels\MobileEnrollment\IMobileEnrollmentService.cs" />
     <Compile Include="DomainModels\MobileEnrollment\IW9GenerationService.cs" />
