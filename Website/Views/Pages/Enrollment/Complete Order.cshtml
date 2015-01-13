@@ -218,26 +218,26 @@
                                 @Html.ValidationMessageFor(model => model.W9BusinessData.CurrentAccountNumbers)
                             </div>
                             @* Use this info from the previous step
-                            <hr />
-                            <h3>@Html.Sitecore().Field("Header - Taxpayer Identification Number")</h3>
-                            @Html.Sitecore().Field("Text - Taxpayer Identification Number")
-                            <hr />
-                            <div class="group or-sep">
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.TaxId)>
-                                    <input type="radio" name="tin" id="tin-ein" ng-model="tin" value="taxId" checked />
-                                    <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Label - Employer Identification Number")</label>
-                                    @Html.TextBoxFor(m => m.TaxId, new { data_val_if = "tin == 'taxId'", data_val_required = "", data_val = "true", data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}$", ng_model = "taxId" })
-                                    @Html.ValidationMessageFor(model => model.TaxId)
-                                    <span class="note">@Html.Sitecore().Field("Note - Employer Identification Number")</span>
-                                </div>
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
-                                    <input type="radio" name="tin" id="tin-ssn" ng-model="tin" value="ssn" />
-                                    <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Label - Social Security Number")</label>
-                                    @Html.TextBoxFor(m => m.SocialSecurityNumber, new { data_val_if = "tin == 'ssn'", data_val_required = "", data_val = "true", data_val_regex = "", data_val_regex_pattern = "^\\d{3}[-]?\\d{2}[-]?\\d{4}$", ng_model = "socialSecurityNumber" })
-                                    @Html.ValidationMessageFor(model => model.SocialSecurityNumber)
-                                    <span class="note">@Html.Sitecore().Field("Note - Social Security Number")</span>
-                                </div>
-                            </div>
+                <hr />
+                <h3>@Html.Sitecore().Field("Header - Taxpayer Identification Number")</h3>
+                @Html.Sitecore().Field("Text - Taxpayer Identification Number")
+                <hr />
+                <div class="group or-sep">
+                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.TaxId)>
+                        <input type="radio" name="tin" id="tin-ein" ng-model="tin" value="taxId" checked />
+                        <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Label - Employer Identification Number")</label>
+                        @Html.TextBoxFor(m => m.TaxId, new { data_val_if = "tin == 'taxId'", data_val_required = "", data_val = "true", data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}$", ng_model = "taxId" })
+                        @Html.ValidationMessageFor(model => model.TaxId)
+                        <span class="note">@Html.Sitecore().Field("Note - Employer Identification Number")</span>
+                    </div>
+                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
+                        <input type="radio" name="tin" id="tin-ssn" ng-model="tin" value="ssn" />
+                        <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Label - Social Security Number")</label>
+                        @Html.TextBoxFor(m => m.SocialSecurityNumber, new { data_val_if = "tin == 'ssn'", data_val_required = "", data_val = "true", data_val_regex = "", data_val_regex_pattern = "^\\d{3}[-]?\\d{2}[-]?\\d{4}$", ng_model = "socialSecurityNumber" })
+                        @Html.ValidationMessageFor(model => model.SocialSecurityNumber)
+                        <span class="note">@Html.Sitecore().Field("Note - Social Security Number")</span>
+                    </div>
+                </div>
                             *@
                             <hr />
                             <h3>@Html.Sitecore().Field("Header - Certification")</h3>
@@ -341,7 +341,7 @@
                         
                     </div>
                     <div class="buttons">
-                        <button type="submit" class="primary" ng-if="customerType != 'commercial' || cartHasMobile() && !isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                        <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Button")</button>
                         <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                         <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                         <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">

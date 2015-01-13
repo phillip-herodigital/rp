@@ -63,20 +63,18 @@ namespace StreamEnergy.MyStream.Conditions
 
             var targetDpiUrl = dependencies.EnrollmentParameters.GetTargetDpiUrlBuilder();
 
-            if (targetDpiUrl == null)
+            if (targetDpiUrl == null || queryString["renewal"] == "true")
                 return false;
 
             bool redirect = false;
 
-            // Prevent non-TX enrollments from viewing our enrollment page.
-            redirect = redirect || dependencies.EnrollmentParameters.State != "TX";
+            // Allow only TX, GA, and mobile enrollments to view our enrollment page.
+            redirect = redirect || (dependencies.EnrollmentParameters.State != "TX" && dependencies.EnrollmentParameters.State != "GA" && dependencies.EnrollmentParameters.ServiceType != "MOB");
 
             // "cracked door" - allow less than 100% through to our own enrollment.
             redirect = redirect || useRemoteEnrollment;
 
             redirect = redirect || (dependencies.EnrollmentParameters.AccountType == "C");
-
-            //redirect = redirect || (dependencies.EnrollmentParameters.ServiceType == "MOB");
 
             if (!string.IsNullOrEmpty(dependencies.Settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
             {
@@ -89,7 +87,7 @@ namespace StreamEnergy.MyStream.Conditions
                     dependencies.Context.Response.Redirect("/maintenance", false);
                 }
             }
-            else if (redirect && (dependencies.EnrollmentParameters.State != "GA" || dependencies.EnrollmentParameters.AccountType == "C"))
+            else if (redirect)
             {
                 var targetUrl = targetDpiUrl();
                 if (!string.IsNullOrEmpty(targetUrl))
