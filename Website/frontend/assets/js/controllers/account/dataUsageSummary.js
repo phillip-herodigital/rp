@@ -18,9 +18,11 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
     $scope.showBreakdown = false;
     $scope.noUsage = false;
+    $scope.hideComponent = true;
 
     $scope.$watch('selectedAccount.accountNumber', function(newVal) { 
         if (newVal) {
+            $scope.hideComponent = false;
             $scope.isLoading = true;
             $http({
                 method: 'POST',

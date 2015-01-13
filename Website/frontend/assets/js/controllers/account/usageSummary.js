@@ -24,8 +24,10 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     var acct = null;
     $scope.isLoading = true;
     $scope.noUsage = false;
+    $scope.hideComponent = true;
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
         if (newVal) {
+            $scope.hideComponent = false;
             acct = newVal;
             firstLoad = true;
             $scope.getUsageStats();
@@ -53,7 +55,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         if ($scope.isLoading || !invoices) return;
         for (var i = 0, invoice; invoice = invoices[i]; i++) {
             var nextInvoice = invoices[i + 1];
-            if (nextInvoice) {
+            if (nextInvoice && invoice.invoiceDate && nextInvoice.invoiceDate) {
                 $scope.dateRanges.push({
                     begin: new Date(nextInvoice.invoiceDate),
                     end: new Date(invoice.invoiceDate),

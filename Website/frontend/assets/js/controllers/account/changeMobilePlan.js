@@ -1,5 +1,6 @@
 ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
     $scope.activeStep = 1;
+    $scope.hideComponent = true;
 
     $scope.formFields = {
         chosenPlan: null,
@@ -13,6 +14,8 @@ ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
         if (newVal) {
             $scope.selectedAcct = newVal;
+
+            $scope.hideComponent = false;
 
             $http({
                 method: 'POST',

@@ -1,4 +1,4 @@
-﻿<div class="enrollment" ng-controller="ChangeMobilePlanCtrl" loading-indicator>
+﻿<div class="enrollment" ng-controller="ChangeMobilePlanCtrl" ng-hide="hideComponent" loading-indicator ng-cloak>
     <article class="enrollment__box enrollment__configure-data" ng-if="activeStep == 1">
         <header>
             <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
@@ -79,9 +79,7 @@
                 <h5><strong>@Html.Sitecore().Field("Taxes and Fees")</strong></h5>
                 <p>@Html.Sitecore().Field("Overage Paragraph")</p>
                 <h5><strong>@Html.Sitecore().Field("Terms and Conditions Header")</strong></h5>
-
                 <p><input id="agreeToTerms" ng-model="formFields.agreeToTerms" type="checkbox" /><label for="agreeToTerms">@Html.Sitecore().Field("Agree to Terms")</label></p>
-
                 <textarea>@Html.Sitecore().Field("Terms Paragraph")</textarea>
             </div>
             <footer>
