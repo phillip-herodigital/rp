@@ -13,10 +13,7 @@
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
                 <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
                     <div class="utility-plan" ng-if="cartHasUtility()">
-                        <h2>@Html.Sitecore().Field("Energy Plan")</h2>
-                        <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || !locationHasService(location) && !isRenewal">
-                            <i class="icon-delete"></i>
-                        </div>
+                        <h2 ng-if="$first">@Html.Sitecore().Field("Energy Plan")</h2>
                         <address>
                             <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                             {{ location.location.address | address }}<br />
@@ -48,7 +45,7 @@
                 </div>
             </footer>
         </article>
-        <article class="enrollment__box documents" ng-if="customerType != 'commercial' && !isRenewal">
+        <article class="enrollment__box documents" ng-if="customerType != 'commercial' && !isRenewal && getCartLocationsCount() > 0">
             <header>
                 @Html.Sitecore().Field("Documents Description")
             </header>
@@ -57,7 +54,7 @@
                 <li ng-if="cartHasMobile()"><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Documents Billing Address")</li>
                 <li ng-if="cartHasUtility()"><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
                 <li ng-if="cartHasUtility()"><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-                <li ng-if="cartHasMobile()"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents MEID Number")</li>
+                <li ng-if="cartHasMobile()"><i class="icon-imei"></i>)</li>
 
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
             <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
@@ -82,12 +79,8 @@
 
 
 <script type="text/ng-template" id="cart/TexasElectricity">
-    <div class="cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)" ng-if="!isRenewal">
-            <i class="icon-delete"></i>
-        </div>
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
-            <i class="icon-electricity"></i> 
             <div class="plan-text">
                 <span class="plan">{{ selectedOffer.offer.name }}</span><br />
                 <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
@@ -107,12 +100,8 @@
 </script>
 
 <script type="text/ng-template" id="cart/GeorgiaGas">
-    <div class="cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)" ng-if="!isRenewal">
-            <i class="icon-delete"></i>
-        </div>
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
-            <i class="icon-gas-icon"></i>
             <div class="plan-text">
                 <span class="plan">{{ selectedOffer.offer.name }}</span><br />
                 <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
