@@ -19,6 +19,7 @@ using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Enrollment;
 using StreamEnergy.Processes;
 using StreamEnergy.DomainModels.Accounts;
+using StreamEnergy.DomainModels.Documents;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -28,8 +29,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly StateMachineSessionHelper<UserContext, InternalContext> stateHelper;
         private IStateMachine<UserContext, InternalContext> stateMachine;
         private readonly IValidationService validation;
-        private Sitecore.Security.Domains.Domain domain;
+        private readonly Sitecore.Security.Domains.Domain domain;
         private readonly StackExchange.Redis.IDatabase redisDatabase;
+        private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
         {
@@ -39,7 +41,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IDocumentStore documentStore)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -47,6 +49,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.stateHelper = stateHelper;
             this.validation = validation;
             this.redisDatabase = redisDatabase;
+            this.documentStore = documentStore;
         }
 
         public async Task Initialize(NameValueCollection enrollmentDpiParameters = null)
@@ -503,6 +506,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             return resultData;
+        }
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<HttpResponseMessage> Download(string documentType)
+        {
+            await Initialize();
+            return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
         }
     }
 }
