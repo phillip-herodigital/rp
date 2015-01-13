@@ -28,6 +28,13 @@
                     <div class="content additional-services">
                         <h3>@Html.Sitecore().Field("Additional Services Header")</h3>
                         <div class="additional-service">
+                            <div class="additional-service-image">
+                                @Html.Sitecore().Field("Energy Services Image")
+                            </div>
+                            <div class="additional-service-content">
+                                @Html.Sitecore().Field("Energy Services Content")
+                                <p><a href="" ng-click="addUtilityAddress()">@Html.Sitecore().Field("Energy Services Link Text") <i class="icon-arrow-right"></i></a></p>
+                            </div>
                             @Html.Sitecore().Field("Energy Services")
                         </div>
                     </div>

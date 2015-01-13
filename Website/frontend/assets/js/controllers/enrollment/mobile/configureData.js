@@ -93,6 +93,14 @@
         $scope.setCurrentStep('choose-phone');
     };
 
+    $scope.addUtilityAddress = function () {
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService();
+        enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
+    };
+
     $scope.completeStep = function() {
         enrollmentService.setAccountInformation();
     };
