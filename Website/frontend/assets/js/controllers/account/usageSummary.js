@@ -113,9 +113,9 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     var updateDeviceTotals = function () {
         if (_.every($scope.data.deviceUsage, function (d) { return (d.dataUsage == null); })) {
             $scope.noUsage = true;
+            var multiplier = parseInt($scope.data.dataUsageLimit) / parseInt($scope.data.deviceUsage.length);
             for (var i = 0, device; device = $scope.data.deviceUsage[i]; i++) {
-                var rand = Math.sin(device.number) * 1000;
-                rand -= rand - Math.floor(rand);
+                var rand = [423, 536, 834, 424, 532, 321, 546, 875, 535, 123][i] * multiplier;
                 device.dataUsage = 1000000 * rand;
                 device.minutesUsage = Math.round(rand * .5);
                 device.messagesUsage = Math.round(rand * .75);

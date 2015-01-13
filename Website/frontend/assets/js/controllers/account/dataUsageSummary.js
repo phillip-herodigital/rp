@@ -37,17 +37,23 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 
                 if (_.every($scope.data.deviceUsage, function (d) { return (d.dataUsage == null); })) {
                     $scope.noUsage = true;
+                    var multiplier = parseInt($scope.data.dataUsageLimit) / parseInt($scope.data.deviceUsage.length);
                     for (var i = 0, device; device = $scope.data.deviceUsage[i]; i++) {
-                        var rand = Math.sin(device.number) * 1000;
-                        rand -= rand - Math.floor(rand);
+                        var rand = [423, 536, 834, 424, 532, 321, 546, 875, 535, 123][i] * multiplier;
                         device.dataUsage = 1000000 * rand;
                         device.minutesUsage = Math.round(rand * .5);
                         device.messagesUsage = Math.round(rand * .75);
                     }
+                    var date = new Date();
+                    date.setDate(date.getDate() - 15);
+                    $scope.data.lastBillingDate = new Date(date);
+                    date.setDate(date.getDate() + 30);
+                    $scope.data.nextBillingDate = new Date(date);
+                } else {
+                    $scope.data.lastBillingDate = new Date($scope.data.lastBillingDate);
+                    $scope.data.nextBillingDate = new Date($scope.data.nextBillingDate);
                 }
 
-			    $scope.data.lastBillingDate = new Date($scope.data.lastBillingDate);
-                $scope.data.nextBillingDate = new Date($scope.data.nextBillingDate);
                 $scope.billingDaysRemaining = Math.round(($scope.data.nextBillingDate - (new Date()).getTime()) / (24 * 60 * 60 * 1000));
                 $scope.currentBillingPeriodDate = $scope.data.lastBillingDate;
 
