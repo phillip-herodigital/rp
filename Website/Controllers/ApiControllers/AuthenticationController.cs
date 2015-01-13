@@ -513,7 +513,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     return response;
                 }
                 var customer = await accountService.CreateStreamConnectCustomer();
-                await accountService.AssociateAccount(customer.GlobalCustomerId, accountNumber, details.Details.SsnLastFour, "");
+                await accountService.AssociateAccount(customer.GlobalCustomerId, accountNumber, null, "");
 
                 customers = new[] { customer };
             }
