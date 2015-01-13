@@ -25,10 +25,10 @@
 
         <ul class="layer-toggle" ng-show="selectedNetwork == 'att'">
             <li>
-                <input type="checkbox" id="att_voice" ng-model="layers.att.att_voice" /> <label for="att_voice">@Html.Sitecore().Field("Voice")</label>
+                <input type="checkbox" id="att_voice" ng-model="layers.att.att_voice_roam" /> <label for="att_voice">@Html.Sitecore().Field("Voice")</label>
             </li>
             <li>
-                <input type="checkbox" id="att_data" ng-model="layers.att.att_data" /> <label for="att_data">@Html.Sitecore().Field("Data")</label>
+                <input type="checkbox" id="att_data" ng-model="layers.att.att_data_roam" /> <label for="att_data">@Html.Sitecore().Field("Data")</label>
             </li>
             <li>
                 <input type="checkbox" id="att_lte" ng-model="layers.att.att_lte" /> <label for="att_lte">@Html.Sitecore().Field("LTE")</label>
@@ -36,10 +36,10 @@
         </ul>
         <ul class="layer-toggle" ng-show="selectedNetwork == 'sprint'">
             <li>
-                <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice" /> <label for="sprint_voice">@Html.Sitecore().Field("Voice")</label>
+                <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@Html.Sitecore().Field("Voice")</label>
             </li>
             <li>
-                <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data" /> <label for="sprint_data">@Html.Sitecore().Field("Data")</label>
+                <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data_roam" /> <label for="sprint_data">@Html.Sitecore().Field("Data")</label>
             </li>
             <li>
                 <input type="checkbox" id="sprint_lte" ng-model="layers.sprint.sprint_lte" /> <label for="sprint_lte">@Html.Sitecore().Field("LTE")</label>

@@ -42,13 +42,13 @@ ngApp.controller('CoverageMapCtrl', ['$scope', 'uiGmapGoogleMapApi', function ($
 
     $scope.layers = {
         att: {
-            att_voice: true,
-            att_data: true,
+            att_voice_roam: true,
+            att_data_roam: true,
             att_lte: true
         },
         sprint: {
-            sprint_voice: true,
-            sprint_data: true,
+            sprint_voice_roam: true,
+            sprint_data_roam: true,
             sprint_lte: true
         }
     };
