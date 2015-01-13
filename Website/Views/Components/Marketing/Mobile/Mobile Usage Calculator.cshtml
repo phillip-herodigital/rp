@@ -420,7 +420,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="suggestion row">
+                <div class="suggestion row" ng-class="{grid: isModal}">
                     <span class="suggestionText">@Html.Sitecore().Field("Based on your estimated usage")</span>
                     <div class="estimatedData">
                         <div class="frame">
@@ -452,6 +452,11 @@
                                 </span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="grid" ng-show="isModal">
+                    <div class="addToCart pull-right">
+                        <a href="" class="button" onClick={addToCartFromModal}>@Html.Sitecore().Field("Modal Button Text")</a>
                     </div>
                 </div>
                 <div class="stretch" ng-show="!isModal">

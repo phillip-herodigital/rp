@@ -205,6 +205,10 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return  _.sortBy(coll, 'data');
     };
 
+    var addToCartFromModal = function(e) {
+
+    };
+
     $scope.init = function(serverData) {
 
         $scope.serverData = serverData;
