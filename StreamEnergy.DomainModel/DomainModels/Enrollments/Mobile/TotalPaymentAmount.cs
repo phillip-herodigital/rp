@@ -36,5 +36,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         public string SystemOfRecord { get; set; }
 
         public string DepositAccount { get; set; }
+
+        public dynamic ActivationFee { get; set; }
     }
 }

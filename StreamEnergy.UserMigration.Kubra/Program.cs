@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,7 +59,7 @@ namespace StreamEnergy.UserMigration.Kubra
 
         private async Task ImportUser(UserRecord userRecord)
         {
-            if (Membership.GetUser(prefix + userRecord) != null)
+            if (Membership.GetUser(prefix + userRecord.Username) != null)
             {
                 await MarkComplete(userRecord, usernameCollision: true);
             }
@@ -76,14 +77,55 @@ namespace StreamEnergy.UserMigration.Kubra
 
         private IEnumerable<UserRecord> LoadRecords()
         {
-            // TODO - load from database
-            throw new NotImplementedException();
+            using (var db = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["kubraImportList"].ConnectionString))
+            using (var command = new System.Data.SqlClient.SqlCommand(@"
+SELECT [ID]
+      ,[GlobalCustomerId]
+      ,[EmailAddress]
+      ,[KubraUsername]
+  FROM [dbo].[Customer]
+--WHERE [PortalImportStatus] IS NULL
+", db))
+            {
+                db.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    List<UserRecord> result = new List<UserRecord>();
+                    while (reader.Read())
+                    {
+                        result.Add(new UserRecord
+                            {
+                                Id = Convert.ToInt32(reader["ID"]),
+                                GlobalCustomerId = (Guid)reader["GlobalCustomerId"],
+                                EmailAddress = (string)reader["EmailAddress"],
+                                Username = (string)reader["KubraUsername"],
+                            });
+                    }
+                    return result;
+                }
+            }
         }
 
-        private Task MarkComplete(UserRecord userRecord, bool usernameCollision)
+        private async Task MarkComplete(UserRecord userRecord, bool usernameCollision)
         {
             // TODO - load from database
-            throw new NotImplementedException();
+            using (var db = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["kubraImportList"].ConnectionString))
+            using (var command = new System.Data.SqlClient.SqlCommand(@"
+
+UPDATE [dbo].[Customer]
+   SET [PortalImportStatus] = @importStatus
+      ,[PortalUsernameConflict] = @usernameConflict
+ WHERE Id=@id
+", db))
+            {
+                await db.OpenAsync();
+
+                command.Parameters.Add("@importStatus", System.Data.SqlDbType.NVarChar).Value = usernameCollision ? "Error" : "Success";
+                command.Parameters.Add("@usernameConflict", System.Data.SqlDbType.NVarChar).Value = usernameCollision ? "Y" : "N";
+                command.Parameters.Add("@usernameConflict", System.Data.SqlDbType.Int).Value = userRecord.Id;
+
+                await command.ExecuteNonQueryAsync();
+            }
         }
 
     }
