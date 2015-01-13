@@ -42,7 +42,7 @@
                 </div>
                 <footer ng-if="getCartTotal() > 0">
                     <div class="total">
-                        @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                        @Html.Sitecore().Field("Order Total Text") <strong>{{ getCartTotal() | currency }}</strong>
                     </div>
                 </footer>
             </article>
@@ -213,17 +213,16 @@
             <div class="phone-summary" ng-repeat="item in getConfirmationDevices()">
                 <div class="line-item clearfix">
                     <div class="phone-summary-image">
-                        {{ item }}
                         <img ng-src="{{ item.imageFront }}" ng-if="item.type == 'new'" />
                         <i class="icon-byod" ng-if="item.type == 'existing'"></i>
                     </div>
                     <div class="description" ng-if="item.type == 'new'">
-                        <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
-                        <div class="condition" ng-if="item.buyingOption != 'New'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment Plan")</div>
+                        <div class="condition" ng-if="!isDeviceInstallmentPlan(item.id)">@Html.Sitecore().Field("New")</div>
+                        <div class="condition" ng-if="isDeviceInstallmentPlan(item.id)">@Html.Sitecore().Field("Month Installment Plan")</div>
                         <h2>{{ item.device.brand }} {{ item.device.name }}</h2>
                         <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
                     </div>
-                    <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption != 'New'">@Html.Sitecore().Field("Per Month Text")</span></div>
+                    <div class="rate device-price" ng-if="item.type == 'new'">{{ getDevicePrice(item.id) | currency }}</div>
                     <div class="description" ng-if="item.type == 'existing'">
                         <h2>@Html.Sitecore().Field("Bring Your Own Device")</h2>
                         <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>

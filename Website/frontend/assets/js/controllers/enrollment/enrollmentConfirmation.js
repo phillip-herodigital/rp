@@ -20,7 +20,8 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     $scope.getDeviceTax = enrollmentCartService.getDeviceTax;
     $scope.getDeviceActivationFee = enrollmentCartService.getDeviceActivationFee;
     $scope.getDeviceDeposit = enrollmentCartService.getDeviceDeposit;
-    $scope.getPhoneDetails = mobileEnrollmentService.getPhoneDetails;
+    $scope.getDevicePrice = enrollmentCartService.getDevicePrice;
+    $scope.isDeviceInstallmentPlan = enrollmentCartService.isDeviceInstallmentPlan;
 
     $scope.onPrint = function() {
         window.print();
@@ -44,7 +45,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
                 'color': model.color,
                 'type': (device == '7') ? 'existing' : 'new' 
             } 
-        });
+        }).value();
     });
 
     $scope.getConfirmationDevices = function() {

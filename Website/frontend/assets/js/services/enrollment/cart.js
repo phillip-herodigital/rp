@@ -158,6 +158,17 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .reduce(sum, 0);
         },
 
+        isDeviceInstallmentPlan: function (deviceId) {
+            return _(services)
+                .pluck('offerInformationByType').flatten().filter()
+                .pluck('value').filter().pluck('offerSelections').flatten()
+                .filter(function(offer){
+                    if (offer.offerOption.inventoryItemId == deviceId){ 
+                        return offer
+                    }
+                }).first().offerOption.useInstallmentPlan;
+        },
+
         getDeviceActivationFee: function (deviceId) {
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
@@ -169,6 +180,20 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 }).pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
                 .pluck('activationFee').filter()
                 .reduce(sum, 0);
+        },
+
+        getDevicePrice: function (deviceId) {
+            var subTotal = _(services)
+                .pluck('offerInformationByType').flatten().filter()
+                .pluck('value').filter().pluck('offerSelections').flatten()
+                .filter(function(offer){
+                    if (offer.offerOption.inventoryItemId == deviceId){ 
+                        return offer
+                    }
+                }).pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
+                .pluck('subTotal').filter()
+                .reduce(sum, 0);
+            return subTotal - enrollmentCartService.getDeviceActivationFee(deviceId);
         },
 
         getDeviceDeposit: function (deviceId) {
