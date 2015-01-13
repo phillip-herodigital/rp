@@ -24,11 +24,17 @@
                     text-transform: uppercase;
                 }
             }
+            &.lightText {
+                color: #fff;
+                h1 {
+                    color: #fff;
+                }
+            }
         }
         @include breakpoint(small) {
             height: 200px;
             .content {
-                width: 90%;
+                width: 65%;
                 em {
                     font-size: 18px;
                 }
@@ -49,6 +55,7 @@
         display: none;
         position: relative;
         background-size: cover;
+        background-position: 50%;
         @include transition(.6s ease-in-out left);
 
         // WebKit CSS3 transforms for supported devices
