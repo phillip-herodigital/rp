@@ -10,7 +10,7 @@
 }
 
 <article class="marketing mobile tabs mobile-plans-usage-calculator" ng-controller="MobileUsageCalculatorCtrl" ng-init="init(@(Html.Action("GetUsageCalculatorData", "Marketing").ToHtmlString()))">
-
+    
     <script>
         var UsageCalculator = {
             tabs: [
@@ -23,8 +23,8 @@
                     url: 'manual.tpl.html'
                 }
             ],
-            currentTab: "@(Model.ShowBillScrape ? "connect.tpl.html" : "manual.tpl.html")",
-            isModal:   "@Model.IsModal".toLowerCase()
+            currentTab: '@(Model.ShowBillScrape ? "connect.tpl.html" : "manual.tpl.html")',
+            isModal:    '@Model.IsModal'.toLowerCase() == 'true'
         };
     </script>
 
@@ -460,7 +460,7 @@
                 </div>
                 <div class="grid" ng-show="isModal">
                     <div class="addToCart pull-right">
-                        <a href="" class="button" onClick={addToCartFromModal}>@Html.Sitecore().Field("Modal Button Text")</a>
+                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}" class="button">@Html.Sitecore().Field("Modal Button Text")</a>
                     </div>
                 </div>
                 <div class="stretch" ng-show="!isModal">
