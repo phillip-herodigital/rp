@@ -10,5 +10,7 @@ namespace StreamEnergy.UserMigration.Kubra
         public string Username { get; set; }
         public Guid GlobalCustomerId { get; set; }
         public string EmailAddress { get; set; }
+
+        public int Id { get; set; }
     }
 }
