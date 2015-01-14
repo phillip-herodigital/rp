@@ -6,7 +6,7 @@ ngApp.controller('AcctAccountSelectorCtrl', ['$scope', '$rootScope', '$http', fu
 
     $http.get('/api/account/getAccounts').success(function (data, status, headers, config) {
         $scope.accounts = _.filter(data, function (acct) {
-            return $scope.filterAccountType && acct.accountType.toLowerCase() == $scope.filterAccountType.toLowerCase();
+            return !$scope.filterAccountType || acct.accountType.toLowerCase() == $scope.filterAccountType.toLowerCase();
         });
         
 		// initialize the current account

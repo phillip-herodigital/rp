@@ -816,7 +816,7 @@
                 color: #fff;
                 font-size: 10px;
                 font-weight: 600;
-                padding: 2px 4px;
+                padding: 4px 4px 2px;
                 margin: 5px 0;
                 display: inline-block;
             }
@@ -1582,7 +1582,7 @@
         margin: 0 -13px;
         padding: 13px;
         background-color: #fff;
-        border-bottom: 2px solid #eaeaea;
+        border-bottom: 1px solid #eaeaea;
         &:first-child {
             padding-top: 0;
         }
@@ -1592,7 +1592,7 @@
         h2 {
             margin-top: 0;
             color: #333;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             text-transform: none;
         }
@@ -1600,6 +1600,12 @@
             h2 {
                 margin-bottom: 5px;
             }
+            .plan-type {
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+        .utiltiy-plan {
             .plan-type {
                 font-size: 14px;
                 font-weight: 600;
@@ -1619,6 +1625,9 @@
         .options {
             margin-top: 15px;
         }*/
+    }
+    .utility-cart-product {
+        margin: 5px 0;
     }
     .today-product {
         margin: 10px 0;
@@ -1688,9 +1697,6 @@
             top: 4px;
             left: 0;
         }
-        .plan-text {
-            margin-left: 20px;
-        }
         .links {
             clear: both;
         }
@@ -1714,8 +1720,8 @@
         width: 50%;
         font-size: 13px;
         color: #333;
-        font-weight: 600;
-        margin: 5px 0 0 30px;
+        font-weight: 400;
+        margin: 3px 0;
     }
     .avatar {
         text-align: center;
@@ -1723,13 +1729,18 @@
     }
     address {
         font-style: normal;
-        font-size: 12px;
-        width: 90%;
+        font-size: 14px;
+        font-weight: 400;
         h3 {
             font-size: 12px;
             color: #333;
             margin: 0;
-            font-weight: 600;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+        a {
+            font-size: 13px;
+            font-weight: 400;
         }
     }
     .box {
@@ -2814,11 +2825,13 @@
             display: table-cell;
             width: 50%;
             &:first-child {
-                border-right: 1px solid #e6e6e6;
                 padding-right: 20px;
             }
             &:last-child {
                 padding-left: 20px;
+            }
+            &.new-byod {
+                border-right: 1px solid #e6e6e6;
             }
             button {
                 background: none;
@@ -2871,11 +2884,13 @@
                 padding: 25px 0;
                 &:first-child {
                     border-right: none;
-                    border-bottom: 1px solid #e6e6e6;
                     padding-right: 0;
                 }
                 &:last-child {
                     padding-left: 0;
+                }
+                &.new-byod {
+                    border-bottom: 1px solid #e6e6e6;
                 }
             }
             .new-line-content {

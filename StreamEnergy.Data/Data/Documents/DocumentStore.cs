@@ -20,5 +20,30 @@ namespace StreamEnergy.Data.Documents
             return Task.FromResult(Guid.Empty);
         }
 
+
+
+        public Task<byte[]> Download(Guid documentId)
+        {
+            // TODO - download
+            throw new NotImplementedException();
+        }
+
+        public Task<byte[]> DownloadByCustomer(Guid customerId, string documentType)
+        {
+            // TODO - download
+            throw new NotImplementedException();
+        }
+
+        public Task<System.Net.Http.HttpResponseMessage> DownloadAsMessage(Guid documentId)
+        {
+            // TODO - download
+            throw new NotImplementedException();
+        }
+
+        public Task<System.Net.Http.HttpResponseMessage> DownloadByCustomerAsMessage(Guid customerId, string documentType)
+        {
+            // TODO - download
+            throw new NotImplementedException();
+        }
     }
 }

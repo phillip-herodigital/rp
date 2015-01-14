@@ -82,11 +82,11 @@
                 }
 
                 // if the state is in the excluded list, show the "no plans available" dialog
-                if (_(data[0]).intersection($scope.mobileEnrollmentSettings.excludedStates)) {
-                    $scope.showNetworks = true;
+                if (_($scope.mobileEnrollmentSettings.excludedStates).contains(data[0])) {
+                    $scope.showNetworks = false;
                 } 
                 else {
-                    $scope.showNetworks = false;
+                    $scope.showNetworks = true;
                 }
             }
             else {

@@ -30,6 +30,28 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
 		$scope.paymentAccounts = data; 
 	});
 
+	$scope.$watch("paymentAccounts", function (newVal, oldVal) {
+	    if (newVal != oldVal) {
+	        paymentAccountsForIndex = [];
+	    }
+	});
+	var paymentAccountsForIndex = [];
+	$scope.paymentAccountsFor = function (acct) {
+	    if (acct == null) return [];
+	    if (paymentAccountsForIndex[acct.accountNumber]) return paymentAccountsForIndex[acct.accountNumber];
+
+	    paymentAccountsForIndex[acct.accountNumber] = _.map($scope.paymentAccounts, function (pa) {
+	        if (_.some(acct.availablePaymentMethods, { 'paymentMethodType': pa.underlyingType })) {
+	            return pa;
+	        } else {
+	            var newpa = angular.copy(pa);
+	            newpa.id = "";
+	            return newpa;
+	        }
+	    });
+	    return paymentAccountsForIndex[acct.accountNumber];
+	};
+
     $scope.resetAccount = function () {
     	$scope.activeState = 'step1';
     	$scope.paymentAmount = $scope.selectedAccount.amountDue;

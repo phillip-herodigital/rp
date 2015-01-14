@@ -604,7 +604,7 @@ namespace StreamEnergy.Services.Clients
                         PaymentAccount = new
                         {
                             Token = card.CardToken,
-                            AccountType = "Unknown",
+                            AccountType = card.Type,
                             ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
                             Name = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
                             Postal = card.BillingZipCode,

@@ -370,7 +370,8 @@ namespace StreamEnergy.Services.Clients
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/associate", new
                 {
                     AccountNumber = accountNumber,
-                    Last4 = ssnLast4,
+                    Last4 = ssnLast4 == null ? "0000" : ssnLast4,
+                    IgnoreLast4 = ssnLast4 == null ? true : false,
                     Nickname = accountNickname
                 });
             if (response.IsSuccessStatusCode)
@@ -519,14 +520,10 @@ namespace StreamEnergy.Services.Clients
             {
                 UtilityProvider = null, //TODO - Needed for NE accounts
             });
-            account.Capabilities.Add(new PaymentMethodAccountCapability
-            {
-                AvailablePaymentMethods = 
-                { 
-                    new AvailablePaymentMethod { PaymentMethodType = DomainModels.Payments.TokenizedBank.Qualifier }, 
-                    new AvailablePaymentMethod { PaymentMethodType = DomainModels.Payments.TokenizedCard.Qualifier }
-                }
-            });
+            
+            account.Capabilities.Add(new PaymentMethodAccountCapability((from type in (IEnumerable<dynamic>)data.Account.AccountBillingDetails.AcceptedPaymentAccountTypes
+                                                                         select new AvailablePaymentMethod { PaymentMethodType = type }).ToList()));
+            
             account.Capabilities.Add(new PaymentSchedulingAccountCapability
             {
                 CanMakeOneTimePayment = true

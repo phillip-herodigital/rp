@@ -47,7 +47,8 @@
         var serviceIndexErrors = [];
         angular.forEach(result.validations, function (entry) {
             var capture = /^Services\[(\d+)\]/g.exec(entry.memberName);
-            if (capture) {
+            var selectedOffers = /SelectedOffers/g.exec(entry.memberName);
+            if (capture && !selectedOffers) {
                 serviceIndexErrors.push(parseInt(capture[1]));
             }
         });
