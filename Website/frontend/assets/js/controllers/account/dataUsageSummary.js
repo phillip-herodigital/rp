@@ -37,6 +37,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 
                 if (_.every($scope.data.deviceUsage, function (d) { return (d.dataUsage == null); })) {
                     $scope.noUsage = true;
+                    $scope.data.dataUsageLimit = ($scope.data.dataUsageLimit != 0) ? $scope.data.dataUsageLimit : 1;
                     var multiplier = parseInt($scope.data.dataUsageLimit) / parseInt($scope.data.deviceUsage.length);
                     for (var i = 0, device; device = $scope.data.deviceUsage[i]; i++) {
                         var rand = [423, 536, 834, 424, 532, 321, 546, 875, 535, 123][i] * multiplier;

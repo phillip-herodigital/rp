@@ -512,8 +512,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     response.Headers.Location = new Uri("/auth/login?error=true&type=impersonate", UriKind.Relative);
                     return response;
                 }
-                var customer = await accountService.CreateStreamConnectCustomer();
-                await accountService.AssociateAccount(customer.GlobalCustomerId, accountNumber, details.Details.SsnLastFour, "");
+                var customer = await accountService.CreateStreamConnectCustomer(email: details.Details.ContactInfo.Email.Address);
+                await accountService.AssociateAccount(customer.GlobalCustomerId, accountNumber, null, "");
 
                 customers = new[] { customer };
             }
