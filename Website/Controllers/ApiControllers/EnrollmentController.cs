@@ -31,7 +31,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IValidationService validation;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly StackExchange.Redis.IDatabase redisDatabase;
-        private readonly IDocumentStore documentStore;
+        //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
         {
@@ -41,7 +41,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IDocumentStore documentStore)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -49,7 +49,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.stateHelper = stateHelper;
             this.validation = validation;
             this.redisDatabase = redisDatabase;
-            this.documentStore = documentStore;
+            //this.documentStore = documentStore;
         }
 
         public async Task Initialize(NameValueCollection enrollmentDpiParameters = null)
@@ -513,7 +513,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<HttpResponseMessage> Download(string documentType)
         {
             await Initialize();
-            return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
+            return null;
+            //return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
         }
     }
 }

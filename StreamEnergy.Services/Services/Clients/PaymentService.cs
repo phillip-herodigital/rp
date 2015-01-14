@@ -45,6 +45,7 @@ namespace StreamEnergy.Services.Clients
                                 RedactedData = "********" + entry.PaymentAccountNumberLast4,
                                 DisplayName = entry.PaymentMethodNickname,
                                 UnderlyingPaymentType = ToPortalPaymentType(entry.PaymentAccountType.ToString()),
+                                UnderlyingType = entry.PaymentAccountType.ToString(),
                             }
                     }).ToArray();
         }
@@ -196,7 +197,7 @@ namespace StreamEnergy.Services.Clients
                 return new
                 {
                     Token = card.CardToken,
-                    AccountType = "Unknown",
+                    AccountType = card.Type,
                     ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
                     Name = card.Name,
                     Postal = card.BillingZipCode,
