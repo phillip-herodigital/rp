@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
+using Microsoft.WindowsAzure.Storage;
 
 namespace StreamEnergy.Data
 {
     class DataContainerSetup : Unity.InheritanceSetupStrategy
     {
         public DataContainerSetup()
-            : base(typeof(MobileEnrollment.MobileEnrollmentService))
+            : base(typeof(MobileEnrollment.MobileEnrollmentService), typeof(Documents.DocumentStore))
         {
         }
 
@@ -28,7 +30,14 @@ namespace StreamEnergy.Data
         protected override void AdditionalSetup(IUnityContainer unityContainer)
         {
             unityContainer.RegisterType<MobileEnrollment.DataContext>(new HierarchicalLifetimeManager());
-            
+
+            var documentStorageConnectionString = ConfigurationManager.ConnectionStrings["documents"].ConnectionString;
+            var azureStorageConnectionString = ConfigurationManager.ConnectionStrings["azureStorage"].ConnectionString;
+            var cloudStorageAccount = CloudStorageAccount.Parse(azureStorageConnectionString);
+
+            unityContainer.RegisterInstance(cloudStorageAccount);
+            unityContainer.RegisterInstance(Documents.DocumentStore.SqlConnectionString, documentStorageConnectionString);
+            unityContainer.RegisterInstance(Documents.DocumentStore.CloudStorageContainerFormat, ConfigurationManager.AppSettings[Documents.DocumentStore.CloudStorageContainerFormat]);
         }
 
         private void RegisterService<TInterface>(IUnityContainer unityContainer, TInterface soapClient)

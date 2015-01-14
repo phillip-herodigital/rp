@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -9,13 +10,13 @@ namespace StreamEnergy.DomainModels.Documents
 {
     public interface IDocumentStore
     {
-        Task<Guid> UploadNew(byte[] document, Guid customerId, string documentType, string mimeType);
+        Task<Guid> UploadNew(byte[] document, Guid customerId, string systemOfRecordId, string documentType, string mimeType);
 
         // update document? 
         // delete document?
 
-        Task<byte[]> Download(Guid documentId);
-        Task<byte[]> DownloadByCustomer(Guid customerId, string documentType);
+        Task<Stream> Download(Guid documentId);
+        Task<Stream> DownloadByCustomer(Guid customerId, string documentType);
         Task<HttpResponseMessage> DownloadAsMessage(Guid documentId);
         Task<HttpResponseMessage> DownloadByCustomerAsMessage(Guid customerId, string documentType);
     }
