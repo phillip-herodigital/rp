@@ -47,12 +47,11 @@
         var serviceIndexErrors = [];
         angular.forEach(result.validations, function (entry) {
             var capture = /^Services\[(\d+)\]/g.exec(entry.memberName);
-            var selectedOffers = /SelectedOffers/g.exec(entry.memberName);
-            if (capture && !selectedOffers) {
+            if (capture) {
                 serviceIndexErrors.push(parseInt(capture[1]));
             }
         });
-        if (serviceIndexErrors.length) {
+        if (serviceIndexErrors.length && !_.contains(serviceIndexErrors, enrollmentCartService.getActiveServiceIndex())) {
             enrollmentCartService.setActiveServiceIndex(serviceIndexErrors[0]);
         }
         else if (enrollmentCartService.services.length == 0) {
