@@ -12,7 +12,7 @@
     @* Single Column Layout for Choose Network *@
     <section class="layout cols-1">
         <div class="wrapper">
-            <div ng-if="!mobileEnrollmentSettings.disableMobileEnrollments">
+            <div ng-show="!mobileEnrollmentSettings.disableMobileEnrollments">
                 <article class="enrollment__box enrollment__choose-network">
                     <div class="content choose-location">
                         @*<select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display | addSpaces for state in stateNames"></select>*@
@@ -114,7 +114,7 @@
                 *@
                 <p class="footnotes" ng-if="showNetworks">@Html.Sitecore().Field("Footnotes")</p>
             </div>
-            <div ng-if="mobileEnrollmentSettings.disableMobileEnrollments">
+            <div ng-show="mobileEnrollmentSettings.disableMobileEnrollments">
                 <article class="enrollment__box">
                     <div class="content">
                         @Html.Sitecore().Field("Text - Mobile Enrollments Disabled")

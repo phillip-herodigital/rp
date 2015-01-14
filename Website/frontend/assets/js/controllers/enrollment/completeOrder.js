@@ -61,7 +61,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
                 paymentInfo: null,
                 depositWaivers: depositWaivers,
-                w9BusinessData: $scope.w9BusinessData
+                w9BusinessData: _.keys($scope.w9BusinessData).length ? $scope.w9BusinessData : null
             });
         }
 
@@ -119,6 +119,18 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         //remove the device from the cart items array
         enrollmentCartService.removeDeviceFromCart(item);
         enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+    };
+
+    /**
+    * Change Plan
+    */
+    $scope.changeUtilityPlan = function (service) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
     };
 
     $scope.showSignatureModal = function (templateUrl) {

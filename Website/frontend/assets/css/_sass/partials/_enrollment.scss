@@ -1174,7 +1174,7 @@
     .content {
         background-color: #fff;
     }
-    .mobile-services {
+    .mobile-services, .energy-services {
         .plan-details {
 
         }
@@ -1199,7 +1199,7 @@
             width: 29%;
             display: inline-block;
             text-align: right;
-            font-weight: 600;
+            font-weight: 400;
             vertical-align: top;
             &.device-price {
                 margin-top: 17px;
