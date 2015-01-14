@@ -539,50 +539,61 @@
 
 
 <script type="text/ng-template" id="completeOrder/TexasElectricity">
-    @*<h3>Electricity</h3>*@
-    <table class="verify-order-table">
-        <tbody>
-            <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
-                @*<td class="description">
-                    <h4>{{selectedOffer.offer.name}}</h4>
-                    <p>{{selectedOffer.offer.description}}</p>
-                </td>
-                <td class="rate">
-                    {{selectedOffer.offer.rate | currency}} kWh
-                </td>*@
-            </tr>
-            <tr>
-                <td colspan="2">
+    <div class="services-header">
+        <div class="service-title">
+            @Html.Sitecore().Field("Energy Services Text")
+        </div>
+        <div class="service-description">
+            @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+        </div>
+    </div>
+    <div class="energy-services">
+        <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+            <div class="plan-summary">
+                <div class="plan-summary-image">
+                    <i class="icon-electricity-blue"></i>
+                </div>
+                <div class="line-item clearfix">
+                    <div class="description">
+                        <h2>{{selectedOffer.offer.name}}</h2>
+                        <p>{{selectedOffer.offer.description}}</p>
+                        <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                    </div>
+                    <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
                     <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></table>
-                </td>
-            </tr>
-            <tr ng-repeat-end></tr>
-        </tbody>
-        
-    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script type="text/ng-template" id="completeOrder/GeorgiaGas">
-    @*<h3>Electricity</h3>*@
-    <table class="verify-order-table">
-        <tbody>
-            <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
-                @*<td class="description">
-                        <h4>{{selectedOffer.offer.name}}</h4>
+    <div class="services-header">
+        <div class="service-title">
+            @Html.Sitecore().Field("Energy Services Text")
+        </div>
+        <div class="service-description">
+            @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+        </div>
+    </div>
+    <div class="energy-services">
+        <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+            <div class="plan-summary">
+                <div class="plan-summary-image">
+                    <i class="icon-gas-blue"></i>
+                </div>
+                <div class="line-item clearfix">
+                    <div class="description">
+                        <h2>{{selectedOffer.offer.name}}</h2>
                         <p>{{selectedOffer.offer.description}}</p>
-                    </td>
-                    <td class="rate">
-                        {{selectedOffer.offer.rate | currency}} kWh
-                    </td>*@
-            </tr>
-            <tr>
-                <td colspan="2">
+                        <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                    </div>
+                    <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per Therm")</div>
                     <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></table>
-                </td>
-            </tr>
-            <tr ng-repeat-end></tr>
-        </tbody>
-    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script type="text/ng-template" id="completeOrder/TexasElectricityCommercialQuote">

@@ -121,6 +121,18 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
     };
 
+    /**
+    * Change Plan
+    */
+    $scope.changeUtilityPlan = function (service) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
+    };
+
     $scope.showSignatureModal = function (templateUrl) {
         var $sigdiv;
         var signatureModalInstance = $modal.open({
