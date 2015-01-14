@@ -213,6 +213,35 @@
     };
 
     /**
+    * Set mobile offers
+    * 
+    * @return {object}            Promise object returned when API call has successfully completed.
+    */
+    service.setMobileOffers = function () {
+        var data = {};
+        data.cart = _.map(enrollmentCartService.services, function (cartItem) {
+            return {
+                location: cartItem.location,
+                offerInformationByType: _.map(cartItem.offerInformationByType, function (typedOrderInfo) {
+                    return {
+                        key: typedOrderInfo.key,
+                        value: {
+                            offerSelections: _.map(typedOrderInfo.value.offerSelections, function (offerSelection) {
+                                return {
+                                    offerId: offerSelection.offerId,
+                                    offerOption: offerSelection.offerOption
+                                };
+                            })
+                        }
+                    };
+                })
+            };
+        });
+
+        return makeCall('accountInformation', data, true);
+    };
+
+    /**
     * Set account information
     * 
     * @return {object}            Promise object returned when API call has successfully completed.

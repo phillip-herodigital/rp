@@ -33,7 +33,7 @@
             angular.forEach(address.offerInformationByType, function (entry) {
                 if (entry.value && _(entry.key).contains('Mobile') && entry.value.offerSelections.length) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.offerSelections[0].offerId;
-                } else if (entry.value && entry.value.availableOffers.length == 1) {
+                } else if (entry.value && _(entry.key).contains('Mobile') && entry.value.availableOffers.length == 1) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;
                 }
             });
@@ -49,13 +49,14 @@
 
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
-        enrollmentStepsService.setMaxStep('phoneFlowPlans');
-        // clear selected offers
-        enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { return []; }).value());     
+        enrollmentStepsService.setMaxStep('phoneFlowPlans');     
 
         var activeService = enrollmentCartService.getActiveService();
         var activeServiceIndex = enrollmentCartService.getActiveServiceIndex();
         if (typeof activeService != 'undefined' && selectedOffers.Mobile != null) {
+            // clear selected offers
+            enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { return []; }).value());
+            
             var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
             var selectedOffer = _(offerInformationForType.value.availableOffers).find({ 'id': selectedOffers.Mobile });
             var offerId = selectedOffer.id;
@@ -94,6 +95,9 @@
     };
 
     $scope.addUtilityAddress = function () {
+        // save the mobile offer selections
+        enrollmentService.setMobileOffers();
+
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
         }

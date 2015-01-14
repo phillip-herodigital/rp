@@ -422,10 +422,30 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['Mobile'])
                 .some();
         },
+        getMobileAddresses: function() {
+            return _(services)
+                .filter(function(service) { 
+                    if (_(service.offerInformationByType).pluck('key')
+                        .intersection(['Mobile'])
+                        .some()) {
+                        return service;
+                    } 
+                }).value();
+        },
         cartHasUtility: function () {
             return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
                 .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
                 .some();
+        },
+        getUtilityAddresses: function() {
+            return _(services)
+                .filter(function(service) { 
+                    if (_(service.offerInformationByType).pluck('key')
+                        .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
+                        .some()) {
+                        return service;
+                    } 
+                }).value();
         },
         locationHasService: function (location) {
             if (!location.offerInformationByType)
