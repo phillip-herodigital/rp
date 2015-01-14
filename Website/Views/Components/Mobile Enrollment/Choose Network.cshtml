@@ -10,109 +10,117 @@
         </div>
     </div>
     @* Single Column Layout for Choose Network *@
-    <section class="layout">
+    <section class="layout cols-1">
         <div class="wrapper">
-            <article class="enrollment__box enrollment__choose-network">
-                <div class="content choose-location">
-                    @*<select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display | addSpaces for state in stateNames"></select>*@
-                <form ng-submit="lookupZip()" data-val-bind-messages="validations">
-                    @Html.Sitecore().Field("Header - Choose Network")
-                    <input type="text" ng-model="postalCode5" class="zip-code" data-val="true" data-val-required data-val-length="" data-val-length-min="5" data-val-length-max="5" />
-                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Zip Code Button")</button>
-                </form>
-                </div>
-                
-            </article>
-        
-            @* Networks not available *@
-            <article class="enrollment__box enrollment__choose-network" ng-if="!showNetworks">
-                <div class="content">
-                    <div class="no-networks-available" >
-                        <h2 class="no-plans">@Html.Sitecore().Field("Header - No Plans Available")</h2>
-                        <div class="stretch-full">
-                            <p class="intro">@Html.Sitecore().Field("Subheader - Check Out Services")</p>
-                            <div class="grid three">
-                                <div class="col">
-                                    <i class="icon-hls-credit-monitoring img-col"></i>
-                                    <h3>@Html.Sitecore().Field("Header - Credit Monitoring")</h3>
-                                    @Html.Sitecore().Field("Text - Credit Monitoring")
-                                    @Html.Sitecore().Field("Link - Credit Monitoring") <i class="icon-arrow-right"></i>
-                                </div>
-                                <div class="col">
-                                    <i class="icon-hls-identity-theft img-col"></i>
-                                    <h3>@Html.Sitecore().Field("Header - Identity Theft Protection")</h3>
-                                    @Html.Sitecore().Field("Text - Identity Theft Protection")
-                                    @Html.Sitecore().Field("Link - Identity Theft Protection") <i class="icon-arrow-right"></i>
-                                </div>
-                                <div class="col">
-                                    <i class="icon-hls-online-protection img-col"></i>
-                                    <h3>@Html.Sitecore().Field("Header - Online Backup")</h3>
-                                    @Html.Sitecore().Field("Text - Online Backup")
-                                    @Html.Sitecore().Field("Link - Online Backup") <i class="icon-arrow-right"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            @* Networks are available *@
-            <div class="stretch-full" ng-if="showNetworks">
-            @foreach (var network in Model.MobileNetworks)
-            {
+            <div ng-if="!mobileEnrollmentSettings.disableMobileEnrollments">
                 <article class="enrollment__box enrollment__choose-network">
+                    <div class="content choose-location">
+                        @*<select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display | addSpaces for state in stateNames"></select>*@
+                    <form ng-submit="lookupZip()" data-val-bind-messages="validations">
+                        @Html.Sitecore().Field("Header - Choose Network")
+                        <input type="text" ng-model="postalCode5" class="zip-code" data-val="true" data-val-required data-val-length="" data-val-length-min="5" data-val-length-max="5" />
+                        <button type="submit" data-val-submit>@Html.Sitecore().Field("Zip Code Button")</button>
+                    </form>
+                    </div>
+                
+                </article>
+        
+                @* Networks not available *@
+                <article class="enrollment__box enrollment__choose-network" ng-if="!showNetworks">
                     <div class="content">
-                        <div class="choose-network-table-wrapper">
-                            <h2>@Html.Raw(network.Header)</h2>
-                            <div class="choose-network-table">
-                                <div class="description">@Html.Raw(network.Description)</div>
-                                <div class="plan">
-                                    @Html.Raw(network.IndividualPlans)
-                                    <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                        <div class="no-networks-available" >
+                            <h2 class="no-plans">@Html.Sitecore().Field("Header - No Plans Available")</h2>
+                            <div class="stretch-full">
+                                <p class="intro">@Html.Sitecore().Field("Subheader - Check Out Services")</p>
+                                <div class="grid three">
+                                    <div class="col">
+                                        <i class="icon-hls-credit-monitoring img-col"></i>
+                                        <h3>@Html.Sitecore().Field("Header - Credit Monitoring")</h3>
+                                        @Html.Sitecore().Field("Text - Credit Monitoring")
+                                        @Html.Sitecore().Field("Link - Credit Monitoring") <i class="icon-arrow-right"></i>
+                                    </div>
+                                    <div class="col">
+                                        <i class="icon-hls-identity-theft img-col"></i>
+                                        <h3>@Html.Sitecore().Field("Header - Identity Theft Protection")</h3>
+                                        @Html.Sitecore().Field("Text - Identity Theft Protection")
+                                        @Html.Sitecore().Field("Link - Identity Theft Protection") <i class="icon-arrow-right"></i>
+                                    </div>
+                                    <div class="col">
+                                        <i class="icon-hls-online-protection img-col"></i>
+                                        <h3>@Html.Sitecore().Field("Header - Online Backup")</h3>
+                                        @Html.Sitecore().Field("Text - Online Backup")
+                                        @Html.Sitecore().Field("Link - Online Backup") <i class="icon-arrow-right"></i>
+                                    </div>
                                 </div>
-                                <div class="plan">
-                                    @Html.Raw(network.GroupPlans)
-                                    <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
-                                </div>
-                            </div>
-                            <div ng-if="'@network.Value' == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintByod">
-                                <div class="overlay"></div>
-                                <span class="text">@Html.Sitecore().Field("Coming Soon Text")</span>
-                            </div>
-                            <div ng-if="mobileEnrollmentService.postalCode5.length != 5">
-                                <div class="overlay"></div>
-                                <span class="text">@Html.Sitecore().Field("Enter Zip Text")</span>
                             </div>
                         </div>
                     </div>
                 </article>
-            }
-            </div>
 
-            @* Trade in program *@
-            @*
-            <article class="enrollment__box enrollment__choose-network">
-                <div class="content">
-                    <div class="stretch-full">
-                        <div class="choose-network-table-wrapper">
-                            <table class="choose-network-table">
-                                <tbody>
-                                    <tr>
-                                        <td>@Html.Sitecore().Field("Text - Trade and Save")</td>
-                                        <td class="devices">@Html.Sitecore().Field("Image - Trade and Save")</td>
-                                        <td class="select-network">
-                                            @Html.Sitecore().Field("Link - Trade and Save")
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                @* Networks are available *@
+                <div class="stretch-full" ng-if="showNetworks">
+                @foreach (var network in Model.MobileNetworks)
+                {
+                    <article class="enrollment__box enrollment__choose-network">
+                        <div class="content">
+                            <div class="choose-network-table-wrapper">
+                                <h2>@Html.Raw(network.Header)</h2>
+                                <div class="choose-network-table">
+                                    <div class="description">@Html.Raw(network.Description)</div>
+                                    <div class="plan">
+                                        @Html.Raw(network.IndividualPlans)
+                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                    </div>
+                                    <div class="plan">
+                                        @Html.Raw(network.GroupPlans)
+                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                    </div>
+                                </div>
+                                <div ng-if="'@network.Value' == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintByod">
+                                    <div class="overlay"></div>
+                                    <span class="text">@Html.Sitecore().Field("Coming Soon Text")</span>
+                                </div>
+                                <div ng-if="mobileEnrollmentService.postalCode5.length != 5">
+                                    <div class="overlay"></div>
+                                    <span class="text">@Html.Sitecore().Field("Enter Zip Text")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                }
+                </div>
+
+                @* Trade in program *@
+                @*
+                <article class="enrollment__box enrollment__choose-network">
+                    <div class="content">
+                        <div class="stretch-full">
+                            <div class="choose-network-table-wrapper">
+                                <table class="choose-network-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>@Html.Sitecore().Field("Text - Trade and Save")</td>
+                                            <td class="devices">@Html.Sitecore().Field("Image - Trade and Save")</td>
+                                            <td class="select-network">
+                                                @Html.Sitecore().Field("Link - Trade and Save")
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </article>
-            *@
-            <p class="footnotes" ng-if="showNetworks">@Html.Sitecore().Field("Footnotes")</p>
-        </div>
+                </article>
+                *@
+                <p class="footnotes" ng-if="showNetworks">@Html.Sitecore().Field("Footnotes")</p>
+            </div>
+            <div ng-if="mobileEnrollmentSettings.disableMobileEnrollments">
+                <article class="enrollment__box">
+                    <div class="content">
+                        @Html.Sitecore().Field("Text - Mobile Enrollments Disabled")
+                    </div>
+                </article>
+            </div>
 
     </section>
 </div>
