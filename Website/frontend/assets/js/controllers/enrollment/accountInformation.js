@@ -51,13 +51,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
      * [utilityAddresses description]
      * @return {[type]} [description]
      */
-    $scope.utilityAddresses = function () {
-        //Keep a temporary array for the typeahead service addresses
-
-        //Don't do this, digest loop error
-        //$scope.accountInformation.serviceAddress = [];
-        return enrollmentCartService.services;
-    };
+    $scope.utilityAddresses = enrollmentCartService.getUtilityAddresses;
 
     if (!$scope.accountInformation.mailingAddress)
         $scope.accountInformation.mailingAddressSame = true;
