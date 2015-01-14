@@ -61,7 +61,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
                 paymentInfo: null,
                 depositWaivers: depositWaivers,
-                w9BusinessData: $scope.w9BusinessData
+                w9BusinessData: _.keys($scope.w9BusinessData).length ? $scope.w9BusinessData : null
             });
         }
 
