@@ -99,7 +99,8 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 sprintBuyPhone = !string.IsNullOrEmpty(item.Fields["Sprint Buy Phone"].Value),
                 sprintByod = !string.IsNullOrEmpty(item.Fields["Sprint BYOD"].Value),
-                excludedStates = item.Fields["Excluded States"].Value.Split(',')
+                excludedStates = item.Fields["Excluded States"].Value.Split(','),
+                disableMobileEnrollments = !string.IsNullOrEmpty(item.Fields["Disable Mobile Enrollments"].Value)
             };
 
             return this.Content(StreamEnergy.Json.Stringify(data));

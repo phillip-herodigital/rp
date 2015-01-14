@@ -24,11 +24,17 @@
                     text-transform: uppercase;
                 }
             }
+            &.lightText {
+                color: #fff;
+                h1 {
+                    color: #fff;
+                }
+            }
         }
         @include breakpoint(small) {
             height: 200px;
             .content {
-                width: 90%;
+                width: 65%;
                 em {
                     font-size: 18px;
                 }
@@ -49,31 +55,33 @@
         display: none;
         position: relative;
         background-size: cover;
+        background-position: 50%;
         @include transition(.6s ease-in-out left);
 
         // WebKit CSS3 transforms for supported devices
-        @media all and (transform-3d), (-webkit-transform-3d) {
-            transition: transform .6s ease-in-out;
-            backface-visibility: hidden;
-            perspective: 1000;
+        // Removing this as it was breaking desktop Safari
+        // @media all and (transform-3d), (-webkit-transform-3d) {
+        //     transition: transform .6s ease-in-out;
+        //     backface-visibility: hidden;
+        //     perspective: 1000;
 
-            &.next,
-            &.active.right {
-                transform: translate3d(100%, 0, 0);
-                left: 0;
-            }
-            &.prev,
-            &.active.left {
-                transform: translate3d(-100%, 0, 0);
-                left: 0;
-            }
-            &.next.left,
-            &.prev.right,
-            &.active {
-                transform: translate3d(0, 0, 0);
-                left: 0;
-            }
-        }
+        //     &.next,
+        //     &.active.right {
+        //         transform: translate3d(100%, 0, 0);
+        //         left: 0;
+        //     }
+        //     &.prev,
+        //     &.active.left {
+        //         transform: translate3d(-100%, 0, 0);
+        //         left: 0;
+        //     }
+        //     &.next.left,
+        //     &.prev.right,
+        //     &.active {
+        //         transform: translate3d(0, 0, 0);
+        //         left: 0;
+        //     }
+        // }
     }
 
     > .active,

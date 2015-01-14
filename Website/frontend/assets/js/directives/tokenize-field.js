@@ -30,6 +30,20 @@
                 };
                 result.redacted = "************" + rawField.slice(-4)
 
+                if (attributes.type == "bank") {
+                    result.type = "Bank";
+                } else if (rawField.indexOf("34") == 0 || rawField.indexOf("37") == 0) {
+                    result.type = "AmericanExpress";
+                } else if (rawField.indexOf("6011") == 0 || rawField.indexOf("622") == 0 || rawField.indexOf("64") == 0 || rawField.indexOf("65") == 0) {
+                    result.type = "Discover";
+                } else if (rawField.indexOf("50") == 0 || rawField.indexOf("51") == 0 || rawField.indexOf("52") == 0 || rawField.indexOf("53") == 0 || rawField.indexOf("54") == 0 || rawField.indexOf("55") == 0) {
+                    result.type = "Mastercard";
+                } else if (rawField.indexOf("4") == 0) {
+                    result.type = "Visa";
+                } else {
+                    result.type = "Unknown";
+                }
+                
                 return result;
             });
 

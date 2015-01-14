@@ -40,13 +40,12 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         $http({
             method: 'GET',
             url: '/api/account/getInvoices',
-            data: {
-                accountNumber: acct,
-            },
             headers: { 'Content-Type': 'application/JSON' }
         })
         .success(function (data, status, headers, config) {
-            invoices = data.invoices.values;
+            invoices = _.chain(data.invoices.values)
+                       .sort("accountNumber")
+                       .reverse();
             addInvoiceRanges();
         });
     };
@@ -113,7 +112,10 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
     var updateDeviceTotals = function () {
         if (_.every($scope.data.deviceUsage, function (d) { return (d.dataUsage == null); })) {
             $scope.noUsage = true;
+            $scope.data.dataUsageLimit = ($scope.data.dataUsageLimit != 0) ? $scope.data.dataUsageLimit : 1;
+            $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit * GIGA;
             var multiplier = parseInt($scope.data.dataUsageLimit) / parseInt($scope.data.deviceUsage.length);
+            if (multiplier)
             for (var i = 0, device; device = $scope.data.deviceUsage[i]; i++) {
                 var rand = [423, 536, 834, 424, 532, 321, 546, 875, 535, 123][i] * multiplier;
                 device.dataUsage = 1000000 * rand;

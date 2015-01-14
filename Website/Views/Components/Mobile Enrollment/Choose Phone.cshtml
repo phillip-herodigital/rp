@@ -314,17 +314,18 @@
                             <h3>@Html.Sitecore().Field("Add Line Header")</h3>
                         </header>
                         <div class="content additional-device">
-                            <div class="new-line">
+                            <div class="new-line new-byod" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                                 @Html.Sitecore().Field("Bring A Device")
                                 <button type="button" ng-click="addDeviceToCart('existing')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Bring A Device Link")</button>
                             </div>
-                            <div class="new-line-or">
+                            <div class="new-line-or" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                                 @Html.Sitecore().Field("Or")
                             </div>
                             <div class="new-line">
                                 @Html.Sitecore().Field("Shop Phones")
                                 <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Shop Phones Link")</button>
                             </div>
+                            <div class="new-line" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintByod"></div>
                         </div>
                     </article>
                     <div class="enrollment__choose-device">

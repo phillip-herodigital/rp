@@ -44,7 +44,7 @@
                                                         data-val="true" data-val-required data-val-if="item.selected" data-val-regex="" data-val-regex-pattern="^[A-Fa-f0-9]{32}$|({|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\))?$|^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$"
                                                         ng-model="item.selectedPaymentMethod" ng-change="addAccount(item)">
                                                     <option value="" ng-selected="selected">@Html.Sitecore().Field("Select Payment Account Text")</option>
-                                                    <option ng-repeat="option in paymentAccounts" value="{{ option.id }}">{{ option.displayName }}</option>
+                                                    <option ng-repeat="option in paymentAccountsFor(item)" value="{{ option.id }}">{{ option.displayName }}</option>
                                                     <option value="addAccount">@Html.Sitecore().Field("Add Account Text")</option>
                                                 </select>
                                                 @account.ValidationMessageFor(m => m.PaymentAccount)

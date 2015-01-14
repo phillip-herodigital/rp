@@ -1,7 +1,7 @@
 ﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
-    $scope.currentLocationInfo = enrollmentCartService.getActiveService;
+    $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
 
     $scope.formFields = {
         chosenPlanId: undefined
@@ -91,6 +91,14 @@
 
     $scope.editDevice = function() {
         $scope.setCurrentStep('choose-phone');
+    };
+
+    $scope.addUtilityAddress = function () {
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService();
+        enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
     };
 
     $scope.completeStep = function() {

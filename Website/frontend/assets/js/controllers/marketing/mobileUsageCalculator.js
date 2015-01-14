@@ -162,7 +162,16 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
     $scope.estimateLabelLeft = function() {
         return Math.max($('.estimate').width() - $('.estimatedDataLabel').width() - 15, 0);
-    }
+    };
+
+    $scope.totalSavingsForCarrier = function(carrier) {
+        var fees = $scope.connect.validas.leasedPayoffFee + $scope.connect.validas.totalEtf +
+                    ($scope.connect.validas.phoneLines * $scope.getCarrier(carrier).fees.activationFee);
+
+        var savings = $scope.calculateTCO('currentPlan') - $scope.calculateTCO(carrier);
+
+        return $scope.connect.validas.tradeInValue + savings - fees; 
+    };
 
     $scope.$watch('manualCalculator', function(newVal, oldVal) {
         var subtotal = 0;
@@ -244,7 +253,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
             range: 'min'
         };
 
-        $scope.showBreakdown = false;
+        $scope.showBreakdown = true;
         $scope.formData = {
             selectedTimeframe: 24
         };
@@ -273,8 +282,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         
         /*$scope.connect.username = "5164496292";
         $scope.connect.password = "37Beetlestone";
-
-        /*$scope.connect.validas = {
+        */
+        /*
+        $scope.connect.validas = {
             "billingCount": 1,
             "network": "att",
             "phoneLines": 1,
@@ -282,6 +292,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
             "averageMonthlyCost": 65,
             "totalEtf": 0,
             "leasedPayoffFee": 0,
+            "tradeInValue": 423,
             "recommendations": [
                 {
                     "Id": "65",
@@ -305,8 +316,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 }
             ]
         };
-        $scope.connected = true;*/
-
+        $scope.connected = true;
+    */
     };
 
 }]);
