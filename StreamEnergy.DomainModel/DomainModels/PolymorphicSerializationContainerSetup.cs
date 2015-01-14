@@ -16,6 +16,7 @@ namespace StreamEnergy.DomainModels
             {
                 SupportedTypes = {
                     { Enrollments.TexasElectricity.ServiceCapability.Qualifier, typeof(Enrollments.TexasElectricity.ServiceCapability) },
+                    { Enrollments.TexasElectricity.RenewalCapability.Qualifier, typeof(Enrollments.TexasElectricity.RenewalCapability) },
                     { Enrollments.GeorgiaGas.ServiceCapability.Qualifier, typeof(Enrollments.GeorgiaGas.ServiceCapability) },
                     { Enrollments.Mobile.ServiceCapability.Qualifier, typeof(Enrollments.Mobile.ServiceCapability) },
                     { Enrollments.GeorgiaGas.RenewalCapability.Qualifier, typeof(Enrollments.GeorgiaGas.RenewalCapability) },
