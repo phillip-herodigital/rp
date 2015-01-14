@@ -282,7 +282,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         
         /*$scope.connect.username = "5164496292";
         $scope.connect.password = "37Beetlestone";
-*/
+        */
+        /*
         $scope.connect.validas = {
             "billingCount": 1,
             "network": "att",
@@ -316,7 +317,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
             ]
         };
         $scope.connected = true;
-
+    */
     };
 
 }]);
