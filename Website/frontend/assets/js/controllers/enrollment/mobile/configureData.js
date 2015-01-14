@@ -1,7 +1,7 @@
 ﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
-    $scope.currentLocationInfo = enrollmentCartService.getActiveService;
+    $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
 
     $scope.formFields = {
         chosenPlanId: undefined

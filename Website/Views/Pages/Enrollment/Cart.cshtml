@@ -53,8 +53,8 @@
                 <li ng-if="cartHasMobile()"><i class="icon-credit-card"></i> @Html.Sitecore().Field("Documents Credit Card")</li>
                 <li ng-if="cartHasMobile()"><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Documents Billing Address")</li>
                 <li ng-if="cartHasUtility()"><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                <li ng-if="cartHasUtility()"><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-                <li ng-if="cartHasMobile()"><i class="icon-imei"></i>)</li>
+                <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+                <li ng-if="cartHasMobile()"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents MEID Number")</li>
 
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
             <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->

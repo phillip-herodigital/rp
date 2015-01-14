@@ -16,7 +16,7 @@
                     </header>
                     <div class="content">
                         <h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>
-                        <div data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></div>
+                        <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'dataPlanList/' + typedOffers.key"></div>
                         <p class="footnotes">@Html.Sitecore().Field("Special Offer Footnote")</p>
                     </div>
                     <footer>
@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<script type="text/ng-template" id="planList/Mobile">
+<script type="text/ng-template" id="dataPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans">
         <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterDataPlans | orderBy:data" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
             <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
@@ -78,4 +78,10 @@
             </p>
         </div>
     </div>
+</script>
+
+<script type="text/ng-template" id="dataPlanList/TexasElectricity">
+</script>
+
+<script type="text/ng-template" id="dataPlanList/GeorgiaGas">
 </script>

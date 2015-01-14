@@ -101,16 +101,31 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         getConfirmationDevices: function() {
             return _(services)
-            .pluck('offerInformationByType').flatten().filter({ key: "Mobile" })
+            .pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
             .pluck('value').flatten().pluck('offerSelections').flatten().filter()
             .pluck('offerOption').flatten().filter().pluck('inventoryItemId').flatten().filter();
         },
 
         getCartDataPlan: function() {
             var dataPlan = [];
-            var selectedPlan = _(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('offerSelections').first();
+            var selectedPlan = _(services)
+            .pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
+            .pluck('value').flatten().pluck('offerSelections').first();
+            
             if (typeof selectedPlan != 'undefined' && selectedPlan.length > 0) {
-                dataPlan.push(_(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" }).pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: selectedPlan[0].offerId }).first());
+                dataPlan.push(_(services).pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                }).pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: selectedPlan[0].offerId }).first());
             }
             return dataPlan;
         },
@@ -120,7 +135,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         getConfirmationDevicesCount: function() {
-            return _(services).pluck('offerInformationByType').flatten().filter({ key: "Mobile" })
+            return _(services).pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
             .pluck('value').flatten().pluck('offerSelections').flatten().size();
         },
 
@@ -135,18 +154,27 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         getOfferData: function(offerId) {
             return _(services)
-            .pluck('offerInformationByType').flatten().filter({ key: "Mobile" })
+            .pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
             .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().data;
         },
 
         getOfferPrice: function(offerId) {
             return _(services)
-            .pluck('offerInformationByType').flatten().filter({ key: "Mobile" })
+            .pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
             .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().rates[0].rateAmount;
         },
 
         getDeviceTax: function (deviceId) {
-            return _(services)
+            var activeService = enrollmentCartService.getActiveService();
+            return _(activeService)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten()
                 .filter(function(offer){
@@ -170,7 +198,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         getDeviceActivationFee: function (deviceId) {
-            return _(services)
+            var activeService = enrollmentCartService.getActiveService();
+            return _(activeService)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten()
                 .filter(function(offer){
@@ -311,15 +340,23 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
             //Get the count for all utility products
             var utility = _(services)
-                .pluck('offerInformationByType').flatten().filter()
+                .pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])) {
+                        return offer;
+                    }
+                })
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
                 .size();
 
             //Get the count for all mobile products
-            var dataPlan = (utility > 0) ? _(services)
-                .pluck('offerInformationByType').flatten().filter({ key: "Mobile" })
+            var dataPlan = _(services)
+                .pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
-                .size() : 0;
+                .size();
             var mobile = (dataPlan > 0) ? 1 : cart.items.length;
 
             return utility + mobile;
