@@ -2649,14 +2649,6 @@ article.opportunity-more-information.accent-red {
     }
 }
 
-.modal-body{
-	article.mobile.mobile-plans-usage-calculator {
-		.wrapper {
-			padding-top: 0;
-			width: 100%
-		}
-	}
-}
 article.mobile.mobile-plans-usage-calculator {
     
 	h1 {
@@ -2916,6 +2908,7 @@ article.mobile.mobile-plans-usage-calculator {
 					border: 1px solid #f0f0f0;
 					padding: 10px;
 					text-align: center;
+					vertical-align: middle;
 
 					.coverageMap {
 						text-align: center;
@@ -2949,7 +2942,16 @@ article.mobile.mobile-plans-usage-calculator {
 							}
 						}
 					}
+					.subLabel {
+						font-size: 12px;
+					}
 
+				}
+
+				.full-row {
+					width: 100%;
+					text-align: center;
+					padding: 10px;
 				}
 
 				.current-plan {
@@ -2962,7 +2964,43 @@ article.mobile.mobile-plans-usage-calculator {
 				}
 
 			}
+
+			.single-cell {
+				display: table-caption;
+				background: rgb(220, 220, 220);
+			}
 		}
 
+	}
+}
+.modal-body{
+	article.mobile.mobile-plans-usage-calculator {
+		.wrapper {
+			padding-top: 0;
+			width: 100%
+		}
+
+		p {
+			margin-bottom: 0;
+		}
+
+		.manual-calculator {
+			.grid {
+				display: block;
+				.col {
+					display: block;
+				    padding: 0 10px;
+    				margin-bottom: 10px;
+    				width: 100%;
+					.icon {
+						display: none;
+					}
+
+					&.addToCart {
+						text-align: right;
+					}
+				}
+			}
+		}
 	}
 }
