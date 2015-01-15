@@ -63,7 +63,7 @@
                     <div class="pay-option">
                         <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>
                         <p>@Html.Sitecore().Field("No Login Text")</p>
-                        <p><a class="button" href="@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/OneTimeValidate.aspx">@Html.Sitecore().Field("No Login Button Text")</a> @Html.Sitecore().Field("Instead Text")</p>
+                        <p><a class="button" href="/one-time-payment">@Html.Sitecore().Field("No Login Button Text")</a> @Html.Sitecore().Field("Instead Text")</p>
                         <p>@Html.Sitecore().Field("Charges Apply Text")</p>
                     </div>
                     <div class="pay-option">
@@ -87,7 +87,7 @@
                         <p class="forgot">@Html.Sitecore().Field("Texas Forgot Text")</p>
                         <hr />
                         <p>@Html.Sitecore().Field("Havent Created Text")</p>
-                        <p class="sign-up"><a href="@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/Enroll_Step1.aspx">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
+                        <p class="sign-up"><a href="/auth/create-account">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
                         <p><span class="benefits">@Html.Sitecore().Field("Paperless Billing Text")</span> @Html.Sitecore().Field("Paperless Benefit Text")</p>
                         <p><span class="benefits">@Html.Sitecore().Field("Automated Payments Text")</span> @Html.Sitecore().Field("Automated Benefit Text")</p>
                     </div>
