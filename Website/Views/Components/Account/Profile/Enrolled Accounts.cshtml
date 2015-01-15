@@ -9,6 +9,12 @@
             </div>
             <hr class="content-divider" />
         </div>
+        <div ng-show="failureMessage">
+            <div class="notice error">
+                @Html.Sitecore().Field("Failure Message Text")
+            </div>
+            <hr class="content-divider" />
+        </div>
         <table>
             <thead>
                 <tr>
