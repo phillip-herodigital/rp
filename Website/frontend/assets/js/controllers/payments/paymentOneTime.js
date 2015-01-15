@@ -39,11 +39,19 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
     };
 
     //Step 2
-    this.validatePaymentInfo = function() {
+    this.validatePaymentInfo = function () {
+        $scope.isLoading = true;
         ctrl.paymentMethod().then(function (paymentMethod) {
-            ctrl.evaluatedPaymentMethod = paymentMethod;
-            ctrl.totalCharge = parseFloat(ctrl.paymentAmount) + 2.95;
-            ctrl.activeStep = 3;
+            $scope.isLoading = false;
+            if (_.some(ctrl.account.availablePaymentMethods, { 'paymentMethodType': paymentMethod.type })) {
+                ctrl.evaluatedPaymentMethod = paymentMethod;
+                ctrl.totalCharge = parseFloat(ctrl.paymentAmount) + 2.95;
+                ctrl.activeStep = 3;
+            } else {
+                $scope.validations = [{
+                    "memberName": "PaymentAccount.CreditCardNumber"
+                }];
+            }
         });
     };
 
