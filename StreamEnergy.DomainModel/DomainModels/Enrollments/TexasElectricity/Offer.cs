@@ -13,6 +13,7 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
         public const string Qualifier = "TexasElectricity";
 
         public string Id { get; set; }
+        public string Tdu { get; set; }
 
         // A value from Stream Connect that, as of yet, has no value to us other than passing it back in.
         public string Provider { get; set; }
@@ -53,5 +54,6 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
         public Dictionary<string, Uri> Documents { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> Footnotes { get; set; }
+
     }
 }

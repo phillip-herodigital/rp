@@ -28,16 +28,17 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             try
             {
+                var accountNumber = internalContext.PlaceOrderResult.Where(p => p.Location.Capabilities.OfType<Mobile.ServiceCapability>().Any())
+                    .Select(p => p.Details.ConfirmationNumber).FirstOrDefault();
+
                 var w9Pdf = w9Generator.GenerateW9(context.W9BusinessData.BusinessInformationName, context.W9BusinessData.BusinessName, context.W9BusinessData.BusinessTaxClassification, context.W9BusinessData.AdditionalTaxClassification, context.W9BusinessData.ExemptCode, context.W9BusinessData.FatcaCode, context.W9BusinessData.BusinessAddress, context.W9BusinessData.CurrentAccountNumbers, context.SocialSecurityNumber, context.TaxId, context.W9BusinessData.SignatureImage, DateTime.Now);
-                internalContext.W9StorageId = await documentStore.UploadNew(w9Pdf, internalContext.GlobalCustomerId, null, DocumentTypeIndicator.W9, "application/pdf");
+                internalContext.W9StorageId = await documentStore.UploadNew(w9Pdf, internalContext.GlobalCustomerId, accountNumber, DocumentTypeIndicator.W9, "application/pdf");
             }
             catch (Exception ex)
             {
                 logger.Record("Failed to generate W-9", ex, Severity.Error).Wait();
             }
 
-            if (internalContext.PlaceOrderAsyncResult != null)
-                return typeof(AsyncPlaceOrderState);
             return await base.InternalProcess(context, internalContext);
         }
     }
