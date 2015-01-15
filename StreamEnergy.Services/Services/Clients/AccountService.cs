@@ -302,7 +302,7 @@ namespace StreamEnergy.Services.Clients
                     EmailAddress = customer.EmailAddress,
                     UserName = customer.Username,
                     PortalId = customer.AspNetUserProviderKey,
-                    TCPAPreference = "NA"
+                    TCPAPreference = customer.TCPAPreference == null ? "NA" : customer.TCPAPreference
                 });
             dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
