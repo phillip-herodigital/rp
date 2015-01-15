@@ -13,7 +13,6 @@
                     <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Confirmation Paragraph")</p>
                     <p ng-if="customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Submitted Paragraph")</p>
                     <p ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Paragraph")</p>
-                    <p ng-if="confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Confirmation Number") <strong>{{ confirmationNumber }}</strong></p>
                 </div>
             </article>
             <article ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" class="commercial-next-steps enrollment__box">
@@ -100,7 +99,7 @@
                 @Html.Sitecore().Field("Energy Services Text")
             </div>
             <div class="service-description">
-                @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+                @Html.Sitecore().Field("Service Address Label") {{ service.location.address | address}}
             </div>
         </div>
 
@@ -126,15 +125,15 @@
                         </div>
                         <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
                     </div>
-                    <div class="line-item clearfix">
-                        <div class="sub-charge">
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
                             <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
                         </div>
                         <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
                     </div>
                     <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
                     <div class="plan-documents clearfix">
-                        <div class="sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
+                        <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
                         <div class="docs">
                             <ul>
                                 <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
@@ -286,7 +285,7 @@
 </script>
 
 <script type="text/ng-template" id="payments/Deposit">
-    <div class="sub-charge">
+    <div class="description sub-charge">
         <strong>@Html.Sitecore().Field("Deposit Header")</strong><br>
     </div>
     <div class="rate">{{ payment.dollarAmount | currency }}</div>
