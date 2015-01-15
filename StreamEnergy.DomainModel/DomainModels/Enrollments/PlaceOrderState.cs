@@ -95,10 +95,10 @@ namespace StreamEnergy.DomainModels.Enrollments
                 await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.Address);
             }
 
-            if (context.W9BusinessData != null)
-                return typeof(GenerateW9State);
             if (internalContext.PlaceOrderAsyncResult != null)
                 return typeof(AsyncPlaceOrderState);
+            if (context.W9BusinessData != null)
+                return typeof(GenerateW9State);
             return await base.InternalProcess(context, internalContext);
         }
 

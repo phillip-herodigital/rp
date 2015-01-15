@@ -1215,6 +1215,7 @@
     <Content Include="Views\Components\Marketing\HTML Grid.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Usage Calculator.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Usage Calculator Modal.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Table.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

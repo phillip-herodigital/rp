@@ -54,6 +54,14 @@ a.significant {
     padding: 0;
     margin: 0;
     text-transform: uppercase;
+    @include breakpoint(small) {
+        height: 80px;
+        line-height: 80px;
+        font-size: 24px;
+        .wrapper {
+            padding: 0 20px;
+        }
+    }
 }
 
 dl.faq {
@@ -659,6 +667,35 @@ article.mobile-plan-intro {
                 content: image-url('marketing/redesign/check.png');
             }
         }
+    }
+}
+
+article.mobile-plans-table {
+    h3 {
+        margin: 0;
+    }
+    .label {
+        text-align: left;
+    }
+    table {
+        margin-bottom: 10px;
+        td {
+            padding: 10px;
+        }
+        .starting-price {
+            margin-top: 0;
+            font-weight: 600;
+            font-size: 16px;
+            .price {
+                display: block;
+                font-size: 24px;
+            }
+        }
+    }
+    .footnotes {
+        text-align: left;
+        font-size: 14px;
+        color: #999999;
     }
 }
 

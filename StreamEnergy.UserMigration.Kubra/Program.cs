@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Security;
 using Microsoft.Practices.Unity;
@@ -48,13 +50,38 @@ namespace StreamEnergy.UserMigration.Kubra
         private void Run()
         {
             var users = LoadRecords().ToArray();
+            var completedCount = 0;
+            Stopwatch sw = new Stopwatch();
 
+            Action<string> onCompleted = (string username) =>
+                {
+                    var temp = completedCount + 1;
+                    Interlocked.Increment(ref completedCount);
+                    var msPerUser = (sw.ElapsedMilliseconds) / temp;
+                    DateTime target = DateTime.Now + TimeSpan.FromMilliseconds(msPerUser * (users.Length - temp));
+                    Console.WriteLine("{0}% - {1} of {2} - {3}\n  Complete at {4}\n", (temp * 100 / users.Length), temp, users.Length, username, target);
+                };
+            List<Task> executing = new List<Task>();
+            var max = int.Parse(ConfigurationManager.AppSettings["maxThreads"]);
+
+            sw.Start();
             foreach (var entry in users.Select((e, index) => new { index, e }))
             {
-                ImportUser(entry.e).Wait();
+                executing.Add(ImportUser(entry.e).ContinueWith(t => onCompleted(entry.e.Username)));
 
-                Console.WriteLine("{0}% of {2} - {1}", (entry.index * 100 / users.Length), entry.e.Username, users.Length);
+                if (executing.Count >= max)
+                {
+                    Task.WaitAny(executing.ToArray());
+                    executing.RemoveAll(t => t.IsCompleted);
+                }
+
+                if (Console.KeyAvailable)
+                {
+                    break;
+                }
             }
+
+            Task.WaitAll(executing.ToArray());
         }
 
         private async Task ImportUser(UserRecord userRecord)
@@ -115,7 +142,6 @@ WHERE [PortalImportStatus] IS NULL
 
         private async Task MarkComplete(UserRecord userRecord, bool usernameCollision = false, bool otherError = false)
         {
-            // TODO - load from database
             using (var db = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["kubraImportList"].ConnectionString))
             using (var command = new System.Data.SqlClient.SqlCommand(@"
 UPDATE [dbo].[Customer]
