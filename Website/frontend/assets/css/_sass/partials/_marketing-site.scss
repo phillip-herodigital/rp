@@ -2663,6 +2663,12 @@ article.mobile.mobile-plans-usage-calculator {
 		margin-bottom: 1em;
 	}
 
+	span.note {
+		display: block;
+		font-size: 14px;
+		color: #999;
+	}
+
 	.tab-wrapper {
 		@include border-radius(5px);
 		border: 1px solid #ccc;		

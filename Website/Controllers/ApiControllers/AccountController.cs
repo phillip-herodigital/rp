@@ -724,6 +724,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (!validations.Any())
             {
+                ((ISanitizable)request).Sanitize();
                 var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
                 account.Details.ContactInfo.Phone = new[] 
                 { 

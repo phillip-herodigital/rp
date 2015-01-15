@@ -157,7 +157,7 @@
         <h2>@Html.Sitecore().Field("Overpayment Header Text")</h2>
     </div>
     <div class="modal-body">
-        @Html.Sitecore().Field("Overpayment Body Text").Format(new { Payment = "{{paymentAmount|currency}}" })
+        @Html.Sitecore().Field("Overpayment Body Text").Format(new { Payment = "{{total|currency}}" })
     </div>
     <div class="modal-footer">
         <button class="secondary" type="button" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
