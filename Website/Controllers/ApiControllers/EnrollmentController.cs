@@ -79,7 +79,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.Reset();
             await stateHelper.EnsureInitialized();
 
-            stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
+            //stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
             stateHelper.State = typeof(ServiceInformationState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;

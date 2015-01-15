@@ -60,12 +60,13 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (context.IsRenewal)
             {
                 var svc = context.Services.Single().SelectedOffers.Single();
-                if (context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
-                {
-                    var customer = await accountService.GetCustomerByCustomerId(internalContext.GlobalCustomerId);
-                    customer.TCPAPreference = "Yes";
-                    await accountService.UpdateCustomer(customer);
-                }
+                // TODO - this code updates the TCPA preference on a renewal
+                //if (context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
+                //{
+                //    var customer = await accountService.GetCustomerByCustomerId(internalContext.GlobalCustomerId);
+                //    customer.TCPAPreference = "Yes";
+                //    await accountService.UpdateCustomer(customer);
+                //}
                 if (internalContext.RenewalResult == null)
                 {
                     var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<IRenewalCapability>().First();
