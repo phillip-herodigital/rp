@@ -1,7 +1,7 @@
 ﻿/* Coverage Map Controller
  *
  */
-ngApp.controller('CoverageMapCtrl', ['$scope', 'uiGmapGoogleMapApi', function ($scope, uiGmapGoogleMapApi) {
+ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi', function ($scope, $location, uiGmapGoogleMapApi) {
 
     var ARCOverlay = function (key, layer, opacity) {
         return new google.maps.ImageMapType({
@@ -14,16 +14,6 @@ ngApp.controller('CoverageMapCtrl', ['$scope', 'uiGmapGoogleMapApi', function ($
         });
     };
 
-    /*var events = {
-        places_changed: function (searchBox) {
-            $scope.mapInstance.setCenter(searchBox.getPlaces()[0].geometry.location);
-            if (searchBox.getPlaces()[0].geometry.viewport) {
-                $scope.mapInstance.fitBounds(searchBox.getPlaces()[0].geometry.viewport);
-            } else {
-                $scope.mapInstance.setZoom(15);
-            }
-        }
-    }*/
     $scope.searchbox = {
         template: 'searchbox.tpl.html',
         events: {
@@ -38,7 +28,7 @@ ngApp.controller('CoverageMapCtrl', ['$scope', 'uiGmapGoogleMapApi', function ($
         }
     };
 
-    $scope.selectedNetwork = 'att';
+    $scope.selectedNetwork = $location.search().carrier || 'att';
 
     $scope.layers = {
         att: {
