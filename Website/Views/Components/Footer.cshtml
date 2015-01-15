@@ -5,7 +5,7 @@
     var supportEMail = Html.Sitecore().CurrentItem["Support E-Mail"];
 }
 <footer class="site-footer">
-    <div class="contact">
+    @*<div class="contact">
         <div class="wrapper">
             <div class="grid three">
                 <div class="col support">@Html.Sitecore().Field("Support Message")</div>
@@ -13,7 +13,7 @@
                 <div class="col"><a href="mailto:@supportEMail"><i class="icon-email"></i> @Html.Sitecore().Field("Support E-Mail")</a></div>
             </div>
         </div>
-    </div>
+    </div>*@
     <div class="wrapper">
         @if (showSuperFooter)
         {
