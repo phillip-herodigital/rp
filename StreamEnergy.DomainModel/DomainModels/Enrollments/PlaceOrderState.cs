@@ -60,11 +60,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (context.IsRenewal)
             {
                 var svc = context.Services.Single().SelectedOffers.Single();
-                if (context.AdditionalAuthorizations != null)
+                if (context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
                 {
-                    //var customer = await accountService.GetCustomerByCustomerId(internalContext.GlobalCustomerId);
-                    //customer.TCPAPreference = "Yes";
-                    //await accountService.UpdateCustomer(customer);
+                    var customer = await accountService.GetCustomerByCustomerId(internalContext.GlobalCustomerId);
+                    customer.TCPAPreference = "Yes";
+                    await accountService.UpdateCustomer(customer);
                 }
                 if (internalContext.RenewalResult == null)
                 {
