@@ -1318,9 +1318,11 @@
     dl {
         margin-bottom: 20px;
         dt {
+            display: inline-block;
             font-weight: 600;
         }
         dd {
+            display: inline-block;
             text-align: left;
             margin-bottom: 10px; 
         }
@@ -1382,7 +1384,7 @@
     .content {
         background-color: #fff;
     }
-    .mobile-services {
+    .mobile-services, .energy-services {
         .plan-details {
 
         }
