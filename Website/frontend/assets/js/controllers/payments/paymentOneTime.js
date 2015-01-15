@@ -43,7 +43,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
         $scope.isLoading = true;
         ctrl.paymentMethod().then(function (paymentMethod) {
             $scope.isLoading = false;
-            if (_.some(ctrl.account.availablePaymentMethods, { 'paymentMethodType': paymentMethod.type })) {
+            if (paymentMethod.type == "Unknown" || _.some(ctrl.account.availablePaymentMethods, { 'paymentMethodType': paymentMethod.type })) {
                 ctrl.evaluatedPaymentMethod = paymentMethod;
                 ctrl.totalCharge = parseFloat(ctrl.paymentAmount) + 2.95;
                 ctrl.activeStep = 3;

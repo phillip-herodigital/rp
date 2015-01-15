@@ -71,7 +71,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         if (paymentAccountsForIndex[acct.accountNumber]) return paymentAccountsForIndex[acct.accountNumber];
 
         paymentAccountsForIndex[acct.accountNumber] = _.map($scope.paymentAccounts, function (pa) {
-            if (_.some(acct.availablePaymentMethods, { 'paymentMethodType': pa.underlyingType })) {
+            if (pa.underlyingType == "Unknown" || _.some(acct.availablePaymentMethods, { 'paymentMethodType': pa.underlyingType })) {
                 return pa;
             } else {
                 var newpa = angular.copy(pa);
