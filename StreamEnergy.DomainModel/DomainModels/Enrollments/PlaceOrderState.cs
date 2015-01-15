@@ -13,12 +13,14 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         private readonly MembershipBuilder membership;
         private readonly IEnrollmentService enrollmentService;
+        private readonly StreamEnergy.DomainModels.Accounts.IAccountService accountService;
 
-        public PlaceOrderState(MembershipBuilder membership, IEnrollmentService enrollmentService)
+        public PlaceOrderState(MembershipBuilder membership, IEnrollmentService enrollmentService, StreamEnergy.DomainModels.Accounts.IAccountService accountService)
             : base(previousState: typeof(CompleteOrderState), nextState: typeof(OrderConfirmationState))
         {
             this.membership = membership;
             this.enrollmentService = enrollmentService;
+            this.accountService = accountService;
         }
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
@@ -58,6 +60,12 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (context.IsRenewal)
             {
                 var svc = context.Services.Single().SelectedOffers.Single();
+                if (context.AdditionalAuthorizations != null)
+                {
+                    //var customer = await accountService.GetCustomerByCustomerId(internalContext.GlobalCustomerId);
+                    //customer.TCPAPreference = "Yes";
+                    //await accountService.UpdateCustomer(customer);
+                }
                 if (internalContext.RenewalResult == null)
                 {
                     var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<IRenewalCapability>().First();

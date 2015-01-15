@@ -7,6 +7,7 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 
 	$scope.isLoading = true;
 	$scope.successMessage = false;
+	$scope.failureMessage = false;
 
 	// get the current data
 	$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
@@ -56,7 +57,7 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 			.success(function (data, status, headers, config) {
 				if (!data.success) {
 					// if not successful, show an error
-
+					$scope.failureMessage = true;
 				} else {
 					// if successful, refresh the list
 					$scope.isLoading = true;
@@ -65,6 +66,7 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 						$scope.formDataOriginal = angular.copy($scope.formData);
 						$scope.newAccountAdded.added = false;
 						$scope.isLoading = false;
+						$scope.failureMessage = false;
 					});
 				}
 			});

@@ -40,7 +40,11 @@ namespace StreamEnergy.DomainModels.Accounts.Create
                 var customer = await accountService.GetCustomerByCustomerId(globalCustomerId.Value);
                 customer.AspNetUserProviderKey = user.ProviderUserKey.ToString();
                 customer.Username = username;
-                customer.EmailAddress = email;
+                customer.EmailAddress = email ?? customer.EmailAddress;
+                if (!new System.ComponentModel.DataAnnotations.EmailAddressAttribute().IsValid(customer.EmailAddress))
+                {
+                    customer.EmailAddress = null;
+                }
                 await accountService.UpdateCustomer(customer);
             }
 

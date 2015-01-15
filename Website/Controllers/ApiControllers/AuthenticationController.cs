@@ -161,7 +161,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             // validate the return URI
             Uri requestUri = new Uri(request.Uri);
-            string returnUri = HttpUtility.ParseQueryString(requestUri.Query).Get("item");
+            string returnUri = HttpUtility.UrlDecode(HttpUtility.ParseQueryString(requestUri.Query).Get("url"));
 
             var helper = new System.Web.Mvc.UrlHelper(System.Web.HttpContext.Current.Request.RequestContext);
             bool isLocal = helper.IsLocalUrl(returnUri);

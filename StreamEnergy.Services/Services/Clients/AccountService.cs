@@ -302,8 +302,11 @@ namespace StreamEnergy.Services.Clients
                     EmailAddress = customer.EmailAddress,
                     UserName = customer.Username,
                     PortalId = customer.AspNetUserProviderKey,
-                    TCPAPreference = "NA"
+                    TCPAPreference = customer.TCPAPreference == null ? "NA" : customer.TCPAPreference
                 });
+
+            response.EnsureSuccessStatusCode();
+
             dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
             return ((string)data.Status.ToString()) == "Success";

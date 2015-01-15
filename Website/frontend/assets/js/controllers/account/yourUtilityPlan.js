@@ -1,9 +1,10 @@
 /* Your Gas Plan Controller
  *
  */
-ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$window', function ($scope, $rootScope, $http, $window) {
+ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$window', '$location', function ($scope, $rootScope, $http, $window, $location) {
     $scope.utilityPlan = {};
     $scope.isLoading = true;
+    $scope.renewalRedirect = ($location.absUrl().toLowerCase().indexOf('renew') > 0);
 
     // when the account selector changes, reload the data
     $scope.$watch('selectedAccount.accountNumber', function(newVal) { 
