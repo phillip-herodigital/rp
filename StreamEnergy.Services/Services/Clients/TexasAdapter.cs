@@ -104,7 +104,7 @@ namespace StreamEnergy.Services.Clients
                           select new TexasElectricity.Offer
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
-                              Provider = product.Provider.ToString(),
+                              Provider = product.Provider.Name.ToString(),
 
                               EnrollmentType = serviceStatus.EnrollmentType,
 

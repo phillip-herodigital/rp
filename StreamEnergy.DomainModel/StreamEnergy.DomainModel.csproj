@@ -135,6 +135,7 @@
     <Compile Include="DomainModels\Accounts\ICurrentUser.cs" />
     <Compile Include="DomainModels\Accounts\ImpersonationUtility.cs" />
     <Compile Include="DomainModels\Accounts\ImportSource.cs" />
+    <Compile Include="DomainModels\Accounts\AutoPayPaymentMethodAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\PaymentMethodAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\PaymentSchedulingAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\RenewalAccountCapability.cs" />

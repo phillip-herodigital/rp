@@ -724,6 +724,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (!validations.Any())
             {
+                ((ISanitizable)request).Sanitize();
                 var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
                 account.Details.ContactInfo.Phone = new[] 
                 { 
@@ -1101,10 +1102,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 autoPayStatus.PaymentMethodId = null; 
             }
 
+            //load accepted AutoPay account types
+            await accountService.GetAccountDetails(account);
+            
             return new GetAutoPayStatusResponse
             {
                 AccountNumber = request.AccountNumber,
-                AutoPay = autoPayStatus
+                AutoPay = autoPayStatus,
+                AvailablePaymentMethods = account.GetCapability<AutoPayPaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()
             };
         }
 
