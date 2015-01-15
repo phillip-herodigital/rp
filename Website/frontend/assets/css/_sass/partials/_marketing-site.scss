@@ -946,7 +946,7 @@ article.contact {
             span {
                 position: relative;
                 padding-right: 20px;
-                background: #fff;
+                //background: #fff;
                 z-index: 2;
             }
             &:after {
@@ -972,17 +972,17 @@ article.contact {
 	div.blue-bar {
 		height: 50px;
 		background-color: $brand-primary-color;
-		border-bottom: 5px solid #ffa409;
+		//border-bottom: 5px solid #ffa409;
 	}
 	div.contact-banner {
-		border-top: 3px solid #ffa409;
+		//border-top: 3px solid #ffa409;
 		background-position: center;
 		background-repeat: no-repeat;
 		min-height: 288px;
 	}
 	div.associate-support {
 		background-color: #efefef;
-		border-top: 3px solid #0073c7;
+		//border-top: 3px solid #0073c7;
 		h2 {
 			text-align: left;
 			color: #ac1f2d;
@@ -998,12 +998,8 @@ article.contact {
 			}
 		}
 		h4 {
-			color: #ac1f2d;
-			padding-bottom: 10px;
 			margin-top: 0;
-			background-image: url('../i/marketing/contact.png');
-			background-repeat: no-repeat;
-			background-position: 160px 0;
+			color: #ac1f2d;
 		}
 		@include breakpoint(small-medium) {
 			padding-left: 20px;
@@ -1020,7 +1016,7 @@ article.contact {
 		}
 	}
 	div.homelife-services {
-		border-bottom: 3px solid #0073c7;
+		//border-bottom: 3px solid #0073c7;
 		text-align: center;
 		h2.homelife {
 			text-transform: none;
@@ -1041,11 +1037,8 @@ article.contact {
 			margin: 40px 0 0 0;
 		}
 		h4 {
-			padding-bottom: 10px;
 			margin-top: 0;
-			background-image: url('../i/marketing/contact-dark.png');
-			background-repeat: no-repeat;
-			background-position: 160px 0;
+			color: #fff;
 		}
 		p {
 			margin: 0;
@@ -1082,8 +1075,8 @@ article.contact {
 	div.request {
 		background-color: $brand-primary-color;
 		color: #fff;
-		border-bottom: 3px solid #ffa409;
-		border-top: 3px solid #ffa409;
+		//border-bottom: 3px solid #ffa409;
+		//border-top: 3px solid #ffa409;
 		padding-bottom: 20px;
 		position: relative;
 		.request-or {
@@ -1165,6 +1158,9 @@ article.contact {
 
 article.contact-state {
 	margin-bottom: 0;
+	h2 {
+		text-align: left;
+	}
 	.customer-service {
 		margin: 25px 0;
 		@include breakpoint(small) {
