@@ -150,6 +150,15 @@
 
 <script type="text/ng-template" id="serviceConfirmation/GeorgiaGas">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+            <div class="service-description">
+                @Html.Sitecore().Field("Service Address Label") {{ service.location.address | address}}
+            </div>
+        </div>
+
         <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
             <div class="notice alert">
                 @Html.Sitecore().Field("Confirmation Error")
@@ -159,42 +168,50 @@
             <dt>@Html.Sitecore().Field("Account Number")</dt>
             <dd>{{ selectedOffer.confirmationNumber }}</dd>
         </dl>
-        <table class="verify-order-table">
-            <tbody>
-                <tr class="line-item">
-                    <td class="description"><h4>{{selectedOffer.offer.name}}</h4></td>
-                    <td class="rate">${{selectedOffer.offer.rate}}@Html.Sitecore().Field("Per Therm")</td>
-                </tr>
-                <tr ng-if="selectedOffer.offerOption.connectionFee > 0 && !isRenewal">
-                    <td class="sub-charge">
-                        <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong><br>
-                    </td>
-                    <td class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</td>
-                </tr>
-                <tr ng-if="!isRenewal">
-                    <td class="sub-charge">
-                        <strong>@Html.Sitecore().Field("Utility Connect Fee")</strong><br>
-                    </td>
-                    <td class="rate">@Html.Sitecore().Field("GA Utility Connect Fee")</td>
-                </tr>
-                <tr ng-if="!isRenewal">
-                    <td class="sub-charge">
-                        <strong>@Html.Sitecore().Field("Stream Connect Fee")</strong><br>
-                    </td>
-                    <td class="rate">@Html.Sitecore().Field("GA Stream Connect Fee")</td>
-                </tr>
-                <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></tr>
-                <tr class="plan-documents">
-                    <td class="sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></td>
-                    <td class="docs">
-                        <ul>
-                            <li><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                            <li><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="energy-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-summary-image">
+                        <i class="icon-gas-blue"></i>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description">
+                            <h2>{{selectedOffer.offer.name}}</h2>
+                        </div>
+                        <div class="rate">${{selectedOffer.offer.rate}}@Html.Sitecore().Field("Per Therm")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                        </div>
+                        <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Utility Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Utility Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Stream Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Stream Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    <div class="plan-documents clearfix">
+                        <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
+                        <div class="docs">
+                            <ul>
+                                <li><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </script>
 
