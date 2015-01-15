@@ -14,7 +14,7 @@
                                 <td class="align-center" style="width:30px;"><input type="checkbox" ng-show="item.canMakeOneTimePayment" ng-model="item.selected" /></td>
                                 <td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
                                 <td ng-show="showColumn('amountDue')">{{ item.amountDue | currency }}</td>
-                                <td ng-show="showColumn('dueDate')">{{ item.dueDate | date:'MM/dd/yyyy' }}</td>
+                                <td ng-show="showColumn('dueDate')"><span ng-if="item.amountDue > 0">{{ item.dueDate | date:'MM/dd/yyyy' }}</span></td>
                                 <td ng-show="showColumn('action')">
                                     <a class="button secondary" ng-if="item.actions.viewPdf" ng-href="{{item.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a>
                                     <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
