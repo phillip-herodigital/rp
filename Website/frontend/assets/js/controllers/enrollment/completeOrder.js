@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of complete order on enrollment page.
  */
-ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', '$timeout', function ($scope, enrollmentService, enrollmentCartService, $modal, $timeout) {
+ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', '$timeout', 'enrollmentStepsService', function ($scope, enrollmentService, enrollmentCartService, $modal, $timeout, enrollmentStepsService) {
 
     $scope.completeOrder = {
         additionalAuthorizations: {},
