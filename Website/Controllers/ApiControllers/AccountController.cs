@@ -1102,10 +1102,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 autoPayStatus.PaymentMethodId = null; 
             }
 
+            //load accepted AutoPay account types
+            await accountService.GetAccountDetails(account);
+            
             return new GetAutoPayStatusResponse
             {
                 AccountNumber = request.AccountNumber,
-                AutoPay = autoPayStatus
+                AutoPay = autoPayStatus,
+                AvailablePaymentMethods = account.GetCapability<AutoPayPaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()
             };
         }
 

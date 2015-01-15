@@ -9,5 +9,7 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public string AccountNumber { get; set; }
         public StreamEnergy.DomainModels.Payments.AutoPaySetting AutoPay { get; set; }
+
+        public DomainModels.Accounts.AvailablePaymentMethod[] AvailablePaymentMethods { get; set; }
     }
 }
