@@ -26,10 +26,10 @@ namespace StreamEnergy.Pipelines
                 .Include("~/frontend/assets/css/partials/print.css"));
 
             bundles.Add(CommonScripts(new ScriptBundle("~/frontend/assets/js/bundle")
-                .Include("~/frontend/assets/js/libs/lodash/lodash.js")));
+                .Include("~/frontend/assets/js/libs/lodash/dist/lodash.js")));
 
             bundles.Add(CommonScripts(new ScriptBundle("~/frontend/assets/js/legacybundle")
-                .Include("~/frontend/assets/js/libs/lodash/lodash.compat.js")));
+                .Include("~/frontend/assets/js/libs/lodash/dist/lodash.compat.js")));
         }
 
         private Bundle CommonScripts(Bundle scriptBundle)
@@ -44,8 +44,10 @@ namespace StreamEnergy.Pipelines
                 .IncludeDirectory("~/frontend/assets/js/vendor/", "*.js", true)
                 .Include("~/frontend/assets/js/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js")
                 .Include("~/frontend/assets/js/libs/angular/angular.min.js")
+                .Include("~/frontend/assets/js/libs/angular-scroll/angular-scroll.min.js")
                 .Include("~/frontend/assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js")
                 .Include("~/frontend/assets/js/libs/angular-ui-slider/src/slider.js")
+                .Include("~/frontend/assets/js/libs/angular-google-maps/dist/angular-google-maps.js")
                 .Include("~/frontend/assets/js/libs/d3/d3.js")
                 .Include("~/frontend/assets/js/libs/d3/line-chart.js")
                 .Include("~/frontend/assets/js/app.js")

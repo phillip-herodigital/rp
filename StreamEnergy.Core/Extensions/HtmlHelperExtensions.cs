@@ -32,16 +32,16 @@ namespace StreamEnergy.Extensions
             }
         }
 
-        public static IHtmlString AsBackgroundStyle(this HtmlHelper htmlHelper, string fieldName, Item item = null)
+        public static string AsBackgroundStyle(this HtmlHelper htmlHelper, string fieldName, Item item = null)
         {
             item = item ?? htmlHelper.Sitecore().CurrentItem;
 
             var imageField = (ImageField)item.Fields[fieldName];
             if (imageField != null && imageField.MediaItem != null)
             {
-                return htmlHelper.Raw("background-image: url('" + MediaManager.GetMediaUrl(imageField.MediaItem) + "')");
+                return string.Format("background-image: url('{0}');", MediaManager.GetMediaUrl(imageField.MediaItem));
             }
-            return htmlHelper.Raw("");
+            return null;
         }
 
         public static Item LookupItem(this SitecoreHelper sitecoreHelper, string fieldName)

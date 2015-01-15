@@ -1,9 +1,12 @@
-﻿<article class="promo @Html.Sitecore().Field("Custom CSS Class")" style="@Html.AsBackgroundStyle("Background Image")">
-    <div>
-        @Html.Sitecore().Field("Title")
+﻿<article class="promo @Html.Sitecore().Field("Custom CSS Class")">
+    <header>
+        <h3>@Html.Sitecore().Field("Title")</h3>
+    </header>
+    <div class="content">
+        @Html.Sitecore().Field("Image")
         @Html.Sitecore().Field("Content")
         <div class="action">
-            @Html.Sitecore().Field("Button")
+            @Html.Sitecore().Field("Link")
         </div>
     </div>
 </article>

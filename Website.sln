@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{FB926363-ED56-4B04-8837-CACBE8F9F222}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -67,6 +67,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cis2AureaAccountImport", "Cis2AureaAccountImport\Cis2AureaAccountImport.csproj", "{5BD4F0EB-880C-4A64-9E50-71CAC22C1F4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Data", "StreamEnergy.Data\StreamEnergy.Data.csproj", "{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CLI Tools", "CLI Tools", "{1C1FD49A-8A08-49D9-96E3-C5A12406DEB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.UserMigration.Kubra", "StreamEnergy.UserMigration.Kubra\StreamEnergy.UserMigration.Kubra.csproj", "{A012CA34-CF13-44C5-ABE9-119D51A15A26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -180,6 +184,14 @@ Global
 		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Azure-Production Sitecore|Any CPU.ActiveCfg = Release|Any CPU
+		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Azure-Production Sitecore|Any CPU.Build.0 = Release|Any CPU
+		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Azure-Production|Any CPU.ActiveCfg = Release|Any CPU
+		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Azure-Production|Any CPU.Build.0 = Release|Any CPU
+		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -196,7 +208,8 @@ Global
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
 		{59B39452-16F0-4170-A74E-F886F54DCBDC} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
 		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A} = {FC6C8FA8-0ADC-46C6-B79D-409C24C227E5}
-		{5BD4F0EB-880C-4A64-9E50-71CAC22C1F4E} = {FC6C8FA8-0ADC-46C6-B79D-409C24C227E5}
+		{5BD4F0EB-880C-4A64-9E50-71CAC22C1F4E} = {1C1FD49A-8A08-49D9-96E3-C5A12406DEB9}
 		{8DAECD6F-8A8A-4018-9828-87D1DBF0E443} = {25960F8A-E3E2-43E0-A982-4C3E9BC37855}
+		{A012CA34-CF13-44C5-ABE9-119D51A15A26} = {1C1FD49A-8A08-49D9-96E3-C5A12406DEB9}
 	EndGlobalSection
 EndGlobal

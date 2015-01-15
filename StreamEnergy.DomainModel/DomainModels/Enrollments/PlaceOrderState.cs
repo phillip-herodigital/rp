@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StreamEnergy.DomainModels.Accounts.Create;
+using StreamEnergy.DomainModels.MobileEnrollment;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -12,12 +13,14 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         private readonly MembershipBuilder membership;
         private readonly IEnrollmentService enrollmentService;
+        private readonly StreamEnergy.DomainModels.Accounts.IAccountService accountService;
 
-        public PlaceOrderState(MembershipBuilder membership, IEnrollmentService enrollmentService)
+        public PlaceOrderState(MembershipBuilder membership, IEnrollmentService enrollmentService, StreamEnergy.DomainModels.Accounts.IAccountService accountService)
             : base(previousState: typeof(CompleteOrderState), nextState: typeof(OrderConfirmationState))
         {
             this.membership = membership;
             this.enrollmentService = enrollmentService;
+            this.accountService = accountService;
         }
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
@@ -57,9 +60,16 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (context.IsRenewal)
             {
                 var svc = context.Services.Single().SelectedOffers.Single();
+                // TODO - this code updates the TCPA preference on a renewal
+                //if (context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
+                //{
+                //    var customer = await accountService.GetCustomerByCustomerId(internalContext.GlobalCustomerId);
+                //    customer.TCPAPreference = "Yes";
+                //    await accountService.UpdateCustomer(customer);
+                //}
                 if (internalContext.RenewalResult == null)
                 {
-                    var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<GeorgiaGas.RenewalCapability>().First();
+                    var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<IRenewalCapability>().First();
                     internalContext.RenewalResult = await enrollmentService.BeginRenewal(
                         renewalCapability.Account,
                         renewalCapability.SubAccount,
@@ -76,32 +86,9 @@ namespace StreamEnergy.DomainModels.Enrollments
                     }
                 }
             }
-            else if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
-            {
-                internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(context.Services, context.AdditionalAuthorizations, internalContext)).ToArray();
-
-                foreach (var placeOrderResult in internalContext.PlaceOrderResult)
-                {
-                    if (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted)
-                    {
-                        placeOrderResult.Details.IsSuccess = false;
-                    }
-                    else if (context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
-                    {
-                        placeOrderResult.Details.IsSuccess = false;
-                    }
-                }
-            }
             else
             {
-                var results = await enrollmentService.PlaceCommercialQuotes(context);
-                internalContext.PlaceOrderResult = (from service in context.Services
-                                                    select new Service.LocationOfferDetails<Service.PlaceOrderResult>()
-                                                    {
-                                                        Location = service.Location,
-                                                        Details = results,
-                                                        Offer = service.SelectedOffers.First().Offer,
-                                                    }).ToArray();
+                internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context, internalContext);
             }
             
             if (context.OnlineAccount != null)
@@ -109,12 +96,20 @@ namespace StreamEnergy.DomainModels.Enrollments
                 await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.Address);
             }
 
+            if (internalContext.PlaceOrderAsyncResult != null)
+                return typeof(AsyncPlaceOrderState);
+            if (context.W9BusinessData != null)
+                return typeof(GenerateW9State);
             return await base.InternalProcess(context, internalContext);
         }
 
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
             if (context.IsRenewal && !internalContext.RenewalResult.IsCompleted)
+            {
+                return true;
+            }
+            else if (internalContext.PlaceOrderAsyncResult != null && !internalContext.PlaceOrderAsyncResult.IsCompleted)
             {
                 return true;
             }

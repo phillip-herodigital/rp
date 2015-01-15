@@ -19,7 +19,7 @@ namespace StreamEnergy.Extensions
         {
             var domainTranslations = settings.GetSettingsValue("Domain Translations", "Domain Translations");
             if (domainTranslations == null) return new Dictionary<string, string>();
-            return (from line in domainTranslations.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)
+            return (from line in domainTranslations.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
                     let parts = line.Split(new string[] { "=>" }, StringSplitOptions.RemoveEmptyEntries)
                     where parts.Length == 2
                     select new KeyValuePair<string, string>(parts[0], parts[1])).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);

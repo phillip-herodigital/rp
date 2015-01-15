@@ -81,6 +81,37 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
             }
         }
 
+        public async Task<String[]> LookupZip(string postalCode5)
+        {
+            var client = container.Resolve<HttpClient>();
+
+            var response = await client.GetAsync("https://api.smartystreets.com/zipcode?auth-id=" + authId + "&auth-token=" + authToken + "&zipcode=" + postalCode5);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = JsonConvert.DeserializeObject<SmartyZipResponse[]>(await response.Content.ReadAsStringAsync().ConfigureAwait(false), settings);
+
+                if (result[0].CityStates != null)
+                {
+                    var statesArray = (from entry in result
+                                       where entry.InputIndex == 0
+                                       select (from cityState in entry.CityStates
+                                               select cityState.StateAbbreviation).Distinct()).First().ToArray();
+
+                    return statesArray;
+                }
+                else
+                {
+                    return new string[0];
+                }
+                
+            }
+            else
+            {
+                return new string[0];
+            }
+        }
+
         public DomainModels.Address[][] ParseJsonResponse(string text, int count)
         {
             var result = JsonConvert.DeserializeObject<SmartyResponse[]>(text, settings);

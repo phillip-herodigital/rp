@@ -25,7 +25,7 @@ ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', 'bre
 				y: 'usage',
 				label: 'Usage',
 				type: 'column',
-				color: '#77bd43',
+				color: '#66cccc',
 				axis: 'y',
 				visible: true
 			}/*,

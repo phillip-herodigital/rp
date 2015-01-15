@@ -1,6 +1,7 @@
 // Layout Variables
 $sidebar: 275px;
 $mobile-nav: 260px;
+$mobile-nav-margin: 15px;
 
 @include breakpoint(medium-large) {
 	.page-wrapper nav.mobile-nav {
@@ -17,10 +18,8 @@ $mobile-nav: 260px;
 			left: 0;
 			top: 0;
 			bottom: 0;
-			overflow: scroll;
-			// position: absolute;
-			// left: 0;
-			width: $mobile-nav;
+			width: $mobile-nav - ($mobile-nav-margin * 2);
+			margin: 0 $mobile-nav-margin;
 			font-size: 16px;
 			ul {
 				@include layout-list();
@@ -28,36 +27,54 @@ $mobile-nav: 260px;
 					a {
 						text-transform: uppercase;
 						display: block;
-						padding: 15px 45px 15px 15px;
-						border-bottom: 1px solid #d9d9d9;
+						padding: 14px 35px 13px 0;
+						border-top: 1px solid $dark-border-color;
+						color: $text-primary-color;
+						letter-spacing: 1px;
+						&:hover {
+
+						}
+					}
+					&:first-child a {
+						border-top: none;
 					}
 					> span {
 						display: block;
 						position: relative;
 					}
-					span.arrow {
+					.arrow {
 						position: absolute;
 						right: 0;
 						top: 0;
 						bottom: 0;
 						width: 40px;
-						line-height: 40px;
+						line-height: 50px;
 						text-align: center;
-						background: rgba(0,0,0,.05);
 					}
-					&.opened a {
-						background-color: #1e5280;
-						color: #fff;
-						border-bottom: 1px solid #748ea5;
+					&.opened > span > a {
+						margin: 0 -15px;
+						padding-left: 15px;
+						border-color: transparent;
+						background: #dedede;
 					}
 					&.selected span > a,
 					&.selected > a {
-						background-color: #1898ff;
+						background-color: #1c74b4;
 						color: #fff;
 					}
 					li a {
-						padding-left: 30px;
+						font-size: $font-size-xsmall;
+						line-height: normal;
+						padding: 10px 20px;
+						letter-spacing: 0;
+						border: none;
 						text-transform: none;
+						&:hover, &:active, &:focus {
+							background: #1c74b4;
+							margin: 0 -15px;
+							color: #fff;
+							padding-left: 35px;
+						}
 					}
 				}
 			}
@@ -77,6 +94,9 @@ $mobile-nav: 260px;
 			.page-content {
 				left: $mobile-nav;
 			}
+			.page-content {
+				@include box-shadow(-1px 0 5px rgba(0, 0, 0, 0.1));
+			}
 		}
 	}
 }
@@ -84,13 +104,22 @@ $mobile-nav: 260px;
 // Layout Styles
 .layout {
 	@extend .clearfix;
+	@include box-shadow(-7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 ));
+    margin: 0 auto;
+    max-width: 1280px;
+    padding-bottom: 35px;
+    background-color: white;
 	> aside {
 		@include box-sizing(border-box);
 	}
 	> section {
 		@include box-sizing(border-box);
 	}
-	&.cols-2 {
+	.cols-1 {
+		padding-top: 35px;
+	}
+	.cols-2 {
+		padding-top: 35px;
 		> section {
 			float: left;
 			width: 68%;
@@ -108,10 +137,19 @@ $mobile-nav: 260px;
 			}
 		}
 	}
+	&.enrollment {
+		@include box-shadow(none);
+	    max-width: 100%;
+	    padding-bottom: 0;
+	    background-color: transparent;
+	    .layout {
+	    	padding-top: 35px;
+	    }
+	}
 }
 
 .wrapper {
-	width: 1000px;
+	width: 1040px;
 	margin: 0 auto;
 }
 
@@ -199,6 +237,12 @@ $mobile-nav: 260px;
 			display: table-cell;
 			width: 50%;
 			vertical-align: top;
+			&.one-third {
+				width: 33.33%;
+			}
+			&.two-third {
+				width: 66.67%;
+			}
 		}
 		&.three .col {
 			width: 33.33%;
@@ -206,8 +250,14 @@ $mobile-nav: 260px;
 		&.four .col {
 			width: 25%;
 		}
+		&.five .col {
+			width: 20%;
+		}
 		&.border .col {
-			border-left: 1px solid #cccccc;
+			border: 0;
+			border-left: 1px solid #f2f2f2;
+			border-image: linear-gradient(top, rgba(242, 242, 242, 0) 0%, #f2f2f2 30%, #f2f2f2 70%, rgba(242, 242, 242, 0) 100%);
+	  		border-image-slice: 1;
 			padding: 0 30px;
 			&:first-child {
 				border-left: 0;
@@ -215,6 +265,30 @@ $mobile-nav: 260px;
 			}
 			&:last-child {
 				padding-right: 0;
+			}
+		}
+		&.bg {
+			.col {
+				background: #f3f3f3;
+				padding: 20px;
+			}
+		}
+	}
+}
+@include breakpoint(small) {
+	.grid {
+		&.border .col {
+			border: 0;
+			border-top: 1px solid #f2f2f2;
+			border-image: linear-gradient(left, rgba(242, 242, 242, 0) 0%, #f2f2f2 30%, #f2f2f2 70%, rgba(242, 242, 242, 0) 100%);
+			border-image-slice: 1;
+			padding: 20px 0;
+			&:first-child {
+				border-top: 0;
+				padding-top: 0;
+			}
+			&:last-child {
+				padding-bottom: 0;
 			}
 		}
 		&.bg {

@@ -1,0 +1,49 @@
+﻿<script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+
+<div class="wrapper">
+    <article class="coverage-map" ng-controller="CoverageMapCtrl">
+
+        <div class="form">
+            <script type="text/ng-template" id="searchbox.tpl.html">
+                <input type="text" id="gmap-search-input" placeholder="" />
+            </script>
+
+            <ul class="network-toggle">
+                <li ng-class="{active:selectedNetwork == 'att'}"><a href="" ng-model="selectedNetwork" btn-radio="'att'"><i class="icon-att"></i></a></li>
+                <li ng-class="{active:selectedNetwork == 'sprint'}"><a href="" ng-model="selectedNetwork" btn-radio="'sprint'"><i class="icon-sprint"></i></a></li>
+            </ul>
+
+            <div class="item">
+                <label for="gmap-search-input">@Html.Sitecore().Field("Enter Zip Code")</label>
+                <div id="gmap-search"></div>
+            </div>
+        </div>
+
+        <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
+            <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
+        </ui-gmap-google-map>
+
+        <ul class="layer-toggle" ng-show="selectedNetwork == 'att'">
+            <li>
+                <input type="checkbox" id="att_voice" ng-model="layers.att.att_voice_roam" /> <label for="att_voice">@Html.Sitecore().Field("Voice")</label>
+            </li>
+            <li>
+                <input type="checkbox" id="att_data" ng-model="layers.att.att_data_roam" /> <label for="att_data">@Html.Sitecore().Field("Data")</label>
+            </li>
+            <li>
+                <input type="checkbox" id="att_lte" ng-model="layers.att.att_lte" /> <label for="att_lte">@Html.Sitecore().Field("LTE")</label>
+            </li>
+        </ul>
+        <ul class="layer-toggle" ng-show="selectedNetwork == 'sprint'">
+            <li>
+                <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@Html.Sitecore().Field("Voice")</label>
+            </li>
+            <li>
+                <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data_roam" /> <label for="sprint_data">@Html.Sitecore().Field("Data")</label>
+            </li>
+            <li>
+                <input type="checkbox" id="sprint_lte" ng-model="layers.sprint.sprint_lte" /> <label for="sprint_lte">@Html.Sitecore().Field("LTE")</label>
+            </li>
+        </ul>
+    </article>
+</div>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 {
     [Serializable]
-    public class RenewalCapability: ServiceCapability
+    public class RenewalCapability : ServiceCapability, IRenewalCapability
     {
         public new const string Qualifier = "GeorgiaGasRenewal";
 

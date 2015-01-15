@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -42,14 +43,28 @@ namespace StreamEnergy.MyStream.Controllers
                     ColorClass = (Char.ToLowerInvariant(obj.Fields["Color"].Value[0]) + obj.Fields["Color"].Value.Substring(1)).Trim(),
                     Network = obj.Fields["Network"].Value.ToLower(),
                     Condition = obj.Fields["Condition"].Value,
-                    Price = obj.Fields["Price New"].Value,
-                    Lease20 = obj.Fields["20 Mo Lease Price"].Value,
-                    Lease24 = obj.Fields["24 Mo Lease Price"].Value,
-                    Sku = obj.Fields["SKU"].Value
+                    Sku = obj.Fields["SKU"].Value,
+                    InStock = false,
+                    InstallmentPlans = GetAllInstallmentPlans(obj).Select(plan => new
+                    {
+                        Months = plan.Fields["Number of Months"].Value,
+                        AGroupSku = plan.Fields["A Group SKU"].Value,
+                        BGroupSku = plan.Fields["B Group SKU"].Value,
+                        CGroupSku = plan.Fields["C Group SKU"].Value,
+                        InStock = false
+
+                    })
                 })
             });
 
-            return this.Content(StreamEnergy.Json.Stringify(data));
+            try
+            {
+                return this.Content(StreamEnergy.Json.Stringify(data.ToArray()));
+            }
+            catch
+            {
+                return this.Content("[]");
+            }
         }
 
         public ActionResult BringYourOwnDevices()
@@ -113,6 +128,7 @@ namespace StreamEnergy.MyStream.Controllers
                         federalAccessCharge = plans.Fields["Federal Access Charge"].Value,
                         streamLineCharge = plans.Fields["Stream Line Charge"].Value
                     },
+                    DataDescription = plans.Fields["Data Description"].Value,
                     Recommended = plans.Fields["Recommended"].Value,
                     HoursMusic = plans.Fields["Hours Music"].Value,
                     HoursMovies = plans.Fields["Hours Movies"].Value,
@@ -125,21 +141,6 @@ namespace StreamEnergy.MyStream.Controllers
 
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
-
-        /*public ActionResult MobileEnrollmentNetworks()
-        {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile Networks");
-            var data = item.Children.Select(child => new
-            {
-                name = child.Fields["Network Name"].Value,
-                value = child.Fields["Network Value"].Value,
-                description = child.Fields["Network Description"].Value,
-                coverage = child.Fields["Network Coverage"].Value,
-                devices = child.Fields["Network Devices"].Value
-            });
-
-            return this.Content(StreamEnergy.Json.Stringify(data));
-        }*/
 
         public static IEnumerable<MobileColor> GetAllColors(NameValueCollection item) {
             var data = item.AllKeys.Select(key => new MobileColor { Value = key, Color = item[key] });
@@ -160,6 +161,12 @@ namespace StreamEnergy.MyStream.Controllers
             return data;
         }
 
+        public static IEnumerable<Item> GetAllInstallmentPlans(Item phoneItem)
+        {
+            IEnumerable<Item> data = phoneItem.Children;
+            return data;
+        }
+
         public ActionResult ChooseNetwork()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Networks");
@@ -171,7 +178,10 @@ namespace StreamEnergy.MyStream.Controllers
                 Description = child.Fields["Network Description"].Value,
                 Coverage = child.Fields["Network Coverage"].Value,
                 Device = child.Fields["Network Devices"].Value,
-                StartingPrice = child.Fields["Starting Price"].Value
+                StartingPrice = child.Fields["Starting Price"].Value,
+                Header = child.Fields["Network Header"].Value,
+                IndividualPlans = child.Fields["Individual Plans"].Value,
+                GroupPlans = child.Fields["Group Plans"].Value
             });
 
             return View("~/Views/Components/Mobile Enrollment/Choose Network.cshtml", new ChooseNetwork
@@ -242,6 +252,42 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return View("~/Views/Components/Mobile Enrollment/Order Summary.cshtml");
         }
+
+        [System.Web.Http.HttpPost]
+        public string Validas(string username, string password, string securityAnswer, string carrier)
+        {
+            using (var client = new HttpClient())
+            {
+
+                var json = String.Format("\"LoginUsername\":\"{0}\",\"LoginPassword\":\"{1}\"," +
+                                         "\"LoginChallenge\":\"{2}\",\"Carrier\":\"{3}\",\"DownloadBillHistory\":\"true\"," +
+                                         "\"DownloadCurrentMonthBill\":\"true\",\"GetProfileDetails\":\"true\"," +
+                                         "\"GetDeviceDetails\":\"true\",\"MaxBillingResults\":\"1\"",
+                                         username, password, securityAnswer, carrier);
+                json = "{" + json + "}";
+                var sign = new System.Security.Cryptography.HMACSHA1(System.Text.Encoding.ASCII.GetBytes("6964220bb159b2728309dd7fb21ae886"));
+                var result = sign.ComputeHash(System.Text.Encoding.ASCII.GetBytes(json));
+                var signed = BitConverter.ToString(result).Replace("-", string.Empty);
+
+                // Add a new Request Message
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, "http://api10.savelovegive.com:3000/api/scrape/extract");
+
+                // Add our custom headers
+                requestMessage.Headers.Add("v-pk", "c3c35a59ac39157d074807d2123822e1");
+                requestMessage.Headers.Add("v-sign", signed);
+
+                // Set the JSON content
+                var stringContent = new StringContent(json.ToString());
+                requestMessage.Content = stringContent;
+
+                // Send the request to the server
+                var response = client.SendAsync(requestMessage).Result;
+
+                // Get the response
+                return response.Content.ReadAsStringAsync().Result;
+            }
+        }
+
 
     }
 }

@@ -1,51 +1,65 @@
-﻿@{
-    var showSuperFooter = true;
-    var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"];
-    if (hideSuperFooterField == null)
-    {
-        hideSuperFooterField = Sitecore.Context.Item.Fields["Hide Super Footer"];
-    }
-    if (hideSuperFooterField != null && hideSuperFooterField.Value == "1")
-    {
-        showSuperFooter = false;
-    }
-}
+@{
+    var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"] ?? Sitecore.Context.Item.Fields["Hide Super Footer"];
+    var showSuperFooter = hideSuperFooterField == null || hideSuperFooterField.Value != "1";
 
+    var supportEMail = Html.Sitecore().CurrentItem["Support E-Mail"];
+}
 <footer class="site-footer">
-    @if (showSuperFooter)
-    {
-    <div class="super-footer">
-        <div class="wrapper clearfix">
+    @*<div class="contact">
+        <div class="wrapper">
             <div class="grid three">
-                <div class="col badges">
-                    @Html.Sitecore().Field("First Column Links")
-                </div>
-                <div class="col quick-links">
-                    <h2><i class="icon-quicklinks"></i> @Html.Sitecore().Field("Quick Links Header")</h2>
-                    @Html.Sitecore().Field("Quick Links")
-                </div>
-                <div class="col social">
-                    <h2><i class="icon-social"></i> @Html.Sitecore().Field("Social Header")</h2>
-                    @Html.Sitecore().Field("Social Links")
-                </div>
+                <div class="col support">@Html.Sitecore().Field("Support Message")</div>
+                <div class="col"><a href="@Html.Sitecore().CurrentItem["Support Phone Number URI"]"><i class="icon-call"></i> @Html.Sitecore().Field("Support Phone Number")</a></div>
+                <div class="col"><a href="mailto:@supportEMail"><i class="icon-email"></i> @Html.Sitecore().Field("Support E-Mail")</a></div>
             </div>
         </div>
-    </div>
-    }
-    @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
-    {
-        <div class="wrapper clearfix footnotes">
-            @Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
+    </div>*@
+    <div class="wrapper">
+        @if (showSuperFooter)
+        {
+            <div class="grid five links">
+            @foreach (var linkGroupItem in Html.Sitecore().CurrentItem.Children.Where(item => item.TemplateName == "Link Group"))
+            {
+                <div class="col">
+                    <h4>@Html.Sitecore().Field("Name", linkGroupItem)</h4>
+                    <ul>
+                        @foreach (var navigationItemItem in linkGroupItem.Children.Where(item => item.TemplateName == "Navigation Item"))
+                        {
+                            <li>@Html.Sitecore().Field("Navigation Link", navigationItemItem)</li>
+                        }
+                    </ul>
+                </div>
+            }
+            </div>
+            <div class="logos">
+                <a href="/" class="logo">Stream</a>
+                <ul>
+                    <li><a href="https://www.facebook.com/1streamenergy" target="_blank"><i class="icon-facebook"></i></a></li>
+                    <li><a href="http://twitter.com/1streamenergy" target="_blank"><i class="icon-twitter"></i></li>
+                    <li><a href="http://www.youtube.com/user/StreamEnergy1" target="_blank"><i class="icon-youtube"></i></a></li>
+                    <li><a href="http://www.pinterest.com/streamenergy/" target="_blank"><i class="icon-pinterest"></i></a></li>
+                </ul>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
+        {
+            <div class="wrapper clearfix footnotes">
+                @Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
+            </div>
+        }
+        <div class="site-footer-legal">
+            <ul>
+                <li><a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895" target="_blank"><i class="icon-bbb"></i></a></li>
+                <li><a href="http://www.dsa.org/ethics/" target="_blank"><i class="icon-dsa"></i></a></li>
+            </ul>
+            <p>
+                @Html.Sitecore().Field("Copyright Content")
+            </p>
         </div>
-    }
-    <div class="wrapper clearfix copyright">
-        <p>@Html.Sitecore().Field("Copyright Content")</p>
-        <ul>
-            <li><a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895" target="_blank"><i class="icon-bbb"></i></a></li>
-            <li><a href="http://www.dsa.org/ethics/" target="_blank"><i class="icon-dsa"></i></a></li>
-        </ul>
     </div>
     <div class="legal">
-        @Html.Sitecore().Field("Legal Links")
+        <div class="wrapper">
+            @Html.Sitecore().Field("Legal Links")
+        </div>
     </div>
 </footer>

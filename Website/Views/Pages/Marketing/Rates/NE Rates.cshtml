@@ -36,7 +36,7 @@
     <table>
         @foreach (dynamic table in tables)
         {
-            <thead>
+            <tbody>
                 <tr>
                     <th>@Html.Sitecore().Field(table.HeaderField)</th>
                     <th>@Html.Sitecore().Field(table.IsGas ? "Current Price per Therm" : "Current Price per KwH")</th>
@@ -44,8 +44,6 @@
                     <th>@Html.Sitecore().Field("Term")</th>
                     <th>@Html.Sitecore().Field("Early Cancellation Fee")</th>
                 </tr>
-            </thead>
-            <tbody>
                 @foreach (dynamic row in table.Rows)
                 {
                     <tr>

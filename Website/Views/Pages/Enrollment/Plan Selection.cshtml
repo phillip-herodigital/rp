@@ -3,56 +3,55 @@
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br />
+                <span class="block">@Html.Sitecore().Field("Banner Header Text")</span><br />
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
-    <div class="wrapper layout cols-2">
-        <aside class="enrollment__nav">
-            <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowPlans'"></div>
-        </aside>
-        <section>
-            <form data-val-bind-messages="validations">
-                <article class="form enrollment__box">
-                    <header>
-                        <h1 ng-if="!isRenewal">@Html.Sitecore().Field("Choose Header")</h1>
-                        <h1 ng-if="isRenewal">@Html.Sitecore().Field("Renew Header")</h1>
-                    </header>
-                    <div class="content">
-                        <p>@Html.Sitecore().Field("Choose Paragraph")</p>
-                        <div class="item item--no-input">
-                            <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                            <strong>{{ currentLocationInfo().location.address | address }}</strong>
+    <div class="layout">
+        <div class="wrapper cols-2">
+            <section>
+                <form data-val-bind-messages="validations">
+                    <article class="form enrollment__box" ng-if="false">
+                        <header>
+                            <h1 ng-if="!isRenewal">@Html.Sitecore().Field("Choose Header")</h1>
+                            <h1 ng-if="isRenewal">@Html.Sitecore().Field("Renew Header")</h1>
+                        </header>
+                        <div class="content">
+                            <p>@Html.Sitecore().Field("Choose Paragraph")</p>
+                            <div class="item item--no-input">
+                                <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                                <strong>{{ currentLocationInfo().location.address | address }}</strong>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
+                    <div class="buttons">
+                        <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
+                            <span ng-if="!isRenewal">@Html.Sitecore().Field("Continue Button")</span>
+                            <span ng-if="isRenewal">@Html.Sitecore().Field("Continue Renewal Button")</span>
+                        </button>
+                        <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
+                        <button type="submit" class="tertiary" ng-click="resetEnrollment();" ng-if="!isRenewal">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
+                        <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                    </div>
+                    <div class="footnotes">
+                        <div class="item warning" ng-if="isCartFull">
+                            @Html.Sitecore().Field("Maximum Addresses Message Text")
                         </div>
                     </div>
-                </article>
-                <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
-                <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
-                        <span ng-if="!isRenewal">@Html.Sitecore().Field("Continue Button")</span>
-                        <span ng-if="isRenewal">@Html.Sitecore().Field("Continue Renewal Button")</span>
-                    </button>
-                    <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
-                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" ng-if="!isRenewal">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
-                    <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                </form>
+                <div class="hide-medium-large time-remaining-mobile">
+                    <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
                 </div>
-                <div class="footnotes">
-                    <div class="item warning" ng-if="isCartFull">
-                        @Html.Sitecore().Field("Maximum Addresses Message Text")
-                    </div>
+                <div>
+                    <p ng-repeat="footnote in activeFootnotes"><sup>{{$index + 1}}</sup> {{footnote.value}}</p>
                 </div>
-            </form>
-            <div class="hide-medium-large time-remaining-mobile">
-                <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
-            </div>
-            <div>
-                <p ng-repeat="footnote in activeFootnotes"><sup>{{$index + 1}}</sup> {{footnote.value}}</p>
-            </div>
-        </section>
-        <aside>
-            <div ng-include ng-if="true" src="'cart-template'"></div>
-        </aside>
+            </section>
+            <aside>
+                <div ng-include ng-if="true" src="'cart-template'"></div>
+            </aside>
+        </div>
     </div>
 </div>
 
@@ -65,46 +64,48 @@
             </h1>
         </div>
     </div>
-    <div class="wrapper layout cols-2">
-        <aside class="enrollment__nav">
-            <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowPlans'"></div>
-        </aside>
-        <section>
-            <form data-val-bind-messages="validations">
-                <article class="form enrollment__box">
-                    <header>
-                        <h1>@Html.Sitecore().Field("Quote Header")</h1>
-                    </header>
-                    <div class="content">
-                        <p>@Html.Sitecore().Field("Quote Intro")</p>
-                        <div class="item item--no-input">
-                            <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                            <strong>{{ currentLocationInfo().location.address | address }}</strong>
+    <section class="layout">
+        <div class="wrapper cols-2">
+            <aside class="enrollment__nav">
+                <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowPlans'"></div>
+            </aside>
+            <section>
+                <form data-val-bind-messages="validations">
+                    <article class="form enrollment__box">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Quote Header")</h1>
+                        </header>
+                        <div class="content">
+                            <p>@Html.Sitecore().Field("Quote Intro")</p>
+                            <div class="item item--no-input">
+                                <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                                <strong>{{ currentLocationInfo().location.address | address }}</strong>
+                            </div>
+                            <div>
+                                @Html.Sitecore().Field("Quote Content")
+                            </div>
                         </div>
-                        <div>
-                            @Html.Sitecore().Field("Quote Content")
-                        </div>
+                    </article>
+                    <div class="buttons">
+                        <button type="submit" class="primary" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
+                        <button type="submit" class="secondary" ng-click="completeStep(true);" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
+                        <button type="submit" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Quote Button")</button>
+                    </div>
+                </form>
+                <div class="hide-medium-large time-remaining-mobile">
+                    <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
+                </div>
+                <article ng-if="activeFootnotes">
+                    <div>
+                        <p ng-repeat="footnote in activeFootnotes"><sup>{{$index}}</sup> {{footnote.value}}</p>
                     </div>
                 </article>
-                <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
-                    <button type="submit" class="secondary" ng-click="completeStep(true);" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
-                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Quote Button")</button>
-                </div>
-            </form>
-            <div class="hide-medium-large time-remaining-mobile">
-                <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
-            </div>
-            <article ng-if="activeFootnotes">
-                <div>
-                    <p ng-repeat="footnote in activeFootnotes"><sup>{{$index}}</sup> {{footnote.value}}</p>
-                </div>
-            </article>
-        </section>
-        <aside>
-            <div ng-include ng-if="true" src="'cart-template'"></div>    
-        </aside>
-    </div>
+            </section>
+            <aside>
+                <div ng-include ng-if="true" src="'cart-template'"></div>
+            </aside>
+        </div>
+    </section>
 </div>
 
 <script type="text/ng-template" id="planList/TexasElectricity">
@@ -116,7 +117,7 @@
         <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
             <thead class="hide-small">
                 <tr>
-                    <th colspan="2" class="plan-header">@Html.Sitecore().Field("Electricity Plan Name")</th>
+                    <th class="plan-header">@Html.Sitecore().Field("Electricity Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")<sup>{{footnoteIndices['TexasElectricity']['Electricity Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")<sup>{{footnoteIndices['TexasElectricity']['Electricity Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Fees") <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
@@ -133,12 +134,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="vertical">
-                        <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</div>
-                        <div class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</div>
-                    </th>
                     <td class="plan-name hide-small">
-                        {{plan.name}}                        
+                        <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</span>
+                        <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</span>
+                        <div class="plan-title">{{plan.name}}</div>                        
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
@@ -161,7 +160,7 @@
                             <i class="icon-check"></i>
                         </span>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
                     </td>
@@ -173,7 +172,7 @@
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
                         </a>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
                     </td>
@@ -193,13 +192,13 @@
                                 <dd>{{ plan.streamEnergyCharge | number:1 }}&cent;</dd>
                                 <dt>@Html.Sitecore().Field("TDU Charges Label")</dt>
                                 <dd ng-if="plan.tduCharges != ''">{{ plan.tduCharges }}</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'AEP Central Texas'">@Html.Sitecore().Field("Aep Central TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'AEP North Texas'">@Html.Sitecore().Field("Aep North TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'TNMP'">@Html.Sitecore().Field("Tnmp TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'ONCOR'">@Html.Sitecore().Field("Oncor TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'Centerpoint'">@Html.Sitecore().Field("Centerpoint TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'Sharyland McAllen'">@Html.Sitecore().Field("Sharyland Mcallen TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'Sharyland'">@Html.Sitecore().Field("Sharyland Utilities TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'AEP Central Texas'">@Html.Sitecore().Field("Aep Central TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'AEP North Texas'">@Html.Sitecore().Field("Aep North TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'TNMP'">@Html.Sitecore().Field("Tnmp TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'ONCOR'">@Html.Sitecore().Field("Oncor TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'Centerpoint'">@Html.Sitecore().Field("Centerpoint TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'Sharyland McAllen'">@Html.Sitecore().Field("Sharyland Mcallen TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'Sharyland'">@Html.Sitecore().Field("Sharyland Utilities TDU Charges")</dd>
                                 <dt>@Html.Sitecore().Field("Minimum Usage Fee Label")</dt>
                                 <dd ng-bind-html="plan.minimumUsageFee | unsafe"></dd>
                             </dl>
@@ -221,7 +220,7 @@
         <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
             <thead class="hide-small">
                 <tr>
-                    <th colspan="2" class="plan-header">@Html.Sitecore().Field("Gas Plan Name")</th>
+                    <th class="plan-header">@Html.Sitecore().Field("Gas Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Rate")<sup>{{footnoteIndices['GeorgiaGas']['Gas Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Term")<sup>{{footnoteIndices['GeorgiaGas']['Gas Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Fees") <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
@@ -238,12 +237,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="vertical">
-                        <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Gas Fixed")</div>
-                        <div class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Gas Variable")</div>
-                    </th>
                     <td class="plan-name hide-small">
-                        {{plan.name}}
+                        <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Gas Fixed")</span>
+                        <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Gas Variable")</span>
+                        <div class="plan-title">{{plan.name}}</div>
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Gas View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
@@ -266,7 +263,7 @@
                             <i class="icon-check"></i>
                         </span>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Gas Button")</span>
                         </button>
                     </td>
@@ -278,7 +275,7 @@
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
                         </a>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Gas Button")</span>
                         </button>
                     </td>
@@ -302,6 +299,9 @@
             </tbody>
         </table>
     </article>
+</script>
+
+<script type="text/ng-template" id="planList/Mobile">
 </script>
 
 

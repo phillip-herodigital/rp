@@ -20,9 +20,9 @@
     <table>
         @foreach (dynamic plan in plans)
         {
-            <thead>
+            <tbody>
                 <tr>
-                    <th colspan="5">@Html.Sitecore().Field("Pricing For Text") @Html.Sitecore().Field("Plan Title", plan)</th>
+                    <th colspan="5" scope="rowgroup">@Html.Sitecore().Field("Pricing For Text") @Html.Sitecore().Field("Plan Title", plan)</th>
                 </tr>
                 <tr>
                     <th>@Html.Sitecore().Field("Pricing Effective Text") @Html.Sitecore().Field("Date", plan, new { format = "MM/dd/yy" })</th>
@@ -31,8 +31,6 @@
                     <th>@Html.Sitecore().Field("Minimum Usage Fee Text")</th>
                     <th>@Html.Sitecore().Field("Termination Fee Text")</th>
                 </tr>
-            </thead>
-            <tbody>
                 @foreach (dynamic utility in utilities)
                 {
                     <tr>

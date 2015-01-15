@@ -23,6 +23,8 @@ namespace StreamEnergy.DomainModels.Payments
         [Required]
         public string UnderlyingPaymentType { get; set; }
         [Required]
+        public string UnderlyingType { get; set; }
+        [Required]
         public string DisplayName { get; set; }
         public string RedactedData { get; set; }
     }

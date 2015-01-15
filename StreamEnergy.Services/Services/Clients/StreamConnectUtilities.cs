@@ -21,5 +21,16 @@ namespace StreamEnergy.Services.Clients
             };
             return serviceAddress;
         }
+
+        internal static object ToStreamConnectDeposit(DomainModels.Enrollments.OfferPayment offerPayment, bool waive)
+        {
+            if (offerPayment == null)
+                return null;
+            return new
+            {
+                Amount = offerPayment.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().FirstOrDefault().DollarAmount,
+                IsWaived = waive,
+            };
+        }
     }
 }

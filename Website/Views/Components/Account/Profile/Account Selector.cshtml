@@ -1,4 +1,4 @@
-﻿<article class="service-identification" ng-controller="AcctAccountSelectorCtrl" ng-init="allowSubAccount = @(!string.IsNullOrEmpty(Html.Sitecore().CurrentItem["Allow ID Selection"]) ? "true" : "false")">
+﻿<article class="service-identification" ng-controller="AcctAccountSelectorCtrl" ng-hide="accountsCount == 0" ng-init="allowSubAccount = @(!string.IsNullOrEmpty(Html.Sitecore().CurrentItem["Allow ID Selection"]) ? "true" : "false"); filterAccountType = '@Html.Sitecore().CurrentItem["Filter Account Type"]'">
     <div class="content">
         <div class="account-selector stretch">
             <form>
@@ -10,7 +10,7 @@
                     </div>
                     <div class="item" ng-if="allowSubAccount && currentAccount.subAccounts">
                         <label for="SubAccount">{{ currentAccount.subAccountLabel }}</label>
-                        <select name="SubAccount" id="SubAccount" ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                        <select class="input--small" name="SubAccount" id="SubAccount" ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
                     </div>
                 </div>
             </form>

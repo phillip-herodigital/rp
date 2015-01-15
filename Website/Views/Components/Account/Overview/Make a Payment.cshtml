@@ -12,15 +12,15 @@
                         <tbody ng-repeat="item in table.valuesToShow">
                             <tr>
                                 <td class="align-center" style="width:30px;"><input type="checkbox" ng-show="item.canMakeOneTimePayment" ng-model="item.selected" /></td>
-                                <td ng-show="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
-                                    <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
-                                </td>
                                 <td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
                                 <td ng-show="showColumn('amountDue')">{{ item.amountDue | currency }}</td>
-                                <td ng-show="showColumn('dueDate')">{{ item.dueDate | date:'MM/dd/yyyy' }}</td>
+                                <td ng-show="showColumn('dueDate')"><span ng-if="item.amountDue > 0">{{ item.dueDate | date:'MM/dd/yyyy' }}</span></td>
                                 <td ng-show="showColumn('action')">
                                     <a class="button secondary" ng-if="item.actions.viewPdf" ng-href="{{item.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a>
                                     <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
+                                </td>
+                                <td ng-show="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
+                                    <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
                                 </td>
                             </tr>
                             <tr class="details" ng-show="!item.canMakeOneTimePayment">
@@ -44,7 +44,7 @@
                                                         data-val="true" data-val-required data-val-if="item.selected" data-val-regex="" data-val-regex-pattern="^[A-Fa-f0-9]{32}$|({|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\))?$|^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$"
                                                         ng-model="item.selectedPaymentMethod" ng-change="addAccount(item)">
                                                     <option value="" ng-selected="selected">@Html.Sitecore().Field("Select Payment Account Text")</option>
-                                                    <option ng-repeat="option in paymentAccounts" value="{{ option.id }}">{{ option.displayName }}</option>
+                                                    <option ng-repeat="option in paymentAccountsFor(item)" value="{{ option.id }}">{{ option.displayName }}</option>
                                                     <option value="addAccount">@Html.Sitecore().Field("Add Account Text")</option>
                                                 </select>
                                                 @account.ValidationMessageFor(m => m.PaymentAccount)
@@ -208,7 +208,7 @@
         <h2>@Html.Sitecore().Field("Overpayment Header Text")</h2>
     </div>
     <div class="modal-body">
-        @Html.Sitecore().Field("Overpayment Body Text").Format(new { Payment = "{{paymentAmount|currency}}" })
+        @Html.Sitecore().Field("Overpayment Body Text").Format(new { Payment = "{{total|currency}}" })
     </div>
     <div class="modal-footer">
         <button class="secondary" type="button" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
@@ -222,7 +222,7 @@
         <h2>@Html.Sitecore().Field("Add Account Header Text")</h2>
     </div>
     <form data-val-bind-messages="validations" ng-submit="modalAddPaymentAccount(newPaymentMethodType)">
-        <div class="modal-body new-account-modal" loading-indicator>
+        <div class="modal-body scrollable new-account-modal" loading-indicator>
             <fieldset>
                 <legend>@Html.Sitecore().Field("Payment Type Text")</legend>
                 <div class="payment-type-selection">

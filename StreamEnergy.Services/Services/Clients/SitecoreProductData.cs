@@ -19,16 +19,16 @@ namespace StreamEnergy.Services.Clients
 
 
 
-        public SitecoreProductInfo GetTexasElectricityProductData(StreamConnect.Product product)
+        public SitecoreProductInfo GetTexasElectricityProductData(string productCode, string providerName)
         {
 
             if (taxonomy != null)
             {
-                var item = taxonomy.Axes.GetItem("Products/*/" + product.ProductCode);
+                var item = taxonomy.Axes.GetItem("Products/*/" + productCode);
 
                 if (item != null)
                 {
-                    var providerData = item.Axes.GetChild(product.Provider["Name"].ToString());
+                    Sitecore.Data.Items.Item providerData = providerName != null ? item.Axes.GetChild(providerName.ToString()) : null;
 
                     if (providerData != null)
                     {
@@ -37,12 +37,12 @@ namespace StreamEnergy.Services.Clients
                             Fields = new NameValueCollection
                             {
                                 { "Name", item["Product Name"] },
-                                { "Description", LoadProductDescription(product, item) },
+                                { "Description", LoadProductDescription(providerName, item) },
                                 { "Minimum Usage Fee", item["Minimum Usage Fee"] },
                                 { "TDU Charges", item["TDU Charges"] },
-                                { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src },
-                                { "Terms Of Service", ((Sitecore.Data.Fields.FileField)providerData.Fields["Terms Of Service"]).Src },
-                                { "Your Rights As A Customer", ((Sitecore.Data.Fields.FileField)providerData.Fields["Your Rights As A Customer"]).Src },
+                                { "Energy Facts Label", (providerData != null) ? ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src : null },
+                                { "Terms Of Service", (providerData != null) ? ((Sitecore.Data.Fields.FileField)providerData.Fields["Terms Of Service"]).Src : null },
+                                { "Your Rights As A Customer", (providerData != null) ? ((Sitecore.Data.Fields.FileField)providerData.Fields["Your Rights As A Customer"]).Src : null },
                             },
                             Footnotes = LoadFootnotes(new[] { item, providerData }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
                         };
@@ -53,10 +53,10 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
-        private string LoadProductDescription(StreamConnect.Product product, Sitecore.Data.Items.Item item)
+        private string LoadProductDescription(string providerName, Sitecore.Data.Items.Item item)
         {
             var desc = item["Product Description"];
-            var tdu = product.Provider["Name"].ToString().Replace(" ", "");
+            var tdu = providerName.Replace(" ", "");
             var rateTiers = Sitecore.Web.WebUtil.ParseUrlParameters(item["Rate Tiers"]);
 
             foreach(var key in rateTiers.AllKeys)
@@ -112,5 +112,65 @@ namespace StreamEnergy.Services.Clients
                 }
             }
         }
+
+
+        public SitecoreProductInfo GetMobileProductData(string productId)
+        {
+            if (taxonomy != null && !string.IsNullOrEmpty(productId))
+            {
+                var item = taxonomy.Axes.GetItem("Modules/Mobile/Mobile Data Plans/*/" + productId);
+
+                if (item != null)
+                {
+                    return new SitecoreProductInfo
+                    {
+                        Fields = new NameValueCollection
+                        {
+                            { "Name", item["Product Name"] },
+                            { "Data", item["Data"] },
+                            { "Hours Music", item["Data"] == "Unlimited"? "30+" : (Convert.ToInt32(item["Data"]) * 6).ToString() },
+                            { "Hours Movies", item["Data"] == "Unlimited"? "10+" : (Convert.ToInt32(item["Data"]) * 2).ToString() },
+                            { "Web Pages", item["Data"] == "Unlimited"? "1500+" : (Convert.ToInt32(item["Data"]) * 300).ToString() },
+                            { "Recommended", item["Recommended"] },
+                            { "Special Offer", item["Special Offer"] },
+                            { "Special Offer Text", item["Special Offer Text"] },
+                            { "Special Offer Original Price", item["Special Offer Original Price"] },
+                        },
+                        Footnotes = new KeyValuePair<string, string>[0]
+                    };
+                }
+            }
+
+            return null;
+
+        }
+
+        public SitecoreProductInfo GetMobileInventoryData(string inventoryId)
+        {
+            if (taxonomy != null && !string.IsNullOrEmpty(inventoryId))
+            {
+                var item = taxonomy.Axes.GetItem("Modules/Mobile/Mobile Pricing/*/" + inventoryId);
+
+                if (item != null)
+                {
+                    return new SitecoreProductInfo
+                    {
+                        Fields = new NameValueCollection
+                        {
+                            { "SKU", item["SKU"] },
+                            { "Installment Months", item.Children.First().Fields["Number of Months"].Value },
+                            { "A Group SKU", item.Children.First().Fields["A Group SKU"].Value },
+                            { "B Group SKU", item.Children.First().Fields["B Group SKU"].Value },
+                            { "C Group SKU", item.Children.First().Fields["C Group SKU"].Value },
+                        },
+                        Footnotes = new KeyValuePair<string, string>[0]
+                    };
+                }
+            }
+
+            return null;
+            
+        }
+
     }
 }

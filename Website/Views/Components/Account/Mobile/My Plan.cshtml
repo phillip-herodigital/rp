@@ -1,43 +1,125 @@
-﻿<article class="white-box mobile" ng-controller="MakePaymentCtrl">
-    <header class="clearfix">
-        <h2 class="header-left">@Html.Sitecore().Field("My Plan Header")</h2>
-        <div class="header-right">
-            <p><strong>@Html.Sitecore().Field("Header Right Text")</strong></p>
+﻿<div class="enrollment" ng-controller="ChangeMobilePlanCtrl" ng-hide="hideComponent" loading-indicator ng-cloak>
+    <article class="enrollment__box enrollment__configure-data" ng-if="activeStep == 1">
+        <header>
+            <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
+            <span class="account">@Html.Sitecore().Field("Label - Account") {{ selectedAcct }}</span>
+        </header>
+        <div class="content">
+            <div class="btn-group btn-group-options mobile-plans">
+                <div class="button" ng-repeat="plan in getDataPlans()" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
+                    <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
+                    <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
+                    <p>
+                        <span class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">GB</span></span><br />
+                        {{ plan.dataDescription }}
+                    </p>
+                    <hr />
+                    <ul class="details">
+                        <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} hours</span></span></li>
+                        <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} hours</span></span></li>
+                        <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.hoursWebBrowsing }} web pages</span></span></li>
+                    </ul>
+                    <hr />
+                    <p>
+                        <span class="price">
+                            <span class="original-price" ng-if="plan.specialOffer">{{ plan.specialOfferOriginalPrice | currency }}/mo</span>
+                            {{ plan.rates[0].rateAmount | currency }}/mo<span ng-if="plan.specialOffer">*</span>
+                        </span>
+                    </p>
+                    <div class="buttons">
+                        <button type="submit" class="primary" ng-if="plan.id != currentPlan.id" ng-click="selectPlan(plan);"><span ng-if="plan.data < currentPlan.data || !currentPlan.data">@Html.Sitecore().Field("Button - Select Plan")</span><span ng-if="plan.data >= currentPlan.data">@Html.Sitecore().Field("Button - Upgrade")</span></button>
+                        <span ng-if="plan.id == currentPlan.id">@Html.Sitecore().Field("Current Plan")</span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </header>
-    
-    <div class="content">
-        <div>
+        <footer>
+            <h3>@Html.Sitecore().Field("Header - What About Overages")</h3>
+            @Html.Sitecore().Field("Text - What About Overages")
+        </footer>
+    </article>
+    <article class="white-box mobile upgrade" ng-if="activeStep == 2">
+        <header>
+            <h2>@Html.Sitecore().Field("Header Text")</h2>
+            <span class="account">@Html.Sitecore().Field("Label - Account") {{ selectedAcct }}</span>
+        </header>
+        <form>
+            <div class="content">
+                <p><strong>@Html.Sitecore().Field("Upgrade Start Date")</strong> {{ effectiveDate | date:'MMMM d, yyyy' }}</p>
+                <hr />
+                <p><strong>@Html.Sitecore().Field("New Plan")</strong> {{ formFields.chosenPlan.data }}<span ng-if="formFields.chosenPlan.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Shared Data") <a href="javascript:void(0);" ng-click="setActiveStep(1)" class="right-button">@Html.Sitecore().Field("Button - Change Plan")</a></p>
+                <hr />
+                <table class="plan-differences">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>@Html.Sitecore().Field("Table Current Header")</th>
+                            <th class="new-header">@Html.Sitecore().Field("Table New Header")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="2">@Html.Sitecore().Field("Monthly Shared Data")</td>
+                            <td>{{ currentPlan.data }} <span ng-if="currentPlan.data != 'Unlimited'">GB</span></td>
+                            <td class="new">{{ formFields.chosenPlan.data }} <span ng-if="formFields.chosenPlan.data != 'Unlimited'">GB</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.Sitecore().Field("Mobile Share Plan Fee")</td>
+                            <td>{{ currentPlan.rates[0].rateAmount | currency }}/mo</td>
+                            <td class="new">{{ formFields.chosenPlan.rates[0].rateAmount | currency }}/mo</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><span class="total"><strong>@Html.Sitecore().Field("Monthly Total")</strong></span></td>
+                            <td>{{ currentPlan.rates[0].rateAmount | currency }}/mo</td>
+                            <td class="new">{{ formFields.chosenPlan.rates[0].rateAmount | currency }}/mo</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5><strong>@Html.Sitecore().Field("Taxes and Fees")</strong></h5>
+                <p>@Html.Sitecore().Field("Overage Paragraph")</p>
+                <h5><strong>@Html.Sitecore().Field("Terms and Conditions Header")</strong></h5>
+                <p><input id="agreeToTerms" ng-model="formFields.agreeToTerms" type="checkbox" /><label for="agreeToTerms">@Html.Sitecore().Field("Agree to Terms")</label></p>
+                <textarea>@Html.Sitecore().Field("Terms Paragraph")</textarea>
+            </div>
+            <footer>
+                <div class="buttons">
+                    <p class="footer-left link"><a href="setActiveStep(1)">@Html.Sitecore().Field("Button - Cancel")</a></p>
+                    <p class="footer-left"><a href="javascript:void(0);" ng-click="setActiveStep(1)" class="button secondary">@Html.Sitecore().Field("Button - Back")</a></p>
+                    <p><a href="javascript:void(0);" ng-click="confirmChange()" ng-disabled="formFields.agreeToTerms != true" class="button" ng-class="{'disabled':formFields.agreeToTerms != true,}">@Html.Sitecore().Field("Button - Confirm")</a></p>
+                </div>
+            </footer>
+        </form>
+    </article>
+    <article class="white-box mobile upgrade-effective" ng-if="activeStep == 3">
+        <header>
+            <p>@Html.Sitecore().Field("Upgrade Effective")<strong> {{ effectiveDate | date:'MMMM d, yyyy' }}.</strong></p>
+            <span class="icon-close" ng-click="setActiveStep(1)"></span>
+        </header>
+        <div class="content">
             <form>
-                <div class="group">
+                <div class="group clearfix">
                     <div class="item paragraph">
-                        <p>@Html.Sitecore().Field("Current Plan Text")</p>
-                        <p>@Html.Sitecore().Field("Current Plan Usage")</p>
+                        <p><strong>@Html.Sitecore().Field("Label - New Shared Data")</strong> {{ formFields.chosenPlan.data }}<span ng-if="formFields.chosenPlan.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Shared Data")</p>
                     </div>
                     <div class="item price">
-                        <p class="plan-price">@Html.Sitecore().Field("Current Plan Price")</p>
+                        <p>{{ formFields.chosenPlan.rates[0].rateAmount | currency }}/mo</p>
                     </div>
                 </div>
-                <ul class="links clearfix">
-                    <li>@Html.Sitecore().Field("Terms Link")</li>
-                    <li>@Html.Sitecore().Field("Details Link")</li>
-                </ul>
-                <hr class="content-divider" />
-                <div class="group">
-                    <div class="item paragraph">
-                        <p>@Html.Sitecore().Field("Plan Upgrade Text")</p>
-                        <p>@Html.Sitecore().Field("Plan Upgrade Usage")</p>
-                    </div>
-                    <div class="item price">
-                        <p class="plan-price">@Html.Sitecore().Field("Plan Upgrade Price")</p>
-                    </div>
-                </div>
-                <ul class="links clearfix">
-                    <li>@Html.Sitecore().Field("Change Start Date Link")</li>
-                    <li>@Html.Sitecore().Field("Terms and Conditions Link")</li>
-                </ul>
             </form>
         </div>
-    </div>
-</article>
-
+        <footer class="clearfix">
+            <div class="footer-right">
+                <dl class="clearfix">
+                    <dt><strong>@Html.Sitecore().Field("New Monthly Total")</strong></dt>
+                    <dd>{{ formFields.chosenPlan.rates[0].rateAmount | currency }}/mo</dd>
+                    <dt><strong>@Html.Sitecore().Field("Total Due Today")</strong></dt>
+                    <dd>$0.00</dd>
+                </dl>
+            </div>
+            <div class="footer-left receipt">
+                <a class="receipt" href="javascript:window.print()"><i class="icon-printer"></i> @Html.Sitecore().Field("Print Receipt")</a>
+            </div>
+        </footer>
+    </article>
+</div>

@@ -14,19 +14,19 @@
                     <div class="group">
                         <div class="item">
                             <label for="ServiceType">@Html.Sitecore().Field("Service Type Text")</label>
-                            <select id="ServiceType" ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
+                            <select class="input--small" id="ServiceType" ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
                                 <option value="">All</option>
                             </select>
                         </div>
                         <div class="item">
                             <label for="Account">@Html.Sitecore().Field("Account Text")</label>
-                            <select id="Account" ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
+                            <select class="input--small" id="Account" ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
                                 <option value="">All</option>
                             </select>
                         </div>
                         <div class="item" ng-if="hasPaymentStatus">
                             <label for="Status">@Html.Sitecore().Field("Status Text")</label>
-                            <select id="Status" ng-model="filters.status" ng-options="item.value as item.name for item in filtersList.status">
+                            <select class="input--small" id="Status" ng-model="filters.status" ng-options="item.value as item.name for item in filtersList.status">
                                 <option value="">All</option>
                             </select>
                         </div>
@@ -41,9 +41,6 @@
                     <thead grid-table-header></thead>
                     <tbody ng-repeat="item in table.valuesToShow">
                         <tr>
-                            <td style="width:30px;" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
-                                <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
-                            </td>
                             <td ng-show="showColumn('isRecurring')"><i class="icon-recurring" ng-show="item.isRecurring"></i></td>
                             <td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
                             <td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
@@ -56,7 +53,10 @@
                             <td ng-show="showColumn('paymentDate')">{{ item.paymentDate | date:'MM/dd/yyyy' }}</td>
                             <td ng-if="hasPaymentStatus" ng-show="showColumn('status')">{{ item.status }}</td>
                             <td ng-show="showColumn('action')">
-                                <button class="secondary" ng-click="expandInnerTable($index)">Details</button>
+                                <button class="secondary small" ng-click="expandInnerTable($index)">Details</button>
+                            </td>
+                            <td style="width:30px;" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
+                                <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
                             </td>
                         </tr>
                         <tr class="expand-details" ng-show="expand[$index] == true">

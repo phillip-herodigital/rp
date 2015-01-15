@@ -25,6 +25,7 @@ namespace StreamEnergy.Services
                 {
                     uc.Resolve<TexasAdapter>(),
                     uc.Resolve<GeorgiaAdapter>(),
+                    uc.Resolve<MobileAdapter>()
                 }));
         }
     }

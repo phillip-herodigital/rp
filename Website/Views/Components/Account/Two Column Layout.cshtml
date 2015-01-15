@@ -1,4 +1,10 @@
-﻿<section class="layout cols-2 wrapper" ng-controller="AcctCtrl">
+﻿<section class="cols-2 wrapper" ng-controller="AcctCtrl">
+    <section class="notifications"></section>
+
+    <div ng-show="selectedAccount.accountNumber === false" ng-cloak>
+        @Html.Sitecore().Placeholder("noAccount")
+    </div>
+
     <section id="main-content">
         @Html.Sitecore().Placeholder("mainColumn")
     </section>

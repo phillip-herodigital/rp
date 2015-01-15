@@ -1,73 +1,256 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
 <!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
 <!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-
-	<title>Title</title>
+	<title>Front-end Patterns</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
 	<link href="assets/css/global.css" rel="stylesheet" />
 
+    <script src="assets/js/libs/lodash/lodash.js"></script>
     <script src="assets/js/libs/modernizr/modernizr.js"></script>
-    <script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
-    <script src="assets/js/libs/angular/angular.min.js"></script>
-    <script src="assets/js/libs/angular-animate/angular-animate.js"></script>
-    <script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
     <script src="assets/js/libs/respond/dest/respond.min.js"></script>
-
+    <script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+    <script src="assets/js/vendor/jqueryuicustom.js"></script>
+    <script src="assets/js/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+    <script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-scroll/angular-scroll.js"></script>
+    <script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="assets/js/libs/angular-ui-slider/src/slider.js"></script>
+    <script src="assets/js/libs/d3/d3.js"></script>
+    <script src="assets/js/libs/d3/line-chart.js"></script>
     <script src="assets/js/app.js"></script>
-    
+    <script src="http://localhost:59203/Scripts/angular.unobtrusive.validation.min.js" type="text/javascript"></script>
     <script src="assets/js/modules/mask-jquery.js"></script>
-    
-    <script src="assets/js/filters/filters.js"></script>
-    
+    <script src="assets/js/config/datepicker.js"></script>
+    <script src="assets/js/config/validation-exactvalue.js"></script>
     <script src="assets/js/services/breakpoint.js"></script>
-    
+    <script src="assets/js/services/modalFactory.js"></script>
+    <script src="assets/js/services/scroll.js"></script>
+    <script src="assets/js/services/enrollment/cart.js"></script>
+    <script src="assets/js/services/enrollment/enrollment.js"></script>
+    <script src="assets/js/services/enrollment/enrollmentSteps.js"></script>
+    <script src="assets/js/filters/filters.js"></script>
+    <script src="assets/js/directives/additional-fields.js"></script>
+    <script src="assets/js/directives/bankAccountPayment.js"></script>
+    <script src="assets/js/directives/creditCardPayment.js"></script>
+    <script src="assets/js/directives/currencyInput.js"></script>
+    <script src="assets/js/directives/datepicker-date-class.js"></script>
+    <script src="assets/js/directives/datepicker.js"></script>
+    <script src="assets/js/directives/dropdown-select.js"></script>
+    <script src="assets/js/directives/fixedFix.js"></script>
     <script src="assets/js/directives/float-labels.js"></script>
+    <script src="assets/js/directives/loading-indicator.js"></script>
+    <script src="assets/js/directives/main-nav.js"></script>
+    <script src="assets/js/directives/mobile-nav.js"></script>
+    <script src="assets/js/directives/pagination.js"></script>
+    <script src="assets/js/directives/scroll-anchor.js"></script>
+    <script src="assets/js/directives/scroll-to.js"></script>
+    <script src="assets/js/directives/slide-down-show.js"></script>
+    <script src="assets/js/directives/slide-toggle.js"></script>
+    <script src="assets/js/directives/state-tabs.js"></script>
+    <script src="assets/js/directives/sub-nav.js"></script>
+    <script src="assets/js/directives/table.js"></script>
+    <script src="assets/js/directives/tokenize-card.js"></script>
+    <script src="assets/js/directives/typeahead-popup-fix.js"></script>
+    <script src="assets/js/directives/value.js"></script>
+    <script src="assets/js/controllers/accountBalances.js"></script>
+    <script src="assets/js/controllers/frontendElements.js"></script>
+    <script src="assets/js/controllers/homelifeservices.js"></script>
+    <script src="assets/js/controllers/login.js"></script>
+    <script src="assets/js/controllers/main.js"></script>
+    <script src="assets/js/controllers/marketing.js"></script>
+    <script src="assets/js/controllers/template.js"></script>
+    <script src="assets/js/controllers/account/account.js"></script>
+    <script src="assets/js/controllers/account/accountInformation.js"></script>
+    <script src="assets/js/controllers/account/accountSelector.js"></script>
+    <script src="assets/js/controllers/account/addNewAccount.js"></script>
+    <script src="assets/js/controllers/account/enrolledAccounts.js"></script>
+    <script src="assets/js/controllers/account/enrollmentConfirmation.js"></script>
+    <script src="assets/js/controllers/account/makePayment.js"></script>
+    <script src="assets/js/controllers/account/myEnergyUsage.js"></script>
+    <script src="assets/js/controllers/account/myInvoices.js"></script>
+    <script src="assets/js/controllers/account/myPayments.js"></script>
+    <script src="assets/js/controllers/account/notificationSettings.js"></script>
+    <script src="assets/js/controllers/account/onlineAccount.js"></script>
+    <script src="assets/js/controllers/account/paymentAccountsListingCtrl.js"></script>
+    <script src="assets/js/controllers/account/utilityProviders.js"></script>
+    <script src="assets/js/controllers/account/yourElectricityPlan.js"></script>
+    <script src="assets/js/controllers/account/yourGasPlan.js"></script>
+    <script src="assets/js/controllers/authentication/changePassword.js"></script>
+    <script src="assets/js/controllers/authentication/createAccount.js"></script>
+    <script src="assets/js/controllers/authentication/forgotUsername.js"></script>
+    <script src="assets/js/controllers/authentication/login.js"></script>
+    <script src="assets/js/controllers/authentication/resetPassword.js"></script>
+    <script src="assets/js/controllers/enrollment/accountInformation.js"></script>
+    <script src="assets/js/controllers/enrollment/billingAddress.js"></script>
+    <script src="assets/js/controllers/enrollment/cart.js"></script>
+    <script src="assets/js/controllers/enrollment/completeOrder.js"></script>
+    <script src="assets/js/controllers/enrollment/main.js"></script>
+    <script src="assets/js/controllers/enrollment/multipleTdu.js"></script>
+    <script src="assets/js/controllers/enrollment/OfferOptions-TexasElectricity.js"></script>
+    <script src="assets/js/controllers/enrollment/planSelection.js"></script>
+    <script src="assets/js/controllers/enrollment/selectPlan.js"></script>
+    <script src="assets/js/controllers/enrollment/serviceInformation.js"></script>
+    <script src="assets/js/controllers/enrollment/verifyIdentity.js"></script>
+    <script src="assets/js/controllers/enrollment/zipToAddress.js"></script>
+    <script src="assets/js/controllers/payments/addBankAccount.js"></script>
+    <script src="assets/js/controllers/payments/addCreditCard.js"></script>
+    <script src="assets/js/controllers/payments/autoPay.js"></script>
+    <script src="assets/js/controllers/payments/bankAccountPayment.js"></script>
+    <script src="assets/js/controllers/payments/creditCardPayment.js"></script>
+    <script src="assets/js/controllers/payments/paymentOneTime.js"></script>
 
-	<script src="assets/js/controllers/main.js"></script>
-
-	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
-	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
+    <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
+    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 </head>
 <body ng-controller="MainCtrl">
 	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
-		<nav>
-			<ul>
-				<li ng-repeat="item in navLinks">
-					<a href="{{item.href}}">{{item.name}}</a>
-				</li>
-				<li ng-repeat="item in navLinks">
-					<a href="{{item.href}}">{{item.name}}</a>
-				</li>
-				<li ng-repeat="item in navLinks">
-					<a href="{{item.href}}">{{item.name}}</a>
-				</li>
-			</ul>
-		</nav>
 		<div class="page-content">
-			<header class="site-header">
-				<div class="wrapper">
-					<a href="/" class="logo">Logo</a>
-					<p class="utility">Welcome, Jordan <a href="#">Logout</a></p>
-					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
-                    <nav class="main-nav">
-                        <ul class="wrapper">
-                            <li><a href="#">Account Overview</a></li>
-                            <li class="selected"><a href="#">Utility Services</a></li>
-                            <li><a href="#">Homelife Services</a></li>
-                            <li><a href="#">My Profile</a></li>
-                        </ul>
+            <header class="site-header ng-scope" main-nav="0" data-fixed-fix="">
+                    <script id="mobileNav" type="text/ng-template">
+                        <nav class="mobile-nav" mobile-nav="0">
+                            <ul>
+                                <li ng-class="{ opened: subnav == 1 }">
+                                    <span>
+                                        <span class="arrow" ng-click="toggleSubnav(1)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 1, 'icon-nav-arrow-collapsed': subnav != 1}"></i></span>
+                                        <a href="/en/services">Shop</a>
+                                    </span>
+                                    <ul ng-hide="subnav != 1">
+                                        <li><a href="/en/services/enroll">Become a Customer</a></li>
+                                        <li><a href="/en/services/renew">Renew My Contract</a></li>
+                                        <li><a href="/en/services/free-energy">Free Energy</a></li>
+                                        <li><a href="/en/services/enroll/commercial">For Business</a></li>
+                                        <li><a href="/en/services/electricity">Electricity</a></li>
+                                        <li><a href="/en/services/gas">Gas</a></li>
+                                        <li><a href="/en/services/homelife">HomeLife Services</a></li>
+                                        <li><a href="/en/services/clean-energy">Clean Energy</a></li>
+                                    </ul>
+                                </li>
+                                <li ng-class="{ opened: subnav == 2 }">
+                                    <span>
+                                        <span class="arrow" ng-click="toggleSubnav(2)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 2, 'icon-nav-arrow-collapsed': subnav != 2}"></i></span>
+                                        <a href="/en/opportunity">About</a>
+                                    </span>
+                                    <ul ng-hide="subnav != 2">
+                                        <li><a href="/en/opportunity/why-stream-energy">Why Stream Energy?</a></li>
+                                        <li><a href="/en/opportunity/why-energy">Why Energy?</a></li>
+                                        <li><a href="/en/opportunity/how-it-works">How It Works</a></li>
+                                        <li><a href="/en/opportunity/compensation-plan">Compensation Plan</a></li>
+                                        <li><a href="/en/opportunity/start-a-business">Start a Business</a></li>
+                                        <li><a href="/en/leader">Top Leaders</a></li>
+                                    </ul>
+                                </li>
+                                <li ng-class="{ opened: subnav == 3 }">
+                                    <span>
+                                        <span class="arrow" ng-click="toggleSubnav(3)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 3, 'icon-nav-arrow-collapsed': subnav != 3}"></i></span>
+                                        <a href="/en/company">Support</a>
+                                    </span>
+                                    <ul ng-hide="subnav != 3">
+                                        <li><a href="/en/company/about">About</a></li>
+                                        <li><a href="/en/company/corporate-team">Corporate Team</a></li>
+                                        <li><a href="/en/blog">Blog</a></li>
+                                        <li><a href="/en/company/press">Press</a></li>
+                                        <li><a href="/en/company/philanthropy">Philanthropy</a></li>
+                                        <li><a href="/en/company/careers">Careers</a></li>
+                                        <li><a target="_blank" href="http://myigniteevents.streampoint.com/">Events</a></li>
+                                    </ul>
+                                </li>
+                                <li ng-class="{ opened: subnav == 4 }">
+                                    <span>
+                                        <span class="arrow" ng-click="toggleSubnav(4)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 4, 'icon-nav-arrow-collapsed': subnav != 4}"></i></span>
+                                        <a href="/en/contact">Cart</a>
+                                    </span>
+                                    <ul ng-hide="subnav != 4">
+                                        <li><a href="/en/faq">Customer FAQs</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/pay/" class="button">Pay My Bill</a></li>
+                                <li><a href="/es">Español</a></li>
+                                <li><a href="/manage/">Manage My Account</a></li>
+                            </ul>
+                        </nav>
+                    </script>
+                    <nav class="profile-nav">
+                        <div class="wrapper">
+                            <ul>
+                                <li><a href="">Welcome, Justin</a></li>
+                                <li><a href="">My Profile</a></li>
+                                <li><a href="">Support</a></li>
+                                <li><a href="">Logout</a></li>
+                            </ul>
+                        </div>
                     </nav>
-				</div>
-                <nav class="sub-nav"></nav>
-			</header>
+                    <div class="shadow-wrapper">
+                        <div class="wrapper">
+                            <a href="/" class="logo">Logo</a>
+                            <div class="utility">
+                                <a href="/es">Español</a><a class="account-link" href="/manage/">Manage My Account</a>
+                            </div>
+                            <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+                            <nav class="main-nav">
+                                <ul class="wrapper">
+                                        <li class="nav-1 selected" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
+                                            <a href="/en/services">Shop</a>
+                                            <span class="triangle"></span>
+                                        </li>
+                                        <li class="nav-2" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==2 }">
+                                            <a href="/en/opportunity">About</a>
+                                            <span class="triangle"></span>
+                                        </li>
+                                        <li class="nav-3" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==3 }">
+                                            <a href="/en/company">Support</a>
+                                            <span class="triangle"></span>
+                                        </li>
+                                        <li class="nav-4" ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==4 }">
+                                            <a href="/en/contact">Cart</a>
+                                            <span class="triangle"></span>
+                                        </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <nav class="sub-nav">
+                        <div class="wrapper ng-scope hidden" sub-nav="1" ng-class="{ hidden: subnav != 1 }" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
+                            <ul ng-style="{'margin-left': marginLeft}" style="margin-left: 0px;">
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/services/enroll">Mobile Services</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/services/renew">Utility Services</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/services/free-energy">Homelife Services</a></li>
+                            </ul>
+                        </div>
+                        <div class="wrapper ng-scope hidden" sub-nav="2" ng-class="{ hidden: subnav != 2 }" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()">
+                            <ul ng-style="{'margin-left': marginLeft}" style="margin-left: 222px;">
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/why-stream-energy">Why Stream Energy?</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/why-energy">Why Energy?</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/how-it-works">How It Works</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/compensation-plan">Compensation Plan</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/opportunity/start-a-business">Start a Business</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/leader">Top Leaders</a></li>
+                            </ul>
+                        </div>
+                        <div class="wrapper ng-scope hidden" sub-nav="3" ng-class="{ hidden: subnav != 3 }" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()">
+                            <ul ng-style="{'margin-left': marginLeft}" style="margin-left: 449px;">
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/about">About</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/corporate-team">Corporate Team</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/blog">Blog</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/press">Press</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/philanthropy">Philanthropy</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/company/careers">Careers</a></li>
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" target="_blank" href="http://myigniteevents.streampoint.com/">Events</a></li>
+                            </ul>
+                        </div>
+                        <div class="wrapper ng-scope hidden" sub-nav="4" ng-class="{ hidden: subnav != 4 }" ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()">
+                            <ul ng-style="{'margin-left': marginLeft}" style="margin-left: 767px;">
+                                <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/faq">Customer FAQs</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+
 
             <div class="banner" style="background-image: url(assets/i/bg/hero-invoices.jpg);">
                 <div class="inner">
@@ -77,13 +260,32 @@
                 </div>
             </div>
 
+            <nav class="tertiary-nav">
+                <div class="wrapper" sub-nav="1">
+                    <ul>
+                        <li class="selected"><a item="Sitecore.Data.Items.Item" selected="False" href="/en/services/enroll">Mobile Services</a><span class="triangle"></span></li>
+                        <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/services/renew">Utility Services</a><span class="triangle"></span></li>
+                        <li><a item="Sitecore.Data.Items.Item" selected="False" href="/en/services/free-energy">Homelife Services</a><span class="triangle"></span></li>
+                    </ul>
+                </div>
+            </nav>
+
 			<section class="layout cols-2 wrapper">
 				<section>Main Content</section>
-				<aside>Sidebar</aside>
+				<aside>
+                    <article class="subnav">
+                        <ul>
+                            <li class="active"><a href="/en/account/profile">Online Account Information</a></li>
+                            <li><a href="/en/account/profile/account-info">Account Information</a></li>
+                            <li><a href="/en/account/profile/notifications">Notifications &amp; Reminders</a></li>
+                            <li><a href="/en/account/profile/enrolled-accounts">Enrolled Accounts</a></li>
+                        </ul>
+                    </article>
+                </aside>
 			</section>
 
 			<section class="layout cols-1 wrapper">
-
+                <hr>
 				<h2>Typography</h2>
 
 				<h1>H1. Heading</h1>
@@ -93,11 +295,15 @@
 				<h5>H5. Heading</h5>
 				<h6>H6. Heading</h6>
 
+                <hr>
+
 				<h2>Body Copy</h2>
 
 				<p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
 
 				<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec ullamcorper nulla non metus auctor fringilla.</p>
+
+                <hr>
 
 				<h2>Lists</h2>
 
@@ -123,9 +329,10 @@
 					<li>Nulla volutpat aliquam velit</li>
 				</ol>
 
+                <hr>
+
                 <h2>Float Labels</h2>
                 <form ng-init="labels = {'firstName':'First Name', 'lastName':'Last Name', 'comment':'Comment', 'gender':'Gender'}">
-                    
                     <div class="item">
                         <label>Label Binding</label>
                         <input type="text" ng-model="labels.firstName" />
@@ -134,7 +341,6 @@
                         <label>Value Binding</label>
                         <input type="text" ng-model="labels.lastNameValue" />
                     </div>
-
                     <div class="group">
                         <div class="item" float-label>
                             <label for="firstname">{{labels.firstName}}</label>
@@ -160,8 +366,96 @@
 
                     </form>
 
+                    <hr>
+
+                    <h2>Buttons</h2>
+
+                    <h3>Primary Buttons</h3>
+                    <p>
+                        <button type="button" class="primary">Primary</button>
+                        <button type="button" class="secondary">Secondary</button>
+                        <button type="button" class="tertiary">Tertiary</button>
+                        <button type="button" class="grey">Grey</button>
+                        <button type="button" class="green">Green</button>
+                        <button type="button" class="teal">Light Green</button>
+                    </p>
+
+                    <h3>Small Buttons</h3>
+                    <p>
+                        <button type="button" class="primary small">Primary</button>
+                        <button type="button" class="secondary small">Secondary</button>
+                        <button type="button" class="tertiary small">Tertiary</button>
+                        <button type="button" class="grey small">Grey</button>
+                        <button type="button" class="green small">Green</button>
+                        <button type="button" class="teal small">Teal</button>
+                    </p>
+
+                    <h3>Large Buttons</h3>
+                    <p>
+                        <button type="button" class="primary large">Primary</button>
+                        <button type="button" class="secondary large">Secondary</button>
+                        <button type="button" class="tertiary large">Tertiary</button>
+                        <button type="button" class="grey large">Grey</button>
+                        <button type="button" class="green large">Green</button>
+                        <button type="button" class="teal large">Teal</button>
+                    </p>
+
+                    <h3>Plain Buttons</h3>
+                    <p>
+                        <button type="button" class="primary plain">Primary</button>
+                        <button type="button" class="secondary plain">Secondary</button>
+                        <button type="button" class="tertiary plain">Tertiary</button>
+                        <button type="button" class="grey plain">Grey</button>
+                        <button type="button" class="green plain">Green</button>
+                        <button type="button" class="teal plain">Teal</button>
+                    </p>
+
+                    <hr>
+
                     <h2>Forms</h2>
                     <form>
+                        <h4>Input Group</h4>
+                        <div class="item">
+                            <div class="input-group">
+                                <div class="input-group-btn btn-dropdown ng-isolate-scope" dropdown="" is-open="status.isopen" id="state-select" value="data.serviceState" data-alignment="right">
+                                    <button type="button" class="btn btn-primary dropdown-toggle icon texas" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">Texas <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <li class="ng-scope"><a class="icon washington-dc" ng-click="selectItem(item);" href="">Washington, DC</a></li>
+                                        <li class="ng-scope"><a class="icon georgia" ng-click="selectItem(item);" href="">Georgia</a></li>
+                                        <li class="ng-scope"><a class="icon maryland" ng-click="selectItem(item);" href="">Maryland</a></li>
+                                        <li class="ng-scope"><a class="icon new-jersey" ng-click="selectItem(item);" href="">New Jersey</a></li>
+                                        <li class="ng-scope"><a class="icon new-york" ng-click="selectItem(item);" href="">New York</a></li>
+                                        <li class="ng-scope"><a class="icon pennsylvania" ng-click="selectItem(item);" href="">Pennsylvania</a></li>
+                                        <li class="ng-scope"><a class="icon texas" ng-click="selectItem(item);" href="">Texas</a></li>
+                                    </ul>
+                                </div>
+                                <div class="input-group-control">
+                                    <input autocomplete="off" class="typeahead state-select-typeahead ng-valid ng-dirty ng-valid-editable" id="Services_0__Location" name="Services[0].Location" placeholder="Start typing your address" type="text" value="" aria-autocomplete="list" aria-expanded="false" aria-owns="typeahead-007-7020">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="input-group">
+                                <div class="input-group-control">
+                                    <input autocomplete="off" class="typeahead state-select-typeahead" id="Services_0__Location" name="Services[0].Location" placeholder="Start typing your address" type="text" value="" aria-autocomplete="list" aria-expanded="false" aria-owns="typeahead-007-7020">
+                                </div>
+                                <div class="input-group-btn btn-dropdown ng-isolate-scope" dropdown="" is-open="status.isopen" id="state-select" value="data.serviceState" data-alignment="right">
+                                    <button type="button" class="btn btn-primary dropdown-toggle icon texas" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">Texas <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <li class="ng-scope"><a class="icon washington-dc" ng-click="selectItem(item);" href="">Washington, DC</a></li>
+                                        <li class="ng-scope"><a class="icon georgia" ng-click="selectItem(item);" href="">Georgia</a></li>
+                                        <li class="ng-scope"><a class="icon maryland" ng-click="selectItem(item);" href="">Maryland</a></li>
+                                        <li class="ng-scope"><a class="icon new-jersey" ng-click="selectItem(item);" href="">New Jersey</a></li>
+                                        <li class="ng-scope"><a class="icon new-york" ng-click="selectItem(item);" href="">New York</a></li>
+                                        <li class="ng-scope"><a class="icon pennsylvania" ng-click="selectItem(item);" href="">Pennsylvania</a></li>
+                                        <li class="ng-scope"><a class="icon texas" ng-click="selectItem(item);" href="">Texas</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4>Grouped Fields</h4>
                         <div class="group">
                             <div class="item">
                                 <label for="firstname">First Name</label>
@@ -170,6 +464,18 @@
                             <div class="item">
                                 <label for="lastname">Last Name</label>
                                 <input type="text" id="lastname" />
+                            </div>
+                        </div>
+
+                        <h4>Grouped Fields as Columns</h4>
+                        <div class="group">
+                            <div class="item group-col">
+                                <label for="firstname">First Name</label>
+                                <input type="text" id="firstname" placeholder="First Name" />
+                            </div>
+                            <div class="item group-col">
+                                <label for="firstname">Last Name</label>
+                                <input type="text" id="firstname" placeholder="Last Name" />
                             </div>
                         </div>
                         <div class="item">
@@ -198,11 +504,20 @@
                         <div class="item">
                             <label>Gender</label>
                             <ul class="checkbox-list">
-                                <li><input type="checkbox" id="male"><label for="male">Male</label></li>
-                                <li><input type="checkbox" id="female"><label for="female">Female</label></li>
+                                <li><input type="checkbox" id="male2"><label for="male2">Male</label></li>
+                                <li><input type="checkbox" id="female2"><label for="female2">Female</label></li>
                             </ul>
                         </div>
-                        <button type="submit">Submit</button> <button class="secondary">Secondary</button> <button disabled="disabled">Disabled</button>
+                        
+                        
+                        <p>
+                            <button type="submit">Submit</button>
+                            <button class="secondary">Secondary</button>
+                        </p>
+                        
+
+                        <h4>Vertical Fields</h4>
+
                         <div class="vertical">
                             <div class="item">
                                 <label for="email">Email</label>
@@ -234,9 +549,39 @@
                                     <li><input type="checkbox" id="female"><label for="female">Female</label></li>
                                 </ul>
                             </div>
-                            <button type="submit">Submit</button> <button class="secondary">Secondary</button> <button disabled="disabled">Disabled</button>
+                            <p>
+                                <button type="submit">Submit</button>
+                                <button class="secondary">Secondary</button>
+                                <button disabled="disabled">Disabled</button>
+                            </p>
                         </div>
+
+                        <h4>Small Input Fields</h4>
+                        <div class="group">
+                            <div class="item">
+                                <label for="firstname">First Name</label>
+                                <input class="input--small" type="text" id="firstname" />
+                            </div>
+                            <div class="item">
+                                <label for="lastname">Last Name</label>
+                                <input class="input--small" type="text" id="lastname" />
+                            </div>
+                            <div class="item">
+                                <label for="lastname">Select</label>
+                                <select class="input--small" id="lastname">
+                                    <option>1</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label for="">Button</label>
+                                <button class="small">Button</button>
+                            </div>
+                        </div>
+
                     </form>
+
+                    <hr>
+
                     <h2>Tables</h2>
                     <table>
                         <thead>
@@ -264,6 +609,9 @@
                             </tr>
                         </tbody>
                     </table>
+    
+                    <hr>
+
                     <h2>Grids</h2>
                     <div class="grid">
                         <div class="col">Column 1</div>
@@ -280,37 +628,234 @@
                         <div class="col">Column 3</div>
                         <div class="col">Column 4</div>
                     </div>
-</section>
+
+                    <hr>
+
+                    <h2>Notices</h2>
+                    <div class="notice alert">
+                        <p>
+                            <strong>Alert</strong><br>
+                            Message here
+                        </p>
+                    </div>
+
+                    <div class="notice success">
+                        <p>
+                            <strong>Success</strong><br>
+                            Message here
+                        </p>
+                    </div>
+
+                    <div class="notice error">
+                        <p>
+                            <strong>Error</strong><br>
+                            Message here
+                        </p>
+                    </div>
+
+                    <div class="notice message">
+                        <p>
+                            <strong>Message</strong><br>
+                            Message here
+                        </p>
+                    </div>
+
+                    <hr>
+
+                    <h2>Modules</h2>
+
+                    <article>
+                        <header class="clearfix">
+                            <h2>Module Title</h2>
+                            <ul class="actions">
+                                <li><a href="/en/account/payment-accounts/auto-pay">Link</a></li>
+                                <li><a href="/en/account/payment-accounts/auto-pay">Link</a></li>
+                            </ul>
+                        </header>
+                        <div class="content">
+                            <div class="notice alert inline">
+                                <p>Notice message</p>
+                            </div>
+                            <p>Body Content</p>
+                        </div>
+                        <footer>
+                            <div class="buttons">
+                                <button>Primary Button</button>
+                                <button class="secondary">Secondary Button</button>
+                            </div>
+                        </footer>
+                    </article>
+
+
+                    <article class="form">
+                        <header>
+                            <h1>Module Form Fields</h1>
+                        </header>
+                        <div class="content">
+                            <div class="item">
+                                <label for="firstname">First Name</label>
+                                <input type="text" id="firstname" placeholder="First Name" />
+                            </div>
+                            <div class="group">
+                                <div class="item group-col">
+                                    <label for="firstname">First Name</label>
+                                    <input type="text" id="firstname" placeholder="First Name" />
+                                </div>
+                                <div class="item group-col">
+                                    <label for="firstname">Last Name</label>
+                                    <input type="text" id="firstname" placeholder="Last Name" />
+                                </div>
+                            </div>
+                        </div>
+                        <footer>
+                            <div class="buttons">
+                                 <button type="submit">Submit</button>
+                                 <button class="secondary">Secondary</button> <button disabled="disabled">Disabled</button>
+                            </div>
+                        </footer>
+                    </article>
+
+                    <article class="form">
+                        <header>
+                            <h1>Module Table</h1>
+                        </header>
+                        <div class="content">
+                            <div class="filters">
+                                    <div class="group">
+                                        <div class="item">
+                                            <label for="ServiceType">Service Type:</label>
+                                            <select class="input--small" id="ServiceType" ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType" class="ng-pristine ng-valid"><option value="" class="">All</option><option value="0">HomeLife Services</option><option value="1">Utility</option></select>
+                                        </div>
+                                        <div class="item">
+                                            <label for="Account">Account:</label>
+                                            <select class="input--small" id="Account" ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber" class="ng-pristine ng-valid"><option value="" class="">All</option><option value="0">1197015532</option><option value="1">219849302</option><option value="2">194829927</option></select>
+                                        </div>
+                                        <div class="item">
+                                            <label for="Status">Status:</label>
+                                            <select class="input--small" id="Status" ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid" class="ng-pristine ng-valid"><option value="" class="">All</option><option value="0">Paid</option><option value="1">Unpaid</option></select>
+                                        </div>
+                                        <div class="actions">
+                                            <p><a href="" ng-click="resetFilters()">Reset Filters</a></p>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="stretch">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3">Full-Width Table</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Header 1</th>
+                                            <th>Header 2</th>
+                                            <th>Header 3</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Cell 1</td>
+                                            <td>Cell 2</td>
+                                            <td>Cell 3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cell 4</td>
+                                            <td>Cell 5</td>
+                                            <td>Cell 6</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cell 7</td>
+                                            <td>Cell 8</td>
+                                            <td>Cell 9</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <hr class="content-divider">
+
+                            <h4>Regular Table</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Header 1</th>
+                                        <th>Header 2</th>
+                                        <th>Header 3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Cell 1</td>
+                                        <td>Cell 2</td>
+                                        <td>Cell 3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cell 4</td>
+                                        <td>Cell 5</td>
+                                        <td>Cell 6</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cell 7</td>
+                                        <td>Cell 8</td>
+                                        <td>Cell 9</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <footer>
+                            <div class="buttons">
+                                 <button type="submit">Submit</button>
+                                 <button class="secondary">Secondary</button> <button disabled="disabled">Disabled</button>
+                            </div>
+                        </footer>
+                    </article>
+
+            </section>
 
 			<footer class="site-footer">
 				<div class="super-footer">
 					<div class="wrapper">
-						<div class="grid three">
+						<div class="grid clearfix">
 							<div class="col">
 								<ul>
-									<li><a href="#"><img src="assets/i/img-footer-get-free-energy.png" alt="Get Free Energy" width="159" height="44" /></a></li>
-									<li><a href="#"><img src="assets/i/img-footer-renew-my-contract.png" alt="Renew My Contract" width="120" height="45" /></a></li>
+									<li><a href="#"><img src="assets/i/logo-footer.png" alt="Stream Energy | Ignite" width="224" height="54" /></a></li>
 								</ul>
 							</div>
-							<div class="col quick-links">
-								<h2><i class="icon-quicklinks"></i> Quick Links</h2>
-								<ul>
-									<li><a href="#">Account Overview</a></li>
-									<li><a href="#">Utility Services</a></li>
-									<li><a href="#">Homelife Services</a></li>
-									<li><a href="#">My Profile</a></li>
-								</ul>
+                            <div class="col">
+                                <h2>Shop</h2>
+                                <ul>
+                                    <li><a href="#">Mobile Services</a></li>
+                                    <li><a href="#">Utility Services</a></li>
+                                    <li><a href="#">Homelife Services</a></li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h2>About</h2>
+                                <ul>
+                                    <li><a href="">The Ignite Opportunity</a></li>
+                                    <li><a href="">Blog</a></li>
+                                    <li><a href="">Careers</a></li>
+                                </ul>
+                            </div>
+							<div class="col">
+								<h2>Quick Links</h2>
+                                <ul>
+                                    <li><a href="">Press</a></li>
+                                    <li><a href="">Contact</a></li>
+                                    <li><a href="">Philanthropy</a></li>
+                                </ul>
 							</div>
-							<div class="col social">
-								<h2><i class="icon-social"></i> Social</h2>
-								<ul>
-									<li><a href="#"><i class="icon-facebook"></i> Facebook</a></li>
-									<li><a href="#"><i class="icon-twitter"></i> Twitter</a></li>
-									<li><a href="#"><i class="icon-youtube"></i> YouTube</a></li>
-									<li><a href="#"><i class="icon-pinterest"></i> Pinterest</a></li>
-								</ul>
+							<div class="col">
+								<h2>My Account</h2>
+                                <ul>
+                                    <li><a href="">Manage My Free Energy</a></li>
+                                    <li><a href="">Login To Power Center</a></li>
+                                </ul>
 							</div>
 						</div>
+                        <a href="#" class="bottom-footer-logo hide-medium-large"><img src="assets/i/logo-footer.png" alt="Stream Energy | Ignite" width="224" height="54" /></a>
 					</div>
 				</div>
 				<div class="wrapper copyright">

@@ -62,6 +62,28 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
         }
     };
 
+    $scope.$watch("paymentAccounts", function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            paymentAccountsForIndex = [];
+        }
+    });
+    var paymentAccountsForIndex = [];
+    $scope.paymentAccountsFor = function (acct) {
+        if (acct == null) return [];
+        if (paymentAccountsForIndex[acct.accountNumber]) return paymentAccountsForIndex[acct.accountNumber];
+
+        paymentAccountsForIndex[acct.accountNumber] = _.map($scope.paymentAccounts, function (pa) {
+            if (pa.underlyingType == "Unknown" || _.some(acct.availablePaymentMethods, { 'paymentMethodType': pa.underlyingType })) {
+                return pa;
+            } else {
+                var newpa = angular.copy(pa);
+                newpa.id = "";
+                return newpa;
+            }
+        });
+        return paymentAccountsForIndex[acct.accountNumber];
+    };
+
     $scope.getPaymentMethod = function (paymentId) {
         if (paymentId && paymentId !== 'addAccount') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).displayName;

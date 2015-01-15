@@ -1,116 +1,30 @@
-﻿<article class="marketing state-tabs states-enroll" state-tabs="texas">
-    <ul class="tabs-nav">
-        <li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
-            <a href="">
-                <span><i class="icon-state-texas"></i></span>
-                @Html.Sitecore().Field("Texas State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
-            <a href="">
-                <span><i class="icon-state-georgia"></i></span>
-                @Html.Sitecore().Field("Georgia State Text")
-            </a>
-        </li>    
-        <li ng-click="selectPane('pennsylvania')" ng-class="{ active: pane == 'pennsylvania' }">
-            <a href="">
-                <span><i class="icon-state-pennsylvania"></i></span>
-                @Html.Sitecore().Field("Pennsylvania State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('maryland')" ng-class="{ active: pane == 'maryland' }">
-            <a href="">
-                <span><i class="icon-state-maryland"></i></span>
-                @Html.Sitecore().Field("Maryland State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('newjersey')" ng-class="{ active: pane == 'newjersey' }">
-            <a href="">
-                <span><i class="icon-state-newjersey"></i></span>
-                @Html.Sitecore().Field("New Jersey State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('newyork')" ng-class="{ active: pane == 'newyork' }">
-            <a href="">
-                <span><i class="icon-state-newyork"></i></span>
-                @Html.Sitecore().Field("New York State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('washingtondc')" ng-class="{ active: pane == 'washingtondc' }">
-            <a href="">
-                <span><i class="icon-state-washingtondc"></i></span>
-                @Html.Sitecore().Field("Washington DC State Text")
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("Texas View Rates Link")
-                    <a href="/enrollment?BC_ID=1&RefSite=SCS&CO_LA=US_EN&State=TX&AccountType=R&ServiceType=Ele" target="_blank" class="button green">@Html.Sitecore().Field("Enroll Now Text")</a>
-                </p>
-            </div>
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using Sitecore.Data.Fields
+@{
+    var item = Html.Sitecore().CurrentRendering.Item;
+    var states = ((NameValueListField)item.Fields["State Names"]).NameValues;
+    
+    var stateEnrollData = new JArray();
+    foreach (var state in states)
+    {
+        stateEnrollData.Add(new JObject {
+            { "key", state.ToString() },
+            { "name", Server.UrlDecode(states[state.ToString()].ToString()) },
+            { "enrollmentURL", item.Fields[state.ToString() + " Enrollment Link"].ToString() },
+            { "rateURL", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentRendering.Item.Fields[state.ToString() + " Rates Link"]).TargetItem) }
+        });
+    }
+}
+
+<article class="marketing state-tabs states-enroll" state-selector="TX" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));'>
+    <div class="wrapper grid">
+        <div class="col"><h3>@Html.Sitecore().Field("Header")</h3></div>
+        <div class="col">
+            @Html.Sitecore().Field("Location")
+            <select ng-options="item.key as item.name for item in stateEnrollData" ng-model="selectedStateKey"></select>
+            <a class="button" ng-href="{{ selectedState.enrollmentURL }}">@Html.Sitecore().Field("Get Started")</a>
         </div>
-    </div>
-    <div class="tab" ng-class="{ hidden : pane != 'georgia' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("Georgia View Rates Link")
-                    <a href="/enrollment?BC_ID=1&amp;RefSite=SCS&amp;CO_LA=US_EN&amp;State=GA&amp;AccountType=R&amp;ServiceType=Gas" target="_blank" class="button green">@Html.Sitecore().Field("Enroll Now Text")</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="tab" ng-class="{ hidden : pane != 'pennsylvania' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("Pennsylvania View Rates Link")
-                    <a href="/enrollment?BC_ID=1&amp;RefSiteId=6&amp;St=PA&amp;AccountType=R&amp;CO_LA=US_EN&amp;ServiceType=Ele" target="_blank" class="button green">@Html.Sitecore().Field("Enroll Now Text")</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="tab" ng-class="{ hidden : pane != 'maryland' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("Maryland View Rates Link")
-                    <a href="/enrollment?BC_ID=1&amp;RefSiteId=6&amp;St=MD&amp;AccountType=R&amp;CO_LA=US_EN&amp;ServiceType=Ele" target="_blank" class="button green">@Html.Sitecore().Field("Enroll Now Text")</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="tab" ng-class="{ hidden : pane != 'newjersey' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("New Jersey View Rates Link")
-                    <a href="/enrollment?BC_ID=1&amp;RefSiteId=6&amp;St=NJ&amp;AccountType=R&amp;CO_LA=US_EN&amp;ServiceType=Ele" target="_blank" class="button green">@Html.Sitecore().Field("Enroll Now Text")</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="tab" ng-class="{ hidden : pane != 'newyork' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("New York View Rates Link")
-                    <a href="/enrollment?BC_ID=1&amp;RefSiteId=6&amp;St=NY&amp;AccountType=R&amp;CO_LA=US_EN&amp;ServiceType=Ele" target="_blank" class="button green">@Html.Sitecore().Field("Enroll Now Text")</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="tab" ng-class="{ hidden : pane != 'washingtondc' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("DC View Rates Link")
-                    <a href="/enrollment?BC_ID=1&amp;RefSiteId=6&amp;St=DC&amp;AccountType=R&amp;CO_LA=US_EN&amp;ServiceType=Ele" target="_blank" class="button green">@Html.Sitecore().Field("Enroll Now Text")</a>
-                </p>
-            </div>
-        </div>
+        <div class="col"><a data-ng-href="{{ selectedState.rateURL }}">@Html.Sitecore().Field("View Rates")</a></div>
     </div>
 </article>

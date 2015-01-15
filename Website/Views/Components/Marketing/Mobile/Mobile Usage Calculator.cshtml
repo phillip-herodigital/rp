@@ -1,0 +1,670 @@
+﻿@model StreamEnergy.MyStream.Models.Marketing.UsageCalculator
+@using Sitecore.Mvc.Extensions
+
+@if(Model.IsModal)
+{
+    <div class="modal-header">
+        @Html.Sitecore().Field("Modal Header")
+    </div>
+    @Html.Raw("<div class=\"modal-body scrollable\">")
+}
+
+<article class="marketing mobile tabs mobile-plans-usage-calculator" ng-controller="MobileUsageCalculatorCtrl" ng-init="init(@(Html.Action("GetUsageCalculatorData", "Marketing").ToHtmlString()))">
+    
+    <script>
+        var UsageCalculator = {
+            tabs: [
+                {
+                    title: '@Html.Sitecore().Field("Connect Account Tab")',
+                    url: 'connect.tpl.html'
+                },
+                {
+                    title: '@Html.Sitecore().Field("Manually Enter Tab")',
+                    url: 'manual.tpl.html'
+                }
+            ],
+            currentTab: '@(Model.ShowBillScrape ? "connect.tpl.html" : "manual.tpl.html")',
+            isModal:    '@Model.IsModal'.toLowerCase() == 'true'
+        };
+    </script>
+
+    <div class="wrapper">
+        <h1 ng-show="!isModal">@Html.Sitecore().Field("Header")</h1>
+        <div class="tab-wrapper">
+            @if (Model.ShowBillScrape)
+            {
+                <ul class="tabbed-header">
+                    <li class="tab"
+                        ng-repeat="tab in tabs"
+                        ng-class="{active:isActiveTab(tab.url)}"
+                        ng-click="onClickTab(tab)">{{tab.title}}</li>
+                </ul>
+            }
+            <div class="content" loading-indicator>
+                <div ng-include="currentTab"></div>
+            </div>
+        </div>
+        <script type="text/ng-template" id="connect.tpl.html">
+            <div class="login" ng-show="!connected">
+                <div class="selectCarrier clearfix">
+                    <div class="selectCarrierText col pull-left">
+                        <h4>@Html.Sitecore().Field("Select Carrier")</h4>
+                        <p>@Html.Sitecore().Field("Select Carrier Text")</p>
+                    </div>
+                    <div class="col pull-right">
+                        <ul class="network-toggle">
+                            <li>
+                                <a href="" ng-class="{active: connect.carrier == 'att'}" ng-click="connect.carrier = 'att'">
+                                    <i class="icon-att"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" ng-class="{active: connect.carrier == 'sprint'}" ng-click="connect.carrier = 'sprint'">
+                                    <i class="icon-sprint"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" ng-class="{active: connect.carrier == 'verizon'}" ng-click="connect.carrier = 'verizon'">
+                                    <i class="icon-verizon"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" ng-class="{active: connect.carrier == 'tmobile'}" ng-click="connect.carrier = 'tmobile'">
+                                    <i class="icon-tmobile"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <form ng-if="connect.carrier" ng-submit="callValidas()" data-val-bind-messages="validations">
+                    <div class="stretch loginFields">
+                        @Html.Sitecore().Field("Log In Text")
+                        <div class="notice error" ng-show="validasErrors" ng-cloak>
+                            <p ng-repeat="error in validasErrors">{{ error }}</p>
+                        </div>
+                        @Html.ValidationSummary()
+                        <div class="group">
+                            <div class="item" @Html.Validation().ErrorClass(model => model.Username)>
+                                <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username")</label>
+                                @Html.TextBoxFor(m => m.Username, new { ng_model = "connect.username" })
+                                @Html.ValidationMessageFor(model => model.Username)
+                                <span class="note">@Html.Sitecore().Field("Forgot Username Link", new { text = @Html.Sitecore().Field("Forgot Username") })</span>
+                            </div>
+                            <div class="item" @Html.Validation().ErrorClass(model => model.Password)>
+                                <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password")</label>
+                                @Html.PasswordFor(m => m.Password, new { ng_model = "connect.password" })
+                                @Html.ValidationMessageFor(model => model.Password)
+                                <span class="note">@Html.Sitecore().Field("Forgot Password Link", new { text = @Html.Sitecore().Field("Forgot Password") })</span>
+                            </div>
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Security Question")</label>
+                                <input type="text" ng-model="connect.securityAnswer">
+                                <span class="note">@Html.Sitecore().Field("Security Question Link", new { text = @Html.Sitecore().Field("Cant Remember Security Question") })</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <div class="item pull-left">
+                            <ul class="checkbox-list">
+                                <li @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
+                                    @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "connect.acceptTermsCheckbox" }) <label for="@Html.IdFor(m => m.AgreeToTerms)">@Html.Sitecore().Field("Agree text")</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="submit" data-val-submit>@Html.Sitecore().Field("Calculate Savings")</button>
+                    </div>
+                </form>
+            </div>
+            <div class="bill-scrape" ng-show="connected">
+
+                <div class="grid message-table">
+                    <div class="table-row">
+                        <div class="table-cell">
+                            @Html.Sitecore().Field("Success Message")
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell">
+                            @Html.Sitecore().Field("Were Showing")
+                            <strong>
+                                <span ng-bind="connect.validas.phoneLines"></span>
+                                <span ng-show="connect.validas.phoneLines == 1">@Html.Sitecore().Field("Line")</span>
+                                <span ng-show="connect.validas.phoneLines > 1">@Html.Sitecore().Field("Lines")</span>
+                            </strong>
+                            @Html.Sitecore().Field("Averaged")
+                            <strong><span ng-bind="(connect.validas.averageMonthlyData / 1000) | number:1"></span>GB</strong>@Html.Sitecore().Field("Per Month")
+                            @Html.Sitecore().Field("At A Price Of")
+                            <strong><span ng-bind="connect.validas.averageMonthlyCost | currency"></span></strong>@Html.Sitecore().Field("Per Month").
+                            <a href='#' ng-click="resetConnect()">@Html.Sitecore().Field("Login With A Different Account")</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid savingsAnalysis">
+                    <h3>@Html.Sitecore().Field("Savings Analysis")</h3>
+                </div>
+                <div class="stretch">
+                    <div class="plan-table">
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Network Provider")
+                            </div>
+                            <div class="table-cell current-plan">
+                                <i class="icon-{{ connect.validas.network }}"></i>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <div class="mobile-poweredBy">
+                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
+                                    <span>powered by: <strong>@Html.Sitecore().Field("Sprint") </strong></span>
+                                </div>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <div class="mobile-poweredBy">
+                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
+                                    <span>powered by: <strong>@Html.Sitecore().Field("ATT") </strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Coverage Map")
+                            </div>
+                            <div class="table-cell current-plan">
+                                -
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                @Html.Sitecore().Field("Nationwide CDMA Network")
+                                <a href="/services/mobile/coverage-map#?carrier=sprint">@Html.Sitecore().Field("Launch Coverage Map")</a>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                @Html.Sitecore().Field("Nationwide GSM Network")
+                                <a href="/services/mobile/coverage-map#?carrier=att">@Html.Sitecore().Field("Launch Coverage Map")</a>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Phone Lines")
+                            </div>
+                            <div class="table-cell current-plan">
+                                <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines")
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Monthly Data")
+                            </div>
+                            <div class="table-cell current-plan">
+                                <span ng-bind="(connect.validas.averageMonthlyData / 1000) | number:1"></span> GB
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <span ng-bind="getValidasRecommendation('sprint').data"></span> GB
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <span ng-bind="getValidasRecommendation('att').data"></span> GB
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Text And Talk")
+                            </div>
+                            <div class="table-cell current-plan">-</div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                @Html.Sitecore().Field("Unlimited")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                @Html.Sitecore().Field("Unlimited")
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Monthly Cost")
+                            </div>
+                            <div class="table-cell current-plan">
+                                <span ng-bind="connect.validas.averageMonthlyCost | currency"></span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <span ng-bind="getValidasRecommendation('sprint').price | currency"></span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <span ng-bind="getValidasRecommendation('att').price | currency"></span>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Total Cost over")
+                                <select ng-model="formData.selectedTimeframe" ng-options="item.months as item.label for item in timeframe"></select><br />
+                                @*<a href="" class="hideBreakdown" ng-click="showBreakdown = !showBreakdown">
+                                    <span ng-if="showBreakdown">@Html.Sitecore().Field("hide breakdown")</span>
+                                    <span ng-if="!showBreakdown">@Html.Sitecore().Field("show breakdown")</span>
+                                </a>*@
+                            </div>
+                            <div class="table-cell current-plan">
+                                {{ connect.validas.averageMonthlyCost * formData.selectedTimeframe | currency }}
+                                <span class="note">({{ connect.validas.averageMonthlyCost | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                {{ getValidasRecommendation('sprint').price * formData.selectedTimeframe | currency }}
+                                <span class="note">({{ getValidasRecommendation('sprint').price | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                {{ getValidasRecommendation('att').price * formData.selectedTimeframe | currency }}
+                                <span class="note">({{ getValidasRecommendation('att').price | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
+                            </div>
+                            @*<div class="table-cell tco current-plan">
+                                <span class="bar" ng-style="{'height': getTCOHeight('currentPlan') }" ng-bind="calculateTCO('currentPlan') | currency"></span>
+                            </div>
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')">
+                                <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('sprint')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('sprint') | currency"></span> @Html.Sitecore().Field("Savings")</span><br />
+                                <span class="bar" ng-style="{'height': getTCOHeight('sprint') }" ng-bind="calculateTCO('sprint') | currency"></span>
+                            </div>
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')">
+                                <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('att')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('att') | currency"></span> @Html.Sitecore().Field("Savings")</span><br />
+                                <span class="bar" ng-style="{'height': getTCOHeight('att') }" ng-bind="calculateTCO('att') | currency"></span>
+                            </div>*@
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Savings Over 2 Years")
+                            </div>
+                            <div class="table-cell tco current-plan"></div>
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')">
+                                <span ng-bind="getTotalSavings('sprint') | currency"></span>
+                            </div>
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')">
+                                <span ng-bind="getTotalSavings('att') | currency"></span>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="plan-table">
+                        <div class="table-row single-cell">
+                            <div class="full-row">
+                                <strong>@Html.Sitecore().Field("Fees To Switch")</strong>
+                            </div>
+                        </div>
+                        <div class="table-row" ng-show="showBreakdown">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Early Termination Fee")
+                            </div>
+                            <div class="table-cell current-plan">
+                                <span ng-bind="connect.validas.totalEtf | currency"></span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                -   
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                -
+                            </div>
+                        </div>
+                        <div class="table-row" ng-show="showBreakdown">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Leased Device Payoff Fee")
+                            </div>
+                            <div class="table-cell current-plan">
+                                <span ng-bind="connect.validas.leasedPayoffFee | currency"></span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                -
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                -
+                            </div>
+                        </div>
+                        <div class="table-row" ng-show="showBreakdown">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Activation Fee")
+                            </div>
+                            <div class="table-cell current-plan">-</div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <div class="activationFee">
+                                    <span ng-bind="(connect.validas.phoneLines * getCarrier('sprint').fees.activationFee) | currency"></span>
+                                    <span ng-show="connect.validas.phoneLines > 1">( <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines") )</span>
+                                </div>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <div class="activationFee">
+                                    <span ng-bind="(connect.validas.phoneLines * getCarrier('att').fees.activationFee) | currency"></span>
+                                    <span ng-show="connect.validas.phoneLines > 1">( <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines") )</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-row" ng-show="showBreakdown">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Total Fees")
+                            </div>
+                            <div class="table-cell current-plan">
+                                <span ng-bind="connect.validas.leasedPayoffFee + connect.validas.totalEtf | currency"></span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <div class="activationFee">
+                                    <span ng-bind="(connect.validas.phoneLines * getCarrier('sprint').fees.activationFee) | currency"></span>
+                                </div>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <div class="activationFee">
+                                    <span ng-bind="(connect.validas.phoneLines * getCarrier('att').fees.activationFee) | currency"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plan-table">
+                        <div class="table-row single-cell">
+                            <div class="full-row"></div>
+                        </div>
+                        <div class="table-row" ng-show="showBreakdown">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Trade Value")
+                            </div>
+                            <div class="table-cell current-plan">
+                                -
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <span ng-bind="connect.validas.tradeInValue | currency"></span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <span ng-bind="connect.validas.tradeInValue | currency"></span>
+                            </div>
+                        </div>                        
+                        <div class="table-row" ng-show="showBreakdown">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Net Savings Cost")
+                            </div>
+                            <div class="table-cell current-plan">
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <span ng-bind="totalSavingsForCarrier('sprint') | currency"></span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <span ng-bind="totalSavingsForCarrier('att') | currency"></span>
+                            </div>
+                        </div> 
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Plan Selection")
+                            </div>
+                            <div class="table-cell current-plan">
+                                <span class="currentPlan">@Html.Sitecore().Field("Current Plan")</span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('sprint').planId}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('att').planId}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="manual.tpl.html">
+            <div class="manual-calculator">
+                <h4>@Html.Sitecore().Field("Use Calculator Text")</h4>      
+                <div class="grid">
+                    <div class="col left clearfix">
+                        <div class="icon pull-left">
+                            <i class="icon-device"></i>
+                        </div>
+                        <div class="pull-left">
+                            @Html.Sitecore().Field("Number of Phone Lines")
+                        </div>
+                    </div>
+                    <div class="col right numLines">
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 1}" ng-click="manualCalculator.lines = 1">1</div>
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 2}" ng-click="manualCalculator.lines = 2">2</div>
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 3}" ng-click="manualCalculator.lines = 3">3</div>
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 4}" ng-click="manualCalculator.lines = 4">4</div>
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 5}" ng-click="manualCalculator.lines = 5">5</div>
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 6}" ng-click="manualCalculator.lines = 6">6</div>
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 7}" ng-click="manualCalculator.lines = 7">7</div>
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 8}" ng-click="manualCalculator.lines = 8">8</div>
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 9}" ng-click="manualCalculator.lines = 9">9</div>
+                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 10}" ng-click="manualCalculator.lines = 10">10</div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col left clearfix">
+                        <div class="icon pull-left">
+                            <i class="icon-email-small"></i>
+                        </div>
+                        <div class="pull-left">
+                            @Html.Sitecore().Field("Emails Sent Received")<br />
+                            @Html.Sitecore().Field("No Attachments Text")
+                        </div>
+                    </div>
+                    <div class="col right">
+                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.emails"></div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col left clearfix">
+                        <div class="icon pull-left">
+                            <i class="icon-picture"></i>
+                        </div>
+                        <div class="pull-left">
+                            @Html.Sitecore().Field("Uploaded Pictures")<br />
+                            @Html.Sitecore().Field("Posting Pictures Text")
+                        </div>
+                    </div>
+                    <div class="col right">
+                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.pictures"></div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col left clearfix">
+                        <div class="icon pull-left">
+                            <i class="icon-music"></i>
+                        </div>
+                        <div class="pull-left">
+                            @Html.Sitecore().Field("Streaming Music")<br />
+                            @Html.Sitecore().Field("Music Services Text")
+                        </div>
+                    </div>
+                    <div class="col right">
+                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.music"></div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col left clearfix">
+                        <div class="icon pull-left">
+                            <i class="icon-video"></i>
+                        </div>
+                        <div class="pull-left">
+                            @Html.Sitecore().Field("Stream Video")<br />
+                            @Html.Sitecore().Field("Stream Services Text")
+                        </div>
+                    </div>
+                    <div class="col right">
+                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.video"></div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col left clearfix">
+                        <div class="icon pull-left">
+                            <i class="icon-web"></i>
+                        </div>
+                        <div class="pull-left">
+                            @Html.Sitecore().Field("Web Surfing")<br />
+                            @Html.Sitecore().Field("Web Pages Text")
+                        </div>
+                    </div>
+                    <div class="col right">
+                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.surfing"></div>
+                        <div class="sliderLabels">
+                            <span class="none">@Html.Sitecore().Field("None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="suggestion row" ng-class="{grid: isModal}">
+                    <span class="suggestionText">@Html.Sitecore().Field("Based on your estimated usage")</span>
+                    <div class="estimatedData">
+                        <div class="frame">
+                            <div class="recommended" ng-style="{width: calculatorRecommendationInPct() + '%'}" ng-show="calculatorTotalInGB(10) > 0">
+                                <span class="label">@Html.Sitecore().Field("Recommended Data")</span>
+                            </div>
+                            <div class="estimate" ng-style="{width: calculatorTotalInPct() + '%'}"></div>
+                            <div class="estimatedDataLabel" ng-style="{left: estimateLabelLeft() + 'px'}">
+                                @Html.Sitecore().Field("Estimated Usage"): <span ng-bind="calculatorTotalInGB()"></span>GB
+                            </div>
+                        </div>
+                        <div class="dataLabels">
+                            <div class="dataLabel">
+                                0GB
+                            </div>
+                            <div class="dataLabel">
+                                2GB
+                            </div>
+                            <div class="dataLabel">
+                                4GB
+                            </div>
+                            <div class="dataLabel">
+                                6GB
+                            </div>
+                            <div class="dataLabel">
+                                8GB
+                                <span class="pull-right">
+                                    @Html.Sitecore().Field("Unlimited")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid" ng-show="isModal">
+                    <div class="col right addToCart">
+                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}" class="button">@Html.Sitecore().Field("Modal Button Text")</a>
+                    </div>
+                </div>
+                <div class="stretch" ng-show="!isModal">
+                    <div class="plan-table">
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Network Provider")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <div class="mobile-poweredBy">
+                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
+                                    <span>powered by: <strong>@Html.Sitecore().Field("Sprint") </strong></span>
+                                </div>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <div class="mobile-poweredBy">
+                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
+                                    <span>powered by: <strong>@Html.Sitecore().Field("ATT") </strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Coverage Map")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                @Html.Sitecore().Field("Nationwide CDMA Network")
+                                <a href="/services/mobile/coverage-map#?carrier=sprint">@Html.Sitecore().Field("Launch Coverage Map")</a>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                @Html.Sitecore().Field("Nationwide GSM Network")
+                                <a href="/services/mobile/coverage-map#?carrier=att">@Html.Sitecore().Field("Launch Coverage Map")</a>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Phone Lines")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <span ng-bind="manualCalculator.lines"></span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <span ng-bind="manualCalculator.lines"></span>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Monthly Data")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <div ng-show="getManualRecommendation('sprint').data < 1000000">
+                                    <span ng-bind="getManualRecommendation('sprint').data"></span> GB
+                                </div>
+                                <div ng-show="getManualRecommendation('sprint').data == 1000000">
+                                    @Html.Sitecore().Field("Unlimited")
+                                </div>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <div ng-show="getManualRecommendation('att').data < 1000000">
+                                    <span ng-bind="getManualRecommendation('att').data"></span> GB
+                                </div>
+                                <div ng-show="getManualRecommendation('att').data == 1000000">
+                                    @Html.Sitecore().Field("Unlimited")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Text And Talk")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                @Html.Sitecore().Field("Unlimited")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                @Html.Sitecore().Field("Unlimited")
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Monthly Cost")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                $<span ng-bind="getManualRecommendation('sprint').price"></span>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                $<span ng-bind="getManualRecommendation('att').price"></span>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell label">
+                                @Html.Sitecore().Field("Plan Selection")
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
+                            </div>
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('att').planId}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+    </div>
+</article>
+@if(Model.IsModal)
+{
+    @Html.Raw("</div>")
+}

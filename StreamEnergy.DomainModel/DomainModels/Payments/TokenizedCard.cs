@@ -18,6 +18,9 @@ namespace StreamEnergy.DomainModels.Payments
         public string CardToken { get; set; }
 
         [Required]
+        public string Type { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         public DateTime ExpirationDate { get; set; }

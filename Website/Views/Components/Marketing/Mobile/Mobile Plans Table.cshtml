@@ -1,0 +1,33 @@
+﻿<article class="marketing marketingIntro mobile mobile-plans-table">
+    <div class="wrapper">
+        <h1>@Html.Sitecore().Field("Header")</h1>
+        <table>
+            <thead>
+                <tr>
+                    <td></td>
+                    <td><h3>@Html.Sitecore().Field("Individual Header")</h3></td>
+                    <td><h3>@Html.Sitecore().Field("Shared Header")</h3></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="label">
+                        <h3>@Html.Sitecore().Field("Consumer Plans")</h3>
+                        <p>@Html.Sitecore().Field("Consumer Plans Link")</p>
+                    </td>
+                    <td>@Html.Sitecore().Field("Consumer Individual Plans")</td>
+                    <td>@Html.Sitecore().Field("Consumer Shared Plans")</td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        <h3>@Html.Sitecore().Field("Business Plans")</h3>
+                        <p>@Html.Sitecore().Field("Business Plans Link")</p>
+                    </td>
+                    <td>@Html.Sitecore().Field("Business Individual Plans")</td>
+                    <td>@Html.Sitecore().Field("Business Shared Plans")</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footnotes">@Html.Sitecore().Field("Footnotes")</div>
+    </div>
+</article>

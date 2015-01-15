@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the cart on enrollment page.
  */
-ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService, $modal) {
+ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentStepsService, enrollmentService, mobileEnrollmentService, enrollmentCartService, $modal) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.accountInformationService = accountInformationService;*/
@@ -17,6 +17,14 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.cartHasTDU = enrollmentCartService.cartHasTDU;
     $scope.locationHasService = enrollmentCartService.locationHasService;
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
+    $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
+    $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
+    $scope.mobileEnrollmentService = mobileEnrollmentService;
+    $scope.getCartDevices = enrollmentCartService.getCartDevices;
+    $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
+    $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
+    $scope.getMobileAddresses = enrollmentCartService.getMobileAddresses;
+    $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
 
     /**
     * Show Bill Account Example Modal
@@ -48,6 +56,45 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         }
         enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
+    };
+
+    /**
+    * Change Mobile Plan
+    */
+    $scope.changeMobilePlan = function (service) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
+    };
+
+    /**
+    * Edit Mobile Device
+    */
+    $scope.editMobileDevice = function (item) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        //update the editedDevice object so the Choose Phone page can get its state
+        mobileEnrollmentService.editedDevice = item;
+        //remove the device from the cart items array
+        enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+    };
+
+    /**
+    * Add Mobile Device
+    */
+    $scope.addMobileDevice = function (service) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
     };
 
     /**

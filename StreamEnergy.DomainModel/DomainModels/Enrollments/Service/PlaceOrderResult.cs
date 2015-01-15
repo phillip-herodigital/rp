@@ -10,5 +10,6 @@ namespace StreamEnergy.DomainModels.Enrollments.Service
     {
         public bool IsSuccess { get; set; }
         public string ConfirmationNumber { get; set; }
+        public Payments.PaymentResult PaymentConfirmation { get; set; }
     }
 }
