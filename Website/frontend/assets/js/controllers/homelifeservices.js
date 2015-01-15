@@ -45,6 +45,9 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
                 break;
         }
 
+        document.getElementById("campaignName").value = $scope.campaignName;
+        document.getElementById("productCode").value = $scope.productCode;
+
         // Submit the form to Ocenture
         $timeout(function () {
             document.getElementById("formHomeLifeServices").submit();
