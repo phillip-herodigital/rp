@@ -10,13 +10,12 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class KubraLoginHelper
     {
+        const string uri = "https://secure3.i-doxs.net/StreamEnergy/Default.aspx?screenscrape=true";
         public async Task<bool> Login(Authentication.LoginRequest request)
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://secure3.i-doxs.net");
-
-                var formResult = await client.GetAsync("/StreamEnergy/Default.aspx");
+                var formResult = await client.GetAsync(uri);
                 string formContent = await formResult.Content.ReadAsStringAsync();
 
                 var content = new Dictionary<string, string>
@@ -30,7 +29,7 @@ namespace StreamEnergy.MyStream.Models.Account
                     { "ctl00$Main$LoginBox$btLogin", GetFormValue(formContent, "ctl00$Main$LoginBox$btLogin")       },
                     { "__ncforminfo", GetFormValue(formContent, "__ncforminfo")                                     },
                 };
-                var result = await client.PostAsync("/StreamEnergy/Default.aspx", new FormUrlEncodedContent(content));
+                var result = await client.PostAsync(uri, new FormUrlEncodedContent(content));
                 string resultContent = await result.Content.ReadAsStringAsync();
                 return !resultContent.Contains("UserName and Password combination is invalid. Access denied.");
             }
