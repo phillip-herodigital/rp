@@ -192,13 +192,13 @@
                                 <dd>{{ plan.streamEnergyCharge | number:1 }}&cent;</dd>
                                 <dt>@Html.Sitecore().Field("TDU Charges Label")</dt>
                                 <dd ng-if="plan.tduCharges != ''">{{ plan.tduCharges }}</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'AEP Central Texas'">@Html.Sitecore().Field("Aep Central TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'AEP North Texas'">@Html.Sitecore().Field("Aep North TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'TNMP'">@Html.Sitecore().Field("Tnmp TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'ONCOR'">@Html.Sitecore().Field("Oncor TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'Centerpoint'">@Html.Sitecore().Field("Centerpoint TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'Sharyland McAllen'">@Html.Sitecore().Field("Sharyland Mcallen TDU Charges")</dd>
-                                <dd ng-if="plan.tduCharges == '' && provider == 'Sharyland'">@Html.Sitecore().Field("Sharyland Utilities TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.provider == 'AEP Central Texas'">@Html.Sitecore().Field("Aep Central TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.provider == 'AEP North Texas'">@Html.Sitecore().Field("Aep North TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.provider == 'TNMP'">@Html.Sitecore().Field("Tnmp TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.provider == 'ONCOR'">@Html.Sitecore().Field("Oncor TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.provider == 'Centerpoint'">@Html.Sitecore().Field("Centerpoint TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.provider == 'Sharyland McAllen'">@Html.Sitecore().Field("Sharyland Mcallen TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && plan.provider == 'Sharyland'">@Html.Sitecore().Field("Sharyland Utilities TDU Charges")</dd>
                                 <dt>@Html.Sitecore().Field("Minimum Usage Fee Label")</dt>
                                 <dd ng-bind-html="plan.minimumUsageFee | unsafe"></dd>
                             </dl>
