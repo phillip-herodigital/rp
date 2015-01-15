@@ -38,9 +38,9 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         }
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
-                if (entry.value && entry.value.offerSelections && entry.value.offerSelections.length) {
+                if (entry.value && !_(entry.key).contains('Mobile') && entry.value.offerSelections && entry.value.offerSelections.length) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.offerSelections[0].offerId;
-                } else if (entry.value && entry.value.availableOffers.length == 1) {
+                } else if (entry.value && !_(entry.key).contains('Mobile') && entry.value.availableOffers.length == 1) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;
                 }
             });

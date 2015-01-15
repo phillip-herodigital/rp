@@ -11,8 +11,20 @@
             </header>
             <div class="content">
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
-                <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
-                    <div class="utility-plan" ng-if="cartHasUtility()">
+                <div class="cart-item" ng-repeat="(id, location) in getMobileAddresses()" ng-if="cartHasMobile()">
+                    <div class="mobile-plan">
+                        <h2 ng-if="$first">@Html.Sitecore().Field("Mobile Services")</h2>
+                        <div class="plan-type" ng-show="getCartCount() - getDevicesCount() == 0">
+                            {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
+                        </div>
+                        <div class="plan-type clearfix" ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                            <div ng-include src="'cart/' + offerInformation.key"></div>
+                        </div>
+                        <div ng-include src="'cart/MobileDevices'"></div>
+                    </div>
+                </div>
+                <div class="cart-item" ng-repeat="(id, location) in getUtilityAddresses()" ng-if="cartHasUtility()">
+                    <div class="utility-plan">
                         <h2 ng-if="$first">@Html.Sitecore().Field("Energy Plan")</h2>
                         <address>
                             <h3>@Html.Sitecore().Field("Service Address Text")</h3>
@@ -22,16 +34,6 @@
                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                             <div ng-include src="'cart/' + offerInformation.key"></div>
                         </div>
-                    </div>
-                    <div class="mobile-plan" ng-if="cartHasMobile()">
-                        <h2>@Html.Sitecore().Field("Mobile Services")</h2>
-                        <div class="plan-type" ng-show="getCartCount() - getDevicesCount() == 0">
-                            {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
-                        </div>
-                        <div class="plan-type clearfix" ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                            <div ng-include src="'cart/' + offerInformation.key"></div>
-                        </div>
-                        <div ng-include src="'cart/MobileDevices'"></div>
                     </div>
                 </div>
                 @*<div class="buttons">

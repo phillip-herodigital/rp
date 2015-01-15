@@ -82,6 +82,12 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         }
     };
 
+    $scope.getTotalSavings = function(carrier) {
+        if(typeof($scope.connect.validas) === 'undefined' || !$scope.hasRecommendationForCarrier(carrier)) { return 0; }
+
+        return ($scope.connect.validas.averageMonthlyCost - $scope.getValidasRecommendation(carrier).price) * $scope.formData.selectedTimeframe;
+    };
+
     $scope.calculateTCO = function(plan) {
         var total = 0,
         monthlyPrice = 0,
@@ -179,7 +185,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         var fees = $scope.connect.validas.leasedPayoffFee + $scope.connect.validas.totalEtf +
                     ($scope.connect.validas.phoneLines * $scope.getCarrier(carrier).fees.activationFee);
 
-        var savings = $scope.calculateTCO('currentPlan') - $scope.calculateTCO(carrier);
+        //var savings = $scope.calculateTCO('currentPlan') - $scope.calculateTCO(carrier);
+        var savings = $scope.getTotalSavings(carrier);
 
         return parseFloat($scope.connect.validas.tradeInValue) + savings - fees; 
     };
@@ -293,9 +300,11 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         };
         
         
-        /*$scope.connect.username = "5164496292";
+        /*
+        $scope.connect.username = "5164496292";
         $scope.connect.password = "37Beetlestone";
         */
+        
         /*
         $scope.connect.validas = {
             "billingCount": 1,
@@ -329,9 +338,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 }
             ]
         };
-    /*/
-    /*
-        $scope.connect.validas = {
+        */
+    
+        /*$scope.connect.validas = {
             "averageMonthlyCost": 120,
             "averageMonthlyData": 2608,
             "billingCount": 1,
@@ -353,8 +362,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
             "totalEtf": 0,
             "tradeInValue": "42.95"
         };
-        $scope.connected = true;
-    */
+        $scope.connected = true;*/
+    
 
     };
 
