@@ -304,6 +304,9 @@ namespace StreamEnergy.Services.Clients
                     PortalId = customer.AspNetUserProviderKey,
                     TCPAPreference = "NA"
                 });
+
+            response.EnsureSuccessStatusCode();
+
             dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
             return ((string)data.Status.ToString()) == "Success";

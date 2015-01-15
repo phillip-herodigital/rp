@@ -59,19 +59,26 @@ namespace StreamEnergy.UserMigration.Kubra
 
         private async Task ImportUser(UserRecord userRecord)
         {
-            if (Membership.GetUser(prefix + userRecord.Username) != null)
+            try
             {
-                await MarkComplete(userRecord, usernameCollision: true);
+                if (Membership.GetUser(prefix + userRecord.Username) != null)
+                {
+                    await MarkComplete(userRecord, usernameCollision: true);
+                }
+                else
+                {
+
+                    var userProfile = await membership.CreateUser(prefix + userRecord.Username, globalCustomerId: userRecord.GlobalCustomerId);
+
+                    userProfile.ImportSource = StreamEnergy.DomainModels.Accounts.ImportSource.KubraAccounts;
+                    userProfile.Save();
+
+                    await MarkComplete(userRecord, usernameCollision: false);
+                }
             }
-            else
+            catch
             {
-
-                var userProfile = await membership.CreateUser(prefix + userRecord.Username, email: userRecord.EmailAddress, globalCustomerId: userRecord.GlobalCustomerId);
-
-                userProfile.ImportSource = StreamEnergy.DomainModels.Accounts.ImportSource.KubraAccounts;
-                userProfile.Save();
-
-                await MarkComplete(userRecord, usernameCollision: false);
+                MarkComplete(userRecord, otherError: true).Wait();
             }
         }
 
@@ -84,7 +91,7 @@ SELECT [ID]
       ,[EmailAddress]
       ,[KubraUsername]
   FROM [dbo].[Customer]
---WHERE [PortalImportStatus] IS NULL
+WHERE [PortalImportStatus] IS NULL
 ", db))
             {
                 db.Open();
@@ -106,12 +113,11 @@ SELECT [ID]
             }
         }
 
-        private async Task MarkComplete(UserRecord userRecord, bool usernameCollision)
+        private async Task MarkComplete(UserRecord userRecord, bool usernameCollision = false, bool otherError = false)
         {
             // TODO - load from database
             using (var db = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["kubraImportList"].ConnectionString))
             using (var command = new System.Data.SqlClient.SqlCommand(@"
-
 UPDATE [dbo].[Customer]
    SET [PortalImportStatus] = @importStatus
       ,[PortalUsernameConflict] = @usernameConflict
@@ -120,9 +126,9 @@ UPDATE [dbo].[Customer]
             {
                 await db.OpenAsync();
 
-                command.Parameters.Add("@importStatus", System.Data.SqlDbType.NVarChar).Value = usernameCollision ? "Error" : "Success";
+                command.Parameters.Add("@importStatus", System.Data.SqlDbType.NVarChar).Value = (usernameCollision || otherError) ? "Error" : "Success";
                 command.Parameters.Add("@usernameConflict", System.Data.SqlDbType.NVarChar).Value = usernameCollision ? "Y" : "N";
-                command.Parameters.Add("@usernameConflict", System.Data.SqlDbType.Int).Value = userRecord.Id;
+                command.Parameters.Add("@id", System.Data.SqlDbType.Int).Value = userRecord.Id;
 
                 await command.ExecuteNonQueryAsync();
             }
