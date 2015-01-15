@@ -58,6 +58,8 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (!internalContext.PlaceOrderAsyncResult.IsCompleted)
                 return this.GetType();
 
+            if (context.W9BusinessData != null)
+                return typeof(GenerateW9State);
             return await base.InternalProcess(context, internalContext);
         }
 
