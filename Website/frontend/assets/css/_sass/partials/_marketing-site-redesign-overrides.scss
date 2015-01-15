@@ -662,6 +662,35 @@ article.mobile-plan-intro {
     }
 }
 
+article.mobile-plans-table {
+    h3 {
+        margin: 0;
+    }
+    .label {
+        text-align: left;
+    }
+    table {
+        margin-bottom: 10px;
+        td {
+            padding: 10px;
+        }
+        .starting-price {
+            margin-top: 0;
+            font-weight: 600;
+            font-size: 16px;
+            .price {
+                display: block;
+                font-size: 24px;
+            }
+        }
+    }
+    .footnotes {
+        text-align: left;
+        font-size: 14px;
+        color: #999999;
+    }
+}
+
 article.mobile-pricing-plans {
 
     // div.intro {
