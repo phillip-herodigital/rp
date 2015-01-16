@@ -29,10 +29,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var items = from folder in ElectronicToolkitFolder.Children
                         from subfolder in folder.Children
                         from item in subfolder.Children
+                        let itemType = item.TemplateID.ToString() == "{95C8BC9B-59FC-4A88-B36E-7AC4D77BD09B}" ? "File" : "Link"
                         let file = (MediaItem)(item.Fields["File"] != null ? ((FileField)item.Fields["File"]).MediaItem : null)
+                        let fileUrl = file != null ? MediaManager.GetMediaUrl(file, new MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null
+                        let fileModificationDate = file != null ? file.InnerItem.Statistics.Updated : DateTime.MinValue
                         let thumbnail = (MediaItem)(item.Fields["Thumbnail"] != null ? ((ImageField)item.Fields["Thumbnail"]).MediaItem : null)
-                        
-
+                        let linkUrl = item.Fields["Link URL"] != null ? item.Fields["Link URL"].Value : null
+                        let linkModificationDate = item != null ? item.Statistics.Updated : DateTime.MinValue
 
                         select new
                         {
@@ -44,8 +47,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             filesize = file != null ? file.Size : 0,
                             featured = item.Fields["Featured"].Value == "On",
                             size = item.Fields["Size"].Value,
-                            modificationDate = file != null ? file.InnerItem.Statistics.Updated : DateTime.MinValue,
-                            publicURL = file != null ? MediaManager.GetMediaUrl(file, new MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null,
+                            modificationDate = itemType == "File" ? fileModificationDate : linkModificationDate,
+                            publicURL = itemType == "File" ? fileUrl : linkUrl,
                             downloadURL = file != null ? MediaManager.GetMediaUrl(file, new MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null,
                             thumbnailURL = thumbnail != null ? MediaManager.GetMediaUrl(thumbnail, new MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null,
                         };
