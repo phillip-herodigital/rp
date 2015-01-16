@@ -943,6 +943,7 @@ article.contact {
 		font-size: 30px;
         &.header-line {
             position: relative;
+            overflow: hidden;
             span {
                 position: relative;
                 padding-right: 20px;
