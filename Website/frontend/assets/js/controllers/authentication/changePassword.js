@@ -3,7 +3,9 @@
  */
 ngApp.controller('AuthChangePasswordCtrl', ['$scope', '$rootScope', '$http', '$window', '$sce', function ($scope, $rootScope, $http, $window, $sce) {
 	// create a blank object to hold the form information
-	$scope.formData = {};
+    $scope.formData = {};
+
+    $scope.KubraImport = $window.location.href.indexOf("import=KubraAccounts");
 
 	// process the getUserChallengeQuestions form
 	$scope.changePassword = function() {
