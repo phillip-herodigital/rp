@@ -45,26 +45,21 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
             }).value();
         }).flatten().filter().value();
 
-        if ($scope.getCartTotal() > 0) {
-            $scope.completeOrder.creditCard().then(function (paymentInfo) {
-                enrollmentService.setConfirmOrder({
-                    additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
-                    agreeToTerms: $scope.completeOrder.agreeToTerms,
-                    paymentInfo: paymentInfo,
-                    depositWaivers: depositWaivers,
-                    w9BusinessData: null
-                });
-            });
-        } else {
+        var setConfirmOrder = function (paymentInfo) {
             enrollmentService.setConfirmOrder({
                 additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
-                paymentInfo: null,
+                paymentInfo: paymentInfo,
                 depositWaivers: depositWaivers,
                 w9BusinessData: _.keys($scope.w9BusinessData).length ? $scope.w9BusinessData : null
             });
-        }
+        };
 
+        if ($scope.getCartTotal() > 0) {
+            $scope.completeOrder.creditCard().then(setConfirmOrder);
+        } else {
+            setConfirmOrder(null);
+        }
     };
 
     /**

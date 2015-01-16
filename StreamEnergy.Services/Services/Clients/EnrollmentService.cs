@@ -575,7 +575,7 @@ namespace StreamEnergy.Services.Clients
 
             var streamCustomerId = internalContext.GlobalCustomerId;
             var originalSaveState = internalContext.EnrollmentSaveState.Data;
-            var depositInfo = internalContext.Deposit;
+            var depositInfo = internalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<OfferPayment>>();
             
             List<object> initialPayments = new List<object>();
             if (context.PaymentInfo is DomainModels.Payments.TokenizedCard)
@@ -618,8 +618,9 @@ namespace StreamEnergy.Services.Clients
                 GlobalCustomerID = streamCustomerId,
                 Authorizations = new[] { new KeyValuePair<string, bool>("TermsAndConditions", true) }.Concat(context.AdditionalAuthorizations.SelectMany(ConvertAuthorization)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
                 EnrollmentAccounts = from orderEntry in originalSaveState.Results
-                                     join depositAmounts in depositInfo on new { orderEntry.Location, orderEntry.Offer.Id } equals new { depositAmounts.Location, depositAmounts.Offer.Id }
-                                     let deposit = depositAmounts.Details.RequiredAmounts.Any(amt => amt is DepositOfferPaymentAmount && amt.DollarAmount > 0)
+                                     let hasDeposit = depositInfo
+                                        .Where(depositAmounts => orderEntry.Location == depositAmounts.Location && orderEntry.Offer.Id == depositAmounts.Offer.Id)
+                                        .Any(depositAmounts => depositAmounts.Details.RequiredAmounts.Any(amt => amt is DepositOfferPaymentAmount && amt.DollarAmount > 0))
                                      join locationService in context.Services on orderEntry.Location equals locationService.Location
                                      let offer = locationService.SelectedOffers.FirstOrDefault(o => o.Offer.Id == orderEntry.Offer.Id)
                                      where offer != null
@@ -627,7 +628,7 @@ namespace StreamEnergy.Services.Clients
                                      {
                                          EnrollmentAccountId = orderEntry.Details.GlobalEnrollmentAccountId,
                                          DepositWaiverRequested = offer.WaiveDeposit,
-                                         DepositPaymentMade = deposit && !offer.WaiveDeposit
+                                         DepositPaymentMade = hasDeposit && !offer.WaiveDeposit
                                      },
                 InitialPayments = initialPayments,
                 RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted

@@ -58,6 +58,12 @@ namespace StreamEnergy.DomainModels.Enrollments
                     // some kind of enrollment error
                     return typeof(EnrollmentErrorState);
                 }
+
+                if (context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+                {
+                    // currently aren't doing id/credit check for commercial customers
+                    return typeof(CompleteOrderState);
+                }
                 return await base.InternalProcess(context, internalContext);
             }
         }
