@@ -152,8 +152,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                         {
 
                                             var passwordResetToken = resetPasswordTokenManager.GetPasswordResetToken(request.Username);
-                                            
-                                            var uri = "/auth/change-password?token={token}&username={username}".Format(new { token = HttpUtility.UrlEncode(passwordResetToken), username = HttpUtility.UrlEncode(request.Username) });
+
+                                            var uri = "/auth/change-password?token={token}&username={username}&import={import}".Format(new { token = HttpUtility.UrlEncode(passwordResetToken), username = HttpUtility.UrlEncode(request.Username), import = ImportSource.KubraAccounts.ToString() });
 
                                             // password requirements stronger than given password
                                             return Request.CreateResponse(new
