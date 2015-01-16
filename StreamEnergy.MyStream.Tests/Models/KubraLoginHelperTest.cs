@@ -11,7 +11,7 @@ namespace StreamEnergy.MyStream.Models.Tests
         public void KubraLogin()
         {
             // Arrange
-            var kubraLogin = new KubraLoginHelper();
+            var kubraLogin = new KubraLoginHelper(null);
 
             // Act
             var loginSuccess = kubraLogin.Login(new MyStream.Models.Authentication.LoginRequest { Username = "chrishayden", Password = "not-correct" }).Result;
