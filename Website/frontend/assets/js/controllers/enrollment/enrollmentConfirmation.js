@@ -48,8 +48,8 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
         }).value();
     });
 
-    $scope.getConfirmationDevices = function() {
-        return selectedDevices;
+    $scope.getConfirmationDeviceDetails = function(deviceId) {
+        return _.find(selectedDevices, { id: deviceId });
     }
 
     /**

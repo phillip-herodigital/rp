@@ -238,6 +238,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .reduce(sum, 0);
         },
 
+        getDeviceDetails: function (deviceId) {
+            return _.find(cart.items, { id: deviceId });
+        },
+
         getProratedCost: function() {
             var plan = enrollmentCartService.getCartDataPlan();
             // a and b are javascript Date objects

@@ -27,6 +27,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getDeviceTax = enrollmentCartService.getDeviceTax;
     $scope.getDeviceActivationFee = enrollmentCartService.getDeviceActivationFee;
     $scope.getDeviceDeposit = enrollmentCartService.getDeviceDeposit;
+    $scope.getDeviceDetails = enrollmentCartService.getDeviceDetails;
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
 

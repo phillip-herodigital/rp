@@ -180,8 +180,10 @@ namespace StreamEnergy.MyStream.Controllers
                 Device = child.Fields["Network Devices"].Value,
                 StartingPrice = child.Fields["Starting Price"].Value,
                 Header = child.Fields["Network Header"].Value,
-                IndividualPlans = child.Fields["Individual Plans"].Value,
-                GroupPlans = child.Fields["Group Plans"].Value
+                IndividualPlansResidential = child.Fields["Individual Plans - Residential"].Value,
+                GroupPlansResidential = child.Fields["Group Plans - Residential"].Value,
+                IndividualPlansCommercial = child.Fields["Individual Plans - Commercial"].Value,
+                GroupPlansCommercial = child.Fields["Group Plans - Commercial"].Value
             });
 
             return View("~/Views/Components/Mobile Enrollment/Choose Network.cshtml", new ChooseNetwork
