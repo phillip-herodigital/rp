@@ -274,12 +274,12 @@
                     </div>
                     <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].taxTotal | currency }}</div>
                 </div>
-                <div class="line-item clearfix" ng-if="item.type == 'new' && item.installmentMonths != null && selectedOffer.payments.requiredAmounts[0].depositTotal > 0">
+                <div class="line-item clearfix" ng-if="item.type == 'new' && item.installmentMonths != null && selectedOffer.payments.requiredAmounts[0].downPayment > 0">
                     <div class="description">
                         <h3>@Html.Sitecore().Field("Deposit Due Text")</h3>
                         <p class="note">@Html.Sitecore().Field("Deposit Description")</p>
                     </div>
-                    <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].depositTotal | currency }}</div>
+                    <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].downPayment | currency }}</div>
                 </div>
             </div>
             <div class="plan-summary" ng-if="false">
