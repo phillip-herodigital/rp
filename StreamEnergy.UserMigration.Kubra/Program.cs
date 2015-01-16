@@ -21,11 +21,13 @@ namespace StreamEnergy.UserMigration.Kubra
     {
         const string prefix = "extranet\\";
         private readonly MembershipBuilder membership;
+        private readonly IUnityContainer unityContainer;
         private readonly IAccountService accountService;
 
-        public Program(MembershipBuilder membership, IAccountService accountService)
+        public Program(MembershipBuilder membership, IUnityContainer unityContainer, IAccountService accountService)
         {
             this.membership = membership;
+            this.unityContainer = unityContainer;
             this.accountService = accountService;
         }
 
@@ -100,7 +102,7 @@ namespace StreamEnergy.UserMigration.Kubra
                     }
                     else
                     {
-                        var userProfile = await membership.CreateUser(prefix + userRecord.Username, globalCustomerId: userRecord.GlobalCustomerId);
+                        var userProfile = UserProfile.Locate(unityContainer, prefix + userRecord.Username);
                         if (userProfile.GlobalCustomerId != Guid.Empty && userProfile.GlobalCustomerId != userRecord.GlobalCustomerId)
                         {
                             await MarkComplete(userRecord, usernameCollision: true);
