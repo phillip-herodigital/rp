@@ -30,6 +30,7 @@
                             <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                             {{ location.location.address | address }}<br />
                             <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
+                            <span ng-if="customerType == 'commercial' || !locationHasService(location) && !isRenewal"> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a></span>
                         </address>
                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                             <div ng-include src="'cart/' + offerInformation.key"></div>
@@ -86,6 +87,7 @@
             <div class="plan-text">
                 <span class="plan">{{ selectedOffer.offer.name }}</span><br />
                 <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
             </div>
         </div>
         <div class="rate">
@@ -107,6 +109,7 @@
             <div class="plan-text">
                 <span class="plan">{{ selectedOffer.offer.name }}</span><br />
                 <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
             </div>
         </div>
         <div class="rate">
@@ -157,7 +160,7 @@
                 <div class="options" ng-if="item.type == 'new'"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
                 <div class="options" ng-if="item.type == 'existing' && item.simNumber">@Html.Sitecore().Field("SIM") {{ item.simNumber }}</div>
                 <div class="options" ng-if="item.type == 'existing' && !item.simNumber">@Html.Sitecore().Field("IMEI") {{ item.imeiNumber }}</div>
-                <a href="" ng-click="editMobileDevice(item)">@Html.Sitecore().Field("Edit Phone Link")</a>
+                <a href="" ng-click="editMobileDevice(item)">@Html.Sitecore().Field("Edit Phone Link")</a> | <a href="" ng-click="deleteMobileDevice(item)">@Html.Sitecore().Field("Remove Phone Link")</a>
             </div>
         </div>
         <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span class="per-month" ng-if="item.buyingOption != 'New'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>

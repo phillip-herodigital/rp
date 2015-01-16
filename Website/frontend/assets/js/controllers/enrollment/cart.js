@@ -86,6 +86,19 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
+    * Delete Mobile Device
+    */
+    $scope.deleteMobileDevice = function (item) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        //remove the device from the cart items array
+        enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+    };
+
+    /**
     * Add Mobile Device
     */
     $scope.addMobileDevice = function (service) {
