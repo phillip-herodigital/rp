@@ -157,12 +157,16 @@ SELECT [ID]
             }
             if (options.SingleRecord != null)
             {
-                query += "\n  AND Id=" + options.SingleRecord;
+                query += "\n  AND Id=@id";
             }
 
             using (var db = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["kubraImportList"].ConnectionString))
             using (var command = new System.Data.SqlClient.SqlCommand(query, db))
             {
+                if (options.SingleRecord != null)
+                {
+                    command.Parameters.Add(new System.Data.SqlClient.SqlParameter("@id", int.Parse(options.SingleRecord)));
+                }
                 db.Open();
                 using (var reader = command.ExecuteReader())
                 {
