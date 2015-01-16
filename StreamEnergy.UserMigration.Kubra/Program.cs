@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Security;
 using Microsoft.Practices.Unity;
 using StackExchange.Redis;
+using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Accounts.Create;
 using StreamEnergy.Logging;
 using StreamEnergy.Services.Clients;
@@ -20,10 +21,12 @@ namespace StreamEnergy.UserMigration.Kubra
     {
         const string prefix = "extranet\\";
         private readonly MembershipBuilder membership;
+        private readonly IAccountService accountService;
 
-        public Program(MembershipBuilder membership)
+        public Program(MembershipBuilder membership, IAccountService accountService)
         {
             this.membership = membership;
+            this.accountService = accountService;
         }
 
         static void Main(string[] args)
@@ -44,12 +47,12 @@ namespace StreamEnergy.UserMigration.Kubra
             ((IContainerSetupStrategy)new StreamEnergy.Services.Clients.StreamConnectContainerSetup()).SetupUnity(container);
             ((IContainerSetupStrategy)new StreamEnergy.Services.Clients.ClientContainerSetup()).SetupUnity(container);
 
-            container.Resolve<Program>().Run();
+            container.Resolve<Program>().Run(options);
         }
 
-        private void Run()
+        private void Run(Options options)
         {
-            var users = LoadRecords().ToArray();
+            var users = LoadRecords(options).ToArray();
             var completedCount = 0;
             Stopwatch sw = new Stopwatch();
 
@@ -67,7 +70,7 @@ namespace StreamEnergy.UserMigration.Kubra
             sw.Start();
             foreach (var entry in users.Select((e, index) => new { index, e }))
             {
-                executing.Add(ImportUser(entry.e).ContinueWith(t => onCompleted(entry.e.Username)));
+                executing.Add(ImportUser(entry.e, options).ContinueWith(t => onCompleted(entry.e.Username)));
 
                 if (executing.Count >= max)
                 {
@@ -84,17 +87,41 @@ namespace StreamEnergy.UserMigration.Kubra
             Task.WaitAll(executing.ToArray());
         }
 
-        private async Task ImportUser(UserRecord userRecord)
+        private async Task ImportUser(UserRecord userRecord, Options options)
         {
             try
             {
-                if (Membership.GetUser(prefix + userRecord.Username) != null)
+                var user = Membership.GetUser(prefix + userRecord.Username);
+                if (user != null)
                 {
-                    await MarkComplete(userRecord, usernameCollision: true);
+                    if (!options.Retry)
+                    {
+                        await MarkComplete(userRecord, usernameCollision: true);
+                    }
+                    else
+                    {
+                        var userProfile = await membership.CreateUser(prefix + userRecord.Username, globalCustomerId: userRecord.GlobalCustomerId);
+                        if (userProfile.GlobalCustomerId != Guid.Empty && userProfile.GlobalCustomerId != userRecord.GlobalCustomerId)
+                        {
+                            await MarkComplete(userRecord, usernameCollision: true);
+                            return;
+                        }
+
+                        userProfile.GlobalCustomerId = userRecord.GlobalCustomerId;
+                        userProfile.ImportSource = StreamEnergy.DomainModels.Accounts.ImportSource.KubraAccounts;
+                        userProfile.Save();
+
+                        var customer = await accountService.GetCustomerByCustomerId(userRecord.GlobalCustomerId);
+                        customer.AspNetUserProviderKey = user.ProviderUserKey.ToString();
+                        customer.Username = prefix + userRecord.Username;
+                        customer.EmailAddress = null;
+                        await accountService.UpdateCustomer(customer);
+
+                        await MarkComplete(userRecord, usernameCollision: false);
+                    }
                 }
                 else
                 {
-
                     var userProfile = await membership.CreateUser(prefix + userRecord.Username, globalCustomerId: userRecord.GlobalCustomerId);
 
                     userProfile.ImportSource = StreamEnergy.DomainModels.Accounts.ImportSource.KubraAccounts;
@@ -103,23 +130,38 @@ namespace StreamEnergy.UserMigration.Kubra
                     await MarkComplete(userRecord, usernameCollision: false);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 MarkComplete(userRecord, otherError: true).Wait();
             }
         }
 
-        private IEnumerable<UserRecord> LoadRecords()
+        private IEnumerable<UserRecord> LoadRecords(Options options)
         {
-            using (var db = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["kubraImportList"].ConnectionString))
-            using (var command = new System.Data.SqlClient.SqlCommand(@"
+            var query = @"
 SELECT [ID]
       ,[GlobalCustomerId]
       ,[EmailAddress]
       ,[KubraUsername]
   FROM [dbo].[Customer]
-WHERE [PortalImportStatus] IS NULL
-", db))
+";
+            if (!options.Retry)
+            {
+                query += "WHERE [PortalImportStatus] IS NULL";
+            }
+            else
+            {
+                query += @"WHERE [PortalImportStatus] = 'Error'
+  AND PortalUsernameConflict='N'";
+            }
+            if (options.SingleRecord != null)
+            {
+                query += "\n  AND Id=" + options.SingleRecord;
+            }
+
+            using (var db = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["kubraImportList"].ConnectionString))
+            using (var command = new System.Data.SqlClient.SqlCommand(query, db))
             {
                 db.Open();
                 using (var reader = command.ExecuteReader())
