@@ -67,12 +67,20 @@
                                 <h2>@Html.Raw(network.Header)</h2>
                                 <div class="choose-network-table">
                                     <div class="description">@Html.Raw(network.Description)</div>
-                                    <div class="plan">
-                                        @Html.Raw(network.IndividualPlans)
+                                    <div class="plan" ng-if="customerType != 'commercial'">
+                                        @Html.Raw(network.IndividualPlansResidential)
                                         <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
                                     </div>
-                                    <div class="plan">
-                                        @Html.Raw(network.GroupPlans)
+                                    <div class="plan" ng-if="customerType != 'commercial'">
+                                        @Html.Raw(network.GroupPlansResidential)
+                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                    </div>
+                                    <div class="plan" ng-if="customerType == 'commercial'">
+                                        @Html.Raw(network.IndividualPlansCommercial)
+                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                    </div>
+                                    <div class="plan" ng-if="customerType == 'commercial'">
+                                        @Html.Raw(network.GroupPlansCommercial)
                                         <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
                                     </div>
                                 </div>
