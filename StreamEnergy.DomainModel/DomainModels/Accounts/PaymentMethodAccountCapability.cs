@@ -11,9 +11,9 @@ namespace StreamEnergy.DomainModels.Accounts
     {
         public const string Qualifier = "PaymentMethod";
 
-        public PaymentMethodAccountCapability()
+        public PaymentMethodAccountCapability(List<AvailablePaymentMethod> availablePaymentMethods = null)
         {
-            AvailablePaymentMethods = new List<AvailablePaymentMethod>();
+            AvailablePaymentMethods = availablePaymentMethods != null ? availablePaymentMethods : new List<AvailablePaymentMethod>();
         }
 
         public string CapabilityType

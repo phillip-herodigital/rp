@@ -51,7 +51,7 @@ namespace StreamEnergy.Services.Clients
             return capability.AglcPremisesNumber;
         }
 
-        string ILocationAdapter.GetSystemOfRecord(IEnumerable<IServiceCapability> capabilities)
+        string ILocationAdapter.GetSystemOfRecord()
         {
             return "ISTA";
         }
@@ -83,14 +83,15 @@ namespace StreamEnergy.Services.Clients
         {
             var georgiaService = location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
             var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
-           
+
+
             return new LocationOfferSet
             {
                 Offers = (from product in streamConnectProductResponse.Products
-                          where product.Rates.Any(r => r.Unit == "Therm")
+                          where ((IEnumerable<dynamic>)product.Rates).Any(r => r.Unit == "Therm")
                           group product by product.ProductCode into products
                           let product = products.First()
-                          let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode)
+                          let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode.ToString())
                           where productData != null
                           select new GeorgiaGas.Offer
                           {
@@ -104,9 +105,9 @@ namespace StreamEnergy.Services.Clients
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],
 
-                              Rate = product.Rates.First(r => r.EnergyType == "Average").Value,
+                              Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value,
                               TermMonths = product.Term,
-                              RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
+                              RateType = ((IEnumerable<dynamic>)product.Rates).Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               CancellationFee = productData.Fields["Early Termination Fee"],
                               MonthlyServiceCharge = productData.Fields["Monthly Service Charge"],
 
@@ -129,38 +130,29 @@ namespace StreamEnergy.Services.Clients
             return capability.AglcPremisesNumber == null;
         }
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, UserContext context, LocationServices service, SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId, object depositObject)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
-            var georgiaGasOffer = offer.Offer as GeorgiaGas.Offer;
-            var georgiaGasService = service.Location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
-            var serviceStatus = service.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
-            var customerType = service.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
+            var georgiaGasOffer = account.Offer.Offer as GeorgiaGas.Offer;
+            var georgiaGasService = account.Location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
+            var serviceStatus = account.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
+            var customerType = account.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
 
             return new
             {
-                GlobalCustomerId = globalCustomerId.ToString(),
-                SalesInfo = salesInfo,
-                CustomerType = customerType.CustomerType.ToString("g"),
-                EnrollmentAccountId = enrollmentAccountId ?? Guid.Empty,
-                FirstName = context.ContactInfo.Name.First,
-                LastName = context.ContactInfo.Name.Last,
-                BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
-                HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
-                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
-                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
-                SSN = context.SocialSecurityNumber,
-                CurrentProvider = context.PreviousProvider,
-                EmailAddress = context.ContactInfo.Email.Address,
+                ServiceType = "Utility",
+                Key = account.EnrollmentAccountKey,
+                RequestUniqueKey = account.RequestUniqueKey,
+
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    SelectedMoveInDate = (offer.OfferOption is GeorgiaGas.MoveInOfferOption) ? ((GeorgiaGas.MoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
+                    SelectedMoveInDate = (account.Offer.OfferOption is GeorgiaGas.MoveInOfferOption) ? ((GeorgiaGas.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
                     UtilityProvider = JObject.Parse(georgiaGasOffer.Provider),
-                    UtilityAccountNumber = (offer.OfferOption is GeorgiaGas.SwitchOfferOption) ? ((GeorgiaGas.SwitchOfferOption)offer.OfferOption).AglcNumber : georgiaGasService.AglcPremisesNumber,
+                    UtilityAccountNumber = (account.Offer.OfferOption is GeorgiaGas.SwitchOfferOption) ? ((GeorgiaGas.SwitchOfferOption)account.Offer.OfferOption).AglcNumber : georgiaGasService.AglcPremisesNumber,
                     Product = JObject.Parse(georgiaGasOffer.Product),
-                    ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
+                    ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Gas",
-                    Deposit = depositObject
+                    Deposit = StreamConnectUtilities.ToStreamConnectDeposit(account.OfferPayments, account.Offer.WaiveDeposit),
                 }
             };
         }
@@ -186,25 +178,28 @@ namespace StreamEnergy.Services.Clients
             var result = new DomainModels.Accounts.GeorgiaGasAccount
             {
                 Id = details.UtilityAccountNumber,
-                ServiceAddress = serviceAddress,
+                ServiceAddress = serviceAddress
             };
 
-            if (details.AccountPlanDetails != null)
+            if (details.Product != null)
             {
-                var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.AccountPlanDetails.ProductCode) ?? new SitecoreProductInfo
+                var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.Product.ProductCode) ?? new SitecoreProductInfo
                 {
                     Fields = new System.Collections.Specialized.NameValueCollection()
                 };
 
-                result.ProviderId = details.AccountPlanDetails.ProviderId;
-                result.Rate = (decimal)(details.AccountPlanDetails.RateValue.Value ?? 0);
-                result.RateType = (details.AccountPlanDetails.Type == "Fixed") ? RateType.Fixed : RateType.Variable;
-                result.TermMonths = details.AccountPlanDetails.Term;
-                result.ProductId = details.AccountPlanDetails.ProductId;
-                result.ProductCode = details.AccountPlanDetails.ProductCode;
-                result.ProductName = productData.Fields["Name"] ?? details.AccountPlanDetails.Name;
-                result.ProductDescription = productData.Fields["Description"] ?? details.AccountPlanDetails.Description;
+                var rate = (details.Product.Rates != null && details.Product.Rates.Count > 0) ? details.Product.Rates[0] : null;
+
+                result.ProviderId = details.UtilityProvider.Id;
+                result.Rate = (rate != null) ? (decimal)(rate.Value ?? 0) : 0;
+                result.RateType = (rate != null && rate.Type == "Fixed") ? RateType.Fixed : RateType.Variable;
+                result.TermMonths = details.Product.Term;
+                result.ProductId = details.Product.ProductId;
+                result.ProductCode = details.Product.ProductCode;
+                result.ProductName = productData.Fields["Name"] ?? details.Product.Name;
+                result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
                 result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
+                result.CustomerType = (details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial;
             }
             return result;
         }
@@ -221,10 +216,52 @@ namespace StreamEnergy.Services.Clients
             return account.Id;
         }
 
-
         IServiceCapability ILocationAdapter.GetRenewalServiceCapability(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
             return new StreamEnergy.DomainModels.Enrollments.GeorgiaGas.RenewalCapability { Account = account, SubAccount = subAccount };
+        }
+
+        object ILocationAdapter.GetProductRequest(Location location)
+        {
+            return new
+            {
+                ServiceType = "Utility",
+                ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
+                UtilityAccountNumber = ((ILocationAdapter)this).GetUtilityAccountNumber(location.Capabilities),
+            };
+        }
+
+        OfferPayment ILocationAdapter.GetOfferPayment(dynamic entry, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option)
+        {
+            decimal deposit = 0;
+            if (assessDeposit && entry.Premise.Deposit != null)
+                deposit = (decimal)entry.Premise.Deposit.Amount.Value;
+            return new OfferPayment
+            {
+                EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
+                OngoingAmounts = new IOfferPaymentAmount[] 
+                        {
+                        },
+                RequiredAmounts = new IOfferPaymentAmount[] 
+                        {
+                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.SystemOfRecord, DepositAccount = entry.SystemOfRecordAccountNumber }
+                        },
+                PostBilledAmounts = optionRules.GetPostBilledPayments(option)
+            };
+        }
+
+
+        bool ILocationAdapter.HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities)
+        {
+            return capabilities.OfType<CustomerTypeCapability>().SingleOrDefault().CustomerType == EnrollmentCustomerType.Commercial;
+        }
+
+
+        void ILocationAdapter.GetRenewalValues(IOffer offer, out string code, out string id)
+        {
+            var georgiaGasOffer = offer as GeorgiaGas.Offer;
+            code = georgiaGasOffer.Code;
+            id = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1];
         }
     }
 }

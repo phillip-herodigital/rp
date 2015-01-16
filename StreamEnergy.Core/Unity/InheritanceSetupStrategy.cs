@@ -9,16 +9,17 @@ namespace StreamEnergy.Unity
 {
     public abstract class InheritanceSetupStrategy : IContainerSetupStrategy
     {
-        private readonly Type sampleType;
+        private readonly Type[] sampleTypes;
 
-        public InheritanceSetupStrategy(Type sampleType)
+        public InheritanceSetupStrategy(params Type[] sampleTypes)
         {
-            this.sampleType = sampleType;
+            this.sampleTypes = sampleTypes;
         }
 
         public void SetupUnity(IUnityContainer unityContainer)
         {
-            foreach (var registration in from instanceType in sampleType.Assembly.GetTypes()
+            foreach (var registration in from sampleType in sampleTypes
+                                         from instanceType in sampleType.Assembly.GetTypes()
                                              where instanceType.Namespace == sampleType.Namespace
                                              from parentType in GetParentTypes(instanceType)
                                              select new { parentType, instanceType })

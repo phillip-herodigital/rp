@@ -1,0 +1,29 @@
+<article class="marketing mobile" ng-controller="MobileUsageCalculatorModalTestCtrl">
+
+    <script>
+    </script>
+
+    <section>
+        <div class="wrapper">
+
+            <h1>Mobile Usage Calculator Modal Test</h1>
+
+            <span class="note"><a href="" ng-click="showModal('/services/mobile/usage-calculator-template')">Raise Modal</a></span>
+        </div>
+    </section>
+    <aside>
+    </aside>
+</article>
+
+@*
+<!-- this doesn't work -->
+<script type="text/ng-template" id="usage-calculator-modal">
+    <div class="modal">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body scrollable">
+            @Html.Sitecore().Placeholder("usageCalculatorModal")
+        </div>
+    </div>
+</script>
+*@

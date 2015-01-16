@@ -1,10 +1,10 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.HomeLifeServices
 
-<article class="marketing homelife-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
+<article class="module marketing homelife-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
     <form id="formHomeLifeServices" method="post" action="@Html.TranslateDomain("https://streamvalues.com")/buy">
         <input type="hidden" name="clientId" value="@Model.ClientId" />
-        <input type="hidden" name="productCode" value="" ng-value="productCode" />
-        <input type="hidden" name="campaignName" value="@Model.CampaignName" ng-value="campaignName" />
+        <input type="hidden" name="productCode" id="productCode" value="" />
+        <input type="hidden" name="campaignName" id="campaignName" value="@Model.CampaignName" />
         <input type="hidden" name="customerNumber" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.CisAccountNumber : "")" />
         <input type="hidden" name="firstName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.First : "")" />
         <input type="hidden" name="lastName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.Last : "")" />

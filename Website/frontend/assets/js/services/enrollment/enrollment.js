@@ -51,7 +51,7 @@
                 serviceIndexErrors.push(parseInt(capture[1]));
             }
         });
-        if (serviceIndexErrors.length) {
+        if (serviceIndexErrors.length && !_.contains(serviceIndexErrors, enrollmentCartService.getActiveServiceIndex())) {
             enrollmentCartService.setActiveServiceIndex(serviceIndexErrors[0]);
         }
         else if (enrollmentCartService.services.length == 0) {
@@ -156,7 +156,7 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setServiceInformation = function () {
+    service.setServiceInformation = function (overrideServerStep) {
         //Create our empty locations object
         var data = { 'locations': [] };
 
@@ -164,7 +164,7 @@
             data.locations.push(address.location);
         });
 
-        return makeCall('serviceInformation', data);
+        return makeCall('serviceInformation', data, overrideServerStep);
     };
 
     /**
@@ -210,6 +210,35 @@
             service.isLoading = false;
             return result;
         });
+    };
+
+    /**
+    * Set mobile offers
+    * 
+    * @return {object}            Promise object returned when API call has successfully completed.
+    */
+    service.setMobileOffers = function () {
+        var data = {};
+        data.cart = _.map(enrollmentCartService.services, function (cartItem) {
+            return {
+                location: cartItem.location,
+                offerInformationByType: _.map(cartItem.offerInformationByType, function (typedOrderInfo) {
+                    return {
+                        key: typedOrderInfo.key,
+                        value: {
+                            offerSelections: _.map(typedOrderInfo.value.offerSelections, function (offerSelection) {
+                                return {
+                                    offerId: offerSelection.offerId,
+                                    offerOption: offerSelection.offerOption
+                                };
+                            })
+                        }
+                    };
+                })
+            };
+        });
+
+        return makeCall('accountInformation', data, true);
     };
 
     /**

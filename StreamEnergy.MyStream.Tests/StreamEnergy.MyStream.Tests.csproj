@@ -219,13 +219,15 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContainerSetup.cs" />
+    <Compile Include="Models\KubraLoginHelperTest.cs" />
     <Compile Include="Services\Clients\PaymentServiceTest.cs" />
     <Compile Include="Services\Clients\AccountServiceTest.cs" />
-    <Compile Include="Services\Clients\EnrollmentServiceTest.cs" />
+    <Compile Include="Services\Clients\TexasEnrollmentServiceTest.cs" />
     <Compile Include="Services\Clients\GeorgiaEnrollmentServiceTest.cs" />
     <Compile Include="Services\Clients\RenewalServiceTest.cs" />
     <Compile Include="Services\Clients\TestData.cs" />
     <Compile Include="Services\Clients\Timer.cs" />
+    <Compile Include="Services\Clients\MobileEnrollmentServiceTest.cs" />
     <Compile Include="Services\W9Generation.cs" />
     <Compile Include="Services\GetSwtToken.cs" />
     <Compile Include="Sitecore\GeoIpTest.cs" />

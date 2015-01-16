@@ -1,57 +1,87 @@
-<div id="configure-data" ng-if="mobileEnrollment.currentStep == 'configure-data'" ng-controller="MobileEnrollmentConfigureDataCtrl" ng-init="remainingMinutes = '@Html.Sitecore().Field("Remaining Minutes Number")';">
-    <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+<div id="phoneFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('phoneFlowPlans')" ng-controller="MobileEnrollmentConfigureDataCtrl" ng-init="setTimeRemaining('phoneFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("Page Title")</span><br />
+                <span class="block">@Html.Sitecore().Field("Page Title")</span><br />
             </h1>
         </div>
     </div>
     @* Two-column layout for Configure Data *@
-    <section class="wrapper layout cols-2">
-        <section>
-            <article class="enrollment__box enrollment__configure-data">
-                <header>
-                    <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
-                </header>
-                <div class="content">
-                    <h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>
-                    <div class="btn-group btn-group-options mobile-plans">
-                        <div class="button" ng-model="formFields.chosenPlanId" btn-radio="plan.id" ng-repeat="plan in dataPlans.plans" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
-                            <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
-                            <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
-                            <p>
-                                <span class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">GB</span></span>
-                            </p>
-                            <hr />
-                            <ul class="details">
-                                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} hours</span></span></li>
-                                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} hours</span></span></li>
-                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.hoursWebBrowsing }} web pages</span></span></li>
-                            </ul>
-                            <hr />
-                            <p>
-                                <span class="price">
-                                    <span class="original-price" ng-if="plan.specialOffer">{{ plan.specialOfferOriginalPrice | currency }}/mo</span>
-                                    {{ plan.price | currency }}/mo<span ng-if="plan.specialOffer">*</span>
-                                </span>
-                            </p>
-                        </div>
-                        @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
+    <div class="layout">
+        <div class="wrapper cols-2">
+            <section>
+                <article class="enrollment__box enrollment__configure-data">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
+                    </header>
+                    <div class="content">
+                        <h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>
+                        <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'dataPlanList/' + typedOffers.key"></div>
+                        <p class="footnotes">@Html.Sitecore().Field("Special Offer Footnote")</p>
                     </div>
-                    <p class="footnotes">@Html.Sitecore().Field("Special Offer Footnote")</p>
+                    <footer>
+                        <h3>@Html.Sitecore().Field("Header - What About Overages")</h3>
+                        @Html.Sitecore().Field("Text - What About Overages")
+                    </footer>
+                </article>
+                <article class="enrollment__box enrollment__configure-data" ng-show="planSelection.selectedOffers['Mobile'].length && customerType != 'commercial'">
+                    <div class="content additional-services">
+                        <h3>@Html.Sitecore().Field("Additional Services Header")</h3>
+                        <div class="additional-service">
+                            <div class="additional-service-image">
+                                @Html.Sitecore().Field("Energy Services Image")
+                            </div>
+                            <div class="additional-service-content">
+                                @Html.Sitecore().Field("Energy Services Content")
+                                <p><a href="" ng-click="addUtilityAddress()">@Html.Sitecore().Field("Energy Services Link Text") <i class="icon-arrow-right"></i></a></p>
+                            </div>
+                            @Html.Sitecore().Field("Energy Services")
+                        </div>
+                    </div>
+                </article>
+                <div class="clearfix">
+                    <div class="buttons">
+                        <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!planSelection.selectedOffers['Mobile'].length">@Html.Sitecore().Field("Button - Next")</button>
+                        <button type="button" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
+                    </div>
                 </div>
-                <footer>
-                    <h3>@Html.Sitecore().Field("Header - What About Overages")</h3>
-                    @Html.Sitecore().Field("Text - What About Overages")
-                </footer>
-            </article>
-            <div class="clearfix">
-                <button type="button" class="plain plain-footer" ng-click="resetEnrollment()">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
-                <button type="submit" class="pull-right" ng-click="setCurrentStep('complete-order');" ng-disabled="!formFields.chosenPlanId">@Html.Sitecore().Field("Button - Next")</button>
-            </div>
-        </section>
-        <aside>
-            <div ng-include src="'mobile-enrollment-cart'"></div>
-        </aside>
-    </section>
+            </section>
+            <aside>
+                <div ng-include src="'cart-template'"></div>
+            </aside>
+        </div>
+    </div>
 </div>
+
+<script type="text/ng-template" id="dataPlanList/Mobile">
+    <div class="btn-group btn-group-options mobile-plans">
+        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterDataPlans | orderBy:data" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
+            <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
+            <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
+            <p>
+                <span class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></span><br />
+                <span ng-if="!plan.isParentOffer">@Html.Sitecore().Field("Individual Data Description")</span>
+                <span ng-if="plan.isParentOffer">@Html.Sitecore().Field("Group Data Description")</span>
+            </p>
+            <hr />
+            <ul class="details">
+                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} @Html.Sitecore().Field("Hours Text")</span></span></li>
+                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} @Html.Sitecore().Field("Hours Text")</span></span></li>
+                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.webPages }} @Html.Sitecore().Field("Web Pages Text")</span></span></li>
+            </ul>
+            <hr />
+            <p>
+                <span class="price">
+                    <span class="original-price" ng-if="plan.specialOffer">{{ plan.specialOfferOriginalPrice | currency }}@Html.Sitecore().Field("Per Month Text")</span>
+                    {{ plan.rates[0].rateAmount | currency }}@Html.Sitecore().Field("Per Month Text")<span ng-if="plan.specialOffer">*</span>
+                </span>
+            </p>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="dataPlanList/TexasElectricity">
+</script>
+
+<script type="text/ng-template" id="dataPlanList/GeorgiaGas">
+</script>

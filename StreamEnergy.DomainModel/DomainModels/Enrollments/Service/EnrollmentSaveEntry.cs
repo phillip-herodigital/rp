@@ -8,7 +8,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Service
     [Serializable]
     public class EnrollmentSaveEntry
     {
-        public string StreamReferenceNumber { get; set; }
+        public string EnrollmentAccountKeyJson { get; set; }
         public Guid GlobalEnrollmentAccountId { get; set; }
     }
 }

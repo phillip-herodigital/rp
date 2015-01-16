@@ -1,0 +1,161 @@
+//
+// Carousel
+// --------------------------------------------------
+
+
+// Wrapper for the slide container and indicators
+.carousel {
+    position: relative;
+    .wrapper {
+        height: 420px;
+        text-align: left;
+        .content {
+            width: 50%;
+            em {
+                font-size: 26px;
+                text-transform: uppercase;
+            }
+            h1 {
+                font-size: 52px;
+                color: #013c5b;
+                strong {
+                    font-weight: 300;
+                    color: #1086c7;
+                    text-transform: uppercase;
+                }
+            }
+            &.lightText {
+                color: #fff;
+                h1 {
+                    color: #fff;
+                }
+            }
+        }
+        @include breakpoint(small) {
+            height: 200px;
+            .content {
+                width: 65%;
+                em {
+                    font-size: 18px;
+                }
+                h1 {
+                    font-size: 26px;
+                }
+            }
+        }
+    }
+}
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+
+    > .item {
+        display: none;
+        position: relative;
+        background-size: cover;
+        background-position: 50%;
+        @include transition(.6s ease-in-out left);
+
+        // WebKit CSS3 transforms for supported devices
+        // Removing this as it was breaking desktop Safari
+        // @media all and (transform-3d), (-webkit-transform-3d) {
+        //     transition: transform .6s ease-in-out;
+        //     backface-visibility: hidden;
+        //     perspective: 1000;
+
+        //     &.next,
+        //     &.active.right {
+        //         transform: translate3d(100%, 0, 0);
+        //         left: 0;
+        //     }
+        //     &.prev,
+        //     &.active.left {
+        //         transform: translate3d(-100%, 0, 0);
+        //         left: 0;
+        //     }
+        //     &.next.left,
+        //     &.prev.right,
+        //     &.active {
+        //         transform: translate3d(0, 0, 0);
+        //         left: 0;
+        //     }
+        // }
+    }
+
+    > .active,
+    > .next,
+    > .prev {
+        display: block;
+    }
+
+    > .active {
+        left: 0;
+    }
+
+    > .next,
+    > .prev {
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    > .next {
+        left: 100%;
+    }
+    > .prev {
+        left: -100%;
+    }
+    > .next.left,
+    > .prev.right {
+        left: 0;
+    }
+
+    > .active.left {
+        left: -100%;
+    }
+    > .active.right {
+        left: 100%;
+    }
+
+}
+
+// Left/right controls for nav
+// ---------------------------
+.carousel-control {
+    display: none;
+}
+
+// Optional indicator pips
+//
+// Add an unordered list with the following class and add a list item for each
+// slide your carousel holds.
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    right: 20px;
+    max-width: 1040px;
+    margin: 0 auto;
+    z-index: 15;
+    padding-left: 0;
+    list-style: none;
+    text-align: center;
+    text-align: right;
+
+    li {
+        display: inline-block;
+        width:  13px;
+        height: 13px;
+        margin-left: 6px;
+        text-indent: -999px;
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: #fff;
+        @include opacity(.7);
+    }
+    .active {
+        background-color: $link-primary-color;
+    }
+}

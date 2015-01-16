@@ -15,7 +15,8 @@
                         name: ctrl.nameOnCard,
                         billingZipCode: ctrl.billingZip,
                         securityCode: ctrl.securityCode,
-                        redactedData: cardToken.redacted
+                        redactedData: cardToken.redacted,
+                        type: cardToken.type
                     };
                 });
             };

@@ -19,6 +19,7 @@ using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Enrollment;
 using StreamEnergy.Processes;
 using StreamEnergy.DomainModels.Accounts;
+using StreamEnergy.DomainModels.Documents;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -28,8 +29,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly StateMachineSessionHelper<UserContext, InternalContext> stateHelper;
         private IStateMachine<UserContext, InternalContext> stateMachine;
         private readonly IValidationService validation;
-        private Sitecore.Security.Domains.Domain domain;
+        private readonly Sitecore.Security.Domains.Domain domain;
         private readonly StackExchange.Redis.IDatabase redisDatabase;
+        //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
         {
@@ -47,6 +49,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.stateHelper = stateHelper;
             this.validation = validation;
             this.redisDatabase = redisDatabase;
+            //this.documentStore = documentStore;
         }
 
         public async Task Initialize(NameValueCollection enrollmentDpiParameters = null)
@@ -75,6 +78,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             stateHelper.Reset();
             await stateHelper.EnsureInitialized();
+
+            //stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
             stateHelper.State = typeof(ServiceInformationState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;
@@ -108,7 +113,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
-            var paymentConfirmations = stateMachine.InternalContext.PaymentResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
             var renewalConfirmations = (stateMachine.InternalContext.RenewalResult != null ? stateMachine.InternalContext.RenewalResult.Data : null) ?? new RenewalResult();
             var standardValidation = (currentFinalStates.Contains(stateMachine.State) ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
             IEnumerable<ValidationResult> supplementalValidation;
@@ -120,7 +124,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
                 || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
                 || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
-                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted);
+                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted)
+                || (stateMachine.InternalContext.PlaceOrderAsyncResult != null && !stateMachine.InternalContext.PlaceOrderAsyncResult.IsCompleted);
 
             return new ClientData
             {
@@ -159,10 +164,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id)
                                                                                     .Where(entry =>
                                                                                     {
-                                                                                        var paymentConfirmation = paymentConfirmations.Where(pc => pc.Location == entry.Location && pc.Offer.Id == entry.Offer.Id).SingleOrDefault();
-                                                                                        if (paymentConfirmation == null)
-                                                                                            return true;
-                                                                                        return !string.IsNullOrEmpty(paymentConfirmation.Details.ConfirmationNumber);
+                                                                                        var paymentConfirmation = entry.Details.PaymentConfirmation;
+                                                                                        return paymentConfirmation == null || !string.IsNullOrEmpty(paymentConfirmation.ConfirmationNumber);
                                                                                     })
                                                                                     .Select(entry => entry.Details.IsSuccess).SingleOrDefault()
                                                                                     || renewalConfirmations.IsSuccess,
@@ -469,8 +472,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
+            if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard)
+            {
+                ((DomainModels.Payments.TokenizedCard)stateMachine.Context.PaymentInfo).Name = stateMachine.Context.ContactInfo.Name.First + " " + stateMachine.Context.ContactInfo.Name.Last;
+            }
             stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+            stateMachine.Context.W9BusinessData = request.W9BusinessData;
             foreach (var locationService in stateMachine.Context.Services)
             {
                 foreach (var offer in locationService.SelectedOffers)
@@ -500,6 +508,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             return resultData;
+        }
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<HttpResponseMessage> Download(string documentType)
+        {
+            await Initialize();
+            return null;
+            //return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
         }
     }
 }

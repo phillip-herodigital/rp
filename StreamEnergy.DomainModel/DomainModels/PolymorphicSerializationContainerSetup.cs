@@ -16,7 +16,9 @@ namespace StreamEnergy.DomainModels
             {
                 SupportedTypes = {
                     { Enrollments.TexasElectricity.ServiceCapability.Qualifier, typeof(Enrollments.TexasElectricity.ServiceCapability) },
+                    { Enrollments.TexasElectricity.RenewalCapability.Qualifier, typeof(Enrollments.TexasElectricity.RenewalCapability) },
                     { Enrollments.GeorgiaGas.ServiceCapability.Qualifier, typeof(Enrollments.GeorgiaGas.ServiceCapability) },
+                    { Enrollments.Mobile.ServiceCapability.Qualifier, typeof(Enrollments.Mobile.ServiceCapability) },
                     { Enrollments.GeorgiaGas.RenewalCapability.Qualifier, typeof(Enrollments.GeorgiaGas.RenewalCapability) },
                     { Enrollments.ServiceStatusCapability.Qualifier, typeof(Enrollments.ServiceStatusCapability) },
                     { Enrollments.CustomerTypeCapability.Qualifier, typeof(Enrollments.CustomerTypeCapability) },
@@ -33,6 +35,7 @@ namespace StreamEnergy.DomainModels
                     { Enrollments.GeorgiaGas.MoveInOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.MoveInOfferOption) },
                     { Enrollments.GeorgiaGas.RenewalOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.RenewalOfferOption) },
                     { Enrollments.GeorgiaGas.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.GeorgiaGas.CommercialQuoteOption) },
+                    { Enrollments.Mobile.OfferOption.Qualifier, typeof(Enrollments.Mobile.OfferOption) },
                 }
             });
 

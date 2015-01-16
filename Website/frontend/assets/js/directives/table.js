@@ -147,7 +147,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 			scope.toggleCheckboxes = function() {
 
 				angular.forEach(scope.table.valuesToShow, function(item) {
-					item.selected = scope.toggleCheckbox;
+					item.selected = scope.table.toggleCheckbox;
 
 					//var sel = $parse('selected');
 					//sel.assign(item, scope.toggleCheckbox);
@@ -276,13 +276,13 @@ ngApp.directive('gridTableHeader', [function () {
 		transclude: true,
 		template:	'<thead>' +
 					'	<tr>' +
-					'		<th style="width:30px;" ng-show="hasCheckboxes">' +
-					'			<input type="checkbox" ng-model="toggleCheckbox" ng-change="toggleCheckboxes()" />' +
+					'		<th style="width:30px;" ng-if="hasCheckboxes">' +
+					'			<input type="checkbox" ng-model="table.toggleCheckbox" ng-change="toggleCheckboxes()" />' +
 					'		</th>' +
-					'		<th style="width:30px;" ng-show="hasHiddenColumns"></th>' +
 					'		<th ng-repeat="item in table.columnList | filter:{isVisible: true} | orderBy:\'displayOrder\'" ng-click="updateSort(item)">' +
 					'			<span>{{ item.displayName }}</span>' +
 					'		</th>' +
+					'		<th style="width:30px;" ng-if="hasHiddenColumns"></th>' +
 					'	</tr>' +
 					'</thead>',
 		replace: true,

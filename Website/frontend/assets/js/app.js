@@ -2,7 +2,11 @@ ngApp = angular.module("ngApp", ['ui.bootstrap',
                                  'ui.slider',
                                  'unobtrusive.validation',
                                  'maskJQuery',
-                                 'n3-line-chart']);
+                                 'duScroll',
+                                 'n3-line-chart',
+                                 'uiGmapgoogle-maps']);
 
 // Init Application
 ngApp.value("appName", "ngApp");
+ngApp.value('duScrollGreedy', true);
+ngApp.value('duScrollSpyWait', 10);

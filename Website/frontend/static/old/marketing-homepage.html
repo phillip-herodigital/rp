@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+
+	<title>Title</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
+	<link href="assets/css/global.css" rel="stylesheet" />
+
+	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+	<script src="assets/js/libs/modernizr/modernizr.js"></script>
+	<script src="assets/js/libs/angular/angular.min.js"></script>
+	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
+
+	<script src="assets/js/app.js"></script>
+	<script src="assets/js/controllers/main.js"></script>
+	<script src="assets/js/controllers/marketing.js"></script>
+
+	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+</head>
+<body ng-controller="MainCtrl">
+	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
+		<nav>
+			<ul>
+				<li ng-repeat="item in navLinks">
+					<a href="{{item.href}}">{{item.name}}</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="page-content">
+			<header class="site-header">
+				<div class="wrapper">
+					<a href="/" class="logo">Logo</a>
+					<p class="utility"><a href="#">Manage My Account</a></p>
+					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+				</div>
+				<nav>
+					<ul class="wrapper">
+						<li><a href="#">Rates, Products, &amp; Services</a></li>
+						<li class="selected"><a href="#">Opportunity</a></li>
+						<li><a href="#">Company</a></li>
+						<li><a href="#">Contact Us</a></li>
+						<li><a href="#">Pay My Bill</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<div class="banner marketing" style="background-image: url(assets/i/marketing/header-home-01.jpg)"></div>
+			
+			<section class="layout cols-1" ng-controller="MarketingCtrl">
+
+				<article class="marketing loginHorizontal">
+					<div class="wrapper">
+						<span class="text">My Stream Account</span>
+						<form>
+							<div class="group">
+								<div class="item">
+									<ul class="radio-list">
+										<li><input type="radio" name="loginState" value="texas" id="loginState[texas]" checked="checked" /> <label for="loginState[texas]">Texas</label></li>
+										<li><input type="radio" name="loginState" value="georgia" id="loginState[georgia]" /> <label for="loginState[georgia]">Georgia</label></li>
+									</ul>
+								</div>
+								<div class="item">
+									<input type="text" name="username" placeholder="Username" />
+								</div>
+								<div class="item">
+									<input type="password" name="password" placeholder="Password" />
+								</div>
+								<div class="item">
+									<button type="submit">Login</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</article>
+
+				<article class="marketing gridPromos">
+					<div class="wrapper">
+						<div class="grid three">
+							<div class="col accent-blue">
+								<img src="assets/i/tmp/lightbulb-large.png" alt="" />
+								<h4><strong>Become</strong> A Customer</h4>
+								<p>It&#8217;s easy.<br />
+								Click here to start today.</p>
+								<p><a href="#" class="button">Sign Up</a></p>
+							</div>
+							<div class="col accent-green">
+								<img src="assets/i/tmp/freeenergy-large.png" alt="" />
+								<h4><strong>Get</strong> Free Energy</h4>
+								<p>Say goodbye to gas and electric bills forever<sup>1</sup>.</p>
+								<p><a href="#" class="button">Free Energy</a></p>
+							</div>
+							<div class="col accent-orange">
+								<img src="assets/i/tmp/money-large.png" alt="" />
+								<h4><strong>Build</strong> Residual Income</h4>
+								<p>Earn monthly income with The Ignite Opportunity.</p>
+								<p><a href="#" class="button">Opportunity</a></p>
+							</div>
+						</div>
+					</div>
+				</article>
+
+				<article class="marketing full-html center bg-grey accent-blue home-latest">
+					<div class="wrapper">
+						<h3>The latest from Stream Energy</h3>
+						<p><a href="#">Splash for Hope, sponsored by Stream Energy, July 9 at Hawaiian Falls Garland</a></p>
+					</div>
+				</article>
+
+				<article class="marketing photoLockup bg-green">
+					<div class="photo" style="background-image: url(assets/i/marketing/home-test1.jpg)"></div>
+					<div class="text">
+						<div class="inner">
+							<blockquote>
+								<p><span class="lead">In less than three months of being with Stream</span> I’ve already qualified for Free Energy! And for someone who has a one-income household, that’s huge. Thanks, Stream!</p>
+							</blockquote>
+							<p class="cite">&mdash; Veronyka Y. Corpus Christi, TX</p>
+							<a href="#" class="button">Enroll Now</a>
+						</div>
+					</div>
+				</article>
+
+				<article class="marketing photoLockup right-img accent-orange">
+					<div class="photo" style="background-image: url(assets/i/marketing/home-test2.jpg)"></div>
+					<div class="text">
+						<div class="inner">
+							<blockquote>
+								<p><span class="lead">I am so glad i made the decision to start my own business with stream energy and the ignite opportunity.</span> Being able to earn an extra stream of income by simply sharing with people how they can save on their energy bill immediately made sense to me. In just a short period of time, this business has allowed us the lifestyle we had only dreamed of--more time with our family and financial freedom.</p>
+							</blockquote>
+							<p class="cite">&mdash; Jerry S. Houston, TX</p>
+							<a href="#" class="button">Learn More</a>
+						</div>
+					</div>
+				</article>
+
+			</section>
+
+			<footer class="site-footer">
+				<div class="super-footer">
+					<div class="wrapper">
+						<div class="grid three">
+							<div class="col">
+								<ul>
+									<li><a href="#"><img src="assets/i/img-footer-get-free-energy.png" alt="Get Free Energy" width="159" height="44" /></a></li>
+									<li><a href="#"><img src="assets/i/img-footer-renew-my-contract.png" alt="Renew My Contract" width="120" height="45" /></a></li>
+								</ul>
+							</div>
+							<div class="col quick-links">
+								<h2><i class="icon-quicklinks"></i> Quick Links</h2>
+								<ul>
+									<li><a href="#">Account Overview</a></li>
+									<li><a href="#">Utility Services</a></li>
+									<li><a href="#">Homelife Services</a></li>
+									<li><a href="#">My Profile</a></li>
+								</ul>
+							</div>
+							<div class="col social">
+								<h2><i class="icon-social"></i> Social</h2>
+								<ul>
+									<li><a href="#"><i class="icon-facebook"></i> Facebook</a></li>
+									<li><a href="#"><i class="icon-twitter"></i> Twitter</a></li>
+									<li><a href="#"><i class="icon-youtube"></i> YouTube</a></li>
+									<li><a href="#"><i class="icon-pinterest"></i> Pinterest</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="wrapper copyright">
+					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
+					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
+					<ul>
+						<li><a href="#"><i class="icon-bbb"></i></a></li>
+						<li><a href="#"><i class="icon-dsa"></i></a></li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+</body>
+</html>

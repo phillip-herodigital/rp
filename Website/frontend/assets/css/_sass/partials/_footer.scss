@@ -1,146 +1,75 @@
-.site-footer {
-	margin-top: 30px;
-	.super-footer {
-		background: #0971ce image-url("bg/footer-top-border.png") repeat-x top left;
-		padding-top: 10px;
-		color: #b4b4b4;
-
-		h2 {
-			color: #fff;
-		}
-
-		h2 [class*="icon-"] {
-			margin-right: 5px;
-		}
-		
-		div.grid {
-			margin: 20px 0;
-			color: #fff;
-			a {
-				color: #fff;
-			}
-			.col {
-				padding: 0 20px;
-				@include breakpoint(small) {
-					padding: 0;
-					display: block;
-					width: 100%;
-					&:not(:last-child) {
-						border-bottom: 1px solid #1a86e7;
-					}
-				}
-				@include breakpoint(medium) {
-					padding: 0 10px;
-				}				
-				@include breakpoint(medium-large) {
-					&:nth-child(1),
-					&:nth-child(3) {
-						width: 30%;
-					}
-					&:nth-child(2) {
-						width: 40%;
-					}
-					&:not(:last-child) {
-						border-right: 1px solid #1a86e7;
-					}
-				}
-			}
-
-			.col.quick-links {
-				ul {
-					li {
-						float: left;
-						width: 50%;
-					}
-				}
-			}
-
-			ul {
-				@include layout-list();
-				text-transform: uppercase;
-				@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
-				li {
-					padding: 10px 0;
-				}
-			}
-
-			.col.badges ul {
-				@include breakpoint(medium-large) {
-					width: 185px;
-					margin: 16px auto 0 auto;
-					text-align: center;
-				}
-				li {
-					margin: 0;
-					padding: 15px 0;
-					border-bottom: 1px solid #1a86e7;
-					&:first-child {
-						padding-top: 0;
-					}
-					&:last-child {
-						border-bottom: 0;
-					}
-				}
-			}
-
-			.col.social {
-				li {
-					padding-left: 35px;
-                    span.iconWrapper {
-                        float: left;
-						margin-left: -35px;
-                        width: 18px;
-                        text-align: center;
-                    }
-				}
-			}
-
-		}
-		
-		ul {
-			list-style-type: none;
-		}
-	}
-	
-    div.footnotes {
-        color: #b4b4b4;
-		font-size: 10px;
-        margin-bottom: -2em;
-        padding-top: 20px;
-        @include breakpoint(small) {
-        	padding: 20px 20px 0 20px;
+footer.site-footer {
+    clear: both;
+    padding-bottom: 8px;
+    background: #2f9bce image-url('marketing/redesign/footer-section-bottom-rule.png') center bottom repeat-x;
+    color: #fff;
+    border-top: 1px solid #f5f5f5;
+    h4 {
+        text-transform: uppercase;
+        color: #fff;
+    }
+    ul {
+        @include layout-list();
+    }
+    a {
+        color: #fff;
+    }
+    div.contact {
+        padding: 30px 0;
+        background: #eff2f3;
+        color: #000;
+        font-size: 18px;
+        a {
+            color: #000;
+        }
+        .support {
+            p {
+                margin: 0;
+            }
+            a {
+                color: $link-primary-color;
+            }
         }
     }
-	div.copyright {
-		padding-top: 20px;
-		padding-bottom: 20px;
-		p {
-			float: left;
-			color: #b4b4b4;
-			font-size: 10px;
-		}
-		ul {
-			@include inline-block-list();
-			float: right;
-		}
-		@include breakpoint(small) {
-			padding: 20px;
-		}
-	}
-
-	div.legal {
+    div.links {
+        padding-top: 10px;
+        ul {
+            line-height: 2em;
+        }
+    }
+    div.logos {
+        @extend .clearfix;
+        padding: 45px 0;
+        .logo {
+            @include image-replace("bg/logo-footer.png", "bg2x/logo-footer.png");
+            float: left;
+        }
+        ul {
+            @include inline-block-list();
+            float: right;
+            li {
+                margin-left: 10px;
+            }
+        }
+    }
+    div.site-footer-legal {
+        border-top: 1px solid #44a5d3;
+        padding: 20px 0;
+        font-size: 10px;
+        ul {
+            @include inline-block-list();
+            float: right;
+        }
+    }
+    div.legal {
 		padding: .75em 0;
-		background: #999;
+		background: adjust-lightness(#2f9bce, -10);
 		font-size: 80%;
 		text-align: center;
 		ul {
-			display: inline;
-			margin: 0;
-			padding: 0;
-			list-style: none;
+            @include inline-block-list();
 			li {
-				display: inline;
-				border-left: 1px solid #bbb;
+				border-left: 1px solid adjust-lightness(#44a5d3, -10);
 				padding: 0 1em;
 				a {
 					color: #fff;
@@ -151,14 +80,4 @@
 			}
 		}
 	}
-}
-
-.ie8 .site-footer {
-	.super-footer{
-		padding: 30px 0 60px 0;
-		.col {
-			float: left;
-			width: 33%;	
-		}
-	}	
 }

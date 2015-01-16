@@ -44,6 +44,8 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public AccountDetails Details { get; set; }
 
+        public IDictionary<ISubAccount, AccountUsage> Usage { get; set; }
+
         public Payments.PastPayment[] PaymentHistory { get; set; }
 
         public Payments.AutoPaySetting AutoPay { get; set; }

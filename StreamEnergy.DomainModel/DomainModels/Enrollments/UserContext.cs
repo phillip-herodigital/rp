@@ -60,6 +60,9 @@ namespace StreamEnergy.DomainModels.Enrollments
         [Required(ErrorMessage = "Authorizations Required")]
         public Dictionary<AdditionalAuthorization, bool> AdditionalAuthorizations { get; set; }
 
+        [ValidateObject(ErrorMessagePrefix = "Business ")]
+        public W9BusinessData W9BusinessData { get; set; }
+
         [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public bool AgreeToTerms { get; set; }
 
