@@ -242,8 +242,7 @@
         </div>
     </div>
     <div class="mobile-services">
-        <div ng-repeat="dataPlan in getCartDataPlan()">
-            <div class="phone-summary" ng-repeat="item in getConfirmationDevices()">
+            <div class="phone-summary" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-init="item = getConfirmationDeviceDetails(selectedOffer.offerOption.inventoryItemId)">
                 <div class="line-item clearfix">
                     <div class="phone-summary-image">
                         <img ng-src="{{ item.imageFront }}" ng-if="item.type == 'new'" />
@@ -255,32 +254,32 @@
                         <h2>{{ item.device.brand }} {{ item.device.name }}</h2>
                         <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
                     </div>
-                    <div class="rate device-price" ng-if="item.type == 'new'">{{ getDevicePrice(item.id) | currency }}</div>
+                    @*<div class="rate device-price" ng-if="item.type == 'new'">{{ getDevicePrice(item.id) | currency }}</div>*@
                     <div class="description" ng-if="item.type == 'existing'">
                         <h2>@Html.Sitecore().Field("Bring Your Own Device")</h2>
                         <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>
                     </div>
                 </div>
-                <div class="line-item clearfix" ng-if="getDeviceActivationFee(item.id) > 0">
+                <div class="line-item clearfix" ng-if="selectedOffer.payments.requiredAmounts[0].activationFee > 0">
                     <div class="description">
                         <h3>@Html.Sitecore().Field("Initial Activation Fee Text")</h3>
                         <p class="note">@Html.Sitecore().Field("Activation Fee Description")</p>
                     </div>
-                    <div class="rate">{{ getDeviceActivationFee(item.id) | currency }}</div>
+                    <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].activationFee | currency }}</div>
                 </div>
-                <div class="line-item clearfix" ng-if="item.type == 'new' && getDeviceTax(item.id)">
+                <div class="line-item clearfix" ng-if="selectedOffer.payments.requiredAmounts[0].taxTotal > 0">
                     <div class="description">
                         <h3>@Html.Sitecore().Field("Sales Tax Text")</h3>
                         <p class="note">@Html.Sitecore().Field("Sales Tax Description")</p>
                     </div>
-                    <div class="rate">{{ getDeviceTax(item.id) | currency }}</div>
+                    <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].taxTotal | currency }}</div>
                 </div>
-                <div class="line-item clearfix" ng-if="item.type == 'new' && item.installmentMonths != null && getDeviceDeposit(item.id) > 0">
+                <div class="line-item clearfix" ng-if="item.type == 'new' && item.installmentMonths != null && selectedOffer.payments.requiredAmounts[0].depositTotal > 0">
                     <div class="description">
                         <h3>@Html.Sitecore().Field("Deposit Due Text")</h3>
                         <p class="note">@Html.Sitecore().Field("Deposit Description")</p>
                     </div>
-                    <div class="rate">{{ getDeviceDeposit(item.id) | currency }}</div>
+                    <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].depositTotal | currency }}</div>
                 </div>
             </div>
             <div class="plan-summary" ng-if="false">
@@ -298,7 +297,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </script>
 
 <script type="text/ng-template" id="payments/Deposit">
