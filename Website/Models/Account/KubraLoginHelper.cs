@@ -5,12 +5,21 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using StreamEnergy.DomainModels.Accounts.ResetPassword;
+using StreamEnergy.Extensions;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
     public class KubraLoginHelper
     {
         const string uri = "https://secure3.i-doxs.net/StreamEnergy/Default.aspx?screenscrape=true";
+        private readonly ResetPasswordTokenManager tokenManager;
+
+        public KubraLoginHelper(ResetPasswordTokenManager tokenManager)
+        {
+            this.tokenManager = tokenManager;
+        }
+
         public async Task<bool> Login(Authentication.LoginRequest request)
         {
             using (var client = new HttpClient())

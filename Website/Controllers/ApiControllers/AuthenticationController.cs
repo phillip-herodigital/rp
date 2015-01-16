@@ -14,6 +14,7 @@ using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Accounts.Create;
 using StreamEnergy.DomainModels.Accounts.ResetPassword;
 using StreamEnergy.DomainModels.Emails;
+using StreamEnergy.Extensions;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Authentication;
 using StreamEnergy.Processes;
@@ -143,7 +144,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                         // update password to match, since it was a successful authentication
 
                                         var user = Membership.GetUser(prefixedUsername);
-                                        user.ChangePassword(user.ResetPassword(), request.Password);
+                                        try
+                                        {
+                                            user.ChangePassword(user.ResetPassword(), request.Password);
+                                        }
+                                        catch
+                                        {
+
+                                            var passwordResetToken = resetPasswordTokenManager.GetPasswordResetToken(request.Username);
+                                            
+                                            var uri = "/auth/change-password?token={token}&username={username}".Format(new { token = HttpUtility.UrlEncode(passwordResetToken), username = HttpUtility.UrlEncode(request.Username) });
+
+                                            // password requirements stronger than given password
+                                            return Request.CreateResponse(new
+                                            {
+                                                Redirect = uri
+                                            });
+                                        }
 
                                         return HandleValidLogin(request);
                                     }
@@ -164,9 +181,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             string returnUri = HttpUtility.UrlDecode(HttpUtility.ParseQueryString(requestUri.Query).Get("url"));
 
             var helper = new System.Web.Mvc.UrlHelper(System.Web.HttpContext.Current.Request.RequestContext);
-            bool isLocal = helper.IsLocalUrl(returnUri);
 
-            if (string.IsNullOrEmpty(returnUri) || !isLocal)
+            if (string.IsNullOrEmpty(returnUri) || !helper.IsLocalUrl(returnUri))
             {
                 returnUri = "/account";
             }
