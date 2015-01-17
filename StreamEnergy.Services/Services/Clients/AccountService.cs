@@ -302,8 +302,7 @@ namespace StreamEnergy.Services.Clients
                     EmailAddress = customer.EmailAddress,
                     UserName = customer.Username,
                     PortalId = customer.AspNetUserProviderKey,
-                    TCPAPreference = "NA"
-                    //TCPAPreference = customer.TCPAPreference == null ? "NA" : customer.TCPAPreference
+                    TCPAPreference = customer.TCPAPreference == null ? "NA" : customer.TCPAPreference
                 });
 
             response.EnsureSuccessStatusCode();
