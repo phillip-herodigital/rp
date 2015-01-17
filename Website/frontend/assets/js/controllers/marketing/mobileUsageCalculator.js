@@ -191,9 +191,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
     $scope.calculatorTotalInGB = function(ceil) {
         if(typeof(ceil) !== 'undefined') {
-            return Math.min( ($scope.calculatorTotal / (1024 * 1024) ).toFixed(1), ceil );
+            return Math.min( ($scope.calculatorTotal / (1000 * 1000) ).toFixed(1), ceil );
         } else {
-             return ($scope.calculatorTotal / (1024 * 1024) ).toFixed(1);
+             return ($scope.calculatorTotal / (1000 * 1000) ).toFixed(1);
         }
     };
 
@@ -204,7 +204,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     $scope.calculatorRecommendationInGB = function() {
         var gb = $scope.calculatorTotalInGB(10);
         if(gb == 0) { return 0; }
-        return Math.min( ( $scope.calculatorTotalInGB(10) + 4), 10 ).toFixed();
+        return Math.min(Math.ceil($scope.calculatorTotalInGB(10) * 1.1), 10).toFixed();
     };
 
     $scope.calculatorRecommendationInPct = function() {
