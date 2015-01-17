@@ -86,7 +86,12 @@ namespace StreamEnergy.MyStream.Conditions
                 return false;
 
             useRemoteEnrollment = cookieRawValue[0] == '1';
-            queryString = HttpUtility.ParseQueryString(cookieRawValue.Substring(1));
+            // only pull the SPID out of the cookie. We don't want to make decisions based on anything else from the cookie
+            var tempQueryString = HttpUtility.ParseQueryString(cookieRawValue.Substring(1));
+            queryString = new NameValueCollection()
+            {
+                { "SPID", tempQueryString["SPID"] },
+            };
             return true;
         }
 
