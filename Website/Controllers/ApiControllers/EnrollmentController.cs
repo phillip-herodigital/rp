@@ -160,7 +160,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                OfferId = selectedOffer.Offer.Id,
                                                                                OfferOption = selectedOffer.OfferOption,
                                                                                OptionRules = optionRules.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
-                                                                               Payments = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
+                                                                               Payments = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
                                                                                ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id)
                                                                                     .Where(entry =>
                                                                                     {
@@ -169,7 +169,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                     })
                                                                                     .Select(entry => entry.Details.IsSuccess).SingleOrDefault()
                                                                                     || renewalConfirmations.IsSuccess,
-                                                                               ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
+                                                                               ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
                                                                                     ?? renewalConfirmations.ConfirmationNumber
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
