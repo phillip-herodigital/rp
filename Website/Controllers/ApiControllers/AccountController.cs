@@ -77,7 +77,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 Accounts =  from account in currentUser.Accounts
                             let invoiceAcct = accountInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
-                            select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.LastOrDefault() : null)
+                            select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.OrderByDescending(i => i.DueDate).FirstOrDefault() : null)
             };
         }
 
