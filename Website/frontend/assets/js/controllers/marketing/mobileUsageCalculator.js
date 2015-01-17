@@ -11,6 +11,11 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return tabUrl == $scope.currentTab;
     };
 
+    $scope.getCarrierName = function(carrier) {
+        var currentCarrier = _.find($scope.serverData.carriers, { key: carrier });
+        return (currentCarrier && currentCarrier.name) ? currentCarrier.name : '';
+    };
+
     /*$scope.selectCarrierConnect = function(carrier) {
         $scope.connect.carrier = carrier;
     };*/
@@ -41,6 +46,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 $scope.connect.validas = data;
                 $scope.connected = true;
             }
+        }).error(function(data, status, headers, config) {
+            $scope.isLoading = false;
+            $scope.validasErrors = ["A system error occurred. Please try again later."];
         });
     };
 
@@ -298,8 +306,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         $scope.connect = {
             acceptTermsCheckbox: false
         };
-        
-        
+
         /*
         $scope.connect.username = "5164496292";
         $scope.connect.password = "37Beetlestone";

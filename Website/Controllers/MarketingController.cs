@@ -143,7 +143,7 @@ namespace StreamEnergy.MyStream.Controllers
             carriers.Add(new
             {
                 key = "att",
-                name = "AT&T",
+                name = planRecommendationItem.Fields["ATT"].Value,
                 fees = new
                 {
                     ActivationFee = planRecommendationItem.Fields["ATT Activation Fee"].Value,
@@ -153,7 +153,7 @@ namespace StreamEnergy.MyStream.Controllers
             carriers.Add(new
             {
                 key = "sprint",
-                name = "Sprint",
+                name = planRecommendationItem.Fields["Sprint"].Value,
                 fees = new
                 {
                     ActivationFee = planRecommendationItem.Fields["ATT Activation Fee"].Value,
@@ -162,13 +162,13 @@ namespace StreamEnergy.MyStream.Controllers
             });
             carriers.Add(new
             {
-                key = "verizon",
-                name = "Verizon"
+                key = "vzw",
+                name = planRecommendationItem.Fields["Verizon"].Value
             });
             carriers.Add(new
             {
-                key = "tmobile",
-                name = "T-Mobile"
+                key = "tmo",
+                name = planRecommendationItem.Fields["TMobile"].Value
             });
 
             var sliderValues = new List<string>();
