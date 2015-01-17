@@ -77,7 +77,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 Accounts =  from account in currentUser.Accounts
                             let invoiceAcct = accountInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
-                            select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.LastOrDefault() : null)
+                            select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.OrderByDescending(i => i.DueDate).FirstOrDefault() : null)
             };
         }
 
@@ -565,7 +565,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         Text = questionItem["Question"]
                     },
                 Challenges = 
-                    from challenge in profile.ChallengeQuestions.GroupBy(c => c.QuestionKey).Select(grp => grp.First()).ToDictionary(c => c.QuestionKey, c => (string)null) ?? new Dictionary<Guid, string>()
+                    from challenge in (profile.ChallengeQuestions ?? new ChallengeResponse[]{}).GroupBy(c => c.QuestionKey).Select(grp => grp.First()).ToDictionary(c => c.QuestionKey, c => (string)null) ?? new Dictionary<Guid, string>()
                     let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
                     select new AnsweredSecurityQuestion
                     {
