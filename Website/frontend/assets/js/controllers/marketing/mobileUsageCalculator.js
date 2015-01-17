@@ -330,11 +330,6 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         };
 
         /*
-        $scope.connect.username = "5164496292";
-        $scope.connect.password = "37Beetlestone";
-        */
-        
-        /*
         $scope.connect.validas = {
             "billingCount": 1,
             "network": "att",
@@ -369,7 +364,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         };
         */
     
-        $scope.connect.validas = {
+        /*$scope.connect.validas = {
             "averageMonthlyCost": 120,
             "averageMonthlyData": 2608,
             "billingCount": 1,
@@ -391,7 +386,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
             "totalEtf": 0,
             "tradeInValue": "42.95"
         };
-        $scope.connected = true;
+        $scope.connected = true;*/
     
 
     };
