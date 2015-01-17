@@ -19,7 +19,8 @@
                 <dt>@Html.Sitecore().Field("Name Label")</dt>
                 <dd>{{ customer.name.first }} {{ customer.name.last }}</dd>
                 <dt>@Html.Sitecore().Field("Phone Number Label")</dt>
-                <dd>{{ customer.phone[0].number }}</dd>
+                <dd ng-if="customer.phone[0].number != ''">{{ customer.phone[0].number }}</dd>
+                <dd ng-if="customer.phone[0].number == ''">{{ customer.phone[1].number }}</dd>
                 <dt>@Html.Sitecore().Field("Email Label")</dt>
                 <dd>{{ customer.email.address }}</dd>
                 <dt>@Html.Sitecore().Field("Address Label")</dt>
