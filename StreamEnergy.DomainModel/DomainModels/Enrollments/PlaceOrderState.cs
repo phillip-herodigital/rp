@@ -60,15 +60,9 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (context.IsRenewal)
             {
                 var svc = context.Services.Single().SelectedOffers.Single();
-                if (context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
-                {
-                    var customer = await accountService.GetCustomerByCustomerId(internalContext.GlobalCustomerId);
-                    customer.TCPAPreference = "Yes";
-                    await accountService.UpdateCustomer(customer);
-                }
+                var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<IRenewalCapability>().First();
                 if (internalContext.RenewalResult == null)
                 {
-                    var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<IRenewalCapability>().First();
                     internalContext.RenewalResult = await enrollmentService.BeginRenewal(
                         renewalCapability.Account,
                         renewalCapability.SubAccount,
@@ -78,6 +72,17 @@ namespace StreamEnergy.DomainModels.Enrollments
                 }
                 else
                 {
+                    if (context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
+                    {
+                        var details = new StreamEnergy.DomainModels.Accounts.AccountDetails
+                        {
+                            ContactInfo = renewalCapability.Account.Details.ContactInfo,
+                            BillingAddress = renewalCapability.Account.Details.BillingAddress,
+                            TcpaPreference = true,
+                            BillingDeliveryPreference = renewalCapability.Account.Details.BillingDeliveryPreference
+                        };
+                        await accountService.SetAccountDetails(renewalCapability.Account, details);
+                    }
                     internalContext.RenewalResult = await enrollmentService.EndRenewal(internalContext.RenewalResult);
                     if (!internalContext.RenewalResult.IsCompleted)
                     {
