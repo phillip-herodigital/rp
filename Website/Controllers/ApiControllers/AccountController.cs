@@ -636,7 +636,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     var profile = UserProfile.Locate(container, newUsernameWithPrefix);
                     
                     profile.ChallengeQuestions = (from entry in request.Challenges
-                                                  join existing in profile.ChallengeQuestions on entry.SelectedQuestion.Id equals existing.QuestionKey into existing
+                                                  join existing in (profile.ChallengeQuestions ?? new ChallengeResponse[]{}) on entry.SelectedQuestion.Id equals existing.QuestionKey into existing
                                                   let existingQuestion = existing.FirstOrDefault()
                                                   let useExistingQuestion = existingQuestion != null && string.IsNullOrEmpty(entry.Answer)
                                                   select useExistingQuestion ? existingQuestion : ChallengeResponse.Create(entry.SelectedQuestion.Id, entry.Answer)).ToArray();
