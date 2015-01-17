@@ -33,7 +33,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             return username != null;
         }
 
-        internal string GetPasswordResetToken(string username)
+        public string GetPasswordResetToken(string username)
         {
             var token = GeneratetToken();
             redisDatabase.StringSet(GetTokenRedisKey(token), username, timeToLive);
