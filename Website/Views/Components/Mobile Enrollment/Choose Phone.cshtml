@@ -20,6 +20,9 @@
                             </div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone"></div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
+                                <div ng-if="getPhoneCount('byod') > 0" class="selected-icon">
+                                    <span class="phone-count">{{ getPhoneCount('byod') }}</span>
+                                </div>
                                 <h1>@Html.Sitecore().Field("Header - Bring Your Own Phone")</h1>
                             </div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintByod"></div>
@@ -70,6 +73,9 @@
                                         @* Would like to change this out for using the model, but getting rid of ng-repeat will take some extra work *@
                                         <div class="grid three" ng-repeat="phone in mobileEnrollmentService.getPhones() | orderByPrice: mobileServices.getPhones():isPhoneOrderReversed() | phoneFilter: phoneFilters | partition: 3">
                                             <div class="col" ng-repeat="item in phone">
+                                                <div ng-if="getPhoneCount(item.id) > 0" class="selected-icon">
+                                                    <span class="phone-count">{{ getPhoneCount(item.id) }}</span>
+                                                </div>
                                                 <div class="product-image">
                                                     <img ng-src="{{ item.imageFront }}" />
                                                     <div ng-if="!mobileEnrollmentService.getStock(item.id)">
