@@ -2920,6 +2920,14 @@ article.mobile.mobile-plans-usage-calculator {
 					.coverageMapLink {
 						text-align: center;
 					}
+
+					&.savings {
+						color: #0c0;
+					}
+
+					&.cost {
+						color: #c00;
+					}
 					
 					&.tco {
 						vertical-align: bottom;
