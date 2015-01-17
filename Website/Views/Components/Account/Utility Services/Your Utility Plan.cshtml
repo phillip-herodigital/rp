@@ -14,7 +14,7 @@
         </div>
     </article>
 
-    <article class="plain renew-plan" ng-if="!renewal.isEligible && renewalRedirect">
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType && utilityPlan.customerType != 'commercial' && !renewal.isEligible && renewalRedirect">
         <div class="notice message">
             @Html.Sitecore().Field("Renew Ineligible Text")
         </div>
