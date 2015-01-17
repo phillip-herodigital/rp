@@ -4,6 +4,7 @@
 ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$window', '$sce', function ($scope, $rootScope, $http, $window, $sce) {
 	$scope.activeState = 'step1';
 	$scope.isLoading = false;
+	$scope.noEmail = false;
 
 	// create a blank object to hold the form information
 	$scope.formData = {};
@@ -31,11 +32,14 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 		})
 			.success(function (data, status, headers, config) {
 				$scope.isLoading = false;
+				$scope.noEmail = false;
 			    $scope.validations = data.validations;
 				if (!data.customer) {
 					// if not successful, bind errors to error variables
 					$scope.findAccountError = data.validations;
-
+				} else if (data.customer.email.address == '') {
+					// if no email address on account, send the error message
+					$scope.noEmail = true;
 				} else {
 					// if successful, bind the response data to the scope and send the user to step 2
 					$scope.customer = data.customer;
