@@ -73,6 +73,7 @@ namespace StreamEnergy.Services.Clients
                 Offers = (from product in streamConnectProductResponse.Products
                           let productData = sitecoreProductData.GetMobileProductData((string)product.ProductId)
                           where productData != null
+                          where productData.Fields["Hide Plan"] != "1"
                           where product.MobileInventory != null
                           let childOffer = streamConnectProductResponse.Products.FirstOrDefault(p => p.ParentGroupProductId == product.ProductId)
                           from offer in (IEnumerable<Mobile.Offer>)GenerateOffers(product, productData, childOffer)
