@@ -244,8 +244,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 new Location() {
                     Address = new DomainModels.Address()
                     {
+                        City = !string.IsNullOrEmpty(account.Details.BillingAddress.City) ? account.Details.BillingAddress.City : "City",
                         PostalCode5 = !string.IsNullOrEmpty(account.Details.BillingAddress.PostalCode5) ? account.Details.BillingAddress.PostalCode5 : "75039",
-                        StateAbbreviation = account.Details.BillingAddress.StateAbbreviation ?? "TX",
+                        StateAbbreviation = !string.IsNullOrEmpty(account.Details.BillingAddress.StateAbbreviation) ? account.Details.BillingAddress.StateAbbreviation : "TX",
                     },
                     Capabilities = new StreamEnergy.DomainModels.IServiceCapability[]
                     {
