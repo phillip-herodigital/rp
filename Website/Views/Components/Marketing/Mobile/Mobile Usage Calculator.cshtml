@@ -53,24 +53,9 @@
                     </div>
                     <div class="col pull-right">
                         <ul class="network-toggle">
-                            <li>
-                                <a href="" ng-class="{active: connect.carrier == 'att'}" ng-click="connect.carrier = 'att'">
-                                    <i class="icon-att"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" ng-class="{active: connect.carrier == 'sprint'}" ng-click="connect.carrier = 'sprint'">
-                                    <i class="icon-sprint"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" ng-class="{active: connect.carrier == 'vzw'}" ng-click="connect.carrier = 'vzw'">
-                                    <i class="icon-verizon"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" ng-class="{active: connect.carrier == 'tmo'}" ng-click="connect.carrier = 'tmo'">
-                                    <i class="icon-tmobile"></i>
+                            <li ng-repeat="item in serverData.carriers" ng-if="getCarrier(item.key).showLoginButton">
+                                <a href="" ng-class="{active: connect.carrier == item.key}" ng-click="connect.carrier = item.key">
+                                    <i ng-class="{'icon-att': item.key == 'att','icon-sprint': item.key == 'sprint','icon-verizon': item.key == 'vzw','icon-tmobile': item.key == 'tmo'}"></i>
                                 </a>
                             </li>
                         </ul>
