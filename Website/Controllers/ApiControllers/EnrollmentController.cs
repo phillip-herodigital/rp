@@ -26,7 +26,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     public class EnrollmentController : ApiController, IRequiresSessionState
     {
         private readonly Sitecore.Data.Items.Item translationItem;
-        private readonly StateMachineSessionHelper<UserContext, InternalContext> stateHelper;
+        private readonly SessionHelper stateHelper;
         private IStateMachine<UserContext, InternalContext> stateMachine;
         private readonly IValidationService validation;
         private readonly Sitecore.Security.Domains.Domain domain;
@@ -35,9 +35,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
         {
+            private static readonly Type defaultState = typeof(DomainModels.Enrollments.ServiceInformationState);
             public SessionHelper(HttpSessionStateBase session, IUnityContainer container)
-                : base(session, container, typeof(EnrollmentController), typeof(DomainModels.Enrollments.ServiceInformationState), storeInternal: true)
+                : base(session, container, typeof(EnrollmentController), defaultState, storeInternal: true)
             {
+            }
+
+            public bool IsDefault
+            {
+                get { return State == defaultState; }
             }
         }
 
@@ -56,7 +62,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
             if (enrollmentDpiParameters != null)
+            {
+                if (!stateHelper.IsDefault && enrollmentDpiParameters["renewal"] != "true")
+                {
+                    stateHelper.Reset();
+                    await stateHelper.EnsureInitialized().ConfigureAwait(false);
+                }
                 stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
+            }
             this.stateMachine = stateHelper.StateMachine;
         }
 

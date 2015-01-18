@@ -11,6 +11,11 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         return tabUrl == $scope.currentTab;
     };
 
+    $scope.getCarrierName = function(carrier) {
+        var currentCarrier = _.find($scope.serverData.carriers, { key: carrier });
+        return (currentCarrier && currentCarrier.name) ? currentCarrier.name : '';
+    };
+
     /*$scope.selectCarrierConnect = function(carrier) {
         $scope.connect.carrier = carrier;
     };*/
@@ -41,6 +46,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 $scope.connect.validas = data;
                 $scope.connected = true;
             }
+        }).error(function(data, status, headers, config) {
+            $scope.isLoading = false;
+            $scope.validasErrors = ["A system error occurred. Please try again later."];
         });
     };
 
@@ -65,6 +73,22 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         }
     };
 
+    $scope.getMonthlyTotal = function(planId) {
+        var numLines, plan;
+
+        if ($scope.currentTab === 'connect.tpl.html') {
+            if(typeof($scope.connect.validas) === 'undefined') { return false; }
+            numLines = $scope.connect.validas.phoneLines;
+        } else {
+            numLines = $scope.manualCalculator.lines;
+        }
+        plan = $scope.getPlanByPlanId(planId);
+
+        if(typeof(plan) === 'undefined') { return false; }
+
+        return parseFloat(plan.price) + (numLines - 1) * $scope.getCarrier('sprint').fees.extraLineFee
+    };
+
     // Bill Scrape
     // --------------------------------------------------
 
@@ -85,7 +109,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     $scope.getTotalSavings = function(carrier) {
         if(typeof($scope.connect.validas) === 'undefined' || !$scope.hasRecommendationForCarrier(carrier)) { return 0; }
 
-        return ($scope.connect.validas.averageMonthlyCost - $scope.getValidasRecommendation(carrier).price) * $scope.formData.selectedTimeframe;
+        //return ($scope.connect.validas.averageMonthlyCost - $scope.getValidasRecommendation(carrier).price) * $scope.formData.selectedTimeframe;
+        return ($scope.connect.validas.averageMonthlyCost - $scope.getMonthlyTotal($scope.getValidasRecommendation(carrier).planId)) * $scope.formData.selectedTimeframe;
     };
 
     $scope.calculateTCO = function(plan) {
@@ -141,6 +166,22 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         }
     };
 
+    $scope.totalSavingsForCarrier = function(carrier) {
+        if(typeof($scope.connect.validas) === 'undefined' || !$scope.hasRecommendationForCarrier(carrier)) { return 0; }
+        
+        var fees = $scope.connect.validas.leasedPayoffFee + $scope.connect.validas.totalEtf +
+                    ($scope.connect.validas.phoneLines * $scope.getCarrier(carrier).fees.activationFee);
+
+        //var savings = $scope.calculateTCO('currentPlan') - $scope.calculateTCO(carrier);
+        var savings = $scope.getTotalSavings(carrier);
+
+        return parseFloat($scope.connect.validas.tradeInValue) + savings - fees; 
+    };
+
+    $scope.hasSavingsForCarrier = function(carrier) {
+        return ($scope.totalSavingsForCarrier(carrier) > 0) ? true : false;
+    };
+
     // Manual Calculator
     // --------------------------------------------------
 
@@ -150,9 +191,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
     $scope.calculatorTotalInGB = function(ceil) {
         if(typeof(ceil) !== 'undefined') {
-            return Math.min( ($scope.calculatorTotal / (1024 * 1024) ).toFixed(1), ceil );
+            return Math.min( ($scope.calculatorTotal / (1000 * 1000) ).toFixed(1), ceil );
         } else {
-             return ($scope.calculatorTotal / (1024 * 1024) ).toFixed(1);
+             return ($scope.calculatorTotal / (1000 * 1000) ).toFixed(1);
         }
     };
 
@@ -163,7 +204,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     $scope.calculatorRecommendationInGB = function() {
         var gb = $scope.calculatorTotalInGB(10);
         if(gb == 0) { return 0; }
-        return Math.min( ( $scope.calculatorTotalInGB(10) + 4), 10 ).toFixed();
+        return Math.min(Math.ceil($scope.calculatorTotalInGB(10) * 1.1), 10).toFixed();
     };
 
     $scope.calculatorRecommendationInPct = function() {
@@ -177,18 +218,6 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
     $scope.estimateLabelLeft = function() {
         return Math.max($('.estimate').width() - $('.estimatedDataLabel').width() - 15, 0);
-    };
-
-    $scope.totalSavingsForCarrier = function(carrier) {
-        if(typeof($scope.connect.validas) === 'undefined' || !$scope.hasRecommendationForCarrier(carrier)) { return 0; }
-        
-        var fees = $scope.connect.validas.leasedPayoffFee + $scope.connect.validas.totalEtf +
-                    ($scope.connect.validas.phoneLines * $scope.getCarrier(carrier).fees.activationFee);
-
-        //var savings = $scope.calculateTCO('currentPlan') - $scope.calculateTCO(carrier);
-        var savings = $scope.getTotalSavings(carrier);
-
-        return parseFloat($scope.connect.validas.tradeInValue) + savings - fees; 
     };
 
     $scope.$watch('manualCalculator', function(newVal, oldVal) {
@@ -226,8 +255,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
             if(plan.data.toLowerCase() === 'unlimited') {
                 plan.data = 1000000;
             } else {
-                plan.data = parseInt(plan.data);
+                plan.data = parseInt(plan.data, 10);
             }
+            plan.price = parseFloat(plan.price);
             return plan;
         });
 
@@ -298,13 +328,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         $scope.connect = {
             acceptTermsCheckbox: false
         };
-        
-        
-        /*
-        $scope.connect.username = "5164496292";
-        $scope.connect.password = "37Beetlestone";
-        */
-        
+
         /*
         $scope.connect.validas = {
             "billingCount": 1,

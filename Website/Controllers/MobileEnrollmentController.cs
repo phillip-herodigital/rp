@@ -260,6 +260,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             using (var client = new HttpClient())
             {
+                client.Timeout = TimeSpan.FromMilliseconds(10*60*1000); // Let this request stay open for a long time...
 
                 var json = String.Format("\"LoginUsername\":\"{0}\",\"LoginPassword\":\"{1}\"," +
                                          "\"LoginChallenge\":\"{2}\",\"Carrier\":\"{3}\",\"DownloadBillHistory\":\"true\"," +

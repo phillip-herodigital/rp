@@ -775,6 +775,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             userContext.PaymentInfo = new DomainModels.Payments.TokenizedCard
             {
                 CardToken = TestData.CardToken,
+                Type = "Unknown",
                 BillingZipCode = "75201",
                 ExpirationDate = DateTime.Today.AddDays(60),
                 SecurityCode = "123"

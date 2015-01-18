@@ -943,6 +943,7 @@ article.contact {
 		font-size: 30px;
         &.header-line {
             position: relative;
+            overflow: hidden;
             span {
                 position: relative;
                 padding-right: 20px;
@@ -2689,6 +2690,7 @@ article.mobile.mobile-plans-usage-calculator {
 					display: block;
 					height: 50px;
 					line-height: 50px;
+					margin-left: 5px;
 					padding: 1px 15px;
 					border: 1px solid #cecece;
 					outline: none;
@@ -2918,6 +2920,14 @@ article.mobile.mobile-plans-usage-calculator {
 
 					.coverageMapLink {
 						text-align: center;
+					}
+
+					&.savings {
+						color: #0c0;
+					}
+
+					&.cost {
+						color: #c00;
 					}
 					
 					&.tco {
