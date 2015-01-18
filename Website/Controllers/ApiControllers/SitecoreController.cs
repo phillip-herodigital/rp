@@ -45,7 +45,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             title = item.Fields["Title"].Value,
                             description = item.Fields["Description"].Value,
                             filesize = file != null ? file.Size : 0,
-                            featured = item.Fields["Featured"].Value == "On",
+                            featured = !String.IsNullOrEmpty(item.Fields["Featured"].Value),
                             size = item.Fields["Size"].Value,
                             modificationDate = itemType == "File" ? fileModificationDate : linkModificationDate,
                             publicURL = itemType == "File" ? fileUrl : linkUrl,
