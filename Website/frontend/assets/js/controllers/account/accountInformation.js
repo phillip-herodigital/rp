@@ -50,25 +50,29 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 
 		// sent the update
 		$http({
-			method  : 'POST',
-			url     : '/api/account/updateAccountInformation',
-			data    : requestData,
-			headers : { 'Content-Type': 'application/JSON' } 
+		    method: 'POST',
+		    url: '/api/account/updateAccountInformation',
+		    data: requestData,
+		    headers: { 'Content-Type': 'application/JSON' }
 		})
 			.success(function (data, status, headers, config) {
 			    $scope.isLoading = false;
-				if (data.validations.length) {
-					// if not successful, bind errors to error variables
-					$scope.validations = data.validations;
+			    if (data.validations.length) {
+			        // if not successful, bind errors to error variables
+			        $scope.validations = data.validations;
 
-				} else if (!data.success) {
-				    $scope.errorMessage = true;
-				} else {
-				    // if successful, show the success message
-				    $scope.formDataOriginal = angular.copy($scope.formData);
-				    $scope.successMessage = true;
-				}
-			});
+			    } else if (!data.success) {
+			        $scope.errorMessage = true;
+			    } else {
+			        // if successful, show the success message
+			        $scope.formDataOriginal = angular.copy($scope.formData);
+			        $scope.successMessage = true;
+			    }
+			})
+	        .error(function (data, status, headers, config) {
+	            $scope.isLoading = false;
+	            $scope.errorMessage = true;
+	        });
 	};
 
 }]);
