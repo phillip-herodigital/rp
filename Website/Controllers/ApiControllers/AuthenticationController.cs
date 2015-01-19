@@ -179,7 +179,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             // validate the return URI
             Uri requestUri = new Uri(request.Uri);
             var queryString = HttpUtility.ParseQueryString(requestUri.Query);
-            string returnUri = queryString["url"] ?? queryString["item"];
+            string returnUri = HttpUtility.UrlDecode(queryString["url"]) ??  HttpUtility.UrlDecode(queryString["item"]);
 
             var helper = new System.Web.Mvc.UrlHelper(System.Web.HttpContext.Current.Request.RequestContext);
 
