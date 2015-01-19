@@ -2057,6 +2057,8 @@
         padding: 10px $enrollment-module-horizontal-padding;
         select {
             width: auto;
+            padding-top: 3px;
+            padding-bottom: 3px;
         }
         .zip-code {
             width: 100px;
