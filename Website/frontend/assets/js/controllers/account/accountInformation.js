@@ -27,7 +27,9 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 	// process the form
 	$scope.updateAccountInformation = function() {
 		// format the request data
-		var requestData = {};
+	    var requestData = {};
+
+	    $scope.successMessage = $scope.errorMessage = false;
 		
 		requestData.accountNumber = $scope.selectedAccount.accountNumber;
 		requestData.mobilePhone = $scope.formData.mobilePhone;
@@ -54,16 +56,17 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
+			    $scope.isLoading = false;
 				if (data.validations.length) {
 					// if not successful, bind errors to error variables
-					$scope.isLoading = false;
 					$scope.validations = data.validations;
 
+				} else if (!data.success) {
+				    $scope.errorMessage = true;
 				} else {
-					// if successful, show the success message
-					$scope.formDataOriginal = angular.copy($scope.formData);
-					$scope.isLoading = false;
-					$scope.successMessage = true;
+				    // if successful, show the success message
+				    $scope.formDataOriginal = angular.copy($scope.formData);
+				    $scope.successMessage = true;
 				}
 			});
 	};
