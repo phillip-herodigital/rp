@@ -1097,7 +1097,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var autoPayStatus = await paymentService.GetAutoPayStatus(account);
-            if (autoPayStatus.PaymentMethodId == Guid.Empty) 
+            if (autoPayStatus.PaymentMethodId == Guid.Empty && !autoPayStatus.IsEnabled) 
             { 
                 autoPayStatus.PaymentMethodId = null; 
             }

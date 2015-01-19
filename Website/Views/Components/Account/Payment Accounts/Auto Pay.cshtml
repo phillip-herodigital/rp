@@ -38,6 +38,7 @@
                                     data-val="true" data-val-required data-val-if="true" data-val-regex="" data-val-regex-pattern="^[A-Fa-f0-9]{32}$|({|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\))?$|^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$"
                                     ng-model="account.autoPay.paymentMethodId" ng-change="addAccount()">
                                 <option value="" ng-selected="selected">@Html.Sitecore().Field("Select Account Label")</option>
+                                <option ng-show="showUnknownOption" value="00000000-0000-0000-0000-000000000000">@Html.Sitecore().Field("Imported Payment Account")</option>
                                 <option ng-repeat="option in paymentAccountsFor(account)" value="{{ option.id }}">{{ option.displayName }}</option>
                                 <option value="addAccount">@Html.Sitecore().Field("Add Account Text")</option>
                             </select>
