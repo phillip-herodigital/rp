@@ -236,7 +236,7 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.OfferPayment ILocationAdapter.GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, DomainModels.Enrollments.IOfferOptionRules optionRules, DomainModels.Enrollments.IOfferOption option)
         {
-            if (assessDeposit)
+            if (!assessDeposit)
             {
                 return new DomainModels.Enrollments.OfferPayment
                 {
