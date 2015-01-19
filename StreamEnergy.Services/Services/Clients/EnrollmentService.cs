@@ -666,7 +666,7 @@ namespace StreamEnergy.Services.Clients
                                         Details = new PlaceOrderResult
                                         {
                                             ConfirmationNumber = response.EnrollmentReferenceNumber,
-                                            IsSuccess = true,
+                                            IsSuccess = response.Status == "Success",
                                             PaymentConfirmation = ToPaymentResult(response.PaymentResponse),
                                         }
                                     }).ToArray();

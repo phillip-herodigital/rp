@@ -1,4 +1,4 @@
-ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($rootScope, $window) {
+ngApp.factory('mobileEnrollmentService', [function () {
     var service = {
         state: 'TX',
         postalCode5: '',
@@ -26,11 +26,10 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
             businessInformation: service.businessInformation,
             terms: service.terms,
             accountInformation: service.accountInformation,
-            dataPlans: dataPlans,
             phones: phones,
         };
     };
-    service.restoreData = function(data) {
+    service.restoreData = function (data) {
         service.state = data.state;
         service.availableNetworks = data.availableNetworks;
         service.selectedNetwork = data.selectedNetwork;
@@ -39,7 +38,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         service.businessInformation = data.businessInformation;
         service.terms = data.terms;
         service.accountInformation = data.accountInformation;
-        dataPlans = data.dataPlans;
         phones = data.phones;
     };
 
