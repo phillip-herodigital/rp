@@ -433,7 +433,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             var allOffers = stateMachine.InternalContext.AllOffers ?? new Dictionary<Location, LocationOfferSet>(); ;
             stateMachine.Context.Services = (from cartEntry in request.Cart
-                                             let oldService = (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()).SingleOrDefault(l => l.Location.Address == cartEntry.Location.Address)
+                                             let oldService = (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()).FirstOrDefault(l => l.Location.Address == cartEntry.Location.Address)
                                              let location = (oldService != null) ? oldService.Location : cartEntry.Location
                                              let locationOffers = allOffers.ContainsKey(location) ? allOffers[location].Offers : Enumerable.Empty<IOffer>()
                                              select new LocationServices
