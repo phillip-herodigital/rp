@@ -601,7 +601,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     PostalCode5 = "13662"
                 },
             };
-            var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, null).Result;
+            var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, new System.Collections.Specialized.NameValueCollection { { "RefSiteID", "5" }, { "GID", "56" } }).Result;
             while (!saveResult.IsCompleted)
             {
                 saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;

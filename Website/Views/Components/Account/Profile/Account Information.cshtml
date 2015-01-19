@@ -9,6 +9,12 @@
                 </div>
                 <hr class="content-divider" />
             </div>
+            <div ng-show="errorMessage">
+                <div class="notice error">
+                    @Html.Sitecore().Field("Error Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
             <div class="item account-holder">
                 <label class="account-holder-title">@Html.Sitecore().Field("Account Holder Name Text")</label>
                 {{ formData.customerName.first }} {{ formData.customerName.last }}
