@@ -1,4 +1,4 @@
-ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
+ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', 'scrollService', function ($scope, $filter, $http, scrollService) {
     $scope.activeStep = 1;
     $scope.hideComponent = true;
 
@@ -9,7 +9,12 @@ ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', function
 
     $scope.setActiveStep = function(step) {
         $scope.activeStep = step;
-    }
+    };
+
+    $scope.cancelUpgrade = function() {
+        $scope.activeStep = 1;
+        scrollService.scrollTo('configureData', 0, 0, angular.noop);
+    };
 
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
         if (newVal) {

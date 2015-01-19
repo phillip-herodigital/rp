@@ -1,4 +1,4 @@
-﻿<div class="enrollment" ng-controller="ChangeMobilePlanCtrl" ng-hide="hideComponent" loading-indicator ng-cloak>
+﻿<div class="enrollment" id="configureData" ng-controller="ChangeMobilePlanCtrl" ng-hide="hideComponent" loading-indicator ng-cloak>
     <article class="enrollment__box enrollment__configure-data" ng-if="activeStep == 1">
         <header>
             <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
@@ -84,8 +84,8 @@
             </div>
             <footer>
                 <div class="buttons">
-                    <p class="footer-left link"><a href="setActiveStep(1)">@Html.Sitecore().Field("Button - Cancel")</a></p>
-                    <p class="footer-left"><a href="javascript:void(0);" ng-click="setActiveStep(1)" class="button secondary">@Html.Sitecore().Field("Button - Back")</a></p>
+                    <p class="footer-left link"><a href="" ng-click="cancelUpgrade()">@Html.Sitecore().Field("Button - Cancel")</a></p>
+                    <p class="footer-left"><a href="" ng-click="cancelUpgrade()" class="button secondary">@Html.Sitecore().Field("Button - Back")</a></p>
                     <p><a href="javascript:void(0);" ng-click="confirmChange()" ng-disabled="formFields.agreeToTerms != true" class="button" ng-class="{'disabled':formFields.agreeToTerms != true,}">@Html.Sitecore().Field("Button - Confirm")</a></p>
                 </div>
             </footer>
