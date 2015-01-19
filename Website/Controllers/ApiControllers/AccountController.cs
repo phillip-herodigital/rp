@@ -351,11 +351,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return result;
         }
 
-        [Authorize]
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<HttpResponseMessage> InvoicePdf(string account, string invoice)
         {
+            if (!Sitecore.Context.IsLoggedIn)
+            {
+                var login = Request.CreateResponse(HttpStatusCode.Moved);
+                login.Headers.Location = new Uri("/auth/login", UriKind.Relative);
+                return login;
+            }
             currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
 
             var chosenAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == account);
