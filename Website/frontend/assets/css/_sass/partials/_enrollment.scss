@@ -2602,8 +2602,18 @@
             margin-bottom: 1em;
         }
         .transfer-number {
+            @extend .clearfix;
+            @include border-radius(0 0 10px 10px);
+            margin: 0 -18px -10px -18px;
+            background: #ecf9f8;
+            padding: 10px 18px 10px 65px;
+            border-top: 1px solid #ddd;
             line-height: 1.375;
             text-align: left;
+            [class*="icon-"] {
+                float: left;
+                margin-left: -50px;
+            }
         }
     }
     .tabbed-header {
@@ -3080,9 +3090,6 @@
             button {
                 float: none;
                 margin-bottom: 1em;
-            }
-            .current-plan {
-                padding: 7px 0 22px;
             }
         }
     }
