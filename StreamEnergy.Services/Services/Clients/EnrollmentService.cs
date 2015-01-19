@@ -803,6 +803,8 @@ namespace StreamEnergy.Services.Clients
                     UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
                     EmailAddress = account.Details.ContactInfo.Email == null ? null : account.Details.ContactInfo.Email.Address,
                     ProviderId = locAdapter.GetProvider(subAccount),
+                    ContactInfo = account.Details.ContactInfo,
+                    MailingAddress = account.Details.BillingAddress,
                 });
             response.EnsureSuccessStatusCode();
 
