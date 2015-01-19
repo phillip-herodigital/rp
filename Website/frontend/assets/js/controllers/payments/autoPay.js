@@ -29,6 +29,9 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
                 $scope.successMessage = false;
                 $scope.errorMessage = false;
                 $scope.isLoading = false;
+                if ($scope.account.autoPay.isEnabled && $scope.account.autoPay.paymentMethodId == "00000000-0000-0000-0000-000000000000") {
+                    $scope.showUnknownOption = true;
+                }
             });
         }
     });
@@ -85,13 +88,13 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
     };
 
     $scope.getPaymentMethod = function (paymentId) {
-        if (paymentId && paymentId !== 'addAccount') {
+        if (paymentId && paymentId !== 'addAccount' && paymentId != '00000000-0000-0000-0000-000000000000') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).displayName;
         }
     };
 
     $scope.getPaymentMethodType = function (paymentId) {
-        if (paymentId && paymentId !== 'addAccount') {
+        if (paymentId && paymentId !== 'addAccount' && paymentId != '00000000-0000-0000-0000-000000000000') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).underlyingPaymentType;
         }
     };

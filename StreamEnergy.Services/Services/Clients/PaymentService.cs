@@ -241,7 +241,7 @@ namespace StreamEnergy.Services.Clients
 
                 account.AutoPay = new AutoPaySetting
                 {
-                    IsEnabled = methodId != Guid.Empty,
+                    IsEnabled = jobject.AutoPayEnabled,
                     PaymentMethodId = methodId
                 };
             }
