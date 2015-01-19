@@ -254,7 +254,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             EnrollmentType = EnrollmentType.MoveIn,
                         },
                         new CustomerTypeCapability() {
-                            CustomerType = EnrollmentCustomerType.Commercial,
+                            CustomerType = account.SubAccounts.First().CustomerType,
                         },
                         new DomainModels.Enrollments.Mobile.ServiceCapability(),
                     }
