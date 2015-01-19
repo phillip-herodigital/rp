@@ -61,7 +61,12 @@ ngApp.factory('mobileEnrollmentService', [function () {
 
     service.getPhones = function() {
         if (typeof service.selectedNetwork != 'undefined') {
-            return _.filter(phones, function(phone) { return _.contains(phone.networks, service.selectedNetwork.id); });
+            return _.filter(phones, function(phone) { 
+                return (
+                    _.contains(phone.networks, service.selectedNetwork.id) &&
+                    !_(phone.models).pluck('sku').contains('7')
+                ); 
+            });
         } else {
             return null;
         } 
