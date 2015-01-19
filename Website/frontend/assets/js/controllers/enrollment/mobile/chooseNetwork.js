@@ -30,7 +30,6 @@
                         //.where(function (inventoryPlans) { return inventoryPlans.plans.length == plansByProvider[providerName].length })
                         .value();
                 }).value();
-            console.log(networkInventory);
 
             var modelData = _(mobileEnrollmentService.getPhoneData()).pluck('models').flatten();
             _(networkInventory).values().map(function (v) { return _.values(v); }).flatten().pluck('inventory').forEach(function (inv) {
