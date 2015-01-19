@@ -254,7 +254,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             EnrollmentType = EnrollmentType.MoveIn,
                         },
                         new CustomerTypeCapability() {
-                            CustomerType = EnrollmentCustomerType.Commercial,
+                            CustomerType = account.SubAccounts.First().CustomerType,
                         },
                         new DomainModels.Enrollments.Mobile.ServiceCapability(),
                     }
@@ -351,11 +351,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return result;
         }
 
-        [Authorize]
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<HttpResponseMessage> InvoicePdf(string account, string invoice)
         {
+            if (!Sitecore.Context.IsLoggedIn)
+            {
+                var login = Request.CreateResponse(HttpStatusCode.Moved);
+                login.Headers.Location = new Uri("/auth/login", UriKind.Relative);
+                return login;
+            }
             currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
 
             var chosenAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == account);
@@ -1098,7 +1103,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var autoPayStatus = await paymentService.GetAutoPayStatus(account);
-            if (autoPayStatus.PaymentMethodId == Guid.Empty) 
+            if (autoPayStatus.PaymentMethodId == Guid.Empty && !autoPayStatus.IsEnabled) 
             { 
                 autoPayStatus.PaymentMethodId = null; 
             }
