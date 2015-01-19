@@ -72,7 +72,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 }
                 else
                 {
-                    if (context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
+                    if (context.AdditionalAuthorizations.ContainsKey(AdditionalAuthorization.Tcpa) && context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
                     {
                         var details = new StreamEnergy.DomainModels.Accounts.AccountDetails
                         {

@@ -2057,6 +2057,8 @@
         padding: 10px $enrollment-module-horizontal-padding;
         select {
             width: auto;
+            padding-top: 3px;
+            padding-bottom: 3px;
         }
         .zip-code {
             width: 100px;
@@ -3078,6 +3080,9 @@
             button {
                 float: none;
                 margin-bottom: 1em;
+            }
+            .current-plan {
+                padding: 7px 0 22px;
             }
         }
     }

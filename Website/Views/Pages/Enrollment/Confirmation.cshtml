@@ -53,6 +53,10 @@
                             <div class="contact">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
                             <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
                             <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
+                            <div class="contact">
+                                {{ accountInformation.mailingAddress.line1 }} {{ accountInformation.mailingAddress.line2 }}<br>
+                                {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
+                            </div>
                         </div>
                         <div class="col" ng-if="accountInformation.businessInformationName">
                             <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
@@ -241,6 +245,15 @@
             {{ getDevicesCount() }} @Html.Sitecore().Field("Group Plan Text")
         </div>
     </div>
+    <div ng-if="!offerInformation.value.offerSelections[0].confirmationSuccess" ng-cloak>
+        <div class="notice alert">
+            @Html.Sitecore().Field("Confirmation Error")
+        </div>
+    </div>
+    <dl class="clearfix">
+        <dt>@Html.Sitecore().Field("Account Number")</dt>
+        <dd>{{ offerInformation.value.offerSelections[0].confirmationNumber }}</dd>
+    </dl>
     <div class="mobile-services">
             <div class="phone-summary" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-init="item = getConfirmationDeviceDetails(selectedOffer.offerOption.inventoryItemId)">
                 <div class="line-item clearfix">
