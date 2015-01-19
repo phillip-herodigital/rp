@@ -55,6 +55,13 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
             await service.GetAccountDetails(internalContext.Account);
 
+            if (!new EmailAddressAttribute().IsValid(internalContext.Account.Details.ContactInfo.Email.Address))
+            {
+                // account in invalid state for an online account - this case is handled by the front end.
+                // TODO - should do this on the back-end more completely.
+                internalContext.Account.Details.ContactInfo.Email.Address = "";
+            }
+
             context.Customer = internalContext.Account.Details.ContactInfo;            
             context.Address = internalContext.Account.Details.BillingAddress;
             context.AccountNumber = internalContext.Account.AccountNumber;
