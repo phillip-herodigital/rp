@@ -20,7 +20,6 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     $scope.getDeviceTax = enrollmentCartService.getDeviceTax;
     $scope.getDeviceActivationFee = enrollmentCartService.getDeviceActivationFee;
     $scope.getDeviceDeposit = enrollmentCartService.getDeviceDeposit;
-    $scope.getDevicePrice = enrollmentCartService.getDevicePrice;
     $scope.isDeviceInstallmentPlan = enrollmentCartService.isDeviceInstallmentPlan;
 
     $scope.onPrint = function() {

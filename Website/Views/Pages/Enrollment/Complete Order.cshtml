@@ -419,7 +419,7 @@
             {{ item.device.brand }} {{ item.device.name }}<span ng-if="item.size != ''">, {{ item.size }}</span>
         </div>
         <div class="rate" ng-if="item.type == 'new'">
-            {{ item.price | currency }}<span ng-if="item.buyingOption != 'New'">@Html.Sitecore().Field("Per Month Text")</span>
+            {{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}<span ng-if="item.buyingOption != 'New'">@Html.Sitecore().Field("Per Month Text")</span>
         </div>
         <div class="description" ng-if="item.type == 'existing'">
             @Html.Sitecore().Field("Bring Your Own Device")
@@ -661,7 +661,7 @@
                         <h2>{{ item.device.brand }} {{ item.device.name }}</h2>
                         <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }} <a href="" ng-click="editMobileDevice(item)">@Html.Sitecore().Field("Edit Phone Link")</a></div>
                     </div>
-                    @*<div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span ng-if="item.buyingOption != 'New'">@Html.Sitecore().Field("Per Month Text")</span></div>*@
+                    <div class="rate device-price" ng-if="selectedOffer.payments.requiredAmounts[0].phoneCharge > 0">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}@*<span ng-if="item.buyingOption != 'New'">@Html.Sitecore().Field("Per Month Text")</span>*@</div>
                     <div class="description" ng-if="item.type == 'existing'">
                         <h2>@Html.Sitecore().Field("Bring Your Own Device")</h2>
                         <div class="details">{{ item.make.make }} {{ item.model.modelName }}</div>

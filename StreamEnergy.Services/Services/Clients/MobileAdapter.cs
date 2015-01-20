@@ -255,10 +255,11 @@ namespace StreamEnergy.Services.Clients
             {  
                 new Mobile.TotalPaymentAmount 
                 {
-                    DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Total").Amount.ToString()),
-                    TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Tax Total").Amount.ToString()),
-                    SubTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Sub Total").Amount.ToString()),
-                    ActivationFee = Convert.ToDecimal((streamConnectFees.Where(fee => fee.Name == "Activation Fee").Select(fee => fee.Amount).SingleOrDefault() ?? "0").ToString()),
+                    DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Total").Amount.ToString()),
+                    TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Tax Total").Amount.ToString()),
+                    SubTotal = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Sub Total").Amount.ToString()),
+                    ActivationFee = Convert.ToDecimal((streamConnectFees.Where(fee => fee.Name == "Activation Fee").Select(fee => (string)fee.Amount).SingleOrDefault() ?? "0").ToString()),
+                    PhoneCharge = Convert.ToDecimal((streamConnectFees.Where(fee => fee.Name == "Phone Charge").Select(fee => (string)fee.Amount).SingleOrDefault() ?? "0").ToString()),
                     SystemOfRecord = key.SystemOfRecord,
                     DepositAccount = key.SystemOfRecordId,
                 }
