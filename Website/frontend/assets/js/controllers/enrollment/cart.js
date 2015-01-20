@@ -25,6 +25,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
     $scope.getMobileAddresses = enrollmentCartService.getMobileAddresses;
     $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
+    $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
 
     /**
     * Show Bill Account Example Modal
@@ -86,6 +87,27 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
+    * Delete Mobile Device
+    */
+    $scope.deleteMobileDevice = function (item) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        //remove the device from the cart items array
+        enrollmentCartService.removeDeviceFromCart(item);
+        //if there are still devices in the cart, go to data plan selection,
+        //otherwise go to phone selection
+        if (enrollmentCartService.getDevicesCount () > 0) {
+            var service = enrollmentCartService.getActiveService();
+            enrollmentCartService.setActiveService(service);
+            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
+        } else {
+            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+        }
+    };
+
+    /**
     * Add Mobile Device
     */
     $scope.addMobileDevice = function (service) {
@@ -120,6 +142,16 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentCartService.removeOffer(service, selectedOffer);
             enrollmentService.setSelectedOffers(); 
         })
+    };
+
+    /**
+    * Delete plan from cart
+    */
+    $scope.deleteMobilePlan = function (service) {
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.removeService(service);
     };
 
     /**

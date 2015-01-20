@@ -53,30 +53,18 @@
                     </div>
                     <div class="col pull-right">
                         <ul class="network-toggle">
-                            <li>
-                                <a href="" ng-class="{active: connect.carrier == 'att'}" ng-click="connect.carrier = 'att'">
-                                    <i class="icon-att"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" ng-class="{active: connect.carrier == 'sprint'}" ng-click="connect.carrier = 'sprint'">
-                                    <i class="icon-sprint"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" ng-class="{active: connect.carrier == 'verizon'}" ng-click="connect.carrier = 'verizon'">
-                                    <i class="icon-verizon"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" ng-class="{active: connect.carrier == 'tmobile'}" ng-click="connect.carrier = 'tmobile'">
-                                    <i class="icon-tmobile"></i>
+                            <li ng-repeat="item in serverData.carriers">
+                                <a href="" ng-class="{active: connect.carrier == item.key}" ng-click="connect.carrier = item.key">
+                                    <i ng-class="{'icon-att': item.key == 'att','icon-sprint': item.key == 'sprint','icon-verizon': item.key == 'vzw','icon-tmobile': item.key == 'tmo'}"></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <form ng-if="connect.carrier" ng-submit="callValidas()" data-val-bind-messages="validations">
+                <div class="stretch coming-soon" ng-if="connect.carrier && !getCarrier(connect.carrier).showLogin">
+                    @Html.Sitecore().Field("Carrier Coming Soon")
+                </div>
+                <form ng-if="connect.carrier && getCarrier(connect.carrier).showLogin" ng-submit="callValidas()" data-val-bind-messages="validations">
                     <div class="stretch loginFields">
                         @Html.Sitecore().Field("Log In Text")
                         <div class="notice error" ng-show="validasErrors" ng-cloak>
@@ -229,10 +217,10 @@
                                 <span ng-bind="connect.validas.averageMonthlyCost | currency"></span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <span ng-bind="getValidasRecommendation('sprint').price | currency"></span>
+                                <span ng-bind="getMonthlyTotal(getValidasRecommendation('sprint').planId) | currency"></span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <span ng-bind="getValidasRecommendation('att').price | currency"></span>
+                                <span ng-bind="getMonthlyTotal(getValidasRecommendation('att').planId) | currency"></span>
                             </div>
                         </div>
                         <div class="table-row">
@@ -249,12 +237,12 @@
                                 <span class="note">({{ connect.validas.averageMonthlyCost | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                {{ getValidasRecommendation('sprint').price * formData.selectedTimeframe | currency }}
-                                <span class="note">({{ getValidasRecommendation('sprint').price | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
+                                {{ getMonthlyTotal(getValidasRecommendation('sprint').planId) * formData.selectedTimeframe | currency }}
+                                <span class="note">({{ getMonthlyTotal(getValidasRecommendation('sprint').planId) | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                {{ getValidasRecommendation('att').price * formData.selectedTimeframe | currency }}
-                                <span class="note">({{ getValidasRecommendation('att').price | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
+                                {{ getMonthlyTotal(getValidasRecommendation('att').planId) * formData.selectedTimeframe | currency }}
+                                <span class="note">({{ getMonthlyTotal(getValidasRecommendation('att').planId) | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
                             </div>
                             @*<div class="table-cell tco current-plan">
                                 <span class="bar" ng-style="{'height': getTCOHeight('currentPlan') }" ng-bind="calculateTCO('currentPlan') | currency"></span>
@@ -273,10 +261,10 @@
                                 @Html.Sitecore().Field("Savings Over 2 Years")
                             </div>
                             <div class="table-cell tco current-plan"></div>
-                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')">
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
                                 <span ng-bind="getTotalSavings('sprint') | currency"></span>
                             </div>
-                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')">
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
                                 <span ng-bind="getTotalSavings('att') | currency"></span>
                             </div>
                         </div>                        
@@ -376,10 +364,10 @@
                             </div>
                             <div class="table-cell current-plan">
                             </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
                                 <span ng-bind="totalSavingsForCarrier('sprint') | currency"></span>
                             </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
                                 <span ng-bind="totalSavingsForCarrier('att') | currency"></span>
                             </div>
                         </div> 
@@ -641,10 +629,10 @@
                                 @Html.Sitecore().Field("Monthly Cost")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                $<span ng-bind="getManualRecommendation('sprint').price"></span>
+                                <span ng-bind="getMonthlyTotal(getManualRecommendation('sprint').planId) | currency"></span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                $<span ng-bind="getManualRecommendation('att').price"></span>
+                                <span ng-bind="getMonthlyTotal(getManualRecommendation('att').planId) | currency"></span>
                             </div>
                         </div>
                         <div class="table-row">

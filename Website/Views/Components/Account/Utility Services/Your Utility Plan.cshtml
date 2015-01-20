@@ -14,9 +14,12 @@
         </div>
     </article>
 
-    <article class="plain renew-plan" ng-if="!renewal.isEligible && renewalRedirect">
-        <div class="notice message">
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType && !renewal.isEligible && renewalRedirect">
+        <div class="notice message" ng-if="utilityPlan.customerType != 'commercial'">
             @Html.Sitecore().Field("Renew Ineligible Text")
+        </div>
+        <div class="notice message" ng-if="utilityPlan.customerType == 'commercial'">
+            @Html.Sitecore().Field("Commercial Renew Ineligible Text")
         </div>
     </article>
 

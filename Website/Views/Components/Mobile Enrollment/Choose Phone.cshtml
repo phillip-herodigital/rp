@@ -20,6 +20,9 @@
                             </div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone"></div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
+                                <div ng-if="getPhoneCount('byod') > 0" class="selected-icon">
+                                    <span class="phone-count">{{ getPhoneCount('byod') }}</span>
+                                </div>
                                 <h1>@Html.Sitecore().Field("Header - Bring Your Own Phone")</h1>
                             </div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintByod"></div>
@@ -70,6 +73,9 @@
                                         @* Would like to change this out for using the model, but getting rid of ng-repeat will take some extra work *@
                                         <div class="grid three" ng-repeat="phone in mobileEnrollmentService.getPhones() | orderByPrice: mobileServices.getPhones():isPhoneOrderReversed() | phoneFilter: phoneFilters | partition: 3">
                                             <div class="col" ng-repeat="item in phone">
+                                                <div ng-if="getPhoneCount(item.id) > 0" class="selected-icon">
+                                                    <span class="phone-count">{{ getPhoneCount(item.id) }}</span>
+                                                </div>
                                                 <div class="product-image">
                                                     <img ng-src="{{ item.imageFront }}" />
                                                     <div ng-if="!mobileEnrollmentService.getStock(item.id)">
@@ -79,17 +85,13 @@
                                                 </div>
                                                 <h3>{{ item.brand }}&reg; {{ item.name }}</h3>
                                                 <div class="price">
-                                                    <div ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'New')">
-                                                        <span>@Html.Sitecore().Field("New From")</span>
-                                                        {{ mobileEnrollmentService.getConditionPrice(item.id, 'New') | currency }}
+                                                    <div ng-if="mobileEnrollmentService.getInstallmentPrice(item.id)">
+                                                        <span>@Html.Sitecore().Field("Lease From")</span>
+                                                        {{ mobileEnrollmentService.getInstallmentPrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")
                                                     </div>
-                                                    <div ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned') && !mobileEnrollmentService.getConditionPrice(item.id, 'New')">
-                                                        <span>@Html.Sitecore().Field("Reconditioned From")</span>
-                                                        {{ mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned') | currency }}
-                                                    </div>
-                                                    <span class="lease" ng-if="mobileEnrollmentService.getInstallmentPrice(item.id)">@Html.Sitecore().Field("Lease From") {{ mobileEnrollmentService.getInstallmentPrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")</span>
+                                                    <span class="sub-price" ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'New')">@Html.Sitecore().Field("New From") {{ mobileEnrollmentService.getConditionPrice(item.id, 'New') | currency }}</span>
                                                 </div>
-                                                <button ng-click="setSelectedPhone(item.id)" ng-disabled="!mobileEnrollmentService.getStock(item.id)">@Html.Sitecore().Field("Button - Select Phone")</button>
+                                                <button ng-click="setSelectedPhone(item.id)" ng-disabled="!mobileEnrollmentService.getStock(item.id) || !mobileEnrollmentService.getConditionPrice(item.id, 'New')">@Html.Sitecore().Field("Button - Select Phone")</button>
                                             </div>
                                             <div class="col" ng-if="phone.length % 3 == 2"></div>
                                             <div class="col" ng-if="phone.length % 3 == 1"></div>
@@ -210,6 +212,7 @@
                                                         <select name="previousServiceProvider" ng-model="mobileEnrollmentService.previousServiceProvider" ng-options="provider.name for provider in previousServiceProviders" data-val="true" data-val-required></select>
                                                     </div>
                                                     <div class="transfer-number">
+                                                        <i class="icon-warning"></i>
                                                         @Html.Sitecore().Field("Transfer Number Text")
                                                     </div>
                                                 </div>
@@ -294,6 +297,7 @@
                                                     <select name="previousServiceProvider" ng-model="mobileEnrollmentService.previousServiceProvider" ng-options="provider.name for provider in previousServiceProviders" data-val="true" data-val-required></select>
                                                 </div>
                                                 <div class="transfer-number">
+                                                    <i class="icon-warning"></i>
                                                     @Html.Sitecore().Field("Transfer Number Text")
                                                 </div>
                                             </div>

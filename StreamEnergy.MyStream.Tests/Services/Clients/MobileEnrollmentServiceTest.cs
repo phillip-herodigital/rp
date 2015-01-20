@@ -601,7 +601,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     PostalCode5 = "13662"
                 },
             };
-            var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, null).Result;
+            var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, new System.Collections.Specialized.NameValueCollection { { "RefSiteID", "5" }, { "GID", "56" } }).Result;
             while (!saveResult.IsCompleted)
             {
                 saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
@@ -775,6 +775,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             userContext.PaymentInfo = new DomainModels.Payments.TokenizedCard
             {
                 CardToken = TestData.CardToken,
+                Type = "Unknown",
                 BillingZipCode = "75201",
                 ExpirationDate = DateTime.Today.AddDays(60),
                 SecurityCode = "123"

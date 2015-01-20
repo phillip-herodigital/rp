@@ -11,6 +11,9 @@
     </header>
     <form ng-submit="findAccount()" data-val-bind-messages="validations">
         <div class="content" loading-indicator>
+            <div class="notice error" ng-show="noEmail">
+                @Html.Sitecore().Field("No Email Text")
+            </div>
             @Html.Sitecore().Field("Body Text")
             @Html.ValidationSummary()
             <div class="item" @Html.Validation().ErrorClass(model => model.AccountNumber)>

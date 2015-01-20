@@ -874,9 +874,10 @@ article.mobile-pricing-plans {
 
 .mobile-manage-links {
     p.intro {
-        margin: 1em percentage(100/1040);
+        margin: 1em 0;
         letter-spacing: (17/1000);
         font-size: 20px;
+        text-align: center;
     }
     .col {
         //background: image-url("marketing/redesign/Modules/divider.png") center left no-repeat;

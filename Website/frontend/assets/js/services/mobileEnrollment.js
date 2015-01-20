@@ -1,8 +1,8 @@
-ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($rootScope, $window) {
+ngApp.factory('mobileEnrollmentService', [function () {
     var service = {
         state: 'TX',
         postalCode5: '',
-        planType: 'Residential',
+        planType: 'Consumer',
         availableNetworks: [],
         editedDevice: {},
         selectedNetwork: {
@@ -26,11 +26,10 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
             businessInformation: service.businessInformation,
             terms: service.terms,
             accountInformation: service.accountInformation,
-            dataPlans: dataPlans,
             phones: phones,
         };
     };
-    service.restoreData = function(data) {
+    service.restoreData = function (data) {
         service.state = data.state;
         service.availableNetworks = data.availableNetworks;
         service.selectedNetwork = data.selectedNetwork;
@@ -39,7 +38,6 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
         service.businessInformation = data.businessInformation;
         service.terms = data.terms;
         service.accountInformation = data.accountInformation;
-        dataPlans = data.dataPlans;
         phones = data.phones;
     };
 
@@ -63,7 +61,12 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', '$window', function ($ro
 
     service.getPhones = function() {
         if (typeof service.selectedNetwork != 'undefined') {
-            return _.filter(phones, function(phone) { return _.contains(phone.networks, service.selectedNetwork.id); });
+            return _.filter(phones, function(phone) { 
+                return (
+                    _.contains(phone.networks, service.selectedNetwork.id) &&
+                    !_(phone.models).pluck('sku').contains('7')
+                ); 
+            });
         } else {
             return null;
         } 

@@ -26,7 +26,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     public class EnrollmentController : ApiController, IRequiresSessionState
     {
         private readonly Sitecore.Data.Items.Item translationItem;
-        private readonly StateMachineSessionHelper<UserContext, InternalContext> stateHelper;
+        private readonly SessionHelper stateHelper;
         private IStateMachine<UserContext, InternalContext> stateMachine;
         private readonly IValidationService validation;
         private readonly Sitecore.Security.Domains.Domain domain;
@@ -35,9 +35,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
         {
+            private static readonly Type defaultState = typeof(DomainModels.Enrollments.ServiceInformationState);
             public SessionHelper(HttpSessionStateBase session, IUnityContainer container)
-                : base(session, container, typeof(EnrollmentController), typeof(DomainModels.Enrollments.ServiceInformationState), storeInternal: true)
+                : base(session, container, typeof(EnrollmentController), defaultState, storeInternal: true)
             {
+            }
+
+            public bool IsDefault
+            {
+                get { return State == defaultState; }
             }
         }
 
@@ -56,7 +62,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
             if (enrollmentDpiParameters != null)
+            {
+                if (!stateHelper.IsDefault && enrollmentDpiParameters["renewal"] != "true")
+                {
+                    stateHelper.Reset();
+                    await stateHelper.EnsureInitialized().ConfigureAwait(false);
+                }
                 stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
+            }
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -79,7 +92,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.Reset();
             await stateHelper.EnsureInitialized();
 
-            //stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
+            stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
             stateHelper.State = typeof(ServiceInformationState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;
@@ -160,7 +173,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                OfferId = selectedOffer.Offer.Id,
                                                                                OfferOption = selectedOffer.OfferOption,
                                                                                OptionRules = optionRules.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
-                                                                               Payments = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
+                                                                               Payments = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
                                                                                ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id)
                                                                                     .Where(entry =>
                                                                                     {
@@ -169,7 +182,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                     })
                                                                                     .Select(entry => entry.Details.IsSuccess).SingleOrDefault()
                                                                                     || renewalConfirmations.IsSuccess,
-                                                                               ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
+                                                                               ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
                                                                                     ?? renewalConfirmations.ConfirmationNumber
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
@@ -420,7 +433,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             var allOffers = stateMachine.InternalContext.AllOffers ?? new Dictionary<Location, LocationOfferSet>(); ;
             stateMachine.Context.Services = (from cartEntry in request.Cart
-                                             let oldService = (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()).SingleOrDefault(l => l.Location.Address == cartEntry.Location.Address)
+                                             let oldService = (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()).FirstOrDefault(l => l.Location.Address == cartEntry.Location.Address)
                                              let location = (oldService != null) ? oldService.Location : cartEntry.Location
                                              let locationOffers = allOffers.ContainsKey(location) ? allOffers[location].Offers : Enumerable.Empty<IOffer>()
                                              select new LocationServices
