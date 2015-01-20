@@ -68,21 +68,21 @@ namespace StreamEnergy.DomainModels.Enrollments
                         renewalCapability.SubAccount,
                         svc.Offer,
                         svc.OfferOption);
+
+                    if (context.AdditionalAuthorizations.ContainsKey(AdditionalAuthorization.Tcpa) && context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
+                    {
+                        await accountService.GetAccountDetails(renewalCapability.Account);
+                        if (renewalCapability.Account.Details.TcpaPreference != true)
+                        {
+                            renewalCapability.Account.Details.TcpaPreference = true;
+                            await accountService.SetAccountDetails(renewalCapability.Account, renewalCapability.Account.Details);
+                        }
+                    }
+
                     return this.GetType();
                 }
                 else
                 {
-                    if (context.AdditionalAuthorizations.ContainsKey(AdditionalAuthorization.Tcpa) && context.AdditionalAuthorizations[AdditionalAuthorization.Tcpa])
-                    {
-                        var details = new StreamEnergy.DomainModels.Accounts.AccountDetails
-                        {
-                            ContactInfo = renewalCapability.Account.Details.ContactInfo,
-                            BillingAddress = renewalCapability.Account.Details.BillingAddress,
-                            TcpaPreference = true,
-                            BillingDeliveryPreference = renewalCapability.Account.Details.BillingDeliveryPreference
-                        };
-                        await accountService.SetAccountDetails(renewalCapability.Account, details);
-                    }
                     internalContext.RenewalResult = await enrollmentService.EndRenewal(internalContext.RenewalResult);
                     if (!internalContext.RenewalResult.IsCompleted)
                     {
