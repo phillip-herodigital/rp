@@ -51,6 +51,12 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return undefined;
         },
 
+        getActiveServiceType: function () {
+            if (cart.activeServiceIndex >= 0 && typeof services[cart.activeServiceIndex].offerInformationByType != 'undefined')
+                return services[cart.activeServiceIndex].offerInformationByType[0].key;
+            return undefined;
+        },
+
         setActiveServiceIndex: function (serviceIndex) {
             if (serviceIndex >= services.length || serviceIndex < 0)
                 serviceIndex = -1;
