@@ -9,8 +9,10 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
     [Serializable]
     public class InstallmentPlanDetails
     {
-        public bool IsInstallmentPlanAvailable { get; set; }
+        public bool IsAvailable { get; set; }
 
         public CreditRatingInstallmentPlan ByCreditRating { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

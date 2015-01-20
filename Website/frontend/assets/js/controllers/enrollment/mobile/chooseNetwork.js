@@ -15,29 +15,60 @@
     }
 
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
-        var availableDevices = [];
-        if (address && _.filter(address.offerInformationByType, {'key': 'Mobile'}).length != 0) {
-            // change the stock and add prices for the phones we get back from BeQuick
-            angular.forEach(_.filter(address.offerInformationByType, {'key': 'Mobile'})[0].value.availableOffers, function (entry) {
-                availableDevices.push(entry.mobileInventory);
+        if (address && _.any(address.offerInformationByType, { 'key': 'Mobile' })) {
+            var plansByProvider = _(address.offerInformationByType).where({ 'key': 'Mobile' }).pluck('value').pluck('availableOffers').flatten()
+            // what we REALLY want here is to only show inventory that is actually available to all plans for the appropriate network.
+                .groupBy(function (plan) { return plan.provider.toLowerCase(); }).value();
+
+            var networkInventory = _(plansByProvider)
+                .mapValues(function (plansForProvider, providerName) {
+                    return _(plansForProvider).map(function (plan) { return _.map(plan.mobileInventory, function (inventory) { return { inventory: inventory, plan: plan } }); })
+                        .flatten()
+                        .groupBy(function (inventoryPlan) { return inventoryPlan.inventory.id; })
+                        .mapValues(function (inventoryPlans) { return { inventory: inventoryPlans[0].inventory, plans: _.pluck(inventoryPlans, 'plan') }; })
+                        // we may want to remove phones that aren't available for all plans
+                        //.where(function (inventoryPlans) { return inventoryPlans.plans.length == plansByProvider[providerName].length })
+                        .value();
+                }).value();
+
+            var modelData = _(mobileEnrollmentService.getPhoneData()).pluck('models').flatten();
+            _(networkInventory).values().map(function (v) { return _.values(v); }).flatten().pluck('inventory').forEach(function (inv) {
+                var model = modelData.find(function (model) { return model.sku == inv.id });
+                if (model) {
+                    model.inStock = true;
+                    model.price = inv.price;
+                    model.installmentPlans.inStock = inv.installmentPlan.isAvailable;
+                    model.installmentPlans.price = inv.installmentPlan.price;
+                }
             });
-            _(availableDevices).flatten().filter().uniq('id').forEach(function (device) {
-                _.find(mobileEnrollmentService.getPhoneData(), function(phone) {
-                    _.find(phone.models, function(model) {
-                        if (model.sku == device.id) {
-                            model.inStock = true;
-                            model.price = device.price;
-                        } else {
-                            _.find(model.installmentPlans, function(installmentPlan) {
-                                if (installmentPlan.aGroupSku == device.id) {
-                                    installmentPlan.inStock = true;
-                                    installmentPlan.price = device.price;
-                                }
-                            })
-                        }
-                    })
-                });
-            });
+
+            var providerStats = _(plansByProvider).mapValues(function (plansForProvider) {
+                return {
+                    planTypes:
+                        {
+                            individual: {
+                                hasAny: _.some(plansForProvider, function (plan) { return !plan.isChildOffer && !plan.isParentOffer; }),
+                                lowPrice: _(plansForProvider)
+                                    .where(function (plan) { return !plan.isChildOffer && !plan.isParentOffer; })
+                                    .map(function (plan) { return plan.rates[0].rateAmount; }).min()
+                                    .value()
+                            },
+                            group: {
+                                hasAny: _.some(plansForProvider, function (plan) { return plan.isChildOffer || plan.isParentOffer; }),
+                                lowPrice: _(plansForProvider)
+                                    .where(function (plan) { return plan.isParentOffer; })
+                                    .map(function (plan) { return plan.rates[0].rateAmount; }).min()
+                                    .value(),
+                                perLine: _(plansForProvider)
+                                    .where(function (plan) { return plan.isChildOffer; })
+                                    .map(function (plan) { return plan.rates[0].rateAmount; }).min()
+                                    .value()
+                            }
+                        },
+                    numberOfPlans: plansForProvider.length
+                };
+            }).value();
+            $scope.providerStats = providerStats;
         }
     });
 
