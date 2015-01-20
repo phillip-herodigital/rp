@@ -41,7 +41,7 @@
             <hr class="content-divider" />
             <h3 class="billing-address-title">@Html.Sitecore().Field("Billing Address Text")</h3>
             <div class="item">
-                <ul class="checkbox-list">
+                <ul class="checkbox-list" ng-show="formData.serviceAddress.line1 && formData.serviceAddress.city && formData.serviceAddress.stateAbbreviation && formData.serviceAddress.postalCode5">
                     <li>
                         <input type="checkbox" name="billing-address" id="billing-address" ng-model="formData.sameAsService">
                         <label for="billing-address">@Html.Sitecore().Field("Same Address Text")</label>

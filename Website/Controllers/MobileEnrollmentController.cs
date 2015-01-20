@@ -157,7 +157,7 @@ namespace StreamEnergy.MyStream.Controllers
         public static IEnumerable<Item> GetAllPhoneModels(Sitecore.Data.ID phoneID)
         {
             Item[] allPhoneModels = Sitecore.Context.Database.SelectItems("fast:/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Pricing//*[(@@templateid='{151B1A5D-FE85-4FEF-8779-1D2E328391C9}')]");
-            IEnumerable<Item> data = allPhoneModels.Where(item => new Sitecore.Data.ID(item.Fields["Model"].Value) == phoneID);
+            IEnumerable<Item> data = allPhoneModels.Where(item => item.Fields["Model"].Value != "").Where(item => new Sitecore.Data.ID(item.Fields["Model"].Value) == phoneID);
             return data;
         }
 
