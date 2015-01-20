@@ -29,14 +29,16 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
             get { return false; }
         }
 
-        public dynamic TaxTotal { get; set; }
+        public decimal TaxTotal { get; set; }
 
-        public dynamic SubTotal { get; set; }
+        public decimal SubTotal { get; set; }
 
         public string SystemOfRecord { get; set; }
 
         public string DepositAccount { get; set; }
 
-        public dynamic ActivationFee { get; set; }
+        public decimal ActivationFee { get; set; }
+
+        public decimal PhoneCharge { get; set; }
     }
 }
