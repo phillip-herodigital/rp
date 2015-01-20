@@ -2683,6 +2683,7 @@ article.mobile.mobile-plans-usage-calculator {
 			ul.network-toggle {
 				@include inline-block-list();
 				float: right;
+				padding-top: 1px;
 				a {
 					@include background-image(linear-gradient(to top, #FFF 0%, #F7F7F7 100%));
 					@include border-radius(10px);
@@ -2690,16 +2691,26 @@ article.mobile.mobile-plans-usage-calculator {
 					display: block;
 					height: 50px;
 					line-height: 50px;
-					margin-left: 5px;
+					margin: 0 0 5px 5px;
 					padding: 1px 15px;
 					border: 1px solid #cecece;
 					outline: none;
 					&.active {
-						margin-top: -1px;
+						//margin-top: -1px;
 						border: 2px solid #3189bb;
 						padding: 0 14px;
 					}
 				}
+			}
+			.coming-soon {
+				margin-top: 10px;
+				margin-bottom: -11px;
+				padding: $module-vertical-padding $module-horizontal-padding;
+				background-color: #fbfbfc;
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+				text-align: center;
+				font-size: 20px;
 			}		
 			form {
 				padding-bottom: 10px;
