@@ -25,6 +25,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
     $scope.getMobileAddresses = enrollmentCartService.getMobileAddresses;
     $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
+    $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
 
     /**
     * Show Bill Account Example Modal
@@ -141,6 +142,16 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentCartService.removeOffer(service, selectedOffer);
             enrollmentService.setSelectedOffers(); 
         })
+    };
+
+    /**
+    * Delete plan from cart
+    */
+    $scope.deleteMobilePlan = function (service) {
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.removeService(service);
     };
 
     /**

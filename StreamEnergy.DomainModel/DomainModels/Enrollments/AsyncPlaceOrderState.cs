@@ -46,7 +46,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                     {
                         if (placeOrderResult.Details.IsSuccess)
                         {
-                            if (context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
+                            if (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted ||
+                                context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
                             {
                                 placeOrderResult.Details.IsSuccess = false;
                             }

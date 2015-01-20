@@ -236,16 +236,6 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.OfferPayment ILocationAdapter.GetOfferPayment(dynamic streamAccountDetails, bool assessDeposit, DomainModels.Enrollments.IOfferOptionRules optionRules, DomainModels.Enrollments.IOfferOption option)
         {
-            if (!assessDeposit)
-            {
-                return new DomainModels.Enrollments.OfferPayment
-                {
-                    EnrollmentAccountNumber = streamAccountDetails.Key.SystemOfRecordId,
-                    RequiredAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
-                    OngoingAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
-                    PostBilledAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
-                };
-            }
             return new DomainModels.Enrollments.OfferPayment
             {
                 EnrollmentAccountNumber = streamAccountDetails.Key.SystemOfRecordId,
@@ -265,10 +255,11 @@ namespace StreamEnergy.Services.Clients
             {  
                 new Mobile.TotalPaymentAmount 
                 {
-                    DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Total").Amount.ToString()),
-                    TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Tax Total").Amount.ToString()),
-                    SubTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Sub Total").Amount.ToString()),
-                    ActivationFee = Convert.ToDecimal((streamConnectFees.Where(fee => fee.Name == "Activation Fee").Select(fee => fee.Amount).SingleOrDefault() ?? "0").ToString()),
+                    DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Total").Amount.ToString()),
+                    TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Tax Total").Amount.ToString()),
+                    SubTotal = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Sub Total").Amount.ToString()),
+                    ActivationFee = Convert.ToDecimal((streamConnectFees.Where(fee => fee.Name == "Activation Fee").Select(fee => (string)fee.Amount).SingleOrDefault() ?? "0").ToString()),
+                    PhoneCharge = Convert.ToDecimal((streamConnectFees.Where(fee => fee.Name == "Phone Charge").Select(fee => (string)fee.Amount).SingleOrDefault() ?? "0").ToString()),
                     SystemOfRecord = key.SystemOfRecord,
                     DepositAccount = key.SystemOfRecordId,
                 }
