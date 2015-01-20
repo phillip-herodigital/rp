@@ -2,7 +2,7 @@ ngApp.factory('mobileEnrollmentService', [function () {
     var service = {
         state: 'TX',
         postalCode5: '',
-        planType: 'Residential',
+        planType: 'Consumer',
         availableNetworks: [],
         editedDevice: {},
         selectedNetwork: {
