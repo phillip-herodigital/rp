@@ -6,12 +6,12 @@
     $scope.formFields = {
         chosenPlanId: undefined
     };
+    $scope.requestedPlanAvailable = false;
 
     $scope.filterDataPlans = function(plan){
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
             var provider = mobileEnrollmentService.selectedNetwork.value,
-            devicesCount = enrollmentCartService.getDevicesCount();
-        
+                devicesCount = enrollmentCartService.getDevicesCount();
             if (devicesCount == 0) {
                 return null;
             } else if (devicesCount == 1) {
@@ -24,11 +24,8 @@
         }
     };
 
-
-
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
-        //$scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
                 if (entry.value && _(entry.key).contains('Mobile') && entry.value.offerSelections.length) {
@@ -44,11 +41,33 @@
     $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
         if (newVal != oldVal) {
             $scope.planSelection = { selectedOffers: {} };
+            // see if the requested plan is available, and if so, select it
+            if ($scope.mobileEnrollment.requestedPlanId != '' && newVal > 0) {
+                var activeService = enrollmentCartService.getActiveService();
+                var provider = mobileEnrollmentService.selectedNetwork.value
+                var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
+                $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
+                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                        && offer.provider.toLowerCase() == provider 
+                        && !offer.isChildOffer
+                        && ((newVal == 1 && !offer.isParentOffer) || (newVal > 1 && offer.isParentOffer)) 
+                }).some();
+                if ($scope.requestedPlanAvailable) {
+                    var requestedOffer = { 'Mobile': $scope.mobileEnrollment.requestedPlanId };
+                    $scope.planSelection.selectedOffers = requestedOffer;
+                    selectOffers(requestedOffer);
+                }
+
+            }
         }
     });
 
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
+        selectOffers(selectedOffers);
+    });
+
+    function selectOffers(selectedOffers) {
         enrollmentStepsService.setMaxStep('phoneFlowPlans');     
 
         var activeService = enrollmentCartService.getActiveService();
@@ -88,7 +107,7 @@
                 }
             });
         }
-    });
+    };
 
     $scope.editDevice = function() {
         $scope.setCurrentStep('choose-phone');

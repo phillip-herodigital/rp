@@ -10,6 +10,9 @@
     <div class="layout">
         <div class="wrapper cols-2">
             <section>
+                <div class="notice alert" ng-show="mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable">
+                    @Html.Sitecore().Field("Requested Plan Unavailable")
+                </div>
                 <article class="enrollment__box enrollment__configure-data">
                     <header>
                         <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
