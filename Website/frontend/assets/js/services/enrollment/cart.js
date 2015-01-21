@@ -356,25 +356,23 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         getCartCount: function () {
 
             //Get the count for all utility products
-            var utility = _(services)
-                .pluck('offerInformationByType').flatten().filter(function (offer) {
-                    if (typeof offer != 'undefined' && _(offer.key).intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])) {
-                        return offer;
-                    }
-                })
-                .pluck('value').filter().pluck('offerSelections').flatten().filter()
+            var utiltiyAddresses = enrollmentCartService.getUtilityAddresses();
+            var utility = _(utiltiyAddresses)
+                .pluck('offerInformationByType').flatten().filter()
+                .pluck('value').filter()
+                .pluck('offerSelections').flatten().filter()
                 .size();
 
             //Get the count for all mobile products
-            var dataPlan = _(services)
-                .pluck('offerInformationByType').flatten().filter(function (offer) {
-                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
-                        return offer;
-                    }
-                })
-                .pluck('value').filter().pluck('offerSelections').flatten().filter()
+            /*
+            var mobileAddresses = enrollmentCartService.getMobileAddresses();
+            var dataPlan = _(mobileAddresses)
+                .pluck('offerInformationByType').flatten().filter()
+                .pluck('value').filter()
+                .pluck('offerSelections').flatten().filter()
                 .size();
-            var mobile = (dataPlan > 0) ? 1 : cart.items.length;
+            */
+            var mobile = cart.items.length;
 
             return utility + mobile;
         },
