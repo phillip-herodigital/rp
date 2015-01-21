@@ -32,4 +32,10 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
 	$scope.isCartOpen = enrollmentCartService.getCartVisibility;
 	$scope.toggleCart = enrollmentCartService.toggleCart;
 
+	$scope.isFixedHeader = false;
+
+	$scope.setFixedHeader = function(val) {
+		$scope.isFixedHeader = val;
+	};
+
 }]);

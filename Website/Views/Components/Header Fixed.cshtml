@@ -1,4 +1,4 @@
-﻿<header class="site-header fixed" data-fixed-fix>
+﻿<header class="site-header fixed" data-fixed-fix ng-init="setFixedHeader(true)">
     <div class="wrapper">
         <a href="/" class="logo">Logo</a>
         <a href="" class="cart-toggle icon-cart" ng-click="toggleCart()" ng-controller="EnrollmentCartCtrl">Toggle Cart<span class="item-num">{{ getCartCount() }}</span></a>
