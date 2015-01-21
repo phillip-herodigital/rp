@@ -131,8 +131,7 @@
                                     </div>
                                     <hr class="content-divider">
                                     @* Chrome doesn't support <button> as display: table-cell, so we're using <a> *@
-                                    <div>
-                                        <div class="vertical">
+                                    <div class="vertical">
                                         <div class="item simple-options-item">
                                             <label>@Html.Sitecore().Field("Select Color")</label>
                                             <div class="btn-group btn-group-options colors">
@@ -202,87 +201,89 @@
                                             </label>
                                             <div class="btn-group btn-group-options">
                                                 <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'new'">@Html.Sitecore().Field("Assign New Number")</a>
-                                                <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'existing'">@Html.Sitecore().Field("Transfer My Number")</a>
+                                                <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'existing'">@Html.Sitecore().Field("Transfer My Number")</a>
                                             </div>
                                         </div>
-                                        </div>
-                                        <div class="phone-number-group" ng-if="phoneOptions.transferInfo.type == 'existing'">
-                                            <div class="button button-type-border">
-                                                <div class="item">
-                                                    <label>@Html.Sitecore().Field("Label - Enter Existing Number")</label>
-                                                    <input type="text" ng-model="phoneOptions.transferInfo.phoneNumber" data-val="true" data-val-regex data-val-regex-pattern="^\d{3}[^\d]?\d{3}[^\d]?\d{4}$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                </div>
+                                    </div>
+                                    <div class="transfer-number" ng-if="phoneOptions.transferInfo.type == 'existing'">
+                                        <div class="group">
+                                            <div class="item group-col">
+                                                <label>@Html.Sitecore().Field("Label - Enter Existing Number")</label>
+                                                <input type="text" ng-model="phoneOptions.transferInfo.phoneNumber" data-val="true" data-val-regex data-val-regex-pattern="^\d{3}[^\d]?\d{3}[^\d]?\d{4}$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                                            </div>
                                                 
-                                                <div class="item">
-                                                    <label>@Html.Sitecore().Field("Label - Previous Service Provider")</label>
-                                                    <select name="previousServiceProvider" ng-model="phoneOptions.transferInfo.currentProvider" ng-options="provider.name for provider in previousServiceProviders" data-val="true" data-val-required></select>
-                                                </div>
-
-                                                <div class="item">
-                                                    <label>Previous Account Number</label>
-                                                    <input type="text" ng-model="phoneOptions.transferInfo.accountNumber" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                </div>
-                                                
-                                                <div class="item">
-                                                    <label>Previous PIN / Password</label>
-                                                    <input type="text" ng-model="phoneOptions.transferInfo.password" data-val="true" data-val-regex data-val-regex-pattern="^.+$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                </div>
-
-                                                <div class="item">
-                                                    <label>Social Security Number</label>
-                                                    <input type="text" ng-model="phoneOptions.transferInfo.ssn" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                </div>
-
-                                                <div class="group">
-                                                    <div class="item group-col">
-                                                        <label>First Name</label>
-                                                        <input type="text" ng-model="phoneOptions.transferInfo.firstName" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                    </div>
-                                                    <div class="item group-col">
-                                                        <label>Last Name</label>
-                                                        <input type="text" ng-model="phoneOptions.transferInfo.lastName" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                    </div>
-                                                </div>
-                                                    
-                                                <div class="group">
-                                                    <div class="item group-col">
-                                                        <label>Street Number</label>
-                                                        <input type="text" ng-model="phoneOptions.transferInfo.billingAddressStreetNumber" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                    </div>
-                                                    <div class="item group-col">
-                                                        <label>Street Name</label>
-                                                        <input type="text" ng-model="phoneOptions.transferInfo.billingAddressStreetName" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="group">
-                                                    <div class="item group-col">
-                                                        <label>City</label>
-                                                        <input type="text" ng-model="phoneOptions.transferInfo.billingAddressCity" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                    </div>
-                                                    <div class="item">
-                                                        <label>State</label>
-                                                        <select ng-model="phoneOptions.transferInfo.billingAddressState" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" ng-options="state.abbreviation as state.display for state in usStates">
-                                                            <option value="">Please Choose</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="item zip-code">
-                                                        <label>Zip</label>
-                                                        <input class="small" type="text" ng-model="phoneOptions.transferInfo.billingAddressZip" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                                    </div>
-                                                </div>
-                                                    
-                                                <div class="transfer-number">
-                                                    <i class="icon-warning"></i>
-                                                    @Html.Sitecore().Field("Transfer Number Text")
-                                                </div>
+                                            <div class="item group-col">
+                                                <label>@Html.Sitecore().Field("Label - Previous Service Provider")</label>
+                                                <select name="previousServiceProvider" ng-model="phoneOptions.transferInfo.currentProvider" ng-options="provider.name for provider in previousServiceProviders" data-val="true" data-val-required></select>
                                             </div>
                                         </div>
-                                        <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.transferInfo.type == 'new' && false">
-                                            <div class="button button-type-border">
-                                                <label>@Html.Sitecore().Field("Label - Enter Area Code")</label>
-                                                <input type="text" ng-model="phoneOptions.transferInfo.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{3}$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'new'" data-val-required="" />
+                                        <div class="group">
+
+                                            <div class="item group-col">
+                                                <label>@Html.Sitecore().Field("Label - Current Account Number")</label>
+                                                <input type="text" ng-model="phoneOptions.transferInfo.accountNumber" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
                                             </div>
+
+                                            <div class="item group-col">
+                                                <label>@Html.Sitecore().Field("Label - Current PIN")</label>
+                                                <input type="text" ng-model="phoneOptions.transferInfo.password" data-val="true" data-val-regex data-val-regex-pattern="^.+$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="group">
+                                            <div class="item group-col">
+                                                <label>@Html.Sitecore().Field("Label - First Name")</label>
+                                                <input type="text" ng-model="phoneOptions.transferInfo.firstName" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                                            </div>
+                                            <div class="item group-col">
+                                                <label>@Html.Sitecore().Field("Label - Last Name")</label>
+                                                <input type="text" ng-model="phoneOptions.transferInfo.lastName" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="item">
+                                            <label>@Html.Sitecore().Field("Label - Social Security Number")</label>
+                                            <input type="text" ng-model="phoneOptions.transferInfo.ssn" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                                        </div>
+
+
+                                        <div class="group">
+                                            <div class="item group-col">
+                                                <label>@Html.Sitecore().Field("Label - Street Number")</label>
+                                                <input type="text" ng-model="phoneOptions.transferInfo.billingAddressStreetNumber" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                                            </div>
+                                            <div class="item group-col">
+                                                <label>@Html.Sitecore().Field("Label - Street Name")</label>
+                                                <input type="text" ng-model="phoneOptions.transferInfo.billingAddressStreetName" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="group">
+                                            <div class="item group-col">
+                                                <label>@Html.Sitecore().Field("Label - City")</label>
+                                                <input type="text" ng-model="phoneOptions.transferInfo.billingAddressCity" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                                            </div>
+                                            <div class="item">
+                                                <label>@Html.Sitecore().Field("Label - State")</label>
+                                                <select ng-model="phoneOptions.transferInfo.billingAddressState" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" ng-options="state.abbreviation as state.display for state in usStates">
+                                                    <option value="">@Html.Sitecore().Field("Text - Please Choose")</option>
+                                                </select>
+                                            </div>
+                                            <div class="item zip-code">
+                                                <label>@Html.Sitecore().Field("Label - Zip")</label>
+                                                <input class="small" type="text" ng-model="phoneOptions.transferInfo.billingAddressZip" data-val="true" data-val-regex data-val-regex-pattern="^\d*$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="transfer-number-message">
+                                            <i class="icon-warning"></i>
+                                            @Html.Sitecore().Field("Transfer Number Text")
+                                        </div>
+                                    </div>
+                                    <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.transferInfo.type == 'new' && false">
+                                        <div class="button button-type-border">
+                                            <label>@Html.Sitecore().Field("Label - Enter Area Code")</label>
+                                            <input type="text" ng-model="phoneOptions.transferInfo.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{3}$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'new'" data-val-required="" />
                                         </div>
                                     </div>
                                 </div>
