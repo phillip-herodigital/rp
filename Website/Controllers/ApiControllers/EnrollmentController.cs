@@ -180,7 +180,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                         var paymentConfirmation = entry.Details.PaymentConfirmation;
                                                                                         return paymentConfirmation == null || !string.IsNullOrEmpty(paymentConfirmation.ConfirmationNumber);
                                                                                     })
-                                                                                    .Select(entry => entry.Details.IsSuccess).SingleOrDefault()
+                                                                                    .Select(entry => entry.Details.IsSuccess).FirstOrDefault()
                                                                                     || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
                                                                                     ?? renewalConfirmations.ConfirmationNumber
