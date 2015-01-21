@@ -24,6 +24,8 @@
         }
     };
 
+    $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
+
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         if (address && address.offerInformationByType) {
