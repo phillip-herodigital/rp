@@ -127,6 +127,10 @@ namespace StreamEnergy.Interpreters
 
         private static string GetAccountNumber(string p)
         {
+            if (string.IsNullOrEmpty(p))
+            {
+                return "A2";
+            }
             // "decryption"
             try
             {
