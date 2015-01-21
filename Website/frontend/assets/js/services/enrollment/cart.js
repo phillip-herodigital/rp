@@ -136,6 +136,27 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return dataPlan;
         },
 
+        
+        totalPlanPrice: function (plan, plans) {
+            plan = plan || enrollmentCartService.getCartDataPlan();
+            plans = plans || _(services).pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                }).pluck('value').flatten().pluck('availableOffers').flatten().value();
+
+            var childPlan = _.find(plans, function (childPlan) { return childPlan.id == plan.childOfferId; });
+            
+            var devicesCount = enrollmentCartService.getDevicesCount();
+            if (devicesCount == 0) {
+                return null;
+            } else if (devicesCount == 1) {
+                return plan.rates[0].rateAmount;
+            } else {
+                return plan.rates[0].rateAmount + (devicesCount - 1) * childPlan.rates[0].rateAmount;
+            }
+        },
+
         getDevicesCount: function() {
             return cart.items.length;
         },

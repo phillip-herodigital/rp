@@ -151,7 +151,7 @@
                 <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Plan")</a>
             </div>
         </div>
-        <div class="rate">{{ selectedOffer.rates[0].rateAmount | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
+        <div class="rate">{{ totalPlanPrice(selectedOffer) | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
     </div>
 </script>
 

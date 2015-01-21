@@ -26,6 +26,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getMobileAddresses = enrollmentCartService.getMobileAddresses;
     $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
     $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
+    $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
 
     /**
     * Show Bill Account Example Modal
