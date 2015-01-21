@@ -101,7 +101,7 @@
                 color: $scope.phoneOptions.color,
                 imageFront: device.imageFront,
                 warranty: $scope.phoneOptions.warranty,
-                phoneNumber: ($scope.phoneOptions.number.type == "new") ? null : $scope.phoneOptions.number.value,
+                transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
                 sku: selectedModel.sku
             };
         }
@@ -115,7 +115,7 @@
                 activationFee: $scope.activationFee,
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
-                phoneNumber: ($scope.phoneOptions.number.type == "new") ? null : $scope.phoneOptions.number.value,
+                transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
             };
         }
 
