@@ -127,7 +127,7 @@
                         </p>*@
                     </td>
                     <td class="center" ng-show="utilityPlan.rate">
-                        <span class="plan-cost">{{ utilityPlan.rate }}&#162;</span>
+                        <span class="plan-cost">{{ utilityPlan.rate * 100 }}&#162;</span>
                         <p>@Html.Sitecore().Field("Per KwH Text")</p>
                         @*<p class="details">
                             <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
