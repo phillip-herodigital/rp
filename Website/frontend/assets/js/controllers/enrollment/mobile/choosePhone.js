@@ -41,6 +41,19 @@
         scrollService.scrollTo('chooseDevice', jQuery('header.site-header').height() * -1, 0, angular.noop);
     };
 
+    $scope.getPhoneCount = function(id) {
+        var selectedPhones = enrollmentCartService.getCartDevices();
+        if (id == 'byod') {
+            return _(selectedPhones).filter({ buyingOption: 'BYOD'}).size();
+        } else {
+            return _(selectedPhones).filter(function (phone){
+                if (typeof phone.device != 'undefined' && phone.device.id == id) {
+                    return phone;
+                }
+            }).size();
+        }
+    };
+
     $scope.phoneOptionsValid = function() {
         //check $scope.phoneOptions
         return (_.isNotEmpty($scope.phoneOptions) && $scope.phoneOptions.purchaseOption);

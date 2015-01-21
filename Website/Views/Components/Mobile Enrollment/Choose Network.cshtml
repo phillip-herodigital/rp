@@ -67,13 +67,21 @@
                                 <h2>@Html.Raw(network.Header)</h2>
                                 <div class="choose-network-table">
                                     <div class="description">@Html.Raw(network.Description)</div>
-                                    <div class="plan">
-                                        @Html.Raw(network.IndividualPlans)
-                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                    <div class="plan" ng-if="customerType != 'commercial'">
+                                        @Html.Raw(network.IndividualPlansResidential)
+                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-disabled="!providerStats.@(network.Value).planTypes.individual.hasAny" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
                                     </div>
-                                    <div class="plan">
-                                        @Html.Raw(network.GroupPlans)
-                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                    <div class="plan" ng-if="customerType != 'commercial'">
+                                        @Html.Raw(network.GroupPlansResidential)
+                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-disabled="!providerStats.@(network.Value).planTypes.group.hasAny" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                    </div>
+                                    <div class="plan" ng-if="customerType == 'commercial'">
+                                        @Html.Raw(network.IndividualPlansCommercial)
+                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-disabled="!providerStats.@(network.Value).planTypes.individual.hasAny" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                    </div>
+                                    <div class="plan" ng-if="customerType == 'commercial'">
+                                        @Html.Raw(network.GroupPlansCommercial)
+                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')" ng-disabled="!providerStats.@(network.Value).planTypes.group.hasAny" ng-if="'@network.Value' != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">@Html.Sitecore().Field("Button - Shop Devices")</button>
                                     </div>
                                 </div>
                                 <div ng-if="'@network.Value' == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintByod">

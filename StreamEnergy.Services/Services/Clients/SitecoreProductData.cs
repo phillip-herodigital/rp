@@ -135,6 +135,7 @@ namespace StreamEnergy.Services.Clients
                             { "Special Offer", item["Special Offer"] },
                             { "Special Offer Text", item["Special Offer Text"] },
                             { "Special Offer Original Price", item["Special Offer Original Price"] },
+                            { "Hide Plan", item["Hide Plan"] },
                         },
                         Footnotes = new KeyValuePair<string, string>[0]
                     };

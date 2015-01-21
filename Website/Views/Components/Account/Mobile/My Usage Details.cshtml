@@ -4,7 +4,7 @@
         <div class="filters">
             <form>
                 <div class="group">
-                    <div class="item usage-period">
+                    <div class="item usage-period" ng-show="!noUsage">
                         <select ng-change="getUsageStats()" ng-model="currentRangeId">
                             <option ng-repeat="range in dateRanges" value="{{ range.id }}">
                                 @Html.Sitecore().Field("Bill Usage") {{ range.begin | date : format : longDate }} - {{ range.end | date : format : longDate }}
@@ -36,7 +36,7 @@
                 <tr ng-repeat="device in data.deviceUsage">
                     <td>
                         <div class="device-full">
-                            <div class="device-image"><img src="{{ getDeviceImageURL(device.id) }}" /></div>
+                            <div class="device-image"><img ng-src="{{ getDeviceImageURL(device.id) }}" /></div>
                             <div class="device-details">
                                 @*<strong>{{ device.name }}</strong>
                                     <br />*@{{ device.number | phone }}
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="device-short">
-                            <div class="device-image"><img src="{{ getDeviceImageURL(device.id) }}" /></div>
+                            <div class="device-image"><img ng-src="{{ getDeviceImageURL(device.id) }}" /></div>
                         </div>
                     </td>
                     <td>

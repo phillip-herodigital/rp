@@ -29,7 +29,7 @@ namespace StreamEnergy.MyStream.Controllers.Components
             {
                 return View("~/Views/Components/Authentication/My Stream Account.cshtml", new Models.Authentication.LoginRequest
                     {
-                        Username = Request.Cookies["username"].Value,
+                        Username = HttpUtility.UrlDecode(Request.Cookies["username"].Value),
                         RememberMe = true
                     });
             }

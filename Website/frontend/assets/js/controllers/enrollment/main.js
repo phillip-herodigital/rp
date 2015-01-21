@@ -11,7 +11,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     $scope.isLoading = enrollmentService.isLoading;
     $scope.mobileEnrollment = {
         currentStep: 'choose-network',
-        phoneTypeTab: 'new'
+        phoneTypeTab: 'new',
+        requestedPlanId: getParameterByName('mobilePlanId')
     };
 
     $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
@@ -126,5 +127,12 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
         }
         return Object.keys(obj).length;
     };
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec($location.absUrl());
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 
 }]);

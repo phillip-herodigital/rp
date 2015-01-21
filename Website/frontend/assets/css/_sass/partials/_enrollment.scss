@@ -2057,6 +2057,8 @@
         padding: 10px $enrollment-module-horizontal-padding;
         select {
             width: auto;
+            padding-top: 3px;
+            padding-bottom: 3px;
         }
         .zip-code {
             width: 100px;
@@ -2600,8 +2602,18 @@
             margin-bottom: 1em;
         }
         .transfer-number {
+            @extend .clearfix;
+            @include border-radius(0 0 10px 10px);
+            margin: 0 -18px -10px -18px;
+            background: #ecf9f8;
+            padding: 10px 18px 10px 65px;
+            border-top: 1px solid #ddd;
             line-height: 1.375;
             text-align: left;
+            [class*="icon-"] {
+                float: left;
+                margin-left: -50px;
+            }
         }
     }
     .tabbed-header {
@@ -2617,6 +2629,7 @@
             cursor: pointer;
             vertical-align: middle;
             border-bottom: 1px solid #ddd;
+            position: relative;
             &.active {
                 background: #fdfdfd;
                 background-image: none;
@@ -2633,6 +2646,24 @@
             }
             &:first-child {
                 border-right: 1px solid $enrollment-light-border-color;
+            }
+            .selected-icon {
+                position: absolute;
+                top: 0;
+                right: -1px;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 0 45px 45px 0;
+                border-color: transparent #16415c transparent transparent;
+                .phone-count {
+                    position: absolute;
+                    right: -35px;
+                    top: 4px;
+                    color: #fff;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
             }
         }
     }
@@ -2653,6 +2684,7 @@
                 background-color: #fdfdfd;
                 background-position: right top;
                 background-repeat: no-repeat;
+                position: relative;
                 vertical-align: top;
                 padding: 0 20px 25px;
                 width: 33.3333%;
@@ -2660,12 +2692,33 @@
                 &:last-child {
                     border: none;
                 }
+                .selected-icon {
+                    position: absolute;
+                    top: -9px;
+                    right: 0;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 0 45px 45px 0;
+                    border-color: transparent #16415c transparent transparent;
+                    .phone-count {
+                        position: absolute;
+                        right: -35px;
+                        top: 4px;
+                        color: #fff;
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+                }
                 @include breakpoint (small) {
                     width: auto;
                     @include retina-background('horizontal-border.png', 'enrollment');
                     background-color: #fdfdfd;
                     background-position: center bottom;
                     background-repeat: no-repeat;
+                    .selected-icon {
+                        top: 0;
+                    }
                 }
             }
         }
@@ -2729,7 +2782,7 @@
                 color: #999;
                 font-size: 11px;
                 font-weight: 400;
-                &.lease {
+                &.sub-price {
                     font-style: italic;
                 }
             }

@@ -157,7 +157,7 @@ namespace StreamEnergy.MyStream.Controllers
         public static IEnumerable<Item> GetAllPhoneModels(Sitecore.Data.ID phoneID)
         {
             Item[] allPhoneModels = Sitecore.Context.Database.SelectItems("fast:/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Pricing//*[(@@templateid='{151B1A5D-FE85-4FEF-8779-1D2E328391C9}')]");
-            IEnumerable<Item> data = allPhoneModels.Where(item => new Sitecore.Data.ID(item.Fields["Model"].Value) == phoneID);
+            IEnumerable<Item> data = allPhoneModels.Where(item => item.Fields["Model"].Value != "").Where(item => new Sitecore.Data.ID(item.Fields["Model"].Value) == phoneID);
             return data;
         }
 
@@ -180,8 +180,10 @@ namespace StreamEnergy.MyStream.Controllers
                 Device = child.Fields["Network Devices"].Value,
                 StartingPrice = child.Fields["Starting Price"].Value,
                 Header = child.Fields["Network Header"].Value,
-                IndividualPlans = child.Fields["Individual Plans"].Value,
-                GroupPlans = child.Fields["Group Plans"].Value
+                IndividualPlansResidential = child.Fields["Individual Plans - Residential"].Value,
+                GroupPlansResidential = child.Fields["Group Plans - Residential"].Value,
+                IndividualPlansCommercial = child.Fields["Individual Plans - Commercial"].Value,
+                GroupPlansCommercial = child.Fields["Group Plans - Commercial"].Value
             });
 
             return View("~/Views/Components/Mobile Enrollment/Choose Network.cshtml", new ChooseNetwork
@@ -258,11 +260,12 @@ namespace StreamEnergy.MyStream.Controllers
         {
             using (var client = new HttpClient())
             {
+                client.Timeout = TimeSpan.FromMilliseconds(10*60*1000); // Let this request stay open for a long time...
 
                 var json = String.Format("\"LoginUsername\":\"{0}\",\"LoginPassword\":\"{1}\"," +
                                          "\"LoginChallenge\":\"{2}\",\"Carrier\":\"{3}\",\"DownloadBillHistory\":\"true\"," +
                                          "\"DownloadCurrentMonthBill\":\"true\",\"GetProfileDetails\":\"true\"," +
-                                         "\"GetDeviceDetails\":\"true\",\"MaxBillingResults\":\"1\"",
+                                         "\"GetDeviceDetails\":\"true\",\"MaxBillingResults\":\"3\"",
                                          username, password, securityAnswer, carrier);
                 json = "{" + json + "}";
                 var sign = new System.Security.Cryptography.HMACSHA1(System.Text.Encoding.ASCII.GetBytes("6964220bb159b2728309dd7fb21ae886"));

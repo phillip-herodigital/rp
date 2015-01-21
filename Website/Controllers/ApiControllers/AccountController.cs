@@ -244,8 +244,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 new Location() {
                     Address = new DomainModels.Address()
                     {
+                        City = !string.IsNullOrEmpty(account.Details.BillingAddress.City) ? account.Details.BillingAddress.City : "City",
                         PostalCode5 = !string.IsNullOrEmpty(account.Details.BillingAddress.PostalCode5) ? account.Details.BillingAddress.PostalCode5 : "75039",
-                        StateAbbreviation = account.Details.BillingAddress.StateAbbreviation ?? "TX",
+                        StateAbbreviation = !string.IsNullOrEmpty(account.Details.BillingAddress.StateAbbreviation) ? account.Details.BillingAddress.StateAbbreviation : "TX",
                     },
                     Capabilities = new StreamEnergy.DomainModels.IServiceCapability[]
                     {
@@ -253,7 +254,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             EnrollmentType = EnrollmentType.MoveIn,
                         },
                         new CustomerTypeCapability() {
-                            CustomerType = EnrollmentCustomerType.Commercial,
+                            CustomerType = account.SubAccounts.First().CustomerType,
                         },
                         new DomainModels.Enrollments.Mobile.ServiceCapability(),
                     }
@@ -350,11 +351,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return result;
         }
 
-        [Authorize]
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<HttpResponseMessage> InvoicePdf(string account, string invoice)
         {
+            if (!Sitecore.Context.IsLoggedIn)
+            {
+                var login = Request.CreateResponse(HttpStatusCode.Moved);
+                login.Headers.Location = new Uri("/auth/login", UriKind.Relative);
+                return login;
+            }
             currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
 
             var chosenAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == account);

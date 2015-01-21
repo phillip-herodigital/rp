@@ -73,6 +73,7 @@ namespace StreamEnergy.Services.Clients
                 Offers = (from product in streamConnectProductResponse.Products
                           let productData = sitecoreProductData.GetMobileProductData((string)product.ProductId)
                           where productData != null
+                          where productData.Fields["Hide Plan"] != "1"
                           where product.MobileInventory != null
                           let childOffer = streamConnectProductResponse.Products.FirstOrDefault(p => p.ParentGroupProductId == product.ProductId)
                           from offer in (IEnumerable<Mobile.Offer>)GenerateOffers(product, productData, childOffer)
@@ -118,12 +119,13 @@ namespace StreamEnergy.Services.Clients
                               },
                 MobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
                                    let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
+                                   where inventoryData != null
                                    select new Mobile.MobileInventory
                                    {
                                        Id = (string)inventoryType.Id,
                                        TypeId = (string)inventoryType.TypeId,
                                        Price = Convert.ToDecimal(inventoryType.Price.ToString()),
-                                       InstallmentPlan = (inventoryData != null) ? GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory) : null,
+                                       InstallmentPlan = GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory),
                                    }).ToArray(),
 
                 Footnotes = productData.Footnotes,
@@ -136,10 +138,12 @@ namespace StreamEnergy.Services.Clients
             var mandatoryIds = new string[] { inventoryData.Fields["A Group SKU"], inventoryData.Fields["B Group SKU"], inventoryData.Fields["C Group SKU"] };
 
             // The "supportedInventoryTypes" are configured on BeQuick's system. If one doesn't match, then we can't offer the installment plan for this product.
+            var isInstallmentPlanAvailable = mandatoryIds.All(id => (from inventoryType in supportedInventoryTypes
+                                                                     select (string)inventoryType.Id).Contains(id));
             return new InstallmentPlanDetails
             {
-                IsInstallmentPlanAvailable = mandatoryIds.All(id => (from inventoryType in supportedInventoryTypes
-                                                                        select (string)inventoryType.Id).Contains(id)),
+                IsAvailable = isInstallmentPlanAvailable,
+                Price = isInstallmentPlanAvailable ? Convert.ToDecimal((string)(supportedInventoryTypes.First(inv => inv.Id == mandatoryIds[0])).Price.ToString()) : 0,
                 ByCreditRating = new CreditRatingInstallmentPlan
                 {
                     A = inventoryData.Fields["A Group SKU"],
@@ -251,10 +255,11 @@ namespace StreamEnergy.Services.Clients
             {  
                 new Mobile.TotalPaymentAmount 
                 {
-                    DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Total").Amount.ToString()),
-                    TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Tax Total").Amount.ToString()),
-                    SubTotal = Convert.ToDecimal(streamConnectFees.Single(fee => fee.Name == "Sub Total").Amount.ToString()),
-                    ActivationFee = Convert.ToDecimal((streamConnectFees.Where(fee => fee.Name == "Activation Fee").Select(fee => fee.Amount).SingleOrDefault() ?? "0").ToString()),
+                    DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Total").Amount.ToString()),
+                    TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Tax Total").Amount.ToString()),
+                    SubTotal = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Sub Total").Amount.ToString()),
+                    ActivationFee = Convert.ToDecimal((streamConnectFees.Where(fee => fee.Name == "Activation Fee").Select(fee => (string)fee.Amount).SingleOrDefault() ?? "0").ToString()),
+                    PhoneCharge = Convert.ToDecimal((streamConnectFees.Where(fee => fee.Name == "Phone Charge").Select(fee => (string)fee.Amount).SingleOrDefault() ?? "0").ToString()),
                     SystemOfRecord = key.SystemOfRecord,
                     DepositAccount = key.SystemOfRecordId,
                 }

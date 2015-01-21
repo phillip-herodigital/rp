@@ -73,7 +73,7 @@
                                         <div class="detail-row" ng-if="hasPaymentStatus" ng-hide="showColumn('status')"><span class="label"><strong>@Html.Sitecore().Field("Status"):</strong></span><span class="account-info">{{ item.status }}</span></div>
                                         <div class="detail-row" ng-if="item.paymentAccount"><span class="label"><strong>@Html.Sitecore().Field("Payment Account Text")</strong></span><span class="account-info">{{ item.paymentAccount }}</span></div>
                                         <div class="detail-row" ng-if="item.routingNumber"><span class="label"><strong>@Html.Sitecore().Field("Routing Transit Number Text")</strong></span><span class="account-info">{{ item.routingNumber }}</span></div>
-                                        <div class="detail-row" ng-if="item.paymentMadeBy"><span class="label"><strong>@Html.Sitecore().Field("Payment Made By Text")</strong></span><span class="account-info">{{ item.paymentMadeBy }}</span></div>
+                                        @*<div class="detail-row" ng-if="item.paymentMadeBy"><span class="label"><strong>@Html.Sitecore().Field("Payment Made By Text")</strong></span><span class="account-info">{{ item.paymentMadeBy }}</span></div>*@
                                     </div>
                                 </div>
                             </td>

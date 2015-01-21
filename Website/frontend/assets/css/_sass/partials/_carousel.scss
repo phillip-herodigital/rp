@@ -24,6 +24,14 @@
                     text-transform: uppercase;
                 }
             }
+            @include breakpoint(medium) {
+                em {
+                    font-size: 24px;
+                }
+                h1 {
+                    font-size: 48px;
+                }
+            }
             &.lightText {
                 color: #fff;
                 h1 {

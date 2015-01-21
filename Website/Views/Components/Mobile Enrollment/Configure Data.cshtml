@@ -10,6 +10,9 @@
     <div class="layout">
         <div class="wrapper cols-2">
             <section>
+                <div class="notice alert" ng-show="mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable">
+                    @Html.Sitecore().Field("Requested Plan Unavailable")
+                </div>
                 <article class="enrollment__box enrollment__configure-data">
                     <header>
                         <h1>@Html.Sitecore().Field("Header - Select Data Amount")</h1>
@@ -24,7 +27,7 @@
                         @Html.Sitecore().Field("Text - What About Overages")
                     </footer>
                 </article>
-                <article class="enrollment__box enrollment__configure-data" ng-show="planSelection.selectedOffers['Mobile'].length && customerType != 'commercial'">
+                <article class="enrollment__box enrollment__configure-data" ng-show="false && planSelection.selectedOffers['Mobile'].length && customerType != 'commercial'">
                     <div class="content additional-services">
                         <h3>@Html.Sitecore().Field("Additional Services Header")</h3>
                         <div class="additional-service">
