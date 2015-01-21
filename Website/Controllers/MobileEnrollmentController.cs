@@ -265,7 +265,7 @@ namespace StreamEnergy.MyStream.Controllers
                 var json = String.Format("\"LoginUsername\":\"{0}\",\"LoginPassword\":\"{1}\"," +
                                          "\"LoginChallenge\":\"{2}\",\"Carrier\":\"{3}\",\"DownloadBillHistory\":\"true\"," +
                                          "\"DownloadCurrentMonthBill\":\"true\",\"GetProfileDetails\":\"true\"," +
-                                         "\"GetDeviceDetails\":\"true\",\"MaxBillingResults\":\"1\"",
+                                         "\"GetDeviceDetails\":\"true\",\"MaxBillingResults\":\"3\"",
                                          username, password, securityAnswer, carrier);
                 json = "{" + json + "}";
                 var sign = new System.Security.Cryptography.HMACSHA1(System.Text.Encoding.ASCII.GetBytes("6964220bb159b2728309dd7fb21ae886"));
