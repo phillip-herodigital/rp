@@ -18,7 +18,8 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
 
         public string AuthorizedBy { get; set; }
 
-        public string Mdn { get; set; }
+        [Required]
+        public string AccountNumber { get; set; }
 
         public string FirstName { get; set; }
 
