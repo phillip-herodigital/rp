@@ -65,37 +65,17 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
         }
     };
 
-    $scope.$watch("paymentAccounts", function (newVal, oldVal) {
-        if (newVal != oldVal) {
-            paymentAccountsForIndex = [];
-        }
-    });
-    var paymentAccountsForIndex = [];
-    $scope.paymentAccountsFor = function (acct) {
-        if (acct == null) return [];
-        if (paymentAccountsForIndex[acct.accountNumber]) return paymentAccountsForIndex[acct.accountNumber];
-
-        paymentAccountsForIndex[acct.accountNumber] = _.map($scope.paymentAccounts, function (pa) {
-            if (pa.underlyingType == "Unknown" || _.some(acct.availablePaymentMethods, { 'paymentMethodType': pa.underlyingType })) {
-                return pa;
-            } else {
-                var newpa = angular.copy(pa);
-                newpa.id = "";
-                return newpa;
-            }
-        });
-        return paymentAccountsForIndex[acct.accountNumber];
-    };
-
     $scope.getPaymentMethod = function (paymentId) {
         if (paymentId && paymentId !== 'addAccount' && paymentId != '00000000-0000-0000-0000-000000000000') {
-            return _.find($scope.paymentAccounts, { 'id': paymentId }).displayName;
+            var paymentMethod = _.find($scope.paymentAccounts, { 'id': paymentId });
+            if (paymentMethod) return paymentMethod.displayName;
         }
     };
 
     $scope.getPaymentMethodType = function (paymentId) {
         if (paymentId && paymentId !== 'addAccount' && paymentId != '00000000-0000-0000-0000-000000000000') {
-            return _.find($scope.paymentAccounts, { 'id': paymentId }).underlyingPaymentType;
+            var paymentMethod = _.find($scope.paymentAccounts, { 'id': paymentId });
+            if (paymentMethod) return paymentMethod.underlyingPaymentType;
         }
     };
 
@@ -151,6 +131,14 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
     };
 
     $scope.setAutoPay = function () {
+        var paymentMethod = _.find($scope.paymentAccounts, { 'id': $scope.account.autoPay.paymentMethodId });
+        if (!_.some($scope.account.availablePaymentMethods, { 'paymentMethodType': paymentMethod.underlyingType })) {
+            $scope.validations = [{
+                "memberName": "AutoPay.PaymentMethodId",
+                "text": $scope.PaymentAccountError
+            }];
+            return;
+        }
         $scope.isLoading = true;
         $scope.successMessage = false;
         $scope.errorMessage = false;
