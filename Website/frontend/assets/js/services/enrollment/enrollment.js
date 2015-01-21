@@ -173,6 +173,11 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setSelectedOffers = function (overrideServerStep) {
+        if (_(enrollmentCartService.services).pluck('offerInformationByType').flatten().pluck('value').pluck('offerSelections').any(function (selections) { console.log(selections); return selections.length > 1; }))
+        {
+            return service.setAccountInformation();
+        }
+
         //Get from the activeServiceAddress object
         var data = {
             'selection': []
