@@ -170,14 +170,13 @@ namespace StreamEnergy.Services.Clients
                 RequestUniqueKey = account.RequestUniqueKey,
 
                 MobileProvider = offer.Provider,
-                PhoneNumber = offerOption.PhoneNumber,
                 PlanId = account.Offer.Offer.Id,
                 ActivationDate = offerOption.ActivationDate,
                 EsnNumber = offerOption.EsnNumber,
                 SimNumber = offerOption.SimNumber,
                 ImeiNumber = offerOption.ImeiNumber,
                 InventoryItemId = offerOption.InventoryItemId,
-                TransferPhoneNumber = offerOption.TransferPhoneNumber,
+                Transfer = offerOption.TransferInfo,
                 UseInstallmentPlan = offerOption.UseInstallmentPlan,
                 InventoryInstallmentPlanByCredit = offerOption.UseInstallmentPlan
                     ? new { A = selectedInventory.InstallmentPlan.ByCreditRating.A, B = selectedInventory.InstallmentPlan.ByCreditRating.B, C = selectedInventory.InstallmentPlan.ByCreditRating.C }
