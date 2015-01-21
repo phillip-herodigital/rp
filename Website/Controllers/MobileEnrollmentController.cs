@@ -264,7 +264,7 @@ namespace StreamEnergy.MyStream.Controllers
 
                 var json = String.Format("\"LoginUsername\":\"{0}\",\"LoginPassword\":\"{1}\"," +
                                          "\"LoginChallenge\":\"{2}\",\"Carrier\":\"{3}\",\"DownloadBillHistory\":\"true\"," +
-                                         "\"DownloadCurrentMonthBill\":\"true\",\"GetProfileDetails\":\"true\"," +
+                                         "\"DownloadCurrentMonthBill\":\"false\",\"GetProfileDetails\":\"true\"," +
                                          "\"GetDeviceDetails\":\"true\",\"MaxBillingResults\":\"3\"",
                                          username, password, securityAnswer, carrier);
                 json = "{" + json + "}";
