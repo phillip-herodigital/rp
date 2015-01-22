@@ -6,6 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
+    [Serializable]
     public class TransferInfo
     {
         [Required]

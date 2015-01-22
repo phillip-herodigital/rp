@@ -162,12 +162,12 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         getConfirmationDevicesCount: function() {
-            return _(services).pluck('offerInformationByType').flatten().filter(function (offer) {
-                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
-                        return offer;
-                    }
-                })
-            .pluck('value').flatten().pluck('offerSelections').flatten().size();
+            var mobileAddresses = enrollmentCartService.getMobileAddresses();
+            return _(mobileAddresses)
+                .pluck('offerInformationByType').flatten().filter()
+                .pluck('value').filter()
+                .pluck('offerSelections').flatten().filter()
+                .size();
         },
 
         addDeviceToCart: function(item) {

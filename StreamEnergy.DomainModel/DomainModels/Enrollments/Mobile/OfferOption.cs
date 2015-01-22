@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ResponsivePath.Validation;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
@@ -26,6 +27,8 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         public string ImeiNumber { get; set; }
         public string InventoryItemId { get; set; }
         public bool UseInstallmentPlan { get; set; }
+        
+        [ValidateObject]
         public TransferInfo TransferInfo { get; set; }
     }
 }

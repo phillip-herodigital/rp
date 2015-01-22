@@ -15,7 +15,7 @@
         size: undefined,
         //condition: undefined,
         //warranty: undefined,
-        number: undefined
+        transferInfo: undefined
     };
 
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
@@ -70,7 +70,7 @@
             size: undefined,
             //condition: undefined,
             //warranty: undefined,
-            number: undefined,
+            transferInfo: undefined,
         };
     };
 
