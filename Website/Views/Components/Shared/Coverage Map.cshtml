@@ -9,8 +9,8 @@
             </script>
 
             <ul class="network-toggle">
-                <li ng-class="{active:selectedNetwork == 'att'}"><a href="" ng-model="selectedNetwork" btn-radio="'att'"><i class="icon-att"></i></a></li>
-                <li ng-class="{active:selectedNetwork == 'sprint'}"><a href="" ng-model="selectedNetwork" btn-radio="'sprint'"><i class="icon-sprint"></i></a></li>
+                <li ng-class="{active:selectedNetwork == 'att'}"><a href="" ng-model="selectedNetwork" btn-radio="'att'">@Html.Sitecore().Field("GSM Network")</a></li>
+                <li ng-class="{active:selectedNetwork == 'sprint'}"><a href="" ng-model="selectedNetwork" btn-radio="'sprint'">@Html.Sitecore().Field("CDMA Network")</a></li>
             </ul>
 
             <div class="item">

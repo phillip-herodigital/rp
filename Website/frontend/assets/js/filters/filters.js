@@ -248,3 +248,11 @@ ngApp.filter('html', ['$sce', function($sce) {
         return $sce.trustAsHtml(val);
     };
 }]);
+
+ngApp.filter('trimNumber', [function() {
+    return function(number, decimals) {
+        decimals = decimals || 0;
+        return Math.floor(Math.pow(10, decimals) * number) / Math.pow(10, decimals);
+        //return (Math.floor(Math.pow(10, decimals) * number) / Math.pow(10, decimals)).toFixed(decimals);
+    }
+}]);
