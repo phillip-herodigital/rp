@@ -15,10 +15,10 @@
                 <form name="addDevice" data-val-bind-messages="validations" ng-submit="completeStep()">
                     <article class="enrollment__box enrollment__choose-device form">
                         <header class="tabbed-header clearfix">
-                            <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'new' }" ng-click="mobileEnrollment.phoneTypeTab = 'new'" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintBuyPhone">
+                            <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'new' }" ng-click="mobileEnrollment.phoneTypeTab = 'new'" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
                             </div>
-                            <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone"></div>
+                            <div class="tab" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone)"></div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                                 <div ng-if="getPhoneCount('byod') > 0" class="selected-icon">
                                     <span class="phone-count">{{ getPhoneCount('byod') }}</span>
@@ -437,14 +437,14 @@
                                 @Html.Sitecore().Field("Bring A Device")
                                 <button type="button" ng-click="addDeviceToCart('existing')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Bring A Device Link")</button>
                             </div>
-                            <div class="new-line-or" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
+                            <div class="new-line-or" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintByod) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 @Html.Sitecore().Field("Or")
                             </div>
-                            <div class="new-line">
+                            <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 @Html.Sitecore().Field("Shop Phones")
                                 <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Shop Phones Link")</button>
                             </div>
-                            <div class="new-line" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintByod"></div>
+                            <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintByod) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone)"></div>
                         </div>
                     </article>
                     <div class="enrollment__choose-device">
