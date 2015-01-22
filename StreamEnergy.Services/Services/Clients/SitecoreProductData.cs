@@ -154,15 +154,16 @@ namespace StreamEnergy.Services.Clients
 
                 if (item != null)
                 {
+                    var installmentChild = item.Children.FirstOrDefault();
                     return new SitecoreProductInfo
                     {
                         Fields = new NameValueCollection
                         {
                             { "SKU", item["SKU"] },
-                            { "Installment Months", item.Children.First().Fields["Number of Months"].Value },
-                            { "A Group SKU", item.Children.First().Fields["A Group SKU"].Value },
-                            { "B Group SKU", item.Children.First().Fields["B Group SKU"].Value },
-                            { "C Group SKU", item.Children.First().Fields["C Group SKU"].Value },
+                            { "Installment Months", installmentChild == null ? null : installmentChild.Fields["Number of Months"].Value },
+                            { "A Group SKU", installmentChild == null ? null : installmentChild.Fields["A Group SKU"].Value },
+                            { "B Group SKU", installmentChild == null ? null : installmentChild.Fields["B Group SKU"].Value },
+                            { "C Group SKU", installmentChild == null ? null : installmentChild.Fields["C Group SKU"].Value },
                         },
                         Footnotes = new KeyValuePair<string, string>[0]
                     };
