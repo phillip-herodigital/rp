@@ -263,10 +263,10 @@
                                 @Html.Sitecore().Field("Savings Over 2 Years")
                             </div>
                             <div class="table-cell tco current-plan"></div>
-                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:(getTotalSavings('sprint') > 0),cost:!(getTotalSavings('sprint') > 0)}">
                                 <span ng-bind="getTotalSavings('sprint') | currency"></span>
                             </div>
-                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:(getTotalSavings('att') > 0),cost:!(getTotalSavings('att') > 0)}">
                                 <span ng-bind="getTotalSavings('att') | currency"></span>
                             </div>
                         </div>                        
