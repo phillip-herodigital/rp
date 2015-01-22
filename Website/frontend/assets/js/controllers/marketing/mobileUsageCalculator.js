@@ -40,8 +40,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         })  
         .success(function (data, status, headers, config) {
             $scope.isLoading = false;
-            if (data.Success == false) {
-                $scope.validasErrors = data.Messages;
+            if (data.success == false) {
+                $scope.validasErrors = data.messages;
             } else {
                 $scope.connect.validas = data;
                 $scope.connected = true;
