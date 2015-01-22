@@ -24,6 +24,8 @@
         }
     };
 
+    $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
+
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         if (address && address.offerInformationByType) {
@@ -96,7 +98,7 @@
                     simNumber: device.simNumber,
                     imeiNumber: device.imeiNumber,
                     inventoryItemId: device.id,
-                    transferPhoneNumber: (device.phoneNumber == null) ? false : true,
+                    transferInfo: device.transferInfo,
                     useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'BYOD') ? false : true,
                 };
                 offerInformationForType.value.offerSelections.push(offer);

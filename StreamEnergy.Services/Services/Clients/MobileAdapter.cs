@@ -170,18 +170,44 @@ namespace StreamEnergy.Services.Clients
                 RequestUniqueKey = account.RequestUniqueKey,
 
                 MobileProvider = offer.Provider,
-                PhoneNumber = offerOption.PhoneNumber,
                 PlanId = account.Offer.Offer.Id,
                 ActivationDate = offerOption.ActivationDate,
                 EsnNumber = offerOption.EsnNumber,
                 SimNumber = offerOption.SimNumber,
                 ImeiNumber = offerOption.ImeiNumber,
                 InventoryItemId = offerOption.InventoryItemId,
-                TransferPhoneNumber = offerOption.TransferPhoneNumber,
+                Transfer = ToStreamConnect(offerOption.TransferInfo),
                 UseInstallmentPlan = offerOption.UseInstallmentPlan,
                 InventoryInstallmentPlanByCredit = offerOption.UseInstallmentPlan
                     ? new { A = selectedInventory.InstallmentPlan.ByCreditRating.A, B = selectedInventory.InstallmentPlan.ByCreditRating.B, C = selectedInventory.InstallmentPlan.ByCreditRating.C }
                     : null,
+            };
+        }
+
+        private object ToStreamConnect(TransferInfo transfer)
+        {
+            if (transfer == null)
+                return null;
+
+            // not sure why we can't just return the object itself - Json.Net serialized properties, not fields, I thought?
+            return new
+            {
+                PhoneNumber = transfer.PhoneNumber,
+                Password = transfer.Password,
+                CurrentProvider = transfer.CurrentProvider,
+                Ssn = transfer.Ssn,
+                AuthorizedBy = transfer.AuthorizedBy,
+                AccountNumber = transfer.AccountNumber,
+                FirstName = transfer.FirstName,
+                LastName = transfer.LastName,
+                BusinessName = transfer.BusinessName,
+                BillingAddressStreetNumber = transfer.BillingAddressStreetNumber,
+                BillingAddressStreetName = transfer.BillingAddressStreetName,
+                BillingAddressStreetDirection = transfer.BillingAddressStreetDirection,
+                BillingAddressCity = transfer.BillingAddressCity,
+                BillingAddressState = transfer.BillingAddressState,
+                BillingAddressZip = transfer.BillingAddressZip,
+                BillingAddressLine2 = transfer.BillingAddressLine2,
             };
         }
 

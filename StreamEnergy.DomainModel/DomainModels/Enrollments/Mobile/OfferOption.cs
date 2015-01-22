@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ResponsivePath.Validation;
 
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
@@ -21,12 +22,13 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         }
 
         public DateTime ActivationDate { get; set; }
-        public string PhoneNumber { get; set; }
         public string EsnNumber { get; set; }
         public string SimNumber { get; set; }
         public string ImeiNumber { get; set; }
         public string InventoryItemId { get; set; }
         public bool UseInstallmentPlan { get; set; }
-        public bool TransferPhoneNumber { get; set; }
+        
+        [ValidateObject]
+        public TransferInfo TransferInfo { get; set; }
     }
 }

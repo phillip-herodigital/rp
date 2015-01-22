@@ -76,7 +76,7 @@
             <p>
                 <span class="price">
                     <span class="original-price" ng-if="plan.specialOffer">{{ plan.specialOfferOriginalPrice | currency }}@Html.Sitecore().Field("Per Month Text")</span>
-                    {{ plan.rates[0].rateAmount | currency }}@Html.Sitecore().Field("Per Month Text")<span ng-if="plan.specialOffer">*</span>
+                    {{ totalPlanPrice(plan, typedOffers.value.availableOffers) | currency }}@Html.Sitecore().Field("Per Month Text")<span ng-if="plan.specialOffer">*</span>
                 </span>
             </p>
         </div>
