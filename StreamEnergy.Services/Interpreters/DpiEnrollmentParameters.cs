@@ -17,6 +17,8 @@ namespace StreamEnergy.Interpreters
         private readonly string DpiAuthPwd;
         private readonly IDpiTokenService dpiTokenService;
         private readonly ILogger logger;
+        private const string DefaultAgent = "A2";
+        private const string DefaultSalesSource = "MyStreamWebSite";
 
         public DpiEnrollmentParameters([Dependency("DpiEnrollmentFormDomain")] string dpiEnrollmentFormDomain, IDpiTokenService dpiTokenService, [Dependency("DpiAuthID")] string DpiAuthID, [Dependency("DpiAuthPwd")] string DpiAuthPwd, ILogger logger)
         {
@@ -49,7 +51,7 @@ namespace StreamEnergy.Interpreters
 
         public string AccountNumber
         {
-            get { return GetAccountNumber(queryString["SPID"] ?? "A2"); }
+            get { return GetAccountNumber(queryString["SPID"] ?? DefaultAgent); }
         }
 
         public Newtonsoft.Json.Linq.JObject ToStreamConnectSalesInfo()
@@ -57,9 +59,9 @@ namespace StreamEnergy.Interpreters
             if (queryString == null)
                 return Newtonsoft.Json.Linq.JObject.FromObject(new
                 {
-                    AgentId = (string)null,
+                    AgentId = DefaultAgent,
                     FreeEnergyReferralId = (string)null,
-                    SalesSource = "Other"
+                    SalesSource = DefaultSalesSource
                 });
 
             return Newtonsoft.Json.Linq.JObject.FromObject(new
@@ -129,7 +131,7 @@ namespace StreamEnergy.Interpreters
         {
             if (string.IsNullOrEmpty(p))
             {
-                return "A2";
+                return DefaultAgent;
             }
             // "decryption"
             try
@@ -140,7 +142,7 @@ namespace StreamEnergy.Interpreters
             }
             catch
             {
-                return "A2";
+                return DefaultAgent;
             }
         }
 
@@ -170,9 +172,9 @@ namespace StreamEnergy.Interpreters
             {
                 logger.Record("Error calling GetDpiTokenUrl", ex);
             }
-            
 
-            request.AccountNumber = "A2";
+
+            request.AccountNumber = DefaultAgent;
 
             try
             {
@@ -239,7 +241,7 @@ namespace StreamEnergy.Interpreters
                 case "10": // myignite.com
                     return "MyIgniteHomesite";
             }
-            return "Other";
+            return DefaultSalesSource;
         }
 
         private static string TranslateLanguage(string p)
