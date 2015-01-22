@@ -120,7 +120,7 @@
                                 <span ng-show="connect.validas.phoneLines > 1">@Html.Sitecore().Field("Lines")</span>
                             </strong>
                             @Html.Sitecore().Field("Averaged")
-                            <strong><span ng-bind="(connect.validas.averageMonthlyData / 1000) | number:1"></span>GB</strong>@Html.Sitecore().Field("Per Month")
+                            <strong><span ng-bind="(connect.validas.averageMonthlyData / 1000) | trimNumber:2"></span>GB</strong>@Html.Sitecore().Field("Per Month")
                             @Html.Sitecore().Field("At A Price Of")
                             <strong><span ng-bind="connect.validas.averageMonthlyCost | currency"></span></strong>@Html.Sitecore().Field("Per Month").
                             <a href='#' ng-click="resetConnect()">@Html.Sitecore().Field("Login With A Different Account")</a>
@@ -188,7 +188,7 @@
                                 @Html.Sitecore().Field("Monthly Data")
                             </div>
                             <div class="table-cell current-plan">
-                                <span ng-bind="(connect.validas.averageMonthlyData / 1000) | number:1"></span> GB
+                                <span ng-bind="(connect.validas.averageMonthlyData / 1000) | trimNumber:2"></span> GB
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 <span ng-bind="getValidasRecommendation('sprint').data"></span> GB
@@ -263,10 +263,10 @@
                                 @Html.Sitecore().Field("Savings Over 2 Years")
                             </div>
                             <div class="table-cell tco current-plan"></div>
-                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:(getTotalSavings('sprint') > 0),cost:!(getTotalSavings('sprint') > 0)}">
                                 <span ng-bind="getTotalSavings('sprint') | currency"></span>
                             </div>
-                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:(getTotalSavings('att') > 0),cost:!(getTotalSavings('att') > 0)}">
                                 <span ng-bind="getTotalSavings('att') | currency"></span>
                             </div>
                         </div>                        

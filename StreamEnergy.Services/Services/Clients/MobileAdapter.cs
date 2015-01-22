@@ -83,15 +83,29 @@ namespace StreamEnergy.Services.Clients
 
         private IEnumerable<Mobile.Offer> GenerateOffers(dynamic product, SitecoreProductInfo productData, dynamic childOffer)
         {
-            yield return GenerateSingleOffer(product, productData, childOffer, false);
+            List<Mobile.Offer> result = new List<Offer>();
+            result.Add(GenerateSingleOffer(product, productData, childOffer, false));
+
             if (childOffer != null)
-            {
-                yield return GenerateSingleOffer(childOffer, productData, null, true);
-            }
+                result.Add(GenerateSingleOffer(childOffer, productData, null, true));
+            if (result.Any(r => r == null))
+                return Enumerable.Empty<Mobile.Offer>();
+            return result;
         }
 
         private Offer GenerateSingleOffer(dynamic product, SitecoreProductInfo productData, dynamic childOffer, bool isChildOffer)
         {
+            var mobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
+                                   let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
+                                   where inventoryData != null
+                                   select new Mobile.MobileInventory
+                                   {
+                                       Id = (string)inventoryType.Id,
+                                       TypeId = (string)inventoryType.TypeId,
+                                       Price = Convert.ToDecimal(inventoryType.Price.ToString()),
+                                       InstallmentPlan = GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory),
+                                   }).ToArray();
+
             return new Mobile.Offer
             {
                 Id = product.ProductId,
@@ -117,16 +131,7 @@ namespace StreamEnergy.Services.Clients
                 Rates = new[] {
                                   new Mobile.Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
                               },
-                MobileInventory = (from inventoryType in (IEnumerable<dynamic>)product.MobileInventory
-                                   let inventoryData = sitecoreProductData.GetMobileInventoryData((string)inventoryType.Id)
-                                   where inventoryData != null
-                                   select new Mobile.MobileInventory
-                                   {
-                                       Id = (string)inventoryType.Id,
-                                       TypeId = (string)inventoryType.TypeId,
-                                       Price = Convert.ToDecimal(inventoryType.Price.ToString()),
-                                       InstallmentPlan = GetInstallmentPlanIds(inventoryData, supportedInventoryTypes: product.MobileInventory),
-                                   }).ToArray(),
+                MobileInventory = mobileInventory,
 
                 Footnotes = productData.Footnotes,
 
