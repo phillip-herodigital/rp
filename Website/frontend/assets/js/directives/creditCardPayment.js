@@ -11,7 +11,7 @@
                     return {
                         paymentType: 'TokenizedCard',
                         cardToken: value,
-                        expirationDate: new Date(ctrl.expirationYear, ctrl.expirationMonth),
+                        expirationDate: new Date(ctrl.expirationYear, parseInt(ctrl.expirationMonth)-1),
                         name: ctrl.nameOnCard,
                         billingZipCode: ctrl.billingZip,
                         securityCode: ctrl.securityCode,
