@@ -1,6 +1,8 @@
 ﻿<article class="marketing marketingIntro mobile mobile-pricing-plans">
     <div class="wrapper">
         <div class="overview grid">
+            @if (Html.Sitecore().HasValue("Show ATT Individual Plans") || Html.Sitecore().HasValue("Show ATT Group Plans"))
+            {
             <div class="col">
                 <div class="mobile-network">
                     <i class="icon-gsm"></i>
@@ -31,6 +33,9 @@
                     }
                 </div>
             </div>
+            }
+            @if (Html.Sitecore().HasValue("Show Sprint Individual Plans") || Html.Sitecore().HasValue("Show Sprint Group Plans"))
+            {
             <div class="col">
                 <div class="mobile-network">
                     <i class="icon-cdma"></i>
@@ -61,6 +66,7 @@
                     }
                 </div>
             </div>
+            }
         </div>
         @*
         <div class="detail grid">

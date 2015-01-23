@@ -10,6 +10,8 @@
                 </tr>
             </thead>
             <tbody>
+                @if (Html.Sitecore().HasValue("Show Consumer Plans"))
+                {
                 <tr>
                     <td class="label">
                         <h3>@Html.Sitecore().Field("Consumer Plans")</h3>
@@ -18,6 +20,9 @@
                     <td>@Html.Sitecore().Field("Consumer Individual Plans")</td>
                     <td>@Html.Sitecore().Field("Consumer Shared Plans")</td>
                 </tr>
+                }
+                @if (Html.Sitecore().HasValue("Show Business Plans"))
+                {
                 <tr>
                     <td class="label">
                         <h3>@Html.Sitecore().Field("Business Plans")</h3>
@@ -26,6 +31,7 @@
                     <td>@Html.Sitecore().Field("Business Individual Plans")</td>
                     <td>@Html.Sitecore().Field("Business Shared Plans")</td>
                 </tr>
+                }
             </tbody>
         </table>
         <div class="footnotes">@Html.Sitecore().Field("Footnotes")</div>
