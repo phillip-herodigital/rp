@@ -82,10 +82,10 @@
                         </tr>
                         <tr>
                             <th>@Html.Sitecore().Field("Group Plans - Monthly Cost")</th>
-                            <td>${{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 1 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) }}/mo</td>
-                            <td>${{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 2 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) }}/mo</td>
-                            <td>${{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 3 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) }}/mo</td>
-                            <td>${{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 4 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) }}/mo</td>
+                            <td>{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 1 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</td>
+                            <td>{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 2 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</td>
+                            <td>{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 3 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</td>
+                            <td>{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 4 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</td>
                         </tr>
                     </tbody>
                 </table>

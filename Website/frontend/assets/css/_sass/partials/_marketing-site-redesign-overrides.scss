@@ -409,9 +409,13 @@ article {
         padding: 20px 0;
         background-image: none;
 
+        .wrapper {
+            padding: 0;
+            background: none;
+        }
 
         blockquote {
-            margin: 0 percentage(298/1280) 0 percentage(225/1280);
+            //margin: 0 percentage(298/1280) 0 percentage(225/1280);
 
             p {
                 padding-left: 0;
