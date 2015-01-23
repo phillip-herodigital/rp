@@ -23,12 +23,37 @@
         <input type="hidden" name="repEmail" value="@(Model.RepEmail != null ? Model.RepEmail.Address : "")" />
         <input type="hidden" name="salesource" value="@Model.SaleSource">
     </form>
+
+
+
     <div class="intro">
         <div class="wrapper">
             <h1>@Html.Sitecore().Field("Intro Header")</h1>
             @Html.Sitecore().Field("Intro Content")
         </div>
     </div>
+    <article class="marketing protective-services">
+        <div class="wrapper">
+            <div class="grid border three">
+                <div class="col identityTheft">
+                    <h3>Identity Protection</h3>
+                    <p>Protect yourself and your loved ones from the growing threat of identity theft with Stream’s Identity Protection. </p>
+                    <p><a href="/en/services/homelife" class="significant">View Details</a></p>
+                </div>
+                <div class="col creditMonitoring">
+                    <h3>Credit Monitoring</h3>
+                    <p>Review your past credit history, check your current score, and plan for the future with Stream’s Credit Monitoring.</p>
+                    <p><a href="/en/services/homelife" class="significant">View Details</a></p>
+                </div>
+                <div class="col onlineBackupAndProtection">
+                    <h3>Tech Support</h3>
+                    <p>Keep your computers running smoothly and your important files safe with Stream’s Tech Support and automatic data backup services. </p>
+                    <p><a href="/en/services/homelife" class="significant">View Details</a></p>
+                </div>
+            </div>
+        </div>
+    </article>
+
     <div class="homelife-promo">
         <div class="wrapper">
             <h3>@Html.Sitecore().Field("Promo Header")</h3>
