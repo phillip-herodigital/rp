@@ -58,6 +58,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult GetUsageCalculatorData()
         {
+            Item mobileSettings = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
             Item dataPlansItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Data Plans");
             Item planRecommendationItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Plan Recommendations/Plan Recommendations");
             MultilistField attConsumerIndividualPlans = planRecommendationItem.Fields["ATT Consumer Individual Plans"];
@@ -145,6 +146,7 @@ namespace StreamEnergy.MyStream.Controllers
                 key = "att",
                 name = planRecommendationItem.Fields["ATT"].Value,
                 showLogin = !String.IsNullOrEmpty(planRecommendationItem.Fields["Show ATT Login"].Value),
+                showRecommendations = true,
                 fees = new
                 {
                     ActivationFee = planRecommendationItem.Fields["ATT Activation Fee"].Value,
@@ -156,6 +158,7 @@ namespace StreamEnergy.MyStream.Controllers
                 key = "sprint",
                 name = planRecommendationItem.Fields["Sprint"].Value,
                 showLogin = !String.IsNullOrEmpty(planRecommendationItem.Fields["Show Sprint Login"].Value),
+                showRecommendations = !String.IsNullOrEmpty(mobileSettings.Fields["Sprint Buy Phone"].Value) || !String.IsNullOrEmpty(mobileSettings.Fields["Sprint BYOD"].Value),
                 fees = new
                 {
                     ActivationFee = planRecommendationItem.Fields["ATT Activation Fee"].Value,

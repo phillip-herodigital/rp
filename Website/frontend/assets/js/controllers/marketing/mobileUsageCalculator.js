@@ -66,6 +66,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     };
 
     $scope.hasRecommendationForCarrier = function(carrier) {
+        if (!$scope.getCarrier(carrier).showRecommendations) {
+            return false; // disable carrier recommendations if setting is turned off
+        }
         if($scope.currentTab === 'connect.tpl.html') {
             return $scope.getValidasRecommendation(carrier);
         } else {
@@ -232,16 +235,14 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         var bestPlan, coll = null;
 
         if($scope.manualCalculator.lines == 1) {
-            if(carrier === 'sprint') {
-                coll = $scope.serverData.recommendedPlans.sprint.individual;
-            } else {
-                coll = $scope.serverData.recommendedPlans.att.individual;
-            }
-        } else if(carrier === 'sprint') {
-            coll = $scope.serverData.recommendedPlans.sprint.group;
+            coll = $scope.serverData.recommendedPlans[carrier].individual;
+        } else {
+            coll = $scope.serverData.recommendedPlans[carrier].group;
         }
         
-        if(coll == null) { return coll; }
+        if (!coll.length) {
+            return;
+        }
 
         bestPlan = _.find(coll, function(plan) {
             return plan.data > $scope.calculatorTotalInGB(); // no ceiling, use the real value
@@ -279,6 +280,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         $scope.currentTab = UsageCalculator.currentTab;
 
         $scope.serverData.recommendedPlans.att.individual = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.att.individual);
+        $scope.serverData.recommendedPlans.att.group = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.att.group);
         $scope.serverData.recommendedPlans.sprint.individual = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.sprint.individual);
         $scope.serverData.recommendedPlans.sprint.group = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.sprint.group);
 

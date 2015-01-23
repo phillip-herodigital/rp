@@ -427,7 +427,7 @@
                             </div>
                         </toggle-pane>
                     </article>
-                    <article class="enrollment__box enrollment__choose-device" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
+                    <article class="enrollment__box enrollment__choose-device" ng-if="!isLastItem() && mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
                         <header>
                             <h3>@Html.Sitecore().Field("Add Line Header")</h3>
                         </header>
@@ -449,7 +449,7 @@
                     <div class="enrollment__choose-device">
                         <div class="buttons" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
                             <span class="complete-step">@Html.Sitecore().Field("Complete Step Text")</span>
-                            <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
+                            <button type="submit" class="primary" ng-disabled="isCartFull()" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
                             <button type="button" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Button")</button>
                         </div>
                         <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>

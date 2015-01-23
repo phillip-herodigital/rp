@@ -27,7 +27,7 @@
                         </span>
                     </p>
                     <div class="buttons">
-                        <button type="submit" class="primary" ng-if="plan.id != currentPlan.id" ng-click="selectPlan(plan);"><span ng-if="plan.data < currentPlan.data || !currentPlan.data">@Html.Sitecore().Field("Button - Select Plan")</span><span ng-if="plan.data >= currentPlan.data">@Html.Sitecore().Field("Button - Upgrade")</span></button>
+                        <button type="submit" class="primary" ng-if="plan.id != currentPlan.id" ng-click="selectPlan(plan);"><span ng-if="!isUpgrade(plan.data, currentPlan.data)">@Html.Sitecore().Field("Button - Select Plan")</span><span ng-if="isUpgrade(plan.data, currentPlan.data)">@Html.Sitecore().Field("Button - Upgrade")</span></button>
                         <span class="current-plan" ng-if="plan.id == currentPlan.id">@Html.Sitecore().Field("Current Plan")</span>
                     </div>
                 </div>
