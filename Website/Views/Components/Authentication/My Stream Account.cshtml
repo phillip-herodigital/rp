@@ -11,6 +11,9 @@
 		</header>
         <div class="content" loading-indicator>
             <form ng-submit="login()" data-val-bind-messages="validations">
+                <div class="notice alert" ng-show="timeoutMessage" ng-cloak>
+                    @Html.Sitecore().Field("Timeout Text")
+                </div>
                 <div class="notice error" ng-show="loginError" ng-bind-html="loginError" ng-cloak></div>
                 @Html.ValidationSummary()
                 <div class="group">

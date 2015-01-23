@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the overall page, such as the mobile navigation sidebar.
  */
-ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', 'enrollmentCartService', function ($scope, $rootScope, $http, $templateCache, enrollmentCartService) {
+ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', '$timeout', '$window', 'enrollmentCartService', function ($scope, $rootScope, $http, $templateCache, $timeout, $window, enrollmentCartService) {
 
 	// Private Methods
 	var buildNavLinks = function() {
@@ -37,5 +37,19 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
 	$scope.setFixedHeader = function(val) {
 		$scope.isFixedHeader = val;
 	};
+
+	// in the account section send the user to the login page 
+	// if it's close to the session timeout
+	var url = $window.location.href;
+	var delay = 60000 * 59;
+	if (url.toLowerCase().indexOf('/account') > 0) {
+		$timeout(function() {
+			// make sure this isn't an auth page that just got redirected to
+			if (url.toLowerCase().indexOf('/auth/') < 0){
+				$window.location.href = '/auth/login?timeout=true&url=' + encodeURIComponent($window.location.pathname);
+			}
+	    }, delay);
+	}
+	
 
 }]);
