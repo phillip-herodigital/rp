@@ -40,14 +40,12 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
 
 	// in the account section send the user to the login page 
 	// if it's close to the session timeout
-	var url = $window.location.href;
-	var delay = 60000 * 59;
-	if (url.toLowerCase().indexOf('/account') > 0) {
+	var pathName = $window.location.pathname;
+	var reg = /^\/(e[ns]\/)?account($|\/|\?|#)/;
+	var delay = 60000 * 29;
+	if (reg.exec(pathName) != null) {
 		$timeout(function() {
-			// make sure this isn't an auth page that just got redirected to
-			if (url.toLowerCase().indexOf('/auth/') < 0){
-				$window.location.href = '/auth/login?timeout=true&url=' + encodeURIComponent($window.location.pathname);
-			}
+			$window.location.href = '/auth/login?timeout=true&url=' + encodeURIComponent(pathName);
 	    }, delay);
 	}
 	
