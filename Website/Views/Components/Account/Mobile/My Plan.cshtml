@@ -80,7 +80,7 @@
                 <p>@Html.Sitecore().Field("Overage Paragraph")</p>
                 <h5><strong>@Html.Sitecore().Field("Terms and Conditions Header")</strong></h5>
                 <p><input id="agreeToTerms" ng-model="formFields.agreeToTerms" type="checkbox" /><label for="agreeToTerms">@Html.Sitecore().Field("Agree to Terms")</label></p>
-                <textarea>@Html.Sitecore().Field("Terms Paragraph")</textarea>
+                <div class="terms">@Html.Sitecore().Field("Terms Paragraph")</div>
             </div>
             <footer>
                 <div class="buttons">
