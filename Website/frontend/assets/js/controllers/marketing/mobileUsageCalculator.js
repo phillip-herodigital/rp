@@ -66,6 +66,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
     };
 
     $scope.hasRecommendationForCarrier = function(carrier) {
+        if (!$scope.getCarrier(carrier).showRecommendations) {
+            return false; // disable carrier recommendations if setting is turned off
+        }
         if($scope.currentTab === 'connect.tpl.html') {
             return $scope.getValidasRecommendation(carrier);
         } else {
