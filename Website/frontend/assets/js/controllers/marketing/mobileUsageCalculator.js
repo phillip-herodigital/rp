@@ -240,7 +240,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
             coll = $scope.serverData.recommendedPlans[carrier].group;
         }
         
-        if(coll == null) { return coll; }
+        if (!coll.length) {
+            return;
+        }
 
         bestPlan = _.find(coll, function(plan) {
             return plan.data > $scope.calculatorTotalInGB(); // no ceiling, use the real value
