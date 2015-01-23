@@ -241,11 +241,10 @@
                                             </div>
                                         </div>
 
-                                        <div class="item" data-val-error="TransferInfo.SSN">
+                                        @*<div class="item" data-val-error="TransferInfo.SSN">
                                             <label>@Html.Sitecore().Field("Label - Social Security Number")</label>
                                             <input name="TransferInfo.SSN" type="text" ng-model="phoneOptions.transferInfo.ssn" data-val="true" data-val-regex data-val-regex-pattern="^\d{3}\D*\d{2}\D*\d{4}$" data-val-if="mobileEnrollment.phoneTypeTab == 'new' && selectedPhone.id == '@phone.Id' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                                        </div>
-
+                                        </div>*@
 
                                         <div class="group">
                                             <div class="item group-col" data-val-error="TransferInfo.BillingAddressStreetNumber">
@@ -328,7 +327,7 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <div class="item" data-val-error="simNumber" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'">
+                                    <div class="item" data-val-error="simNumber" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' && customerType == 'commercial'">
                                         <label>
                                             @Html.Sitecore().Field("Header - SIM Card Number")
                                             <span class="label-description">@Html.Sitecore().Field("Text - SIM Card Number Note")</span>
