@@ -141,15 +141,15 @@
                                 <i ng-class="{'icon-att': connect.validas.network == 'att','icon-sprint': connect.validas.network == 'sprint','icon-verizon': connect.validas.network == 'vzw','icon-tmobile': connect.validas.network == 'tmo'}"></i>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <div class="mobile-poweredBy">
-                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                                    <span>powered by: <strong>@Html.Sitecore().Field("Sprint") </strong></span>
+                                <div class="mobile-network">
+                                    <i class="icon-cdma"></i>
+                                    <h2>@Html.Sitecore().Field("Network")</h2>
                                 </div>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <div class="mobile-poweredBy">
-                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                                    <span>powered by: <strong>@Html.Sitecore().Field("ATT") </strong></span>
+                                <div class="mobile-network">
+                                    <i class="icon-gsm"></i>
+                                    <h2>@Html.Sitecore().Field("Network")</h2>
                                 </div>
                             </div>
                         </div>
@@ -554,21 +554,26 @@
                     </div>
                 </div>
                 <div class="stretch" ng-show="!isModal">
-                    <div class="plan-table">
+                    <div ng-show="!hasRecommendationForCarrier('sprint') && !hasRecommendationForCarrier('att')">
+                        <div class="content">
+                            @Html.Sitecore().Field("No Plans Available")
+                        </div>
+                    </div>
+                    <div class="plan-table" ng-show="hasRecommendationForCarrier('sprint') || hasRecommendationForCarrier('att')">
                         <div class="table-row">
                             <div class="table-cell label">
                                 @Html.Sitecore().Field("Network Provider")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <div class="mobile-poweredBy">
-                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                                    <span>powered by: <strong>@Html.Sitecore().Field("Sprint") </strong></span>
+                                <div class="mobile-network">
+                                    <i class="icon-cdma"></i>
+                                    <h2>@Html.Sitecore().Field("Network")</h2>
                                 </div>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <div class="mobile-poweredBy">
-                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                                    <span>powered by: <strong>@Html.Sitecore().Field("ATT") </strong></span>
+                                <div class="mobile-network">
+                                    <i class="icon-gsm"></i>
+                                    <h2>@Html.Sitecore().Field("Network")</h2>
                                 </div>
                             </div>
                         </div>
