@@ -272,7 +272,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                              where mobileOffer != null && !mobileOffer.IsChildOffer
                              where mobileOffer.Provider == subAccountForPlan.Carrier
                              where (account.SubAccounts.Count() == 1 && mobileOffer.IsParentOffer == false) || (account.SubAccounts.Count() > 1 && mobileOffer.IsParentOffer == true)
-                             select mobileOffer).OrderBy(o => o.Data).ToArray(),
+                             select mobileOffer).OrderBy(o => o.Data.PadLeft(2, '0')).ToArray(),
             };
             return response;
         }
