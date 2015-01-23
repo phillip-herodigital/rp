@@ -48,7 +48,7 @@
         <div class="grid" id="@Html.Sitecore().Field("Network ID")-group">
             <div class="col">
                 <div class="mobile-network">
-                    <i class="icon-gsm"></i>
+                    <i ng-class="{'icon-gsm': '@Html.Sitecore().Field("Network ID")' == 'att', 'icon-cdma': '@Html.Sitecore().Field("Network ID")' == 'sprint'}"></i>
                     <h2>@Html.Sitecore().Field("Network")</h2>
                 </div>
                 <p>@Html.Sitecore().Field("Group Plans - Details")</p>
