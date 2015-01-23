@@ -1,6 +1,24 @@
 ﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
 
+    var maxMobileItems = 10;
+
     $scope.mobileEnrollmentService = mobileEnrollmentService;
+    
+    $scope.isCartFull = function () {
+        if (enrollmentCartService.getDevicesCount() == maxMobileItems) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $scope.isLastItem = function () {
+        if (enrollmentCartService.getDevicesCount() >= maxMobileItems - 1) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     $scope.phoneFilters = {
         condition: undefined,
