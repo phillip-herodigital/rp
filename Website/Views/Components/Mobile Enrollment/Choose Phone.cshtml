@@ -338,7 +338,7 @@
                                             <span class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></span>
                                         </div>
                                     </div>
-                                    <hr ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
+                                    <hr ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' && customerType == 'commercial'" />
                                     <div class="item">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
