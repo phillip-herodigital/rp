@@ -12,13 +12,15 @@
     
 }
 <article id="@(Html.Sitecore().CurrentItem["Custom ID"] == string.Empty ? null : Html.Sitecore().CurrentItem["Custom ID"])" class="marketing quote @string.Join(" ", classes)" style="background-color: @color">
-    <blockquote>
-        @Html.Sitecore().Field("Quote")
-        @if (Html.Sitecore().HasValue("Cite"))
-        {
-            <footer>
-                — <cite>@Html.Sitecore().Field("Cite")</cite>
-            </footer>
-        }
-    </blockquote>
+    <div class="wrapper">
+        <blockquote>
+            @Html.Sitecore().Field("Quote")
+            @if (Html.Sitecore().HasValue("Cite"))
+            {
+                <footer>
+                    — <cite>@Html.Sitecore().Field("Cite")</cite>
+                </footer>
+            }
+        </blockquote>
+    </div>
 </article>

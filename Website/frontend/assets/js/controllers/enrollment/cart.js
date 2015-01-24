@@ -29,6 +29,16 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
 
     /**
+    * Show IMEI Instructions Modal
+    */
+    $scope.showImeiExample = function () {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'showImeiModal'
+        })
+    };
+
+    /**
     * Show Bill Account Example Modal
     */
     $scope.showBillAccountExample = function () {

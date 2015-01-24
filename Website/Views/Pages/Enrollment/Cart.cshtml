@@ -233,3 +233,15 @@
         </div>
     </div>
 </script>
+
+<script type="text/ng-template" id="showImeiModal">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("IMEI ESN Instructions Header")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("IMEI ESN Instructions Content")
+        </div>
+    </div>
+</script>

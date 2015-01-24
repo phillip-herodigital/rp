@@ -409,9 +409,13 @@ article {
         padding: 20px 0;
         background-image: none;
 
+        .wrapper {
+            padding: 0;
+            background: none;
+        }
 
         blockquote {
-            margin: 0 percentage(298/1280) 0 percentage(225/1280);
+            //margin: 0 percentage(298/1280) 0 percentage(225/1280);
 
             p {
                 padding-left: 0;
@@ -634,6 +638,13 @@ article.service-links {
     }
 }
 
+.mobile-network {
+    display: inline-block;
+    h2 {
+        margin: 0;
+    }
+}
+
 .protective-services {
     h2 {
         color: #222a4c;
@@ -727,7 +738,7 @@ article.mobile-pricing-plans {
         width: 100%;
         border-spacing: 0;
 
-        .mobile-poweredBy {
+        .mobile-network {
             margin: 20px 0;
         }
 
@@ -959,6 +970,10 @@ article.mobile-pricing-plans {
         @include breakpoint(small) {
             width: 100%;
         }
+    }
+
+    h3 {
+        margin: 0 0 5px 0;
     }
 
     table {
