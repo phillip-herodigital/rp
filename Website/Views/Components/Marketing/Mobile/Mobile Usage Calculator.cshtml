@@ -86,7 +86,7 @@
                             </div>
                             <div class="item">
                                 <label>@Html.Sitecore().Field("Security Question")</label>
-                                <input type="text" ng-model="connect.securityAnswer">
+                                <input type="password" ng-model="connect.securityAnswer">
                                 <span class="note">@Html.Sitecore().Field("Security Question Link", new { text = @Html.Sitecore().Field("Cant Remember Security Question") })</span>
                             </div>
                         </div>
