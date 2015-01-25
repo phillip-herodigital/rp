@@ -7,7 +7,7 @@ using System.Text;
 namespace StreamEnergy.DomainModels.Enrollments.Mobile
 {
     [Serializable]
-    public class TransferInfo : ISanitizable
+    public class TransferInfo
     {
         [Required]
         public string PhoneNumber { get; set; }
@@ -41,17 +41,5 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         public string BillingAddressZip { get; set; }
 
         public string BillingAddressLine2 { get; set; }
-
-        void ISanitizable.Sanitize()
-        {
-            if (this.PhoneNumber != null)
-            {
-                this.PhoneNumber = System.Text.RegularExpressions.Regex.Replace(this.PhoneNumber, "[^0-9]", "");
-            }
-            if (this.Ssn != null)
-            {
-                this.Ssn = System.Text.RegularExpressions.Regex.Replace(this.PhoneNumber, "[^0-9]", "");
-            }
-        }
     }
 }
