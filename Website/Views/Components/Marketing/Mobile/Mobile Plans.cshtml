@@ -1,12 +1,13 @@
 ﻿<article class="marketing marketingIntro mobile mobile-pricing-plans">
     <div class="wrapper">
         <div class="overview grid">
+            @if (Html.Sitecore().HasValue("Show ATT Individual Plans") || Html.Sitecore().HasValue("Show ATT Group Plans"))
+            {
             <div class="col">
-                <div class="mobile-poweredBy">
-                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                    <span>powered by: <strong>@Html.Sitecore().Field("ATT") </strong></span>
+                <div class="mobile-network">
+                    <i class="icon-gsm"></i>
+                    <h2>@Html.Sitecore().Field("Network")</h2>
                 </div>
-                @*<h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("ATT")</strong></span></h2>*@
                 <div class="grid">
                     @if (Html.Sitecore().HasValue("Show ATT Individual Plans"))
                     {
@@ -32,12 +33,14 @@
                     }
                 </div>
             </div>
+            }
+            @if (Html.Sitecore().HasValue("Show Sprint Individual Plans") || Html.Sitecore().HasValue("Show Sprint Group Plans"))
+            {
             <div class="col">
-                <div class="mobile-poweredBy">
-                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                    <span>powered by: <strong>@Html.Sitecore().Field("Sprint") </strong></span>
+                <div class="mobile-network">
+                    <i class="icon-cdma"></i>
+                    <h2>@Html.Sitecore().Field("Network")</h2>
                 </div>
-                @*<h2><img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png"> <span>@Html.Sitecore().Field("Powered By"): <strong>@Html.Sitecore().Field("Sprint")</strong></span></h2>*@
                 <div class="grid">
                     @if (Html.Sitecore().HasValue("Show Sprint Individual Plans"))
                     {
@@ -63,6 +66,7 @@
                     }
                 </div>
             </div>
+            }
         </div>
         @*
         <div class="detail grid">

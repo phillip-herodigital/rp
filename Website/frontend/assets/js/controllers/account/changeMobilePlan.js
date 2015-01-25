@@ -16,6 +16,10 @@ ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', 'scrollS
         scrollService.scrollTo('configureData', 0, 0, angular.noop);
     };
 
+    $scope.isUpgrade = function(data, currentPlan) {
+        return parseInt(data) >= parseInt(currentPlan)
+    };
+
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
         if (newVal) {
             $scope.selectedAcct = newVal;

@@ -151,7 +151,7 @@
                 <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Plan")</a>
             </div>
         </div>
-        <div class="rate">{{ selectedOffer.rates[0].rateAmount | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
+        <div class="rate">{{ totalPlanPrice(selectedOffer) | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
     </div>
 </script>
 
@@ -230,6 +230,18 @@
         </div>
         <div class="modal-footer">
             <button ng-click="$dismiss()">@Html.Sitecore().Field("Continue Button")</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="showImeiModal">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("IMEI ESN Instructions Header")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("IMEI ESN Instructions Content")
         </div>
     </div>
 </script>

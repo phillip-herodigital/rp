@@ -99,7 +99,9 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 sprintBuyPhone = !string.IsNullOrEmpty(item.Fields["Sprint Buy Phone"].Value),
                 sprintByod = !string.IsNullOrEmpty(item.Fields["Sprint BYOD"].Value),
+                attBuyPhone = !string.IsNullOrEmpty(item.Fields["ATT Buy Phone"].Value),
                 excludedStates = item.Fields["Excluded States"].Value.Split(','),
+                disableSharedPlans = !string.IsNullOrEmpty(item.Fields["Disable Shared Plans"].Value),
                 disableMobileEnrollments = !string.IsNullOrEmpty(item.Fields["Disable Mobile Enrollments"].Value) && Request.QueryString["SecretAccess"] != "true"
             };
 

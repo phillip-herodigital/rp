@@ -26,6 +26,17 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getMobileAddresses = enrollmentCartService.getMobileAddresses;
     $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
     $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
+    $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
+
+    /**
+    * Show IMEI Instructions Modal
+    */
+    $scope.showImeiExample = function () {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'showImeiModal'
+        })
+    };
 
     /**
     * Show Bill Account Example Modal

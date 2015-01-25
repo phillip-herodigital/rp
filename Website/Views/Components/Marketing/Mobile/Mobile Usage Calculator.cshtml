@@ -86,7 +86,7 @@
                             </div>
                             <div class="item">
                                 <label>@Html.Sitecore().Field("Security Question")</label>
-                                <input type="text" ng-model="connect.securityAnswer">
+                                <input type="password" ng-model="connect.securityAnswer">
                                 <span class="note">@Html.Sitecore().Field("Security Question Link", new { text = @Html.Sitecore().Field("Cant Remember Security Question") })</span>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                                 <span ng-show="connect.validas.phoneLines > 1">@Html.Sitecore().Field("Lines")</span>
                             </strong>
                             @Html.Sitecore().Field("Averaged")
-                            <strong><span ng-bind="(connect.validas.averageMonthlyData / 1000) | number:1"></span>GB</strong>@Html.Sitecore().Field("Per Month")
+                            <strong><span ng-bind="(connect.validas.averageMonthlyData / 1000) | trimNumber:2"></span>GB</strong>@Html.Sitecore().Field("Per Month")
                             @Html.Sitecore().Field("At A Price Of")
                             <strong><span ng-bind="connect.validas.averageMonthlyCost | currency"></span></strong>@Html.Sitecore().Field("Per Month").
                             <a href='#' ng-click="resetConnect()">@Html.Sitecore().Field("Login With A Different Account")</a>
@@ -138,18 +138,18 @@
                                 @Html.Sitecore().Field("Network Provider")
                             </div>
                             <div class="table-cell current-plan">
-                                <i class="icon-{{ connect.validas.network }}"></i>
+                                <i ng-class="{'icon-att': connect.validas.network == 'att','icon-sprint': connect.validas.network == 'sprint','icon-verizon': connect.validas.network == 'vzw','icon-tmobile': connect.validas.network == 'tmo'}"></i>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <div class="mobile-poweredBy">
-                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                                    <span>powered by: <strong>@Html.Sitecore().Field("Sprint") </strong></span>
+                                <div class="mobile-network">
+                                    <i class="icon-cdma"></i>
+                                    <h2>@Html.Sitecore().Field("Network")</h2>
                                 </div>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <div class="mobile-poweredBy">
-                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                                    <span>powered by: <strong>@Html.Sitecore().Field("ATT") </strong></span>
+                                <div class="mobile-network">
+                                    <i class="icon-gsm"></i>
+                                    <h2>@Html.Sitecore().Field("Network")</h2>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +158,7 @@
                                 @Html.Sitecore().Field("Coverage Map")
                             </div>
                             <div class="table-cell current-plan">
-                                -
+                                @Html.Sitecore().Field("NA")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 @Html.Sitecore().Field("Nationwide CDMA Network")
@@ -188,7 +188,7 @@
                                 @Html.Sitecore().Field("Monthly Data")
                             </div>
                             <div class="table-cell current-plan">
-                                <span ng-bind="(connect.validas.averageMonthlyData / 1000) | number:1"></span> GB
+                                <span ng-bind="(connect.validas.averageMonthlyData / 1000) | trimNumber:2"></span> GB
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 <span ng-bind="getValidasRecommendation('sprint').data"></span> GB
@@ -201,7 +201,9 @@
                             <div class="table-cell label">
                                 @Html.Sitecore().Field("Text And Talk")
                             </div>
-                            <div class="table-cell current-plan">-</div>
+                            <div class="table-cell current-plan">
+                                @Html.Sitecore().Field("NA")
+                            </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 @Html.Sitecore().Field("Unlimited")
                             </div>
@@ -261,10 +263,10 @@
                                 @Html.Sitecore().Field("Savings Over 2 Years")
                             </div>
                             <div class="table-cell tco current-plan"></div>
-                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:(getTotalSavings('sprint') > 0),cost:!(getTotalSavings('sprint') > 0)}">
                                 <span ng-bind="getTotalSavings('sprint') | currency"></span>
                             </div>
-                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
+                            <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:(getTotalSavings('att') > 0),cost:!(getTotalSavings('att') > 0)}">
                                 <span ng-bind="getTotalSavings('att') | currency"></span>
                             </div>
                         </div>                        
@@ -283,10 +285,10 @@
                                 <span ng-bind="connect.validas.totalEtf | currency"></span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                -   
+                                @Html.Sitecore().Field("NA")   
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                -
+                                @Html.Sitecore().Field("NA")
                             </div>
                         </div>
                         <div class="table-row" ng-show="showBreakdown">
@@ -297,17 +299,19 @@
                                 <span ng-bind="connect.validas.leasedPayoffFee | currency"></span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                -
+                                @Html.Sitecore().Field("NA")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                -
+                                @Html.Sitecore().Field("NA")
                             </div>
                         </div>
                         <div class="table-row" ng-show="showBreakdown">
                             <div class="table-cell label">
                                 @Html.Sitecore().Field("Activation Fee")
                             </div>
-                            <div class="table-cell current-plan">-</div>
+                            <div class="table-cell current-plan">
+                                @Html.Sitecore().Field("NA")
+                            </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 <div class="activationFee">
                                     <span ng-bind="(connect.validas.phoneLines * getCarrier('sprint').fees.activationFee) | currency"></span>
@@ -349,7 +353,7 @@
                                 @Html.Sitecore().Field("Trade Value")
                             </div>
                             <div class="table-cell current-plan">
-                                -
+                                @Html.Sitecore().Field("NA")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 <span ng-bind="connect.validas.tradeInValue | currency"></span>
@@ -367,7 +371,7 @@
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
                                 <span ng-bind="totalSavingsForCarrier('sprint') | currency"></span>
                             </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('att'),cost:!hasSavingsForCarrier('att')}">
                                 <span ng-bind="totalSavingsForCarrier('att') | currency"></span>
                             </div>
                         </div> 
@@ -428,9 +432,9 @@
                     <div class="col right">
                         <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.emails"></div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                            <span class="none">@Html.Sitecore().Field("Email None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Email Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("Email A Lot Text")</span>
                         </div>
                     </div>
                 </div>
@@ -447,9 +451,9 @@
                     <div class="col right">
                         <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.pictures"></div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                            <span class="none">@Html.Sitecore().Field("Pictures None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Pictures Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("Pictures A Lot Text")</span>
                         </div>
                     </div>
                 </div>
@@ -466,9 +470,9 @@
                     <div class="col right">
                         <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.music"></div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                            <span class="none">@Html.Sitecore().Field("Music None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Music Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("Music A Lot Text")</span>
                         </div>
                     </div>
                 </div>
@@ -485,9 +489,9 @@
                     <div class="col right">
                         <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.video"></div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                            <span class="none">@Html.Sitecore().Field("Video None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Video Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("Video A Lot Text")</span>
                         </div>
                     </div>
                 </div>
@@ -504,9 +508,9 @@
                     <div class="col right">
                         <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.surfing"></div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("A Lot Text")</span>
+                            <span class="none">@Html.Sitecore().Field("Web Surfing None Text")</span>
+                            <span class="some">@Html.Sitecore().Field("Web Surfing Some Text")</span>
+                            <span class="alot">@Html.Sitecore().Field("Web Surfing A Lot Text")</span>
                         </div>
                     </div>
                 </div>
@@ -550,21 +554,26 @@
                     </div>
                 </div>
                 <div class="stretch" ng-show="!isModal">
-                    <div class="plan-table">
+                    <div ng-show="!hasRecommendationForCarrier('sprint') && !hasRecommendationForCarrier('att')">
+                        <div class="content">
+                            @Html.Sitecore().Field("No Plans Available")
+                        </div>
+                    </div>
+                    <div class="plan-table" ng-show="hasRecommendationForCarrier('sprint') || hasRecommendationForCarrier('att')">
                         <div class="table-row">
                             <div class="table-cell label">
                                 @Html.Sitecore().Field("Network Provider")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <div class="mobile-poweredBy">
-                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                                    <span>powered by: <strong>@Html.Sitecore().Field("Sprint") </strong></span>
+                                <div class="mobile-network">
+                                    <i class="icon-cdma"></i>
+                                    <h2>@Html.Sitecore().Field("Network")</h2>
                                 </div>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <div class="mobile-poweredBy">
-                                    <img alt="Stream" src="/frontend/assets/i/marketing/redesign/stream_logo.png">
-                                    <span>powered by: <strong>@Html.Sitecore().Field("ATT") </strong></span>
+                                <div class="mobile-network">
+                                    <i class="icon-gsm"></i>
+                                    <h2>@Html.Sitecore().Field("Network")</h2>
                                 </div>
                             </div>
                         </div>

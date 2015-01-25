@@ -2600,6 +2600,17 @@ article.usage-summary {
 				}
 			}
 		}
+		.terms {
+            margin-top: 10px;
+            height: 100px;
+            overflow-y: scroll;
+            padding: 5px;
+            border: 1px solid #e9e9e9;
+            @include border-radius(10px);
+            :first-child {
+                margin-top: 0;
+            }
+        }
 	}
 }
 article.upgrade-effective {
@@ -2664,13 +2675,14 @@ article.coverage-map {
 	ul.network-toggle {
 		@include inline-block-list();
 		float: right;
+		margin-top: 1.5em;
 		a {
 			@include background-image(linear-gradient(to top, #FFF 0%, #F7F7F7 100%));
 			@include border-radius(10px);
 			@include box-shadow(inset 0 0 2px rgba(251, 247, 194, 0.75));
 			display: block;
-			height: 50px;
-			line-height: 50px;
+			height: 34px;
+			line-height: 34px;
 			padding: 1px 15px;
 			border: 1px solid #cecece;
 			outline: none;

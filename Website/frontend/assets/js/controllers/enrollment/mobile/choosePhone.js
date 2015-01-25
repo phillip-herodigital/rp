@@ -1,6 +1,24 @@
 ﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
 
+    var maxMobileItems = 10;
+
     $scope.mobileEnrollmentService = mobileEnrollmentService;
+    
+    $scope.isCartFull = function () {
+        if (enrollmentCartService.getDevicesCount() == maxMobileItems) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $scope.isLastItem = function () {
+        if (enrollmentCartService.getDevicesCount() >= maxMobileItems - 1) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     $scope.phoneFilters = {
         condition: undefined,
@@ -15,7 +33,7 @@
         size: undefined,
         //condition: undefined,
         //warranty: undefined,
-        number: undefined
+        transferInfo: undefined
     };
 
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
@@ -70,7 +88,7 @@
             size: undefined,
             //condition: undefined,
             //warranty: undefined,
-            number: undefined,
+            transferInfo: undefined,
         };
     };
 
@@ -101,7 +119,7 @@
                 color: $scope.phoneOptions.color,
                 imageFront: device.imageFront,
                 warranty: $scope.phoneOptions.warranty,
-                phoneNumber: ($scope.phoneOptions.number.type == "new") ? null : $scope.phoneOptions.number.value,
+                transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
                 sku: selectedModel.sku
             };
         }
@@ -115,7 +133,7 @@
                 activationFee: $scope.activationFee,
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
-                phoneNumber: ($scope.phoneOptions.number.type == "new") ? null : $scope.phoneOptions.number.value,
+                transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
             };
         }
 

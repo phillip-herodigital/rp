@@ -97,6 +97,9 @@ div.tabbable {
 	width: auto;
 	margin: 10px;
 }
+.fixed-header .modal-dialog {
+	margin-top: 100px;
+}
 
 // Actual modal
 .modal-content {
@@ -200,6 +203,7 @@ div.tabbable {
 }
 
 @include breakpoint(small) {
+	.fixed-header .modal-dialog,
 	.modal-dialog {
 		margin-top: 67px;
 	}
