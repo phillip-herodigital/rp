@@ -40,11 +40,11 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
         })  
         .success(function (data, status, headers, config) {
             $scope.isLoading = false;
-            if (data.success == false) {
-                $scope.validasErrors = data.messages;
-            } else {
+            if (data && data.success !== false) {
                 $scope.connect.validas = data;
                 $scope.connected = true;
+            } else {
+                $scope.validasErrors = data.messages || ["A system error occurred. Please try again later."];
             }
         }).error(function(data, status, headers, config) {
             $scope.isLoading = false;

@@ -86,7 +86,7 @@
                             </div>
                             <div class="item">
                                 <label>@Html.Sitecore().Field("Security Question")</label>
-                                <input type="text" ng-model="connect.securityAnswer">
+                                <input type="password" ng-model="connect.securityAnswer">
                                 <span class="note">@Html.Sitecore().Field("Security Question Link", new { text = @Html.Sitecore().Field("Cant Remember Security Question") })</span>
                             </div>
                         </div>
@@ -371,7 +371,7 @@
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
                                 <span ng-bind="totalSavingsForCarrier('sprint') | currency"></span>
                             </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('sprint'),cost:!hasSavingsForCarrier('sprint')}">
+                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('att'),cost:!hasSavingsForCarrier('att')}">
                                 <span ng-bind="totalSavingsForCarrier('att') | currency"></span>
                             </div>
                         </div> 
