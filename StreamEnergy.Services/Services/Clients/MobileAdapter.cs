@@ -197,10 +197,10 @@ namespace StreamEnergy.Services.Clients
             // not sure why we can't just return the object itself - Json.Net serialized properties, not fields, I thought?
             return new
             {
-                PhoneNumber = System.Text.RegularExpressions.Regex.Replace(transfer.PhoneNumber, "[^0-9]", ""),
+                PhoneNumber = System.Text.RegularExpressions.Regex.Replace(transfer.PhoneNumber ?? "", "[^0-9]", ""),
                 Password = transfer.Password,
                 CurrentProvider = transfer.CurrentProvider,
-                Ssn = System.Text.RegularExpressions.Regex.Replace(transfer.Ssn, "[^0-9]", ""),
+                Ssn = System.Text.RegularExpressions.Regex.Replace(transfer.Ssn ?? "", "[^0-9]", ""),
                 AuthorizedBy = transfer.AuthorizedBy,
                 AccountNumber = transfer.AccountNumber,
                 FirstName = transfer.FirstName,
