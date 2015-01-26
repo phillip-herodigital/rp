@@ -1,4 +1,9 @@
-﻿<script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+﻿@{
+    var mobileSettings = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
+    var showSprint = !String.IsNullOrEmpty(mobileSettings.Fields["Sprint Buy Phone"].Value) || !String.IsNullOrEmpty(mobileSettings.Fields["Sprint BYOD"].Value);
+}
+
+<script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 
 <div class="wrapper">
     <article class="coverage-map" ng-controller="CoverageMapCtrl">
@@ -10,7 +15,10 @@
 
             <ul class="network-toggle">
                 <li ng-class="{active:selectedNetwork == 'att'}"><a href="" ng-model="selectedNetwork" btn-radio="'att'">@Html.Sitecore().Field("GSM Network")</a></li>
+                @if (showSprint)
+                {
                 <li ng-class="{active:selectedNetwork == 'sprint'}"><a href="" ng-model="selectedNetwork" btn-radio="'sprint'">@Html.Sitecore().Field("CDMA Network")</a></li>
+                }
             </ul>
 
             <div class="item">
