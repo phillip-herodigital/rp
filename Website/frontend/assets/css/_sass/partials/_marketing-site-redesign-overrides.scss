@@ -638,22 +638,75 @@ article.service-links {
     h2 {
         color: #222a4c;
     }
-    
-    .grid .col {
-        padding-top: 100px;
+    .grid {
+        .col {
+            padding-top: 100px;
+        }
     }
-
-
+    .service-description {
+        min-height: 85px;
+    }
     .identityTheft {
         background: image-url('marketing/redesign/mask_icon.png') no-repeat center top;
     }
-
     .onlineBackupAndProtection {
         background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top;
     }
-
     .creditMonitoring {
         background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top;
+    }
+    a.details {
+        position: relative;
+        padding-right: 10px;
+        letter-spacing: 0;
+        font-weight: 400;
+        &:after, &:before {
+            display: none;
+            bottom: -27px;
+            left: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &:after {
+            border-bottom-color: #f7f8f9;
+            border-width: 20px;
+            margin-left: -20px;
+        }
+        &:before {
+            border-color: rgba(200, 200, 200, 0);
+        }
+        &.active:before, &.active:after {
+            display: block;
+            z-index: 1;
+        }
+    }
+    .service-details {
+        margin-top: -25px;
+        background-color: #f7f8f9;
+        h2 {
+            margin-top: 0;
+            color: #013c5b;
+        }
+        .wrapper {
+            background-image: none;
+            padding: 0;
+        }
+        .grid {
+            .col {
+                padding: 50px 0;
+                .button {
+                    margin-right: 20px;
+                }
+            }
+        }
+    }
+    .service-bundles {
+        background-color: #f7f8f9;
     }
 }
 
