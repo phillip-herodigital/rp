@@ -244,7 +244,7 @@ namespace StreamEnergy.Services.Clients
                         },
                 RequiredAmounts = new IOfferPaymentAmount[] 
                         {
-                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.SystemOfRecord, DepositAccount = entry.SystemOfRecordAccountNumber }
+                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.Key.SystemOfRecord, DepositAccount = entry.Key.SystemOfRecordId }
                         },
                 PostBilledAmounts = optionRules.GetPostBilledPayments(option)
             };
