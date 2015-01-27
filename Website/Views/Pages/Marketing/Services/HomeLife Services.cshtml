@@ -1,6 +1,6 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.HomeLifeServices
 
-<div class="module marketing protective-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
+<div class="protective-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
     <form id="formHomeLifeServices" method="post" action="@Html.TranslateDomain("https://streamvalues.com")/buy">
         <input type="hidden" name="clientId" value="@Model.ClientId" />
         <input type="hidden" name="productCode" id="productCode" value="" />
