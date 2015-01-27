@@ -44,26 +44,6 @@ a.significant {
     }
 }
 
-.banner.marketing {
-    height: 214px;
-    line-height: 52px;
-    line-height: 214px;
-    font-size: 48px;
-    color: white;
-    background-size: cover;
-    padding: 0;
-    margin: 0;
-    text-transform: uppercase;
-    @include breakpoint(small) {
-        height: 80px;
-        line-height: 80px;
-        font-size: 24px;
-        .wrapper {
-            padding: 0 20px;
-        }
-    }
-}
-
 dl.faq {
     color: #595a5d;
     width: 582px;
