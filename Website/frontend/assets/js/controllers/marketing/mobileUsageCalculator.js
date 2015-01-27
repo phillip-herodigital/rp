@@ -27,7 +27,8 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
         $http({
             method: 'POST',
-            url: '/en/services/mobile/validas-endpoint',
+            //url: '/en/services/mobile/validas-endpoint',
+            url: '/api/marketing/validas',
             data: {  
                 username: $scope.connect.username, 
                 password: $scope.connect.password,
