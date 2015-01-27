@@ -61,12 +61,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var stringContent = new StringContent(json.ToString());
                 requestMessage.Content = stringContent;
 
-                // Send the request to the server
-                var response = await client.SendAsync(requestMessage);
+                // Send the request to the server and return response
+                return await client.SendAsync(requestMessage);
 
-                // Get the response
-                //return response.Content.ReadAsStringAsync().Result;
-                return Request.CreateResponse(response.Content.ReadAsStringAsync().Result);
             }
         }
 
