@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using StreamEnergy.Services.Clients.Interceptors;
 using System.Net.Http;
 using System.Configuration;
+using StreamEnergy.Logging;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -40,7 +41,8 @@ namespace StreamEnergy.Services.Clients
 
             unityContainer.RegisterType<HttpClient>(new InjectionFactory(uc => new HttpClient(uc.Resolve<HttpMessageHandler>("Cached"), false)));
             unityContainer.RegisterType<HttpMessageHandler>("Cached", new InjectionFactory(uc => new HttpMessageInterceptor(uc.Resolve<ServiceInterceptorResolver>(), uc.Resolve<HttpMessageHandler>("Logged"))));
-            unityContainer.RegisterType<HttpMessageHandler, HttpMessageLogger>("Logged");
+            unityContainer.RegisterType<HttpMessageHandler, HttpMessageLogger>("Logged", new InjectionFactory(uc => new HttpMessageLogger(uc.Resolve<ILogger>(), uc.Resolve<HttpMessageHandler>("SessionHeader"))));
+            unityContainer.RegisterType<HttpMessageHandler, HttpMessageSessionHeader>("SessionHeader");
             unityContainer.RegisterType<HttpMessageHandler, HttpClientHandler>();
 
             //RegisterService<Sample.Temperature.TempConvertSoap>(unityContainer, new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx")));
