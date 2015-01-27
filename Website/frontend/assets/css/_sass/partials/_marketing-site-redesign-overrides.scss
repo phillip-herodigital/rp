@@ -751,7 +751,10 @@ article.service-links {
                 }
             }
             .service-image {
-                text-align: center;
+                .image-wrapper {
+                    margin: 0 auto;
+                    max-width: 460px;
+                }
             }
         }
     }
@@ -793,7 +796,7 @@ article.service-links {
                     margin: 15px auto;
                 }
                 td:first-child {
-                    padding: 10px 0 10px 30px;
+                    padding: 10px 30px;
                 }
             }
             tbody {
@@ -805,6 +808,33 @@ article.service-links {
                 }
                 .button {
                     margin-right: 20px;
+                }
+            }
+        }
+    }
+    @include breakpoint(small) {
+        .protective-summary {
+            .col {
+                padding-top: 60px !important;
+                border: none;
+            }
+            .details{
+                &.active:before, &.active:after {
+                    display: none;
+                }
+            }
+        }
+        .service-bundles {
+            table {
+                h3 {
+                    text-align: center;
+                    margin-bottom: 0;
+                }
+                td {
+                    display: block;
+                }
+                .button {
+                    margin-bottom: 15px;
                 }
             }
         }
