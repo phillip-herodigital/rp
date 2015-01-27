@@ -124,30 +124,30 @@
         }
     </nav>
 </header>
-@if (Sitecore.Context.Item.Fields["Banner Image"] != null && Sitecore.Context.Item.Fields["Banner Image"].Value != "" && Sitecore.Context.Item.Fields["Banner Image"].HasValue)
+@{
+    var bannerImage = Sitecore.Context.Item.Fields["Banner Image"];
+    var bannerText = Sitecore.Context.Item.Fields["Banner Text"];
+    var pageTitle = Sitecore.Context.Item.Fields["Page Title"];
+    var bannerCssClassField = Sitecore.Context.Item.Fields["Banner CSS Classes"];
+}
+@if (bannerImage != null && !string.IsNullOrEmpty(bannerImage.ToString()))
 {
-    var renderBannerText = Sitecore.Context.Item.Fields["Banner Text"] != null && (Sitecore.Context.PageMode.IsPageEditorEditing || Sitecore.Context.Item.Fields["Banner Text"].HasValue);
-    var renderNavText = thirdLevelRootNode != null && !string.IsNullOrEmpty(thirdLevelRootNode.Title);
-
-    var bannerCssClassField = Sitecore.Context.Item.Fields["Banner CSS Class"];
-    <div class="banner @(bannerCssClassField != null ? bannerCssClassField.Value : "marketing")" style="@Html.AsBackgroundStyle("Banner Image", Sitecore.Context.Item)">
-        @if (renderBannerText || renderNavText)
-        {
-            <div class="inner">
-                <div class="wrapper">
-                    @if (renderBannerText)
-                    {
-                        @Html.Sitecore().Field("Banner Text", Sitecore.Context.Item)
-                    }
-                    else
-                    {
-                        @thirdLevelRootNode.Title
-                    }
-                </div>
+    <div class="banner @(bannerCssClassField != null && !string.IsNullOrEmpty(bannerCssClassField.Value) ? bannerCssClassField.Value : "marketing")" style="@Html.AsBackgroundStyle("Banner Image", Sitecore.Context.Item)">
+        <div class="inner">
+            <div class="wrapper">
+                @if (bannerText != null && !string.IsNullOrEmpty(bannerText.Value))
+                {
+                    <h1>@Html.Raw(bannerText.Value)</h1>
+                }
+                else if (pageTitle != null && !string.IsNullOrEmpty(pageTitle.Value))
+                {
+                    <h1>@pageTitle.Value</h1>
+                }
             </div>
-        }
+        </div>
     </div>
 }
+
 @if (selectedNodeLevel > 2 || selectedNodeLevel == 2 && selectedNode.HasChildNodes)
 {
     <nav class="tertiary-nav">
