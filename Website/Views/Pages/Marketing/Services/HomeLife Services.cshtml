@@ -1,6 +1,6 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.HomeLifeServices
 
-<div class="module marketing homelife-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
+<div class="module marketing protective-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
     <form id="formHomeLifeServices" method="post" action="@Html.TranslateDomain("https://streamvalues.com")/buy">
         <input type="hidden" name="clientId" value="@Model.ClientId" />
         <input type="hidden" name="productCode" id="productCode" value="" />
@@ -24,284 +24,130 @@
         <input type="hidden" name="salesource" value="@Model.SaleSource">
     </form>
 
-
-
     <article class="marketing marketingIntro wrapper  protect">
         <div class="wrapper">
             <h1>@Html.Sitecore().Field("Intro Header")</h1>
             @Html.Sitecore().Field("Intro Content")
         </div>
     </article>
-    <article class="marketing protective-services" data-additional-fields>
-        <div class="wrapper">
+    <article class="marketing" data-additional-fields>
+        <div class="wrapper protective-summary">
             <div class="grid border three">
                 <div class="col identityTheft">
-                    <h3>Identity Protection</h3>
-                    <p class="service-description">Protect yourself and your loved ones from the growing threat of identity theft with Stream’s Identity Protection. </p>
+                    <h3>@Html.Sitecore().Field("Identity Protection Header")</h3>
+                    <p class="service-description">@Html.Sitecore().Field("Identity Protection Summary")</p>
                     <p>
-                        <a href="" class="details" ng-click="credit.isOpen = false; tech.isOpen = false; identity.isOpen = !identity.isOpen" ng-class="{'active': identity.isOpen}">
-                            <span ng-if="!identity.isOpen">Show Details</span>
-                            <span ng-if="identity.isOpen">Hide Details</span>
+                        <a href="" class="details" ng-click="isOpen.credit = false; isOpen.tech = false; isOpen.identity = !isOpen.identity" ng-class="{'active': isOpen.identity}">
+                            <span ng-if="!isOpen.identity">@Html.Sitecore().Field("Show Details")</span>
+                            <span ng-if="isOpen.identity">@Html.Sitecore().Field("Hide Details")</span>
                         </a>
                     </p>
                 </div>
-
-
-
                 <div class="col creditMonitoring">
-                    <h3>Credit Monitoring</h3>
-                    <p class="service-description">Review your past credit history, check your current score, and plan for the future with Stream’s Credit Monitoring.</p>
+                    <h3>@Html.Sitecore().Field("Credit Monitoring Header")</h3>
+                    <p class="service-description">@Html.Sitecore().Field("Credit Monitoring Summary")</p>
                     <p>
-                        <a href="" class="details" ng-click="identity.isOpen = false; tech.isOpen = false; credit.isOpen = !credit.isOpen" ng-class="{'active': credit.isOpen}">
-                            <span ng-if="!credit.isOpen">Show Details</span>
-                            <span ng-if="credit.isOpen">Hide Details</span>
+                        <a href="" class="details" ng-click="isOpen.identity = false; isOpen.tech = false; isOpen.credit = !isOpen.credit" ng-class="{'active': isOpen.credit}">
+                            <span ng-if="!isOpen.credit">@Html.Sitecore().Field("Show Details")</span>
+                            <span ng-if="isOpen.credit">@Html.Sitecore().Field("Hide Details")</span>
                         </a>
                     </p>
                 </div>
-
                 <div class="col onlineBackupAndProtection">
-                    <h3>Tech Support</h3>
-                    <p class="service-description">Keep your computers running smoothly and your important files safe with Stream’s Tech Support and automatic data backup services. </p>
+                    <h3>@Html.Sitecore().Field("Tech Support Header")</h3>
+                    <p class="service-description">@Html.Sitecore().Field("Tech Support Summary")</p>
                     <p>
-                        <a href="" class="details" ng-click="identity.isOpen = false; credit.isOpen = false; tech.isOpen = !tech.isOpen" ng-class="{'active': tech.isOpen}">
-                            <span ng-if="!tech.isOpen">Show Details</span>
-                            <span ng-if="tech.isOpen">Hide Details</span>
+                        <a href="" class="details" ng-click="isOpen.identity = false; isOpen.credit = false; isOpen.tech = !isOpen.tech" ng-class="{'active': isOpen.tech}">
+                            <span ng-if="!isOpen.tech">@Html.Sitecore().Field("Show Details")</span>
+                            <span ng-if="isOpen.tech">@Html.Sitecore().Field("Hide Details")</span>
                         </a>
                     </p>
                 </div>
-
             </div>
         </div>
         <div class="service-details ng-cloak">
-            <div class="wrapper" slide-down-show="identity.isOpen">
+            <div class="wrapper" slide-down-show="isOpen.identity">
                 <div class="grid">
                     <div class="col">
-                        <h2>Identity Protection</h2>
-                        <p>When you use Stream Energy’s Identity Protection, you’ll be alerted immediately if any suspicious activity occurs. The faster you catch a thief, the less damage they can do.</p>
-                        <h4>Your Monthly Subsciption Includes</h4>
-                        <ul>
-                            <li>Personal Data Misuse Monitoring & Alerts</li>
-                            <li>$1 Million Identity Theft Insurance ($0 Deductible)</li>
-                            <li>Full-Service Identity Restoration Services</li>
-                            <li>Live 24/7 Lost Wallet Assistance</li>
-                            <li>BitDefender Internet Security + AntiVirus / AntiSpyware Software</li>
-                            <li>Change of Address Monitoring & Alerts</li>
-                            <li>Social Security Monitoring & Alerts</li>
-                            <li>Identity Protection Resource Center</li>
-                        </ul>
-                        <span class="button">Select Service</span><span class="service-price">$14.95/month</span>
+                        <h2>@Html.Sitecore().Field("Identity Protection Header")</h2>
+                        @Html.Sitecore().Field("Identity Protection Content")
+                        <a href="" class="button" ng-click="enroll('seid')">@Html.Sitecore().Field("Select Service")</a>
+                        <div class="price">@Html.Sitecore().Field("Service Price")@Html.Sitecore().Field("Per Month")</div>
                     </div>
-                    <div class="col">
-                        Picture Here
+                    <div class="col service-image">
+                        @Html.Sitecore().Field("Identity Protection Image", new { width = "460" })
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="service-details ng-cloak">
-            <div class="wrapper" slide-down-show="credit.isOpen">
+            <div class="wrapper" slide-down-show="isOpen.credit">
                 <div class="grid">
                     <div class="col">
-                        <h2>Credit Monitoring</h2>
-                        <p>Let us help you keep an eye on your credit with Stream’s Credit Monitoring. You can also review your past credit history, check your current score, and plan for the future.</p>
-                        <h4>Your Monthly Subsciption Includes</h4>
-                        <ul>
-                            <li>Continuous Monitoring of Your Credit Report</li>
-                            <li>Real-time Alerts for Credit Data Changes</li>
-                            <li>Monthly Credit Score Updates</li>
-                            <li>Month to Month Credit Score Tracker</li>
-                            <li>Credit Score Simulator</li>
-                            <li>On-Demand Credit Reports Discounts</li>
-                        </ul>
-                        <span class="button">Select Service</span><span class="service-price">$14.95/month</span>
+                        <h2>@Html.Sitecore().Field("Credit Monitoring Header")</h2>
+                        @Html.Sitecore().Field("Credit Monitoring Content")
+                        <a href="" class="button" ng-click="enroll('secr')">@Html.Sitecore().Field("Select Service")</a>
+                        <div class="price">@Html.Sitecore().Field("Service Price")@Html.Sitecore().Field("Per Month")</div>
                     </div>
-                    <div class="col">
-                        Picture Here
+                    <div class="col service-image">
+                        @Html.Sitecore().Field("Credit Monitoring Image", new { width = "460" })
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="service-details ng-cloak">
-            <div class="wrapper" slide-down-show="tech.isOpen">
+            <div class="wrapper" slide-down-show="isOpen.tech">
                 <div class="grid">
                     <div class="col">
-                        <h2>Tech Support</h2>
-                        <p>Keep your computers running smoothly with Stream’s Tech Support and automatic data backup services. We’ll keep your information safe and secure, just as it should be.</p>
-                        <h4>Your Monthly Subsciption Includes</h4>
-                        <ul>
-                            <li>Internet Security + Antivirus / Antispyware Software</li>
-                            <li>Unlimited 24/7 Phone or Internet Technical Support</li>
-                            <li>In-Person Technician Services Discounts</li>
-                            <li>100GB Secure Online Data Backup Software</li>
-                            <li>Best Practices Performance & Security Assessment</li>
-                            <li>Self-Help Library Resource Center</li>
-                        </ul>
-                        <span class="button">Select Service</span><span class="service-price">$14.95/month</span>
+                        <h2>@Html.Sitecore().Field("Tech Support Header")</h2>
+                        @Html.Sitecore().Field("Tech Support Content")
+                        <a href="" class="button" ng-click="enroll('seit')">@Html.Sitecore().Field("Select Service")</a>
+                        <div class="price">@Html.Sitecore().Field("Service Price")@Html.Sitecore().Field("Per Month")</div>
                     </div>
-                    <div class="col">
-                        Picture Here
+                    <div class="col service-image">
+                        @Html.Sitecore().Field("Tech Support Image", new { width = "460" })
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="service-bundles">
-            <div class="wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Bundle &amp; Save</td>
-                            <td>Identity Protection</td>
-                            <td>Credit Monitoring</td>
-                            <td>Tech Support</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Bronze bundle</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Gold bundle</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-
-                </table>
             </div>
         </div>
 
     </article>
-
-    <div class="homelife-promo">
+    <article class="marketing service-bundles">
         <div class="wrapper">
-            <h3>@Html.Sitecore().Field("Promo Header")</h3>
-            @Html.Sitecore().Field("Promo Content")
+            <table>
+                <thead>
+                    <tr>
+                        <td><h3>@Html.Sitecore().Field("Bundle and Save")</h3></td>
+                        <td><i class="icon-hls-identity-theft"></i>@Html.Sitecore().Field("Identity Protection Header")</td>
+                        <td><i class="icon-hls-credit-monitoring"></i>@Html.Sitecore().Field("Credit Monitoring Header")</td>
+                        <td><i class="icon-hls-online-protection"></i>@Html.Sitecore().Field("Tech Support Header")</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h4>@Html.Sitecore().Field("Gold Title")</h4>
+                            @Html.Sitecore().Field("Gold Savings")
+                            <a href="" ng-class="{button: true, disabled: numProductsChecked() < 2}" ng-click="goldenroll()">@Html.Sitecore().Field("Select Package")</a>
+                            <div class="price">@Html.Sitecore().Field("Gold Price")@Html.Sitecore().Field("Per Month")</div>
+                        </td>
+                        <td><input type="checkbox" id="identity" ng-model="identity" /></td>
+                        <td><input type="checkbox" id="monitoring" ng-model="monitoring" /></td>
+                        <td><input type="checkbox" id="support" ng-model="support" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>@Html.Sitecore().Field("Platinum Title")</h4>
+                            @Html.Sitecore().Field("Platinum Savings")
+                            <a href="" class="button" ng-click="enroll('seidcrit')">@Html.Sitecore().Field("Select Package")</a>
+                            <div class="price">@Html.Sitecore().Field("Platinum Price")@Html.Sitecore().Field("Per Month")</div>
+                        </td>
+                        <td><i class="icon-dotted-circle-check"></i></td>
+                        <td><i class="icon-dotted-circle-check"></i></td>
+                        <td><i class="icon-dotted-circle-check"></i></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-    <div class="bundle-promo">
-        @Html.Sitecore().Field("Bundle Promo")
-    </div>
-    <div class="package platinum" id="platinum-package">
-        <div class="wrapper">
-            <div class="box clearfix">
-                <h3>@Html.Sitecore().Field("Platinum Title")</h3>
-                <ul class="services">
-                    <li class="identity">
-                        <h4>@Html.Sitecore().Field("Identity Protection Header")</h4>
-                        @Html.Sitecore().Field("Identity Protection Image", new { height = "69" })
-                        <p><a class="button" href="##identity-protection-details" scroll-to>@Html.Sitecore().Field("Learn More Text")</a></p>
-                    </li>
-                    <li class="support">
-                        <h4>@Html.Sitecore().Field("Tech Support Header")</h4>
-                        @Html.Sitecore().Field("Tech Support Image", new { height = "69" })
-                        <p><a class="button" href="##tech-support-details" scroll-to>@Html.Sitecore().Field("Learn More Text")</a></p>
-                    </li>
-                    <li class="monitoring">
-                        <h4>@Html.Sitecore().Field("Credit Monitoring Header")</h4>
-                        @Html.Sitecore().Field("Credit Monitoring Image", new { height = "69" })
-                        <p><a class="button" href="##credit-monitoring-details" scroll-to>@Html.Sitecore().Field("Learn More Text")</a></p>
-                    </li>
-                </ul>
-                <div class="savings">
-                    <p><span class="line-top"></span>@Html.Sitecore().Field("Platinum Savings")<span class="line-bottom"></span></p>
-                </div>
-                <div class="pricing">
-                    <p class="price">@Html.Sitecore().Field("Platinum Price")</p>
-                    <p>@Html.Sitecore().Field("Per Month Text")</p>
-                    <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
-                    <div><a class="button" href="javascript:void(0);" ng-click="enroll('seidcrit')">@Html.Sitecore().Field("Enroll Now Text")</a></div>
-                </div>
-                <span class="sash"><span>@Html.Sitecore().Field("Best Text")</span></span>
-            </div>
-        </div>
-    </div>
-    <div class="package gold">
-        <div class="wrapper">
-            <div class="box clearfix">
-                <h3 ng-hide="numProductsChecked() <= 2">@Html.Sitecore().Field("Platinum Title")</h3>
-                <h3 ng-hide="numProductsChecked() > 2">@Html.Sitecore().Field("Gold Title")</h3>
-                <ul class="services">
-                    <li class="identity">
-                        <h4>@Html.Sitecore().Field("Identity Protection Header")</h4>
-                        @Html.Sitecore().Field("Identity Protection Image", new { height = "69" })
-                        <div>
-                            <input type="checkbox" id="identity" ng-model="identity" />
-                            <label for="identity"></label>
-                        </div>
-                    </li>
-                    <li class="support">
-                        <h4>@Html.Sitecore().Field("Tech Support Header")</h4>
-                        @Html.Sitecore().Field("Tech Support Image", new { height = "69" })
-                        <div>
-                            <input type="checkbox" id="support" ng-model="support" />
-                            <label for="support"></label>
-                        </div>
-                    </li>
-                    <li class="monitoring">
-                        <h4>@Html.Sitecore().Field("Credit Monitoring Header")</h4>
-                        @Html.Sitecore().Field("Credit Monitoring Image", new { height = "69" })
-                        <div>
-                            <input type="checkbox" id="monitoring" ng-model="monitoring" />
-                            <label for="monitoring"></label>
-                        </div>
-                    </li>
-                </ul>
-                <div class="savings">
-                    <p ng-hide="numProductsChecked() <= 2"><span class="line-top"></span>@Html.Sitecore().Field("Platinum Savings")<span class="line-bottom"></span></p>
-                    <p ng-hide="numProductsChecked() > 2"><span class="line-top"></span>@Html.Sitecore().Field("Gold Savings")<span class="line-bottom"></span></p>
-                </div>
-                <div class="pricing">
-                    <p class="price" ng-hide="numProductsChecked() <= 2">@Html.Sitecore().Field("Platinum Price")</p>
-                    <p class="price" ng-hide="numProductsChecked() > 2">@Html.Sitecore().Field("Gold Price")</p>
-                    <p>@Html.Sitecore().Field("Per Month Text")</p>
-                    <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
-                    <div><a ng-class="{button: true, disabled: numProductsChecked() < 2}" href="javascript:void(0);" ng-click="goldenroll()">@Html.Sitecore().Field("Enroll Now Text")</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="package silver">
-        <div class="wrapper">
-            <div class="box clearfix">
-                <h3>@Html.Sitecore().Field("Silver Title")</h3>
-                <ul class="services">
-                    <li class="identity">
-                        <h4>@Html.Sitecore().Field("Identity Protection Header")</h4>
-                        <div>@Html.Sitecore().Field("Identity Protection Image", new { height = "69" })</div>
-                        <div class="pricing">
-                            <p class="price">@Html.Sitecore().Field("Silver Price")</p>
-                            <p>@Html.Sitecore().Field("Per Month Text")</p>
-                            <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
-                            <div><a class="button" href="javascript:void(0);" ng-click="enroll('seid')">@Html.Sitecore().Field("Enroll Now Text")</a></div>
-                        </div>
-                    </li>
-                    <li class="support">
-                        <h4>@Html.Raw(Html.Sitecore().Field("Tech Support Header"))</h4>
-                        <div>@Html.Sitecore().Field("Tech Support Image", new { height = "69" })</div>
-                        <div class="pricing">
-                            <p class="price">@Html.Sitecore().Field("Silver Price")</p>
-                            <p>@Html.Sitecore().Field("Per Month Text")</p>
-                            <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
-                            <div><a class="button" href="javascript:void(0);" ng-click="enroll('seit')">@Html.Sitecore().Field("Enroll Now Text")</a></div>
-                        </div>
-                    </li>
-                    <li class="monitoring">
-                        <h4>@Html.Sitecore().Field("Credit Monitoring Header")</h4>
-                        <div>@Html.Sitecore().Field("Credit Monitoring Image", new { height = "69" })</div>
-                        <div class="pricing">
-                            <p class="price">@Html.Sitecore().Field("Silver Price")</p>
-                            <p>@Html.Sitecore().Field("Per Month Text")</p>
-                            <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
-                            <div><a class="button" href="javascript:void(0);" ng-click="enroll('secr')">@Html.Sitecore().Field("Enroll Now Text")</a></div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <p class="wrapper footnote">@Html.Sitecore().Field("Bundle Footnote")</p>
+    </article>
 </div>

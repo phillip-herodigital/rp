@@ -649,12 +649,12 @@ article.service-links {
     h2 {
         color: #222a4c;
     }
-    
+    .protective-summary {
+        padding-bottom: 26px !important;
+    }
     .grid .col {
         padding-top: 100px;
     }
-
-
     .identityTheft {
         background: image-url('marketing/redesign/mask_icon.png') no-repeat center top;
     }
@@ -692,7 +692,6 @@ article.service-links {
             height: 0;
             width: 0;
             position: absolute;
-            pointer-events: none;
         }
 
         &:after {
@@ -708,6 +707,18 @@ article.service-links {
             z-index: 1;
         }
     }
+    .price {
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-block;
+        vertical-align: middle;
+        .dollars {
+            font-size: 23px;
+        }
+        .cents {
+            vertical-align: top;
+        }
+    }
     .service-details {
         margin-top: -25px;
         background-color: #f7f8f9;
@@ -715,21 +726,88 @@ article.service-links {
             margin-top: 0;
             color: #013c5b;
         }
+        @include layout-list();
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+        li {
+            margin: 5px 0;
+            &:before {
+                margin-right: 15px;
+                content: image-url('icon/green-check.png');
+            }
+        }
         .wrapper {
             background-image: none;
             padding: 0;
         }
         .grid {
+            margin-bottom: 20px;
             .col {
                 padding: 50px 0;
                 .button {
                     margin-right: 20px;
                 }
             }
+            .service-image {
+                text-align: center;
+            }
         }
     }
     .service-bundles {
         background-color: #f7f8f9;
+        margin-bottom: -35px;
+        padding-bottom: 35px;
+        table {
+            @include border-radius(10px);
+            border: 1px solid #cecece;
+            border-collapse: separate;
+            background-color: #fff;
+            margin-top: 30px;
+            h3 {
+                color: #1b1816;
+                font-size: 28px;
+                font-weight: 300;
+            }
+            h4 {
+                color: #013c5b;
+                font-size: 24px;
+                font-weight: 300;
+                margin: 0;
+                text-transform: uppercase;
+            }
+            td {
+                border: none;
+                text-align: center;
+                &:first-child { 
+                    text-align: left; 
+                    padding: 30px 0 30px 30px;
+                }   
+            }
+            thead {
+                color: #013c5b;
+                font-size: 16px;
+                i {
+                    display: block;
+                    margin: 15px auto;
+                }
+                td:first-child {
+                    padding: 10px 0 10px 30px;
+                }
+            }
+            tbody {
+                tr {
+                    background: url('../i/marketing/redesign/Modules/module_background.png') no-repeat center top;
+                }
+                td {
+                    border-top: 1px solid #cecece;
+                }
+                .button {
+                    margin-right: 20px;
+                }
+            }
+        }
     }
 }
 
