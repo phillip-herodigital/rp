@@ -372,9 +372,9 @@
                                         <h3 ng-if="offerInformation.key == 'Mobile'">@Html.Sitecore().Field("Mobile Services Text")</h3>
                                         <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>
                                     </div>
-                                    <div class="amount-due">
-                                        @Html.Sitecore().Field("Due Today Text") <span class="total">{{ getCartTotal() | currency }}</span>
-                                    </div>
+                                </div>
+                                <div class="amount-due">
+                                    @Html.Sitecore().Field("Due Today Text") <span class="total">{{ getCartTotal() | currency }}</span>
                                 </div>
                             </div>
                             <hr ng-if="!isRenewal && getCartTotal() > 0">
