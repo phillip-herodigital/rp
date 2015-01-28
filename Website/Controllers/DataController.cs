@@ -102,7 +102,8 @@ namespace StreamEnergy.MyStream.Controllers
                 attBuyPhone = !string.IsNullOrEmpty(item.Fields["ATT Buy Phone"].Value),
                 excludedStates = item.Fields["Excluded States"].Value.Split(','),
                 disableSharedPlans = !string.IsNullOrEmpty(item.Fields["Disable Shared Plans"].Value),
-                disableMobileEnrollments = !string.IsNullOrEmpty(item.Fields["Disable Mobile Enrollments"].Value) && Request.QueryString["SecretAccess"] != "true"
+                disableMobileEnrollments = !string.IsNullOrEmpty(item.Fields["Disable Mobile Enrollments"].Value) && Request.QueryString["SecretAccess"] != "true",
+                disableIntegratedEnrollments = !string.IsNullOrEmpty(item.Fields["Disable Integrated Enrollments"].Value),
             };
 
             return this.Content(StreamEnergy.Json.Stringify(data));
