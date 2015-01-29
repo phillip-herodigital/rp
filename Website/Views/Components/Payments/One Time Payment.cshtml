@@ -102,8 +102,8 @@
 					<dd>{{ ctrl.selectedDate | date:'MM/dd/yyyy' }}</dd>
 					<dt>@Html.Sitecore().Field("Payment Amount Text"):</dt>
 					<dd>{{ctrl.paymentAmount | currency}}</dd>
-					<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
-					<dd>$2.95</dd>
+                    <dt ng-show="ctrl.account.accountType != 'Mobile'">@Html.Sitecore().Field("Service Fee Text"):</dt>
+                    <dd ng-show="ctrl.account.accountType != 'Mobile'">$2.95</dd>
 				</dl>
 				<dl class="clearfix module-list payment-total">
 					<dt>@Html.Sitecore().Field("Payment Total Text"):</dt>
@@ -151,8 +151,8 @@
 					<dd>{{ ctrl.selectedDate | date:'MM/dd/yyyy' }}</dd>
 					<dt>@Html.Sitecore().Field("Payment Amount Text"):</dt>
                     <dd>{{ctrl.paymentAmount | currency}}</dd>
-					<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
-					<dd>$2.95</dd>
+                    <dt ng-show="ctrl.account.accountType != 'Mobile'">@Html.Sitecore().Field("Service Fee Text"):</dt>
+                    <dd ng-show="ctrl.account.accountType != 'Mobile'">$2.95</dd>
 				</dl>
 				<dl class="clearfix module-list payment-total">
 					<dt>@Html.Sitecore().Field("Payment Total Text"):</dt>

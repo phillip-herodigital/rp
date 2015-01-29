@@ -955,6 +955,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Account = new AccountToPay
                     {
                         AccountNumber = details.AccountNumber,
+                        AccountType = details.AccountType,
                         CanMakeOneTimePayment = true,
                         AmountDue = details.Balance.Balance,
                         AvailablePaymentMethods = details.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()
