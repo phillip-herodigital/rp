@@ -11,6 +11,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', f
     }
 
     $scope.SPID = getParameterByName("SPID");
+    $scope.BC_ID = getParameterByName("BC_ID");
+    $scope.RefSite = getParameterByName("RefSite");
+    $scope.AccountType = getParameterByName("AccountType");
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
