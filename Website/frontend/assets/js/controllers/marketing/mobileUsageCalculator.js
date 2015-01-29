@@ -1,7 +1,16 @@
-ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($scope, $http) {
+ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
     // Main Functionality
     // --------------------------------------------------
+
+    var getParameterByName = function (name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec($location.absUrl());
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    $scope.SPID = getParameterByName("SPID");
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
@@ -27,7 +36,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
         $http({
             method: 'POST',
-            url: '/en/services/mobile/validas-endpoint',
+            url: '/api/marketing/validas',
             data: {  
                 username: $scope.connect.username, 
                 password: $scope.connect.password,

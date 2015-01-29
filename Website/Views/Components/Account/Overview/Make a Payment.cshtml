@@ -106,8 +106,8 @@
                     <dd>{{ account.accountNumber }}</dd>
                     <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
                     <dd>{{ account.paymentAmount | currency }}</dd>
-                    <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
-                    <dd>@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
+                    <dt ng-show="account.accountType != 'Mobile'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                    <dd ng-show="account.accountType != 'Mobile'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                     <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
                     <dd>{{ getPaymentMethod(account.selectedPaymentMethod) }}</dd>
                 </dl>
@@ -145,8 +145,8 @@
                             <dd ng-if="account.paymentAccount.underlyingPaymentType == 'TokenizedCard'">{{ account.paymentAccount.redactedData }}</dd>
                             <dt ng-if="account.paymentAccount.underlyingPaymentType == 'TokenizedBank'">@Html.Sitecore().Field("Bank Account Number Text")</dt>
                             <dd ng-if="account.paymentAccount.underlyingPaymentType == 'TokenizedBank'">{{ account.paymentAccount.redactedData }}</dd>
-                            <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
-                            <dd>{{ account.convenienceFee | currency }}</dd>
+                            <dt ng-show="account.accountType != 'Mobile'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                            <dd ng-show="account.accountType != 'Mobile'">{{ account.convenienceFee | currency }}</dd>
                         </dl>
                     </div>
                     <div ng-if="!account.confirmationNumber" class="notice error">
