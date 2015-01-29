@@ -127,7 +127,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             });
         }
         enrollmentService.cleanseAddresses(addresses).then(function (data) {
-            if ((data.length > 0 && data[0].length) || (data.length > 0 && data[1].length)) {
+            if ((data.length > 0 && data[0].length) || (data.length > 0 && typeof data[1] != 'undefined' && data[1].length)) {
                 var addressOptions = { };
                 if (data[0] && data[0].length) {
                     data[0].unshift($scope.accountInformation.mailingAddress);
