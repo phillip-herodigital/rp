@@ -194,7 +194,9 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
             return false;
         $scope.selectedAccounts = _.where($scope.accountsTable.values, { 'selected': true, 'canMakeOneTimePayment': true });
         $scope.total = _.reduce($scope.selectedAccounts, function (a, b) { return a + parseFloat(b.paymentAmount); }, 0);
-        $scope.paymentAmount = _.reduce($scope.selectedAccounts, function (a, b) { return a + parseFloat(b.paymentAmount) + 2.95; }, 0);
+        $scope.paymentAmount = _.reduce($scope.selectedAccounts, function (a, b) { 
+            return (b.accountType != 'Mobile') ? (a + parseFloat(b.paymentAmount) + 2.95) : (a + parseFloat(b.paymentAmount)); 
+        }, 0);
     }, true);
 
     // Disable weekends selection
