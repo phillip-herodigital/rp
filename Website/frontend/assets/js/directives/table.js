@@ -93,19 +93,10 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 			};
 
 			// Range function similar to Python range
-			var rangePage = function(stop) {
-				var start = scope.table.pagingOptions.currentPage + 3 < stop ? (stop - 4) : scope.table.pagingOptions.currentPage
-				if (start <= 4) {
-					start = 1;
-				} else if ((stop - start) < 4) {
-					start = stop - 3
-				}
-				var end = stop <= 4 ? stop : start + 3
-				var result = [];
-				for (var i = start; i <= end; i += 1) {
-					result.push(i);
-				}
-				return result;
+			var rangePage = function(stop, currentPage) {
+			    var start = Math.max(1, Math.min(stop - 4, currentPage - 2));
+			    var end = Math.min(stop, Math.max(start + 4, currentPage + 2));
+				return _.range(start, end + 1);
 			};
 
 			// Filter table values by pagingOptions
@@ -122,7 +113,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 				}
 				
 				scope.table.pageNum = Math.ceil(pagingOptions.totalServerItems / pageSize);
-				scope.table.pageRange = rangePage(scope.table.pageNum);
+				scope.table.pageRange = rangePage(scope.table.pageNum, scope.table.pagingOptions.currentPage || 1);
 			};
 
 			scope.$watch('table.pageNum', function (newVal) {

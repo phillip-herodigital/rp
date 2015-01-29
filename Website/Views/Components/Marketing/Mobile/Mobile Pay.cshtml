@@ -1,0 +1,26 @@
+﻿<article class="marketing full-html mobile-pay">
+    <h1>@Html.Sitecore().Field("Header Text")</h1>
+</article>
+<article class="marketing" ng-controller="LoginCtrl">
+    <article class="marketing wrapper pay">
+        <div class="grid">
+            <div class="col">
+                <div class="pay-option">
+                    <h1>@Html.Sitecore().Field("Mobile Header Text")</h1>
+                    <p>@Html.Sitecore().Field("Intro Text")</p>
+                    <p class="call">@Html.Sitecore().Field("Call Us Text") <span class="phone">@Html.Sitecore().Field("Phone Number")</span></p>
+                </div>
+                <div class="pay-option"></div>
+            </div>
+            <div class="col">
+                <div class="box">
+                    <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
+                    <input type="text" ng-model="form.username" placeholder="Username">
+                    <input type="password" ng-model="form.password" placeholder="Password">
+                    <p><button type="button" ng-click="loginClicked()">@Html.Sitecore().Field("Login Button Text")</button></p>
+                    <p class="forgot">@Html.Sitecore().Field("Forgot Text")</p>
+                </div>
+            </div>
+        </div>
+    </article>
+</article>
