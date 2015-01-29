@@ -88,8 +88,8 @@
                         <dl class="clearfix">
                             <dt>@Html.Sitecore().Field("Amount Text"):</dt>
                             <dd>{{ paymentAmount | currency }}</dd>
-                            <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
-                            <dd>@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
+                            <dt ng-show="selectedAccount.accountType == 'Utility'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                            <dd ng-show="selectedAccount.accountType == 'Utility'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                             <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                             <dd>{{ totalCharge | currency }}</dd>
                             <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
@@ -126,8 +126,8 @@
                             <dd>{{ confirmationNumber }}</dd>
                             <dt>@Html.Sitecore().Field("Amount Text"):</dt>
                             <dd>{{ paymentAmount | currency }}</dd>
-                            <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
-                            <dd>@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
+                            <dt ng-show="selectedAccount.accountType == 'Utility'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                            <dd ng-show="selectedAccount.accountType == 'Utility'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                             <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                             <dd>{{ totalCharge | currency }}</dd>
                         </dl>

@@ -88,6 +88,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 AccountNumber = account.AccountNumber,
                 AmountDue = account.Balance.Balance,
                 DueDate = account.Balance.DueDate,
+                AccountType = account.AccountType,
                 UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
                 CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
                 AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
