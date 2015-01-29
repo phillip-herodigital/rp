@@ -1,7 +1,16 @@
-ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($scope, $http) {
+ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
     // Main Functionality
     // --------------------------------------------------
+
+    var getParameterByName = function (name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec($location.absUrl());
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    $scope.SPID = getParameterByName("SPID");
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
