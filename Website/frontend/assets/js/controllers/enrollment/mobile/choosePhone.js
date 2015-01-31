@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, $http, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
 
     var maxMobileItems = 10;
 
@@ -45,6 +45,21 @@
 
     $scope.switchCarriers = function() {
         $scope.setCurrentStep('choose-network');
+    }
+
+    $scope.validateEsn = function() {
+        if (mobileEnrollmentService.selectedNetwork.value == 'sprint') {
+            $scope.isEsnValid = false;
+            $http.post('/api/enrollment/validateEsn', $scope.phoneOptions.imeiNumber)
+            .success(function (data) {
+                if (!JSON.parse(data)) {
+                    $scope.addDevice.imeiNumber.$setValidity('required',false);
+                    $scope.validations = [{
+                        'memberName': 'imeiNumber'
+                    }];
+                }
+            })
+        }
     }
 
     /** 

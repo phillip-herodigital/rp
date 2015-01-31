@@ -322,7 +322,7 @@
                                         </label>
                                         <div class="btn-group-options">
                                             <label>@Html.Sitecore().Field("Label - IMEI Number")</label>
-                                            <input type="text" name="imeiNumber" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'" />
+                                            <input type="text" name="imeiNumber" ng-model="phoneOptions.imeiNumber" ng-blur="validateEsn()" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'" />
                                             <span class="note"><a href="" ng-click="showModal('instructions/imei')">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></span>
                                         </div>
                                     </div>
