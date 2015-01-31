@@ -1,7 +1,6 @@
-﻿<article class="marketing full-html   pay">
-    <div class="wrapper">
-        <h2 class="get-started">@Html.Sitecore().Field("Header Text")</h2>
-    </div>
+﻿<article class="marketing full-html pay">
+        <h1>@Html.Sitecore().Field("Header Text")</h1>
+        <h2 class="get-started">@Html.Sitecore().Field("Subhead Text")</h2>
 </article>
 <article class="marketing state-tabs states-pay" ng-controller="LoginCtrl" ng-init="init('@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/Default.aspx', '@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergyGA/Default.aspx')" state-tabs="texas">
     <ul class="tabs-nav">

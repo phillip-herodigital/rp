@@ -88,6 +88,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 AccountNumber = account.AccountNumber,
                 AmountDue = account.Balance.Balance,
                 DueDate = account.Balance.DueDate,
+                AccountType = account.AccountType,
                 UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
                 CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
                 AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
@@ -351,16 +352,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return result;
         }
 
+        [Authorize]
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<HttpResponseMessage> InvoicePdf(string account, string invoice)
         {
-            if (!Sitecore.Context.IsLoggedIn)
-            {
-                var login = Request.CreateResponse(HttpStatusCode.Moved);
-                login.Headers.Location = new Uri("/auth/login", UriKind.Relative);
-                return login;
-            }
             currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
 
             var chosenAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == account);
@@ -959,6 +955,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Account = new AccountToPay
                     {
                         AccountNumber = details.AccountNumber,
+                        AccountType = details.AccountType,
                         CanMakeOneTimePayment = true,
                         AmountDue = details.Balance.Balance,
                         AvailablePaymentMethods = details.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()

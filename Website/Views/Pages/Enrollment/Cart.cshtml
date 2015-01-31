@@ -14,7 +14,7 @@
                 <div class="cart-item" ng-repeat="(id, location) in getMobileAddresses()" ng-if="cartHasMobile()">
                     <div class="mobile-plan">
                         <h2 ng-if="$first">@Html.Sitecore().Field("Mobile Services")</h2>
-                        <div class="plan-type" ng-show="getCartCount() - getDevicesCount() == 0">
+                        <div class="plan-type" ng-show="getCartDataPlan().length == 0">
                             {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
                         </div>
                         <div class="plan-type clearfix" ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
@@ -63,7 +63,7 @@
             <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
             </ul>
         </article>
-        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && !isRenewal && cartHasTxLocation()">
+        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && !isRenewal && cartHasUtility() && cartHasTxLocation()">
             <header>
                 <p><strong>@Html.Sitecore().Field("Outage Header")</strong></p>
             </header>

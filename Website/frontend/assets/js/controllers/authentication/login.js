@@ -5,6 +5,7 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 	// create a blank object to hold the form information
 	$scope.formData = {};
 	$scope.isLoading = false;
+	$scope.timeoutMessage = false;
 	$scope.init = function(genericErrorMessage, impersonateErrorMessage)
 	{
 	    var url = $location.absUrl();
@@ -18,6 +19,9 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 	        if (indexOfUsername > 0) {
 	            $scope.formData.username = url.substring(indexOfUsername + 9);
 	        }
+	    }
+	    if (url.indexOf('timeout=true') > 0) {
+	    	$scope.timeoutMessage = true;
 	    }
 	}
 	// process the form
