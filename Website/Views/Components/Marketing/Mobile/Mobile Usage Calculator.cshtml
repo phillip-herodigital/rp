@@ -55,11 +55,15 @@
                         <ul class="network-toggle">
                             <li ng-repeat="item in serverData.carriers">
                                 <a href="" ng-class="{active: connect.carrier == item.key}" ng-click="connect.carrier = item.key">
-                                    <i ng-class="{'icon-att': item.key == 'att','icon-sprint': item.key == 'sprint','icon-verizon': item.key == 'vzw','icon-tmobile': item.key == 'tmo'}"></i>
+                                    {{ item.name }}
+                                    @*<i ng-class="{'icon-att': item.key == 'att','icon-sprint': item.key == 'sprint','icon-verizon': item.key == 'vzw','icon-tmobile': item.key == 'tmo'}"></i>*@
                                 </a>
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div class="selectCarrier clearfix">
+                    @Html.Sitecore().Field("Bill Analysis Text")
                 </div>
                 <div class="stretch coming-soon" ng-if="connect.carrier && !getCarrier(connect.carrier).showLogin">
                     @Html.Sitecore().Field("Carrier Coming Soon")
