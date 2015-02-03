@@ -31,6 +31,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IValidationService validation;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly StackExchange.Redis.IDatabase redisDatabase;
+        private readonly IEnrollmentService enrollmentService;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -47,7 +48,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -55,6 +56,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.stateHelper = stateHelper;
             this.validation = validation;
             this.redisDatabase = redisDatabase;
+            this.enrollmentService = enrollmentService;
             //this.documentStore = documentStore;
         }
 
@@ -77,6 +79,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             stateHelper.Dispose();
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<bool> ValidateEsn([FromBody]string esn)
+        {
+            return await enrollmentService.IsEsnValid(esn);
         }
 
         [HttpGet]
@@ -531,5 +540,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return null;
             //return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
         }
+
     }
 }
