@@ -91,7 +91,8 @@ namespace StreamEnergy.MyStream.Controllers
 
             var data = item.Children.Select(child => new
             {
-                Name = child.Fields["Display Text"].Value,
+                Name = child.Name,
+                Display = child.Fields["Display Text"].Value,
             });
 
             return this.Content(StreamEnergy.Json.Stringify(data));
