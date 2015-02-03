@@ -3,6 +3,8 @@
     var maxMobileItems = 10;
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
+    $scope.esnInvalid = false;
+    $scope.esnError = false;
     
     $scope.isCartFull = function () {
         if (enrollmentCartService.getDevicesCount() == maxMobileItems) {
@@ -48,8 +50,9 @@
     }
 
     $scope.validateEsn = function() {
-        if (mobileEnrollmentService.selectedNetwork.value == 'sprint') {
-            $scope.isEsnValid = false;
+        if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '') {
+            $scope.esnInvalid = true;
+            $scope.esnError = false;
             $http.post('/api/enrollment/validateEsn', $scope.phoneOptions.imeiNumber)
             .success(function (data) {
                 if (!JSON.parse(data)) {
@@ -57,8 +60,15 @@
                     $scope.validations = [{
                         'memberName': 'imeiNumber'
                     }];
+                    $scope.esnError = true;
+                } else {
+                    $scope.esnError = false;
+                    $scope.esnInvalid = false;
                 }
             })
+        } else {
+            $scope.esnError = false;
+            $scope.esnInvalid = false;
         }
     }
 
