@@ -13,6 +13,8 @@ ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', 'enrollmentService',
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
+        // call account information, in case a plan got deleted
+        var accountInformation = enrollmentService.setAccountInformation();
         var verifyIdentityPromise = enrollmentService.setVerifyIdentity($scope.selectedIdentityAnswers);
 
         verifyIdentityPromise.then(function (data) {

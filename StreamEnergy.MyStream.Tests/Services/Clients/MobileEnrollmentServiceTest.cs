@@ -31,6 +31,22 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Enrollments")]
         [TestCategory("StreamConnect Mobile Enrollments")]
+        public void VerifyEsnTest()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+
+            // Act
+            var actual = enrollmentService.IsEsnValid("268435457800667945").Result;
+
+            // Assert
+            Assert.AreEqual(true, actual);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Mobile Enrollments")]
         public void GetProductsMobileTest()
         {
             // Assign

@@ -400,7 +400,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
                     Values = from account in currentUser.Accounts
                              let invoiceAcct = accountInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
-                             select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.LastOrDefault() : null)
+                             select CreateViewAccountBalances(account, invoiceAcct != null ? invoiceAcct.Invoices.OrderByDescending(i => i.DueDate).FirstOrDefault() : null)
                 }
             };
         }
