@@ -33,6 +33,7 @@
                 <tr>
                     <th></th>
                     <th>@Html.Sitecore().Field("Plan Name Text")</th>
+                    <th ng-show="utilityPlan.rate">@Html.Sitecore().Field("Rate Text")</th>
                     <th>@Html.Sitecore().Field("Term Text")</th>
                     <th ng-if="utilityPlan.fees">@Html.Sitecore().Field("Fees Text")</th>
                 </tr>
@@ -54,6 +55,16 @@
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Details Text") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">@Html.Sitecore().Field("Hide Text") <i class="icon-blue-arrow-up"></i></span>
                         </a>
+                    </td>
+                    <td class="center" ng-show="utilityPlan.rate">
+                        <span class="plan-cost">${{ utilityPlan.rate | number:3 }}</span>
+                        <p>@Html.Sitecore().Field("Per Therm Text")</p>
+                        @*<p class="details">
+                            <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
+                                <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
+                            </a>
+                        </p>
+                        <div class="details-arrow"></div>*@
                     </td>
                     <td class="term" ng-if="utilityPlan.termMonths != '1'">
                         @Html.Sitecore().Field("Gas Term Months").Format(new { Count = "{{utilityPlan.termMonths}}" })
