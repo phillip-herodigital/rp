@@ -34,6 +34,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
             public const string PremiseTypeCommercial = "B";
             public const string PremiseTypeResidential = "I";
             public static readonly ColumnDefinition AglcPremisesNumber = new ColumnDefinition { Start = 373, Length = 9 };
+            public static readonly ColumnDefinition AglcAccountNumber = new ColumnDefinition { Start = 57, Length = 10 };
             public static readonly ColumnDefinition ServiceAddressStreetNumber = new ColumnDefinition { Start = 67, Length = 15 };
             public static readonly ColumnDefinition ServiceAddressStreetCardinalDirection = new ColumnDefinition { Start = 82, Length = 1 };
             public static readonly ColumnDefinition ServiceAddressStreetName = new ColumnDefinition { Start = 83, Length = 23 };
@@ -42,6 +43,12 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
             public static readonly ColumnDefinition ServiceAddressStructure = new ColumnDefinition { Start = 112, Length = 15 };
             public static readonly ColumnDefinition City = new ColumnDefinition { Start = 127, Length = 19 };
             public static readonly ColumnDefinition ZipCode = new ColumnDefinition { Start = 148, Length = 5 };
+        }
+
+        private struct AglcRecord
+        {
+            public Location Location;
+            public string[] AdditionalExactMatches;
         }
 
         public Indexer(int reportEvery, int maxTasks)
@@ -53,49 +60,81 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
 
         public async Task AddAddresses(Options options, IndexBuilder indexBuilder, SmartyStreets.SmartyStreetService streetService)
         {
+            var premisesToMeters = ReadPremisesToMeters(Path.Combine(options.Source, "Meters at Active Premises.csv"));
+
             var zipCodes = new HashSet<string>();
             int counter = 0;
             foreach (var resultLocation in Cleanse(ReadLocations(Path.Combine(options.Source, "custdata.txt")), streetService))
             {
 
-                if (!zipCodes.Contains(resultLocation.Address.PostalCode5))
+                if (!zipCodes.Contains(resultLocation.Location.Address.PostalCode5))
                 {
-                    await WriteZipCodeLocation(indexBuilder, resultLocation.Address.PostalCode5);
-                    zipCodes.Add(resultLocation.Address.PostalCode5);
+                    await WriteZipCodeLocation(indexBuilder, resultLocation.Location.Address.PostalCode5);
+                    zipCodes.Add(resultLocation.Location.Address.PostalCode5);
                 }
 
-                await indexBuilder.WriteLocation(resultLocation, resultLocation.Capabilities.OfType<CustomerTypeCapability>().Single().CustomerType, "AGLC", true);
+                var meters = Enumerable.Empty<string>();
+                var premisesNumber = resultLocation.Location.Capabilities.OfType<ServiceCapability>().Single().AglcPremisesNumber;
+                if (premisesToMeters.ContainsKey(premisesNumber))
+                {
+                    meters = premisesToMeters[premisesNumber];
+                }
+
+                await indexBuilder.WriteLocation(
+                    resultLocation.Location, 
+                    resultLocation.Location.Capabilities.OfType<CustomerTypeCapability>().Single().CustomerType, 
+                    "AGLC", 
+                    true, 
+                    resultLocation.AdditionalExactMatches.Concat(meters));
                 counter++;
                 if (counter % reportEvery == 0)
                     Console.WriteLine(counter.ToString().PadLeft(11));
             }
         }
 
-        private IEnumerable<Location> Cleanse(IEnumerable<Location> locations, SmartyStreets.SmartyStreetService streetService)
+        private Dictionary<string, IEnumerable<string>> ReadPremisesToMeters(string filePath)
+        {
+            using (var reader = new System.IO.StreamReader(filePath))
+            {
+                var result = (from line in reader.ReadToEnd().Split('\n')
+                              let parts = line.Split(',')
+                              where parts.Length == 2
+                              let premisesNumber = parts[0].Trim()
+                              let meterNumber = parts[1].Trim()
+                              group meterNumber by premisesNumber).ToDictionary(g => g.Key, g => (IEnumerable<string>)g.ToList().AsReadOnly());
+                return result;
+            }
+        }
+
+        private IEnumerable<AglcRecord> Cleanse(IEnumerable<AglcRecord> locations, SmartyStreets.SmartyStreetService streetService)
         {
             foreach (var locGroup in TakeBy(locations, 100))
             {
                 var cleansedAddresses = streetService.CleanseAddress((from record in locGroup
                                                                       select new SmartyStreets.UncleansedAddress
                                                                       {
-                                                                          Street = record.Address.Line1 + " " + record.Address.Line2,
-                                                                          Zipcode = record.Address.PostalCode5,
-                                                                          City = record.Address.City,
-                                                                          State = record.Address.StateAbbreviation,
+                                                                          Street = record.Location.Address.Line1 + " " + record.Location.Address.Line2,
+                                                                          Zipcode = record.Location.Address.PostalCode5,
+                                                                          City = record.Location.Address.City,
+                                                                          State = record.Location.Address.StateAbbreviation,
                                                                       }).ToArray()).Result;
 
-                foreach (var result in locGroup.Zip(cleansedAddresses, (record, address) => new DomainModels.Enrollments.Location
-                {
-                    Address = address ?? record.Address,
-                    Capabilities = record.Capabilities
-                }).Where(entry => entry.Address != null))
+                foreach (var result in locGroup.Zip(cleansedAddresses, (record, address) => new AglcRecord
+                    {
+                        Location = new DomainModels.Enrollments.Location
+                        {
+                            Address = address ?? record.Location.Address,
+                            Capabilities = record.Location.Capabilities
+                        },
+                        AdditionalExactMatches = record.AdditionalExactMatches
+                    }).Where(entry => entry.Location.Address != null))
                 {
                     yield return result;
                 }
             }
         }
 
-        private IEnumerable<Location> ReadLocations(string customerDataPath)
+        private IEnumerable<AglcRecord> ReadLocations(string customerDataPath)
         {
             using (var reader = new System.IO.StreamReader(customerDataPath))
             {
@@ -109,6 +148,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
                             continue;
 
                         var aglcPremisesNumber = Configuration.AglcPremisesNumber.GetValue(entry);
+                        var aglcAccountNumber = Configuration.AglcAccountNumber.GetValue(entry);
 
                         var streetNumber = Configuration.ServiceAddressStreetNumber.GetValue(entry);
                         var streetCardinalDirection = Configuration.ServiceAddressStreetCardinalDirection.GetValue(entry);
@@ -120,17 +160,21 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
                         var city = Configuration.City.GetValue(entry);
                         var zipCode = Configuration.ZipCode.GetValue(entry);
 
-                        yield return new Location
+                        yield return new AglcRecord
                         {
-                            Address = new Address
+                            Location = new Location
                             {
-                                Line1 = streetNumber + " " + streetCardinalDirection + " " + streetName + " " + streetDirection,
-                                Line2 = structure,
-                                City = city,
-                                StateAbbreviation = "GA",
-                                PostalCode5 = zipCode
+                                Address = new Address
+                                {
+                                    Line1 = streetNumber + " " + streetCardinalDirection + " " + streetName + " " + streetDirection,
+                                    Line2 = structure,
+                                    City = city,
+                                    StateAbbreviation = "GA",
+                                    PostalCode5 = zipCode
+                                },
+                                Capabilities = GetServiceCapabilities(aglcPremisesNumber, zipCode, customerType.Value)
                             },
-                            Capabilities = GetServiceCapabilities(aglcPremisesNumber, zipCode, customerType.Value)
+                            AdditionalExactMatches = new[] { aglcAccountNumber },
                         };
 
                     }

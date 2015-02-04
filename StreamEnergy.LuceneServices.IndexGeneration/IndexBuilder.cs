@@ -33,7 +33,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             onDispose.Add(((IDisposable)directory).Dispose);
         }
 
-        public async Task<bool> WriteLocation(Location location, EnrollmentCustomerType customerType, string group, bool isFresh)
+        public async Task<bool> WriteLocation(Location location, EnrollmentCustomerType customerType, string group, bool isFresh, IEnumerable<string> additionalExactMatch = null)
         {
             
             return await Task.Run<bool>(() =>
@@ -46,7 +46,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     writer.DeleteDocuments(query);
                 }
 
-                writer.AddDocument(ToDocument(location, customerType, group));
+                writer.AddDocument(ToDocument(location, customerType, group, additionalExactMatch ?? Enumerable.Empty<string>()));
                 return true;
             }).ConfigureAwait(false);
         }
@@ -68,7 +68,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             return await Optimize().ConfigureAwait(false);
         }
 
-        private Document ToDocument(Location arg, EnrollmentCustomerType customerType, string group)
+        private Document ToDocument(Location arg, EnrollmentCustomerType customerType, string group, IEnumerable<string> additionalExactMatches)
         {
             Document doc = new Document();
 
@@ -100,6 +100,13 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                               exact,
                               Field.Store.NO,
                               Field.Index.NOT_ANALYZED_NO_NORMS));
+            foreach (var additionalExact in additionalExactMatches)
+            {
+                doc.Add(new Field("Exact",
+                                  additionalExact,
+                                  Field.Store.NO,
+                                  Field.Index.NOT_ANALYZED_NO_NORMS));
+            }
 
             return doc;
         }
