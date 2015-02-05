@@ -111,7 +111,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        if ($scope.cartHasMobile() && !$scope.cartHasUtility()) {
+        if ($scope.cartHasMobile() && typeof $scope.accountInformation.previousAddress == 'undefined') {
             $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
         }
 

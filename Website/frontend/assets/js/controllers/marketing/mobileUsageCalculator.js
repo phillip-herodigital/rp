@@ -56,11 +56,19 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', f
                 $scope.connect.validas = data;
                 $scope.connected = true;
             } else {
-                $scope.validasErrors = data.messages || ["A system error occurred. Please try again later."];
+                if (data && data.messages) {
+                    $scope.validasErrors = data.messages;
+                } else {
+                    $scope.validasErrors = ["A system error occurred. Please try again later."];
+                }
             }
         }).error(function(data, status, headers, config) {
             $scope.isLoading = false;
-            $scope.validasErrors = ["A system error occurred. Please try again later."];
+            if (data && data.messages) {
+                $scope.validasErrors = data.messages;
+            } else {
+                $scope.validasErrors = ["A system error occurred. Please try again later."];
+            }
         });
     };
 
