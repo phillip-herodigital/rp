@@ -50,7 +50,7 @@
     }
 
     $scope.validateEsn = function() {
-        if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '') {
+        if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '' && $scope.mobileEnrollmentSettings.validateSprintEsn) {
             $scope.esnInvalid = true;
             $scope.esnError = false;
             $http.post('/api/enrollment/validateEsn', $scope.phoneOptions.imeiNumber)
