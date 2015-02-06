@@ -17,20 +17,15 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 {
     public class IndexBuilder : IDisposable
     {
-        private LuceneStore.FSDirectory directory;
         private readonly List<Action> onDispose = new List<Action>();
         private IndexWriter writer;
 
-        public IndexBuilder(string destination, bool forceCreate)
+        public IndexBuilder(LuceneStore.Directory directory, bool forceCreate)
         {
-            System.IO.Directory.CreateDirectory(destination);
-            directory = LuceneStore.FSDirectory.Open(destination);
-
             Analyzer analyzer = AddressConstants.BuildLuceneAnalyzer();
             writer = new IndexWriter(directory, analyzer, forceCreate, IndexWriter.MaxFieldLength.UNLIMITED);
             onDispose.Add(((IDisposable)analyzer).Dispose);
             onDispose.Add(((IDisposable)writer).Dispose);
-            onDispose.Add(((IDisposable)directory).Dispose);
         }
 
         public async Task<bool> WriteLocation(Location location, EnrollmentCustomerType customerType, string group, bool isFresh, IEnumerable<string> additionalExactMatch = null)
