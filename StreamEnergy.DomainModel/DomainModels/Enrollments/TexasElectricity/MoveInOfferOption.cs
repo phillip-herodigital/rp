@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,9 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
     public class MoveInOfferOption : OfferOption
     {
         public new const string Qualifier = "TexasElectricityMoveIn";
-        
-        public DateTime ConnectDate { get; set; }
+
+        [Required]
+        public DateTime? ConnectDate { get; set; }
 
         // Note - do not use this fee other than for display; it can be affected by the client
         public decimal ConnectionFee { get; set; }
