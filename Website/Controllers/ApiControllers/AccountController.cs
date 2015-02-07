@@ -958,7 +958,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         AccountType = details.AccountType,
                         CanMakeOneTimePayment = true,
                         AmountDue = details.Balance.Balance,
-                        AvailablePaymentMethods = details.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()
+                        AvailablePaymentMethods = details.GetCapability<AnonymousPaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()
                     }
                 };
         }

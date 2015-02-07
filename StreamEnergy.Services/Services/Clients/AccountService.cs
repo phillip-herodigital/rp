@@ -524,11 +524,14 @@ namespace StreamEnergy.Services.Clients
                 UtilityProvider = null, //TODO - Needed for NE accounts
             });
 
-            account.Capabilities.Add(new PaymentMethodAccountCapability((from type in (IEnumerable<dynamic>)data.Account.AccountBillingDetails.AcceptedPaymentAccountTypes
+            account.Capabilities.Add(new PaymentMethodAccountCapability((from type in (IEnumerable<dynamic>)data.Account.AccountBillingDetails.AcceptedAuthenticatedPaymentAccountTypes
                                                                          select new AvailablePaymentMethod { PaymentMethodType = type }).ToList()));
 
             account.Capabilities.Add(new AutoPayPaymentMethodAccountCapability((from type in (IEnumerable<dynamic>)data.Account.AccountBillingDetails.AcceptedAutopayPaymentAccountTypes
-                                                                         select new AvailablePaymentMethod { PaymentMethodType = type }).ToList()));
+                                                                                select new AvailablePaymentMethod { PaymentMethodType = type }).ToList()));
+
+            account.Capabilities.Add(new AnonymousPaymentMethodAccountCapability((from type in (IEnumerable<dynamic>)data.Account.AccountBillingDetails.AcceptedAnonymousPaymentAccountTypes
+                                                                                  select new AvailablePaymentMethod { PaymentMethodType = type }).ToList()));
 
             account.Capabilities.Add(new PaymentSchedulingAccountCapability
             {
