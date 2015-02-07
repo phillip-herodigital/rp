@@ -50,7 +50,7 @@
     }
 
     $scope.validateEsn = function() {
-        if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '') {
+        if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '' && $scope.mobileEnrollmentSettings.validateSprintEsn) {
             $scope.esnInvalid = true;
             $scope.esnError = false;
             $http.post('/api/enrollment/validateEsn', $scope.phoneOptions.imeiNumber)
@@ -158,6 +158,7 @@
                 activationFee: $scope.activationFee,
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
+                iccidNumber: $scope.phoneOptions.iccidNumber,
                 transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
             };
         }

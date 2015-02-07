@@ -180,6 +180,7 @@ namespace StreamEnergy.Services.Clients
                 EsnNumber = offerOption.EsnNumber,
                 SimNumber = offerOption.SimNumber,
                 ImeiNumber = offerOption.ImeiNumber,
+                IccidNumber = offerOption.IccidNumber,
                 InventoryItemId = offerOption.InventoryItemId,
                 Transfer = ToStreamConnect(offerOption.TransferInfo),
                 UseInstallmentPlan = offerOption.UseInstallmentPlan,
