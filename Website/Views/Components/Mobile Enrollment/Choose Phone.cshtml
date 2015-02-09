@@ -90,8 +90,9 @@
                                                         {{ mobileEnrollmentService.getInstallmentPrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")
                                                     </div>
                                                     <span class="sub-price" ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'New')">@Html.Sitecore().Field("New From") {{ mobileEnrollmentService.getConditionPrice(item.id, 'New') | currency }}</span>
+                                                    <span class="sub-price" ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned')">@Html.Sitecore().Field("Reconditioned From") {{ mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned') | currency }}</span>
                                                 </div>
-                                                <button ng-click="setSelectedPhone(item.id)" ng-disabled="!mobileEnrollmentService.getStock(item.id) || !mobileEnrollmentService.getConditionPrice(item.id, 'New')">@Html.Sitecore().Field("Button - Select Phone")</button>
+                                                <button ng-click="setSelectedPhone(item.id)" ng-disabled="!mobileEnrollmentService.getStock(item.id)">@Html.Sitecore().Field("Button - Select Phone")</button>
                                             </div>
                                             <div class="col" ng-if="phone.length % 3 == 2"></div>
                                             <div class="col" ng-if="phone.length % 3 == 1"></div>
