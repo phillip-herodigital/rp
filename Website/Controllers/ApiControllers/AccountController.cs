@@ -1133,9 +1133,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await accountService.GetAccountDetails(target);
             var subAccount = target.SubAccounts.First(acct => acct.Id == request.SubAccountId);
-            var isElibible = await accountService.CheckRenewalEligibility(target, subAccount);
+            var isEligibile = await accountService.CheckRenewalEligibility(target, subAccount);
 
-            if (isElibible)
+            if (isEligibile && target.GetCapability<RenewalAccountCapability>().IsEligible)
             {
                 await enrollmentController.Initialize(null);
                 isSuccess = await enrollmentController.SetupRenewal(target, subAccount);

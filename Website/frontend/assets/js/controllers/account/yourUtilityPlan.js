@@ -29,16 +29,19 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
         }
     });
 
-    $scope.setupRenewal = function() {
+    $scope.setupRenewal = function(utilityPlanId) {
         $scope.isLoading = true;
         var accountData = {
             accountId: $scope.accountId,
-            subAccountId: $scope.utilityPlan.id
+            subAccountId: utilityPlanId
         };
         $http.post('/api/account/setupRenewal', accountData)
         .success(function (data) {
             if (data.isSuccess) {
                 $window.location = '/enrollment?renewal=true';
+            } else {
+                // the account is no longer eligible, or something else went wrong
+                $scope.isLoading = false;
             }
         })
     };
