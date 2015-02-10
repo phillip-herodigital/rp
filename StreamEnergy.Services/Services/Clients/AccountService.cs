@@ -616,7 +616,7 @@ namespace StreamEnergy.Services.Clients
                 {
                     UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
                     ProductType = locAdapter.GetCommodityType(),
-                    ProviderId = locAdapter.GetProvider(account.SubAccounts.First()),
+                    ProviderId = locAdapter.GetProvider(subAccount),
                     CustomerLast4 = account.Details.SsnLastFour,
                     SystemOfRecord = account.SystemOfRecord,
                     SystemOfRecordAccountNumber = account.AccountNumber,
