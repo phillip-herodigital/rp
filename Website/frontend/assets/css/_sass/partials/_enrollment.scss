@@ -2162,6 +2162,16 @@
                     padding-left: 15px;
                 }
             }
+            .footnotes {
+                ul {
+                    list-style: disc;
+                    padding-left: 15px;
+                    li {
+                        background-image: none;
+                        padding-left: 0;
+                    }
+                }
+            }
             .network-map {
                 float: left;
                 font-size: 18px;
@@ -2862,6 +2872,9 @@
         }
         .note {
             font-size: 14px;
+        }
+        .byo-input {
+            display: block;
         }
         @include breakpoint(small) {
             div.item > label {

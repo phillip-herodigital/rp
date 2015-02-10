@@ -173,9 +173,9 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setSelectedOffers = function (overrideServerStep) {
-        if (_(enrollmentCartService.services).pluck('offerInformationByType').flatten().pluck('value').pluck('offerSelections').any(function (selections) { console.log(selections); return selections.length > 1; }))
+        if (_(enrollmentCartService.services).pluck('offerInformationByType').flatten().pluck('value').pluck('offerSelections').any(function (selections) { return selections.length > 1; }))
         {
-            return service.setAccountInformation();
+            return service.setAccountInformation(overrideServerStep);
         }
 
         //Get from the activeServiceAddress object
@@ -251,7 +251,7 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setAccountInformation = function () {
+    service.setAccountInformation = function (overrideServerStep) {
         var data = angular.copy({
             contactInfo: service.accountInformation.contactInfo,
             contactTitle: service.accountInformation.contactTitle,
@@ -289,7 +289,7 @@
         if (data.onlineAccount && !data.onlineAccount.username)
             data.onlineAccount = null;
 
-        return makeCall('accountInformation', data);
+        return makeCall('accountInformation', data, overrideServerStep);
     };
 
     /**
