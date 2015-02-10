@@ -529,13 +529,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var accountDetails = await accountService.GetAccountDetails(account, false);
-            var renewalEligibility = await accountService.CheckRenewalEligibility(account, account.SubAccounts.First());
 
             return new GetUtilityPlanResponse
             {
                 AccountId = account.StreamConnectAccountId,
                 SubAccounts = account.SubAccounts,
-                RenewalCapability = account.GetCapability<RenewalAccountCapability>()
+                HasRenewalEligibiltiy = account.SubAccounts.Any(s => s.RenewalEligibility)
             };
         }
 

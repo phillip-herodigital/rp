@@ -18,7 +18,8 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
             }).success(function (data, status, headers, config) {
                 $scope.accountId = data.accountId;
                 $scope.utilityPlan = data.subAccounts[0];
-                $scope.renewal = data.renewalCapability;
+                $scope.utilityPlans = data.subAccounts;
+                $scope.renewal = data.hasRenewalEligibiltiy;
                 // get the plan description from sitecore if it exists
                 var product = _.find($scope.georgiaProducts, { 'code': $scope.utilityPlan.productCode });
                 $scope.utilityPlan.description = (product) ? product.description : null;

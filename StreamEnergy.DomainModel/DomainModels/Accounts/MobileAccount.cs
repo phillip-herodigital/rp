@@ -26,6 +26,14 @@ namespace StreamEnergy.DomainModels.Accounts
             }
         }
 
+        public bool RenewalEligibility
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         void ISanitizable.Sanitize()
         {
             if (ServiceAddress != null)

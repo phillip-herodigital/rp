@@ -33,6 +33,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public string ProductDescription { get; set; }
 
         public string EarlyTerminationFee { get; set; }
+        public bool RenewalEligibility { get; set; }
 
         void ISanitizable.Sanitize()
         {

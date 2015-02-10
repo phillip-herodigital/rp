@@ -13,7 +13,7 @@ namespace StreamEnergy.DomainModels.Accounts
         string Id { get; }
         Enrollments.EnrollmentCustomerType CustomerType { get; }
         string ProductType { get; }
-
+        bool RenewalEligibility { get; }
         Address ServiceAddress { get; }
     }
 }

@@ -1,15 +1,17 @@
 ﻿<div ng-controller="AcctYourUtilityPlanCtrl" ng-cloak>
     
-    <article class="plain renew-plan" ng-if="renewal.isEligible">
+    <article class="plain renew-plan" ng-if="renewal">
         <div class="notice alert" loading-indicator>
             <div class="grid two">
                 <div class="col">
                     <strong>@Html.Sitecore().Field("Renew Plan Text")</strong>
                     <p>@Html.Sitecore().Field("Renew Date Text")</p>
                 </div>
+                @*
                 <div class="col">
                     <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
                 </div>
+                *@
             </div>
         </div>
     </article>
@@ -36,6 +38,7 @@
                     <th ng-show="utilityPlan.rate">@Html.Sitecore().Field("Rate Text")</th>
                     <th>@Html.Sitecore().Field("Term Text")</th>
                     <th ng-if="utilityPlan.fees">@Html.Sitecore().Field("Fees Text")</th>
+                    <th ng-if="renewal">@Html.Sitecore().Field("Action Text")</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,6 +77,9 @@
                     </td>
                     <td class="fees" ng-if="utilityPlan.fees">
                         {{ utiltiyPlan.cancellationFee }}<span>@Html.Sitecore().Field("Gas Early Termination Fee")</span>
+                    </td>
+                    <td ng-if="renewal">
+                        <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
                     </td>
                 </tr>
                 <tr class="hide-medium-large" ng-show="utilityPlan.description">
@@ -121,10 +127,11 @@
                     <th ng-show="utilityPlan.rate">@Html.Sitecore().Field("Rate Text")</th>
                     <th>@Html.Sitecore().Field("Term Text")</th>
                     <th ng-if="utilityPlan.fees">@Html.Sitecore().Field("Fees Text")</th>
+                    <th ng-if="renewal">@Html.Sitecore().Field("Action Text")</th>
                 </tr>
             </thead>
             <tbody additional-fields>
-                <tr>
+                <tr ng-repeat="utilityPlan in utilityPlans">
                     <th class="vertical">
                         <div ng-show="utilityPlan.rateType == 'fixed'" class="fixed">{{ utilityPlan.rateType }}</div>
                         <div class="variable" ng-show="utilityPlanplan.rateType == 'variable'">{{ utilityPlan.rateType }}</div>
@@ -132,20 +139,20 @@
                     <td class="arrow plan-name">
                         <h5><strong>{{ utilityPlan.productName }}</strong></h5>
                         @*<p class="details">
-                            <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
-                                <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
-                            </a>
-                        </p>*@
+                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
+                        <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
+                    </a>
+                </p>*@
                     </td>
                     <td class="center" ng-show="utilityPlan.rate">
                         <span class="plan-cost">{{ utilityPlan.rate * 100 | number:2 }}&#162;</span>
                         <p>@Html.Sitecore().Field("Per KwH Text")</p>
                         @*<p class="details">
-                            <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
-                                <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
-                            </a>
-                        </p>
-                        <div class="details-arrow"></div>*@
+                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
+                        <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
+                    </a>
+                </p>
+                <div class="details-arrow"></div>*@
                     </td>
                     <td class="term" ng-if="utilityPlan.termMonths != '1'">
                         @Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{utilityPlan.termMonths}}" })
@@ -155,6 +162,9 @@
                         @Html.Sitecore().Field("Electricity Month To Month")
                     </td>
                     <td class="center" ng-if="utilityPlan.fees"><span class="plan-cost">{{ utilityPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
+                    <td ng-if="utilityPlan.renewalEligibility">
+                        <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
+                    </td>
                 </tr>
                 <tr class="expand-details additional-fields">
                     <td colspan="5">
