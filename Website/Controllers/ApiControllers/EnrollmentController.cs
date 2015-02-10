@@ -112,7 +112,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 { 
                     Location = new Location 
                     { 
-                        Address = account.SubAccounts.First().ServiceAddress,
+                        Address = subAccount.ServiceAddress,
                         Capabilities = account.Capabilities.OfType<RenewalAccountCapability>().Single().Capabilities
                     }
                 }
