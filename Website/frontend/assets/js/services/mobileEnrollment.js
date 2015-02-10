@@ -108,7 +108,7 @@ ngApp.factory('mobileEnrollmentService', [function () {
             return model.installmentPlans[0].aGroupSku == plan;
         });
 
-        if (typeof model.installmentPlans != 'undefined') {
+        if (typeof model != 'undefined' && typeof model.installmentPlans != 'undefined') {
             return model.installmentPlans[0].months;
         } else {
             return null;
