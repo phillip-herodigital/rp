@@ -80,15 +80,14 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var firstCheck = enrollmentService.BeginIdentityCheck(gcid,
+                var firstCheck = enrollmentService.LoadIdentityQuestions(gcid,
                     name: TestData.IdentityCheckName(),
                     ssn: TestData.IdentityCheckSsn,
                     mailingAddress: TestData.IdentityCheckMailingAddress()).Result;
 
                 // Assert
                 Assert.IsNotNull(firstCheck);
-                Assert.IsTrue(firstCheck.IsCompleted);
-                Assert.IsNotNull(firstCheck.Data.IdentityCheckId);
+                Assert.IsNotNull(firstCheck.IdentityCheckId);
 
                 // Since we're really verifying the API, not actually testing our code, there's no reason to follow the AAA test standard.
                 // Don't take this as an example of OK - this should be multiple tests, with either initial setup or in the "assign" section.
@@ -100,8 +99,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     mailingAddress: TestData.IdentityCheckMailingAddress(),
                     identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
                     {
-                        PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
-                        SelectedAnswers = firstCheck.Data.IdentityQuestions.ToDictionary(q => q.QuestionId, q => q.Answers[0].AnswerId)
+                        PreviousIdentityCheckId = firstCheck.IdentityCheckId,
+                        SelectedAnswers = firstCheck.IdentityQuestions.ToDictionary(q => q.QuestionId, q => q.Answers[0].AnswerId)
                     }).Result;
 
                 // Assert

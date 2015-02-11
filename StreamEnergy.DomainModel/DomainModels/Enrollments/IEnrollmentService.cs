@@ -26,7 +26,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<bool> DeleteEnrollment(Guid globalCustomerId, Guid enrollmentAccountId);
 
-        Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
+        Task<IdentityCheckResult> LoadIdentityQuestions(Guid streamCustomerId, Name name, string ssn, Address mailingAddress);
+        
+        Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation);
 
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
 

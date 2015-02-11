@@ -327,74 +327,65 @@ namespace StreamEnergy.Services.Clients
             return ((string)responseObject.Status) == "Success";
         }
         
+        async Task<IdentityCheckResult> IEnrollmentService.LoadIdentityQuestions(Guid streamCustomerId, Name name, string ssn, Address mailingAddress)
+        {
+
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
+            {
+                FirstName = name.First,
+                LastName = name.Last,
+                SSN = ssn,
+                Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress)
+            });
+            response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+            var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
+
+            if (result.Status != "Success")
+            {
+                return new IdentityCheckResult { IdentityAccepted = false, IdentityQuestions = new IdentityQuestion[0], HardStop = null };
+            }
+
+            return new IdentityCheckResult
+            {
+                HardStop = null,
+                IdentityCheckId = result.IdVerificationChallenge.CreditServiceSessionId,
+                IdentityAccepted = false,
+                IdentityQuestions = (from question in result.IdVerificationChallenge.Questions
+                                        select new IdentityQuestion
+                                        {
+                                            QuestionId = question.Index.ToString(),
+                                            QuestionText = question.QuestionText,
+                                            Answers = (from answer in question.Answers
+                                                    select new IdentityAnswer
+                                                    {
+                                                        AnswerId = answer.Index.ToString(),
+                                                        AnswerText = answer.AnswerText
+                                                    }).ToArray()
+                                        }).ToArray()
+            };
+        }
+        
         async Task<StreamAsync<IdentityCheckResult>> IEnrollmentService.BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation)
         {
-            if (identityInformation == null)
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
             {
-                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
-                {
-                    FirstName = name.First,
-                    LastName = name.Last,
-                    SSN = ssn,
-                    Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress)
-                });
-                response.EnsureSuccessStatusCode();
-                var responseString = await response.Content.ReadAsStringAsync();
-                var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
-
-                if (result.Status != "Success")
-                {
-                    return new StreamAsync<IdentityCheckResult>
-                    {
-                        IsCompleted = true,
-                        Data = new IdentityCheckResult { IdentityAccepted = false, IdentityQuestions = new IdentityQuestion[0], HardStop = null }
-                    };
-                }
-
-                return new StreamAsync<IdentityCheckResult>
-                {
-                    IsCompleted = true,
-                    Data = new IdentityCheckResult
-                    {
-                        HardStop = null,
-                        IdentityCheckId = result.IdVerificationChallenge.CreditServiceSessionId,
-                        IdentityAccepted = false,
-                        IdentityQuestions = (from question in result.IdVerificationChallenge.Questions
-                                             select new IdentityQuestion
-                                             {
-                                                 QuestionId = question.Index.ToString(),
-                                                 QuestionText = question.QuestionText,
-                                                 Answers = (from answer in question.Answers
-                                                            select new IdentityAnswer
-                                                            {
-                                                                AnswerId = answer.Index.ToString(),
-                                                                AnswerText = answer.AnswerText
-                                                            }).ToArray()
-                                             }).ToArray()
-                    }
-                };
-            }
-            else
-            {
-                var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
-                {
-                    CreditServiceSessionId = identityInformation.PreviousIdentityCheckId,
-                    Questions = (from question in identityInformation.SelectedAnswers
-                                 select new
-                                 {
-                                     Index = int.Parse(question.Key),
-                                     SelectedAnswerIndex = int.Parse(question.Value)
-                                 }).ToArray()
-                });
-                response.EnsureSuccessStatusCode();
+                CreditServiceSessionId = identityInformation.PreviousIdentityCheckId,
+                Questions = (from question in identityInformation.SelectedAnswers
+                                select new
+                                {
+                                    Index = int.Parse(question.Key),
+                                    SelectedAnswerIndex = int.Parse(question.Value)
+                                }).ToArray()
+            });
+            response.EnsureSuccessStatusCode();
                 
-                var asyncUrl = response.Headers.Location;
-                return new StreamAsync<IdentityCheckResult>
-                {
-                    IsCompleted = false,
-                    ResponseLocation = asyncUrl 
-                };
-            }
+            var asyncUrl = response.Headers.Location;
+            return new StreamAsync<IdentityCheckResult>
+            {
+                IsCompleted = false,
+                ResponseLocation = asyncUrl 
+            };
         }
 
         async Task<StreamAsync<IdentityCheckResult>> IEnrollmentService.EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult)
