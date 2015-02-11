@@ -259,25 +259,23 @@ namespace StreamEnergy.Services.Clients
                         return temp.Details;
                     return null;
                 };
-            Func<LocationServices, SelectedOffer, JObject> findSaveId = (service, offer) =>
+            Func<LocationServices, SelectedOffer, int, JObject> findSaveId = (service, offer, index) =>
             {
                 if (enrollmentSaveResult == null)
                     return null;
                 return enrollmentSaveResult.Results
+                    .Skip(index)
                     .Where(r => r.Offer.OfferType == offer.Offer.OfferType && r.Location == service.Location)
                     .Select(r => JObject.Parse(r.Details.EnrollmentAccountKeyJson))
                     .FirstOrDefault();
             };
 
-            // Note - updates are being applied to the same location if the offer types match.
-            // If there is an offer type where we can have multiple at a single location,
-            // this logic will need to change again.
             var request = (from serviceWithIndex in context.Services.Select((service, index) => new { service, index })
                            let service = serviceWithIndex.service
                            from offerWithIndex in service.SelectedOffers.Select((offer, index) => new { offer, index })
                            let offer = offerWithIndex.offer
                            let index = serviceWithIndex.index.ToString() + " " + offerWithIndex.index.ToString()
-                           let previousSaveId = findSaveId(service, offer)
+                           let previousSaveId = findSaveId(service, offer, offerWithIndex.index)
                            let locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(service.Location.Capabilities, offer.Offer))
                            let accountDetails = new EnrollmentAccountDetails 
                            { 
