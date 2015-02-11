@@ -15,7 +15,13 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public const string Classification = "Utility";
 
+        public TexasElectricityAccount()
+        {
+            Capabilities = new List<ISubAccountCapability>();
+        }
+
         public string Id { get; set; }
+        public IList<ISubAccountCapability> Capabilities { get; private set; }
 
         [Required(ErrorMessage = "Service Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Service Address ")]
@@ -33,7 +39,6 @@ namespace StreamEnergy.DomainModels.Accounts
         public string ProductDescription { get; set; }
 
         public string EarlyTerminationFee { get; set; }
-        public bool RenewalEligibility { get; set; }
 
         void ISanitizable.Sanitize()
         {

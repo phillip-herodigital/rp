@@ -16,19 +16,17 @@ namespace StreamEnergy.DomainModels.Accounts
         
         public const string Classification = "Mobile";
 
+        public MobileAccount()
+        {
+            Capabilities = new List<ISubAccountCapability>();
+        }
+
         public string Id { get; set; }
+        public IList<ISubAccountCapability> Capabilities { get; private set; }
 
         public Address ServiceAddress
         {
             get 
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool RenewalEligibility
-        {
-            get
             {
                 throw new NotImplementedException();
             }

@@ -200,8 +200,6 @@ namespace StreamEnergy.Services.Clients
                 result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
                 result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
                 result.CustomerType = (details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial;
-                // TODO - actually set this from StreamConnect
-                result.RenewalEligibility = true;
             }
             return result;
         }
