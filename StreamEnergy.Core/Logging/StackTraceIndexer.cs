@@ -9,7 +9,7 @@ namespace StreamEnergy.Logging
 {
     class StackTraceIndexer : IDataAccumulator, ILogIndexer
     {
-        Task IDataAccumulator.AccumulateData(LogEntry logEntry)
+        void IDataAccumulator.AccumulateData(LogEntry logEntry)
         {
             if (logEntry.Exception == null)
             {
@@ -32,7 +32,6 @@ namespace StreamEnergy.Logging
                 } while (stack.Count > 0);
                 logEntry.Data["StackTrace"] = stackTrace.ToString();
             }
-            return Task.FromResult<object>(null);
         }
 
         Task ILogIndexer.IndexData(LogEntry logEntry)
