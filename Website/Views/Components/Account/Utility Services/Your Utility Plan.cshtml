@@ -169,7 +169,7 @@
                         @Html.Sitecore().Field("Electricity Month To Month")
                     </td>
                     <td class="center" ng-if="utilityPlan.fees"><span class="plan-cost">{{ utilityPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
-                    <td ng-if="utilityPlan.renewalEligibility">
+                    <td ng-if="isEligible(utilityPlan.id)">
                         <button class="primary" ng-click="setupRenewal(utilityPlan.id)">@Html.Sitecore().Field("Renew Button Text")</button>
                     </td>
                 </tr>

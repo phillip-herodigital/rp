@@ -29,6 +29,11 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
         }
     });
 
+    $scope.isEligible = function(utilityPlanId) {
+        var subAccount = _.find($scope.utilityPlans, { 'id': utilityPlanId });
+        return _.find(subAccount.capabilities, { 'capabilityType': 'Renewal' }).isEligible;
+    };
+
     $scope.setupRenewal = function(utilityPlanId) {
         $scope.isLoading = true;
         var accountData = {
