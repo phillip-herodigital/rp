@@ -192,6 +192,7 @@ namespace StreamEnergy.Services.Clients
                 return asyncResult;
             }
 
+            response.EnsureSuccessStatusCode();
 
             asyncResult.IsCompleted = true;
 
