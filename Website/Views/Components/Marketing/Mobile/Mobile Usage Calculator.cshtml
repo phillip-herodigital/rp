@@ -17,11 +17,11 @@
                 {
                     title: '@Html.Sitecore().Field("Connect Account Tab")',
                     url: 'connect.tpl.html'
-                },
+                }@*,
                 {
                     title: '@Html.Sitecore().Field("Manually Enter Tab")',
                     url: 'manual.tpl.html'
-                }
+                }*@
             ],
             currentTab: '@(Model.ShowBillScrape ? "connect.tpl.html" : "manual.tpl.html")',
             isModal:    '@Model.IsModal'.toLowerCase() == 'true'
@@ -55,11 +55,15 @@
                         <ul class="network-toggle">
                             <li ng-repeat="item in serverData.carriers">
                                 <a href="" ng-class="{active: connect.carrier == item.key}" ng-click="connect.carrier = item.key">
-                                    <i ng-class="{'icon-att': item.key == 'att','icon-sprint': item.key == 'sprint','icon-verizon': item.key == 'vzw','icon-tmobile': item.key == 'tmo'}"></i>
+                                    {{ item.name }}
+                                    @*<i ng-class="{'icon-att': item.key == 'att','icon-sprint': item.key == 'sprint','icon-verizon': item.key == 'vzw','icon-tmobile': item.key == 'tmo'}"></i>*@
                                 </a>
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div class="selectCarrier clearfix">
+                    @Html.Sitecore().Field("Bill Analysis Text")
                 </div>
                 <div class="stretch coming-soon" ng-if="connect.carrier && !getCarrier(connect.carrier).showLogin">
                     @Html.Sitecore().Field("Carrier Coming Soon")
@@ -395,7 +399,7 @@
         </script>
 
         <script type="text/ng-template" id="manual.tpl.html">
-            <div class="manual-calculator">
+            @*<div class="manual-calculator">
                 <h4>@Html.Sitecore().Field("Use Calculator Text")</h4>      
                 <div class="grid">
                     <div class="col left clearfix">
@@ -657,7 +661,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
+            @Html.Sitecore().Field("Manual Calculator Disabled")
         </script>
     </div>
 </article>

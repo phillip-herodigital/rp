@@ -29,7 +29,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
 
         private struct Configuration
         {
-            public const int LineLength = 945;
+            public const int LineLength = 964;
             public static readonly ColumnDefinition PremiseType = new ColumnDefinition { Start = 0, Length = 1 };
             public const string PremiseTypeCommercial = "B";
             public const string PremiseTypeResidential = "I";

@@ -58,19 +58,27 @@
 
 <script type="text/ng-template" id="dataPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans">
-        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterDataPlans | orderBy:data" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
+        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterDataPlans | orderBy:'data'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
             <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
             <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
-            <p>
+            <p ng-if="plan.data != 0">
                 <span class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></span><br />
                 <span ng-if="!plan.isParentOffer">@Html.Sitecore().Field("Individual Data Description")</span>
                 <span ng-if="plan.isParentOffer">@Html.Sitecore().Field("Group Data Description")</span>
             </p>
+            <p ng-if="plan.data == 0">
+                <span class="size">@Html.Raw(Html.Sitecore().Field("Talk and Text Only Text"))</span>
+            </p>
             <hr />
-            <ul class="details">
+            <ul class="details" ng-if="plan.data != 0">
                 <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} @Html.Sitecore().Field("Hours Text")</span></span></li>
                 <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} @Html.Sitecore().Field("Hours Text")</span></span></li>
                 <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.webPages }} @Html.Sitecore().Field("Web Pages Text")</span></span></li>
+            </ul>
+            <ul class="details" ng-if="plan.data == 0">
+                <li><i class="icon-talk"></i><span>@Html.Sitecore().Field("Talk Text")<br /><span class="time">@Html.Sitecore().Field("Unlimited Text")</span></span></li>
+                <li><i class="icon-text"></i><span>@Html.Sitecore().Field("Text Text")<br /><span class="time">@Html.Sitecore().Field("Unlimited Text")</span></span></li>
+                <li><i class="icon-data"></i><span>@Html.Sitecore().Field("Data Use Text")<br /><span class="time">@Html.Sitecore().Field("Price per MB Text")</span></span></li>
             </ul>
             <hr />
             <p>
