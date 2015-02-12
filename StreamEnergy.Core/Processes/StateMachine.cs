@@ -67,6 +67,12 @@ namespace StreamEnergy.Processes
             }
         }
 
+        public bool IsBreakForced()
+        {
+            var state = GetState();
+            return state.ForceBreak(Context, InternalContext);
+        }
+
         public IEnumerable<ValidationResult> ValidationResults
         {
             get
