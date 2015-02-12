@@ -97,6 +97,7 @@
                     esnNumber: device.imeiNumber,
                     simNumber: device.simNumber,
                     imeiNumber: device.imeiNumber,
+                    iccidNumber: device.iccidNumber,
                     inventoryItemId: device.id,
                     transferInfo: device.transferInfo,
                     useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'BYOD') ? false : true,
