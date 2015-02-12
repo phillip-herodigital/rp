@@ -212,7 +212,7 @@
                                 </div>
                                 <div class="item item--no-input" ng-show="accountInformation.mailingAddressSame && utilityAddresses().length == 1">
                                     <label>@Html.Sitecore().Field("Billing Service Address Label")</label>
-                                    <strong>{{ accountInformation.mailingAddress | address }}</strong>
+                                    <strong>{{ utilityAddresses()[0].location.address | address }}</strong>
                                 </div>
                                 @using (var mailingAddress = Html.Shortcut(m => m.MailingAddress))
                                 {
