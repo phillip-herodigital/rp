@@ -19,7 +19,7 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
             var typedOffer = options as MoveInOfferOption;
             return new IOfferPaymentAmount[]
             {
-                new ConnectionFeePaymentAmount { DollarAmount = ConnectDates.AvailableConnectDates.First(d => d.Date == typedOffer.ConnectDate.Value).Fees["ConnectFee"] },
+                new ConnectionFeePaymentAmount { DollarAmount = ConnectDates.AvailableConnectDates.First(d => d.Date == typedOffer.ConnectDate.Value.Date).Fees["ConnectFee"] },
             };
         }
     }
