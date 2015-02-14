@@ -14,6 +14,7 @@
         </Environment>
       </Task>
       <Task commandLine="updateTypeaheadIndex.cmd " executionContext="elevated" taskType="simple" />
+      <Task commandLine="updateDataFolderPath.cmd " executionContext="elevated" taskType="simple" />
       <Task commandLine="installStreamEnergy.RenderingService.cmd " executionContext="elevated" taskType="simple" />
     </Startup>
     <Sites>
@@ -36,6 +37,7 @@
     <LocalResources>
       <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />
       <LocalStorage name="TypeaheadStore" sizeInMB="10000" cleanOnRoleRecycle="false" />
+      <LocalStorage name="DataFolderStore" sizeInMB="1000" cleanOnRoleRecycle="false" />
     </LocalResources>
     <Certificates>
       <Certificate name="StreamCertificate" storeLocation="LocalMachine" storeName="My"/>
