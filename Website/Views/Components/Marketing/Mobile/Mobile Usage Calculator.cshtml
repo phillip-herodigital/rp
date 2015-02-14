@@ -89,8 +89,10 @@
                                 <span class="note">@Html.Sitecore().Field("Forgot Password Link", new { text = @Html.Sitecore().Field("Forgot Password") })</span>
                             </div>
                             <div class="item">
-                                <label>@Html.Sitecore().Field("Security Question")</label>
-                                <input type="password" ng-model="connect.securityAnswer">
+                                <label ng-if="connect.carrier == 'vzw'">@Html.Sitecore().Field("Security Question Required")</label>
+                                <label ng-if="connect.carrier != 'vzw'">@Html.Sitecore().Field("Security Question")</label>
+                                <input ng-if="connect.carrier == 'vzw'" type="password" ng-model="connect.securityAnswer" data-val="true" data-val-required="">
+                                <input ng-if="connect.carrier != 'vzw'" type="password" ng-model="connect.securityAnswer">
                                 <span class="note">@Html.Sitecore().Field("Security Question Link", new { text = @Html.Sitecore().Field("Cant Remember Security Question") })</span>
                             </div>
                         </div>
