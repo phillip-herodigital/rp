@@ -14,7 +14,8 @@ ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', 'enrollmentService',
     */
     $scope.completeStep = function () {
         // call account information, in case a plan got deleted
-        var accountInformation = enrollmentService.setAccountInformation();
+        // Adam B. - We can't call setAccountInformation at this point; it reloads credit and KIQ questions
+        //var accountInformation = enrollmentService.setAccountInformation();
         var verifyIdentityPromise = enrollmentService.setVerifyIdentity($scope.selectedIdentityAnswers);
 
         verifyIdentityPromise.then(function (data) {
