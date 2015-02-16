@@ -122,6 +122,7 @@
     <Compile Include="DomainModels\AccountLookup.cs" />
     <Compile Include="DomainModels\Accounts\Account.TSubAccount.cs" />
     <Compile Include="DomainModels\Accounts\AccountBalance.cs" />
+    <Compile Include="DomainModels\Accounts\AnonymousPaymentMethodAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\MobileAccountDetails.cs" />
     <Compile Include="DomainModels\Accounts\MobileAccountUsage.cs" />
     <Compile Include="DomainModels\Accounts\AccountUsage.cs" />

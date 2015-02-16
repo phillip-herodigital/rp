@@ -90,8 +90,9 @@
                                                         {{ mobileEnrollmentService.getInstallmentPrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")
                                                     </div>
                                                     <span class="sub-price" ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'New')">@Html.Sitecore().Field("New From") {{ mobileEnrollmentService.getConditionPrice(item.id, 'New') | currency }}</span>
+                                                    <span class="sub-price" ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned')">@Html.Sitecore().Field("Reconditioned From") {{ mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned') | currency }}</span>
                                                 </div>
-                                                <button ng-click="setSelectedPhone(item.id)" ng-disabled="!mobileEnrollmentService.getStock(item.id) || !mobileEnrollmentService.getConditionPrice(item.id, 'New')">@Html.Sitecore().Field("Button - Select Phone")</button>
+                                                <button ng-click="setSelectedPhone(item.id)" ng-disabled="!mobileEnrollmentService.getStock(item.id)">@Html.Sitecore().Field("Button - Select Phone")</button>
                                             </div>
                                             <div class="col" ng-if="phone.length % 3 == 2"></div>
                                             <div class="col" ng-if="phone.length % 3 == 1"></div>
@@ -327,15 +328,29 @@
                                     </div>
                                     <hr ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
                                     <div class="item" data-val-error="imeiNumber">
-                                        <label>
+                                        <label ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
                                             @Html.Sitecore().Field("Header - IMEI Number")
                                             <span class="label-description">@Html.Sitecore().Field("Text - IMEI Number Note")</span>
                                         </label>
+                                        <label ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+                                            @Html.Sitecore().Field("Header - ESN Number")
+                                            <span class="label-description">@Html.Sitecore().Field("Text - ESN Number Note")</span>
+                                        </label>
                                         <div class="btn-group-options">
-                                            <label>@Html.Sitecore().Field("Label - IMEI Number")</label>
-                                            <input type="text" name="imeiNumber" ng-model="phoneOptions.imeiNumber" ng-blur="validateEsn()" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'" />
+                                            <label ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">@Html.Sitecore().Field("Label - IMEI Number") </label>
+                                            <label ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">@Html.Sitecore().Field("Label - ESN Number") </label>
+                                            <input type="text" class="byo-input" name="imeiNumber" ng-model="phoneOptions.imeiNumber" ng-blur="validateEsn()" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'" />
                                             <span ng-show="esnError"><br />@Html.Sitecore().Field("ESN Error Text")</span>
-                                            <span class="note"><a href="" ng-click="showModal('instructions/imei')">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></span>
+                                        </div>
+                                    </div>
+                                    <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+                                        <label>
+                                            @Html.Sitecore().Field("Header - ICCID Number")
+                                            <span class="label-description">@Html.Sitecore().Field("Text - ICCID Number Note")</span>
+                                        </label>
+                                        <div class="btn-group-options">
+                                            <label>@Html.Sitecore().Field("Label - ICCID Number")</label>
+                                            <input type="text" class="byo-input" name="iccidNumber" ng-model="phoneOptions.iccidNumber" />
                                         </div>
                                     </div>
                                     <hr />
@@ -529,6 +544,30 @@
         </div>
         <div class="modal-body">
             @Html.Sitecore().Field("Content - IMEI ESN Instructions")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/esn">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - ESN Instructions")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - ESN Instructions")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/iccid">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - ICCID Instructions")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - ICCID Instructions")
         </div>
     </div>
 </script>

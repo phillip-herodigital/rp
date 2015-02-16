@@ -158,8 +158,8 @@
 <script type="text/ng-template" id="cart/MobileDevices">
     <div class="cart-product clearfix" ng-repeat="item in getCartDevices()">
         <div>
-            <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
-            <div class="condition" ng-if="item.buyingOption != 'New' && item.buyingOption != 'BYOD'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment")</div>
+            <div class="condition" ng-if="item.buyingOption == 'New' || item.buyingOption == 'Reconditioned'">{{ item.buyingOption }}</div>
+            <div class="condition" ng-if="item.buyingOption != 'New' && item.buyingOption != 'Reconditioned' && item.buyingOption != 'BYOD'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment")</div>
             <div class="condition" ng-if="item.type == 'existing'">@Html.Sitecore().Field("Bring Your Own Device")</div>
             <div class="description">
                 {{ item.make.make }} {{ item.model.modelName }}
@@ -171,7 +171,7 @@
                 </div>
             </div>
         </div>
-        <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span class="per-month" ng-if="item.buyingOption != 'New'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>
+        <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span class="per-month" ng-if="item.buyingOption != 'New' && item.buyingOption != 'Reconditioned'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>
         <div class="rate device-price" ng-if="item.type == 'existing'">$0.00</div>
         
         <div ng-if="item.warranty == 'accept'" class="warranty">

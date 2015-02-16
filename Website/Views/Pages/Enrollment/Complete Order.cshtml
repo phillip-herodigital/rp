@@ -419,7 +419,7 @@
             {{ item.device.brand }} {{ item.device.name }}<span ng-if="item.size != ''">, {{ item.size }}</span>
         </div>
         <div class="rate" ng-if="item.type == 'new'">
-            {{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}<span ng-if="item.buyingOption != 'New'">@Html.Sitecore().Field("Per Month Text")</span>
+            {{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}<span ng-if="item.buyingOption != 'New' && item.buyingOption != 'Reconditioned'">@Html.Sitecore().Field("Per Month Text")</span>
         </div>
         <div class="description" ng-if="item.type == 'existing'">
             @Html.Sitecore().Field("Bring Your Own Device")
@@ -656,8 +656,8 @@
                         <i class="icon-byod" ng-if="item.type == 'existing'"></i>
                     </div>
                     <div class="description" ng-if="item.type == 'new'">
-                        <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>
-                        <div class="condition" ng-if="item.buyingOption != 'New'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment Plan")</div>
+                        <div class="condition" ng-if="item.buyingOption == 'New' || item.buyingOption == 'Reconditioned'">{{ item.buyingOption }}</div>
+                        <div class="condition" ng-if="item.buyingOption != 'New' && item.buyingOption != 'Reconditioned' && item.buyingOption != 'BYOD'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment")</div>
                         <h2>{{ item.device.brand }} {{ item.device.name }}</h2>
                         <div class="options"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }} <a href="" ng-click="editMobileDevice(item)">@Html.Sitecore().Field("Edit Phone Link")</a></div>
                     </div>
