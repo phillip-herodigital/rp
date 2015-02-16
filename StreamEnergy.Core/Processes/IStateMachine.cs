@@ -32,5 +32,6 @@ namespace StreamEnergy.Processes
 
         IEnumerable<ValidationResult> ValidateForState(IState<TContext, TInternalContext> state);
 
+        bool IsBreakForced();
     }
 }

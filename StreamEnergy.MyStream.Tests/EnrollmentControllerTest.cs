@@ -39,6 +39,7 @@ namespace StreamEnergy.MyStream.Tests
         private Address mailingAddress;
         private Address previousAddress;
         private Location specificRenewalLocation;
+        private StreamAsync<CreditCheckResult> creditCheckResult;
 
         [TestInitialize]
         public void InitializeTest()
@@ -269,23 +270,15 @@ namespace StreamEnergy.MyStream.Tests
                 IsCompleted = true
             }));
 
-            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), It.IsAny<AdditionalIdentityInformation>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            mockEnrollmentService.Setup(m => m.LoadIdentityQuestions(It.IsAny<Guid>(), It.IsAny<Name>(), "333224444", It.IsAny<Address>())).Returns(Task.FromResult(new DomainModels.Enrollments.Service.IdentityCheckResult
             {
-                IsCompleted = false,
-            }));
-            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), "333224444", It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
-            {
-                IsCompleted = true,
-                Data = new DomainModels.Enrollments.Service.IdentityCheckResult
-                {
-                    IdentityAccepted = false,
-                    HardStop = null,
-                    IdentityCheckId = "01234",
-                    IdentityQuestions = new IdentityQuestion[0]
-                }
+                IdentityAccepted = false,
+                HardStop = null,
+                IdentityCheckId = "01234",
+                IdentityQuestions = new IdentityQuestion[0]
             }));
 
-            var creditCheckResult = new StreamAsync<CreditCheckResult>
+            creditCheckResult = new StreamAsync<CreditCheckResult>
             {
                 IsCompleted = false,
             };
@@ -297,48 +290,48 @@ namespace StreamEnergy.MyStream.Tests
                     IsCompleted = true
                 }));
 
-            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.Is<string>(s => s != "333224444"), It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            mockEnrollmentService.Setup(m => m.LoadIdentityQuestions(It.IsAny<Guid>(), It.IsAny<Name>(), It.Is<string>(s => s != "333224444"), It.IsAny<Address>())).Returns(Task.FromResult(new DomainModels.Enrollments.Service.IdentityCheckResult
             {
-                IsCompleted = true,
-                Data = new DomainModels.Enrollments.Service.IdentityCheckResult
+                IdentityAccepted = false,
+                HardStop = null,
+                IdentityCheckId = "01234",
+                IdentityQuestions = new[] 
                 {
-                    IdentityAccepted = false,
-                    HardStop = null,
-                    IdentityCheckId = "01234",
-                    IdentityQuestions = new[] 
+                    new IdentityQuestion
                     {
-                        new IdentityQuestion
-                        {
-                            QuestionId = "1",
-                            QuestionText = "What is your name?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
-                                new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
-                                new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
-                                new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
-                            }
-                        },
-                        new IdentityQuestion
-                        {
-                            QuestionId = "2",
-                            QuestionText = "What is your quest?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
-                            }
-                        },
-                        new IdentityQuestion
-                        {
-                            QuestionId = "3",
-                            QuestionText = "What is your favorite color?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
-                                new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
-                                new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
-                                new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
-                            }
-                        },
-                    }
+                        QuestionId = "1",
+                        QuestionText = "What is your name?",
+                        Answers = new[] { 
+                            new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
+                            new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
+                            new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
+                            new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
+                        }
+                    },
+                    new IdentityQuestion
+                    {
+                        QuestionId = "2",
+                        QuestionText = "What is your quest?",
+                        Answers = new[] { 
+                            new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
+                        }
+                    },
+                    new IdentityQuestion
+                    {
+                        QuestionId = "3",
+                        QuestionText = "What is your favorite color?",
+                        Answers = new[] { 
+                            new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
+                            new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
+                            new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
+                            new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
+                        }
+                    },
                 }
+            }));
+            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), It.IsAny<AdditionalIdentityInformation>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            {
+                IsCompleted = false,
             }));
             mockEnrollmentService.Setup(m => m.EndIdentityCheck(It.IsAny<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
             {
@@ -710,7 +703,6 @@ namespace StreamEnergy.MyStream.Tests
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
             Assert.AreEqual(3, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
             Assert.IsNotNull(session.InternalContext.CreditCheck);
-            Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
             Assert.IsNull(session.Context.SelectedIdentityAnswers);
         }
 
@@ -802,7 +794,6 @@ namespace StreamEnergy.MyStream.Tests
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
             Assert.AreEqual(3, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
             Assert.IsNotNull(session.InternalContext.CreditCheck);
-            Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
         }
 
         [TestMethod]
@@ -894,7 +885,6 @@ namespace StreamEnergy.MyStream.Tests
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
             Assert.AreEqual(0, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
             Assert.IsNotNull(session.InternalContext.CreditCheck);
-            Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
         }
 
         [TestMethod]
@@ -931,6 +921,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                CreditCheck = creditCheckResult,
                 EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -987,6 +978,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+                CreditCheck = creditCheckResult,
                 EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -1049,6 +1041,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+                CreditCheck = creditCheckResult,
                 EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -1104,6 +1097,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                CreditCheck = creditCheckResult,
                 EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -1161,6 +1155,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+                CreditCheck = creditCheckResult,
                 EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -1228,6 +1223,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 PaymentInfo = new DomainModels.Payments.TokenizedCard
                 {
+                    Type = "Unknown",
                     CardToken = "12345678901234567890",
                     BillingZipCode = "75010",
                     SecurityCode = "223"
@@ -1304,6 +1300,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 PaymentInfo = new DomainModels.Payments.TokenizedCard
                 {
+                    Type = "Unknown",
                     CardToken = "12345678901234567890",
                     BillingZipCode = "75010",
                     SecurityCode = "223"
@@ -1654,6 +1651,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 PaymentInfo = new DomainModels.Payments.TokenizedCard
                 {
+                    Type = "Unknown",
                     CardToken = "12345678901234567890",
                     BillingZipCode = "75010",
                     SecurityCode = "223"

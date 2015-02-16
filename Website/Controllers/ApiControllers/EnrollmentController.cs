@@ -143,11 +143,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                    group val by val.ErrorMessage + ";" + string.Join(",", val.MemberNames) into val
                                                                    select val.First(), translationItem);
 
-            bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
-                || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
-                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
-                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted)
-                || (stateMachine.InternalContext.PlaceOrderAsyncResult != null && !stateMachine.InternalContext.PlaceOrderAsyncResult.IsCompleted);
+            bool isLoading = stateMachine.IsBreakForced();
 
             return new ClientData
             {
@@ -227,7 +223,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 return Models.Enrollment.ExpectedState.ReviewOrder;
             }
-            else if (members.Any(m => m.StartsWith("SelectedIdentityAnswers")))
+            else if (members.Any(m => m.StartsWith("SelectedIdentityAnswers")) || stateMachine.State == typeof(SubmitIdentityState))
             {
                 return Models.Enrollment.ExpectedState.VerifyIdentity;
             }
