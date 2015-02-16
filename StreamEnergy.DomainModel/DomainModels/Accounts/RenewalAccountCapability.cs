@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels.Accounts
 {
     [Serializable]
-    public class RenewalAccountCapability : IAccountCapability
+    public class RenewalAccountCapability : ISubAccountCapability
     {
         public const string Qualifier = "Renewal";
 
@@ -17,10 +17,6 @@ namespace StreamEnergy.DomainModels.Accounts
         }
 
         public bool IsEligible { get; set; }
-
-        public DateTime RenewalDate { get; set; }
-
-        public int EligibilityWindowInDays { get; set; }
 
         public IServiceCapability[] Capabilities { get; set; }
     }

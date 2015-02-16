@@ -529,13 +529,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var accountDetails = await accountService.GetAccountDetails(account, false);
-            var renewalEligibility = await accountService.CheckRenewalEligibility(account, account.SubAccounts.First());
 
             return new GetUtilityPlanResponse
             {
                 AccountId = account.StreamConnectAccountId,
                 SubAccounts = account.SubAccounts,
-                RenewalCapability = account.GetCapability<RenewalAccountCapability>()
+                HasRenewalEligibiltiy = account.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible))
             };
         }
 
@@ -679,31 +678,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public async Task<GetAccountInformationResponse> GetAccountInformation(GetAccountInformationRequest request)
         {
-            var serviceAddress = new DomainModels.Address();
-            bool sameAsService = false;
-
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var accountDetails = await accountService.GetAccountDetails(account, false);
             var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
             var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
-
-            if (account.SubAccounts != null && (account.SubAccounts[0]) != null)
-            {
-                if (account.SubAccounts[0].SubAccountType == "GeorgiaGas")
-                {
-                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
-                }
-                else if (account.SubAccounts[0].SubAccountType == "TexasElectricity")
-                {
-                    serviceAddress = ((StreamEnergy.DomainModels.Accounts.TexasElectricityAccount)(account.SubAccounts[0])).ServiceAddress;
-                }
-            }
             
-            if (serviceAddress.Equals(account.Details.BillingAddress))
-            {
-                sameAsService = true;
-            }
+            var serviceAddresses = account.SubAccounts.Select(acct => acct.ServiceAddress);
+
+            var sameAsService = serviceAddresses.Contains(account.Details.BillingAddress);
 
             return new GetAccountInformationResponse
             {
@@ -711,7 +694,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 MobilePhone = mobilePhone,
                 HomePhone = homePhone,
                 Email = account.Details.ContactInfo.Email,
-                ServiceAddress = serviceAddress,
+                ServiceAddresses = serviceAddresses,
                 SameAsService = sameAsService,
                 BillingAddress = account.Details.BillingAddress,
                 DisablePrintedInvoices = account.Details.BillingDeliveryPreference == "Email",
@@ -722,12 +705,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<UpdateAccountInformationResponse> UpdateAccountInformation(UpdateAccountInformationRequest request)
         {
             bool success = false;
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var validations = validation.CompleteValidate(request);
 
             if (!validations.Any())
             {
                 ((ISanitizable)request).Sanitize();
                 var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+                var accountDetails = await accountService.GetAccountDetails(account, false);
                 account.Details.ContactInfo.Phone = new[] 
                 { 
                     new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = request.HomePhone.Number },
@@ -1148,9 +1133,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await accountService.GetAccountDetails(target);
             var subAccount = target.SubAccounts.First(acct => acct.Id == request.SubAccountId);
-            var isElibible = await accountService.CheckRenewalEligibility(target, subAccount);
+            var isEligibile = await accountService.CheckRenewalEligibility(target, subAccount);
 
-            if (isElibible)
+            if (isEligibile && subAccount.Capabilities.OfType<RenewalAccountCapability>().First().IsEligible)
             {
                 await enrollmentController.Initialize(null);
                 isSuccess = await enrollmentController.SetupRenewal(target, subAccount);
