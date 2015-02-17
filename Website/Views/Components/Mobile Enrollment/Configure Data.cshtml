@@ -58,7 +58,7 @@
 
 <script type="text/ng-template" id="dataPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans">
-        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterDataPlans | orderBy:'data'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
+        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterDataPlans | orderBy:'rates[0].rateAmount'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
             <span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
             <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
             <p ng-if="plan.data != 0">
