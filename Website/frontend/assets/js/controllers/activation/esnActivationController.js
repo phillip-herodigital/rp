@@ -10,7 +10,7 @@
     this.activate = function () {
         activationCtrl.lastCode = activationCtrl.activationCode;
         activationCtrl.isLoading = true;
-        $http.post('/api/mobileActivation/activateEsn', activationCtrl.activationCode, { transformRequest: JSON.stringify })
+        $http.post('/api/mobileActivation/activateEsn', activationCtrl.activationCode, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
                 activationCtrl.isLoading = false;
                 if (JSON.parse(data))
