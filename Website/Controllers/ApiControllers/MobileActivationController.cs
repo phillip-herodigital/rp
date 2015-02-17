@@ -9,6 +9,7 @@ using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
+    // TODO - authorize
     public class MobileActivationController : ApiController
     {
         private IEnrollmentService enrollmentService;
@@ -24,6 +25,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             // TODO - check if esn is an activation code somehow
             return await enrollmentService.ActivateEsn(esn);
+        }
+
+        [HttpPost]
+        public async Task<bool> UploadActivationCodes()
+        {
+            var text = await Request.Content.ReadAsStringAsync();
+            // TODO - validate the upload content and do something with it
+
+            return false;
         }
     }
 }

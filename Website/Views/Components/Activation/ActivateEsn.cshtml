@@ -2,13 +2,24 @@
 <article class="marketing" ng-controller="esnActivationController as activationCtrl">
     <div class="wrapper">
         <div class="notice success" ng-if="activationCtrl.success">Succeeded - activated {{activationCtrl.lastCode}}</div>
-        <div class="notice error" ng-if="activationCtrl.failure">Failed - could not activate {{activationCtrl.lastCode}}</div>
+        <div class="notice error"   ng-if="activationCtrl.failure">Failed - could not activate {{activationCtrl.lastCode}}</div>
         <form>
             <div class="item">
                 <label for="{{$id}}_ActivationCode">Activation Code or ESN</label>
                 <input id="{{$id}}_ActivationCode" type="text" ng-model="activationCtrl.activationCode" ng-disabled="activationCtrl.isLoading" />
             </div>
             <button ng-click="activationCtrl.activate()" ng-disabled="activationCtrl.isLoading">Activate</button>
+        </form>
+        <hr/>
+        <form stream-drop-files="activationCtrl.uploadFile">
+            <div class="notice success" ng-if="activationCtrl.uploadSuccess">Succeeded - uploaded {{activationCtrl.lastFileName}}</div>
+            <div class="notice error" ng-if="activationCtrl.uploadFailure">Failed - could not upload {{activationCtrl.lastFileName}}</div>
+
+            <div class="notice alert">
+                <p ng-if="!activationCtrl.uploadFile">Drag and drop CSV file here to add activation codes.</p>
+                <p ng-if="activationCtrl.uploadFile">Ready to upload: {{activationCtrl.uploadFile[0].name}}</p>
+            </div>
+            <button ng-click="activationCtrl.upload()" ng-disabled="!activationCtrl.uploadFile || activationCtrl.isLoading">Upload</button>
         </form>
     </div>
 </article>
