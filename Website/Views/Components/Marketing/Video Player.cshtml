@@ -1,5 +1,5 @@
-﻿<article class="marketing video-player">
+﻿<article class="marketing video-player" ng-controller="VideoPlayerCtrl">
     <div class="wrapper">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/nkPCWLy-6nQ" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" ng-src="{{embedUrl}}" frameborder="0" allowfullscreen ng-cloak></iframe>
     </div>
 </article>
