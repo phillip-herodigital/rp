@@ -34,10 +34,10 @@
             <div class="logos">
                 <a href="/" class="logo">Stream</a>
                 <ul>
-                    <li><a href="https://www.facebook.com/1streamenergy" target="_blank"><i class="icon-facebook"></i></a></li>
-                    <li><a href="http://twitter.com/stream_home" target="_blank"><i class="icon-twitter"></i></li>
-                    <li><a href="http://www.youtube.com/user/StreamEnergy1" target="_blank"><i class="icon-youtube"></i></a></li>
-                    <li><a href="http://www.pinterest.com/streamenergy/" target="_blank"><i class="icon-pinterest"></i></a></li>
+                    <li><a href="@Html.Sitecore().Field("Facebook Page")" target="_blank"><i class="icon-facebook"></i></a></li>
+                    <li><a href="@Html.Sitecore().Field("Twitter Page")" target="_blank"><i class="icon-twitter"></i></a></li>
+                    <li><a href="@Html.Sitecore().Field("Youtube Page")" target="_blank"><i class="icon-youtube"></i></a></li>
+                    <li><a href="@Html.Sitecore().Field("Pinterest Page")" target="_blank"><i class="icon-pinterest"></i></a></li>
                 </ul>
             </div>
         }
@@ -49,8 +49,8 @@
         }
         <div class="site-footer-legal">
             <ul>
-                <li><a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895" target="_blank"><i class="icon-bbb"></i></a></li>
-                <li><a href="http://www.dsa.org/ethics/" target="_blank"><i class="icon-dsa"></i></a></li>
+                <li><a href="@Html.Sitecore().Field("BBB Page")" target="_blank"><i class="icon-bbb"></i></a></li>
+                <li><a href="@Html.Sitecore().Field("DSA Page")" target="_blank"><i class="icon-dsa"></i></a></li>
             </ul>
             <p>
                 @Html.Sitecore().Field("Copyright Content")
