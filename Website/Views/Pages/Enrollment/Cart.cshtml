@@ -14,7 +14,7 @@
                 <div class="cart-item" ng-repeat="(id, location) in getMobileAddresses()" ng-if="cartHasMobile()">
                     <div class="mobile-plan">
                         <h2 ng-if="$first">@Html.Sitecore().Field("Mobile Services")</h2>
-                        <div class="plan-type" ng-show="getCartDataPlan().length == 0">
+                        <div class="plan-type" ng-show="getCartDataPlan().length == 0 || getDevicesCount() == 0">
                             {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
                         </div>
                         <div class="plan-type clearfix" ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
@@ -57,7 +57,8 @@
                 <li ng-if="cartHasMobile()"><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Documents Billing Address")</li>
                 <li ng-if="cartHasUtility()"><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
                 <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-                <li ng-if="cartHasMobile()"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents MEID Number")</li>
+                <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'att'"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents IMEI Number")</li>
+                <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'sprint'"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ESN Number")</li>
 
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
             <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
@@ -134,7 +135,7 @@
             </div>
             <div class="links" ng-if="getActiveServiceType() == 'Mobile'">
                 <a href="" ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Edit Plan Link")</a> <span ng-if="mobileEnrollmentSettings.disableSharedPlans != true">| <a href=" " ng-click=" addmobiledevice(location)">@Html.Sitecore().Field("Add Device Link")</a></span>
-</div>
+            </div>
             <div class="links" ng-if="getActiveServiceType() != 'Mobile'">
                 <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Plan")</a>
             </div>
@@ -151,7 +152,7 @@
                 <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Plan")</a>
             </div>
         </div>
-        <div class="rate">{{ totalPlanPrice(selectedOffer) | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
+        <div class="rate" ng-if="getDevicesCount() > 0">{{ totalPlanPrice(selectedOffer) | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
     </div>
 </script>
 
@@ -239,10 +240,22 @@
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("IMEI ESN Instructions Header")</h2>
+            <h2>@Html.Sitecore().Field("IMEI Instructions Header")</h2>
         </div>
         <div class="modal-body">
-            @Html.Sitecore().Field("IMEI ESN Instructions Content")
+            @Html.Sitecore().Field("IMEI Instructions Content")
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="showEsnModal">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("ESN Instructions Header")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("ESN Instructions Content")
         </div>
     </div>
 </script>

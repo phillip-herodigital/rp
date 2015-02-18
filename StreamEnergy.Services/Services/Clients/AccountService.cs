@@ -509,6 +509,7 @@ namespace StreamEnergy.Services.Clients
                 DueDate = (DateTime)data.Account.AccountBillingDetails.BalanceDueDate.Value,
             };
             account.SubAccounts = (from premise in (IEnumerable<dynamic>)(data.Account.AccountDetails.Premises ?? data.Account.AccountDetails.Devices)
+                                   where premise.DropDate == null || ((DateTime)premise.DropDate).Date.AddDays(90) >= DateTime.Today
                                    select (ISubAccount)CreateSubAccount(account, premise)).ToArray();
             
             var methodId = data.Account.AccountBillingDetails.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.Account.AccountBillingDetails.AutoPayGlobalPaymentMethodId.ToString());
