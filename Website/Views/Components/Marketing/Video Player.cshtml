@@ -1,8 +1,9 @@
 ﻿<article class="marketing video-player" ng-controller="VideoPlayerCtrl">
     <div class="wrapper">
-        <h1>{{video.title}}</h1>
+        <h2>{{video.title}}</h2>
         <div class="video-container">
             <iframe ng-src="{{embedUrl}}" frameborder="0" allowfullscreen></iframe>
         </div>
+        <p>{{video.description}}</p>
     </div>
 </article>

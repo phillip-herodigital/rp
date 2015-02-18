@@ -75,38 +75,31 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Route("getVideo/{videoId}")]
         public dynamic getVideo(string videoId)
         {
-            var ElectronicToolkitFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Electronic Toolkit");
             var videoGuid = new Guid(videoId);
+            var video = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(videoGuid));
+            var itemType = video.TemplateID.ToString() == "{95C8BC9B-59FC-4A88-B36E-7AC4D77BD09B}" ? "File" : "Link";
+            var file = (MediaItem)(video.Fields["File"] != null ? ((FileField)video.Fields["File"]).MediaItem : null);
+            var fileUrl = file != null ? MediaManager.GetMediaUrl(file, new MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null;
+            var fileModificationDate = file != null ? file.InnerItem.Statistics.Updated : DateTime.MinValue;
+            var thumbnail = (MediaItem)(video.Fields["Thumbnail"] != null ? ((ImageField)video.Fields["Thumbnail"]).MediaItem : null);
+            var linkUrl = video.Fields["Link URL"] != null ? video.Fields["Link URL"].Value : null;
 
-            var video = from folder in ElectronicToolkitFolder.Children
-                        from subfolder in folder.Children
-                        from item in subfolder.Children
-                        where videoGuid != null && item.ID.ToGuid() == videoGuid
-                        let itemType = item.TemplateID.ToString() == "{95C8BC9B-59FC-4A88-B36E-7AC4D77BD09B}" ? "File" : "Link"
-                        let file = (MediaItem)(item.Fields["File"] != null ? ((FileField)item.Fields["File"]).MediaItem : null)
-                        let fileUrl = file != null ? MediaManager.GetMediaUrl(file, new MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null
-                        let fileModificationDate = file != null ? file.InnerItem.Statistics.Updated : DateTime.MinValue
-                        let thumbnail = (MediaItem)(item.Fields["Thumbnail"] != null ? ((ImageField)item.Fields["Thumbnail"]).MediaItem : null)
-                        let linkUrl = item.Fields["Link URL"] != null ? item.Fields["Link URL"].Value : null
-                        let linkModificationDate = item != null ? item.Statistics.Updated : DateTime.MinValue
-
-                        select new
+            return new
                         {
-                            category = folder.Name,
-                            subCategory = subfolder.Name,
+                            category = video.Parent.Parent.Name,
+                            subCategory = video.Parent.Name,
                             type = file != null ? file.MimeType : null,
-                            title = item.Fields["Title"].Value,
-                            description = item.Fields["Description"].Value,
+                            title = video.Fields["Title"].Value,
+                            description = video.Fields["Description"].Value,
                             filesize = file != null ? file.Size : 0,
-                            featured = !String.IsNullOrEmpty(item.Fields["Featured"].Value),
-                            size = item.Fields["Size"].Value,
-                            modificationDate = itemType == "File" ? fileModificationDate : linkModificationDate,
+                            featured = !String.IsNullOrEmpty(video.Fields["Featured"].Value),
+                            size = video.Fields["Size"].Value,
+                            modificationDate = fileModificationDate,
                             publicURL = itemType == "File" ? fileUrl : linkUrl,
                             downloadURL = file != null ? MediaManager.GetMediaUrl(file, new MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null,
                             thumbnailURL = thumbnail != null ? MediaManager.GetMediaUrl(thumbnail, new MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null,
-                            youtubeId = item.Fields["Youtube ID"].Value,
+                            youtubeId = video.Fields["Youtube ID"].Value,
                         };
-            return video.FirstOrDefault();
         }
 
         
