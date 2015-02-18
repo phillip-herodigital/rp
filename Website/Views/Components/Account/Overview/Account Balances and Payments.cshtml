@@ -178,10 +178,10 @@
             <fieldset>
                 <legend ng-if="selectedAccount.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("Payment Type Text")</legend>
                 <div class="payment-type-selection">
-                    <div class="payment-selection" ng-if="selectedAccount.systemOfRecord != 'CIS1'">
+                    <div class="payment-selection" ng-show="selectedAccount.systemOfRecord != 'CIS1'">
                         <input type="radio" id="credit-card" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedCard"><label for="credit-card">@Html.Sitecore().Field("Credit Card Text")</label>
                     </div>
-                    <div class="payment-selection" ng-if="selectedAccount.systemOfRecord != 'CIS1'">
+                    <div class="payment-selection" ng-show="selectedAccount.systemOfRecord != 'CIS1'">
                         <input type="radio" id="bank-account" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedBank"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
                     </div>
                     <div ng-show="newPaymentMethodType == 'TokenizedCard'" class="payment-options">

@@ -556,7 +556,7 @@ namespace StreamEnergy.Services.Clients
                 return null;
 
             var subAccount = locAdapter.BuildSubAccount(serviceAddress, details);
-            if (subAccount.CustomerType == EnrollmentCustomerType.Commercial)
+            if (subAccount.CustomerType == EnrollmentCustomerType.Commercial || details.ProductType == "Mobile")
             {
                 subAccount.Capabilities.Add(new RenewalAccountCapability
                 {
