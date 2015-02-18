@@ -13,6 +13,7 @@ namespace StreamEnergy.DomainModels.Accounts
             StreamConnectAccountId = Account.StreamConnectAccountId;
             AccountNumber = Account.AccountNumber;
             AccountType = Account.AccountType;
+            SystemOfRecord = Account.SystemOfRecord;
             Balance = Account.Balance;
             SubAccounts = Account.SubAccounts;
         }
@@ -20,6 +21,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public Guid StreamConnectAccountId { get; private set; }
         public string AccountNumber { get; set; }
         public string AccountType { get; set; }
+        public string SystemOfRecord { get; set; }
         public AccountBalance Balance { get; set; }
         public ISubAccount[] SubAccounts { get; set; }
     }

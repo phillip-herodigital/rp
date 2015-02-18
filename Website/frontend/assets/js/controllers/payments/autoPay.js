@@ -15,6 +15,28 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
         $scope.paymentAccounts = data;
     });
 
+    $scope.$watch("paymentAccounts", function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            paymentAccountsForIndex = [];
+        }
+    });
+    var paymentAccountsForIndex = [];
+    $scope.paymentAccountsFor = function (acct) {
+        if (acct == null) return [];
+        if (paymentAccountsForIndex[acct.accountNumber]) return paymentAccountsForIndex[acct.accountNumber];
+
+        paymentAccountsForIndex[acct.accountNumber] = _.map($scope.paymentAccounts, function (pa) {
+            if (pa.underlyingType == "Unknown" || _.some(acct.availablePaymentMethods, { 'paymentMethodType': pa.underlyingType })) {
+                return pa;
+            } else {
+                var newpa = angular.copy(pa);
+                newpa.id = "disallowed";
+                return newpa;
+            }
+        });
+        return paymentAccountsForIndex[acct.accountNumber];
+    };
+
     // when the account selector changes, reload the data
     $scope.$watch('selectedAccount.accountNumber', function(newVal) { 
         if (newVal) {
@@ -38,6 +60,10 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
 
     $scope.addAccount = function () {
         if ($scope.account.autoPay.paymentMethodId == 'addAccount') {
+
+            if ($scope.account.systemOfRecord == 'CIS1') {
+                $scope.newPaymentMethodType = 'TokenizedBank';
+            }
 
             // open the add account modal
             $scope.modalInstance = $modal.open({

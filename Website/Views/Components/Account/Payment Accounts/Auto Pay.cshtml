@@ -27,6 +27,9 @@
                     <div class="group notice alert">
                         @Html.Sitecore().Field("Alert Text")
                     </div>
+                    <div class="notice error" ng-if="account.autoPay.paymentMethodId == 'disallowed' && account.systemOfRecord == 'CIS1'">
+                        @Html.Sitecore().Field("CIS1 Disallowed Payment Methods")
+                    </div>
                     <div class="group">
                         <div class="item account-number">
                             <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("AutoPay On Account Number Label")</label>
@@ -39,7 +42,7 @@
                                     ng-model="account.autoPay.paymentMethodId" ng-change="addAccount()">
                                 <option value="" ng-selected="selected">@Html.Sitecore().Field("Select Account Label")</option>
                                 <option ng-show="showUnknownOption" value="00000000-0000-0000-0000-000000000000">@Html.Sitecore().Field("Imported Payment Account")</option>
-                                <option ng-repeat="option in paymentAccounts" value="{{ option.id }}">{{ option.displayName }}</option>
+                                <option ng-repeat="option in paymentAccountsFor(account)" value="{{ option.id }}">{{ option.displayName }}</option>
                                 <option value="addAccount">@Html.Sitecore().Field("Add Account Text")</option>
                             </select>
                             @Html.ValidationMessageFor(m => m.AutoPay.PaymentMethodId)
@@ -99,12 +102,12 @@
     <form data-val-bind-messages="validations" ng-submit="modalAddPaymentAccount(newPaymentMethodType)">
         <div class="modal-body scrollable new-account-modal" loading-indicator>
             <fieldset>
-                <legend>@Html.Sitecore().Field("Payment Type Text")</legend>
+                <legend ng-if="account.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("Payment Type Text")</legend>
                 <div class="payment-type-selection">
-                    <div class="payment-selection">
+                    <div class="payment-selection" ng-if="account.systemOfRecord != 'CIS1'">
                         <input type="radio" id="credit-card" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedCard"><label for="credit-card">@Html.Sitecore().Field("Credit Card Text")</label>
                     </div>
-                    <div class="payment-selection">
+                    <div class="payment-selection" ng-if="account.systemOfRecord != 'CIS1'">
                         <input type="radio" id="bank-account" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedBank"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
                     </div>
                     <div ng-show="newPaymentMethodType == 'TokenizedCard'" class="payment-options">
