@@ -29,6 +29,10 @@ ngApp.filter('address', function() {
             formattedAddress += address.unitNumber + ', ';
         }
 
+        if (address.line2) {
+            formattedAddress += address.line2 + ', ';
+        }
+
         if (address.city) {
             formattedAddress += address.city + ', ';
         }
