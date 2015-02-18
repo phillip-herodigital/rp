@@ -1,9 +1,14 @@
 ﻿@{
-    var videoGuid = Request.QueryString["video"];
-    var video = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(videoGuid));
-    var title = video.Fields["Title"].Value;
-    var description = video.Fields["Description"].Value;
-    var embedUrl = "http://www.youtube.com/embed/" + video.Fields["Youtube ID"].Value;
+    var videoGuidStr = Request.QueryString["video"];
+    Guid videoGuid;
+    var video = (videoGuidStr != null && Guid.TryParse(videoGuidStr, out videoGuid)) ? Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(videoGuid)) : null;
+    if (video == null)
+    {
+        Response.Redirect("page-not-found");
+    }
+    var title = (video != null) ?  video.Fields["Title"].Value : null;
+    var description = (video != null) ?  video.Fields["Description"].Value : null;
+    var embedUrl = (video != null) ? "http://www.youtube.com/embed/" + video.Fields["Youtube ID"].Value : "";
 }
 <article class="marketing video-player">
     <div class="wrapper">

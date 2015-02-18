@@ -1,9 +1,10 @@
 ﻿@{
-    var videoGuid = new Guid(Request.QueryString["video"]);
-    var video = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(videoGuid));
-    var title = video.Fields["Title"].Value;
-    var description = video.Fields["Description"].Value;
-    var thumbnail = (Sitecore.Data.Items.MediaItem)(video.Fields["Thumbnail"] != null ? ((Sitecore.Data.Fields.ImageField)video.Fields["Thumbnail"]).MediaItem : null);
+    var videoGuidStr = Request.QueryString["video"];
+    Guid videoGuid;
+    var video = (videoGuidStr != null && Guid.TryParse(videoGuidStr, out videoGuid)) ? Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(videoGuid)) : null;
+    var title = (video != null) ? video.Fields["Title"].Value : null;
+    var description = (video != null) ? video.Fields["Description"].Value : null;
+    var thumbnail = (video != null) ? (Sitecore.Data.Items.MediaItem)(video.Fields["Thumbnail"] != null ? ((Sitecore.Data.Fields.ImageField)video.Fields["Thumbnail"]).MediaItem : null) : null;
     var thumbnailURL = thumbnail != null ? Sitecore.Resources.Media.MediaManager.GetMediaUrl(thumbnail, new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null;
     var pageURL = Request.Url;
     var siteName = "Stream";
