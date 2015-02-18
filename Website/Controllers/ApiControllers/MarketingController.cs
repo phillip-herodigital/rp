@@ -67,6 +67,5 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        
     }
 }
