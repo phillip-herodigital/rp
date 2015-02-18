@@ -1,9 +1,16 @@
-﻿<article class="marketing video-player" ng-controller="VideoPlayerCtrl">
+﻿@{
+    var videoGuid = Request.QueryString["video"];
+    var video = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(videoGuid));
+    var title = video.Fields["Title"].Value;
+    var description = video.Fields["Description"].Value;
+    var embedUrl = "http://www.youtube.com/embed/" + video.Fields["Youtube ID"].Value;
+}
+<article class="marketing video-player">
     <div class="wrapper">
-        <h2>{{video.title}}</h2>
+        <h2>@title</h2>
         <div class="video-container">
-            <iframe ng-src="{{embedUrl}}" frameborder="0" allowfullscreen></iframe>
+            <iframe ng-src="@embedUrl" frameborder="0" allowfullscreen></iframe>
         </div>
-        <p>{{video.description}}</p>
+        <p>@description</p>
     </div>
 </article>
