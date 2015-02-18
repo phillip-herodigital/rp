@@ -3,7 +3,7 @@
         <h2 class="payment-accounts-header">@Html.Sitecore().Field("Header Text")</h2>
         <ul class="link-list">
             <li>@Html.Sitecore().Field("Add Bank Account Text")</li>
-            <li>@Html.Sitecore().Field("Add Credit Card Text")</li>
+            <li ng-if="showAddCC">@Html.Sitecore().Field("Add Credit Card Text")</li>
         </ul>
     </header>
 
