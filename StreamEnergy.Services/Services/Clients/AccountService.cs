@@ -564,7 +564,7 @@ namespace StreamEnergy.Services.Clients
                     IsEligible = false
                 });
             }
-            else
+            else if (account.AccountType != "Mobile")
             {
                 subAccount.Capabilities.Add(new RenewalAccountCapability
                 {
