@@ -9,7 +9,6 @@ using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
-    // TODO - authorize
     public class MobileActivationController : ApiController
     {
         private IEnrollmentService enrollmentService;
@@ -30,6 +29,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public async Task<bool> UploadActivationCodes()
         {
+            // TODO - is this the right permission?
+            if (!Sitecore.Context.User.IsAdministrator && !Sitecore.Context.User.IsInRole("sitecore\\Author"))
+            {
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+            }
             var text = await Request.Content.ReadAsStringAsync();
             // TODO - validate the upload content and do something with it
 
