@@ -1,0 +1,22 @@
+﻿@{
+    var videoGuid = new Guid(Request.QueryString["video"]);
+    var video = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(videoGuid));
+    var title = video.Fields["Title"].Value;
+    var description = video.Fields["Description"].Value;
+    var thumbnail = (Sitecore.Data.Items.MediaItem)(video.Fields["Thumbnail"] != null ? ((Sitecore.Data.Fields.ImageField)video.Fields["Thumbnail"]).MediaItem : null);
+    var thumbnailURL = thumbnail != null ? Sitecore.Resources.Media.MediaManager.GetMediaUrl(thumbnail, new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true }) : null;
+    var pageURL = Request.Url;
+    var siteName = "Stream";
+}
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@siteName" />
+<meta name="twitter:title" content="@title" />
+<meta name="twitter:description" content="@description" />
+<meta name="twitter:image" content="@thumbnailURL" />
+<meta name="twitter:url" content="@pageURL" />
+<meta property="og:title" content="@title" />
+<meta property="og:site_name" content="@siteName" />
+<meta property="og:url" content="@pageURL" />
+<meta property="og:description" content="@description" />
+<meta property="og:image" content="@thumbnailURL" />
+<meta property="og:type" content="article" />
