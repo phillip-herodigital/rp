@@ -33,12 +33,13 @@ namespace StreamEnergy.Data
 
             var documentStorageConnectionString = ConfigurationManager.ConnectionStrings["documents"].ConnectionString;
             var azureStorageConnectionString = ConfigurationManager.ConnectionStrings["azureStorage"].ConnectionString;
+            var activationCodeConnectionString = ConfigurationManager.ConnectionStrings["activationCodes"].ConnectionString;
             var cloudStorageAccount = CloudStorageAccount.Parse(azureStorageConnectionString);
 
             unityContainer.RegisterInstance(cloudStorageAccount);
             unityContainer.RegisterInstance(Documents.DocumentStore.SqlConnectionString, documentStorageConnectionString);
             unityContainer.RegisterInstance(Documents.DocumentStore.CloudStorageContainerFormat, ConfigurationManager.AppSettings[Documents.DocumentStore.CloudStorageContainerFormat]);
-            unityContainer.RegisterInstance(Activation.ActivationCodeLookup.SqlConnectionString, ConfigurationManager.AppSettings[Documents.DocumentStore.CloudStorageContainerFormat]);
+            unityContainer.RegisterInstance(Activation.ActivationCodeLookup.SqlConnectionString, activationCodeConnectionString);
             unityContainer.RegisterType<DomainModels.Activation.IActivationCodeLookup, Activation.ActivationCodeLookup>();
         }
 
