@@ -17,11 +17,12 @@
                         }
                     };
                     var action = "CE";
+                    var data = rawField;
                     if (opts && opts.routingNumber)
                     {
-                        rawField = opts.routingNumber + "/" + rawField;
+                        data = opts.routingNumber + "/" + data;
                     }
-                    $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + rawField + "&type=json")
+                    $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + data + "&type=json")
                     .error(function (data, status, headers, config) {
                         deferred.reject();
                     });
