@@ -343,6 +343,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 await stateHelper.EnsureInitialized();
             }
+            this.stateMachine = stateHelper.StateMachine;
         }
 
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, Dictionary<Location, LocationOfferSet> allOffers)
