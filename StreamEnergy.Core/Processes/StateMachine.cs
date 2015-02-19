@@ -100,6 +100,7 @@ namespace StreamEnergy.Processes
 
         public async Task<RestoreInternalStateResult> RestoreStateFrom(Type state, Type currentState)
         {
+            Context.Sanitize();
             return await BuildState(state).RestoreInternalState(this, currentState);
         }
 
