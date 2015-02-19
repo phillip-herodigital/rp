@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Activation\ActivationCodeLookup.cs" />
     <Compile Include="Data\DataContainerSetup.cs" />
     <Compile Include="Data\Documents\DocumentStore.cs" />
     <Compile Include="Migrations\201411130202117_Initial.cs" />

@@ -38,6 +38,8 @@ namespace StreamEnergy.Data
             unityContainer.RegisterInstance(cloudStorageAccount);
             unityContainer.RegisterInstance(Documents.DocumentStore.SqlConnectionString, documentStorageConnectionString);
             unityContainer.RegisterInstance(Documents.DocumentStore.CloudStorageContainerFormat, ConfigurationManager.AppSettings[Documents.DocumentStore.CloudStorageContainerFormat]);
+            unityContainer.RegisterInstance(Activation.ActivationCodeLookup.SqlConnectionString, ConfigurationManager.AppSettings[Documents.DocumentStore.CloudStorageContainerFormat]);
+            unityContainer.RegisterType<DomainModels.Activation.IActivationCodeLookup, Activation.ActivationCodeLookup>();
         }
 
         private void RegisterService<TInterface>(IUnityContainer unityContainer, TInterface soapClient)
