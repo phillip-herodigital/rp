@@ -19,11 +19,11 @@
         <div class="group">
             <div class="item" ng-repeat="selectedIndex in selectedIndexes">
                 <select ng-options="index for index in indexes" ng-model="selectedIndex.key"></select>
-                <button ng-click="selectedIndexes = selectedIndexes.splice($index, 1)">Remove</button>
+                <button ng-click="selectedIndexes.splice($index, 1)">Remove</button>
                 <ul>
                     <li ng-repeat="entry in selectedIndex.values">
                         <input type="text" ng-model="entry.value" typeahead="value for value in findValues(selectedIndex.key, $viewValue)" />
-                        <button ng-click="selectedIndex.values = selectedIndex.values.splice($index, 1)">Remove</button>
+                        <button ng-click="selectedIndex.values.splice($index, 1)">Remove</button>
                     </li>
                     <li>
                         <button ng-click="selectedIndex.values.push({})">Add Value</button>
@@ -58,10 +58,11 @@
                     <th>Value</th>
                 </tr>
             </thead>
-            <tbody ng-repeat="(key,value) in related">
-                <tr ng-repeat="v in value">
-                    <td>{{key}}</td>
+            <tbody ng-repeat="row in related">
+                <tr ng-repeat="v in row.value">
+                    <td>{{row.key}}</td>
                     <td>{{v}}</td>
+                    <td><button ng-click="addIndex(row.key,v ); findRelated()">Add to Search</button></td>
                 </tr>
             </tbody>
         </table>
@@ -74,18 +75,21 @@
                     <th>Timestamp</th>
                     <th>Duration</th>
                     <th>Severity</th>
+                    <th>Url</th>
                     <th>Message</th>
                 </tr>
             </thead>
             <tbody ng-repeat="item in logs">
                 <tr>
+                    <td ng-click="showDetails = !showDetails"><i ng-class="{'icon-arrow-expanded': showDetails, 'icon-arrow-collapsed': !showDetails}"></i></td>
                     <td>{{item.timestamp}}</td>
                     <td>{{item.data.httpClient.duration}}</td>
                     <td>{{item.severity}}</td>
-                    <td>{{item.message}}</td>
+                    <td>{{findKey(item, 'Path').value[0]}}</td>
+                    <td>{{item.data.httpClient.request.Uri || item.message}}</td>
                 </tr>
-                <tr class="expand-details">
-                    <td colspan="4">
+                <tr class="expand-details" ng-show="showDetails">
+                    <td colspan="6">
                         <div ng-if="item.data.httpClient != null">
                             <p><strong>Request URI:</strong></p>
                             <p>

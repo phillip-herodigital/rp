@@ -25,7 +25,7 @@ Where Timestamp >= @minTime
 Order By Timestamp ASC
 
 SELECT TOP 1000 
-    Timestamp, Exception, Message, Severity, Data
+    EntityId, Timestamp, Exception, Message, Severity, Data
 FROM Entries e
 " + IndexString(cmd, indexes, "e.EntityId") + @"
 WHERE e.EntityId >= @minEntryId
@@ -33,9 +33,9 @@ ORDER BY EntityId ASC
 ";
                 await connection.OpenAsync();
 
+                var entries = new Dictionary<int, LogEntry>();
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
-                    var entries = new List<LogEntry>();
                     while (reader.Read())
                     {
                         var logEntry = new LogEntry()
@@ -49,10 +49,28 @@ ORDER BY EntityId ASC
                         {
                             new JsonSerializer().Populate(sr, logEntry.Data);
                         }
-                        entries.Add(logEntry);
+                        entries.Add(Convert.ToInt32(reader["EntityId"]), logEntry);
                     }
-                    return entries;
                 }
+
+                using (var indexLookup = new SqlCommand(@"
+SELECT ei.[Key], ei.Value
+FROM EntryIndexes ei
+WHERE ei.EntryId=@entryId", connection) { Parameters = { new SqlParameter("@entryId", null) } })
+                {
+                    foreach (var entry in entries)
+                    {
+                        indexLookup.Parameters["@entryId"].Value = entry.Key;
+                        using (var reader = await indexLookup.ExecuteReaderAsync())
+                        {
+                            while (reader.Read())
+                            {
+                                entry.Value.Indexes.Add((string)reader["Key"], (string)reader["Value"]);
+                            }
+                        }
+                    }
+                }
+                return entries.Values;
             }
         }
 
@@ -151,9 +169,10 @@ GROUP BY ei.[Key], ei.Value
                         var key = Convert.ToString(reader["Key"]);
                         if (!entries.ContainsKey(key))
                             entries[key] = new List<string>();
-                        entries[key].Add(Convert.ToString(reader["Value"]));
+                        if (!(indexes.GetValues(key) ?? Enumerable.Empty<string>()).Contains((string)reader["Value"]))
+                            entries[key].Add(Convert.ToString(reader["Value"]));
                     }
-                    return entries.ToDictionary(e => e.Key, e => e.Value.ToArray());
+                    return entries.Where(e => e.Value.Count > 0).ToDictionary(e => e.Key, e => e.Value.ToArray());
                 }
             }
         }

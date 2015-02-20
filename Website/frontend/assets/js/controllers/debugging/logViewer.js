@@ -43,7 +43,22 @@
         return promise.promise;
     }
 
+    $scope.addIndex = function (key, value) {
+        var entry = _.find($scope.selectedIndexes, { key: key });
+        if (entry == null) {
+            entry = { key: key, values: [] };
+            $scope.selectedIndexes.push(entry);
+        }
+        if (!_.find(entry.values, { value: value })) {
+            entry.values.push({ value: value });
+        }
+    }
+
     function toIndexData() {
         return _.reduce($scope.selectedIndexes, function (result, entry) { result[entry.key] = _.pluck(entry.values, 'value'); return result; }, {});
+    }
+
+    $scope.findKey = function (item, key) {
+        return _.find(item.indexes, { 'key': key });
     }
 }]);

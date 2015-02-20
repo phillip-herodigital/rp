@@ -26,7 +26,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Route("logs")]
-        public async Task<IEnumerable<LogEntry>> LoadLogs(Dictionary<string, string[]> indexValues)
+        public async Task<IEnumerable<object>> LoadLogs(Dictionary<string, string[]> indexValues)
         {
             var indexes = new NameValueCollection();
             foreach (var key in indexValues.Keys)
@@ -36,12 +36,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     indexes.Add(key, value);
                 }
             }
-            return await reader.LoadLogs(DateTime.Today.AddDays(-30), indexes);
+            return from logEntry in await reader.LoadLogs(DateTime.Today.AddDays(-30), indexes)
+                   select new
+                   {
+                       Message = logEntry.Message,
+                       Severity = logEntry.Severity,
+                       Exception = logEntry.Exception,
+                       Data = logEntry.Data,
+                       Timestamp = logEntry.Timestamp,
+                       Indexes = logEntry.Indexes.Keys.OfType<string>().ToDictionary(key => key, key => logEntry.Indexes.GetValues(key)).ToArray()
+                   };
         }
 
         [HttpPost]
         [Route("related")]
-        public async Task<Dictionary<string, string[]>> LoadRelated(Dictionary<string, string[]> indexValues)
+        public async Task<KeyValuePair<string, string[]>[]> LoadRelated(Dictionary<string, string[]> indexValues)
         {
             var indexes = new NameValueCollection();
             foreach (var key in indexValues.Keys)
@@ -51,7 +60,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     indexes.Add(key, value);
                 }
             }
-            return await reader.LoadRelated(indexes);
+            return (await reader.LoadRelated(indexes)).ToArray();
         }
 
         [HttpGet]
