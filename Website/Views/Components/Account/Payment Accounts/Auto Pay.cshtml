@@ -38,7 +38,7 @@
                         <div class="item" @Html.Validation().ErrorClass(m => m.AutoPay.PaymentMethodId)>
                             <label for="@Html.IdFor(m => m.AutoPay.PaymentMethodId)">@Html.Sitecore().Field("Payment Account Label")</label>
                             <select id="@Html.IdFor(m => m.AutoPay.PaymentMethodId)" name="@Html.NameFor(m => m.AutoPay.PaymentMethodId)"
-                                    data-val="true" data-val-required data-val-if="true" data-val-regex="" data-val-regex-pattern="^[A-Fa-f0-9]{32}$|({|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\))?$|^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$"
+                                    data-val="true" data-val-required data-val-if="account.autoPay.isEnabled" data-val-regex="" data-val-regex-pattern="^[A-Fa-f0-9]{32}$|({|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\))?$|^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$"
                                     ng-model="account.autoPay.paymentMethodId" ng-change="addAccount()">
                                 <option value="" ng-selected="account.autoPay.paymentMethodId == ''">@Html.Sitecore().Field("Select Account Label")</option>
                                 <option ng-show="showUnknownOption" ng-selected="account.autoPay.paymentMethodId == '00000000-0000-0000-0000-000000000000'">@Html.Sitecore().Field("Imported Payment Account")</option>
@@ -49,7 +49,7 @@
                         </div>
                         <div class="item security-code" ng-show="getPaymentMethodType(account.autoPay.paymentMethodId) == 'TokenizedCard'" @Html.Validation().ErrorClass(m => m.SecurityCode)>
                             <label for="@Html.IdFor(m => m.SecurityCode)">@Html.Sitecore().Field("Security Code Text")</label>
-                            @Html.TextBoxFor(m => m.SecurityCode, new { ng_model = "account.securityCode", data_val = "true", data_val_if = "getPaymentMethodType(account.autoPay.paymentMethodId) == 'TokenizedCard'", data_val_required = "", data_val_length = "", data_val_length_min = "3" })
+                            @Html.TextBoxFor(m => m.SecurityCode, new { ng_model = "account.securityCode", data_val = "true", data_val_if = "getPaymentMethodType(account.autoPay.paymentMethodId) == 'TokenizedCard' && account.autoPay.isEnabled", data_val_required = "", data_val_length = "", data_val_length_min = "3" })
                             @Html.ValidationMessageFor(m => m.SecurityCode)
                         </div>
                     </div>
