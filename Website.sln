@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{FB926363-ED56-4B04-8837-CACBE8F9F222}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -71,6 +71,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CLI Tools", "CLI Tools", "{1C1FD49A-8A08-49D9-96E3-C5A12406DEB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.UserMigration.Kubra", "StreamEnergy.UserMigration.Kubra\StreamEnergy.UserMigration.Kubra.csproj", "{A012CA34-CF13-44C5-ABE9-119D51A15A26}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Website.Azure", "Website.Azure\Website.Azure.ccproj", "{62E169AA-8B86-4823-8AFC-C548F3E0A075}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -192,6 +194,14 @@ Global
 		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A012CA34-CF13-44C5-ABE9-119D51A15A26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production|Any CPU.Build.0 = Azure-Production|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
