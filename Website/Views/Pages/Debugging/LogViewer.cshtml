@@ -1,18 +1,72 @@
-@model IEnumerable<StreamEnergy.Logging.LogEntry>
-<div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(Model), '@(Request.Params["sessionID"] ?? Session.SessionID)');">
-    <article class="marketing">
+@model System.Collections.Specialized.NameValueCollection
+           @{
+               var content = from string key in Model.Keys
+                             select new
+                             {
+                                 key = key,
+                                 values = from string value in Model.GetValues(key)
+                                          select new { value = value }
+                             };
+           }
+<div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(content));">
+    <button ng-click="abandon()" class="pull-right">Abandon Session</button>
+    <article class="marketing" ng-init="mode = 'simple'">
+        <button ng-click="mode = 'advanced'" ng-class="{disabled:isAdvanced}">Advanced</button>
+        <button ng-click="mode = 'simple'" ng-class="{disabled:isSimple}">Simple</button>
+    </article>
+    <article class="marketing" ng-show="isAdvanced">
         <h3>Log Viewer</h3>
-
         <div class="group">
+            <div class="item" ng-repeat="selectedIndex in selectedIndexes">
+                <select ng-options="index for index in indexes" ng-model="selectedIndex.key"></select>
+                <button ng-click="selectedIndexes = selectedIndexes.splice($index, 1)">Remove</button>
+                <ul>
+                    <li ng-repeat="entry in selectedIndex.values">
+                        <input type="text" ng-model="entry.value" typeahead="value for value in findValues(selectedIndex.key, $viewValue)" />
+                        <button ng-click="selectedIndex.values = selectedIndex.values.splice($index, 1)">Remove</button>
+                    </li>
+                    <li>
+                        <button ng-click="selectedIndex.values.push({})">Add Value</button>
+                    </li>
+                </ul>
+            </div>
             <div class="item">
-                <label>Session ID:</label>
-                <input type="text" ng-model="form.sessionID" />
-                <button ng-click="update()">Update</button>
-                <button ng-click="abandon()" class="pull-right">Abandon Session</button>
+                <button ng-click="selectedIndexes.push({key:null,values:[]})">Add Index</button>
             </div>
         </div>
     </article>
-    <article class="marketing">
+    <article class="marketing" ng-show="isSimple">
+        <h3>Log Viewer</h3>
+        <div ng-repeat="selectedIndex in selectedIndexes">
+            <div class="group" ng-repeat="entry in selectedIndex.values">
+                <div class="item">
+                    <label for="{{$id}}Field">{{selectedIndex.key}}:</label>
+                    <input id="{{$id}}Field" type="text" ng-model="entry.value" />
+                </div>
+            </div>
+        </div>
+    </article>
+    <div class="group">
+        <button ng-click="findRelated()">Narrow Searches</button>
+        <button ng-click="update()">Update</button>
+    </div>
+    <article class="marketing" ng-if="related">
+        <table>
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="(key,value) in related">
+                <tr ng-repeat="v in value">
+                    <td>{{key}}</td>
+                    <td>{{v}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
+    <article class="marketing" ng-if="logs.length">
         <table>
             <thead>
                 <tr>
@@ -37,13 +91,11 @@
                             <p>
                                 {{item.data.httpClient.request.Method.Method}} {{item.data.httpClient.request.Uri}}
                             </p>
-
                             <div ng-if="item.data.httpClient.request.Content">
                                 <p ng-click="showRequest = !showRequest" style="cursor: pointer;"><strong>Request Content: <i ng-class="{'icon-arrow-expanded': showRequest, 'icon-arrow-collapsed': !showRequest}"></i></strong></p>
                                 <p ng-show="!showRequest">{{item.data.httpClient.request.Content}}</p>
                                 <pre ng-show="showRequest">{{item.data.httpClient.request.Content | json}}</pre>
                             </div>
-
                             <div ng-if="item.data.httpClient.response.Content">
                                 <p ng-click="showResponse = !showResponse" style="cursor: pointer;"><strong>Response Content: <i ng-class="{'icon-arrow-expanded': showResponse, 'icon-arrow-collapsed': !showResponse}"></i></strong></p>
                                 <p ng-show="!showResponse">{{item.data.httpClient.response.Content}}</p>

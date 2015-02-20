@@ -33,6 +33,7 @@ namespace StreamEnergy
             Json.AdditionalConverters.Add(typeIndicatorJsonConverter);
 
             unityContainer.RegisterType<ILogger, Logger>();
+            unityContainer.RegisterType<ILogReader, LogReader>();
             
             unityContainer.RegisterInstance<IValidationService>(new ValidationService());
 
