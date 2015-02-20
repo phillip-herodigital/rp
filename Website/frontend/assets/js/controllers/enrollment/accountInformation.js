@@ -84,6 +84,9 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         }
     });
 
+    if ($scope.accountInformation.secondaryContactInfo.first)
+        $scope.additionalInformation.showSecondaryContact = true;
+
     $scope.showAglcExample = function () {
 
         $modal.open({
