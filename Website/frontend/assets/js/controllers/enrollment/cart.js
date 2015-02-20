@@ -39,6 +39,16 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
+    * Show ESN Instructions Modal
+    */
+    $scope.showEsnExample = function () {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'showEsnModal'
+        })
+    };
+
+    /**
     * Show Bill Account Example Modal
     */
     $scope.showBillAccountExample = function () {

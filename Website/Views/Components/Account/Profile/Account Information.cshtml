@@ -41,18 +41,30 @@
             <hr class="content-divider" />
             <h3 class="billing-address-title">@Html.Sitecore().Field("Billing Address Text")</h3>
             <div class="item">
-                <ul class="checkbox-list" ng-show="formData.serviceAddress.line1 && formData.serviceAddress.city && formData.serviceAddress.stateAbbreviation && formData.serviceAddress.postalCode5">
+                <ul class="checkbox-list" ng-show="formData.serviceAddresses[0].line1 && formData.serviceAddresses[0].city && formData.serviceAddresses[0].stateAbbreviation && formData.serviceAddresses[0].postalCode5">
                     <li>
                         <input type="checkbox" name="billing-address" id="billing-address" ng-model="formData.sameAsService">
                         <label for="billing-address">@Html.Sitecore().Field("Same Address Text")</label>
                     </li>
                 </ul>
-                <div class="billing-address-container" ng-switch="formData.sameAsService">
-                    <div class="billing-address" ng-switch-when="true">
-                        {{ formData.serviceAddress.line1 }} {{ formData.serviceAddress.line2 }}<br>
+                
+                <div class="billing-address-container">
+                    <div class="item" ng-show="formData.sameAsService && formData.serviceAddresses.length > 1" @Html.Validation().ErrorClass(m => m.BillingAddress)>
+                        <label for="service-address-mailing">@Html.Sitecore().Field("Select Service Address Label")</label>
+                        <select id="service-address-mailing"
+                                name="@Html.NameFor(m => m.BillingAddress)"
+                                data-val="true" data-val-required data-val-if="formData.sameAsService && formData.serviceAddresses.length > 1"
+                                ng-model="formData.serviceAddress"
+                                ng-options="entry as entry | address for entry in formData.serviceAddresses track by entry | address">
+                            <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
+                        </select>
+                    </div>
+                    <div class="billing-address" ng-show="formData.sameAsService && formData.serviceAddresses.length == 1">
+                        {{ formData.serviceAddress.line1 }} {{ formData.serviceAddressline2 }}<br>
                         {{ formData.serviceAddress.city }}, {{ formData.serviceAddress.stateAbbreviation }} {{ formData.serviceAddress.postalCode5 }}
                     </div>
-                    <div ng-switch-when="false">
+
+                    <div ng-hide="formData.sameAsService">
                         <div class="group">
                             <div class="item group-col" @Html.Validation().ErrorClass(model => model.BillingAddress.Line1)>
                                 <label for="@Html.IdFor(m => m.BillingAddress.Line1)">@Html.Sitecore().Field("Address 1 Text")</label>
@@ -73,7 +85,7 @@
                             </div>
                             <div class="item state" @Html.Validation().ErrorClass(model => model.BillingAddress.StateAbbreviation)>
                                 <label for="@Html.IdFor(m => m.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Text")</label>
-                                @Html.DropDownListFor(m => m.BillingAddress.StateAbbreviation, new SelectListItem[0], new { ng_model = "formData.billingAddress.stateAbbreviation", ng_options="state.abbreviation as state.display for state in usStates" })
+                                @Html.DropDownListFor(m => m.BillingAddress.StateAbbreviation, new SelectListItem[0], new { ng_model = "formData.billingAddress.stateAbbreviation", ng_options = "state.abbreviation as state.display for state in usStates" })
                                 @Html.ValidationMessageFor(model => model.BillingAddress.StateAbbreviation)
                             </div>
                             <div class="item zip" @Html.Validation().ErrorClass(model => model.BillingAddress.PostalCode5)>

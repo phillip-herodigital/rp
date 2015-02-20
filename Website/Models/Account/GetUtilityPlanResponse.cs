@@ -10,6 +10,6 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public Guid AccountId { get; set; }
         public ISubAccount[] SubAccounts { get; set; }
-        public RenewalAccountCapability RenewalCapability { get; set; }
+        public bool HasRenewalEligibiltiy { get; set; }
     }
 }

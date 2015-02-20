@@ -18,11 +18,14 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 				.success(function (data, status, headers, config) {
 					$scope.formData = data;
 					$scope.formDataOriginal = angular.copy($scope.formData);
+					if ($scope.formData.sameAsService) {
+						$scope.formData.serviceAddress = $scope.formData.billingAddress;
+					}
 					$scope.successMessage = false;
 					$scope.isLoading = false;
 				});
 		}
-	});
+	}); 
 
 	// process the form
 	$scope.updateAccountInformation = function() {

@@ -112,8 +112,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 { 
                     Location = new Location 
                     { 
-                        Address = account.SubAccounts.First().ServiceAddress,
-                        Capabilities = account.Capabilities.OfType<RenewalAccountCapability>().Single().Capabilities
+                        Address = subAccount.ServiceAddress,
+                        Capabilities = subAccount.Capabilities.OfType<RenewalAccountCapability>().Single().Capabilities
                     }
                 }
             };
@@ -143,11 +143,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                    group val by val.ErrorMessage + ";" + string.Join(",", val.MemberNames) into val
                                                                    select val.First(), translationItem);
 
-            bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
-                || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
-                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
-                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted)
-                || (stateMachine.InternalContext.PlaceOrderAsyncResult != null && !stateMachine.InternalContext.PlaceOrderAsyncResult.IsCompleted);
+            bool isLoading = stateMachine.IsBreakForced();
 
             return new ClientData
             {
@@ -227,7 +223,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 return Models.Enrollment.ExpectedState.ReviewOrder;
             }
-            else if (members.Any(m => m.StartsWith("SelectedIdentityAnswers")))
+            else if (members.Any(m => m.StartsWith("SelectedIdentityAnswers")) || stateMachine.State == typeof(SubmitIdentityState))
             {
                 return Models.Enrollment.ExpectedState.VerifyIdentity;
             }
@@ -347,6 +343,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 await stateHelper.EnsureInitialized();
             }
+            this.stateMachine = stateHelper.StateMachine;
         }
 
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, Dictionary<Location, LocationOfferSet> allOffers)

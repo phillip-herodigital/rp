@@ -51,7 +51,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             DomainModels.Accounts.RenewalAccountCapability renewalCapability;
             Assert.IsTrue(result);
-            Assert.IsTrue(acct.TryGetCapability(out renewalCapability));
+            renewalCapability = acct.SubAccounts.First().Capabilities.OfType<DomainModels.Accounts.RenewalAccountCapability>().FirstOrDefault();
+            Assert.IsNotNull(renewalCapability);
             if (!renewalCapability.IsEligible)
             {
                 Assert.Inconclusive("Not eligible for renewal.");

@@ -278,8 +278,8 @@ namespace StreamEnergy.Services.Clients
                 if (enrollmentSaveResult == null)
                     return null;
                 return enrollmentSaveResult.Results
-                    .Skip(index)
                     .Where(r => r.Offer.OfferType == offer.Offer.OfferType && r.Location == service.Location)
+                    .Skip(index)
                     .Select(r => JObject.Parse(r.Details.EnrollmentAccountKeyJson))
                     .FirstOrDefault();
             };
@@ -287,9 +287,14 @@ namespace StreamEnergy.Services.Clients
             var request = (from serviceWithIndex in context.Services.Select((service, index) => new { service, index })
                            let service = serviceWithIndex.service
                            from offerWithIndex in service.SelectedOffers.Select((offer, index) => new { offer, index })
-                           let offer = offerWithIndex.offer
                            let index = serviceWithIndex.index.ToString() + " " + offerWithIndex.index.ToString()
-                           let previousSaveId = findSaveId(service, offer, offerWithIndex.index)
+                           let offer = offerWithIndex.offer
+                           group new { service, offer, index } by new { service.Location, offerWithIndex.offer.Offer.OfferType } into byLocationOfferType
+                           from entry in byLocationOfferType.Select((e, i) => new { e, i})
+                           let service = entry.e.service
+                           let offer = entry.e.offer
+                           let index = entry.e.index
+                           let previousSaveId = findSaveId(service, offer, entry.i)
                            let locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(service.Location.Capabilities, offer.Offer))
                            let accountDetails = new EnrollmentAccountDetails 
                            { 
