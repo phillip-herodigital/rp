@@ -4,7 +4,11 @@
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentService, enrollmentCartService, $modal) {
     $scope.accountInformation = enrollmentService.accountInformation;
-    $scope.additionalInformation = {};
+    var sci = $scope.accountInformation.secondaryContactInfo;
+    $scope.additionalInformation = {
+        showAdditionalPhoneNumber: $scope.accountInformation.contactInfo.phone.length > 1,
+        showSecondaryContact: (sci && sci.first != undefined && sci.first != "" && sci.last != undefined && sci.last != "")
+    };
     $scope.validations = [];
     $scope.addressOptions = {};
     $scope.modal = {};
@@ -56,25 +60,37 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
      */
     $scope.utilityAddresses = enrollmentCartService.getUtilityAddresses;
 
-    if (!$scope.accountInformation.mailingAddress)
+    if (!$scope.accountInformation.mailingAddress && $scope.utilityAddresses()[0]) {
         $scope.accountInformation.mailingAddressSame = true;
+        $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
+    }
+        
 
-    $scope.$watch('accountInformation.mailingAddressSame', function () {
-        if ($scope.accountInformation.mailingAddressSame) {
-            if ($scope.utilityAddresses().length == 1)
-                $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
-        } else {
-            $scope.accountInformation.mailingAddress = {};
+    $scope.$watch('accountInformation.mailingAddressSame', function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            if ($scope.accountInformation.mailingAddressSame) {
+                if ($scope.utilityAddresses().length == 1)
+                    $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
+            } else {
+                $scope.accountInformation.mailingAddress = {};
+            }
         }
     });
 
-    $scope.$watch('additionalInformation.showAdditionalPhoneNumber', function (newValue) {
-        if (newValue) {
+    $scope.showAdditionalPhoneNumberChanged = function() {
+        if ($scope.additionalInformation.showAdditionalPhoneNumber) {
             $scope.accountInformation.contactInfo.phone[1] = {};
         } else {
             $scope.accountInformation.contactInfo.phone.splice(1, 1);
-        }        
-    });
+        }
+    };
+
+    $scope.showSecondaryContactChanged = function () {
+        if (!$scope.additionalInformation.showSecondaryContact) {
+            $scope.accountInformation.secondaryContactInfo.first = null;
+            $scope.accountInformation.secondaryContactInfo.last = null;
+        }
+    };
 
     $scope.showAglcExample = function () {
 

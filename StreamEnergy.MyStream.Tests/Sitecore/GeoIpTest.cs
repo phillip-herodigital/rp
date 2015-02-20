@@ -27,7 +27,7 @@ namespace StreamEnergy.MyStream.Tests.Sitecore
         {
             var whois = global::Sitecore.Analytics.Lookups.LookupManager.GetInformationByIp("74.83.221.108");
 
-            Assert.AreEqual("Cincinnati", whois.City);
+            Assert.AreEqual("Mason", whois.City);
             Assert.AreEqual("US", whois.Country);
         }
 

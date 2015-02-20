@@ -597,7 +597,7 @@ article.plan {
 		th {
                 background: #f6f6f6;
                 color: #646464;
-					text-transform: uppercase;
+				text-transform: uppercase;
                 font-weight: 600;
                 text-align: center;
                 padding: 10px 15px;
@@ -609,6 +609,10 @@ article.plan {
                 &.plan-header {
                     text-align: left;
                     padding-left: 32px;
+				}
+				&.empty {
+					padding: 0;
+					min-width: 0;
 				}
 			}
 		}
