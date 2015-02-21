@@ -678,16 +678,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         public async Task<GetAccountInformationResponse> GetAccountInformation(GetAccountInformationRequest request)
-        {
+        {   
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var accountDetails = await accountService.GetAccountDetails(account, false);
             var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
             var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
             
-            var serviceAddresses = account.SubAccounts.Select(acct => acct.ServiceAddress);
+            var serviceAddresses = (account.SubAccounts[0].SubAccountType != "Mobile") ? account.SubAccounts.Select(acct => acct.ServiceAddress) : null;
 
-            var sameAsService = serviceAddresses.Contains(account.Details.BillingAddress);
+            var sameAsService = (serviceAddresses != null) ? serviceAddresses.Contains(account.Details.BillingAddress) : false;
 
             return new GetAccountInformationResponse
             {
