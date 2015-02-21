@@ -17,7 +17,7 @@
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="DA883DD8482B1E989AC800A2BFCF005152C40DE7" thumbprintAlgorithm="sha1" />
-      <Certificate name="StreamCertificate" thumbprint="" thumbprintAlgorithm="sha1" />
+      <Certificate name="StreamCertificate" thumbprint="47F23842A876E9ABCA7202FA52EED200F01E95AD" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
 </ServiceConfiguration>
