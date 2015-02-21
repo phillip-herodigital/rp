@@ -72,20 +72,13 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         }
     });
 
-    if ($scope.accountInformation.contactInfo.phone.length > 1 && $scope.accountInformation.contactInfo.phone[1].number)
-        $scope.additionalInformation.showAdditionalPhoneNumber = true;
-
-    $scope.$watch('additionalInformation.showAdditionalPhoneNumber', function (newVal, oldVal) {
-        if (newVal != oldVal) {
-            if ($scope.additionalInformation.showAdditionalPhoneNumber)
-                $scope.accountInformation.contactInfo.phone[1] = { number : "", category: "" };
-            else 
-                $scope.accountInformation.contactInfo.phone.splice(1, 1);
-        }
+    $scope.$watch('additionalInformation.showAdditionalPhoneNumber', function (newValue) {
+        if (newValue) {
+            $scope.accountInformation.contactInfo.phone[1] = {};
+        } else {
+            $scope.accountInformation.contactInfo.phone.splice(1, 1);
+        }        
     });
-
-    if ($scope.accountInformation.secondaryContactInfo.first)
-        $scope.additionalInformation.showSecondaryContact = true;
 
     $scope.showAglcExample = function () {
 
