@@ -22,11 +22,11 @@
                 <select ng-options="index for index in indexes" ng-model="selectedIndex.key"></select>
                 <button ng-click="selectedIndexes.splice($index, 1)">Remove</button>
                 <ul>
-                    <li ng-repeat="entry in selectedIndex.values">
+                    <li ng-repeat="entry in selectedIndex.values" style="padding-top: 3px">
                         <input type="text" ng-model="entry.value" typeahead="value for value in findValues(selectedIndex.key, $viewValue)" />
                         <button ng-click="selectedIndex.values.splice($index, 1)">Remove</button>
                     </li>
-                    <li>
+                    <li style="padding-top: 3px">
                         <button ng-click="selectedIndex.values.push({})">Add Value</button>
                     </li>
                 </ul>
