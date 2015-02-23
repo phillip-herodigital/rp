@@ -311,7 +311,7 @@
                                 </div>
                                 <hr />
                                 <div class="vertical">
-                                    <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'">
+                                    <div class="item">
                                         <label>@Html.Sitecore().Field("Header - Select Device")</label>
                                         <div class="btn-group-options">
                                             <label>@Html.Sitecore().Field("Label - Select Device")</label>
@@ -343,7 +343,7 @@
                                             <span ng-show="esnError"><br />@Html.Sitecore().Field("ESN Error Text")</span>
                                         </div>
                                     </div>
-                                    <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+                                    <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && phoneOptions.model.lte">
                                         <label>
                                             @Html.Sitecore().Field("Header - ICCID Number")
                                             <span class="label-description">@Html.Sitecore().Field("Text - ICCID Number Note")</span>

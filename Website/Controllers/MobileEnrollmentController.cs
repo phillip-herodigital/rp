@@ -78,7 +78,8 @@ namespace StreamEnergy.MyStream.Controllers
                 Models = child.Children.Select(obj => new
                 {
                     ModelName = obj.Fields["Model"].Value,
-                    Description = obj.Fields["Description"].Value
+                    Description = obj.Fields["Description"].Value,
+                    Lte = !string.IsNullOrEmpty(obj.Fields["LTE"].Value),
                 })
             });
 
