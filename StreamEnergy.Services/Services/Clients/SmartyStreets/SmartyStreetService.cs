@@ -64,7 +64,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
                 select new UncleansedAddress
                 {
                     Street = addr.Line1,
-                    Street2 = addr.Line2,
+                    Street2 = (addr.Line2 + " " + addr.UnitNumber).Trim(),
                     City = addr.City,
                     State = addr.StateAbbreviation,
                     Zipcode = addr.PostalCode5
