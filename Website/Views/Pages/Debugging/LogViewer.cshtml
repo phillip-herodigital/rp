@@ -9,6 +9,7 @@
                              };
            }
 <div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(content));">
+    <div style="position: fixed; right: 10px; top: 10px; z-index: 1000;" class="alert notice" ng-if="needsUpdate">Needs an <button ng-click="update()">Update</button></div>
     <button ng-click="abandon()" class="pull-right">Abandon Session</button>
     <article class="marketing" ng-init="mode = 'simple'">
         <button ng-click="mode = 'advanced'" ng-class="{disabled:isAdvanced}">Advanced</button>
@@ -31,7 +32,7 @@
                 </ul>
             </div>
             <div class="item">
-                <button ng-click="selectedIndexes.push({key:null,values:[]})">Add Index</button>
+                <button ng-click="selectedIndexes.push({key:null,values:[{}]})">Add Index</button>
             </div>
         </div>
     </article>
@@ -68,6 +69,7 @@
         </table>
     </article>
     <article class="marketing" ng-if="logs.length">
+        Showing {{logs.length}} results, filtered by {{hidden | json}}.
         <table>
             <thead>
                 <tr>
@@ -79,8 +81,8 @@
                     <th>Message</th>
                 </tr>
             </thead>
-            <tbody ng-repeat="item in logs">
-                <tr>
+            <tbody ng-repeat="item in logs | filter:againstHidden">
+                <tr ng-init="showDetails = !!item.exception">
                     <td ng-click="showDetails = !showDetails"><i ng-class="{'icon-arrow-expanded': showDetails, 'icon-arrow-collapsed': !showDetails}"></i></td>
                     <td>{{item.timestamp}}</td>
                     <td>{{item.data.httpClient.duration}}</td>
@@ -97,23 +99,38 @@
                             </p>
                             <div ng-if="item.data.httpClient.request.Content">
                                 <p ng-click="showRequest = !showRequest" style="cursor: pointer;"><strong>Request Content: <i ng-class="{'icon-arrow-expanded': showRequest, 'icon-arrow-collapsed': !showRequest}"></i></strong></p>
-                                <p ng-show="!showRequest">{{item.data.httpClient.request.Content}}</p>
-                                <pre ng-show="showRequest">{{item.data.httpClient.request.Content | json}}</pre>
+                                <p ng-if="!showRequest" style=" max-height: 3.5em; overflow-y: hidden; ">{{item.data.httpClient.request.Content | json}}</p>
+                                <pre ng-if="showRequest">{{item.data.httpClient.request.Content | json}}</pre>
                             </div>
                             <div ng-if="item.data.httpClient.response.Content">
                                 <p ng-click="showResponse = !showResponse" style="cursor: pointer;"><strong>Response Content: <i ng-class="{'icon-arrow-expanded': showResponse, 'icon-arrow-collapsed': !showResponse}"></i></strong></p>
-                                <p ng-show="!showResponse">{{item.data.httpClient.response.Content}}</p>
-                                <pre ng-show="showResponse">{{item.data.httpClient.response.Content | json}}</pre>
+                                <p ng-if="!showResponse" style=" max-height: 3.5em; overflow-y: hidden; ">{{item.data.httpClient.response.Content | json}}</p>
+                                <pre ng-if="showResponse">{{item.data.httpClient.response.Content | json}}</pre>
                             </div>
                         </div>
                         <div ng-if="item.exception">
                             <p ng-click="showException = !showException" style="cursor: pointer;"><strong>Exception: <i ng-class="{'icon-arrow-expanded': showException, 'icon-arrow-collapsed': !showException}"></i></strong></p>
-                            <p ng-show="!showException">{{item.exception}}</p>
-                            <pre ng-show="showException">{{item.exception | json}}</pre>
+                            <p ng-if="!showException" style=" max-height: 3.5em; overflow-y: hidden; ">{{item.exception | json}}</p>
+                            <pre ng-if="showException">{{item.exception | json}}</pre>
                         </div>
                         <div>
                             <p ng-click="showStackTrace = !showStackTrace" style="cursor: pointer;"><strong>Stack Trace: <i ng-class="{'icon-arrow-expanded': showStackTrace, 'icon-arrow-collapsed': !showStackTrace}"></i></strong></p>
-                            <pre ng-show="showStackTrace">{{item.data.stackTrace}}</pre>
+                            <pre ng-if="showStackTrace">{{item.data.stackTrace}}</pre>
+                        </div>
+                        <div>
+                            <p ng-click="showIndexes = !showIndexes" style="cursor: pointer;"><strong>Indexes: <i ng-class="{'icon-arrow-expanded': showIndexes, 'icon-arrow-collapsed': !showStackTrace}"></i></strong></p>
+                            <ul ng-if="showIndexes">
+                                <li ng-repeat="keyContainer in item.indexes">
+                                    {{keyContainer.key}}
+                                    <ul>
+                                        <li ng-repeat="value in keyContainer.value">
+                                            {{value}}
+                                            <a href="#" ng-click="addIndex(keyContainer.key, value)" ng-if="!hasIndex(keyContainer.key, value)" class="button small">Add</a>
+                                            <a href="#" ng-click="hideRelated(keyContainer.key, value)" ng-if="!hasIndex(keyContainer.key, value)" class="button small">Hide Related</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
                     </td>
                 </tr>

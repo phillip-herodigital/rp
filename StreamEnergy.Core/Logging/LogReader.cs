@@ -8,6 +8,63 @@ using Newtonsoft.Json;
 
 namespace StreamEnergy.Logging
 {
+    ////****** Object:  Table [dbo].[Entries]    Script Date: 2/23/2015 10:01:30 AM ******/
+    ///CREATE TABLE [dbo].[Entries](
+    ///	[EntryId] [int] IDENTITY(1,1) NOT NULL,
+    ///	[Timestamp] [datetime2](7) NOT NULL,
+    ///	[Severity] [varchar](50) NOT NULL,
+    ///	[Message] [varchar](200) NULL,
+    ///	[Exception] [varchar](max) NULL,
+    ///	[Data] [varchar](max) NULL,
+    /// CONSTRAINT [PK_Entries] PRIMARY KEY CLUSTERED 
+    ///(
+    ///	[EntryId] ASC
+    ///)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ///) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+    ///
+    ///GO
+    ///
+    ////****** Object:  Table [dbo].[EntryIndexes]    Script Date: 2/23/2015 10:01:30 AM ******/
+    ///CREATE TABLE [dbo].[EntryIndexes](
+    ///	[EntryId] [int] NOT NULL,
+    ///	[Key] [varchar](50) NOT NULL,
+    ///	[Value] [varchar](200) NOT NULL,
+    /// CONSTRAINT [PK_EntryIndexes] PRIMARY KEY CLUSTERED 
+    ///(
+    ///	[EntryId] ASC,
+    ///	[Key] ASC,
+    ///	[Value] ASC
+    ///)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ///) ON [PRIMARY]
+    ///GO
+    ///
+    ///ALTER TABLE [dbo].[EntryIndexes]  WITH CHECK ADD  CONSTRAINT [FK_EntryIndexes_Entries] FOREIGN KEY([EntryId])
+    ///REFERENCES [dbo].[Entries] ([EntryId])
+    ///GO
+    ///ALTER TABLE [dbo].[EntryIndexes] CHECK CONSTRAINT [FK_EntryIndexes_Entries]
+    ///GO
+    ///
+    ////****** Object:  Index [Entries_Severity]    Script Date: 2/23/2015 10:01:30 AM ******/
+    ///CREATE NONCLUSTERED INDEX [Entries_Severity] ON [dbo].[Entries]
+    ///(
+    ///	[Severity] ASC,
+    ///	[Timestamp] ASC
+    ///)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ///GO
+    ////****** Object:  Index [Entries_Time]    Script Date: 2/23/2015 10:01:30 AM ******/
+    ///CREATE NONCLUSTERED INDEX [Entries_Time] ON [dbo].[Entries]
+    ///(
+    ///	[Timestamp] ASC
+    ///)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ///GO
+    ///
+    ////****** Object:  Index [EntryIndexes_KeyValue]    Script Date: 2/23/2015 10:01:30 AM ******/
+    ///CREATE NONCLUSTERED INDEX [EntryIndexes_KeyValue] ON [dbo].[EntryIndexes]
+    ///(
+    ///	[Key] ASC,
+    ///	[Value] ASC
+    ///)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ///GO
     class LogReader : ILogReader
     {
         async Task<IEnumerable<LogEntry>> ILogReader.LoadLogs(DateTime minDate, System.Collections.Specialized.NameValueCollection indexes)
@@ -19,17 +76,17 @@ namespace StreamEnergy.Logging
                 cmd.CommandText = @"
 DECLARE @minEntryId int;
 
-SELECT Top 1 @minEntryId = entityId
+SELECT Top 1 @minEntryId = entryId
 From Entries
 Where Timestamp >= @minTime
 Order By Timestamp ASC
 
 SELECT TOP 1000 
-    EntityId, Timestamp, Exception, Message, Severity, Data
+    e.EntryId, Timestamp, Exception, Message, Severity, Data
 FROM Entries e
-" + IndexString(cmd, indexes, "e.EntityId") + @"
-WHERE e.EntityId >= @minEntryId
-ORDER BY EntityId ASC
+" + IndexString(cmd, indexes, "e.EntryId") + @"
+WHERE e.EntryId >= @minEntryId
+ORDER BY e.EntryId ASC
 ";
                 await connection.OpenAsync();
 
@@ -49,7 +106,7 @@ ORDER BY EntityId ASC
                         {
                             new JsonSerializer().Populate(sr, logEntry.Data);
                         }
-                        entries.Add(Convert.ToInt32(reader["EntityId"]), logEntry);
+                        entries.Add(Convert.ToInt32(reader["EntryId"]), logEntry);
                     }
                 }
 
