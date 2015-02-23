@@ -15,5 +15,6 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         public string Lease20 { get; set; }
         public string Lease24 { get; set; }
         public string Sku { get; set; }
+        public bool Lte { get; set; }
     }
 }
