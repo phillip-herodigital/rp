@@ -107,7 +107,7 @@
 
                             <div class="additional-field-item item">
                                 <ul class="checkbox-list">
-                                    <li><input type="checkbox" name="additional-phone-number" id="additional-phone-number" ng-model="additionalInformation.showAdditionalPhoneNumber"><label for="additional-phone-number">@Html.Sitecore().Field("Add additional phone number")</label></li>
+                                    <li><input type="checkbox" name="additional-phone-number" id="additional-phone-number" ng-model="additionalInformation.showAdditionalPhoneNumber" ng-change="showAdditionalPhoneNumberChanged()"><label for="additional-phone-number">@Html.Sitecore().Field("Add additional phone number")</label></li>
                                 </ul>
                             </div>
                             <div class="additional-field-group" ng-show="accountInformation.contactInfo.phone.length > 1">
@@ -170,7 +170,7 @@
                             </div>
                             <div class="additional-field-item item">
                                 <ul class="checkbox-list">
-                                    <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
+                                    <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact" ng-change="showSecondaryContactChanged()"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
                                 </ul>
                             </div>
                             <div class="additional-field-group secondary-contact-group" ng-if="additionalInformation.showSecondaryContact">
