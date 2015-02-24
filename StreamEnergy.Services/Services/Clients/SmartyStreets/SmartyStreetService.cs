@@ -122,7 +122,6 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
                             select Sanitize(new StreamEnergy.DomainModels.Address
                             {
                                 Line1 = string.Join(" ", new string[] { entry.Components.PrimaryNumber, entry.Components.StreetName, entry.Components.StreetSuffix }.Where(e => !string.IsNullOrEmpty(e))),
-                                Line2 = string.Join(" ", new string[] { entry.Components.SecondaryDesignator, entry.Components.SecondaryNumber }.Where(e => !string.IsNullOrEmpty(e))),
                                 UnitNumber = string.Join(" ", new string[] { entry.Components.SecondaryDesignator, entry.Components.SecondaryNumber }.Where(e => !string.IsNullOrEmpty(e))),
                                 City = entry.Components.CityName,
                                 StateAbbreviation = entry.Components.StateAbbreviation,
