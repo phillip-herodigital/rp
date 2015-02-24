@@ -129,8 +129,8 @@
                             <dd>{{ confirmationNumber }}</dd>
                             <dt>@Html.Sitecore().Field("Amount Text"):</dt>
                             <dd>{{ paymentAmount | currency }}</dd>
-                            <dt ng-show="selectedAccount.accountType != 'Mobile' && account.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
-                            <dd ng-show="selectedAccount.accountType != 'Mobile' && account.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
+                            <dt ng-show="selectedAccount.accountType != 'Mobile' && selectedAccount.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                            <dd ng-show="selectedAccount.accountType != 'Mobile' && selectedAccount.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                             <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                             <dd>{{ totalCharge | currency }}</dd>
                         </dl>
