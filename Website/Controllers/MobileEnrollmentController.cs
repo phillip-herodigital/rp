@@ -53,7 +53,8 @@ namespace StreamEnergy.MyStream.Controllers
                         CGroupSku = plan.Fields["C Group SKU"].Value,
                         InStock = false
 
-                    })
+                    }),
+                    Lte = !string.IsNullOrEmpty(obj.Fields["LTE"].Value),
                 })
             });
 

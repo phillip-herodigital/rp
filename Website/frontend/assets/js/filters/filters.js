@@ -172,6 +172,15 @@ ngApp.filter('phoneFilter', function() {
         });
     }
 
+    if(typeof filters.lte != 'undefined') {
+        filteredElements =  _.filter(filteredElements, function(item) {
+            //This makes sure it meets the first condition
+            if(_.where(item.models, { lte: filters.lte }).length) {
+                return item;
+            }
+        });
+    }
+
     return filteredElements;
   }
 });

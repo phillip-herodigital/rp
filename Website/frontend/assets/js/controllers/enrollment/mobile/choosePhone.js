@@ -26,6 +26,7 @@
         condition: undefined,
         brand: [],
         os: [],
+        lte: undefined,
         phoneOrder: 'high'
     };
 
@@ -40,6 +41,54 @@
 
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
     $scope.displayFilters = false; // Display the extra phone filters
+
+    $scope.filterCdmaBrands = function(brand){
+        if (enrollmentCartService.getDevicesCount() > 0) {
+            var firstDevice = enrollmentCartService.getCartDevices()[0];
+            if (firstDevice.lte) {
+                return _.filter(brand.models, { lte: true}).length > 0;
+            } else {
+                return _.filter(brand.models, { lte: false}).length > 0;
+            }
+        } else {
+            return true;
+        }
+    };
+
+    $scope.filterCdmaModels = function(model){
+        if (enrollmentCartService.getDevicesCount() > 0) {
+            var firstDevice = enrollmentCartService.getCartDevices()[0];
+            if (firstDevice.lte) {
+                return model.lte;
+            } else {
+                return !model.lte;
+            }
+        } else {
+            return true;
+        }
+    };
+
+    $scope.selectFirstModel = function () {
+        var firstDevice = enrollmentCartService.getCartDevices()[0];
+        if (typeof firstDevice != 'undefined') {
+            var filteredModels = (firstDevice.lte) ? _.filter($scope.phoneOptions.make.models, { lte: true}) : _.filter($scope.phoneOptions.make.models, { lte: false}); 
+        } else {
+            var filteredModels = $scope.phoneOptions.make.models;
+        }
+        $scope.phoneOptions.model = filteredModels[0];
+    }
+
+    $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            // only allow same-kind devices to be added for Sprint
+            if (newVal > 0 && mobileEnrollmentService.selectedNetwork.value == "sprint") {
+                $scope.phoneFilters.lte = enrollmentCartService.getCartDevices()[0].lte;
+            } else {
+                $scope.phoneFilters.lte = undefined;
+            }
+        }
+    });
+
 
     $scope.setPhoneNumberType = function(type) {
         $scope.phoneNumberType = type;
