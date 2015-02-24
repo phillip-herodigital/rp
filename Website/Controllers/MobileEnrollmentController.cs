@@ -78,6 +78,24 @@ namespace StreamEnergy.MyStream.Controllers
                 Models = child.Children.Select(obj => new
                 {
                     ModelName = obj.Fields["Model"].Value,
+                    Description = obj.Fields["Description"].Value
+                })
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
+        public ActionResult BringYourOwnCdmaDevices()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile CDMA BYO Devices");
+
+            var data = item.Children.Select(child => new
+            {
+                Id = child.ID.ToString(),
+                Make = child.Name,
+                Models = child.Children.Select(obj => new
+                {
+                    ModelName = obj.Fields["Model"].Value,
                     Description = obj.Fields["Description"].Value,
                     Lte = !string.IsNullOrEmpty(obj.Fields["LTE"].Value),
                 })
