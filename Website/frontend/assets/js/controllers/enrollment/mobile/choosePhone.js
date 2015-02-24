@@ -145,7 +145,8 @@
                 imageFront: device.imageFront,
                 warranty: $scope.phoneOptions.warranty,
                 transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
-                sku: selectedModel.sku
+                sku: selectedModel.sku,
+                lte: selectedModel.lte
             };
         }
         else {
@@ -160,6 +161,7 @@
                 simNumber: $scope.phoneOptions.simNumber,
                 iccidNumber: $scope.phoneOptions.iccidNumber,
                 transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
+                lte: $scope.phoneOptions.model.lte
             };
         }
 
