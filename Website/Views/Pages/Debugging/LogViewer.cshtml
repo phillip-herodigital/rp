@@ -10,10 +10,12 @@
            }
 <div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(content));">
     <div style="position: fixed; right: 10px; top: 10px; z-index: 1000;" class="alert notice" ng-if="needsUpdate">Needs an <button ng-click="update()">Update</button></div>
-    <button ng-click="abandon()" class="pull-right">Abandon Session</button>
     <article class="marketing" ng-init="mode = 'simple'">
+        <div></div>
+        <button ng-click="abandon()" class="pull-right">Abandon Session</button>
         <button ng-click="mode = 'advanced'" ng-class="{disabled:isAdvanced}">Advanced</button>
         <button ng-click="mode = 'simple'" ng-class="{disabled:isSimple}">Simple</button>
+        <div></div>
     </article>
     <article class="marketing" ng-show="isAdvanced">
         <h3>Log Viewer</h3>
@@ -118,7 +120,7 @@
                             <pre ng-if="showStackTrace">{{item.data.stackTrace}}</pre>
                         </div>
                         <div>
-                            <p ng-click="showIndexes = !showIndexes" style="cursor: pointer;"><strong>Indexes: <i ng-class="{'icon-arrow-expanded': showIndexes, 'icon-arrow-collapsed': !showStackTrace}"></i></strong></p>
+                            <p ng-click="showIndexes = !showIndexes" style="cursor: pointer;"><strong>Indexes: <i ng-class="{'icon-arrow-expanded': showIndexes, 'icon-arrow-collapsed': !showIndexes}"></i></strong></p>
                             <ul ng-if="showIndexes">
                                 <li ng-repeat="keyContainer in item.indexes">
                                     {{keyContainer.key}}

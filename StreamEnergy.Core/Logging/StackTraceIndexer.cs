@@ -13,7 +13,7 @@ namespace StreamEnergy.Logging
         {
             if (logEntry.Exception == null)
             {
-                logEntry.Data["StackTrace"] = Environment.StackTrace;
+                logEntry.Data["StackTrace"] = TrimAsync(Environment.StackTrace);
             }
             else
             {
@@ -30,8 +30,30 @@ namespace StreamEnergy.Logging
                     ex = stack.Pop();
                     stackTrace.AppendLine(ex.StackTrace);
                 } while (stack.Count > 0);
-                logEntry.Data["StackTrace"] = stackTrace.ToString();
+                logEntry.Data["StackTrace"] = TrimAsyncException(stackTrace.ToString());
             }
+        }
+
+        private string TrimAsync(string stackTrace)
+        {
+            var lines = stackTrace.Split('\n').Skip(4);
+            if (lines.Any(line => line.Contains("System.Threading.ExecutionContext.RunInternal")))
+            {
+                return string.Join("\n", lines.TakeWhile(line => !line.Contains("System.Threading.ExecutionContext.RunInternal"))) +
+                    "\n--- Async ---";
+            }
+            return stackTrace;
+        }
+
+        private string TrimAsyncException(string stackTrace)
+        {
+            var lines = stackTrace.Split('\n');
+            if (lines.Any(line => line.Contains("System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess")))
+            {
+                return string.Join("\n", lines.TakeWhile(line => !line.Contains("System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess"))) +
+                    "\n--- Async ---";
+            }
+            return stackTrace;
         }
 
         Task ILogIndexer.IndexData(LogEntry logEntry)
