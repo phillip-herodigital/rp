@@ -5,6 +5,7 @@
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.esnInvalid = false;
     $scope.esnError = false;
+    $scope.cartLte = null;
     
     $scope.isCartFull = function () {
         if (enrollmentCartService.getDevicesCount() == maxMobileItems) {
@@ -83,8 +84,10 @@
             // only allow same-kind devices to be added for Sprint
             if (newVal > 0 && mobileEnrollmentService.selectedNetwork.value == "sprint") {
                 $scope.phoneFilters.lte = enrollmentCartService.getCartDevices()[0].lte;
+                $scope.cartLte = $scope.phoneFilters.lte;
             } else {
                 $scope.phoneFilters.lte = undefined;
+                $scope.cartLte = null;
             }
         }
     });
