@@ -6,6 +6,9 @@
     <div ng-show="activeState == 'step1'">
         <form data-val-bind-messages="validations" ng-submit="resolvePayments()">
             <div class="content grid-table-content" loading-indicator>
+                <div class="intro" ng-if="hasCIS1Account">
+                    @Html.Sitecore().Field("CIS1 Intro Text")
+                </div>
                 <div class="payment-account stretch">
                     <table grid-table ng-model="accountsTable" class="grid-table">
                         <thead grid-table-header checkboxes="true"></thead>
