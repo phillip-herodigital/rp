@@ -29,7 +29,7 @@ ngApp.filter('address', function() {
             formattedAddress += address.unitNumber + ', ';
         }
 
-        if (address.line2) {
+        if (address.line2 && !address.unitNumber) {
             formattedAddress += address.line2 + ', ';
         }
 
@@ -168,6 +168,15 @@ ngApp.filter('phoneFilter', function() {
                 if(filters.condition != 'Reconditioned') {
                     return item;
                 }              
+            }
+        });
+    }
+
+    if(typeof filters.lte != 'undefined') {
+        filteredElements =  _.filter(filteredElements, function(item) {
+            //This makes sure it meets the first condition
+            if(_.where(item.models, { lte: filters.lte }).length) {
+                return item;
             }
         });
     }

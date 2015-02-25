@@ -715,14 +715,7 @@ namespace StreamEnergy.Services.Clients
                 ContactCellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
                 ContactEmail = context.ContactInfo.Email.Address,
                 SSN = context.SocialSecurityNumber,
-                BillingAddress = new
-                {
-                    StreetLine1 = context.MailingAddress.Line1,
-                    StreetLine2 = context.MailingAddress.Line2,
-                    City = context.MailingAddress.City,
-                    State = context.MailingAddress.StateAbbreviation,
-                    Zip = context.MailingAddress.PostalCode5
-                },
+                BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
                 PreferredLanguage = context.Language == "en" ? "English" : "Spanish",
                 PreferredSalesExecutive = context.PreferredSalesExecutive,
                 UnderContract = true,
@@ -756,14 +749,7 @@ namespace StreamEnergy.Services.Clients
                 Provider = provider,
                 Commodity = commodityType,
                 UtilityAccountNumber = utilityAccountNumber,
-                ServiceAddress = new
-                {
-                    StreetLine1 = location.Address.Line1,
-                    StreetLine2 = location.Address.Line2,
-                    City = location.Address.City,
-                    State = location.Address.StateAbbreviation,
-                    Zip = location.Address.PostalCode5
-                },
+                ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
             };
         }
 
@@ -812,7 +798,7 @@ namespace StreamEnergy.Services.Clients
                     EmailAddress = account.Details.ContactInfo.Email == null ? null : account.Details.ContactInfo.Email.Address,
                     ProviderId = locAdapter.GetProvider(subAccount),
                     ContactInfo = account.Details.ContactInfo,
-                    MailingAddress = account.Details.BillingAddress,
+                    MailingAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Details.BillingAddress),
                 });
             response.EnsureSuccessStatusCode();
 

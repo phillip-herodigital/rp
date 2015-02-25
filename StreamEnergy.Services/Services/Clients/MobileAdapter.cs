@@ -127,6 +127,7 @@ namespace StreamEnergy.Services.Clients
                 SpecialOffer = productData.Fields["Special Offer"] == "1" ? true : false,
                 SpecialOfferText = productData.Fields["Special Offer Text"],
                 SpecialOfferOriginalPrice = productData.Fields["Special Offer Original Price"],
+                NonLtePlan = productData.Fields["non-LTE Plan"] == "1" ? true : false,
 
                 Rates = new[] {
                                   new Mobile.Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
