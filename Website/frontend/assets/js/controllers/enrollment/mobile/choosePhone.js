@@ -107,12 +107,16 @@
             $scope.esnError = false;
             $http.post('/api/enrollment/validateEsn', $scope.phoneOptions.imeiNumber, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
-                if (!JSON.parse(data)) {
+                var esnResponse = JSON.parse(data);
+                if (esnResponse != 'success') {
                     $scope.addDevice.imeiNumber.$setValidity('required',false);
                     $scope.validations = [{
                         'memberName': 'imeiNumber'
                     }];
                     $scope.esnError = true;
+                    $scope.esnMessage = _.find($scope.esnValidationMessages, function (message) { 
+                            return message.code.toLowerCase() == esnResponse.toLowerCase();
+                        }).message;
                 } else {
                     $scope.esnError = false;
                     $scope.esnInvalid = false;

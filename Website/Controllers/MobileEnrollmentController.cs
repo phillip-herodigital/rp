@@ -252,6 +252,16 @@ namespace StreamEnergy.MyStream.Controllers
             });
         }
 
+        public ActionResult EsnValidationMessages()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/ESN Validation/ESN Validation Messages");
+            var nameValues = ((Sitecore.Data.Fields.NameValueListField)item.Fields["ESN Validation Messages"]).NameValues;
+
+            var data = nameValues.AllKeys.Select(key => new { code = key, message = HttpUtility.UrlDecode(nameValues[key]) });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult ConfigureData()
         {
             return View("~/Views/Components/Mobile Enrollment/Configure Data.cshtml");
