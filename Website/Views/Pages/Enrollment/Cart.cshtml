@@ -30,7 +30,7 @@
                             <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                             {{ location.location.address | address }}<br />
                             <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
-                            <span ng-if="customerType == 'commercial' || !locationHasService(location) && !isRenewal"> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a></span>
+                            <span ng-if="customerType == 'commercial' || !isRenewal"> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a></span>
                         </address>
                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                             <div ng-include src="'cart/' + offerInformation.key"></div>
@@ -133,11 +133,8 @@
             <div class="options">
                 {{ getDevicesCount() }} @Html.Sitecore().Field("Line Text") &amp; {{ selectedOffer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
             </div>
-            <div class="links" ng-if="getActiveServiceType() == 'Mobile'">
+            <div class="links">
                 <a href="" ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Edit Plan Link")</a> <span ng-if="mobileEnrollmentSettings.disableSharedPlans != true">| <a href="" ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Link")</a></span>
-            </div>
-            <div class="links" ng-if="getActiveServiceType() != 'Mobile'">
-                <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Plan")</a>
             </div>
         </div>
         <div class="description" ng-if="getDevicesCount() > 1">
@@ -145,11 +142,8 @@
             <div class="options">
                 {{ getDevicesCount() }} @Html.Sitecore().Field("Lines Text") &amp; {{ selectedOffer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
             </div>
-            <div class="links" ng-if="getActiveServiceType() == 'Mobile'">
+            <div class="links">
                 <a href="" ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Edit Plan Link")</a> <span ng-if="mobileEnrollmentSettings.disableSharedPlans != true">| <a href="" ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Link")</a></span>
-            </div>
-            <div class="links" ng-if="getActiveServiceType() != 'Mobile'">
-                <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Plan")</a>
             </div>
         </div>
         <div class="rate" ng-if="getDevicesCount() > 0">{{ totalPlanPrice(selectedOffer) | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
@@ -168,7 +162,7 @@
                 <div class="options" ng-if="item.type == 'existing' && item.simNumber">@Html.Sitecore().Field("SIM") {{ item.simNumber }}</div>
                 <div class="options" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att' && item.type == 'existing' && !item.simNumber">@Html.Sitecore().Field("IMEI") {{ item.imeiNumber }}</div>
                 <div class="options" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && item.type == 'existing' && !item.simNumber">@Html.Sitecore().Field("ESN") {{ item.imeiNumber }}</div>
-                <div ng-if="getActiveServiceType() == 'Mobile'">
+                <div>
                     <a href="" ng-click="editMobileDevice(item)">@Html.Sitecore().Field("Edit Phone Link")</a> | <a href="" ng-click="deleteMobileDevice(item)">@Html.Sitecore().Field("Remove Phone Link")</a>
                 </div>
             </div>
