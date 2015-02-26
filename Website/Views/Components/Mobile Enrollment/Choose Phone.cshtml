@@ -280,7 +280,8 @@
                                         </div>
                                         <div class="transfer-number-message">
                                             <i class="icon-warning"></i>
-                                            @Html.Sitecore().Field("Transfer Number Text")
+                                            <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">@Html.Sitecore().Field("Transfer Number Text")</div>
+                                            <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">@Html.Sitecore().Field("CDMA Transfer Number Text")</div>
                                         </div>
                                     </div>
                                     <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.transferInfo.type == 'new' && false">
@@ -461,7 +462,8 @@
                                     </div>
                                     <div class="transfer-number-message">
                                         <i class="icon-warning"></i>
-                                        @Html.Sitecore().Field("Transfer Number Text")
+                                        <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">@Html.Sitecore().Field("Transfer Number Text")</div>
+                                        <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">@Html.Sitecore().Field("CDMA Transfer Number Text")</div>
                                     </div>
                                 </div>
                             </div>
@@ -476,14 +478,14 @@
                                 @Html.Sitecore().Field("Bring A Device")
                                 <button type="button" ng-click="addDeviceToCart('existing')" ng-disabled="addDevice.$invalid || esnInvalid">@Html.Sitecore().Field("Bring A Device Link")</button>
                             </div>
-                            <div class="new-line-or" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintByod) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
+                            <div class="new-line-or" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 @Html.Sitecore().Field("Or")
                             </div>
                             <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 @Html.Sitecore().Field("Shop Phones")
                                 <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid || esnInvalid">@Html.Sitecore().Field("Shop Phones Link")</button>
                             </div>
-                            <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintByod) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone)"></div>
+                            <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone)"></div>
                         </div>
                     </article>
                     <div class="enrollment__choose-device">
@@ -492,7 +494,7 @@
                             <button type="submit" class="primary" ng-disabled="isCartFull() || esnInvalid" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
                             <button type="button" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Button")</button>
                         </div>
-                        <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
+                        <p class="footnotes" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">@Html.Sitecore().Field("Footnotes")</p>
                     </div>
                 </form>
             </section>
