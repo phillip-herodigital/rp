@@ -83,7 +83,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<bool> ValidateEsn([FromBody]string esn)
+        public async Task<VerifyEsnResponseCode> ValidateEsn([FromBody]string esn)
         {
             return await enrollmentService.IsEsnValid(esn);
         }

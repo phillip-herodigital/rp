@@ -64,7 +64,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         $scope.accountInformation.mailingAddressSame = true;
         $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
     }
-        
 
     $scope.$watch('accountInformation.mailingAddressSame', function (newVal, oldVal) {
         if (newVal != oldVal) {
@@ -127,9 +126,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        if ($scope.cartHasMobile() && typeof $scope.accountInformation.previousAddress == 'undefined') {
-            $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
-        }
 
         var addresses = [$scope.accountInformation.mailingAddress];
         if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
@@ -138,6 +134,10 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
 
         var continueWith = function () {
+            // update the cleansed address for mobile
+            if ($scope.cartHasMobile() && typeof $scope.accountInformation.previousAddress == 'undefined') {
+                $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
+            }
             enrollmentService.setAccountInformation().then(function (data) {
                 $scope.validations = data.validations;
             });
@@ -166,6 +166,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                         if (addressOptions.previousAddress && $scope.modal.previousAddress != 'original') {
                             $scope.accountInformation.previousAddress = $scope.addressOptions.previousAddress[1];
                         }
+
                         continueWith();
                     });
                 }
