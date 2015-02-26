@@ -79,6 +79,11 @@
         $scope.phoneOptions.model = filteredModels[0];
     }
 
+    $scope.$watch("phoneOptions.model.lte", function (newVal, oldVal) {
+        var firstDevice = enrollmentCartService.getCartDevices()[0];
+        mobileEnrollmentService.hasLTEDevice = (newVal || (firstDevice != null && firstDevice.lte));
+    });
+
     $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
         if (newVal != oldVal) {
             // only allow same-kind devices to be added for Sprint

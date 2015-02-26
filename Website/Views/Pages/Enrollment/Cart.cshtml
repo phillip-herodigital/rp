@@ -59,6 +59,7 @@
                 <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
                 <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'att'"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents IMEI Number")</li>
                 <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'sprint'"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ESN Number")</li>
+                <li ng-if="cartHasMobile() && mobileEnrollmentService.hasLTEDevice"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ICCID Number")</li>
 
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
             <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
@@ -232,30 +233,6 @@
         </div>
         <div class="modal-footer">
             <button ng-click="$dismiss()">@Html.Sitecore().Field("Continue Button")</button>
-        </div>
-    </div>
-</script>
-
-<script type="text/ng-template" id="showImeiModal">
-    <div class="mobile-enrollment-modal">
-        <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("IMEI Instructions Header")</h2>
-        </div>
-        <div class="modal-body">
-            @Html.Sitecore().Field("IMEI Instructions Content")
-        </div>
-    </div>
-</script>
-
-<script type="text/ng-template" id="showEsnModal">
-    <div class="mobile-enrollment-modal">
-        <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("ESN Instructions Header")</h2>
-        </div>
-        <div class="modal-body">
-            @Html.Sitecore().Field("ESN Instructions Content")
         </div>
     </div>
 </script>
