@@ -24,6 +24,8 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         _.find($scope.accountsTable.columnList, { 'field': 'dueDate' }).sortOrder = true;
         _.find($scope.accountsTable.columnList, { 'field': 'dueDate' }).initialSort = true;
 
+        $scope.hasCIS1Account = _.some($scope.accountsTable.values, { 'systemOfRecord': 'CIS1' });
+
         $scope.isLoading = false;
     });
 

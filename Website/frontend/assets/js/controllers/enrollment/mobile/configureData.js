@@ -12,12 +12,33 @@
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
             var provider = mobileEnrollmentService.selectedNetwork.value,
                 devicesCount = enrollmentCartService.getDevicesCount();
+                firstDevice = enrollmentCartService.getCartDevices()[0];
             if (devicesCount == 0) {
                 return null;
             } else if (devicesCount == 1) {
-                return plan.provider.toLowerCase() == provider && !plan.isParentOffer && !plan.isChildOffer;
+                if (provider == "sprint" && !firstDevice.lte) {
+                    return plan.provider.toLowerCase() == provider 
+                    && !plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && plan.nonLtePlan;
+                } else {
+                    return plan.provider.toLowerCase() == provider 
+                    && !plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && !plan.nonLtePlan;
+                }
             } else {
-                return plan.provider.toLowerCase() == provider && plan.isParentOffer && !plan.isChildOffer;
+                if (provider == "sprint" && !firstDevice.lte) {
+                    return plan.provider.toLowerCase() == provider 
+                    && plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && plan.nonLtePlan;
+                } else {
+                    return plan.provider.toLowerCase() == provider 
+                    && plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && !plan.nonLtePlan;;
+                }
             }
         } else {
             return null;
