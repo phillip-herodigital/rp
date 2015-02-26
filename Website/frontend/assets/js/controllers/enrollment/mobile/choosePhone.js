@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, $http, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, $http, $sce, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
 
     var maxMobileItems = 10;
 
@@ -119,9 +119,9 @@
                         'memberName': 'imeiNumber'
                     }];
                     $scope.esnError = true;
-                    $scope.esnMessage = _.find($scope.esnValidationMessages, function (message) { 
+                    $scope.esnMessage = $sce.trustAsHtml(_.find($scope.esnValidationMessages, function (message) { 
                             return message.code.toLowerCase() == esnResponse.toLowerCase();
-                        }).message;
+                        }).message);
                 } else {
                     $scope.esnError = false;
                     $scope.esnInvalid = false;
