@@ -49,7 +49,7 @@
                                                 </select>
                                             </div>
                                             <div class="item">
-                                                <button class="plain filter-button" type="button" ng-click="displayFilters = !displayFilters">@Html.Sitecore().Field("Filter Text") <i class="icon-expand-gray"></i></button>
+                                                <button class="plain filter-button" type="button" ng-click="displayFilters = !displayFilters">@Html.Sitecore().Field("Filter Text") <i class="icon-expand-gray" ng-show="!displayFilters"></i><i class="icon-collapse-filled" ng-show="displayFilters"></i></button>
                                             </div>
                                         </div>
                                     </div>
