@@ -155,7 +155,7 @@
                                         <div class="item">
                                             <label>
                                                 @Html.Sitecore().Field("Purchase Options")<br />
-                                                <span class="label-description">@Html.Sitecore().Field("Purchase Options Description")</span>
+                                                <span class="label-description" ng-if="!mobileEnrollmentSettings.disableInstallmentPlans">@Html.Sitecore().Field("Purchase Options Description")</span>
                                             </label>
                                             <div class="btn-group btn-group-options purchase-options">
                                                 <div ng-repeat="model in mobileEnrollmentService.getPricesForPhone('@phone.Id', phoneOptions.size, phoneOptions.color)" data-additional-fields>
