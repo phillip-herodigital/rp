@@ -85,7 +85,7 @@
                                                 </div>
                                                 <h3>{{ item.brand }}&reg; {{ item.name }}</h3>
                                                 <div class="price">
-                                                    <div ng-if="mobileEnrollmentService.getInstallmentPrice(item.id)">
+                                                    <div ng-if="mobileEnrollmentService.getInstallmentPrice(item.id) && !mobileEnrollmentSettings.disableInstallmentPlans">
                                                         <span>@Html.Sitecore().Field("Lease From")</span>
                                                         {{ mobileEnrollmentService.getInstallmentPrice(item.id) | currency }}@Html.Sitecore().Field("Per Month Text")
                                                     </div>
@@ -169,7 +169,7 @@
                                                             <span class="purchase-price">{{ model.lease20 | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                         </a>
                                                     *@
-                                                    <a href="" class="button btn-group-arrow" ng-click="$parent.isOpen = true" ng-repeat="plan in model.installmentPlans" ng-model="phoneOptions.purchaseOption" btn-radio="{{ plan.aGroupSku }}" ng-show="plan.inStock" data-val="true" data-val-required>
+                                                    <a href="" class="button btn-group-arrow" ng-click="$parent.isOpen = true" ng-repeat="plan in model.installmentPlans" ng-model="phoneOptions.purchaseOption" btn-radio="{{ plan.aGroupSku }}" ng-show="plan.inStock && !mobileEnrollmentSettings.disableInstallmentPlans" data-val="true" data-val-required>
                                                         <span class="purchase-type">{{ plan.months }}@Html.Sitecore().Field("Month Installment")</span>
                                                         <span class="purchase-price">{{ plan.price | currency }}@Html.Sitecore().Field("Per Month Text")</span>
                                                     </a>
