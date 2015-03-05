@@ -17,6 +17,18 @@
                         <div class="plan-type" ng-show="getCartDataPlan().length == 0 || getDevicesCount() == 0">
                             {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
                         </div>
+                        <div class="notice error">
+                            Your mobile service is not complete. You must add a device or remove the mobile service from your order.
+                            <div class="links">
+                                <a href="" ng-click="">Remove Mobile Service</a><button ng-click="">Add Device</button>
+                            </div>
+                        </div>
+                        <div class="notice error">
+                            Your mobile service is not complete. You must select a data plan or remove mobile service from your order.
+                            <div class="links">
+                                <a href="" ng-click="">Remove Mobile Service</a><button ng-click="">Add Data Plan</button>
+                            </div>
+                        </div>
                         <div class="plan-type clearfix" ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                             <div ng-include src="'cart/' + offerInformation.key"></div>
                         </div>
@@ -32,20 +44,26 @@
                             <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
                             <span ng-if="customerType == 'commercial' || !isRenewal"> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a></span>
                         </address>
+                        <div class="notice error">
+                            Your mobile service is not complete. You must select a data plan or remove mobile service from your order.
+                            <div class="links">
+                                <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a><button ng-click="">Select Plan</button>
+                            </div>
+                        </div>
                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                             <div ng-include src="'cart/' + offerInformation.key"></div>
                         </div>
                     </div>
                 </div>
-                @*<div class="buttons">
-                        <a href="" class="button" ng-show="getCartCount()">Checkout Now</a>
-                    </div>*@
             </div>
-            <footer>
-                <div class="time">
+            <footer ng-show="cartHasUtility() || mobileEnrollmentService.selectedNetwork.value">
+                <div class="buttons">
+                    <button ng-click="">Checkout</button>
+                </div>
+                @*<div class="time">
                     <i class="icon-clock"></i>
                     @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
-                </div>
+                </div>*@
             </footer>
         </article>
         <article class="enrollment__box documents" ng-if="customerType != 'commercial' && !isRenewal && getCartLocationsCount() > 0">
