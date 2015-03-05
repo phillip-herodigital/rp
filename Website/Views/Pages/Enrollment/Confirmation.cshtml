@@ -245,17 +245,17 @@
             {{ getDevicesCount() }} @Html.Sitecore().Field("Group Plan Text")
         </div>
     </div>
-    <div ng-if="!selectedOffer.confirmationSuccess && !sprintByod" ng-cloak>
+    <div ng-if="!confirmationSuccess && !sprintByod" ng-cloak>
         <div class="notice alert">
             @Html.Sitecore().Field("Confirmation Error Mobile")
         </div>
     </div>
-    <div ng-if="!selectedOffer.confirmationSuccess && sprintByod" ng-cloak>
+    <div ng-if="!confirmationSuccess && sprintByod" ng-cloak>
         <div class="notice alert">
             @Html.Sitecore().Field("Sprint BYOD Submitted Text")
         </div>
     </div>
-    <div ng-if="selectedOffer.confirmationSuccess && sprintByod" ng-cloak>
+    <div ng-if="confirmationSuccess && sprintByod" ng-cloak>
         <div class="notice alert">
             @Html.Sitecore().Field("Sprint BYOD Confirmation Text")
         </div>
