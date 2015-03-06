@@ -105,6 +105,7 @@ namespace StreamEnergy.MyStream.Controllers
                 disableSharedPlans = !string.IsNullOrEmpty(item.Fields["Disable Shared Plans"].Value),
                 disableMobileEnrollments = !string.IsNullOrEmpty(item.Fields["Disable Mobile Enrollments"].Value) && Request.QueryString["SecretAccess"] != "true",
                 disableIntegratedEnrollments = !string.IsNullOrEmpty(item.Fields["Disable Integrated Enrollments"].Value) && Request.QueryString["IntegratedEnrollment"] != "true",
+                disableInstallmentPlans = !string.IsNullOrEmpty(item.Fields["Disable Installment Plans"].Value) && Request.QueryString["InstallmentPlans"] != "true",
             };
 
             return this.Content(StreamEnergy.Json.Stringify(data));
