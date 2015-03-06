@@ -2609,8 +2609,38 @@
             text-align: left;
         }
     }
+    .btn-phone-number {
+        &:after, &:before {
+            bottom: -63px;
+        }
+    }
     .transfer-number {
-
+        .content-divider {
+            margin: 20px -20px;
+        }
+        .alert {
+            background-image: none;
+            h4 {
+                margin-top: 0;
+            }
+        }
+        .transfer-header {
+            h4 {
+                margin: 0;
+            }
+            p {
+                margin: 10px 0 0;
+            }
+        }
+        .help-text {
+            font-style: italic;
+        }
+        .street-number {
+            width: 15%
+        }
+        .street-name {
+            width: 35%;
+        }
         .transfer-number-message {
             @extend .clearfix;
             @include border-radius(0 0 5px 5px);
