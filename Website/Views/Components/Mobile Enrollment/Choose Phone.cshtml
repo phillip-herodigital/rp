@@ -472,7 +472,7 @@
                         <header>
                             <h3>@Html.Sitecore().Field("Add Line Header")</h3>
                         </header>
-                        <div class="content additional-device">
+                        <div class="content additional-device" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                             <div class="new-line new-byod" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                                 @Html.Sitecore().Field("Bring A Device")
                                 <button type="button" ng-click="addDeviceToCart('existing')" ng-disabled="addDevice.$invalid || esnInvalid">@Html.Sitecore().Field("Bring A Device Link")</button>
@@ -485,6 +485,13 @@
                                 <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid || esnInvalid">@Html.Sitecore().Field("Shop Phones Link")</button>
                             </div>
                             <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone)"></div>
+                        </div>
+                        <div class="content additional-device" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintByod">
+                            <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
+                                @Html.Sitecore().Field("Shop Phones")
+                                <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid || esnInvalid">@Html.Sitecore().Field("Shop Phones Link")</button>
+                            </div>
+                            <div class="new-line"></div>
                         </div>
                     </article>
                     <div class="enrollment__choose-device">
