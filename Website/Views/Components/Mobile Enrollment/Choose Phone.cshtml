@@ -201,8 +201,8 @@
                                                 <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
                                             </label>
                                             <div class="btn-group btn-group-options">
-                                                <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'new'">@Html.Sitecore().Field("Assign New Number")</a>
-                                                <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'existing'">@Html.Sitecore().Field("Transfer My Number")</a>
+                                                <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'new'" data-val="true" data-val-required>@Html.Sitecore().Field("Assign New Number")</a>
+                                                <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'existing'" data-val="true" data-val-required>@Html.Sitecore().Field("Transfer My Number")</a>
                                             </div>
                                         </div>
                                     </div>
