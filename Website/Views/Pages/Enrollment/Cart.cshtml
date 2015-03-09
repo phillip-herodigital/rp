@@ -20,13 +20,13 @@
                         <div class="notice error">
                             @Html.Sitecore().Field("Add Device Text")
                             <div class="links">
-                                <a href="" ng-click="">@Html.Sitecore().Field("Remove Mobile Link")</a><button ng-click="">@Html.Sitecore().Field("Add Device Button Text")</button>
+                                <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Mobile Link")</a><button ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Button Text")</button>
                             </div>
                         </div>
                         <div class="notice error">
                             @Html.Sitecore().Field("Add Data Plan Text")
                             <div class="links">
-                                <a href="" ng-click="">@Html.Sitecore().Field("Remove Mobile Link")</a><button ng-click="">@Html.Sitecore().Field("Add Data Plan Button Text")</button>
+                                <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Mobile Link")</a><button ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Add Data Plan Button Text")</button>
                             </div>
                         </div>
                         <div class="plan-type clearfix" ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
@@ -47,7 +47,7 @@
                         <div class="notice error">
                             @Html.Sitecore().Field("Select Utility Plan Text")
                             <div class="links">
-                                <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a><button ng-click="">@Html.Sitecore().Field("Select Utility Plan Button Text")</button>
+                                <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a><button ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Select Utility Plan Button Text")</button>
                             </div>
                         </div>
                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
@@ -58,7 +58,7 @@
             </div>
             <footer ng-show="cartHasUtility() || mobileEnrollmentService.selectedNetwork.value">
                 <div class="buttons">
-                    <button ng-click="">@Html.Sitecore().Field("Checkout Button Text")</button>
+                    <button ng-click="cartCheckout()">@Html.Sitecore().Field("Checkout Button Text")</button>
                 </div>
                 @*<div class="time">
                     <i class="icon-clock"></i>
