@@ -58,7 +58,7 @@
                 <li ng-if="cartHasUtility()"><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
                 <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
                 <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'att'"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents IMEI Number")</li>
-                <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'sprint'"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ESN Number")</li>
+                <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintByod"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ESN Number")</li>
                 <li ng-if="cartHasMobile() && mobileEnrollmentService.hasLTEDevice"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ICCID Number")</li>
 
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
