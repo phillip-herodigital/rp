@@ -423,6 +423,52 @@ article.opportunity {
 	}
 }
 
+article.events {
+	&.events-ignition {
+		background-color: #00a8e1;
+		.button {
+			float: right;
+			color: #00a8e1;
+		}
+	}
+	&.events-top-performers {
+		h2, a {
+			color: #666666;
+		}
+		.tooltip {
+			color: #666666;
+		}
+	}
+	&.events-senior-director-cruise {
+		background-color: #5c2b85;
+		a {
+			color: #FFF;
+		}
+		.tooltip {
+			color: #666666;
+		}
+	}
+	&.events-celebration-dinner {
+		.celebration-dinner-logo {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+	}
+	&.events-women-of-power {
+		h2 {
+			color: #666666 !important;
+			text-align: center;
+		}
+	}
+	&.events-stream-university {
+		background-color: #63c9f0 !important;
+		padding-bottom: 60px;
+		h2 {
+			text-align: center;
+		}
+	}
+}
+
 article.leaders {
 	.paragraph {
 		width: 50%;
