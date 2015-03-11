@@ -202,7 +202,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         $scope.selectedAccounts = _.where($scope.accountsTable.values, { 'selected': true, 'canMakeOneTimePayment': true });
         $scope.total = _.reduce($scope.selectedAccounts, function (a, b) { return a + parseFloat(b.paymentAmount); }, 0);
         $scope.paymentAmount = _.reduce($scope.selectedAccounts, function (a, b) { 
-            return (false && b.accountType != 'Mobile' && b.systemOfRecord != 'CIS1') ? (a + parseFloat(b.paymentAmount) + 2.95) : (a + parseFloat(b.paymentAmount));
+            return (b.accountType != 'Mobile' && b.systemOfRecord != 'CIS1') ? (a + parseFloat(b.paymentAmount) + 2.95) : (a + parseFloat(b.paymentAmount));
         }, 0);
     }, true);
 
