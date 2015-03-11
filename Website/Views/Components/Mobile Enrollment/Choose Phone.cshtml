@@ -208,10 +208,13 @@
                                     </div>
                                     <div class="transfer-number" ng-if="phoneOptions.transferInfo.type == 'existing'">
                                         <hr class="content-divider" />
-                                        <div class="notice alert">
+                                        <div class="notice alert" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att' && '@Html.Sitecore().Field("Transfer Alert").ToString().Length' != '0'">
                                             @Html.Sitecore().Field("Transfer Alert")
                                         </div>
-                                        <hr />
+                                        <div class="notice alert" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && '@Html.Sitecore().Field("Transfer Alert CDMA").ToString().Length' != '0'">
+                                            @Html.Sitecore().Field("Transfer Alert CDMA")
+                                        </div>
+                                        <hr ng-if="(mobileEnrollmentService.selectedNetwork.value == 'att' && '@Html.Sitecore().Field("Transfer Alert").ToString().Length' != '0') || (mobileEnrollmentService.selectedNetwork.value == 'sprint' && '@Html.Sitecore().Field("Transfer Alert CDMA").ToString().Length' != '0')" />
                                         <div class="group transfer-header">
                                             @Html.Sitecore().Field("Transfer Header")
                                         </div>
@@ -403,10 +406,13 @@
                                 </div>
                                 <div class="transfer-number" ng-if="phoneOptions.transferInfo.type == 'existing'">
                                     <hr class="content-divider" />
-                                    <div class="notice alert">
+                                    <div class="notice alert" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att' && '@Html.Sitecore().Field("Transfer Alert").ToString().Length' != '0'">
                                         @Html.Sitecore().Field("Transfer Alert")
                                     </div>
-                                    <hr />
+                                    <div class="notice alert" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && '@Html.Sitecore().Field("Transfer Alert CDMA").ToString().Length' != '0'">
+                                        @Html.Sitecore().Field("Transfer Alert CDMA")
+                                    </div>
+                                    <hr ng-if="(mobileEnrollmentService.selectedNetwork.value == 'att' && '@Html.Sitecore().Field("Transfer Alert").ToString().Length' != '0') || (mobileEnrollmentService.selectedNetwork.value == 'sprint' && '@Html.Sitecore().Field("Transfer Alert CDMA").ToString().Length' != '0')" />
                                     <div class="group transfer-header">
                                         @Html.Sitecore().Field("Transfer Header")
                                     </div>
