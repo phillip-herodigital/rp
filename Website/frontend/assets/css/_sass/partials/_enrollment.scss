@@ -1549,6 +1549,30 @@
             border-bottom: none;
         }
     }
+    .stream-store {
+        padding-bottom: 5px;
+        header {
+            padding: 10px 17px 5px;
+            text-align: center;
+            img {
+                max-width: 80%;
+            }
+        }
+        .stream-store-content {
+            img {
+                max-width: 33%;
+                display: inline-block;
+            }
+            p {
+                max-width: 64%;
+                display: inline-block;
+                padding: 20px 0 0 20px;
+                margin-top: 0;
+                vertical-align: top;
+                font-size: 16px;
+            }
+        }
+    }
     .info {
         padding: 0 17px;
         margin: -15px 0 5px;
