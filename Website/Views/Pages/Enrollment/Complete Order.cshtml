@@ -589,7 +589,7 @@
                         <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                     </div>
                     <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per Therm")</div>
-                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></table>
+                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDueGA/' + payment.offerPaymentAmountType"></table>
                 </div>
             </div>
         </div>
@@ -734,6 +734,30 @@
 
 </script>
 
+
+<script type="text/ng-template" id="paymentsDueGA/Deposit">
+    <tr>
+        <td class="sub-charge">
+            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.isWaived" ng-value="false" checked="checked" />
+            <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Due")</label>
+            <p>
+                {{selectedOffer.offer.name}}<br />
+                <span class="explanation">@Html.Sitecore().Field("Deposit Explanation GA")</span>
+            </p>
+        </td>
+        <td class="rate"><strong>{{ payment.dollarAmount | currency }}</strong></td>
+    </tr>
+    <tr>
+        <td colspan="2"><div class="seperator">@Html.Sitecore().Field("Or Text")</div></td>
+    </tr>
+    <tr>
+        <td class="sub-charge" colspan="2">
+            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.isWaived" ng-value="true" />
+            <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Waiver")</label>
+            <p class="explanation">@Html.Raw(Html.Sitecore().CurrentItem["Deposit Waiver Expanation"].Format(new { LinkAttributes = "ng-click=\"showDepositWaiver(location.location.address.stateAbbreviation)\"" }))</p>
+        </td>
+    </tr>
+</script>
 
 <script type="text/ng-template" id="Terms/Standard">
     <div class="modal-header">
