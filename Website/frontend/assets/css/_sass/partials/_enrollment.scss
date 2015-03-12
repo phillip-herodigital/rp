@@ -2883,20 +2883,9 @@
                 }
                 ol {
                     padding-left: 0;
-                    margin-bottom: 0;
-                    counter-reset: li;
+                    margin-left: 22px;
                     > li {
-                        list-style: none;
-                        clear: left;
                         margin-bottom: 15px;
-                        &:before {
-                            content: counter(li) ". ";
-                            counter-increment: li;
-                            float: left;
-                            font-weight: 600;
-                            margin-bottom: 15px;
-                            width: 22px;
-                        }
                     }
                 }
             }
