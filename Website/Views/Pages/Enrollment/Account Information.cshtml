@@ -149,7 +149,11 @@
                                 </ul>
                             </div>
                             <div class="item" ng-if="customerType == 'residential' || accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
-                                <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label") <a href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a></label>
+                                <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label") 
+                                    <a ng-if="cartHasUtility() && !cartHasMobile()" href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a>
+                                    <a ng-if="!cartHasUtility() && cartHasMobile()" href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip Mobile")"><i class="icon-tooltip"></i></a>
+                                    <a ng-if="cartHasUtility() && cartHasMobile()" href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip Integrated")"><i class="icon-tooltip"></i></a>
+                                </label>
                                 @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber", data_val = "true", data_val_required = "" })
                                 @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                             </div>
