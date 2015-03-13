@@ -250,6 +250,11 @@
             @Html.Sitecore().Field("Confirmation Error Mobile")
         </div>
     </div>
+    <div ng-if="confirmationSuccess && !sprintByod" ng-cloak>
+        <div class="notice alert">
+            @Html.Sitecore().Field("ATT BYOD Confirmation Text")
+        </div>
+    </div>
     <div ng-if="!confirmationSuccess && sprintByod" ng-cloak>
         <div class="notice alert">
             @Html.Sitecore().Field("Sprint BYOD Submitted Text")
