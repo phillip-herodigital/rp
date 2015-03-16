@@ -121,7 +121,7 @@
                     iccidNumber: device.iccidNumber,
                     inventoryItemId: device.id,
                     transferInfo: device.transferInfo,
-                    useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'BYOD') ? false : true,
+                    useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'Reconditioned' || device.buyingOption == 'BYOD') ? false : true,
                 };
                 offerInformationForType.value.offerSelections.push(offer);
             };

@@ -1549,6 +1549,30 @@
             border-bottom: none;
         }
     }
+    .stream-store {
+        padding-bottom: 5px;
+        header {
+            padding: 10px 17px 5px;
+            text-align: center;
+            img {
+                max-width: 80%;
+            }
+        }
+        .stream-store-content {
+            img {
+                max-width: 33%;
+                display: inline-block;
+            }
+            p {
+                max-width: 64%;
+                display: inline-block;
+                padding: 20px 0 0 20px;
+                margin-top: 0;
+                vertical-align: top;
+                font-size: 16px;
+            }
+        }
+    }
     .info {
         padding: 0 17px;
         margin: -15px 0 5px;
@@ -2199,7 +2223,7 @@
         .plan {
             display: inline-block;
             width: 24%;
-            height: 290px;
+            //height: 290px;
             text-align: center;
             border: 2px solid $enrollment-light-border-color;
             @include border-radius(5px);
@@ -2609,8 +2633,38 @@
             text-align: left;
         }
     }
+    .btn-phone-number {
+        &:after, &:before {
+            bottom: -63px;
+        }
+    }
     .transfer-number {
-
+        .content-divider {
+            margin: 20px -20px;
+        }
+        .alert {
+            background-image: none;
+            h4 {
+                margin-top: 0;
+            }
+        }
+        .transfer-header {
+            h4 {
+                margin: 0;
+            }
+            p {
+                margin: 10px 0 0;
+            }
+        }
+        .help-text {
+            font-style: italic;
+        }
+        .street-number {
+            width: 15%
+        }
+        .street-name {
+            width: 35%;
+        }
         .transfer-number-message {
             @extend .clearfix;
             @include border-radius(0 0 5px 5px);
@@ -2829,20 +2883,9 @@
                 }
                 ol {
                     padding-left: 0;
-                    margin-bottom: 0;
-                    counter-reset: li;
+                    margin-left: 22px;
                     > li {
-                        list-style: none;
-                        clear: left;
                         margin-bottom: 15px;
-                        &:before {
-                            content: counter(li) ". ";
-                            counter-increment: li;
-                            float: left;
-                            font-weight: 600;
-                            margin-bottom: 15px;
-                            width: 22px;
-                        }
                     }
                 }
             }
