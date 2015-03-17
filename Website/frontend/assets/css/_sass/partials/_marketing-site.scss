@@ -424,6 +424,12 @@ article.opportunity {
 }
 
 article.events {
+	.tooltip {
+		color: #666666;
+		&.top-left .tooltip-arrow {
+			display: none !important;
+		}
+	}
 	&.events-ignition {
 		background-color: #00a8e1;
 		.button {
@@ -435,17 +441,11 @@ article.events {
 		h2, a {
 			color: #666666;
 		}
-		.tooltip {
-			color: #666666;
-		}
 	}
 	&.events-senior-director-cruise {
 		background-color: #5c2b85;
 		a {
 			color: #FFF;
-		}
-		.tooltip {
-			color: #666666;
 		}
 	}
 	&.events-celebration-dinner {
