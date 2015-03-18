@@ -54,7 +54,6 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
         }, 10);
     };
     $scope.bundleEnroll = function () {
-        if ($scope.numProductsChecked() < 2) return;
         var campaignName = "se";
         if ($scope.identity) campaignName += "id";
         if ($scope.monitoring) campaignName += "cr";
