@@ -33,7 +33,7 @@
         <div class="wrapper">
             @Html.Sitecore().Field("Intro Header")
             <div class="grid border three">
-                <div class="col bundle silver">
+                <div class="col bundle silver" ng-class="{'selected':  numProductsChecked() == 1 }">
                     <h4>@Html.Sitecore().Field("Silver Title")</h4>
                     @Html.Sitecore().Field("Silver Savings")
                     <div class="circle-discount">
@@ -43,7 +43,7 @@
                         @Html.Sitecore().Field("Silver Price")
                     </div>
                 </div>
-                <div class="col bundle gold">
+                <div class="col bundle gold" ng-class="{'selected':  numProductsChecked() == 2 }">
                     <h4>@Html.Sitecore().Field("Gold Title")</h4>
                     @Html.Sitecore().Field("Gold Savings")
                     <div class="circle-discount">
@@ -53,7 +53,10 @@
                         @Html.Sitecore().Field("Gold Price")
                     </div>
                 </div>
-                <div class="col bundle platinum">
+                <div class="col bundle platinum" ng-class="{'selected':  numProductsChecked() == 3 }">
+                    <div class="sash-wrapper">
+                        <div class="sash">@Html.Sitecore().Field("Best Text")</div>
+                    </div>
                     <h4>@Html.Sitecore().Field("Platinum Title")</h4>
                     @Html.Sitecore().Field("Platinum Savings")
                     <div class="circle-discount">
@@ -62,6 +65,17 @@
                     <div class="price">
                         @Html.Sitecore().Field("Platinum Price")
                     </div>
+                </div>
+            </div>
+            <div class="grid border three package-indicators">
+                <div class="col">
+                    <span class="indicator" ng-class="{'active':  numProductsChecked() == 1 }">&nbsp;</span>
+                </div>
+                <div class="col">
+                    <span class="indicator" ng-class="{'active':  numProductsChecked() == 2 }">&nbsp;</span>
+                </div>
+                <div class="col">
+                    <span class="indicator" ng-class="{'active':  numProductsChecked() == 3 }">&nbsp;</span>
                 </div>
             </div>
             <div class="build-package">
@@ -113,7 +127,7 @@
             *@
         </div>
     </article>
-    <article class="marketing protective-summary">
+    <article class="marketing services-summary">
         <div class="wrapper">
             <div class="family-member">@Html.Sitecore().Field("Add a Member")</div>
             <hr />

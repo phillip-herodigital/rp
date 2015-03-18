@@ -634,13 +634,19 @@ article.service-links {
             font-size: 20px;
         }
     }
+    .identityTheft {
+        background: image-url('marketing/redesign/mask_icon.png') no-repeat center top;
+    }
+    .onlineBackupAndProtection {
+        background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top;
+    }
+    .creditMonitoring {
+        background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top;
+    }
     .grid .col {
         padding-top: 100px;
-        &.service {
-            padding-top: 0;
-        }
-    }
-    .protective-summary {
+    } 
+    .services-summary {
         .wrapper {
             background-image: none;
         }
@@ -697,6 +703,24 @@ article.service-links {
                 font-weight: 600;
             }
         }
+        .grid .col {
+            padding-top: 0;
+        }
+        .identityTheft {
+            background: image-url('marketing/redesign/mask_icon.png') no-repeat center top 60px;
+            h3 {
+                padding-left: 30px;
+            }
+        }
+        .onlineBackupAndProtection {
+            background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top 60px;
+            h3 {
+                padding-right: 30px;
+            }
+        }
+        .creditMonitoring {
+            background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top 60px;
+        }
     }
     .protective-footnotes {
         .wrapper {
@@ -716,61 +740,8 @@ article.service-links {
             font-weight: normal;
         }
     }
-    .identityTheft {
-        background: image-url('marketing/redesign/mask_icon.png') no-repeat center top;
-        &.service {
-            background-position: center top 60px;
-            h3 {
-                padding-left: 30px;
-            }
-        }
-    }
-    .onlineBackupAndProtection {
-        background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top;
-        &.service {
-            background-position: center top 60px;
-            h3 {
-                padding-right: 30px;
-            }
-        }
-    }
-    .creditMonitoring {
-        background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top;
-        &.service {
-            background-position: center top 60px;
-        }
-    }
     .service-description {
         min-height: 85px;
-    }
-    a.details {
-        position: relative;
-        padding-right: 10px;
-        letter-spacing: 0;
-        font-weight: 400;
-        &:after, &:before {
-            display: none;
-            bottom: -27px;
-            left: 50%;
-            border: solid transparent;
-            content: " ";
-            height: 0;
-            width: 0;
-            position: absolute;
-        }
-
-        &:after {
-            border-bottom-color: #f7f8f9;
-            border-width: 20px;
-            margin-left: -20px;
-        }
-        &:before {
-            border-color: rgba(200, 200, 200, 0);
-        }
-        &.active:before, &.active:after {
-            display: block;
-            z-index: 1;
-        }
     }
     .price {
         font-weight: 600;
@@ -782,44 +753,6 @@ article.service-links {
         }
         .cents {
             vertical-align: top;
-        }
-    }
-    .service-details {
-        margin-top: -25px;
-        background-color: #f7f8f9;
-        h2 {
-            margin-top: 0;
-            color: #013c5b;
-        }
-        @include layout-list();
-        ul {
-            padding: 0;
-            list-style: none;
-        }
-        li {
-            margin: 5px 0;
-            &:before {
-                margin-right: 15px;
-                content: image-url('icon/green-check.png');
-            }
-        }
-        .wrapper {
-            background-image: none;
-        }
-        .grid {
-            margin-bottom: 20px;
-            .col {
-                padding: 50px 0;
-                .button {
-                    margin-right: 20px;
-                }
-            }
-            .service-image {
-                .image-wrapper {
-                    margin: 0 auto;
-                    max-width: 460px;
-                }
-            }
         }
     }
     .service-bundles {
@@ -836,6 +769,7 @@ article.service-links {
             height: 260px;
             text-align: center;
             padding: 0 30px !important;
+            position: relative;
             @include border-radius(10px);
             @include box-shadow(0 1px 1px rgba(0, 0, 0, .3));
             h4 {
@@ -876,6 +810,14 @@ article.service-links {
                     }
                 }
             }
+            &.selected {
+                h4, p {
+                    color: #0971ce;
+                }
+                .circle {
+                    background-color: #0971ce;
+                }
+            }
             .price {
                 color: #0971ce;
                 font-size: 25px;
@@ -905,13 +847,94 @@ article.service-links {
                     padding-top: 27px;
                 }
             }
+            .sash-wrapper {
+                width: 130px;
+                height: 122px;
+                overflow: hidden;
+                position: absolute;
+                top: -4px;
+                right: -4px;
+                .sash {
+                    font-size: 24px;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    color: #fff;
+                    text-align: center;
+                    position: relative;
+                    padding: 0;
+                    left: 15px;
+                    top: 20px;
+                    width: 145px;
+                    background-color: #e61b22;
+                    white-space: nowrap;
+                    @include rotate(45deg);
+                    &:before, &:after {
+                        content: "";
+                        position:absolute;
+                        bottom: -3px;
+                    }
+                    &:before {
+                        left: 0;
+                    }
+                    &:after {
+                        right: 0; 
+                    }
+                }
+            }
+            &.silver {
+                .price .cents {
+                    margin-left: 48px;
+                }
+            }
+            @include breakpoint (small) {
+                margin-bottom: 20px;
+                h4 {
+                    margin: 0;
+                    padding-top: 15px;
+                }
+            }
+        }
+        .package-indicators {
+            .col {
+                padding: 0;
+                text-align: center;
+            }
+            .indicator {
+                position: relative;
+                &:after, &:before {
+                    display: none;
+                    bottom: -20px;
+                    left: 50%;
+                    border: solid transparent;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    position: absolute;
+                }
+
+                &:after {
+                    border-bottom-color: #40ae49;
+                    border-width: 20px;
+                    margin-left: -20px;
+                }
+                &:before {
+                    border-color: #40ae49;
+                }
+                &.active:before, &.active:after {
+                    display: block;
+                    z-index: 1;
+                }
+            } 
+            @include breakpoint(small) {
+                display: none;
+            }
         }
         .build-package {
             @include retina-background('protective-bundle-bg.png');
             background-position: top;
             background-repeat: repeat-x;
             background-color: #45ba4e;
-            margin: 50px -120px 0;
+            margin: 18px -120px 0;
             padding: 12px 120px;
             .build-package-text {
                 color: #fff;
@@ -929,6 +952,16 @@ article.service-links {
                     input {
                         margin-right: 10px;
                     }
+                }
+            }
+            @include breakpoint(small) {
+                background-image: none;
+                .bundle-option {
+                    display: block;
+                    margin-bottom: 10px;
+                }
+                .button {
+                    width: 100%;
                 }
             }
         }
