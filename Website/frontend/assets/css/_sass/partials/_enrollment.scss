@@ -1507,12 +1507,15 @@
         padding: 15px 17px;
         .notice.error {
             padding: 10px;
-            margin: 15px -5px 0;
+            margin: 15px -5px;
             background-image: none;
             font-size: 13px;
             @include border-radius(5px);
             .links {
                 margin: 10px 0;
+                .remove-mobile {
+                    display: inline-block;
+                }
                 button {
                     float: right;
                     width: auto;

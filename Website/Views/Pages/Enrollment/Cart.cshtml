@@ -17,16 +17,16 @@
                         <div class="plan-type" ng-show="getCartDataPlan().length == 0 || getDevicesCount() == 0">
                             {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
                         </div>
-                        <div class="notice error">
+                        <div class="notice error" ng-show="addDeviceError && (!addDevice.$valid || isCartFull() || esnInvalid)">
                             @Html.Sitecore().Field("Add Device Text")
                             <div class="links">
-                                <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Mobile Link")</a><button ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Button Text")</button>
+                                <a href="" class="remove-mobile" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Mobile Link")</a><button ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Button Text")</button>
                             </div>
                         </div>
-                        <div class="notice error">
+                        <div class="notice error" ng-show="addDataPlanError && !planSelection.selectedOffers['Mobile'].length">
                             @Html.Sitecore().Field("Add Data Plan Text")
                             <div class="links">
-                                <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Mobile Link")</a><button ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Add Data Plan Button Text")</button>
+                                <a href="" class="remove-mobile" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Mobile Link")</a><button ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Add Data Plan Button Text")</button>
                             </div>
                         </div>
                         <div class="plan-type clearfix" ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
@@ -44,7 +44,7 @@
                             <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
                             <span ng-if="customerType == 'commercial' || !isRenewal"> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a></span>
                         </address>
-                        <div class="notice error">
+                        <div class="notice error" ng-show="addUtilityPlanError && !selectPlan.$valid">
                             @Html.Sitecore().Field("Select Utility Plan Text")
                             <div class="links">
                                 <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a><button ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Select Utility Plan Button Text")</button>
