@@ -2,11 +2,9 @@
  *
  */
 ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
-    $scope.identity = $scope.support = $scope.monitoring = false;
+    $scope.identity = $scope.support = $scope.monitoring = true;
     $scope.campaignName = $scope.productCode = "";
     $scope.freeMonth = false;
-    $scope.identity = true;
-    $scope.monitoring = true;
     $scope.init = function (freeMonth) {
         $scope.freeMonth = freeMonth;
     };
