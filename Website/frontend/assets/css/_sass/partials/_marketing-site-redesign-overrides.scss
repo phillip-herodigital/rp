@@ -759,7 +759,7 @@ article.service-links {
         background-color: #f7f8f9;
         margin-bottom: -35px;
         .wrapper {
-            padding-bottom: 0;
+            padding: 0;
         }
         h1 {
             color: #40ae49;
@@ -965,55 +965,6 @@ article.service-links {
                 }
             }
         }
-        table {
-            @include border-radius(10px);
-            border: 1px solid #cecece;
-            border-collapse: separate;
-            background-color: #fff;
-            margin-top: 30px;
-            h3 {
-                color: #1b1816;
-                font-size: 28px;
-                font-weight: 300;
-            }
-            h4 {
-                color: #013c5b;
-                font-size: 24px;
-                font-weight: 300;
-                margin: 0;
-                text-transform: uppercase;
-            }
-            td {
-                border: none;
-                text-align: center;
-                &:first-child { 
-                    text-align: left; 
-                    padding: 30px 0 30px 30px;
-                }   
-            }
-            thead {
-                color: #013c5b;
-                font-size: 16px;
-                i {
-                    display: block;
-                    margin: 15px auto;
-                }
-                td:first-child {
-                    padding: 10px 30px;
-                }
-            }
-            tbody {
-                tr {
-                    background: url('../i/marketing/redesign/Modules/module_background.png') no-repeat center top;
-                }
-                td {
-                    border-top: 1px solid #cecece;
-                }
-                .button {
-                    margin-right: 20px;
-                }
-            }
-        }
     }
     @include breakpoint(small) {
         .protective-summary {
@@ -1027,20 +978,6 @@ article.service-links {
             .details{
                 &.active:before, &.active:after {
                     display: none;
-                }
-            }
-        }
-        .service-bundles {
-            table {
-                h3 {
-                    text-align: center;
-                    margin-bottom: 0;
-                }
-                td {
-                    display: block;
-                }
-                .button {
-                    margin-bottom: 15px;
                 }
             }
         }

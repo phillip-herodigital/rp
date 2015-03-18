@@ -89,42 +89,6 @@
                     <a href="" ng-class="{button: true, disabled: numProductsChecked() < 1}" ng-click="bundleEnroll()">@Html.Sitecore().Field("Select Package")</a>
                 </div>
             </div>
-            @*
-            <table>
-                <thead>
-                    <tr>
-                        <td><h3>@Html.Sitecore().Field("Bundle and Save")</h3></td>
-                        <td><i class="icon-hls-identity-theft"></i>@Html.Sitecore().Field("Identity Protection Header")</td>
-                        <td><i class="icon-hls-credit-monitoring"></i>@Html.Sitecore().Field("Credit Monitoring Header")</td>
-                        <td><i class="icon-hls-online-protection"></i>@Html.Sitecore().Field("Tech Support Header")</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h4>@Html.Sitecore().Field("Gold Title")</h4>
-                            @Html.Sitecore().Field("Gold Savings")
-                            <a href="" ng-class="{button: true, disabled: numProductsChecked() < 2}" ng-click="goldenroll()">@Html.Sitecore().Field("Select Package")</a>
-                            <div class="price">@Html.Sitecore().Field("Gold Price")@Html.Sitecore().Field("Per Month")</div>
-                        </td>
-                        <td><input type="checkbox" id="identity" ng-model="identity" /></td>
-                        <td><input type="checkbox" id="monitoring" ng-model="monitoring" /></td>
-                        <td><input type="checkbox" id="support" ng-model="support" /></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>@Html.Sitecore().Field("Platinum Title")</h4>
-                            @Html.Sitecore().Field("Platinum Savings")
-                            <a href="" class="button" ng-click="enroll('seidcrit')">@Html.Sitecore().Field("Select Package")</a>
-                            <div class="price">@Html.Sitecore().Field("Platinum Price")@Html.Sitecore().Field("Per Month")</div>
-                        </td>
-                        <td><i class="icon-dotted-circle-check"></i></td>
-                        <td><i class="icon-dotted-circle-check"></i></td>
-                        <td><i class="icon-dotted-circle-check"></i></td>
-                    </tr>
-                </tbody>
-            </table>
-            *@
         </div>
     </article>
     <article class="marketing services-summary">
