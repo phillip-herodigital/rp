@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the overall page, such as the mobile navigation sidebar.
  */
-ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', '$timeout', '$window', 'enrollmentCartService', function ($scope, $rootScope, $http, $templateCache, $timeout, $window, enrollmentCartService) {
+ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', '$timeout', '$window', 'enrollmentCartService', 'scrollService', function ($scope, $rootScope, $http, $templateCache, $timeout, $window, enrollmentCartService, scrollService) {
 
 	// Private Methods
 	var buildNavLinks = function() {
@@ -37,6 +37,10 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
 	$scope.setFixedHeader = function(val) {
 		$scope.isFixedHeader = val;
 	};
+
+	$scope.scrollToTop = function() {
+		scrollService.scrollTo('top', 0, 500, angular.noop);
+	}
 
 	// in the account section send the user to the login page 
 	// if it's close to the session timeout
