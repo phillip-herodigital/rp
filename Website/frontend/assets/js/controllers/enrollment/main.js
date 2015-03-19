@@ -12,7 +12,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     $scope.mobileEnrollment = {
         currentStep: 'choose-network',
         phoneTypeTab: 'new',
-        requestedPlanId: getParameterByName('mobilePlanId')
+        requestedPlanId: getParameterByName('mobilePlanId'),
+        requestedNetwork: getParameterByName('network'),
     };
 
     $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
