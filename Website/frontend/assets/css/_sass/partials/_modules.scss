@@ -831,6 +831,9 @@ article.balances-payments {
 			}
 		}
 	}
+    .intro p {
+        margin-top: 0;
+    }
 	dl dd {
 		margin-bottom: 5px;
 		text-align: left;
@@ -1200,6 +1203,9 @@ article.make-payment {
 	.notice dl {
 		margin: 0;
 	}
+    .intro p {
+        margin-top: 0;
+    }
 	.stretch > .grid-table {
 		thead th {
 			border-top: none;

@@ -4,6 +4,7 @@ ngApp.factory('mobileEnrollmentService', [function () {
         postalCode5: '',
         planType: 'Consumer',
         availableNetworks: [],
+        hasLTEDevice: false,
         editedDevice: {},
         selectedNetwork: {
         },

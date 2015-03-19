@@ -24,130 +24,98 @@
         <input type="hidden" name="salesource" value="@Model.SaleSource">
     </form>
 
-    <article class="marketing marketingIntro wrapper  protect">
+    <article class="marketing marketingIntro wrapper protective-intro">
         <div class="wrapper">
-            <h1>@Html.Sitecore().Field("Intro Header")</h1>
             @Html.Sitecore().Field("Intro Content")
         </div>
     </article>
-    <article class="marketing" data-additional-fields>
-        <div class="wrapper protective-summary">
-            <div class="grid border three">
-                <div class="col identityTheft">
-                    <h3>@Html.Sitecore().Field("Identity Protection Header")</h3>
-                    <p class="service-description">@Html.Sitecore().Field("Identity Protection Summary")</p>
-                    <p>
-                        <a href="" class="details" ng-click="isOpen.credit = false; isOpen.tech = false; isOpen.identity = !isOpen.identity" ng-class="{'active': isOpen.identity}">
-                            <span ng-if="!isOpen.identity">@Html.Sitecore().Field("Show Details")</span>
-                            <span ng-if="isOpen.identity">@Html.Sitecore().Field("Hide Details")</span>
-                        </a>
-                    </p>
-                </div>
-                <div class="col creditMonitoring">
-                    <h3>@Html.Sitecore().Field("Credit Monitoring Header")</h3>
-                    <p class="service-description">@Html.Sitecore().Field("Credit Monitoring Summary")</p>
-                    <p>
-                        <a href="" class="details" ng-click="isOpen.identity = false; isOpen.tech = false; isOpen.credit = !isOpen.credit" ng-class="{'active': isOpen.credit}">
-                            <span ng-if="!isOpen.credit">@Html.Sitecore().Field("Show Details")</span>
-                            <span ng-if="isOpen.credit">@Html.Sitecore().Field("Hide Details")</span>
-                        </a>
-                    </p>
-                </div>
-                <div class="col onlineBackupAndProtection">
-                    <h3>@Html.Sitecore().Field("Tech Support Header")</h3>
-                    <p class="service-description">@Html.Sitecore().Field("Tech Support Summary")</p>
-                    <p>
-                        <a href="" class="details" ng-click="isOpen.identity = false; isOpen.credit = false; isOpen.tech = !isOpen.tech" ng-class="{'active': isOpen.tech}">
-                            <span ng-if="!isOpen.tech">@Html.Sitecore().Field("Show Details")</span>
-                            <span ng-if="isOpen.tech">@Html.Sitecore().Field("Hide Details")</span>
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="service-details ng-cloak">
-            <div class="wrapper" slide-down-show="isOpen.identity">
-                <div class="grid">
-                    <div class="col">
-                        <h2>@Html.Sitecore().Field("Identity Protection Header")</h2>
-                        @Html.Sitecore().Field("Identity Protection Content")
-                        <a href="" class="button" ng-click="enroll('seid')">@Html.Sitecore().Field("Select Service")</a>
-                        <div class="price">@Html.Sitecore().Field("Service Price")@Html.Sitecore().Field("Per Month")</div>
-                    </div>
-                    <div class="col service-image">
-                        @Html.Sitecore().Field("Identity Protection Image")
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="service-details ng-cloak">
-            <div class="wrapper" slide-down-show="isOpen.credit">
-                <div class="grid">
-                    <div class="col">
-                        <h2>@Html.Sitecore().Field("Credit Monitoring Header")</h2>
-                        @Html.Sitecore().Field("Credit Monitoring Content")
-                        <a href="" class="button" ng-click="enroll('secr')">@Html.Sitecore().Field("Select Service")</a>
-                        <div class="price">@Html.Sitecore().Field("Service Price")@Html.Sitecore().Field("Per Month")</div>
-                    </div>
-                    <div class="col service-image">
-                        @Html.Sitecore().Field("Credit Monitoring Image")
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="service-details ng-cloak">
-            <div class="wrapper" slide-down-show="isOpen.tech">
-                <div class="grid">
-                    <div class="col">
-                        <h2>@Html.Sitecore().Field("Tech Support Header")</h2>
-                        @Html.Sitecore().Field("Tech Support Content")
-                        <a href="" class="button" ng-click="enroll('seit')">@Html.Sitecore().Field("Select Service")</a>
-                        <div class="price">@Html.Sitecore().Field("Service Price")@Html.Sitecore().Field("Per Month")</div>
-                    </div>
-                    <div class="col service-image">
-                        @Html.Sitecore().Field("Tech Support Image")
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </article>
     <article class="marketing service-bundles">
         <div class="wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <td><h3>@Html.Sitecore().Field("Bundle and Save")</h3></td>
-                        <td><i class="icon-hls-identity-theft"></i>@Html.Sitecore().Field("Identity Protection Header")</td>
-                        <td><i class="icon-hls-credit-monitoring"></i>@Html.Sitecore().Field("Credit Monitoring Header")</td>
-                        <td><i class="icon-hls-online-protection"></i>@Html.Sitecore().Field("Tech Support Header")</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h4>@Html.Sitecore().Field("Gold Title")</h4>
-                            @Html.Sitecore().Field("Gold Savings")
-                            <a href="" ng-class="{button: true, disabled: numProductsChecked() < 2}" ng-click="goldenroll()">@Html.Sitecore().Field("Select Package")</a>
-                            <div class="price">@Html.Sitecore().Field("Gold Price")@Html.Sitecore().Field("Per Month")</div>
-                        </td>
-                        <td><input type="checkbox" id="identity" ng-model="identity" /></td>
-                        <td><input type="checkbox" id="monitoring" ng-model="monitoring" /></td>
-                        <td><input type="checkbox" id="support" ng-model="support" /></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>@Html.Sitecore().Field("Platinum Title")</h4>
-                            @Html.Sitecore().Field("Platinum Savings")
-                            <a href="" class="button" ng-click="enroll('seidcrit')">@Html.Sitecore().Field("Select Package")</a>
-                            <div class="price">@Html.Sitecore().Field("Platinum Price")@Html.Sitecore().Field("Per Month")</div>
-                        </td>
-                        <td><i class="icon-dotted-circle-check"></i></td>
-                        <td><i class="icon-dotted-circle-check"></i></td>
-                        <td><i class="icon-dotted-circle-check"></i></td>
-                    </tr>
-                </tbody>
-            </table>
+            @Html.Sitecore().Field("Intro Header")
+            <div class="grid border three">
+                <div class="col bundle silver" ng-class="{'selected':  numProductsChecked() == 1 }">
+                    <h4>@Html.Sitecore().Field("Silver Title")</h4>
+                    @Html.Sitecore().Field("Silver Savings")
+                    <div class="circle-discount">
+                        @Html.Sitecore().Field("Silver Discount")
+                    </div>
+                    <div class="price">
+                        @Html.Sitecore().Field("Silver Price")
+                    </div>
+                </div>
+                <div class="col bundle gold" ng-class="{'selected':  numProductsChecked() == 2 }">
+                    <h4>@Html.Sitecore().Field("Gold Title")</h4>
+                    @Html.Sitecore().Field("Gold Savings")
+                    <div class="circle-discount">
+                        @Html.Sitecore().Field("Gold Discount")
+                    </div>
+                    <div class="price">
+                        @Html.Sitecore().Field("Gold Price")
+                    </div>
+                </div>
+                <div class="col bundle platinum" ng-class="{'selected':  numProductsChecked() == 3 }">
+                    <div class="sash-wrapper">
+                        <div class="sash">@Html.Sitecore().Field("Best Text")</div>
+                    </div>
+                    <h4>@Html.Sitecore().Field("Platinum Title")</h4>
+                    @Html.Sitecore().Field("Platinum Savings")
+                    <div class="circle-discount">
+                        @Html.Sitecore().Field("Platinum Discount")
+                    </div>
+                    <div class="price">
+                        @Html.Sitecore().Field("Platinum Price")
+                    </div>
+                </div>
+            </div>
+            <div class="grid border three package-indicators">
+                <div class="col">
+                    <span class="indicator" ng-class="{'active':  numProductsChecked() == 1 }">&nbsp;</span>
+                </div>
+                <div class="col">
+                    <span class="indicator" ng-class="{'active':  numProductsChecked() == 2 }">&nbsp;</span>
+                </div>
+                <div class="col">
+                    <span class="indicator" ng-class="{'active':  numProductsChecked() == 3 }">&nbsp;</span>
+                </div>
+            </div>
+            <div class="build-package">
+                <div class="build-package-text">
+                    @Html.Sitecore().Field("Build Package Text")
+                </div>
+                <div class="build-package-options">
+                    <span class="bundle-option"><input type="checkbox" id="identity" ng-model="identity" />@Html.Sitecore().Field("Identity Protection Header")</span>
+                    <span class="bundle-option"><input type="checkbox" id="monitoring" ng-model="monitoring" />@Html.Sitecore().Field("Credit Monitoring Header")</span>
+                    <span class="bundle-option"><input type="checkbox" id="support" ng-model="support" />@Html.Sitecore().Field("Tech Support Header")</span>
+                    <a href="" ng-class="{button: true, disabled: numProductsChecked() < 1}" ng-click="bundleEnroll()">@Html.Sitecore().Field("Select Package")</a>
+                </div>
+            </div>
         </div>
     </article>
+    <article class="marketing services-summary">
+        <div class="wrapper">
+            <div class="family-member">@Html.Sitecore().Field("Add a Member")</div>
+            <hr />
+            <div class="grid border three">
+                <div class="col service identityTheft">
+                    <h3>@Html.Sitecore().Field("Identity Protection Header")</h3>
+                    @Html.Sitecore().Field("Identity Protection Content")
+                </div>
+                <div class="col service creditMonitoring">
+                    <h3>@Html.Sitecore().Field("Credit Monitoring Header")</h3>
+                   @Html.Sitecore().Field("Credit Monitoring Content")
+                </div>
+                <div class="col service onlineBackupAndProtection">
+                    <h3>@Html.Sitecore().Field("Tech Support Header")</h3>
+                    @Html.Sitecore().Field("Tech Support Content")
+                </div>
+            </div>
+        </div>
+    </article>
+    <hr />
+    <article class="marketing protective-footnotes">
+        <div class="wrapper">
+            @Html.Sitecore().Field("Footnotes")
+        </div>
+    </article>
+    
 </div>

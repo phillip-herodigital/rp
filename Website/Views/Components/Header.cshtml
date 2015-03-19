@@ -129,6 +129,7 @@
     var bannerText = Sitecore.Context.Item.Fields["Banner Text"];
     var pageTitle = Sitecore.Context.Item.Fields["Page Title"];
     var bannerCssClassField = Sitecore.Context.Item.Fields["Banner CSS Classes"];
+    Sitecore.Data.Fields.CheckboxField hideOverviewSubnav = Sitecore.Context.Item.Fields["Hide Overview Subnav"];
 }
 @if (bannerImage != null && !string.IsNullOrEmpty(bannerImage.ToString()))
 {
@@ -155,7 +156,10 @@
         {
             <div class="wrapper">
                 <ul ng-style="{'margin-left': marginLeft}">
-                    <li class="@(thirdLevelRootNode.Key == selectedNode.Key ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", thirdLevelRootNode.Item, new {text = Html.Sitecore().Translate("Overview")})</li>
+                    @if (hideOverviewSubnav == null || !hideOverviewSubnav.Checked) 
+                    {
+                        <li class="@(thirdLevelRootNode.Key == selectedNode.Key ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", thirdLevelRootNode.Item, new {text = Html.Sitecore().Translate("Overview")})</li>
+                    }
                     @foreach (ItemSiteMapNode childNode in thirdLevelRootNode.ChildNodes)
                     {
                         var selected = childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode);

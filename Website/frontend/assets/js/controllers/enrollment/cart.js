@@ -37,7 +37,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.showImeiExample = function () {
         $modal.open({
             'scope': $scope,
-            'templateUrl': 'showImeiModal'
+            'templateUrl': 'instructions/imei'
         })
     };
 
@@ -47,7 +47,17 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.showEsnExample = function () {
         $modal.open({
             'scope': $scope,
-            'templateUrl': 'showEsnModal'
+            'templateUrl': 'instructions/esn'
+        })
+    };
+
+    /**
+    * Show ICCID Instructions Modal
+    */
+    $scope.showIccidExample = function () {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'instructions/iccid'
         })
     };
 

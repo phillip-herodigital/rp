@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, $http, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', function ($scope, $filter, $modal, $http, $sce, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService) {
 
     var maxMobileItems = 10;
 
@@ -79,6 +79,11 @@
         $scope.phoneOptions.model = filteredModels[0];
     }
 
+    $scope.$watch("phoneOptions.model.lte", function (newVal, oldVal) {
+        var firstDevice = enrollmentCartService.getCartDevices()[0];
+        mobileEnrollmentService.hasLTEDevice = (newVal || (firstDevice != null && firstDevice.lte));
+    });
+
     $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
         if (newVal != oldVal) {
             // only allow same-kind devices to be added for Sprint
@@ -107,12 +112,16 @@
             $scope.esnError = false;
             $http.post('/api/enrollment/validateEsn', $scope.phoneOptions.imeiNumber, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
-                if (!JSON.parse(data)) {
+                var esnResponse = JSON.parse(data);
+                if (esnResponse != 'success') {
                     $scope.addDevice.imeiNumber.$setValidity('required',false);
                     $scope.validations = [{
                         'memberName': 'imeiNumber'
                     }];
                     $scope.esnError = true;
+                    $scope.esnMessage = $sce.trustAsHtml(_.find($scope.esnValidationMessages, function (message) { 
+                            return message.code.toLowerCase() == esnResponse.toLowerCase();
+                        }).message);
                 } else {
                     $scope.esnError = false;
                     $scope.esnInvalid = false;
