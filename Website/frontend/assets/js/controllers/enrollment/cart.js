@@ -127,14 +127,18 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         }
         //remove the device from the cart items array
         enrollmentCartService.removeDeviceFromCart(item);
-        //if there are still devices in the cart, go to data plan selection,
-        //otherwise go to phone selection
-        if (enrollmentCartService.getDevicesCount () > 0) {
+        //if there is 1 device left in the cart, go to data plan selection,
+        //if 0, go to device selection, otherwise stay at the same step
+        var devicesCount = enrollmentCartService.getDevicesCount();
+        if (devicesCount == 0) {
+            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+        } else if (devicesCount == 1) {
             var service = enrollmentCartService.getActiveService();
             enrollmentCartService.setActiveService(service);
             enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
-        } else {
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+        } else if (devicesCount > 1) {
+            //make a server call to update the cart with the correct devices
+            enrollmentService.setAccountInformation();
         }
     };
 
