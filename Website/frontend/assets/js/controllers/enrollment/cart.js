@@ -102,7 +102,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentCartService.toggleCart();
         }
         enrollmentCartService.setActiveService(service);
-        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
+        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowPlans');
     };
 
     /**
@@ -117,7 +117,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         mobileEnrollmentService.editedDevice = item;
         //remove the device from the cart items array
         enrollmentCartService.removeDeviceFromCart(item);
-        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
     };
 
     /**
@@ -135,9 +135,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         if (enrollmentCartService.getDevicesCount () > 0) {
             var service = enrollmentCartService.getActiveService();
             enrollmentCartService.setActiveService(service);
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
+            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowPlans');
         } else {
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
         }
     };
 
@@ -150,7 +150,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentCartService.toggleCart();
         }
         enrollmentCartService.setActiveService(service);
-        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
     };
 
     /**
@@ -189,7 +189,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         $scope.addDataPlanError = false;
         enrollmentCartService.removeService(service);
         if (!$scope.cartHasUtility()) {
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowNetwork');
+            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowNetwork');
+        } else {
+            enrollmentCartService.setActiveServiceIndex(-1);
         }
     };
 
@@ -205,6 +207,8 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentCartService.removeService(service);
             if (!$scope.cartHasMobile()) {
                 enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+            } else {
+                enrollmentCartService.setActiveServiceIndex(-1);
             }
         })
     };
@@ -248,10 +252,16 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
                 enrollmentCartService.setActiveServiceIndex(0);
                 serviceType = $scope.getActiveServiceType();
                 if (serviceType == 'Mobile') {
-                    enrollmentStepsService.setFlow('mobile', false).setFromServerStep('accountInformation');
+                    enrollmentStepsService.setFlow('phone', true);
+                    enrollmentStepsService.activateStep('phoneFlowPlans');
+                    enrollmentStepsService.setFromServerStep('planSelection');
+                    enrollmentService.setAccountInformation();
                 } 
                 else if (serviceType == 'TexasElectricity' || serviceType == 'GeorgiaGas') {
-                    enrollmentStepsService.setFlow('utility', false).setFromServerStep('accountInformation');
+                    enrollmentStepsService.setFlow('utility', true);
+                    enrollmentStepsService.activateStep('utilityFlowPlans');
+                    enrollmentStepsService.setFromServerStep('planSelection');
+                    enrollmentService.setSelectedOffers(false);
                 }
             } else {
                 $scope.completeStep();
