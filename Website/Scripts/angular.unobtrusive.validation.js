@@ -265,7 +265,7 @@
                         scope.$digest();
                     }
                 });
-
+                /*
                 var watches = [
                     scope.$watch(function () { return ctrl.$invalid }, function (newValue) {
                         if (newValue)
@@ -279,6 +279,7 @@
                     for (var key in watches)
                         watches[key]();
                 });
+                */
             }
         }
     }])
