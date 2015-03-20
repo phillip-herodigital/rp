@@ -191,7 +191,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         enrollmentCartService.removeService(service);
         if (activeService == service) {
             enrollmentCartService.setActiveServiceIndex(-1);
-        } else if (!$scope.cartHasUtility()) {
+        }
+        // if this was the last service in the cart, go to the start
+        if (!$scope.cartHasUtility()) {
             enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowNetwork');
         } 
     };
@@ -209,7 +211,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentCartService.removeService(service);
             if (activeService == service) {
                 enrollmentCartService.setActiveServiceIndex(-1);
-            } else if (!$scope.cartHasMobile()) {
+            } 
+            // if this was the last service in the cart, go to the start
+            if (!$scope.cartHasMobile()) {
                 enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
             } 
         })
