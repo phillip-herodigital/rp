@@ -44,7 +44,7 @@
                             <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
                             <span ng-if="customerType == 'commercial' || !isRenewal"> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a></span>
                         </address>
-                        <div class="notice error" ng-show="addUtilityPlanError && !selectPlan.$valid">
+                        <div class="notice error" ng-show="addUtilityPlanError && !isFormValid()">
                             @Html.Sitecore().Field("Select Utility Plan Text")
                             <div class="links">
                                 <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a><button ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Select Utility Plan Button Text")</button>

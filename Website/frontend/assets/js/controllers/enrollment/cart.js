@@ -179,20 +179,21 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
-    * Delete plan from cart
+    * Delete mobile service from cart
     */
     $scope.deleteMobilePlan = function (service) {
+        var activeService = enrollmentCartService.getActiveService();
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
         }
         $scope.addDeviceError = false;
         $scope.addDataPlanError = false;
         enrollmentCartService.removeService(service);
-        if (!$scope.cartHasUtility()) {
-            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowNetwork');
-        } else {
+        if (activeService == service) {
             enrollmentCartService.setActiveServiceIndex(-1);
-        }
+        } else if (!$scope.cartHasUtility()) {
+            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowNetwork');
+        } 
     };
 
     /**
@@ -203,13 +204,14 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             'scope': $scope,
             'templateUrl': 'confirmAddressDeleteModal'
         }).result.then( function() { 
+            var activeService = enrollmentCartService.getActiveService();
             $scope.addUtilityPlanError = false;
             enrollmentCartService.removeService(service);
-            if (!$scope.cartHasMobile()) {
-                enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
-            } else {
+            if (activeService == service) {
                 enrollmentCartService.setActiveServiceIndex(-1);
-            }
+            } else if (!$scope.cartHasMobile()) {
+                enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+            } 
         })
     };
 
