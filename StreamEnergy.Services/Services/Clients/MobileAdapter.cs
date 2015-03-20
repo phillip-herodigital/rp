@@ -144,17 +144,24 @@ namespace StreamEnergy.Services.Clients
             var mandatoryIds = new string[] { inventoryData.Fields["A Group SKU"], inventoryData.Fields["B Group SKU"], inventoryData.Fields["C Group SKU"] };
 
             // The "supportedInventoryTypes" are configured on BeQuick's system. If one doesn't match, then we can't offer the installment plan for this product.
-            var isInstallmentPlanAvailable = mandatoryIds.All(id => (from inventoryType in supportedInventoryTypes
-                                                                     select (string)inventoryType.Id).Contains(id));
+            var installmentPlans = (from inventoryType in supportedInventoryTypes
+                                              where mandatoryIds.Contains((string)inventoryType.Id)
+                                              select inventoryType).ToDictionary(it => (string)it.Id, inventoryType => new Mobile.MobileInventory
+                                              {
+                                                  Id = (string)inventoryType.Id,
+                                                  TypeId = (string)inventoryType.TypeId,
+                                                  Price = Convert.ToDecimal(inventoryType.Price.ToString()),
+                                              });
+            var isInstallmentPlanAvailable = !mandatoryIds.Except(installmentPlans.Keys).Any();
             return new InstallmentPlanDetails
             {
                 IsAvailable = isInstallmentPlanAvailable,
                 Price = isInstallmentPlanAvailable ? Convert.ToDecimal((string)(supportedInventoryTypes.First(inv => inv.Id == mandatoryIds[0])).Price.ToString()) : 0,
                 ByCreditRating = new CreditRatingInstallmentPlan
                 {
-                    A = inventoryData.Fields["A Group SKU"],
-                    B = inventoryData.Fields["B Group SKU"],
-                    C = inventoryData.Fields["B Group SKU"],
+                    A = !isInstallmentPlanAvailable ? null : installmentPlans[inventoryData.Fields["A Group SKU"]],
+                    B = !isInstallmentPlanAvailable ? null : installmentPlans[inventoryData.Fields["B Group SKU"]],
+                    C = !isInstallmentPlanAvailable ? null : installmentPlans[inventoryData.Fields["B Group SKU"]],
                 },
             };
         }
@@ -183,6 +190,7 @@ namespace StreamEnergy.Services.Clients
                 ImeiNumber = offerOption.ImeiNumber,
                 IccidNumber = offerOption.IccidNumber,
                 InventoryItemId = offerOption.InventoryItemId,
+                InventoryItemTypeId = selectedInventory.TypeId,
                 Transfer = ToStreamConnect(offerOption.TransferInfo),
                 UseInstallmentPlan = offerOption.UseInstallmentPlan,
                 InventoryInstallmentPlanByCredit = offerOption.UseInstallmentPlan
