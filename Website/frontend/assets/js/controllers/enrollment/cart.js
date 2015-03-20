@@ -27,6 +27,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
     $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
+    $scope.addDeviceError = false;
+    $scope.addDataPlanError = false;
+    $scope.addUtilityPlanError = false;
 
     /**
     * Show IMEI Instructions Modal
@@ -99,7 +102,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentCartService.toggleCart();
         }
         enrollmentCartService.setActiveService(service);
-        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
+        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowPlans');
     };
 
     /**
@@ -114,7 +117,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         mobileEnrollmentService.editedDevice = item;
         //remove the device from the cart items array
         enrollmentCartService.removeDeviceFromCart(item);
-        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
     };
 
     /**
@@ -132,9 +135,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         if (enrollmentCartService.getDevicesCount () > 0) {
             var service = enrollmentCartService.getActiveService();
             enrollmentCartService.setActiveService(service);
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
+            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowPlans');
         } else {
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
         }
     };
 
@@ -147,7 +150,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentCartService.toggleCart();
         }
         enrollmentCartService.setActiveService(service);
-        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
     };
 
     /**
@@ -176,13 +179,23 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
-    * Delete plan from cart
+    * Delete mobile service from cart
     */
     $scope.deleteMobilePlan = function (service) {
+        var activeService = enrollmentCartService.getActiveService();
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
         }
+        $scope.addDeviceError = false;
+        $scope.addDataPlanError = false;
         enrollmentCartService.removeService(service);
+        if (activeService == service) {
+            enrollmentCartService.setActiveServiceIndex(-1);
+        }
+        // if this was the last service in the cart, go to the start
+        if (!$scope.cartHasUtility()) {
+            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowNetwork');
+        } 
     };
 
     /**
@@ -193,9 +206,73 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             'scope': $scope,
             'templateUrl': 'confirmAddressDeleteModal'
         }).result.then( function() { 
+            var activeService = enrollmentCartService.getActiveService();
+            $scope.addUtilityPlanError = false;
             enrollmentCartService.removeService(service);
-            enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+            if (activeService == service) {
+                enrollmentCartService.setActiveServiceIndex(-1);
+            } 
+            // if this was the last service in the cart, go to the start
+            if (!$scope.cartHasMobile()) {
+                enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+            } 
         })
+    };
+
+    /**
+    * Handle the checkout button
+    */
+    $scope.cartCheckout = function () {
+        var success = true;
+        var service = enrollmentCartService.getActiveService();
+        var serviceType = $scope.getActiveServiceType();
+        var devicesCount = $scope.getDevicesCount();
+        
+        // validate the current state
+        if (serviceType == 'Mobile') {
+            if (devicesCount == 0 && (!$scope.addDevice.$valid || $scope.isCartFull() || $scope.esnInvalid))  {
+                success = false;
+                $scope.addDeviceError = true;
+            }
+            else if (devicesCount > 0 && $scope.getCartDataPlan().length == 0) {
+                success = false;
+                $scope.addDataPlanError = true;
+            }
+        }
+        else if (serviceType == 'TexasElectricity' || serviceType == 'GeorgiaGas') {
+            if (service.offerInformationByType[0].value.offerSelections.length == 0) {
+                success = false;
+                $scope.addUtilityPlanError = true;
+            }
+        }
+
+        // if valid, run the complete step
+        if (success) {
+            $scope.addDeviceError = false;
+            $scope.addDataPlanError = false;
+            $scope.addUtilityPlanError = false;
+            // if the current services was removed,
+            // set the active service and go to Account Information
+            // otherwise, complete the current step
+            if (service == undefined) {
+                enrollmentCartService.setActiveServiceIndex(0);
+                serviceType = $scope.getActiveServiceType();
+                if (serviceType == 'Mobile') {
+                    enrollmentStepsService.setFlow('phone', true);
+                    enrollmentStepsService.activateStep('phoneFlowPlans');
+                    enrollmentStepsService.setFromServerStep('planSelection');
+                    enrollmentService.setAccountInformation();
+                } 
+                else if (serviceType == 'TexasElectricity' || serviceType == 'GeorgiaGas') {
+                    enrollmentStepsService.setFlow('utility', true);
+                    enrollmentStepsService.activateStep('utilityFlowPlans');
+                    enrollmentStepsService.setFromServerStep('planSelection');
+                    enrollmentService.setSelectedOffers(false);
+                }
+            } else {
+                $scope.completeStep();
+            }
+        }
     };
 
 }]);
