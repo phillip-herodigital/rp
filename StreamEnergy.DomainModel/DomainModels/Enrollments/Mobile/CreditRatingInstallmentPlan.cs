@@ -8,8 +8,8 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
     [Serializable]
     public class CreditRatingInstallmentPlan
     {
-        public string A { get; set; }
-        public string B { get; set; }
-        public string C { get; set; }
+        public MobileInventory A { get; set; }
+        public MobileInventory B { get; set; }
+        public MobileInventory C { get; set; }
     }
 }
