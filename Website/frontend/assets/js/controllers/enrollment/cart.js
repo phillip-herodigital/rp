@@ -133,10 +133,11 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         //if there is 1 device left in the cart, go to data plan selection,
         //if 0, go to device selection, otherwise stay at the same step
         var devicesCount = enrollmentCartService.getDevicesCount();
-        if (devicesCount == 0) {
+        var service = enrollmentCartService.getActiveService();
+        var serviceType = $scope.getActiveServiceType();
+        if (devicesCount == 0 && serviceType == 'Mobile') {
             enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
         } else if (devicesCount == 1) {
-            var service = enrollmentCartService.getActiveService();
             enrollmentCartService.setActiveService(service);
             enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
         } else if (devicesCount > 1) {
@@ -233,21 +234,17 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         var devicesCount = $scope.getDevicesCount();
         
         // validate the current state
-        if (serviceType == 'Mobile') {
-            if (devicesCount == 0 && (!$scope.addDevice.$valid || $scope.isCartFull() || $scope.esnInvalid))  {
-                success = false;
-                $scope.addDeviceError = true;
-            }
-            else if (devicesCount > 0 && $scope.getCartDataPlan().length == 0) {
-                success = false;
-                $scope.addDataPlanError = true;
-            }
+        if ($scope.cartHasMobile() && devicesCount == 0 && (serviceType != 'Mobile' || !$scope.addDevice.$valid || $scope.isCartFull() || $scope.esnInvalid))  {
+            success = false;
+            $scope.addDeviceError = true;
         }
-        else if (serviceType == 'TexasElectricity' || serviceType == 'GeorgiaGas') {
-            if (service.offerInformationByType[0].value.offerSelections.length == 0) {
-                success = false;
-                $scope.addUtilityPlanError = true;
-            }
+        else if ($scope.cartHasMobile() && devicesCount > 0 && $scope.getCartDataPlan().length == 0) {
+            success = false;
+            $scope.addDataPlanError = true;
+        }
+        else if ($scope.cartHasUtility() && service.offerInformationByType[0].value.offerSelections.length == 0) {
+            success = false;
+            $scope.addUtilityPlanError = true;
         }
 
         // if valid, run the complete step
