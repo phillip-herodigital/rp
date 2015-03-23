@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StreamEnergy.DomainModels.Documents;
 using StreamEnergy.DomainModels.MobileEnrollment;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 using StreamEnergy.Processes;
 
 namespace StreamEnergy.DomainModels.Enrollments

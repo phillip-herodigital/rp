@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;

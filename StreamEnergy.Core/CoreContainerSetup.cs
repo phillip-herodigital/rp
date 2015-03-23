@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Configuration;
 using ResponsivePath.Validation;
 using System.ComponentModel.DataAnnotations;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy
 {
@@ -33,6 +33,7 @@ namespace StreamEnergy
             Json.AdditionalConverters.Add(typeIndicatorJsonConverter);
 
             unityContainer.RegisterType<ILogger, Logger>();
+            unityContainer.RegisterType<ILogConfiguration, Logging.SitecoreLogConfiguration>(new ContainerControlledLifetimeManager());
             
             unityContainer.RegisterInstance<IValidationService>(new ValidationService());
 

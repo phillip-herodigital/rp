@@ -11,7 +11,7 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StreamEnergy.DomainModels.Accounts;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.MyStream.Tests.Services.Clients
 {
