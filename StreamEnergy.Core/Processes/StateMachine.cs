@@ -67,6 +67,12 @@ namespace StreamEnergy.Processes
             }
         }
 
+        public bool IsBreakForced()
+        {
+            var state = GetState();
+            return state.ForceBreak(Context, InternalContext);
+        }
+
         public IEnumerable<ValidationResult> ValidationResults
         {
             get
@@ -94,6 +100,7 @@ namespace StreamEnergy.Processes
 
         public async Task<RestoreInternalStateResult> RestoreStateFrom(Type state, Type currentState)
         {
+            Context.Sanitize();
             return await BuildState(state).RestoreInternalState(this, currentState);
         }
 

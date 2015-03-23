@@ -31,6 +31,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IValidationService validation;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly StackExchange.Redis.IDatabase redisDatabase;
+        private readonly IEnrollmentService enrollmentService;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -47,7 +48,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -55,6 +56,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.stateHelper = stateHelper;
             this.validation = validation;
             this.redisDatabase = redisDatabase;
+            this.enrollmentService = enrollmentService;
             //this.documentStore = documentStore;
         }
 
@@ -77,6 +79,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             stateHelper.Dispose();
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<VerifyEsnResponseCode> ValidateEsn([FromBody]string esn)
+        {
+            return await enrollmentService.IsEsnValid(esn);
         }
 
         [HttpGet]
@@ -103,8 +112,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 { 
                     Location = new Location 
                     { 
-                        Address = account.SubAccounts.First().ServiceAddress,
-                        Capabilities = account.Capabilities.OfType<RenewalAccountCapability>().Single().Capabilities
+                        Address = subAccount.ServiceAddress,
+                        Capabilities = subAccount.Capabilities.OfType<RenewalAccountCapability>().Single().Capabilities
                     }
                 }
             };
@@ -134,11 +143,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                    group val by val.ErrorMessage + ";" + string.Join(",", val.MemberNames) into val
                                                                    select val.First(), translationItem);
 
-            bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
-                || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
-                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
-                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted)
-                || (stateMachine.InternalContext.PlaceOrderAsyncResult != null && !stateMachine.InternalContext.PlaceOrderAsyncResult.IsCompleted);
+            bool isLoading = stateMachine.IsBreakForced();
 
             return new ClientData
             {
@@ -218,7 +223,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 return Models.Enrollment.ExpectedState.ReviewOrder;
             }
-            else if (members.Any(m => m.StartsWith("SelectedIdentityAnswers")))
+            else if (members.Any(m => m.StartsWith("SelectedIdentityAnswers")) || stateMachine.State == typeof(SubmitIdentityState))
             {
                 return Models.Enrollment.ExpectedState.VerifyIdentity;
             }
@@ -338,6 +343,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 await stateHelper.EnsureInitialized();
             }
+            this.stateMachine = stateHelper.StateMachine;
         }
 
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, Dictionary<Location, LocationOfferSet> allOffers)
@@ -531,5 +537,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return null;
             //return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
         }
+
     }
 }

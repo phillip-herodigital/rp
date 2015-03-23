@@ -2,7 +2,7 @@
  *
  */
 ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
-    $scope.identity = $scope.support = $scope.monitoring = false;
+    $scope.identity = $scope.support = $scope.monitoring = true;
     $scope.campaignName = $scope.productCode = "";
     $scope.freeMonth = false;
     $scope.init = function (freeMonth) {
@@ -53,8 +53,7 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
             document.getElementById("formHomeLifeServices").submit();
         }, 10);
     };
-    $scope.goldenroll = function () {
-        if ($scope.numProductsChecked() < 2) return;
+    $scope.bundleEnroll = function () {
         var campaignName = "se";
         if ($scope.identity) campaignName += "id";
         if ($scope.monitoring) campaignName += "cr";

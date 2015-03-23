@@ -15,6 +15,9 @@
                 </div>
             </div>
             <div class="content" ng-show="activeState == 'step1'" loading-indicator>
+                <div class="intro" ng-if="selectedAccount.systemOfRecord == 'CIS1' && selectedAccount.amountDue > 0">
+                    @Html.Sitecore().Field("CIS1 Intro Text")
+                </div>
                 <div class="grid border" ng-show="selectedAccount.utilityProvider == null">
                     <div class="col">
                         <dl class="clearfix">
@@ -30,6 +33,9 @@
                         <h4>@Html.Sitecore().Field("No Payment Due Text")</h4>
                     </div>
                     <div class="col payment" ng-show="selectedAccount.amountDue > 0">
+                        <div class="notice error" ng-if="selectedPaymentMethod == 'disallowed' && selectedAccount.systemOfRecord == 'CIS1'">
+                            @Html.Sitecore().Field("CIS1 Disallowed Payment Methods")
+                        </div>
                         <div class="group">
                             <div class="item amount" @Html.Validation().ErrorClass(m => m.Accounts[0].PaymentAmount)>
                                 <label for="@Html.IdFor(m => m.Accounts[0].PaymentAmount)">@Html.Sitecore().Field("Amount Text")</label>
@@ -88,8 +94,8 @@
                         <dl class="clearfix">
                             <dt>@Html.Sitecore().Field("Amount Text"):</dt>
                             <dd>{{ paymentAmount | currency }}</dd>
-                            <dt ng-show="selectedAccount.accountType != 'Mobile'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
-                            <dd ng-show="selectedAccount.accountType != 'Mobile'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
+                            <dt ng-show="selectedAccount.accountType != 'Mobile' && selectedAccount.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                            <dd ng-show="selectedAccount.accountType != 'Mobile' && selectedAccount.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                             <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                             <dd>{{ totalCharge | currency }}</dd>
                             <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
@@ -126,8 +132,8 @@
                             <dd>{{ confirmationNumber }}</dd>
                             <dt>@Html.Sitecore().Field("Amount Text"):</dt>
                             <dd>{{ paymentAmount | currency }}</dd>
-                            <dt ng-show="selectedAccount.accountType != 'Mobile'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
-                            <dd ng-show="selectedAccount.accountType != 'Mobile'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
+                            <dt ng-show="selectedAccount.accountType != 'Mobile' && selectedAccount.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                            <dd ng-show="selectedAccount.accountType != 'Mobile' && selectedAccount.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                             <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                             <dd>{{ totalCharge | currency }}</dd>
                         </dl>
@@ -173,12 +179,12 @@
     <form data-val-bind-messages="validations" ng-submit="modalAddPaymentAccount(newPaymentMethodType)">
         <div class="modal-body scrollable new-account-modal" loading-indicator>
             <fieldset>
-                <legend>@Html.Sitecore().Field("Payment Type Text")</legend>
+                <legend ng-if="selectedAccount.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("Payment Type Text")</legend>
                 <div class="payment-type-selection">
-                    <div class="payment-selection">
+                    <div class="payment-selection" ng-show="selectedAccount.systemOfRecord != 'CIS1'">
                         <input type="radio" id="credit-card" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedCard"><label for="credit-card">@Html.Sitecore().Field("Credit Card Text")</label>
                     </div>
-                    <div class="payment-selection">
+                    <div class="payment-selection" ng-show="selectedAccount.systemOfRecord != 'CIS1'">
                         <input type="radio" id="bank-account" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedBank"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
                     </div>
                     <div ng-show="newPaymentMethodType == 'TokenizedCard'" class="payment-options">

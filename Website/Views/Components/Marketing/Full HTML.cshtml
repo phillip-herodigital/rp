@@ -8,7 +8,7 @@
 
     var backgroundDivider = classes.Contains("bg-white") || !classes.Any(c => c != null && c.StartsWith("bg-"));
 }
-<article class="marketing full-html @string.Join(" ", classes)">
+<article id="@(sc.CurrentItem["Custom ID"] == string.Empty ? null : sc.CurrentItem["Custom ID"])" class="marketing full-html @string.Join(" ", classes)">
     <div class="wrapper" style="@(!backgroundDivider ? "background-image: none" : null)">
         @Html.Sitecore().Field("Module HTML")
     </div>

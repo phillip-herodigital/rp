@@ -12,12 +12,33 @@
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
             var provider = mobileEnrollmentService.selectedNetwork.value,
                 devicesCount = enrollmentCartService.getDevicesCount();
+                firstDevice = enrollmentCartService.getCartDevices()[0];
             if (devicesCount == 0) {
                 return null;
             } else if (devicesCount == 1) {
-                return plan.provider.toLowerCase() == provider && !plan.isParentOffer && !plan.isChildOffer;
+                if (provider == "sprint" && !firstDevice.lte) {
+                    return plan.provider.toLowerCase() == provider 
+                    && !plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && plan.nonLtePlan;
+                } else {
+                    return plan.provider.toLowerCase() == provider 
+                    && !plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && !plan.nonLtePlan;
+                }
             } else {
-                return plan.provider.toLowerCase() == provider && plan.isParentOffer && !plan.isChildOffer;
+                if (provider == "sprint" && !firstDevice.lte) {
+                    return plan.provider.toLowerCase() == provider 
+                    && plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && plan.nonLtePlan;
+                } else {
+                    return plan.provider.toLowerCase() == provider 
+                    && plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && !plan.nonLtePlan;;
+                }
             }
         } else {
             return null;
@@ -70,8 +91,10 @@
     });
 
     function selectOffers(selectedOffers) {
-        enrollmentStepsService.setMaxStep('phoneFlowPlans');     
-
+        if (enrollmentCartService.getDevicesCount() == 1) {
+            enrollmentStepsService.setMaxStep('phoneFlowPlans');   
+        }
+          
         var activeService = enrollmentCartService.getActiveService();
         var activeServiceIndex = enrollmentCartService.getActiveServiceIndex();
         if (typeof activeService != 'undefined' && selectedOffers.Mobile != null) {
@@ -97,9 +120,10 @@
                     esnNumber: device.imeiNumber,
                     simNumber: device.simNumber,
                     imeiNumber: device.imeiNumber,
+                    iccidNumber: device.iccidNumber,
                     inventoryItemId: device.id,
                     transferInfo: device.transferInfo,
-                    useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'BYOD') ? false : true,
+                    useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'Reconditioned' || device.buyingOption == 'BYOD') ? false : true,
                 };
                 offerInformationForType.value.offerSelections.push(offer);
             };

@@ -463,8 +463,8 @@ namespace StreamEnergy.Services.Clients
 
         private void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
         {
-            var homePhone = (data.Account.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.Account.AccountCustomer.HomePhone.Value.ToString() });
-            var mobilePhone = (data.Account.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.Account.AccountCustomer.MobilePhone.Value.ToString() });
+            var homePhone = (data.Account.AccountCustomer.HomePhone == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.Account.AccountCustomer.HomePhone.Value.ToString() });
+            var mobilePhone = (data.Account.AccountCustomer.MobilePhone == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.Account.AccountCustomer.MobilePhone.Value.ToString() });
             var tcpa = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"));
             if (data.Account.ServiceType == "Mobile")
             {
@@ -509,7 +509,8 @@ namespace StreamEnergy.Services.Clients
                 DueDate = (DateTime)data.Account.AccountBillingDetails.BalanceDueDate.Value,
             };
             account.SubAccounts = (from premise in (IEnumerable<dynamic>)(data.Account.AccountDetails.Premises ?? data.Account.AccountDetails.Devices)
-                                   select (ISubAccount)CreateSubAccount(premise)).ToArray();
+                                   where premise.DropDate == null || ((DateTime)premise.DropDate) == DateTime.MinValue || ((DateTime)premise.DropDate).Date.AddDays(90) >= DateTime.Today
+                                   select (ISubAccount)CreateSubAccount(account, premise)).ToArray();
             
             var methodId = data.Account.AccountBillingDetails.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.Account.AccountBillingDetails.AutoPayGlobalPaymentMethodId.ToString());
             account.AutoPay = new DomainModels.Payments.AutoPaySetting
@@ -524,11 +525,14 @@ namespace StreamEnergy.Services.Clients
                 UtilityProvider = null, //TODO - Needed for NE accounts
             });
 
-            account.Capabilities.Add(new PaymentMethodAccountCapability((from type in (IEnumerable<dynamic>)data.Account.AccountBillingDetails.AcceptedPaymentAccountTypes
+            account.Capabilities.Add(new PaymentMethodAccountCapability((from type in (IEnumerable<dynamic>)data.Account.AccountBillingDetails.AcceptedAuthenticatedPaymentAccountTypes
                                                                          select new AvailablePaymentMethod { PaymentMethodType = type }).ToList()));
 
             account.Capabilities.Add(new AutoPayPaymentMethodAccountCapability((from type in (IEnumerable<dynamic>)data.Account.AccountBillingDetails.AcceptedAutopayPaymentAccountTypes
-                                                                         select new AvailablePaymentMethod { PaymentMethodType = type }).ToList()));
+                                                                                select new AvailablePaymentMethod { PaymentMethodType = type }).ToList()));
+
+            account.Capabilities.Add(new AnonymousPaymentMethodAccountCapability((from type in (IEnumerable<dynamic>)data.Account.AccountBillingDetails.AcceptedAnonymousPaymentAccountTypes
+                                                                                  select new AvailablePaymentMethod { PaymentMethodType = type }).ToList()));
 
             account.Capabilities.Add(new PaymentSchedulingAccountCapability
             {
@@ -536,7 +540,7 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
-        private ISubAccount CreateSubAccount(dynamic details)
+        private ISubAccount CreateSubAccount(Account account, dynamic details)
         {
             var serviceAddress = details.ServiceAddress != null ? new DomainModels.Address
                             {
@@ -552,7 +556,27 @@ namespace StreamEnergy.Services.Clients
             if (locAdapter == null)
                 return null;
 
-            return locAdapter.BuildSubAccount(serviceAddress, details);
+            var subAccount = locAdapter.BuildSubAccount(serviceAddress, details);
+            if (subAccount.CustomerType == EnrollmentCustomerType.Commercial || details.ProductType == "Mobile")
+            {
+                subAccount.Capabilities.Add(new RenewalAccountCapability
+                {
+                    IsEligible = false
+                });
+            }
+            else
+            {
+                subAccount.Capabilities.Add(new RenewalAccountCapability
+                {
+                    IsEligible = details.IsEligibleForRenewal,
+                    Capabilities = new IServiceCapability[] { 
+                    new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal }, 
+                    new CustomerTypeCapability { CustomerType = subAccount.CustomerType }, 
+                    locAdapter.GetRenewalServiceCapability(account, subAccount)
+                }
+                });
+            }
+            return subAccount;
         }
 
         #endregion
@@ -591,59 +615,7 @@ namespace StreamEnergy.Services.Clients
                 return true;
             }
 
-            if (account.Details == null)
-            {
-                await ((IAccountService)this).GetAccountDetails(account, false);
-            }
-
-            if (subAccount.CustomerType == EnrollmentCustomerType.Commercial)
-            {
-                // We don't support commercial enrollments at this time.
-                account.Capabilities.Add(new RenewalAccountCapability
-                {
-                    IsEligible = false
-                });
-                return true;
-            }
-
-            var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(subAccount));
-
-            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals/eligibility/",
-                new
-                {
-                    UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
-                    ProductType = locAdapter.GetCommodityType(),
-                    ProviderId = locAdapter.GetProvider(account.SubAccounts.First()),
-                    CustomerLast4 = account.Details.SsnLastFour,
-                    SystemOfRecord = account.SystemOfRecord,
-                    SystemOfRecordAccountNumber = account.AccountNumber,
-                });
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return false;
-            }
-
-            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
-            account.Capabilities.RemoveAll(c => c is RenewalAccountCapability);
-            if (data.Status != "Success")
-            {
-                return false;
-            }
-
-            account.Capabilities.Add(new RenewalAccountCapability
-            {
-                IsEligible = data.IsEligible,
-                RenewalDate = (DateTime)data.EligibilityDate,
-                EligibilityWindowInDays = (int)data.EligibilityWindow,
-                Capabilities = new IServiceCapability[] { 
-                    new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal }, 
-                    new CustomerTypeCapability { CustomerType = subAccount.CustomerType }, 
-                    locAdapter.GetRenewalServiceCapability(account, subAccount)
-                }
-            });
-
-            return true;
+            return await ((IAccountService)this).GetAccountDetails(account, forceRefresh);
         }
 
         async Task<bool> IAccountService.GetAccountUsageDetails(Account account, DateTime startDate, DateTime endDate, bool forceRefresh)
@@ -667,7 +639,7 @@ namespace StreamEnergy.Services.Clients
             }
 
             account.Usage = (from usage in (IEnumerable<dynamic>)data.UsageDetail
-                             select new KeyValuePair<ISubAccount, AccountUsage>(CreateSubAccount(usage.Device), new MobileAccountUsage()
+                             select new KeyValuePair<ISubAccount, AccountUsage>(CreateSubAccount(account, usage.Device), new MobileAccountUsage()
                              {
                                  StartDate = (DateTime)usage.StartDate,
                                  EndDate = (DateTime)usage.EndDate,

@@ -35,16 +35,18 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
                     return phone;
                 } 
             }); 
-            var model = _(selected.models).where({'sku': device}).first(); 
+            var model = (device == '7') ? null : _(selected.models).where({'sku': device}).first(); 
             return { 
                 'id': device,
-                'device': selected, 
-                'imageFront': selected.imageFront, 
-                'size': model.size, 
-                'color': model.color,
+                'device':  (device == '7') ? null : selected, 
+                'imageFront': (device == '7') ? null : selected.imageFront, 
+                'size': (device == '7') ? null : model.size, 
+                'color': (device == '7') ? null : model.color,
                 'type': (device == '7') ? 'existing' : 'new' 
             } 
         }).value();
+        $scope.sprintByod = $scope.getCartDataPlan()[0].provider == 'Sprint' && _.some(selectedDevices, { 'id': '7' });
+
     });
 
     $scope.getConfirmationDeviceDetails = function(deviceId) {

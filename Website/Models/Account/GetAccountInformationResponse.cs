@@ -15,7 +15,7 @@ namespace StreamEnergy.MyStream.Models.Account
         public Phone MobilePhone { get; set; }
         public Phone HomePhone { get; set; }
         public Email Email { get; set; }
-        public Address ServiceAddress { get; set; }
+        public IEnumerable<Address> ServiceAddresses { get; set; }
         public bool SameAsService { get; set; }
         public Address BillingAddress { get; set; }
         public bool DisablePrintedInvoices { get; set; }

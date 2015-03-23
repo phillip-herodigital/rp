@@ -17,7 +17,7 @@ namespace StreamEnergy.Logging
             this.unityContainer = unityContainer;
         }
 
-        Task IDataAccumulator.AccumulateData(LogEntry logEntry)
+        void IDataAccumulator.AccumulateData(LogEntry logEntry)
         {
             try
             {
@@ -40,7 +40,6 @@ namespace StreamEnergy.Logging
             catch 
             {
             }
-            return Task.FromResult<object>(null);
         }
     }
 }

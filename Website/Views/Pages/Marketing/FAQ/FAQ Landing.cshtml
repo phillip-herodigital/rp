@@ -27,7 +27,7 @@
 }
 <article class="marketing" data-ng-init="pane = 'texas'">
     <div class="wrapper">
-        <p>It looks like you’re in Texas. Use the dropdown to select another State</p>
+        <p>@Html.Sitecore().Field("Dropdown Text")</p>
         <select data-ng-model="pane">
             @foreach (var state in stateFaqs.Keys)
             {

@@ -16,7 +16,7 @@ namespace StreamEnergy.Services.Clients
                 City = addr.City,
                 State = addr.StateAbbreviation,
                 StreetLine1 = addr.Line1,
-                StreetLine2 = addr.Line2,
+                StreetLine2 = (addr.Line2 + " " + addr.UnitNumber).Trim(),
                 Zip = addr.PostalCode5
             };
             return serviceAddress;

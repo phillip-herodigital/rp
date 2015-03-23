@@ -45,6 +45,8 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
 
         public string SpecialOfferOriginalPrice { get; set; }
 
+        public bool NonLtePlan { get; set; }
+
         public IList<Rate> Rates { get; set; }
 
         public int Term { get; set; }

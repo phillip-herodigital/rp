@@ -26,7 +26,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<bool> DeleteEnrollment(Guid globalCustomerId, Guid enrollmentAccountId);
 
-        Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
+        Task<IdentityCheckResult> LoadIdentityQuestions(Guid streamCustomerId, Name name, string ssn, Address mailingAddress);
+        
+        Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation);
 
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
 
@@ -43,5 +45,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         Task<StreamAsync<RenewalResult>> BeginRenewal(Accounts.Account account, Accounts.ISubAccount subAccount, IOffer offer, IOfferOption renewalOptions);
         Task<StreamAsync<RenewalResult>> EndRenewal(StreamAsync<RenewalResult> asyncResult);
 
+
+        Task<VerifyEsnResponseCode> IsEsnValid(string esn);
     }
 }
