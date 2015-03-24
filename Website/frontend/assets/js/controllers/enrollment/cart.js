@@ -108,7 +108,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Edit Mobile Device
     */
-    $scope.editMobileDevice = function (item) {
+    $scope.editMobileDevice = function (service, item) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
@@ -117,13 +117,14 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         mobileEnrollmentService.editedDevice = item;
         //remove the device from the cart items array
         enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
     };
 
     /**
     * Delete Mobile Device
     */
-    $scope.deleteMobileDevice = function (item) {
+    $scope.deleteMobileDevice = function (service, item) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
@@ -133,7 +134,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         //if there is 1 device left in the cart, go to data plan selection,
         //if 0, go to device selection, otherwise stay at the same step
         var devicesCount = enrollmentCartService.getDevicesCount();
-        var service = enrollmentCartService.getActiveService();
+        var activeService = enrollmentCartService.getActiveService();
         var serviceType = $scope.getActiveServiceType();
         if (devicesCount == 0 && serviceType == 'Mobile') {
             enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
@@ -194,13 +195,13 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         $scope.addDeviceError = false;
         $scope.addDataPlanError = false;
         enrollmentCartService.removeService(service);
-        if (activeService == service) {
-            enrollmentCartService.setActiveServiceIndex(-1);
-        }
         // if this was the last service in the cart, go to the start
         if (!$scope.cartHasUtility()) {
             enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowNetwork');
-        } 
+        } else {
+            enrollmentCartService.setActiveServiceIndex(0);
+            enrollmentService.setAccountInformation();
+        }
     };
 
     /**
@@ -214,13 +215,13 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             var activeService = enrollmentCartService.getActiveService();
             $scope.addUtilityPlanError = false;
             enrollmentCartService.removeService(service);
-            if (activeService == service) {
-                enrollmentCartService.setActiveServiceIndex(-1);
-            } 
             // if this was the last service in the cart, go to the start
             if (!$scope.cartHasMobile()) {
-            enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
-            } 
+                enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+            } else {
+                enrollmentCartService.setActiveServiceIndex(0);
+                enrollmentService.setAccountInformation();
+            }
         })
     };
 
