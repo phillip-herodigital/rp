@@ -201,8 +201,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\RadEditor.Net2.dll</HintPath>
     </Reference>
-    <Reference Include="ResponsivePath.Logging">
-      <HintPath>..\packages\ResponsivePath.Logging.1.0.3.0\lib\net45\ResponsivePath.Logging.dll</HintPath>
+    <Reference Include="ResponsivePath.Logging, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ResponsivePath.Logging.1.0.4.0\lib\net45\ResponsivePath.Logging.dll</HintPath>
     </Reference>
     <Reference Include="ResponsivePath.Validation, Version=1.0.2.20136, Culture=neutral, PublicKeyToken=bfa0504d6f802018, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
