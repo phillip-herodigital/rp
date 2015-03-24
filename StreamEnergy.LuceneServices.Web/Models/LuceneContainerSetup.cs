@@ -33,7 +33,9 @@ namespace StreamEnergy.LuceneServices.Web.Models
                 var cacheDirectory = Lucene.Net.Store.FSDirectory.Open(typeaheadStore);
                 var settings = container.Resolve<ISettings>();
 
-                var azureDirectory = new Lucene.Net.Store.Azure.AzureDirectory(Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(cloudConnectionString), settings.GetSettingsValue("Typeahead", "Cloud Container"), cacheDirectory);
+                //var azureDirectory = new Lucene.Net.Store.Azure.AzureDirectory(Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(cloudConnectionString), settings.GetSettingsValue("Typeahead", "Cloud Container"), cacheDirectory);
+                System.IO.Directory.CreateDirectory(typeaheadStore);
+                var azureDirectory = Lucene.Net.Store.FSDirectory.Open(typeaheadStore);
 
                 return new IndexSearcher(azureDirectory);
             }));
