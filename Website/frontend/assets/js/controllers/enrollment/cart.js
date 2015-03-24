@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the cart on enrollment page.
  */
-ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentStepsService, enrollmentService, mobileEnrollmentService, enrollmentCartService, $modal) {
+ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentCartService', '$modal', '$timeout', function ($scope, enrollmentStepsService, enrollmentService, mobileEnrollmentService, enrollmentCartService, $modal, $timeout) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.accountInformationService = accountInformationService;*/
@@ -143,7 +143,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
         } else if (devicesCount > 1) {
             //make a server call to update the cart with the correct devices
-            enrollmentService.setAccountInformation();
+            $timeout(function() { 
+                enrollmentService.setAccountInformation(); 
+            }, 50);
         }
     };
 
