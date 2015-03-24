@@ -70,7 +70,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             if ($scope.accountInformation.mailingAddressSame) {
                 if ($scope.utilityAddresses().length == 1)
                     $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
-            } else {
+            } else if ($scope.cartHasUtility()) {
                 $scope.accountInformation.mailingAddress = {};
             }
         }

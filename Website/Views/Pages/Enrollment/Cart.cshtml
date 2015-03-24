@@ -161,7 +161,7 @@
                 {{ getDevicesCount() }} @Html.Sitecore().Field("Line Text") &amp; {{ selectedOffer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
             </div>
             <div class="links">
-                <a href="" ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Edit Plan Link")</a> <span ng-if="mobileEnrollmentSettings.disableSharedPlans != true">| <a href="" ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Link")</a></span> <span ng-if="cartHasUtility()">| <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Mobile Link")</a></span>
+                <a href="" ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Edit Plan Link")</a> <span ng-if="mobileEnrollmentSettings.disableSharedPlans != true">| <a href="" ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Link")</a></span>
             </div>
         </div>
         <div class="description" ng-if="getDevicesCount() > 1">
@@ -170,7 +170,7 @@
                 {{ getDevicesCount() }} @Html.Sitecore().Field("Lines Text") &amp; {{ selectedOffer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
             </div>
             <div class="links">
-                <a href="" ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Edit Plan Link")</a> <span ng-if="mobileEnrollmentSettings.disableSharedPlans != true">| <a href="" ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Link")</a></span> <span ng-if="cartHasUtility()">| <a href="" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Mobile Link")</a></span>
+                <a href="" ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Edit Plan Link")</a> <span ng-if="mobileEnrollmentSettings.disableSharedPlans != true">| <a href="" ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Link")</a></span>
             </div>
         </div>
         <div class="rate" ng-if="getDevicesCount() > 0">{{ totalPlanPrice(selectedOffer) | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
@@ -191,7 +191,7 @@
                 <div class="options" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && item.type == 'existing' && !item.simNumber">@Html.Sitecore().Field("ESN") {{ item.imeiNumber }}</div>
                 <div class="options" ng-if="item.type == 'existing' && item.iccidNumber">@Html.Sitecore().Field("ICCID") {{ item.iccidNumber }}</div>
                 <div>
-                    <a href="" ng-click="editMobileDevice(item)">@Html.Sitecore().Field("Edit Phone Link")</a> | <a href="" ng-click="deleteMobileDevice(item)">@Html.Sitecore().Field("Remove Phone Link")</a>
+                    <a href="" ng-click="editMobileDevice(location, item)">@Html.Sitecore().Field("Edit Phone Link")</a> | <a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove Phone Link")</a>
                 </div>
             </div>
         </div>

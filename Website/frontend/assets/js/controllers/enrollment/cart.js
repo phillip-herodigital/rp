@@ -108,7 +108,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Edit Mobile Device
     */
-    $scope.editMobileDevice = function (item) {
+    $scope.editMobileDevice = function (service, item) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
@@ -117,13 +117,14 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         mobileEnrollmentService.editedDevice = item;
         //remove the device from the cart items array
         enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
     };
 
     /**
     * Delete Mobile Device
     */
-    $scope.deleteMobileDevice = function (item) {
+    $scope.deleteMobileDevice = function (service, item) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
@@ -133,10 +134,11 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         //if there is 1 device left in the cart, go to data plan selection,
         //if 0, go to device selection, otherwise stay at the same step
         var devicesCount = enrollmentCartService.getDevicesCount();
-        if (devicesCount == 0) {
+        var activeService = enrollmentCartService.getActiveService();
+        var serviceType = $scope.getActiveServiceType();
+        if (devicesCount == 0 && serviceType == 'Mobile') {
             enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
         } else if (devicesCount == 1) {
-            var service = enrollmentCartService.getActiveService();
             enrollmentCartService.setActiveService(service);
             enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
         } else if (devicesCount > 1) {
@@ -193,13 +195,13 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         $scope.addDeviceError = false;
         $scope.addDataPlanError = false;
         enrollmentCartService.removeService(service);
-        if (activeService == service) {
-            enrollmentCartService.setActiveServiceIndex(-1);
-        }
         // if this was the last service in the cart, go to the start
         if (!$scope.cartHasUtility()) {
             enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowNetwork');
-        } 
+        } else {
+            enrollmentCartService.setActiveServiceIndex(0);
+            enrollmentService.setAccountInformation();
+        }
     };
 
     /**
@@ -213,13 +215,13 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             var activeService = enrollmentCartService.getActiveService();
             $scope.addUtilityPlanError = false;
             enrollmentCartService.removeService(service);
-            if (activeService == service) {
-                enrollmentCartService.setActiveServiceIndex(-1);
-            } 
             // if this was the last service in the cart, go to the start
             if (!$scope.cartHasMobile()) {
-            enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
-            } 
+                enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+            } else {
+                enrollmentCartService.setActiveServiceIndex(0);
+                enrollmentService.setAccountInformation();
+            }
         })
     };
 
@@ -233,21 +235,17 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         var devicesCount = $scope.getDevicesCount();
         
         // validate the current state
-        if (serviceType == 'Mobile') {
-            if (devicesCount == 0 && (!$scope.addDevice.$valid || $scope.isCartFull() || $scope.esnInvalid))  {
-                success = false;
-                $scope.addDeviceError = true;
-            }
-            else if (devicesCount > 0 && $scope.getCartDataPlan().length == 0) {
-                success = false;
-                $scope.addDataPlanError = true;
-            }
+        if ($scope.cartHasMobile() && devicesCount == 0 && (serviceType != 'Mobile' || !$scope.addDevice.$valid || $scope.isCartFull() || $scope.esnInvalid))  {
+            success = false;
+            $scope.addDeviceError = true;
         }
-        else if (serviceType == 'TexasElectricity' || serviceType == 'GeorgiaGas') {
-            if (service.offerInformationByType[0].value.offerSelections.length == 0) {
-                success = false;
-                $scope.addUtilityPlanError = true;
-            }
+        else if ($scope.cartHasMobile() && devicesCount > 0 && $scope.getCartDataPlan().length == 0) {
+            success = false;
+            $scope.addDataPlanError = true;
+        }
+        else if ($scope.cartHasUtility() && service.offerInformationByType[0].value.offerSelections.length == 0) {
+            success = false;
+            $scope.addUtilityPlanError = true;
         }
 
         // if valid, run the complete step
