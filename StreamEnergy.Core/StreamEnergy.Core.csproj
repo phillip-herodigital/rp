@@ -194,6 +194,15 @@
     <Compile Include="Json.cs" />
     <Compile Include="Logging\HttpDataAccumulator.cs" />
     <Compile Include="Logging\SitecoreLogConfiguration.cs" />
+    <Compile Include="Logging\IDataAccumulator.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\ILogIndexer.cs" />
+    <Compile Include="Logging\ILogReader.cs" />
+    <Compile Include="Logging\ILogRecorder.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Logging\LogExtensions.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LogReader.cs" />
     <Compile Include="Logging\PathedIndexer.cs" />
     <Compile Include="Logging\SqlLogRecorder.cs" />
     <Compile Include="Logging\StackTraceIndexer.cs" />

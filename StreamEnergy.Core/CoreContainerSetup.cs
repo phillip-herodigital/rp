@@ -34,6 +34,7 @@ namespace StreamEnergy
 
             unityContainer.RegisterType<ILogger, Logger>();
             unityContainer.RegisterType<ILogConfiguration, Logging.SitecoreLogConfiguration>(new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType<ILogReader, LogReader>();
             
             unityContainer.RegisterInstance<IValidationService>(new ValidationService());
 

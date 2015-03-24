@@ -1,18 +1,77 @@
-@model IEnumerable<StreamEnergy.Logging.LogEntry>
-<div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(Model), '@(Request.Params["sessionID"] ?? Session.SessionID)');">
-    <article class="marketing">
+@model System.Collections.Specialized.NameValueCollection
+           @{
+               var content = from string key in Model.Keys
+                             select new
+                             {
+                                 key = key,
+                                 values = from string value in Model.GetValues(key)
+                                          select new { value = value }
+                             };
+           }
+<div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(content));">
+    <div style="position: fixed; right: 10px; top: 10px; z-index: 1000;" class="alert notice" ng-if="needsUpdate">Needs an <button ng-click="update()">Update</button></div>
+    <article class="marketing" ng-init="mode = 'simple'">
+        <div></div>
+        <button ng-click="abandon()" class="pull-right">Abandon Session</button>
+        <button ng-click="mode = 'advanced'" ng-class="{disabled:isAdvanced}">Advanced</button>
+        <button ng-click="mode = 'simple'" ng-class="{disabled:isSimple}">Simple</button>
+        <div></div>
+    </article>
+    <article class="marketing" ng-show="isAdvanced">
         <h3>Log Viewer</h3>
-
         <div class="group">
+            <div class="item" ng-repeat="selectedIndex in selectedIndexes">
+                <select ng-options="index for index in indexes" ng-model="selectedIndex.key"></select>
+                <button ng-click="selectedIndexes.splice($index, 1)">Remove</button>
+                <ul>
+                    <li ng-repeat="entry in selectedIndex.values" style="padding-top: 3px">
+                        <input type="text" ng-model="entry.value" typeahead="value for value in findValues(selectedIndex.key, $viewValue)" />
+                        <button ng-click="selectedIndex.values.splice($index, 1)">Remove</button>
+                    </li>
+                    <li style="padding-top: 3px">
+                        <button ng-click="selectedIndex.values.push({})">Add Value</button>
+                    </li>
+                </ul>
+            </div>
             <div class="item">
-                <label>Session ID:</label>
-                <input type="text" ng-model="form.sessionID" />
-                <button ng-click="update()">Update</button>
-                <button ng-click="abandon()" class="pull-right">Abandon Session</button>
+                <button ng-click="selectedIndexes.push({key:null,values:[{}]})">Add Index</button>
             </div>
         </div>
     </article>
-    <article class="marketing">
+    <article class="marketing" ng-show="isSimple">
+        <h3>Log Viewer</h3>
+        <div ng-repeat="selectedIndex in selectedIndexes">
+            <div class="group" ng-repeat="entry in selectedIndex.values">
+                <div class="item">
+                    <label for="{{$id}}Field">{{selectedIndex.key}}:</label>
+                    <input id="{{$id}}Field" type="text" ng-model="entry.value" />
+                </div>
+            </div>
+        </div>
+    </article>
+    <div class="group">
+        <button ng-click="findRelated()">Narrow Searches</button>
+        <button ng-click="update()">Update</button>
+    </div>
+    <article class="marketing" ng-if="related">
+        <table>
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="row in related">
+                <tr ng-repeat="v in row.value">
+                    <td>{{row.key}}</td>
+                    <td>{{v}}</td>
+                    <td><button ng-click="addIndex(row.key,v ); findRelated()">Add to Search</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
+    <article class="marketing" ng-if="logs.length">
+        Showing {{logs.length}} results, filtered by {{hidden | json}}.
         <table>
             <thead>
                 <tr>
@@ -20,44 +79,60 @@
                     <th>Timestamp</th>
                     <th>Duration</th>
                     <th>Severity</th>
+                    <th>Url</th>
                     <th>Message</th>
                 </tr>
             </thead>
-            <tbody ng-repeat="item in logs">
-                <tr>
+            <tbody ng-repeat="item in logs | filter:againstHidden">
+                <tr ng-init="showDetails = !!item.exception">
+                    <td ng-click="showDetails = !showDetails"><i ng-class="{'icon-arrow-expanded': showDetails, 'icon-arrow-collapsed': !showDetails}"></i></td>
                     <td>{{item.timestamp}}</td>
                     <td>{{item.data.httpClient.duration}}</td>
                     <td>{{item.severity}}</td>
-                    <td>{{item.message}}</td>
+                    <td>{{findKey(item, 'Path').value[0]}}</td>
+                    <td>{{item.data.httpClient.request.Uri || item.message}}</td>
                 </tr>
-                <tr class="expand-details">
-                    <td colspan="4">
+                <tr class="expand-details" ng-show="showDetails">
+                    <td colspan="6">
                         <div ng-if="item.data.httpClient != null">
                             <p><strong>Request URI:</strong></p>
                             <p>
                                 {{item.data.httpClient.request.Method.Method}} {{item.data.httpClient.request.Uri}}
                             </p>
-
                             <div ng-if="item.data.httpClient.request.Content">
                                 <p ng-click="showRequest = !showRequest" style="cursor: pointer;"><strong>Request Content: <i ng-class="{'icon-arrow-expanded': showRequest, 'icon-arrow-collapsed': !showRequest}"></i></strong></p>
-                                <p ng-show="!showRequest">{{item.data.httpClient.request.Content}}</p>
-                                <pre ng-show="showRequest">{{item.data.httpClient.request.Content | json}}</pre>
+                                <p ng-if="!showRequest" style=" max-height: 3.5em; overflow-y: hidden; ">{{item.data.httpClient.request.Content | json}}</p>
+                                <pre ng-if="showRequest">{{item.data.httpClient.request.Content | json}}</pre>
                             </div>
-
                             <div ng-if="item.data.httpClient.response.Content">
                                 <p ng-click="showResponse = !showResponse" style="cursor: pointer;"><strong>Response Content: <i ng-class="{'icon-arrow-expanded': showResponse, 'icon-arrow-collapsed': !showResponse}"></i></strong></p>
-                                <p ng-show="!showResponse">{{item.data.httpClient.response.Content}}</p>
-                                <pre ng-show="showResponse">{{item.data.httpClient.response.Content | json}}</pre>
+                                <p ng-if="!showResponse" style=" max-height: 3.5em; overflow-y: hidden; ">{{item.data.httpClient.response.Content | json}}</p>
+                                <pre ng-if="showResponse">{{item.data.httpClient.response.Content | json}}</pre>
                             </div>
                         </div>
                         <div ng-if="item.exception">
                             <p ng-click="showException = !showException" style="cursor: pointer;"><strong>Exception: <i ng-class="{'icon-arrow-expanded': showException, 'icon-arrow-collapsed': !showException}"></i></strong></p>
-                            <p ng-show="!showException">{{item.exception}}</p>
-                            <pre ng-show="showException">{{item.exception | json}}</pre>
+                            <p ng-if="!showException" style=" max-height: 3.5em; overflow-y: hidden; ">{{item.exception | json}}</p>
+                            <pre ng-if="showException">{{item.exception | json}}</pre>
                         </div>
                         <div>
                             <p ng-click="showStackTrace = !showStackTrace" style="cursor: pointer;"><strong>Stack Trace: <i ng-class="{'icon-arrow-expanded': showStackTrace, 'icon-arrow-collapsed': !showStackTrace}"></i></strong></p>
-                            <pre ng-show="showStackTrace">{{item.data.stackTrace}}</pre>
+                            <pre ng-if="showStackTrace">{{item.data.stackTrace}}</pre>
+                        </div>
+                        <div>
+                            <p ng-click="showIndexes = !showIndexes" style="cursor: pointer;"><strong>Indexes: <i ng-class="{'icon-arrow-expanded': showIndexes, 'icon-arrow-collapsed': !showIndexes}"></i></strong></p>
+                            <ul ng-if="showIndexes">
+                                <li ng-repeat="keyContainer in item.indexes">
+                                    {{keyContainer.key}}
+                                    <ul>
+                                        <li ng-repeat="value in keyContainer.value">
+                                            {{value}}
+                                            <a href="#" ng-click="addIndex(keyContainer.key, value)" ng-if="!hasIndex(keyContainer.key, value)" class="button small">Add</a>
+                                            <a href="#" ng-click="hideRelated(keyContainer.key, value)" ng-if="!hasIndex(keyContainer.key, value)" class="button small">Hide Related</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
                     </td>
                 </tr>
