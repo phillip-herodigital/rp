@@ -91,8 +91,10 @@
     });
 
     function selectOffers(selectedOffers) {
-        enrollmentStepsService.setMaxStep('phoneFlowPlans');     
-
+        if (enrollmentCartService.getDevicesCount() == 1) {
+            enrollmentStepsService.setMaxStep('phoneFlowPlans');   
+        }
+          
         var activeService = enrollmentCartService.getActiveService();
         var activeServiceIndex = enrollmentCartService.getActiveServiceIndex();
         if (typeof activeService != 'undefined' && selectedOffers.Mobile != null) {

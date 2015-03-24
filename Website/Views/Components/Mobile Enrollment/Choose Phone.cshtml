@@ -18,7 +18,10 @@
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'new' }" ng-click="mobileEnrollment.phoneTypeTab = 'new'" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
                             </div>
-                            <div class="tab" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone)"></div>
+                            <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'wsa' }" ng-click="mobileEnrollment.phoneTypeTab = 'wsa'" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhoneWsa">
+                                <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
+                            </div>
+                            <div class="tab" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone)"></div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                                 <div ng-if="getPhoneCount('byod') > 0" class="selected-icon">
                                     <span class="phone-count">{{ getPhoneCount('byod') }}</span>
@@ -308,6 +311,16 @@
                                 </div>
                             </toggle-pane>
                         }
+
+                        @* WSA Store Shop Phones Template*@
+                        <toggle-pane name="wsa" value="mobileEnrollment.phoneTypeTab">
+                            <div class="content wsa">
+                                <div class="wsa-intro">
+                                    @Html.Sitecore().Field("Shop Phones - WSA Instructions")
+                                </div>
+                            </div>
+                        </toggle-pane>
+
                         @* Bring Your Own Phone Template *@
                         <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                             <div class="content bring-your-own" ng-if="mobileEnrollment.phoneTypeTab == 'existing'">

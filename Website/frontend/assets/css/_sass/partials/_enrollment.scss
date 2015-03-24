@@ -1505,9 +1505,38 @@
     .content {
         background-color: #fff;
         padding: 15px 17px;
+        .notice.error {
+            padding: 10px;
+            margin: 15px -5px;
+            background-image: none;
+            font-size: 13px;
+            @include border-radius(5px);
+            .links {
+                margin: 10px 0;
+                .remove-mobile {
+                    display: inline-block;
+                }
+                button {
+                    float: right;
+                    width: auto;
+                    margin: -6px 0;
+                    padding: 6px 12px;
+                    font-size: 13px;
+                    font-weight: normal;
+                    @include background-image(linear-gradient(to top, #287db5 0%, #3891c0 100%));
+                    @include box-shadow(none);
+                }
+            }
+        }
     }
     footer {
-        padding: 0 17px;
+        padding: 10px 17px;
+        button {
+            float: right;
+            width: auto;
+            @include background-image(linear-gradient(to top, #287db5 0%, #3891c0 100%));
+            @include box-shadow(none);
+        }
     }
     hr {
         margin: 15px 0;
@@ -2926,6 +2955,30 @@
         @include breakpoint(small) {
             div.item > label {
                 width: 100% !important;
+            }
+        }
+    }
+    .wsa {
+        .wsa-intro-text {
+            h2 {
+                color: #000;
+                font-size: 28px;
+                margin: 0;
+            }
+            a {
+                font-weight: 600;
+            }
+            ol {
+                padding-left: 0;
+                margin-left: 22px;
+                > li {
+                    margin-bottom: 15px;
+                }
+            }
+            .note {
+                clear: both;
+                font-size: 14px;
+                color: #999999;
             }
         }
     }
