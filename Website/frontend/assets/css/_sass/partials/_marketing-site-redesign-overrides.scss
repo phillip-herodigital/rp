@@ -578,6 +578,13 @@ article.service-links {
             margin-top: 20px;
         }
     }
+    .tooltip-inner {
+        max-width: 100%;
+        font-size: 14px;
+        ul {
+            padding: 0 0 0 15px;
+        }
+    }
 }
 
 .energy-overview {
