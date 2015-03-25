@@ -11,7 +11,7 @@
     <div class="layout">
         <div class="wrapper cols-2 enrollment__verify-identity">
             <section>
-                <form data-val-bind-messages="validations" ng-submit="completeStep()">
+                <form data-val-bind-messages="validations" name="idQuestions" ng-submit="completeStep()">
                     <article class="enrollment__box form">
                         <header>
                             <h1>@Html.Sitecore().Field("Verify Header")</h1>
