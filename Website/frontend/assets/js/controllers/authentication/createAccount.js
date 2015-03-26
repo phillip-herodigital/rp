@@ -40,6 +40,14 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 				} else if (data.customer.email.address == '') {
 					// if no email address on account, send the error message
 					$scope.noEmail = true;
+					$scope.customer = data.customer;
+					$scope.address = data.address;
+					$scope.accountNumber = data.accountNumber;
+					$scope.ssnLastFour = data.ssnLastFour;
+					$scope.availableSecurityQuestions = data.availableSecurityQuestions;
+					// initialize the username to the email address
+					$scope.formData.username = $scope.customer.email.address || '';
+					$scope.activeState = 'step1a';
 				} else {
 					// if successful, bind the response data to the scope and send the user to step 2
 					$scope.customer = data.customer;
@@ -49,6 +57,27 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 					$scope.availableSecurityQuestions = data.availableSecurityQuestions;
 					// initialize the username to the email address
 					$scope.formData.username = $scope.customer.email.address || '';
+					$scope.activeState = 'step2';
+				}
+			});
+	};
+
+	// process the findAccount form
+	$scope.updateEmail = function() {
+		$scope.isLoading = true;
+		$http({
+			method  : 'POST',
+			url     : '/api/authentication/updateEmail',
+			data    : $scope.formData,
+			headers : { 'Content-Type': 'application/JSON' } 
+		})
+			.success(function (data, status, headers, config) {
+				$scope.isLoading = false;
+				$scope.validations = data.validations;
+				if (!data.customer) {
+					// if not successful, bind errors to error variables
+					$scope.findAccountError = data.validations;
+				} else {
 					$scope.activeState = 'step2';
 				}
 			});

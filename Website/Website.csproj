@@ -721,6 +721,8 @@
     <Compile Include="Models\Authentication\RecoverUsernameResponse.cs" />
     <Compile Include="Models\Authentication\SecurityQuestion.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailRequest.cs" />
+    <Compile Include="Models\Authentication\UpdateEmailRequest.cs" />
+    <Compile Include="Models\Authentication\UpdateEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
