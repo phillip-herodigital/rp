@@ -16,7 +16,7 @@
     <div class="layout">
         <div class="wrapper cols-2 enrollment__account-information">
             <section>
-                <form data-val-bind-messages="validations" ng-submit="completeStep()">
+                <form data-val-bind-messages="validations" name="accountInfo" ng-submit="completeStep()">
                     @* Loop through utility addresses *@
                     <article class="enrollment__box form" ng-if="cartHasUtility()" ng-repeat="(index, item) in utilityAddresses()" ng-init="init();">
                         <header>

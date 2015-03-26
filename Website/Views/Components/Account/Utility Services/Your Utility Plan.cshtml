@@ -16,12 +16,27 @@
         </div>
     </article>
 
-    <article class="plain renew-plan" ng-if="utilityPlan.customerType && !renewal.isEligible && renewalRedirect">
-        <div class="notice message" ng-if="utilityPlan.customerType != 'commercial'">
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && !renewal.isEligible && renewalRedirect">
+        <div class="notice message">
             @Html.Sitecore().Field("Renew Ineligible Text")
         </div>
-        <div class="notice message" ng-if="utilityPlan.customerType == 'commercial'">
-            @Html.Sitecore().Field("Commercial Renew Ineligible Text")
+    </article>
+
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && !renewal.isEligible  && renewalRedirect">
+        <div class="notice message" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
+            @Html.Sitecore().Field("Commercial Renew Ineligible Text GA")
+        </div>
+        <div class="notice message" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
+            @Html.Sitecore().Field("Commercial Renew Ineligible Text TX")
+        </div>
+    </article>
+
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && renewal.isEligible  && renewalRedirect">
+        <div class="notice message" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
+            @Html.Sitecore().Field("Commercial Renew Eligible Text GA")
+        </div>
+        <div class="notice message" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
+            @Html.Sitecore().Field("Commercial Renew Eligible Text TX")
         </div>
     </article>
 

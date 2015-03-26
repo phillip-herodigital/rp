@@ -60,7 +60,7 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
     $scope.resolvePayments = function () {
         // any additional validation can go here
         $scope.totalCharge = parseFloat($scope.paymentAmount);
-        if ($scope.selectedAccount.accountType != 'Mobile' && $scope.selectedAccount.systemOfRecord != 'CIS1')
+        if (false && $scope.selectedAccount.accountType != 'Mobile' && $scope.selectedAccount.systemOfRecord != 'CIS1')
         {
             $scope.totalCharge += 2.95;
         }

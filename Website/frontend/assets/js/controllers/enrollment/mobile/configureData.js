@@ -63,7 +63,14 @@
     // clear the plan selection when any device is added to the cart
     $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
         if (newVal != oldVal) {
-            $scope.planSelection = { selectedOffers: {} };
+            // if 0 or 1 phone, reset the the selected offers. otherwise, trigger a plan selection
+            if (newVal < 2 || typeof $scope.planSelection.selectedOffers.Mobile == 'undefined') {
+                $scope.planSelection = { selectedOffers: {} };
+            } else {
+                // trigger a plan selection
+                selectOffers($scope.planSelection.selectedOffers);
+            }
+            
             // see if the requested plan is available, and if so, select it
             if ($scope.mobileEnrollment.requestedPlanId != '' && newVal > 0) {
                 var activeService = enrollmentCartService.getActiveService();
@@ -91,8 +98,10 @@
     });
 
     function selectOffers(selectedOffers) {
-        enrollmentStepsService.setMaxStep('phoneFlowPlans');     
-
+        if (enrollmentCartService.getDevicesCount() == 1) {
+            enrollmentStepsService.setMaxStep('phoneFlowPlans');   
+        }
+          
         var activeService = enrollmentCartService.getActiveService();
         var activeServiceIndex = enrollmentCartService.getActiveServiceIndex();
         if (typeof activeService != 'undefined' && selectedOffers.Mobile != null) {
