@@ -21,7 +21,7 @@
             @Html.Sitecore().Field("Renew Ineligible Text")
         </div>
     </article>
-
+    @*
     <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && !renewal.isEligible  && renewalRedirect">
         <div class="notice message" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
             @Html.Sitecore().Field("Commercial Renew Ineligible Text GA")
@@ -39,7 +39,7 @@
             @Html.Sitecore().Field("Commercial Renew Eligible Text TX")
         </div>
     </article>
-
+    *@
     <article class="plan" ng-init="georgiaProducts = @(Html.Action("GeorgiaProducts", "Data").ToHtmlString());" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
         <header>
             <h2>@Html.Sitecore().Field("Your Gas Plan Text")</h2>
