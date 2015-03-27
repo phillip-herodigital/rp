@@ -16,30 +16,15 @@
         </div>
     </article>
 
-    <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && !renewal.isEligible && renewalRedirect">
-        <div class="notice message">
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType && !renewal && renewalRedirect">
+        <div class="notice message" ng-if="utilityPlan.customerType != 'commercial'">
             @Html.Sitecore().Field("Renew Ineligible Text")
         </div>
-    </article>
-    @*
-    <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && !renewal.isEligible  && renewalRedirect">
-        <div class="notice message" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
+        <div class="notice message" ng-if="utilityPlan.customerType == 'commercial'">
             @Html.Sitecore().Field("Commercial Renew Ineligible Text GA")
-        </div>
-        <div class="notice message" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
-            @Html.Sitecore().Field("Commercial Renew Ineligible Text TX")
         </div>
     </article>
 
-    <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && renewal.isEligible  && renewalRedirect">
-        <div class="notice message" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
-            @Html.Sitecore().Field("Commercial Renew Eligible Text GA")
-        </div>
-        <div class="notice message" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
-            @Html.Sitecore().Field("Commercial Renew Eligible Text TX")
-        </div>
-    </article>
-    *@
     <article class="plan" ng-init="georgiaProducts = @(Html.Action("GeorgiaProducts", "Data").ToHtmlString());" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
         <header>
             <h2>@Html.Sitecore().Field("Your Gas Plan Text")</h2>
