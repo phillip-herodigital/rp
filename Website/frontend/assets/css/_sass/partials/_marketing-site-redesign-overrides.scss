@@ -533,6 +533,45 @@ article.service-links {
     }
 }
 
+article.service-tabs {
+    @include box-shadow(0px 0px 30px 0px rgba(0, 0, 0, .2));
+    background-color: #f7f8f9;
+    position: relative;
+    z-index: 100;
+
+    > .wrapper {
+        padding: 20px 0 !important;
+        background: none;
+    }
+
+    .grid .col {
+        background: right center no-repeat;
+        text-align: center;
+        background-position: top center;
+        padding: 0;
+        h2 {
+            
+            font-size: 24px;
+            font-weight: 400;
+            color: black;
+            letter-spacing: 0;
+            margin: 0;
+            padding-top: 75px;
+        }
+        &.mobile {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_mobile_icon.png');
+        }
+
+        &.energy {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_energy_icon.png');
+        }
+
+        &.protect {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
+        }
+    }
+}
+
 .switch-mobile {
     position: relative;
 
