@@ -1,6 +1,6 @@
 ﻿<div ng-controller="AcctYourUtilityPlanCtrl" ng-cloak>
     
-    <article class="plain renew-plan" ng-if="renewal">
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && renewal">
         <div class="notice alert" loading-indicator>
             <div class="grid two">
                 <div class="col">
@@ -8,21 +8,30 @@
                     <p>@Html.Sitecore().Field("Renew Date Text")</p>
                 </div>
                 @*
-                <div class="col">
-                    <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
-                </div>
+                    <div class="col">
+                        <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
+                    </div>
                 *@
             </div>
         </div>
     </article>
 
-    <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && !renewal.isEligible && renewalRedirect">
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && !renewal && renewalRedirect">
         <div class="notice message">
             @Html.Sitecore().Field("Renew Ineligible Text")
         </div>
     </article>
 
-    <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && !renewal.isEligible  && renewalRedirect">
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && renewal">
+        <div class="notice alert" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
+            @Html.Sitecore().Field("Commercial Renew Eligible Text GA")
+        </div>
+        <div class="notice alert" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
+            @Html.Sitecore().Field("Commercial Renew Eligible Text TX")
+        </div>
+    </article>
+
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && !renewal && renewalRedirect">
         <div class="notice message" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
             @Html.Sitecore().Field("Commercial Renew Ineligible Text GA")
         </div>
@@ -30,16 +39,7 @@
             @Html.Sitecore().Field("Commercial Renew Ineligible Text TX")
         </div>
     </article>
-
-    <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && renewal.isEligible  && renewalRedirect">
-        <div class="notice message" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
-            @Html.Sitecore().Field("Commercial Renew Eligible Text GA")
-        </div>
-        <div class="notice message" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
-            @Html.Sitecore().Field("Commercial Renew Eligible Text TX")
-        </div>
-    </article>
-
+    
     <article class="plan" ng-init="georgiaProducts = @(Html.Action("GeorgiaProducts", "Data").ToHtmlString());" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
         <header>
             <h2>@Html.Sitecore().Field("Your Gas Plan Text")</h2>
@@ -53,7 +53,7 @@
                     <th ng-show="utilityPlan.rate">@Html.Sitecore().Field("Rate Text")</th>
                     <th>@Html.Sitecore().Field("Term Text")</th>
                     <th ng-if="utilityPlan.fees">@Html.Sitecore().Field("Fees Text")</th>
-                    <th ng-if="renewal">@Html.Sitecore().Field("Action Text")</th>
+                    <th ng-if="utilityPlan.customerType != 'commercial' && renewal">@Html.Sitecore().Field("Action Text")</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,7 +93,7 @@
                     <td class="fees" ng-if="utilityPlan.fees">
                         {{ utiltiyPlan.cancellationFee }}<span>@Html.Sitecore().Field("Gas Early Termination Fee")</span>
                     </td>
-                    <td ng-if="renewal">
+                    <td ng-if="utilityPlan.customerType != 'commercial' && renewal">
                         <button class="primary" ng-click="setupRenewal(utilityPlan.id)">@Html.Sitecore().Field("Renew Button Text")</button>
                     </td>
                 </tr>
@@ -143,7 +143,7 @@
                     <th ng-show="utilityPlan.rate">@Html.Sitecore().Field("Rate Text")</th>
                     <th>@Html.Sitecore().Field("Term Text")</th>
                     <th ng-if="utilityPlan.fees">@Html.Sitecore().Field("Fees Text")</th>
-                    <th ng-if="renewal">@Html.Sitecore().Field("Action Text")</th>
+                    <th ng-if="utilityPlan.customerType != 'commercial' && renewal">@Html.Sitecore().Field("Action Text")</th>
                 </tr>
             </thead>
             <tbody additional-fields>
@@ -184,7 +184,7 @@
                         @Html.Sitecore().Field("Electricity Month To Month")
                     </td>
                     <td class="center" ng-if="utilityPlan.fees"><span class="plan-cost">{{ utilityPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
-                    <td ng-if="isEligible(utilityPlan.id)">
+                    <td ng-if="utilityPlan.customerType != 'commercial' && isEligible(utilityPlan.id)">
                         <button class="primary" ng-click="setupRenewal(utilityPlan.id)">@Html.Sitecore().Field("Renew Button Text")</button>
                     </td>
                 </tr>
