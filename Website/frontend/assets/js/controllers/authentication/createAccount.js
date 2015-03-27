@@ -37,17 +37,6 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 				if (!data.customer) {
 					// if not successful, bind errors to error variables
 					$scope.findAccountError = data.validations;
-				} else if (data.customer.email.address == '') {
-					// if no email address on account, send the error message
-					$scope.noEmail = true;
-					$scope.customer = data.customer;
-					$scope.address = data.address;
-					$scope.accountNumber = data.accountNumber;
-					$scope.ssnLastFour = data.ssnLastFour;
-					$scope.availableSecurityQuestions = data.availableSecurityQuestions;
-					// initialize the username to the email address
-					$scope.formData.username = $scope.customer.email.address || '';
-					$scope.activeState = 'step1a';
 				} else {
 					// if successful, bind the response data to the scope and send the user to step 2
 					$scope.customer = data.customer;
@@ -55,9 +44,14 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 					$scope.accountNumber = data.accountNumber;
 					$scope.ssnLastFour = data.ssnLastFour;
 					$scope.availableSecurityQuestions = data.availableSecurityQuestions;
-					// initialize the username to the email address
-					$scope.formData.username = $scope.customer.email.address || '';
-					$scope.activeState = 'step2';
+					if (data.customer.email.address == '') {
+						$scope.noEmail = true;
+						$scope.activeState = 'step1a';
+					} else {
+						// initialize the username to the email address
+						$scope.formData.username = $scope.customer.email.address || '';
+						$scope.activeState = 'step2';
+					}
 				}
 			});
 	};
@@ -78,6 +72,9 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 					// if not successful, bind errors to error variables
 					$scope.findAccountError = data.validations;
 				} else {
+					// initialize the username to the email address
+					$scope.customer.email.address = $scope.formData.email.address;
+					$scope.formData.username = $scope.customer.email.address;
 					$scope.activeState = 'step2';
 				}
 			});

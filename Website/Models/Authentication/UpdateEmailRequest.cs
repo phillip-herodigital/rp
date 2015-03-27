@@ -7,10 +7,16 @@ using System.Web;
 
 namespace StreamEnergy.MyStream.Models.Authentication
 {
-    public class UpdateEmailRequest
+    public class UpdateEmailRequest: ISanitizable
     {
-        [Required(ErrorMessage = "Email Required")]
-        [ValidateObject(ErrorMessage = "Email Invalid")]
+        [Required]
+        [ValidateObject(ErrorMessagePrefix = "Email ")]
         public DomainModels.Email Email { get; set; }
+
+        void ISanitizable.Sanitize()
+        {
+            if (Email != null)
+                ((ISanitizable)Email).Sanitize();
+        }
     }
 }

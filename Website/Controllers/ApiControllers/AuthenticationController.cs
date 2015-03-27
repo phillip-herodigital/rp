@@ -276,22 +276,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public async Task<UpdateEmailResponse> UpdateEmail(UpdateEmailRequest request)
         {
-            var customer = await accountService.GetCustomerByCustomerId(coaSessionHelper.StateMachine.InternalContext.Account.StreamConnectCustomerId);
-            var validations = Enumerable.Empty<ValidationResult>();
-            
-            if (!new System.ComponentModel.DataAnnotations.EmailAddressAttribute().IsValid(request.Email.Address))
-            {
-                validations = Enumerable.Repeat(new ValidationResult("Email Invalid", new[] { "Email" }), 1);
-            } 
-            else 
-            {
-                customer.EmailAddress = request.Email.Address;
-                await accountService.UpdateCustomer(customer);
-            }
+            var details = coaSessionHelper.InternalContext.Account.Details;
+
+            details.ContactInfo.Email.Address = request.Email.Address;
+            await accountService.SetAccountDetails(details, coaSessionHelper.InternalContext.Account.SystemOfRecord, coaSessionHelper.InternalContext.Account.AccountNumber);
 
             return new UpdateEmailResponse
             {
-                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Create Account - Step 1a"))
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Create Account - Step 1a"))
             };
         }
 
