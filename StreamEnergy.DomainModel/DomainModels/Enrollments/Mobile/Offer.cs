@@ -47,6 +47,8 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
 
         public bool NonLtePlan { get; set; }
 
+        public int SortOrder { get; set; }
+
         public IList<Rate> Rates { get; set; }
 
         public int Term { get; set; }
