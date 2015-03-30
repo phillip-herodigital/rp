@@ -9,6 +9,7 @@ using System.Web.Configuration;
 using ResponsivePath.Validation;
 using System.ComponentModel.DataAnnotations;
 using ResponsivePath.Logging;
+using StreamEnergy.Logging;
 
 namespace StreamEnergy
 {
