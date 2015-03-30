@@ -8,9 +8,9 @@
                     <p>@Html.Sitecore().Field("Renew Date Text")</p>
                 </div>
                 @*
-                    <div class="col">
-                        <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
-                    </div>
+                <div class="col">
+                    <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
+                </div>
                 *@
             </div>
         </div>
@@ -39,7 +39,7 @@
             @Html.Sitecore().Field("Commercial Renew Ineligible Text TX")
         </div>
     </article>
-    
+
     <article class="plan" ng-init="georgiaProducts = @(Html.Action("GeorgiaProducts", "Data").ToHtmlString());" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
         <header>
             <h2>@Html.Sitecore().Field("Your Gas Plan Text")</h2>
