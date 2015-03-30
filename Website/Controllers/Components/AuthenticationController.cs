@@ -44,6 +44,11 @@ namespace StreamEnergy.MyStream.Controllers.Components
             return View("~/Views/Components/Authentication/Create Account - Step 1.cshtml");
         }
 
+        public ActionResult UpdateEmailIndex()
+        {
+            return View("~/Views/Components/Authentication/Create Account - Step 1a.cshtml");
+        }
+
         public ActionResult CreateLoginIndex()
         {
             return View("~/Views/Components/Authentication/Create Account - Step 2.cshtml");

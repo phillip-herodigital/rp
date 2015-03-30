@@ -557,7 +557,7 @@ namespace StreamEnergy.Services.Clients
                 return null;
 
             var subAccount = locAdapter.BuildSubAccount(serviceAddress, details);
-            if (subAccount.CustomerType == EnrollmentCustomerType.Commercial || details.ProductType == "Mobile")
+            if (details.ProductType == "Mobile")
             {
                 subAccount.Capabilities.Add(new RenewalAccountCapability
                 {
@@ -670,6 +670,32 @@ namespace StreamEnergy.Services.Clients
             dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
             return (data.Status == "Success");
+        }
+
+        async Task<bool> IAccountService.SetAccountDetails(AccountDetails details, string systemOfRecord, string acountNumber)
+        {
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/accounts",
+                new
+                {
+                    SystemOfRecord = systemOfRecord,
+                    SystemOfRecordAccountNumber = acountNumber,
+                    HomePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).Select(p => p.Number).FirstOrDefault(),
+                    MobilePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
+                    AccountEmailAddress = details.ContactInfo.Email != null ? details.ContactInfo.Email.Address : null,
+                    Address = StreamConnectUtilities.ToStreamConnectAddress(details.BillingAddress),
+                    TCPAPreference = details.TcpaPreference == null ? "NA" : (details.TcpaPreference.Value ? "Yes" : "No"),
+                    BillDeliveryTypePreference = details.BillingDeliveryPreference,
+                });
+
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
