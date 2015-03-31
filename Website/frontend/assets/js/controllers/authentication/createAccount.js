@@ -68,7 +68,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 			.success(function (data, status, headers, config) {
 				$scope.isLoading = false;
 				$scope.validations = data.validations;
-				if (!data.customer) {
+				if (!data.success) {
 					// if not successful, bind errors to error variables
 					$scope.findAccountError = data.validations;
 				} else {

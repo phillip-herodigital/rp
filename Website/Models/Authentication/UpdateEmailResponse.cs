@@ -9,5 +9,7 @@ namespace StreamEnergy.MyStream.Models.Authentication
     public class UpdateEmailResponse
     {
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
+
+        public bool Success { get; set; }
     }
 }

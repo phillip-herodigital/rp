@@ -279,11 +279,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var details = coaSessionHelper.InternalContext.Account.Details;
 
             details.ContactInfo.Email.Address = request.Email.Address;
-            await accountService.SetAccountDetails(details, coaSessionHelper.InternalContext.Account.SystemOfRecord, coaSessionHelper.InternalContext.Account.AccountNumber);
+            var success = await accountService.SetAccountDetails(details, coaSessionHelper.InternalContext.Account.SystemOfRecord, coaSessionHelper.InternalContext.Account.AccountNumber);
 
             return new UpdateEmailResponse
             {
-                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Create Account - Step 1a"))
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Create Account - Step 1a")),
+                Success = success
             };
         }
 
