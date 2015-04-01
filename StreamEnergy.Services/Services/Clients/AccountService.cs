@@ -38,7 +38,7 @@ namespace StreamEnergy.Services.Clients
                         foreach (var line in lines)
                         {
                             var parts = line.Split(',');
-                            if (parts.Length == 2)
+                            if (parts.Length == 2 && !_cis2AureaAccountMapping.ContainsKey(parts[1]))
                             {
                                 _cis2AureaAccountMapping.Add(parts[1], parts[0]);
                             }
