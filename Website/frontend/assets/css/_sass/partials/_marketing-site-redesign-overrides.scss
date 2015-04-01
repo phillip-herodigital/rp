@@ -540,7 +540,7 @@ article.service-tabs {
     z-index: 100;
 
     > .wrapper {
-        padding: 20px 0 !important;
+        padding: 20px 0 0 !important;
         background: none;
     }
 
@@ -550,13 +550,12 @@ article.service-tabs {
         background-position: top center;
         padding: 0;
         h2 {
-            
             font-size: 24px;
             font-weight: 400;
             color: black;
             letter-spacing: 0;
             margin: 0;
-            padding-top: 75px;
+            padding: 75px 0 20px;
         }
         &.mobile {
             background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_mobile_icon.png');
@@ -564,10 +563,83 @@ article.service-tabs {
 
         &.energy {
             background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_energy_icon.png');
+            &:hover>.dropdown-menu {
+              display: block;
+            }
         }
 
         &.protect {
             background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
+        }
+    }
+    .dropdown-menu {
+        display: none;
+        border: 3px solid #f59a42;
+        border-top: none;
+        padding: 15px 0;
+        background-color: #ffffff;
+        @include box-shadow(inset 0 3px 6px rgba(0, 0, 0, .2), 0 3px 6px rgba(0, 0, 0, .2));
+        @include border-radius(0 0 10px 10px);
+        li {        
+            a {
+                font-size: 22px;
+                color: #010101;
+                padding: 5px 80px;
+                text-align: left;
+                &:hover {
+                    background-color: #e6e7e8;
+                }
+            }
+        }
+        @include breakpoint(small) {
+            display: block;
+            position: relative;
+            width: 100%;
+            border-top: 3px solid #f59a42;
+            margin-bottom: 20px;
+            @include box-shadow(0 3px 6px rgba(0, 0, 0, .2));
+            @include border-radius(10px);
+        }
+    }
+    .open>.dropdown-menu {
+        display: block;
+    }
+}
+
+article.contact-state {
+    .customer-service {
+        h1 {
+            color: #666666;
+            text-transform: uppercase;
+            i {
+                vertical-align: baseline;
+            }
+        }
+        &.energy {
+            h1 strong {
+                color: #ff9933;
+            }
+        }
+        .right-side {
+            .mail {
+                @include border-radius(none);
+                background-color: #fff;
+                padding: 20px;
+                h2 {
+                    background-image: url('../i/icon/email-small.png');
+                    background-repeat: no-repeat;
+                    background-position: top left;
+                    padding-left: 35px;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+    .emergency {
+        .grid .col {
+            .company-contact {
+                margin-bottom: 30px;
+            }
         }
     }
 }
