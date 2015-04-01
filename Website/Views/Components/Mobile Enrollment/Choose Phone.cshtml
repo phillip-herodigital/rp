@@ -333,7 +333,7 @@
                                 <div class="byo-intro" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
                                     @Html.Sitecore().Field("Bring Your Phone - Sprint Instructions")
                                 </div>
-                                <hr ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'" />
+                                <hr />
                                 <div class="vertical">
                                     <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
                                         <label>@Html.Sitecore().Field("Header - Select Device")</label>
@@ -364,7 +364,7 @@
                                         </div>
                                     </div>
                                     <hr ng-if="false && mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
-                                    <div class="item" data-val-error="imeiNumber" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+                                    <div class="item" data-val-error="imeiNumber">
                                         <label ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
                                             @Html.Sitecore().Field("Header - IMEI Number")
                                             <span class="label-description">@Html.Sitecore().Field("Text - IMEI Number Note")</span>
@@ -374,9 +374,9 @@
                                             <span class="label-description">@Html.Sitecore().Field("Text - ESN Number Note")</span>
                                         </label>
                                         <div class="btn-group-options">
-                                            <label ng-if="false && mobileEnrollmentService.selectedNetwork.value == 'att'">@Html.Sitecore().Field("Label - IMEI Number") </label>
+                                            <label ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">@Html.Sitecore().Field("Label - IMEI Number") </label>
                                             <label ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">@Html.Sitecore().Field("Label - ESN Number") </label>
-                                            <input ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'" type="text" class="byo-input" name="imeiNumber" ng-model="phoneOptions.imeiNumber" ng-blur="validateEsn()" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'" />
+                                            <input type="text" class="byo-input" name="imeiNumber" ng-model="phoneOptions.imeiNumber" ng-blur="validateEsn()" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'" />
                                             <span ng-show="esnError" ng-bind-html="esnMessage"></span>
                                         </div>
                                     </div>
