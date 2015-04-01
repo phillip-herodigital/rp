@@ -128,6 +128,7 @@ namespace StreamEnergy.Services.Clients
                 SpecialOfferText = productData.Fields["Special Offer Text"],
                 SpecialOfferOriginalPrice = productData.Fields["Special Offer Original Price"],
                 NonLtePlan = productData.Fields["non-LTE Plan"] == "1" ? true : false,
+                SortOrder = GetSortOrder(productData.Fields["Sort Order"], productData.Fields["Data"]),
 
                 Rates = new[] {
                                   new Mobile.Rate { RateAmount = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value }
@@ -137,6 +138,22 @@ namespace StreamEnergy.Services.Clients
                 Footnotes = productData.Footnotes,
 
             };
+        }
+
+        private int GetSortOrder(string sortOrder, string data)
+        {
+            int sortInt = 0;
+            int dataInt = 0;
+            Int32.TryParse(sortOrder, out sortInt);
+            if (data.ToLower() == "unlimited")
+                dataInt = 9999;
+            else
+                Int32.TryParse(data, out dataInt);
+
+            if (sortInt != 0)
+                return sortInt;
+            else
+                return dataInt;
         }
 
         private InstallmentPlanDetails GetInstallmentPlanIds(SitecoreProductInfo inventoryData, IEnumerable<dynamic> supportedInventoryTypes)
