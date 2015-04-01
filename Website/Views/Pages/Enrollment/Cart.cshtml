@@ -97,7 +97,7 @@
                 <li ng-if="cartHasTDU('Sharyland')">@Html.Sitecore().Field("Sharyland Utilities Outage")</li>
             </ul>
         </article>
-        <article class="enrollment__box stream-store" ng-if="cartHasMobile()">
+        <article class="enrollment__box stream-store" ng-if="cartHasMobile() && (mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhoneWsa)">
             <header>
                 @Html.Sitecore().Field("Stream Store Header")
             </header>
