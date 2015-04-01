@@ -129,6 +129,23 @@
             </div>
         </div>
     </article>
+    <div class="tab-content" ng-class="{ hidden : pane != 'mobile' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service mobile clearfix">
+                <h1><i class="icon-home_mobile"></i> <strong>@Html.Sitecore().Field("Mobile Text")</strong></h1>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Mobile Phone and Email")
+                    </div>
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Mobile Mail")
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
     <div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
         <article class="marketing contact-state wrapper">
             <div class="customer-service energy clearfix">
@@ -283,6 +300,23 @@
             </div>
             <div class="emergency">
                 @Html.Sitecore().Field("Washington DC Emergency Contact")
+            </div>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'protect' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service protect clearfix">
+                <h1><i class="icon-home_protect"></i> <strong>@Html.Sitecore().Field("Protective Text")</strong></h1>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Protective Phone and Email")
+                    </div>
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Protective Mail")
+                    </div>
+                </div>
             </div>
         </article>
     </div>

@@ -615,9 +615,19 @@ article.contact-state {
                 vertical-align: baseline;
             }
         }
+        &.mobile {
+            h1 strong {
+                color: #3a80d0;
+            }
+        }
         &.energy {
             h1 strong {
                 color: #ff9933;
+            }
+        }
+        &.protect {
+            h1 strong {
+                color: #40ae49;
             }
         }
         .right-side {
