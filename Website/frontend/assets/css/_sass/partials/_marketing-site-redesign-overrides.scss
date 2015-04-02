@@ -630,11 +630,22 @@ article.contact-state {
                 color: #40ae49;
             }
         }
+        .faq-text {
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+        .left-side {
+            h2 {
+                font-size: 22px;
+                font-weight: normal;
+                margin-bottom: 40px;
+            }
+        }
         .right-side {
             .mail {
                 @include border-radius(none);
                 background-color: #fff;
-                padding: 20px;
+                padding: 0;
                 h2 {
                     background-image: url('../i/icon/email-small.png');
                     background-repeat: no-repeat;
