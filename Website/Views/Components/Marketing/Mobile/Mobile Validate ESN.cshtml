@@ -1,0 +1,34 @@
+﻿<article class="marketing wrapper validate-esn" ng-controller="MobileValidateEsnCtrl" ng-init="esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString());">
+    @Html.Sitecore().Field("Intro Text")
+
+    <div class="notice error" ng-show="esnError">@Html.Sitecore().Field("ESN Invalid Message")<br /> <span ng-bind-html="esnMessage"></span></div>
+    <div class="notice success" ng-show="esnValid">@Html.Sitecore().Field("ESN Valid Message")</div>
+
+    <form ng-submit="validateESN()">
+        <div class="vertical">
+            <div class="item" data-val-error="imeiNumber">
+                <label>
+                    @Html.Sitecore().Field("ESN Number Description")
+                </label>
+                <div class="btn-group-options">
+                    <label>@Html.Sitecore().Field("Label - ESN Number")</label>
+                    <input type="text" style="width: 200px;" name="imeiNumber" ng-model="form.esn" data-val="true" data-val-required />
+                    <button type="submit">@Html.Sitecore().Field("Validate Button Text")</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script type="text/ng-template" id="instructions/esn">
+        <div class="mobile-enrollment-modal">
+            <div class="modal-header">
+                <a href="" ng-click="$dismiss()">Close</a>
+                <h2>@Html.Sitecore().Field("ESN Instructions Modal Title")</h2>
+            </div>
+            <div class="modal-body">
+                @Html.Sitecore().Field("ESN Instructions Modal Content")
+            </div>
+        </div>
+    </script>
+
+    @Html.Sitecore().Field("Outro Text")
+</article>

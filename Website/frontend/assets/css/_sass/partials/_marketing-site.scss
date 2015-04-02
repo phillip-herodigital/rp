@@ -3204,6 +3204,22 @@ article.mobile.mobile-plans-usage-calculator {
 
 	}
 }
+article.marketing.validate-esn {
+    p {
+        margin-bottom: 1em;
+    }
+    label {
+        span {
+            display: block;
+            font-size: 13px;
+        }
+    }
+    .btn-group-options {
+        label {
+            display: block;
+        }
+    }
+}
 .modal-body{
 	article.mobile.mobile-plans-usage-calculator {
 		.wrapper {
@@ -3232,6 +3248,15 @@ article.mobile.mobile-plans-usage-calculator {
 					}
 				}
 			}
+		}
+	}
+	.compatible-devices-table {
+		td {
+			width: 50%;
+			vertical-align: top;
+		}
+		ul {
+			padding-left: 20px;
 		}
 	}
 }
