@@ -1228,6 +1228,7 @@
     </Content>
     <Content Include="Views\Components\Marketing\Video Player.cshtml" />
     <Content Include="Views\Components\Marketing\Video Meta.cshtml" />
+    <Content Include="Views\Pages\Marketing\Pay\Pay.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

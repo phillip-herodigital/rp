@@ -1,0 +1,243 @@
+﻿
+<div ng-controller="LoginCtrl" ng-init="init('@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/Default.aspx', '@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergyGA/Default.aspx')" state-tabs>
+    <article class="marketing service-tabs pay">
+        <div class="wrapper">
+            <div class="grid border three">
+                <div class="col mobile" ng-click="selectPane('mobile')">
+                    <a href="">
+                        <h2>@Html.Sitecore().Field("Mobile Text")</h2>
+                    </a>
+                </div>
+                <div class="col energy" dropdown is-open="status.isopen">
+                    <a href="" class="dropdown-toggle" dropdown-toggle>
+                        <h2>@Html.Sitecore().Field("Energy Text")</h2>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-click="selectPane('texas')"><a href="">@Html.Sitecore().Field("Texas State Text")</a></li>
+                        <li ng-click="selectPane('georgia')"><a href="">@Html.Sitecore().Field("Georgia State Text")</a></li>
+                        <li ng-click="selectPane('pennsylvania')"><a href="">@Html.Sitecore().Field("Pennsylvania State Text")</a></li>
+                        <li ng-click="selectPane('maryland')"><a href="">@Html.Sitecore().Field("Maryland State Text")</a></li>
+                        <li ng-click="selectPane('newjersey')"><a href="">@Html.Sitecore().Field("New Jersey State Text")</a></li>
+                        <li ng-click="selectPane('newyork')"><a href="">@Html.Sitecore().Field("New York State Text")</a></li>
+                        <li ng-click="selectPane('washingtondc')"><a href="">@Html.Sitecore().Field("Washington DC State Text")</a></li>
+                    </ul>
+                </div>
+                <div class="col protect" ng-click="selectPane('protect')">
+                    <a href="">
+                        <h2>@Html.Sitecore().Field("Protective Text")</h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article class="marketing pay" ng-class="{ hidden : pane }">
+        <div class="intro wrapper">
+            @Html.Sitecore().Field("Intro Text")
+        </div>
+    </article>
+
+    <div class="tab-content" ng-class="{ hidden : pane != 'mobile' }">
+        <article class="marketing wrapper pay mobile">
+            <h1><i class="icon-home_mobile"></i> <strong>@Html.Sitecore().Field("Mobile Text")</strong></h1>
+            <div class="grid">
+                <div class="col">
+                    <div class="pay-option">
+                        <p>@Html.Sitecore().Field("Mobile Intro Text")</p>
+                    </div>
+                    <div class="pay-option">
+                        <p class="call">@Html.Sitecore().Field("Mobile Call Us Text") <span class="phone">@Html.Sitecore().Field("Mobile Phone Number")</span></p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="box">
+                        <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
+                        <input type="text" ng-model="form.username" placeholder="Username">
+                        <input type="password" ng-model="form.password" placeholder="Password">
+                        <p><button type="button" ng-click="loginClicked()">@Html.Sitecore().Field("Login Button Text")</button></p>
+                        <p class="forgot">@Html.Sitecore().Field("Mobile Forgot Text")</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
+        <article class="marketing wrapper pay energy">
+            <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Texas State Text")</h1>
+            <div class="grid">
+                <div class="col">
+                    <div class="pay-option">
+                        <p>@Html.Sitecore().Field("Intro Text")</p>
+                        <p class="call">@Html.Sitecore().Field("Call Us Text") <span class="phone">@Html.Sitecore().Field("Phone Number")</span>.</p>
+                    </div>
+                    <div class="pay-option">
+                        <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>
+                        <p>@Html.Sitecore().Field("No Login Text")</p>
+                        <p><a class="button" href="/one-time-payment">@Html.Sitecore().Field("No Login Button Text")</a> @Html.Sitecore().Field("Instead Text")</p>
+                        <p>@Html.Sitecore().Field("Charges Apply Text")</p>
+                    </div>
+                    <div class="pay-option">
+                        <h2>@Html.Sitecore().Field("Mail Payment Text")</h2>
+                        <p>@Html.Sitecore().Field("Texas Payment Address")</p>
+                        <p>@Html.Sitecore().Field("Mail Instructions Text")</p>
+                    </div>
+                    <div class="pay-option">
+                        <h2>@Html.Sitecore().Field("Phone Payment Text")</h2>
+                        <p>@Html.Sitecore().Field("Phone Instructions Text") <span class="phone">@Html.Sitecore().Field("Texas Phone Payment Number")</span>.</p>
+                        <p>@Html.Sitecore().Field("Charges Apply Text")</p>
+                        <p>@Html.Sitecore().Field("Phone Payment Posting Text")</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="box">
+                        <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
+                        <input type="text" ng-model="form.username" placeholder="Username">
+                        <input type="password" ng-model="form.password" placeholder="Password">
+                        <p><button type="button" ng-click="loginClicked('TX')">@Html.Sitecore().Field("Login Button Text")</button></p>
+                        <p class="forgot">@Html.Sitecore().Field("Texas Forgot Text")</p>
+                        <hr />
+                        <p>@Html.Sitecore().Field("Havent Created Text")</p>
+                        <p class="sign-up"><a href="/auth/create-account">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
+                        <p><span class="benefits">@Html.Sitecore().Field("Paperless Billing Text")</span> @Html.Sitecore().Field("Paperless Benefit Text")</p>
+                        <p><span class="benefits">@Html.Sitecore().Field("Automated Payments Text")</span> @Html.Sitecore().Field("Automated Benefit Text")</p>
+                    </div>
+                    <hr />
+                    <h2>@Html.Sitecore().Field("Find Pay Center Text")</h2>
+                    @Html.Sitecore().Field("Pay Center Instructions")
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <div class="tab-content" ng-class="{ hidden : pane != 'georgia' }">
+        <article class="marketing wrapper pay energy">
+            <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Georgia State Text")</h1>
+            <div class="grid">
+                <div class="col">
+                    <div class="pay-option">
+                        <p>@Html.Sitecore().Field("Intro Text")</p>
+                        <p class="call">@Html.Sitecore().Field("Call Us Text") <span class="phone">@Html.Sitecore().Field("Georgia Phone Payment Number")</span>.</p>
+                    </div>
+                    <div class="pay-option">
+                        <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>
+                        <p>@Html.Sitecore().Field("No Login Text")</p>
+                        <p><a class="button" href="/one-time-payment">@Html.Sitecore().Field("No Login Button Text")</a> @Html.Sitecore().Field("Instead Text")</p>
+                        <p>@Html.Sitecore().Field("Charges Apply Text")</p>
+                    </div>
+                    <div class="pay-option">
+                        <h2>@Html.Sitecore().Field("Mail Payment Text")</h2>
+                        <p>@Html.Sitecore().Field("Georgia Payment Address")</p>
+                        <p>@Html.Sitecore().Field("Mail Instructions Text")</p>
+                    </div>
+                    <div class="pay-option">
+                        <h2>@Html.Sitecore().Field("Phone Payment Text")</h2>
+                        <p>@Html.Sitecore().Field("Phone Instructions Text") <span class="phone">@Html.Sitecore().Field("Georgia Phone Payment Number")</span>.</p>
+                        <p>@Html.Sitecore().Field("Charges Apply Text")</p>
+                        <p>@Html.Sitecore().Field("Phone Payment Posting Text")</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="box">
+                        <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
+                        <input type="text" ng-model="form.username" placeholder="Username">
+                        <input type="password" ng-model="form.password" placeholder="Password">
+                        <p><button ng-click="loginClicked('GA')">@Html.Sitecore().Field("Login Button Text")</button></p>
+                        <p class="forgot">@Html.Sitecore().Field("Georgia Forgot Text")</p>
+                        <hr />
+                        <p>@Html.Sitecore().Field("Havent Created Text")</p>
+                        <p class="sign-up"><a href="/auth/create-account">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
+                        <p><span class="benefits">@Html.Sitecore().Field("Paperless Billing Text")</span> @Html.Sitecore().Field("Paperless Benefit Text")</p>
+                        <p><span class="benefits">@Html.Sitecore().Field("Automated Payments Text")</span> @Html.Sitecore().Field("Automated Benefit Text")</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <div class="tab-content" ng-class="{ hidden : pane != 'pennsylvania' }">
+        <article class="layout cols-2 marketing wrapper pay energy">
+            <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Pennsylvania State Text")</h1>
+            <section>
+                <div class="pay-option">
+                    @Html.Sitecore().Field("Pennsylvania Payment Details")
+                </div>
+            </section>
+            <aside>
+                <h4>@Html.Sitecore().Field("Pay Your Bill Text")</h4>
+                @Html.Sitecore().Field("Pennsylvania Payment List")
+            </aside>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'maryland' }">
+        <article class="layout cols-2 marketing wrapper pay energy">
+            <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Maryland State Text")</h1>
+            <section>
+                <div class="pay-option">
+                    @Html.Sitecore().Field("Maryland Payment Details")
+                </div>
+            </section>
+            <aside>
+                <h4>@Html.Sitecore().Field("Pay Your Bill Text")</h4>
+                @Html.Sitecore().Field("Maryland Payment List")
+            </aside>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'newjersey' }">
+        <article class="layout cols-2 marketing wrapper pay energy">
+            <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("New Jersey State Text")</h1>
+            <section>
+                <div class="pay-option">
+                    @Html.Sitecore().Field("New Jersey Payment Details")
+                </div>
+            </section>
+            <aside>
+                <h4>@Html.Sitecore().Field("Pay Your Bill Text")</h4>
+                @Html.Sitecore().Field("New Jersey Payment List")
+            </aside>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'newyork' }">
+        <article class="layout cols-2 marketing wrapper pay energy">
+            <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("New York State Text")</h1>
+            <section>
+                <div class="pay-option">
+                    @Html.Sitecore().Field("New York Payment Details")
+                </div>
+            </section>
+            <aside>
+                <h4>@Html.Sitecore().Field("Pay Your Bill Text")</h4>
+                @Html.Sitecore().Field("New York Payment List")
+            </aside>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'washingtondc' }">
+        <article class="layout cols-2 marketing wrapper pay energy">
+            <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Washington DC State Text")</h1>
+            <section>
+                <div class="pay-option">
+                    @Html.Sitecore().Field("Washington DC Payment Details")
+                </div>
+            </section>
+            <aside>
+                <h4>@Html.Sitecore().Field("Pay Your Bill Text")</h4>
+                @Html.Sitecore().Field("Washington DC Payment List")
+            </aside>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'protect' }">
+        <article class="layout cols-2 marketing wrapper pay protect">
+            <h1><i class="icon-home_protect"></i> <strong>@Html.Sitecore().Field("Protective Text")</strong></h1>
+            <div class="grid">
+                <div class="col">
+                    <div class="pay-option">
+                        <p class="call">@Html.Sitecore().Field("Protective Payment Details") <span class="phone">@Html.Sitecore().Field("Protective Phone Number")</span>.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.Sitecore().Field("Protective Email")
+                </div>
+            </div>
+        </article>
+    </div>
+</div>

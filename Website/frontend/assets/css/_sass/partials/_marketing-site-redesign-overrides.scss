@@ -538,12 +538,11 @@ article.service-tabs {
     background-color: #f7f8f9;
     position: relative;
     z-index: 100;
-
+    padding: 0;
     > .wrapper {
         padding: 20px 0 0 !important;
         background: none;
     }
-
     .grid .col {
         background: right center no-repeat;
         text-align: center;
@@ -567,7 +566,6 @@ article.service-tabs {
               display: block;
             }
         }
-
         &.protect {
             background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
         }
@@ -660,6 +658,80 @@ article.contact-state {
         .grid .col {
             .company-contact {
                 margin-bottom: 30px;
+            }
+        }
+    }
+}
+
+article.pay {
+    padding: 0 !important;
+    
+    > .wrapper {
+        padding: 20px 0 0 !important;
+    }
+    .intro {
+        font-size: 22px;
+        text-align: center;
+        width: 53%;
+        strong {
+            color: #3a80d0;
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+        .blue {
+            color: #3a80d0;
+        }
+    }
+    h1 {
+        color: #666666;
+        text-transform: uppercase;
+        i {
+            vertical-align: baseline;
+        }
+    }
+    &.mobile {
+        margin-top: 25px;
+        h1 strong {
+            color: #3a80d0;
+        }
+    }
+    &.energy {
+        margin-top: 25px;
+        h1 strong {
+            color: #ff9933;
+        }
+    }
+    &.protect {
+        margin-top: 25px;
+        h1 strong {
+            color: #40ae49;
+        }
+    }
+    aside h4 {
+        margin-top: 0;
+    }
+    .box {
+        border: 3px solid #77bc1f;
+        h1 {
+            text-transform: none;
+        }
+    }
+    hr {
+        border: none;
+    }
+    .pay-option {
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 20px;
+        .sign-up {
+            font-size: 20px;
+            text-decoration: underline;
+        }
+        p.call {
+            font-size: 16px;
+            .phone {
+                display: block;
+                color: #6b6b6b;
+                font-weight: normal;
             }
         }
     }
