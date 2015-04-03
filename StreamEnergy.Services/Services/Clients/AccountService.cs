@@ -38,7 +38,7 @@ namespace StreamEnergy.Services.Clients
                         foreach (var line in lines)
                         {
                             var parts = line.Split(',');
-                            if (parts.Length == 2)
+                            if (parts.Length == 2 && !_cis2AureaAccountMapping.ContainsKey(parts[1]))
                             {
                                 _cis2AureaAccountMapping.Add(parts[1], parts[0]);
                             }
@@ -463,8 +463,8 @@ namespace StreamEnergy.Services.Clients
 
         private void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
         {
-            var homePhone = (data.Account.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.Account.AccountCustomer.HomePhone.Value.ToString() });
-            var mobilePhone = (data.Account.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.Account.AccountCustomer.MobilePhone.Value.ToString() });
+            var homePhone = (data.Account.AccountCustomer.HomePhone == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.Account.AccountCustomer.HomePhone.Value.ToString() });
+            var mobilePhone = (data.Account.AccountCustomer.MobilePhone == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.Account.AccountCustomer.MobilePhone.Value.ToString() });
             var tcpa = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"));
             if (data.Account.ServiceType == "Mobile")
             {
@@ -557,7 +557,7 @@ namespace StreamEnergy.Services.Clients
                 return null;
 
             var subAccount = locAdapter.BuildSubAccount(serviceAddress, details);
-            if (subAccount.CustomerType == EnrollmentCustomerType.Commercial || details.ProductType == "Mobile")
+            if (details.ProductType == "Mobile")
             {
                 subAccount.Capabilities.Add(new RenewalAccountCapability
                 {
@@ -670,6 +670,32 @@ namespace StreamEnergy.Services.Clients
             dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
             return (data.Status == "Success");
+        }
+
+        async Task<bool> IAccountService.SetAccountDetails(AccountDetails details, string systemOfRecord, string acountNumber)
+        {
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/accounts",
+                new
+                {
+                    SystemOfRecord = systemOfRecord,
+                    SystemOfRecordAccountNumber = acountNumber,
+                    HomePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).Select(p => p.Number).FirstOrDefault(),
+                    MobilePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
+                    AccountEmailAddress = details.ContactInfo.Email != null ? details.ContactInfo.Email.Address : null,
+                    Address = StreamConnectUtilities.ToStreamConnectAddress(details.BillingAddress),
+                    TCPAPreference = details.TcpaPreference == null ? "NA" : (details.TcpaPreference.Value ? "Yes" : "No"),
+                    BillDeliveryTypePreference = details.BillingDeliveryPreference,
+                });
+
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

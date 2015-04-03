@@ -98,8 +98,10 @@ namespace StreamEnergy.MyStream.Controllers
             var data =  new
             {
                 sprintBuyPhone = !string.IsNullOrEmpty(item.Fields["Sprint Buy Phone"].Value) || Request.QueryString["SprintBuyPhone"] == "true",
+                sprintBuyPhoneWsa = !string.IsNullOrEmpty(item.Fields["Sprint Buy Phone WSA"].Value) || Request.QueryString["SprintBuyPhoneWsa"] == "true",
                 sprintByod = !string.IsNullOrEmpty(item.Fields["Sprint BYOD"].Value) || Request.QueryString["SprintByod"] == "true",
                 attBuyPhone = !string.IsNullOrEmpty(item.Fields["ATT Buy Phone"].Value) || Request.QueryString["AttBuyPhone"] == "true",
+                attBuyPhoneWsa = !string.IsNullOrEmpty(item.Fields["ATT Buy Phone WSA"].Value) || Request.QueryString["AttBuyPhoneWsa"] == "true",
                 validateSprintEsn = !string.IsNullOrEmpty(item.Fields["Validate Sprint ESN"].Value),
                 excludedStates = item.Fields["Excluded States"].Value.Split(','),
                 disableSharedPlans = !string.IsNullOrEmpty(item.Fields["Disable Shared Plans"].Value),

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ResponsivePath.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,7 +32,8 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
         public Dictionary<Guid, string> Challenges { get; set; }
 
-
+        [ValidateObject(ErrorMessagePrefix = "Email ")]
+        public DomainModels.Email Email { get; set; }
 
         public CustomerContact Customer { get; set; }
 

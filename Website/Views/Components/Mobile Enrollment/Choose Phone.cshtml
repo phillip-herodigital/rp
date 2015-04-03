@@ -18,7 +18,10 @@
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'new' }" ng-click="mobileEnrollment.phoneTypeTab = 'new'" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
                             </div>
-                            <div class="tab" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone)"></div>
+                            <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'wsa' }" ng-click="mobileEnrollment.phoneTypeTab = 'wsa'" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhoneWsa)">
+                                <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
+                            </div>
+                            <div class="tab" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone && !mobileEnrollmentSettings.attBuyPhoneWsa)"></div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                                 <div ng-if="getPhoneCount('byod') > 0" class="selected-icon">
                                     <span class="phone-count">{{ getPhoneCount('byod') }}</span>
@@ -308,6 +311,19 @@
                                 </div>
                             </toggle-pane>
                         }
+
+                        @* WSA Store Shop Phones Template*@
+                        <toggle-pane name="wsa" value="mobileEnrollment.phoneTypeTab">
+                            <div class="content wsa">
+                                <div class="wsa-intro" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+                                    @Html.Sitecore().Field("Shop Phones - WSA Instructions CDMA")
+                                </div>
+                                <div class="wsa-intro" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
+                                    @Html.Sitecore().Field("Shop Phones - WSA Instructions GSM")
+                                </div>
+                            </div>
+                        </toggle-pane>
+
                         @* Bring Your Own Phone Template *@
                         <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                             <div class="content bring-your-own" ng-if="mobileEnrollment.phoneTypeTab == 'existing'">
@@ -319,7 +335,7 @@
                                 </div>
                                 <hr />
                                 <div class="vertical">
-                                    <div class="item">
+                                    <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
                                         <label>@Html.Sitecore().Field("Header - Select Device")</label>
                                         <div class="btn-group-options">
                                             <label>@Html.Sitecore().Field("Label - Select Device")</label>
@@ -339,7 +355,7 @@
                                                     <select name="phoneModel" ng-model="phoneOptions.model" ng-options="model.modelName for model in phoneOptions.make.models | filter:filterCdmaModels" data-val="true" data-val-required data-val-if="mobileEnrollment.phoneTypeTab == 'existing'"></select>
                                                 </div>
                                             </div>
-                                            <div class="info" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">@Html.Sitecore().Field("Text - Select Device Info")</div>
+                                            <div class="info" ng-if="false && mobileEnrollmentService.selectedNetwork.value == 'att'">@Html.Sitecore().Field("Text - Select Device Info")</div>
                                             <div class="info" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
                                                 @Html.Sitecore().Field("Text - CDMA Excluded")
                                                 <div ng-if="cartLte != null && cartLte">@Html.Sitecore().Field("Text - LTE Device")</div>
@@ -347,7 +363,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
+                                    <hr ng-if="false && mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
                                     <div class="item" data-val-error="imeiNumber">
                                         <label ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
                                             @Html.Sitecore().Field("Header - IMEI Number")

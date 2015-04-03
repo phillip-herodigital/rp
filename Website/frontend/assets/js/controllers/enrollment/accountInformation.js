@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentService, enrollmentCartService, $modal) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', function ($scope, enrollmentService, enrollmentCartService, $modal, validation) {
     $scope.accountInformation = enrollmentService.accountInformation;
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
@@ -70,7 +70,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             if ($scope.accountInformation.mailingAddressSame) {
                 if ($scope.utilityAddresses().length == 1)
                     $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
-            } else {
+            } else if ($scope.cartHasUtility()) {
                 $scope.accountInformation.mailingAddress = {};
             }
         }
@@ -141,41 +141,47 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             enrollmentService.setAccountInformation().then(function (data) {
                 $scope.validations = data.validations;
             });
+            
         }
-        enrollmentService.cleanseAddresses(addresses).then(function (data) {
-            if ((data.length > 0 && data[0].length) || (data.length > 0 && typeof data[1] != 'undefined' && data[1].length)) {
-                var addressOptions = { };
-                if (data[0] && data[0].length) {
-                    data[0].unshift($scope.accountInformation.mailingAddress);
-                    addressOptions.mailingAddress = data[0];
-                }
-                if (data[1] && data[1].length) {
-                    data[1].unshift($scope.accountInformation.previousAddress);
-                    addressOptions.previousAddress = data[1];
-                }
-                if (addressOptions.mailingAddress || addressOptions.previousAddress) {
-                    $scope.addressOptions = addressOptions;
-                    var modalInstance = $modal.open({
-                        scope: $scope,
-                        templateUrl: 'cleanseAddressesModal'
-                    });
-                    modalInstance.result.then(function (selectedOptions) {
-                        if (addressOptions.mailingAddress && $scope.modal.mailingAddress != 'original') {
-                            $scope.accountInformation.mailingAddress = $scope.addressOptions.mailingAddress[1];
-                        }
-                        if (addressOptions.previousAddress && $scope.modal.previousAddress != 'original') {
-                            $scope.accountInformation.previousAddress = $scope.addressOptions.previousAddress[1];
-                        }
 
-                        continueWith();
-                    });
-                }
-            }
-            else {
-                continueWith();
-            }
-        });
+        if ($scope.accountInfo.$valid && $scope.isFormValid()) {
+            enrollmentService.cleanseAddresses(addresses).then(function (data) {
+                if ((data.length > 0 && data[0].length) || (data.length > 0 && typeof data[1] != 'undefined' && data[1].length)) {
+                    var addressOptions = { };
+                    if (data[0] && data[0].length) {
+                        data[0].unshift($scope.accountInformation.mailingAddress);
+                        addressOptions.mailingAddress = data[0];
+                    }
+                    if (data[1] && data[1].length) {
+                        data[1].unshift($scope.accountInformation.previousAddress);
+                        addressOptions.previousAddress = data[1];
+                    }
+                    if (addressOptions.mailingAddress || addressOptions.previousAddress) {
+                        $scope.addressOptions = addressOptions;
+                        var modalInstance = $modal.open({
+                            scope: $scope,
+                            templateUrl: 'cleanseAddressesModal'
+                        });
+                        modalInstance.result.then(function (selectedOptions) {
+                            if (addressOptions.mailingAddress && $scope.modal.mailingAddress != 'original') {
+                                $scope.accountInformation.mailingAddress = $scope.addressOptions.mailingAddress[1];
+                            }
+                            if (addressOptions.previousAddress && $scope.modal.previousAddress != 'original') {
+                                $scope.accountInformation.previousAddress = $scope.addressOptions.previousAddress[1];
+                            }
 
+                            continueWith();
+                        });
+                    }
+                }
+                else {
+                    continueWith();
+                }
+            });
+        } else {
+            validation.showValidationSummary = true; 
+            validation.cancelSuppress($scope);
+        }
         
     };
 }]);

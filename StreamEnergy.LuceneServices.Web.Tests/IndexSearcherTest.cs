@@ -25,6 +25,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests
                     },
                     EnrollmentCustomerType.Residential)
             };
+        private static Lucene.Net.Store.RAMDirectory directory;
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -42,11 +43,6 @@ namespace StreamEnergy.LuceneServices.Web.Tests
             }
         }
 
-        private static string BuildIndexPath(TestContext testContext)
-        {
-            var output = System.IO.Path.Combine(testContext.TestDir, testContext.FullyQualifiedTestClassName);
-            return output;
-        }
 
         #region Additional test attributes
         //
@@ -57,8 +53,9 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         public static void MyClassInitialize(TestContext testContext) 
         {
             var container = ContainerSetup.Create();
+            directory = new Lucene.Net.Store.RAMDirectory();
 
-            using (var builder = new IndexBuilder(BuildIndexPath(testContext), true))
+            using (var builder = new IndexBuilder(directory, true))
             {
                 builder.WriteIndex(data, "Test").Wait();
             }
@@ -81,7 +78,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         [TestMethod]
         public void StreetNumber()
         {
-            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            using (var searcher = new IndexSearcher(directory))
             {
                 var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "3620").ToArray();
                 Assert.AreEqual(data.First().Item1.Address, results.First().Address);
@@ -91,7 +88,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         [TestMethod]
         public void StreetNameCorrect()
         {
-            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            using (var searcher = new IndexSearcher(directory))
             {
                 var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "Huffines").ToArray();
                 Assert.AreEqual(data.First().Item1.Address, results.First().Address);
@@ -101,7 +98,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         [TestMethod]
         public void StreetNumberAndName()
         {
-            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            using (var searcher = new IndexSearcher(directory))
             {
                 var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "3620 Huffines").ToArray();
                 Assert.AreEqual(data.First().Item1.Address, results.First().Address);
@@ -111,7 +108,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         [TestMethod]
         public void StreetNumberAndNameSpellingError()
         {
-            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            using (var searcher = new IndexSearcher(directory))
             {
                 var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "3620 Hufines").ToArray();
                 Assert.AreEqual(data.First().Item1.Address, results.First().Address);
@@ -121,7 +118,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         [TestMethod]
         public void EsiId()
         {
-            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            using (var searcher = new IndexSearcher(directory))
             {
                 var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "1234SAMPLE5678").ToArray();
                 Assert.AreEqual(data.First().Item1.Address, results.First().Address);
@@ -131,7 +128,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         [TestMethod]
         public void WrongState()
         {
-            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            using (var searcher = new IndexSearcher(directory))
             {
                 var results = searcher.Search("GA", EnrollmentCustomerType.Residential, "3620").ToArray();
                 Assert.IsFalse(results.Any());
@@ -141,7 +138,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         [TestMethod]
         public void WrongCustomerType()
         {
-            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            using (var searcher = new IndexSearcher(directory))
             {
                 var results = searcher.Search("TX", EnrollmentCustomerType.Commercial, "3620").ToArray();
                 Assert.IsFalse(results.Any());

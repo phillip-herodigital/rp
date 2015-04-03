@@ -28,8 +28,12 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             new StreamEnergy.Services.Clients.ClientContainerSetup().SetupUnity(unityContainer);
             unityContainer.RegisterType<ISettings, NullSettings>();
 
+            var cacheDirectory = new Lucene.Net.Store.MMapDirectory(new System.IO.DirectoryInfo(ConfigurationManager.AppSettings["LuceneCacheDirectory"]));
+            var cloudConnectionString = ConfigurationManager.AppSettings["LuceneBlobStorage"];
+            
+            using (var azureDirectory = new Lucene.Net.Store.Azure.AzureDirectory(Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(cloudConnectionString), options.Destination, cacheDirectory))
             using (var indexer = BuildIndexer(options.Region))
-            using (var indexBuilder = new IndexBuilder(options.Destination, options.ForceCreate))
+            using (var indexBuilder = new IndexBuilder(azureDirectory, options.ForceCreate))
             {
                 var streetService = unityContainer.Resolve<SmartyStreets.SmartyStreetService>();
                 indexer.AddAddresses(options, indexBuilder, streetService).Wait();
