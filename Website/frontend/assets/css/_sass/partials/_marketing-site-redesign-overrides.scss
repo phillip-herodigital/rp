@@ -685,6 +685,7 @@ article.pay {
     h1 {
         color: #666666;
         text-transform: uppercase;
+        margin-bottom: 40px;
         i {
             vertical-align: baseline;
         }
@@ -714,14 +715,33 @@ article.pay {
         border: 3px solid #77bc1f;
         h1 {
             text-transform: none;
+            margin: 10px 0;
+        }
+        button {
+            margin-right: 60px;
+        }
+        p.sign-up {
+            color: #6b6b6b;
         }
     }
     hr {
         border: none;
     }
+    .paperless {
+        i {
+            float: left;
+            margin-right: 20px;
+        }
+        .blue {
+            color: #3a80d0;
+        }
+    }
     .pay-option {
         border-bottom: 1px solid #f0f0f0;
         padding-bottom: 20px;
+        h2 {
+            text-align: center;
+        }
         .sign-up {
             font-size: 20px;
             text-decoration: underline;

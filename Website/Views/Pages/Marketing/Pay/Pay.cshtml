@@ -65,16 +65,24 @@
     <div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
         <article class="marketing wrapper pay energy">
             <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Texas State Text")</h1>
+            <div class="grid box">
+                <div class="col benefits">
+                    @Html.Sitecore().Field("Havent Created Text")
+                    @Html.Sitecore().Field("Paperless Billing Text")
+                    <p class="sign-up"><a href="/auth/create-account">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
+                </div>
+                <div class="col">
+                    <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
+                    <input type="text" ng-model="form.username" placeholder="Username">
+                    <input type="password" ng-model="form.password" placeholder="Password">
+                    <p class="forgot"><button type="button" ng-click="loginClicked('TX')">@Html.Sitecore().Field("Login Button Text")</button>@Html.Sitecore().Field("Texas Forgot Text")</p>
+                </div>
+            </div>
             <div class="grid">
                 <div class="col">
                     <div class="pay-option">
-                        <p>@Html.Sitecore().Field("Intro Text")</p>
-                        <p class="call">@Html.Sitecore().Field("Call Us Text") <span class="phone">@Html.Sitecore().Field("Phone Number")</span>.</p>
-                    </div>
-                    <div class="pay-option">
                         <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>
-                        <p>@Html.Sitecore().Field("No Login Text")</p>
-                        <p><a class="button" href="/one-time-payment">@Html.Sitecore().Field("No Login Button Text")</a> @Html.Sitecore().Field("Instead Text")</p>
+                        <p>@Html.Sitecore().Field("No Login Text") <a class="button" href="/one-time-payment">&nbsp;@Html.Sitecore().Field("No Login Button Text")&nbsp;</a></p>
                         <p>@Html.Sitecore().Field("Charges Apply Text")</p>
                     </div>
                     <div class="pay-option">
@@ -82,29 +90,18 @@
                         <p>@Html.Sitecore().Field("Texas Payment Address")</p>
                         <p>@Html.Sitecore().Field("Mail Instructions Text")</p>
                     </div>
+                </div>
+                <div class="col">
                     <div class="pay-option">
                         <h2>@Html.Sitecore().Field("Phone Payment Text")</h2>
                         <p>@Html.Sitecore().Field("Phone Instructions Text") <span class="phone">@Html.Sitecore().Field("Texas Phone Payment Number")</span>.</p>
                         <p>@Html.Sitecore().Field("Charges Apply Text")</p>
                         <p>@Html.Sitecore().Field("Phone Payment Posting Text")</p>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="box">
-                        <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
-                        <input type="text" ng-model="form.username" placeholder="Username">
-                        <input type="password" ng-model="form.password" placeholder="Password">
-                        <p><button type="button" ng-click="loginClicked('TX')">@Html.Sitecore().Field("Login Button Text")</button></p>
-                        <p class="forgot">@Html.Sitecore().Field("Texas Forgot Text")</p>
-                        <hr />
-                        <p>@Html.Sitecore().Field("Havent Created Text")</p>
-                        <p class="sign-up"><a href="/auth/create-account">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
-                        <p><span class="benefits">@Html.Sitecore().Field("Paperless Billing Text")</span> @Html.Sitecore().Field("Paperless Benefit Text")</p>
-                        <p><span class="benefits">@Html.Sitecore().Field("Automated Payments Text")</span> @Html.Sitecore().Field("Automated Benefit Text")</p>
+                    <div class="pay-option">
+                        <h2>@Html.Sitecore().Field("Find Pay Center Text")</h2>
+                        @Html.Sitecore().Field("Pay Center Instructions")
                     </div>
-                    <hr />
-                    <h2>@Html.Sitecore().Field("Find Pay Center Text")</h2>
-                    @Html.Sitecore().Field("Pay Center Instructions")
                 </div>
             </div>
         </article>
@@ -113,16 +110,24 @@
     <div class="tab-content" ng-class="{ hidden : pane != 'georgia' }">
         <article class="marketing wrapper pay energy">
             <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Georgia State Text")</h1>
+            <div class="grid box">
+                <div class="col benefits">
+                    @Html.Sitecore().Field("Havent Created Text")
+                    @Html.Sitecore().Field("Paperless Billing Text")
+                    <p class="sign-up"><a href="/auth/create-account">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
+                </div>
+                <div class="col">
+                    <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
+                    <input type="text" ng-model="form.username" placeholder="Username">
+                    <input type="password" ng-model="form.password" placeholder="Password">
+                    <p class="forgot"><button type="button" ng-click="loginClicked('GA')">@Html.Sitecore().Field("Login Button Text")</button>@Html.Sitecore().Field("Georgia Forgot Text")</p>
+                </div>
+            </div>
             <div class="grid">
                 <div class="col">
                     <div class="pay-option">
-                        <p>@Html.Sitecore().Field("Intro Text")</p>
-                        <p class="call">@Html.Sitecore().Field("Call Us Text") <span class="phone">@Html.Sitecore().Field("Georgia Phone Payment Number")</span>.</p>
-                    </div>
-                    <div class="pay-option">
                         <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>
-                        <p>@Html.Sitecore().Field("No Login Text")</p>
-                        <p><a class="button" href="/one-time-payment">@Html.Sitecore().Field("No Login Button Text")</a> @Html.Sitecore().Field("Instead Text")</p>
+                        <p>@Html.Sitecore().Field("No Login Text") <a class="button" href="/one-time-payment">&nbsp;@Html.Sitecore().Field("No Login Button Text")&nbsp;</a></p>
                         <p>@Html.Sitecore().Field("Charges Apply Text")</p>
                     </div>
                     <div class="pay-option">
@@ -130,25 +135,13 @@
                         <p>@Html.Sitecore().Field("Georgia Payment Address")</p>
                         <p>@Html.Sitecore().Field("Mail Instructions Text")</p>
                     </div>
+                </div>
+                <div class="col">
                     <div class="pay-option">
                         <h2>@Html.Sitecore().Field("Phone Payment Text")</h2>
                         <p>@Html.Sitecore().Field("Phone Instructions Text") <span class="phone">@Html.Sitecore().Field("Georgia Phone Payment Number")</span>.</p>
                         <p>@Html.Sitecore().Field("Charges Apply Text")</p>
                         <p>@Html.Sitecore().Field("Phone Payment Posting Text")</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="box">
-                        <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
-                        <input type="text" ng-model="form.username" placeholder="Username">
-                        <input type="password" ng-model="form.password" placeholder="Password">
-                        <p><button ng-click="loginClicked('GA')">@Html.Sitecore().Field("Login Button Text")</button></p>
-                        <p class="forgot">@Html.Sitecore().Field("Georgia Forgot Text")</p>
-                        <hr />
-                        <p>@Html.Sitecore().Field("Havent Created Text")</p>
-                        <p class="sign-up"><a href="/auth/create-account">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
-                        <p><span class="benefits">@Html.Sitecore().Field("Paperless Billing Text")</span> @Html.Sitecore().Field("Paperless Benefit Text")</p>
-                        <p><span class="benefits">@Html.Sitecore().Field("Automated Payments Text")</span> @Html.Sitecore().Field("Automated Benefit Text")</p>
                     </div>
                 </div>
             </div>
