@@ -1236,6 +1236,17 @@
             @include breakpoint(small) {
                 padding-left: 0;
             }
+            tr.ez-pay {
+                border: 2px solid #0071b9;
+            }
+            td {
+                border: none;
+                .blue {
+                    color: #0071b9;
+                    font-size: 15px;
+                    font-weight: 600;
+                }
+            }
         }
         .phone-summary {
             min-height: 140px;

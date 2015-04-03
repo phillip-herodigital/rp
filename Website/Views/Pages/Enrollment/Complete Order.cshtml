@@ -710,6 +710,16 @@
 </script>
 
 <script type="text/ng-template" id="paymentsDue/Deposit">
+    <tr class="ez-pay">
+        <td class="sub-charge">
+            <label>@Html.Sitecore().Field("EZ Pay")</label>
+            @Html.Sitecore().Field("EZ Pay Explanation")
+        </td>
+        <td class="rate"><strong>@Html.Sitecore().Field("EZ Pay Price")</strong></td>
+    </tr>
+    <tr>
+        <td colspan="2"><div class="seperator">@Html.Sitecore().Field("Or Text")</div></td>
+    </tr>
     <tr>
         <td class="sub-charge">
             <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.isWaived" ng-value="false" checked="checked" />
