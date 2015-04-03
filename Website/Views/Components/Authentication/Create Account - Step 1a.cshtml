@@ -1,0 +1,28 @@
+﻿@model StreamEnergy.DomainModels.Accounts.Create.CreateAccountContext
+
+@if (Sitecore.Context.PageMode.IsPageEditor)
+{
+    @Html.AllValidationMessagesFor(m => m.Email)
+}
+
+<article class="grey-box auth auth-create-account" ng-show="activeState == 'step1a'">
+    <header>
+        <h2>@Html.Sitecore().Field("Header Text")</h2>
+    </header>
+    <form ng-submit="updateEmail()" data-val-bind-messages="validations">
+        <div class="content" loading-indicator>
+            @Html.Sitecore().Field("Body Text")
+            @Html.ValidationSummary()
+            <div class="item" @Html.Validation().ErrorClass(model => model.Email.Address)>
+                <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Label")</label>
+                @Html.TextBoxFor(m => m.Email.Address, new { ng_model = "formData.email.address" })
+                @Html.ValidationMessageFor(model => model.Email.Address)
+            </div>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
+            </div>
+        </footer>
+    </form>
+</article>

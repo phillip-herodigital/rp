@@ -721,6 +721,8 @@
     <Compile Include="Models\Authentication\RecoverUsernameResponse.cs" />
     <Compile Include="Models\Authentication\SecurityQuestion.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailRequest.cs" />
+    <Compile Include="Models\Authentication\UpdateEmailRequest.cs" />
+    <Compile Include="Models\Authentication\UpdateEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
@@ -736,6 +738,7 @@
     <Compile Include="Models\Enrollment\SelectedOfferSet.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
+    <Compile Include="Models\Marketing\ModalContent.cs" />
     <Compile Include="Models\Marketing\ValidasRequest.cs" />
     <Compile Include="Models\Marketing\UsageCalculator.cs" />
     <Compile Include="Models\Marketing\CommercialQuote.cs" />
@@ -1228,6 +1231,8 @@
     </Content>
     <Content Include="Views\Components\Marketing\Video Player.cshtml" />
     <Content Include="Views\Components\Marketing\Video Meta.cshtml" />
+    <Content Include="Views\Components\Authentication\Create Account - Step 1a.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Validate ESN.cshtml" />
     <Content Include="Views\Pages\Marketing\Pay\Pay.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
