@@ -51,7 +51,7 @@ namespace StreamEnergy.LuceneServices.Web.Models
                 yield return Json.Read<StreamEnergy.DomainModels.Enrollments.Location>(doc.Get("Data"));
 
                 // Simple heuristic to reduce match count when the top choices are a good match and the remaining ones aren't
-                if (i < hits.Length - 1 && hits[i].Score > 0.5f && hits[i].Score * 0.5f > hits[i + 1].Score)
+                if (state != "GA" && i < hits.Length - 1 && hits[i].Score > 0.5f && hits[i].Score * 0.5f > hits[i + 1].Score)
                     break;
             }
         }
