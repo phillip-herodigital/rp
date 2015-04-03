@@ -603,7 +603,13 @@ article.service-tabs {
         display: block;
     }
 }
-
+article.contact {
+    .request {
+        p {
+            margin-bottom: 1em;
+        }
+    }
+}
 article.contact-state {
     .customer-service {
         h1 {

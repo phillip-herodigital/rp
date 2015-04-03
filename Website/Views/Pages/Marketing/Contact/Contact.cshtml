@@ -50,6 +50,13 @@
                     @Html.ValidationSummary()
                     <div class="grid">
                         <div class="col">
+                            <div class="item" @Html.Validation().ErrorClass(model => model.StreamService)>
+                                <label for="@Html.IdFor(m => m.Reason)">@Html.Sitecore().Field("Stream Service Text")</label>
+                                <select data-val-required="@Html.Sitecore().Field("Stream Service Required")" data-val-length="" data-val-length-min="1" data-val-length-max="50" data-val="true" name="@Html.NameFor(m => m.StreamService)" id="@Html.IdFor(m => m.StreamService)" ng-model="streamService">
+                                    @Html.Sitecore().Field("Stream Service Options")
+                                </select>
+                                <span class="asterisk">&#42;</span>
+                            </div>
                             <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.First)>
                                 <label for="@Html.IdFor(m => m.ContactName.First)">@Html.Sitecore().Field("First Name Text")</label>
                                 @Html.TextBoxFor(m => m.ContactName.First, new { ng_model = "firstName", placeholder = Html.Sitecore().Field("First Name Placeholder") })
