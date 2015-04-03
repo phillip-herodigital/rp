@@ -2,62 +2,163 @@
 @using System.Linq.Expressions;
 @using StreamEnergy.Extensions;
 
-<article class="marketing contact">
-    <div class="intro wrapper">
+@*
+
+*@
+<div state-tabs>
+    <article class="marketing service-tabs contact">
+        <div class="wrapper">
+            <div class="grid border three">
+                <div class="col mobile" ng-click="selectPane('mobile')">
+                    <a href="">
+                        <h2>@Html.Sitecore().Field("Mobile Text")</h2>
+                    </a>
+                </div>
+                <div class="col energy" dropdown is-open="status.isopen">
+                    <a href="" class="dropdown-toggle" dropdown-toggle>
+                        <h2>@Html.Sitecore().Field("Energy Text")</h2>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-click="selectPane('texas')"><a href="">@Html.Sitecore().Field("Texas State Text")</a></li>
+                        <li ng-click="selectPane('georgia')"><a href="">@Html.Sitecore().Field("Georgia State Text")</a></li>
+                        <li ng-click="selectPane('pennsylvania')"><a href="">@Html.Sitecore().Field("Pennsylvania State Text")</a></li>
+                        <li ng-click="selectPane('maryland')"><a href="">@Html.Sitecore().Field("Maryland State Text")</a></li>
+                        <li ng-click="selectPane('newjersey')"><a href="">@Html.Sitecore().Field("New Jersey State Text")</a></li>
+                        <li ng-click="selectPane('newyork')"><a href="">@Html.Sitecore().Field("New York State Text")</a></li>
+                        <li ng-click="selectPane('washingtondc')"><a href="">@Html.Sitecore().Field("Washington DC State Text")</a></li>
+                    </ul>
+                </div>
+                <div class="col protect" ng-click="selectPane('protect')">
+                    <a href="">
+                        <h2>@Html.Sitecore().Field("Protective Text")</h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+    <article class="marketing contact" ng-class="{ hidden : pane }">
+        <div class="intro wrapper">
         @Html.Sitecore().Field("Intro Text")
-    </div>
-</article>
-<article class="marketing state-tabs contact" state-tabs>
-    <ul class="tabs-nav">
-        <li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
-            <a href="">
-                <span><i class="icon-state-texas"></i></span>
-                @Html.Sitecore().Field("Texas State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
-            <a href="">
-                <span><i class="icon-state-georgia"></i></span>
-                @Html.Sitecore().Field("Georgia State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('pennsylvania')" ng-class="{ active: pane == 'pennsylvania' }">
-            <a href="">
-                <span><i class="icon-state-pennsylvania"></i></span>
-                @Html.Sitecore().Field("Pennsylvania State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('maryland')" ng-class="{ active: pane == 'maryland' }">
-            <a href="">
-                <span><i class="icon-state-maryland"></i></span>
-                @Html.Sitecore().Field("Maryland State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('newjersey')" ng-class="{ active: pane == 'newjersey' }">
-            <a href="">
-                <span><i class="icon-state-newjersey"></i></span>
-                @Html.Sitecore().Field("New Jersey State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('newyork')" ng-class="{ active: pane == 'newyork' }">
-            <a href="">
-                <span><i class="icon-state-newyork"></i></span>
-                @Html.Sitecore().Field("New York State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('washingtondc')" ng-class="{ active: pane == 'washingtondc' }">
-            <a href="">
-                <span><i class="icon-state-washingtondc"></i></span>
-                @Html.Sitecore().Field("Washington DC State Text")
-            </a>
-        </li>
-    </ul>
-    <div class="blue-bar">
+        </div>
+    </article>
+    <article class="marketing contact" ng-class="{ hidden : pane }">
+        <div class="request">
+            <div class="wrapper">
+                <h2>@Html.Sitecore().Field("Request Form Text")</h2>
+                <p>@Html.Sitecore().Field("Required Text")</p>
+                <form action="@Request.Url.AbsolutePath" method="post">
+                    @Html.ValidationSummary()
+                    <div class="grid">
+                        <div class="col">
+                            <div class="item" @Html.Validation().ErrorClass(model => model.StreamService)>
+                                <label for="@Html.IdFor(m => m.Reason)">@Html.Sitecore().Field("Stream Service Text")</label>
+                                <select data-val-required="@Html.Sitecore().Field("Stream Service Required")" data-val-length="" data-val-length-min="1" data-val-length-max="50" data-val="true" name="@Html.NameFor(m => m.StreamService)" id="@Html.IdFor(m => m.StreamService)" ng-model="streamService">
+                                    @Html.Sitecore().Field("Stream Service Options")
+                                </select>
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                            <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.First)>
+                                <label for="@Html.IdFor(m => m.ContactName.First)">@Html.Sitecore().Field("First Name Text")</label>
+                                @Html.TextBoxFor(m => m.ContactName.First, new { ng_model = "firstName", placeholder = Html.Sitecore().Field("First Name Placeholder") })
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                            <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.Last)>
+                                <label for="@Html.IdFor(m => m.ContactName.Last)">@Html.Sitecore().Field("Last Name Text")</label>
+                                @Html.TextBoxFor(m => m.ContactName.Last, new { ng_model = "lastname", placeholder = Html.Sitecore().Field("Last Name Placeholder") })
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                            <div class="item" @Html.Validation().ErrorClass(model => model.AddressLine1)>
+                                <label for="@Html.IdFor(m => m.AddressLine1)">@Html.Sitecore().Field("Service Address Text")</label>
+                                @Html.TextBoxFor(m => m.AddressLine1, new { ng_model = "address", data_val_if = "address", placeholder = Html.Sitecore().Field("Service Address Placeholder") })
+                            </div>
+                            <div class="group">
+                                <div class="item" @Html.Validation().ErrorClass(model => model.City)>
+                                    <label for="@Html.IdFor(m => m.City)">@Html.Sitecore().Field("City Text")</label>
+                                    @Html.TextBoxFor(m => m.City, new { ng_model = "city", placeholder = Html.Sitecore().Field("City Placeholder") })
+                                    <span class="asterisk">&#42;</span>
+                                </div>
+                                <div class="item" @Html.Validation().ErrorClass(model => model.StateAbbreviation)>
+                                    <label for="@Html.IdFor(m => m.StateAbbreviation)">@Html.Sitecore().Field("State Text")</label>
+                                    <select data-val-required="@Html.Sitecore().Field("State Required")" data-val="true" name="@Html.NameFor(m => m.StateAbbreviation)" id="@Html.IdFor(m => m.StateAbbreviation)" ng-model="state">
+                                        @Html.Sitecore().Field("State Options")
+                                    </select>
+                                    <span class="asterisk">&#42;</span>
+                                </div>
+                            </div>
+                            <div class="item half-width" @Html.Validation().ErrorClass(model => model.PostalCode5)>
+                                <label for="@Html.IdFor(m => m.PostalCode5)">@Html.Sitecore().Field("Zip Code Text")</label>
+                                @Html.TextBoxFor(m => m.PostalCode5, new { ng_model = "zipCode", placeholder = Html.Sitecore().Field("Zip Code Placeholder") })
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="item" @Html.Validation().ErrorClass(model => model.ContactPhone.Number)>
+                                <label for="@Html.IdFor(m => m.ContactPhone.Number)">@Html.Sitecore().Field("Phone Text")</label>
+                                @Html.TextBoxFor(m => m.ContactPhone.Number, new { ng_model = "phone", data_val_if = "phone", placeholder = Html.Sitecore().Field("Phone Placeholder") })
+                            </div>
+                            <div class="item" @Html.Validation().ErrorClass(model => model.ContactEmail.Address)>
+                                <label for="@Html.IdFor(m => m.ContactEmail.Address)">@Html.Sitecore().Field("Email Text")</label>
+                                @Html.TextBoxFor(m => m.ContactEmail.Address, new { ng_model = "email", placeholder = Html.Sitecore().Field("Email Placeholder") })
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                            <div class="item" @Html.Validation().ErrorClass(model => model.Reason)>
+                                <label for="@Html.IdFor(m => m.Reason)">@Html.Sitecore().Field("Reason Text")</label>
+                                <select data-val-required="@Html.Sitecore().Field("Reason Required")" data-val-length="" data-val-length-min="1" data-val-length-max="50" data-val="true" name="@Html.NameFor(m => m.Reason)" id="@Html.IdFor(m => m.Reason)" ng-model="reason">
+                                    @Html.Sitecore().Field("Reason Options")
+                                </select>
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                            <div class="item" @Html.Validation().ErrorClass(model => model.Comment)>
+                                <label for="@Html.IdFor(m => m.Comment)">@Html.Sitecore().Field("Explain Text")</label>
+                                @Html.TextAreaFor(m => m.Comment, new { ng_model = "comment", placeholder = Html.Sitecore().Field("Explain Placeholder") })
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                            <button type="submit" data-val-submit>@Html.Sitecore().Field("Send Button Text")</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        @if (Model != null && Model.ShowSuccessMessage)
+        {
+            <div class="success-message" id="success-message">
+                <div class="wrapper">
+                    <h2>@Html.Sitecore().Field("Thank You Text")</h2>
+                    <h4>@Html.Sitecore().Field("Success Message Text")</h4>
+                </div>
+            </div>
+        }
+
+        <div class="associate-support">
+            <div class="wrapper">
+                <h2>@Html.Sitecore().Field("Associate Support Text")</h2>
+                @Html.Sitecore().Field("Associate Support Content")
+            </div>
+        </div>
+    </article>
+    <div class="tab-content" ng-class="{ hidden : pane != 'mobile' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service mobile clearfix">
+                <h1><i class="icon-home_mobile"></i> <strong>@Html.Sitecore().Field("Mobile Text")</strong></h1>
+                <div class="faq-text">@Html.Sitecore().Field("Mobile FAQ Text")</div>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Mobile Phone and Email")
+                    </div>
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Mobile Mail")
+                    </div>
+                </div>
+            </div>
+        </article>
     </div>
     <div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
         <article class="marketing contact-state wrapper">
-            <div class="customer-service clearfix">
-                <h1>@Html.Sitecore().Field("Texas State Text")</h1>
+            <div class="customer-service energy clearfix">
+                <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Texas State Text")</h1>
+                <div class="faq-text">@Html.Sitecore().Field("Texas FAQ Text")</div>
                 <div class="left-side">
                     <div class="phone-email">
                         @Html.Sitecore().Field("Texas Phone and Email")
@@ -82,8 +183,9 @@
     </div>
     <div class="tab-content" ng-class="{ hidden : pane != 'georgia' }">
         <article class="marketing contact-state wrapper">
-            <div class="customer-service clearfix">
-                <h1>@Html.Sitecore().Field("Georgia State Text")</h1>
+            <div class="customer-service energy clearfix">
+                <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Georgia State Text")</h1>
+                <div class="faq-text">@Html.Sitecore().Field("Georgia FAQ Text")</div>
                 <div class="left-side">
                     <div class="phone-email">
                         @Html.Sitecore().Field("Georgia Phone and Email")
@@ -108,8 +210,9 @@
     </div>
     <div class="tab-content" ng-class="{ hidden : pane != 'pennsylvania' }">
         <article class="marketing contact-state wrapper">
-            <div class="customer-service clearfix">
-                <h1>@Html.Sitecore().Field("Pennsylvania State Text")</h1>
+            <div class="customer-service energy clearfix">
+                <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Pennsylvania State Text")</h1>
+                <div class="faq-text">@Html.Sitecore().Field("Pennsylvania FAQ Text")</div>
                 <div class="left-side">
                     <div class="phone-email">
                         @Html.Sitecore().Field("Pennsylvania Phone and Email")
@@ -129,8 +232,9 @@
     </div>
     <div class="tab-content" ng-class="{ hidden : pane != 'maryland' }">
         <article class="marketing contact-state wrapper">
-            <div class="customer-service clearfix">
-                <h1>@Html.Sitecore().Field("Maryland State Text")</h1>
+            <div class="customer-service energy clearfix">
+                <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Maryland State Text")</h1>
+                <div class="faq-text">@Html.Sitecore().Field("Maryland FAQ Text")</div>
                 <div class="left-side">
                     <div class="phone-email">
                         @Html.Sitecore().Field("Maryland Phone and Email")
@@ -150,8 +254,9 @@
     </div>
     <div class="tab-content" ng-class="{ hidden : pane != 'newjersey' }">
         <article class="marketing contact-state wrapper">
-            <div class="customer-service clearfix">
-                <h1>@Html.Sitecore().Field("New Jersey State Text")</h1>
+            <div class="customer-service energy clearfix">
+                <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("New Jersey State Text")</h1>
+                <div class="faq-text">@Html.Sitecore().Field("New Jersey FAQ Text")</div>
                 <div class="left-side">
                     <div class="phone-email">
                         @Html.Sitecore().Field("New Jersey Phone and Email")
@@ -171,8 +276,9 @@
     </div>
     <div class="tab-content" ng-class="{ hidden : pane != 'newyork' }">
         <article class="marketing contact-state wrapper">
-            <div class="customer-service clearfix">
-                <h1>@Html.Sitecore().Field("New York State Text")</h1>
+            <div class="customer-service energy clearfix">
+                <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("New York State Text")</h1>
+                <div class="faq-text">@Html.Sitecore().Field("New York FAQ Text")</div>
                 <div class="left-side">
                     <div class="phone-email">
                         @Html.Sitecore().Field("New York Phone and Email")
@@ -192,8 +298,9 @@
     </div>
     <div class="tab-content" ng-class="{ hidden : pane != 'washingtondc' }">
         <article class="marketing contact-state wrapper">
-            <div class="customer-service clearfix">
-                <h1>@Html.Sitecore().Field("Washington DC State Text")</h1>
+            <div class="customer-service energy clearfix">
+                <h1><i class="icon-home_energy"></i> <strong>@Html.Sitecore().Field("Energy Text")</strong> @Html.Sitecore().Field("Energy In Text") @Html.Sitecore().Field("Washington DC State Text")</h1>
+                <div class="faq-text">@Html.Sitecore().Field("Washington DC FAQ Text")</div>
                 <div class="left-side">
                     <div class="phone-email">
                         @Html.Sitecore().Field("Washington DC Phone and Email")
@@ -211,105 +318,22 @@
             </div>
         </article>
     </div>
-    <div class="faq">
-        <div class="wrapper">
-            <h2 class="header-line"><span>@Html.Sitecore().Field("FAQ Text")</span></h2>
-            @Html.Sitecore().Field("FAQ Content")
-        </div>
-    </div>
-    <div class="request">
-        <div class="wrapper">
-            <h2>@Html.Sitecore().Field("Request Form Text")</h2>
-            <p>@Html.Sitecore().Field("Required Text")</p>
-            <form action="@Request.Url.AbsolutePath" method="post">
-                @Html.ValidationSummary()
-                <div class="grid">
-                    <div class="col">
-                        <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.First)>
-                            <label for="@Html.IdFor(m => m.ContactName.First)">@Html.Sitecore().Field("First Name Text")</label>
-                            @Html.TextBoxFor(m => m.ContactName.First, new { ng_model = "firstName", placeholder = Html.Sitecore().Field("First Name Placeholder") })
-                            <span class="asterisk">&#42;</span>
-                        </div>
-                        <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.Last)>
-                            <label for="@Html.IdFor(m => m.ContactName.Last)">@Html.Sitecore().Field("Last Name Text")</label>
-                            @Html.TextBoxFor(m => m.ContactName.Last, new { ng_model = "lastname", placeholder = Html.Sitecore().Field("Last Name Placeholder") })
-                            <span class="asterisk">&#42;</span>
-                        </div>
-                        <div class="item" @Html.Validation().ErrorClass(model => model.AddressLine1)>
-                            <label for="@Html.IdFor(m => m.AddressLine1)">@Html.Sitecore().Field("Service Address Text")</label>
-                            @Html.TextBoxFor(m => m.AddressLine1, new { ng_model = "address", data_val_if="address", placeholder = Html.Sitecore().Field("Service Address Placeholder") })
-                        </div>
-                        <div class="group">
-                            <div class="item" @Html.Validation().ErrorClass(model => model.City)>
-                                <label for="@Html.IdFor(m => m.City)">@Html.Sitecore().Field("City Text")</label>
-                                @Html.TextBoxFor(m => m.City, new { ng_model = "city", placeholder = Html.Sitecore().Field("City Placeholder") })
-                                <span class="asterisk">&#42;</span>
-                            </div>
-                            <div class="item" @Html.Validation().ErrorClass(model => model.StateAbbreviation)>
-                                <label for="@Html.IdFor(m => m.StateAbbreviation)">@Html.Sitecore().Field("State Text")</label>
-                                <select data-val-required="@Html.Sitecore().Field("State Required")" data-val="true" name="@Html.NameFor(m => m.StateAbbreviation)" id="@Html.IdFor(m => m.StateAbbreviation)" ng-model="state">
-                                    @Html.Sitecore().Field("State Options")
-                                </select>
-                                <span class="asterisk">&#42;</span>
-                            </div>
-                        </div>
-                        <div class="item half-width" @Html.Validation().ErrorClass(model => model.PostalCode5)>
-                            <label for="@Html.IdFor(m => m.PostalCode5)">@Html.Sitecore().Field("Zip Code Text")</label>
-                            @Html.TextBoxFor(m => m.PostalCode5, new { ng_model = "zipCode", placeholder = Html.Sitecore().Field("Zip Code Placeholder") })
-                            <span class="asterisk">&#42;</span>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="item" @Html.Validation().ErrorClass(model => model.ContactPhone.Number)>
-                            <label for="@Html.IdFor(m => m.ContactPhone.Number)">@Html.Sitecore().Field("Phone Text")</label>
-                            @Html.TextBoxFor(m => m.ContactPhone.Number, new { ng_model = "phone", data_val_if="phone", placeholder = Html.Sitecore().Field("Phone Placeholder") })
-                        </div>
-                        <div class="item" @Html.Validation().ErrorClass(model => model.ContactEmail.Address)>
-                            <label for="@Html.IdFor(m => m.ContactEmail.Address)">@Html.Sitecore().Field("Email Text")</label>
-                            @Html.TextBoxFor(m => m.ContactEmail.Address, new { ng_model = "email", placeholder = Html.Sitecore().Field("Email Placeholder") })
-                            <span class="asterisk">&#42;</span>
-                        </div>
-                        <div class="item" @Html.Validation().ErrorClass(model => model.Reason)>
-                            <label for="@Html.IdFor(m => m.Reason)">@Html.Sitecore().Field("Reason Text")</label>
-                            <select data-val-required="@Html.Sitecore().Field("Reason Required")" data-val-length="" data-val-length-min="1" data-val-length-max="50" data-val="true" name="@Html.NameFor(m => m.Reason)" id="@Html.IdFor(m => m.Reason)" ng-model="reason">
-                                @Html.Sitecore().Field("Reason Options")
-                            </select>
-                            <span class="asterisk">&#42;</span>
-                        </div>
-                        <div class="item" @Html.Validation().ErrorClass(model => model.Comment)>
-                            <label for="@Html.IdFor(m => m.Comment)">@Html.Sitecore().Field("Explain Text")</label>
-                            @Html.TextAreaFor(m => m.Comment, new { ng_model = "comment", placeholder= Html.Sitecore().Field("Explain Placeholder") })
-                            <span class="asterisk">&#42;</span>
-                        </div>
-                        <button type="submit" data-val-submit>@Html.Sitecore().Field("Send Button Text")</button>
+    <div class="tab-content" ng-class="{ hidden : pane != 'protect' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service protect clearfix">
+                <h1><i class="icon-home_protect"></i> <strong>@Html.Sitecore().Field("Protective Text")</strong></h1>
+                <div class="faq-text">@Html.Sitecore().Field("Protective FAQ Text")</div>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Protective Phone and Email")
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
-    @if (Model != null && Model.ShowSuccessMessage)
-    {
-        <div class="success-message" id="success-message">
-            <div class="wrapper">
-                <h2>@Html.Sitecore().Field("Thank You Text")</h2>
-                <h4>@Html.Sitecore().Field("Success Message Text")</h4>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Protective Mail")
+                    </div>
+                </div>
             </div>
-        </div>
-    }
-    <div class="homelife-services">
-        <div class="wrapper">
-            <h2>@Html.Sitecore().Field("Homelife Services Text")</h2>
-            @Html.Sitecore().Field("Homelife Services Content")
-        </div>
+        </article>
     </div>
-    <div class="clean-nation">
-        @Html.Sitecore().Field("Clean Nation Content")
-    </div>
-    @*<div class="contact-banner" style="@Html.AsBackgroundStyle("FAQ Banner Image")"></div>*@
-    <div class="associate-support">
-        <div class="wrapper">
-            <h2>@Html.Sitecore().Field("Associate Support Text")</h2>
-            @Html.Sitecore().Field("Associate Support Content")
-        </div>
-    </div>
-</article>
+</div>
