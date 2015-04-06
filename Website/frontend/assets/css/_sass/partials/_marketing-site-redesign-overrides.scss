@@ -590,7 +590,7 @@ article.service-tabs {
             }
         }
         @include breakpoint(small) {
-            display: block;
+            // display: block;
             position: relative;
             width: 100%;
             border-top: 3px solid #f59a42;
@@ -661,11 +661,19 @@ article.contact-state {
         }
     }
     .emergency {
+        border: 1px solid #ebebeb;
+        @include border-radius(10px);
+        padding: 20px;
         .grid .col {
             .company-contact {
                 margin-bottom: 30px;
             }
         }
+    }
+    .link-back {
+        margin: 60px 0 30px;
+        text-align: center;
+        font-size: 22px;
     }
 }
 
@@ -760,6 +768,11 @@ article.pay {
                 font-weight: normal;
             }
         }
+    }
+    .link-back {
+        margin: 60px 0 30px;
+        text-align: center;
+        font-size: 22px;
     }
 }
 
