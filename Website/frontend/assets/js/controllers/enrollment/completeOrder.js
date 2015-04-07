@@ -31,6 +31,18 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
 
+    _.intersectionObjects = _.intersect = function(array) {
+    var slice = Array.prototype.slice;
+        var rest = slice.call(arguments, 1);
+            return _.filter(_.uniq(array), function(item) {
+                    return _.every(rest, function(other) {
+                        return _.any(other, function(element) {
+                            return _.isEqual(element, item);
+                });
+            });
+        });
+    };
+
     /**
     * Complete Enrollment Section
     */
@@ -57,7 +69,23 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         };
 
         if ($scope.getCartTotal() > 0) {
-            $scope.completeOrder.creditCard().then(setConfirmOrder);
+            var allPaymentMethods = _(enrollmentCartService.services)
+            .pluck('offerInformationByType').flatten().filter()
+            .pluck('value').flatten().pluck('offerSelections').flatten().filter()
+            .pluck('payments').flatten().filter().pluck('availablePaymentMethods').value();
+
+            var availablePaymentMethods = _.intersectionObjects.apply(_, allPaymentMethods);
+
+            $scope.completeOrder.creditCard().then(function (paymentMethod) {
+                var paymentMethodType = paymentMethod.type;
+                if (_.some(availablePaymentMethods, { 'paymentMethodType': paymentMethodType })) {
+                    setConfirmOrder(paymentMethod);
+                } else {
+                    $scope.validations = [{
+                        "memberName": "PaymentAccount.CreditCardNumber"
+                    }];
+                }
+            });
         } else {
             setConfirmOrder(null);
         }
