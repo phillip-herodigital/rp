@@ -62,12 +62,13 @@ namespace StreamEnergy.Services.Clients
 
         Task<bool> IEmailService.SendEmail(Guid emailTemplate, string to, System.Collections.Specialized.NameValueCollection parameters)
         {
+            var itemMessage = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(emailTemplate));
+            
+            /*
             var managerRoot = Factory.GetAllManagerRoots()[0];
             var contact = GetAnonymousFromEmail(to, managerRoot);
-
-            var itemMessage = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(emailTemplate));
             var mi = Factory.GetMessage(itemMessage);
-
+            
             if (parameters != null)
             {
                 foreach (var key in parameters.AllKeys) 
@@ -75,10 +76,24 @@ namespace StreamEnergy.Services.Clients
                     mi.CustomPersonTokens[key] = parameters[key];
                 }
             }
-
             var messageBody = mi.GetMessageBody();
             messageBody = messageBody.Replace("=\"/sitecore/shell/", "=\"" + managerRoot.Settings.BaseURL + "/");
-            var message = new MailMessage(mi.FromAddress, to, mi.Subject, messageBody)
+            */
+
+            Sitecore.Links.UrlOptions urlOptions = new Sitecore.Links.UrlOptions();
+            urlOptions.AlwaysIncludeServerUrl = true;
+            var url = Sitecore.Links.LinkManager.GetItemUrl(itemMessage, urlOptions);
+            WebClient w = new WebClient();
+            var messageBody = w.DownloadString(url);
+            if (parameters != null)
+            {
+                foreach (var key in parameters.AllKeys)
+                {
+                    messageBody = messageBody.Replace("$" + key + "$", parameters[key]);
+                }
+            }
+
+            var message = new MailMessage(itemMessage.Fields["From Address"].Value, to, itemMessage.Fields["Subject"].Value, messageBody)
             {
                 IsBodyHtml = true,
             };
