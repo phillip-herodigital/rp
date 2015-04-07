@@ -21,7 +21,7 @@
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'wsa' }" ng-click="mobileEnrollment.phoneTypeTab = 'wsa'" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhoneWsa)">
                                 <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
                             </div>
-                            <div class="tab" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone && !mobileEnrollmentSettings.attBuyPhoneWsa)"></div>
+                            <div class="tab inactive" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone && !mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone && !mobileEnrollmentSettings.attBuyPhoneWsa)"></div>
                             <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                                 <div ng-if="getPhoneCount('byod') > 0" class="selected-icon">
                                     <span class="phone-count">{{ getPhoneCount('byod') }}</span>
