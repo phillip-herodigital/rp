@@ -3141,11 +3141,11 @@
             @include border-radius(5px 5px 0 0);
         }
         .special-offer {
-            border: 2px solid #e6e6e6;
+            border: 2px solid #3189bb;
             border-bottom: 0;
-            background: #fff;
-            color: #3d8039;
-            font-weight: normal;
+            background: #3189bb;
+            color: #fff;
+            font-weight: bold;
             @include breakpoint(small) {
                 border: none;
             }
@@ -3175,6 +3175,10 @@
             }
             .price {
                 color: #3d8039;
+            }
+            .limited-time-offer {
+                font-size: .85em;
+                display: block;
             }
         }
         .size {
