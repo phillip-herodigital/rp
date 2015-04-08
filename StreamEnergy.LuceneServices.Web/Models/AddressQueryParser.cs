@@ -56,8 +56,10 @@ namespace StreamEnergy.LuceneServices.Web.Models
                         }
                         else
                         {
-                            searchQueryBuilder.Add(new BooleanClause(new PrefixQuery(new Term(field, token)), Occur.SHOULD));
-                            searchQueryBuilder.Add(new BooleanClause(new FuzzyQuery(new Term(field, token), 0.5f, 2), Occur.SHOULD));
+                            var finalClause = new BooleanQuery();
+                            finalClause.Add(new BooleanClause(new PrefixQuery(new Term(field, token)), Occur.SHOULD));
+                            finalClause.Add(new BooleanClause(new FuzzyQuery(new Term(field, token), 0.5f, 2), Occur.SHOULD));
+                            searchQueryBuilder.Add(finalClause, Occur.MUST);
                         }
                     }
                     else if (IsNumeric(token))
