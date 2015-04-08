@@ -60,6 +60,29 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
+        async Task<bool> IEmailService.SendDynEmail(MailMessage message)
+        {
+            var username = Sitecore.Configuration.Settings.GetSetting("DynEtc.username", null);
+            var pswd = Sitecore.Configuration.Settings.GetSetting("DynEtc.password", null);
+
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.dynect.net";
+            client.Port = 25;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(username, pswd);
+
+            try
+            {
+                await client.SendMailAsync(message);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         Task<bool> IEmailService.SendEmail(Guid emailTemplate, string to, System.Collections.Specialized.NameValueCollection parameters)
         {
             var itemMessage = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(emailTemplate));
@@ -97,7 +120,7 @@ namespace StreamEnergy.Services.Clients
             {
                 IsBodyHtml = true,
             };
-            return ((IEmailService)this).SendEmail(message);
+            return ((IEmailService)this).SendDynEmail(message);
 
             //var sm = new AsyncSendingManager(mi);
             //var results = sm.SendStandardMessage(contact);
