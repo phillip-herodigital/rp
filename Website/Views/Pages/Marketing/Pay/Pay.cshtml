@@ -85,7 +85,7 @@
                 <div class="col">
                     <div class="pay-option">
                         <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>
-                        <p>@Html.Sitecore().Field("No Login Text") <a class="button" href="/one-time-payment">&nbsp;@Html.Sitecore().Field("No Login Button Text")&nbsp;</a></p>
+                        <p>@Html.Sitecore().Field("No Login Text") <a class="button" href="/one-time-payment">@Html.Sitecore().Field("No Login Button Text")</a></p>
                         <p>@Html.Sitecore().Field("Charges Apply Text")</p>
                     </div>
                     <div class="pay-option">
@@ -133,7 +133,7 @@
                 <div class="col">
                     <div class="pay-option">
                         <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>
-                        <p>@Html.Sitecore().Field("No Login Text") <a class="button" href="/one-time-payment">&nbsp;@Html.Sitecore().Field("No Login Button Text")&nbsp;</a></p>
+                        <p>@Html.Sitecore().Field("No Login Text") <a class="button" href="/one-time-payment">@Html.Sitecore().Field("No Login Button Text")</a></p>
                         <p>@Html.Sitecore().Field("Charges Apply Text")</p>
                     </div>
                     <div class="pay-option">
@@ -245,15 +245,8 @@
     <div class="tab-content" ng-class="{ hidden : pane != 'protect' }">
         <article class="layout cols-2 marketing wrapper pay protect">
             <h1><i class="icon-home_protect"></i> <strong>@Html.Sitecore().Field("Protective Text")</strong></h1>
-            <div class="grid">
-                <div class="col">
-                    <div class="pay-option">
-                        <p class="call">@Html.Sitecore().Field("Protective Payment Details") <span class="phone">@Html.Sitecore().Field("Protective Phone Number")</span>.</p>
-                    </div>
-                </div>
-                <div class="col">
-                    @Html.Sitecore().Field("Protective Email")
-                </div>
+            <div class="pay-option">
+                <p class="call">@Html.Sitecore().Field("Protective Payment Details") <span class="phone">@Html.Sitecore().Field("Protective Phone Number")</span>.</p>
             </div>
             <div class="link-back clearfix">
                 @Html.Sitecore().Field("Link Back Text")

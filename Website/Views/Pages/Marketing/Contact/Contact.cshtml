@@ -98,7 +98,7 @@
                             </div>
                             <div class="item" @Html.Validation().ErrorClass(model => model.ContactEmail.Address)>
                                 <label for="@Html.IdFor(m => m.ContactEmail.Address)">@Html.Sitecore().Field("Email Text")</label>
-                                @Html.TextBoxFor(m => m.ContactEmail.Address, new { ng_model = "email", placeholder = Html.Sitecore().Field("Email Placeholder") })
+                                @Html.TextBoxFor(m => m.ContactEmail.Address, new { ng_model = "email", placeholder = Html.Sitecore().Field("Email Placeholder"), type = "email" })
                                 <span class="asterisk">&#42;</span>
                             </div>
                             <div class="item" @Html.Validation().ErrorClass(model => model.Reason)>
