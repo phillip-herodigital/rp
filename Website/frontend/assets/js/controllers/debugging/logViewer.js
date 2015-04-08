@@ -1,4 +1,4 @@
-﻿ngApp.controller('LogViewerCtrl', ['$scope', '$window', function ($scope, $window) {
+﻿ngApp.controller('LogViewerCtrl', ['$scope', '$window', function ($scope, $window, $http) {
     $scope.logs = [];
     //$scope.expand = [];
     $scope.form = {};
@@ -12,5 +12,8 @@
     }*/
     $scope.update = function () {
         $window.location.href = '?sessionID=' + $scope.form.sessionID;
+    }
+    $scope.abandon = function () {
+        $window.location.href = '?sessionAbandon=true';
     }
 }]);

@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
 using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -254,9 +255,11 @@ namespace StreamEnergy.Services.Clients
                         },
                         RequiredAmounts = new IOfferPaymentAmount[] 
                         {
-                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.SystemOfRecord, DepositAccount = entry.SystemOfRecordAccountNumber }
+                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.Key.SystemOfRecord, DepositAccount = entry.Key.SystemOfRecordId }
                         },
-                        PostBilledAmounts = optionRules.GetPostBilledPayments(option)
+                        PostBilledAmounts = optionRules.GetPostBilledPayments(option),
+                        AvailablePaymentMethods = (from type in (IEnumerable<dynamic>)entry.AcceptedEnrollmentPaymentAccountTypes
+                            select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
                     };
         }
 

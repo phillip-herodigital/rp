@@ -423,6 +423,60 @@ article.opportunity {
 	}
 }
 
+article.events {
+	.tooltip {
+		color: #666666;
+		&.top-left .tooltip-arrow {
+			display: none !important;
+		}
+	}
+	&.events-ignition {
+		background-color: #00a8e1;
+		.button {
+			float: right;
+			color: #00a8e1;
+		}
+	}
+	&.events-top-performers {
+		h2, a {
+			color: #666666;
+		}
+	}
+	&.events-senior-director-cruise {
+		background-color: #5c2b85;
+		a {
+			color: #FFF;
+		}
+	}
+	&.events-celebration-dinner {
+		.celebration-dinner-logo {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+	}
+	&.events-women-of-power {
+		h2 {
+			color: #666666 !important;
+			text-align: center;
+		}
+	}
+	&.events-stream-university {
+		background-color: #63c9f0 !important;
+		padding-bottom: 60px;
+		h2 {
+			text-align: center;
+		}
+	}
+	&.events-top {
+		p {
+			text-align: center;
+		}
+		a {
+			color: #666666;	
+		}
+	}
+}
+
 article.leaders {
 	.paragraph {
 		width: 50%;
@@ -842,6 +896,10 @@ article.states-pay {
 		min-height: 30px;
 		border-bottom: 5px solid #76bd1d;
 	}
+}
+
+article.mobile-pay {
+	margin-top: -60px;
 }
 
 article.pay {
@@ -2646,6 +2704,153 @@ article.opportunity-more-information.accent-red {
     }
 }
 
+article.tablet {
+	h1 {
+		text-align: left !important;
+		color: #0070b9 !important;
+	}
+	h2 {
+		text-align: left;
+		font-size: 34px;
+		color: #4f4c4d;
+	}
+	p {
+		font-size: 20px;
+		color: #333333;
+	}
+	&.tablet-intro {
+		.intro-text {
+			width: 60%;
+			
+		}
+		.intro-image {
+			width: 40%;
+			text-align: center;
+		}
+		@include breakpoint(small) {
+			.intro-text, .intro-image {
+				width: 100%
+			}
+			.intro-image {
+				margin-top: 20px;
+			}
+		}
+	}
+	&.tablet-guide {
+		background-image: none;
+		background-color: #f8f8f8;
+		border: 1px solid #e9e9e9;
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 2em 0;
+			li {
+				background: url("../i/marketing/green-bullet.png");
+				background-repeat: no-repeat;
+				background-position-y: 5px;
+				padding-left: 25px;
+				margin: 20px 0;
+			}
+		}
+	}
+	&.tablet-settings {
+		.settings-image {
+			text-align: right;
+		}
+		.note {
+			font-size: 16px;
+			color: #003d58;
+		}
+		ol {
+			padding-left: 0;
+			counter-reset: li;
+			list-style: none;
+			li {
+				font-size: 18px;
+				font-weight: 400;
+				margin: 20px 0 20px 40px;
+				position: relative;
+				&:before {
+					content: counter(li);
+				    counter-increment: li;
+				    font-weight: 600;
+				    color: #97c93d;
+				    position: absolute;
+				    left: -40px;
+				}
+			}
+		}
+	}
+	&.tablet-faqs {
+		p {
+			text-align: center;
+		}
+	}
+}
+
+article.video-player {
+	.video-container {
+		position: relative;
+		padding-bottom: 56.25%;
+		padding-top: 35px;
+		height: 0;
+		overflow: hidden;
+		iframe {
+			position: absolute;
+			top:0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+article.mobile-support-intro {
+	h2 {
+		color: #10425a;
+	}
+}
+
+article.mobile-support {
+	background: url('../i/marketing/redesign/section-rule.png') bottom center no-repeat;
+	margin-top: -60px;
+	.wrapper {
+		background-image: none !important;
+		padding: 0 0 4px;
+		@include breakpoint(large) {
+			margin: 0;
+			width: 100%;
+		}
+	}
+	h2 {
+		color: #10425a;
+		margin-bottom: 0;
+	}
+	.grid {
+		padding-bottom: 20px;
+		.col {
+			vertical-align: middle;
+			.center {
+				text-align: center;
+			}
+			.coming-soon {
+				color: #0070b9;
+				font-size: 24px;
+			}
+		}
+		&.alt {
+			background-color: #f8f8f8;
+			border-top: 1px solid #e9e9e9;
+			border-bottom: 1px solid #e9e9e9;
+		}
+		@include breakpoint(large) {
+			padding: 0 120px 20px 120px;
+			margin: 0;
+			width: 100%;
+		}
+	}
+}
+
 article.mobile.mobile-plans-usage-calculator {
     
 	h1 {
@@ -2688,6 +2893,9 @@ article.mobile.mobile-plans-usage-calculator {
 					@include background-image(linear-gradient(to top, #FFF 0%, #F7F7F7 100%));
 					@include border-radius(10px);
 					@include box-shadow(inset 0 0 2px rgba(251, 247, 194, 0.75));
+					color: #333333;
+					text-transform: uppercase;
+					font-weight: 600;
 					display: block;
 					height: 50px;
 					line-height: 50px;
@@ -2996,6 +3204,22 @@ article.mobile.mobile-plans-usage-calculator {
 
 	}
 }
+article.marketing.validate-esn {
+    p {
+        margin-bottom: 1em;
+    }
+    label {
+        span {
+            display: block;
+            font-size: 13px;
+        }
+    }
+    .btn-group-options {
+        label {
+            display: block;
+        }
+    }
+}
 .modal-body{
 	article.mobile.mobile-plans-usage-calculator {
 		.wrapper {
@@ -3024,6 +3248,15 @@ article.mobile.mobile-plans-usage-calculator {
 					}
 				}
 			}
+		}
+	}
+	.compatible-devices-table {
+		td {
+			width: 50%;
+			vertical-align: top;
+		}
+		ul {
+			padding-left: 20px;
 		}
 	}
 }

@@ -17,23 +17,18 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 {
     public class IndexBuilder : IDisposable
     {
-        private LuceneStore.FSDirectory directory;
         private readonly List<Action> onDispose = new List<Action>();
         private IndexWriter writer;
 
-        public IndexBuilder(string destination, bool forceCreate)
+        public IndexBuilder(LuceneStore.Directory directory, bool forceCreate)
         {
-            System.IO.Directory.CreateDirectory(destination);
-            directory = LuceneStore.FSDirectory.Open(destination);
-
             Analyzer analyzer = AddressConstants.BuildLuceneAnalyzer();
             writer = new IndexWriter(directory, analyzer, forceCreate, IndexWriter.MaxFieldLength.UNLIMITED);
             onDispose.Add(((IDisposable)analyzer).Dispose);
             onDispose.Add(((IDisposable)writer).Dispose);
-            onDispose.Add(((IDisposable)directory).Dispose);
         }
 
-        public async Task<bool> WriteLocation(Location location, EnrollmentCustomerType customerType, string group, bool isFresh)
+        public async Task<bool> WriteLocation(Location location, EnrollmentCustomerType customerType, string group, bool isFresh, IEnumerable<string> additionalExactMatch = null)
         {
             
             return await Task.Run<bool>(() =>
@@ -46,7 +41,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     writer.DeleteDocuments(query);
                 }
 
-                writer.AddDocument(ToDocument(location, customerType, group));
+                writer.AddDocument(ToDocument(location, customerType, group, additionalExactMatch ?? Enumerable.Empty<string>()));
                 return true;
             }).ConfigureAwait(false);
         }
@@ -68,7 +63,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             return await Optimize().ConfigureAwait(false);
         }
 
-        private Document ToDocument(Location arg, EnrollmentCustomerType customerType, string group)
+        private Document ToDocument(Location arg, EnrollmentCustomerType customerType, string group, IEnumerable<string> additionalExactMatches)
         {
             Document doc = new Document();
 
@@ -100,6 +95,13 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                               exact,
                               Field.Store.NO,
                               Field.Index.NOT_ANALYZED_NO_NORMS));
+            foreach (var additionalExact in additionalExactMatches)
+            {
+                doc.Add(new Field("Exact",
+                                  additionalExact,
+                                  Field.Store.NO,
+                                  Field.Index.NOT_ANALYZED_NO_NORMS));
+            }
 
             return doc;
         }

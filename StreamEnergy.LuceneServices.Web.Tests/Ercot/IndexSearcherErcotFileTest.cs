@@ -35,21 +35,17 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
             }
         }
 
-        private static string BuildIndexPath(TestContext testContext)
-        {
-            var output = System.IO.Path.Combine(testContext.TestDir, testContext.FullyQualifiedTestClassName);
-            return output;
-        }
-
 
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
             var container = ContainerSetup.Create();
 
+            var ramDirectory = new Lucene.Net.Store.RAMDirectory();
+
             using (var target = new FileReader())
             using (var stream = typeof(IndexSearcherErcotFileTest).Assembly.GetManifestResourceStream("StreamEnergy.LuceneServices.Web.Tests.Ercot.ext.00000203.0000000000000000.20140527.055928559.ONCOR_ELEC___DAILY.zip"))
-            using (var builder = new IndexBuilder(BuildIndexPath(testContext), true))
+            using (var builder = new IndexBuilder(ramDirectory, true))
             {
                 var data = target.ReadZipFile(stream, "ONCOR");
 
@@ -63,7 +59,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
                                        EnrollmentCustomerType.Residential), "ONCOR").Wait();
             }
 
-            searcher = new IndexSearcher(BuildIndexPath(testContext));
+            searcher = new IndexSearcher(ramDirectory);
         }
 
         [ClassCleanup()]

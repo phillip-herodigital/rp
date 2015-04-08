@@ -13,15 +13,12 @@ namespace StreamEnergy.LuceneServices.Web.Models
     public class IndexSearcher : IDisposable
     {
         private static readonly System.Text.RegularExpressions.Regex numeric = new System.Text.RegularExpressions.Regex("^[0-9]+$", System.Text.RegularExpressions.RegexOptions.Compiled);
-        private readonly LuceneStore.FSDirectory directory;
         private readonly IndexReader reader;
         private readonly Lucene.Net.Search.IndexSearcher searcher;
         private readonly Lucene.Net.Analysis.Analyzer analyzer;
 
-        public IndexSearcher(string source)
+        public IndexSearcher(LuceneStore.Directory directory)
         {
-            System.IO.Directory.CreateDirectory(source);
-            directory = LuceneStore.FSDirectory.Open(source);
             reader = Lucene.Net.Index.IndexReader.Open(directory, readOnly: true);
             searcher = new Lucene.Net.Search.IndexSearcher(reader);
             analyzer = AddressConstants.BuildLuceneAnalyzer();
@@ -54,7 +51,7 @@ namespace StreamEnergy.LuceneServices.Web.Models
                 yield return Json.Read<StreamEnergy.DomainModels.Enrollments.Location>(doc.Get("Data"));
 
                 // Simple heuristic to reduce match count when the top choices are a good match and the remaining ones aren't
-                if (i < hits.Length - 1 && hits[i].Score > 0.5f && hits[i].Score * 0.5f > hits[i + 1].Score)
+                if (state != "GA" && i < hits.Length - 1 && hits[i].Score > 0.5f && hits[i].Score * 0.5f > hits[i + 1].Score)
                     break;
             }
         }
@@ -63,7 +60,6 @@ namespace StreamEnergy.LuceneServices.Web.Models
         {
             searcher.Dispose();
             reader.Dispose();
-            directory.Dispose();
         }
     }
 }

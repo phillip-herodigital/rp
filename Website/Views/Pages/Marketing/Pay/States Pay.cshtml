@@ -1,7 +1,6 @@
-﻿<article class="marketing full-html   pay">
-    <div class="wrapper">
-        <h2 class="get-started">@Html.Sitecore().Field("Header Text")</h2>
-    </div>
+﻿<article class="marketing full-html pay">
+        <h1>@Html.Sitecore().Field("Header Text")</h1>
+        <h2 class="get-started">@Html.Sitecore().Field("Subhead Text")</h2>
 </article>
 <article class="marketing state-tabs states-pay" ng-controller="LoginCtrl" ng-init="init('@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/Default.aspx', '@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergyGA/Default.aspx')" state-tabs="texas">
     <ul class="tabs-nav">
@@ -107,7 +106,7 @@
                     <div class="pay-option">
                         <h1>@Html.Sitecore().Field("Georgia State Text")</h1>
                         <p>@Html.Sitecore().Field("Intro Text")</p>
-                        <p class="call">@Html.Sitecore().Field("Call Us Text") <span class="phone">@Html.Sitecore().Field("Phone Number")</span>.</p>
+                        <p class="call">@Html.Sitecore().Field("Call Us Text") <span class="phone">@Html.Sitecore().Field("Georgia Phone Payment Number")</span>.</p>
                     </div>
                     <div class="pay-option">
                         <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>

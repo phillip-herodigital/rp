@@ -25,32 +25,34 @@
         {"washington-dc", "Washington DC Title"}
     };
 }
-<article class="marketing" data-ng-init="pane = 'texas'">
-    <div class="wrapper">
-        <p>It looks like you’re in Texas. Use the dropdown to select another State</p>
-        <select data-ng-model="pane">
+<div ng-controller="FaqsCtrl">
+    <article class="marketing">
+        <div class="wrapper">
+            <p>@Html.Sitecore().Field("Dropdown Text")</p>
+            <select data-ng-model="pane">
+                @foreach (var state in stateFaqs.Keys)
+                {
+                    <option value="@state" selected="@(state == "texas" ? "selected" : null)">@Html.Sitecore().Field(stateTitleFieldNames[state])</option>
+                }
+            </select>
+        </div>
+    </article>
+    <article class="marketing faq">
+        <div class="wrapper">
             @foreach (var state in stateFaqs.Keys)
             {
-                <option value="@state" selected="@(state == "texas" ? "selected" : null)">@Html.Sitecore().Field(stateTitleFieldNames[state])</option>
+                <div data-ng-show="pane == @state.ToJson()">
+                    <h1>@Html.Sitecore().Field(stateTitleFieldNames[state]) FAQ’s</h1>
+                    <dl class="faq">
+                        @foreach (var item in stateFaqs[state])
+                        {
+                            <dt data-collasped onclick="this.hasAttribute('data-collasped') ? this.removeAttribute('data-collasped') : this.setAttribute('data-collasped','data-collasped')">@Html.Sitecore().Field("FAQ Question", item)</dt>
+                            <dd>@Html.Sitecore().Field("FAQ Answer", item)</dd>
+                        }
+                    </dl>
+                </div>
             }
-        </select>
-    </div>
-</article>
-<article class="marketing faq">
-    <div class="wrapper">
-        @foreach (var state in stateFaqs.Keys)
-        {
-            <div data-ng-show="pane == @state.ToJson()">
-                <h1>@Html.Sitecore().Field(stateTitleFieldNames[state]) FAQ’s</h1>
-                <dl class="faq">
-                    @foreach (var item in stateFaqs[state])
-                    {
-                        <dt data-collasped onclick="this.hasAttribute('data-collasped') ? this.removeAttribute('data-collasped') : this.setAttribute('data-collasped','data-collasped')">@Html.Sitecore().Field("FAQ Question", item)</dt>
-                        <dd>@Html.Sitecore().Field("FAQ Answer", item)</dd>
-                    }
-                </dl>
-            </div>
-        }
-    </div>
-    <div style="clear: both;"></div>
-</article>
+        </div>
+        <div style="clear: both;"></div>
+    </article>
+</div>

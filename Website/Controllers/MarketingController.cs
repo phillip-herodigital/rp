@@ -212,6 +212,7 @@ namespace StreamEnergy.MyStream.Controllers
             if (ModelState.IsValid)
             {
                 // Get the form data
+                var StreamService = contact.StreamService;
                 var FirstName = contact.ContactName.First;
                 var LastName = contact.ContactName.Last;
                 var AddressLine1 = contact.AddressLine1;
@@ -239,7 +240,8 @@ namespace StreamEnergy.MyStream.Controllers
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Contact Form Submission";
                 Message.IsBodyHtml = true;
-                Message.Body = "First Name: " + FirstName +
+                Message.Body = "Stream Service This Is Regarding: " + StreamService +
+                    "<br />First Name: " + FirstName +
                     "<br />Last Name: " + LastName +
                     "<br />Address: " + AddressLine1 +
                     "<br />" + City + ", " + StateAbbreviation + " " + PostalCode5 +
@@ -332,7 +334,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             HomeLifeServices model = new HomeLifeServices()
             {
-                HasFreeMonth = true,
+                HasFreeMonth = false,
                 ClientId = "1052614",
                 SaleSource = "MyStream",
             };

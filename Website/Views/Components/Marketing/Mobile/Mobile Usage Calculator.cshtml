@@ -17,11 +17,11 @@
                 {
                     title: '@Html.Sitecore().Field("Connect Account Tab")',
                     url: 'connect.tpl.html'
-                },
+                }@*,
                 {
                     title: '@Html.Sitecore().Field("Manually Enter Tab")',
                     url: 'manual.tpl.html'
-                }
+                }*@
             ],
             currentTab: '@(Model.ShowBillScrape ? "connect.tpl.html" : "manual.tpl.html")',
             isModal:    '@Model.IsModal'.toLowerCase() == 'true'
@@ -55,11 +55,15 @@
                         <ul class="network-toggle">
                             <li ng-repeat="item in serverData.carriers">
                                 <a href="" ng-class="{active: connect.carrier == item.key}" ng-click="connect.carrier = item.key">
-                                    <i ng-class="{'icon-att': item.key == 'att','icon-sprint': item.key == 'sprint','icon-verizon': item.key == 'vzw','icon-tmobile': item.key == 'tmo'}"></i>
+                                    {{ item.name }}
+                                    @*<i ng-class="{'icon-att': item.key == 'att','icon-sprint': item.key == 'sprint','icon-verizon': item.key == 'vzw','icon-tmobile': item.key == 'tmo'}"></i>*@
                                 </a>
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div class="selectCarrier clearfix">
+                    @Html.Sitecore().Field("Bill Analysis Text")
                 </div>
                 <div class="stretch coming-soon" ng-if="connect.carrier && !getCarrier(connect.carrier).showLogin">
                     @Html.Sitecore().Field("Carrier Coming Soon")
@@ -383,10 +387,10 @@
                                 <span class="currentPlan">@Html.Sitecore().Field("Current Plan")</span>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('sprint').planId}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('att').planId}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
                             </div>
                         </div>
                     </div>
@@ -395,7 +399,7 @@
         </script>
 
         <script type="text/ng-template" id="manual.tpl.html">
-            <div class="manual-calculator">
+            @*<div class="manual-calculator">
                 <h4>@Html.Sitecore().Field("Use Calculator Text")</h4>      
                 <div class="grid">
                     <div class="col left clearfix">
@@ -550,7 +554,7 @@
                 </div>
                 <div class="grid" ng-show="isModal">
                     <div class="col right addToCart">
-                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}" class="button">@Html.Sitecore().Field("Modal Button Text")</a>
+                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Modal Button Text")</a>
                     </div>
                 </div>
                 <div class="stretch" ng-show="!isModal">
@@ -649,15 +653,16 @@
                                 @Html.Sitecore().Field("Plan Selection")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('att').planId}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
+            @Html.Sitecore().Field("Manual Calculator Disabled")
         </script>
     </div>
 </article>

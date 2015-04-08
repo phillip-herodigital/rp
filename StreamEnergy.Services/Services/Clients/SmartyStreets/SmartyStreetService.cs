@@ -64,7 +64,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
                 select new UncleansedAddress
                 {
                     Street = addr.Line1,
-                    Street2 = addr.Line2,
+                    Street2 = (addr.Line2 + " " + addr.UnitNumber).Trim(),
                     City = addr.City,
                     State = addr.StateAbbreviation,
                     Zipcode = addr.PostalCode5
@@ -122,7 +122,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
                             select Sanitize(new StreamEnergy.DomainModels.Address
                             {
                                 Line1 = string.Join(" ", new string[] { entry.Components.PrimaryNumber, entry.Components.StreetName, entry.Components.StreetSuffix }.Where(e => !string.IsNullOrEmpty(e))),
-                                UnitNumber = string.Join(" ", new string[] { entry.Components.SecondaryNumber, entry.Components.SecondaryDesignator }.Where(e => !string.IsNullOrEmpty(e))),
+                                UnitNumber = string.Join(" ", new string[] { entry.Components.SecondaryDesignator, entry.Components.SecondaryNumber }.Where(e => !string.IsNullOrEmpty(e))),
                                 City = entry.Components.CityName,
                                 StateAbbreviation = entry.Components.StateAbbreviation,
                                 PostalCode5 = entry.Components.Zipcode,

@@ -8,6 +8,6 @@ namespace StreamEnergy.Logging
 {
     public interface IDataAccumulator
     {
-        Task AccumulateData(LogEntry logEntry);
+        void AccumulateData(LogEntry logEntry);
     }
 }

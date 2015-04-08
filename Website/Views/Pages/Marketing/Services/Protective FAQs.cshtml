@@ -1,0 +1,20 @@
+﻿<section class="layout">
+    <div class="wrapper">
+        <section>
+            <article class="marketing faq">
+                @foreach (Sitecore.Data.Items.Item faqGroupItem in Html.Sitecore().CurrentItem.Children)
+                {
+                    <h1>@Html.Sitecore().Field("Name", faqGroupItem)</h1>
+                    <dl class="faq">
+                        @foreach (Sitecore.Data.Items.Item faqItem in faqGroupItem.Children)
+                        {
+                            <dt data-collasped onclick=" this.hasAttribute('data-collasped') ? this.removeAttribute('data-collasped') : this.setAttribute('data-collasped', 'data-collasped') ">@Html.Sitecore().Field("FAQ Question", faqItem)</dt>
+                            <dd>@Html.Sitecore().Field("FAQ Answer", faqItem)</dd>
+                        }
+                    </dl>
+                }
+            </article>
+        </section>
+    </div>
+</section>
+

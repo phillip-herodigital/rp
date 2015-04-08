@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StreamEnergy.DomainModels.Accounts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         public IEnumerable<IOfferPaymentAmount> RequiredAmounts { get; set; }
         public IEnumerable<IOfferPaymentAmount> OngoingAmounts { get; set; }
         public IEnumerable<IOfferPaymentAmount> PostBilledAmounts { get; set; }
+        public List<AvailablePaymentMethod> AvailablePaymentMethods { get; set; }
     }
 }

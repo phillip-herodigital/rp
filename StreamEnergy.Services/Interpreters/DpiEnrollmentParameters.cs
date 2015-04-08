@@ -127,23 +127,24 @@ namespace StreamEnergy.Interpreters
             }.Uri.ToString();
         }
 
-        private static string GetAccountNumber(string p)
+        private string GetAccountNumber(string p)
         {
-            if (string.IsNullOrEmpty(p))
+            var ret = DefaultAgent;
+            if (!string.IsNullOrEmpty(p))
             {
-                return DefaultAgent;
+                // "decryption"
+                try
+                {
+                    var plain = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(p));
+                    var parts = plain.Split('|');
+                    ret = parts[0];
+                }
+                catch
+                {
+                }
             }
-            // "decryption"
-            try
-            {
-                var plain = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(p));
-                var parts = plain.Split('|');
-                return parts[0];
-            }
-            catch
-            {
-                return DefaultAgent;
-            }
+            logger.Record(string.Format("TrafficCop.GetAccountNumber '{0}' '{1}'", p, ret), Severity.Debug);
+            return ret;
         }
 
         private string BuildTokenizedUrl()

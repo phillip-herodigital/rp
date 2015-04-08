@@ -1,16 +1,4 @@
 .home-page {
-	.banner.marketing {
-		.wrapper {
-			padding-top: 60px;
-			padding-bottom: 60px;
-		}
-		h1 { 
-			font-style: normal;
-		}
-		@include breakpoint(small) {
-			display: none;
-		}
-	}
 	.carousel {
 		@include breakpoint(small) {
 			display: none;
@@ -48,34 +36,6 @@
 	@include breakpoint(small) {
 		header {
 			position: absolute;
-		}
-	}
-}
-
-
-.banner.marketing {
-	background-position: 50%;
-	background-size: cover;
-	margin-bottom: 0;
-	.button {
-		margin-top: 40px;
-	}
-	h1 {
-		font-size: 52px;
-		font-style: italic;
-		font-weight: 300;
-	}
-	@include breakpoint(medium) {
-		h1 {
-			font-size: 50px;
-		}
-	}
-	@include breakpoint(small) {
-		h1 {
-			font-size: 30px;
-		}
-		br {
-			display: none;
 		}
 	}
 }

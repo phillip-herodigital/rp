@@ -104,6 +104,19 @@ namespace StreamEnergy.Services.Clients
             return PremiseVerificationResult.GeneralError;
         }
 
+        async Task<VerifyEsnResponseCode> IEnrollmentService.IsEsnValid(string esn)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/enrollments/verify-esn", new
+            {
+                Esn = esn
+            });
+
+            response.EnsureSuccessStatusCode();
+            dynamic result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return result.VerifyEsnResponseCode;
+        }
+
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location, IOffer offer)
         {
             var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
@@ -192,6 +205,7 @@ namespace StreamEnergy.Services.Clients
                 return asyncResult;
             }
 
+            response.EnsureSuccessStatusCode();
 
             asyncResult.IsCompleted = true;
 
@@ -259,25 +273,28 @@ namespace StreamEnergy.Services.Clients
                         return temp.Details;
                     return null;
                 };
-            Func<LocationServices, SelectedOffer, JObject> findSaveId = (service, offer) =>
+            Func<LocationServices, SelectedOffer, int, JObject> findSaveId = (service, offer, index) =>
             {
                 if (enrollmentSaveResult == null)
                     return null;
                 return enrollmentSaveResult.Results
                     .Where(r => r.Offer.OfferType == offer.Offer.OfferType && r.Location == service.Location)
+                    .Skip(index)
                     .Select(r => JObject.Parse(r.Details.EnrollmentAccountKeyJson))
                     .FirstOrDefault();
             };
 
-            // Note - updates are being applied to the same location if the offer types match.
-            // If there is an offer type where we can have multiple at a single location,
-            // this logic will need to change again.
             var request = (from serviceWithIndex in context.Services.Select((service, index) => new { service, index })
                            let service = serviceWithIndex.service
                            from offerWithIndex in service.SelectedOffers.Select((offer, index) => new { offer, index })
-                           let offer = offerWithIndex.offer
                            let index = serviceWithIndex.index.ToString() + " " + offerWithIndex.index.ToString()
-                           let previousSaveId = findSaveId(service, offer)
+                           let offer = offerWithIndex.offer
+                           group new { service, offer, index } by new { service.Location, offerWithIndex.offer.Offer.OfferType } into byLocationOfferType
+                           from entry in byLocationOfferType.Select((e, i) => new { e, i})
+                           let service = entry.e.service
+                           let offer = entry.e.offer
+                           let index = entry.e.index
+                           let previousSaveId = findSaveId(service, offer, entry.i)
                            let locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(service.Location.Capabilities, offer.Offer))
                            let accountDetails = new EnrollmentAccountDetails 
                            { 
@@ -327,74 +344,65 @@ namespace StreamEnergy.Services.Clients
             return ((string)responseObject.Status) == "Success";
         }
         
+        async Task<IdentityCheckResult> IEnrollmentService.LoadIdentityQuestions(Guid streamCustomerId, Name name, string ssn, Address mailingAddress)
+        {
+
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
+            {
+                FirstName = name.First,
+                LastName = name.Last,
+                SSN = ssn,
+                Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress)
+            });
+            response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+            var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
+
+            if (result.Status != "Success")
+            {
+                return new IdentityCheckResult { IdentityAccepted = false, IdentityQuestions = new IdentityQuestion[0], HardStop = null };
+            }
+
+            return new IdentityCheckResult
+            {
+                HardStop = null,
+                IdentityCheckId = result.IdVerificationChallenge.CreditServiceSessionId,
+                IdentityAccepted = false,
+                IdentityQuestions = (from question in result.IdVerificationChallenge.Questions
+                                        select new IdentityQuestion
+                                        {
+                                            QuestionId = question.Index.ToString(),
+                                            QuestionText = question.QuestionText,
+                                            Answers = (from answer in question.Answers
+                                                    select new IdentityAnswer
+                                                    {
+                                                        AnswerId = answer.Index.ToString(),
+                                                        AnswerText = answer.AnswerText
+                                                    }).ToArray()
+                                        }).ToArray()
+            };
+        }
+        
         async Task<StreamAsync<IdentityCheckResult>> IEnrollmentService.BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation)
         {
-            if (identityInformation == null)
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
             {
-                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
-                {
-                    FirstName = name.First,
-                    LastName = name.Last,
-                    SSN = ssn,
-                    Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress)
-                });
-                response.EnsureSuccessStatusCode();
-                var responseString = await response.Content.ReadAsStringAsync();
-                var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
-
-                if (result.Status != "Success")
-                {
-                    return new StreamAsync<IdentityCheckResult>
-                    {
-                        IsCompleted = true,
-                        Data = new IdentityCheckResult { IdentityAccepted = false, IdentityQuestions = new IdentityQuestion[0], HardStop = null }
-                    };
-                }
-
-                return new StreamAsync<IdentityCheckResult>
-                {
-                    IsCompleted = true,
-                    Data = new IdentityCheckResult
-                    {
-                        HardStop = null,
-                        IdentityCheckId = result.IdVerificationChallenge.CreditServiceSessionId,
-                        IdentityAccepted = false,
-                        IdentityQuestions = (from question in result.IdVerificationChallenge.Questions
-                                             select new IdentityQuestion
-                                             {
-                                                 QuestionId = question.Index.ToString(),
-                                                 QuestionText = question.QuestionText,
-                                                 Answers = (from answer in question.Answers
-                                                            select new IdentityAnswer
-                                                            {
-                                                                AnswerId = answer.Index.ToString(),
-                                                                AnswerText = answer.AnswerText
-                                                            }).ToArray()
-                                             }).ToArray()
-                    }
-                };
-            }
-            else
-            {
-                var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
-                {
-                    CreditServiceSessionId = identityInformation.PreviousIdentityCheckId,
-                    Questions = (from question in identityInformation.SelectedAnswers
-                                 select new
-                                 {
-                                     Index = int.Parse(question.Key),
-                                     SelectedAnswerIndex = int.Parse(question.Value)
-                                 }).ToArray()
-                });
-                response.EnsureSuccessStatusCode();
+                CreditServiceSessionId = identityInformation.PreviousIdentityCheckId,
+                Questions = (from question in identityInformation.SelectedAnswers
+                                select new
+                                {
+                                    Index = int.Parse(question.Key),
+                                    SelectedAnswerIndex = int.Parse(question.Value)
+                                }).ToArray()
+            });
+            response.EnsureSuccessStatusCode();
                 
-                var asyncUrl = response.Headers.Location;
-                return new StreamAsync<IdentityCheckResult>
-                {
-                    IsCompleted = false,
-                    ResponseLocation = asyncUrl 
-                };
-            }
+            var asyncUrl = response.Headers.Location;
+            return new StreamAsync<IdentityCheckResult>
+            {
+                IsCompleted = false,
+                ResponseLocation = asyncUrl 
+            };
         }
 
         async Task<StreamAsync<IdentityCheckResult>> IEnrollmentService.EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult)
@@ -707,14 +715,7 @@ namespace StreamEnergy.Services.Clients
                 ContactCellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
                 ContactEmail = context.ContactInfo.Email.Address,
                 SSN = context.SocialSecurityNumber,
-                BillingAddress = new
-                {
-                    StreetLine1 = context.MailingAddress.Line1,
-                    StreetLine2 = context.MailingAddress.Line2,
-                    City = context.MailingAddress.City,
-                    State = context.MailingAddress.StateAbbreviation,
-                    Zip = context.MailingAddress.PostalCode5
-                },
+                BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
                 PreferredLanguage = context.Language == "en" ? "English" : "Spanish",
                 PreferredSalesExecutive = context.PreferredSalesExecutive,
                 UnderContract = true,
@@ -748,14 +749,7 @@ namespace StreamEnergy.Services.Clients
                 Provider = provider,
                 Commodity = commodityType,
                 UtilityAccountNumber = utilityAccountNumber,
-                ServiceAddress = new
-                {
-                    StreetLine1 = location.Address.Line1,
-                    StreetLine2 = location.Address.Line2,
-                    City = location.Address.City,
-                    State = location.Address.StateAbbreviation,
-                    Zip = location.Address.PostalCode5
-                },
+                ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
             };
         }
 
@@ -804,7 +798,7 @@ namespace StreamEnergy.Services.Clients
                     EmailAddress = account.Details.ContactInfo.Email == null ? null : account.Details.ContactInfo.Email.Address,
                     ProviderId = locAdapter.GetProvider(subAccount),
                     ContactInfo = account.Details.ContactInfo,
-                    MailingAddress = account.Details.BillingAddress,
+                    MailingAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Details.BillingAddress),
                 });
             response.EnsureSuccessStatusCode();
 

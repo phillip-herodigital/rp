@@ -4,6 +4,7 @@ ngApp.factory('mobileEnrollmentService', [function () {
         postalCode5: '',
         planType: 'Consumer',
         availableNetworks: [],
+        hasLTEDevice: false,
         editedDevice: {},
         selectedNetwork: {
         },
@@ -108,7 +109,7 @@ ngApp.factory('mobileEnrollmentService', [function () {
             return model.installmentPlans[0].aGroupSku == plan;
         });
 
-        if (typeof model.installmentPlans != 'undefined') {
+        if (typeof model != 'undefined' && typeof model.installmentPlans != 'undefined') {
             return model.installmentPlans[0].months;
         } else {
             return null;
@@ -117,12 +118,15 @@ ngApp.factory('mobileEnrollmentService', [function () {
 
     service.getInstallmentPrice = function(id) {
         var item = _.where(this.getPhones(), { id: id })[0];
+        if (typeof item.models == 'undefined') {
+            return null;
+        }
         var models =  _.filter(item.models, 'installmentPlans');
 
         //Return the lowest lease price
-        var plans = _.min(models, function(model){ return model.installmentPlans[0].price; });
+        var plans = _.min(models, function(model){ return model.installmentPlans.length > 0 ? model.installmentPlans[0].price : null; });
         if (typeof plans.installmentPlans != 'undefined') {
-            return plans.installmentPlans[0].price;
+            return plans.installmentPlans.length > 0 ? plans.installmentPlans[0].price : null;
         } else {
             return null;
         }
@@ -132,7 +136,7 @@ ngApp.factory('mobileEnrollmentService', [function () {
         var item = _.where(this.getPhones(), { id: id })[0];
         //Return true if any of the models or installment plans are in stock
         var stock = _.filter(item.models, function(model) {
-            return (model.inStock || model.installmentPlans[0].inStock) && model.network == service.selectedNetwork.value
+            return (model.inStock ||(model.installmentPlans.length > 0 && model.installmentPlans[0].inStock)) && model.network == service.selectedNetwork.value
         });
         if (stock.length > 0) {
             return true;
@@ -161,7 +165,7 @@ ngApp.factory('mobileEnrollmentService', [function () {
         var item = _.where(this.getPhones(), { id: id })[0];
         if (typeof item != 'undefined') {
             var colors =  _.uniq( _.filter(item.models, function(model) {
-                return (model.inStock || model.installmentPlans[0].inStock) && model.network == service.selectedNetwork.value
+                return (model.inStock || (model.installmentPlans.length > 0 && model.installmentPlans[0].inStock)) && model.network == service.selectedNetwork.value
             }), 'color');
             return _.sortBy(colors, function(color) {
                 return color.color;

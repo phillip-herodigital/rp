@@ -16,7 +16,13 @@ namespace StreamEnergy.DomainModels.Accounts
         
         public const string Classification = "Utility";
 
+        public GeorgiaGasAccount()
+        {
+            Capabilities = new List<ISubAccountCapability>();
+        }
+
         public string Id { get; set; }
+        public IList<ISubAccountCapability> Capabilities { get; private set; }
 
         [Required(ErrorMessage = "Service Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Service Address ")]

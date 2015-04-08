@@ -43,15 +43,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (!context.IsRenewal && !internalContext.CreditCheck.IsCompleted)
-            {
-                internalContext.CreditCheck = await enrollmentService.EndCreditCheck(internalContext.CreditCheck);
-            }
-            if (!context.IsRenewal && (!internalContext.IdentityCheck.IsCompleted || !internalContext.CreditCheck.IsCompleted))
-            {
-                return this.GetType();
-            }
-            else if (context.IsRenewal || !internalContext.IdentityCheck.Data.HardStop.HasValue)
+            if (context.IsRenewal || !internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
                 if (context.IsRenewal || internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
                 {
@@ -96,7 +88,11 @@ namespace StreamEnergy.DomainModels.Enrollments
                     var customer = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
                     internalContext.GlobalCustomerId = customer.GlobalCustomerId;
                 }
-                internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.MailingAddress);
+                internalContext.IdentityCheck = new StreamAsync<Service.IdentityCheckResult>
+                {
+                    IsCompleted = true,
+                    Data = await enrollmentService.LoadIdentityQuestions(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.MailingAddress)
+                };
                 internalContext.CreditCheck = await enrollmentService.BeginCreditCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.PreviousAddress ?? context.MailingAddress);
                 context.SelectedIdentityAnswers = null;
 
@@ -106,11 +102,6 @@ namespace StreamEnergy.DomainModels.Enrollments
                     throw new NotSupportedException();
                 }
             }
-        }
-
-        public override bool ForceBreak(UserContext context, InternalContext internalContext)
-        {
-            return !context.IsRenewal && (!internalContext.IdentityCheck.IsCompleted || !internalContext.CreditCheck.IsCompleted);
         }
     }
 }

@@ -122,6 +122,8 @@
     <Compile Include="DomainModels\AccountLookup.cs" />
     <Compile Include="DomainModels\Accounts\Account.TSubAccount.cs" />
     <Compile Include="DomainModels\Accounts\AccountBalance.cs" />
+    <Compile Include="DomainModels\Accounts\AnonymousPaymentMethodAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\ISubAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\MobileAccountDetails.cs" />
     <Compile Include="DomainModels\Accounts\MobileAccountUsage.cs" />
     <Compile Include="DomainModels\Accounts\AccountUsage.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="DomainModels\Accounts\PaymentMethodAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\PaymentSchedulingAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\RenewalAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\SampleSubAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\SampleAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\AccountGrouping.cs" />
     <Compile Include="DomainModels\Accounts\Account.cs" />
@@ -244,6 +247,7 @@
     <Compile Include="DomainModels\Enrollments\Service\EnrollmentSaveResult.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
+    <Compile Include="DomainModels\Enrollments\SubmitIdentityState.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuote.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuoteOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuoteOptionPolicy.cs" />
@@ -258,6 +262,7 @@
     <Compile Include="DomainModels\Enrollments\TexasElectricity\RenewalOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\RenewalOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\RenewalOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\VerifyEsnResponseCode.cs" />
     <Compile Include="DomainModels\Enrollments\W9BusinessData.cs" />
     <Compile Include="DomainModels\ISearchable.cs" />
     <Compile Include="DomainModels\MobileEnrollment\IMobileEnrollmentService.cs" />

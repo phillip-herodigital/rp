@@ -53,7 +53,8 @@ namespace StreamEnergy.MyStream.Controllers
                         CGroupSku = plan.Fields["C Group SKU"].Value,
                         InStock = false
 
-                    })
+                    }),
+                    Lte = !string.IsNullOrEmpty(obj.Fields["LTE"].Value),
                 })
             });
 
@@ -85,13 +86,33 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult BringYourOwnCdmaDevices()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile CDMA BYO Devices");
+
+            var data = item.Children.Select(child => new
+            {
+                Id = child.ID.ToString(),
+                Make = child.Name,
+                Models = child.Children.Select(obj => new
+                {
+                    ModelName = obj.Fields["Model"].Value,
+                    Description = obj.Fields["Description"].Value,
+                    Lte = !string.IsNullOrEmpty(obj.Fields["LTE"].Value),
+                })
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult PreviousServiceProviders()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Previous Service Providers");
 
             var data = item.Children.Select(child => new
             {
-                Name = child.Fields["Display Text"].Value,
+                Name = child.Name,
+                Display = child.Fields["Display Text"].Value,
             });
 
             return this.Content(StreamEnergy.Json.Stringify(data));
@@ -220,7 +241,8 @@ namespace StreamEnergy.MyStream.Controllers
                     Price = obj.Fields["Price New"].Value,
                     Lease20 = obj.Fields["20 Mo Lease Price"].Value,
                     Lease24 = obj.Fields["24 Mo Lease Price"].Value,
-                    Sku = obj.Fields["SKU"].Value
+                    Sku = obj.Fields["SKU"].Value,
+                    Lte = !string.IsNullOrEmpty(obj.Fields["LTE"].Value),
                 })
             });
 
@@ -228,6 +250,19 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 MobilePhones = data
             });
+        }
+
+        public ActionResult EsnValidationMessages()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/ESN Validation");
+
+            var data = item.Children.Select(child => new
+            {
+                Code = child.Name,
+                Message = child.Fields["ESN Validation Message"].Value
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
         public ActionResult ConfigureData()
@@ -254,43 +289,6 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return View("~/Views/Components/Mobile Enrollment/Order Summary.cshtml");
         }
-
-        [System.Web.Http.HttpPost]
-        public string Validas(string username, string password, string securityAnswer, string carrier)
-        {
-            using (var client = new HttpClient())
-            {
-                client.Timeout = TimeSpan.FromMilliseconds(10*60*1000); // Let this request stay open for a long time...
-
-                var json = String.Format("\"LoginUsername\":\"{0}\",\"LoginPassword\":\"{1}\"," +
-                                         "\"LoginChallenge\":\"{2}\",\"Carrier\":\"{3}\",\"DownloadBillHistory\":\"true\"," +
-                                         "\"DownloadCurrentMonthBill\":\"false\",\"GetProfileDetails\":\"true\"," +
-                                         "\"GetDeviceDetails\":\"true\",\"MaxBillingResults\":\"3\"",
-                                         username, password, securityAnswer, carrier);
-                json = "{" + json + "}";
-                var sign = new System.Security.Cryptography.HMACSHA1(System.Text.Encoding.ASCII.GetBytes("6964220bb159b2728309dd7fb21ae886"));
-                var result = sign.ComputeHash(System.Text.Encoding.ASCII.GetBytes(json));
-                var signed = BitConverter.ToString(result).Replace("-", string.Empty);
-
-                // Add a new Request Message
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, "http://api10.savelovegive.com:3000/api/scrape/extract");
-
-                // Add our custom headers
-                requestMessage.Headers.Add("v-pk", "c3c35a59ac39157d074807d2123822e1");
-                requestMessage.Headers.Add("v-sign", signed);
-
-                // Set the JSON content
-                var stringContent = new StringContent(json.ToString());
-                requestMessage.Content = stringContent;
-
-                // Send the request to the server
-                var response = client.SendAsync(requestMessage).Result;
-
-                // Get the response
-                return response.Content.ReadAsStringAsync().Result;
-            }
-        }
-
 
     }
 }

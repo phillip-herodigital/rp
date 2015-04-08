@@ -44,26 +44,6 @@ a.significant {
     }
 }
 
-.banner.marketing {
-    height: 214px;
-    line-height: 52px;
-    line-height: 214px;
-    font-size: 48px;
-    color: white;
-    background-size: cover;
-    padding: 0;
-    margin: 0;
-    text-transform: uppercase;
-    @include breakpoint(small) {
-        height: 80px;
-        line-height: 80px;
-        font-size: 24px;
-        .wrapper {
-            padding: 0 20px;
-        }
-    }
-}
-
 dl.faq {
     color: #595a5d;
     width: 582px;
@@ -553,6 +533,249 @@ article.service-links {
     }
 }
 
+article.service-tabs {
+    @include box-shadow(0px 0px 30px 0px rgba(0, 0, 0, .2));
+    background-color: #f7f8f9;
+    position: relative;
+    z-index: 100;
+    padding: 0;
+    > .wrapper {
+        padding: 20px 0 0 !important;
+        background: none;
+    }
+    .grid .col {
+        background: right center no-repeat;
+        text-align: center;
+        background-position: top center;
+        padding: 0;
+        h2 {
+            font-size: 24px;
+            font-weight: 400;
+            color: black;
+            letter-spacing: 0;
+            margin: 0;
+            padding: 75px 0 20px;
+        }
+        &.mobile {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_mobile_icon.png');
+        }
+
+        &.energy {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_energy_icon.png');
+            &:hover>.dropdown-menu {
+              display: block;
+            }
+        }
+        &.protect {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
+        }
+    }
+    .dropdown-menu {
+        display: none;
+        border: 3px solid #f59a42;
+        border-top: none;
+        padding: 15px 0;
+        background-color: #ffffff;
+        @include box-shadow(inset 0 3px 6px rgba(0, 0, 0, .2), 0 3px 6px rgba(0, 0, 0, .2));
+        @include border-radius(0 0 10px 10px);
+        li {        
+            a {
+                font-size: 22px;
+                color: #010101;
+                padding: 5px 80px;
+                text-align: left;
+                &:hover {
+                    background-color: #e6e7e8;
+                }
+            }
+        }
+        @include breakpoint(small) {
+            // display: block;
+            position: relative;
+            width: 100%;
+            border-top: 3px solid #f59a42;
+            margin-bottom: 20px;
+            @include box-shadow(0 3px 6px rgba(0, 0, 0, .2));
+            @include border-radius(10px);
+        }
+    }
+    .open>.dropdown-menu {
+        display: block;
+    }
+}
+article.contact {
+    .request {
+        p {
+            margin-bottom: 1em;
+        }
+    }
+}
+article.contact-state {
+    .customer-service {
+        h1 {
+            color: #666666;
+            text-transform: uppercase;
+            i {
+                vertical-align: baseline;
+            }
+        }
+        &.mobile {
+            h1 strong {
+                color: #3a80d0;
+            }
+        }
+        &.energy {
+            h1 strong {
+                color: #ff9933;
+            }
+        }
+        &.protect {
+            h1 strong {
+                color: #40ae49;
+            }
+        }
+        .faq-text {
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+        .left-side {
+            h2 {
+                font-size: 22px;
+                font-weight: normal;
+                margin-bottom: 40px;
+            }
+        }
+        .right-side {
+            .mail {
+                @include border-radius(none);
+                background-color: #fff;
+                padding: 0;
+                h2 {
+                    background-image: url('../i/icon/email-small.png');
+                    background-repeat: no-repeat;
+                    background-position: top left;
+                    padding-left: 35px;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+    .emergency {
+        border: 1px solid #ebebeb;
+        @include border-radius(10px);
+        padding: 20px;
+        .grid .col {
+            .company-contact {
+                margin-bottom: 30px;
+            }
+        }
+    }
+    .link-back {
+        margin: 60px 0 30px;
+        text-align: center;
+        font-size: 22px;
+    }
+}
+
+article.pay {
+    padding: 0 !important;
+    
+    > .wrapper {
+        padding: 20px 0 0 !important;
+    }
+    .intro {
+        font-size: 22px;
+        text-align: center;
+        width: 53%;
+        strong {
+            color: #3a80d0;
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+        .blue {
+            color: #3a80d0;
+        }
+    }
+    h1 {
+        color: #666666;
+        text-transform: uppercase;
+        margin-bottom: 40px;
+        i {
+            vertical-align: baseline;
+        }
+    }
+    &.mobile {
+        margin-top: 25px;
+        h1 strong {
+            color: #3a80d0;
+        }
+    }
+    &.energy {
+        margin-top: 25px;
+        h1 strong {
+            color: #ff9933;
+        }
+    }
+    &.protect {
+        margin-top: 25px;
+        h1 strong {
+            color: #40ae49;
+        }
+    }
+    aside h4 {
+        margin-top: 0;
+    }
+    .box {
+        border: 3px solid #77bc1f;
+        h1 {
+            text-transform: none;
+            margin: 10px 0;
+        }
+        button {
+            margin-right: 60px;
+        }
+        p.sign-up {
+            color: #6b6b6b;
+        }
+    }
+    hr {
+        border: none;
+    }
+    .paperless {
+        i {
+            float: left;
+            margin-right: 20px;
+        }
+        .blue {
+            color: #3a80d0;
+        }
+    }
+    .pay-option {
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 20px;
+        h2 {
+            text-align: center;
+        }
+        .sign-up {
+            font-size: 20px;
+            text-decoration: underline;
+        }
+        p.call {
+            font-size: 16px;
+            .phone {
+                display: block;
+                color: #6b6b6b;
+                font-weight: normal;
+            }
+        }
+    }
+    .link-back {
+        margin: 60px 0 30px;
+        text-align: center;
+        font-size: 22px;
+    }
+}
+
 .switch-mobile {
     position: relative;
 
@@ -596,6 +819,13 @@ article.service-links {
 
         @include breakpoint(small) {
             margin-top: 20px;
+        }
+    }
+    .tooltip-inner {
+        max-width: 100%;
+        font-size: 14px;
+        ul {
+            padding: 0 0 0 15px;
         }
     }
 }
@@ -649,22 +879,358 @@ article.service-links {
     h2 {
         color: #222a4c;
     }
-    
-    .grid .col {
-        padding-top: 100px;
+    .protective-intro {
+        p {
+            font-size: 20px;
+        }
     }
-
-
     .identityTheft {
         background: image-url('marketing/redesign/mask_icon.png') no-repeat center top;
     }
-
     .onlineBackupAndProtection {
         background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top;
     }
-
     .creditMonitoring {
         background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top;
+    }
+    .grid .col {
+        padding-top: 100px;
+    } 
+    .services-summary {
+        .wrapper {
+            background-image: none;
+        }
+        .family-member {
+            margin: 25px 0;
+            text-align: center;
+            .blue {
+                color: #0971ce;
+                text-transform: uppercase;
+                font-size: 25px;
+                font-weight: 600;
+            }
+            .price {
+                color: #0971ce;
+                font-size: 25px;
+                font-weight: 600;
+                position: relative;
+                margin-left: 15px;
+                .top {
+                    vertical-align: top;
+                }
+                .dollars {
+                    font-size: 48px;
+                    position: absolute;
+                    top: -9px;
+                    left: 15px;
+                }
+                .cents {
+                    margin-left: 30px;
+                }
+                .per-month {
+                    display: inline-block;
+                    color: #6b6b6b;
+                    font-size: 11px;
+                    font-weight: normal;
+                    margin-left: -33px;
+                    line-height: 1;
+                    font-style: italic;
+                    padding-top: 27px;
+                }
+            }
+        }
+        h3 {
+            text-align: center;
+            color: #40ae49;
+            text-transform: uppercase;
+            margin-bottom: 100px;
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+            li {
+                margin: 10px 0;
+                font-weight: 600;
+            }
+        }
+        .grid .col {
+            padding-top: 0;
+        }
+        .identityTheft {
+            background: image-url('marketing/redesign/mask_icon.png') no-repeat center top 60px;
+            h3 {
+                padding-left: 30px;
+            }
+        }
+        .onlineBackupAndProtection {
+            background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top 60px;
+            h3 {
+                padding-right: 30px;
+            }
+        }
+        .creditMonitoring {
+            background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top 60px;
+        }
+    }
+    .protective-footnotes {
+        .wrapper {
+            background-image: none;
+            padding: 25px 0;
+            text-align: center;
+        }
+        p {
+            font-size: 20px;
+            font-weight: 600;
+            .blue {
+                color: #0971ce;
+            }
+        }
+        .footnote {
+            font-size: 11px;
+            font-weight: normal;
+        }
+    }
+    .service-description {
+        min-height: 85px;
+    }
+    .price {
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-block;
+        vertical-align: middle;
+        .dollars {
+            font-size: 23px;
+        }
+        .cents {
+            vertical-align: top;
+        }
+    }
+    .service-bundles {
+        background-color: #f7f8f9;
+        margin-bottom: -35px;
+        .wrapper {
+            padding: 0;
+        }
+        h1 {
+            color: #40ae49;
+        }
+        .bundle {
+            background-color: #e7e7e9;
+            height: 260px;
+            text-align: center;
+            padding: 0 30px !important;
+            position: relative;
+            @include border-radius(10px);
+            @include box-shadow(0 1px 1px rgba(0, 0, 0, .3));
+            h4 {
+                font-size: 25px;
+                color: #808083;
+                font-weight: 600;
+                margin: 15px 0 0;
+            }
+            &.platinum {
+                background-color: #ffffff;
+            }
+            p {
+                margin-top: 0;
+            }
+            .circle-discount {
+                min-height: 58px;
+                color: #fff;
+                margin: 25px auto;
+                .circle {
+                    background-color: #808083;
+                    height: 80px;
+                    width: 80px;
+                    @include border-radius(40px);
+                    line-height: 1;
+                    padding-top: 10px;
+                    margin: 0 auto;
+                    .save {
+                        font-weight: 600;
+                        display: block;
+                    }
+                    .amount {
+                        font-size: 20px;
+                        font-weight: 600;
+                        display: block;
+                    }
+                    .per-year {
+                        display: block;
+                    }
+                }
+            }
+            &.selected {
+                h4, p {
+                    color: #0971ce;
+                }
+                .circle {
+                    background-color: #0971ce;
+                }
+            }
+            .price {
+                color: #0971ce;
+                font-size: 25px;
+                font-weight: 600;
+                position: relative;
+                margin-left: 15px;
+                .top {
+                    vertical-align: top;
+                }
+                .dollars {
+                    font-size: 48px;
+                    position: absolute;
+                    top: -9px;
+                    left: 15px;
+                }
+                .cents {
+                    margin-left: 58px;
+                }
+                .per-month {
+                    display: inline-block;
+                    color: #6b6b6b;
+                    font-size: 11px;
+                    font-weight: normal;
+                    margin-left: -27px;
+                    line-height: 1;
+                    font-style: italic;
+                    padding-top: 27px;
+                }
+            }
+            .sash-wrapper {
+                width: 130px;
+                height: 122px;
+                overflow: hidden;
+                position: absolute;
+                top: -4px;
+                right: -4px;
+                .sash {
+                    font-size: 24px;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    color: #fff;
+                    text-align: center;
+                    position: relative;
+                    padding: 0;
+                    left: 15px;
+                    top: 20px;
+                    width: 145px;
+                    background-color: #e61b22;
+                    white-space: nowrap;
+                    @include rotate(45deg);
+                    &:before, &:after {
+                        content: "";
+                        position:absolute;
+                        bottom: -3px;
+                    }
+                    &:before {
+                        left: 0;
+                    }
+                    &:after {
+                        right: 0; 
+                    }
+                }
+            }
+            &.silver {
+                .price .cents {
+                    margin-left: 48px;
+                }
+            }
+            @include breakpoint (small) {
+                margin-bottom: 20px;
+                h4 {
+                    margin: 0;
+                    padding-top: 15px;
+                }
+            }
+        }
+        .package-indicators {
+            .col {
+                padding: 0;
+                text-align: center;
+            }
+            .indicator {
+                position: relative;
+                &:after, &:before {
+                    display: none;
+                    bottom: -20px;
+                    left: 50%;
+                    border: solid transparent;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    position: absolute;
+                }
+
+                &:after {
+                    border-bottom-color: #40ae49;
+                    border-width: 20px;
+                    margin-left: -20px;
+                }
+                &:before {
+                    border-color: #40ae49;
+                }
+                &.active:before, &.active:after {
+                    display: block;
+                    z-index: 1;
+                }
+            } 
+            @include breakpoint(small) {
+                display: none;
+            }
+        }
+        .build-package {
+            @include retina-background('protective-bundle-bg.png');
+            background-position: top;
+            background-repeat: repeat-x;
+            background-color: #45ba4e;
+            margin: 18px -120px 0;
+            padding: 12px 120px;
+            .build-package-text {
+                color: #fff;
+                font-size: 20px;
+            }
+            .build-package-options {
+                padding: 40px 0 20px; 
+                .bundle-option {
+                    color: #fff;
+                    font-size: 22px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    margin-right: 25px;
+                    vertical-align: middle;
+                    input {
+                        margin-right: 10px;
+                    }
+                }
+            }
+            @include breakpoint(small) {
+                background-image: none;
+                .bundle-option {
+                    display: block;
+                    margin-bottom: 10px;
+                }
+                .button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+    @include breakpoint(small) {
+        .protective-summary {
+            .col {
+                padding: 0 !important;
+                h3 {
+                    padding: 20px 0 0;
+                }
+                border: none;
+            }
+            .details{
+                &.active:before, &.active:after {
+                    display: none;
+                }
+            }
+        }
     }
 }
 

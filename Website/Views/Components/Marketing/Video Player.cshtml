@@ -1,0 +1,21 @@
+﻿@{
+    var videoGuidStr = Request.QueryString["video"];
+    Guid videoGuid;
+    var video = (videoGuidStr != null && Guid.TryParse(videoGuidStr, out videoGuid)) ? Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(videoGuid)) : null;
+    if (video == null)
+    {
+        Response.Redirect("page-not-found");
+    }
+    var title = (video != null) ?  video.Fields["Title"].Value : null;
+    var description = (video != null) ?  video.Fields["Description"].Value : null;
+    var embedUrl = (video != null) ? "http://www.youtube.com/embed/" + video.Fields["YouTube ID"].Value : "";
+}
+<article class="marketing video-player">
+    <div class="wrapper">
+        <h2>@title</h2>
+        <div class="video-container">
+            <iframe ng-src="@embedUrl" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p>@description</p>
+    </div>
+</article>

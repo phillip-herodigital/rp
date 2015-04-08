@@ -11,6 +11,11 @@ ngApp.controller('AcctPaymentAccountsListingCtrl', ['$scope', '$http', '$modal',
         $scope.isLoading = false;
     });
 
+    $scope.showAddCC = false;
+    $http.get('/api/account/getAccounts').success(function (data, status, headers, config) {
+        $scope.showAddCC = !_.every(data, { 'systemOfRecord': 'CIS1' });
+    });
+
     $scope.deletePaymentAccount = function (paymentAccount) {
         $scope.paymentAccount = paymentAccount;
         var modalInstance = $modal.open({

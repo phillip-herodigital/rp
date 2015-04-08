@@ -43,9 +43,10 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
         $scope.isLoading = true;
         ctrl.paymentMethod().then(function (paymentMethod) {
             $scope.isLoading = false;
-            if (paymentMethod.type == "Unknown" || _.some(ctrl.account.availablePaymentMethods, { 'paymentMethodType': paymentMethod.type })) {
+            var paymentMethodType = (paymentMethod.paymentType == "TokenizedBank") ? "Checking" : paymentMethod.type;
+            if (paymentMethodType == "Unknown" || _.some(ctrl.account.availablePaymentMethods, { 'paymentMethodType': paymentMethodType })) {
                 ctrl.evaluatedPaymentMethod = paymentMethod;
-                ctrl.totalCharge = parseFloat(ctrl.paymentAmount) + 2.95;
+                ctrl.totalCharge = (ctrl.account.accountType != 'Mobile') ? (parseFloat(ctrl.paymentAmount) + 2.95) : parseFloat(ctrl.paymentAmount);
                 ctrl.activeStep = 3;
             } else {
                 $scope.validations = [{

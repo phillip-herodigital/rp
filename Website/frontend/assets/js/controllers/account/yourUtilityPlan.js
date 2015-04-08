@@ -18,7 +18,8 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
             }).success(function (data, status, headers, config) {
                 $scope.accountId = data.accountId;
                 $scope.utilityPlan = data.subAccounts[0];
-                $scope.renewal = data.renewalCapability;
+                $scope.utilityPlans = data.subAccounts;
+                $scope.renewal = data.hasRenewalEligibiltiy;
                 // get the plan description from sitecore if it exists
                 var product = _.find($scope.georgiaProducts, { 'code': $scope.utilityPlan.productCode });
                 $scope.utilityPlan.description = (product) ? product.description : null;
@@ -28,16 +29,24 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
         }
     });
 
-    $scope.setupRenewal = function() {
+    $scope.isEligible = function(utilityPlanId) {
+        var subAccount = _.find($scope.utilityPlans, { 'id': utilityPlanId });
+        return _.find(subAccount.capabilities, { 'capabilityType': 'Renewal' }).isEligible;
+    };
+
+    $scope.setupRenewal = function(utilityPlanId) {
         $scope.isLoading = true;
         var accountData = {
             accountId: $scope.accountId,
-            subAccountId: $scope.utilityPlan.id
+            subAccountId: utilityPlanId
         };
         $http.post('/api/account/setupRenewal', accountData)
         .success(function (data) {
             if (data.isSuccess) {
                 $window.location = '/enrollment?renewal=true';
+            } else {
+                // the account is no longer eligible, or something else went wrong
+                $scope.isLoading = false;
             }
         })
     };

@@ -7,7 +7,7 @@ body {
 	font-size: $font-size-base;
 	line-height: $line-height;
 	color: $text-primary-color;
-	background: $body-bg image-url('marketing/redesign/pattern_bg.png') repeat-y center;
+	background: $body-bg image-url('marketing/redesign/pattern_bg.png') center;
 }
 
 html,
@@ -35,7 +35,7 @@ dl {
 		width: 50%;
 		margin: 0;
 		text-align: right;
-	} */
+	} */ 
 }
 
 hr {

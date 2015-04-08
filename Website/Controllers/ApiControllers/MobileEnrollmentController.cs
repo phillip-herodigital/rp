@@ -203,5 +203,66 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
         }
+
+        [HttpGet]
+        [Route("importcdmadata")]
+        public void ImportCdmaData(string path)
+        {
+            TemplateItem folderTemplate = Sitecore.Context.Database.GetTemplate("Common/Folder");
+            TemplateItem deviceTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Taxonomy/Mobile Enrollment/BYO Device Model");
+            Item BYODFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile CDMA BYO Devices");
+            Item makeItem;
+            Item modelItem;
+
+            using (new Sitecore.SecurityModel.SecurityDisabler())
+            {
+                // Empty the BYODFolder
+                foreach (Item child in BYODFolder.Children)
+                {
+                    child.Delete();
+                }
+
+                TextFieldParser parser = new TextFieldParser(path);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
+
+                while (!parser.EndOfData)
+                {
+                    string[] fields = parser.ReadFields();
+                    string pattern = @"[^\w\s\-\$]"; // only allow \w, \s, -, and $ for Sitecore Item names
+                    Regex rgx = new Regex(pattern);
+
+                    string phoneMake = fields[0];
+                    string phoneModel = fields[1];
+                    string phoneLte = fields[2];
+                    string phoneMakeItemName = rgx.Replace(phoneMake, "");
+                    string phoneModelItemName = rgx.Replace(phoneModel, "");
+
+                    makeItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile CDMA BYO Devices/" + phoneMakeItemName);
+
+                    if (makeItem == null)
+                    {
+                        // Create new folder from phone make
+                        makeItem = BYODFolder.Add(phoneMakeItemName, folderTemplate);
+                    }
+
+                    // Create new item from phone model
+                    modelItem = makeItem.Add(phoneModelItemName, deviceTemplate);
+
+                    Sitecore.Data.Fields.CheckboxField checkbox = modelItem.Fields["LTE"];
+
+                    modelItem.Editing.BeginEdit();
+                    modelItem.Fields["Model"].Value = phoneModel;
+                    checkbox.Checked = (phoneLte == "Y");
+                    modelItem.Editing.EndEdit();
+
+                }
+                parser.Close();
+
+            }
+
+        }
     }
+
+
 }

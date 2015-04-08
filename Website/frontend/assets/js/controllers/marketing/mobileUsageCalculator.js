@@ -1,7 +1,19 @@
-ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($scope, $http) {
+ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
     // Main Functionality
     // --------------------------------------------------
+
+    var getParameterByName = function (name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec($location.absUrl());
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    $scope.SPID = getParameterByName("SPID");
+    $scope.BC_ID = getParameterByName("BC_ID");
+    $scope.RefSite = getParameterByName("RefSite");
+    $scope.AccountType = getParameterByName("AccountType");
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
@@ -27,7 +39,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
 
         $http({
             method: 'POST',
-            url: '/en/services/mobile/validas-endpoint',
+            url: '/api/marketing/validas',
             data: {  
                 username: $scope.connect.username, 
                 password: $scope.connect.password,
@@ -44,11 +56,19 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', function ($sco
                 $scope.connect.validas = data;
                 $scope.connected = true;
             } else {
-                $scope.validasErrors = data.messages || ["A system error occurred. Please try again later."];
+                if (data && data.messages) {
+                    $scope.validasErrors = data.messages;
+                } else {
+                    $scope.validasErrors = ["A system error occurred. Please try again later."];
+                }
             }
         }).error(function(data, status, headers, config) {
             $scope.isLoading = false;
-            $scope.validasErrors = ["A system error occurred. Please try again later."];
+            if (data && data.messages) {
+                $scope.validasErrors = data.messages;
+            } else {
+                $scope.validasErrors = ["A system error occurred. Please try again later."];
+            }
         });
     };
 

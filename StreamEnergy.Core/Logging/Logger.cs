@@ -52,7 +52,7 @@ namespace StreamEnergy.Logging
             {
                 try
                 {
-                    await accumulator.AccumulateData(logEntry);
+                    accumulator.AccumulateData(logEntry);
                 }
                 catch { }
             }

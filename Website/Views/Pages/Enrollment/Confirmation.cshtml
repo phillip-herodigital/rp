@@ -10,8 +10,8 @@
                     <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
                 </header>
                 <div class="content">
-                    <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Confirmation Paragraph")</p>
-                    <p ng-if="customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Submitted Paragraph")</p>
+                    <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal || cartHasMobile()">@Html.Sitecore().Field("Confirmation Paragraph")</p>
+                    <p ng-if="customerType != 'commercial' && !confirmationSuccess && !cartHasMobile()">@Html.Sitecore().Field("Submitted Paragraph")</p>
                     <p ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Paragraph")</p>
                 </div>
             </article>
@@ -245,9 +245,24 @@
             {{ getDevicesCount() }} @Html.Sitecore().Field("Group Plan Text")
         </div>
     </div>
-    <div ng-if="!offerInformation.value.offerSelections[0].confirmationSuccess" ng-cloak>
+    <div ng-if="!confirmationSuccess && !sprintByod" ng-cloak>
         <div class="notice alert">
-            @Html.Sitecore().Field("Confirmation Error")
+            @Html.Sitecore().Field("Confirmation Error Mobile")
+        </div>
+    </div>
+    <div ng-if="confirmationSuccess && !sprintByod" ng-cloak>
+        <div class="notice alert">
+            @Html.Sitecore().Field("ATT BYOD Confirmation Text")
+        </div>
+    </div>
+    <div ng-if="!confirmationSuccess && sprintByod" ng-cloak>
+        <div class="notice alert">
+            @Html.Sitecore().Field("Sprint BYOD Submitted Text")
+        </div>
+    </div>
+    <div ng-if="confirmationSuccess && sprintByod" ng-cloak>
+        <div class="notice alert">
+            @Html.Sitecore().Field("Sprint BYOD Confirmation Text")
         </div>
     </div>
     <dl class="clearfix">
