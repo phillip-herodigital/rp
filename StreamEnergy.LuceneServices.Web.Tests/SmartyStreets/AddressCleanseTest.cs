@@ -22,7 +22,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests.SmartyStreets
             var addr = new SmartyStreetService("", "", null).ParseJsonResponse(response, 3);
 
             Assert.AreEqual(0, addr[0].Length);
-            Assert.AreEqual("3620 Huffines Blvd 226 Apt Carrollton, TX, 75010-6447", addr[1][0].ToSingleLine());
+            Assert.AreEqual("3620 Huffines Blvd Apt 226 Carrollton, TX, 75010-6447", addr[1][0].ToSingleLine());
             Assert.AreEqual(0, addr[2].Length);
         }
     }
