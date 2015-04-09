@@ -533,6 +533,254 @@ article.service-links {
     }
 }
 
+article.service-tabs {
+    @include box-shadow(0px 0px 30px 0px rgba(0, 0, 0, .2));
+    background-color: #f7f8f9;
+    position: relative;
+    z-index: 100;
+    padding: 0;
+    > .wrapper {
+        padding: 20px 0 0 !important;
+        background: none;
+    }
+    .grid .col {
+        background: right center no-repeat;
+        text-align: center;
+        background-position: top center;
+        padding: 0;
+        h2 {
+            font-size: 24px;
+            font-weight: 400;
+            color: black;
+            letter-spacing: 0;
+            margin: 0;
+            padding: 75px 0 20px;
+        }
+        &.mobile {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_mobile_icon.png');
+        }
+
+        &.energy {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_energy_icon.png');
+            &:hover>.dropdown-menu {
+              display: block;
+            }
+        }
+        &.protect {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
+        }
+    }
+    .dropdown-menu {
+        display: none;
+        border: 3px solid #f59a42;
+        border-top: none;
+        padding: 15px 0;
+        background-color: #ffffff;
+        @include box-shadow(inset 0 3px 6px rgba(0, 0, 0, .2), 0 3px 6px rgba(0, 0, 0, .2));
+        @include border-radius(0 0 10px 10px);
+        li {        
+            a {
+                font-size: 22px;
+                color: #010101;
+                padding: 5px 80px;
+                text-align: left;
+                &:hover {
+                    background-color: #e6e7e8;
+                }
+            }
+        }
+        @include breakpoint(small) {
+            // display: block;
+            position: relative;
+            width: 100%;
+            border-top: 3px solid #f59a42;
+            margin-bottom: 20px;
+            @include box-shadow(0 3px 6px rgba(0, 0, 0, .2));
+            @include border-radius(10px);
+        }
+    }
+    .open>.dropdown-menu {
+        display: block;
+    }
+}
+article.contact {
+    .request {
+        p {
+            margin-bottom: 1em;
+        }
+    }
+}
+article.contact-state {
+    .customer-service {
+        h1 {
+            color: #666666;
+            text-transform: uppercase;
+            i {
+                vertical-align: baseline;
+            }
+        }
+        &.mobile {
+            h1 strong {
+                color: #3a80d0;
+            }
+        }
+        &.energy {
+            h1 strong {
+                color: #ff9933;
+            }
+        }
+        &.protect {
+            h1 strong {
+                color: #40ae49;
+            }
+        }
+        .faq-text {
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+        .left-side {
+            h2 {
+                font-size: 22px;
+                font-weight: normal;
+                margin-bottom: 40px;
+            }
+        }
+        .right-side {
+            .mail {
+                @include border-radius(none);
+                background-color: #fff;
+                padding: 0;
+                h2 {
+                    background-image: url('../i/icon/email-small.png');
+                    background-repeat: no-repeat;
+                    background-position: top left;
+                    padding-left: 35px;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+    .emergency {
+        border: 1px solid #ebebeb;
+        @include border-radius(10px);
+        padding: 20px;
+        .grid .col {
+            .company-contact {
+                margin-bottom: 30px;
+            }
+        }
+    }
+    .link-back {
+        margin: 60px 0 30px;
+        text-align: center;
+        font-size: 22px;
+    }
+}
+
+article.pay {
+    padding: 0 !important;
+    
+    > .wrapper {
+        padding: 20px 0 0 !important;
+    }
+    .intro {
+        font-size: 22px;
+        text-align: center;
+        width: 53%;
+        strong {
+            color: #3a80d0;
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+        .blue {
+            color: #3a80d0;
+        }
+    }
+    h1 {
+        color: #666666;
+        text-transform: uppercase;
+        margin-bottom: 40px;
+        i {
+            vertical-align: baseline;
+        }
+    }
+    &.mobile {
+        margin-top: 25px;
+        h1 strong {
+            color: #3a80d0;
+        }
+    }
+    &.energy {
+        margin-top: 25px;
+        h1 strong {
+            color: #ff9933;
+        }
+    }
+    &.protect {
+        margin-top: 25px;
+        h1 strong {
+            color: #40ae49;
+        }
+        .pay-option {
+            text-align: center;
+            border: none;
+        }
+    }
+    aside h4 {
+        margin-top: 0;
+    }
+    .box {
+        border: 3px solid #77bc1f;
+        h1 {
+            text-transform: none;
+            margin: 10px 0;
+        }
+        button {
+            margin-right: 60px;
+        }
+        p.sign-up {
+            color: #6b6b6b;
+        }
+    }
+    hr {
+        border: none;
+    }
+    .paperless {
+        i {
+            float: left;
+            margin-right: 20px;
+        }
+        .blue {
+            color: #3a80d0;
+        }
+    }
+    .pay-option {
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 20px;
+        h2 {
+            text-align: center;
+        }
+        .sign-up {
+            font-size: 20px;
+            text-decoration: underline;
+        }
+        p.call {
+            font-size: 16px;
+            .phone {
+                display: block;
+                color: #6b6b6b;
+                font-weight: normal;
+            }
+        }
+    }
+    .link-back {
+        margin: 60px 0 30px;
+        text-align: center;
+        font-size: 22px;
+        clear: both;
+    }
+}
+
 .switch-mobile {
     position: relative;
 

@@ -13,6 +13,9 @@ namespace StreamEnergy.MyStream.Models.Marketing
     {
         public bool ShowSuccessMessage { get; set; }
 
+        [Required(ErrorMessage = "Stream Service Required")]
+        public string StreamService { get; set; }
+
         [Required]
         [ValidateObject(ErrorMessagePrefix = "")]
         public Name ContactName { get; set; }
