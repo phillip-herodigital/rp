@@ -1,23 +1,96 @@
-﻿<div ng-controller="MobileSimActivationCtrl">
-    <div class="layout">
+﻿<article class="marketing full-html mobile">
+    <div class="wrapper">
+        <h1>Thank you for choosing <strong>Mobile Services</strong> by <strong>Stream</strong>.</h1>
+    </div>
+</article>
+<div ng-controller="MobileSimActivationCtrl">
+    <div class="mobile sim-activation layout">
         <div class="wrapper cols-2">
             <section>
                 <article class="enrollment__box form">
                     <header>
-                        <h1>@Html.Sitecore().Field("Header Account Information")</h1>
+                        <h1>SIM Activation</h1>
                     </header>
                     <div class="content">
-                        Content Here
+                        <h2>Let’s Activate Your Device</h2>
+                        <p>If you received a Stream SIM card with an activation code, please click on GSM Network, otherwise click CDMA Network.</p>
+                        <label>Please select a Network</label>
+                        <div class="btn-group btn-group-options">
+                            <a href="" ng-model="selectedNetwork" btn-radio="gsm">
+                                <span class="button mobile-network">
+                                    <i class="icon-gsm"></i>
+                                    Network
+                                </span>
+                            </a>
+                            <a href="" ng-model="selectedNetwork" btn-radio="cdma">
+                                <span class="button mobile-network">
+                                    <i class="icon-cdma"></i>
+                                    Network
+                                </span>
+                            </a>
+                        </div>
                     </div>
+                    <footer>
+                        Questions about your activation? Contact Customer Support at <strong>877-743-5893</strong>.
+                    </footer>
                 </article>
             </section>
             <aside>
-                <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
-                    <article class="enrollment__box">
-                        Questions about your Activation?
-                    </article>
-                </div>
+                <div ng-include src="'sidebar-template'"></div>
             </aside>
         </div>
+
+        <div class="wrapper cols-2">
+            <section>
+                <article class="enrollment__box form">
+                    <header>
+                        <h1>Activation for a CDMA Device</h1>
+                    </header>
+                    <div class="content">
+                        <p><strong>If you've requested a new number,</strong> simply turn on your new device and the activation process will start automatically. Please follow the instructions on your device to complete the activation. Your device will sync with our network within a few minutes.</p>
+                        <p><strong>If you're transferring your existing number from another carrier,</strong> the transfer process may take a few hours to complete (up to 48 hours). During this time, your current device will continue to work on your existing carrier’s network. When the transfer process is complete, your current device will no longer have service. At that time, simply turn on your new device and the activation process will start automatically. Please follow the instructions on your device to complete the activation. Your device will sync with our network within a few minutes.</p>
+                        <p><strong>If activation is unsuccessful,</strong> dial ##873283# on your device and the activation process will start again.</p>
+                    </div>
+                    <footer>
+                        <a href="">Back</a>
+                    </footer>
+                </article>
+            </section>
+            <aside>
+                <div ng-include src="'sidebar-template'"></div>
+            </aside>
+        </div>
+
+        <div class="wrapper cols-2">
+            <section>
+                <article class="enrollment__box form">
+                    <header>
+                        <h1>Let’s begin activation for your GSM device.</h1>
+                    </header>
+                    <div class="content">
+                        <h2>Get ready to start using the largest 4G LTE GSM network.</h2>
+                        <p><strong>Step 1</strong>: Please enter the seven digit activation code from the Stream SIM card you received and the primary account holder’s last name.</p>
+                    </div>
+                    <footer>
+                        <a href="">Back</a>
+                    </footer>
+                </article>
+            </section>
+            <aside>
+                <div ng-include src="'sidebar-template'"></div>
+            </aside>
+        </div>
+
     </div>
 </div>
+
+<script type="text/ng-template" id="sidebar-template">
+    <div class="questions">
+        <h4>Questions about your Activation?</h4>
+        <div class="contact-specialists">
+            <i class="icon-contact-specialists"></i>
+            Contact one of our specialists today!
+        </div>
+        <p>Call 877-743-5893</p>
+    </div>
+</script>
