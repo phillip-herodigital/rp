@@ -1236,6 +1236,17 @@
             @include breakpoint(small) {
                 padding-left: 0;
             }
+            tr.ez-pay {
+                border: 2px solid #0071b9;
+            }
+            td {
+                border: none;
+                .blue {
+                    color: #0071b9;
+                    font-size: 15px;
+                    font-weight: 600;
+                }
+            }
         }
         .phone-summary {
             min-height: 140px;
@@ -2732,6 +2743,9 @@
                     font-size: 24px;
                 }
             }
+            &.inactive {
+                cursor: default;
+            }
             h1 {
                 padding: 2px 20px;
                 margin: 10px 0;
@@ -3130,11 +3144,11 @@
             @include border-radius(5px 5px 0 0);
         }
         .special-offer {
-            border: 2px solid #e6e6e6;
+            border: 2px solid #3189bb;
             border-bottom: 0;
-            background: #fff;
-            color: #3d8039;
-            font-weight: normal;
+            background: #3189bb;
+            color: #fff;
+            font-weight: bold;
             @include breakpoint(small) {
                 border: none;
             }
@@ -3164,6 +3178,10 @@
             }
             .price {
                 color: #3d8039;
+            }
+            .limited-time-offer {
+                font-size: .85em;
+                display: block;
             }
         }
         .size {

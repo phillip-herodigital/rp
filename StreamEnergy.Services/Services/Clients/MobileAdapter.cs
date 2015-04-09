@@ -300,6 +300,8 @@ namespace StreamEnergy.Services.Clients
                 RequiredAmounts = ToRequiredAmount((IEnumerable<dynamic>)streamAccountDetails.InitialPayments, streamAccountDetails.Key),
                 OngoingAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
                 PostBilledAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
+                AvailablePaymentMethods = (from type in (IEnumerable<dynamic>)streamAccountDetails.AcceptedEnrollmentPaymentAccountTypes
+                    select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
             };
         }
 
