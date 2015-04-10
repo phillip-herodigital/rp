@@ -1,4 +1,6 @@
-﻿<article class="marketing full-html mobile">
+﻿@model StreamEnergy.MyStream.Models.Marketing.SimActivation
+
+<article class="marketing full-html mobile">
     <div class="wrapper">
         <h1>Thank you for choosing <strong>Mobile Services</strong> by <strong>Stream</strong>.</h1>
     </div>
@@ -63,22 +65,112 @@
 
         <div class="wrapper cols-2">
             <section>
-                <article class="enrollment__box form">
-                    <header>
-                        <h1>Let’s begin activation for your GSM device.</h1>
-                    </header>
-                    <div class="content">
-                        <h2>Get ready to start using the largest 4G LTE GSM network.</h2>
-                        <p><strong>Step 1</strong>: Please enter the seven digit activation code from the Stream SIM card you received and the primary account holder’s last name.</p>
-                    </div>
-                    <footer>
-                        <a href="">Back</a>
-                    </footer>
-                </article>
+                <form data-val-bind-messages="validations" ng-submit="activateSim();">
+                    <article class="enrollment__box form activate-form">
+                        <header>
+                            <h1>Let’s begin activation for your GSM device.</h1>
+                        </header>
+                        <div class="content">
+                            <h2>Get ready to start using the largest 4G LTE GSM network.</h2>
+                            <p><strong>Step 1</strong>: Please enter the seven digit activation code from the Stream SIM card you received and the primary account holder’s last name.</p>
+                            <div class="grid">
+                                <div class="col col-first">
+                                    <label for="@Html.IdFor(m => m.ActivationCode)">Activation Code</label>
+                                    @Html.TextBoxFor(m => m.ActivationCode, new { ng_model = "activation.code" })
+                                    @Html.ValidationMessageFor(model => model.ActivationCode)
+                                    <label for="@Html.IdFor(m => m.LastName)" class="last-name">Primary Account Holder's Last Name</label>
+                                    @Html.TextBoxFor(m => m.LastName, new { ng_model = "activation.lastName" })
+                                    @Html.ValidationMessageFor(model => model.LastName)
+                                </div>
+                                <div class="col col-last">
+                                    @Html.Sitecore().Field("Header")
+                                </div>
+                            </div>
+                        </div>
+                        <footer>
+                            <div class="buttons">
+                                <button type="submit" class="primary" data-val-submit>Activate your SIM Card</button>
+                                <button class="tertiary" >Back</button>
+                            </div>
+                        </footer>
+                    </article>
+                </form>
             </section>
             <aside>
                 <div ng-include src="'sidebar-template'"></div>
             </aside>
+        </div>
+
+        <div class="wrapper cols-2">
+            <section>
+                <article class="enrollment__box form data-box">
+                    <header>
+                        <h1>Activate Your Data Box</h1>
+                    </header>
+                    <div class="content">
+                        <p>Once you’ve completed your SIM Activation, you’ll want to activate your data to begin using your phone on the Stream network. If you haven’t received a text message to activate your data, here are simple instructions you’ll need to follow.</p>
+                        <label>What kind of device are you activating?</label>
+                        <div class="btn-group btn-group-options">
+                            <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'apple'">
+                                    <i class="icon-apple"></i>
+                                    Apple
+                            </a>
+                            <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'android'">
+                                    <i class="icon-android"></i>
+                                    Android
+                            </a>
+                            <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'windows'">
+                                    <i class="icon-windows"></i>
+                                    Windows Phone
+                            </a>
+                        </div>
+                        <div class="phone-instructions" ng-if="selectedPhone == 'apple'">
+                            <hr class="content-divider" />
+                            <p class="instructions-header">
+                                The following steps will help you activate your device on the Stream network:
+                            </p>
+                            <div class="notice alert">
+                                Make sure you’re using the device with the newly installed SIM card to perform the actions listed below.
+                            </div>
+                            <p>
+                                Open a web browser on your device and navigate to:
+                                <a href="www.MyStream.com/services/mobile/activation#apple">www.MyStream.com/services/mobile/activation#apple</a>
+                            </p>
+                            <ol>
+                                <li>Confirm that your device is on a Wi-Fi network.</li>
+                                <li><a href="" class="button">Download APN Configuration Settings</a></li>
+                                <li>Accept the profile that will be prompted to be downloaded.</li>
+                                <li>Restart your iPhone.</li>
+                            </ol>
+                            <hr class="content-divider" />
+                            <p class="instructions-header">
+                                Please note:
+                            </p>
+                            <ul>
+                                <li>On the GSM network, iPhone users may experience issues with MMS messaging. MMS includes picture, video, and group messaging. If you are unable to send and receive MMS messages, there are some easy alternatives. There are a variety of free messaging apps, such as WhatsApp*, you can download and use as a solution. (Keep in mind both the sender and recipient will need to have the messaging app installed in order to send and receive messages)  You can also send and receive pictures and videos using your preferred email application already installed on your phone. Or, you may want to switch to our CDMA network or purchase an Android phone for our GSM network.*</li>
+                                <li>Mobile hotspot is not currently supported by Stream’s GSM network.</li>
+                                <li>Visual Voicemail is not currently supported by Stream's GSM network on Apple devices.</li>
+                            </ul>
+                            <p>*The WhatsApp application and services are not affiliated with Mobile by Stream. Stream's CDMA network coming soon.</p>
+                        </div>
+                        <div class="phone-instructions" ng-if="selectedPhone == 'android'">
+                            <hr class="content-divider" />
+                            <div class="notice alert">
+                                Make sure you’re using the device with the newly installed SIM card to perform the actions listed below.
+                            </div>
+                        </div>
+                        <div class="phone-instructions" ng-if="selectedPhone == 'windowsz'">
+                            <hr class="content-divider" />
+                            <div class="notice alert">
+                                Make sure you’re using the device with the newly installed SIM card to perform the actions listed below.
+                            </div>
+                        </div>
+                    </div>
+                    <footer>
+                        Don’t see your phone model here? Give us a call at 877-743-5893.
+                    </footer>
+                </article>
+            </section>
         </div>
 
     </div>

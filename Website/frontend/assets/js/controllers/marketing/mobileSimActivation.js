@@ -2,6 +2,6 @@
  *
  */
 ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
-	
+	$scope.selectedPhone = undefined;
 
 }]);

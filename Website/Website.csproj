@@ -739,6 +739,7 @@
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
     <Compile Include="Models\Marketing\ModalContent.cs" />
+    <Compile Include="Models\Marketing\SimActivation.cs" />
     <Compile Include="Models\Marketing\ValidasRequest.cs" />
     <Compile Include="Models\Marketing\UsageCalculator.cs" />
     <Compile Include="Models\Marketing\CommercialQuote.cs" />

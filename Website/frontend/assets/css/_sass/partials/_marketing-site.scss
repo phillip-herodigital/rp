@@ -3231,6 +3231,38 @@ div.mobile.sim-activation {
     }
     label {
         font-size: 20px;
+        font-weight: 600;
+    }
+    .btn-group-arrow {
+        position: relative;
+        &:after, &:before {
+            display: none;
+            bottom: -26px;
+            left: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &:after {
+            border-color: rgba(255, 255, 255, 0);
+            border-bottom-color: #fff;
+            border-width: 15px;
+            margin-left: -15px;
+        }
+        &:before {
+            border-color: rgba(200, 200, 200, 0);
+            border-bottom-color: #e1e1e1;
+            border-width: 16px;
+            margin-left: -16px;
+        }
+        &.active:before, &.active:after {
+            display: block;
+            z-index: 1;
+        }
     }
     .btn-group-options {
         border-spacing: 7px;
@@ -3248,6 +3280,10 @@ div.mobile.sim-activation {
             margin: 0 7px;
             @include border-radius(5px);
             @include box-shadow(none);
+            &.active {
+                border: 2px solid #3189bb;
+                color: #3189bb;
+            }
             i {
                 display: block;
                 margin: 0 auto;
@@ -3281,6 +3317,99 @@ div.mobile.sim-activation {
                 color: #3487b8;
                 font-style: italic;
                 font-size: 24px;
+            }
+        }
+    }
+    .activate-form {
+        label {
+            display: block;
+            font-size: 16px;
+        }
+        input {
+            width: 100%;
+        }
+        .last-name {
+            margin-top: 30px;
+        }
+        .col-last {
+            text-align: center;
+        }
+    }
+    footer {
+        button.tertiary {
+            float: left;
+            padding-left: 0;
+            font-weight: 300;
+        }
+    }
+    .data-box {
+        label {
+            font-size: 18px;
+        }
+        .btn-group-options {
+            border-spacing: 7px;
+            margin: 10px -7px; 
+            .button {
+                position: relative;
+                color: #333;
+                @include background-image(linear-gradient(to top, #f7f7f7 0%, #fff 100%));
+                border: 1px solid $enrollment-light-border-color;
+                vertical-align: middle;
+                font-size: 18px;
+                font-weight: normal;
+                text-transform: none;
+                padding: 15px 0;
+                margin: 0 7px;
+                width: 30.8%;
+                @include border-radius(5px);
+                @include box-shadow(none);
+                i {
+                    display: inline-block;
+                    margin-right: 5px;
+                }
+            }
+            @include breakpoint(small) {
+                width: 100%;
+                margin-left: 0;
+                .button {
+                    width: 100%;
+                    display: block;
+                    margin: 7px 0;
+                    &:after, &:before {
+                        display: none !important;
+                    }
+                }
+            }
+        }
+        .btn-phone-type {
+            &:after, &:before {
+                bottom: -23px;
+            }
+        }
+        .phone-instructions {
+            .content-divider {
+                margin: 20px -20px;
+            }
+            .alert {
+                background-image: none;
+            }
+            .instructions-header {
+                font-size: 18px;
+                font-weight: 600;
+            }
+            ol {
+                padding-left: 25px;
+                li {
+                    font-size: 18px;
+                    padding: 5px 0;
+                }
+            }
+            ul {
+                padding-left: 25px;
+                list-style-type: circle;
+                li {
+                    padding: 5px 0;
+                }
             }
         }
     }
