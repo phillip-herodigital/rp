@@ -12,6 +12,7 @@ using StreamEnergy.Services.Clients.Interceptors;
 using System.Net.Http;
 using System.Configuration;
 using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.Services.Clients
 {
