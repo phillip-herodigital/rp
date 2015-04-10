@@ -48,6 +48,7 @@ namespace StreamEnergy.MyStream.Controllers
             var model = new StreamEnergy.MyStream.Models.Marketing.UsageCalculator()
             {
                 ShowBillScrape = Request.QueryString["mode"] == "connect",
+                ShowManualCalculator = Request.QueryString["manual"] == "true",
                 IsModal      = GetValueFromCurrentRenderingParameters("IsModal") != null &&
                                GetValueFromCurrentRenderingParameters("IsModal").Length > 0 && 
                                Boolean.Parse(GetValueFromCurrentRenderingParameters("IsModal"))
