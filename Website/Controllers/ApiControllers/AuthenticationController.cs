@@ -24,7 +24,7 @@ using System.Data.SqlClient;
 using System.Data;
 using EmailFactory = Sitecore.Modules.EmailCampaign.Factory;
 using System.Collections.Specialized;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {

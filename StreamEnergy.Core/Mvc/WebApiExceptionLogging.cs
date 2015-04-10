@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Filters;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.Mvc
 {
@@ -22,7 +22,7 @@ namespace StreamEnergy.Mvc
             }
             return logger.Record(new LogEntry
             {
-                Severity = Logging.Severity.FatalError,
+                Severity = ResponsivePath.Logging.Severity.FatalError,
                 Message = "Unhandled WebAPI exception",
                 Exception = context.Exception
             });
