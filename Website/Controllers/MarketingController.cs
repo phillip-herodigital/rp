@@ -237,7 +237,7 @@ namespace StreamEnergy.MyStream.Controllers
 
                 // Send the email
                 MailMessage Message = new MailMessage();
-                Message.From = new MailAddress(Email, Name);
+                Message.From = new MailAddress("noreply@mystream.com", Name);
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Contact Form Submission";
                 Message.IsBodyHtml = true;
@@ -251,7 +251,7 @@ namespace StreamEnergy.MyStream.Controllers
                     "<br />Reason: " + Reason +
                     "<br /> Comments: " + Comment;
 
-                this.emailService.SendEmail(Message);
+                this.emailService.SendDynEmailSyncronous(Message);
 
                 // Send the success message back to the page
                 var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
@@ -306,7 +306,7 @@ namespace StreamEnergy.MyStream.Controllers
 
                 // Send the email
                 MailMessage Message = new MailMessage();
-                Message.From = new MailAddress(Email, Name);
+                Message.From = new MailAddress("noreply@mystream.com", Name);
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Commerical Quote Request";
                 Message.IsBodyHtml = true;
@@ -320,7 +320,7 @@ namespace StreamEnergy.MyStream.Controllers
                     "<br />Agent ID: " + AgentId;
 
                 // Intentionally letting the Task go - this sends async to the user's request.
-                this.emailService.SendEmail(Message);
+                this.emailService.SendDynEmailSyncronous(Message);
 
                 // Send the success message back to the page
                 var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");

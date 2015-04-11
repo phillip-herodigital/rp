@@ -10,5 +10,6 @@ namespace StreamEnergy.DomainModels.Emails
         Task<bool> SendEmail(Guid emailTemplate, string to, System.Collections.Specialized.NameValueCollection parameters = null);
         Task<bool> SendEmail(MailMessage Message);
         Task<bool> SendDynEmail(MailMessage Message);
+        bool SendDynEmailSyncronous(MailMessage Message);
     }
 }
