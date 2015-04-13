@@ -193,6 +193,7 @@
     <Compile Include="ITypeIndicatorLookup.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="Logging\HttpDataAccumulator.cs" />
+    <Compile Include="Logging\NewRelicNameAccumulator.cs" />
     <Compile Include="Logging\SitecoreLogConfiguration.cs" />
     <Compile Include="Logging\ILogReader.cs" />
     <Compile Include="Logging\LogReader.cs" />
