@@ -423,6 +423,60 @@ article.opportunity {
 	}
 }
 
+article.events {
+	.tooltip {
+		color: #666666;
+		&.top-left .tooltip-arrow {
+			display: none !important;
+		}
+	}
+	&.events-ignition {
+		background-color: #00a8e1;
+		.button {
+			float: right;
+			color: #00a8e1;
+		}
+	}
+	&.events-top-performers {
+		h2, a {
+			color: #666666;
+		}
+	}
+	&.events-senior-director-cruise {
+		background-color: #5c2b85;
+		a {
+			color: #FFF;
+		}
+	}
+	&.events-celebration-dinner {
+		.celebration-dinner-logo {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+	}
+	&.events-women-of-power {
+		h2 {
+			color: #666666 !important;
+			text-align: center;
+		}
+	}
+	&.events-stream-university {
+		background-color: #63c9f0 !important;
+		padding-bottom: 60px;
+		h2 {
+			text-align: center;
+		}
+	}
+	&.events-top {
+		p {
+			text-align: center;
+		}
+		a {
+			color: #666666;	
+		}
+	}
+}
+
 article.leaders {
 	.paragraph {
 		width: 50%;
@@ -2734,6 +2788,23 @@ article.tablet {
 	}
 }
 
+article.video-player {
+	.video-container {
+		position: relative;
+		padding-bottom: 56.25%;
+		padding-top: 35px;
+		height: 0;
+		overflow: hidden;
+		iframe {
+			position: absolute;
+			top:0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
 article.mobile-support-intro {
 	h2 {
 		color: #10425a;
@@ -3133,6 +3204,22 @@ article.mobile.mobile-plans-usage-calculator {
 
 	}
 }
+article.marketing.validate-esn {
+    p {
+        margin-bottom: 1em;
+    }
+    label {
+        span {
+            display: block;
+            font-size: 13px;
+        }
+    }
+    .btn-group-options {
+        label {
+            display: block;
+        }
+    }
+}
 .modal-body{
 	article.mobile.mobile-plans-usage-calculator {
 		.wrapper {
@@ -3161,6 +3248,15 @@ article.mobile.mobile-plans-usage-calculator {
 					}
 				}
 			}
+		}
+	}
+	.compatible-devices-table {
+		td {
+			width: 50%;
+			vertical-align: top;
+		}
+		ul {
+			padding-left: 20px;
 		}
 	}
 }

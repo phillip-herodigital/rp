@@ -265,7 +265,7 @@
                         scope.$digest();
                     }
                 });
-
+                /*
                 var watches = [
                     scope.$watch(function () { return ctrl.$invalid }, function (newValue) {
                         if (newValue)
@@ -279,6 +279,7 @@
                     for (var key in watches)
                         watches[key]();
                 });
+                */
             }
         }
     }])
@@ -433,7 +434,7 @@
             // Retrieved 2014-01-14
             // If you have a problem with this implementation, report a bug against the above spec
             // Or use custom methods to implement your own email validation
-            return !val || /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(val);
+            return !val || /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test(val);
         });
         validationProvider.addValidator("creditcard", function (value) {
             if (!value)

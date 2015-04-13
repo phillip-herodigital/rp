@@ -45,7 +45,7 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
 	            return pa;
 	        } else {
 	            var newpa = angular.copy(pa);
-	            newpa.id = "";
+	            newpa.id = "disallowed";
 	            return newpa;
 	        }
 	    });
@@ -59,12 +59,20 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
 
     $scope.resolvePayments = function () {
         // any additional validation can go here
-        $scope.totalCharge = ($scope.selectedAccount.accountType != 'Mobile') ? (parseFloat($scope.paymentAmount) + 2.95) : parseFloat($scope.paymentAmount);
+        $scope.totalCharge = parseFloat($scope.paymentAmount);
+        if (false && $scope.selectedAccount.accountType != 'Mobile' && $scope.selectedAccount.systemOfRecord != 'CIS1')
+        {
+            $scope.totalCharge += 2.95;
+        }
         $scope.activeState = 'step2';
     };
 
     $scope.addAccount = function () {
         if ($scope.selectedPaymentMethod == 'addAccount') {
+
+            if ($scope.selectedAccount.systemOfRecord == 'CIS1') {
+                $scope.newPaymentMethodType = 'TokenizedBank';
+            }
 
             // open the add account modal
             $scope.modalInstance = $modal.open({
@@ -93,13 +101,13 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
     };
 
     $scope.getPaymentMethod = function (paymentId) {
-        if (paymentId && paymentId !== 'addAccount') {
+        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).displayName;
         }
     };
 
     $scope.getPaymentMethodType = function (paymentId) {
-        if (paymentId && paymentId !== 'addAccount') {
+        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).underlyingPaymentType;
         }
     };

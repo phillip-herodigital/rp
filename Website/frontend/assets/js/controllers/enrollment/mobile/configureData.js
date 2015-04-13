@@ -12,12 +12,33 @@
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
             var provider = mobileEnrollmentService.selectedNetwork.value,
                 devicesCount = enrollmentCartService.getDevicesCount();
+                firstDevice = enrollmentCartService.getCartDevices()[0];
             if (devicesCount == 0) {
                 return null;
             } else if (devicesCount == 1) {
-                return plan.provider.toLowerCase() == provider && !plan.isParentOffer && !plan.isChildOffer;
+                if (provider == "sprint" && !firstDevice.lte) {
+                    return plan.provider.toLowerCase() == provider 
+                    && !plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && plan.nonLtePlan;
+                } else {
+                    return plan.provider.toLowerCase() == provider 
+                    && !plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && !plan.nonLtePlan;
+                }
             } else {
-                return plan.provider.toLowerCase() == provider && plan.isParentOffer && !plan.isChildOffer;
+                if (provider == "sprint" && !firstDevice.lte) {
+                    return plan.provider.toLowerCase() == provider 
+                    && plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && plan.nonLtePlan;
+                } else {
+                    return plan.provider.toLowerCase() == provider 
+                    && plan.isParentOffer 
+                    && !plan.isChildOffer
+                    && !plan.nonLtePlan;;
+                }
             }
         } else {
             return null;
@@ -42,7 +63,14 @@
     // clear the plan selection when any device is added to the cart
     $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
         if (newVal != oldVal) {
-            $scope.planSelection = { selectedOffers: {} };
+            // if 0 or 1 phone, reset the the selected offers. otherwise, trigger a plan selection
+            if (newVal < 2 || typeof $scope.planSelection.selectedOffers.Mobile == 'undefined') {
+                $scope.planSelection = { selectedOffers: {} };
+            } else {
+                // trigger a plan selection
+                selectOffers($scope.planSelection.selectedOffers);
+            }
+            
             // see if the requested plan is available, and if so, select it
             if ($scope.mobileEnrollment.requestedPlanId != '' && newVal > 0) {
                 var activeService = enrollmentCartService.getActiveService();
@@ -70,8 +98,10 @@
     });
 
     function selectOffers(selectedOffers) {
-        enrollmentStepsService.setMaxStep('phoneFlowPlans');     
-
+        if (enrollmentCartService.getDevicesCount() == 1) {
+            enrollmentStepsService.setMaxStep('phoneFlowPlans');   
+        }
+          
         var activeService = enrollmentCartService.getActiveService();
         var activeServiceIndex = enrollmentCartService.getActiveServiceIndex();
         if (typeof activeService != 'undefined' && selectedOffers.Mobile != null) {
@@ -100,7 +130,7 @@
                     iccidNumber: device.iccidNumber,
                     inventoryItemId: device.id,
                     transferInfo: device.transferInfo,
-                    useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'BYOD') ? false : true,
+                    useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'Reconditioned' || device.buyingOption == 'BYOD') ? false : true,
                 };
                 offerInformationForType.value.offerSelections.push(offer);
             };

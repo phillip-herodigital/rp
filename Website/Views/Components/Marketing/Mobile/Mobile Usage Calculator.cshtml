@@ -17,11 +17,12 @@
                 {
                     title: '@Html.Sitecore().Field("Connect Account Tab")',
                     url: 'connect.tpl.html'
-                }@*,
-                {
-                    title: '@Html.Sitecore().Field("Manually Enter Tab")',
-                    url: 'manual.tpl.html'
-                }*@
+                }@if (Model.ShowManualCalculator) {@:,
+                @:{
+                    @:title: '@Html.Sitecore().Field("Manually Enter Tab")',
+                    @:url: 'manual.tpl.html'
+                @:}
+                }
             ],
             currentTab: '@(Model.ShowBillScrape ? "connect.tpl.html" : "manual.tpl.html")',
             isModal:    '@Model.IsModal'.toLowerCase() == 'true'
@@ -399,7 +400,9 @@
         </script>
 
         <script type="text/ng-template" id="manual.tpl.html">
-            @*<div class="manual-calculator">
+            @if (Model.ShowManualCalculator)
+            {
+            <div class="manual-calculator">
                 <h4>@Html.Sitecore().Field("Use Calculator Text")</h4>      
                 <div class="grid">
                     <div class="col left clearfix">
@@ -661,8 +664,12 @@
                         </div>
                     </div>
                 </div>
-            </div>*@
-            @Html.Sitecore().Field("Manual Calculator Disabled")
+            </div>
+            }
+            else
+            {
+                @Html.Sitecore().Field("Manual Calculator Disabled")
+            }
         </script>
     </div>
 </article>

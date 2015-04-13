@@ -53,7 +53,8 @@ namespace StreamEnergy.MyStream.Controllers
                         CGroupSku = plan.Fields["C Group SKU"].Value,
                         InStock = false
 
-                    })
+                    }),
+                    Lte = !string.IsNullOrEmpty(obj.Fields["LTE"].Value),
                 })
             });
 
@@ -79,6 +80,25 @@ namespace StreamEnergy.MyStream.Controllers
                 {
                     ModelName = obj.Fields["Model"].Value,
                     Description = obj.Fields["Description"].Value
+                })
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
+        public ActionResult BringYourOwnCdmaDevices()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile CDMA BYO Devices");
+
+            var data = item.Children.Select(child => new
+            {
+                Id = child.ID.ToString(),
+                Make = child.Name,
+                Models = child.Children.Select(obj => new
+                {
+                    ModelName = obj.Fields["Model"].Value,
+                    Description = obj.Fields["Description"].Value,
+                    Lte = !string.IsNullOrEmpty(obj.Fields["LTE"].Value),
                 })
             });
 
@@ -221,7 +241,8 @@ namespace StreamEnergy.MyStream.Controllers
                     Price = obj.Fields["Price New"].Value,
                     Lease20 = obj.Fields["20 Mo Lease Price"].Value,
                     Lease24 = obj.Fields["24 Mo Lease Price"].Value,
-                    Sku = obj.Fields["SKU"].Value
+                    Sku = obj.Fields["SKU"].Value,
+                    Lte = !string.IsNullOrEmpty(obj.Fields["LTE"].Value),
                 })
             });
 
@@ -229,6 +250,19 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 MobilePhones = data
             });
+        }
+
+        public ActionResult EsnValidationMessages()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/ESN Validation");
+
+            var data = item.Children.Select(child => new
+            {
+                Code = child.Name,
+                Message = child.Fields["ESN Validation Message"].Value
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
         public ActionResult ConfigureData()

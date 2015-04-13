@@ -2,9 +2,13 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentService, enrollmentCartService, $modal) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', function ($scope, enrollmentService, enrollmentCartService, $modal, validation) {
     $scope.accountInformation = enrollmentService.accountInformation;
-    $scope.additionalInformation = {};
+    var sci = $scope.accountInformation.secondaryContactInfo;
+    $scope.additionalInformation = {
+        showAdditionalPhoneNumber: $scope.accountInformation.contactInfo.phone.length > 1,
+        showSecondaryContact: (sci && sci.first != undefined && sci.first != "" && sci.last != undefined && sci.last != "")
+    };
     $scope.validations = [];
     $scope.addressOptions = {};
     $scope.modal = {};
@@ -56,25 +60,36 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
      */
     $scope.utilityAddresses = enrollmentCartService.getUtilityAddresses;
 
-    if (!$scope.accountInformation.mailingAddress)
+    if (!$scope.accountInformation.mailingAddress && $scope.utilityAddresses()[0]) {
         $scope.accountInformation.mailingAddressSame = true;
+        $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
+    }
 
-    $scope.$watch('accountInformation.mailingAddressSame', function () {
-        if ($scope.accountInformation.mailingAddressSame) {
-            if ($scope.utilityAddresses().length == 1)
-                $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
-        } else {
-            $scope.accountInformation.mailingAddress = {};
+    $scope.$watch('accountInformation.mailingAddressSame', function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            if ($scope.accountInformation.mailingAddressSame) {
+                if ($scope.utilityAddresses().length == 1)
+                    $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
+            } else if ($scope.cartHasUtility()) {
+                $scope.accountInformation.mailingAddress = {};
+            }
         }
     });
 
-    $scope.$watch('additionalInformation.showAdditionalPhoneNumber', function (newValue) {
-        if (newValue) {
+    $scope.showAdditionalPhoneNumberChanged = function() {
+        if ($scope.additionalInformation.showAdditionalPhoneNumber) {
             $scope.accountInformation.contactInfo.phone[1] = {};
         } else {
             $scope.accountInformation.contactInfo.phone.splice(1, 1);
-        }        
-    });
+        }
+    };
+
+    $scope.showSecondaryContactChanged = function () {
+        if (!$scope.additionalInformation.showSecondaryContact) {
+            $scope.accountInformation.secondaryContactInfo.first = null;
+            $scope.accountInformation.secondaryContactInfo.last = null;
+        }
+    };
 
     $scope.showAglcExample = function () {
 
@@ -111,9 +126,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        if ($scope.cartHasMobile() && typeof $scope.accountInformation.previousAddress == 'undefined') {
-            $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
-        }
 
         var addresses = [$scope.accountInformation.mailingAddress];
         if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
@@ -122,43 +134,54 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
 
         var continueWith = function () {
+            // update the cleansed address for mobile
+            if ($scope.cartHasMobile() && typeof $scope.accountInformation.previousAddress == 'undefined') {
+                $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
+            }
             enrollmentService.setAccountInformation().then(function (data) {
                 $scope.validations = data.validations;
             });
+            
         }
-        enrollmentService.cleanseAddresses(addresses).then(function (data) {
-            if ((data.length > 0 && data[0].length) || (data.length > 0 && typeof data[1] != 'undefined' && data[1].length)) {
-                var addressOptions = { };
-                if (data[0] && data[0].length) {
-                    data[0].unshift($scope.accountInformation.mailingAddress);
-                    addressOptions.mailingAddress = data[0];
-                }
-                if (data[1] && data[1].length) {
-                    data[1].unshift($scope.accountInformation.previousAddress);
-                    addressOptions.previousAddress = data[1];
-                }
-                if (addressOptions.mailingAddress || addressOptions.previousAddress) {
-                    $scope.addressOptions = addressOptions;
-                    var modalInstance = $modal.open({
-                        scope: $scope,
-                        templateUrl: 'cleanseAddressesModal'
-                    });
-                    modalInstance.result.then(function (selectedOptions) {
-                        if (addressOptions.mailingAddress && $scope.modal.mailingAddress != 'original') {
-                            $scope.accountInformation.mailingAddress = $scope.addressOptions.mailingAddress[1];
-                        }
-                        if (addressOptions.previousAddress && $scope.modal.previousAddress != 'original') {
-                            $scope.accountInformation.previousAddress = $scope.addressOptions.previousAddress[1];
-                        }
-                        continueWith();
-                    });
-                }
-            }
-            else {
-                continueWith();
-            }
-        });
 
+        if ($scope.accountInfo.$valid && $scope.isFormValid()) {
+            enrollmentService.cleanseAddresses(addresses).then(function (data) {
+                if ((data.length > 0 && data[0].length) || (data.length > 0 && typeof data[1] != 'undefined' && data[1].length)) {
+                    var addressOptions = { };
+                    if (data[0] && data[0].length) {
+                        data[0].unshift($scope.accountInformation.mailingAddress);
+                        addressOptions.mailingAddress = data[0];
+                    }
+                    if (data[1] && data[1].length) {
+                        data[1].unshift($scope.accountInformation.previousAddress);
+                        addressOptions.previousAddress = data[1];
+                    }
+                    if (addressOptions.mailingAddress || addressOptions.previousAddress) {
+                        $scope.addressOptions = addressOptions;
+                        var modalInstance = $modal.open({
+                            scope: $scope,
+                            templateUrl: 'cleanseAddressesModal'
+                        });
+                        modalInstance.result.then(function (selectedOptions) {
+                            if (addressOptions.mailingAddress && $scope.modal.mailingAddress != 'original') {
+                                $scope.accountInformation.mailingAddress = $scope.addressOptions.mailingAddress[1];
+                            }
+                            if (addressOptions.previousAddress && $scope.modal.previousAddress != 'original') {
+                                $scope.accountInformation.previousAddress = $scope.addressOptions.previousAddress[1];
+                            }
+
+                            continueWith();
+                        });
+                    }
+                }
+                else {
+                    continueWith();
+                }
+            });
+        } else {
+            validation.showValidationSummary = true; 
+            validation.cancelSuppress($scope);
+        }
         
     };
 }]);

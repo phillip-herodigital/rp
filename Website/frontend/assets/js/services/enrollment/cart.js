@@ -429,7 +429,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         cartHasTxLocation: function () {
             return _(services)
                .map(function (l) {
-                   return l.location.address.stateAbbreviation;
+                   if (_(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).size() != 0) {
+                       return l.location.address.stateAbbreviation;
+                   }
                }).contains('TX');
         },
         cartHasMobile: function () {

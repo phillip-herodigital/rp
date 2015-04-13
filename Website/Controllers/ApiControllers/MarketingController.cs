@@ -21,9 +21,11 @@ using StreamEnergy.Processes;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Documents;
 using StreamEnergy.MyStream.Models.Marketing;
+using Sitecore.Data.Items;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
+    [RoutePrefix("api/marketing")]
     public class MarketingController : ApiController, IRequiresSessionState
     {
 
@@ -67,6 +69,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        
+        [HttpGet]
+        [Route("getModal/{template}")]
+        public ModalContent GetModalContent(string template)
+        {
+            Item modalTemplate = Sitecore.Context.Database.GetItem("/sitecore/content/Home/templates/modals/" + template);
+
+            return new ModalContent()
+            {
+                Title = modalTemplate.Fields["Modal Title"].ToString(),
+                Content = modalTemplate.Fields["Modal Content"].ToString(),
+            };
+        }
+
     }
 }

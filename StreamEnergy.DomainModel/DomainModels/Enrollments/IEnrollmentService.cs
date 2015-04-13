@@ -46,7 +46,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         Task<StreamAsync<RenewalResult>> EndRenewal(StreamAsync<RenewalResult> asyncResult);
 
 
-        Task<bool> IsEsnValid(string esn);
+        Task<VerifyEsnResponseCode> IsEsnValid(string esn);
         Task<bool> ActivateEsn(string esn);
     }
 }

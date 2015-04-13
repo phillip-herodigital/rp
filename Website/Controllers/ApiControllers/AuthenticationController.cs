@@ -274,6 +274,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
+        public async Task<UpdateEmailResponse> UpdateEmail(UpdateEmailRequest request)
+        {
+            var details = coaSessionHelper.InternalContext.Account.Details;
+
+            details.ContactInfo.Email.Address = request.Email.Address;
+            var success = await accountService.SetAccountDetails(details, coaSessionHelper.InternalContext.Account.SystemOfRecord, coaSessionHelper.InternalContext.Account.AccountNumber);
+
+            return new UpdateEmailResponse
+            {
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Create Account - Step 1a")),
+                Success = success
+            };
+        }
+
+        [HttpPost]
         public async Task<HttpResponseMessage> CreateLogin(CreateLoginRequest request)
         {
             coaSessionHelper.StateMachine.Context.Username = domain.AccountPrefix + request.Username;
@@ -459,7 +474,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                      orderby username
                                      select username).ToArray();
 
-                    success = await emailService.SendEmail(new Guid("{AA8CAFBB-AE0C-4B5C-A748-3AE702FA4C4C}"), request.Email.Address, new NameValueCollection() {
+                    success = await emailService.SendEmail(new Guid("{126E9D71-C90B-4D06-AEE8-979F92BC772C}"), request.Email.Address, new NameValueCollection() {
                         {"usernames", string.Join(", ", usernames)}
                     });
                 }

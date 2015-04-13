@@ -24,6 +24,8 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         _.find($scope.accountsTable.columnList, { 'field': 'dueDate' }).sortOrder = true;
         _.find($scope.accountsTable.columnList, { 'field': 'dueDate' }).initialSort = true;
 
+        $scope.hasCIS1Account = _.some($scope.accountsTable.values, { 'systemOfRecord': 'CIS1' });
+
         $scope.isLoading = false;
     });
 
@@ -33,6 +35,11 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
 
     $scope.addAccount = function (item) {
         if (item.selectedPaymentMethod == 'addAccount') {
+
+            $scope.addPaymentAccountAccount = item;
+            if (item.systemOfRecord == 'CIS1') {
+                $scope.newPaymentMethodType = 'TokenizedBank';
+            }
 
             // open the add account modal
             $scope.modalInstance = $modal.open({
@@ -75,7 +82,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
                 return pa;
             } else {
                 var newpa = angular.copy(pa);
-                newpa.id = "";
+                newpa.id = "disallowed";
                 return newpa;
             }
         });
@@ -83,13 +90,13 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     };
 
     $scope.getPaymentMethod = function (paymentId) {
-        if (paymentId && paymentId !== 'addAccount') {
+        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).displayName;
         }
     };
 
     $scope.getPaymentMethodType = function (paymentId) {
-        if (paymentId && paymentId !== 'addAccount') {
+        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).underlyingPaymentType;
         }
     };
@@ -195,7 +202,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         $scope.selectedAccounts = _.where($scope.accountsTable.values, { 'selected': true, 'canMakeOneTimePayment': true });
         $scope.total = _.reduce($scope.selectedAccounts, function (a, b) { return a + parseFloat(b.paymentAmount); }, 0);
         $scope.paymentAmount = _.reduce($scope.selectedAccounts, function (a, b) { 
-            return (b.accountType != 'Mobile') ? (a + parseFloat(b.paymentAmount) + 2.95) : (a + parseFloat(b.paymentAmount)); 
+            return (false && b.accountType != 'Mobile' && b.systemOfRecord != 'CIS1') ? (a + parseFloat(b.paymentAmount) + 2.95) : (a + parseFloat(b.paymentAmount));
         }, 0);
     }, true);
 

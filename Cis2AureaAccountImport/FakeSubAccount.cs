@@ -42,5 +42,10 @@ namespace Cis2AureaAccountImport
         {
             throw new NotImplementedException();
         }
+
+        IList<ISubAccountCapability> ISubAccount.Capabilities
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

@@ -30,6 +30,8 @@ namespace StreamEnergy.MyStream.Models.Account
 
         public string AccountType { get; set; }
 
+        public string SystemOfRecord { get; set; }
+
         [ColumnSchema("Action", DeviceType.Tablet, DeviceType.Phone)]
         public Dictionary<string, string> Actions { get; private set; }
 

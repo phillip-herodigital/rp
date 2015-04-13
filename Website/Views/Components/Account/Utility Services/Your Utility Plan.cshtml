@@ -1,25 +1,42 @@
 ﻿<div ng-controller="AcctYourUtilityPlanCtrl" ng-cloak>
     
-    <article class="plain renew-plan" ng-if="renewal.isEligible">
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && renewal">
         <div class="notice alert" loading-indicator>
             <div class="grid two">
                 <div class="col">
                     <strong>@Html.Sitecore().Field("Renew Plan Text")</strong>
                     <p>@Html.Sitecore().Field("Renew Date Text")</p>
                 </div>
+                @*
                 <div class="col">
                     <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
                 </div>
+                *@
             </div>
         </div>
     </article>
 
-    <article class="plain renew-plan" ng-if="utilityPlan.customerType && !renewal.isEligible && renewalRedirect">
-        <div class="notice message" ng-if="utilityPlan.customerType != 'commercial'">
+    <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && !renewal && renewalRedirect">
+        <div class="notice message">
             @Html.Sitecore().Field("Renew Ineligible Text")
         </div>
-        <div class="notice message" ng-if="utilityPlan.customerType == 'commercial'">
-            @Html.Sitecore().Field("Commercial Renew Ineligible Text")
+    </article>
+
+    <article class="plain renew-plan" ng-if="false && utilityPlan.customerType == 'commercial' && renewal">
+        <div class="notice alert" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
+            @Html.Sitecore().Field("Commercial Renew Eligible Text GA")
+        </div>
+        <div class="notice alert" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
+            @Html.Sitecore().Field("Commercial Renew Eligible Text TX")
+        </div>
+    </article>
+
+    <article class="plain renew-plan" ng-if="false && utilityPlan.customerType == 'commercial' && !renewal && renewalRedirect">
+        <div class="notice message" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
+            @Html.Sitecore().Field("Commercial Renew Ineligible Text GA")
+        </div>
+        <div class="notice message" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
+            @Html.Sitecore().Field("Commercial Renew Ineligible Text TX")
         </div>
     </article>
 
@@ -36,6 +53,7 @@
                     <th ng-show="utilityPlan.rate">@Html.Sitecore().Field("Rate Text")</th>
                     <th>@Html.Sitecore().Field("Term Text")</th>
                     <th ng-if="utilityPlan.fees">@Html.Sitecore().Field("Fees Text")</th>
+                    <th ng-if="utilityPlan.customerType != 'commercial' && renewal">@Html.Sitecore().Field("Action Text")</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,6 +92,9 @@
                     </td>
                     <td class="fees" ng-if="utilityPlan.fees">
                         {{ utiltiyPlan.cancellationFee }}<span>@Html.Sitecore().Field("Gas Early Termination Fee")</span>
+                    </td>
+                    <td ng-if="utilityPlan.customerType != 'commercial' && renewal">
+                        <button class="primary" ng-click="setupRenewal(utilityPlan.id)">@Html.Sitecore().Field("Renew Button Text")</button>
                     </td>
                 </tr>
                 <tr class="hide-medium-large" ng-show="utilityPlan.description">
@@ -116,15 +137,17 @@
         <table class="plan-table" loading-indicator>
             <thead>
                 <tr>
-                    <th></th>
+                    <th class="empty"></th>
                     <th>@Html.Sitecore().Field("Plan Name Text")</th>
+                    <th>@Html.Sitecore().Field("Service Address Text")</th>
                     <th ng-show="utilityPlan.rate">@Html.Sitecore().Field("Rate Text")</th>
                     <th>@Html.Sitecore().Field("Term Text")</th>
                     <th ng-if="utilityPlan.fees">@Html.Sitecore().Field("Fees Text")</th>
+                    <th ng-if="utilityPlan.customerType != 'commercial' && renewal">@Html.Sitecore().Field("Action Text")</th>
                 </tr>
             </thead>
             <tbody additional-fields>
-                <tr>
+                <tr ng-repeat="utilityPlan in utilityPlans">
                     <th class="vertical">
                         <div ng-show="utilityPlan.rateType == 'fixed'" class="fixed">{{ utilityPlan.rateType }}</div>
                         <div class="variable" ng-show="utilityPlanplan.rateType == 'variable'">{{ utilityPlan.rateType }}</div>
@@ -136,6 +159,12 @@
                                 <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
                             </a>
                         </p>*@
+                    </td>
+                    <td>
+                        <p>
+                            {{ utilityPlan.serviceAddress.line1 }} {{ utilityPlan.serviceAddress.line2 }}<br>
+                            {{ utilityPlan.serviceAddress.city }}, {{ utilityPlan.serviceAddress.stateAbbreviation }} {{ utilityPlan.serviceAddress.postalCode5 }}
+                        </p>
                     </td>
                     <td class="center" ng-show="utilityPlan.rate">
                         <span class="plan-cost">{{ utilityPlan.rate * 100 | number:2 }}&#162;</span>
@@ -155,6 +184,9 @@
                         @Html.Sitecore().Field("Electricity Month To Month")
                     </td>
                     <td class="center" ng-if="utilityPlan.fees"><span class="plan-cost">{{ utilityPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
+                    <td ng-if="utilityPlan.customerType != 'commercial' && isEligible(utilityPlan.id)">
+                        <button class="primary" ng-click="setupRenewal(utilityPlan.id)">@Html.Sitecore().Field("Renew Button Text")</button>
+                    </td>
                 </tr>
                 <tr class="expand-details additional-fields">
                     <td colspan="5">

@@ -20,6 +20,13 @@
             // what we REALLY want here is to only show inventory that is actually available to all plans for the appropriate network.
                 .groupBy(function (plan) { return plan.provider.toLowerCase(); }).value();
 
+            $scope.gsmIndividualPrice = _(plansByProvider.att).filter({'isChildOffer': false, 'isParentOffer': false}).pluck('rates').filter().flatten().pluck('rateAmount').min().value();
+            $scope.cdmaIndividualPrice = _(plansByProvider.sprint).filter({'isChildOffer': false, 'isParentOffer': false}).pluck('rates').filter().flatten().pluck('rateAmount').min().value();
+            $scope.gsmSharedPrice =  _(plansByProvider.att).filter({'isChildOffer': false, 'isParentOffer': true}).pluck('rates').filter().flatten().pluck('rateAmount').min().value() +
+                _(plansByProvider.att).filter({'isChildOffer': true, 'isParentOffer': false}).pluck('rates').filter().flatten().pluck('rateAmount').min().value();
+            $scope.cdmaSharedPrice = _(plansByProvider.sprint).filter({'isChildOffer': false, 'isParentOffer': true}).pluck('rates').filter().flatten().pluck('rateAmount').min().value() +
+                _(plansByProvider.sprint).filter({'isChildOffer': true, 'isParentOffer': false}).pluck('rates').filter().flatten().pluck('rateAmount').min().value();
+
             var networkInventory = _(plansByProvider)
                 .mapValues(function (plansForProvider, providerName) {
                     return _(plansForProvider).map(function (plan) { return _.map(plan.mobileInventory, function (inventory) { return { inventory: inventory, plan: plan } }); })

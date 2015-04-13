@@ -1236,6 +1236,17 @@
             @include breakpoint(small) {
                 padding-left: 0;
             }
+            tr.ez-pay {
+                border: 2px solid #0071b9;
+            }
+            td {
+                border: none;
+                .blue {
+                    color: #0071b9;
+                    font-size: 15px;
+                    font-weight: 600;
+                }
+            }
         }
         .phone-summary {
             min-height: 140px;
@@ -1505,9 +1516,38 @@
     .content {
         background-color: #fff;
         padding: 15px 17px;
+        .notice.error {
+            padding: 10px;
+            margin: 15px -5px;
+            background-image: none;
+            font-size: 13px;
+            @include border-radius(5px);
+            .links {
+                margin: 10px 0;
+                .remove-mobile {
+                    display: inline-block;
+                }
+                button {
+                    float: right;
+                    width: auto;
+                    margin: -6px 0;
+                    padding: 6px 12px;
+                    font-size: 13px;
+                    font-weight: normal;
+                    @include background-image(linear-gradient(to top, #287db5 0%, #3891c0 100%));
+                    @include box-shadow(none);
+                }
+            }
+        }
     }
     footer {
-        padding: 0 17px;
+        padding: 10px 17px;
+        button {
+            float: right;
+            width: auto;
+            @include background-image(linear-gradient(to top, #287db5 0%, #3891c0 100%));
+            @include box-shadow(none);
+        }
     }
     hr {
         margin: 15px 0;
@@ -1547,6 +1587,30 @@
     .documents {
         header {
             border-bottom: none;
+        }
+    }
+    .stream-store {
+        padding-bottom: 5px;
+        header {
+            padding: 10px 17px 5px;
+            text-align: center;
+            img {
+                max-width: 80%;
+            }
+        }
+        .stream-store-content {
+            img {
+                max-width: 33%;
+                display: inline-block;
+            }
+            p {
+                max-width: 64%;     
+                display: inline-block;     
+                padding: 20px 0 0 20px;        
+                margin-top: 0;     
+                vertical-align: top;
+                font-size: 16px;
+            }
         }
     }
     .info {
@@ -2199,7 +2263,7 @@
         .plan {
             display: inline-block;
             width: 24%;
-            height: 290px;
+            //height: 290px;
             text-align: center;
             border: 2px solid $enrollment-light-border-color;
             @include border-radius(5px);
@@ -2609,8 +2673,38 @@
             text-align: left;
         }
     }
+    .btn-phone-number {
+        &:after, &:before {
+            bottom: -63px;
+        }
+    }
     .transfer-number {
-
+        .content-divider {
+            margin: 20px -20px;
+        }
+        .alert {
+            background-image: none;
+            h4 {
+                margin-top: 0;
+            }
+        }
+        .transfer-header {
+            h4 {
+                margin: 0;
+            }
+            p {
+                margin: 10px 0 0;
+            }
+        }
+        .help-text {
+            font-style: italic;
+        }
+        .street-number {
+            width: 15%
+        }
+        .street-name {
+            width: 35%;
+        }
         .transfer-number-message {
             @extend .clearfix;
             @include border-radius(0 0 5px 5px);
@@ -2648,6 +2742,9 @@
                     color: #0971ce; 
                     font-size: 24px;
                 }
+            }
+            &.inactive {
+                cursor: default;
             }
             h1 {
                 padding: 2px 20px;
@@ -2829,20 +2926,14 @@
                 }
                 ol {
                     padding-left: 0;
-                    margin-bottom: 0;
-                    counter-reset: li;
+                    margin-left: 22px;
                     > li {
-                        list-style: none;
-                        clear: left;
                         margin-bottom: 15px;
-                        &:before {
-                            content: counter(li) ". ";
-                            counter-increment: li;
-                            float: left;
-                            font-weight: 600;
-                            margin-bottom: 15px;
-                            width: 22px;
-                        }
+                    }
+                }
+                .tooltip {
+                    &.top-left .tooltip-arrow {
+                        left: 22px !important;
                     }
                 }
             }
@@ -2879,6 +2970,30 @@
         @include breakpoint(small) {
             div.item > label {
                 width: 100% !important;
+            }
+        }
+    }
+    .wsa {
+        .wsa-intro-text {
+            h2 {
+                color: #000;
+                font-size: 28px;
+                margin: 0;
+            }
+            a {
+                font-weight: 600;
+            }
+            ol {
+                padding-left: 0;
+                margin-left: 22px;
+                > li {
+                    margin-bottom: 15px;
+                }
+            }
+            .note {
+                clear: both;
+                font-size: 14px;
+                color: #999999;
             }
         }
     }
@@ -3029,11 +3144,11 @@
             @include border-radius(5px 5px 0 0);
         }
         .special-offer {
-            border: 2px solid #e6e6e6;
+            border: 2px solid #3189bb;
             border-bottom: 0;
-            background: #fff;
-            color: #3d8039;
-            font-weight: normal;
+            background: #3189bb;
+            color: #fff;
+            font-weight: bold;
             @include breakpoint(small) {
                 border: none;
             }
@@ -3063,6 +3178,10 @@
             }
             .price {
                 color: #3d8039;
+            }
+            .limited-time-offer {
+                font-size: .85em;
+                display: block;
             }
         }
         .size {

@@ -26,6 +26,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="format-detection" content="telephone=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @Html.Sitecore().Placeholder("meta")
 
     <link rel="shortcut icon" type="image/ico" href="/frontend/assets/i/favicon.ico" />
 
@@ -52,7 +53,7 @@
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 
 </head>
-<body class="@Html.Sitecore().Field("Body CSS Classes")" ng-class="{'fixed-header':isFixedHeader}" ng-controller="MainCtrl">
+<body class="@Html.Sitecore().Field("Body CSS Classes")" ng-class="{'fixed-header':isFixedHeader}" ng-controller="MainCtrl" id="top">
 
     <!-- Google Tag Manager -->
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-NMT3GS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
