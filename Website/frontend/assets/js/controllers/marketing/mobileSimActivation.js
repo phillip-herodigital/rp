@@ -5,6 +5,8 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', fun
     $scope.selectedPhone = null;
     $scope.isLoading = false;
     $scope.activeState = 'step1';
+    $scope.lookupAccountError = false;
+    $scope.activateServiceError = false;
 
     $scope.$watch("selectedPhone", function(newVal) { 
         if (newVal == 'gsm') {

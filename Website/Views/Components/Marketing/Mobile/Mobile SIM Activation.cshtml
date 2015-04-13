@@ -2,7 +2,7 @@
 
 <article class="marketing full-html mobile">
     <div class="wrapper">
-        <h1>Thank you for choosing <strong>Mobile Services</strong> by <strong>Stream</strong>.</h1>
+        @Html.Sitecore().Field("Header")
     </div>
 </article>
 <div ng-controller="MobileSimActivationCtrl">
@@ -11,72 +11,71 @@
             <section>
                 <article class="enrollment__box form" ng-show="activeState == 'step1'">
                     <header>
-                        <h1>SIM Activation</h1>
+                        <h1>@Html.Sitecore().Field("Step 1 Header")</h1>
                     </header>
                     <div class="content">
-                        <h2>Let’s Activate Your Device</h2>
-                        <p>If you received a Stream SIM card with an activation code, please click on GSM Network, otherwise click CDMA Network.</p>
-                        <label>Please select a Network</label>
+                        @Html.Sitecore().Field("Step 1 Intro")
+                        <label>@Html.Sitecore().Field("Select Network Text")</label>
                         <div class="btn-group btn-group-options">
                             <a href="" class="button mobile-network" ng-model="selectedPhone" btn-radio="'gsm'">
                                 <i class="icon-gsm"></i>
-                                Network
+                                @Html.Sitecore().Field("Network Text")
                             </a>
                             <a href="" class="button mobile-network" ng-model="selectedPhone" btn-radio="'cdma'">
                                 <i class="icon-cdma"></i>
-                                Network
+                                @Html.Sitecore().Field("Network Text")
                             </a>
                         </div>
                     </div>
                     <footer>
-                        Questions about your activation? Contact Customer Support at <strong>877-743-5893</strong>.
+                        @Html.Sitecore().Field("Footer")
                     </footer>
                 </article>
 
                 <article class="enrollment__box form" ng-show="activeState == 'step2CDMA'">
                     <header>
-                        <h1>Activation for a CDMA Device</h1>
+                        <h1>@Html.Sitecore().Field("Step 2 CDMA Header")</h1>
                     </header>
                     <div class="content">
-                        <p><strong>If you've requested a new number,</strong> simply turn on your new device and the activation process will start automatically. Please follow the instructions on your device to complete the activation. Your device will sync with our network within a few minutes.</p>
-                        <p><strong>If you're transferring your existing number from another carrier,</strong> the transfer process may take a few hours to complete (up to 48 hours). During this time, your current device will continue to work on your existing carrier’s network. When the transfer process is complete, your current device will no longer have service. At that time, simply turn on your new device and the activation process will start automatically. Please follow the instructions on your device to complete the activation. Your device will sync with our network within a few minutes.</p>
-                        <p><strong>If activation is unsuccessful,</strong> dial ##873283# on your device and the activation process will start again.</p>
+                        @Html.Sitecore().Field("Step 2 CDMA Content")
                     </div>
                     <footer>
-                        <a href="" ng-click="cancelActivation()">Back</a>
+                        <a href="" ng-click="cancelActivation()">@Html.Sitecore().Field("Back Button Text")</a>
                     </footer>
                 </article>
 
                 <article class="enrollment__box form activate-form" ng-show="activeState == 'step2'">
                     <form data-val-bind-messages="validations" ng-submit="lookupAccount()">
                         <header>
-                            <h1>Let’s begin activation for your GSM device.</h1>
+                            <h1>@Html.Sitecore().Field("Step 2 Header")</h1>
                         </header>
                         <div class="content">
-                            <h2>Get ready to start using the largest 4G LTE GSM network.</h2>
-                            <p class="activation-step"><strong>Step 1:</strong> Please enter the seven digit activation code from the Stream SIM card you received and the primary account holder’s last name.</p>
+                            <div class="notice error" ng-show="lookupAccountError">
+                                @Html.Sitecore().Field("Lookup Account Error Text")
+                            </div>
+                            @Html.Sitecore().Field("Step 2 Intro")
                             <div class="grid">
                                 <div class="col col-first">
                                     <div class="item" @Html.Validation().ErrorClass(m => m.ActivationCode)>
-                                        <label for="@Html.IdFor(m => m.ActivationCode)">Activation Code</label>
+                                        <label for="@Html.IdFor(m => m.ActivationCode)">@Html.Sitecore().Field("Activation Code Text")</label>
                                         @Html.TextBoxFor(m => m.ActivationCode, new { ng_model = "activation.code" })
                                         @Html.ValidationMessageFor(model => model.ActivationCode)
                                     </div>
                                     <div class="item" @Html.Validation().ErrorClass(m => m.LastName)>
-                                        <label for="@Html.IdFor(m => m.LastName)" class="last-name">Primary Account Holder's Last Name</label>
+                                        <label for="@Html.IdFor(m => m.LastName)" class="last-name">@Html.Sitecore().Field("Last Name Text")</label>
                                         @Html.TextBoxFor(m => m.LastName, new { ng_model = "activation.lastName" })
                                         @Html.ValidationMessageFor(model => model.LastName)
                                     </div>
                                 </div>
                                 <div class="col col-last">
-                                    @Html.Sitecore().Field("Header")
+                                    @Html.Sitecore().Field("SIM Card Image")
                                 </div>
                             </div>
                         </div>
                         <footer>
                             <div class="buttons">
-                                <button type="submit" class="primary" data-val-submit>Activate your SIM Card</button>
-                                <button type="button" class="button tertiary" ng-click="cancelActivation()">Back</button>
+                                <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Activate SIM Button Text")</button>
+                                <button type="button" class="button tertiary" ng-click="cancelActivation()">@Html.Sitecore().Field("Back Button Text")</button>
                             </div>
                         </footer>
                     </form>
@@ -85,35 +84,28 @@
                 <article class="enrollment__box form activate-form" ng-show="activeState == 'step3'">
                     <form data-val-bind-messages="validations" ng-submit="activateService();">
                         <header>
-                            <h1>Let’s begin activation for your GSM device.</h1>
+                            <h1>@Html.Sitecore().Field("Step 3 Header")</h1>
                         </header>
                         <div class="content">
-                            <p class="activation-step"><strong>Step 2:</strong> We’ve located your SIM card. Below are the details associated with your account:</p>
+                            <div class="notice error" ng-show="activateServiceError">
+                                @Html.Sitecore().Field("Activate Service Error Text")
+                            </div>
+                            @Html.Sitecore().Field("Step 3 Intro")
                             <p class="account-info">
-                                <strong>Name:</strong> {First Name} {Last Name}<br />
-                                <strong>Phone Number:</strong> {Phone Number, if porting number}
+                                <strong>@Html.Sitecore().Field("Name Label Text")</strong> {First Name} {Last Name}<br />
+                                <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {Phone Number, if porting number}
                             </p>
                             <div class="notice alert">
-                                <h4>Things to understand before transfering your number to Stream:</h4>
-                                <ul>
-                                    <li>Make sure your phone is in hand.</li>
-                                    <li>Your current mobile service plan will be terminated when you transfer your number to Stream, and your carrier may charge you an early termination fee.</li>
-                                    <li>Your phone number will be disabled with your current provider and activated on the Stream GSM Network.</li>
-                                    <li>A compatible GSM network device.</li>
-                                    <li>An unlocked device. <a href="">How do I unlock my device?</a></li>
-                                </ul>
+                                @Html.Sitecore().Field("Step 3 Alert Box 1")
                             </div>
                             <div class="notice alert">
-                                <h4>If you have a new number request:</h4>
-                                <ul>
-                                    <li>Click Activate Service, insert SIM card and it should be activated.</li>
-                                </ul>
+                                @Html.Sitecore().Field("Step 3 Alert Box 2")
                             </div>
                         </div>
                         <footer>
                             <div class="buttons">
-                                <button type="submit" class="primary" data-val-submit>Activate Service</button>
-                                <button type="button" class="tertiary" ng-click="cancelActivation()">Cancel</button>
+                                <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Activate Service Button Text")</button>
+                                <button type="button" class="tertiary" ng-click="cancelActivation()">@Html.Sitecore().Field("Cancel Button Text")</button>
                             </div>
                         </footer>
                     </form>
@@ -121,177 +113,66 @@
 
                 <article class="enrollment__box activate-form confirmation" ng-show="activeState == 'step4'">
                     <header>
-                        <h1>Confirmation</h1>
+                        <h1>@Html.Sitecore().Field("Step 4 Header")</h1>
                     </header>
                     <div class="content">
-                        <h2>Congratulations! Your activation on Stream is almost complete.</h2>
-                        <p class="activation-step">We’ve started the activation process for your phone.</p>
+                        @Html.Sitecore().Field("Step 4 Intro")
                         <p class="account-info">
-                            <strong>Name:</strong> {First Name} {Last Name}<br />
-                            <strong>Phone Number:</strong> {Phone Number, if porting number}
+                            <strong>@Html.Sitecore().Field("Name Label Text")</strong> {First Name} {Last Name}<br />
+                            <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {Phone Number, if porting number}
                         </p>
                         <hr class="content-divider" />
-                        <p class="next-steps">Here are the Next Steps:</p>
-                        <ol>
-                            <li>
-                                <strong>If you’ve requested a new number,</strong> insert your <a href="">Stream SIM card</a> into your device and turn it on. Your device will sync with our network within a few minutes.<br /><br />
-                                <strong>If you’re transferring your existing number from another carrier,</strong> the transfer process may take a few hours to complete (up to 48 hours). During this time, your current device will continue to work on your existing carrier’s network. When the transfer process is complete, your device will no longer have service. At that time, simply insert your <a href="">Stream SIM card</a> into your new device and turn it on. Your device will sync with our network within a few minutes.
-                            </li>
-                            <li>Once your device is active, you should see “Stream” in the top left corner.</li>
-                            <li>You should receive a text message with instructions on how to activate your data within 20 minutes. If you do not receive a text message, follow the instructions to <a href="">Activate your Data</a>.</li>
-                        </ol>
+                        @Html.Sitecore().Field("Step 4 Next Steps")
                     </div>
                 </article>
 
-                <article class="enrollment__box form data-box" ng-show="activeState != 'step1' && activeState != 'step2CDMA'">
+                <article class="enrollment__box form data-box" ng-show="activeState != 'step1' && activeState != 'step2CDMA'" id="activateData">
                     <header>
-                        <h1>Activate Your Data Box</h1>
+                        <h1>@Html.Sitecore().Field("Activate Data Header")</h1>
                     </header>
                     <div class="content">
-                        <p>Once you’ve completed your SIM Activation, you’ll want to activate your data to begin using your phone on the Stream network. If you haven’t received a text message to activate your data, here are simple instructions you’ll need to follow.</p>
-                        <label>What kind of device are you activating?</label>
+                        @Html.Sitecore().Field("Activate Data Intro")
                         <div class="btn-group btn-group-options">
                             <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'apple'">
                                 <i class="icon-apple"></i>
-                                Apple
+                                @Html.Sitecore().Field("Apple Text")
                             </a>
                             <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'android'">
                                 <i class="icon-android"></i>
-                                Android
+                                @Html.Sitecore().Field("Android Text")
                             </a>
                             <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'windows'">
                                 <i class="icon-windows"></i>
-                                Windows Phone
+                                @Html.Sitecore().Field("Windows Text")
                             </a>
                         </div>
                         <div class="phone-instructions apple" ng-if="selectedPhone == 'apple'">
                             <hr class="content-divider" />
-                            <p class="instructions-header">
-                                The following steps will help you activate your device on the Stream network:
-                            </p>
-                            <div class="notice alert">
-                                Make sure you’re using the device with the newly installed SIM card to perform the actions listed below.
-                            </div>
-                            <p>
-                                Open a web browser on your device and navigate to:
-                                <a href="www.MyStream.com/services/mobile/activation#apple">www.MyStream.com/services/mobile/activation#apple</a>
-                            </p>
-                            <ol>
-                                <li>Confirm that your device is on a Wi-Fi network.</li>
-                                <li><a href="" class="button">Download APN Configuration Settings</a></li>
-                                <li>Accept the profile that will be prompted to be downloaded.</li>
-                                <li>Restart your iPhone.</li>
-                            </ol>
-                            <hr class="content-divider" />
-                            <p class="instructions-header">
-                                Please note:
-                            </p>
-                            <ul>
-                                <li>On the GSM network, iPhone users may experience issues with MMS messaging. MMS includes picture, video, and group messaging. If you are unable to send and receive MMS messages, there are some easy alternatives. There are a variety of free messaging apps, such as WhatsApp*, you can download and use as a solution. (Keep in mind both the sender and recipient will need to have the messaging app installed in order to send and receive messages)  You can also send and receive pictures and videos using your preferred email application already installed on your phone. Or, you may want to switch to our CDMA network or purchase an Android phone for our GSM network.*</li>
-                                <li>Mobile hotspot is not currently supported by Stream’s GSM network.</li>
-                                <li>Visual Voicemail is not currently supported by Stream's GSM network on Apple devices.</li>
-                            </ul>
-                            <p class="instructions-footnote">*The WhatsApp application and services are not affiliated with Mobile by Stream. Stream's CDMA network coming soon.</p>
+                            @Html.Sitecore().Field("Apple Instructions")
                         </div>
                         <div class="phone-instructions android" ng-if="selectedPhone == 'android'">
                             <hr class="content-divider" />
-                            <p class="instructions-header">
-                                The following steps will help you activate your device on the Stream network:
-                            </p>
-                            <div class="notice alert">
-                                Make sure you’re using the device with the newly installed SIM card to perform the actions listed below.
-                            </div>
-                            <ol>
-                                <li>On your device, go to Settings.</li>
-                                <li>Select Wireless Controls or Wireless & Networks.</li>
-                                <li>Select Mobile Networks.</li>
-                                <li>Confirm that "Data Roaming" and "Use Only 2G Networks" are both unchecked. Only applicable to certain GSM devices.</li>
-                                <li>Select Access Point Names.</li>
-                                <li>Select the plus sign (+) then go to Step 7. If you do not have a plus sign (+) select the menu, then New APN.</li>
-                                <li>
-                                    Update the fields on your phone to match those listed below.
-                                    <ul>
-                                        <li>→ APN: PRODATA</li>
-                                        <li>→ Proxy: Not set</li>
-                                        <li>→ Port: Not set</li>
-                                        <li>→ Username: Not set</li>
-                                        <li>→ Password: Not set</li>
-                                        <li>→ Server: Not set</li>
-                                        <li>→ MMSC: http://mmsc.mobile.att.net </li>
-                                        <li>→ MMS proxy: proxy.mobile.att.net </li>
-                                        <li>→ MMS port: 80</li>
-                                        <li>→ MCC: 310</li>
-                                        <li>→ MNC: 410</li>
-                                        <li>→ Authentication type: None</li>
-                                        <li>→ APN type: default,mms,supl</li>
-                                        <li>→ APN protocol: IPv4</li>
-                                        <li>→ Bearer: Unspecified</li>
-                                    </ul>
-                                </li>
-                                <li>Once you’ve updated all the fields above, select the menu button and then Save.</li>
-                            </ol>
+                            @Html.Sitecore().Field("Android Instructions")
                         </div>
                         <div class="phone-instructions windows" ng-if="selectedPhone == 'windows'">
                             <hr class="content-divider" />
-                            <p class="instructions-header">
-                                The following steps will help you activate your device on the Stream network:
-                            </p>
-                            <div class="notice alert">
-                                Make sure you’re using the device with the newly installed SIM card to perform the actions listed below.
-                            </div>
-                            <ol>
-                                <li>Go to Settings</li>
-                                <li>Select Cellular (might be labeled as Cellular+SIM)</li>
-                                <li>Select SIM settings (if available)</li>
-                                <li>Select Edit Internet APN</li>
-                                <li>
-                                    Update the fields to match the settings below:
-                                    <ul>
-                                        <li>APN = PRODATA</li>
-                                        <li>User Name = leave blank</li>
-                                        <li>Password = leave blank</li>
-                                        <li>Authentication Type = leave unchanged</li>
-                                        <li>Proxy server = leave blank</li>
-                                        <li>Proxy port = leave blank</li>
-                                        <li>IP Type = IPv4</li>
-                                    </ul>
-                                </li>
-                                <li>Click Save</li>
-                                <li>Click Back (if necessary)</li>
-                                <li>Select Add/Edit MMS APN</li>
-                                <li>
-                                    Update the fields to match the settings below:
-                                    <ul>
-                                        <li>APN = PRODATA</li>
-                                        <li>User Name = leave blank</li>
-                                        <li>Password = leave blank</li>
-                                        <li>Authentication Type = leave unchanged</li>
-                                        <li>WAP gateway (URL) = proxy.mobile.att.net </li>
-                                        <li>WAP gateway port = 80 -MMSC (URL) = http://mmsc.mobile.att.net </li>
-                                        <li>MMSC/Proxy port = 80 </li>
-                                        <li>Maximum MMS size = leave blank </li>
-                                        <li>IP Type = IPv4</li>
-                                    </ul>
-                                </li>
-                                <li>Click Save</li>
-                            </ol>
-                            <p>Data services should be available within a few minutes. If data is not available, reboot your phone and try again.</p>
+                            @Html.Sitecore().Field("Windows Instructions")
                         </div>
                     </div>
                     <footer>
-                        Don’t see your phone model here? Give us a call at 877-743-5893.
+                        @Html.Sitecore().Field("Activate Data Footer")
                     </footer>
                 </article>
 
             </section>
             <aside>
                 <div class="questions">
-                    <h4>Questions about your Activation?</h4>
+                    <h4>@Html.Sitecore().Field("Questions Text")</h4>
                     <div class="contact-specialists">
                         <i class="icon-contact-specialists"></i>
-                        Contact one of our specialists today!
+                        @Html.Sitecore().Field("Contact Text")
                     </div>
-                    <p>Call 877-743-5893</p>
+                    <p>@Html.Sitecore().Field("Phone Number Text")</p>
                 </div>
             </aside>
         </div>
