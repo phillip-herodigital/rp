@@ -9,7 +9,7 @@
     <div class="mobile sim-activation layout">
         <div class="wrapper cols-2">
             <section>
-                <article class="enrollment__box form">
+                <article class="enrollment__box form" ng-show="activeState == 'step1'">
                     <header>
                         <h1>SIM Activation</h1>
                     </header>
@@ -18,17 +18,13 @@
                         <p>If you received a Stream SIM card with an activation code, please click on GSM Network, otherwise click CDMA Network.</p>
                         <label>Please select a Network</label>
                         <div class="btn-group btn-group-options">
-                            <a href="" ng-model="selectedNetwork" btn-radio="gsm">
-                                <span class="button mobile-network">
-                                    <i class="icon-gsm"></i>
-                                    Network
-                                </span>
+                            <a href="" class="button mobile-network" ng-model="selectedPhone" btn-radio="'gsm'">
+                                <i class="icon-gsm"></i>
+                                Network
                             </a>
-                            <a href="" ng-model="selectedNetwork" btn-radio="cdma">
-                                <span class="button mobile-network">
-                                    <i class="icon-cdma"></i>
-                                    Network
-                                </span>
+                            <a href="" class="button mobile-network" ng-model="selectedPhone" btn-radio="'cdma'">
+                                <i class="icon-cdma"></i>
+                                Network
                             </a>
                         </div>
                     </div>
@@ -36,15 +32,8 @@
                         Questions about your activation? Contact Customer Support at <strong>877-743-5893</strong>.
                     </footer>
                 </article>
-            </section>
-            <aside>
-                <div ng-include src="'sidebar-template'"></div>
-            </aside>
-        </div>
 
-        <div class="wrapper cols-2">
-            <section>
-                <article class="enrollment__box form">
+                <article class="enrollment__box form" ng-show="activeState == 'step2CDMA'">
                     <header>
                         <h1>Activation for a CDMA Device</h1>
                     </header>
@@ -54,33 +43,30 @@
                         <p><strong>If activation is unsuccessful,</strong> dial ##873283# on your device and the activation process will start again.</p>
                     </div>
                     <footer>
-                        <a href="">Back</a>
+                        <a href="" ng-click="cancelActivation()">Back</a>
                     </footer>
                 </article>
-            </section>
-            <aside>
-                <div ng-include src="'sidebar-template'"></div>
-            </aside>
-        </div>
 
-        <div class="wrapper cols-2">
-            <section>
-                <form data-val-bind-messages="validations" ng-submit="activateSim();">
-                    <article class="enrollment__box form activate-form">
+                <article class="enrollment__box form activate-form" ng-show="activeState == 'step2'">
+                    <form data-val-bind-messages="validations" ng-submit="lookupAccount()">
                         <header>
                             <h1>Let’s begin activation for your GSM device.</h1>
                         </header>
                         <div class="content">
                             <h2>Get ready to start using the largest 4G LTE GSM network.</h2>
-                            <p><strong>Step 1</strong>: Please enter the seven digit activation code from the Stream SIM card you received and the primary account holder’s last name.</p>
+                            <p class="activation-step"><strong>Step 1:</strong> Please enter the seven digit activation code from the Stream SIM card you received and the primary account holder’s last name.</p>
                             <div class="grid">
                                 <div class="col col-first">
-                                    <label for="@Html.IdFor(m => m.ActivationCode)">Activation Code</label>
-                                    @Html.TextBoxFor(m => m.ActivationCode, new { ng_model = "activation.code" })
-                                    @Html.ValidationMessageFor(model => model.ActivationCode)
-                                    <label for="@Html.IdFor(m => m.LastName)" class="last-name">Primary Account Holder's Last Name</label>
-                                    @Html.TextBoxFor(m => m.LastName, new { ng_model = "activation.lastName" })
-                                    @Html.ValidationMessageFor(model => model.LastName)
+                                    <div class="item" @Html.Validation().ErrorClass(m => m.ActivationCode)>
+                                        <label for="@Html.IdFor(m => m.ActivationCode)">Activation Code</label>
+                                        @Html.TextBoxFor(m => m.ActivationCode, new { ng_model = "activation.code" })
+                                        @Html.ValidationMessageFor(model => model.ActivationCode)
+                                    </div>
+                                    <div class="item" @Html.Validation().ErrorClass(m => m.LastName)>
+                                        <label for="@Html.IdFor(m => m.LastName)" class="last-name">Primary Account Holder's Last Name</label>
+                                        @Html.TextBoxFor(m => m.LastName, new { ng_model = "activation.lastName" })
+                                        @Html.ValidationMessageFor(model => model.LastName)
+                                    </div>
                                 </div>
                                 <div class="col col-last">
                                     @Html.Sitecore().Field("Header")
@@ -90,20 +76,74 @@
                         <footer>
                             <div class="buttons">
                                 <button type="submit" class="primary" data-val-submit>Activate your SIM Card</button>
-                                <button class="tertiary" >Back</button>
+                                <button type="button" class="button tertiary" ng-click="cancelActivation()">Back</button>
                             </div>
                         </footer>
-                    </article>
-                </form>
-            </section>
-            <aside>
-                <div ng-include src="'sidebar-template'"></div>
-            </aside>
-        </div>
+                    </form>
+                </article>
 
-        <div class="wrapper cols-2">
-            <section>
-                <article class="enrollment__box form data-box">
+                <article class="enrollment__box form activate-form" ng-show="activeState == 'step3'">
+                    <form data-val-bind-messages="validations" ng-submit="activateService();">
+                        <header>
+                            <h1>Let’s begin activation for your GSM device.</h1>
+                        </header>
+                        <div class="content">
+                            <p class="activation-step"><strong>Step 2:</strong> We’ve located your SIM card. Below are the details associated with your account:</p>
+                            <p class="account-info">
+                                <strong>Name:</strong> {First Name} {Last Name}<br />
+                                <strong>Phone Number:</strong> {Phone Number, if porting number}
+                            </p>
+                            <div class="notice alert">
+                                <h4>Things to understand before transfering your number to Stream:</h4>
+                                <ul>
+                                    <li>Make sure your phone is in hand.</li>
+                                    <li>Your current mobile service plan will be terminated when you transfer your number to Stream, and your carrier may charge you an early termination fee.</li>
+                                    <li>Your phone number will be disabled with your current provider and activated on the Stream GSM Network.</li>
+                                    <li>A compatible GSM network device.</li>
+                                    <li>An unlocked device. <a href="">How do I unlock my device?</a></li>
+                                </ul>
+                            </div>
+                            <div class="notice alert">
+                                <h4>If you have a new number request:</h4>
+                                <ul>
+                                    <li>Click Activate Service, insert SIM card and it should be activated.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <footer>
+                            <div class="buttons">
+                                <button type="submit" class="primary" data-val-submit>Activate Service</button>
+                                <button type="button" class="tertiary" ng-click="cancelActivation()">Cancel</button>
+                            </div>
+                        </footer>
+                    </form>
+                </article>
+
+                <article class="enrollment__box activate-form confirmation" ng-show="activeState == 'step4'">
+                    <header>
+                        <h1>Confirmation</h1>
+                    </header>
+                    <div class="content">
+                        <h2>Congratulations! Your activation on Stream is almost complete.</h2>
+                        <p class="activation-step">We’ve started the activation process for your phone.</p>
+                        <p class="account-info">
+                            <strong>Name:</strong> {First Name} {Last Name}<br />
+                            <strong>Phone Number:</strong> {Phone Number, if porting number}
+                        </p>
+                        <hr class="content-divider" />
+                        <p class="next-steps">Here are the Next Steps:</p>
+                        <ol>
+                            <li>
+                                <strong>If you’ve requested a new number,</strong> insert your <a href="">Stream SIM card</a> into your device and turn it on. Your device will sync with our network within a few minutes.<br /><br />
+                                <strong>If you’re transferring your existing number from another carrier,</strong> the transfer process may take a few hours to complete (up to 48 hours). During this time, your current device will continue to work on your existing carrier’s network. When the transfer process is complete, your device will no longer have service. At that time, simply insert your <a href="">Stream SIM card</a> into your new device and turn it on. Your device will sync with our network within a few minutes.
+                            </li>
+                            <li>Once your device is active, you should see “Stream” in the top left corner.</li>
+                            <li>You should receive a text message with instructions on how to activate your data within 20 minutes. If you do not receive a text message, follow the instructions to <a href="">Activate your Data</a>.</li>
+                        </ol>
+                    </div>
+                </article>
+
+                <article class="enrollment__box form data-box" ng-show="activeState != 'step1' && activeState != 'step2CDMA'">
                     <header>
                         <h1>Activate Your Data Box</h1>
                     </header>
@@ -112,19 +152,19 @@
                         <label>What kind of device are you activating?</label>
                         <div class="btn-group btn-group-options">
                             <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'apple'">
-                                    <i class="icon-apple"></i>
-                                    Apple
+                                <i class="icon-apple"></i>
+                                Apple
                             </a>
                             <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'android'">
-                                    <i class="icon-android"></i>
-                                    Android
+                                <i class="icon-android"></i>
+                                Android
                             </a>
                             <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'windows'">
-                                    <i class="icon-windows"></i>
-                                    Windows Phone
+                                <i class="icon-windows"></i>
+                                Windows Phone
                             </a>
                         </div>
-                        <div class="phone-instructions" ng-if="selectedPhone == 'apple'">
+                        <div class="phone-instructions apple" ng-if="selectedPhone == 'apple'">
                             <hr class="content-divider" />
                             <p class="instructions-header">
                                 The following steps will help you activate your device on the Stream network:
@@ -151,38 +191,109 @@
                                 <li>Mobile hotspot is not currently supported by Stream’s GSM network.</li>
                                 <li>Visual Voicemail is not currently supported by Stream's GSM network on Apple devices.</li>
                             </ul>
-                            <p>*The WhatsApp application and services are not affiliated with Mobile by Stream. Stream's CDMA network coming soon.</p>
+                            <p class="instructions-footnote">*The WhatsApp application and services are not affiliated with Mobile by Stream. Stream's CDMA network coming soon.</p>
                         </div>
-                        <div class="phone-instructions" ng-if="selectedPhone == 'android'">
+                        <div class="phone-instructions android" ng-if="selectedPhone == 'android'">
                             <hr class="content-divider" />
+                            <p class="instructions-header">
+                                The following steps will help you activate your device on the Stream network:
+                            </p>
                             <div class="notice alert">
                                 Make sure you’re using the device with the newly installed SIM card to perform the actions listed below.
                             </div>
+                            <ol>
+                                <li>On your device, go to Settings.</li>
+                                <li>Select Wireless Controls or Wireless & Networks.</li>
+                                <li>Select Mobile Networks.</li>
+                                <li>Confirm that "Data Roaming" and "Use Only 2G Networks" are both unchecked. Only applicable to certain GSM devices.</li>
+                                <li>Select Access Point Names.</li>
+                                <li>Select the plus sign (+) then go to Step 7. If you do not have a plus sign (+) select the menu, then New APN.</li>
+                                <li>
+                                    Update the fields on your phone to match those listed below.
+                                    <ul>
+                                        <li>→ APN: PRODATA</li>
+                                        <li>→ Proxy: Not set</li>
+                                        <li>→ Port: Not set</li>
+                                        <li>→ Username: Not set</li>
+                                        <li>→ Password: Not set</li>
+                                        <li>→ Server: Not set</li>
+                                        <li>→ MMSC: http://mmsc.mobile.att.net </li>
+                                        <li>→ MMS proxy: proxy.mobile.att.net </li>
+                                        <li>→ MMS port: 80</li>
+                                        <li>→ MCC: 310</li>
+                                        <li>→ MNC: 410</li>
+                                        <li>→ Authentication type: None</li>
+                                        <li>→ APN type: default,mms,supl</li>
+                                        <li>→ APN protocol: IPv4</li>
+                                        <li>→ Bearer: Unspecified</li>
+                                    </ul>
+                                </li>
+                                <li>Once you’ve updated all the fields above, select the menu button and then Save.</li>
+                            </ol>
                         </div>
-                        <div class="phone-instructions" ng-if="selectedPhone == 'windowsz'">
+                        <div class="phone-instructions windows" ng-if="selectedPhone == 'windows'">
                             <hr class="content-divider" />
+                            <p class="instructions-header">
+                                The following steps will help you activate your device on the Stream network:
+                            </p>
                             <div class="notice alert">
                                 Make sure you’re using the device with the newly installed SIM card to perform the actions listed below.
                             </div>
+                            <ol>
+                                <li>Go to Settings</li>
+                                <li>Select Cellular (might be labeled as Cellular+SIM)</li>
+                                <li>Select SIM settings (if available)</li>
+                                <li>Select Edit Internet APN</li>
+                                <li>
+                                    Update the fields to match the settings below:
+                                    <ul>
+                                        <li>APN = PRODATA</li>
+                                        <li>User Name = leave blank</li>
+                                        <li>Password = leave blank</li>
+                                        <li>Authentication Type = leave unchanged</li>
+                                        <li>Proxy server = leave blank</li>
+                                        <li>Proxy port = leave blank</li>
+                                        <li>IP Type = IPv4</li>
+                                    </ul>
+                                </li>
+                                <li>Click Save</li>
+                                <li>Click Back (if necessary)</li>
+                                <li>Select Add/Edit MMS APN</li>
+                                <li>
+                                    Update the fields to match the settings below:
+                                    <ul>
+                                        <li>APN = PRODATA</li>
+                                        <li>User Name = leave blank</li>
+                                        <li>Password = leave blank</li>
+                                        <li>Authentication Type = leave unchanged</li>
+                                        <li>WAP gateway (URL) = proxy.mobile.att.net </li>
+                                        <li>WAP gateway port = 80 -MMSC (URL) = http://mmsc.mobile.att.net </li>
+                                        <li>MMSC/Proxy port = 80 </li>
+                                        <li>Maximum MMS size = leave blank </li>
+                                        <li>IP Type = IPv4</li>
+                                    </ul>
+                                </li>
+                                <li>Click Save</li>
+                            </ol>
+                            <p>Data services should be available within a few minutes. If data is not available, reboot your phone and try again.</p>
                         </div>
                     </div>
                     <footer>
                         Don’t see your phone model here? Give us a call at 877-743-5893.
                     </footer>
                 </article>
-            </section>
-        </div>
 
+            </section>
+            <aside>
+                <div class="questions">
+                    <h4>Questions about your Activation?</h4>
+                    <div class="contact-specialists">
+                        <i class="icon-contact-specialists"></i>
+                        Contact one of our specialists today!
+                    </div>
+                    <p>Call 877-743-5893</p>
+                </div>
+            </aside>
+        </div>
     </div>
 </div>
-
-<script type="text/ng-template" id="sidebar-template">
-    <div class="questions">
-        <h4>Questions about your Activation?</h4>
-        <div class="contact-specialists">
-            <i class="icon-contact-specialists"></i>
-            Contact one of our specialists today!
-        </div>
-        <p>Call 877-743-5893</p>
-    </div>
-</script>

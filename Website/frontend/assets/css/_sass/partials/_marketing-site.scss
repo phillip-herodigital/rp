@@ -3223,7 +3223,13 @@ article.marketing.validate-esn {
 div.mobile.sim-activation {
     > .wrapper {
         padding-top: 60px;
+        margin-top: -40px;
         background: url('../i/marketing/redesign/Modules/module_background.png') no-repeat center top;
+    }
+    header {
+        h1 {
+            font-size: 24px;
+        }
     }
     h2 {
         color: #2f9bce;
@@ -3232,6 +3238,30 @@ div.mobile.sim-activation {
     label {
         font-size: 20px;
         font-weight: 600;
+    }
+    .alert {
+        background-image: none;
+        padding-bottom: 15px;
+        h4 {
+            margin: 0;
+        }
+        ul {
+            list-style: none;
+            padding-left: 2px;
+            margin-bottom: 0;
+            li {
+                @include retina-background('gray-check.png', 'icon');
+                background-repeat: no-repeat;
+                background-position-y: 14px;
+                padding: 8px 0 8px 20px;
+            }
+        }
+    }
+    .activation-step {
+        font-size: 18px;
+    }
+    .account-info {
+        line-height: 1.8;
     }
     .btn-group-arrow {
         position: relative;
@@ -3280,10 +3310,6 @@ div.mobile.sim-activation {
             margin: 0 7px;
             @include border-radius(5px);
             @include box-shadow(none);
-            &.active {
-                border: 2px solid #3189bb;
-                color: #3189bb;
-            }
             i {
                 display: block;
                 margin: 0 auto;
@@ -3328,11 +3354,39 @@ div.mobile.sim-activation {
         input {
             width: 100%;
         }
-        .last-name {
-            margin-top: 30px;
-        }
         .col-last {
             text-align: center;
+        }
+        &.confirmation {
+            .next-steps {
+                font-size: 20px;
+                font-weight: 400;
+                margin-bottom: 0;
+            }
+            ol {
+                padding-left: 0;
+                margin-top: 5px;
+                counter-reset: item;
+                li {
+                    font-size: 18px;
+                    margin: 0;
+                    padding: 0.5em 0 0.5em 1.5em;
+                    text-indent: -1.5em;
+                    list-style-type: none;
+                    counter-increment: item;
+                    a {
+                        font-weight: bold;
+                    }
+                    &:before {
+                        display: inline-block;
+                        width: 1em;
+                        padding-right: 0.5em;
+                        font-weight: bold;
+                        text-align: right;
+                        content: counter(item) ".";
+                    }
+                }
+            }
         }
     }
     footer {
@@ -3367,8 +3421,12 @@ div.mobile.sim-activation {
                     display: inline-block;
                     margin-right: 5px;
                 }
+                &.active {
+                    border: 2px solid #3189bb;
+                    color: #3189bb;
+                }
             }
-            @include breakpoint(small) {
+            @include breakpoint(small-medium) {
                 width: 100%;
                 margin-left: 0;
                 .button {
@@ -3390,12 +3448,12 @@ div.mobile.sim-activation {
             .content-divider {
                 margin: 20px -20px;
             }
-            .alert {
-                background-image: none;
-            }
             .instructions-header {
                 font-size: 18px;
                 font-weight: 600;
+            }
+            .instructions-footnote {
+                font-size: 16px
             }
             ol {
                 padding-left: 25px;
@@ -3408,7 +3466,21 @@ div.mobile.sim-activation {
                 padding-left: 25px;
                 list-style-type: circle;
                 li {
-                    padding: 5px 0;
+                    padding: 4px 0;
+                }
+            }
+            p {
+                font-size: 18px;
+            }
+            &.apple {
+                ul li {
+                    font-size: 16px;
+                }
+            }
+            &.android {
+                ul {
+                    padding-left: 0;
+                    list-style-type: none;
                 }
             }
         }
