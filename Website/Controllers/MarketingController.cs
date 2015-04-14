@@ -236,8 +236,9 @@ namespace StreamEnergy.MyStream.Controllers
                 }
 
                 // Send the email
+                var fromAddress = Sitecore.Configuration.Settings.GetSetting("DynEtc.fromAddress", null);
                 MailMessage Message = new MailMessage();
-                Message.From = new MailAddress("noreply@mystream.com", Name);
+                Message.From = new MailAddress(fromAddress, Name);
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Contact Form Submission";
                 Message.IsBodyHtml = true;
@@ -305,8 +306,9 @@ namespace StreamEnergy.MyStream.Controllers
                 var ToEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Commercial Quote Email Address").Value;
 
                 // Send the email
+                var fromAddress = Sitecore.Configuration.Settings.GetSetting("DynEtc.fromAddress", null);
                 MailMessage Message = new MailMessage();
-                Message.From = new MailAddress("noreply@mystream.com", Name);
+                Message.From = new MailAddress(fromAddress, Name);
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Commerical Quote Request";
                 Message.IsBodyHtml = true;

@@ -64,9 +64,10 @@ namespace StreamEnergy.Services.Clients
         {
             var username = Sitecore.Configuration.Settings.GetSetting("DynEtc.username", null);
             var pswd = Sitecore.Configuration.Settings.GetSetting("DynEtc.password", null);
+            var host = Sitecore.Configuration.Settings.GetSetting("DynEtc.server", null);
 
             SmtpClient client = new SmtpClient();
-            client.Host = "smtp.dynect.net";
+            client.Host = host;
             client.Port = 25;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
@@ -88,9 +89,10 @@ namespace StreamEnergy.Services.Clients
         {
             var username = Sitecore.Configuration.Settings.GetSetting("DynEtc.username", null);
             var pswd = Sitecore.Configuration.Settings.GetSetting("DynEtc.password", null);
+            var host = Sitecore.Configuration.Settings.GetSetting("DynEtc.server", null);
 
             SmtpClient client = new SmtpClient();
-            client.Host = "smtp.dynect.net";
+            client.Host = host;
             client.Port = 25;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
