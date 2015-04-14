@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using StackExchange.Redis;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Payments;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.Services.Clients
 {

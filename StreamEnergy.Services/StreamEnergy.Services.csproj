@@ -81,10 +81,13 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Persits.PDF">
       <HintPath>..\Libraries\AspPDF\Persits.PDF.dll</HintPath>
+    </Reference>
+    <Reference Include="ResponsivePath.Logging">
+      <HintPath>..\packages\ResponsivePath.Logging.1.0.5.0\lib\net45\ResponsivePath.Logging.dll</HintPath>
     </Reference>
     <Reference Include="ResponsivePath.Validation">
       <HintPath>..\packages\ResponsivePath.Validation.1.0.2.20136\lib\net45\ResponsivePath.Validation.dll</HintPath>
@@ -185,6 +188,7 @@
     <Compile Include="Services\Clients\EnrollmentAccountDetails.cs" />
     <Compile Include="Services\Clients\GeorgiaAdapter.cs" />
     <Compile Include="Services\Clients\HttpMessageLogger.cs" />
+    <Compile Include="Services\Clients\HttpMessageSessionHeader.cs" />
     <Compile Include="Services\Clients\ILocationAdapter.cs" />
     <Compile Include="Services\Clients\ISitecoreProductData.cs" />
     <Compile Include="Services\Clients\MobileAdapter.cs" />
