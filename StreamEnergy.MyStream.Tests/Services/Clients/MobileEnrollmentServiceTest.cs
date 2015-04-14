@@ -5,7 +5,7 @@ using System.Net.Http;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.MyStream.Tests.Services.Clients
 {

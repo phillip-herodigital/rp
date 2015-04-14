@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.MyStream.Tests.Services.Clients
 {
