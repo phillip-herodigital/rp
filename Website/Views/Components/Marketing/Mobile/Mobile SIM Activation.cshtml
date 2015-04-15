@@ -49,7 +49,7 @@
                         <header>
                             <h1>@Html.Sitecore().Field("Step 2 Header")</h1>
                         </header>
-                        <div class="content">
+                        <div class="content" loading-indicator>
                             <div class="notice error" ng-show="lookupAccountError">
                                 @Html.Sitecore().Field("Lookup Account Error Text")
                             </div>
@@ -86,14 +86,14 @@
                         <header>
                             <h1>@Html.Sitecore().Field("Step 3 Header")</h1>
                         </header>
-                        <div class="content">
+                        <div class="content" loading-indicator>
                             <div class="notice error" ng-show="activateServiceError">
                                 @Html.Sitecore().Field("Activate Service Error Text")
                             </div>
                             @Html.Sitecore().Field("Step 3 Intro")
                             <p class="account-info">
-                                <strong>@Html.Sitecore().Field("Name Label Text")</strong> {First Name} {Last Name}<br />
-                                <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {Phone Number, if porting number}
+                                <strong>@Html.Sitecore().Field("Name Label Text")</strong> {{ account.firstName }} {{ account.lastName }}<br />
+                                <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {{ account.phoneNumber }}
                             </p>
                             <div class="notice alert">
                                 @Html.Sitecore().Field("Step 3 Alert Box 1")
@@ -118,8 +118,8 @@
                     <div class="content">
                         @Html.Sitecore().Field("Step 4 Intro")
                         <p class="account-info">
-                            <strong>@Html.Sitecore().Field("Name Label Text")</strong> {First Name} {Last Name}<br />
-                            <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {Phone Number, if porting number}
+                            <strong>@Html.Sitecore().Field("Name Label Text")</strong> {{ account.firstName }} {{ account.lastName }}<br />
+                            <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {{ account.phoneNumber }}
                         </p>
                         <hr class="content-divider" />
                         @Html.Sitecore().Field("Step 4 Next Steps")
