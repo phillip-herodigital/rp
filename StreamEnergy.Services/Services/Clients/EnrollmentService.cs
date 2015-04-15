@@ -117,6 +117,19 @@ namespace StreamEnergy.Services.Clients
             return result.VerifyEsnResponseCode;
         }
 
+        async Task<bool> IEnrollmentService.ActivateEsn(string esn)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/enrollments/activate-esn", new
+            {
+                Esn = esn
+            });
+
+            response.EnsureSuccessStatusCode();
+            dynamic result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return result.Status == "Success";
+        }
+
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location, IOffer offer)
         {
             var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));

@@ -60,34 +60,76 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
+        async Task<bool> IEmailService.SendDynEmail(MailMessage message)
+        {
+            var username = Sitecore.Configuration.Settings.GetSetting("DynEtc.username", null);
+            var pswd = Sitecore.Configuration.Settings.GetSetting("DynEtc.password", null);
+
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.dynect.net";
+            client.Port = 25;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(username, pswd);
+            client.Timeout = 10000;
+
+            try
+            {
+                await client.SendMailAsync(message);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        bool IEmailService.SendDynEmailSyncronous(MailMessage message)
+        {
+            var username = Sitecore.Configuration.Settings.GetSetting("DynEtc.username", null);
+            var pswd = Sitecore.Configuration.Settings.GetSetting("DynEtc.password", null);
+
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.dynect.net";
+            client.Port = 25;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(username, pswd);
+            client.Timeout = 10000;
+
+            try
+            {
+                client.Send(message);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         Task<bool> IEmailService.SendEmail(Guid emailTemplate, string to, System.Collections.Specialized.NameValueCollection parameters)
         {
-            var managerRoot = Factory.GetAllManagerRoots()[0];
-            var contact = GetAnonymousFromEmail(to, managerRoot);
-
             var itemMessage = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(emailTemplate));
-            var mi = Factory.GetMessage(itemMessage);
-
+        
+            Sitecore.Links.UrlOptions urlOptions = new Sitecore.Links.UrlOptions();
+            urlOptions.AlwaysIncludeServerUrl = true;
+            var url = Sitecore.Links.LinkManager.GetItemUrl(itemMessage, urlOptions);
+            WebClient w = new WebClient();
+            var messageBody = w.DownloadString(url);
             if (parameters != null)
             {
-                foreach (var key in parameters.AllKeys) 
+                foreach (var key in parameters.AllKeys)
                 {
-                    mi.CustomPersonTokens[key] = parameters[key];
+                    messageBody = messageBody.Replace("$" + key + "$", parameters[key]);
                 }
             }
 
-            var messageBody = mi.GetMessageBody();
-            messageBody = messageBody.Replace("=\"/sitecore/shell/", "=\"" + managerRoot.Settings.BaseURL + "/");
-            var message = new MailMessage(mi.FromAddress, to, mi.Subject, messageBody)
+            var message = new MailMessage(itemMessage.Fields["From Address"].Value, to, itemMessage.Fields["Subject"].Value, messageBody)
             {
                 IsBodyHtml = true,
             };
-            return ((IEmailService)this).SendEmail(message);
-
-            //var sm = new AsyncSendingManager(mi);
-            //var results = sm.SendStandardMessage(contact);
-
-            //return Task.FromResult(string.IsNullOrEmpty(results.Errors));
+            return ((IEmailService)this).SendDynEmail(message);
         }
 
         public static Contact GetAnonymousFromEmail(string email, ManagerRoot root)

@@ -1,29 +1,77 @@
-﻿<!-- start of social links -->
-<table width="100%" bgcolor="#efefef" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="footer">
+﻿@{
+    var sc = Html.Sitecore();
+    var iconstyle = "display:block; border:none; outline:none; text-decoration:none;";
+    var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
+    Sitecore.Data.Fields.ImageField footerBg = sc.CurrentItem.Fields["Footer Background"];
+    Sitecore.Data.Fields.ImageField facebookIcon = sc.CurrentItem.Fields["Facebook Icon"];
+    Sitecore.Data.Fields.ImageField twitterIcon = sc.CurrentItem.Fields["Twitter Icon"];
+    Sitecore.Data.Fields.ImageField youtubeIcon = sc.CurrentItem.Fields["Youtube Icon"];
+}
+
+<table width="100%" bgcolor="#e2e1df" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="footer">
     <tbody>
         <tr>
             <td>
-                <table width="600" bgcolor="#eacb3c" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                <!--[if gte mso 9]>
+                    <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+                    <v:fill type="tile" src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(footerBg.MediaItem, mediaOptions)" color="#0071b9"/>
+                    </v:background>
+                <![endif]-->
+                <table width="600" bgcolor="#0071b9" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
                     <tbody>
                         <tr>
-                            <td width="100%">
-                                <table bgcolor="#0971ce" width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                            <td width="100%" valign="top" align="left" background="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(footerBg.MediaItem, mediaOptions)">
+                                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
                                     <tbody>
                                         <!-- spacing -->
                                         <tr>
-                                            <td height="10" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                                            <td height="20" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
                                         </tr>
                                         <!-- spacing -->
                                         <tr>
                                             <td>
                                                 <!-- social icons -->
+                                                <table width="250" align="right" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="right" style="font-family: Helvetica, arial, sans-serif; font-size: 14px; color: #ffffff; text-align:center; line-height: 14px; text-transform:uppercase; ">
+                                                                Follow us on
+                                                            </td>
+                                                            <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                            <td width="25" height="25" align="center">
+                                                                <div class="imgpop">
+                                                                    <a target="_blank" href="@Html.Sitecore().Field("Facebook URL")">
+                                                                        <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(facebookIcon.MediaItem, mediaOptions)" alt="" border="0" width="@facebookIcon.Width" height="@facebookIcon.Height" style="@iconstyle">
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                            <td width="25" height="25" align="center">
+                                                                <div class="imgpop">
+                                                                    <a target="_blank" href="@Html.Sitecore().Field("Twitter URL")">
+                                                                        <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(twitterIcon.MediaItem, mediaOptions)" alt="" border="0" width="@twitterIcon.Width" height="@twitterIcon.Height" style="@iconstyle">
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                            <td width="25" height="25" align="center">
+                                                                <div class="imgpop">
+                                                                    <a target="_blank" href="@Html.Sitecore().Field("YouTube URL")">
+                                                                        <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(youtubeIcon.MediaItem, mediaOptions)" alt="" border="0" width="@youtubeIcon.Width" height="@youtubeIcon.Height" style="@iconstyle">
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                                 @Html.Sitecore().Field("Social Links")
                                                 <!-- end of social icons -->
                                             </td>
                                         </tr>
                                         <!-- spacing -->
                                         <tr>
-                                            <td height="10" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                                            <td height="30" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
                                         </tr>
                                         <!-- spacing -->
                                     </tbody>
@@ -36,27 +84,43 @@
         </tr>
     </tbody>
 </table>
-<!-- end of social links -->
-<!-- start of footer -->
-<table width="100%" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" class="backgroundTable" st-sortable="postfooter">
+
+<!-- start of postfooter -->
+<table width="100%" bgcolor="#e2e1df" cellpadding="0" cellspacing="0" border="0" class="backgroundTable" st-sortable="postfooter">
     <tbody>
         <tr>
             <td>
-                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                <table bgcolor="#ffffff" width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
                     <tbody>
                         <!-- spacing -->
                         <tr>
-                            <td width="100%" height="20"></td>
+                            <td height="20" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
                         </tr>
                         <!-- spacing -->
                         <tr>
                             <td>
-                                @Html.Sitecore().Field("Footer")
+                                <!-- spacing -->
+                                <table width="10" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                    <tbody>
+                                        <tr>
+                                            <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- spacing -->
+                                @Html.Sitecore().Field("Postfooter Text")
+                                <table bgcolor="#ffffff" width="10" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                    <tbody>
+                                        <tr>
+                                            <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                         <!-- spacing -->
                         <tr>
-                            <td width="100%" height="20"></td>
+                            <td height="10" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
                         </tr>
                         <!-- spacing -->
                     </tbody>
@@ -65,4 +129,4 @@
         </tr>
     </tbody>
 </table>
-<!-- end of footer -->
+<!-- End of postfooter -->

@@ -1,0 +1,14 @@
+﻿
+<article class="marketing" ng-controller="esnActivationController as activationCtrl">
+    <div class="wrapper">
+        <div class="notice success" ng-if="activationCtrl.success">Succeeded - activated {{activationCtrl.lastCode}}</div>
+        <div class="notice error"   ng-if="activationCtrl.failure">Failed - could not activate {{activationCtrl.lastCode}}</div>
+        <form>
+            <div class="item">
+                <label for="{{$id}}_ActivationCode">Activation Code or ESN</label>
+                <input id="{{$id}}_ActivationCode" type="text" ng-model="activationCtrl.activationCode" ng-disabled="activationCtrl.isLoading" />
+            </div>
+            <button ng-click="activationCtrl.activate()" ng-disabled="activationCtrl.isLoading">Activate</button>
+        </form>
+    </div>
+</article>

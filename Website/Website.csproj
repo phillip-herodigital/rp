@@ -526,6 +526,7 @@
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\MarketingController.cs" />
+    <Compile Include="Controllers\ApiControllers\MobileActivationController.cs" />
     <Compile Include="Controllers\ApiControllers\SitecoreController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\ApiControllers\TempController.cs" />
@@ -1230,6 +1231,7 @@
     <Content Include="updateDataFolderPath.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Components\Activation\ActivateEsn.cshtml" />
     <Content Include="Views\Components\Marketing\Video Player.cshtml" />
     <Content Include="Views\Components\Marketing\Video Meta.cshtml" />
     <Content Include="Views\Components\Authentication\Create Account - Step 1a.cshtml" />

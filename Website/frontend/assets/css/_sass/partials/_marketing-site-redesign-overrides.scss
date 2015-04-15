@@ -721,6 +721,10 @@ article.pay {
         h1 strong {
             color: #40ae49;
         }
+        .pay-option {
+            text-align: center;
+            border: none;
+        }
     }
     aside h4 {
         margin-top: 0;
@@ -773,6 +777,7 @@ article.pay {
         margin: 60px 0 30px;
         text-align: center;
         font-size: 22px;
+        clear: both;
     }
 }
 
