@@ -461,6 +461,46 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
+        async Task<Account> IAccountService.FindAccountForEsn(string esn, string lastName)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/accounts/find-account-by-esn", new
+            {
+                LastName = lastName,
+                Esn = esn
+            });
+
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    var account = accountFactory.CreateAccount(new AccountFactory.AccountKey());
+                    LoadAccountDetailsFromStreamConnect(account, data);
+                    if (!account.SubAccounts.Any(a => a != null))
+                    {
+                        return null;
+                    }
+
+                    return account;
+                }
+            }
+            return null;
+        }
+        
+        async Task<bool> IAccountService.ActivateEsn(string accountNumber, string esn)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/accounts/activate-esn", new
+            {
+                SystemOfRecordAccountNumber = accountNumber,
+                Esn = esn
+            });
+
+            response.EnsureSuccessStatusCode();
+            dynamic result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return result.Status == "Success";
+        }
+
         private void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
         {
             var homePhone = (data.Account.AccountCustomer.HomePhone == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.Account.AccountCustomer.HomePhone.Value.ToString() });
