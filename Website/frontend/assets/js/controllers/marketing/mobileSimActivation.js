@@ -7,6 +7,7 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', fun
     $scope.activeState = 'step1';
     $scope.lookupAccountError = false;
     $scope.activateServiceError = false;
+    $scope.account = {};
 
     $scope.$watch("selectedPhone", function(newVal) { 
         if (newVal == 'gsm') {
@@ -28,7 +29,7 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', fun
 
         $http({
             method: 'POST',
-            url: '/api/MobileActivation/LookupAccountByEsn',
+            url: '/api/mobileActivation/lookupAccountByEsn',
             data: {  
                 activationCode: $scope.activation.code, 
                 lastName: $scope.activation.lastName
@@ -57,7 +58,7 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', fun
 
         $http({
             method: 'POST',
-            url: '/api/MobileActivation/ActivateEsn',
+            url: '/api/mobileActivation/activateEsn',
             data: {  
                 activationCode: $scope.activation.code, 
                 accountNumber: $scope.account.accountNumber
@@ -69,7 +70,6 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', fun
         .success(function (data, status, headers, config) {
             $scope.isLoading = false;
             if (data) {
-                $scope.account = data;
                 $scope.activeState = 'step4';
             } else {
                 $scope.activateServiceError = true;

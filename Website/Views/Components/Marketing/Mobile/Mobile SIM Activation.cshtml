@@ -93,7 +93,7 @@
                             @Html.Sitecore().Field("Step 3 Intro")
                             <p class="account-info">
                                 <strong>@Html.Sitecore().Field("Name Label Text")</strong> {{ account.firstName }} {{ account.lastName }}<br />
-                                <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {{ account.phoneNumber }}
+                                <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {{ account.phoneNumber | phone }}
                             </p>
                             <div class="notice alert">
                                 @Html.Sitecore().Field("Step 3 Alert Box 1")
@@ -119,7 +119,7 @@
                         @Html.Sitecore().Field("Step 4 Intro")
                         <p class="account-info">
                             <strong>@Html.Sitecore().Field("Name Label Text")</strong> {{ account.firstName }} {{ account.lastName }}<br />
-                            <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {{ account.phoneNumber }}
+                            <strong>@Html.Sitecore().Field("Phone Label Text")</strong> {{ account.phoneNumber | phone }}
                         </p>
                         <hr class="content-divider" />
                         @Html.Sitecore().Field("Step 4 Next Steps")
