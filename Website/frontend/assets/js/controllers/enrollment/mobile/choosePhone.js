@@ -178,6 +178,25 @@
         };
     };
 
+    function baseConvert(number, frombase, tobase) {
+        return parseInt(number + '', frombase | 0).toString(tobase | 0);
+    };
+
+    function leftPad (n, p, c) {
+        var pad = new Array(1 + p).join(c);
+        return (pad + n).slice(-pad.length);
+    };
+
+    function convertToMEIDHex (input) {
+        return (leftPad(baseConvert(input.substr(0,10),10,16),8,0) + 
+            leftPad(baseConvert(input.substr(10),10,16),6,0)).toUpperCase();
+    };
+
+    function convertToMEIDDec (input) {
+        return (leftPad(baseConvert(input.substr(0,8),16,10),10,0) + 
+            leftPad(baseConvert(input.substr(8),16,10),8,0)).toUpperCase();
+    };
+
     /**
      * Adds the currently selected phone to the cart
      */
@@ -211,6 +230,11 @@
             };
         }
         else {
+            // do the hex conversion for CDMA iPhone MEID/ESN-DEC
+            if (mobileEnrollmentService.selectedNetwork.value == "sprint" && $scope.phoneOptions.make.make == "Apple" && $scope.phoneOptions.imeiNumber.length == 14) {
+                $scope.phoneOptions.imeiNumber = convertToMEIDDec($scope.phoneOptions.imeiNumber);
+            }
+
             item = {
                 id: 7,
                 buyingOption: "BYOD",
