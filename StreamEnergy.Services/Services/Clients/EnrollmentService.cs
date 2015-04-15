@@ -11,6 +11,7 @@ using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.DomainModels;
 using StreamEnergy.Logging;
 using System.Collections.Specialized;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -115,19 +116,6 @@ namespace StreamEnergy.Services.Clients
             dynamic result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
             return result.VerifyEsnResponseCode;
-        }
-
-        async Task<bool> IEnrollmentService.ActivateEsn(string esn)
-        {
-            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/enrollments/activate-esn", new
-            {
-                Esn = esn
-            });
-
-            response.EnsureSuccessStatusCode();
-            dynamic result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
-
-            return result.Status == "Success";
         }
 
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location, IOffer offer)

@@ -47,6 +47,5 @@ namespace StreamEnergy.DomainModels.Enrollments
 
 
         Task<VerifyEsnResponseCode> IsEsnValid(string esn);
-        Task<bool> ActivateEsn(string esn);
     }
 }

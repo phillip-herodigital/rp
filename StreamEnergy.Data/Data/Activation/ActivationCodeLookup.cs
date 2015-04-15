@@ -33,11 +33,18 @@ namespace StreamEnergy.Data.Activation
 
         async Task<string> IActivationCodeLookup.LookupEsn(string activationCode)
         {
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
-                await connection.OpenAsync();
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    await connection.OpenAsync();
 
-                return await LookupEsn(activationCode, connection);
+                    return await LookupEsn(activationCode, connection);
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
 
