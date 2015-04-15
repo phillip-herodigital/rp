@@ -531,6 +531,7 @@
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\LogViewerController.cs" />
     <Compile Include="Controllers\ApiControllers\MarketingController.cs" />
+    <Compile Include="Controllers\ApiControllers\MobileActivationController.cs" />
     <Compile Include="Controllers\ApiControllers\SitecoreController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\ApiControllers\TempController.cs" />
@@ -744,6 +745,7 @@
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
     <Compile Include="Models\Marketing\ModalContent.cs" />
+    <Compile Include="Models\Marketing\SimActivation.cs" />
     <Compile Include="Models\Marketing\ValidasRequest.cs" />
     <Compile Include="Models\Marketing\UsageCalculator.cs" />
     <Compile Include="Models\Marketing\CommercialQuote.cs" />
@@ -1234,11 +1236,13 @@
     <Content Include="updateDataFolderPath.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Components\Activation\ActivateEsn.cshtml" />
     <Content Include="Views\Components\Marketing\Video Player.cshtml" />
     <Content Include="Views\Components\Marketing\Video Meta.cshtml" />
     <Content Include="Views\Components\Authentication\Create Account - Step 1a.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Validate ESN.cshtml" />
     <Content Include="Views\Pages\Marketing\Pay\Pay.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile SIM Activation.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

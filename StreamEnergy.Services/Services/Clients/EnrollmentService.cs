@@ -11,6 +11,7 @@ using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.DomainModels;
 using ResponsivePath.Logging;
 using System.Collections.Specialized;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.Services.Clients
 {

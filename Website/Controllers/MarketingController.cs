@@ -419,5 +419,10 @@ namespace StreamEnergy.MyStream.Controllers
             var parameters = HttpUtility.ParseQueryString(parametersAsString);
             return parameters[parameterName];
         }
+
+        public ActionResult SimActivation()
+        {
+            return View("~/Views/Components/Marketing/Mobile/Mobile SIM Activation.cshtml");
+        }
     }
 }
