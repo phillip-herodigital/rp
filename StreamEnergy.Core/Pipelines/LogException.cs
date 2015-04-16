@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ResponsivePath.Logging;
 using Sitecore.Mvc.Pipelines.MvcEvents.Exception;
-using StreamEnergy.Logging;
 
 namespace StreamEnergy.Pipelines
 {
@@ -19,7 +19,7 @@ namespace StreamEnergy.Pipelines
             {
                 logger.Record(new LogEntry
                 {
-                    Severity = Logging.Severity.FatalError,
+                    Severity = ResponsivePath.Logging.Severity.FatalError,
                     Message = "Unhandled exception",
                     Exception = args.ExceptionContext.Exception
                 });

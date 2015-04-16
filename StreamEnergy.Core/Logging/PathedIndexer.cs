@@ -1,43 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Sitecore.Data.Items;
 
 namespace StreamEnergy.Logging
 {
-    public class PathedIndexer : ILogIndexer
+    class PathedIndexer : ResponsivePath.Logging.PathedIndexer
     {
-        private readonly System.Collections.Specialized.NameValueCollection paths;
-
         public PathedIndexer([Dependency("settings")]Item settingsItem)
+            : base(ReadNameValueColllection(settingsItem))
         {
-            paths = ((Sitecore.Data.Fields.NameValueListField)settingsItem.Fields["Indexes"]).NameValues;
         }
 
-        public Task IndexData(LogEntry logEntry)
+        private static System.Collections.Specialized.NameValueCollection ReadNameValueColllection(Item settingsItem)
         {
-            var jsonTokenized = JToken.Parse(JsonConvert.SerializeObject(logEntry));
+            var paths = ((Sitecore.Data.Fields.NameValueListField)settingsItem.Fields["Indexes"]).NameValues;
+            var result = new NameValueCollection();
             foreach (var indexKey in paths.AllKeys)
             {
                 foreach (var path in paths.GetValues(indexKey))
                 {
-                    try
-                    {
-                        var values = jsonTokenized.SelectTokens(System.Web.HttpUtility.UrlDecode(path), false);
-                        foreach (var value in values)
-                        {
-                            logEntry.Indexes.Add(indexKey, value.ToString());
-                        }
-                    }
-                    catch { }
+                    result.Add(indexKey, System.Web.HttpUtility.UrlDecode(path));
                 }
             }
-            return Task.FromResult<object>(null);
+
+            return result;
         }
     }
 }

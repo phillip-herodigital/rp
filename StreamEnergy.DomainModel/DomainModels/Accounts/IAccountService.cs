@@ -44,5 +44,8 @@ namespace StreamEnergy.DomainModels.Accounts
         Task<bool> GetAccountUsageDetails(Account account, DateTime startDate, DateTime endDate, bool forceRefresh);
 
         Task<bool> ChangePlan(Account account, string oldPlanId, string newPlanId, string newChildPlanId);
+
+        Task<Account> FindAccountForEsn(string esn, string lastName);
+        Task<bool> ActivateEsn(string accountNumber, string esn);
     }
 }
