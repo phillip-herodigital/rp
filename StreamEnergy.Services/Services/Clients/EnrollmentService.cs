@@ -9,8 +9,9 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.DomainModels;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 using System.Collections.Specialized;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.Services.Clients
 {

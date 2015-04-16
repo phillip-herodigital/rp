@@ -11,7 +11,7 @@ using Microsoft.Practices.Unity;
 using StackExchange.Redis;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Accounts.Create;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 using StreamEnergy.Services.Clients;
 using StreamEnergy.Unity;
 
@@ -41,7 +41,8 @@ namespace StreamEnergy.UserMigration.Kubra
 
             var container = new UnityContainer();
             container.RegisterInstance<MembershipProvider>(Membership.Provider);
-            container.RegisterType<ILogger, SimpleLogger>();
+            container.RegisterType<ILogConfiguration, LogConfiguration>();
+            container.RegisterType<ILogger, Logger>();
             container.RegisterType<IDatabase, SimpleStringRedisFake>();
             container.RegisterType<ISet<ILocationAdapter>>(new ContainerControlledLifetimeManager(), new InjectionFactory(uc => new HashSet<ILocationAdapter>
                 {

@@ -24,7 +24,7 @@ using System.Data.SqlClient;
 using System.Data;
 using EmailFactory = Sitecore.Modules.EmailCampaign.Factory;
 using System.Collections.Specialized;
-using StreamEnergy.Logging;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -474,7 +474,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                      orderby username
                                      select username).ToArray();
 
-                    success = await emailService.SendEmail(new Guid("{AA8CAFBB-AE0C-4B5C-A748-3AE702FA4C4C}"), request.Email.Address, new NameValueCollection() {
+                    success = await emailService.SendEmail(new Guid("{126E9D71-C90B-4D06-AEE8-979F92BC772C}"), request.Email.Address, new NameValueCollection() {
                         {"usernames", string.Join(", ", usernames)}
                     });
                 }

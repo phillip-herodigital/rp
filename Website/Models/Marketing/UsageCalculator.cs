@@ -12,6 +12,8 @@ namespace StreamEnergy.MyStream.Models.Marketing
 
         public bool ShowBillScrape { get; set; }
 
+        public bool ShowManualCalculator { get; set; }
+
         public bool IsModal { get; set; }
 
         [Required(ErrorMessage = "Username Required")]

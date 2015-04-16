@@ -48,6 +48,7 @@ namespace StreamEnergy.MyStream.Controllers
             var model = new StreamEnergy.MyStream.Models.Marketing.UsageCalculator()
             {
                 ShowBillScrape = Request.QueryString["mode"] == "connect",
+                ShowManualCalculator = Request.QueryString["manual"] == "true",
                 IsModal      = GetValueFromCurrentRenderingParameters("IsModal") != null &&
                                GetValueFromCurrentRenderingParameters("IsModal").Length > 0 && 
                                Boolean.Parse(GetValueFromCurrentRenderingParameters("IsModal"))
@@ -235,8 +236,9 @@ namespace StreamEnergy.MyStream.Controllers
                 }
 
                 // Send the email
+                var fromAddress = Sitecore.Configuration.Settings.GetSetting("DynEtc.fromAddress", null);
                 MailMessage Message = new MailMessage();
-                Message.From = new MailAddress(Email, Name);
+                Message.From = new MailAddress(fromAddress, Name);
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Contact Form Submission";
                 Message.IsBodyHtml = true;
@@ -250,7 +252,7 @@ namespace StreamEnergy.MyStream.Controllers
                     "<br />Reason: " + Reason +
                     "<br /> Comments: " + Comment;
 
-                this.emailService.SendEmail(Message);
+                this.emailService.SendDynEmailSyncronous(Message);
 
                 // Send the success message back to the page
                 var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
@@ -304,8 +306,9 @@ namespace StreamEnergy.MyStream.Controllers
                 var ToEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Commercial Quote Email Address").Value;
 
                 // Send the email
+                var fromAddress = Sitecore.Configuration.Settings.GetSetting("DynEtc.fromAddress", null);
                 MailMessage Message = new MailMessage();
-                Message.From = new MailAddress(Email, Name);
+                Message.From = new MailAddress(fromAddress, Name);
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Commerical Quote Request";
                 Message.IsBodyHtml = true;
@@ -319,7 +322,7 @@ namespace StreamEnergy.MyStream.Controllers
                     "<br />Agent ID: " + AgentId;
 
                 // Intentionally letting the Task go - this sends async to the user's request.
-                this.emailService.SendEmail(Message);
+                this.emailService.SendDynEmailSyncronous(Message);
 
                 // Send the success message back to the page
                 var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
@@ -415,6 +418,11 @@ namespace StreamEnergy.MyStream.Controllers
             var parametersAsString = rc.Rendering.Properties["Parameters"];
             var parameters = HttpUtility.ParseQueryString(parametersAsString);
             return parameters[parameterName];
+        }
+
+        public ActionResult SimActivation()
+        {
+            return View("~/Views/Components/Marketing/Mobile/Mobile SIM Activation.cshtml");
         }
     }
 }
