@@ -3220,11 +3220,21 @@ article.marketing.validate-esn {
         }
     }
 }
+article.sim-activation-intro {
+    > .wrapper {
+        padding: 20px 0 0;
+        h1 {
+            margin-bottom: 15px;
+        }
+    }
+}
 div.mobile.sim-activation {
+    background: image-url('marketing/redesign/footer-section-bottom-rule.png') center top repeat-x;
+    margin-top: 30px;
     > .wrapper {
         padding-top: 60px;
         margin-top: -40px;
-        background: url('../i/marketing/redesign/Modules/module_background.png') no-repeat center top;
+        text-align: center;
     }
     header {
         h1 {
@@ -3232,12 +3242,45 @@ div.mobile.sim-activation {
         }
     }
     h2 {
-        color: #2f9bce;
-        font-style: italic;
+        color: #00a3e0;
+        font-size: 48px;
+        margin-bottom: 0;
+    }
+    .intro {
+        font-size: 20px;
     }
     label {
-        font-size: 20px;
-        font-weight: 600;
+        color: #00a3e0;
+        font-size: 36px;
+    }
+    .col {
+        padding: 15px 0;
+        &.gsm {
+            border-right: 2px solid #00a3e0;
+            @include breakpoint(small-medium) {
+                border-right: none;
+            }
+        }
+    }
+    .or-text {
+        font-size: 24px;
+        font-weight: 400;
+        text-transform: uppercase;
+        width: 66px;
+        height: 66px;
+        border-radius: 33px;
+        line-height: 66px;
+        background-color: #00a3e0;
+        text-align: center;
+        color: #a9d7f1;
+        letter-spacing: 0;
+        position: absolute;
+        left: 50%;
+        margin-left: -36px;
+        top: 15px;
+        @include breakpoint(small-medium) {
+            display: none;
+        }
     }
     .alert {
         background-image: none;
@@ -3294,28 +3337,38 @@ div.mobile.sim-activation {
             z-index: 1;
         }
     }
-    .btn-group-options {
-        border-spacing: 7px;
-        margin: 10px -7px; 
+    .btn-group-options { 
+        position: relative;
+        width: 100%;
+        border-spacing: 0;
+        margin: 20px 0 0;
         .button {
             position: relative;
             color: #333;
-            @include background-image(linear-gradient(to top, #f7f7f7 0%, #fff 100%));
+            @include background-image(none);
+            background-color: #fff;
             border: 1px solid $enrollment-light-border-color;
             vertical-align: middle;
             font-size: 27px;
             font-weight: normal;
             text-transform: none;
-            padding: 25px 90px 10px;
-            margin: 0 7px;
-            @include border-radius(5px);
+            padding: 25px 0;
+            width: 78%;
+            @include border-radius(0);
             @include box-shadow(none);
-            i {
+            img {
                 display: block;
                 margin: 0 auto;
+                max-width: 90%;
+            }
+            &.gsm-button {
+                border: 1px solid #00a3e0;
+            }
+            &.cdma-button {
+                border: 1px solid #f99d25;
             }
         }
-        @include breakpoint(small) {
+        @include breakpoint(small-medium) {
             width: 100%;
             margin-left: 0;
             .button {
@@ -3328,22 +3381,19 @@ div.mobile.sim-activation {
             }
         }
     }
-    aside {
-        border-left: 1px solid #e2e1e2;
+    .questions {
+        color: #333333;
         h4 {
-            font-size: 18px;
+            font-size: 34px;
+            font-weight: 300;
+            margin-bottom: 30px;
         }
-        .questions {
-            i {
-                float: left;
-                margin-right: 15px;
-            }
-            padding-left: 20px;
-            .contact-specialists {
-                color: #3487b8;
-                font-style: italic;
-                font-size: 24px;
-            }
+        .contact-specialists {
+            font-size: 20px;
+        }
+        .phone {
+            color: #00a3e0;
+            font-size: 30px;
         }
     }
     .activate-form {
