@@ -464,9 +464,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
 
-            var resultData = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
-            await GenerateEndOfEnrollmentScreenshot(resultData);
-            return resultData;
+            return ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         [HttpPost]
@@ -523,17 +521,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var resultData = ClientData();
 
-            await GenerateEndOfEnrollmentScreenshot(resultData);
-
-            return ClientData();
-        }
-
-        private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)
-        {
-            if (redisDatabase != null && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
+            if (redisDatabase != null)
             {
                 await redisDatabase.ListRightPushAsync("EnrollmentScreenshots", StreamEnergy.Json.Stringify(resultData));
             }
+
+            return resultData;
         }
 
         [HttpGet]
