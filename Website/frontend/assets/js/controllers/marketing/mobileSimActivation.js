@@ -29,7 +29,7 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', '$m
 
         $http({
             method: 'POST',
-            url: '/api/MobileActivation/LookupAccountByEsn',
+            url: '/api/mobileActivation/lookupAccountByEsn',
             data: {  
                 activationCode: $scope.activation.code, 
                 lastName: $scope.activation.lastName
@@ -58,7 +58,7 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', '$m
 
         $http({
             method: 'POST',
-            url: '/api/MobileActivation/ActivateEsn',
+            url: '/api/mobileActivation/activateEsn',
             data: {  
                 activationCode: $scope.activation.code, 
                 accountNumber: $scope.account.accountNumber
@@ -70,7 +70,6 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', '$m
         .success(function (data, status, headers, config) {
             $scope.isLoading = false;
             if (data) {
-                $scope.account = data;
                 $scope.activeState = 'step4';
             } else {
                 $scope.activateServiceError = true;

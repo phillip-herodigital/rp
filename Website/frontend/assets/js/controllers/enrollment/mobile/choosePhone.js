@@ -110,7 +110,13 @@
         if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '' && $scope.mobileEnrollmentSettings.validateSprintEsn) {
             $scope.esnInvalid = true;
             $scope.esnError = false;
-            $http.post('/api/enrollment/validateEsn', $scope.phoneOptions.imeiNumber, { transformRequest: function (code) { return JSON.stringify(code); } })
+            var convertedImei = null;
+            // do the hex conversion for CDMA MEID/ESN-DEC
+            if ($scope.phoneOptions.imeiNumber.length == 14) {
+                convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber);
+            }
+
+            $http.post('/api/enrollment/validateEsn', convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
                 var esnResponse = JSON.parse(data);
                 if (esnResponse != 'success') {
@@ -230,8 +236,8 @@
             };
         }
         else {
-            // do the hex conversion for CDMA iPhone MEID/ESN-DEC
-            if (mobileEnrollmentService.selectedNetwork.value == "sprint" && $scope.phoneOptions.make.make == "Apple" && $scope.phoneOptions.imeiNumber.length == 14) {
+            // do the hex conversion for CDMA MEID/ESN-DEC
+            if (mobileEnrollmentService.selectedNetwork.value == "sprint" && $scope.phoneOptions.imeiNumber.length == 14) {
                 $scope.phoneOptions.imeiNumber = convertToMEIDDec($scope.phoneOptions.imeiNumber);
             }
 
