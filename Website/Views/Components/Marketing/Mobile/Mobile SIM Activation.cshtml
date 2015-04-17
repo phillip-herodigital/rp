@@ -1,10 +1,17 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.SimActivation
+@using StreamEnergy.Extensions;
 
 <div ng-controller="MobileSimActivationCtrl">
     <article class="marketing full-html mobile sim-activation-intro">
         <div class="wrapper">
             <div ng-show="activeState == 'step1'">
                 @Html.Sitecore().Field("Header")
+            </div>
+            <div ng-show="activeState == 'step2'">
+                @Html.Sitecore().Field("Header 2")
+            </div>
+            <div ng-show="activeState == 'step3'">
+                @Html.Sitecore().Field("Header 3")
             </div>
             <div class="header-logo cdma-logo" ng-show="activeState == 'step2CDMA'">
                 @Html.Sitecore().Field("CDMA Button Image")
@@ -48,30 +55,26 @@
                 </footer>
             </article>
 
-            <div ng-show="activeState == 'step2'">
+            <div ng-show="activeState == 'step2' && !lookupAccountError">
                 <div class="step-intro">
                     @Html.Sitecore().Field("Step 2 Intro")
                 </div>
-                <article class="enrollment__box form activate-form">
-                    <form data-val-bind-messages="validations" ng-submit="lookupAccount()">
+                <form ng-submit="lookupAccount()">
+                    @Html.ValidationSummary()
+                    <article class="enrollment__box form activate-form">
                         <header>
                             <h1>@Html.Sitecore().Field("Step 2 Header")</h1>
                         </header>
                         <div class="content" loading-indicator>
-                            <div class="notice error" ng-show="lookupAccountError">
-                                @Html.Sitecore().Field("Lookup Account Error Text")
-                            </div>
                             <div class="grid">
                                 <div class="col col-first">
                                     <div class="item" @Html.Validation().ErrorClass(m => m.ActivationCode)>
                                         <label for="@Html.IdFor(m => m.ActivationCode)">@Html.Sitecore().Field("Activation Code Text")</label>
-                                        @Html.TextBoxFor(m => m.ActivationCode, new { ng_model = "activation.code" })
-                                        @Html.ValidationMessageFor(model => model.ActivationCode)
+                                        @Html.TextBoxFor(m => m.ActivationCode, new { ng_model = "activation.code", placeholder = Html.Sitecore().Field("Activation Code Placeholder"), data_val_required = @Html.Sitecore().Field("Activation Code Required") })
                                     </div>
                                     <div class="item" @Html.Validation().ErrorClass(m => m.LastName)>
                                         <label for="@Html.IdFor(m => m.LastName)" class="last-name">@Html.Sitecore().Field("Last Name Text")</label>
-                                        @Html.TextBoxFor(m => m.LastName, new { ng_model = "activation.lastName" })
-                                        @Html.ValidationMessageFor(model => model.LastName)
+                                        @Html.TextBoxFor(m => m.LastName, new { ng_model = "activation.lastName", placeholder = Html.Sitecore().Field("Last Name Placeholder"), data_val_required = @Html.Sitecore().Field("Last Name Required") })
                                     </div>
                                 </div>
                                 <div class="col col-last">
@@ -85,7 +88,20 @@
                                 <button type="button" class="button tertiary" ng-click="activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
                             </div>
                         </footer>
-                    </form>
+                    </article>
+                </form>
+            </div>
+
+            <div ng-show="lookupAccountError">
+                <article class="enrollment__box form  activate-form">
+                    <div class="content lookup-error">
+                        @Html.Sitecore().Field("Lookup Account Error Text")
+                    </div>
+                    <footer>
+                        <div class="buttons">
+                            <button type="button" class="button tertiary" ng-click="lookupAccountError = false">@Html.Sitecore().Field("Back Button Text")</button>
+                        </div>
+                    </footer>
                 </article>
             </div>
 
@@ -104,14 +120,13 @@
                             </div>
                             <div class="account-info">
                                 <strong>@Html.Sitecore().Field("Name Label Text")</strong> <span class="gsm-color">{{ account.firstName }} {{ account.lastName }}</span><br />
-                                <strong>@Html.Sitecore().Field("Phone Label Text")</strong> <span class="gsm-color">{{ account.phoneNumber | phone }}</span>
+                                <div ng-if="account.phoneNumber"><strong>@Html.Sitecore().Field("Phone Label Text")</strong> <span class="gsm-color">{{ account.phoneNumber | phone }}</span></div>
                             </div>
                             <hr class="content-divider" />
-                            <div>
+                            <div ng-if="account.phoneNumber">
                                 @Html.Sitecore().Field("Step 3 Box 1")
                             </div>
-                            <hr class="content-divider" />
-                            <div>
+                            <div ng-if="!account.phoneNumber">
                                 @Html.Sitecore().Field("Step 3 Box 2")
                             </div>
                         </div>
@@ -197,3 +212,15 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="networkUnlocking/att">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - Unlock ATT")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - Unlock ATT")
+        </div>
+    </div>
+</script>

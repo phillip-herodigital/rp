@@ -3338,14 +3338,6 @@ div.mobile.sim-activation {
         }
         ul {
             list-style: none;
-            padding-left: 2px;
-            margin-bottom: 0;
-            li {
-                @include retina-background('gray-check.png', 'icon');
-                background-repeat: no-repeat;
-                background-position-y: 14px;
-                padding: 8px 0 8px 20px;
-            }
         }
     }
     .activation-step {
@@ -3455,11 +3447,29 @@ div.mobile.sim-activation {
             font-size: 14px;
             font-weight: 600;
         }
+        .col {
+            padding: 0;
+        }
+        .col-first {
+            vertical-align: bottom;
+        }
         .col-last {
             text-align: center;
         }
         h3 {
             color: $mobile-gsm-color;
+        }
+        .lookup-error {
+            text-align: center;
+            h2 {
+                font-size: 36px;
+                margin-top: 36px;
+            }
+            h3 {
+                font-size: 28px;
+                color: #333333;
+                margin: 14px 0 28px;
+            }
         }
         &.confirmation {
             p {
@@ -3470,6 +3480,20 @@ div.mobile.sim-activation {
             }
             img {
                 max-width: 100%;
+            }
+        }
+    }
+    .alert-error {
+        text-align: left;
+        margin: 50px 0 -50px;
+        ul {
+            padding: 0 0 5px 20px;
+            margin-bottom: 0;
+            background-color: $mobile-cdma-color;
+            li {
+                padding: 5px 0 0;
+                color: #ffffff;
+                font-size: 24px;
             }
         }
     }
