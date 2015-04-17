@@ -3226,6 +3226,22 @@ article.sim-activation-intro {
         h1 {
             margin-bottom: 15px;
         }
+        .header-logo {
+            text-align: center;
+            background: #fff;
+            width: 40%;
+            padding: 20px;
+            margin: 55px auto -80px;
+            &.cdma-logo {
+                border: 1px solid $mobile-cdma-color;
+            }
+            &.gsm-logo {
+                border: 1px solid $mobile-gsm-color;
+            }
+            @include breakpoint(small) {
+                width: 90%;
+            }
+        }
     }
 }
 div.mobile.sim-activation {
@@ -3236,13 +3252,38 @@ div.mobile.sim-activation {
         margin-top: -40px;
         text-align: center;
     }
+    a {
+        color: $mobile-gsm-color;
+    }
     header {
         h1 {
             font-size: 24px;
         }
     }
+    .content {
+        font-size: 18px;
+        h3 {
+            font-size: 24px;
+            margin-bottom: -5px;
+        }
+        ul {
+            list-style: none;
+            li {
+                @include retina-background('circle-check.png', 'icon');
+                background-repeat: no-repeat;
+                background-position-y: 9px;
+                padding: 8px 0 8px 40px;
+            }
+        }
+        p {
+            margin: 20px 40px;
+        }
+        .gsm-color {
+            color: $mobile-gsm-color;
+        }
+    }
     h2 {
-        color: #00a3e0;
+        color: $mobile-gsm-color;
         font-size: 48px;
         margin-bottom: 0;
     }
@@ -3250,16 +3291,23 @@ div.mobile.sim-activation {
         font-size: 20px;
     }
     label {
-        color: #00a3e0;
+        color: $mobile-gsm-color;
         font-size: 36px;
     }
     .col {
         padding: 15px 0;
         &.gsm {
-            border-right: 2px solid #00a3e0;
+            border-right: 2px solid $mobile-gsm-color;
             @include breakpoint(small-medium) {
                 border-right: none;
             }
+        }
+    }
+    .step-intro {
+        margin: 40px 20px -40px;
+        h2 {
+            text-align: left;
+            font-size: 34px;
         }
     }
     .or-text {
@@ -3270,7 +3318,7 @@ div.mobile.sim-activation {
         height: 66px;
         border-radius: 33px;
         line-height: 66px;
-        background-color: #00a3e0;
+        background-color: $mobile-gsm-color;
         text-align: center;
         color: #a9d7f1;
         letter-spacing: 0;
@@ -3304,7 +3352,13 @@ div.mobile.sim-activation {
         font-size: 18px;
     }
     .account-info {
+        font-size: 14px;
         line-height: 1.8;
+    }
+    .enrollment__box {
+        margin-top: 60px;
+        border-color: $mobile-gsm-color;
+        text-align: left;
     }
     .btn-group-arrow {
         position: relative;
@@ -3322,13 +3376,11 @@ div.mobile.sim-activation {
 
         &:after {
             border-color: rgba(255, 255, 255, 0);
-            border-bottom-color: #fff;
+            border-bottom-color: #f3f3f3;
             border-width: 15px;
             margin-left: -15px;
         }
         &:before {
-            border-color: rgba(200, 200, 200, 0);
-            border-bottom-color: #e1e1e1;
             border-width: 16px;
             margin-left: -16px;
         }
@@ -3362,10 +3414,10 @@ div.mobile.sim-activation {
                 max-width: 90%;
             }
             &.gsm-button {
-                border: 1px solid #00a3e0;
+                border: 1px solid $mobile-gsm-color;
             }
             &.cdma-button {
-                border: 1px solid #f99d25;
+                border: 1px solid $mobile-cdma-color;
             }
         }
         @include breakpoint(small-medium) {
@@ -3386,56 +3438,38 @@ div.mobile.sim-activation {
         h4 {
             font-size: 34px;
             font-weight: 300;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .contact-specialists {
             font-size: 20px;
         }
         .phone {
-            color: #00a3e0;
+            color: $mobile-gsm-color;
             font-size: 30px;
         }
     }
     .activate-form {
         label {
             display: block;
-            font-size: 16px;
-        }
-        input {
-            width: 100%;
+            color: #333333;
+            font-size: 14px;
+            font-weight: 600;
         }
         .col-last {
             text-align: center;
         }
+        h3 {
+            color: $mobile-gsm-color;
+        }
         &.confirmation {
-            .next-steps {
-                font-size: 20px;
-                font-weight: 400;
-                margin-bottom: 0;
+            p {
+                margin-left: 0;
             }
-            ol {
+            ul {
                 padding-left: 0;
-                margin-top: 5px;
-                counter-reset: item;
-                li {
-                    font-size: 18px;
-                    margin: 0;
-                    padding: 0.5em 0 0.5em 1.5em;
-                    text-indent: -1.5em;
-                    list-style-type: none;
-                    counter-increment: item;
-                    a {
-                        font-weight: bold;
-                    }
-                    &:before {
-                        display: inline-block;
-                        width: 1em;
-                        padding-right: 0.5em;
-                        font-weight: bold;
-                        text-align: right;
-                        content: counter(item) ".";
-                    }
-                }
+            }
+            img {
+                max-width: 100%;
             }
         }
     }
@@ -3444,6 +3478,13 @@ div.mobile.sim-activation {
             float: left;
             padding-left: 0;
             font-weight: 300;
+            color: $mobile-gsm-color;
+        }
+    }
+    .data-intro {
+        margin: 30px 0 -30px;
+        h3 {
+            font-size: 24px;
         }
     }
     .data-box {
@@ -3453,6 +3494,7 @@ div.mobile.sim-activation {
         .btn-group-options {
             border-spacing: 7px;
             margin: 10px -7px; 
+            text-align: center;
             .button {
                 position: relative;
                 color: #333;
@@ -3464,7 +3506,7 @@ div.mobile.sim-activation {
                 text-transform: none;
                 padding: 15px 0;
                 margin: 0 7px;
-                width: 30.8%;
+                width: 25%;
                 @include border-radius(5px);
                 @include box-shadow(none);
                 i {
@@ -3472,8 +3514,7 @@ div.mobile.sim-activation {
                     margin-right: 5px;
                 }
                 &.active {
-                    border: 2px solid #3189bb;
-                    color: #3189bb;
+                    border: 1px solid $mobile-gsm-color;
                 }
             }
             @include breakpoint(small-medium) {
@@ -3491,48 +3532,55 @@ div.mobile.sim-activation {
         }
         .btn-phone-type {
             &:after, &:before {
-                bottom: -23px;
+                bottom: -25px;
             }
         }
         .phone-instructions {
-            .content-divider {
-                margin: 20px -20px;
+            background-color: #f3f3f3;
+            margin: 24px -20px -20px;
+            padding: 5px 240px 20px;
+            h4 {
+                color: $mobile-gsm-color;
+                font-size: 24px;
             }
-            .instructions-header {
+            h5 {
+                color: $mobile-gsm-color;
                 font-size: 18px;
-                font-weight: 600;
-            }
-            .instructions-footnote {
-                font-size: 16px
-            }
-            ol {
-                padding-left: 25px;
-                li {
-                    font-size: 18px;
-                    padding: 5px 0;
-                }
+                margin: 40px 0 0;
             }
             ul {
-                padding-left: 25px;
-                list-style-type: circle;
-                li {
-                    padding: 4px 0;
-                }
-            }
-            p {
-                font-size: 18px;
-            }
-            &.apple {
-                ul li {
-                    font-size: 16px;
-                }
-            }
-            &.android {
+                padding-left: 0;
                 ul {
-                    padding-left: 0;
-                    list-style-type: none;
+                    padding-top: 5px;
+                    li {
+                        @include retina-background('arrow-right-black.png', 'icon');
+                        background-repeat: no-repeat;
+                        background-position-y: 10px;
+                        padding: 2px 0 2px 20px
+                    }
                 }
             }
+            .instructions-note {
+                font-size: 14px;
+                margin: 0;
+                padding: 10px 0;
+                line-height: 1.5;
+            }
+            .instructions-footnote {
+                font-size: 12px;
+                font-style: italic;
+                margin: 0;
+                padding: 10px 0;
+                font-weight: normal;
+            }
+            @include breakpoint(small-medium) {
+                padding: 5px 20px 20px;
+            }
+        }
+        footer {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 400;
         }
     }
 }
