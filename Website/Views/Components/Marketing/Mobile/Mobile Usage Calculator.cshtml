@@ -47,15 +47,16 @@
         </div>
         <script type="text/ng-template" id="connect.tpl.html">
             <div class="login" ng-show="!connected">
+                @Html.Sitecore().Field("Connect Account Intro Text")
                 <div class="selectCarrier clearfix">
+                    <h2>@Html.Sitecore().Field("Connect Account Header")</h2>
                     <div class="selectCarrierText col pull-left">
-                        <h4>@Html.Sitecore().Field("Select Carrier")</h4>
-                        <p>@Html.Sitecore().Field("Select Carrier Text")</p>
+                        <h4>@Html.Sitecore().Field("Select Current Carrier")</h4>
                     </div>
                     <div class="col pull-right">
                         <ul class="network-toggle">
                             <li ng-repeat="item in serverData.carriers">
-                                <a href="" ng-class="{active: connect.carrier == item.key}" ng-click="connect.carrier = item.key">
+                                <a href="" class="{{item.key}}" ng-class="{active: connect.carrier == item.key}" ng-click="connect.carrier = item.key">
                                     {{ item.name }}
                                     @*<i ng-class="{'icon-att': item.key == 'att','icon-sprint': item.key == 'sprint','icon-verizon': item.key == 'vzw','icon-tmobile': item.key == 'tmo'}"></i>*@
                                 </a>
@@ -63,47 +64,53 @@
                         </ul>
                     </div>
                 </div>
-                <div class="selectCarrier clearfix">
+                @*<div class="selectCarrier clearfix">
                     @Html.Sitecore().Field("Bill Analysis Text")
-                </div>
+                </div>*@
                 <div class="stretch coming-soon" ng-if="connect.carrier && !getCarrier(connect.carrier).showLogin">
                     @Html.Sitecore().Field("Carrier Coming Soon")
                 </div>
                 <form ng-if="connect.carrier && getCarrier(connect.carrier).showLogin" ng-submit="callValidas()" data-val-bind-messages="validations">
+                    {{validations}}
                     <div class="stretch loginFields">
-                        @Html.Sitecore().Field("Log In Text")
-                        <div class="notice error" ng-show="validasErrors" ng-cloak>
-                            <p ng-repeat="error in validasErrors">{{ error }}</p>
+                        <div class="clearfix">
+                            <div class="note-text">
+                                @Html.Sitecore().Field("Note Text")
+                            </div>
+                            <p @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
+                                @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "connect.acceptTermsCheckbox" }) <label for="@Html.IdFor(m => m.AgreeToTerms)">@Html.Sitecore().Field("Agree text")</label>
+                            </p>
+                            @Html.Sitecore().Field("Log In Text")
+                            <div class="notice error" ng-show="validasErrors" ng-cloak>
+                                <p ng-repeat="error in validasErrors">{{ error }}</p>
+                            </div>
+                            @Html.ValidationSummary()
                         </div>
-                        @Html.ValidationSummary()
                         <div class="group">
                             <div class="item" @Html.Validation().ErrorClass(model => model.Username)>
                                 <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username")</label>
                                 @Html.TextBoxFor(m => m.Username, new { ng_model = "connect.username" })
                                 @Html.ValidationMessageFor(model => model.Username)
-                                <span class="note">@Html.Sitecore().Field("Forgot Username Link", new { text = @Html.Sitecore().Field("Forgot Username") })</span>
                             </div>
                             <div class="item" @Html.Validation().ErrorClass(model => model.Password)>
                                 <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password")</label>
                                 @Html.PasswordFor(m => m.Password, new { ng_model = "connect.password" })
                                 @Html.ValidationMessageFor(model => model.Password)
-                                <span class="note">@Html.Sitecore().Field("Forgot Password Link", new { text = @Html.Sitecore().Field("Forgot Password") })</span>
                             </div>
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Security Question")</label>
-                                <input type="password" ng-model="connect.securityAnswer">
-                                <span class="note">@Html.Sitecore().Field("Security Question Link", new { text = @Html.Sitecore().Field("Cant Remember Security Question") })</span>
+                            <div class="item" ng-if="connect.carrier == 'vzw'" @Html.Validation().ErrorClass(model => model.SecurityQuestionAnswer)>
+                                <label for="@Html.IdFor(m => m.SecurityQuestionAnswer)">@Html.Sitecore().Field("Security Question")</label>
+                                @Html.PasswordFor(m => m.SecurityQuestionAnswer, new { ng_model = "connect.securityAnswer" })
                             </div>
+                            <div class="item disallowed-account">
+                                @Html.Sitecore().Field("Disallowed Account Text")
+                            </div>
+                            <span class="note forgot-username-password" ng-if="connect.carrier == 'att'">@Html.Sitecore().Field("ATT Forgot Username or Password")</span>
+                            <span class="note forgot-username-password" ng-if="connect.carrier == 'sprint'">@Html.Sitecore().Field("Sprint Forgot Username or Password")</span>
+                            <span class="note forgot-username-password" ng-if="connect.carrier == 'vzw'">@Html.Sitecore().Field("Verizon Forgot Username or Password")</span>
+                            <span class="note forgot-username-password" ng-if="connect.carrier == 'tmo'">@Html.Sitecore().Field("TMobile Forgot Username or Password")</span>
                         </div>
                     </div>
                     <div class="buttons">
-                        <div class="item pull-left">
-                            <ul class="checkbox-list">
-                                <li @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
-                                    @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "connect.acceptTermsCheckbox" }) <label for="@Html.IdFor(m => m.AgreeToTerms)">@Html.Sitecore().Field("Agree text")</label>
-                                </li>
-                            </ul>
-                        </div>
                         <button type="submit" data-val-submit>@Html.Sitecore().Field("Calculate Savings")</button>
                     </div>
                 </form>
@@ -367,7 +374,7 @@
                                 <span ng-bind="connect.validas.tradeInValue | currency"></span>
                             </div>
                         </div>                        
-                        <div class="table-row" ng-show="showBreakdown">
+                        <div class="table-row net-savings" ng-show="showBreakdown">
                             <div class="table-cell label">
                                 @Html.Sitecore().Field("Net Savings Cost")
                             </div>
@@ -428,6 +435,12 @@
                 </div>
                 <div class="grid">
                     <div class="col left clearfix">
+                        <div class="pull-right">
+                            <select ng-model="manualCalculator.timeframe.emails" style="width: 90px;">
+                                <option value="month">Month</option>
+                                <option value="day">Day</option>
+                            </select>
+                        </div>
                         <div class="icon pull-left">
                             <i class="icon-email-small"></i>
                         </div>
@@ -437,7 +450,7 @@
                         </div>
                     </div>
                     <div class="col right">
-                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.emails"></div>
+                        <div class="slider" ui-slider="getSliderOptions('emails')" ng-model="manualCalculator.emails"></div>
                         <div class="sliderLabels">
                             <span class="none">@Html.Sitecore().Field("Email None Text")</span>
                             <span class="some">@Html.Sitecore().Field("Email Some Text")</span>
@@ -447,6 +460,12 @@
                 </div>
                 <div class="grid">
                     <div class="col left clearfix">
+                        <div class="pull-right">
+                            <select ng-model="manualCalculator.timeframe.pictures" style="width: 90px;">
+                                <option value="month">Month</option>
+                                <option value="day">Day</option>
+                            </select>
+                        </div>
                         <div class="icon pull-left">
                             <i class="icon-picture"></i>
                         </div>
@@ -456,7 +475,7 @@
                         </div>
                     </div>
                     <div class="col right">
-                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.pictures"></div>
+                        <div class="slider" ui-slider="getSliderOptions('pictures')" ng-model="manualCalculator.pictures"></div>
                         <div class="sliderLabels">
                             <span class="none">@Html.Sitecore().Field("Pictures None Text")</span>
                             <span class="some">@Html.Sitecore().Field("Pictures Some Text")</span>
@@ -466,6 +485,12 @@
                 </div>
                 <div class="grid">
                     <div class="col left clearfix">
+                        <div class="pull-right">
+                            <select ng-model="manualCalculator.timeframe.music" style="width: 90px;">
+                                <option value="month">Month</option>
+                                <option value="day">Day</option>
+                            </select>
+                        </div>
                         <div class="icon pull-left">
                             <i class="icon-music"></i>
                         </div>
@@ -475,7 +500,7 @@
                         </div>
                     </div>
                     <div class="col right">
-                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.music"></div>
+                        <div class="slider" ui-slider="getSliderOptions('music')" ng-model="manualCalculator.music"></div>
                         <div class="sliderLabels">
                             <span class="none">@Html.Sitecore().Field("Music None Text")</span>
                             <span class="some">@Html.Sitecore().Field("Music Some Text")</span>
@@ -485,6 +510,12 @@
                 </div>
                 <div class="grid">
                     <div class="col left clearfix">
+                        <div class="pull-right">
+                            <select ng-model="manualCalculator.timeframe.video" style="width: 90px;">
+                                <option value="month">Month</option>
+                                <option value="day">Day</option>
+                            </select>
+                        </div>
                         <div class="icon pull-left">
                             <i class="icon-video"></i>
                         </div>
@@ -494,7 +525,7 @@
                         </div>
                     </div>
                     <div class="col right">
-                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.video"></div>
+                        <div class="slider" ui-slider="getSliderOptions('video')" ng-model="manualCalculator.video"></div>
                         <div class="sliderLabels">
                             <span class="none">@Html.Sitecore().Field("Video None Text")</span>
                             <span class="some">@Html.Sitecore().Field("Video Some Text")</span>
@@ -504,6 +535,12 @@
                 </div>
                 <div class="grid">
                     <div class="col left clearfix">
+                        <div class="pull-right">
+                            <select ng-model="manualCalculator.timeframe.surfing" style="width: 90px;">
+                                <option value="month">Month</option>
+                                <option value="day">Day</option>
+                            </select>
+                        </div>
                         <div class="icon pull-left">
                             <i class="icon-web"></i>
                         </div>
@@ -513,7 +550,7 @@
                         </div>
                     </div>
                     <div class="col right">
-                        <div class="slider" ui-slider="sliderOptions" ng-model="manualCalculator.surfing"></div>
+                        <div class="slider" ui-slider="getSliderOptions('surfing')" ng-model="manualCalculator.surfing"></div>
                         <div class="sliderLabels">
                             <span class="none">@Html.Sitecore().Field("Web Surfing None Text")</span>
                             <span class="some">@Html.Sitecore().Field("Web Surfing Some Text")</span>

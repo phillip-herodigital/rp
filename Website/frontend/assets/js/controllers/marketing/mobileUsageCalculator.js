@@ -1,4 +1,4 @@
-ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', '$timeout', function ($scope, $http, $location, $timeout) {
 
     // Main Functionality
     // --------------------------------------------------
@@ -246,7 +246,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', f
     $scope.$watch('manualCalculator', function(newVal, oldVal) {
         var subtotal = 0;
         for(var key in $scope.serverData.dataMultipliers) {
-            subtotal += ( $scope.serverData.dataMultipliers[key] * $scope.sliderVals[$scope.manualCalculator[key]] )
+            subtotal += ($scope.serverData.dataMultipliers[key] * $scope.manualCalculator[key] * (($scope.manualCalculator.timeframe[key] == "day") ? 30 : 1))
         }
         $scope.calculatorTotal = subtotal * $scope.manualCalculator.lines;
     }, true);
@@ -315,15 +315,73 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', f
             pictures: 0,
             music: 0,
             video: 0,
-            surfing: 0
+            surfing: 0,
+            timeframe: {
+                emails: 'month',
+                pictures: 'month',
+                music: 'month',
+                video: 'month',
+                surfing: 'month'
+            }
         };
 
-        $scope.sliderOptions = {
-            orientation: 'horizontal',
-            min: 0,
-            max: 2,
-            range: 'min'
+        $scope.getSliderOptions = function (type) {
+            var ret = {
+                orientation: 'horizontal',
+                min: 0,
+                max: (type == "music" || type == "video") ? 3600 : 3000,
+                step: (type == "music" || type == "video") ? 60 : 20,
+                range: 'min'
+            };
+            if ($scope.manualCalculator.timeframe[type] == "day") {
+                ret.max = (type == "music" || type == "video") ? 120 : 100;
+                ret.step = 2;
+            }
+            return ret;
+        }
+        
+        $scope.getSliderLabel = function (type, midOrMax) {
+            var ret;
+            if ($scope.manualCalculator.timeframe[type] == "day") {
+                switch(type) {
+                    case "music":
+                    case "video":
+                        ret = 1;
+                        break;
+                    default:
+                        ret = 50;
+                        break;
+                }
+            } else {
+                switch (type) {
+                    case "music":
+                    case "video":
+                        ret = 30;
+                        break;
+                    default:
+                        ret = 1500;
+                        break;
+                }
+            }
+
+            if (midOrMax == "max") {
+                ret = ret * 2;
+            }
+            return ret;
         };
+        $scope.$watch('manualCalculator.timeframe', function (newVal, oldVal) {
+            $timeout(function () {
+                for (var i = 0, type; type = ['emails', 'pictures', 'music', 'video', 'surfing'][i]; i++) {
+                    if (newVal[type] != oldVal[type]) {
+                        if (newVal[type] == "day") {
+                            $scope.manualCalculator[type] = $scope.manualCalculator[type] / 30;
+                        } else {
+                            $scope.manualCalculator[type] = $scope.manualCalculator[type] * 30;
+                        }
+                    }
+                }
+            }, 1);
+        }, true);
 
         $scope.showBreakdown = true;
         $scope.formData = {

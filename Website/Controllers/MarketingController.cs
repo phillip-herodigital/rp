@@ -152,7 +152,8 @@ namespace StreamEnergy.MyStream.Controllers
                 {
                     ActivationFee = planRecommendationItem.Fields["ATT Activation Fee"].Value,
                     ExtraLineFee = planRecommendationItem.Fields["ATT Extra Line Fee"].Value
-                }
+                },
+                url = "http://www.att.com",
             });
             carriers.Add(new
             {
@@ -164,19 +165,22 @@ namespace StreamEnergy.MyStream.Controllers
                 {
                     ActivationFee = planRecommendationItem.Fields["ATT Activation Fee"].Value,
                     ExtraLineFee = planRecommendationItem.Fields["ATT Extra Line Fee"].Value
-                }
+                },
+                url = "http://www.sprint.com",
             });
             carriers.Add(new
             {
                 key = "vzw",
                 name = planRecommendationItem.Fields["Verizon"].Value,
-                showLogin = !String.IsNullOrEmpty(planRecommendationItem.Fields["Show Verizon Login"].Value)
+                showLogin = !String.IsNullOrEmpty(planRecommendationItem.Fields["Show Verizon Login"].Value),
+                url = "http://www.verizonwireless.com",
             });
             carriers.Add(new
             {
                 key = "tmo",
                 name = planRecommendationItem.Fields["TMobile"].Value,
-                showLogin = !String.IsNullOrEmpty(planRecommendationItem.Fields["Show TMobile Login"].Value)
+                showLogin = !String.IsNullOrEmpty(planRecommendationItem.Fields["Show TMobile Login"].Value),
+                url = "http://www.t-mobile.com",
             });
 
             var sliderValues = new List<string>();
