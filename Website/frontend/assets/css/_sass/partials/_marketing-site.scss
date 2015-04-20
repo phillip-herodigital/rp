@@ -2852,13 +2852,20 @@ article.mobile-support {
 }
 
 article.mobile.mobile-plans-usage-calculator {
-    
+    p.blue {
+        color: #1593CD;
+    }
     h1 {
         p {
             .blue {
                 color: #1593CD;
             }
         }
+    }
+    h2 {
+        margin-top: 0;
+        padding-top: .5em;
+        border-top: 2px solid #dedede;
     }
 
     p {
@@ -2882,6 +2889,27 @@ article.mobile.mobile-plans-usage-calculator {
         
         .login {
             margin-bottom: 10px;
+            p {
+                font-size: 18px;
+                strong {
+                    font-size: 24px;
+                }
+            }
+            .select-carrier {
+                vertical-align: middle;
+                h2 {
+                    font-weight: bold;
+                    font-style: italic;
+                    margin-bottom: 10px;
+                }
+                h4 {
+                    margin: 12px 40px 0 0;
+                    font-size: 24px;
+                    font-style: italic;
+                    font-weight: 500;
+                }
+            }
+            
             h4 {
                 margin: 0 0 10px 0;
             }
@@ -2907,6 +2935,15 @@ article.mobile.mobile-plans-usage-calculator {
                         //margin-top: -1px;
                         border: 2px solid #3189bb;
                         padding: 0 14px;
+                        &.sprint {
+                            border-color: #ffe100;
+                        }
+                        &.tmo {
+                            border-color: #e00075;
+                        }
+                        &.vzw {
+                            border-color: #ee1c25;
+                        }
                     }
                 }
             }
@@ -2923,12 +2960,49 @@ article.mobile.mobile-plans-usage-calculator {
             form {
                 padding-bottom: 10px;
                 .loginFields {
-                    margin-top: 10px;
-                    margin-bottom: 10px;
+                    margin: 20px -20px;
                     padding: $module-vertical-padding $module-horizontal-padding;
                     background-color: #fbfbfc;
                     border-top: 1px solid #ccc;
                     border-bottom: 1px solid #ccc;
+                    width: auto;
+                    .terms {
+                        margin-top: 0;
+                        font-size: 14px;
+                    }
+                    h3 {
+                        font-size: 22px;
+                        font-style: italic;
+                        font-weight: bold;
+                        margin-bottom: 0
+                    }
+                    .item {
+                        margin-top: 10px;
+                        padding: 0 10px 0 0;
+                    }
+                    .note-text {
+                        @include border-radius(10px);
+                        margin-bottom: 1em;
+                        padding: 15px;
+                        background: #eaeaeb;
+                        border: 1px solid #a7a9ac;
+                        font-size: 18px;
+                    }
+                    .disallowed-account {
+                        margin-left: 15px;
+                        p {
+                            margin: 0;
+                            font-style: italic;
+                        }
+                    }
+                    .forgot-username-password {
+                        color: #3691bb;
+                        clear: both;
+                        padding-top: 5px;
+                    }
+                    .notice {
+                        max-width: 90%;
+                    }
                 }
                 .buttons {
                     p {
@@ -2968,7 +3042,10 @@ article.mobile.mobile-plans-usage-calculator {
                 background-position: 20px center;
                 background-repeat: no-repeat;
             }
-
+            .net-savings {
+                @include border-radius(10px);
+                border: 3px solid #00a8e1;
+            }
         }
 
         .manual-calculator {
@@ -3023,6 +3100,13 @@ article.mobile.mobile-plans-usage-calculator {
                 text-align: center;
                 @include breakpoint(small) {
                     display: none;
+                }
+            }
+
+            .data-description {
+                max-width: 57%;
+                @include breakpoint(small) {
+                    max-width: 100%;
                 }
             }
 
@@ -3199,6 +3283,9 @@ article.mobile.mobile-plans-usage-calculator {
             .single-cell {
                 display: table-caption;
                 background: rgb(220, 220, 220);
+                &.table-footnote {
+                    background: #ffffff;
+                }
             }
         }
 
