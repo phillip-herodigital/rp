@@ -48,12 +48,12 @@
         <script type="text/ng-template" id="connect.tpl.html">
             <div class="login" ng-show="!connected">
                 @Html.Sitecore().Field("Connect Account Intro Text")
-                <div class="selectCarrier clearfix">
+                <div class="select-carrier clearfix">
                     <h2>@Html.Sitecore().Field("Connect Account Header")</h2>
                     <div class="selectCarrierText col pull-left">
                         <h4>@Html.Sitecore().Field("Select Current Carrier")</h4>
                     </div>
-                    <div class="col pull-right">
+                    <div class="col pull-left">
                         <ul class="network-toggle">
                             <li ng-repeat="item in serverData.carriers">
                                 <a href="" class="{{item.key}}" ng-class="{active: connect.carrier == item.key}" ng-click="connect.carrier = item.key">
@@ -72,42 +72,42 @@
                 </div>
                 <form ng-if="connect.carrier && getCarrier(connect.carrier).showLogin" ng-submit="callValidas()" data-val-bind-messages="validations">
                     {{validations}}
-                    <div class="stretch loginFields">
-                        <div class="clearfix">
-                            <div class="note-text">
-                                @Html.Sitecore().Field("Note Text")
-                            </div>
-                            <p @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
-                                @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "connect.acceptTermsCheckbox" }) <label for="@Html.IdFor(m => m.AgreeToTerms)">@Html.Sitecore().Field("Agree text")</label>
-                            </p>
-                            @Html.Sitecore().Field("Log In Text")
+                    <div class="loginFields grid cols-2">
+                        <div class="group col two-third">
                             <div class="notice error" ng-show="validasErrors" ng-cloak>
                                 <p ng-repeat="error in validasErrors">{{ error }}</p>
                             </div>
                             @Html.ValidationSummary()
-                        </div>
-                        <div class="group">
+                            <div @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
+                                <p class="terms">
+                                    @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "connect.acceptTermsCheckbox" }) <label for="@Html.IdFor(m => m.AgreeToTerms)">@Html.Sitecore().Field("Agree text")</label>
+                                </p>
+                            </div>
+                            @Html.Sitecore().Field("Log In Text")
                             <div class="item" @Html.Validation().ErrorClass(model => model.Username)>
                                 <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username")</label>
                                 @Html.TextBoxFor(m => m.Username, new { ng_model = "connect.username" })
-                                @Html.ValidationMessageFor(model => model.Username)
                             </div>
                             <div class="item" @Html.Validation().ErrorClass(model => model.Password)>
                                 <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password")</label>
                                 @Html.PasswordFor(m => m.Password, new { ng_model = "connect.password" })
-                                @Html.ValidationMessageFor(model => model.Password)
                             </div>
                             <div class="item" ng-if="connect.carrier == 'vzw'" @Html.Validation().ErrorClass(model => model.SecurityQuestionAnswer)>
                                 <label for="@Html.IdFor(m => m.SecurityQuestionAnswer)">@Html.Sitecore().Field("Security Question")</label>
                                 @Html.PasswordFor(m => m.SecurityQuestionAnswer, new { ng_model = "connect.securityAnswer" })
                             </div>
-                            <div class="item disallowed-account">
-                                @Html.Sitecore().Field("Disallowed Account Text")
-                            </div>
                             <span class="note forgot-username-password" ng-if="connect.carrier == 'att'">@Html.Sitecore().Field("ATT Forgot Username or Password")</span>
                             <span class="note forgot-username-password" ng-if="connect.carrier == 'sprint'">@Html.Sitecore().Field("Sprint Forgot Username or Password")</span>
                             <span class="note forgot-username-password" ng-if="connect.carrier == 'vzw'">@Html.Sitecore().Field("Verizon Forgot Username or Password")</span>
                             <span class="note forgot-username-password" ng-if="connect.carrier == 'tmo'">@Html.Sitecore().Field("TMobile Forgot Username or Password")</span>
+                        </div>
+                        <div class="col one-third">
+                            <div class="note-text">
+                                @Html.Sitecore().Field("Note Text")
+                            </div>
+                            <div class="item disallowed-account">
+                                @Html.Sitecore().Field("Disallowed Account Text")
+                            </div>
                         </div>
                     </div>
                     <div class="buttons">
@@ -402,6 +402,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="plan-table">
+                        <div class="table-row single-cell table-footnote">
+                            <div class="full-row">
+                                @Html.Sitecore().Field("Trade In Note")
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </script>
@@ -444,7 +451,7 @@
                         <div class="icon pull-left">
                             <i class="icon-email-small"></i>
                         </div>
-                        <div class="pull-left">
+                        <div class="pull-left data-description">
                             @Html.Sitecore().Field("Emails Sent Received")<br />
                             @Html.Sitecore().Field("No Attachments Text")
                         </div>
@@ -469,7 +476,7 @@
                         <div class="icon pull-left">
                             <i class="icon-picture"></i>
                         </div>
-                        <div class="pull-left">
+                        <div class="pull-left data-description">
                             @Html.Sitecore().Field("Uploaded Pictures")<br />
                             @Html.Sitecore().Field("Posting Pictures Text")
                         </div>
@@ -494,7 +501,7 @@
                         <div class="icon pull-left">
                             <i class="icon-music"></i>
                         </div>
-                        <div class="pull-left">
+                        <div class="pull-left data-description">
                             @Html.Sitecore().Field("Streaming Music")<br />
                             @Html.Sitecore().Field("Music Services Text")
                         </div>
@@ -519,7 +526,7 @@
                         <div class="icon pull-left">
                             <i class="icon-video"></i>
                         </div>
-                        <div class="pull-left">
+                        <div class="pull-left data-description">
                             @Html.Sitecore().Field("Stream Video")<br />
                             @Html.Sitecore().Field("Stream Services Text")
                         </div>
@@ -544,7 +551,7 @@
                         <div class="icon pull-left">
                             <i class="icon-web"></i>
                         </div>
-                        <div class="pull-left">
+                        <div class="pull-left data-description">
                             @Html.Sitecore().Field("Web Surfing")<br />
                             @Html.Sitecore().Field("Web Pages Text")
                         </div>
