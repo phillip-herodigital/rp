@@ -3121,7 +3121,21 @@ article.mobile.mobile-plans-usage-calculator {
                     max-width: 100%;
                 }
             }
-
+            .slider-tick {
+                width: 2px;
+                background-color: #ccc;
+                height: 100%;
+                position: absolute;
+                &.slider-tick-25 {
+                    left: 25%;
+                }
+                &.slider-tick-50 {
+                    left: 50%;
+                }
+                &.slider-tick-75 {
+                    left: 75%;
+                }
+            }
             .sliderLabels {
                 margin-top: 10px;
                 text-align: center;
