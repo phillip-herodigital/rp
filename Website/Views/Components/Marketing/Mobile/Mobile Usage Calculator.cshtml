@@ -39,6 +39,7 @@
                         ng-repeat="tab in tabs"
                         ng-class="{active:isActiveTab(tab.url)}"
                         ng-click="onClickTab(tab)">{{tab.title}}</li>
+                    <li class="tab inactive" ng-if="tabs.length < 2"></li>
                 </ul>
             }
             <div class="content" loading-indicator>

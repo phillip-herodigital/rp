@@ -2880,8 +2880,11 @@ article.mobile.mobile-plans-usage-calculator {
 
     .tab-wrapper {
         @include border-radius(5px);
-        border: 1px solid #ccc;     
+        border: 1px solid #ccc;
         overflow: hidden;
+        .inactive {
+            cursor: default;
+        }
     }
 
     .content {
