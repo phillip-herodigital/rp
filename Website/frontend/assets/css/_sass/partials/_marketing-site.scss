@@ -3081,6 +3081,9 @@ article.mobile.mobile-plans-usage-calculator {
                     border: 1px solid #f0f0f0;
                     background-color: #FBFBFB;
                     @include background-image(linear-gradient(to top, #F1F1F1 0%, #FFF 100%));
+                    &:hover {
+                        cursor: pointer;
+                    }
                     @include breakpoint(small) {
                         padding-left: 12px;
                         padding-right: 12px;
