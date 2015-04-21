@@ -603,6 +603,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Success = true
                 });
 
+                // try to update the password if it has been set
+                if (!string.IsNullOrEmpty(request.CurrentPassword))
+                {
+                    var passwordChanged = currentUser.ChangePassword(request.CurrentPassword, request.Password);
+                    if (!passwordChanged)
+                    {
+                        var val = new ValidationResult("Current Password Incorrect", new[] { "CurrentPassword" });
+                        validations = validations.Concat(new[] { val }); 
+                        var errorResponse = Request.CreateResponse(new UpdateOnlineAccountResponse
+                        {
+                            Success = false,
+                            Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("My Online Account Information"))
+                        });
+                        return errorResponse;
+                    }
+                }
+
                 // update the username
                 if (!string.IsNullOrEmpty(request.Username))
                 {
@@ -625,12 +642,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     customer.EmailAddress = request.Email.Address;
                     await accountService.UpdateCustomer(customer);
                 }                
-
-                // update the password if it has been set
-                if (!string.IsNullOrEmpty(request.CurrentPassword))
-                {
-                    currentUser.ChangePassword(request.CurrentPassword, request.Password);
-                }
 
                 // update the challeges
                 if (request.Challenges != null && request.Challenges.Any(c => !string.IsNullOrEmpty(c.Answer)))

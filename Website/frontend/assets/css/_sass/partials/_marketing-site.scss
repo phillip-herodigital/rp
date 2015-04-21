@@ -2852,13 +2852,20 @@ article.mobile-support {
 }
 
 article.mobile.mobile-plans-usage-calculator {
-    
+    p.blue {
+        color: #1593CD;
+    }
     h1 {
         p {
             .blue {
                 color: #1593CD;
             }
         }
+    }
+    h2 {
+        margin-top: 0;
+        padding-top: .5em;
+        border-top: 2px solid #dedede;
     }
 
     p {
@@ -2882,6 +2889,27 @@ article.mobile.mobile-plans-usage-calculator {
         
         .login {
             margin-bottom: 10px;
+            p {
+                font-size: 18px;
+                strong {
+                    font-size: 24px;
+                }
+            }
+            .select-carrier {
+                vertical-align: middle;
+                h2 {
+                    font-weight: bold;
+                    font-style: italic;
+                    margin-bottom: 10px;
+                }
+                h4 {
+                    margin: 12px 40px 0 0;
+                    font-size: 24px;
+                    font-style: italic;
+                    font-weight: 500;
+                }
+            }
+            
             h4 {
                 margin: 0 0 10px 0;
             }
@@ -2907,6 +2935,15 @@ article.mobile.mobile-plans-usage-calculator {
                         //margin-top: -1px;
                         border: 2px solid #3189bb;
                         padding: 0 14px;
+                        &.sprint {
+                            border-color: #ffe100;
+                        }
+                        &.tmo {
+                            border-color: #e00075;
+                        }
+                        &.vzw {
+                            border-color: #ee1c25;
+                        }
                     }
                 }
             }
@@ -2923,12 +2960,49 @@ article.mobile.mobile-plans-usage-calculator {
             form {
                 padding-bottom: 10px;
                 .loginFields {
-                    margin-top: 10px;
-                    margin-bottom: 10px;
+                    margin: 20px -20px;
                     padding: $module-vertical-padding $module-horizontal-padding;
                     background-color: #fbfbfc;
                     border-top: 1px solid #ccc;
                     border-bottom: 1px solid #ccc;
+                    width: auto;
+                    .terms {
+                        margin-top: 0;
+                        font-size: 14px;
+                    }
+                    h3 {
+                        font-size: 22px;
+                        font-style: italic;
+                        font-weight: bold;
+                        margin-bottom: 0
+                    }
+                    .item {
+                        margin-top: 10px;
+                        padding: 0 10px 0 0;
+                    }
+                    .note-text {
+                        @include border-radius(10px);
+                        margin-bottom: 1em;
+                        padding: 15px;
+                        background: #eaeaeb;
+                        border: 1px solid #a7a9ac;
+                        font-size: 18px;
+                    }
+                    .disallowed-account {
+                        margin-left: 15px;
+                        p {
+                            margin: 0;
+                            font-style: italic;
+                        }
+                    }
+                    .forgot-username-password {
+                        color: #3691bb;
+                        clear: both;
+                        padding-top: 5px;
+                    }
+                    .notice {
+                        max-width: 90%;
+                    }
                 }
                 .buttons {
                     p {
@@ -2968,7 +3042,10 @@ article.mobile.mobile-plans-usage-calculator {
                 background-position: 20px center;
                 background-repeat: no-repeat;
             }
-
+            .net-savings {
+                @include border-radius(10px);
+                border: 3px solid #00a8e1;
+            }
         }
 
         .manual-calculator {
@@ -3023,6 +3100,13 @@ article.mobile.mobile-plans-usage-calculator {
                 text-align: center;
                 @include breakpoint(small) {
                     display: none;
+                }
+            }
+
+            .data-description {
+                max-width: 57%;
+                @include breakpoint(small) {
+                    max-width: 100%;
                 }
             }
 
@@ -3199,6 +3283,9 @@ article.mobile.mobile-plans-usage-calculator {
             .single-cell {
                 display: table-caption;
                 background: rgb(220, 220, 220);
+                &.table-footnote {
+                    background: #ffffff;
+                }
             }
         }
 
@@ -3220,24 +3307,115 @@ article.marketing.validate-esn {
         }
     }
 }
+article.sim-activation-intro {
+    > .wrapper {
+        padding: 20px 0 0;
+        h1 {
+            margin-bottom: 15px;
+        }
+        .header-logo {
+            text-align: center;
+            background: #fff;
+            width: 40%;
+            padding: 20px;
+            margin: 55px auto -80px;
+            &.cdma-logo {
+                border: 1px solid $mobile-cdma-color;
+            }
+            &.gsm-logo {
+                border: 1px solid $mobile-gsm-color;
+            }
+            @include breakpoint(small) {
+                width: 90%;
+            }
+        }
+    }
+}
 div.mobile.sim-activation {
+    background: image-url('marketing/redesign/footer-section-bottom-rule.png') center top repeat-x;
+    margin-top: 30px;
     > .wrapper {
         padding-top: 60px;
         margin-top: -40px;
-        background: url('../i/marketing/redesign/Modules/module_background.png') no-repeat center top;
+        text-align: center;
+    }
+    a {
+        color: $mobile-gsm-color;
     }
     header {
         h1 {
             font-size: 24px;
         }
     }
+    .content {
+        font-size: 18px;
+        h3 {
+            font-size: 24px;
+            margin-bottom: -5px;
+        }
+        ul {
+            list-style: none;
+            li {
+                @include retina-background('circle-check.png', 'icon');
+                background-repeat: no-repeat;
+                background-position-y: 9px;
+                padding: 8px 0 8px 40px;
+            }
+        }
+        p {
+            margin: 20px 40px;
+        }
+        .gsm-color {
+            color: $mobile-gsm-color;
+        }
+    }
     h2 {
-        color: #2f9bce;
-        font-style: italic;
+        color: $mobile-gsm-color;
+        font-size: 48px;
+        margin-bottom: 0;
+    }
+    .intro {
+        font-size: 20px;
     }
     label {
-        font-size: 20px;
-        font-weight: 600;
+        color: $mobile-gsm-color;
+        font-size: 36px;
+    }
+    .col {
+        padding: 15px 0;
+        &.gsm {
+            border-right: 2px solid $mobile-gsm-color;
+            @include breakpoint(small-medium) {
+                border-right: none;
+            }
+        }
+    }
+    .step-intro {
+        margin: 40px 20px -40px;
+        h2 {
+            text-align: left;
+            font-size: 34px;
+        }
+    }
+    .or-text {
+        font-size: 24px;
+        font-weight: 400;
+        text-transform: uppercase;
+        width: 66px;
+        height: 66px;
+        border-radius: 33px;
+        line-height: 66px;
+        background-color: $mobile-gsm-color;
+        text-align: center;
+        color: #a9d7f1;
+        letter-spacing: 0;
+        position: absolute;
+        left: 50%;
+        margin-left: -36px;
+        top: 15px;
+        @include breakpoint(small-medium) {
+            display: none;
+        }
     }
     .alert {
         background-image: none;
@@ -3247,21 +3425,19 @@ div.mobile.sim-activation {
         }
         ul {
             list-style: none;
-            padding-left: 2px;
-            margin-bottom: 0;
-            li {
-                @include retina-background('gray-check.png', 'icon');
-                background-repeat: no-repeat;
-                background-position-y: 14px;
-                padding: 8px 0 8px 20px;
-            }
         }
     }
     .activation-step {
         font-size: 18px;
     }
     .account-info {
+        font-size: 14px;
         line-height: 1.8;
+    }
+    .enrollment__box {
+        margin-top: 60px;
+        border-color: $mobile-gsm-color;
+        text-align: left;
     }
     .btn-group-arrow {
         position: relative;
@@ -3279,13 +3455,11 @@ div.mobile.sim-activation {
 
         &:after {
             border-color: rgba(255, 255, 255, 0);
-            border-bottom-color: #fff;
+            border-bottom-color: #f3f3f3;
             border-width: 15px;
             margin-left: -15px;
         }
         &:before {
-            border-color: rgba(200, 200, 200, 0);
-            border-bottom-color: #e1e1e1;
             border-width: 16px;
             margin-left: -16px;
         }
@@ -3294,28 +3468,38 @@ div.mobile.sim-activation {
             z-index: 1;
         }
     }
-    .btn-group-options {
-        border-spacing: 7px;
-        margin: 10px -7px; 
+    .btn-group-options { 
+        position: relative;
+        width: 100%;
+        border-spacing: 0;
+        margin: 20px 0 0;
         .button {
             position: relative;
             color: #333;
-            @include background-image(linear-gradient(to top, #f7f7f7 0%, #fff 100%));
+            @include background-image(none);
+            background-color: #fff;
             border: 1px solid $enrollment-light-border-color;
             vertical-align: middle;
             font-size: 27px;
             font-weight: normal;
             text-transform: none;
-            padding: 25px 90px 10px;
-            margin: 0 7px;
-            @include border-radius(5px);
+            padding: 25px 0;
+            width: 78%;
+            @include border-radius(0);
             @include box-shadow(none);
-            i {
+            img {
                 display: block;
                 margin: 0 auto;
+                max-width: 90%;
+            }
+            &.gsm-button {
+                border: 1px solid $mobile-gsm-color;
+            }
+            &.cdma-button {
+                border: 1px solid $mobile-cdma-color;
             }
         }
-        @include breakpoint(small) {
+        @include breakpoint(small-medium) {
             width: 100%;
             margin-left: 0;
             .button {
@@ -3328,65 +3512,79 @@ div.mobile.sim-activation {
             }
         }
     }
-    aside {
-        border-left: 1px solid #e2e1e2;
+    .questions {
+        color: #333333;
         h4 {
-            font-size: 18px;
+            font-size: 34px;
+            font-weight: 300;
+            margin-bottom: 20px;
         }
-        .questions {
-            i {
-                float: left;
-                margin-right: 15px;
-            }
-            padding-left: 20px;
-            .contact-specialists {
-                color: #3487b8;
-                font-style: italic;
-                font-size: 24px;
-            }
+        .contact-specialists {
+            font-size: 20px;
+        }
+        .phone {
+            color: $mobile-gsm-color;
+            font-size: 30px;
         }
     }
     .activate-form {
         label {
             display: block;
-            font-size: 16px;
+            color: #333333;
+            font-size: 14px;
+            font-weight: 600;
         }
-        input {
-            width: 100%;
+        .col {
+            padding: 0;
+        }
+        .col-first {
+            vertical-align: bottom;
         }
         .col-last {
             text-align: center;
         }
+        h3 {
+            color: $mobile-gsm-color;
+        }
+        .lookup-error {
+            text-align: center;
+            h2 {
+                font-size: 36px;
+                margin-top: 36px;
+            }
+            h3 {
+                font-size: 28px;
+                color: #333333;
+                margin: 14px 0 28px;
+            }
+        }
         &.confirmation {
-            .next-steps {
-                font-size: 20px;
-                font-weight: 400;
-                margin-bottom: 0;
+            p {
+                margin-left: 0;
             }
-            ol {
+            ul {
                 padding-left: 0;
-                margin-top: 5px;
-                counter-reset: item;
-                li {
-                    font-size: 18px;
-                    margin: 0;
-                    padding: 0.5em 0 0.5em 1.5em;
-                    text-indent: -1.5em;
-                    list-style-type: none;
-                    counter-increment: item;
-                    a {
-                        font-weight: bold;
-                    }
-                    &:before {
-                        display: inline-block;
-                        width: 1em;
-                        padding-right: 0.5em;
-                        font-weight: bold;
-                        text-align: right;
-                        content: counter(item) ".";
-                    }
-                }
             }
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+    .alert-error {
+        margin-bottom: 15px;
+        border-radius: 15px;
+        padding: 20px 30px 20px 45px;
+        background-repeat: no-repeat;
+        background-position: 15px 24px;
+        position: relative;
+        border: 1px solid #f4a88e;
+        background-color: #fbded4;
+        @include retina-background('error.png', 'icon');
+        text-align: left;
+        margin: 60px 0 -40px;
+        ul {
+            padding: 0;
+            margin: 0;
         }
     }
     footer {
@@ -3394,6 +3592,13 @@ div.mobile.sim-activation {
             float: left;
             padding-left: 0;
             font-weight: 300;
+            color: $mobile-gsm-color;
+        }
+    }
+    .data-intro {
+        margin: 30px 0 -30px;
+        h3 {
+            font-size: 24px;
         }
     }
     .data-box {
@@ -3403,6 +3608,7 @@ div.mobile.sim-activation {
         .btn-group-options {
             border-spacing: 7px;
             margin: 10px -7px; 
+            text-align: center;
             .button {
                 position: relative;
                 color: #333;
@@ -3414,7 +3620,7 @@ div.mobile.sim-activation {
                 text-transform: none;
                 padding: 15px 0;
                 margin: 0 7px;
-                width: 30.8%;
+                width: 25%;
                 @include border-radius(5px);
                 @include box-shadow(none);
                 i {
@@ -3422,8 +3628,7 @@ div.mobile.sim-activation {
                     margin-right: 5px;
                 }
                 &.active {
-                    border: 2px solid #3189bb;
-                    color: #3189bb;
+                    border: 1px solid $mobile-gsm-color;
                 }
             }
             @include breakpoint(small-medium) {
@@ -3441,48 +3646,55 @@ div.mobile.sim-activation {
         }
         .btn-phone-type {
             &:after, &:before {
-                bottom: -23px;
+                bottom: -25px;
             }
         }
         .phone-instructions {
-            .content-divider {
-                margin: 20px -20px;
+            background-color: #f3f3f3;
+            margin: 24px -20px -20px;
+            padding: 5px 240px 20px;
+            h4 {
+                color: $mobile-gsm-color;
+                font-size: 24px;
             }
-            .instructions-header {
+            h5 {
+                color: $mobile-gsm-color;
                 font-size: 18px;
-                font-weight: 600;
-            }
-            .instructions-footnote {
-                font-size: 16px
-            }
-            ol {
-                padding-left: 25px;
-                li {
-                    font-size: 18px;
-                    padding: 5px 0;
-                }
+                margin: 40px 0 0;
             }
             ul {
-                padding-left: 25px;
-                list-style-type: circle;
-                li {
-                    padding: 4px 0;
-                }
-            }
-            p {
-                font-size: 18px;
-            }
-            &.apple {
-                ul li {
-                    font-size: 16px;
-                }
-            }
-            &.android {
+                padding-left: 0;
                 ul {
-                    padding-left: 0;
-                    list-style-type: none;
+                    padding-top: 5px;
+                    li {
+                        @include retina-background('arrow-right-black.png', 'icon');
+                        background-repeat: no-repeat;
+                        background-position-y: 10px;
+                        padding: 2px 0 2px 20px
+                    }
                 }
             }
+            .instructions-note {
+                font-size: 14px;
+                margin: 0;
+                padding: 10px 0;
+                line-height: 1.5;
+            }
+            .instructions-footnote {
+                font-size: 12px;
+                font-style: italic;
+                margin: 0;
+                padding: 10px 0;
+                font-weight: normal;
+            }
+            @include breakpoint(small-medium) {
+                padding: 5px 20px 20px;
+            }
+        }
+        footer {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 400;
         }
     }
 }
