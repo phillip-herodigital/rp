@@ -3571,17 +3571,20 @@ div.mobile.sim-activation {
         }
     }
     .alert-error {
+        margin-bottom: 15px;
+        border-radius: 15px;
+        padding: 20px 30px 20px 45px;
+        background-repeat: no-repeat;
+        background-position: 15px 24px;
+        position: relative;
+        border: 1px solid #f4a88e;
+        background-color: #fbded4;
+        @include retina-background('error.png', 'icon');
         text-align: left;
-        margin: 50px 0 -50px;
+        margin: 60px 0 -40px;
         ul {
-            padding: 0 0 5px 20px;
-            margin-bottom: 0;
-            background-color: $mobile-cdma-color;
-            li {
-                padding: 5px 0 0;
-                color: #ffffff;
-                font-size: 24px;
-            }
+            padding: 0;
+            margin: 0;
         }
     }
     footer {
