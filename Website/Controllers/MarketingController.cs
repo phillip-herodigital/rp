@@ -243,6 +243,7 @@ namespace StreamEnergy.MyStream.Controllers
                 var fromAddress = Sitecore.Configuration.Settings.GetSetting("DynEtc.fromAddress", null);
                 MailMessage Message = new MailMessage();
                 Message.From = new MailAddress(fromAddress, Name);
+                Message.ReplyToList.Add(new MailAddress(Email));
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Contact Form Submission";
                 Message.IsBodyHtml = true;
@@ -313,6 +314,7 @@ namespace StreamEnergy.MyStream.Controllers
                 var fromAddress = Sitecore.Configuration.Settings.GetSetting("DynEtc.fromAddress", null);
                 MailMessage Message = new MailMessage();
                 Message.From = new MailAddress(fromAddress, Name);
+                Message.ReplyToList.Add(new MailAddress(Email));
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Commerical Quote Request";
                 Message.IsBodyHtml = true;
