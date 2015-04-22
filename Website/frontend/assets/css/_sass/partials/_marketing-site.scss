@@ -3226,7 +3226,24 @@ article.mobile.mobile-plans-usage-calculator {
             }
 
         }
-
+        .plans-table-wrapper {
+            display: table;
+            .plans-table-two-thirds {
+                display: table-cell;
+            }
+            .plans-table-one-third {
+                display: table-cell;
+                border: 3px solid #00a8e1;
+                width: 33%;
+                vertical-align: middle;
+                padding: 0 65px;
+                font-weight: bold;
+                line-height: 1.5;
+                .blue {
+                    color: #00a8e1;
+                }
+            }
+        }
         .plan-table {
             display: table;
             table-layout: fixed;
