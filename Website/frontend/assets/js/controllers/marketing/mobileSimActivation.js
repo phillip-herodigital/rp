@@ -4,7 +4,7 @@
 ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', '$modal', function ($scope, $http, $location, $modal) {
     $scope.selectedPhone = null;
     $scope.isLoading = false;
-    $scope.activeState = 'step1';
+    $scope.activeState = $scope.simActivationSettings.activationAvailable ? 'step1' : 'activationUnavailable';
     $scope.lookupAccountError = false;
     $scope.activateServiceError = false;
     $scope.activateData = false;
