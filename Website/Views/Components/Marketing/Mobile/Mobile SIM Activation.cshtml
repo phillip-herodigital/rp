@@ -1,213 +1,213 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.SimActivation
 @using StreamEnergy.Extensions;
 
-<div ng-controller="MobileSimActivationCtrl">
-    <article class="marketing full-html mobile sim-activation-intro">
-        <div class="wrapper">
-            <div ng-show="activeState == 'step1'">
-                @Html.Sitecore().Field("Header")
+<div ng-init="simActivationSettings = @(Html.Action("SimActivationSettings", "Data").ToHtmlString());">
+    <div ng-controller="MobileSimActivationCtrl">
+        <article class="marketing full-html mobile sim-activation-intro" ng-cloak>
+            <div class="wrapper">
+                <div ng-show="activeState == 'step1' || activeState == 'activationUnavailable'">
+                    @Html.Sitecore().Field("Header")
+                </div>
+                <div ng-show="activeState == 'step2'">
+                    @Html.Sitecore().Field("Header 2")
+                </div>
+                <div ng-show="activeState == 'step3'">
+                    @Html.Sitecore().Field("Header 3")
+                </div>
+                <div class="header-logo cdma-logo" ng-show="activeState == 'step2CDMA'">
+                    @Html.Sitecore().Field("CDMA Button Image")
+                </div>
+                <div class="header-logo gsm-logo" ng-show="activeState != 'step1' && activeState != 'activationUnavailable' && activeState != 'step2CDMA'">
+                    @Html.Sitecore().Field("GSM Button Image")
+                </div>
             </div>
-            <div ng-show="activeState == 'step2'">
-                @Html.Sitecore().Field("Header 2")
-            </div>
-            <div ng-show="activeState == 'step3'">
-                @Html.Sitecore().Field("Header 3")
-            </div>
-            <div class="header-logo cdma-logo" ng-show="activeState == 'step2CDMA'">
-                @Html.Sitecore().Field("CDMA Button Image")
-            </div>
-            <div class="header-logo gsm-logo" ng-show="activeState != 'step1' && activeState != 'step2CDMA'">
-                @Html.Sitecore().Field("GSM Button Image")
-            </div>
-        </div>
-    </article>
-    
-    <div class="mobile sim-activation layout">
-        <div class="wrapper">
+        </article>
 
-            <div ng-show="activeState == 'step1'">
-                @Html.Sitecore().Field("Step 1 Intro")
-                <label>@Html.Sitecore().Field("Select Network Text")</label>
-                <div class="btn-group btn-group-options grid two">
-                    <div class="col gsm">
-                        <a href="" class="button mobile-network gsm-button" ng-model="selectedPhone" btn-radio="'gsm'">
-                            @Html.Sitecore().Field("GSM Button Image")
-                        </a>
+        <div class="mobile sim-activation layout" ng-cloak>
+            <div class="wrapper">
+                <article class="enrollment__box form" ng-show="activeState == 'activationUnavailable'">
+                    <div class="content">
+                        @Html.Sitecore().Field("Activation Unavailabe Text")
                     </div>
-                    <p class="or-text">@Html.Sitecore().Field("Or Text")</p>
-                    <div class="col">
-                        <a href="" class="button mobile-network cdma-button" ng-model="selectedPhone" btn-radio="'cdma'">
-                            @Html.Sitecore().Field("CDMA Button Image")
-                        </a>
+                </article>
+                <div ng-show="activeState == 'step1'">
+                    @Html.Sitecore().Field("Step 1 Intro")
+                    <label>@Html.Sitecore().Field("Select Network Text")</label>
+                    <div class="btn-group btn-group-options grid two">
+                        <div class="col gsm">
+                            <a href="" class="button mobile-network gsm-button" ng-model="selectedPhone" btn-radio="'gsm'">
+                                @Html.Sitecore().Field("GSM Button Image")
+                            </a>
+                        </div>
+                        <p class="or-text">@Html.Sitecore().Field("Or Text")</p>
+                        <div class="col">
+                            <a href="" class="button mobile-network cdma-button" ng-model="selectedPhone" btn-radio="'cdma'">
+                                @Html.Sitecore().Field("CDMA Button Image")
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <article class="enrollment__box form" ng-show="activeState == 'step2CDMA'">
-                <header>
-                    <h1>@Html.Sitecore().Field("Step 2 CDMA Header")</h1>
-                </header>
-                <div class="content">
-                    @Html.Sitecore().Field("Step 2 CDMA Content")
-                </div>
-                <footer>
-                    <a href="" ng-click="activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</a>
-                </footer>
-            </article>
-
-            <div ng-show="activeState == 'step2' && !lookupAccountError">
-                <div class="step-intro">
-                    @Html.Sitecore().Field("Step 2 Intro")
-                </div>
-                <form ng-submit="lookupAccount()">
-                    @Html.ValidationSummary()
-                    <article class="enrollment__box form activate-form">
-                        <header>
-                            <h1>@Html.Sitecore().Field("Step 2 Header")</h1>
-                        </header>
-                        <div class="content" loading-indicator>
-                            <div class="grid">
-                                <div class="col col-first">
-                                    <div class="item" @Html.Validation().ErrorClass(m => m.ActivationCode)>
-                                        <label for="@Html.IdFor(m => m.ActivationCode)">@Html.Sitecore().Field("Activation Code Text")</label>
-                                        @Html.TextBoxFor(m => m.ActivationCode, new { ng_model = "activation.code", placeholder = Html.Sitecore().Field("Activation Code Placeholder"), data_val_required = @Html.Sitecore().Field("Activation Code Required") })
+                <article class="enrollment__box form" ng-show="activeState == 'step2CDMA'">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Step 2 CDMA Header")</h1>
+                    </header>
+                    <div class="content">
+                        @Html.Sitecore().Field("Step 2 CDMA Content")
+                    </div>
+                    <footer>
+                        <a href="" ng-click="activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</a>
+                    </footer>
+                </article>
+                <div ng-show="activeState == 'step2' && !lookupAccountError">
+                    <div class="step-intro">
+                        @Html.Sitecore().Field("Step 2 Intro")
+                    </div>
+                    <form ng-submit="lookupAccount()">
+                        @Html.ValidationSummary()
+                        <article class="enrollment__box form activate-form">
+                            <header>
+                                <h1>@Html.Sitecore().Field("Step 2 Header")</h1>
+                            </header>
+                            <div class="content" loading-indicator>
+                                <div class="grid">
+                                    <div class="col col-first">
+                                        <div class="item" @Html.Validation().ErrorClass(m => m.ActivationCode)>
+                                            <label for="@Html.IdFor(m => m.ActivationCode)">@Html.Sitecore().Field("Activation Code Text")</label>
+                                            @Html.TextBoxFor(m => m.ActivationCode, new { ng_model = "activation.code", placeholder = Html.Sitecore().Field("Activation Code Placeholder"), data_val_required = @Html.Sitecore().Field("Activation Code Required") })
+                                        </div>
+                                        <div class="item" @Html.Validation().ErrorClass(m => m.LastName)>
+                                            <label for="@Html.IdFor(m => m.LastName)" class="last-name">@Html.Sitecore().Field("Last Name Text")</label>
+                                            @Html.TextBoxFor(m => m.LastName, new { ng_model = "activation.lastName", placeholder = Html.Sitecore().Field("Last Name Placeholder"), data_val_required = @Html.Sitecore().Field("Last Name Required") })
+                                        </div>
                                     </div>
-                                    <div class="item" @Html.Validation().ErrorClass(m => m.LastName)>
-                                        <label for="@Html.IdFor(m => m.LastName)" class="last-name">@Html.Sitecore().Field("Last Name Text")</label>
-                                        @Html.TextBoxFor(m => m.LastName, new { ng_model = "activation.lastName", placeholder = Html.Sitecore().Field("Last Name Placeholder"), data_val_required = @Html.Sitecore().Field("Last Name Required") })
+                                    <div class="col col-last">
+                                        @Html.Sitecore().Field("SIM Card Image")
                                     </div>
-                                </div>
-                                <div class="col col-last">
-                                    @Html.Sitecore().Field("SIM Card Image")
                                 </div>
                             </div>
+                            <footer>
+                                <div class="buttons">
+                                    <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Activate SIM Button Text")</button>
+                                    <button type="button" class="button tertiary" ng-click="activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
+                                </div>
+                            </footer>
+                        </article>
+                    </form>
+                </div>
+                <div ng-show="lookupAccountError">
+                    <article class="enrollment__box form  activate-form">
+                        <div class="content lookup-error">
+                            @Html.Sitecore().Field("Lookup Account Error Text")
                         </div>
                         <footer>
                             <div class="buttons">
-                                <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Activate SIM Button Text")</button>
-                                <button type="button" class="button tertiary" ng-click="activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
+                                <button type="button" class="button tertiary" ng-click="lookupAccountError = false">@Html.Sitecore().Field("Back Button Text")</button>
                             </div>
                         </footer>
                     </article>
-                </form>
-            </div>
-
-            <div ng-show="lookupAccountError">
-                <article class="enrollment__box form  activate-form">
-                    <div class="content lookup-error">
-                        @Html.Sitecore().Field("Lookup Account Error Text")
-                    </div>
-                    <footer>
-                        <div class="buttons">
-                            <button type="button" class="button tertiary" ng-click="lookupAccountError = false">@Html.Sitecore().Field("Back Button Text")</button>
-                        </div>
-                    </footer>
-                </article>
-            </div>
-
-            <div ng-show="activeState == 'step3'">
-                <div class="step-intro">
-                    @Html.Sitecore().Field("Step 3 Intro")
                 </div>
-                <article class="enrollment__box form activate-form">
-                    <form data-val-bind-messages="validations" ng-submit="activateService();">
+                <div ng-show="activeState == 'step3'">
+                    <div class="step-intro">
+                        @Html.Sitecore().Field("Step 3 Intro")
+                    </div>
+                    <article class="enrollment__box form activate-form">
+                        <form data-val-bind-messages="validations" ng-submit="activateService();">
+                            <header>
+                                <h1>@Html.Sitecore().Field("Step 3 Header")</h1>
+                            </header>
+                            <div class="content" loading-indicator>
+                                <div class="notice error" ng-show="activateServiceError">
+                                    @Html.Sitecore().Field("Activate Service Error Text")
+                                </div>
+                                <div class="account-info">
+                                    <strong>@Html.Sitecore().Field("Name Label Text")</strong> <span class="gsm-color">{{ account.firstName }} {{ account.lastName }}</span><br />
+                                    <div ng-if="account.phoneNumber"><strong>@Html.Sitecore().Field("Phone Label Text")</strong> <span class="gsm-color">{{ account.phoneNumber | phone }}</span></div>
+                                </div>
+                                <hr class="content-divider" />
+                                <div ng-if="account.phoneNumber">
+                                    @Html.Sitecore().Field("Step 3 Box 1")
+                                </div>
+                                <div ng-if="!account.phoneNumber">
+                                    @Html.Sitecore().Field("Step 3 Box 2")
+                                </div>
+                            </div>
+                            <footer>
+                                <div class="buttons">
+                                    <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Activate Service Button Text")</button>
+                                    <button type="button" class="tertiary" ng-click="activeState = 'step2'">@Html.Sitecore().Field("Back Button Text")</button>
+                                </div>
+                            </footer>
+                        </form>
+                    </article>
+                </div>
+                <div ng-show="activeState == 'step4'">
+                    <div class="step-intro">
+                        @Html.Sitecore().Field("Step 4 Intro")
+                    </div>
+                    <article class="enrollment__box activate-form confirmation">
                         <header>
-                            <h1>@Html.Sitecore().Field("Step 3 Header")</h1>
+                            <h1>@Html.Sitecore().Field("Step 4 Header")</h1>
                         </header>
-                        <div class="content" loading-indicator>
-                            <div class="notice error" ng-show="activateServiceError">
-                                @Html.Sitecore().Field("Activate Service Error Text")
-                            </div>
-                            <div class="account-info">
-                                <strong>@Html.Sitecore().Field("Name Label Text")</strong> <span class="gsm-color">{{ account.firstName }} {{ account.lastName }}</span><br />
-                                <div ng-if="account.phoneNumber"><strong>@Html.Sitecore().Field("Phone Label Text")</strong> <span class="gsm-color">{{ account.phoneNumber | phone }}</span></div>
-                            </div>
-                            <hr class="content-divider" />
-                            <div ng-if="account.phoneNumber">
-                                @Html.Sitecore().Field("Step 3 Box 1")
-                            </div>
-                            <div ng-if="!account.phoneNumber">
-                                @Html.Sitecore().Field("Step 3 Box 2")
-                            </div>
+                        <div class="content">
+                            @Html.Sitecore().Field("Step 4 Next Steps")
                         </div>
                         <footer>
                             <div class="buttons">
-                                <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Activate Service Button Text")</button>
-                                <button type="button" class="tertiary" ng-click="activeState = 'step2'">@Html.Sitecore().Field("Back Button Text")</button>
+                                <button type="submit" class="primary" ng-click="activateData = true">@Html.Sitecore().Field("Activate Data Button Text")</button>
+                                <button type="button" class="tertiary" ng-click="activeState = 'step3'">@Html.Sitecore().Field("Back Button Text")</button>
                             </div>
                         </footer>
-                    </form>
-                </article>
-            </div>
-
-            <div ng-show="activeState == 'step4'">
-                <div class="step-intro">
-                    @Html.Sitecore().Field("Step 4 Intro")
+                    </article>
                 </div>
-                <article class="enrollment__box activate-form confirmation">
-                    <header>
-                        <h1>@Html.Sitecore().Field("Step 4 Header")</h1>
-                    </header>
-                    <div class="content">
-                        @Html.Sitecore().Field("Step 4 Next Steps")
+                <div ng-show="activateData">
+                    <div class="data-intro">
+                        @Html.Sitecore().Field("Activate Data Intro")
                     </div>
-                    <footer>
-                        <div class="buttons">
-                            <button type="submit" class="primary" ng-click="activateData = true">@Html.Sitecore().Field("Activate Data Button Text")</button>
-                            <button type="button" class="tertiary" ng-click="activeState = 'step3'">@Html.Sitecore().Field("Back Button Text")</button>
+                    <article class="enrollment__box form data-box" id="activateData">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Activate Data Header")</h1>
+                        </header>
+                        <div class="content">
+                            <div class="btn-group btn-group-options">
+                                <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'apple'">
+                                    <i class="icon-apple"></i>
+                                    @Html.Sitecore().Field("Apple Text")
+                                </a>
+                                <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'android'">
+                                    <i class="icon-android"></i>
+                                    @Html.Sitecore().Field("Android Text")
+                                </a>
+                                <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'windows'">
+                                    <i class="icon-windows"></i>
+                                    @Html.Sitecore().Field("Windows Text")
+                                </a>
+                            </div>
+                            <div class="phone-instructions apple" ng-if="selectedPhone == 'apple'">
+                                @Html.Sitecore().Field("Apple Instructions")
+                            </div>
+                            <div class="phone-instructions android" ng-if="selectedPhone == 'android'">
+                                @Html.Sitecore().Field("Android Instructions")
+                            </div>
+                            <div class="phone-instructions windows" ng-if="selectedPhone == 'windows'">
+                                @Html.Sitecore().Field("Windows Instructions")
+                            </div>
                         </div>
-                    </footer>
-                </article>
-            </div>
-
-            <div ng-show="activateData">
-                <div class="data-intro">
-                    @Html.Sitecore().Field("Activate Data Intro")
+                        <footer>
+                            @Html.Sitecore().Field("Activate Data Footer")
+                        </footer>
+                    </article>
                 </div>
-                <article class="enrollment__box form data-box" id="activateData">
-                    <header>
-                        <h1>@Html.Sitecore().Field("Activate Data Header")</h1>
-                    </header>
-                    <div class="content">
-                        <div class="btn-group btn-group-options">
-                            <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'apple'">
-                                <i class="icon-apple"></i>
-                                @Html.Sitecore().Field("Apple Text")
-                            </a>
-                            <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'android'">
-                                <i class="icon-android"></i>
-                                @Html.Sitecore().Field("Android Text")
-                            </a>
-                            <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'windows'">
-                                <i class="icon-windows"></i>
-                                @Html.Sitecore().Field("Windows Text")
-                            </a>
-                        </div>
-                        <div class="phone-instructions apple" ng-if="selectedPhone == 'apple'">
-                            @Html.Sitecore().Field("Apple Instructions")
-                        </div>
-                        <div class="phone-instructions android" ng-if="selectedPhone == 'android'">
-                            @Html.Sitecore().Field("Android Instructions")
-                        </div>
-                        <div class="phone-instructions windows" ng-if="selectedPhone == 'windows'">
-                            @Html.Sitecore().Field("Windows Instructions")
-                        </div>
-                    </div>
-                    <footer>
-                        @Html.Sitecore().Field("Activate Data Footer")
-                    </footer>
-                </article>
             </div>
         </div>
-    </div>
-    <div class="mobile sim-activation layout">
-        <div class="wrapper">
-            <div class="questions">
-                <h4>@Html.Sitecore().Field("Questions Text")</h4>
-                <div class="contact-specialists">
-                    @Html.Sitecore().Field("Contact Text")
+        <div class="mobile sim-activation layout">
+            <div class="wrapper">
+                <div class="questions">
+                    <h4>@Html.Sitecore().Field("Questions Text")</h4>
+                    <div class="contact-specialists">
+                        @Html.Sitecore().Field("Contact Text")
+                    </div>
+                    <div class="phone">@Html.Sitecore().Field("Phone Number Text")</div>
                 </div>
-                <div class="phone">@Html.Sitecore().Field("Phone Number Text")</div>
             </div>
         </div>
     </div>
