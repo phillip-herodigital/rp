@@ -81,7 +81,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             category = folder.Name,
                             subCategory = subfolder.Name,
                             type = file != null ? file.MimeType : null,
-                            title = item.Fields["Title"].Value,
+                            title = System.Web.HttpUtility.HtmlEncode(item.Fields["Title"].Value),
                             description = item.Fields["Description"].Value,
                             filesize = file != null ? file.Size : 0,
                             featured = !String.IsNullOrEmpty(item.Fields["Featured"].Value),
