@@ -117,7 +117,7 @@
                     <p ng-if="!activationCtrl.uploadFile">Drag and drop CSV file here to add activation codes.</p>
                     <p ng-if="activationCtrl.uploadFile">Ready to upload: {{activationCtrl.uploadFile[0].name}}</p>
                 </div>
-                <button ng-click="activationCtrl.upload()" ng-disabled="!activationCtrl.uploadFile || activationCtrl.isLoading">Upload</button>
+                <button type="button" ng-click="activationCtrl.upload()" ng-disabled="!activationCtrl.uploadFile || activationCtrl.isLoading">Upload</button>
 
             </article>
 
