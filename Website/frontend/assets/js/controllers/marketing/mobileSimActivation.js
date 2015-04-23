@@ -1,13 +1,13 @@
 /* Mobile SIM Activation Controller
  *
  */
-ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', '$modal', function ($scope, $http, $location, $modal) {
     $scope.selectedPhone = null;
     $scope.isLoading = false;
-    $scope.activeState = 'step1';
+    $scope.activeState = $scope.simActivationSettings.activationAvailable ? 'step1' : 'activationUnavailable';
     $scope.lookupAccountError = false;
     $scope.activateServiceError = false;
-    $scope.account = {};
+    $scope.activateData = false;
 
     $scope.$watch("selectedPhone", function(newVal) { 
         if (newVal == 'gsm') {
@@ -78,6 +78,13 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', fun
             $scope.isLoading = false;
             $scope.activateServiceError = true;
         });
+    };
+
+    $scope.showUnlockingModal = function () {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'networkUnlocking/att'
+        })
     };
 
 }]);

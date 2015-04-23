@@ -111,8 +111,8 @@
             $scope.esnInvalid = true;
             $scope.esnError = false;
             var convertedImei = null;
-            // do the hex conversion for CDMA iPhone MEID/ESN-DEC
-            if ($scope.phoneOptions.make.make == "Apple" && $scope.phoneOptions.imeiNumber.length == 14) {
+            // do the hex conversion for CDMA MEID/ESN-DEC
+            if ($scope.phoneOptions.imeiNumber.length == 14) {
                 convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber);
             }
 
@@ -236,8 +236,8 @@
             };
         }
         else {
-            // do the hex conversion for CDMA iPhone MEID/ESN-DEC
-            if (mobileEnrollmentService.selectedNetwork.value == "sprint" && $scope.phoneOptions.make.make == "Apple" && $scope.phoneOptions.imeiNumber.length == 14) {
+            // do the hex conversion for CDMA MEID/ESN-DEC
+            if (mobileEnrollmentService.selectedNetwork.value == "sprint" && $scope.phoneOptions.imeiNumber.length == 14) {
                 $scope.phoneOptions.imeiNumber = convertToMEIDDec($scope.phoneOptions.imeiNumber);
             }
 

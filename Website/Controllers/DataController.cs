@@ -113,5 +113,47 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult SimActivationSettings()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/SIM Activation Options");
+
+            var weekdayStartTime = item.Fields["Weekday Start Time"].Value;
+            var weekdayEndTime = item.Fields["Weekday End Time"].Value;
+            var saturdayStartTime = item.Fields["Saturday Start Time"].Value;
+            var saturdayEndTime = item.Fields["Saturday End Time"].Value;
+            var sundayStartTime = item.Fields["Sunday Start Time"].Value;
+            var sundayEndTime = item.Fields["Sunday End Time"].Value;
+
+            bool canActivate = true;
+
+            TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+            DateTime cstTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, cstZone);
+            var dayOfWeek = cstTime.DayOfWeek;
+            var currentTime = cstTime.TimeOfDay;
+
+            if (dayOfWeek == DayOfWeek.Saturday)
+            {
+                if (!string.IsNullOrEmpty(saturdayStartTime) && (currentTime < TimeSpan.Parse(saturdayStartTime) || currentTime > TimeSpan.Parse(saturdayEndTime)))
+                    canActivate = false;
+            }
+            else if (dayOfWeek == DayOfWeek.Sunday)
+            {
+                if (!string.IsNullOrEmpty(sundayStartTime) && (currentTime < TimeSpan.Parse(sundayStartTime) || currentTime > TimeSpan.Parse(sundayEndTime)))
+                    canActivate = false;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(weekdayStartTime) && (currentTime < TimeSpan.Parse(weekdayStartTime) || currentTime > TimeSpan.Parse(weekdayEndTime)))
+                    canActivate = false;
+            }
+
+            var data = new
+            {
+                activationAvailable = canActivate,
+            };
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
     }
 }

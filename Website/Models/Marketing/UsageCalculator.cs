@@ -22,6 +22,9 @@ namespace StreamEnergy.MyStream.Models.Marketing
         [Required(ErrorMessage = "Password Required")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "Security Question Answer Required")]
+        public string SecurityQuestionAnswer { get; set; }
+
         [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public bool AgreeToTerms { get; set; }
 
