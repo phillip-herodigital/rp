@@ -52,7 +52,7 @@ namespace StreamEnergy.Data.Activation
         {
             using (var cmd = new SqlCommand(@"
 SELECT [ESN]
-  FROM [AccessCodes].[dbo].[Activation]
+  FROM [dbo].[Activation]
 WHERE [ActivationCode]=@activationCode", connection)
             {
                 Parameters = { new SqlParameter("@activationCode", activationCode) }
@@ -67,7 +67,7 @@ WHERE [ActivationCode]=@activationCode", connection)
         {
             using (var connection = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(@"
-INSERT INTO [AccessCodes].[dbo].[Activation] ([ActivationCode], [ESN])
+INSERT INTO [dbo].[Activation] ([ActivationCode], [ESN])
 VALUES (@activationCode, @esn)", connection)
             {
                 Parameters = 
