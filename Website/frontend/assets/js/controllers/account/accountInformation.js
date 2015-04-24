@@ -3,7 +3,7 @@
  */
 ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 	// create a blank object to hold the form information
-	$scope.formData = {};
+	$scope.formData = { phone : []};
 
 	// when the account selector changes, reload the data
 	$scope.$watch('selectedAccount.accountNumber', function(newVal) { 
@@ -21,11 +21,39 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 					if ($scope.formData.sameAsService) {
 						$scope.formData.serviceAddress = $scope.formData.billingAddress;
 					}
+					$scope.additionalInformation = {
+					    showAdditionalPhoneNumber: $scope.formData.phone.length > 1,
+					};
 					$scope.successMessage = false;
 					$scope.isLoading = false;
 				});
 		}
 	}); 
+
+	$scope.showAdditionalPhoneNumberChanged = function() {
+        if ($scope.additionalInformation.showAdditionalPhoneNumber) {
+            $scope.formData.phone[1] = {};
+        } else {
+            $scope.formData.phone.splice(1, 1);
+        }
+    };
+
+    // create a filter so that the same phone type can't be selected twice
+    $scope.filter1 = function(item){
+        return (!($scope.formData.phone.length > 0 && $scope.formData.phone[0].category) || item.name != $scope.formData.phone[0].category);
+    };
+
+    $scope.filter2 = function(item){
+        return (!($scope.formData.phone.length > 1 && $scope.formData.phone[1].category) || item.name != $scope.formData.phone[1].category);
+    };
+
+    $scope.filterCustomerType = function(item){
+        if ($scope.formData.customerType != 'commercial') {
+            return (item.name != 'work');
+        } else {
+            return (item.name != 'home');
+        }
+    };
 
 	// process the form
 	$scope.updateAccountInformation = function() {
@@ -35,8 +63,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 	    $scope.successMessage = $scope.errorMessage = false;
 		
 		requestData.accountNumber = $scope.selectedAccount.accountNumber;
-		requestData.mobilePhone = $scope.formData.mobilePhone;
-		requestData.homePhone = $scope.formData.homePhone;
+		requestData.phone = $scope.formData.phone;
 		requestData.email = $scope.formData.email;
 
 		if ($scope.formData.sameAsService) {

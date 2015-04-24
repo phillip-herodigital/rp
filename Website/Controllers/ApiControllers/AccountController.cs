@@ -703,13 +703,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new GetAccountInformationResponse
             {
                 CustomerName = account.Details.ContactInfo.Name,
-                MobilePhone = mobilePhone.Number,
-                HomePhone = homePhone.Number,
+                Phone = account.Details.ContactInfo.Phone,
                 Email = account.Details.ContactInfo.Email,
                 ServiceAddresses = serviceAddresses,
                 SameAsService = sameAsService,
                 BillingAddress = account.Details.BillingAddress,
                 DisablePrintedInvoices = account.Details.BillingDeliveryPreference == "Email",
+                CustomerType = account.AccountType,
             };
         }
 
@@ -725,11 +725,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 ((ISanitizable)request).Sanitize();
                 var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
                 var accountDetails = await accountService.GetAccountDetails(account, false);
-                account.Details.ContactInfo.Phone = new[] 
-                { 
-                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = request.HomePhone },
-                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = request.MobilePhone },
-                };
+                account.Details.ContactInfo.Phone = request.Phone;
                 account.Details.ContactInfo.Email = new DomainModels.Email { Address = request.Email.Address };
                 account.Details.BillingAddress = request.BillingAddress;
                 account.Details.BillingDeliveryPreference = request.DisablePrintedInvoices ? "Email" : "DirectMail";
