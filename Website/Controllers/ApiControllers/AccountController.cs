@@ -725,7 +725,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 ((ISanitizable)request).Sanitize();
                 var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
                 var accountDetails = await accountService.GetAccountDetails(account, false);
-                account.Details.ContactInfo.Phone = request.Phone;
+                var homePhone = request.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).Select(p => p.Number).FirstOrDefault();
+                var mobilePhone = request.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault();
+
+                account.Details.ContactInfo.Phone = account.Details.ContactInfo.Phone = new[] 
+                { 
+                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = homePhone != null ? homePhone : "" },
+                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = mobilePhone != null ? mobilePhone : "" },
+                };
                 account.Details.ContactInfo.Email = new DomainModels.Email { Address = request.Email.Address };
                 account.Details.BillingAddress = request.BillingAddress;
                 account.Details.BillingDeliveryPreference = request.DisablePrintedInvoices ? "Email" : "DirectMail";

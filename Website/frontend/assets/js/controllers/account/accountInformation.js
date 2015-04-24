@@ -22,7 +22,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 						$scope.formData.serviceAddress = $scope.formData.billingAddress;
 					}
 					$scope.additionalInformation = {
-					    showAdditionalPhoneNumber: $scope.formData.phone.length > 1,
+					    showAdditionalPhoneNumber: $scope.formData.phone[1].number != "",
 					};
 					$scope.successMessage = false;
 					$scope.isLoading = false;

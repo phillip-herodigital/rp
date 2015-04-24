@@ -46,7 +46,7 @@
                     <li><input type="checkbox" name="additional-phone-number" id="additional-phone-number" ng-model="additionalInformation.showAdditionalPhoneNumber" ng-change="showAdditionalPhoneNumberChanged()"><label for="additional-phone-number">@Html.Sitecore().Field("Add additional phone number")</label></li>
                 </ul>
             </div>
-            <div class="additional-field-group" ng-show="formData.phone.length > 1">
+            <div class="additional-field-group" ng-show="additionalInformation.showAdditionalPhoneNumber">
                 <div class="group">
                     @using (var secondPhone = Html.ClientRepeater(m => m.Phone, "1").Shortcut(m => (TypedPhone)m))
                     {
