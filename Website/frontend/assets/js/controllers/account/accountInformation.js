@@ -36,11 +36,8 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 		
 		requestData.accountNumber = $scope.selectedAccount.accountNumber;
 		requestData.mobilePhone = $scope.formData.mobilePhone;
+		requestData.homePhone = $scope.formData.homePhone;
 		requestData.email = $scope.formData.email;
-
-		if ($scope.formData.homePhone.number && $scope.formData.homePhone.number != '') {
-			requestData.homePhone = $scope.formData.homePhone;
-		}
 
 		if ($scope.formData.sameAsService) {
 			requestData.billingAddress = $scope.formData.serviceAddress;

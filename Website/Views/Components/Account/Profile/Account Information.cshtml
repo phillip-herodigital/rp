@@ -20,15 +20,15 @@
                 {{ formData.customerName.first }} {{ formData.customerName.last }}
             </div>
             <div class="group">
-                <div class="item group-col" @Html.Validation().ErrorClass(model => model.MobilePhone.Number) float-label>
-                    <label for="@Html.IdFor(m => m.MobilePhone.Number)">@Html.Sitecore().Field("Mobile Phone Number Text")</label>
-                    @Html.TextBoxFor(m => m.MobilePhone.Number, new { type="tel", ng_model="formData.mobilePhone.number" })
-                    @Html.ValidationMessageFor(model => model.MobilePhone.Number)
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.MobilePhone) float-label>
+                    <label for="@Html.IdFor(m => m.MobilePhone)">@Html.Sitecore().Field("Mobile Phone Number Text")</label>
+                    @Html.TextBoxFor(m => m.MobilePhone, new { type = "tel", ng_model = "formData.mobilePhone", data_val_required = "", data_val_if = "formData.homePhone == ''" })
+                    @Html.ValidationMessageFor(model => model.MobilePhone)
                 </div>
-                <div class="item group-col" @Html.Validation().ErrorClass(model => model.HomePhone.Number) float-label>
-                    <label for="@Html.IdFor(m => m.HomePhone.Number)">@Html.Sitecore().Field("Home Phone Number Text")</label>
-                    @Html.TextBoxFor(m => m.HomePhone.Number, new { type = "tel", ng_model = "formData.homePhone.number" })
-                    @Html.ValidationMessageFor(model => model.HomePhone.Number)
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.HomePhone) float-label>
+                    <label for="@Html.IdFor(m => m.HomePhone)">@Html.Sitecore().Field("Home Phone Number Text")</label>
+                    @Html.TextBoxFor(m => m.HomePhone, new { type = "tel", ng_model = "formData.homePhone", data_val_required = "", data_val_if = "formData.mobilePhone == ''" })
+                    @Html.ValidationMessageFor(model => model.HomePhone)
                 </div>
             </div>
             <div class="group">

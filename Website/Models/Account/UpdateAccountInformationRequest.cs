@@ -11,12 +11,11 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public string AccountNumber { get; set; }
 
-        [Required]
-        [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public DomainModels.Phone MobilePhone { get; set; }
+        [RegularExpression(@"^\D?([2-9]\d{2})\D?\D?(\d{3})\D?(\d{4})$", ErrorMessage = "Phone Number Invalid")]
+        public string MobilePhone { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public DomainModels.Phone HomePhone { get; set; }
+        [RegularExpression(@"^\D?([2-9]\d{2})\D?\D?(\d{3})\D?(\d{4})$", ErrorMessage = "Phone Number Invalid")]
+        public string HomePhone { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Email ")]
         public DomainModels.Email Email { get; set; }
@@ -28,10 +27,6 @@ namespace StreamEnergy.MyStream.Models.Account
 
         void ISanitizable.Sanitize()
         {
-            if (MobilePhone != null)
-                ((ISanitizable)MobilePhone).Sanitize();
-            if (HomePhone != null)
-                ((ISanitizable)HomePhone).Sanitize();
             if (Email != null)
                 ((ISanitizable)Email).Sanitize();
             if (BillingAddress != null)

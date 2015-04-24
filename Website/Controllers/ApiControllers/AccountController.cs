@@ -703,8 +703,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new GetAccountInformationResponse
             {
                 CustomerName = account.Details.ContactInfo.Name,
-                MobilePhone = mobilePhone,
-                HomePhone = homePhone,
+                MobilePhone = mobilePhone.Number,
+                HomePhone = homePhone.Number,
                 Email = account.Details.ContactInfo.Email,
                 ServiceAddresses = serviceAddresses,
                 SameAsService = sameAsService,
@@ -727,8 +727,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var accountDetails = await accountService.GetAccountDetails(account, false);
                 account.Details.ContactInfo.Phone = new[] 
                 { 
-                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = request.HomePhone.Number },
-                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = request.MobilePhone.Number },
+                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = request.HomePhone },
+                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = request.MobilePhone },
                 };
                 account.Details.ContactInfo.Email = new DomainModels.Email { Address = request.Email.Address };
                 account.Details.BillingAddress = request.BillingAddress;

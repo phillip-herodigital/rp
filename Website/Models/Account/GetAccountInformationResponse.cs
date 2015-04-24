@@ -11,9 +11,8 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public DomainModels.Name CustomerName { get; set; }
 
-        [Required]
-        public Phone MobilePhone { get; set; }
-        public Phone HomePhone { get; set; }
+        public string MobilePhone { get; set; }
+        public string HomePhone { get; set; }
         public Email Email { get; set; }
         public IEnumerable<Address> ServiceAddresses { get; set; }
         public bool SameAsService { get; set; }
