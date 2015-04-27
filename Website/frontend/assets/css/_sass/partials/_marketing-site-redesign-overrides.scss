@@ -1551,7 +1551,20 @@ article.mobile-pricing-plans {
         border-radius: 5px;
 
         thead {
-            background-color: #fbfbfb;
+            background: none;
+            border: none;
+            td {
+                border: none;
+                &.is-special-offer {
+                    background: #3189bb;
+                    color: #fff;
+                    font-weight: 600;
+                    font-style: italic;
+                    font-size: 12px;
+                    line-height: 22px;
+                    text-transform: uppercase;
+                }
+            }
         }
 
         tfoot {
@@ -1564,6 +1577,12 @@ article.mobile-pricing-plans {
 
         td {
             text-align: center;
+            .original-price {
+                text-decoration: line-through;
+                font-size: 14px;
+                color: #888;
+                display: block;
+            }
         }
 
         button {

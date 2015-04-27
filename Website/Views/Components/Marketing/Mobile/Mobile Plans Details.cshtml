@@ -19,6 +19,15 @@
                             <td colspan="5">@Html.Sitecore().Field("Individual Plans - Footer")</td>
                         </tr>
                     </tfoot>
+                    <thead>
+                        <tr>
+                            <td></td>
+                            <td ng-class="{'is-special-offer': '@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost")' != ''}"><span ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost")' != ''">@Html.Sitecore().Field("Promo Text")</span></td>
+                            <td ng-class="{'is-special-offer': '@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost")' != ''}"><span ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost")' != ''">@Html.Sitecore().Field("Promo Text")</span></td>
+                            <td ng-class="{'is-special-offer': '@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost")' != ''}"><span ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost")' != ''">@Html.Sitecore().Field("Promo Text")</span></td>
+                            <td ng-class="{'is-special-offer': '@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost")' != ''}"><span ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost")' != ''">@Html.Sitecore().Field("Promo Text")</span></td>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr>
                             <th>@Html.Sitecore().Field("Individual Plans - Data")</th>
@@ -29,10 +38,22 @@
                         </tr>
                         <tr>
                             <th>@Html.Sitecore().Field("Individual Plans - Monthly Cost")</th>
-                            <td>$@Html.Sitecore().Field("Individual Plans - Plan 1 Cost")/mo</td>
-                            <td>$@Html.Sitecore().Field("Individual Plans - Plan 2 Cost")/mo</td>
-                            <td>$@Html.Sitecore().Field("Individual Plans - Plan 3 Cost")/mo</td>
-                            <td>$@Html.Sitecore().Field("Individual Plans - Plan 4 Cost")/mo</td>
+                            <td>
+                                <span ng-class="{'original-price': '@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost")' != ''}">$@Html.Sitecore().Field("Individual Plans - Plan 1 Cost")/mo</span>
+                                <span ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost")' != ''">$@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost")/mo</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'original-price': '@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost")' != ''}">$@Html.Sitecore().Field("Individual Plans - Plan 2 Cost")/mo</span>
+                                <span ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost")' != ''">$@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost")/mo</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'original-price': '@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost")' != ''}">$@Html.Sitecore().Field("Individual Plans - Plan 3 Cost")/mo</span>
+                                <span ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost")' != ''">$@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost")/mo</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'original-price': '@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost")' != ''}">$@Html.Sitecore().Field("Individual Plans - Plan 4 Cost")/mo</span>
+                                <span ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost")' != ''">$@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost")/mo</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -66,6 +87,13 @@
                                 @*<button>@Html.Sitecore().Field("Group Plans - Need More")</button>*@
                             </th>
                         </tr>
+                        <tr>
+                            <td></td>
+                            <td ng-class="{'is-special-offer': '@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost")' != ''}"><span ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost")' != ''">@Html.Sitecore().Field("Promo Text")</span></td>
+                            <td ng-class="{'is-special-offer': '@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost")' != ''}"><span ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost")' != ''">@Html.Sitecore().Field("Promo Text")</span></td>
+                            <td ng-class="{'is-special-offer': '@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost")' != ''}"><span ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost")' != ''">@Html.Sitecore().Field("Promo Text")</span></td>
+                            <td ng-class="{'is-special-offer': '@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost")' != ''}"><span ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost")' != ''">@Html.Sitecore().Field("Promo Text")</span></td>
+                        </tr>
                     </thead>
                     <tfoot>
                         <tr>
@@ -82,10 +110,22 @@
                         </tr>
                         <tr>
                             <th>@Html.Sitecore().Field("Group Plans - Monthly Cost")</th>
-                            <td>{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 1 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</td>
-                            <td>{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 2 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</td>
-                            <td>{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 3 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</td>
-                            <td>{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 4 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</td>
+                            <td>
+                                <span ng-class="{'original-price': '@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost")' != ''}">{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 1 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</span>
+                                <span ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost")' != ''">{{ groupPlanCost('@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost")', @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'original-price': '@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost")' != ''}">{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 2 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</span>
+                                <span ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost")' != ''">{{ groupPlanCost('@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost")', @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'original-price': '@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost")' != ''}">{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 3 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</span>
+                                <span ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost")' != ''">{{ groupPlanCost('@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost")', @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</span>
+                            </td>
+                            <td>
+                                <span ng-class="{'original-price': '@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost")' != ''}">{{ groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 4 Cost"), @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</span>
+                                <span ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost")' != ''">{{ groupPlanCost('@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost")', @Html.Sitecore().Field("Group Plans - Extra Line Cost")) | currency }}/mo</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
