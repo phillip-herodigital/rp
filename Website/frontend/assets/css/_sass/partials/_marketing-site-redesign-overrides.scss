@@ -1360,7 +1360,7 @@ article.mobile-pricing-plans {
                 padding: 10px;
                 border: 1px solid #e5e5e5;
                 border-bottom-style: none;
-
+                position: relative;
                 @include breakpoint(small) {
                     border: 0;
                     border-top: 1px solid #e5e5e5;
@@ -1372,6 +1372,19 @@ article.mobile-pricing-plans {
 
                 &:last-of-type {
                     border-right-style: none;
+                }
+                .special-offer {
+                    background: #3189bb;
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    color: #fff;
+                    font-weight: 600;
+                    font-style: italic;
+                    font-size: 12px;
+                    line-height: 22px;
+                    text-transform: uppercase;
                 }
             }
         }
