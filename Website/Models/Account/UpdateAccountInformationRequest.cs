@@ -1,8 +1,10 @@
-﻿using System;
+﻿using StreamEnergy.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using ResponsivePath.Validation;
 
 namespace StreamEnergy.MyStream.Models.Account
@@ -13,16 +15,16 @@ namespace StreamEnergy.MyStream.Models.Account
 
         [Required]
         [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public DomainModels.Phone MobilePhone { get; set; }
+        public Phone MobilePhone { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public DomainModels.Phone HomePhone { get; set; }
+        public Phone HomePhone { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Email ")]
-        public DomainModels.Email Email { get; set; }
+        public Email Email { get; set; }
 
         [Required]
-        public DomainModels.Address BillingAddress { get; set; }
+        public Address BillingAddress { get; set; }
 
         public bool DisablePrintedInvoices { get; set; }
 
