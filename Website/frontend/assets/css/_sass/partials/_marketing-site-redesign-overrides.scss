@@ -1500,6 +1500,149 @@ article.mobile-pricing-plans {
     }
 }
 
+.mobile-find-savings {
+    h2 {
+        text-align: center;
+        margin-top: 0;
+    }
+    p.intro {
+        margin: 1em 0;
+        font-size: 20px;
+        text-align: center;
+    }
+    .col {
+        .inner {
+            padding-top: 60px;
+            margin-top: 40px;
+            background: center top no-repeat;
+        }
+        &.bill-analysis {
+            .inner {
+                @include retina-background("bill-analysis.png", "icon");
+            }
+        }
+        &.data-calculator {
+            .inner {
+                @include retina-background("calculator.png", "icon");
+            }
+        }
+        &.trade {
+            .inner {
+                @include retina-background("trade.png", "icon");
+            }
+        }
+    }
+}
+
+.mobile-upgrade-device {
+    h2 {
+        text-align: center;
+        margin-top: 0;
+    }
+    p.intro {
+        margin: 1em 0;
+        font-size: 20px;
+        text-align: center;
+    }
+    .col {
+        .inner {
+            padding-left: 100px;
+            padding-right: 50px;
+            background: left top no-repeat;
+        }
+        &.installment {
+            .inner {
+                @include retina-background("installment.png", "icon");
+            }
+        }
+        &.device-assistant {
+            .inner {
+                @include retina-background("device-assistant.png", "icon");
+            }
+        }
+        &.swapit {
+            .inner {
+                @include retina-background("swapit.png", "icon");
+            }
+        }
+        &.protection {
+            .inner {
+                @include retina-background("protection.png", "icon");
+            }
+        }
+    }
+}
+
+.mobile-stay-connected {
+    h2 {
+        text-align: center;
+        margin-top: 0;
+    }
+    p.intro {
+        margin: 1em 0;
+        font-size: 20px;
+        text-align: center;
+    }
+    .col {
+        .inner {
+            padding-top: 60px;
+            margin-top: 20px;
+            background: center top no-repeat;
+        }
+        &.global-connect {
+            .inner {
+                @include retina-background("global.png", "icon");
+            }
+        }
+    }
+}
+
+.global-connect-modal {
+    h3 {
+        color: #00a8e1;
+        font-size: 30px;
+        font-weight: 600;
+        margin-bottom: -10px;
+    }
+    p.intro {
+        margin: 1em 0;
+        font-size: 20px;
+    }
+    .col {
+        padding-left: 100px;
+        background: left top no-repeat;
+        @include retina-background("global.png", "icon");
+        h4 {
+            margin-bottom: 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    }
+    img {
+        vertical-align: middle;
+    }
+}
+
+.mobile-guides {
+    background: image-url('marketing/redesign/footer-section-bottom-rule.png') center top repeat-x;
+    p.intro {
+        margin: 1em 0;
+        font-size: 20px;
+        text-align: center;
+    }
+    .col {
+        padding: 0 100px;
+        a {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        @include breakpoint(small) {
+            padding: 0;
+        }
+    }
+}
+
 .mobile-additional-services {
     .col {
         // background: image-url("marketing/redesign/Modules/divider.png") center left no-repeat;
