@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ResponsivePath.Validation;
+using StreamEnergy.DomainModels;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
@@ -13,12 +14,11 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public string AccountNumber { get; set; }
 
-        [Required]
-        [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public Phone MobilePhone { get; set; }
-
-        [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public Phone HomePhone { get; set; }
+        [Required(ErrorMessage = "Primary Phone Required")]
+        [EnumerableRequired(ErrorMessage = "Phone Required")]
+        [MinLength(1, ErrorMessage = "Primary Phone Required")]
+        [ValidateEnumerable(ErrorMessagePrefix = "Phone ")]
+        public TypedPhone[] Phone { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Email ")]
         public Email Email { get; set; }
@@ -30,10 +30,6 @@ namespace StreamEnergy.MyStream.Models.Account
 
         void ISanitizable.Sanitize()
         {
-            if (MobilePhone != null)
-                ((ISanitizable)MobilePhone).Sanitize();
-            if (HomePhone != null)
-                ((ISanitizable)HomePhone).Sanitize();
             if (Email != null)
                 ((ISanitizable)Email).Sanitize();
             if (BillingAddress != null)

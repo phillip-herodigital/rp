@@ -11,13 +11,12 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public DomainModels.Name CustomerName { get; set; }
 
-        [Required]
-        public Phone MobilePhone { get; set; }
-        public Phone HomePhone { get; set; }
+        public Phone[] Phone { get; set; }
         public Email Email { get; set; }
         public IEnumerable<Address> ServiceAddresses { get; set; }
         public bool SameAsService { get; set; }
         public Address BillingAddress { get; set; }
         public bool DisablePrintedInvoices { get; set; }
+        public string CustomerType { get; set; }
     }
 }
