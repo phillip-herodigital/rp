@@ -1,5 +1,7 @@
 ﻿@model StreamEnergy.MyStream.Models.Account.UpdateOnlineAccountRequest
 
+@using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
+{
 <article class="grey-box account" ng-controller="AcctOnlineAccountCtrl">
     <header>
         <h2>@Html.Sitecore().Field("My Online Account Information Text")</h2>
@@ -12,6 +14,7 @@
                 </div>
                 <hr class="content-divider" />
             </div>
+            @Html.ValidationSummary()
             <div class="group">
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Username) float-label>
                     <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username Text")</label>
@@ -110,3 +113,4 @@
         </footer>
     </form>
 </article>
+}
