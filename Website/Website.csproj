@@ -775,6 +775,9 @@
     <Content Include="App_Config\Include\Sitecore.Speak.Settings.config" />
     <Content Include="App_Config\Include\Sitecore.EmailCampaign.config" />
     <Content Include="Data\fw9.pdf" />
+    <Content Include="App_Config\ConnectionStrings.production.sitecore.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
