@@ -1525,23 +1525,23 @@ article.mobile-pricing-plans {
     }
     .col {
         .inner {
-            padding-top: 60px;
+            padding-top: 100px;
             margin-top: 40px;
             background: center top no-repeat;
         }
         &.bill-analysis {
             .inner {
-                @include retina-background("bill-analysis.png", "icon");
+                @include retina-background("bill-analysis-circle.png", "icon");
             }
         }
         &.data-calculator {
             .inner {
-                @include retina-background("calculator.png", "icon");
+                @include retina-background("calculator-circle.png", "icon");
             }
         }
         &.trade {
             .inner {
-                @include retina-background("trade.png", "icon");
+                @include retina-background("trade-circle.png", "icon");
             }
         }
     }
@@ -1658,33 +1658,23 @@ article.mobile-pricing-plans {
 
 .mobile-additional-services {
     .col {
-        // background: image-url("marketing/redesign/Modules/divider.png") center left no-repeat;
-
-        // &:first-child {
-        //     background-image: none;
-        // }
-
         .inner {
-            padding-top: 140px;
-            //margin: 0 30px;
+            padding-top: 60px;
             background: center top no-repeat;
         }
-
-        &.international-calling {
+        &.trade {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/map.png");
+                @include retina-background("trade.png", "icon");
             }
         }
-
-        &.warranty {
+        &.device-assistant {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/target.png");
+                @include retina-background("device-assistant.png", "icon");
             }
         }
-
-        &.trade-and-save {
+        &.global {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/trade-and-save.png");
+                @include retina-background("global.png", "icon");
             }
         }
     }
