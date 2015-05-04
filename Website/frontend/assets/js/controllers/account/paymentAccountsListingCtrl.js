@@ -14,6 +14,7 @@ ngApp.controller('AcctPaymentAccountsListingCtrl', ['$scope', '$http', '$modal',
     $scope.showAddCC = false;
     $http.get('/api/account/getAccounts').success(function (data, status, headers, config) {
         $scope.showAddCC = !_.every(data, { 'systemOfRecord': 'CIS1' });
+        $scope.showAddBank = !_.every(data, { 'systemOfRecord': 'BeQuick' });
     });
 
     $scope.deletePaymentAccount = function (paymentAccount) {
