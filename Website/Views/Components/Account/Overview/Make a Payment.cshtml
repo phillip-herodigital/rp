@@ -233,13 +233,13 @@
     <form data-val-bind-messages="validations" ng-submit="modalAddPaymentAccount(newPaymentMethodType)">
         <div class="modal-body scrollable new-account-modal" loading-indicator>
             <fieldset>
-                <legend ng-if="addPaymentAccountAccount.systemOfRecord != 'CIS1'  && selectedAccount.systemOfRecord != 'BeQuick'">@Html.Sitecore().Field("Payment Type Text")</legend>
+                <legend ng-if="addPaymentAccountAccount.systemOfRecord != 'CIS1' && addPaymentAccountAccount.systemOfRecord != 'BeQuick'">@Html.Sitecore().Field("Payment Type Text")</legend>
                 <div class="payment-type-selection">
-                    <div class="payment-selection" ng-show="addPaymentAccountAccount.systemOfRecord != 'CIS1' && selectedAccount.systemOfRecord != 'BeQuick'">
+                    <div class="payment-selection" ng-show="addPaymentAccountAccount.systemOfRecord != 'CIS1' && addPaymentAccountAccount.systemOfRecord != 'BeQuick'">
                         <input type="radio" id="credit-card" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedCard">
                         <label for="credit-card">@Html.Sitecore().Field("Credit Card Text")</label>
                     </div>
-                    <div class="payment-selection" ng-show="addPaymentAccountAccount.systemOfRecord != 'CIS1' && selectedAccount.systemOfRecord != 'BeQuick'">
+                    <div class="payment-selection" ng-show="addPaymentAccountAccount.systemOfRecord != 'CIS1' && addPaymentAccountAccount.systemOfRecord != 'BeQuick'">
                         <input type="radio" id="bank-account" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedBank">
                         <label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
                     </div>

@@ -39,7 +39,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
             $scope.addPaymentAccountAccount = item;
             if (item.systemOfRecord == 'CIS1') {
                 $scope.newPaymentMethodType = 'TokenizedBank';
-            } else if ($scope.selectedAccount.systemOfRecord == 'BeQuick') {
+            } else if (item.systemOfRecord == 'BeQuick') {
                 $scope.newPaymentMethodType = 'TokenizedCard';
             }
 
