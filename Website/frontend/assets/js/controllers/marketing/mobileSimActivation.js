@@ -69,7 +69,7 @@ ngApp.controller('MobileSimActivationCtrl', ['$scope', '$http', '$location', '$m
         })  
         .success(function (data, status, headers, config) {
             $scope.isLoading = false;
-            if (data) {
+            if (data && data != 'false') {
                 $scope.activeState = 'step4';
             } else {
                 $scope.activateServiceError = true;
