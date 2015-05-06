@@ -503,8 +503,8 @@ namespace StreamEnergy.Services.Clients
 
         private void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
         {
-            var homePhone = (data.Account.AccountCustomer.HomePhone == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.Account.AccountCustomer.HomePhone.Value.ToString() });
-            var mobilePhone = (data.Account.AccountCustomer.MobilePhone == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.Account.AccountCustomer.MobilePhone.Value.ToString() });
+            var homePhone = ((data.Account.AccountCustomer.HomePhone == null || data.Account.AccountCustomer.HomePhone == "") ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.Account.AccountCustomer.HomePhone.Value.ToString() });
+            var mobilePhone = ((data.Account.AccountCustomer.MobilePhone == null || data.Account.AccountCustomer.MobilePhone == "") ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.Account.AccountCustomer.MobilePhone.Value.ToString() });
             var tcpa = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"));
             if (data.Account.ServiceType == "Mobile")
             {
