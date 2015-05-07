@@ -1360,7 +1360,7 @@ article.mobile-pricing-plans {
                 padding: 10px;
                 border: 1px solid #e5e5e5;
                 border-bottom-style: none;
-
+                position: relative;
                 @include breakpoint(small) {
                     border: 0;
                     border-top: 1px solid #e5e5e5;
@@ -1372,6 +1372,25 @@ article.mobile-pricing-plans {
 
                 &:last-of-type {
                     border-right-style: none;
+                }
+                .special-offer {
+                    background: #3189bb;
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    color: #fff;
+                    font-weight: 600;
+                    font-style: italic;
+                    font-size: 12px;
+                    line-height: 22px;
+                    text-transform: uppercase;
+                }
+                .original-price {
+                    color: #888;
+                    display: block;
+                    font-size: 14px;
+                    text-decoration: line-through;
                 }
             }
         }
@@ -1512,23 +1531,23 @@ article.mobile-pricing-plans {
     }
     .col {
         .inner {
-            padding-top: 60px;
+            padding-top: 100px;
             margin-top: 40px;
             background: center top no-repeat;
         }
         &.bill-analysis {
             .inner {
-                @include retina-background("bill-analysis.png", "icon");
+                @include retina-background("bill-analysis-circle.png", "icon");
             }
         }
         &.data-calculator {
             .inner {
-                @include retina-background("calculator.png", "icon");
+                @include retina-background("calculator-circle.png", "icon");
             }
         }
         &.trade {
             .inner {
-                @include retina-background("trade.png", "icon");
+                @include retina-background("trade-circle.png", "icon");
             }
         }
     }
@@ -1645,33 +1664,23 @@ article.mobile-pricing-plans {
 
 .mobile-additional-services {
     .col {
-        // background: image-url("marketing/redesign/Modules/divider.png") center left no-repeat;
-
-        // &:first-child {
-        //     background-image: none;
-        // }
-
         .inner {
-            padding-top: 140px;
-            //margin: 0 30px;
+            padding-top: 60px;
             background: center top no-repeat;
         }
-
-        &.international-calling {
+        &.trade {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/map.png");
+                @include retina-background("trade.png", "icon");
             }
         }
-
-        &.warranty {
+        &.device-assistant {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/target.png");
+                @include retina-background("device-assistant.png", "icon");
             }
         }
-
-        &.trade-and-save {
+        &.global {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/trade-and-save.png");
+                @include retina-background("global.png", "icon");
             }
         }
     }
@@ -1694,7 +1703,20 @@ article.mobile-pricing-plans {
         border-radius: 5px;
 
         thead {
-            background-color: #fbfbfb;
+            background: none;
+            border: none;
+            td {
+                border: none;
+                &.is-special-offer {
+                    background: #3189bb;
+                    color: #fff;
+                    font-weight: 600;
+                    font-style: italic;
+                    font-size: 12px;
+                    line-height: 22px;
+                    text-transform: uppercase;
+                }
+            }
         }
 
         tfoot {
@@ -1707,6 +1729,12 @@ article.mobile-pricing-plans {
 
         td {
             text-align: center;
+            .original-price {
+                text-decoration: line-through;
+                font-size: 14px;
+                color: #888;
+                display: block;
+            }
         }
 
         button {

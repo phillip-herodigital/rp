@@ -246,6 +246,8 @@ namespace StreamEnergy.Services.Clients
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(DomainModels.Address serviceAddress, dynamic details)
         {
             var productData = sitecoreProductData.GetMobileProductData((string)details.Plan.PlanId);
+
+            double dataAvailable = 0;
             return new MobileAccount()
             {
                 PhoneNumber = details.PhoneNumber,
@@ -253,7 +255,7 @@ namespace StreamEnergy.Services.Clients
                 EquipmentId = details.EquipmentId,
                 PlanId = details.Plan.PlanId,
                 PlanPrice = (double)details.Plan.Price,
-                PlanDataAvailable = productData != null ? Convert.ToDouble(productData.Fields["Data"]) : 0,
+                PlanDataAvailable = double.TryParse(productData != null ? productData.Fields["Data"] : "", out dataAvailable) ? dataAvailable : (double?)null,
                 PlanName = details.Plan.Name,
                 ParentGroupProductId = details.Plan.ParentGroupProductId,
                 IsParentGroup = (bool)details.Plan.IsParentGroup,

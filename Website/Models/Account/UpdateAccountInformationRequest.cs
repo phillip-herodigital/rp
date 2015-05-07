@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using ResponsivePath.Validation;
+using StreamEnergy.DomainModels;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
@@ -11,27 +12,22 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public string AccountNumber { get; set; }
 
-        [Required]
-        [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public DomainModels.Phone MobilePhone { get; set; }
-
-        [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public DomainModels.Phone HomePhone { get; set; }
+        [Required(ErrorMessage = "Primary Phone Required")]
+        [EnumerableRequired(ErrorMessage = "Phone Required")]
+        [MinLength(1, ErrorMessage = "Primary Phone Required")]
+        [ValidateEnumerable(ErrorMessagePrefix = "Phone ")]
+        public TypedPhone[] Phone { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Email ")]
-        public DomainModels.Email Email { get; set; }
+        public Email Email { get; set; }
 
         [Required]
-        public DomainModels.Address BillingAddress { get; set; }
+        public Address BillingAddress { get; set; }
 
         public bool DisablePrintedInvoices { get; set; }
 
         void ISanitizable.Sanitize()
         {
-            if (MobilePhone != null)
-                ((ISanitizable)MobilePhone).Sanitize();
-            if (HomePhone != null)
-                ((ISanitizable)HomePhone).Sanitize();
             if (Email != null)
                 ((ISanitizable)Email).Sanitize();
             if (BillingAddress != null)

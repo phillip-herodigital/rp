@@ -23,17 +23,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<LookupAccountByEsnResponse> LookupAccountByEsn([FromBody]LookupAccountByEsnRequest request)
+        public async Task<IHttpActionResult> LookupAccountByEsn([FromBody]LookupAccountByEsnRequest request)
         {
             var esn = await activationCodeLookup.LookupEsn(request.ActivationCode) ?? request.ActivationCode;
             var acct = await accountService.FindAccountForEsn(esn, request.LastName);
-            return new LookupAccountByEsnResponse
+            if (acct == null)
+                return BadRequest("ESN not ready for activation");
+            return Ok(new LookupAccountByEsnResponse
             {
                 FirstName = acct.Details.ContactInfo.Name.First,
                 LastName = acct.Details.ContactInfo.Name.Last,
                 PhoneNumber = acct.SubAccounts.OfType<MobileAccount>().First().PhoneNumber,
                 AccountNumber = acct.AccountNumber,
-            };
+            });
         }
 
         [HttpPost]
