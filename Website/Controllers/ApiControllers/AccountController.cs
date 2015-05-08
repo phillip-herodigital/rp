@@ -734,6 +734,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = mobilePhone != null ? mobilePhone : "" },
                 };
                 account.Details.ContactInfo.Email = new DomainModels.Email { Address = request.Email.Address };
+                ((ISanitizable)account.Details.ContactInfo).Sanitize();
                 account.Details.BillingAddress = request.BillingAddress;
                 account.Details.BillingDeliveryPreference = request.DisablePrintedInvoices ? "Email" : "DirectMail";
                 success = await accountService.SetAccountDetails(account, account.Details);
