@@ -29,6 +29,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     $scope.$watch(mobileEnrollmentService.getPhoneData, function (phoneData) {
         allPhones = phoneData;
         confirmationDevices = enrollmentCartService.getConfirmationDevices();
+        confirmationTransfers = enrollmentCartService.getConfirmationTransfers();
         selectedDevices = _(confirmationDevices).map(function(device) { 
             var selected = _(allPhones).find(function(phone) { 
                 if ( _(phone.models).pluck('sku').flatten().filter().contains(device) ) { 
@@ -46,7 +47,8 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
             } 
         }).value();
         $scope.sprintByod = $scope.getCartDataPlan()[0].provider == 'Sprint' && _.some(selectedDevices, { 'id': '7' });
-
+        $scope.sprintByodNew = $scope.sprintByod && _(confirmationTransfers).contains(undefined);
+        $scope.sprintByodTransfer = $scope.sprintByod && _(confirmationTransfers).flatten().filter().some('phoneNumber');
     });
 
     $scope.getConfirmationDeviceDetails = function(deviceId) {

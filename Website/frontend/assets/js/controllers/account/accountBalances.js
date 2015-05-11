@@ -72,6 +72,8 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
 
             if ($scope.selectedAccount.systemOfRecord == 'CIS1') {
                 $scope.newPaymentMethodType = 'TokenizedBank';
+            } else if ($scope.selectedAccount.systemOfRecord == 'BeQuick') {
+                $scope.newPaymentMethodType = 'TokenizedCard';
             }
 
             // open the add account modal

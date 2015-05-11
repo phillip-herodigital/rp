@@ -53,7 +53,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public string EquipmentId { get; set; }
         public string PlanId { get; set; }
         public double PlanPrice { get; set; }
-        public double PlanDataAvailable { get; set; }
+        public double? PlanDataAvailable { get; set; }
         public string PlanName { get; set; }
         public string ParentGroupProductId { get; set; }
         public bool IsParentGroup { get; set; }

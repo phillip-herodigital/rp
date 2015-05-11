@@ -116,6 +116,17 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             .pluck('offerOption').flatten().filter().pluck('inventoryItemId').flatten().filter();
         },
 
+        getConfirmationTransfers: function() {
+            return _(services)
+            .pluck('offerInformationByType').flatten().filter(function (offer) {
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
+            .pluck('value').flatten().pluck('offerSelections').flatten().filter()
+            .pluck('offerOption').flatten().filter().pluck('transferInfo');
+        },
+
         getCartDataPlan: function() {
             var dataPlan = [];
             var selectedPlan = _(services)

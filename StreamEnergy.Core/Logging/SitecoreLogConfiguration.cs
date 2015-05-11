@@ -66,5 +66,11 @@ namespace StreamEnergy.Logging
         {
             get { return recorders; }
         }
+
+
+        public bool WaitForLogRecording
+        {
+            get { return false; }
+        }
     }
 }

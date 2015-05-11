@@ -263,6 +263,8 @@
     <div ng-if="confirmationSuccess && sprintByod" ng-cloak>
         <div class="notice alert">
             @Html.Sitecore().Field("Sprint BYOD Confirmation Text")
+            <span ng-if="sprintByodNew">@Html.Sitecore().Field("Sprint BYOD Confirmation New Text")</span>
+            <span ng-if="sprintByodTransfer">@Html.Sitecore().Field("Sprint BYOD Confirmation Transfer Text")</span>
         </div>
     </div>
     <dl class="clearfix">
