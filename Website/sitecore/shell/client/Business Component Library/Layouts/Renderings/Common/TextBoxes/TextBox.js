@@ -11,11 +11,13 @@
       { name: "watermark", value: "$el.prop:placeholder" }
     ],
     events: {
-      "keyup": "checkEnterKey"
+      "keypress": "checkEnterKey"
     },
     checkEnterKey: function (e) {
-      e.keyCode == '13' ? this.$el.change() : $.noop();
+      if (e.keyCode === 13) {
+        this.$el.blur().focus();
+        e.preventDefault();
+      }
     }
-
   });
 });

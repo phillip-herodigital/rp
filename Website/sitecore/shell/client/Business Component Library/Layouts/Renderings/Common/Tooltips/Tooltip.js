@@ -4,7 +4,6 @@ define(["sitecore", "bootstrap", "jquery"], function (_sc) {
   var model = _sc.Definitions.Models.ControlModel.extend(
     {
       defaults: {
-        animation: true,
         html: false,
         placement: 'bottom',
         content: "",
@@ -169,11 +168,7 @@ define(["sitecore", "bootstrap", "jquery"], function (_sc) {
         case "delay":
           _.extend(res, { delay: val });
           break;
-
-        case "animation":
-          _.extend(res, { animation: val });
-          break;
-
+         
         case "placement":
           _.extend(res, { placement: val });
           break;

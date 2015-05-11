@@ -12,7 +12,7 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <Sitecore.Shell.Applications.MarketingAutomation.Dialogs.SelectStateVisitor x:inherits="Sitecore.Shell.Applications.MarketingAutomation.Dialogs.SelectStateVisitorPage,Sitecore.Shell.MarketingAutomation">
-    <Sitecore.Controls.DialogPage Header="Visitors" Text="A list of all the known visitors that are in this state." Icon="People/32x32/user1.png" runat="server">
+    <Sitecore.Controls.DialogPage Header="Contacts" Text="A list of all the known contacts that are in this state." Icon="People/32x32/user1.png" runat="server">
       <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>
 
       <Stylesheet Src="Grid.css" DeviceDependant="true" runat="server" />
@@ -35,7 +35,7 @@
 
       <GridPanel ID="MainPanel" Height="100%" Width="100%" runat="server">
           <Border ID="GridContainer" GridPanel.Height="90%" Height="100%" runat="server">
-              <Grid id="Visitors"
+              <Grid id="Contacts"
                 RunningMode="Callback"
                 CssClass="Grid"
                 
@@ -112,11 +112,11 @@
                         SortImageHeight="13" runat="server">
                           <Columns runat="server">
                               <GridColumn DataField="scGridID" Visible="false" IsSearchable="false" runat="server"/>
-                              <GridColumn DataField="Visitor.VisitorId" Visible="false" IsSearchable="false" runat="server"/>
+                              <GridColumn DataField="ContactId" Visible="false" IsSearchable="false" runat="server"/>
                               <GridColumn DataField="User.Profile.Portrait" Visible="false" IsSearchable="false" runat="server"/>
                               <GridColumn DataField="Name" AllowSorting="false" AllowGrouping="false" IsSearchable="true" SortedDataCellCssClass="SortedDataCell" HeadingText="User Name" runat="server" />
                               <GridColumn DataField="Email" AllowSorting="false" AllowGrouping="false" IsSearchable="true" SortedDataCellCssClass="SortedDataCell" HeadingText="Email" runat="server" />
-                              <GridColumn DataField="Visitor.VisitCount" Visible="true" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="No. of Visits" runat="server" />
+                              <GridColumn DataField="VisitCount" Visible="true" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="No. of Visits" runat="server" />
                               <GridColumn DataField="LastVisit" Visible="true" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Last Visit" runat="server" />
 
                           </Columns>
@@ -155,7 +155,7 @@
                               </tr>
                               <tr>
                                   <td style="height:14px;background-color:#666666;padding:1px 8px 1px 8px;color:white">
-                                      ## DataItem.PageIndex + 1 ## / ## Visitors.PageCount ##
+                                      ## DataItem.PageIndex + 1 ## / ## Contacts.PageCount ##
                                   </td>
                               </tr>
                           </table>
@@ -168,7 +168,7 @@
                   <Button Visible="false" Id="Export" runat="server" Click="ExportClick">
                       <Literal Text ="Export" runat="server"/>
                   </Button>
-                  <Button Visible="false" Id="SeeVisitor" runat="server" Click="OpenReportClick">
+                  <Button Visible="false" Id="SeeContact" runat="server" Click="OpenReportClick">
                       <Literal Text ="Visits" runat="server"/>
                   </Button>
                   <Button Visible="false" Id="SeeFullReport" runat="server" Click="FullReportClick">

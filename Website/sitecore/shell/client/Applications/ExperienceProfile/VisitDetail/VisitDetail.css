@@ -1,0 +1,63 @@
+﻿body.sc {
+  min-width: 700px;
+  overflow-x: auto;
+}
+
+.sc-text-label, .sc-text-smalltitle, .sc-text-largetitle {
+    display: block;
+}
+
+div[data-sc-id=VisitDetailBorder], div[data-sc-id=VisitDialogStatsBorder] {
+    margin-top: 16px;
+}
+
+img[data-sc-id=VisitDialogPhoto] {
+  float: left;
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+div[data-sc-id=VisitDialogStatsInnerRow] > div > span {
+    color: #696969;
+    font-size: 1.3em;
+}
+
+div[data-sc-id=VisitDialogStatsInnerRow] > div > *:nth-child(2) {
+    font-size: 2em;
+}
+
+div[data-sc-id=VisitDialogStatsBorder] > img {
+    float: left;
+}
+
+div[data-sc-id=VisitDialogStatsBorder] > div, div[data-sc-id=VisitDialogStatsBorder] > div[data-sc-id=CampaignBorder] {
+    margin-left: 26px;
+    margin-bottom: 6px !important;
+}
+
+div[data-sc-id=MorePagesInVisitBorder], div[data-sc-id=MoreInternalSearchBorder], div[data-sc-id=MoreDialogGoalsBorder] {
+  border-top: 1px solid #ccc !important;
+}
+
+div[data-sc-id=VisitDialogMessageBar] {
+    margin-bottom: 20px;
+}
+
+.sc-accordion {
+  margin-top: 20px;
+}
+
+.sc-accordion .sc-accordion-header table .sc-accordion-header-chevron a {
+  display: none;
+}
+
+.sc-accordion .sc-table {
+  border: none;
+}
+
+section.sc-applicationContent-main
+{
+  max-width: 1200px;
+  margin: 0 auto !important;
+  float: none !important;
+}

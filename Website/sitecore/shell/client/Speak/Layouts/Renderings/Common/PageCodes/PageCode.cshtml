@@ -7,11 +7,27 @@
 @using Sitecore.Web.PageCodes
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @model Sitecore.Mvc.Presentation.RenderingModel
-@{                             
+@{
   var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
-  
-  // set the main file for require.js
   var mainFile = SpeakSettings.Html.RequireJsMainFile;
+  var bindingFile = SpeakSettings.Html.BindingPluginFile;
+  var speakCoreVersion = userControl.GetString("SpeakCoreVersion");
+  var isSpeak1_1 = string.IsNullOrEmpty(speakCoreVersion) || speakCoreVersion == "{C1B05B3A-689F-474A-918B-5FD50F12849C}";
+
+  if (isSpeak1_1)
+  {
+    mainFile = SpeakSettings.Html.RequireJSMainFile71;
+  }
+  else
+  {
+    // set the main file for require.js
+    if (SpeakSettings.Html.MinifyScripts)
+    {
+      mainFile = SpeakSettings.Html.RequireJsMainFileMinified;
+      bindingFile = SpeakSettings.Html.BindingPluginFileMinified;
+    }
+  }
+
   var debug = Sitecore.Context.Diagnostics.Debugging;
 
   var title = this.Html.Sitecore().Placeholder("Page.Title");
@@ -22,12 +38,13 @@
 
   // run the server side page code
   var pageCodeTypeName = userControl.GetString("PageCodeTypeName");
-  
+
   var behaviors = userControl.GetString("Behaviors") ?? string.Empty;
-  if (!string.IsNullOrEmpty(behaviors)) {
+  if (!string.IsNullOrEmpty(behaviors))
+  {
     behaviors = "data-sc-behaviors=\"" + behaviors + "\"";
   }
-  
+
   if (!string.IsNullOrEmpty(pageCodeTypeName))
   {
     var pageCode = ReflectionUtil.CreateObject(pageCodeTypeName) as IPageCode;
@@ -41,7 +58,7 @@
 
   // find the client side page code javascript file
   var scriptFileName = userControl.GetString("PageCodeScriptFileName");
-  
+
   //if the js pagecode is not specified we suppose to have it the same path as the current PageItem
   if (string.IsNullOrEmpty(scriptFileName))
   {
@@ -53,17 +70,26 @@
       scriptFileName = null;
     }
   }
-}                                      
+}
 <title>@title</title>
 @this.Html.Sitecore().PageStylesheets()
+
 @if (debug)
 {
   <script type="text/javascript"> window.__SITECOREDEBUG = true; </script>
 }
+
 @if (!string.IsNullOrEmpty(scriptFileName))
 {
-  <script src="@scriptFileName" type="text/x-sitecore-pagecode" @behaviors> </script>
+  <script src="@scriptFileName" type="text/x-sitecore-pagecode" @behaviors>
+  </script>
 }
-  <script src="/sitecore/shell/client/Speak/Assets/lib/core/deps/require.js" data-main="@mainFile" type="text/javascript"> </script>
+
+@if (!isSpeak1_1)
+{
+  <script type='text/x-sitecore-pluginscript' data-sc-pluginid="bindingjsPlugin" data-sc-require="@bindingFile"></script>
+}
+
+<script src="/sitecore/shell/client/Speak/Assets/lib/core/1.2/deps/require.js" data-main="@mainFile" type="text/javascript"></script>
 @this.Html.Sitecore().PageScripts()
 @this.Html.Sitecore().Overlays()

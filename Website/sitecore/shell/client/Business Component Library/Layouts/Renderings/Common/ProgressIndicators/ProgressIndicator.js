@@ -1,4 +1,5 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "jqueryui"], function(Sitecore)
+{
   var model = Sitecore.Definitions.Models.ControlModel.extend({
     initialize: function () {
       this._super();
@@ -30,7 +31,7 @@
   });
 
   var view = Sitecore.Definitions.Views.ControlView.extend({
-    listen: _.extend({}, _sc.Definitions.Views.ControlView.prototype.listen, {
+    listen: _.extend({}, Sitecore.Definitions.Views.ControlView.prototype.listen, {
       "start:$this": "setBusy",
       "hide:$this": "changeBusy"
     }),

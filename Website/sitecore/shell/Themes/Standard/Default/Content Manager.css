@@ -1652,8 +1652,8 @@ a.scSearchLink img
 }
 
 .splitter-bar {
-	width: 5px;
-	background: #d2d5da;
+  width: 5px;
+  background: #d2d5da;
 }
 
 .splitter-bar > a {

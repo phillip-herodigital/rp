@@ -23,9 +23,7 @@
             </GridPanel>
           </Tab>
 
-          <Tab ID="BucketsTab" Header="Search" Height="100%">
-            <Frame SourceUri="/sitecore/shell/Applications/Buckets/MediaBrowser.aspx" Width="100%" Height="100%"></Frame>
-          </Tab>
+          <SearchTab Mode="MediaBrowser" Header="Search" Height="100%"/>
         </Tabstrip>
 
         <Border class="scInsertImageFileName" Padding="4px 0px 4px 0px">

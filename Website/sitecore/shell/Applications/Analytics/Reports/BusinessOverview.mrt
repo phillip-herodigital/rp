@@ -4,7 +4,7 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="6">
-      <Location Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Location Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Location</Alias>
         <Columns isList="true" count="1">
           <value>ORIGINAL,Location,Value,Value,System.String</value>
@@ -14,65 +14,50 @@
         <Name>Location</Name>
         <NameInSource>DataConnection</NameInSource>
         <Parameters isList="true" count="1">
-          <value>_x0040_LocationId,,14,0</value>
+          <value>_x0040_AccountId,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:A34104CA-F461-4A2E-A87B-22B9679D2739</SqlCommand>
       </Location>
-      <DataSource Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <DataSource Ref="3" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>DataSource</Alias>
-        <Columns isList="true" count="20">
+        <Columns isList="true" count="21">
           <value>BusinessName,System.String</value>
           <value>Country,System.String</value>
-          <value>LocationId,System.Guid</value>
-          <value>VisitorClassification,System.Int32</value>
+          <value>AccountId,System.Guid</value>
+          <value>Classification,System.Int32</value>
           <value>Text,System.String</value>
           <value>TotalVisitors,System.Int32</value>
           <value>TotalVisits,System.Int32</value>
           <value>TotalValue,System.Int32</value>
-          <value>IsYesterday,IsYesterday,System.Boolean,_x0021_DataSource.IsToday_x0020__x0026__x0026__x0020_DataSource.RecencyDays_x0020__x003D__x003D__x0020_0</value>
-          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_Today.Year_x0020_-12_x002A_DataSource.Recency.Year_x0020__x002B_Today.Month_x0020_-_x0020_DataSource.Recency.Month</value>
-          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_Today_x002C__x0020_DataSource.Recency_x0029_.Days</value>
-          <value>IsToday,IsToday,System.Boolean,Today.Date_x0020__x003D__x003D__x0020_DataSource.Recency.Date</value>
+          <value>Recency,System.DateTime</value>
+          <value>LocalRecency,LocalRecency,System.DateTime,DataSource.Recency.ToLocalTime_x0028__x0029_</value>
+          <value>IsYesterday,IsYesterday,System.Boolean,DataSource.RecencyDays_x0020__x003D__x003D__x0020_1</value>
+          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_Today.Year_x0020_-12_x002A_DataSource.LocalRecency.Year_x0020__x002B_Today.Month_x0020_-_x0020_DataSource.LocalRecency.Month</value>
+          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_Today_x002C__x0020_DataSource.LocalRecency.Date_x0029_.Days</value>
+          <value>IsToday,IsToday,System.Boolean,Today.Date_x0020__x003D__x003D__x0020_DataSource.LocalRecency.Date</value>
           <value>RecencyYears,RecencyYears,System.Double,Round_x0028_DataSource.RecencyDays_x002F_365.2425_x0029_</value>
-          <value>Region,System.String</value>
-          <value>Days,Days,System.Int32,DateDiff_x0028_DataSource.Recency_x002C__x0020_DataSource.OldDateTime_x0029_.Days</value>
-          <value>ActivityLevel,ActivityLevel,System.Double,DataSource.Days_x003D__x003D_0_x003F_0:_x0020_10_x002A__x0028_DataSource.TotalVisitors_x002A_DataSource.TotalVisits_x002F_DataSource.Days_x0029_</value>
-          <value>OldDate,System.String</value>
-          <value>RecentDate,System.String</value>
-          <value>Recency,Recency,System.DateTime,DateTime.ParseExact_x0028_DataSource.RecentDate_x002C__x0022_yyyyMMdd_x0022__x002C__x0020_null_x0029_</value>
-          <value>OldDateTime,OldDateTime,System.DateTime,DateTime.ParseExact_x0028_DataSource.OldDate_x002C__x0022_yyyyMMdd_x0022__x002C__x0020_null_x0029_</value>
+          <value>Days,Days,System.Int32,DateDiff_x0028_DataSource.Recency_x002C__x0020_DataSource.OldDate_x0029_.Days_x0020__x002B_1</value>
+          <value>ActivityLevel,ActivityLevel,System.Double,_x0031_0_x002A_DataSource.TotalVisitors_x002A_DataSource.TotalVisits_x002F__x0028_DataSource.Days_x0020__x002B__x0020_1_x0029__x0020_</value>
+          <value>OldDate,System.DateTime</value>
+          
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
         <Name>DataSource</Name>
         <NameInSource>DataConnection</NameInSource>
         <Parameters isList="true" count="1">
-          <value>_x0040_LocationId,,14,0</value>
+          <value>_x0040_AccountId,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:2A169D37-2090-494F-806F-3155BDB6DF9C</SqlCommand>
       </DataSource>
-      <Subscription Ref="4" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
-        <Alias>Subscription</Alias>
-        <Columns isList="true" count="2">
-          <value>MailRecipients,System.String</value>
-          <value>LocationId,System.Guid</value>
-        </Columns>
-        <CommandTimeout>0</CommandTimeout>
-        <Dictionary isRef="1" />
-        <Name>Subscription</Name>
-        <NameInSource>DataConnection</NameInSource>
-        <Parameters isList="true" count="1">
-          <value>_x0040_Email,,22,500</value>
-        </Parameters>
-        <SqlCommand />
-      </Subscription>
-      <Visitors Ref="5" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Visitors Ref="5" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Visitors</Alias>
         <Columns isList="true" count="11">
-          <value>VisitorId,System.Guid</value>
+          <value>ContactId,System.Guid</value>
           <value>Value,System.Int32</value>
           <value>Visits,System.Int32</value>
           <value>Recency,System.DateTime</value>
+          <value>LocalRecency,LocalRecency,System.DateTime,Visitors.Recency.ToLocalTime_x0028__x0029_</value>
           <value>Email,System.String</value>
           <value>First_x0020_Name,System.String</value>
           <value>Second_x0020_Name,System.String</value>
@@ -86,11 +71,11 @@
         <Name>Visitors</Name>
         <NameInSource>DataConnection</NameInSource>
         <Parameters isList="true" count="1">
-          <value>_x0040_LocationId,,14,0</value>
+          <value>_x0040_AccountId,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:DEB0F977-F9B6-41FA-A4A8-F9A7C4312C88</SqlCommand>
       </Visitors>
-      <Goals Ref="6" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Goals Ref="6" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Goals</Alias>
         <Columns isList="true" count="3">
           <value>GoalName,System.String</value>
@@ -102,11 +87,11 @@
         <Name>Goals</Name>
         <NameInSource>DataConnection</NameInSource>
         <Parameters isList="true" count="1">
-          <value>_x0040_LocationId,,14,0</value>
+          <value>_x0040_AccountId,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:8EA13B1D-535E-426E-A859-EDC1EBA8671F</SqlCommand>
       </Goals>
-      <Regions Ref="7" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Regions Ref="7" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Regions</Alias>
         <Columns isList="true" count="15">
           <value>BusinessName,System.String</value>
@@ -115,42 +100,28 @@
           <value>TotalVisits,System.Int32</value>
           <value>TotalValue,System.Int32</value>
           <value>Recency,System.DateTime</value>
-          <value>IsYesterday,IsYesterday,System.Boolean,_x0021_Regions.IsToday_x0020__x0026__x0026__x0020_Regions.RecencyDays_x0020__x003D__x003D__x0020_0</value>
-          <value>IsToday,IsToday,System.Boolean,Today.Date_x0020__x003D__x003D__x0020_Regions.Recency.Date</value>
-          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_Today_x002C__x0020_Regions.Recency_x0029_.Days</value>
-          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_Today.Year_x0020_-12_x002A_Regions.Recency.Year_x0020__x002B_Today.Month_x0020_-_x0020_Regions.Recency.Month</value>
+          <value>LocalRecency,LocalRecency,System.DateTime,Regions.Recency.ToLocalTime_x0028__x0029_</value>
+          <value>IsYesterday,IsYesterday,System.Boolean,Regions.RecencyDays_x0020__x003D__x003D__x0020_1</value>
+          <value>IsToday,IsToday,System.Boolean,Today.Date_x0020__x003D__x003D__x0020_Regions.LocalRecency.Date</value>
+          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_Today_x002C__x0020_Regions.LocalRecency.Date_x0029_.Days</value>
+          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_Today.Year_x0020_-12_x002A_Regions.LocalRecency.Year_x0020__x002B_Today.Month_x0020_-_x0020_Regions.LocalRecency.Month</value>
           <value>RecencyYears,RecencyYears,System.Double,Round_x0028_Regions.RecencyDays_x002F_365.2425_x0029_</value>
           <value>Country,System.String</value>
           <value>Days,Days,System.Int32,DateDiff_x0028_Regions.Recency_x002C__x0020_Regions.OldDate_x0029_.Days</value>
-          <value>ActivityLevel,ActivityLevel,System.Double,Regions.Days_x003D__x003D_0_x003F_0:10_x002A__x0028_Regions.TotalVisitors_x002A_Regions.TotalVisits_x002F_Regions.Days_x0029_</value>
+          <value>ActivityLevel,ActivityLevel,System.Double,_x0031_0_x002A_Regions.TotalVisitors_x002A_Regions.TotalVisits_x002F__x0028_Regions.Days_x002B_1_x0029_</value>
           <value>OldDate,System.DateTime</value>
+          <value>BusinessUnitId,System.Guid</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
         <Name>Regions</Name>
         <NameInSource>DataConnection</NameInSource>
         <Parameters isList="true" count="1">
-          <value>_x0040_LocationId,,14,0</value>
+          <value>_x0040_AccountId,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:950412C8-659D-4857-9695-943F12A25224</SqlCommand>
       </Regions>
     </DataSources>
-    <Relations isList="true" count="1">
-      <Subscription Ref="8" type="DataRelation" isKey="true">
-        <Alias>Subscription</Alias>
-        <ChildColumns isList="true" count="1">
-          <value>LocationId</value>
-        </ChildColumns>
-        <ChildSource isRef="3" />
-        <Dictionary isRef="1" />
-        <Name>Subscription</Name>
-        <NameInSource>Relation</NameInSource>
-        <ParentColumns isList="true" count="1">
-          <value>LocationId</value>
-        </ParentColumns>
-        <ParentSource isRef="4" />
-      </Subscription>
-    </Relations>
     <Report isRef="0" />
     <Variables isList="true" count="34">
       <value>Texts,MapDescriptionText,MapDescriptionText,System.String,Click_x0020_on_x0020_the_x0020_map_x0020_to_x0020_open_x0020_Google_x0020_maps_x0020_with_x0020_the_x0020_same_x0020_pins_x0020_as_x0020_shown_x0020_in_x0020_this_x0020_report._x0020_Each_x0020_business_x0020_can_x0020_have_x0020_several_x0020_addresses_x0020_as_x0020_well_x0020_as_x0020_several_x0020_internet_x0020_access_x0020_points._x0020__x003C_br_x002F__x003E__x003C_br_x002F__x003E_You_x0020_opened_x0020_this_x0020_report_x0020_by_x0020_clicking_x0020_the_x0020_name_x0020_of_x0020_a_x0020_business_x0020_in_x0020_one_x0020_of_x0020_the_x0020_Top_x0020_Leads_x0020_reports.,False,False</value>
@@ -187,7 +158,8 @@
       <value>,AnonymousText,AnonymousText,System.String,Anonymous,False,False</value>
       <value>Texts,DaysText,DaysText,System.String,days,False,False</value>
       <value>Texts,GoogleMapText,GoogleMapText,System.String,Google_x0020_Map,False,False</value>
-    </Variables>
+      <value>,Subscribed,Subscribed,System.Boolean,false,False,False</value>
+     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
   <GlobalizationStrings isList="true" count="0" />
@@ -332,7 +304,7 @@
               <Font>Arial,10,Underline</Font>
               <Guid>987426d93e104cd3bacfdd59a60c89a7</Guid>
               <HorAlignment>Center</HorAlignment>
-              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}8204BE3B-0920-4F5D-A5FB-5A8AAD766E2C{"}"}&amp;p=1&amp;locationid={DataSource.LocationId}</Hyperlink>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}8204BE3B-0920-4F5D-A5FB-5A8AAD766E2C{"}"}&amp;p=1&amp;accountid={DataSource.AccountId}</Hyperlink>
               <Margins>0,0,0,0</Margins>
               <Name>Text9</Name>
               <Page isRef="9" />
@@ -344,7 +316,7 @@
             <Text1 Ref="20" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.51,1.27,5.84,0.51</ClientRectangle>
-              <ComponentStyle>SmallLink</ComponentStyle>
+              <!--ComponentStyle>SmallLink</ComponentStyle-->
               <Conditions isList="true" count="0" />
               <Font>Arial,9,Underline</Font>
               <Guid>e0430e8a5f8845d793f52e516d773a8c</Guid>
@@ -353,8 +325,9 @@
               <Page isRef="9" />
               <Parent isRef="16" />
               <Printable>False</Printable>
-              <Text>&lt;a href="#" style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" onclick="javascript:showModalDialog('/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.VisitorIdentification.aspx?locationid={DataSource.LocationId}','','dialogHeight:700px;dialogWidth:550px;status:no;resizable:yes'); return false"&gt;{DataSource.VisitorClassification == 0 ? ClassifyText : DataSource.Text}&lt;/a&gt; / &lt;a href="#" style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" onclick="javascript:showModalDialog('/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.Subscription.aspx?locationid={DataSource.LocationId}&amp;curr_state={string.IsNullOrEmpty(DataSource.Subscription.MailRecipients)? &quot;subscribe&quot; : &quot;unsubscribe&quot;}','','dialogHeight:130px;dialogWidth:350px;status:no;resizable:yes'); return false"&gt;{string.IsNullOrEmpty(DataSource.Subscription.MailRecipients) ? SubscribeText : UnsubscribeText}&lt;/a&gt; / &lt;a style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" href="/sitecore/shell/applications/analytics/reportrunner/crm.aspx?locationid={DataSource.LocationId}"&gt;{CRMText}&lt;/a&gt;</Text>
+              <Text>&lt;a href="#" style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" onclick="javascript:showModalDialog('/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.VisitorIdentification.aspx?locationid={DataSource.AccountId}','','dialogHeight:700px;dialogWidth:550px;status:no;resizable:yes'); return false"&gt;{GetClassificationText(DataSource.AccountId, ClassifyText)}&lt;/a&gt; / &lt;a href="#" style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" onclick="javascript:showModalDialog('/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.Subscription.aspx?locationid={DataSource.AccountId}&amp;curr_state={(Subscribed = IsCurrentUserSubscribed(DataSource.AccountId)) ? "Unsubscribe" : "Subscribe"}',window.self,'dialogHeight:130px;dialogWidth:350px;status:no;resizable:yes'); return false"&gt;{Subscribed ? UnsubscribeText : SubscribeText }&lt;/a&gt; / &lt;a style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" href="/sitecore/shell/applications/analytics/reportrunner/crm.aspx?locationid={DataSource.AccountId}"&gt;{CRMText}&lt;/a&gt;</Text>
               <TextBrush>[135:135:135]</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
               <Type>Expression</Type>
             </Text1>
             <Text10 Ref="21" type="Text" isKey="true">
@@ -369,8 +342,10 @@
               <Name>Text10</Name>
               <Page isRef="9" />
               <Parent isRef="16" />
-              <Text>{DataSource.RecencyYears != 0 ? DataSource.RecencyYears + " " + YearsAgoText : (DataSource.RecencyMonths != 0 &amp;&amp; DataSource.RecencyMonths != -1 ? DataSource.RecencyMonths + " "+ MonthAgoText:(DataSource.IsToday? TodayText :(DataSource.IsYesterday? YesterdayText:DataSource.RecencyDays + " " +DaysAgoTexts)))}
-{Format("{0:MMM.dd,yyyy}", DataSource.Recency)}</Text>
+              <Text>
+                {GetApproximateRecencyText(DataSource.Recency, YearsAgoText, MonthAgoText, TodayText, YesterdayText, DaysAgoTexts)}
+                {Format("{0:MMM.dd,yyyy}", DataSource.Recency)}
+              </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text10>
@@ -402,7 +377,7 @@
               <Name>Text11</Name>
               <Page isRef="9" />
               <Parent isRef="16" />
-              <Text>{DataSource.ActivityLevel}</Text>
+              <Text>{DataSource.ActivityLevel} </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text11>
@@ -674,7 +649,7 @@
               <ComponentStyle>SubLink</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10,Underline</Font>
-              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}397506EC-31D1-4C32-A522-C9718389EF5B{"}"}&amp;p=1&amp;visitorid={Visitors.VisitorId}</Hyperlink>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}397506EC-31D1-4C32-A522-C9718389EF5B{"}"}&amp;p=1&amp;contactid={Visitors.ContactId}</Hyperlink>
               <Margins>0,0,0,0</Margins>
               <Name>Text24</Name>
               <Page isRef="9" />
@@ -709,7 +684,7 @@
               <Name>Text26</Name>
               <Page isRef="9" />
               <Parent isRef="40" />
-              <Text>{DateDiff( Today, Visitors.Recency).Days} {DaysText}</Text>
+              <Text>{DateDiff( Today, Visitors.LocalRecency.Date).Days} {DaysText}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text26>
@@ -882,7 +857,7 @@
               <Conditions isList="true" count="0" />
               <Font>Calibri,11,Bold</Font>
               <Guid>948c31f2bd7849a78759a2b1df834267</Guid>
-              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}FBF574CD-F970-4459-8260-D49A76FE7165{"}"}&amp;p=1&amp;locationid={DataSource.LocationId}</Hyperlink>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}FBF574CD-F970-4459-8260-D49A76FE7165{"}"}&amp;p=1&amp;accountid={DataSource.AccountId}</Hyperlink>
               <Margins>0,0,0,0</Margins>
               <Name>Text35</Name>
               <Page isRef="9" />
@@ -1018,7 +993,7 @@
               <Conditions isList="true" count="0" />
               <Font>Arial,10,Underline</Font>
               <HorAlignment>Center</HorAlignment>
-              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}B7A9556E-0B85-4903-B796-3556297C92BE{"}"}&amp;p=1&amp;locationid={DataSource.LocationId}&amp;region={Regions.Region}</Hyperlink>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}B7A9556E-0B85-4903-B796-3556297C92BE{"}"}&amp;p=1&amp;locationid={DataSource.AccountId}&amp;region={Regions.Region}&amp;businessunitid={Regions.BusinessUnitId}</Hyperlink>
               <Margins>0,0,0,0</Margins>
               <Name>Text43</Name>
               <Page isRef="9" />
@@ -1053,8 +1028,9 @@
               <Name>Text45</Name>
               <Page isRef="9" />
               <Parent isRef="61" />
-              <Text>{Regions.RecencyYears != 0 ? Regions.RecencyYears + " " + YearsAgoText : (Regions.RecencyMonths != 0 &amp;&amp; Regions.RecencyMonths != -1 ? Regions.RecencyMonths + " "+ MonthAgoText:(Regions.IsToday? TodayText :(Regions.IsYesterday? YesterdayText:Regions.RecencyDays + " " +DaysAgoTexts)))}
-{Format("{0:MMM.dd,yyyy}", Regions.Recency)}</Text>
+              <Text>
+                {GetApproximateRecencyText(Regions.Recency, YearsAgoText, MonthAgoText, TodayText, YesterdayText, DaysAgoTexts)}
+                {Format("{0:MMM.dd,yyyy}", Regions.Recency)}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text45>
@@ -1117,40 +1093,41 @@
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2010.3.900</ReportVersion>
-  <Script>using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Data;
-using Stimulsoft.Controls;
-using Stimulsoft.Base.Drawing;
-using Stimulsoft.Report;
-using Stimulsoft.Report.Dialogs;
-using Stimulsoft.Report.Components;
+  <Script>
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+    using System.Data;
+    using Stimulsoft.Controls;
+    using Stimulsoft.Base.Drawing;
+    using Stimulsoft.Report;
+    using Stimulsoft.Report.Dialogs;
+    using Stimulsoft.Report.Components;
 
-namespace Reports
-{
-    public class Report : Stimulsoft.Report.StiReport
+    namespace Reports
     {
-        public Report()
-        {
-            this.InitializeComponent();
-        }
-        
-        string Concatenate(LocationDataSource ds) {
-          System.Text.StringBuilder result = new System.Text.StringBuilder();
-          ds.First();
-          while (!ds.IsEof) {
-            result.Append(ds.Value).Append(";");
-            ds.Next();
-          }
-          ds.First();
-          return result.ToString();
-        }
-
-        #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    public class Report : Sitecore.Analytics.Reports.ReportBase
+    {
+    public Report()
+    {
+    this.InitializeComponent();
     }
-}
-</Script>
+
+string Concatenate(LocationDataSource ds) {
+    System.Text.StringBuilder result = new System.Text.StringBuilder();
+    ds.First();
+    while (!ds.IsEof) {
+    result.Append(ds.Value).Append(";");
+    ds.Next();
+    }
+    ds.First();
+    return result.ToString();
+    }
+
+    #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    }
+    }
+  </Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="14">
     <Title Ref="70" type="Stimulsoft.Report.StiStyle" isKey="true">

@@ -193,7 +193,7 @@ scContentEditor.prototype.executeHandler = function (parameters, callback) {
             return;
         }
 
-        if (this.httpRequest.responseText.indexOf("/sitecore/login/login.js") >= 0) {
+        if (this.httpRequest.responseText.indexOf("/sitecore/login/default.js") >= 0) {
             window.top.location = "/sitecore";
             return;
         }
@@ -2433,7 +2433,10 @@ var scContentEditorDragDrop = Class.create({
     },
 
     initializeTreeNodes: function (root) {
-      
+        if (!root) {
+            return;
+        }
+
         var elements = root.select(".scContentTreeNodeNormal, .scContentTreeNodeActive");
         var ids = elements.pluck("id").findAll(function (id) { return id && id != ""; });
       

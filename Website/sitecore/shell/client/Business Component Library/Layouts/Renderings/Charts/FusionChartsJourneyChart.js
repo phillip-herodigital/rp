@@ -1,7 +1,7 @@
 ﻿require.config({
   paths: {
     fusionChartBaseComponent: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Charts/Shared/FusionChartsBaseComponent",
-    fusionChartsJourneyChartCss: "../../Business Component Library/Layouts/Renderings/Charts/FusionChartsJourneyChart"
+    fusionChartsJourneyChartCss: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Charts/FusionChartsJourneyChart"
   }
 });
 
@@ -563,8 +563,8 @@ define(["sitecore", "fusionChartBaseComponent", "css!fusionChartsJourneyChartCss
     // </summary>    
     setArrowsTitle: function(duration) {
       var scope = this,
-        databaseUri = new Sitecore.Definitions.Data.DatabaseUri("core"),
-        database = new Sitecore.Definitions.Data.Database(databaseUri),
+        databaseUri = new Sitecore.Speak.Definitions.Data.DatabaseUri("core"),
+        database = new Sitecore.Speak.Definitions.Data.Database(databaseUri),
         durationButton = this.getDurationButton(duration),
         durationString = durationButton.text().toLowerCase(),
         unit = durationButton.attr("data-unitValue"),

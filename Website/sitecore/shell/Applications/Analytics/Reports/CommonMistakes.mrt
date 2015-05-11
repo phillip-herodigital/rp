@@ -4,7 +4,7 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="2">
-      <Failures Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Failures Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Failures</Alias>
         <Columns isList="true" count="4">
           <value>Name,System.String</value>
@@ -20,13 +20,13 @@
           <value>_x0040_StartDate,StartDate,4,0</value>
           <value>_x0040_EndDate,EndDate,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:42DFC2E6-7BF8-4599-B804-B08713D2B5EC</SqlCommand>
       </Failures>
-      <LatestSessions Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <LatestSessions Ref="3" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>LatestSessions</Alias>
         <Columns isList="true" count="2">
           <value>VisitId,System.Guid</value>
-          <value>StartDateTime,System.DateTime</value>
+          <value>Date,System.DateTime</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
@@ -38,7 +38,7 @@
           <value>_x0040_EndDate,EndDate,4,0</value>
         </Parameters>
         <ReconnectOnEachRow>True</ReconnectOnEachRow>
-        <SqlCommand />
+        <SqlCommand>item:89849AEE-8C65-4FE0-A837-6CB60F32F4BB</SqlCommand>
       </LatestSessions>
     </DataSources>
     <Relations isList="true" count="0" />
@@ -321,13 +321,12 @@
               <ComponentStyle>SubLink</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10,Underline</Font>
-              <Guid>f03d690f315641bb828fd59a08ae73f3</Guid>
               <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}301D9665-31F6-4FF1-AB24-586459A0F664{"}"}&amp;p=1&amp;visitid={LatestSessions.VisitId}</Hyperlink>
               <Margins>0,0,0,0</Margins>
               <Name>Text3</Name>
               <Page isRef="4" />
               <Parent isRef="21" />
-              <Text>{LatestSessions.StartDateTime.ToString("yyyy-MM-dd HH:mm:ss")}</Text>
+              <Text>{LatestSessions.Date.ToString("yyyy-MM-dd HH:mm:ss")}</Text>
               <TextBrush>[135:135:135]</TextBrush>
               <Type>Expression</Type>
             </Text3>
@@ -335,7 +334,6 @@
           <Conditions isList="true" count="0" />
           <DataSourceName>LatestSessions</DataSourceName>
           <Filters isList="true" count="0" />
-          <Guid>32dd67c76de14afeac8f80bfbc7c383a</Guid>
           <MasterComponent isRef="17" />
           <Name>Data3</Name>
           <Page isRef="4" />
@@ -350,10 +348,6 @@
       <PageHeight>29.7</PageHeight>
       <PageWidth>21</PageWidth>
       <Report isRef="0" />
-      <Watermark Ref="23" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
-        <Font>Arial,100</Font>
-        <TextBrush>[50:0:0:0]</TextBrush>
-      </Watermark>
     </Page1>
   </Pages>
   <PrinterSettings Ref="24" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />

@@ -15,7 +15,7 @@
       x:inherits="Sitecore.Shell.Applications.MarketingAutomation.Dialogs.ActionEditors.SubtractFromVisitProfile, Sitecore.Shell.MarketingAutomation">
 
     <Sitecore.Controls.DialogPage Header="Decrease the Profile Value" 
-                                  Text="Select the profile key and then specify the value that you want to subtract." 
+                                  Text="Select the profile key and then specify that value that you want to subtract." 
                                   Icon="Software/32x32/graph_edge_directed.png" runat="server" >
 
       <x:register assembly="Sitecore.Shell.MarketingAutomation" namespace="Sitecore.Shell.Applications.MarketingAutomation.Controls" />

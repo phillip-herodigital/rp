@@ -16,7 +16,7 @@
 
     <Sitecore.Controls.DialogPage Icon="Software/32x32/graph_edge_directed.png" runat="server"  
                                   Header="Increase the Profile Value"
-                                  Text="Select the profile key and then specify the value that you want to add" >
+                                  Text="Select the profile key and then specify that value that you want to add" >
 
       <x:register assembly="Sitecore.Shell.MarketingAutomation" namespace="Sitecore.Shell.Applications.MarketingAutomation.Controls" />
       <x:register assembly="Sitecore.Client" namespace="Sitecore.Shell.Applications.Analytics.Personalization" />

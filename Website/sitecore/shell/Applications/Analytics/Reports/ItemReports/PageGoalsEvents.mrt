@@ -4,7 +4,7 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="9">
-      <Page Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Page Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Page</Alias>
         <Columns isList="true" count="2">
           <value>Url,System.String</value>
@@ -17,9 +17,9 @@
         <Parameters isList="true" count="1">
           <value>_x0040_Id,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:0335CB18-C887-4F23-A674-A560D89B3A99</SqlCommand>
       </Page>
-      <AverageTimeOnPage Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <AverageTimeOnPage Ref="3" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>AverageTimeOnPage</Alias>
         <Columns isList="true" count="2">
           <value>Seconds,System.Int32</value>
@@ -34,9 +34,9 @@
           <value>_x0040_StartDate,,4,0</value>
           <value>_x0040_EndDate,,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:6B77E775-31D2-4424-980D-B5B5DBA88D3F</SqlCommand>
       </AverageTimeOnPage>
-      <SearchesFromPage Ref="4" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <SearchesFromPage Ref="4" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>SearchesFromPage</Alias>
         <Columns isList="true" count="1">
           <value>SearchCount,System.Int32</value>
@@ -50,10 +50,10 @@
           <value>_x0040_EndDate,,4,0</value>
           <value>_x0040_Id,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:ECAE970A-B37E-4537-AB93-FF28F69BE198</SqlCommand>
       </SearchesFromPage>
-      <DataSource Ref="5" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
-        <Alias>DataSource</Alias>
+      <VisitsValue Ref="5" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
+        <Alias>VisitsValue</Alias>
         <Columns isList="true" count="3">
           <value>TotalVisits,System.Int32</value>
           <value>TotalValue,System.Int32</value>
@@ -61,19 +61,19 @@
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
-        <Name>DataSource</Name>
+        <Name>VisitsValue</Name>
         <NameInSource>DataConnection</NameInSource>
         <Parameters isList="true" count="3">
           <value>_x0040_StartDate,,4,0</value>
           <value>_x0040_EndDate,,4,0</value>
           <value>_x0040_Id,,14,0</value>
         </Parameters>
-        <SqlCommand />
-      </DataSource>
-      <Goals Ref="6" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <SqlCommand>item:7764F713-C4D0-4D1E-BBA2-34538A202ECA</SqlCommand>
+      </VisitsValue>
+      <Goals Ref="6" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Goals</Alias>
         <Columns isList="true" count="3">
-          <value>PageEventName,System.String</value>
+          <value>GoalName,System.String</value>
           <value>VisitsCount,System.Int32</value>
           <value>Value,System.Int32</value>
         </Columns>
@@ -86,13 +86,13 @@
           <value>_x0040_StartDate,,4,0</value>
           <value>_x0040_EndDate,,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:4C4BCAD6-407C-4419-A011-A0BBEDC7C631</SqlCommand>
       </Goals>
-      <PageAssets Ref="7" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <PageAssets Ref="7" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>PageAssets</Alias>
         <Columns isList="true" count="4">
           <value>Value,System.Int32</value>
-          <value>DataKey,System.String</value>
+          <value>Asset,System.String</value>
           <value>SearchCount,System.Int64</value>
           <value>VisitsCount,System.Int32</value>
         </Columns>
@@ -105,9 +105,9 @@
           <value>_x0040_StartDate,,4,0</value>
           <value>_x0040_EndDate,,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:78BBCDEB-0C56-4310-BD71-E3DCB63000F6</SqlCommand>
       </PageAssets>
-      <Assets Ref="8" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Assets Ref="8" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Assets</Alias>
         <Columns isList="true" count="3">
           <value>Visits,System.Int32</value>
@@ -123,12 +123,13 @@
           <value>_x0040_EndDate,,4,0</value>
           <value>_x0040_Id,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:4D33686B-F4D9-42F9-8ACC-A9EAED730D0E</SqlCommand>
       </Assets>
-      <ItemBounced Ref="9" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <ItemBounced Ref="9" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>ItemBounced</Alias>
         <Columns isList="true" count="1">
           <value>TotalBounced,System.Int32</value>
+          <value>Total,System.Int32</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
@@ -139,13 +140,13 @@
           <value>_x0040_StartDate,,4,0</value>
           <value>_x0040_EndDate,,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:598FF99F-AE88-4BC4-9D91-2A804D1D0FA6</SqlCommand>
       </ItemBounced>
-      <NewPageVisitors Ref="10" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <NewPageVisitors Ref="10" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>NewPageVisitors</Alias>
         <Columns isList="true" count="2">
           <value>TotalVisitors,System.Int32</value>
-          <value>NewVsReturning,NewVsReturning,System.Double,DataSource.TotalVisitors_x0020__x003D__x003D_0_x0020__x003F__x0020_0_x0020_:double.Parse_x0028_NewPageVisitors.TotalVisitors.ToString_x0028__x0029__x0029__x002F_double.Parse_x0028_DataSource.TotalVisitors.ToString_x0028__x0029__x0029_</value>
+          <value>NewVsReturning,NewVsReturning,System.Double,VisitsValue.TotalVisitors_x0020__x003D__x003D__x0020_0_x0020__x003F__x0020_0_x0020_:_x0020__x0028_float_x0029_NewPageVisitors.TotalVisitors_x002F_VisitsValue.TotalVisitors</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
@@ -156,7 +157,7 @@
           <value>_x0040_StartDate,,4,0</value>
           <value>_x0040_EndDate,,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:0B9FF220-2B1D-4508-88CF-F23A31007805</SqlCommand>
       </NewPageVisitors>
     </DataSources>
     <Relations isList="true" count="0" />
@@ -358,7 +359,7 @@
               <Name>Text6</Name>
               <Page isRef="11" />
               <Parent isRef="21" />
-              <Text>{DataSource.TotalVisits}</Text>
+              <Text>{VisitsValue.TotalVisits}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text6>
@@ -374,7 +375,7 @@
               <Name>Text7</Name>
               <Page isRef="11" />
               <Parent isRef="21" />
-              <Text>{DataSource.TotalValue}</Text>
+              <Text>{VisitsValue.TotalValue}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text7>
@@ -390,7 +391,7 @@
               <Name>Text8</Name>
               <Page isRef="11" />
               <Parent isRef="21" />
-              <Text>{(DataSource.TotalVisits== 0 ? 0 : DataSource.TotalValue/DataSource.TotalVisits).ToString("#,##0.00")}</Text>
+              <Text>{(VisitsValue.TotalVisits== 0 ? 0 : (float)VisitsValue.TotalValue/(float)VisitsValue.TotalVisits).ToString("#,##0.00")}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text8>
@@ -444,7 +445,7 @@
           </Components>
           <Conditions isList="true" count="0" />
           <DataRelationName isNull="true" />
-          <DataSourceName>DataSource</DataSourceName>
+          <DataSourceName>VisitsValue</DataSourceName>
           <Filters isList="true" count="0" />
           <Name>DataBand1</Name>
           <Page isRef="11" />
@@ -466,7 +467,7 @@
               <Name>Text10</Name>
               <Page isRef="11" />
               <Parent isRef="28" />
-              <Text>{(DataSource.TotalVisits == 0 ? 0 :double.Parse(ItemBounced.TotalBounced.ToString())/double.Parse(DataSource.TotalVisits.ToString())*100).ToString("#,##0.00")}%</Text>
+              <Text>{(VisitsValue.TotalVisits == 0 ? 0 : 100 * (float)ItemBounced.TotalBounced/(float)ItemBounced.Total).ToString("#,##0.00")}%</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text10>
@@ -577,7 +578,7 @@
               <Name>Text20</Name>
               <Page isRef="11" />
               <Parent isRef="28" />
-              <Text>{SearchesFromPage.SearchCount}</Text>
+              <Text>{Sum(SearchesFromPage.SearchCount)}</Text>
               <TextBrush>[135:135:135]</TextBrush>
               <Type>Expression</Type>
             </Text20>
@@ -722,7 +723,7 @@
               <Name>Text28</Name>
               <Page isRef="11" />
               <Parent isRef="44" />
-              <Text>{Goals.PageEventName}</Text>
+              <Text>{Goals.GoalName}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text28>
@@ -924,7 +925,7 @@
               <Name>Text40</Name>
               <Page isRef="11" />
               <Parent isRef="58" />
-              <Text>&lt;a style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" href="{PageAssets.DataKey}"&gt;{PageAssets.DataKey}&lt;/a&gt;</Text>
+              <Text>&lt;a style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" href="{PageAssets.Asset}"&gt;{PageAssets.Asset}&lt;/a&gt;</Text>
               <TextBrush>[135:135:135]</TextBrush>
               <Type>Expression</Type>
             </Text40>
@@ -1035,29 +1036,30 @@
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2010.3.900</ReportVersion>
-  <Script>using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Data;
-using Stimulsoft.Controls;
-using Stimulsoft.Base.Drawing;
-using Stimulsoft.Report;
-using Stimulsoft.Report.Dialogs;
-using Stimulsoft.Report.Components;
+  <Script>
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+    using System.Data;
+    using Stimulsoft.Controls;
+    using Stimulsoft.Base.Drawing;
+    using Stimulsoft.Report;
+    using Stimulsoft.Report.Dialogs;
+    using Stimulsoft.Report.Components;
 
-namespace Reports
-{
-    public class Report : Stimulsoft.Report.StiReport
+    namespace Reports
     {
-        public Report()
-        {
-            this.InitializeComponent();
-        }
-
-        #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    public class Report : Sitecore.Analytics.Reports.ReportBase
+    {
+    public Report()
+    {
+    this.InitializeComponent();
     }
-}
-</Script>
+
+    #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    }
+    }
+  </Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="13">
     <Title Ref="67" type="Stimulsoft.Report.StiStyle" isKey="true">

@@ -4,9 +4,10 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="3">
-      <Urls Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Urls Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Urls</Alias>
         <Columns isList="true" count="2">
+          <value>RequestedUrl,System.String</value>
           <value>Url,System.String</value>
           <value>Total,System.Int32</value>
         </Columns>
@@ -18,9 +19,9 @@
           <value>_x0040_StartDate,StartDate,4,0</value>
           <value>_x0040_EndDate,EndDate,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:570E1A7B-1343-4121-B878-9B8D3E1B2902</SqlCommand>
       </Urls>
-      <PreviousReferrer Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <PreviousReferrer Ref="3" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>PreviousReferrer</Alias>
         <Columns isList="true" count="3">
           <value>Referrer,System.String</value>
@@ -33,11 +34,13 @@
         <NameInSource>DataConnection</NameInSource>
         <Parameters isList="true" count="1">
           <value>_x0040_PageUrl,IsNull_x0028_Urls_x002C__x0020__x0022_Url_x0022__x0029__x0020__x003F__x0020__x0022__x0022__x0020_:_x0020_Urls.Url_x000D__x000A_,22,900</value>
+          <value>_x0040_StartDate,StartDate,4,0</value>
+          <value>_x0040_EndDate,EndDate,4,0</value>
         </Parameters>
         <ReconnectOnEachRow>True</ReconnectOnEachRow>
-        <SqlCommand />
+        <SqlCommand>item:6ED9C6C6-5628-40A8-B389-25FCB87B1F69</SqlCommand>
       </PreviousReferrer>
-      <PreviousUrl Ref="4" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <PreviousUrl Ref="4" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>PreviousUrl</Alias>
         <Columns isList="true" count="2">
           <value>PreviousUrl,System.String</value>
@@ -49,9 +52,11 @@
         <NameInSource>DataConnection</NameInSource>
         <Parameters isList="true" count="1">
           <value>_x0040_PageUrl,IsNull_x0028_Urls_x002C__x0020__x0022_Url_x0022__x0029__x0020__x003F__x0020__x0022__x0022__x0020_:_x0020_Urls.Url,22,900</value>
+          <value>_x0040_StartDate,StartDate,4,0</value>
+          <value>_x0040_EndDate,EndDate,4,0</value>
         </Parameters>
         <ReconnectOnEachRow>True</ReconnectOnEachRow>
-        <SqlCommand />
+        <SqlCommand>item:59A60FDD-ED7E-4D30-A258-6EB24F4839FA</SqlCommand>
       </PreviousUrl>
     </DataSources>
     <Relations isList="true" count="0" />
@@ -246,12 +251,12 @@
               <ComponentStyle>Link</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10</Font>
-              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}AD04FCAC-974C-47BB-AF62-4351C52826AC{"}"}&amp;url={Urls.Url}</Hyperlink>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}AD04FCAC-974C-47BB-AF62-4351C52826AC{"}"}&amp;url={Urls.RequestedUrl}</Hyperlink>
               <Margins>0,0,0,0</Margins>
               <Name>Text1</Name>
               <Page isRef="5" />
               <Parent isRef="16" />
-              <Text>{System.Web.HttpUtility.HtmlEncode(Urls.Url.Replace("%20", " "))}</Text>
+              <Text>{System.Web.HttpUtility.HtmlEncode(Urls.RequestedUrl.Replace("%20", " "))}</Text>
               <TextBrush>[54:95:145]</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>

@@ -58,6 +58,10 @@
       if (displayFieldName) {
         body += "&" + treeElement.id + "_displayFieldName=" + escape(displayFieldName.value);
       }
+      
+      if (window.scCSRFToken && window.scCSRFToken.key && window.scCSRFToken.value) {
+        body += "&" + window.scCSRFToken.key + "=" + window.scCSRFToken.value;
+      }
 
       new Ajax.Request("/sitecore/shell/Controls/TreeviewEx/TreeviewEx.aspx?treeid=" + encodeURIComponent(treeElement.id) + "&id=" + encodeURIComponent(id) + (content != null ? "&sc_content=" + content : "") + (isMultiRoot ? "&mr=1" : ""), {
           method:"post",

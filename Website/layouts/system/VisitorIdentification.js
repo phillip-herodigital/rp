@@ -1,10 +1,13 @@
-﻿document.documentElement.onmousemove = function () {
-    document.documentElement.onmousemove = null;
-    
-    if (true) {
+﻿function startActivityHandler(e) {
+    document.removeEventListener("touchstart", arguments.callee, false);
+    document.documentElement.onmousemove = null; // We need it here to turn off mouse move too.
+
+   if (true) {
         timeoutSleep(0, placeCssAspxRequest);
     }
 };
+document.documentElement.onmousemove = startActivityHandler;
+document.addEventListener("touchstart", startActivityHandler, false);
 
 function placeCheckerRequest() {
     var stt1 = '/layouts/system';

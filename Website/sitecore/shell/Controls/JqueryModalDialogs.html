@@ -32,6 +32,7 @@
   </style>
   <script type="text/javascript" src="/sitecore/shell/Controls/Lib/jQuery/jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="/sitecore/shell/Controls/Lib/jQuery/jQueryUI/1.10.3/jquery-ui-1.10.3.min.js"></script>
+  <script type="text/javascript" src="/sitecore/shell/Controls/Lib/jQuery/jquery.dialogextended-2.0.3.js"></script>
   <script type="text/javascript">
 
     if (navigator.userAgent.indexOf("MSIE") != -1) {
@@ -174,7 +175,7 @@
         },
         beforeClose: modifiedHandling
       };
-
+	  
       if (featuresObject['dialogMinHeight']) {
         dialogOptions.minHeight = parseInt(featuresObject['dialogMinHeight'].replace('px', '')) + modalDialogHeaderAndBorderHeight;
       }
@@ -183,7 +184,7 @@
         dialogOptions.minWidth = parseInt(featuresObject['dialogMinWidth'].replace('px', ''));
       }
 
-      var createdDialog = contentIframe.dialog(dialogOptions)
+      var createdDialog = contentIframe.dialog(dialogOptions).dialogExtend({ maximizable : true })
         // It's a workaround for correct dragging and resizing of dialogs with iframe inside (http://bugs.jqueryui.com/ticket/7682)
         .bind('dialogresizestart', function () {
           var overlay = $(this).prev('.hidden-dialog-overlay');
@@ -214,7 +215,7 @@
             var isSpeakDialog = false;
             for (var i = 0; i < scripts.length; i++) {
               var script = $(scripts[i]);
-              if (script.attr('src') == '/sitecore/shell/client/Speak/Assets/lib/core/deps/require.js' &&
+              if ((script.attr('src') || '').indexOf('/sitecore/shell/client/Speak/Assets/lib/core/') == 0 &&
                 script.attr('data-main') == '/-/speak/v1/assets/main.js') {
                 isSpeakDialog = true;
                 break;

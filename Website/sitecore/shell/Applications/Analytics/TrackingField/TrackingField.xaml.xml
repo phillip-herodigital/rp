@@ -48,6 +48,11 @@
         z-index:1;
         }
 
+        .lang_ja_jp .TabStrip {
+        top: 0px;
+        position: inherit;
+        }
+
         .DefaultTab {
         color:black;
         background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/tab_bg.gif);
@@ -108,14 +113,17 @@
 
         .ie.lang_ja_jp .DefaultTab {
         background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/tab_bg_jp.gif);
+        background-repeat: repeat-x;
         }
 
         .ie.lang_ja_jp .DefaultTabHover {
         background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/hover_tab_bg_jp.gif);
+        background-repeat: repeat-x;
         }
 
         .ie.lang_ja_jp .SelectedTab {
         background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/selected_tab_bg_jp.gif);
+        background-repeat: repeat-x;
         }
 
         .scTrackingFieldContainer{

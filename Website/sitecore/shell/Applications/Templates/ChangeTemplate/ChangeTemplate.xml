@@ -43,11 +43,7 @@
                 <TreeviewEx ID="TemplateLister" DataContext="TemplatesDataContext" />
               </Scrollbox>
             </Tab>
-            <Tab ID="MediaTab" Header="Search" Height="100%">
-              <Scrollbox ID="SearchItems" Class="scScrollbox scStretch" Padding="0px">
-                <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" class="scStretch"></Frame>
-              </Scrollbox>
-            </Tab>
+            <SearchTab Mode="FieldResults" Header="Search" Height="100%"/>
           </Tabstrip>
         </WizardFormIndent>
       </WizardFormPage>

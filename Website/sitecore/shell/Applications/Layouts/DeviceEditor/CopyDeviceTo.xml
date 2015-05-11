@@ -45,11 +45,7 @@
           </div>
 
         </Tab>
-        <Tab ID="MediaTab" Header="Search" Height="100%">
-          <div class="scStretch" Style="padding:5px;">
-            <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" Width="100%" Height="100%"></Frame>
-          </div>
-        </Tab>
+        <SearchTab Mode="FieldResults" Header="Search" Height="100%"/>
       </Tabstrip>
 
     </FormDialog>

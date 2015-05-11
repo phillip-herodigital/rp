@@ -66,6 +66,7 @@
         fixIeObjectTagBug();
 
         scShowWebControls(document.body);
+        scAddLanguageToImageSources(document.getElementById("ContentWrapper"));
         scDisableLinks();
       }
       
@@ -85,6 +86,7 @@
         }
         
         scShowWebControls(document.body);
+        scAddLanguageToImageSources(document.getElementById("ContentWrapper"));
         scDisableLinks();
       }
       
@@ -96,6 +98,77 @@
                 objects[i].id = 'IE_NEEDS_AN_ID_' + i;
             }
         }
+      }
+
+      function scAddLanguageToImageSources(node) {
+        var children = node.childNodes;
+
+        for (var i = children.length - 1; i >= 0; i--) {
+          var n = children[i];
+
+          if (n.nodeType != 1) {
+            continue;
+          }
+
+          if (n.tagName.toLowerCase() == "img") {
+            var src = scGetImageSource(n.outerHTML);
+            if (src) {
+              src = scReplaceAmps(src);
+              var newSrc = scAddLanguageToImageSource(src, parent.document.getElementById("scLanguage").value);
+              if (newSrc != src) {
+                n.setAttribute("src", newSrc);
+                n.setAttribute("_languageInserted", true);
+              }
+            }
+          } else scAddLanguageToImageSources(n);
+        }
+      }
+      
+      function scGetImageSource(text) {
+        var sourceStart = text.indexOf("src=\"");
+        var sourceEnd;
+        var source;
+
+        if (sourceStart > -1) {
+          sourceStart += "src=\"".length;
+          sourceEnd = text.indexOf("\"", sourceStart);
+          if (sourceEnd > -1) {
+            source = text.substr(sourceStart, sourceEnd - sourceStart);
+          }
+        }
+
+        return source.trim();
+      }
+
+      function scAddLanguageToImageSource(src, language) {
+        if (src) {
+
+            var regex = new RegExp('([\\w\\d]{32})\\.ashx', "m");
+            var match = regex.exec(src);
+            if (match) {
+              var qs = src.indexOf('?');
+              if (qs > -1) {
+                var lang = src.indexOf('la=');
+                if (lang == -1) {
+                  src = src.substr(0, qs + 1) + "la=" + language + "&" + src.substr(qs + 1);
+                  return src;
+                }
+              } else {
+                src = src + "?la=" + language;
+                return src;
+              }
+          }
+        }
+
+        return src;
+      }
+
+      function scReplaceAmps(text) {
+        var ind;
+        while ((ind = text.indexOf("&amp;")) > -1) {
+          text = text.substring(0, ind + 1) + text.substring(ind + "&amp;".length);
+        }
+        return text;
       }
 
       // This function was taken from the Gecko.js

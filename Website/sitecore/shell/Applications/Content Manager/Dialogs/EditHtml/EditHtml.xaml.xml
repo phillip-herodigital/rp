@@ -39,7 +39,7 @@
         <Border ID="RibbonPanel" runat="server" />
 
         <Border class="scFlexContent" runat="server">
-          <asp:TextBox ID="Html" runat="server" TextMode="MultiLine" Style="width:100%;height:100%;border:none"/>
+          <asp:TextBox ID="Html" runat="server" TextMode="MultiLine" Style="width:100%;height:100%;border:none;position:absolute;box-sizing:border-box;"/>
         </Border>
 
         <Border class="scEditHtmlButtons" runat="server">

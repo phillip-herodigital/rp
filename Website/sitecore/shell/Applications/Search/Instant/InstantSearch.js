@@ -68,7 +68,12 @@
     var url = "/sitecore/shell/applications/search/instant/instantsearch.aspx?q=" + encodeURIComponent(query) + "&v=" + this.requestVersion;
     
     var request = new Ajax.Request(url, {
-      onSuccess: function(transport) {
+      onSuccess: function (transport) {
+        if (transport.responseText.indexOf("/sitecore/login/default.js") >= 0) {
+          window.top.location = "/sitecore";
+          return;
+        }
+        
         var version = parseInt(request.getHeader('scVersion'));
         instantSearch.showResults(transport.responseText, version);
       },

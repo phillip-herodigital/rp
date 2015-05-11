@@ -1,0 +1,134 @@
+﻿code, iframe, .scLoadingIndication {  /* should be delete after fixing itemWebApi problem about page editor */
+  display: none !important;
+}
+
+body.sc {
+  min-width: 700px;
+  overflow-x: auto;
+}
+/*should be delete after fixing header issue in speak project*/
+header.sc-globalHeader {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+header.sc-globalHeader .sc-global-logo {
+  margin-left: 15px;
+}
+/*----------*/
+
+div[data-sc-id=SearchBorder] {
+  display: inline-block;
+}
+
+button[data-sc-id=SearchButton] {
+  margin-left: 8px;
+}
+
+img[data-sc-id=Photo] {
+  float: left;
+  cursor: pointer;
+}
+
+a[data-sc-id=ContactEmailHyperlink] {
+  display: block;
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+}
+
+img[data-sc-id=LatestVisitImage] {
+  float: left;
+  margin-top: 4px;
+}
+
+div[data-sc-id=LatestVisitBorder] {
+  margin-left: 46px;
+}
+
+label[data-sc-id=LatestVisitHeader] {
+  margin-bottom: 6px !important;
+  font-weight: bold;
+}
+
+label[data-sc-id=LatestVisitLocation] {
+  margin-top: 6px !important;
+}
+
+div[data-sc-id=ValueColumn], div[data-sc-id=PageViewsColumn] {
+  padding-top: 24px;
+}
+
+span[data-sc-id=ValueValue], span[data-sc-id=PageViewsValue]  {
+  font-size: 220%;
+}
+
+div[data-sc-id=ContactRowPanel] div[data-sc-id=ValueColumn] .sc-label, 
+div[data-sc-id=ContactRowPanel] div[data-sc-id=PageViewsColumn] .sc-label {
+  font-size: 75%;
+}
+
+div[data-sc-id=ContactRepeater] > div:first-child {
+    border-top: 0;
+}
+
+div[data-sc-id=ContactRepeater] > div:nth-child(even) {
+    background-color: #FAFAFA;
+}
+
+span[data-sc-id=TotalVisitsTitle] {
+    margin-right: 20px !important;
+    color: #707070;
+}
+
+button[data-sc-id=ContactCardButton] {
+    margin-top: 20px;
+}
+
+div[data-sc-id=SearchMessageBar] {
+    margin-bottom: 15px;
+}
+
+div.sc-border[data-sc-id=NoSearchResult] {
+    padding: 15px 0;
+}
+
+div.sc-border[data-sc-id=ContactBorder] {
+  border-top: 1px solid #ccc;
+}
+
+div[data-sc-id=ContactRepeater] > div:first-child div.sc-border[data-sc-id=ContactBorder] {
+  border-top: none;
+}
+
+.sc-accordion .sc-accordion-header table .sc-accordion-header-chevron a {
+  display: none;
+}
+
+.sc-accordion[data-sc-id=SearchAccordion] .sc-accordion-header-title,
+label[data-sc-id=ValueHeader],
+label[data-sc-id=PageViewsHeader],
+label[data-sc-id=LatestVisitHeader]
+{
+  text-transform: uppercase;
+}
+
+input[data-sc-id=SearchTextBox] {
+  width: 370px;
+}
+
+div.sc-border[data-sc-id=DescriptionBorder] {
+  padding-top: 4px;
+}
+
+div.sc-border[data-sc-id=PersonalInfo] {
+  padding-left: 80px;
+}
+
+label.sc-label[data-sc-id=LatestVisitTime],
+label.sc-label[data-sc-id=LatestVisitLocation]{
+  line-height: 130%;
+}
+
+div.sc-accordion[data-sc-id=ResultsAccordion] .sc-accordion-body {
+  border-top: none;
+}

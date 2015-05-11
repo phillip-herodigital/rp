@@ -4,12 +4,20 @@
 @{
   var listControl = new ListControl(new DatasourceBasedParametersResolver(Model.Rendering));
   listControl.GetString("Items", "Items");
+
   listControl.Attributes["data-bind"] = "visible: isVisible";
-  listControl.Attributes["data-sc-language"] = Sitecore.Context.Culture.IetfLanguageTag; ;
+  listControl.Attributes["data-sc-contextlanguage"] = Sitecore.Context.Culture.IetfLanguageTag;
+  listControl.Attributes["data-sc-contentlanguage"] = listControl.GetString("ContentLanguage", "contentLanguage", string.Empty);
+  listControl.Attributes["data-sc-defaultselecteditemsd"] = listControl.GetString("DefaultSelectedItemId", "defaultSelectedItemId", string.Empty);
+  listControl.Attributes["data-sc-sorting"] = listControl.GetString("Sorting", "sorting");
+  listControl.Attributes["data-sc-allowmultiplecolumnsorting"] = listControl.GetBool("AllowMultipleColumnSorting", "AllowMultipleColumnSorting", true).ToString().ToLower();
+
+  var iconViewDisplayFieldName = listControl.GetString("IconViewDisplayFieldName", "iconViewDisplayFieldName", "$displayName");
+  
   var htmlAttributes = listControl.HtmlAttributes;
   var id = listControl.ControlId;
   var behaviors = listControl.GetString("Behaviors");
-} 
+}
 
 <script data-layout-main="@id" type="text/x-sc-listcontrol">
   @Html.Raw(listControl.RenderMainLayout())
@@ -31,17 +39,17 @@
   @Html.Raw(listControl.RenderListControl())
 </script>
 
-<script data-layout-icon="@id" type="layout">
+<script @String.Format("data-layout-icon{0}", id)="@id"  type="text/x-sc-listcontrol">
   <div class="sc-iconList-item">
     <div class="sc-iconList-item-content">
       <a data-bind="attr: {href: $url}">
         <img data-bind="attr: {src: image}" />
       </a>
-      <div class="sc-iconList-item-title">
-        <span data-bind="text: itemName"></span>
+      <div class="sc-iconList-item-title">        
+        <span data-bind="text: @iconViewDisplayFieldName"></span>
       </div>
-      <div class="sc-iconList-item-caption">
-        <a data-bind="attr: {href: $url}, text: itemName"></a>
+      <div class="sc-iconList-item-caption">      
+        <a data-bind="attr: {href: $url}, text: @iconViewDisplayFieldName"></a>
         <table>
           <tr>
             @Html.Raw(listControl.RenderHeader())

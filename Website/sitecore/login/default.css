@@ -1,4 +1,4 @@
-html {
+﻿html {
   background:#ececec;
 }
 
@@ -510,7 +510,7 @@ a.LoginOption:active {
 .lang_ja_jp #Language,
 .lang_ja_jp #DialogButtons button,
 .lang_ja_jp .close-options {
-  font-family: ????, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
 }
 
 .lang_ja_jp #Body {

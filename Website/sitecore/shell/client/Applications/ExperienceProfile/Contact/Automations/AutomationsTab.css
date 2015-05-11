@@ -1,0 +1,7 @@
+﻿div[data-sc-id=MoreAutomationsBorder] {
+  border-top: 1px solid #ccc !important;
+}
+
+div[data-sc-id=AutomationsTabMessageBar] {
+    margin-top: 20px;
+}

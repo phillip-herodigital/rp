@@ -18,9 +18,7 @@
       <div class="scStretchAbsolute">
         <div class="mediaBrowserTabstrip">
           <Tabstrip ID="Tabs">
-          <Tab ID="MediaTab" Header="Search" Height="100%">
-            <Frame SourceUri="/sitecore/shell/Applications/Buckets/MediaBrowser.aspx" Width="100%" Height="100%"></Frame>
-          </Tab>
+            <SearchTab Mode="MediaBrowser" Header="Search" Height="100%"/>
             <Tab ID="MediaLibraryTab" Header="Browse" Height="100%">
               <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" Columns="3" GridPanel.Height="100%">
 
@@ -34,7 +32,7 @@
 
               </GridPanel>
             </Tab>
-          
+
           </Tabstrip>
         </div>
         <div class="filenameContainer">

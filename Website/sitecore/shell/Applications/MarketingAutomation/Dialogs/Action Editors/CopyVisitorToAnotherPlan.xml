@@ -3,7 +3,7 @@
   <CopyVisitorToAnotherPlan>
 
     <FormDialog ID="Dialog" Icon="Software/32x32/graph_edge_directed.png"
-                Header="Copy Visitor to Another Plan"
+                Header="Copy Contact to Another Plan"
                 Text="Select the state in the engagement plan that you want to copy the user to." >
       
       <CodeBeside Type="Sitecore.Shell.Applications.MarketingAutomation.Dialogs.ActionEditors.CopyVisitorToAnotherPlan, Sitecore.Shell.MarketingAutomation"/>

@@ -44,11 +44,7 @@
       <Border class="scStretch">
         <VerticalTabstrip ID="vTabstrip">
           <TabSection Header="Options" />
-          <Tab ID="SearchTab" Header="Search" Height="100%">
-            <Scrollbox ID="SearchItems" class="scScrollbox scStretch" Padding="0px">
-              <Frame class="scStretch" SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx?StartSearchLocation={3C1715FE-6A13-4FCF-845F-DE308BA9741D}"></Frame>
-            </Scrollbox>
-          </Tab>
+          <SearchTab Mode="FieldResults" Header="Search" Height="100%" Parameters="StartSearchLocation={3C1715FE-6A13-4FCF-845F-DE308BA9741D}"/>
           <Tab ID="Items" Header="Items">
             <Scrollbox class="scScrollbox scStretch" Padding="0">
               <TreeviewEx ID="Treeview" Click="SelectTreeNode" DblClick="Treeview_DblClick" DataContext="DataContext" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' />

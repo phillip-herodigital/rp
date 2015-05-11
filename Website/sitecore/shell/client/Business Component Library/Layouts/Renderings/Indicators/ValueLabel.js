@@ -1,6 +1,6 @@
 ﻿require.config({
   paths: {    
-    valueLabelcss: "../../Business Component Library/Layouts/Renderings/Indicators/ValueLabel",
+    valueLabelcss: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Indicators/ValueLabel",
     fusionChartsAdapter: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Charts/Shared/FusionChartsAdapter"
   }
 });

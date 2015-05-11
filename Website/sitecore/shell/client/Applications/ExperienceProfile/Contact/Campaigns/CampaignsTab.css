@@ -1,0 +1,11 @@
+﻿div[data-sc-id=MoreCampaignsBorder] {
+  border-top: 1px solid #ccc !important;
+}
+
+div[data-sc-id=CampaignsTabMessageBar] {
+    margin-top: 20px;
+}
+
+div[data-sc-id=Campaigns] td.ventilate {
+    cursor: pointer;
+}

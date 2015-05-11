@@ -7,7 +7,7 @@
       this.set("dynamicTabs", []);
       this.set("selectedTab", "");
       this.set("isProgressive", false);
-      this.set("tabs", "", {
+      this.set("tabs", [], {
         computed: true,
         read: function () {
           var dynamics = $.map(this.dynamicTabs(), function (t) {
@@ -25,7 +25,7 @@
         }
       });
 
-      this.set("selectedTabIndex", "", {
+      this.set("selectedTabIndex", -1, {
         computed: true,
         read: function () {
           var selectedTab = this.selectedTab();

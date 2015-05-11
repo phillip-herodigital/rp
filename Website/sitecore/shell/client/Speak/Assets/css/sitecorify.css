@@ -1461,9 +1461,6 @@ select {
 .tabbable:after {
   clear: both;
 }
-.tab-content {
-  overflow: auto;
-}
 .tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,
 .tabs-left > .nav-tabs {
@@ -2709,7 +2706,6 @@ button.close {
   color: black;
   border-color: #cccccc;
   background-color: white;
-  pdding: 15px;
 }
 .sc-applicationContent-info {
   color: black;
@@ -2739,10 +2735,12 @@ button.close {
   bottom: 10px;
   right: 15px;
 }
+.sc-applicationHeader-actions > * {
+  display: inline-block;
+}
 .sc-applicationHeader-actions .sc-actionpanel {
   /*--position*/
   height: 16px;
-  display: inline-block;
 }
 .sc-applicationHeader-actions .sc-actionpanel ul.nav > li {
   padding-right: 0;
@@ -3355,9 +3353,18 @@ ul.sc-accountInformation li a:hover {
   display: block;
   padding-right: 20px;
   padding-left: 0;
+  line-height: initial;
 }
 .sc-actionpanel .sc-foldout li.sc-actionMenu-item:hover {
   background-color: white;
+}
+.sc-actionpanel .sc-foldout li.sc-actionMenu-item.disabled {
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  cursor: default;
 }
 .sc-actionpanel .sc-foldout .favorite-icon {
   background: transparent url("/sitecore/shell/client/Speak/Assets/img/glyphicons-halflings.png") no-repeat -139px 5px;
@@ -4740,7 +4747,6 @@ ul.sc-accountInformation li a:hover {
   background-color: #cb381a;
 }
 .sc .sc-messageBar .alert.alert-error a {
-  float: right;
   color: white;
 }
 .sc .sc-messageBar .alert.alert-error a .icon-chevron-down {
@@ -5040,6 +5046,14 @@ ul.sc-accountInformation li a:hover {
 }
 .sc-accordion .sc-accordion-header table .sc-accordion-header-chevron {
   width: 25px;
+}
+.sc-accordion .sc-accordion-header table .sc-accordion-header-icon {
+  max-width: initial;
+}
+.sc-accordion .sc-accordion-header table .sc-accordion-header-cell {
+  display: table-cell;
+  vertical-align: middle;
+  padding-right: 10px;
 }
 .sc-accordion .sc-accordion-header sc-accordion-bodywrapper :first-child {
   border: 0;
@@ -5399,9 +5413,6 @@ ul.sc-accountInformation li a:hover {
   left: 50%;
   margin-left: -11px;
 }
-.sc .sc-tabcontrol-tab.tab-pane {
-  overflow: hidden;
-}
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -5736,7 +5747,7 @@ form.sc-uploader .btn {
   position: absolute;
   right: 15px;
   bottom: 15px;
-  width: 200px;
+  width: 300px;
   text-align: center;
 }
 .sc-uploader-content {
@@ -5761,11 +5772,39 @@ form.sc-uploader .btn {
 .sc-uploaderInfo-imageDetails p {
   text-align: right;
 }
+.sc-uploader-general-info-progressbar {
+  display: none;
+}
+.sc-uploader-general-info-data {
+  display: none;
+}
+.sc-uploader-general-info-data-uploadingData {
+  display: none;
+}
+.sc-uploader-general-info-data-col {
+  display: inline-block;
+}
+.sc-uploader-general-info-data-col.col1 {
+  text-align: right;
+  width: 130px;
+}
+.sc-uploader-general-info-data-col.col2 {
+  text-align: center;
+  font-weight: bold;
+  width: 20px;
+}
+.sc-uploader-general-info-data-col.col3 {
+  text-align: left;
+  width: 130px;
+}
 .sc-uploaderInfo-row {
   border: 1px solid #cccccc;
   padding: 15px;
   margin-top: 20px;
   min-height: 128px;
+}
+.sc-uploaderInfo-row textarea {
+  resize: vertical;
 }
 .sc-uploaderInfo-row.error {
   border: 1px solid #cb381a;
@@ -6404,10 +6443,6 @@ form.sc-uploader .btn {
   color: black;
   text-decoration: none;
   display: block;
-  text-transform: lowercase;
-}
-.sc .sc-hyperlinkbuttonsgroup li a:first-letter {
-  text-transform: uppercase;
 }
 .sc .sc-hyperlinkbuttonsgroup li a:hover {
   color: black;

@@ -1,5 +1,4 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebEditRibbon.aspx.cs" Inherits="Sitecore.Shell.Applications.WebEdit.WebEditRibbon" %>
-<%@ Import Namespace="Sitecore"%>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.HtmlControls" Assembly="Sitecore.Kernel" %>
 <sc:DocumentType runat="server" ID="docType"></sc:DocumentType>
 <html>
@@ -9,16 +8,25 @@
   <sc:Stylesheet runat="server" Src="Ribbon.css" DeviceDependant="true" />
 
   <sc:Stylesheet runat="server" Src="/sitecore/shell/Applications/WebEdit/WebEditRibbon.css"/>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreObjects.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreKeyboard.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreVSplitter.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreWindow.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/Applications/Content Manager/Content Editor.js"></script>  
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/Applications/WebEdit/WebEditRibbon.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/Applications/Page Modes/PageEditorProxy.js"></script>    
+  <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreObjects.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreKeyboard.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreVSplitter.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreWindow.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/Applications/Content Manager/Content Editor.js"></script>  
+  <script type="text/JavaScript" src="/sitecore/shell/Applications/WebEdit/WebEditRibbon.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/Applications/Page Modes/PageEditorProxy.js"></script>    
   <script type="text/Javascript">
     if (scForm) {
-      scForm.enableModifiedHandling();
+      scForm.enableModifiedHandling(function(evt) {
+        if (scForm.modified) {
+          var pageModes = top.Sitecore.PageModes;
+          pageModes.PageEditor.ctrlPressed = false;
+          pageModes.ChromeManager.hoverFrame().activate();
+          pageModes.ChromeManager.selectionFrame().activate();
+
+          return (evt || window.event).returnValue = scForm.translate("There are unsaved changes.");
+        }
+      });
     }
   </script>
   <style type="text/css">
@@ -31,7 +39,7 @@
     {
       position: absolute;
       width: 100%;      
-      top:0px;            
+      top:0;            
     }
 
     .no-ribbon #Buttons
@@ -131,13 +139,13 @@
     a.scToggleIcon
     {
       float: right;
-      margin: 2px 10px 4px 0px;
+      margin: 2px 10px 4px 0;
       outline: none;     
     }    
   </style>
   
 </head>
-<body onload="javascript:scOnLoad()">
+<body onload="javascript:scOnLoad();">
   <input type="hidden" id="scActiveRibbonStrip" name="scActiveRibbonStrip" />
   <input type="hidden" id="scHtmlValue" name="scHtmlValue" />
   <input type="hidden" id="scPlainValue" name="scPlainValue" />

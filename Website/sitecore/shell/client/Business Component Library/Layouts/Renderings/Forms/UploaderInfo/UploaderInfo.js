@@ -10,8 +10,12 @@
             if (hasError) {
                 this.$el.find("input").attr("disabled", "disabled");
                 this.$el.find("textarea").attr("disabled", "disabled");
-                this.$el.find(".remove").removeAttr("disabled");                
+                //this.$el.find(".remove").removeAttr("disabled");
+                //this.$el.find(".remove").remove();
+                this.$el.find(".remove").hide();
                 this.$el.find(".progress").hide();
+                this.$el.find(".ready").addClass("hide");
+                this.$el.find(".failed").fadeIn();
                 return;
             }
             
@@ -75,7 +79,7 @@
     });
 
     var FileInfos = Backbone.Collection.extend({
-        model: Sitecore.Definitions.Models.Model
+        model: _sc.Definitions.Models.Model
     });
 
     _sc.Factories.createBaseComponent({
@@ -83,9 +87,6 @@
         base: "ControlBase",
         collection: FileInfos,
         selector: ".sc-uploaderInfo",
-        attributes: [
-            { name: "files", defaultValue: [] }
-        ],
         initialize: function () {
             this.infoPanel = new InfoPanel({ model: this.model, parent: this, collection: this.collection, app: this.app });
             this.app.on("upload-fileAdded", this.addInfo, this);
@@ -93,6 +94,9 @@
             this.app.on("upload-error", this.flagFile, this);
             this.$el.append(this.infoPanel.el);
             this.infoPanel.render();
+        },
+        files: function () {
+            return _.map(this.collection.models, function (model) { return model.viewModel; });
         },
         flagFile: function (errorObject) {
             var id = errorObject.id;

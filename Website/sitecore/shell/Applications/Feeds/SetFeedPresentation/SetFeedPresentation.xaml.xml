@@ -26,10 +26,7 @@
             });
           });
         });
-        
-        Event.observe(window, "resize", setPreviewDimensions);
-        Event.observe(window, "load", setPreviewDimensions);
-        
+                
         function onPreviewUpdated() {
           $$("#Preview a").each(function(link) {
             link.observe("click", function(e) {
@@ -38,22 +35,29 @@
             });
           });
         }
-        
-        function setPreviewDimensions() {
-          var preview = $("Preview");
-          
-          preview.setStyle({ width: $(document.body).getWidth() - 16});
-        }
       </Script>
 
       <Stylesheet runat="server" Key="Preview">
+        .mainContainer {
+          padding: 10px;
+          padding-bottom: 165px;
+        }
+        
+        .mainContainer > div {
+          margin-bottom: 5px;
+        }
+        
+        .mainContainer > div > select {
+          width: 100%;
+        }
+        
         .scWarning {
           background: #ffffe4;
           border: 1px solid #c9c9c9;
           border-left:none;
           border-right:none;
           padding: 4px 2px 4px 4px;
-          margin: 4px 0px 12px 0px;
+          margin-bottom: 12px;
         }
 
         .scHint {
@@ -62,11 +66,9 @@
         }
 
         #Preview {
-          padding: 4px 8px;
+          margin-bottom: 0;
           overflow: auto;
           background: white;
-          
-          width: 400px;
         }
         
         #Preview h2 {
@@ -74,7 +76,6 @@
           color: #3165C6;
           font-weight: bold;
           margin-bottom: 0;
-          padding-bottom: 4px;
           margin-left: -2px;
           
           border-bottom: solid 1px #3165C6;
@@ -87,38 +88,28 @@
         }
       </Stylesheet>
 
-      <GridPanel runat="server" Height="100%" Width="100%">
-
+      <div class="scStretch mainContainer">
         <Border runat="server" ID="WarningPlaceholder" />
         
-        <Border runat="server">
+        <div>
           <Literal runat="server" Text="Title Field:" />
-          <br />
-          <html:select runat="server" style="width:100%" ID="TitleField" />
-        </Border>
+          <html:select runat="server" ID="TitleField" />
+        </div>
 
-        <Space runat="server" Height="16" />
-
-        <Border runat="server">
+        <div>
           <Literal runat="server" Text="Body Field:" />
-          <br />
-          <html:Select runat="server" style="width:100%" ID="BodyField" />
-        </Border>
+          <html:Select runat="server" ID="BodyField" />
+        </div>
 
-        <Space runat="server" Height="16" />
-
-        <Border runat="server">
+        <div>
           <Literal runat="server" Text="Date Field:" />
-          <br />
-          <html:Select runat="server" style="width:100%" ID="DateField"/>
-        </Border>
-
-        <Space runat="server" Height="16" />
+          <html:Select runat="server" ID="DateField"/>
+        </div>
 
         <Literal runat="server" Text="Preview:" />
-        <Scrollbox ID="Preview" runat="server" GridPanel.Height="100%" Padding="0px" />
+        <Scrollbox ID="Preview" runat="server" />
         
-      </GridPanel>
+      </div>
 
     </Sitecore.Controls.DialogPage>
     

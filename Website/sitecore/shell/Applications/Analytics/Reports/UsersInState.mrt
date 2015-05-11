@@ -3,19 +3,13 @@
   <Dictionary Ref="1" type="Dictionary" isKey="true">
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
-    <DataSources isList="true" count="2">
-      <DataSource Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+    <DataSources isList="true" count="1">
+      <DataSource Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>DataSource</Alias>
         <Columns isList="true" count="9">
-          <value>VisitorId,System.Guid</value>
-          <value>UserName,System.String</value>
-          <value>EntryDateTime,System.DateTime</value>
+          <value>_id_ContactId,System.Guid</value>
           <value>StateId,System.Guid</value>
-          <value>ORIGINAL,visitcount,VisitCount,VisitCount,System.Int32</value>
-          <value>ORIGINAL,lastvisit,LastVisit,LastVisit,System.DateTime</value>
-          <value>ORIGINAL,totalvalue,Value,Value,System.Int32</value>
-          <value>ORIGINAL,firstvisit,First_x0020_Visit,First_x0020_Visit,System.DateTime</value>
-          <value>ORIGINAL,daysinstate,Days,Days,System.Int32</value>
+          <value>Entry,System.DateTime</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
@@ -24,42 +18,20 @@
         <Parameters isList="true" count="1">
           <value>_x0040_stateId,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item: A054ED98-B2AD-4346-808D-0FEB5EAFFF1B</SqlCommand>
       </DataSource>
-      <AnonymousCount Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
-        <Alias>AnonymousCount</Alias>
-        <Columns isList="true" count="1">
-          <value>ORIGINAL,anonymous_count,AnonymousCount,AnonymousCount,System.Int32</value>
-        </Columns>
-        <CommandTimeout>0</CommandTimeout>
-        <Dictionary isRef="1" />
-        <Name>AnonymousCount</Name>
-        <NameInSource>DataConnection</NameInSource>
-        <Parameters isList="true" count="1">
-          <value>_x0040_stateId,,14,0</value>
-        </Parameters>
-        <SqlCommand />
-      </AnonymousCount>
     </DataSources>
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="20">
       <value>,ReportTitle,ReportTitle,System.String,Latest_x0020_Sessions,False,False</value>
-      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-7_x0029_,False,True</value>
-      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
-      <value>Texts,OfText,OfText,System.String,of,False,False</value>
       <value>Texts</value>
       <value>Texts,NameText,NameText,System.String,Name,False,False</value>
       <value>Texts,ReportGeneratedText,ReportGeneratedText,System.String,Report_x0020_Generated,False,False</value>
-      <value>Texts,TodayText,TodayText,System.String,Today_x000D__x000A_,False,False</value>
       <value>Texts,ValueText,ValueText,System.String,Value,False,False</value>
-      <value>Texts,DateTimeText,DateTimeText,System.String,Date_x0020__x0026__x0020_Time,False,False</value>
       <value>Texts,EmailText,EmailText,System.String,Email,False,False</value>
       <value>Texts,DaysText,DaysText,System.String,Days_x0020_in_x0020_state,False,False</value>
-      <value>Texts,FirstVisitText,FirstVisitText,System.String,First_x0020_Visit,False,False</value>
-      <value>Texts,LastVisitText,LastVisitText,System.String,Last_x0020_Visit,False,False</value>
-      <value>Texts,KnownText,KnownText,System.String,Known:,False,False</value>
-      <value>Texts,AnonymousText,AnonymousText,System.String,Anonymous:,False,False</value>
+      <value>Texts,TotalText,TotalText,System.String,Total:,False,False</value>
       <value>Texts,UsersInStateText,UsersInStateText,System.String,Visitors_x0020_in_x0020_state,False,False</value>
       <value>Texts,ReportDescriptionText,ReportDescriptionText,System.String,This_x0020_report_x0020_shows_x0020_,False,False</value>
       <value>Texts,ReportDescriptionVar,ReportDescriptionVar,System.String,See_x0020_report_x0020_description,False,False</value>
@@ -194,7 +166,7 @@
           <Name>Text21</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{DataSource.Value}</Text>
+          <Text>{GetValue(DataSource._id_ContactId, v => v)}</Text>
           <TextBrush>[135:135:135]</TextBrush>
           <Type>DataColumn</Type>
         </Text21>
@@ -229,7 +201,7 @@
         </ReportTitleBand2>
         <ReportTitleBand1 Ref="16" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,3.8,19,2.2</ClientRectangle>
+          <ClientRectangle>0,3.8,19,1.6</ClientRectangle>
           <Components isList="true" count="5">
             <Text20 Ref="17" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -255,7 +227,7 @@
               <Name>Text25</Name>
               <Page isRef="4" />
               <Parent isRef="16" />
-              <Text>{KnownText}</Text>
+              <Text>{TotalText}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text25>
@@ -274,34 +246,6 @@
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text24>
-            <Text23 Ref="20" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>12.2,1.2,1.6,0.6</ClientRectangle>
-              <ComponentStyle>GeneralText</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Font>Arial,10</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text23</Name>
-              <Page isRef="4" />
-              <Parent isRef="16" />
-              <Text>{AnonymousText}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text23>
-            <Text16 Ref="21" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>14,1.2,0.8,0.6</ClientRectangle>
-              <ComponentStyle>GeneralText</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Font>Arial,10</Font>
-              <HorAlignment>Right</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text16</Name>
-              <Page isRef="4" />
-              <Parent isRef="16" />
-              <Text>{AnonymousCount.AnonymousCount}</Text>
-              <TextBrush>Black</TextBrush>
-            </Text16>
           </Components>
           <Conditions isList="true" count="0" />
           <Name>ReportTitleBand1</Name>
@@ -328,7 +272,7 @@
             </Text3>
             <Text6 Ref="24" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.4,0.2,1.4,0.6</ClientRectangle>
+              <ClientRectangle>15.2,0.2,1.4,0.6</ClientRectangle>
               <ComponentStyle>ColumnHeader</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>Calibri,11,Bold</Font>
@@ -341,36 +285,6 @@
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text6>
-            <Text8 Ref="25" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>12.2,0.2,1.8,0.6</ClientRectangle>
-              <ComponentStyle>ColumnHeader</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Font>Calibri,11,Bold</Font>
-              <Guid>ba71750732c84625aa5f78ef1331cc9f</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text8</Name>
-              <Page isRef="4" />
-              <Parent isRef="22" />
-              <Text>{FirstVisitText}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text8>
-            <Text7 Ref="26" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>15,0.2,1.8,0.6</ClientRectangle>
-              <ComponentStyle>ColumnHeader</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Font>Calibri,11,Bold</Font>
-              <Guid>16a8b3670ad5463082e86badeaaf30c0</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text7</Name>
-              <Page isRef="4" />
-              <Parent isRef="22" />
-              <Text>{LastVisitText}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text7>
             <Text12 Ref="27" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>17.6,0.2,1.4,0.6</ClientRectangle>
@@ -388,7 +302,7 @@
             </Text12>
             <Text13 Ref="28" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>8.6,0.2,1.4,0.6</ClientRectangle>
+              <ClientRectangle>12.6,0.2,1.4,0.6</ClientRectangle>
               <ComponentStyle>ColumnHeader</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>Calibri,11,Bold</Font>
@@ -429,7 +343,7 @@
           <Components isList="true" count="7">
             <Text5 Ref="31" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.6,0,1,0.6</ClientRectangle>
+              <ClientRectangle>15.4,0,1,0.6</ClientRectangle>
               <ComponentStyle>GeneralText</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10</Font>
@@ -438,38 +352,10 @@
               <NullValue>N/A</NullValue>
               <Page isRef="4" />
               <Parent isRef="30" />
-              <Text>{IIF(DataSource.VisitCount == 0,"-",DataSource.VisitCount)}</Text>
+              <Text>{GetVisitCount(DataSource._id_ContactId)}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text5>
-            <Text10 Ref="32" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>11.8,0,2.6,0.6</ClientRectangle>
-              <ComponentStyle>GeneralText</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Font>Arial,10</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text10</Name>
-              <Page isRef="4" />
-              <Parent isRef="30" />
-              <Text>{Format("{0:dd/MM/yy HH:mm}", DataSource.First_Visit)}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text10>
-            <Text9 Ref="33" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>14.6,0,2.8,0.6</ClientRectangle>
-              <ComponentStyle>GeneralText</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Font>Arial,10</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text9</Name>
-              <Page isRef="4" />
-              <Parent isRef="30" />
-              <Text>{Format("{0:dd/MM/yy HH:mm}", DataSource.LastVisit)}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text9>
             <Text11 Ref="34" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>18,0,1,0.6</ClientRectangle>
@@ -481,13 +367,13 @@
               <NullValue>-</NullValue>
               <Page isRef="4" />
               <Parent isRef="30" />
-              <Text>{IIF(DataSource.VisitCount == 0, "-", DataSource.Value)}</Text>
+              <Text>{GetValue(DataSource._id_ContactId, v => v == 0 ? "-" : v.ToString())}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text11>
             <Text4 Ref="35" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>9,0,0.8,0.6</ClientRectangle>
+              <ClientRectangle>13,0,0.8,0.6</ClientRectangle>
               <ComponentStyle>GeneralText</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10</Font>
@@ -495,7 +381,7 @@
               <Name>Text4</Name>
               <Page isRef="4" />
               <Parent isRef="30" />
-              <Text>{DataSource.Days}</Text>
+              <Text>{GetDaysInState(DataSource.Entry)}</Text>
               <TextBrush>Black</TextBrush>
             </Text4>
             <Text14 Ref="36" type="Text" isKey="true">
@@ -504,11 +390,12 @@
               <ComponentStyle>GeneralText</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10</Font>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}397506EC-31D1-4C32-A522-C9718389EF5B{"}"}&amp;p=1&amp;contactid={DataSource._id_ContactId}</Hyperlink>
               <Margins>0,0,0,0</Margins>
               <Name>Text14</Name>
               <Page isRef="4" />
               <Parent isRef="30" />
-              <Text>{DataSource.VisitorId == Guid.Empty ? GetFullName(DataSource.UserName) : "&lt;a href='#' style='cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;' onclick=\"javascript:showModalDialog('/sitecore/shell/applications/analytics/default.aspx?r=%7b397506EC-31D1-4C32-A522-C9718389EF5B%7d&amp;p=1&amp;visitorid="+ DataSource.VisitorId+"','','dialogHeight:700px;dialogWidth:550px;status:no;resizable:yes'); return false\"&gt;"+GetFullName(DataSource.UserName)+"&lt;/a&gt;"}</Text>
+              <Text>{GetFullName(DataSource._id_ContactId)}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text14>
@@ -522,7 +409,7 @@
               <Name>Text2</Name>
               <Page isRef="4" />
               <Parent isRef="30" />
-              <Text>{GetEmail(DataSource.UserName)}</Text>
+              <Text>{GetEmail(DataSource._id_ContactId)}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text2>
@@ -585,7 +472,9 @@
   <ReportName>LatestSessionsReport</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2012.3.1500</ReportVersion>
-  <Script>using System;
+  <Script><![CDATA[using System;
+using Sitecore.Analytics.Model.Entities;
+using Sitecore.Security.Accounts;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Data;
@@ -599,7 +488,7 @@ using System.Web.Profile;
 namespace Reports
 {
     
-    public class LatestSessionsReport : Stimulsoft.Report.StiReport
+    public class LatestSessionsReport : Sitecore.Analytics.Reports.ReportBase
     {
         
         public LatestSessionsReport()
@@ -610,19 +499,77 @@ namespace Reports
         #region StiReport Designer generated code - do not modify
 		#endregion StiReport Designer generated code - do not modify
 		
-		public static string GetEmail(string username)
+		public string GetEmail(Guid contactid)
 		{
-			if(string.IsNullOrEmpty(username)) return "-";
-			return Sitecore.Security.Accounts.User.FromName(username,false).Profile.Email;
+			return this.GetEmailFromContactFacets(contactid) ?? this.GetEmailFromUser(contactid) ?? "-";
 		}
 		
-		public static string GetFullName(string username)
+		public string GetFullName(Guid contactid)
 		{
-			if(string.IsNullOrEmpty(username)) return "Anonymous user";
-			Sitecore.Security.Accounts.User user = Sitecore.Security.Accounts.User.FromName(username,false);
-		
-			return 
-				string.IsNullOrEmpty(user.Profile.FullName) ? user.Name : string.Format("{0} ({1})",user.Profile.FullName, user.Name);
+			if(contactid == Guid.Empty) return "Anonymous user";
+			var info = this.GetContactFacet<IContactPersonalInfo>(contactid);
+			if(info == null)
+			{
+				var contact = this.GetContact(contactid);
+				var identifier = contact != null ? contact.Identifiers.Identifier : null;
+				return identifier ?? "Anonymous user";
+			}
+    
+			if(string.IsNullOrEmpty(info.FirstName)) 
+				return info.Surname ?? this.GetContact(contactid).Identifiers.Identifier ?? "Anonymous user";
+			var surname = string.IsNullOrEmpty(info.Surname) ? string.Empty : " " + info.Surname;
+			return info.FirstName + surname;
+		}
+
+		protected string GetVisitCount(Guid contactid)
+		{
+			if(contactid == Guid.Empty) return "-";
+			var contact = this.GetContact(contactid);
+			var count = contact.System.VisitCount;
+			return count == 0 ? "-" : count.ToString();
+		}
+   
+		protected T GetValue<T>(Guid contactid, Func<int, T> format)
+		{
+			if(contactid == Guid.Empty) return format(0);
+			var contact = this.GetContact(contactid);
+			return format(contact.System.Value);
+		}
+    
+    private string GetEmailFromContactFacets(Guid contactid)
+    {
+			var emails = this.GetContactFacet<IContactEmailAddresses>(contactid);
+			if(emails == null) return null;
+			var preferred = emails.Preferred;
+			if(preferred == null) return null;
+			if(!emails.Entries.Contains(preferred)) return null;
+			return emails.Entries[preferred].SmtpAddress ?? null;
+    }
+
+    private string GetEmailFromUser(Guid contactid)
+    {
+			if(contactid == Guid.Empty) return null;
+			var contact = this.GetContact(contactid);
+			if(contact == null) return null;
+			var username = contact.Identifiers.Identifier;
+			if(username == null) return null;
+			var user = User.FromName(username, false);
+			if(user == null) return null;
+			return user.Profile.Email;
+    }
+
+		private T GetContactFacet<T>(Guid contactid) where T : class
+		{
+			if(contactid == Guid.Empty) return null;
+			var contact = this.GetContact(contactid);
+			if(contact == null) return null;
+			foreach(var facet in contact.Facets)
+			{
+				var typedFacet = facet.Value as T;
+				if(typedFacet == null) continue;
+				return typedFacet;
+			}
+			return null;
 		}
 		
 		public static string GetStateName(object stateid)
@@ -631,10 +578,16 @@ namespace Reports
 			return stateItem == null ? "-" : string.Format("{0} of {1}", stateItem.DisplayName, stateItem.Parent.DisplayName);
 		
 		}
+    
+    public static int GetDaysInState(DateTime entry)
+		{
+			var now = Sitecore.Common.DateTimeProvider.GetUtcNow();
+      return now.Subtract(entry).Days;
+		}
 	
     }
 }
-</Script>
+]]></Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="14">
     <Title Ref="41" type="Stimulsoft.Report.StiStyle" isKey="true">

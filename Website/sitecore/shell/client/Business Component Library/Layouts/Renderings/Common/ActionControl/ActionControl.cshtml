@@ -3,7 +3,10 @@
 @model RenderingModel
 @{
   var actionControl = new ActionControl(new DatasourceBasedParametersResolver(Model.Rendering));
-
+  var userProfileKey = actionControl.GetUserProfileKey();
+  var userProfileValue = Sitecore.Context.User.Profile.GetCustomProperty(userProfileKey);
+  actionControl.Attributes["data-sc-userprofilekey"] = userProfileKey;
+  actionControl.Attributes["data-sc-actionsstatus"] = string.IsNullOrEmpty(userProfileValue) ? "[]" : userProfileValue;
   actionControl.AppendClass("sc-actionpanel");
 
   var htmlAttributes = actionControl.HtmlAttributes;
@@ -16,12 +19,12 @@
     <li>
       <div class="btn-group" data-bind="foreach:favorites">
         <!-- ko ifnot: isIcon -->
-        <span><a class="btn" href="javascript:;" data-toggle="tooltip" data-bind="text: text, click: $parent.invokeFavorite,attr:{title:tooltip}"></a></span>        
+        <span><button class="btn" href="javascript:;" data-toggle="tooltip" data-bind="text: text, click: $parent.invokeFavorite, attr: { title: tooltip }, enable: isEnabled"></button></span>
         <!-- /ko -->
 
         <!-- ko if: isIcon -->
         <span><a class="btn" href="javascript:;" data-bind="attr:{title:tooltip}">
-          <div class="sc-icon" data-bind="click: $parent.invokeFavorite, style: { backgroundImage: iconSrc, backgroundPosition: iconBackgroundPosition }" >
+          <div class="sc-icon" data-bind="click: $parent.invokeFavorite, enable: isEnabled, style: { backgroundImage: iconSrc, backgroundPosition: iconBackgroundPosition }" >
 					</div>
         </a></span> 
         <!-- /ko -->
@@ -31,7 +34,7 @@
     <li role="menuitem">
       <div class="dropdown" data-bind="click:invokeAction">
         <a class="btn" data-bind="click: toggleIsOpen, clickBubble: false">
-          @text
+          <span class="dropdown-text" data-bind="text:text">@text</span>
           <span class="caret"></span>
         </a> 
 

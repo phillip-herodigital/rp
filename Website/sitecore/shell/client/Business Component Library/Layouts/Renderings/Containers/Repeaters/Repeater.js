@@ -1,6 +1,14 @@
 ﻿/// <reference path="../../../../../../assets/lib/dist/sitecore.js" />
+require.config({
+  paths: {
+    "Scrollbar": "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/behaviors/Scrollbar",
+  },
+  shim: {
+    'Scrollbar': { deps: ['sitecore'] }
+  }
+});
 
-define(["sitecore"], function (Sitecore) {
+define(["sitecore", "Scrollbar"], function (Sitecore) {
 
   Sitecore.Factories.createBaseComponent({
     name: "Repeater",
@@ -8,7 +16,8 @@ define(["sitecore"], function (Sitecore) {
     selector: ".sc-repeater",
     attributes: [
             { name: "items", defaultValue: [] },
-            { name: "isLoading", defaultValue: false }
+            { name: "isLoading", defaultValue: false },
+            { name: "template", defaultValue: "<div class='sc-repeater-container' />" }
     ],
     extendModel: {
         add: function (item) {
@@ -30,6 +39,9 @@ define(["sitecore"], function (Sitecore) {
         this.model.on("addItem", this.add, this);
         this.model.on("removeItem", this.remove, this);
         this.model.RenderedItems = new Backbone.Collection();
+        this.tmstp = 0;
+        this.$container = $(this.model.get("template"));
+        this.$container.appendTo(this.$el);
     },
     add: function (item) {
       this.model.get("items").push(item);
@@ -39,29 +51,67 @@ define(["sitecore"], function (Sitecore) {
       var renderedItem = this.model.RenderedItems.find(function (renderedApp) {
             return renderedApp.get("app") === app;
         });
+      
+      var items = this.model.get("items");
+      var index = items.indexOf(renderedItem.get("item"));
+      if(index > -1)
+      {
+        items.splice(index, 1);
+      }
+
         renderedItem.get("app").ScopedEl.empty();
         renderedItem.get("app").destroy();
+      
         this.model.RenderedItems.remove(renderedItem);
     },
-    renderItem: function (item) {
+    renderItem: function (item, callback, $el, tmstp) {
         var app = this.app,
             model = this.model,
             self = this;
+      
+        $el = ($el) ? $el : this.$container;
 
         this.model.set("isLoading", true);
 
-        this.app.insertRendering(item.itemId, { $el: this.$el, database: item.$database }, function (app) {
-            //self.model.get("items").push(item);
-            self.model.RenderedItems.add({ item: item, app: app });
-            self.model.set("isLoading", false);
+        this.app.insertRendering(item.itemId, { $el: $el, database: item.$database }, function (app) {
+          //self.model.get("items").push(item);
+          self.model.RenderedItems.add({ item: item, app: app });
+          self.model.set("isLoading", false);
+          
+          // Updates each parent with scrollbar behavior
+          self.$el.parents(".mCustomScrollbar").mCustomScrollbar("update");
+          
+          // execute callback function 
+          if (typeof (callback) != "undefined") {
+            callback.apply(self, [tmstp]);
+          }
         });
     },
     renderItems: function () {
+      var items = this.model.get("items");
+      if (items != null) {
         this.reset();
-        var self = this;               
-      _.each(this.model.get("items"), function (item) {
-        this.renderItem(item);
-      }, this);
+        this.$container = $(this.model.get("template"));
+        this.$container.appendTo(this.$el);
+
+        var index = 0;
+        var count = items.length;
+        this.tmstp++;
+
+        var itemReceived = function (tmstp) {
+          // cancel the request queue if other items was requested
+          if (this.tmstp == tmstp) {
+            index++;
+            if (index < count) {
+              this.renderItem(items[index], itemReceived, this.$container, tmstp);
+            }
+          }
+        };
+
+        if (count > 0) {
+          this.renderItem(items[index], itemReceived, this.$container, this.tmstp);
+        }
+      }
     },
     reset: function () {
       this.model.RenderedItems.each(function (app) {

@@ -81,20 +81,23 @@ define(["sitecore", "knockout"], function (_sc, ko) {
       //this.model.set("checkedItemIds", []);
 
       if ($current.is(":checked")) {
-        var colItems = this.model.get("checkedItems");
-          var colItemIds = this.model.get("checkedItemIds");
+        var colItems = this.model.get("checkedItems"),
+          colItemIds = this.model.get("checkedItemIds"),
+          containsItem = _.contains(colItems, rowItem),
+          containsItemId = _.contains(colItemIds, rowItem.itemId);
           
-          if (!_.contains(colItems, rowItem)) {
-            colItems.push(rowItem);
-            this.model.set("checkedItems", colItems, { force: true });
-            this.model.trigger("change", this.model, colItems);
-          }
-          
-          if (!_.contains(colItemIds, rowItem.itemId)) {
-            colItemIds.push(rowItem.itemId);
-            this.model.set("checkedItemIds", colItemIds, { force: true });
-          }
+        if (!containsItem) {
+          colItems.push(rowItem);
+          this.model.set("checkedItems", colItems, { force: true });
+          this.model.trigger("change", this.model, colItems);
+          this.model.trigger("change:checkedItems");
+        }
 
+        if (!containsItemId) {
+          colItemIds.push(rowItem.itemId);
+          this.model.set("checkedItemIds", colItemIds, { force: true });
+          this.model.trigger("change:checkedItemIds");
+        }
       } else {
      
           checkedItemsResult = _.filter(this.model.get("checkedItems"), function (item) {

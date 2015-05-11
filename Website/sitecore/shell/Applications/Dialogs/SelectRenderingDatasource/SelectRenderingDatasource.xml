@@ -95,9 +95,9 @@
         height: 100%;
         }
 
-        #Treeview > input[type="hidden"] + div.scContentTreeNode,
-        #CloneDestination > input[type="hidden"] + div.scContentTreeNode,
-        #CreateDestination > input[type="hidden"] + div.scContentTreeNode {
+        #Treeview > div.scContentTreeNode,
+        #CloneDestination > div.scContentTreeNode,
+        #CreateDestination > div.scContentTreeNode {
         padding-left: 0px;
         }
 
@@ -142,8 +142,6 @@
       </Script>
       <CodeBeside Type="Sitecore.Buckets.Forms.SelectRenderingDatasourceForm, Sitecore.Buckets"/>
       <DataContext ID="DataContext" Root="/"/>
-      <DataContext ID="CloneParentDataContext" Root="/"/>
-      <DataContext ID="CreateParentDataContext" Root="/" />
       <div class="scStretch mainContainer">
         <!--Left column-->
         <div ID="Left" class="leftColumn" width="120px">
@@ -192,7 +190,7 @@
           <div class="section">
             <!--Select Section-->
             <Scrollbox ID="SelectSection" style="border-top:none;border-left:none;padding: 0px">
-              <TreeviewEx ID="Treeview" DataContext="DataContext" Click="Treeview_Click" ShowRoot="true"/>
+              <MultiRootTreeview ID="Treeview" DataContext="DataContext" Click="Treeview_Click" ShowRoot="true"/>
             </Scrollbox>
             <!--Clone Section-->
             <Border ID="CloneSection" Height="100%" Visible="false">
@@ -202,7 +200,7 @@
                 <Literal Text="Parent:"/>
               </div>
               <Scrollbox style="border-left:none;padding:0px">
-                <TreeviewEx ID="CloneDestination" DataContext="CloneParentDataContext" Click="CloneDestination_Change" ShowRoot="true"/>
+                <MultiRootTreeview ID="CloneDestination" DataContext="CloneParentDataContext" Click="CloneDestination_Change" ShowRoot="true"/>
               </Scrollbox>
 
             </Border>
@@ -214,7 +212,7 @@
                 <Literal Text="Parent:"/>
               </div>
               <Scrollbox style="border-left:none;padding:0px">
-                <TreeviewEx ID="CreateDestination" DataContext="CreateParentDataContext" Click="CreateDestination_Change" ShowRoot="true"/>
+                <MultiRootTreeview ID="CreateDestination" DataContext="CreateParentDataContext" Click="CreateDestination_Change" ShowRoot="true"/>
               </Scrollbox>
             </Border>
 

@@ -1,7 +1,7 @@
 ﻿define(["sitecore"], function () {
   var chartDictionary = {},
-    databaseUri = new Sitecore.Definitions.Data.DatabaseUri("core"),
-    database = new Sitecore.Definitions.Data.Database(databaseUri),
+    databaseUri = new Sitecore.Speak.Definitions.Data.DatabaseUri("core"),
+    database = new Sitecore.Speak.Definitions.Data.Database(databaseUri),
     addToDictionary = function (item) {
       chartDictionary[item.itemName] = item.Text;
     };

@@ -1,6 +1,6 @@
 ﻿<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <Sitecore.Shell.Applications.Analytics.SegmentBuilder>
-    <FormDialog ID="SegmentBuilderDialog" runat="server" Icon="BusinessV2/32x32/address_book.png" Header="Dynamic Segment Builder" Text="Define the set of conditions that determine which web site visitors to include in this segment.  Visitors that match multiple conditions are only included once. The total number of visitors in the segment may differ from the sum of the visitors matched by each condition." TextCssClass="TextLiteral">
+    <FormDialog ID="SegmentBuilderDialog" runat="server" Icon="BusinessV2/32x32/address_book.png" Header="Dynamic Segment Builder" Text="Define the set of conditions that determine which web site contacts to include in this segment.  Contacts that match multiple conditions are only included once. The total number of contacts in the segment may differ from the sum of the contacts matched by each condition." TextCssClass="TextLiteral">
       <CodeBeside Type="Sitecore.Shell.Applications.Analytics.SegmentBuilder.SegmentBuilderForm,Sitecore.SegmentBuilder"/>
       <Script Src="/sitecore/shell/Controls/Lib/jQuery/jQuery.noconflict.js"></Script>
       <Script Src="/sitecore/shell/Controls/CollapsiblePanel/CollapsiblePanel.js"></Script>
@@ -32,6 +32,8 @@
         <Scrollbox Padding="0px" Class="scScrollbox scFixSize scFixSize4" Height="100%" Width="100%" GridPanel.Height="100%" ID="RulesContainer">
         </Scrollbox>
         <Border ID="MenuContainer" GridPanel.Class="bottom-row" Visible="false"></Border>
+
+        <Edit Value="" hidden="true" ID="RulesXml"/>
       </GridPanel>
     </FormDialog>
   </Sitecore.Shell.Applications.Analytics.SegmentBuilder>

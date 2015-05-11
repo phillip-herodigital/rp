@@ -84,11 +84,16 @@
         var protoFilter = new PrototypeAwayFilter();
         editor.get_filtersManager().add(protoFilter);
 
+        var imageFilter = new ImageSourceFilter();
+        editor.get_filtersManager().add(imageFilter);
+
         setTimeout(function() {
           var filterManager = editor.get_filtersManager();
           var myFilter = filterManager.getFilterByName("Sitecore WebControl filter");
+          var myImageFilter = filterManager.getFilterByName("Sitecore ImageSourceFilter filter");
 
           myFilter.getDesignContent(editor.get_contentArea());
+          myImageFilter.getDesignContent(editor.get_contentArea());
 
           editor.fire("ToggleTableBorder");
           editor.fire("ToggleTableBorder");
@@ -159,7 +164,6 @@
           MediaManager-DeletePaths="/media library"
           MediaManager-ViewPaths="/media library"
 
-          DocumentManager-UploadPaths="/"
           DocumentManager-DeletePaths="/"
           DocumentManager-ViewPaths="/"
 

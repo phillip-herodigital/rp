@@ -539,17 +539,11 @@
       var href = null;
       if (this.hasParentLink()) {        
         href = this.parentLink.href;
-        this.parentLink.onclick = function () {return false;};
-        // For IE
-        this.parentLink.href = "javascript:return false";
       }
 
       var sender = e.target;
       if (sender.tagName.toUpperCase() == "A") {
-        href = sender.href;       
-        sender.onclick = function () {return false;};
-        // For IE
-        sender.href = "javascript:return false";       
+        href = sender.href;           
       }
        
       if (!href || href.indexOf("javascript:") == 0) {

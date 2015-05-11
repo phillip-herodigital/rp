@@ -1,7 +1,7 @@
 ﻿require.config({
   paths: {
-    bootstrapSlider: "lib/ui/deps/BootstrapSlider/bootstrap-slider",
-    sliderCss: "../../Business Component Library/Layouts/Renderings/Common/Slider/Slider"
+    bootstrapSlider: "/sitecore/shell/client/Speak/Assets/lib/ui/deps/BootstrapSlider/bootstrap-slider",
+    sliderCss: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Common/Slider/Slider"
   }
 });
 

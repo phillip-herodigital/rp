@@ -6,11 +6,12 @@ define(["sitecore"], function (_sc) {
       initialize: function (options)
       {
         this._super();
-        this.set("header", ""); 
+        this.set("header", "");
+        this.set("imageUrl", "");
         this.set("isOpen", true);
         this.set("showAdditional", false);
         this.set("enableAdditional", false);
-        this.set("contentHeight", "100%");        
+        this.set("contentHeight", "100%");
       }
     });
 
@@ -20,20 +21,21 @@ define(["sitecore"], function (_sc) {
       {
         this._super();
 
+        this.model.set("imageUrl", this.$el.attr("data-sc-imageurl"));
         this.model.on("change:showAdditional", function() {
-          Sitecore.trigger((this.model.get("showAdditional") ? "more" : "less") + ":" + this.$el.attr("data-sc-id"));
+          _sc.trigger((this.model.get("showAdditional") ? "more" : "less") + ":" + this.$el.attr("data-sc-id"));
         }, this);
         
         this.model.on("change:isOpen", function() {
-          Sitecore.trigger((this.model.get("isOpen") ? "opened" : "closed") + ":" + this.$el.attr("data-sc-id"));
+          _sc.trigger((this.model.get("isOpen") ? "opened" : "closed") + ":" + this.$el.attr("data-sc-id"));
         }, this);
 
         var id = this.$el.attr("data-sc-id");
 
-        Sitecore.on("hidepromotedfields:" + id, this.hidePromotedFields, this);
-        Sitecore.on("showpromotedfields:" + id, this.showPromotedFields, this);
-        Sitecore.on("open:" + id, this.open, this);
-        Sitecore.on("close:" + id, this.close, this);
+        _sc.on("hidepromotedfields:" + id, this.hidePromotedFields, this);
+        _sc.on("showpromotedfields:" + id, this.showPromotedFields, this);
+        _sc.on("open:" + id, this.open, this);
+        _sc.on("close:" + id, this.close, this);
 
         this.model.set("header", this.$el.attr("data-sc-header"));
         

@@ -4,7 +4,7 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="1">
-      <Failures Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Failures Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Failures</Alias>
         <Columns isList="true" count="3">
           <value>Url,System.String</value>
@@ -19,7 +19,7 @@
           <value>_x0040_StartDate,StartDate,4,0</value>
           <value>_x0040_EndDate,EndDate,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:1C18CDE2-2564-430C-AD1F-FB4BE82D2FA2</SqlCommand>
       </Failures>
     </DataSources>
     <Relations isList="true" count="0" />
@@ -223,7 +223,7 @@
               <Name>Text1</Name>
               <Page isRef="3" />
               <Parent isRef="14" />
-              <Text>{System.Web.HttpUtility.HtmlEncode(Failures.Url)}</Text>
+              <Text>{Failures.Name == "Page Not Found" ? ExtractUrlParm("item", Failures.Url) : UrlDecode(Failures.Url)}</Text>
               <TextBrush>[54:95:145]</TextBrush>
               <Type>Expression</Type>
             </Text1>
@@ -306,29 +306,34 @@
   <ReportName>BadPagesReport</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2010.3.900</ReportVersion>
-  <Script>using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Data;
-using Stimulsoft.Controls;
-using Stimulsoft.Base.Drawing;
-using Stimulsoft.Report;
-using Stimulsoft.Report.Dialogs;
-using Stimulsoft.Report.Components;
+  <Script>
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+    using System.Data;
+    using Stimulsoft.Controls;
+    using Stimulsoft.Base.Drawing;
+    using Stimulsoft.Report;
+    using Stimulsoft.Report.Dialogs;
+    using Stimulsoft.Report.Components;
 
-namespace Reports
-{
-    
-    public class BadPagesReport : Stimulsoft.Report.StiReport
+
+    namespace Reports
     {
-        
-        public BadPagesReport()
-        {
-            this.InitializeComponent();
-        }
-        #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    
+    public class BadPagesReport : Sitecore.Analytics.Reports.ReportBase
+    {
+
+    public BadPagesReport()
+    {
+    this.InitializeComponent();
     }
-}</Script>
+    #region StiReport Designer generated code - do not modify
+    #endregion StiReport Designer generated code - do not modify
+
+    }
+    }
+  </Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="14">
     <Title Ref="20" type="Stimulsoft.Report.StiStyle" isKey="true">

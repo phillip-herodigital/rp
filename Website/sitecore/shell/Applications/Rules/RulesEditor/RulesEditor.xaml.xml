@@ -170,7 +170,7 @@
 
         .scConditionsAndActions {
         height:50%;
-        overflow: hidden;
+        position: relative;
         }
 
         .scRuleDescription{
@@ -191,13 +191,31 @@
         box-sizing: border-box;
         }
 
-        .scMainContainer {
+        .scMainContainer, .scMainContainerFinalCountEnabled {
         position:absolute;
         top:0;
         bottom:0;
         left:0;
         right:0;
         margin: 10px;
+        }
+
+        .scMainContainerFinalCountEnabled {
+        bottom: 40px;
+        }
+
+        .scFinalCountContainer {
+        position:absolute;
+        height: 20px;
+        bottom:0;
+        left:0;
+        right:0;
+        margin: 10px;
+        text-align: right;
+        }
+
+        .scFinalCountContainer span {
+        padding-right: 20px;
         }
 
         .scConditions, .scActions {
@@ -219,7 +237,7 @@
         right: 10px;
         }
 
-        .scDescription{
+        .scDescription, .scConditionsBox{
         position:absolute;
         height:auto;
         top:32px;
@@ -227,14 +245,18 @@
         right:0;
         bottom:0;
         }
+
+        .scConditionsBox{
+        top:40px;
+        }
       </style>
 
-      <div class="scMainContainer">
+      <div class="scMainContainer" id="MainPanel" runat="server">
         <div class="scConditionsAndActions">
           <div class="scConditions" id="ConditionPanel" runat="server">
             <Literal runat="server" Text="Select the conditions for the rule:" />
             <Edit id="ConditionFilter" onfocus="javascript:scFocus(this,event)" onblur="javascript:scBlur(this,event)" style="color:#999999; font:8pt tahoma; width:100%; margin:4px 0px 2px 0px" onkeyup="javascript:scFilterConditions(this,event)" oncut="javascript:scFilterConditions(this,event)" onpaste="javascript:scFilterConditions(this,event)" runat="server" />
-            <Scrollbox ID="Conditions" runat="server"/>
+            <Scrollbox class="scScrollbox scConditionsBox" ID="Conditions" runat="server"/>
           </div>
           <div class="scActions" ID="ActionPanel" runat="server">
             <Literal runat="server" Text="Select the actions for the rule:" />
@@ -246,6 +268,9 @@
           <Literal style="margin-bottom:2px; display:block;" runat="server" Text="Rule description (click an underlined value to edit it):" />
           <Scrollbox class="scScrollbox scDescription" ID="Description" runat="server" />
         </div>
+      </div>
+      <div class="scFinalCountContainer" ID="FinalCountPanel" runat="server">
+        <Literal ID="FinalCountLiteral" runat="server" Text="" />
       </div>
     </Sitecore.Controls.DialogPage>
 

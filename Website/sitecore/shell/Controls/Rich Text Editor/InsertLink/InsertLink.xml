@@ -25,11 +25,7 @@
             <Button ID="BtnUpload" Header="Upload" Click="media:upload(edit=1,load=1,sc_bw=1)"/>
           </Border>
         </Tab>
-        <Tab ID="SearchTab" Header="Search">
-          <Scrollbox Width="100%" Height="100%" Background="white" Border="none" Padding="0">
-            <Frame SourceUri="/sitecore/shell/Applications/Buckets/MiniResults.aspx" style="width:100%;height:100%;position:absolute;"></Frame>
-          </Scrollbox>
-        </Tab>
+        <SearchTab Mode="MediaBrowser" Header="Search"/>
       </Tabstrip>
 
     </FormDialog>

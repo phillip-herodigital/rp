@@ -22,12 +22,7 @@
               </GridPanel>
             </Tab>
 
-            <!-- START Buckets tab -->
-            <Tab ID="BucketsTab" Header="Search" Height="100%">
-               <Tab ID="MediaTab" Header="Search" Height="100%">
-                  <Frame SourceUri="/sitecore/shell/Applications/Buckets/MediaBrowser.aspx" Width="100%" Height="100%"></Frame>
-               </Tab>
-            </Tab>
+           <SearchTab Mode="MediaBrowser" Header="Search" Height="100%"/>
          </Tabstrip>
 
          <Border class="scInsertImageFileName" Padding="4px 8px 0px 0px">
@@ -39,7 +34,6 @@
             </GridPanel>
          </Border>
 
-         <!-- END Buckets tab -->
          <Border def:placeholder="Buttons">
             <Button ID="Upload" Header="Upload" Style="white-space: nowrap;" Click="media:upload(edit=1,load=1)"/>
             <Button Header="Edit" Click="Edit" Style="white-space: nowrap;"/>

@@ -97,6 +97,9 @@
     <Reference Include="Sitecore.Analytics">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Analytics.Model">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Model.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Kernel">
       <HintPath>..\Libraries\Sitecore\Sitecore.Kernel.dll</HintPath>
     </Reference>
@@ -250,7 +253,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="SitecoreSettings.cs" />
     <Compile Include="RequireValueAttribute.cs" />
-    <Compile Include="Tasks\ScheduledPublishing.cs" />
     <Compile Include="TypeIndicatorJsonConverter.cs" />
     <Compile Include="TypeIndicatorLookup.cs" />
     <Compile Include="Providers\GeoProvider.cs" />
@@ -264,7 +266,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Tasks\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

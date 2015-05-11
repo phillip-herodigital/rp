@@ -4,7 +4,7 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="2">
-      <DataSource Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <DataSource Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>DataSource</Alias>
         <Columns isList="true" count="5">
           <value>VisitorsCount,System.Int32</value>
@@ -22,9 +22,9 @@
           <value>_x0040_StartDate,,4,0</value>
           <value>_x0040_EndDate,,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:98F1E142-D0E3-40C2-B998-365C905551EB</SqlCommand>
       </DataSource>
-      <Page Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Page Ref="3" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Page</Alias>
         <Columns isList="true" count="1">
           <value>Url,System.String</value>
@@ -36,7 +36,7 @@
         <Parameters isList="true" count="1">
           <value>_x0040_Id,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:0335CB18-C887-4F23-A674-A560D89B3A99</SqlCommand>
       </Page>
     </DataSources>
     <Relations isList="true" count="0" />

@@ -1,6 +1,16 @@
 ﻿/// <reference path="../../../../../../assets/lib/dist/sitecore.js" />
 /// <reference path="../../../../../../assets/vendors/underscore/underscore.js" />
 
+require.config({
+    paths: {
+        dynatree: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/DynaTree/jquery.dynatree-1.2.4",
+        dynatreecss: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/DynaTree/skin-vista/ui.dynatree",
+    },    
+    shim: {
+        "dynatree": { deps: ["jqueryui"/*, 'css!dynatreecss'*/] }
+    }
+});
+
 define(['sitecore', 'dynatree'], function (_sc) {
   var control = {
     componentName: "TreeView",
@@ -25,7 +35,9 @@ define(['sitecore', 'dynatree'], function (_sc) {
       { name: "clickFolderMode", defaultValue: 1 }, // 1:activate, 2:expand, 3:activate and expand
       { name: "selectMode", defaultValue: 3 },      // 1:single, 2:multi, 3:multi-hier
       { name: "isNoLink", pluginProperty: "noLink", defaultValue: false },       // Use <span> instead of <a> tags for all nodes
-      { name: "debugLevel", defaultValue: 0 }       // 0:quiet, 1:normal, 2:debug
+      { name: "debugLevel", defaultValue: 0 },       // 0:quiet, 1:normal, 2:debug
+      { name: "showHiddenItems", defaultValue: false },
+      { name: "contentLanguage", defaultValue: "en" }
     ],
 
     events:
@@ -40,7 +52,6 @@ define(['sitecore', 'dynatree'], function (_sc) {
       { name: "onCreate" },          // Callback(dtnode, nodeSpan) after a node was rendered for the first time.
       { name: "onRender" },          // Callback(dtnode, nodeSpan) after a node was rendered.
       { name: "postProcess" }        // Callback(data, dataType) before an Ajax result is passed to dynatree.
-
     ],
 
     functions:
@@ -56,11 +67,19 @@ define(['sitecore', 'dynatree'], function (_sc) {
     view:
     {
       initialized: function () {
+        var clickFolderModeAttribute = this.$el.attr("data-sc-option-clickfoldermode"),
+          selectModeAttribute = this.$el.attr("data-sc-option-selectmode");
+
+        this.model.set("clickFolderMode", clickFolderModeAttribute && !isNaN(clickFolderModeAttribute) ? parseInt(clickFolderModeAttribute, 10) : 1);
+        this.model.set("selectMode", selectModeAttribute && !isNaN(selectModeAttribute) ? parseInt(selectModeAttribute, 10) : 3);
+        this.model.set("contentLanguage", this.$el.attr("data-sc-contentlanguage"));
+        this.model.set("showHiddenItems", this.$el.attr("data-sc-option-showhiddenitems") !== undefined && this.$el.attr("data-sc-option-showhiddenitems").toLowerCase() === "true");
+
         var items = this.$el.attr("data-sc-rootitem");
         if (!items) {
           return;
         }
-        
+
         var pathToLoad = this.$el.attr("data-sc-loadpath");
 
         if (pathToLoad) {
@@ -76,7 +95,7 @@ define(['sitecore', 'dynatree'], function (_sc) {
           var databaseUri = new _sc.Definitions.Data.DatabaseUri(uri[1]);
           var itemUri = new _sc.Definitions.Data.ItemUri(databaseUri, uri[2]);
           var itemIcon = uri[3];
-          
+
           var rootNode = {
             title: uri[0],
             key: itemUri.getItemId(),
@@ -95,7 +114,7 @@ define(['sitecore', 'dynatree'], function (_sc) {
 
           if (this.model.get("pathToLoad") && this.model.get("pathToLoad") !== "") {
             this.loadKeyPath();
-            
+
           }
         }
 
@@ -104,7 +123,7 @@ define(['sitecore', 'dynatree'], function (_sc) {
 
       onActivate: function (node) {
         if (node && node.data && node.data.itemUri && node.data.path) {
-          
+
           this.model.set("selectedNode", node.data);
           this.model.set("selectedItemId", node.data.itemUri.itemId);
           this.model.set("selectedItemPath", node.data.path);
@@ -123,18 +142,25 @@ define(['sitecore', 'dynatree'], function (_sc) {
       nodeExpanding: function (node) {
 
         var itemUri = node.data.itemUri, children;
-        
+
         this.pendingRequests++;
         this.model.set("isBusy", true);
 
         var self = this;
-        
+
         var database = new _sc.Definitions.Data.Database(itemUri.getDatabaseUri());
         database.getChildren(itemUri.getItemId(), function (items) {
-          var res = [];
+          var res = [],
+            filteredItems = _.filter(items, function (item) {
+              if (self.model.get("showHiddenItems")) {
+                return true;
+              }
 
-          self.appendLoadedChildren(node, items, res);
-          
+              return item.__Hidden !== "1";
+            });
+
+          self.appendLoadedChildren(node, filteredItems, res);
+
           self.pendingRequests--;
           if (self.pendingRequests <= 0) {
             self.pendingRequests = 0;
@@ -144,12 +170,23 @@ define(['sitecore', 'dynatree'], function (_sc) {
           if (self.model.get("pathToLoad") && self.model.get("pathToLoad").length > 0) {
             self.loadKeyPath();
           }
+        }, {
+          fields: ["__Hidden"],
+          language: self.model.get("contentLanguage")
         });
-        
+
       },
-      appendLoadedChildren:function (parentNode, childrenNodes, destArray) {
+
+      appendLanguageParameter: function (item) {
+        if (item.$icon.indexOf(".ashx") > 0) {
+          item.$icon += "&la=" + this.model.get("contentLanguage");
+          item.$mediaurl += "&la=" + this.model.get("contentLanguage");
+        }
+      },
+
+      appendLoadedChildren: function (parentNode, childrenNodes, destArray) {
         //add children
-        
+
         var self = this;
         _.each(childrenNodes, function (item) {
           var newNode = {};
@@ -157,17 +194,18 @@ define(['sitecore', 'dynatree'], function (_sc) {
           newNode.title = item.$displayName;
           newNode.key = item.itemId;
           if (self.model.get("showSitecoreIcons")) {
+            self.appendLanguageParameter(item);
             newNode.icon = item.$icon;
           }
           newNode.itemUri = item.itemUri;
           newNode.path = item.$path;
-          newNode.select = parentNode.isSelected();
+          newNode.select = self.model.get("selectMode") === 3 ? parentNode.isSelected() : false;
           newNode.isFolder = item.$hasChildren;
           newNode.isLazy = item.$hasChildren;
           destArray.push(newNode);
 
         }, this);
-        
+
         parentNode.setLazyNodeStatus(DTNodeStatus_Ok);
         parentNode.addChild(destArray);
         //expand needed node
@@ -179,7 +217,7 @@ define(['sitecore', 'dynatree'], function (_sc) {
             path = this.model.get("pathToLoad"),
             tree = this.widget.apply(this.$el, ["getTree"]),
             node;
-        
+
         pathParts = path.split(separator);
         if (pathParts.length === 0) {
           return false;
@@ -193,11 +231,11 @@ define(['sitecore', 'dynatree'], function (_sc) {
 
             return false;
           }
-          
-          
+
+
           this.model.set("pathToLoad", pathParts.join(separator));
           node.expand();
-          
+
           if (pathParts.length === 0) {
             this.model.set("selectedItemId", currentNodeId);
             node.activate(true);

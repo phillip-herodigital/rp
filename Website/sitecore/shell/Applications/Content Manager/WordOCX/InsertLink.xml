@@ -35,9 +35,7 @@
                </GridPanel>
             </Tab>
 
-            <Tab ID="BucketsTab" Header="Search" Height="100%">
-               <Frame SourceUri="/sitecore/shell/Applications/Buckets/MediaBrowser.aspx" Width="100%" Height="100%"></Frame>
-            </Tab>
+           <SearchTab Mode="MediaBrowser" Header="Search" Height="100%"/>
 
          </Tabstrip>
 

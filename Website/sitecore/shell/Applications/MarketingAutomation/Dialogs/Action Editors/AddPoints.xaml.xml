@@ -16,7 +16,7 @@
 
     <Sitecore.Controls.DialogPage Icon="Software/32x32/graph_edge_directed.png" runat="server"  
                                   Header="Add Points"
-                                  Text="Specify the number of points that you want to add to the visitor's lead score." >
+                                  Text="Specify the number of points that you want to add to the contacts's lead score." >
 
   
       

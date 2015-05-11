@@ -14,9 +14,7 @@
             <TreeviewEx ID="Treeview" DataContext="DataContext" ShowRoot="true" DblClick="OK_Click" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
           </Border>
         </Tab>
-        <Tab ID="MediaTab" Header="Search" Height="100%">
-            <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" style="position:absolute;" Width="100%" Height="100%"></Frame>
-        </Tab>
+        <SearchTab Mode="FieldResults" Header="Search" Height="100%"/>
       </Tabstrip>
     </FormDialog>
   </Sitecore.Shell.Applications.Dialogs.SelectItem>

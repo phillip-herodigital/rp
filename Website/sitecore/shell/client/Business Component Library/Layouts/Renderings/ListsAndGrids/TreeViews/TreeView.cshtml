@@ -1,5 +1,6 @@
 ﻿@using Sitecore
 @using Sitecore.Data.Items
+@using Sitecore.Globalization
 @using Sitecore.Mvc
 @using Sitecore.Mvc.Presentation
 @using Sitecore.Resources
@@ -11,7 +12,8 @@
   userControl.Class = "sc-treeview";
   userControl.Requires.Script("business", "treeview.js");
   var rootItemIcon = string.Empty;
-  var rootItemId = userControl.GetString("RootItem");
+  string rootItemId = userControl.GetString("RootItem");
+  string contentLanguage = userControl.GetString("ContentLanguage");
   var selectedItems = userControl.GetString("SelectedItemId");
   var preLoadPath = userControl.GetString("PreLoadPath");
   
@@ -24,7 +26,7 @@
   Item rootItem = null;
   if (!string.IsNullOrEmpty(rootItemId))
   {
-    rootItem = ClientHost.Databases.ContentDatabase.GetItem(rootItemId);
+    rootItem = ClientHost.Databases.ContentDatabase.GetItem(rootItemId, Language.Parse(contentLanguage));
   }
 
   if (rootItem == null)
@@ -34,7 +36,10 @@
 
   rootItemIcon = Images.GetThemedImageSource(!string.IsNullOrEmpty(rootItem.Appearance.Icon) ? rootItem.Appearance.Icon : "Applications/16x16/documents.png", ImageDimension.id16x16);
   userControl.SetAttribute("data-sc-rootitem", rootItem.DisplayName + "," + rootItem.Database.Name + "," + rootItem.ID + "," + rootItemIcon);
+  userControl.SetAttribute("data-sc-rootitempath", rootItem.Paths.Path);
   userControl.SetAttribute("data-sc-loadpath", preLoadPath);
+  userControl.SetAttribute("data-sc-contentlanguage", contentLanguage);
+
   
   userControl.AddOptionAttribute("selectedItems");
   //userControl.AddOptionAttribute("preLoadPath");
@@ -43,6 +48,7 @@
   userControl.AddOptionAttribute("selectMode");
   userControl.AddBoolOptionAttribute("IsCheckboxEnabled", "checkbox");
   userControl.AddBoolOptionAttribute("ShowSitecoreIcons");
+  userControl.AddBoolOptionAttribute("ShowHiddenItems", "showhiddenitems");
 
   var htmlAttributes = userControl.HtmlAttributes;
 }

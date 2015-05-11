@@ -2,12 +2,12 @@
 <information>
   <version>
     <major>7</major>
-    <minor>2</minor>
+    <minor>5</minor>
     <build>
     </build>
-    <revision>140228</revision>
+    <revision>141003</revision>
   </version>
-  <date>February 28, 2014</date>
+  <date>October 03, 2014</date>
   <title>Sitecore.NET</title>
   <company>Sitecore Corporation</company>
   <copyright>© Sitecore. All rights reserved.</copyright>

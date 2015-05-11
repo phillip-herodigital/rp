@@ -1,5 +1,5 @@
 ﻿define(["sitecore"], function (_sc) {
-  var model = Sitecore.Definitions.Models.ControlModel.extend({
+  var model = _sc.Definitions.Models.ControlModel.extend({
     initialize: function () {
       this.set({
         selectedItemId: ""
@@ -7,7 +7,7 @@
     }
   });
 
-  var view = Sitecore.Definitions.Views.ControlView.extend({
+  var view = _sc.Definitions.Views.ControlView.extend({
     events: {
       "click .sc-hyperlinkbutton": "select"
     },

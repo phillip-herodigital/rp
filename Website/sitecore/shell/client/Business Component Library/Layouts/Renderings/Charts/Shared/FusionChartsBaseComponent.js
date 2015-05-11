@@ -5,7 +5,7 @@
     chartTemplateProperties: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Charts/Shared/ChartTemplateProperties",
     fusionCharts: "/sitecore/shell/client/Speak/Assets/lib/ui/deps/FusionCharts/FusionCharts",
     fusionChartsAdapter: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Charts/Shared/FusionChartsAdapter",
-    chartsCss: "../../Business Component Library/Layouts/Renderings/Charts/Shared/Charts"
+    chartsCss: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Charts/Shared/Charts"
   }
 });
 

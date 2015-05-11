@@ -20,6 +20,10 @@
 
     this.serverValue = function() {
       var parsedValue = self.filterType.clientSideHook.parse(self.value());
+      if (self.filterType.clientSideHook.name == 'date' && parsedValue) {
+        return self.value();
+      }
+      
       return (parsedValue + '' === parsedValue) || !parsedValue
         ? parsedValue
         : parsedValue.key + '|' + parsedValue.value;

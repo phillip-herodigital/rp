@@ -4,7 +4,7 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="1">
-      <Failures Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Failures Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Failures</Alias>
         <Columns isList="true" count="3">
           <value>Url,System.String</value>
@@ -19,7 +19,7 @@
           <value>_x0040_StartDate,StartDate,4,0</value>
           <value>_x0040_EndDate,EndDate,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:42B304D6-F29B-4DCC-B0EE-C8A3CFC92E40</SqlCommand>
       </Failures>
     </DataSources>
     <Relations isList="true" count="0" />
@@ -271,7 +271,7 @@
               <Name>Text3</Name>
               <Page isRef="3" />
               <Parent isRef="15" />
-              <Text>{(new TimeSpan(Failures.TimeTaken)).Milliseconds} {MillisecondsText}</Text>
+              <Text>{Failures.TimeTaken} {MillisecondsText}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text3>

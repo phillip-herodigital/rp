@@ -9,6 +9,10 @@
 
   var controlId = userControl.ControlId;
   var htmlAttributes = userControl.HtmlAttributes;
+ 
+  var showNameField = userControl.GetBool("showNameField", "ShowNameField", true) ? "initial" : "none";
+  var showDescriptionField = userControl.GetBool("showDescriptionField", "ShowDescriptionField", true) ? "initial" : "none";
+  var showAlternateTextField = userControl.GetBool("ShowAlternateTextField", "ShowAlternateTextField", true) ? "initial" : "none";
 }
 <script data-layout-uploaderInfo="@controlId" type="text/x-sc-uploaderInfo"></script>
 
@@ -23,19 +27,19 @@
     </div>
     <div class="span4">
       <form class="form-horizontal">
-        <div class="control-group">
+        <div class="control-group" style="display:@showNameField">
           <label class="control-label" for="name">@Sitecore.ClientHost.Globalization.Translate("Name:")</label>
           <div class="controls">
             <input name="name" data-bind="value: name" type="text">
           </div>
         </div>
-        <div class="control-group">
+        <div class="control-group" style="display:@showDescriptionField">
           <label class="control-label" for="description">@Sitecore.ClientHost.Globalization.Translate("Description:")</label>
           <div class="controls">
             <textarea name="description" data-bind="value: description"></textarea>
           </div>
         </div>
-        <div class="control-group">
+        <div class="control-group" style="display:@showAlternateTextField">
           <label class="control-label" for="alternate">@Sitecore.ClientHost.Globalization.Translate("Alternate Text:")</label>
           <div class="controls">
             <input name="alternate" data-bind="value: alternate" type="text">
@@ -57,6 +61,11 @@
           <div class="completed hide">
             <p>
                 @Sitecore.ClientHost.Globalization.Translate("Upload completed")
+            </p>
+          </div>
+          <div class="failed hide">
+            <p>
+                @Sitecore.ClientHost.Globalization.Translate("Upload failed")
             </p>
           </div>
         </div>

@@ -1,0 +1,11 @@
+﻿div[data-sc-id=MoreGoalsBorder] {
+  border-top: 1px solid #ccc !important;
+}
+
+div[data-sc-id=GoalsTabMessageBar] {
+    margin-top: 20px;
+}
+
+div[data-sc-id=GoalsList] td.ventilate {
+    cursor: pointer;
+}

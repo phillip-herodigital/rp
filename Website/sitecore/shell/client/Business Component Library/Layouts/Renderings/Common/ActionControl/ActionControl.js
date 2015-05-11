@@ -20,6 +20,13 @@ define(["sitecore", "knockout", "bootstrap"], function (Sitecore, ko) {
     this.isFavorite = new ko.observable(false);
     this.isDefaultAction = new ko.observable(false);
     this.click = new ko.observable("");
+    this.isEnabled = new ko.observable(true);
+    this.disable = function () {
+      this.isEnabled(false);
+    };
+    this.enable = function () {
+      this.isEnabled(true);
+    };
   };
 
   ActionModel.prototype.invoke = function (app) {
@@ -37,6 +44,8 @@ define(["sitecore", "knockout", "bootstrap"], function (Sitecore, ko) {
       this.set("isOpen", false);
       this.set("actions", []);
       this.set("favorites", []);
+      this.set("userProfileKey", "");
+      this.set("actionsStatus", []);
     }
   });
 
@@ -44,7 +53,10 @@ define(["sitecore", "knockout", "bootstrap"], function (Sitecore, ko) {
     {
       initialize: function (options) {
         this._super();
-        
+        this.model.set("userProfileKey", this.$el.data("sc-userprofilekey"));
+        this.model.set("actionsStatus", this.$el.data("sc-actionsstatus"));
+        this.model.set("text", this.$el.find(".dropdown-text").text());
+
         var actions = this.$el.find("[data-sc-actionid]").map(function () {
           var action = new ActionModel(),
           url = $(this).find("div").css('background-image'),
@@ -60,13 +72,14 @@ define(["sitecore", "knockout", "bootstrap"], function (Sitecore, ko) {
           action.tooltip($(this).attr("data-sc-tooltip"));
           action.isDefaultAction($(this).attr("data-sc-favorite") === "true");
           action.click($(this).attr("data-sc-click"));
+          action.isEnabled($(this).attr("data-sc-isdisabled") === "false");
 
           return action;
         });
-       
+
         this.model.set("actions", actions);
         this.updateFavorites();
-        
+
         this.model.on("change:isVisible", function () {
           this.model.get("isVisible") ? this.$el.show() : this.$el.hide();
         }, this);
@@ -77,21 +90,27 @@ define(["sitecore", "knockout", "bootstrap"], function (Sitecore, ko) {
       },
 
       toggleFavorite: function (data, event) {
-        
-        $(event.target).toggleClass("selected");
         var action = this.getAction(event.target);
 
-        if (action != null) {
-          action.isFavorite(!action.isFavorite());
-          this.updateFavorites();
+        if (action.isEnabled()) {
+          $(event.target).toggleClass("selected");
+
+          if (action != null) {
+            action.isFavorite(!action.isFavorite());
+            this.updateActionsStatus(action);
+            this.updateFavorites();
+          }
         }
       },
 
       invokeAction: function (data, event) {
-        this.model.set("isOpen", false);
-
         var action = this.getAction(event.target);
-        if (action != null) {
+
+        if (!action) {
+          this.model.set("isOpen", false);
+        }
+        else if (action.isEnabled()) {
+          this.model.set("isOpen", false);
           action.invoke(this.app);
         }
       },
@@ -126,6 +145,31 @@ define(["sitecore", "knockout", "bootstrap"], function (Sitecore, ko) {
         });
 
         this.model.set("favorites", favorites);
+      },
+
+      updateActionsStatus: function (action) {
+        var foundAction = _.find(this.model.get("actionsStatus"), function (obj) { return obj.id == action.id(); });
+        if (foundAction) {
+          foundAction.isFavorite = action.isFavorite();
+        } else {
+          this.model.get("actionsStatus").push(
+            {
+              id: action.id(),
+              isFavorite: action.isFavorite()
+            });
+        }
+
+        this.setFavoritesInUserProfile();
+      },
+
+      setFavoritesInUserProfile: function () {
+        var key = this.model.get("userProfileKey");
+        var value = JSON.stringify(this.model.get("actionsStatus"));
+        $.ajax({
+          dataType: "text",
+          data: "key=" + key + "&value=" + value,
+          url: "/api/sitecore/Settings/SetUserProfileKey"
+        });
       }
     });
 

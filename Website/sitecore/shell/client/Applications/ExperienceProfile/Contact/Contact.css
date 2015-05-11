@@ -1,0 +1,328 @@
+﻿code, iframe, .scLoadingIndication {  /* should be delete after fixing itemWebApi problem about page editor */
+  display: none !important;
+}
+
+body.sc {
+  min-width: 700px;
+  overflow-x: auto;
+}
+/*should be delete after fixing header issue in speak project*/
+header.sc-globalHeader {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+header.sc-globalHeader .sc-global-logo {
+  margin-left: 15px !important;
+}
+/*----------*/
+.sc .sc-table thead tr th:after
+{
+  background: #d6d6d6 right center !important;
+  position: absolute !important;
+  width: 1px !important;
+  display: block !important;
+  height: 15px !important;
+  right: 0 !important;
+  content: "";
+  top: 50% !important;
+  margin-top: -7px !important;
+}
+
+img[data-sc-id=InfoPhotoImage] {
+    margin-bottom: 4px;
+    margin-top: 26px;
+}
+
+span[data-sc-id=InfoContactName] {
+    display: block;
+}
+
+span[data-sc-id=LatestVisitHeader], span[data-sc-id=StatsHeader] {
+    display: block;
+    margin-bottom: 10px !important;
+}
+
+div[data-sc-id=LatestVisitContentBorder] > img {
+    float: left;
+    margin-top: 4px;
+}
+div[data-sc-id=LatestVisitContentBorder] > img[data-sc-id=VisitRecencyImage] {
+  margin-top: 2px;
+}
+
+div[data-sc-id=LatestVisitContentBorder] > div {
+    margin-left: 26px;
+    margin-bottom: 12px;
+}
+
+img[data-sc-id=LatestVisitErrorImage], img[data-sc-id=StatsErrorImage] {
+    float: left;
+}
+
+span[data-sc-id=LatestVisitErrorHeader], span[data-sc-id=StatsErrorHeader] {
+    color: red;
+    display: block;
+    font-weight: bold;
+    margin-left: 26px !important;
+}
+
+div[data-sc-id=StatsRowsBorder] > div {
+  padding: 3px 0px;
+}
+
+div[data-sc-id=StatsRowsBorder] > div >div:nth-child(even) {
+  text-align: right;
+}
+
+div[data-sc-id=StatsRowsBorder] > div:nth-child(odd) {
+    background-color: #EEEEEE;
+}
+
+div[data-sc-id=StatsRowsBorder] span.sc-text {
+  margin: 0 5px;
+}
+
+div[data-sc-id=DetailsRow].row-fluid {
+    display: table;
+}
+
+div[data-sc-id=DetailsRow].row-fluid > div[class*="span"] {
+    display: table-cell;
+    float: none;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+.sc-accordion {
+    margin-top: 20px;
+}
+
+    .sc-accordion .sc-table {
+        border: none !important;
+    }
+
+.sc-smartpanel .sc-text-label {
+    font-size: 75%;
+}
+
+.sc-smartpanel .sc-text-largetitle {
+    font-size: 220%;
+}
+
+.sc-text-label, .sc-text-smalltitle, .sc-text-largetitle {
+    display: block;
+}
+
+.sc-accordion-footer-more, .sc-accordion-footer-less {
+    text-align: right;
+    padding: 0 10px 5px 0 !important;
+}
+
+div[data-sc-id=ContactMessageBar] {
+    margin-top: 20px;
+}
+
+span[data-sc-id=GenderText] {
+    text-transform: capitalize;
+}
+
+.sc-accordion .sc-accordion-header table .sc-accordion-header-chevron a {
+    display: none !important;
+}
+
+.sc div.sc-tabcontrol[data-sc-id=TabControl] a {
+    outline: 0 none;
+}
+
+.sc-accordion .sc-accordion-header-title,
+span[data-sc-id=StatsHeader] {
+    text-transform: uppercase;
+}
+
+.btn-primary.sc-button[data-sc-id=RefreshButton] {
+  padding: 4px 8px 5px 8px !important;
+  position: absolute !important;
+  right: 15px !important;
+  top: 53px !important;
+}
+
+div[data-sc-id=MainBorder] {
+  position: relative;
+}
+
+div[data-sc-id=TabControl].sc-tabcontrol > .nav-tabs {
+  padding-right: 50px !important;
+}
+
+span[data-sc-id=OnlineIndicator] {
+  border-radius: 5px;
+  height: 10px;
+  width: 10px;
+  background-color: rgb(0, 224, 0);
+  float: right;
+  margin-top: 3px !important;
+  display: none;
+}
+
+.sc-list {
+  display: none;
+}
+
+.btn-primary.sc-button.skinnymode-refresh[data-sc-id=RefreshButton] {
+  top: 27px !important;
+}
+
+.sc .sc-tabcontrol > .nav-tabs > li > a, .sc .sc-tabcontrol > .nav-pills > li > a {
+  padding-left: 9px !important;
+  padding-right: 9px !important;
+}
+
+.sc .sc-table tbody tr td, 
+.sc .sc-table thead td, 
+.sc .sc-table tbody tr th, 
+.sc .sc-table thead th {
+  text-indent: 0 !important; 
+  white-space: normal !important; 
+  vertical-align: middle !important;
+  word-wrap: break-word !important;
+}
+
+.sc .sc-table tbody tr td.ventilate:after, 
+.sc .sc-table thead td.ventilate:after {
+  top: 50% !important;
+  margin-top: -7px !important;
+}
+
+button.sc-button[data-sc-id=BackButton] {
+  display: block !important;
+}
+
+button.sc-button[data-sc-id=OverviewBackButton] {
+  display: none !important;
+  margin-bottom: 15px;
+}
+
+a.sc-hyperlinkbutton[data-sc-id=LatestVisitHyperlink] {
+  margin-right: 10px !important;
+}
+
+/* resolution */
+.row-fluid .sc-border[data-sc-id=OverviewBorder] hr.sc-separator {
+   display: block;
+}
+.sc-border[data-sc-id=MainBorder] {
+   width: 75%;
+   float: left;
+}
+
+.sc-border[data-sc-id=OverviewBorder] {
+   width: 25%;
+   float: right;
+}
+@media (min-width: 0px) and (max-width: 999px)
+{
+  .row-fluid section.span12 {
+    width: 100%;
+  }
+  .sc-border[data-sc-id=MainBorder] {
+    width: 100%;
+  }
+  .row-fluid .sc-border[data-sc-id=OverviewBorder] {
+    width: 100%;
+  }
+  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] {
+    display: table; 
+    width: 100%;
+    margin-top: 10px;
+  }
+  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] > div {
+    display: table-cell; 
+    float: none;
+    vertical-align: top; 
+    padding: 0 15px 15px 15px;
+  }
+  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorderAvatar] {
+    width: 33%;
+  }
+  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorderAvatar] img[data-sc-id=InfoPhotoImage] {
+    margin: 0;
+  }
+  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=LatestVisitBorder] {
+    border-left: 1px solid #ccc; 
+    border-right: 1px solid #ccc;
+  }
+  .sc .sc-border.sc-show-padding[data-sc-id=OverviewBorderPadding] {
+    border-bottom: 1px solid #ccc;
+    margin: 0 15px;
+    padding: 15px 0 0 0;
+  }
+  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] > div[data-sc-id=InfoBorderAvatar] {
+    padding-left: 0;
+  }
+  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] > div[data-sc-id=StatsBorder] {
+    padding-right: 0;
+  }
+  button.sc-button[data-sc-id=OverviewBackButton] {
+    display: block !important;
+  }
+  button.sc-button[data-sc-id=BackButton] {
+    display: none !important;
+  }
+  .btn-primary.sc-button[data-sc-id=RefreshButton] {
+    top: 27px !important;
+  }
+
+}
+
+.row-fluid .sc-border[data-sc-id=OverviewBorder] hr.sc-separator
+{
+  width:100%;
+  margin-top:0;
+}
+
+.sc-border[data-sc-id=InfoBorderAvatar]
+{
+  padding-bottom:10px !important;
+}
+
+a.sc-hyperlinkbutton[data-sc-id=MoreInfoLink]
+{
+  margin-right:15px;
+}
+
+.modal-body {
+  height: auto !important;
+}
+
+.modal-scrollable {
+  position: initial !important;
+  overflow: auto !important;
+  height: auto !important;
+}
+
+.modal {
+  position: absolute !important;
+  top: 0 !important;
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+.sc-dialogWindow .sc-border[data-sc-id=MainBorder] {
+   width: 100% !important;
+}
+
+.sc-dialogWindow .sc-list {
+  display: block;
+}
+
+img[data-sc-id=VisitDialogPhoto] {
+  cursor: default !important;
+}
+
+div[data-sc-id=VisitDialogIndicator] {
+  z-index: 3100 !important;
+}

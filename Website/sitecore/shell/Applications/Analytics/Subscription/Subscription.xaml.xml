@@ -13,9 +13,29 @@
 
   <Sitecore.Shell.Applications.Analytics.Subscription x:inherits="Sitecore.Shell.Applications.Analytics.Subscription.SubscriptionPage,Sitecore.Client">
     <x:using namespace="Sitecore.Controls" />
-      <AjaxScriptManager runat="server"/>
-    <ContinuationManager runat="server" />    
-    
+    <AjaxScriptManager runat="server"/>
+    <ContinuationManager runat="server" />
+    <Script runat="server" type="text/javascript">
+      function RefreshParent() {
+
+      var opener = null;
+
+      if (window.dialogArguments) // Internet Explorer supports window.dialogArguments
+      {
+        opener = window.dialogArguments;
+      }
+      else // Firefox, Safari, Google Chrome and Opera supports window.opener
+      {
+        if (window.opener) {
+        opener = window.opener;
+       }
+      }
+
+      if (opener) {
+        opener.frameElement.ownerDocument.forms[0].submit();
+        }
+      }
+    </Script>
     <BaseDialogPage Icon="Network/16x16/mail_into.png" Header="Subscription" Text="Subscription confirmation." runat="server">
         <Literal runat="server" ID="Message" x:placeholder="Content" />
         <Button runat="server" ID="BtnOk" Width="76px" Height="23px" KeyCode="13" Margin="0px 0px 0px 4px" Click="OkClick" x:placeholder="DialogButtons" Visible="false">

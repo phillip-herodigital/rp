@@ -4,13 +4,13 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="2">
-      <DataSource Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <DataSource Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>DataSource</Alias>
         <Columns isList="true" count="4">
           <value>Value,System.Int32</value>
           <value>SearchCount,System.Int32</value>
           <value>VisitsCount,System.Int32</value>
-          <value>DataKey,System.String</value>
+          <value>SearchTerm,System.String</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
@@ -21,9 +21,9 @@
           <value>_x0040_StartDate,,4,0</value>
           <value>_x0040_EndDate,,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:4F8050A5-6CB4-4A3E-B558-3B8F6A49EA92</SqlCommand>
       </DataSource>
-      <Page Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Page Ref="3" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Page</Alias>
         <Columns isList="true" count="1">
           <value>Url,System.String</value>
@@ -35,7 +35,7 @@
         <Parameters isList="true" count="1">
           <value>_x0040_Id,,14,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:0335CB18-C887-4F23-A674-A560D89B3A99</SqlCommand>
       </Page>
     </DataSources>
     <Relations isList="true" count="0" />
@@ -272,7 +272,7 @@
               <Name>Text6</Name>
               <Page isRef="4" />
               <Parent isRef="18" />
-              <Text>{DataSource.DataKey}</Text>
+              <Text>{DataSource.SearchTerm}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text6>

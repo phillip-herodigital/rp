@@ -20,14 +20,10 @@
             <Tabstrip ID="Tabs" class="scFlexContent">
               <Tab ID="MediaLibraryTab" Header="Browse" Height="100%">
                 <Scrollbox Width="100%" Height="100%" Background="white" Class="scScrollbox" Padding="0">
-                  <TreeviewEx ID="Templates" Click="SelectTreeNode" DblClick="DoOK" DataContext="TemplatesDataContext" />
+                    <TreeviewEx ID="Templates" Click="SelectTreeNode" DblClick="DoOK" DataContext="TemplatesDataContext" />
                 </Scrollbox>
               </Tab>
-               <Tab ID="MediaTab" Header="Search" Height="100%">
-                  <Scrollbox ID="SearchItems" Height="100%" Background="white" Padding="0px" >
-                    <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" Width="100%" Height="100%"></Frame>
-                  </Scrollbox>
-               </Tab>
+              <SearchTab Mode="FieldResults" Header="Search" Height="100%"/>
             </Tabstrip>
             <GridPanel class="scTemplateInfo" Columns="2">
               <Border style="padding-right:4px ; white-space: nowrap;" >

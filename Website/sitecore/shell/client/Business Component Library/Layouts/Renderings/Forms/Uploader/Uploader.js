@@ -1,8 +1,8 @@
 ﻿/// <reference path="../../../../Assets/lib/ui/deps/jQueryUI/jquery-ui-1.8.23.custom.min.js" />
 require.config({
   paths: {
-    fileUpload: "lib/ui/deps/jquery-File-Upload/jquery.fileupload",
-    iFrameTransport: "lib/ui/deps/jquery-File-Upload/jquery.iframe-transport"
+    fileUpload: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/jquery-File-Upload/jquery.fileupload",
+    iFrameTransport: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/jquery-File-Upload/jquery.iframe-transport"
   },
   shim: {
     'fileUpload': { deps: ['jqueryui'] },
@@ -15,22 +15,25 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       fdata = !!(window.FormData),
       wCreds = window.XMLHttpRequest && "withCredentials" in new XMLHttpRequest,
       hasXMLRequestLevel2 = progEv && fdata && wCreds,
-      ONLYIMAGE = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i,
+      ONLYIMAGE = /^(image\/bmp|image\/dib|image\/gif|image\/jpeg|image\/jpg|image\/jpe|image\/jfif|image\/png|image\/tif|image\/tiff)$/i,
       totalSize = 0,
+      uploadedSize = 0,
       iMaxFilesize = 10485760, // 10MB
       fileSizeExceededErrorMessage = "",
+      timeoutErrorMessage = "",
+      uploadTimer,       
       removeExtension = function (name) {
         return name.replace(/\.[^/.]+$/, "");
       },
       bytesToSize = function (bytes) {
-        var sizes = ['Bytes', 'KB', 'MB'];
+        var sizes = ['bytes', 'Kb', 'Mb'];
 
-        if (bytes == 0) return '0 Bytes';
+        if (bytes == 0) return '0 bytes';
         var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
         return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
       },
       Files = Backbone.Collection.extend({
-        model: Sitecore.Definitions.Models.Model
+        model: _sc.Definitions.Models.Model
       }),
       validateFile = function (file) {
         file.errors = file.errors || [];
@@ -80,7 +83,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
                 modelJSON.width = oImage.naturalWidth;
                 modelJSON.height = oImage.naturalHeight;
                 modelJSON.error = false;
-                var model = new Sitecore.Definitions.Models.Model(modelJSON);
+                var model = new _sc.Definitions.Models.Model(modelJSON);
                 collection.add(model);
                 cb(modelJSON);
               };
@@ -89,7 +92,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           } else {
             modelJSON.image = "/sitecore/shell/client/Speak/Assets/img//unknown_icon_32.png";
             modelJSON.error = false;
-            collection.add(new Sitecore.Definitions.Models.Model(modelJSON));
+            collection.add(new _sc.Definitions.Models.Model(modelJSON));
             cb(modelJSON);
           }
         }, this);
@@ -99,8 +102,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
             bytesTransfered = bytesToSize(data.total);
 
         model.set("percentage", percentage.toString());
-        model.set("bytesTransfered", bytesTransfered);
-
+        model.set("bytesTransfered", bytesTransfered);        
         cb(model);
       },
       removeFilesFromQueue = function (model) {
@@ -124,7 +126,9 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           this.uploadFile.context.forms[0].__ids.splice(this.uploadFile.context.forms[0].__ids.indexOf(model.id), 1);
         }
 
-        this.model.set("totalSize", this.getTotalSize());
+        this.updateUploadInfo(this.collection.length > 0, false);        
+        this.refreshNumberFiles(false);
+        this.refreshNumberSize(false);
       },
       updateFromQueue = function (model) {
         var name = model.get("name"),
@@ -150,47 +154,83 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       "upload": "upload"
     },
     attributes: [
-        { name: "destinationUrl", value: "$el.data:sc-destinationUrl" },
+        { name: "destinationUrl", value: "$el.data:sc-destinationurl" },
         { name: "maxRequestLength", value: "$el.data:sc-maxrequestlength" },
-        { name: "hasFilesWithinSizeLimit", defaultValue: null },
+        { name: "hasFilesToUpload", defaultValue: null },
         { name: "executionTimeout", value: "$el.data:sc-executiontimeout" },
         { name: "totalFiles", defaultValue: 0 },
+        { name: "uploadedFiles", defaultValue: 0 },
         { name: "globalPercentage", defaultValue: 0 },
-        { name: "totalSize", defaultValue: "0 Bytes" }
+        { name: "totalSize", defaultValue: "0 bytes" },
+        { name: "uploadedSize", defaultValue: "0 bytes" },
+        { name: "queueWasAborted", defaultValue: null }
     ],
+    
     initialize: function () {
+      var databaseUri = new _sc.Definitions.Data.DatabaseUri("core"),
+        database = new _sc.Definitions.Data.Database(databaseUri);      
+      
       if (!hasXMLRequestLevel2) {
-        this.$el.find(".drag").hide();
-        this.$el.find(".sc-uploader-general-info").hide();
+        this.$el.find(".drag").hide();        
       }
       this.databaseName = this.$el.data("sc-databasename") ? this.$el.data("sc-databasename") : "core";
-      this.url = "/api/sitecore/Media/Upload?sc_database=" + this.databaseName;
+      this.setUploadUrl();      
       this.model.set("totalFiles", 0);
+      this.model.set("uploadedFiles", 0);
       this.datas = [];
-      this.$el.find(".sc-uploader-fileupload").attr("data-url", this.url);
       this.app.on("upload-info-deleted", removeFilesFromQueue, this);
       this.app.on("upload-info-updated", updateFromQueue, this);
       this.$preeview = this.$el.find(".sc-uploader-preview");
       this.uploadFile = this.$el.find(".sc-uploader-fileupload");
       this.collection.on("add", this.fileAdded, this);
-      this.collection.on("remove", this.refreshNumberFiles, this);
-      this.refreshNumberFiles();
+      this.collection.on("remove", this.refreshNumberFiles(false), this);
+      this.refreshNumberFiles(false);
+      this.domElements = {
+        infoUploadingDataPanels: this.$el.find(".sc-uploader-general-info-data-uploadingData"),
+        infoDataPanel: this.$el.find(".sc-uploader-general-info-data"),
+        infoProgressBar: this.$el.find(".sc-uploader-general-info-progressbar")        
+      },
       
-      var databaseUri = new Sitecore.Definitions.Data.DatabaseUri("core"),
-            database = new Sitecore.Definitions.Data.Database(databaseUri);
-
+      // Gets translation of messages for error events
       database.getItem("{7F5A190F-64A6-495B-B148-80569C03348D}", this.setFileSizeExceededErrorMessage);
+      database.getItem("{B995246F-A761-451E-9539-AAC4B7761F06}", this.setTimeoutErrorMessage);
+      database.getItem("{B995246F-A761-451E-9539-AAC4B7761F06}", function (item) {
+        console.log(item);
+      });
+
+      this.model.on("change:destinationUrl", this.changeDestinationUrl, this);
+    },
+    
+    changeDestinationUrl: function () {      
+      this.setUploadUrl();
+    },
+
+    setUploadUrl: function () {
+      this.url = "/api/sitecore/Media/Upload" + "?database=" + this.databaseName + "&destinationUrl=" + this.model.get("destinationUrl");
+      this.$el.find(".sc-uploader-fileupload").attr("data-url", this.url);
+    },
+
+    setTimeoutErrorMessage: function (item) {
+      timeoutErrorMessage = item.Text;
     },
     setFileSizeExceededErrorMessage: function (item) {
       fileSizeExceededErrorMessage = item.Text;
     },
-    getTotalSize: function () {
-      var hasFilesWithinSizeLimit = this.model.get("totalFiles") && totalSize < this.model.get("maxRequestLength");
 
-      if (this.model.get("hasFilesWithinSizeLimit") !== hasFilesWithinSizeLimit) {
-        this.model.set("hasFilesWithinSizeLimit", hasFilesWithinSizeLimit);
+    getUploadedSize: function () {      
+      return bytesToSize(uploadedSize);
+    },
+    
+    getTotalSize: function () {
+      var hasFilesToUpload = this.model.get("totalFiles") && totalSize < this.model.get("maxRequestLength");
+
+      if (this.model.get("hasFilesToUpload") !== hasFilesToUpload && !this.model.get("queueWasAborted")) {
+        this.model.set("hasFilesToUpload", hasFilesToUpload);
 
         this.setFileSizeExceeded();
+      }
+      else if (this.model.get("queueWasAborted")) {
+        this.model.set("hasFilesToUpload", false);
       }
       
       return bytesToSize(totalSize);
@@ -208,18 +248,111 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
     },
 
     fileAdded: function (model) {
-      this.refreshNumberFiles();
+      this.updateUploadInfo(true, false);
+      this.refreshNumberFiles(false);
       this.app.trigger("upload-fileAdded", model);
     },
-    refreshNumberFiles: function () {
-      this.model.set("totalFiles", this.collection.length);
+    
+    refreshNumberSize: function (isUploading) {
+      if (isUploading) {
+        this.model.set("uploadedSize", this.model.get("queueWasAborted") ? this.model.get("uploadedSize") : this.getUploadedSize());
+        return;
+      }
+      
+      this.model.set("totalSize", this.getTotalSize());
+      this.model.set("uploadedSize", 0);
     },
+      
+    refreshNumberFiles: function (isUploading) {
+      if (isUploading) {
+        
+        this.model.set("uploadedFiles", this.model.get("queueWasAborted") ? this.model.get("uploadedFiles") : this.model.get("totalFiles") - this.collection.length);
+        return;
+      }
+      
+      this.model.set("totalFiles", this.model.get("queueWasAborted") ? 0 : this.collection.length);
+      this.model.set("uploadedFiles", 0);
+    },
+
+    showDataPanel: function (state) {
+      if (state) {
+        this.domElements.infoDataPanel.show();
+      } else {
+        this.domElements.infoDataPanel.hide();
+      }
+    },
+    
+    showProgressBar: function (state) {
+      if (state) {
+        this.domElements.infoProgressBar.show();
+      } else {
+        this.domElements.infoProgressBar.hide();
+      }
+    },
+    
+    showUploadingDataPanel: function (state) {
+      if (state) {
+        this.domElements.infoUploadingDataPanels.css('display', 'inline-block');
+      } else {
+        this.domElements.infoUploadingDataPanels.hide();
+      }
+    },
+    
+    updateUploadInfo: function (hasFilesToUpload, isUploading, hasCompletedUploading) {
+      this.showDataPanel(hasFilesToUpload || isUploading || hasCompletedUploading);
+      this.showUploadingDataPanel(isUploading);
+      this.showProgressBar(isUploading);
+    },
+
     upload: function () {
+      var that = this;      
+      this.startUploadTimer(this.datas);      
+      this.updateUploadInfo(true, true);
+
       //for each files - do the upload
       _.each(this.datas, function (data) {
-        data.submit();
+        data.submit().error(function (jqXHR, textStatus, errorThrown) {
+          // Triggers error on each model that had an abort
+          if (errorThrown === "abort") {
+            that.app.trigger("upload-error", { id: data.__id });
+          }
+        });
       });
     },
+    
+    // Starts a timer from the setting executionTimeout
+    startUploadTimer: function (datas) {
+      var errorId = "uploadErrorTimeout",
+        executionTimeout = this.model.get("executionTimeout"),
+        currentSeconds = 0,
+        that = this;
+      
+      uploadTimer = window.setInterval(function () {
+        currentSeconds += 0.1;
+
+        if (currentSeconds > executionTimeout) {
+          // Abort each file upload, and triggers an error event with each file
+          _.each(datas, function (data) {
+            data.abort();
+            that.collection.remove(model);
+          });
+
+          clearInterval(uploadTimer);
+          
+          that.app.trigger("sc-error", [{ id: errorId, Message: timeoutErrorMessage }]);
+
+          // To resets the indicator width
+          that.model.set("globalPercentage", 0);
+          
+          // Resets everything
+          that.datas = [];
+          totalSize = 0;
+          uploadedSize = 0;
+          that.model.set("queueWasAborted", true);
+        }
+      }, 100);
+    },
+    
     updateRealImage: function (data, id) {
       model = _.find(this.collection.models, function (model) {
         return model.get("id") === id;
@@ -234,6 +367,15 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       this.uploadFile.fileupload({
 
         add: function (e, data) {
+          data.url = that.url;
+
+          // Resets the aborted state
+          if (that.model.get("queueWasAborted")) {
+            that.app.trigger("sc-uploader-remove", { id: "uploadErrorTimeout" });
+            that.model.set("queueWasAborted", false);
+            that.collection.reset();
+          }
+          
           that.model.set("globalPercentage", 0);
           var files = data.files,
               currentNumber = that.model.get("totalFiles") || 0;
@@ -252,15 +394,17 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
 
             data.__id = model.id;
 
-            that.datas.push(data);
-            that.model.set("totalSize", that.getTotalSize());
+            that.datas.push(data);            
+            that.refreshNumberSize(false);
           });
         },
         progressall: function (e, data) {
-          var percentage = Math.round(data.loaded * 100 / data.total),
-              bytesTransfered = bytesToSize(data.total);
+          if (!that.model.get("queueWasAborted")) {
+            var percentage = Math.round(data.loaded * 100 / data.total),
+                bytesTransfered = bytesToSize(data.total);
 
-          that.model.set("globalPercentage", percentage);
+            that.model.set("globalPercentage", percentage);
+          }
         },
         formData: function (form) {
           var id = form.context.__ids.shift(),
@@ -287,43 +431,55 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           return data;
         },
 
-        done: function (e, data) {
-          that.datas = [];
-          totalSize = 0;
-          that.model.set("totalFiles", 0);
-
+        done: function (e, data) {          
+          //that.datas = [];
+          that.datas.splice(that.datas.indexOf(data), 1);
+          
           if (data.jqXHR) {
-            data.jqXHR.done(function (res) {
-              var models = [];
-              if (res.errorItems) {
-                _.each(res.errorItems, function (error) {
-                  error.id = data.__id;
-                });
-
-                that.app.trigger("sc-error", res.errorItems);
-                that.app.trigger("upload-error", { id: data.__id, errors: res.errorItems });
-
-                return undefined;
-              }
-
-              that.updateRealImage.call(that, res, data.__id);
-
-              ids = _.pluck(data.files, "__id");
-
-              that.collection.each(function (model) {
-                if (_.contains(ids, model.get("id"))) {
-                  models.push(model);
-                }
+          data.jqXHR.done(function (res, arg2, arg3) {
+            var models = [];
+            if (res.errorItems) {
+              _.each(res.errorItems, function (error) {
+                error.id = data.__id;
               });
 
-              _.each(models, function (model) {
-                model.set("percentage", 100);
-                that.collection.remove(model);
-              }, this);
+              that.app.trigger("sc-error", res.errorItems);
+              that.app.trigger("upload-error", { id: data.__id, errors: res.errorItems });
 
-              that.refreshNumberFiles();
-              that.model.set("totalSize", that.getTotalSize());
+              return undefined;
+            }
+
+            that.updateRealImage.call(that, res, data.__id);
+
+            ids = _.pluck(data.files, "__id");
+
+            that.collection.each(function (model) {
+              if (_.contains(ids, model.get("id"))) {
+                models.push(model);
+              }
             });
+
+            _.each(models, function (model) {
+              model.set("error", false);
+              model.set("percentage", 100);
+              that.collection.remove(model);
+            }, this);
+
+            uploadedSize += data.files[0].size;
+            that.refreshNumberFiles(true);
+            that.refreshNumberSize(true);
+                            
+            if (that.collection.length === 0) {
+              that.updateUploadInfo(false, false, true);
+              setTimeout(function () {
+                 that.model.trigger("uploadCompleted"); 
+              }, 1000);                
+            }
+          });
+        }
+
+          if (that.datas.length === 0) {
+            clearInterval(uploadTimer);
           }
         },
         autoUpload: false,

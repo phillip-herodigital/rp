@@ -31,7 +31,7 @@
           <DataContext ID="DataContext" DataViewName="Master" Root="{32566F0E-7686-45F1-A12F-D7260BD78BC3}" Filter="Contains('{A87A00B1-E6DB-45AB-8B54-636FEC3B5523},{239F9CF4-E5A0-44E0-B342-0F32CD4C6D8B},{93227C5D-4FEF-474D-94C0-F252EC8E8219},{7EE0975B-0698-493E-B3A2-0B2EF33D0522},{3BAA73E5-6BA9-4462-BF72-C106F8801B11}', @@templateid)"/>
 
         <WizardFormIndent>
-          <Scrollbox Height="100%" Class="scScrollbox scFixSize scFixSize8" Background="white" Border="1px inset" Padding="0px" ContextMenu="LocationTreeview.GetContextMenu">
+          <Scrollbox Height="100%" Class="scScrollbox" Background="white" Border="1px inset" Padding="0px" ContextMenu="LocationTreeview.GetContextMenu">
             <TreeviewEx ID="LocationTreeview" DataContext="DataContext" />
           </Scrollbox>
         </WizardFormIndent>
@@ -41,14 +41,14 @@
         <DataContext ID="FileDataContext" DataViewName="FileSystem" Root="/" Folder="/" Filter="Contains('${Sitecore.Data.DataProviders.FileSystemDataProvider.FolderID.ToString()}', @@templateid)"/>
 
         <WizardFormIndent>
-          <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-            <Scrollbox GridPanel.Height="100%" Class="scScrollbox scFixSize scFixSize8" Height="100%" Background="white" Border="1px inset" Padding="0px" ContextMenu="GetFileContextMenu">
+          <div class="scStretch" style="padding-bottom:23px;">
+            <Scrollbox Class="scScrollbox" Background="white" Border="1px inset" Padding="0px" ContextMenu="GetFileContextMenu">
               <TreeviewEx ID="FileLocationTreeview" DataContext="FileDataContext" Root="false" />
             </Scrollbox>
             <Border Padding="4px 0px 0px 0px">
               <Checkbox ID="CreateCodebehind" Checked="false" Visible="false" Header="Create Associated C# Code Files" />
             </Border>
-          </GridPanel>
+          </div>
         </WizardFormIndent>
       </WizardFormPage>
 

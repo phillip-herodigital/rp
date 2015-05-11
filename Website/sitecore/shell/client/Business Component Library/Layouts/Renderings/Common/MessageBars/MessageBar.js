@@ -16,6 +16,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         this.set("errors", []);
         this.set("warnings", []);
         this.set("notifications", []);
+        this.set("translations", {});
         this.set("expanded", false);
         this.set("fadeVisible", true);
         
@@ -47,19 +48,19 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         this.set("headText", "", {
           computed: true,
           read: function () {
-            var result = "You have few ";
+            var result = this.translations()["youHaveFew"] + " ";
 
             if (this.errors().length + this.warnings().length + this.notifications().length > 1) {
               if (this.errors().length > 0) {
-                result += "errors";
+                result += this.translations()["errors"];
               }
               if (this.warnings().length > 0) {
-                result += (this.errors().length > 0) ? ", warnings" : "warnings";
+                result += (this.errors().length > 0) ? ", " + this.translations()["warnings"] : this.translations()["warnings"];
               }
               if (this.notifications().length > 0) {
-                result += (this.errors().length > 0 || this.warnings().length > 0) ? ", notifications" : "notifications";
+                result += (this.errors().length > 0 || this.warnings().length > 0) ? ", " + this.translations()["notifications"] : this.translations()["notifications"];
               }
-              return result;
+              return result + ".";
             } else
               return "";
           }
@@ -98,7 +99,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         var self = this;
         var messagetoAdd;
         if (!type || !message) {
-          throw "Provide at least type and message";
+          throw this.get("translations")["provideTypeAndMessage"];
         }
         if ($.isPlainObject(message) && message["text"] !== '') {
           messagetoAdd = message;
@@ -125,7 +126,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
 
         var result = [];
         if (!$.isFunction(testFunc)) {
-          throw "Provide function with conditions to check";
+          throw this.get("translations")["provideFunction"];
         }
 
         result = result.concat(this.viewModel.errors.remove(testFunc));
@@ -151,7 +152,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
       },
       removeError: function (testFunc) {
         if (!$.isFunction(testFunc)) {
-          throw "Provide function with conditions to check ";
+          throw this.get("translations")["provideFunction"];
         }
         var result = this.viewModel.errors.remove(testFunc);
         this.setMessagesStatus();
@@ -160,7 +161,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
 
       removeWarning: function (testFunc) {
         if (!$.isFunction(testFunc)) {
-          throw "Provide function with conditions to check ";
+          throw this.get("translations")["provideFunction"];
         }
         var result = this.viewModel.warnings.remove(testFunc);
         this.setMessagesStatus();
@@ -169,7 +170,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
 
       removeNotification: function (testFunc) {
         if (!$.isFunction(testFunc)) {
-          throw "Provide function with conditions to check ";
+          throw this.get("translations")["provideFunction"];
         }
 
         var result = this.viewModel.notifications.remove(testFunc);
@@ -182,10 +183,14 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
     {
       initialize: function (options) {
         this._super();
-
+        var app = this.app;
         var inpSrc = $("input:hidden", this.$el);
         var initialData = inpSrc.length > 0 ? JSON.parse($("input:hidden", this.$el).val()) : [];
         var model = this.model;
+
+        if (this.$el.attr("data-translations")) {
+          this.model.set("translations", JSON.parse(this.$el.attr("data-translations")));
+        }
         
         this.model.set("errors", initialData["errors"] || []);
         this.model.set("warnings", initialData["warnings"] || []);
@@ -203,7 +208,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
           var clickInvocation = $(this).attr("data-sc-click");
 
           if (clickInvocation) {            
-            return Sitecore.Helpers.invocation.execute(clickInvocation, { app: window.app});
+            return Sitecore.Helpers.invocation.execute(clickInvocation, { app: app });
           }
           return null;
         });
@@ -227,5 +232,5 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
       }
     });
 
-  _sc.Factories.createComponent("MessageBar", model, view, ".sc-messageBar");
+  Sitecore.Factories.createComponent("MessageBar", model, view, ".sc-messageBar");
 });

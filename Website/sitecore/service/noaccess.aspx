@@ -1,6 +1,5 @@
 <%@ OutputCache Location="None" VaryByParam="none" %>
 <%@ register TagPrefix="sc" Namespace="Sitecore.Web.UI.HtmlControls" Assembly="Sitecore.Kernel" %>
-<%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Analytics" %>
 <%@ Page language="c#" Codebehind="noaccess.aspx.cs" EnableViewState="false" EnableViewStateMac="false" AutoEventWireup="True" Inherits="SitecoreClient.Page.NoAccess" %>
 <!DOCTYPE html>
 <html>
@@ -70,6 +69,5 @@
         </div>
       </div>
     </div>
-    <sc:VisitorIdentification runat="server" />
   </body>
 </html>

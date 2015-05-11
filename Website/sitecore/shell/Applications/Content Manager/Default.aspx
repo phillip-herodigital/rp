@@ -206,7 +206,7 @@
         jQuery('.scContentEditorSplitter').splitter({
           resizeTo: document.getElementById('MainPanel'),
           sizeLeft: scForm.getCookie("scContentEditorFoldersWidth") || 200,
-          onEndSplitMouse: function (pos) {
+        onEndSplitMouse: function (pos) {
             scForm.setCookie("scContentEditorFoldersWidth", pos);
           }
         });

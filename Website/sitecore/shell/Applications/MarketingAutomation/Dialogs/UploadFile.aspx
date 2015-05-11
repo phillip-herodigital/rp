@@ -9,6 +9,7 @@
         {
             height: 24px;
         }
+        form{ margin: 0; }
     </style>
 
     <script type="text/javascript" language="javascript">
@@ -23,7 +24,7 @@
             var finput = document.getElementById('FileInput');
 
             var strFilename = finput.value;
-            var fname = window.parent.document.getElementById('Filename')
+            var fname = window.parent.document.getElementById('Filename');
 
             if (finput.value.length > 0)
                 if (fname.value != strFilename)

@@ -1,6 +1,6 @@
 ﻿require.config({
     paths: {
-        dialog: "lib/ui/dialog"
+        dialog: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/dialog"
     },
     shim: {
         'dialog': { deps: ['sitecore'] },

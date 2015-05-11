@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sitecore.Analytics.Lookups;
+using Sitecore.Analytics.Model;
 using MaxMind.GeoIP2;
 using System.Configuration;
 using System.Collections.Specialized;
@@ -35,8 +36,8 @@ namespace StreamEnergy.Providers
                         whois.Country = omni.Country.Name;
                         //whois.Dns = "";
                         whois.Isp = omni.Traits.Isp;
-                        whois.Latitude = omni.Location.Latitude.ToString();
-                        whois.Longitude = omni.Location.Longitude.ToString();
+                        whois.Latitude = omni.Location.Latitude;
+                        whois.Longitude = omni.Location.Longitude;
                         whois.MetroCode = omni.Location.MetroCode.ToString();
                         whois.PostalCode = omni.Postal.Code;
                         whois.Region = omni.MostSpecificSubdivision.Name;

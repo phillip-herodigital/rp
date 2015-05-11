@@ -56,7 +56,7 @@ function OpenSimulateTriggerWindow(stateId) {
 }
 
 // ------------------------------------------------------------------------------------------------------------------
-// Add a visitor.
+// Add a Contact.
 // ------------------------------------------------------------------------------------------------------------------
 
 /*
@@ -102,14 +102,14 @@ function OpenSelectUserWindow(stateId) {
 }
 
 /*
-* Adds a visitor to a state.
+* Adds a Contact to a state.
 */
 function AddVisitor(stateId, userName) {
    
   var control = document.getElementById("scSilverlightEngagementPlan");
 
   // The dialog parameters.
-  var action = "action=addVisitor";
+  var action = "action=addContact";
   var stateIdParam = "&stateId=" + encodeURIComponent(FixGuid(stateId));
   var userNameParam = "&userName=" + userName;
 
@@ -128,7 +128,7 @@ function AddVisitor(stateId, userName) {
 }
 
 // ------------------------------------------------------------------------------------------------------------------
-// Add a visitors from segment.
+// Add a Contacts from segment.
 // ------------------------------------------------------------------------------------------------------------------
 function OpenSegmentBuilderWindow(stateId) {
   var control = document.getElementById("scSilverlightEngagementPlan");
@@ -165,13 +165,13 @@ function OpenSegmentBuilderWindow(stateId) {
 }
 
 /*
-* Adds visitors to a state.
+* Adds Contacts to a state.
 */
 function AddVisitorsFromSegment(stateId, rule) {
   var control = document.getElementById("scSilverlightEngagementPlan");
 
   // The dialog parameters.
-  var action = "action=addVisitorsFromSegment";
+  var action = "action=addContactsFromSegment";
   var stateIdParam = "&stateId=" + encodeURIComponent(FixGuid(stateId));
   var ruleParam = "&rule=" + rule;
   
@@ -189,7 +189,7 @@ function AddVisitorsFromSegment(stateId, rule) {
   }
 
 // ------------------------------------------------------------------------------------------------------------------
-// Add a visitors from a role.
+// Add a Contacts from a role.
 // ------------------------------------------------------------------------------------------------------------------
 
 /*
@@ -235,14 +235,14 @@ function OpenSelectRoleWindow(stateId) {
 }
 
 /*
-* Adds visitors to a state.
+* Adds Contacts to a state.
 */
 function AddVisitors(stateId, roleName)
 {
   var control = document.getElementById("scSilverlightEngagementPlan");
 
   // The dialog parameters.
-  var action = "action=addVisitors";
+  var action = "action=addContacts";
   var stateIdParam = "&stateId=" + encodeURIComponent(FixGuid(stateId));
   var roleNameParam = "&roleName=" + roleName;
     
@@ -261,11 +261,11 @@ function AddVisitors(stateId, roleName)
  }
   
 // ------------------------------------------------------------------------------------------------------------------
-// Add visitors from a CSV file.
+// Add Contacts from a CSV file.
 // ------------------------------------------------------------------------------------------------------------------
 
 /*
-* Opens a new window with the Import Visitors wizard.
+* Opens a new window with the Import Contacts wizard.
 */
 function OpenImportVisitorsWindow(stateId) {
 
@@ -303,7 +303,7 @@ function OpenImportVisitorsWindow(stateId) {
 }
 
 // ------------------------------------------------------------------------------------------------------------------
-// Move visitors.
+// Move Contacts.
 // ------------------------------------------------------------------------------------------------------------------
 
 /*
@@ -355,7 +355,7 @@ function OpenSelectStateAsWindow(stateId, title, description, rootItemId, comman
 }
 
 /*
-* Move visitors to another state.
+* Move Contacts to another state.
 */
 function MoveVisitors(sourceStateId, destinationStateId)
 {
@@ -386,7 +386,7 @@ function MoveVisitors(sourceStateId, destinationStateId)
 }
 
 /*
-* Move visitors to another state.
+* Move Contacts to another state.
 */
 function CopyVisitors(sourceStateId, destinationStateId) {
   var control = document.getElementById("scSilverlightEngagementPlan");
@@ -416,7 +416,7 @@ function CopyVisitors(sourceStateId, destinationStateId) {
     }
 
 // ------------------------------------------------------------------------------------------------------------------
-// Remove visitors.
+// Remove Contacts.
 // ------------------------------------------------------------------------------------------------------------------
 
 /*

@@ -1,4 +1,13 @@
-﻿@using Sitecore.Mvc
+﻿@using System.Text
+@using Sitecore
+@using Sitecore.Diagnostics
+@using Sitecore.Mvc
+@using Sitecore.Providers
+@using Sitecore.Resources
+@using Sitecore.Shell.Applications.ContentEditor
+@using Sitecore.Web
+@using Sitecore.Web.UI
+@using Sitecore.Web.UI.Controls
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @model Sitecore.Mvc.Presentation.RenderingModel
 @{
@@ -17,24 +26,33 @@
   var contentHeight = userControl.GetString("ContentHeight", "ContentHeight");
   userControl.Attributes["data-sc-contentheight"] = contentHeight;
   userControl.Attributes["data-sc-header"] = header;
+  var imageUrl = userControl.GetString("ImageUrl", "imageUrl");
+  userControl.Attributes["data-sc-imageurl"] = imageUrl;
+  
   var htmlAttributes = userControl.HtmlAttributes;
 }
+
 <div @htmlAttributes>
   <div class="sc-accordion-header">
     <table>
       <tr>
-        <td class="sc-accordion-header-title" data-bind="text: header">
-          @header
+        <td class="sc-accordion-header-title">       
+          <div class="sc-accordion-header-cell">
+            <img class="sc-accordion-header-icon" onerror="this.style.display='none'" onload="this.style.display='inline';" alt="" data-bind="attr : {src: imageUrl}" src="@imageUrl" />
+          </div>
+          <div class="sc-accordion-header-cell">
+             <span data-bind="text: header">@header</span>
+          </div>  
         </td>
         <td class="sc-accordion-header-actionbar">@this.Html.Sitecore().Placeholder(controlId + ".ActionBar")</td>
         <td class="sc-accordion-header-chevron">
           <a href="#" data-bind="click: toggle">
-              <span class="sc-accordion-header-chevron-glyph" data-bind="css: { 'sc-accordion2-header-chevron-glyph-open': isOpen }"></span>
+            <span class="sc-accordion-header-chevron-glyph" data-bind="css: { 'sc-accordion2-header-chevron-glyph-open': isOpen }"></span>
           </a>
         </td>
       </tr> 
       <tr>
-        <td class="sc-accordion-header-promotedfields" colspan="3"></td>
+        <td class="sc-accordion-header-promotedfields" colspan="4"></td>
       </tr>
     </table>
   </div>

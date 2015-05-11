@@ -1,7 +1,7 @@
 ﻿define(["sitecore"], function (_sc) {
   "use strict";
 
-  var model = Sitecore.Definitions.Models.ComponentModel.extend({
+  var model = _sc.Definitions.Models.ComponentModel.extend({
       initialize: function(attributes)
       {
         this._super();
@@ -16,6 +16,11 @@
         this.set("items", []);
         this.set("fields", null);
         this.set("isBusy", false);
+        this.set("hasItems", false);
+        this.set("hasNoItems", true);
+        this.set("hasMoreItems", false);
+        this.set("formatting", "");
+        this.set("showHiddenItems", false);
 
         this.on("change:query change:pageSize change:pageIndex", this.refresh, this);
 
@@ -34,7 +39,7 @@
         if (pageSize)
         {
           options.pageSize = pageSize;
-          options.page = this.get("pageIndex");
+          options.pageIndex = this.get("pageIndex");
         }
 
         fields = this.get("fields");
@@ -52,9 +57,16 @@
         {
           options.language = language;
         }
-
-        var databaseUri = new Sitecore.Definitions.Data.DatabaseUri(this.get("database"));
-        var database = new Sitecore.Definitions.Data.Database(databaseUri);
+        var formatting = this.get("formatting");
+        if (formatting) {
+          options.formatting = formatting;
+        }
+        if (this.get("showHiddenItems")) {
+          options.showHiddenItems = true;
+        }
+        
+        var databaseUri = new _sc.Definitions.Data.DatabaseUri(this.get("database"));
+        var database = new _sc.Definitions.Data.Database(databaseUri);
         
         this.pendingRequests++;
         this.set("isBusy", true);
@@ -64,6 +76,25 @@
 
       completed: function(items, totalCount)
       {
+        //extend items with formated fields property
+        if (this.get("formatting") == "$send_localized_dates") {
+          _.each(items, function (item) {
+            var formatedFields = [];
+            _.each(item.$fields, function (field) {
+              if (field.type == "datetime") {
+                formatedFields[field.fieldName] = {
+                  type: field.type,
+                  formattedValue: field.formattedValue,
+                  longDateValue: field.longDateValue,
+                  shortDateValue: field.shortDateValue
+                };
+              }
+            });
+            
+            item.$formatedFields = formatedFields;
+          });
+        }
+        
         this.set("items", items);
         this.set("totalItemsCount", totalCount);
         var pageSize = this.get("pageSize");
@@ -74,6 +105,11 @@
 
         this.set("pageCount", Math.ceil(totalCount / pageSize));
 
+        this.set("totalItemsCount", totalCount);
+        this.set("hasItems", items && items.length > 0);
+        this.set("hasNoItems", !items || items.length === 0);
+        this.set("hasMoreItems", items.length < totalCount);
+        
         this.pendingRequests--;
         if (this.pendingRequests <= 0) {
           this.set("isBusy", false);
@@ -83,7 +119,7 @@
     }
   );
 
-  var view = Sitecore.Definitions.Views.ComponentView.extend({
+  var view = _sc.Definitions.Views.ComponentView.extend({
       initialize: function(options)
       {
         this._super();
@@ -110,6 +146,8 @@
         
         this.model.set("language", this.$el.attr("data-sc-language"));
         this.model.set("database", this.$el.attr("data-sc-database") || "master");
+        this.model.set("formatting", this.$el.attr("data-sc-formatting"));
+        this.model.set("showHiddenItems", this.$el.data("sc-showhiddenitems"));
         this.model.set("query", this.$el.attr("data-sc-query") || "");
       }
     }

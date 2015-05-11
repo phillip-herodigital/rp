@@ -4,12 +4,12 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="2">
-      <DataSource Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <DataSource Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>DataSource</Alias>
         <Columns isList="true" count="17">
           <value>BusinessName,System.String</value>
           <value>Country,System.String</value>
-          <value>LocationId,System.Guid</value>
+          <value>AccountId,System.Guid</value>
           <value>VisitorClassification,System.Int32</value>
           <value>Text,System.String</value>
           <value>TotalVisitors,System.Int32</value>
@@ -17,13 +17,15 @@
           <value>TotalValue,System.Int32</value>
           <value>RecencyYears,RecencyYears,System.Double,Round_x0028__x0028_int_x0029_DataSource.RecencyDays_x002F_365.2425_x0029_</value>
           <value>IsToday,IsToday,System.Boolean,_x0028__x0028_DateTime_x0029__x0028_Today_x0029__x0029_.Date_x0020__x003D__x003D__x0020__x0028__x0028_DateTime_x0029__x0028_DataSource.Recency_x0029__x0029_.Date</value>
-          <value>RecentDate,System.String</value>
           <value>IsYesterday,IsYesterday,System.Boolean,_x0021__x0028__x0028_bool_x0029_DataSource.IsToday_x0029__x0020__x0026__x0026__x0020__x0028_int_x0029_DataSource.RecencyDays_x0020__x003D__x003D__x0020_0</value>
           <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_Today.Year_x0020_-12_x002A__x0028__x0028_DateTime_x0029__x0028_DataSource.Recency_x0029__x0029_.Year_x0020__x002B_Today.Month_x0020_-_x0020__x0028__x0028_DateTime_x0029__x0028_DataSource.Recency_x0029__x0029_.Month</value>
           <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_Today_x002C__x0020__x0028__x0028_DateTime_x0029__x0028_DataSource.Recency_x0029__x0029__x0029_.Days</value>
-          <value>Days,Days,System.Int32,DateDiff_x0028_EndDate_x002C__x0020_StartDate_x0029_.Days</value>
-          <value>ActivityLevel,ActivityLevel,System.Double,_x0028_int_x0029_DataSource.Days_x003D__x003D_0_x003F_0:10_x002A__x0028_DataSource.TotalVisitors_x002A_DataSource.TotalVisits_x002F__x0028_int_x0029_DataSource.Days_x0029_</value>
-          <value>Recency,Recency,System.DateTime,DateTime.ParseExact_x0028_DataSource.RecentDate_x002C__x0020__x0022_yyyyMMdd_x0022__x002C__x0020_null_x0029_</value>
+          <value>Days,Days,System.Int32,DateDiff_x0028_DataSource.LatestDate_x002C__x0020_DataSource.FirtsVisitDate_x0029_.Days</value>
+          <value>ActivityLevel,ActivityLevel,System.Double,_x0031_0_x002A_DataSource.TotalVisitors_x002A_DataSource.TotalVisits_x002F__x0028_DataSource.Days_x002B_1_x0029_</value>
+          <value>Rating,System.Double</value>
+          <value>LatestDate,System.DateTime</value>
+          <value>Recency,System.DateTime</value>
+          <value>FirtsVisitDate,System.DateTime</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
@@ -33,40 +35,9 @@
           <value>_x0040_StartDate,StartDate,4,0</value>
           <value>_x0040_EndDate,EndDate,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:0B45F1AB-57B3-4740-B78F-A6ADB14DEBDE</SqlCommand>
       </DataSource>
-      <Subscription Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
-        <Alias>Subscription</Alias>
-        <Columns isList="true" count="2">
-          <value>MailRecipients,System.String</value>
-          <value>LocationId,System.Guid</value>
-        </Columns>
-        <CommandTimeout>0</CommandTimeout>
-        <Dictionary isRef="1" />
-        <Name>Subscription</Name>
-        <NameInSource>DataConnection</NameInSource>
-        <Parameters isList="true" count="1">
-          <value>_x0040_Email,,22,500</value>
-        </Parameters>
-        <SqlCommand />
-      </Subscription>
     </DataSources>
-    <Relations isList="true" count="1">
-      <Subscription Ref="4" type="DataRelation" isKey="true">
-        <Alias>Subscription</Alias>
-        <ChildColumns isList="true" count="1">
-          <value>LocationId</value>
-        </ChildColumns>
-        <ChildSource isRef="2" />
-        <Dictionary isRef="1" />
-        <Name>Subscription</Name>
-        <NameInSource>Relation</NameInSource>
-        <ParentColumns isList="true" count="1">
-          <value>LocationId</value>
-        </ParentColumns>
-        <ParentSource isRef="3" />
-      </Subscription>
-    </Relations>
     <Report isRef="0" />
     <Variables isList="true" count="25">
       <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-30_x0029_,False,True</value>
@@ -94,6 +65,7 @@
       <value>Texts,DateRangeText,DateRangeText,System.String,Date_x0020_Range,False,False</value>
       <value>Texts,DateText,DateText,System.String,Date,False,False</value>
       <value>Texts,ReportDescriptionVar,ReportDescriptionVar,System.String,Report_x0020_description,False,False</value>
+      <value>,Subscribed,Subscribed,System.Boolean,false,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -304,9 +276,9 @@
               <Conditions isList="true" count="0" />
               <Font>Arial,10</Font>
               <Guid>10d6c208fead428facedd46167035c39</Guid>
-              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}FBF574CD-F970-4459-8260-D49A76FE7165{"}"}&amp;p=1&amp;locationid={DataSource.LocationId}</Hyperlink>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}FBF574CD-F970-4459-8260-D49A76FE7165{"}"}&amp;p=1&amp;accountid={DataSource.AccountId}</Hyperlink>
               <Margins>0,0,0,0</Margins>
-              <Name>Text3</Name>
+              <Name>BusinessName</Name>
               <Page isRef="5" />
               <Parent isRef="19" />
               <Text>{DataSource.BusinessName}({DataSource.Country})</Text>
@@ -322,7 +294,7 @@
               <Guid>baaacf559488449d8c0119c4d46a50dd</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
-              <Name>Text8</Name>
+              <Name>TotalValue</Name>
               <Page isRef="5" />
               <Parent isRef="19" />
               <Text>{DataSource.TotalValue}</Text>
@@ -338,7 +310,7 @@
               <Guid>53bdbd597aa54f9399227b15497591ec</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
-              <Name>Text9</Name>
+              <Name>TotalVisits</Name>
               <Page isRef="5" />
               <Parent isRef="19" />
               <Text>{DataSource.TotalVisits}</Text>
@@ -354,7 +326,7 @@
               <Guid>4f5593c7dbd14dacb287a94c13527331</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
-              <Name>Text11</Name>
+              <Name>ActivityLevel</Name>
               <Page isRef="5" />
               <Parent isRef="19" />
               <Text>{DataSource.ActivityLevel}</Text>
@@ -372,7 +344,7 @@
               <Page isRef="5" />
               <Parent isRef="19" />
               <Printable>False</Printable>
-              <Text>&lt;a href="#" style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" onclick="javascript:showModalDialog('/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.VisitorIdentification.aspx?locationid={DataSource.LocationId}','','dialogHeight:700px;dialogWidth:550px;status:no;resizable:yes'); return false"&gt;{DataSource.VisitorClassification == 0 ? ClassifyText : DataSource.Text}&lt;/a&gt; / &lt;a href="#" style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" onclick="javascript:showModalDialog('/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.Subscription.aspx?locationid={DataSource.LocationId}&amp;curr_state={string.IsNullOrEmpty(DataSource.Subscription.MailRecipients)? &quot;subscribe&quot; : &quot;unsubscribe&quot;}','','dialogHeight:130px;dialogWidth:350px;status:no;resizable:yes'); return false"&gt;{string.IsNullOrEmpty(DataSource.Subscription.MailRecipients) ? SubscribeText : UnsubscribeText}&lt;/a&gt; / &lt;a style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" href="/sitecore/shell/applications/analytics/reportrunner/crm.aspx?locationid={DataSource.LocationId}"&gt;{CRMText}&lt;/a&gt;</Text>
+              <Text>&lt;a href="#" style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" onclick="javascript:showModalDialog('/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.VisitorIdentification.aspx?locationid={DataSource.AccountId}',window.self,'dialogHeight:700px;dialogWidth:550px;status:no;resizable:yes'); return false"&gt;{GetClassificationText(DataSource.AccountId, ClassifyText)}&lt;/a&gt; / &lt;a href="#" style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" onclick="javascript:showModalDialog('/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.Subscription.aspx?locationid={DataSource.AccountId}&amp;curr_state={(Subscribed = IsCurrentUserSubscribed(DataSource.AccountId)) ? "Unsubscribe" : "Subscribe"}',window.self,'dialogHeight:130px;dialogWidth:350px;status:no;resizable:yes'); return false"&gt;{Subscribed ? UnsubscribeText : SubscribeText }&lt;/a&gt; / &lt;a style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" href="/sitecore/shell/applications/analytics/reportrunner/crm.aspx?locationid={DataSource.AccountId}"&gt;{CRMText}&lt;/a&gt;</Text>
               <TextBrush>[135:135:135]</TextBrush>
               <Type>Expression</Type>
             </Text1>
@@ -384,11 +356,12 @@
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
-              <Name>Text10</Name>
+              <Name>Recency</Name>
               <Page isRef="5" />
               <Parent isRef="19" />
-              <Text>{(double)DataSource.RecencyYears != 0 ? DataSource.RecencyYears + " " + YearsAgoText : ((int)DataSource.RecencyMonths != 0 &amp;&amp; (int)DataSource.RecencyMonths != -1 ? DataSource.RecencyMonths + " "+ MonthAgoText:((bool)DataSource.IsToday? TodayText :((bool)DataSource.IsYesterday? YesterdayText:DataSource.RecencyDays + " " +DaysAgoTexts)))}
-{Format("{0:MMM.dd,yyyy}", DataSource.Recency)}</Text>
+              <Text>
+                {GetApproximateRecencyText(DataSource.Recency, YearsAgoText, MonthAgoText, TodayText, YesterdayText, DaysAgoTexts)}
+                {Format("{0:MMM.dd,yyyy}", DataSource.Recency)}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text10>
@@ -437,29 +410,30 @@
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2010.3.900</ReportVersion>
-  <Script>using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Data;
-using Stimulsoft.Controls;
-using Stimulsoft.Base.Drawing;
-using Stimulsoft.Report;
-using Stimulsoft.Report.Dialogs;
-using Stimulsoft.Report.Components;
+  <Script>
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+    using System.Data;
+    using Stimulsoft.Controls;
+    using Stimulsoft.Base.Drawing;
+    using Stimulsoft.Report;
+    using Stimulsoft.Report.Dialogs;
+    using Stimulsoft.Report.Components;
 
-namespace Reports
-{
-    public class Report : Stimulsoft.Report.StiReport
+    namespace Reports
     {
-        public Report()
-        {
-            this.InitializeComponent();
-        }
-
-        #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    public class Report : Sitecore.Analytics.Reports.ReportBase
+    {
+    public Report()
+    {
+    this.InitializeComponent();
     }
-}
-</Script>
+   
+    #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    }
+    }
+  </Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="14">
     <Title Ref="28" type="Stimulsoft.Report.StiStyle" isKey="true">

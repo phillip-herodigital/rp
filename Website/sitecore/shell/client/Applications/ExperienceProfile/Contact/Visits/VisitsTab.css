@@ -1,0 +1,11 @@
+﻿div[data-sc-id=MoreEventsBorder], div[data-sc-id=MoreVisitsBorder] {
+  border-top: 1px solid #ccc !important;
+}
+
+div[data-sc-id=VisitTabMessageBar] {
+    margin-top: 20px;
+}
+
+div[data-sc-id=VisitsList] td.ventilate {
+    cursor: pointer;
+}

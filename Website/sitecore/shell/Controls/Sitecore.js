@@ -80,9 +80,10 @@ scSitecore.prototype.getTopModalDialog = function () {
   return null;
 };
 
-scSitecore.prototype.enableModifiedHandling = function() {
+scSitecore.prototype.enableModifiedHandling = function(beforeUnloadCallback) {
   this.modifiedHandlingEnabled = true;
   window.scBeforeUnload = function() { };
+  if (beforeUnloadCallback) window.onbeforeunload = beforeUnloadCallback;
 };
 
 scSitecore.prototype.modifiedHandling = function() {

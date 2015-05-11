@@ -2,7 +2,7 @@
   <MoveVisitorToAnotherState>
 
     <FormDialog ID="Dialog" Icon="Software/32x32/graph_edge_directed.png"
-                Header="Move Visitor to Another State"
+                Header="Move Contact to Another State"
                 Text="Select the engagement plan and state that you want to move the visitor to" >
 
       <CodeBeside Type="Sitecore.Shell.Applications.MarketingAutomation.Dialogs.ActionEditors.MoveVisitorToAnotherState, Sitecore.Shell.MarketingAutomation"/>

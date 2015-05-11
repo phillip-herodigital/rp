@@ -5,7 +5,7 @@
 <!-- Visitor identification is disabled because debugging is active. -->
 <%        
     }
-    else if (Sitecore.Analytics.Tracker.IsActive && Sitecore.Analytics.Tracker.Visitor.VisitorClassification == 925)
+    else if (Sitecore.Analytics.Tracker.IsActive && Sitecore.Analytics.Core.ContactClassification.IsAutoDetectedRobot(Sitecore.Analytics.Tracker.Current.Session.Contact.System.Classification))
     {
 %>
 <meta name="VIcurrentDateTime" content="<%: DateTime.UtcNow.Ticks %>" />

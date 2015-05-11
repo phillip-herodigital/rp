@@ -139,21 +139,21 @@
                             <table cellpadding="0" cellspacing="0">
                               <tr>
                                 <td align="right">
-                                  <input id="Hour" value="12" maxlength="2" style="color:#4A495E;border:none;background:transparent;font:22px arial black;width:36px;text-align:right" />
+                                  <input id="Hour" value="12" maxlength="2" style="color:#4A495E;border:none;background:transparent;font:22px arial black;text-align:right" />
                                 </td>
                                 <td align="center" style="color:#4A495E;font:22px arial black">:</td>
                                 <td>
-                                  <input id="Minute" value="00" maxlength="2" style="color:#4A495E;border:none;background:transparent;font:22px arial black;width:36px; " />
+                                  <input id="Minute" value="00" maxlength="2" style="color:#4A495E;border:none;background:transparent;font:22px arial black;" />
                                 </td>
                               </tr>
                             </table>
                           </td>
                           <td class="amPmControl" style="width:56px; padding: 0px 4px; height:48px; background:url(/sitecore/shell/themes/standard/ComponentArt/Calendar/top_headerMonthBg.gif)">
-                            <input id="AMPMInput" value="##typeof(sc_amDesignator) == 'undefined'?'':sc_amDesignator##" style="color:#4A495E;border:none;background:transparent;font:22px arial black;width:40px"/>
+                            <input id="AMPMInput" value="##typeof(sc_amDesignator) == 'undefined'?'':sc_amDesignator##" style="color:#4A495E;border:none;background:transparent;font:22px arial black;"/>
                           </td>
                           <td class="amPmControl" style="height: 48px; width: 16px">
-                            <img id="AMArrow" style="width: 16px; height: 24px;" src="/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_nextYear.gif" onmouseup="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_nextYearHover.gif';" onmouseover="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_nextYearHover.gif';" onmousedown="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_nextYearDown.gif';" />
-                            <img id="PMArrow" style="width: 16px; height: 24px;" src="/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_prevYear.gif" onmouseup="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_prevYearHover.gif';" onmouseover="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_prevYearHover.gif';" onmousedown="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_prevYearDown.gif';" />
+                            <img id="AMArrow" style="width: 16px; height: 24px; vertical-align:top;" src="/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_nextYear.gif" onmouseup="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_nextYearHover.gif';" onmouseover="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_nextYearHover.gif';" onmousedown="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_nextYearDown.gif';" />
+                            <img id="PMArrow" style="width: 16px; height: 24px; vertical-align:top;" src="/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_prevYear.gif" onmouseup="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_prevYearHover.gif';" onmouseover="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_prevYearHover.gif';" onmousedown="this.src='/sitecore/shell/themes/standard/ComponentArt/Calendar/btn_prevYearDown.gif';" />
                           </td>
                         </tr>
                       </table>

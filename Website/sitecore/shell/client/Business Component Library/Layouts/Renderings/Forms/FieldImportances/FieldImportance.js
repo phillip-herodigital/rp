@@ -33,7 +33,7 @@ define(["sitecore"], function (_sc) {
         _sc.on("closed:" + this.target, this.closed, this);
         _sc.on("focus:" + id, this.focus, this);
 
-        this.promotedFieldTemplate = '<a href="#" onclick="javascript: return Sitecore.trigger(\'focus:' + id + '\', \'<%= el %>\')"><%= text %></a>';
+        this.promotedFieldTemplate = '<a href="#" onclick="javascript: return Speak.trigger(\'focus:' + id + '\', \'<%= el %>\')"><%= text %></a>';
       },
 
       focus: function (el)

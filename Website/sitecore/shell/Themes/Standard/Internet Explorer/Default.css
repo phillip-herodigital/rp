@@ -1,15 +1,4 @@
-﻿/* Japanese font support. */
-form[lang|='ja'] *,
-.lang_ja_jp,
-.lang_ja_jp table,
-.lang_ja_jp button,
-.lang_ja_jp th,
-.lang_ja_jp a:link,
-.lang_ja_jp a:hover {
-  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
-}
-
-[hidden] {
+﻿[hidden] {
   display: none;
 }
 
@@ -32,21 +21,4 @@ form[lang|='ja'] *,
 .scContentControlLayout, .scContentControlLayout_Active
 {
   position: relative;
-}
-
-/* Japanese language support*/
-.lang_ja_jp a.scRibbonToolbarSmallButton span 
-{
-  height: 0;
-}
-
-.lang_ja_jp .scPaneHeader,
-.lang_ja_jp .scSectionCenter,
-.lang_ja_jp .scClickFont,
-.lang_ja_jp .scClickFont_Hover,
-.lang_ja_jp .scFont,
-.lang_ja_jp .scFont_Hover,
-.lang_ja_jp .scPopup,
-.lang_ja_jp .scLargeFont {
-  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
 }

@@ -29,21 +29,17 @@
     pageCode.Initialize(RenderingContext.Current);
   }
 
-  // find the client side page code javascript file
+  // find the client side page code java script file
   var scriptFileName = userControl.GetString("PageCodeScriptFileName");
-  
-  //if the js pagecode is not specified we suppose to have it the same path as the current PageItem
   if (string.IsNullOrEmpty(scriptFileName))
   {
     scriptFileName = "/sitecore/shell/client/" + this.Model.PageItem.Paths.Path.Mid(17) + "/" + this.Model.PageItem.Name + ".js";
-    
-    if (!FileUtil.FileExists(scriptFileName))
-    {
-      scriptFileName = null;
-    }
   }
 
- 
+  if (!FileUtil.FileExists(scriptFileName))
+  {
+    scriptFileName = null;
+  }
 }                                      
 
 @if (!string.IsNullOrEmpty(scriptFileName))

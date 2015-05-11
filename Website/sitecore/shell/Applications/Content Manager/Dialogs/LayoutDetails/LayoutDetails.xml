@@ -41,6 +41,7 @@
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.LayoutDetails.LayoutDetailsForm,Sitecore.Client"/>
 
       <Scrollbox ID="LayoutPanel" Class="scScrollbox" Padding="0px" />
+      <script Type="text/javascript" Language="javascript" Src="/sitecore/shell/Applications/Layouts/DeviceEditor/LayoutFieldDevice.js">.</script>
 
     </FormDialog>
   </LayoutDetails>

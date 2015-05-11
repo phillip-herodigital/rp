@@ -55,53 +55,69 @@ RadEditorCommandList["InsertSitecoreLink"] = function(commandName, editor, args)
   );
 };
 
-RadEditorCommandList["InsertSitecoreBucketLink"] = function (commandName, editor, args) {
-    var d = Telerik.Web.UI.Editor.CommandList._getLinkArgument(editor);
-    Telerik.Web.UI.Editor.CommandList._getDialogArguments(d, "A", editor, "DocumentManager");
+RadEditorCommandList["SetImageProperties"] = function (commandName, editor, args) {
+  var currentImage = editor.getSelectedElement();
 
-    var html = editor.getSelectionHtml();
+  if (currentImage.getAttribute("_languageInserted")) {
+    currentImage = currentImage.cloneNode();
+    var src = scGetImageSource(currentImage.outerHTML);
+    src = scReplaceAmps(src);
+    currentImage.setAttribute("src", scRemoveLanguageFromImageSource(src, window.scLanguage));
+  }
 
-    var id;
+  var callbackFunction = window.Telerik.Web.UI.Editor.CommandList.getCallbackFunction(args, function (sender, arg) {
+    var oldImage = editor.getSelectedElement();
 
-    // internal link in form of <a href="~/link.aspx?_id=110D559FDEA542EA9C1C8A5DF7E70EF9">...</a>
-    if (html) {
-        id = GetMediaID(html);
-    }
+    if (oldImage && oldImage.parentNode) {
+      var newImage = arg.get_value ? arg.get_value() : arg.Result;
 
-    // link to media in form of <a href="~/media/CC2393E7CA004EADB4A155BE4761086B.ashx">...</a>
-    if (!id) {
-        var regex = /~\/media\/([\w\d]+)\.ashx/;
-        var match = regex.exec(html);
-        if (match && match.length >= 1 && match[1]) {
-            id = match[1];
+      var source = scGetImageSource(newImage.outerHTML);
+
+      if (source) {
+        source = scReplaceAmps(source);
+        var newSrc = scAddLanguageToImageSource(source, window.scLanguage);
+
+        if (newSrc == source) {
+          if (newImage.getAttribute("_languageInserted")) {
+            newImage.removeAttribute("_languageInserted");
+          }
+        } else {
+          newImage.setAttribute("_languageInserted", true);
+          newImage.setAttribute("src", newSrc);
         }
+      }
     }
 
-    if (!id) {
-        id = scItemID;
-    }
+    oldImage.parentNode.replaceChild(newImage, oldImage);
+  });
 
-    scEditor = editor;
-    var SearchFilter = window.location.search;
-    SearchFilter = window.location.search.substring(window.location.search.indexOf("&@"));
-    SearchFilter = SearchFilter.replace("@", "");
-    editor.showExternalDialog(
-    "/sitecore/shell/default.aspx?xmlcontrol=RichText.InsertBucketLink&la=" + scLanguage + "&fo=" + id + SearchFilter,
-    null, //argument
-    1100, // width
-    500, // height
-    scInsertSitecoreLink, //callback
-    null, // callback args
-    "Search for an Item Link",
-    true, //modal
-    Telerik.Web.UI.WindowBehaviors.Close, // behaviors
-    false, //showStatusBar
-    false //showTitleBar
-  );
+  editor.showDialog("ImageProperties", new window.Telerik.Web.UI.EditorCommandEventArgs("SetImageProperties", null, currentImage), callbackFunction);
 };
 
+RadEditorCommandList["ImageMapDialog"] = function (commandName, editor, args) {
+  var argument = window.Telerik.Web.UI.Editor.CommandList._getImageMapDialogArgument(editor);
+  var currentImage = editor.getSelectedElement();
 
+  if (currentImage.getAttribute("_languageInserted")) {
+    argument.ImageSrc = scReplaceAmps(argument.ImageSrc);
+    argument.ImageSrc = scRemoveLanguageFromImageSource(argument.ImageSrc, window.scLanguage);
+  }
 
+  var callbackFunction = window.Telerik.Web.UI.Editor.CommandList.getCallbackFunction(args, function (sender, arg) {
+    if (editor.getSelectedElement().getAttribute("_languageInserted")) {
+
+      if (arg.ImageSrc) {
+        arg.ImageSrc = scReplaceAmps(arg.ImageSrc);
+        arg.ImageSrc = scAddLanguageToImageSource(arg.ImageSrc, window.scLanguage);
+      }
+    }
+    window.Telerik.Web.UI.Editor.CommandList._setImageMapProperties(editor, arg, commandName);
+    return false;
+  });
+
+  editor.showDialog("ImageMapDialog", argument, callbackFunction);
+  return false;
+};
 
 function scInsertSitecoreLink(sender, returnValue) {
   if (!returnValue) {
@@ -313,8 +329,155 @@ WebControlFilter.prototype =
   }
 }
 
+function ImageSourceFilter() {
+  ImageSourceFilter.initializeBase(this);
+  this.set_isDom(true);
+  this.set_enabled(true);
+  this.set_name("Sitecore ImageSourceFilter filter");
+  this.set_description("Sitecore ImageSourceFilter filter adds la querystring parameter to image sources");
+}
+
+ImageSourceFilter.prototype =
+{
+  getHtmlContent: function (content) {
+    this.getHtml(content);
+    return content;
+  },
+
+  getHtml: function (node) {
+    var children = node.childNodes;
+
+    for (var i = children.length - 1; i >= 0; i--) {
+      var n = children[i];
+
+      if (n.nodeType != 1) {
+        continue;
+      }
+
+      if (n.tagName.toLowerCase() == "img") {
+        var src = scGetImageSource(n.outerHTML);
+        if (src && n.getAttribute("_languageInserted")) {
+          src = scReplaceAmps(src);
+          n.setAttribute("src", scRemoveLanguageFromImageSource(src, window.scLanguage));
+          n.removeAttribute("_languageInserted");
+        }
+      }
+      else this.getHtml(n);
+    }
+  },
+
+  getDesignContent: function (content) {
+    this.getDesign(content);
+    return content;
+  },
+
+  getDesign: function (node) {
+    var children = node.childNodes;
+
+    for (var i = children.length - 1; i >= 0; i--) {
+      var n = children[i];
+
+      if (n.nodeType != 1) {
+        continue;
+      }
+
+      if (n.tagName.toLowerCase() == "img") {
+        var src = scGetImageSource(n.outerHTML);
+        if (src) {
+          src = scReplaceAmps(src);
+          var newSrc = scAddLanguageToImageSource(src, window.scLanguage);
+          if (newSrc != src) {
+            n.setAttribute("src", newSrc);
+            n.setAttribute("_languageInserted", true);
+          }
+        }
+      }
+      else this.getDesign(n);
+    }
+  }
+}
+
 WebControlFilter.registerClass('WebControlFilter', Telerik.Web.UI.Editor.Filter);
 PrototypeAwayFilter.registerClass('PrototypeAwayFilter', Telerik.Web.UI.Editor.Filter);
+ImageSourceFilter.registerClass('ImageSourceFilter', Telerik.Web.UI.Editor.Filter);
+
+function scGetImageSource(text) {
+  var sourceStart = text.indexOf("src=\"");
+  var sourceEnd;
+  var source;
+
+  if (sourceStart > -1) {
+    sourceStart += "src=\"".length;
+    sourceEnd = text.indexOf("\"", sourceStart);
+    if (sourceEnd > -1) {
+      source = text.substr(sourceStart, sourceEnd - sourceStart);
+    }
+  }
+
+  return source.trim();
+}
+
+function scAddLanguageToImageSource(src, language) {
+  if (src) {
+    var prefs = window.prefixes.split("|");
+    if (!prefs) {
+      prefs = new Array();
+      prefs[0] = "~/media/";
+    }
+    for (var j = 0; j < prefs.length; ++j) {
+      if (prefs[j] == "") continue;
+
+      var regex = new RegExp(prefs[j] + '([\\w\\d]{32})\\.ashx', "m");
+      var match = regex.exec(src);
+      if (match) {
+        var qs = src.indexOf('?');
+        if (qs > -1) {
+          var lang = src.indexOf('la=');
+          if (lang == -1) {
+            src = src.substr(0, qs + 1) + "la=" + language + "&" + src.substr(qs + 1);
+            return src;
+          }
+        }
+        else {
+          src = src + "?la=" + language;
+          return src;
+        }
+        break;
+      }
+    }
+  }
+  
+  return src;
+}
+
+function scRemoveLanguageFromImageSource(src, language) {
+  var lang = src.indexOf("la=" + language);
+  
+  if (lang > -1) {
+    src = src.substr(0, lang) + src.substr(lang + ("la=" + language).length);
+  }
+
+   var qs = src.indexOf("?&");
+   if (qs > -1) {
+     src = src.substr(0, qs + 1) + src.substr(qs + 2);
+   }
+
+  qs = src.indexOf("?");
+  
+  if (qs == src.length - 1) {
+    src = src.substr(0, qs);
+  }
+
+  return src;
+}
+
+function scReplaceAmps(text) {
+  var ind;
+  while((ind=text.indexOf("&amp;"))>-1) {
+    text = text.substring(0, ind + 1) + text.substring(ind + "&amp;".length);
+  }
+  return text;
+}
 
 function scIEFixRTETextRange(scEditor) {
   var text = scEditor.getSelectionHtml();
