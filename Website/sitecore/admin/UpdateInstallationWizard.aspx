@@ -1,6 +1,6 @@
 <%@ Page Language="C#" AutoEventWireup="true" Codebehind="UpdateInstallationWizard.aspx.cs"
    Inherits="Sitecore.Update.UpdateInstallationWizard" MaintainScrollPositionOnPostback="true"
-   EnableViewStateMac="false" EnableEventValidation="false" %>
+   EnableEventValidation="false" %>
 
 <%@ Register Src="Wizard/PickTaskWizardPage.ascx" TagName="PickTaskWizardPage" TagPrefix="pages" %>
 <%@ Register Src="Wizard/SelectPackageWizardPage.ascx" TagName="SelectPackageWizardPage"
