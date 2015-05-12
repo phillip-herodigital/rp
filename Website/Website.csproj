@@ -690,6 +690,9 @@
   <ItemGroup>
     <Content Include="App_Browsers\Form.browser" />
     <Content Include="App_Browsers\XamlPage.browser" />
+    <Content Include="App_Config\Prefetch\Webdb.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
@@ -1057,10 +1060,6 @@
     <Content Include="App_Config\ConnectionStrings.local.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Config\Prefetch\Webdb.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Prefetch\Webdb.config" />
     <Content Include="NewRelicServerMonitor_x64_3.2.6.0.msi">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
