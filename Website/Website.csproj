@@ -1162,6 +1162,7 @@
     <Content Include="Views\Components\Marketing\Mobile\Mobile Validate ESN.cshtml" />
     <Content Include="Views\Pages\Marketing\Pay\Pay.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile SIM Activation.cshtml" />
+    <Content Include="Views\Components\Email\Blog Summary.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
