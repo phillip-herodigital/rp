@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
 using StreamEnergy.Mvc.Sitecore;
+using StreamEnergy.Mvc;
+using System.Web.Http.Dispatcher;
+using Sitecore.Services.Core;
 
 namespace StreamEnergy.Pipelines
 {
@@ -37,6 +40,7 @@ namespace StreamEnergy.Pipelines
             GlobalFilters.Filters.Add(new Mvc.AntiForgeryFilterMvcAttribute() { CheckXsrfHeader = false });
             GlobalConfiguration.Configuration.Filters.Add(new Mvc.AntiForgeryFilterWebApiAttribute());
             GlobalConfiguration.Configuration.Services.Add(typeof(System.Web.Http.ExceptionHandling.IExceptionLogger), new Mvc.WebApiExceptionLogging());
+            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector), new CustomHttpControllerSelector(GlobalConfiguration.Configuration, new NamespaceQualifiedUniqueNameGenerator()));
 
         }
 
