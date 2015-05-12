@@ -106,6 +106,12 @@
     <Reference Include="Sitecore.Mvc">
       <HintPath>..\Libraries\Sitecore\Sitecore.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Services.Core">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Services.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Services.Infrastructure">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Services.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="StackExchange.Redis">
       <HintPath>..\packages\StackExchange.Redis.1.0.297\lib\net45\StackExchange.Redis.dll</HintPath>
     </Reference>
@@ -209,6 +215,7 @@
     <Compile Include="Mvc\AspNetContainerSetup.cs" />
     <Compile Include="Mvc\ContextInterceptor.cs" />
     <Compile Include="Mvc\ControllerFactory.cs" />
+    <Compile Include="Mvc\CustomHttpControllerSelector.cs" />
     <Compile Include="Mvc\WebApiExceptionLogging.cs" />
     <Compile Include="Mvc\ExecuteInterceptor.cs" />
     <Compile Include="Mvc\IgnoreBlanksModelBinder.cs" />
