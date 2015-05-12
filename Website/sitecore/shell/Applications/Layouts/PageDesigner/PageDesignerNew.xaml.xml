@@ -87,13 +87,6 @@
         .scCheckbox {
         }
 
-        .scFieldLabel {
-        color:#6487DC;
-        padding:4px 0px 2px 0px;
-        background:white;
-        border:none;
-        }
-
         .ie.lang_ja_jp .DefaultTab {
         background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/tab_bg_jp.gif);
         }

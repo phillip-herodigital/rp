@@ -15,30 +15,26 @@ header.sc-globalHeader .sc-global-logo {
 
 div[data-sc-id=SearchBorder] {
     display: inline-block;
+    width: 450px;
 }
 
 button[data-sc-id=SearchButton] {
     margin-left: 8px;
 }
 
-.sc-accordion .sc-table {
-  border: none;
+
+.sc-messageBar {
+  margin-top: 5px;
+  margin-bottom: 20px;
 }
 
-.sc-accordion .sc-accordion-header table .sc-accordion-header-chevron a {
-  display: none;
-}
-
-.sc-accordion, .sc-messageBar {
-    margin-top: 20px;
-}
-
-.sc-accordion .sc-accordion-header-title {
+.sc-advancedExpander-header-title-text {
   text-transform: uppercase;
 }
 
 input[data-sc-id=SearchTextBox] {
   width: 370px;
+  float: left;
 }
 
 div[data-sc-id=NotFoundBorder] {
@@ -58,4 +54,10 @@ div.sc-border[data-sc-id=AdviceBorder] {
   padding-top: 10px;
 }
 
+div.sc-advancedExpander[data-sc-id=NotFoundAccordion] {
+  margin-top: 20px
+}
 
+.sc-breadcrumb > ul > li {
+  color: #f9d8d7;
+}

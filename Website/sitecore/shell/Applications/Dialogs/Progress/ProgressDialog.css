@@ -4,29 +4,20 @@
 }
 
 #HeaderTextContainer {
-  color: black; 
+  color: #fff; 
   padding: 0 0 4px 6px; 
-  font: normal 11pt tahoma;
+  font-size: 14px;
   height: 34px; 
   line-height: 34px;
+  background-color:#2b2b2b;
 }
 
 #HeaderIconContainer {
-  float: left;
-  margin-top: 6px;
-  margin-left: 22px;
+    display:none;
 }
 
-#HeaderSpacer {
-  height: 20px;
-}
-
-#HeaderSpacer.error {
-  height: 8px;
-}
 
 #Title {
-  font: 9pt Tahoma;
   display: block;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -35,17 +26,17 @@
 }
 
 #Title.error {
-  font-weight: bold;
-  padding-top: 40px;
   display: inline;
   width: auto;
+  display: inline-block;
+  padding-bottom: 5px;
+  font-size: 1.167em;
 }
 
 #Subtitle {
   display: block;
   margin-top: 4px;
-  font: 9pt Arial; 
-  color: #333333;
+
 }
 
 #TitleIcon {
@@ -55,6 +46,7 @@
 #Progress {
   position: relative; 
   height: 16px;
+  padding-top:10px;
 }
 
 #filler {
@@ -63,44 +55,21 @@
   left: 1px; 
   width: 0; 
   overflow: hidden;
-}
-
-#MainContent {
-  padding: 0 22px;
-}
-
-#Footer {
-  height: 42px;
-  padding: 10px 22px 0 22px; 
-  border-top: solid 1px #dfdfdf; 
-  background-color: white;
-}
-
-#Footer #Buttons {
-  height: 32px; 
-  float: right; 
-  padding: 0 0 0 8px;
-  white-space: nowrap;  
-  overflow: auto;
-}
-
-#Buttons {
-  text-align: right;
+  padding-top:10px;
 }
 
 #MoreInformationContainer {
   float: left; 
-  height: 19px; 
-  line-height: 19px;
+  line-height: 38px;
 }
 
 #MoreInformation {
-  font-size: 8pt; 
   padding: 0 0 2px 4px;
 }
 
 #MoreImage, #LessImage {
-  margin-bottom: -2px;
+  margin-bottom: 2px;
+  vertical-align: middle;
 }
 
 #LogContainer {

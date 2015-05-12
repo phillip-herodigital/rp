@@ -1,0 +1,205 @@
+﻿/********** COMMON STYLES ************/
+.experience-explorer-iframe a {
+    outline: 0;
+}
+
+.experience-explorer-iframe p {
+    word-wrap: break-word;
+}
+
+.experience-explorer-iframe .capitalize {
+    text-transform: capitalize;
+}
+
+.experience-explorer-iframe .font-small,
+.experience-explorer-iframe .font-large,
+.experience-explorer-iframe .font-xlarge {
+    text-transform: lowercase;
+}
+
+.experience-explorer-iframe .font-small {
+    font-size: 0.5em;
+}
+
+.experience-explorer-iframe .font-large {
+    font-size: 1.6em;
+}
+
+.experience-explorer-iframe .font-xlarge {
+    font-size: 2.2em;
+}
+
+.experience-explorer-iframe .light {
+    font-weight: 100;
+}
+
+.experience-explorer-iframe .text-right {
+    text-align: right;
+}
+
+.experience-explorer-iframe .inline {
+    display: inline-block;
+}
+
+.experience-explorer-iframe .no-margin {
+    margin: 0;
+}
+
+.experience-explorer-iframe .footer-panel {
+    margin-top: 20px;
+    border-top: 2px solid #2E8BCC;
+    padding: 8px;
+}
+
+/*********** ICONS STYLES *************/
+.experience-explorer-iframe .icon-fixed,
+.experience-explorer-iframe .icon-journey {
+    background: url('/sitecore modules/web/experienceExplorer/assets/images/mode.png') 0 0 transparent;
+    height: 18px;
+    width: 14px;
+    padding: 0;
+}
+
+.experience-explorer-iframe .icon-fixed.active,
+.experience-explorer-iframe .icon-journey.active {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.experience-explorer-iframe .icon-fixed {
+    background-position: -15px 0;
+}
+
+.experience-explorer-iframe .icon-journey {
+    background-position: -14px -19px;
+}
+
+.experience-explorer-iframe .icon-fixed.active {
+    background-position: 0 0;
+}
+
+.experience-explorer-iframe .icon-journey.active {
+    background-position: 0 -19px;
+}
+
+/********** BORDERS STYLES ************/
+.experience-explorer-iframe .padding-none th,
+.experience-explorer-iframe .padding-none td {
+    padding: 0px;
+}
+
+.experience-explorer-iframe .padding-small th,
+.experience-explorer-iframe .padding-small td {
+    padding: 7px;
+}
+
+.experience-explorer-iframe .border-none th,
+.experience-explorer-iframe .border-none td {
+    border: 0;
+}
+
+.experience-explorer-iframe .border-bottom th,
+.experience-explorer-iframe .border-bottom td {
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 2px solid #2E8BCC;
+    line-height: 25px;
+    padding: 8px;
+}
+
+.experience-explorer-iframe .border-top th,
+.experience-explorer-iframe .border-top td {
+    border-top: 2px solid #2E8BCC;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 0;
+    line-height: 25px;
+    padding: 8px;
+    margin-top: 8px;
+}
+
+/********* MODE STYLES **********/
+.experience-explorer-iframe .mode {
+    width: 77px;
+    margin-top: 5px;
+}
+
+.experience-explorer-iframe .mode-title {
+    float: right;
+    line-height: 9px;
+    font-size: 9px;
+    width: 40px;
+    height: 18px;
+    margin-top: 4px;
+}
+
+/********* ACCORDION STYLES **********/
+.experience-explorer-iframe .nav {
+    margin-bottom: 10px;
+}
+
+.experience-explorer-iframe .accordion-body {
+    display: none;
+}
+
+.experience-explorer-iframe .accordion-inner {
+    position: relative;
+}
+
+/********* TABS STYLES **********/
+.experience-explorer-iframe .tab-header {
+    position: relative;
+}
+
+.experience-explorer-iframe .tab-title {
+    margin-bottom: 10px;
+    text-transform: lowercase;
+}
+
+.experience-explorer-iframe .tab-content {
+    min-height: 150px;
+    max-height: 150px;
+}
+
+.experience-explorer-iframe .tab-description {
+    margin-bottom: 25px;
+}
+
+/********* TOOLTIPS STYLES **********/
+.experience-explorer-iframe .info {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 7px;
+    display: block;
+    width: 25px;
+    height: 25px;
+    border-radius: 20px;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.experience-explorer-iframe .info:hover {
+    color: #2e8bcc;
+    text-decoration: none;
+}
+
+.tooltip-inner p,
+.tooltip-inner ul,
+.tooltip-inner li {
+    line-height: 1.4em;
+}
+
+/********* GOOGLE MAPS STYLES **********/
+.experience-explorer-iframe .map {
+    height: 200px;
+    position: relative;
+}
+
+.experience-explorer-iframe .map img {
+    max-width: none;
+}

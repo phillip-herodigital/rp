@@ -27,35 +27,22 @@ header.sc-globalHeader .sc-global-logo {
 
 div[data-sc-id=SearchBorder] {
     display: inline-block;
-}
-
-button[data-sc-id=SearchButton] {
-    margin-left: 8px;
+    width: 450px;
 }
 
 .sc-accordion .sc-table {
   border: none;
 }
 
-.sc-accordion .sc-accordion-header table .sc-accordion-header-chevron a {
-  display: none;
+div[data-sc-id=VisitorsAccordion] {
+  margin-top: 30px;
 }
 
-.sc-accordion, .sc-messageBar {
-    margin-top: 20px;
+.sc-messageBar {
+  margin-top: 5px;
+  margin-bottom: 20px;
 }
 
-.sc-accordion .sc-accordion-header-title {
-  text-transform: uppercase;
-}
-
-input[data-sc-id=SearchTextBox] {
-  width: 370px;
-}
-
-.sc .sc-table tbody tr td, 
-.sc .sc-table thead td, 
-.sc .sc-table tbody tr th, 
 .sc .sc-table thead th {
   text-indent: 0; 
   white-space: normal; 
@@ -79,6 +66,26 @@ div.sc-border[data-sc-id=Main] {
 
 div.sc-accordion[data-sc-id=VisitorsAccordion] {
   margin-bottom: 15px;
+}
+
+div.sc-advancedExpander[data-sc-id=VisitorsAccordion] .sc-advancedExpander-body
+{
+  border: none;
+}
+
+.sc-listcontrol .sc-table-header th.sc-table-head:after {
+  top: 50%;
+  margin-top: -7px;
+}
+
+.sc-listcontrol .sc-table tbody tr td a {
+  padding: 14px 15px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 

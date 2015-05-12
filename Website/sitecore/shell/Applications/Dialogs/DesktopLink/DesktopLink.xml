@@ -8,23 +8,21 @@
         
       <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.DesktopLink.DesktopLinkForm,Sitecore.Client"/>
 
-      <GridPanel CellPadding="2" Columns="2" Width="100%">
+      <GridPanel Class="scFormTable" CellPadding="2" Columns="2" Width="100%">
         <Label For="Link" GridPanel.NoWrap="true"><Literal Text="Link:"/></Label>
         
         <GridPanel Columns="2" Width="100%" Fixed="true">
           <Edit ID="Link" Width="100%"/>
-          <Button Header="Browse" Click="link:itembrowse" GridPanel.Width="75"/>
+          <Button Header="Browse" Click="link:itembrowse" GridPanel.Width="90" Style="margin-left: 10px"/>
         </GridPanel>
         
-        <hr GridPanel.ColSpan="2"/>
-
         <Label For="Name" GridPanel.NoWrap="true"><Literal Text="Name:"/></Label>
         <Edit ID="Name" Width="100%" GridPanel.Width="100%"/>
         
         <Label For="Icon" GridPanel.NoWrap="true"><Literal Text="Icon:"/></Label>
         <GridPanel Columns="2" Width="100%" Fixed="true">
           <Edit ID="Icon" Width="100%"/>
-          <Button Header="Browse" Click="link:iconbrowse" GridPanel.Width="75"/>
+          <Button Header="Browse" Click="link:iconbrowse" GridPanel.Width="90" Style="margin-left: 10px"/>
         </GridPanel>
 
       </GridPanel>

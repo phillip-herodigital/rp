@@ -4,34 +4,41 @@
     <Gallery>
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Galleries.Languages.GalleryLanguagesForm,Sitecore.Client"/>
 
-      <!--
+      
       <Script>
-        if (Prototype.Browser.Gecko) {
-          scForm = window.parent.scForm;
+        window.onload = function() {
+          var activeLanguage = document.querySelector('.scMenuPanelItemSelected');
+          activeLanguage.scrollIntoView();
         }
       </Script>
-      -->
+      
 
       <Stylesheet Key="GalleryLanguages">
         .scMenuPanelItem, .scMenuPanelItem_Hover, .scMenuPanelItemSelected_Hover, .scMenuPanelItemSelected {
-          padding-left: 0;
-          padding-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 8px;
+        padding-bottom: 8px;
         }
         .scGalleryGrip {
-          position: absolute; 
-          bottom: 1px;
-          left: 1px; 
-          right: 1px;
-          height: 10px;
+        position: absolute;
+        bottom: 1px;
+        left: 1px;
+        right: 1px;
+        height: 10px;
         }
         .scLanguagesGalleryMenu {
-          overflow: hidden;
-          vertical-align: top;
-          border-bottom: 10px solid transparent;
-          -moz-box-sizing: border-box;
-          box-sizing: border-box;
-          width: 100%;
-          height: 100%;
+        overflow: hidden;
+        vertical-align: top;
+        border-bottom: 12px solid transparent;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        border-collapse: separate;
+        }
+        div#Languages img {
+        display: none;
         }
       </Stylesheet>
 
@@ -40,7 +47,7 @@
         <GalleryMenu ID="Options" Class="scLanguagesGalleryMenu">
 
           <MenuPanel Height="100%">
-            <Scrollbox ID="Languages" Class="scScrollbox scFixSize scFixWidthInsideGallery" Height="100%" Width="100%" Background="#F4F4F5" Padding="0px" Border="none"/>
+            <Scrollbox ID="Languages" Class="scScrollbox scFixSize scFixWidthInsideGallery" style="padding-top:0 !important;" Height="100%" Width="100%" />
           </MenuPanel>
 
         </GalleryMenu>

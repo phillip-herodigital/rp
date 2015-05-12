@@ -6,7 +6,7 @@
     <DocumentType />
     <html>
       <html:HtmlHead>
-        <html:HtmlTitle>Sitecore</html:HtmlTitle>
+        <html:HtmlTitle><Literal Text='${StringUtil.GetString($Title, "Sitecore")}'/></html:HtmlTitle>
         <meta name="GENERATOR" content="Sitecore" />
         <meta http-equiv="imagetoolbar" content="no" />
         <meta http-equiv="imagetoolbar" content="false" />

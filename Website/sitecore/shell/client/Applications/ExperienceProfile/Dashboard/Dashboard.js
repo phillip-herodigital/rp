@@ -6,14 +6,6 @@ define(["sitecore", "/-/speak/v1/experienceprofile/DataProviderHelper.js"], func
       var aggregatesPath = "/aggregates";
       var latestVisitorsTable = "latest-visitors";
 
-      this.SearchTextBox.viewModel.$el.keyup($.proxy(function (e)
-      {
-        if (e.keyCode == 13)
-        {
-          this.SearchButton.viewModel.click();
-        }
-      }, this));
-
       providerHelper.setupHeaders([
         { urlKey: aggregatesPath + "/" + latestVisitorsTable + "?", headerValue: latestVisitorsTable }
       ]);
@@ -24,11 +16,19 @@ define(["sitecore", "/-/speak/v1/experienceprofile/DataProviderHelper.js"], func
 
       providerHelper.setDefaultSorting(this.VisitorsDataProvider, "LatestVisitStartDateTime", true);
       providerHelper.getListData(this.VisitorsDataProvider);
+      
+      this.VisitorsList.on("change:items", this.removeMailLink, this);
     },
-    
-    findContact: function()
-    {
+
+    findContact: function () {
       window.location.assign('search?text=' + encodeURIComponent(this.SearchTextBox.get('text')));
+    },
+
+    removeMailLink: function () {
+      this.VisitorsList.viewModel.$el.find("a").each(function () {
+        $(this).attr("href") == "mailto:" ?
+          $(this).removeAttr("href") : $.noop();
+      });
     }
   });
   return app;

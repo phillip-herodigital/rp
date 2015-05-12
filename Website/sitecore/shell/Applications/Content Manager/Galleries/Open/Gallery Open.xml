@@ -4,21 +4,16 @@
     <Gallery>
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Galleries.Open.GalleryOpenForm,Sitecore.Client"/>
       <div class="scStretch" Background="#e9e9e9">
-        <div style="position:absolute; top:0; right: -1px; bottom: 10px; left: -1px;">
+        <div style="position:absolute; top:0; right: -1px; bottom: 12px; left: -1px;">
           <Tabstrip ID="Tabs">
 
             <Tab ID="RecentTab" Header="Recent" Height="100%">
-              <Scrollbox Border="none" Padding="0">
-                <GalleryMenu ID="RecentMenu" Fill="true"/>
-              </Scrollbox>
+              <GalleryMenu ID="RecentMenu" Fill="true"/>
             </Tab>
 
             <Tab ID="ContentTab" Header="Content Tree">
               <DataContext ID="ContentDataContext"/>
-
-              <Scrollbox Border="none" Padding="0px">
-                <TreeviewEx ID="ContentTreeview" Style="width: 0px" DataContext="ContentDataContext" Click="ContentTreeview_Click"/>
-              </Scrollbox>
+              <TreeviewEx ID="ContentTreeview" Style="width: 0px" DataContext="ContentDataContext" Click="ContentTreeview_Click"/>
             </Tab>
 
           </Tabstrip>

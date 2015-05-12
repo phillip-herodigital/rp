@@ -4,6 +4,13 @@
     <FormPage Background="#e9e9e9" >
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.OneColumnPreview.OneColumnPreviewForm,Sitecore.Client"/>
       <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
+      <Stylesheet>
+        .scEditorSections {
+            background: white;
+        }
+      </Stylesheet>
+      <Script Src="/sitecore/shell/Controls/Lib/jQuery/jquery-1.10.2.min.js"></Script>
+      <Script type="text/javascript">if (!window.$sc) $sc = jQuery.noConflict();</Script>
       <Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js"/>
       <Scrollbox Height="100%" Background='${StringUtil.GetString($ClientBackground, "transparent")}'
                    Border='${StringUtil.GetString($ClientBorder, "none")}' Padding="0px"

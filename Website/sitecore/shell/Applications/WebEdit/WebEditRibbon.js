@@ -42,6 +42,10 @@ function scSearch() {
   scForm.postRequest('','','','webedit:search');
 }
 
+function scNotifications() {
+    scForm.postRequest('', '', '', 'webedit:notifications');
+}
+
 function scNavigate(href) {
   window.parent.location.href = href;
 }
@@ -76,7 +80,16 @@ function scSetHtmlValue(controlid, preserveInnerContent, clearIfEmpty) {
 }
 
 function scSetSaveButtonState(isEnabled) {
-  var scSaveButton = $("scRibbonButton_Save");
+  var saveButtonState = $("__SAVEBUTTONSTATE");
+  if (Sitecore.PageModes != null 
+    && Sitecore.PageModes.PageEditor.ribbon().contentWindow.document.querySelector('[data-sc-id="QuickSave"]') != null
+    && saveButtonState) {
+    saveButtonState.value = 1;
+    saveButtonState.onchange();
+    return;
+  }
+
+  var scSaveButton = $("scRibbonButton_Save"); 
   if (scSaveButton == null) {
     return;
   }
@@ -193,15 +206,36 @@ if (typeof(scSitecore) != 'undefined') {
   }
 
   scSitecore.prototype.onKeyDownEx = scSitecore.prototype.onKeyDown;
-  scSitecore.prototype.onKeyDown = function (evt) {
-      var e = (evt != null ? evt : window.event);
-      if (e && e.ctrlKey && e.keyCode == 83) {
-        //Ctrl + S is handled in Page Editor        
-        return;
-      }
+  scSitecore.prototype.onKeyDown = function(evt) {
+    var e = (evt != null ? evt : window.event);
+    if (e && e.ctrlKey && e.keyCode == 83) {
+      //Ctrl + S is handled in Page Editor        
+      return;
+    }
 
-      this.onKeyDownEx(evt);
-   }
+    this.onKeyDownEx(evt);
+  };
+  
+  scSitecore.prototype.postRequestUrlRewriter = function (url) {
+    var webFormRibbon = "/sitecore/shell/Applications/WebEdit/WebEditRibbon.aspx";
+    if (url.indexOf(webFormRibbon) != -1) {
+      return url;
+    }
+
+    var frame = document.getElementById("scWebEditRibbon");
+    var frameUrl = frame.src.replace("&sc_lang=", "&la=");
+    frameUrl = frameUrl.replace("&itemId=", "&id=");
+    frameUrl = frameUrl.replace("&deviceId=", "&dev=");
+    frameUrl = frameUrl.replace("&database=", "&db=");
+    frameUrl = frameUrl.replace("&sc_content=core", "&sc_content=master");
+    frameUrl = frameUrl.replace("?sc_content=core", "?sc_content=master");
+    frameUrl += "&sc_speakribbon=1";
+    frameUrl = frameUrl.replace("/sitecore/client/Applications/ExperienceEditor/Ribbon.aspx", webFormRibbon);
+    var index = frameUrl.indexOf(webFormRibbon);
+    frameUrl = frameUrl.substring(index, frameUrl.length);
+
+    return frameUrl;
+  };
 
    scSitecore.prototype.postRequestEx = scSitecore.prototype.postRequest;
    scSitecore.prototype.postRequest = function (control, source, eventtype, parameters, callback, async) {
@@ -405,6 +439,13 @@ function scShowControlsClick(enabled) {
   // enforce ribbon refresh
     scRefreshRibbon();
 }
+
+function scShowOptimizationClick(enabled) {
+    Sitecore.PageEditorProxy.changeShowOptimization(enabled);
+    // enforce ribbon refresh
+    scRefreshRibbon();
+}
+
 
 function scCapabilityClick(capability, enabled) {    
   Sitecore.PageEditorProxy.changeCapability(capability, enabled);

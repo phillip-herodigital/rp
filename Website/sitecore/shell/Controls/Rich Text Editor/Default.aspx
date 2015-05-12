@@ -9,14 +9,12 @@
     <style type="text/css">
       .scRadEditor .InsertSitecoreLink 
       {
-        background-image:url(/sitecore/shell/themes/standard/images/editor/linkmanager.gif) !important;
-        background-position: -2px -2px;
+        background-position: -3697px center;
       }
       
       .scRadEditor .InsertSitecoreMedia
       {
-      	background-image:url(/sitecore/shell/themes/standard/images/editor/ImageManager.gif) !important;
-      	background-position: -2px -2px;
+      	background-position: -1866px center;
       }
       
     </style>
@@ -57,6 +55,25 @@
         var container = $("mainForm");
         
         editor.setSize(container.getWidth(), container.getHeight());
+
+        var designIframe = document.getElementById('Editor_contentIframe');
+        var designMode = designIframe.style.height != '0px'; 
+        if (designMode) {
+          designIframe.style.height = "0";
+        }
+
+        var htmlIframe = document.querySelector('#Editor_contentIframe + iframe');
+        htmlIframe && (htmlIframe.style.height = "0");
+        setTimeout(function () {
+          var clientHeight = document.getElementById('EditorCenter').clientHeight  + 'px';
+
+          if (designMode) {
+            designIframe.style.height = clientHeight;
+          }
+
+          htmlIframe && (htmlIframe.style.height = clientHeight);
+
+        }, 0);
       }
       
       Event.observe(window, "resize", scFitEditor);

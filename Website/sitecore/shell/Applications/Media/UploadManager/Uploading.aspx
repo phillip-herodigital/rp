@@ -7,10 +7,8 @@
   <title>Sitecore</title>
   
   <style type="text/css">
-    body { background:#e9e9e9 }
-    td  { font:bold 8pt tahoma  }
-    #Icon { margin:64px 0px 16px 0px }
-    #Progress { margin:0px 0px 16px 0px; }
+    body { background:#fff; font-family:Arial; font-size:12px;}
+    #Progress { margin:75px 0px 16px 0px; }
   </style>
   
 </head>
@@ -19,12 +17,9 @@
     <table id="Grid" border="0" cellpadding="4" cellspacing="0" width="100%">
       <tr>
         <td align="center">
-          <sc:ThemedImage id="Icon" runat="server" Height="48" Width="48" Src="Applications/32x32/Export1.png" />
-          
           <div id="Progress">
-            <sc:ThemedImage runat="server" Height="17" Src="Images/progress.gif" Width="94"/>
+            <sc:ThemedImage runat="server" Src="Images/sc-spinner32.gif" />
           </div>
-          
           <div>
             <sc:Literal runat="server" Text="Uploading..."/>
           </div>

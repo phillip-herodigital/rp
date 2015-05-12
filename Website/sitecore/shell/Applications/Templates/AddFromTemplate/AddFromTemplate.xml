@@ -3,15 +3,11 @@
    <AddFromTemplate>
       <FormDialog ID="Dialog" Icon="Applications/32x32/form_blue_add.png" Header="Insert from Template" Text="Select or search for the template you want to use. In the Item Name field, enter a name for the new item." OKButton="Insert" Style="overflow: hidden;">
 
-         <CodeBeside Type="Sitecore.Shell.Applications.Templates.AddFromTemplate.AddFromTemplateForm,Sitecore.Client"/>
-         <Script Src="/sitecore/shell/applications/Templates/AddFromTemplate/AddFromTemplate.xml.js" />
+        <CodeBeside Type="Sitecore.Shell.Applications.Templates.AddFromTemplate.AddFromTemplateForm,Sitecore.Client"/>
+        <Script Src="/sitecore/shell/applications/Templates/AddFromTemplate/AddFromTemplate.xml.js" />
         <Stylesheet>
           .scTemplateInfo {
-          margin-top: 10px;
-          }
-
-          .scTemplateInfo td {
-          padding: 2px;
+             margin-top: 10px;
           }
         </Stylesheet>
          <TemplateDataContext ID="TemplatesDataContext"/>
@@ -25,15 +21,12 @@
               </Tab>
               <SearchTab Mode="FieldResults" Header="Search" Height="100%"/>
             </Tabstrip>
-            <GridPanel class="scTemplateInfo" Columns="2">
-              <Border style="padding-right:4px ; white-space: nowrap;" >
-                <Literal Text="Template:"/>
-              </Border>
-              <Edit ID="TemplateName" Width="100%" GridPanel.Width="100%"/>
-              <Border style="padding-right:4px; white-space: nowrap;">
-                <Literal Text="Item Name:"/>
-              </Border>
-              <Edit ID="ItemName" Width="100%" GridPanel.Width="100%" Class="not-dirty"/>
+            <GridPanel class="scFormTable scTemplateInfo" Columns="2">
+              <Literal Text="Template:"/>
+              <Edit ID="TemplateName" />
+              
+              <Literal Text="Item Name:"/>
+              <Edit ID="ItemName" Class="not-dirty"/>
             </GridPanel>
 
          </Border>

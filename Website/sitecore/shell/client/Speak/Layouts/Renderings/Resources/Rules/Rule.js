@@ -8,10 +8,13 @@
   var view = Sitecore.Definitions.Views.ComponentView.extend({
     initialize: function (options) {
       this._super();
+
       if (options.isDocumenting) return;
+
       this.script = this.$el.attr("data-sc-rulescript");
       this.trigger = this.$el.attr("data-sc-trigger");
       this.controlName = this.$el.attr("data-sc-control");
+      this.loadMode = this.$el.attr("data-sc-loadmode");
 
       if (this.trigger && this.trigger.substr(0, 7) == "window:") {
         _sc.on(this.trigger, this.evaluate, this);
@@ -21,6 +24,11 @@
       }
       else {
         this.app.on(this.trigger, this.evaluate, this);
+      }
+
+      if (this.loadMode == "immediately") {
+        require([this.script], function (f) {
+        });
       }
     },
     
@@ -47,5 +55,5 @@
     }
   });
 
-  Sitecore.Factories.createComponent("Rule", model, view, ".sc-rule");
+  Sitecore.Factories.createComponent("Rule", model, view, "script[data-sc-component=Rule]");
 });

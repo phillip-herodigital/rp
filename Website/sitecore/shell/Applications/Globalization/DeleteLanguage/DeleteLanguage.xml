@@ -1,87 +1,55 @@
-<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <DeleteLanguage>
     <WizardForm CodeBeside="Sitecore.Shell.Applications.Globalization.DeleteLanguage.DeleteLanguageForm,Sitecore.Client">
 
-      <WizardFormFirstPage ID="FirstPage" Icon="Network/32x32/Earth_Delete.png">
-        <Border Class="scWizardWelcomeTitle"><Literal ID="Welcome" Text="Welcome to the Delete Language Wizard."/></Border>
-        <Literal Text="This wizard helps you:"/>
-        <ul>
-          <li class="scWizardBullet"><Literal Text="Select a language."/></li>
-          <li class="scWizardBullet"><Literal Text="Delete the language."/></li>
-        </ul>
-      </WizardFormFirstPage>
-      
-      <WizardFormPage ID="Languages" Header="Select Language" Text="Select the language that you want to delete. You can delete more than one. Click Next to continue." Icon="Network/32x32/Earth_Delete.png">
+      <WizardFormPage ID="Languages" Header="Delete a Language" Text="Select the languages that you want to delete.">
         <WizardFormIndent>
-        
-          <Groupbox ID="LanguagesPanel" Header="Language" Margin="0px 0px 16px 0px">
-            <Border Padding="4" ID="LanguageList"/>
+
+          <Groupbox ID="LanguagesPanel" Header="Languages">
+            <Border ID="LanguageList"/>
           </Groupbox>
-          
+
         </WizardFormIndent>
       </WizardFormPage>
-    
-      <WizardFormPage ID="Confirm" Header="Confirm Language Deletion" Text="You are about to delete a language. Are you sure that you want to delete this language? Click Delete to delete the language." Icon="Network/32x32/Earth_Delete.png">
-        <WizardFormIndent>
-          <Literal Text="You are about to delete:"/>
 
-          <Border ID="ConfirmLanguages" Padding="8px 0px 16px 16px"/>
-
-          <Literal Text="Note: All the data in these languages will also be deleted." Style="font-weight:bold; color:maroon"/>
-        </WizardFormIndent>
-      </WizardFormPage>
-    
-      <WizardFormPage ID="Deleting" Header="Deleting" Text="Please wait while deleting..." Icon="Network/32x32/Earth_Delete.png">
-        <Border class="scStretch scTextAlignCenter">
-          
-          <Border Height="64"/>
-          
-          <ThemedImage Src="Network/48x48/Earth_Delete.png" Width="48" Height="48" GridPanel.Align="center"/>
-
-          <Border Height="16"/>
-          
-          <Border Align="center">
-            <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
-          </Border>
-          
-          <Border Height="16"/>
-          
-          <Border ID="Text" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
-            <Literal Text="Deleting..."/>
-          </Border>
-          <Border Height="16"/>
-          <Border ID="Status" Align="center" GridPanel.Align="center">
-            &#160;
-          </Border>
-          
+      <WizardFormPage ID="Confirm" Header="Delete a Language" Text="Are you sure you want to delete the selected languages?">
+        <Border class="scWizardWarning" def:content="Notifications">
+          <ThemedImage src="Images/warning_yellow.png" />
+          <Literal class="scEditorWarningText" Text="Note: All the data in the selected languages will be deleted." />
         </Border>
+        
+        <WizardFormIndent>
+
+          <Literal class="scFieldLabel" Text="You are about to delete:"/>
+
+          <Border ID="ConfirmLanguages" Padding="0px 0px 16px 16px"/>
+
+        </WizardFormIndent>
       </WizardFormPage>
 
-      <WizardFormPage ID="Retry" Header="Error" Text="An error occurred while deleting the languages." Icon="Network/32x32/Earth_Delete.png">
+      <WizardFormProgressPage ID="Deleting" Header="Delete a Language" Text="Please wait while the languages are being deleted." ActionText="Deleting...">
+        <Border ID="Status">&#160;</Border>
+      </WizardFormProgressPage>
+
+      <WizardFormPage ID="Retry" Header="Delete a Language" Text="An error occurred while deleting the languages.">
         <WizardFormPadding>
-          <Border class="scStretch">
-            <Memo ID="ErrorText" class="scStretch" ReadOnly="true" />
-          </Border>
+          <Memo ID="ErrorText" class="scStretch" ReadOnly="true" />
         </WizardFormPadding>
       </WizardFormPage>
 
-      <WizardFormLastPage ID="LastPage" Icon="Network/32x32/Earth_Delete.png">
-        <div class="scStretch scFlexColumnContainerWithoutFlexie">
-          <Literal class="wizardCompleteText" Text="The wizard has completed. Click Finish to close the wizard."/>
-          <Border ID="ShowResultPane" style="padding:8px 0px 2px 0px" Click="ShowResult" RollOver="true" Class="scRollOver">
-            <Literal Text="Click here to view additional information."/>
-          </Border>
-          <Border ID="ResultLabel" style="padding:8px 0px 2px 0px" Visible="false">
-            <Literal Text="Result:"/>
-          </Border>
-          <div class="scFlexContentWithoutFlexie scWizardLastPageResultText">
-            <div class="scStretchAbsolute">
-              <Memo ID="ResultText" class="scStretch" ReadOnly="true" visible="false"/>
+      <WizardFormPage ID="LastPage" Header="Delete a Language">
+        <WizardFormPadding>
+          <div class="scStretch scFlexColumnContainerWithoutFlexie">
+            <Literal class="sc-text-largevalue" Text="The language has been deleted."/>
+            <div class="scFlexContentWithoutFlexie scWizardLastPageResultText">
+              <div class="scStretchAbsolute">
+                <Memo ID="ResultText" class="scStretch" ReadOnly="true"/>
+              </div>
             </div>
           </div>
-        </div>
-      </WizardFormLastPage>
+        </WizardFormPadding>
+      </WizardFormPage>
 
     </WizardForm>
   </DeleteLanguage>

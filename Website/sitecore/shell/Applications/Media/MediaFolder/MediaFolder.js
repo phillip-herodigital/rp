@@ -138,7 +138,7 @@ var SitecoreMediaUploader = Class.create({
 
       progress.down('img').remove();
       progress.setStyle({ backgroundImage: 'none' });
-      progress.insert({ bottom: "<img src='/~/icon/Applications/16x16/check2.png.aspx' alt='Uploaded' />" });
+      progress.insert({ bottom: "<img src='/~/icon/Office/16x16/check.png.aspx' alt='Uploaded' />" });
 
       row.addClassName("completed");
       row.removeClassName("queued");
@@ -169,7 +169,7 @@ var SitecoreMediaUploader = Class.create({
 
     progress.down('img').remove();
     progress.setStyle({ backgroundImage: 'none' });
-    progress.insert({ bottom: new Element("img", { src: '/~/icon/Applications/16x16/delete2.png.aspx', alt: event.status, title: event.status }) });
+    progress.insert({ bottom: new Element("img", { src: '/~/icon/Office/16x16/delete.png.aspx', alt: event.status, title: event.status }) });
 
     this.processNextFile();
   },
@@ -208,7 +208,7 @@ var SitecoreMediaUploader = Class.create({
 
       file.size = (file.size / 1000).toFixed(0) + " KB";
 
-      var html = "<tr id='#{id}' class='queued'><td class='name'>#{name}</td><td class='size'>#{size}</td><td class='alt'><input class='scFont alt' type='text' id='#{id}_alt' /></td><td class='progress'><img class='filler' style='width:0px' src='/sitecore/shell/Themes/Standard/Images/Progress/filler_media.png' alt='' /></td></tr>".interpolate(file);
+      var html = "<tr id='#{id}' class='queued'><td class='name'>#{name}<span class='progress'><img class='filler' style='width:0px;' src='/sitecore/shell/Themes/Standard/Images/Progress/filler_media.png' alt='' /></span></td><td class='size'>#{size}</td><td class='alt'><input class='scFont alt' type='text' id='#{id}_alt' /></td></tr>".interpolate(file);
 
       $$("#queue tbody")[0].insert({ bottom: html });
       if (!this.simple) {

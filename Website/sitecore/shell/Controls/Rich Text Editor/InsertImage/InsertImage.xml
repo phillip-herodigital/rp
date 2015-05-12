@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
    <RichText.InsertImage>
-      <FormDialog Icon="Applications/32x32/photo_scenery.png" Header="Insert Media Item"
-        Text="Select or search for the image or media file that you want to insert." OKButton="Insert">
+      <FormDialog Header="Insert Media Item" Text="Navigate to or search for the image or media file that you want to insert." OKButton="Insert">
 
          <Stylesheet Src="MediaBrowser.css" DeviceDependant="true" />
          <script Type="text/javascript" Language="javascript" Src="/sitecore/shell/Controls/Rich Text Editor/InsertImage/InsertImage.js">.</script>
@@ -13,30 +12,31 @@
 
          <Tabstrip class="scInsertImageTabs" ID="Tabs" Width="100%" Height="100%">
             <Tab ID="MediaLibraryTab" Header="Media Library" Height="100%">
-              <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" Columns="3" GridPanel.Height="100%">
-                <Scrollbox Class="scScrollbox" Width="100%" Height="100%" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%" GridPanel.Width="50%" GridPanel.Valign="top">
-                  <TreeviewEx ID="Treeview" DataContext="DataContext" Click="SelectTreeNode" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
-                </Scrollbox>
+              <GridPanel Width="100%" Height="100%" Columns="3" GridPanel.Height="100%" Class="scMediaGridPanel">
+                <Border Class="scMediaTreeBorder" GridPanel.Height="100%" GridPanel.Width="50%">
+                  <Scrollbox Class="scScrollbox scMediaTree">
+                    <TreeviewEx ID="Treeview" DataContext="DataContext" Click="SelectTreeNode" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
+                  </Scrollbox>
+                </Border>
                 <VSplitter ID="InsertMediaLeft" GridPanel.Width="4" Target="left" />
-                <Scrollbox ID="Listview" Width="100%" Height="100%" Background="white" Padding="0px" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" />
+                <Scrollbox ID="Listview" Width="100%" Height="100%" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" />
               </GridPanel>
             </Tab>
 
            <SearchTab Mode="MediaBrowser" Header="Search" Height="100%"/>
          </Tabstrip>
 
-         <Border class="scInsertImageFileName" Padding="4px 8px 0px 0px">
-            <GridPanel Width="100%" Columns="2">
-               <Border Padding="0px 4px 0px 0px" Class="scDialogNoWrap">
-                  <Literal Text="Name:"/>
-               </Border>
-               <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>
+         <Border class="scInsertImageFileName">
+            <GridPanel class="scFormTable" Columns="2">
+              <Literal Text="Name:"/>
+
+              <Edit ID="Filename" />
             </GridPanel>
          </Border>
 
          <Border def:placeholder="Buttons">
-            <Button ID="Upload" Header="Upload" Style="white-space: nowrap;" Click="media:upload(edit=1,load=1)"/>
-            <Button Header="Edit" Click="Edit" Style="white-space: nowrap;"/>
+            <Button ID="Upload" Header="Upload" Click="media:upload(edit=1,load=1)"/>
+            <Button ID="EditButton" Header="Edit" Click="Edit" />
          </Border>
 
       </FormDialog>

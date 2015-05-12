@@ -12,7 +12,7 @@
   var cidataProperty = "cidata";
   var hasErrorHandlerProperty = "hasErrorHandler";
   var addTransformerKey = false;
-
+  
   var sortParam = "sort";
   var asc = "asc";
   var desc = "desc";
@@ -48,12 +48,12 @@
         break;
       }
     }
-
-    if (addTransformerKey === true)
+	
+	if (addTransformerKey === true)
     {
         xhr.setRequestHeader("X-SC-CintelTransformerClientName", "speakClient");
         xhr.setRequestHeader("X-SC-CintelTransfomerKey", "default");
-        addTransformerKey = false;
+		addTransformerKey = false;
     }
 
   };
@@ -102,11 +102,9 @@
       var sorting = listControl.get("sorting");
       if (sorting.length < 2) return;
 
-      var providerSort = $.map(sorting.split("|"), function (sort)
-      {
-        var direction = (sort[0] == 'd') ? asc : desc; // values are reverted as a temporal workaround to ListControl issue #3064
-        return sort.substring(1) + "%20" + direction;
-      }).reverse().join(",");
+      var sort = sorting.split("|")[0],
+          direction = (sort[0] == 'd') ? asc : desc, // values are reverted as a temporal workaround to ListControl issue #3064
+          providerSort = sort.substring(1) + "%20" + direction;
 
       this.addQueryParameter(provider, sortParam, providerSort);
     },
@@ -207,7 +205,7 @@
           
           var oldData = provider.get(pageNumberProperty) > 1 ? provider.get(dataBackupProperty) : [];
           var newData = jsonData.data.dataSet[provider.get(cintelTableNameProperty)];
-          
+
           if (!newData)
           {
             return;
@@ -290,6 +288,6 @@
     addDefaultTransformerKey: function() {
         addTransformerKey = true;
     }
-
+	
   };
 });

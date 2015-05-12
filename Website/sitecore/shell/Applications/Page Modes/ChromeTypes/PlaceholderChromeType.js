@@ -27,7 +27,7 @@
 
     var ribbon = Sitecore.PageModes.PageEditor.ribbon();
 
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();        
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
     Sitecore.PageModes.PageEditor.postRequest("webedit:addrendering(placeholder=" + this.placeholderKey() + ")");
   },
   
@@ -62,7 +62,7 @@
           }
           else {
             if (persistedLayout) {
-              $sc("#scLayout").val(persistedLayout);
+              $sc("#scLayout").val(persistedLayout).change();
             }
 
             alert(callbackData.error);
@@ -106,7 +106,7 @@
       return;
     }
     
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
         
     Sitecore.PageModes.PageEditor.postRequest("webedit:editrenderingproperties(uniqueid=" + chrome.type.uniqueId() + ")");
   },
@@ -162,7 +162,7 @@
       return;
     }
         
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();  
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
     Sitecore.PageModes.PageEditor.postRequest("webedit:editplaceholdersettings(key=" + this.placeholderKey() + ")");    
   },
 
@@ -359,7 +359,7 @@
   morphRenderings: function(chrome, morphingRenderingsIds) {
     var ribbon = Sitecore.PageModes.PageEditor.ribbon();
 
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();    
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
     this._insertPosition = chrome.type.positionInPlaceholder();    
     Sitecore.PageModes.PageEditor.postRequest("webedit:addrendering(placeholder=" + this.placeholderKey() + ",renderingIds=" + 
                                                 morphingRenderingsIds.join('|') + ")");
@@ -399,7 +399,7 @@
           }
           else {
             if (persistedLayout) {
-              $sc("#scLayout").val(persistedLayout);
+              $sc("#scLayout").val(persistedLayout).change();
             }
 
             alert(callbackData.error);

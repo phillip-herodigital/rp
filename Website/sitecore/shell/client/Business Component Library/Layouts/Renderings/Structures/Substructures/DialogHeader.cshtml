@@ -1,32 +1,21 @@
 ﻿@using Sitecore.Mvc
-<div class="row-fluid sc-dialogHeader-content">
-    <div class="span12 sc-dialogHeader-row1">
-        <div class="span9">
-            <div class="sc-dialogHeader-title">
-                @Html.Sitecore().Placeholder("DialogHeader.Title")
-            </div>
-        </div>
-        <div class="span2">
-            <div class="sc-dialogHeader-actions">
-                @Html.Sitecore().Placeholder("DialogHeader.Actions")    
-            </div>
-        </div>
-        <div class="span1">
-            <div class="sc-dialogHeader-close">
-                @Html.Sitecore().Placeholder("DialogHeader.Close")    
-            </div>
-        </div>
-    </div>
-    <div class="span12 sc-dialogHeader-row2">
-    <div class="span6">
-      <div class="sc-dialogHeader-navigation">
+
+  <div class="sc-dialogHeader">
+    <div class="sc-dialogHeader-content">
+      <div class="sc-dialogHeader-title">
         @Html.Sitecore().Placeholder("DialogHeader.Navigation")
+        @Html.Sitecore().Placeholder("DialogHeader.Title")
+      </div>
+
+      <div class="sc-dialogHeader-actions">
+        @Html.Sitecore().Placeholder("DialogHeader.Actions")
+      </div>
+
+      <div class="sc-dialogHeader-close">
+        @Html.Sitecore().Placeholder("DialogHeader.Close")
       </div>
     </div>
-        <div class="span6">
-            <div class="sc-dialogHeader-buttons">
-                @Html.Sitecore().Placeholder("DialogHeader.Buttons")
-            </div>
-        </div>
-    </div>
-</div>
+  </div>
+
+
+

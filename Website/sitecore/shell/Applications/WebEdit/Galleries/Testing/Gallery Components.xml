@@ -16,7 +16,7 @@
     <Script Src="/sitecore/shell/Controls/Lib/jQuery/jQuery.noconflict.js"/>
     <Script Src="/sitecore/shell/Controls/Lib/jQuery/tablesorter.js"/>
     <Gallery>      
-      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Galleries.Testing.GalleryComponents,Sitecore.Client"/>      
+      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Galleries.Testing.GalleryComponents,Sitecore.ExperienceEditor"/>      
       <GridPanel Width="100%" Height="100%">        
         <Tabstrip ID="Tabs" Height="100%" Width="100%" GridPanel.Class="scFillParent" GridPanel.Height="100%">
           <Tab ID="ComponentsTab" Header="By Component" Height="100%">

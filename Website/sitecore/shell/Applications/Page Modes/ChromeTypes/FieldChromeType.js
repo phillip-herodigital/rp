@@ -285,6 +285,9 @@
 
     var ribbon = Sitecore.PageModes.PageEditor.ribbon();
     if (ribbon != null) {
+      if (!ribbon.contentWindow.scForm) {
+        ribbon.contentWindow.scForm = scForm;
+      }
       ribbon.contentWindow.scForm.browser.getControl("scHtmlValue").value = value;
       ribbon.contentWindow.scForm.browser.getControl("scPlainValue").value = plainValue;
       Sitecore.PageModes.PageEditor.postRequest(
@@ -412,6 +415,7 @@
       this.selection.insertNode(node);
     }
 
+    this.persistValue();
     this.setModified();
   },
 
@@ -539,11 +543,17 @@
       var href = null;
       if (this.hasParentLink()) {        
         href = this.parentLink.href;
+        this.parentLink.onclick = function () {return false;};
+        // For IE
+        this.parentLink.href = "javascript:return false";
       }
 
       var sender = e.target;
       if (sender.tagName.toUpperCase() == "A") {
-        href = sender.href;           
+        href = sender.href;       
+        sender.onclick = function () {return false;};
+        // For IE
+        sender.href = "javascript:return false";       
       }
        
       if (!href || href.indexOf("javascript:") == 0) {
@@ -737,7 +747,7 @@
         tag = Sitecore.PageModes.ChromeTypes.Rendering.personalizationBar.renderHidden(
                 context,        
                 Sitecore.PageModes.Texts.Analytics.ChangeCondition, 
-                "/sitecore/shell/~/icon/PeopleV2/16x16/users3.png");
+                "/sitecore/shell/~/icon/Office/16x16/users3.png");
       }
       else {
         tag = Sitecore.PageModes.ChromeTypes.Rendering.personalizationBar.render(context)

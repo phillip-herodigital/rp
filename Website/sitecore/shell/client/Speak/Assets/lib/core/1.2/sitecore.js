@@ -2,14 +2,14 @@
  *
  * sitecore SPEAK framework
  *
- * Built: Thu Jun 26 2014 08:58:31 GMT+0100 (GMT Daylight Time)
- * PackageVersion: 1.1.0
+ * Built: Thu Oct 30 2014 16:20:20 GMT+0000 (GMT Standard Time)
+ * PackageVersion: 1.1.1
  *
  */
 
-!function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.sc=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+!function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.sc=e():"undefined"!=typeof global?global.sc=e():"undefined"!=typeof self&&(self.sc=e())}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
-},{}],2:[function(_dereq_,module,exports){
+},{}],2:[function(require,module,exports){
 /* jshint forin: false*/
 
 var isObject = function ( obj ) {
@@ -61,21 +61,21 @@ module.exports = {
     sitecore.module = mod.bind( sitecore );
   }
 };
-},{}],3:[function(_dereq_,module,exports){
-var pipelines = _dereq_( "./model/pipelines" );
+},{}],3:[function(require,module,exports){
+var pipelines = require( "./model/pipelines" );
 
 //export the Pipeline's model via the pipelines API
-pipelines.Pipeline = _dereq_( "./model/pipeline" );
+pipelines.Pipeline = require( "./model/pipeline" );
 
-var invoke = _dereq_( "./pipelines/Invoke/index" );
-var serverInvoke = _dereq_( "./pipelines/ServerInvoke/index" );
+var invoke = require( "./pipelines/Invoke/index" );
+var serverInvoke = require( "./pipelines/ServerInvoke/index" );
 
 pipelines.add( invoke );
 pipelines.add( serverInvoke );
 
 module.exports = pipelines;
-},{"./model/pipeline":4,"./model/pipelines":5,"./pipelines/Invoke/index":10,"./pipelines/ServerInvoke/index":12}],4:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" );
+},{"./model/pipeline":4,"./model/pipelines":5,"./pipelines/Invoke/index":10,"./pipelines/ServerInvoke/index":12}],4:[function(require,module,exports){
+var utils = require( "../utils/index" );
 
 var Pipeline = function ( name ) {
 
@@ -117,8 +117,8 @@ var Pipeline = function ( name ) {
 };
 
 module.exports = Pipeline;
-},{"../utils/index":14}],5:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" ),
+},{"../utils/index":14}],5:[function(require,module,exports){
+var utils = require( "../utils/index" ),
   pipelines = [];
 
 var api = {
@@ -152,8 +152,8 @@ var api = {
 };
 
 module.exports = api;
-},{"../utils/index":14}],6:[function(_dereq_,module,exports){
-var utils = _dereq_( "../../utils/index" );
+},{"../utils/index":14}],6:[function(require,module,exports){
+var utils = require( "../../utils/index" );
 
 var handleJavaScript = {
   priority: 1000,
@@ -171,9 +171,9 @@ var handleJavaScript = {
 };
 
 module.exports = handleJavaScript;
-},{"../../utils/index":14}],7:[function(_dereq_,module,exports){
-var utils = _dereq_( "../../utils/index" ),
-  commands = _dereq_( "../../utils/command" );
+},{"../../utils/index":14}],7:[function(require,module,exports){
+var utils = require( "../../utils/index" ),
+  commands = require( "../../utils/command" );
 
 var handleCommand = {
   priority: 2000,
@@ -185,8 +185,8 @@ var handleCommand = {
 };
 
 module.exports = handleCommand;
-},{"../../utils/command":13,"../../utils/index":14}],8:[function(_dereq_,module,exports){
-var utils = _dereq_( "../../utils/index" );
+},{"../../utils/command":13,"../../utils/index":14}],8:[function(require,module,exports){
+var utils = require( "../../utils/index" );
 
 var serverClick = {
   priority: 3000,
@@ -234,8 +234,8 @@ var serverClick = {
 };
 
 module.exports = serverClick;
-},{"../../utils/index":14}],9:[function(_dereq_,module,exports){
-var utils = _dereq_( "../../utils/index" );
+},{"../../utils/index":14}],9:[function(require,module,exports){
+var utils = require( "../../utils/index" );
 
 var triggerEvent = {
   priority: 4000,
@@ -269,17 +269,17 @@ var triggerEvent = {
 };
 
 module.exports = triggerEvent;
-},{"../../utils/index":14}],10:[function(_dereq_,module,exports){
-var Pipeline = _dereq_( "../../model/pipeline" ),
+},{"../../utils/index":14}],10:[function(require,module,exports){
+var Pipeline = require( "../../model/pipeline" ),
   invokePipeline = new Pipeline( "Invoke" );
 
-invokePipeline.add( _dereq_( "./1000-HandleJavascript" ) );
-invokePipeline.add( _dereq_( "./2000-HandleCommand" ) );
-invokePipeline.add( _dereq_( "./3000-ServerClick" ) );
-invokePipeline.add( _dereq_( "./4000-TriggerEvent" ) );
+invokePipeline.add( require( "./1000-HandleJavascript" ) );
+invokePipeline.add( require( "./2000-HandleCommand" ) );
+invokePipeline.add( require( "./3000-ServerClick" ) );
+invokePipeline.add( require( "./4000-TriggerEvent" ) );
 
 module.exports = invokePipeline;
-},{"../../model/pipeline":4,"./1000-HandleJavascript":6,"./2000-HandleCommand":7,"./3000-ServerClick":8,"./4000-TriggerEvent":9}],11:[function(_dereq_,module,exports){
+},{"../../model/pipeline":4,"./1000-HandleJavascript":6,"./2000-HandleCommand":7,"./3000-ServerClick":8,"./4000-TriggerEvent":9}],11:[function(require,module,exports){
 var updateModel = {
   priority: 1000,
   execute: function ( context ) {
@@ -291,15 +291,15 @@ var updateModel = {
 };
 
 module.exports = updateModel;
-},{}],12:[function(_dereq_,module,exports){
-var Pipeline = _dereq_( "../../model/pipeline" ),
+},{}],12:[function(require,module,exports){
+var Pipeline = require( "../../model/pipeline" ),
   serverInvokePipeline = new Pipeline( "ServerInvoke" );
 
-serverInvokePipeline.add( _dereq_( "./1000-UpdateModel" ) );
+serverInvokePipeline.add( require( "./1000-UpdateModel" ) );
 
 module.exports = serverInvokePipeline;
-},{"../../model/pipeline":4,"./1000-UpdateModel":11}],13:[function(_dereq_,module,exports){
-var utils = _dereq_( "./index" );
+},{"../../model/pipeline":4,"./1000-UpdateModel":11}],13:[function(require,module,exports){
+var utils = require( "./index" );
 
 /**
  * resovle the property name in the global Object
@@ -357,7 +357,7 @@ var command = {
 };
 
 module.exports = command;
-},{"./index":14}],14:[function(_dereq_,module,exports){
+},{"./index":14}],14:[function(require,module,exports){
 /*jshint -W054 */
 var toString = Object.prototype.toString;
 
@@ -430,7 +430,648 @@ var utils = {
 };
 
 module.exports = utils;
-},{}],15:[function(_dereq_,module,exports){
+},{}],15:[function(require,module,exports){
+var type = require( "./ises/type" ),
+  is = {
+    a: {},
+    an: {},
+    not: {
+      a: {},
+      an: {}
+    }
+  };
+
+var ises = {
+  "arguments": [ "arguments", type( "arguments" ) ],
+  "array": [ "array", type( "array" ) ],
+  "boolean": [ "boolean", type( "boolean" ) ],
+  "date": [ "date", type( "date" ) ],
+  "function": [ "function", "func", "fn", type( "function" ) ],
+  "null": [ "null", type( "null" ) ],
+  "number": [ "number", "integer", "int", type( "number" ) ],
+  "object": [ "object", type( "object" ) ],
+  "regexp": [ "regexp", type( "regexp" ) ],
+  "string": [ "string", type( "string" ) ],
+  "undefined": [ "undefined", type( "undefined" ) ],
+  "empty": [ "empty", require( "./ises/empty" ) ],
+  "nullorundefined": [ "nullOrUndefined", "nullorundefined", require( "./ises/nullorundefined" ) ],
+  "guid": [ "guid", require( "./ises/guid" ) ]
+}
+
+Object.keys( ises ).forEach( function ( key ) {
+
+  var methods = ises[ key ].slice( 0, ises[ key ].length - 1 ),
+    fn = ises[ key ][ ises[ key ].length - 1 ];
+
+  methods.forEach( function ( methodKey ) {
+    is[ methodKey ] = is.a[ methodKey ] = is.an[ methodKey ] = fn;
+    is.not[ methodKey ] = is.not.a[ methodKey ] = is.not.an[ methodKey ] = function () {
+      return fn.apply( this, arguments ) ? false : true;
+    }
+  } );
+
+} );
+
+exports = module.exports = is;
+exports.type = type;
+},{"./ises/empty":16,"./ises/guid":17,"./ises/nullorundefined":18,"./ises/type":19}],16:[function(require,module,exports){
+var type = require("../type");
+
+module.exports = function ( value ) {
+  var empty = false;
+
+  if ( type( value ) === "null" || type( value ) === "undefined" ) {
+    empty = true;
+  } else if ( type( value ) === "object" ) {
+    empty = Object.keys( value ).length === 0;
+  } else if ( type( value ) === "boolean" ) {
+    empty = value === false;
+  } else if ( type( value ) === "number" ) {
+    empty = value === 0 || value === -1;
+  } else if ( type( value ) === "array" || type( value ) === "string" ) {
+    empty = value.length === 0;
+  }
+
+  return empty;
+
+};
+},{"../type":21}],17:[function(require,module,exports){
+var guid = require( "sc-guid" );
+
+module.exports = function ( value ) {
+  return guid.isValid( value );
+};
+},{"sc-guid":20}],18:[function(require,module,exports){
+module.exports = function ( value ) {
+	return value === null || value === undefined || value === void 0;
+};
+},{}],19:[function(require,module,exports){
+var type = require( "../type" );
+
+module.exports = function ( _type ) {
+  return function ( _value ) {
+    return type( _value ) === _type;
+  }
+}
+},{"../type":21}],20:[function(require,module,exports){
+var guidRx = "{?[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}}?";
+
+exports.generate = function () {
+  var d = new Date().getTime();
+  var guid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace( /[xy]/g, function ( c ) {
+    var r = ( d + Math.random() * 16 ) % 16 | 0;
+    d = Math.floor( d / 16 );
+    return ( c === "x" ? r : ( r & 0x7 | 0x8 ) ).toString( 16 );
+  } );
+  return guid;
+};
+
+exports.match = function ( string ) {
+  var rx = new RegExp( guidRx, "g" ),
+    matches = ( typeof string === "string" ? string : "" ).match( rx );
+  return Array.isArray( matches ) ? matches : [];
+};
+
+exports.isValid = function ( guid ) {
+  var rx = new RegExp( guidRx );
+  return rx.test( guid );
+};
+},{}],21:[function(require,module,exports){
+var toString = Object.prototype.toString;
+
+module.exports = function ( val ) {
+  switch ( toString.call( val ) ) {
+  case '[object Function]':
+    return 'function';
+  case '[object Date]':
+    return 'date';
+  case '[object RegExp]':
+    return 'regexp';
+  case '[object Arguments]':
+    return 'arguments';
+  case '[object Array]':
+    return 'array';
+  }
+
+  if ( val === null ) return 'null';
+  if ( val === undefined ) return 'undefined';
+  if ( val === Object( val ) ) return 'object';
+
+  return typeof val;
+};
+},{}],22:[function(require,module,exports){
+var is = require("sc-is");
+
+module.exports = {
+    is: require("./utils/is"),
+    string: require("./utils/string"),
+    object: require("./utils/object"),
+    array: require("./utils/array"),
+    url: require("./utils/url"),
+    function: require("./utils/function"),
+    async: require("./utils/async"),
+    date: require("./utils/date")
+};
+},{"./utils/array":23,"./utils/async":24,"./utils/date":25,"./utils/function":26,"./utils/is":27,"./utils/object":29,"./utils/string":30,"./utils/url":31,"sc-is":15}],23:[function(require,module,exports){
+var is = require( "sc-is" );
+var arrayProto = Array.prototype;
+
+var toArray = function( arrayLike ) {
+        var array = [],
+            i = arrayLike.length >>> 0; // ensure that length is an Uint32
+        while ( i-- ) {
+            array[ i ] = arrayLike[ i ];
+        }
+        return array;
+    },
+    contains = function( array, obj ) {
+        var i = array.length;
+        while ( i-- ) {
+            if ( array[ i ] === obj ) {
+                return true;
+            }
+        }
+        return false;
+    },
+    flatten = function( all, shallow ) {
+
+        shallow = shallow || [];
+
+        if ( !is.an.array( all ) ) {
+            return all;
+        }
+
+        all.forEach( function( input ) {
+            if ( is.an.array( input ) ) {
+
+                var child = flatten( input );
+
+                if ( is.an.array( child ) ) {
+                    shallow = arrayProto.concat( shallow, child );
+                } else {
+                    shallow.push( input );
+                }
+            } else {
+                shallow.push( input );
+            }
+        } );
+
+        return shallow;
+    },
+    find = function( obj, predicate, context ) {
+        var result,
+            context = context ? context : this;
+
+        obj.forEach( function( value, index ) {
+            if ( predicate.call( context, value, index, obj ) ) {
+                result = value;
+            }
+        } );
+
+        return result;
+    };
+
+module.exports = {
+    /**
+     * toArray transform an array-like (DOM) to a real Array
+     * @param  {Array-like} arrayLike result returned by querySelectorAll
+     * @return {[Array]} a real array
+     */
+    toArray: toArray,
+    contains: contains,
+    flatten: flatten,
+    find: find
+};
+},{"sc-is":15}],24:[function(require,module,exports){
+var native = require( "./native" ),
+    nativeSlice = native.slice;
+
+var doParallel = function( fn ) {
+        return function() {
+            var args = nativeSlice.call( arguments );
+            return fn.apply( null, [ _asyncEach ].concat( args ) );
+        };
+    },
+    only_once = function( fn ) {
+        var called = false;
+        return function() {
+            if ( called ) {
+                throw new Error( "Callback was already called." );
+            }
+            called = true;
+            fn.apply( window, arguments );
+        };
+    },
+    _asyncEach = function( arr, iterator, callback ) {
+        callback = callback || function() {};
+        if ( !arr.length ) {
+            return callback();
+        }
+        var completed = 0;
+        arr.forEach( function( x ) {
+            iterator( x, only_once( function( err ) {
+                if ( err ) {
+                    callback( err );
+                    callback = function() {};
+                } else {
+                    completed += 1;
+                    if ( completed >= arr.length ) {
+                        callback( null );
+                    }
+                }
+            } ) );
+        } );
+    },
+    _asyncMap = function( eachfn, arr, iterator, callback ) {
+        var results = [];
+        //!!! Verify - wierd !!!
+        arr = arr.map( function( x, i ) {
+            return {
+                index: i,
+                value: x
+            };
+        } );
+        eachfn( arr, function( x, callback ) {
+            iterator( x.value, function( err, v ) {
+                results[ x.index ] = v;
+                callback( err );
+            } );
+        }, function( err ) {
+            callback( err, results );
+        } );
+    };
+
+module.exports = {
+    each: _asyncEach,
+    map: doParallel( _asyncMap )
+};
+},{"./native":28}],25:[function(require,module,exports){
+var is = require("./is"),
+  ensureTwoDigits = function(number) {
+    return (number < 10) ? "0" + number.toString() : number.toString();
+  };
+var formats = {
+  mmss: {
+    expression: "(\\W|^)mm(\\W+s{1,2}\\W|\\W+s{1,2}$)",
+    value: function(date) {
+      return ensureTwoDigits(date.getUTCMinutes())
+    }
+  },
+  mss: {
+    expression: "(\\W|^)m(\\W+s{1,2}\\W|\\W+s{1,2}$)",
+    value: function(date) {
+      return date.getUTCMinutes().toString();
+    }
+  },
+  hmm: {
+    expression: "(\\Wh{1,2}\\W+|^h{1,2}\\W+)mm(\\W|$)",
+    value: function(date) {
+      return ensureTwoDigits(date.getUTCMinutes());
+    }
+  },
+  hm: {
+    expression: "(\\Wh{1,2}\\W+|^h{1,2}\\W+)m(\\W|$)",
+    value: function(date) {
+      return date.getUTCMinutes().toString();
+    }
+  },
+  ms: {
+    expression: "(\\Wss\\W|^ss\\W)00(\\W|$)",
+    value: function(date) {
+      return ensureTwoDigits(date.getUTCMilliseconds())
+    }
+  },
+  ampm: {
+    expression: "(\\W|^)AM/PM(\\W|$)",
+    value: function(date) {
+      return ((date.getUTCHours() >= 12) ? "PM" : "AM");
+    }
+  },
+  ap: {
+    expression: "(\\W|^)A/P(\\W|$)",
+    value: function(date) {
+      return ((date.getUTCHours() >= 12) ? "P" : "A");
+    }
+  },
+  yyyy: {
+    expression: "(\\W|^)yyyy(\\W|$)",
+    value: function(date) {
+      return date.getUTCFullYear().toString();
+    }
+  },
+  yy: {
+    expression: "(\\W|^)yy(\\W|$)",
+    value: function(date) {
+      return ensureTwoDigits(date.getUTCFullYear() % 100);
+    }
+  },
+  mm: {
+    expression: "(\\W|^)mm(\\W|$)",
+    value: function(date) {
+      return ensureTwoDigits(date.getUTCMonth() + 1);
+    }
+  },
+  m: {
+    expression: "(\\W|^)m(\\W|$)",
+    value: function(date) {
+      return (date.getUTCMonth() + 1).toString();
+    }
+  },
+  dd: {
+    expression: "(\\W|^)dd(\\W|$)",
+    value: function(date) {
+      return ensureTwoDigits(date.getUTCDate());
+    }
+  },
+  d: {
+    expression: "(\\W|^)d(\\W|$)",
+    value: function(date) {
+      return date.getUTCDate().toString();
+    }
+  },
+  hh: {
+    expression: "(\\W|^)hh(\\W|$)",
+    value: function(date) {
+      return ensureTwoDigits(date.getUTCHours());
+    }
+  },
+  h: {
+    expression: "(\\W|^)h(\\W|$)",
+    value: function(date) {
+      return (date.getUTCHours() > 12) ? (date.getUTCHours() - 12).toString() : ((date.getUTCHours() == 0) ? 12 : date.getUTCHours()).toString();
+    }
+  },
+  ss: {
+    expression: "(\\W|^)ss(\\W|$)",
+    value: function(date) {
+      return ensureTwoDigits(date.getUTCSeconds());
+    }
+  },
+  s: {
+    expression: "(\\W|^)s(\\W|$)",
+    value: function(date) {
+      return date.getUTCSeconds().toString();
+    }
+  }
+};
+
+var dateHelper = {
+  //TODO: Not sure about that logic, just trying to port it from 1.1
+  toISO: function(date) {
+
+    if (!is.a.date(date)) {
+      return false;
+    }
+
+    var y = ensureTwoDigits(date.getFullYear()),
+      m = ensureTwoDigits(date.getMonth() + 1),
+      d = ensureTwoDigits(date.getDate());
+
+    return y + m + d;
+  },
+  parseISO: function(dateString) {
+    var year,
+      month,
+      day,
+      hours,
+      minutes,
+      seconds;
+
+    if (!is.a.string(dateString)) {
+      return null;
+    }
+
+    year = parseInt(dateString.substr(0, 4), 10);
+    // month should start from 0 !!!
+    // minus one in order to have the right month
+    month = parseInt(dateString.substr(4, 2), 10) - 1;
+    day = parseInt(dateString.substr(6, 2), 10);
+
+    if (dateString.indexOf("T") !== 8) {
+      return new Date(Date.UTC(year, month, day, 0, 0, 0, 0));
+    }
+
+    hours = parseInt(dateString.substr(9, 2), 10);
+    minutes = parseInt(dateString.substr(11, 2), 10);
+    seconds = parseInt(dateString.substr(13, 2), 10);
+
+    return new Date(Date.UTC(year, month, day, hours, minutes, seconds));
+  },
+  isISO: function(date) {
+    var dateValue;
+
+    if (is.a.date(date)) {
+      date = date.toString();
+    }
+
+    if (!is.a.string(date)) {
+      return false;
+    }
+
+    // Removes the ticks
+    if (date.charAt(15) === ":") {
+      date = date.substr(0, 15);
+    }
+
+    if (!(date.length == 8 || date.length == 15)) {
+      return false;
+    }
+
+    dateValue = this.parseISO(date);
+
+    if (is.a.date(dateValue)) {
+      // it is a date
+      if (isNaN(dateValue.getYear())) { // d.valueOf() could also work
+        return false;
+      }
+      return true;
+    }
+
+    return false;
+  },
+  toStringWithFormat: function(value, format) {
+    if (this.isISO(value)) {
+      try {
+        var date = this.parseISO(value);
+
+        for (var step in formats) {
+          var find = (formats[step]) ? formats[step].expression : "";
+          var replace = "$1" + formats[step].value(date) + "$2";
+          if (find != "") {
+            var expression = new RegExp(find, 'g');
+
+            format = format.replace(expression, replace);
+          }
+        }
+
+        return format;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  }
+};
+
+module.exports = dateHelper;
+},{"./is":27}],26:[function(require,module,exports){
+var once = function( func ) {
+
+    var ran = false,
+        memo;
+
+    return function() {
+        if ( ran ) {
+            return memo;
+        }
+        ran = true;
+        memo = func.apply( this, arguments );
+        func = null;
+        return memo;
+    };
+};
+
+module.exports = {
+    once: once
+};
+},{}],27:[function(require,module,exports){
+var is = require( "sc-is" );
+
+var isCapitalize = function( str ) {
+    return str.charAt( 0 ) === str.charAt( 0 ).toUpperCase();
+};
+
+is.capitalize = isCapitalize;
+
+module.exports = is;
+},{"sc-is":15}],28:[function(require,module,exports){
+var arrayProto = Array.prototype;
+
+module.exports = {
+    arrayProto: arrayProto,
+    forEach: arrayProto.forEach,
+    slice: arrayProto.slice
+};
+},{}],29:[function(require,module,exports){
+var native = require( "./native" ),
+    navtiveForEach = native.forEach,
+    nativeSlice = native.slice;
+
+var extend = function( obj ) {
+        navtiveForEach.call( nativeSlice.call( arguments, 1 ), function( source ) {
+            if ( source ) {
+                for ( var prop in source ) {
+                    if ( source.hasOwnProperty( prop ) ) {
+                        obj[ prop ] = source[ prop ];
+                    }
+                }
+            }
+        } );
+        return obj;
+    },
+    inherits = function( base, init, proto ) {
+        var child = function() {
+            return base.apply( this, arguments );
+        };
+        extend( child, base );
+
+        var Surrogate = function() {
+            this.constructor = child;
+        };
+
+        Surrogate.prototype = base.prototype;
+        child.prototype = new Surrogate();
+
+        child.prototype.initialize = init || base.prototype.initialize || function() {};
+        if ( proto ) {
+            for ( var i in proto ) {
+                if ( proto.hasOwnProperty( i ) ) {
+                    child.prototype[ i ] = proto[ i ];
+                }
+            }
+        }
+
+        child.__super__ = base.prototype;
+
+        return child;
+
+    },
+    defaults = function( obj ) {
+        nativeSlice.call( arguments, 1 ).forEach( function( source ) {
+            if ( source ) {
+                for ( var prop in source ) {
+                    if ( obj[ prop ] === void 0 ) {
+                        obj[ prop ] = source[ prop ];
+                    }
+                }
+            }
+        } );
+        return obj;
+    },
+    extendProto = function( obj, proto ) {
+        for ( var p in proto ) {
+            if ( proto.hasOwnProperty( p ) ) {
+                obj.prototype[ p ] = proto[ p ];
+            }
+        }
+        return obj;
+    },
+    flattenObject = function( obj ) {
+        var result = [];
+
+        for ( var app in obj ) {
+            if ( obj.hasOwnProperty( app ) ) {
+                result.push( obj[ app ] );
+            }
+        }
+        return result;
+    };
+
+module.exports = {
+    extend: extend,
+    inherits: inherits,
+    defaults: defaults,
+    extendProto: extendProto,
+    flatten: flattenObject
+};
+},{"./native":28}],30:[function(require,module,exports){
+var idCounter = 0;
+
+var capitalize = function(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    },
+    lowerFirstLetter = function(str) {
+        return str.charAt(0).toLowerCase() + str.slice(1);
+    },
+    uniqueId = function(prefix) {
+        var id = ++idCounter + "";
+        return prefix ? prefix + id : id;
+    };
+
+module.exports = {
+    capitalize: capitalize,
+    lowerFirstLetter: lowerFirstLetter,
+    uniqueId: uniqueId
+};
+},{}],31:[function(require,module,exports){
+var getParameterByName = function( name ) {
+    name = name.replace( /[\[]/, "\\[" ).replace( /[\]]/, "\\]" );
+
+    var regexS = "[\\?&]" + name + "=([^&#]*)",
+        regex = new RegExp( regexS ),
+        results = regex.exec( window.location.href );
+
+    if ( results == null ) {
+        return "";
+    } else {
+        return decodeURIComponent( results[ 1 ].replace( /\+/g, " " ) );
+    }
+};
+
+module.exports = {
+    parameterByName: getParameterByName
+};
+},{}],32:[function(require,module,exports){
 /* jshint forin:false,  loopfunc: true  */
 
 /**
@@ -604,7 +1245,7 @@ var Events = {
     }
 
     var events = this._events[ name ];
-    var allEvents = this._events.all;
+    var allEvents = this._events.change;
     if ( events ) {
       triggerEvents( events, args );
     }
@@ -676,7 +1317,7 @@ for ( var i in listenMethods ) {
 }
 
 module.exports = Events;
-},{}],16:[function(_dereq_,module,exports){
+},{}],33:[function(require,module,exports){
 var TYPE = "data-sc-component",
   ID = "data-sc-id",
   APP_KEY = "data-sc-app",
@@ -715,7 +1356,7 @@ module.exports = {
   defaultPresenter: "scComponentPresenter",
   lifeCycle: [ "initialize", "initialized", "beforeRender", "render", "afterRender" ]
 };
-},{}],17:[function(_dereq_,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports = function( Sitecore ) {
   var eventsHandler = {
     handleEvent: function ( invocation, component ) {
@@ -744,19 +1385,19 @@ module.exports = function( Sitecore ) {
   return eventsHandler;
 };
 
-},{}],18:[function(_dereq_,module,exports){
+},{}],35:[function(require,module,exports){
 /* jshint forin:false */
-var baseProperty = _dereq_( "../model/property" ),
+var baseProperty = require( "../model/property" ),
   basePropertyPrototype = baseProperty.prototype,
-  utils = _dereq_( "../utils/index" );
+  scUtils = require( "sc-utils" );
 
-var make = function ( propertyDef ) {
-  var property = function () {
+var make = function( propertyDef ) {
+  var property = function() {
     baseProperty.apply( this, arguments );
   };
 
-  if ( utils.isFunction( propertyDef ) ) {
-    property = function () {
+  if ( scUtils.is.a.function( propertyDef ) ) {
+    property = function() {
       baseProperty.apply( this, arguments );
       propertyDef.apply( this, arguments );
     };
@@ -776,36 +1417,35 @@ var make = function ( propertyDef ) {
 module.exports = {
   make: make
 };
-},{"../model/property":31,"../utils/index":43}],19:[function(_dereq_,module,exports){
-var PageCode = _dereq_( "../model/pageCode" ),
-    inheritante = _dereq_( "../utils/inheritance" ),
-    appHelper = _dereq_( "../utils/app" ),
-    Events = _dereq_( "speakevent" ),
-    utils = _dereq_("../utils/index");
+},{"../model/property":48,"sc-utils":22}],36:[function(require,module,exports){
+var inheritante = require( "../utils/inheritance" ),
+  appHelper = require( "../utils/app" ),
+  Events = require( "speakevent" ),
+  utils = require( "sc-utils" );
 
-module.exports = function ( pageCodeStore, configureInject ) {
+module.exports = function( pageCodeStore, configureInject, PageCode ) {
 
   return {
-    createApplication: function ( app, start ) {
+    createApplication: function( app, start ) {
 
-      var domID = utils.uniqueId( ),
-          injectMethod = configureInject.setupInjectMethod( start ),
-          pageCode = pageCodeStore.find( app.key ),
-          P;
+      var domID = utils.string.uniqueId(),
+        injectMethod = configureInject.setupInjectMethod( start ),
+        pageCode = pageCodeStore.find( app.key ),
+        P;
 
       if ( pageCode ) {
         P = inheritante.wrap( PageCode, pageCode );
         app = new P( app );
       }
 
-      utils.extend( app, appHelper );
-      utils.extend( app, Events );
+      utils.object.extend( app, appHelper );
+      utils.object.extend( app, Events );
 
-      app.inject = function () {
+      app.inject = function() {
         injectMethod.apply( this, arguments );
       };
 
-      if( app.el ) {
+      if ( app.el ) {
         app.el.__domID = domID;
         app.__domID = domID;
       }
@@ -814,18 +1454,18 @@ module.exports = function ( pageCodeStore, configureInject ) {
     }
   };
 };
-},{"../model/pageCode":30,"../utils/app":40,"../utils/index":43,"../utils/inheritance":44,"speakevent":15}],20:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/inheritance" );
+},{"../utils/app":57,"../utils/inheritance":61,"sc-utils":22,"speakevent":32}],37:[function(require,module,exports){
+var inheritanceUtils = require( "../utils/inheritance" );
 
-var ComponentFactory = function ( basePresenter ) {
+var ComponentFactory = function( basePresenter ) {
 
-  var buildPresenter = function ( base, presenterDefinition ) {
+  var buildPresenter = function( base, presenterDefinition ) {
 
     var ctor = ( {}.constructor !== presenterDefinition.constructor ) ? presenterDefinition.constructor : base.prototype.constructor,
       basePrototype = base.prototype;
 
-    var Presenter = ( function ( ctor ) {
-      return function () {
+    var Presenter = ( function( ctor ) {
+      return function() {
         ctor.apply( this, arguments );
       };
     } )( ctor );
@@ -856,7 +1496,7 @@ var ComponentFactory = function ( basePresenter ) {
      * @param  {Def} def definition of the Object
      * @return {Class} a custom Component class
      */
-    make: function ( presenter, componentDefinition, el ) {
+    make: function( presenter, componentDefinition, el ) {
       var Presenter,
         presenterDefinition = presenter || basePresenter.prototype;
 
@@ -867,14 +1507,14 @@ var ComponentFactory = function ( basePresenter ) {
 
       Presenter = buildPresenter( basePresenter, presenterDefinition );
 
-      return utils.wrap( Presenter, componentDefinition );
+      return inheritanceUtils.wrap( Presenter, componentDefinition );
     }
   };
 };
 
 module.exports = ComponentFactory;
-},{"../utils/inheritance":44}],21:[function(_dereq_,module,exports){
-var Store = _dereq_( "../model/store" );
+},{"../utils/inheritance":61}],38:[function(require,module,exports){
+var Store = require( "../model/store" );
 
 var adapter, plugin, component, pageCode, app;
 
@@ -915,12 +1555,13 @@ var storeFactory = {
 };
 
 module.exports = storeFactory;
-},{"../model/store":32}],22:[function(_dereq_,module,exports){
-var utils = _dereq_( "./utils/index" ),
-    modulejs = _dereq_( "modulejs" ),
-    conf = _dereq_( "./conf" ),
-    DOM = _dereq_( "./utils/DOM" ),
-    Events = _dereq_( "speakevent" ),
+},{"../model/store":49}],39:[function(require,module,exports){
+var scUtils = require( "sc-utils" ),
+    utils = require( "./utils" ),
+    modulejs = require( "modulejs" ),
+    conf = require( "./conf" ),
+    DOM = require( "./utils/DOM" ),
+    Events = require( "speakevent" ),
     /**
      * The sitecore.speak global namespace object
      *
@@ -963,7 +1604,7 @@ var isBrowser = typeof window !== "undefined",
 
 var defaultConfig = {
     loader: function( deps, loaded ) {
-        var flat = utils.flatten( deps );
+        var flat = scUtils.array.flatten( deps );
 
         if ( flat.length ) {
             requirejs( flat, function() {
@@ -980,30 +1621,31 @@ if ( isBrowser && !root.console ) {
     root.log = function() {};
 }
 
-config = utils.defaults( config, defaultConfig );
+config = scUtils.object.defaults( config, defaultConfig );
 
 var templateEngine = config.template,
-    template = _dereq_( "./manager/template" )( templateEngine ),
+    template = require( "./manager/template" )( templateEngine ),
     //2nd: We setup the loader, the stores, the parsers
-    loader = _dereq_( "./loader/loader" )( config ),
-    stores = _dereq_( "./factory/store" ).create(),
-    parser = _dereq_( "./parser/index" ),
+    loader = require( "./loader/loader" )( config ),
+    stores = require( "./factory/store" ).create(),
+    parser = require( "./parser/index" ),
 
     //3rd: We setup the baseComponent used by default
     //it needs the pluginManager for later use
-    pluginManager = _dereq_( "./manager/plugin" )( stores.plugin ),
-    baseComponent = _dereq_( "./model/basePresenter" )( pluginManager, stores.propertyType ),
-    baseData = _dereq_( "./model/baseModel" )( stores.propertyType );
+    pluginManager = require( "./manager/plugin" )( stores.plugin ),
+    baseComponent = require( "./model/basePresenter" )( pluginManager, stores.propertyType ),
+    baseData = require( "./model/baseModel" )( stores.propertyType ),
+    basePageCode = require( "./model/pageCode" )( stores.propertyType ),
 
-//Setup the componentFactory with the baseComponent and the presenterStore for later use
-componentFactory = _dereq_( "./factory/component" )( baseComponent ),
+    //Setup the componentFactory with the baseComponent and the presenterStore for later use
+    componentFactory = require( "./factory/component" )( baseComponent ),
 
-//Setup the component and application manager with the appropriates store and shared variable
-//we pass isInitialized in order to have access to the public API later inside a Component
-componentManager = _dereq_( "./manager/component" )( lifeCycle, stores.component, stores.presenter, bootstrapValues, componentFactory, speak ),
-injectMethod = _dereq_( "./utils/inject" )( loader, parser, stores ),
-applicationFactory = _dereq_( "./factory/application" )( stores.pageCode, injectMethod ),
-applicationManager = _dereq_( "./manager/app" )( stores.app, componentManager.componentPipeline, pluginManager.initializeApplication, applicationFactory );
+    //Setup the component and application manager with the appropriates store and shared variable
+    //we pass isInitialized in order to have access to the public API later inside a Component
+    componentManager = require( "./manager/component" )( lifeCycle, stores.component, stores.presenter, bootstrapValues, componentFactory, speak ),
+    injectMethod = require( "./utils/inject" )( loader, parser, stores ),
+    applicationFactory = require( "./factory/application" )( stores.pageCode, injectMethod, basePageCode ),
+    applicationManager = require( "./manager/app" )( stores.app, componentManager.componentPipeline, pluginManager.initializeApplication, applicationFactory );
 /**
  * Create the speak.app object, register all the component(s), presenter(s), pageCode(s), plugin(s)
  *
@@ -1077,7 +1719,7 @@ speak.init = function( callback ) {
 speak.template = template;
 
 speak.isDebug = function() {
-    return config.debug || utils.getParameterByName( "sc_debug" );
+    return config.debug || scUtils.url.parameterByName( "sc_debug" );
 };
 
 /**
@@ -1092,7 +1734,7 @@ speak.tmpl = template.tmp;
  * @static
  * @return {string} UniqueId
  */
-speak.uniqueId = utils.uniqueId;
+speak.uniqueId = scUtils.string.uniqueId;
 
 /**
  * Async library provided by speak
@@ -1100,7 +1742,7 @@ speak.uniqueId = utils.uniqueId;
  * @static
  * @return {Object} async API
  */
-speak.async = utils.async;
+speak.async = scUtils.async;
 
 /**
  * Attach a scriptfile in the Page and load it
@@ -1171,7 +1813,7 @@ speak.exposeComponent = componentManager.exposeComponent;
  * @method extend
  * @static
  */
-speak.extend = utils.extend;
+speak.extend = scUtils.object.extend;
 
 /**
  * Apply all the pluagins to all the application
@@ -1185,17 +1827,18 @@ speak.applyPlugins = pluginManager.initializeComponent;
  * @property utils
  * @static
  */
-speak.utils = utils;
+speak.utils = scUtils.object.extend( scUtils, utils );
+speak.utils.Events = Events;
 
-speak.Pipelines = speak.module( "pipelines", _dereq_( "sc-pipeline" ) );
+speak.Pipelines = speak.module( "pipelines", require( "sc-pipeline" ) );
 
-speak.Events = _dereq_( "./events/index" )( speak );
+speak.Events = require( "./events/index" )( speak );
 
 speak.bindable = function( data ) {
     return new baseData( data );
 };
 
-utils.extend( speak, Events );
+scUtils.object.extend( speak, Events );
 
 //start the engine if not deferred
 if ( isBrowser ) {
@@ -1254,51 +1897,43 @@ if ( isBrowser ) {
     window.Sitecore = window.Sitecore || {};
     window.Sitecore.Speak = exports;
 }
-},{"./conf":16,"./events/index":17,"./factory/application":19,"./factory/component":20,"./factory/store":21,"./loader/loader":23,"./manager/app":24,"./manager/component":25,"./manager/plugin":26,"./manager/template":27,"./model/baseModel":28,"./model/basePresenter":29,"./parser/index":35,"./utils/DOM":38,"./utils/index":43,"./utils/inject":45,"modulejs":2,"sc-pipeline":3,"speakevent":15}],23:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" );
+},{"./conf":33,"./events/index":34,"./factory/application":36,"./factory/component":37,"./factory/store":38,"./loader/loader":40,"./manager/app":41,"./manager/component":42,"./manager/plugin":43,"./manager/template":44,"./model/baseModel":45,"./model/basePresenter":46,"./model/pageCode":47,"./parser/index":52,"./utils":60,"./utils/DOM":55,"./utils/inject":62,"modulejs":2,"sc-pipeline":3,"sc-utils":22,"speakevent":32}],40:[function(require,module,exports){
+var utils = require( "../utils/index" );
 
-var Loader = function ( conf ) {
+var Loader = function( conf ) {
 
   var useBundle = conf.useBundle,
     load = conf.loader ? conf.loader : void 0;
 
   if ( !load ) {
-    load = _dereq_( "loaderJS" ).use;
+    load = require( "loaderJS" ).use;
   }
 
-  var loadAllComponents = function ( componentStore, callback ) {
-    var keys = componentStore.keys();
+  var loadAssets = function( stores, type, callback ) {
+    var componentkeys = stores.component[ type ](),
+      pageCodeKeys = stores.pageCode[ type ](),
+      presenterStoreKeys = stores.presenter[ type ](),
+      pluginStoreKeys = stores.plugin[ type ](),
+      all = [ ];
 
-    if ( keys.length ) {
-      if ( useBundle ) {
-        load( utils.buildModRequest( keys ), callback );
-      } else {
-        load(componentStore.scripts(), callback );
-      }
-    } else {
-      if ( callback ) {
-        callback();
-      }
+    all = all
+      .concat( componentkeys )
+      .concat( pageCodeKeys )
+      .concat( presenterStoreKeys )
+      .concat( pluginStoreKeys );
+
+    if ( all.length === 0 ) {
+      return callback();
     }
-  }, loadPageCodesAndComponentDependencies = function ( pageCodeStore, componentStore, pluginStore, callback ) {
-      var pageCodeKeys = pageCodeStore.scripts(),
-        pluginStoreKeys = pluginStore.scripts(),
-        presenterStoreKeys = componentStore.deps(),
-        all = [];
 
-      all = all.concat( pageCodeKeys ).concat( presenterStoreKeys ).concat( pluginStoreKeys );
+    if ( type !== "deps" && useBundle ) {
+      return load( utils.buildModRequest( all ), function() {
+        requirejs( all, callback );
+      } );
+    }
 
-      load( all, callback );
-    }, loadPageCodePluginPresenterDependencies = function ( pageCodeStore, presenterStore, pluginStore, callback ) {
-      var pageCodeKeys = pageCodeStore.deps(),
-        presenterStoreKeys = presenterStore.deps(),
-        pluginStoreKeys = pluginStore.deps(),
-        all = [];
-
-      all = all.concat( pageCodeKeys ).concat( presenterStoreKeys ).concat( pluginStoreKeys );
-
-      load( all, callback );
-    };
+    load( all, callback );
+  };
 
   return {
     /**
@@ -1306,51 +1941,45 @@ var Loader = function ( conf ) {
      * @param  {Object} All the stores
      * @param  {Function} callback called when done
      */
-    load: function ( stores, callback ) {
-      var componentStore = stores.component,
-        pageCodeStore = stores.pageCode,
-        presenterStore = stores.presenter,
-        pluginStore = stores.plugin;
-
-      loadAllComponents( componentStore, function () {
-        loadPageCodesAndComponentDependencies( pageCodeStore, componentStore, pluginStore, function () {
-          loadPageCodePluginPresenterDependencies( pageCodeStore, presenterStore, pluginStore, callback );
-        } );
+    load: function( stores, callback ) {
+      loadAssets( stores, "scripts", function() {
+        loadAssets( stores, "deps", callback );
       } );
     }
   };
 };
 
 module.exports = Loader;
-},{"../utils/index":43,"loaderJS":1}],24:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" ),
+},{"../utils/index":60,"loaderJS":1}],41:[function(require,module,exports){
+var utils = require( "../utils/index" ),
   sortByDepth = utils.sortByDepth,
-  pageCodeLifeCycle = [ "initialize", "initialized", "render" ];
+  pageCodeLifeCycle = [ "initialize", "initialized", "render" ],
+  scUtils = require( "sc-utils" );
 
-var AppManager = function ( applicationStore, createComponents, applyApplicationPlugin, applicationFactory ) {
+var AppManager = function( applicationStore, createComponents, applyApplicationPlugin, applicationFactory ) {
 
-  var executeMethod = function(methodName) {
-      return function( app ) {
-        var method = app[methodName];
+  var executeMethod = function( methodName ) {
+    return function( app ) {
+      var method = app[ methodName ];
 
-        if(method) {
-          method.call(app);
-        }
-      };
+      if ( method ) {
+        method.call( app );
+      }
+    };
   };
 
   var triggerChanged = function( a ) {
-    a.trigger("app:loaded", a);
+    a.trigger( "app:loaded", a );
   };
 
-  var pageCodePipeline = function ( apps ) {
+  var pageCodePipeline = function( apps ) {
     var life = pageCodeLifeCycle.slice( 0 );
-      while ( life.length ) {
-        var methodName = life.shift();
-        apps.forEach( executeMethod( methodName ) );
-      }
+    while ( life.length ) {
+      var methodName = life.shift();
+      apps.forEach( executeMethod( methodName ) );
+    }
 
-      apps.forEach( triggerChanged );
+    apps.forEach( triggerChanged );
   };
 
   return {
@@ -1360,29 +1989,34 @@ var AppManager = function ( applicationStore, createComponents, applyApplication
      * @param  {Function} applyApplicationPlugin a Function which will be executed after all PageCodes are instantiated
      * @param  {Function} callback called when done
      */
-    start: function start (el, callback ) {
+    start: function start( el, callback ) {
 
-      if( !callback ) {
+      if ( !callback ) {
         callback = el;
         el = void 0;
       }
 
-      if(el) {
+      if ( el ) {
         createComponents( this, el );
       }
 
-      var apps = sortByDepth( utils.flattenObject( applicationStore.stores ) ),
+      var apps = sortByDepth( scUtils.object.flatten( applicationStore.stores ) ),
         exposed = [];
 
-        if( apps.length > 0 ) {
-          apps.forEach( function ( app ) {
-            var p = applicationFactory.createApplication( app, start );
-            exposed.push( p );
-            createComponents( p );
-            applyApplicationPlugin( p );
-          } );
-          pageCodePipeline(exposed);
-        }
+      if ( apps.length > 0 ) {
+        apps.forEach( function( app ) {
+          var p = applicationFactory.createApplication( app, start );
+          exposed.push( p );
+          createComponents( p );
+          applyApplicationPlugin( p );
+        } );
+
+        pageCodePipeline( exposed );
+
+        exposed.forEach( function( app ) {
+          applyApplicationPlugin( app );
+        } );
+      }
 
       callback( utils.createTree( exposed ), exposed );
     }
@@ -1390,34 +2024,36 @@ var AppManager = function ( applicationStore, createComponents, applyApplication
 };
 
 module.exports = AppManager;
-},{"../utils/index":43}],25:[function(_dereq_,module,exports){
-var componentParser = _dereq_( "../parser/component" ),
-  conf = _dereq_( "../conf" ),
-  utils = _dereq_( "../utils/index" );
+},{"../utils/index":60,"sc-utils":22}],42:[function(require,module,exports){
+var componentParser = require( "../parser/component" ),
+  conf = require( "../conf" ),
+  scUtils = require( "sc-utils" ),
+  utils = require( "../utils/index" );
 
-var ComponentManager = function ( lifeCycle, componentStore, presenterStore, bootValues, componentFactory, _s ) {
+var ComponentManager = function( lifeCycle, componentStore, presenterStore, bootValues, componentFactory, _s ) {
 
-  var getInitialValue = function ( comp, def ) {
+  var getInitialValue = function( comp, def ) {
 
-    var init = comp.properties || {},
-      properties = utils.extractProperties( def );
+      var init = comp.properties || {},
+        properties = utils.extractProperties( def );
 
-    //set property from the definition
-    for ( var i in properties ) {
-      if ( properties.hasOwnProperty( i ) ) {
-        init[ i ] = properties[ i ];
+      //set property from the definition
+      for ( var i in properties ) {
+        if ( properties.hasOwnProperty( i ) ) {
+          init[ i ] = properties[ i ];
+        }
       }
-    }
 
-    //override properties from the component
-    for ( var j in comp ) {
-      if ( comp.hasOwnProperty( j ) ) {
-        init[ j ] = comp[ j ];
+      //override properties from the component
+      for ( var j in comp ) {
+        if ( comp.hasOwnProperty( j ) ) {
+          init[ j ] = comp[ j ];
+        }
       }
-    }
 
-    return init;
-  }, exposeComp = function ( comp, app ) {
+      return init;
+    },
+    exposeComp = function( comp, app ) {
       //if already registered
       if ( comp.el && comp.el.__speak ) {
         return;
@@ -1426,15 +2062,15 @@ var ComponentManager = function ( lifeCycle, componentStore, presenterStore, boo
       var def = componentStore.find( comp.key ) || {},
         initial = getInitialValue( comp, def ),
         result,
-        domID = utils.uniqueId( ),
+        domID = scUtils.string.uniqueId(),
         Component;
 
       var presenter = presenterStore.find( def.presenter || comp.presenter );
 
       if ( presenter && presenter.make ) {
-        result = presenter.make( def, comp.el, app );
+        result = presenter.make( def, comp.el, app, initial );
       } else {
-        Component = componentFactory.make( presenter, def, comp.el, app );
+        Component = componentFactory.make( presenter, def, comp.el, app, initial );
 
         result = new Component( initial, app, comp.el, _s );
       }
@@ -1454,42 +2090,43 @@ var ComponentManager = function ( lifeCycle, componentStore, presenterStore, boo
       result.template = comp.template || comp.id;
 
       return result;
-    }, executeMethod = function ( method, app, isPreInit ) {
-      return function ( c ) {
-          if ( c[ method ] ) {
-            if ( isPreInit ) {
-              c[ method ]( c );
-            } else {
-              c[ method ]();
-            }
+    },
+    executeMethod = function( method, app, isPreInit ) {
+      return function( c ) {
+        if ( c[ method ] ) {
+          if ( isPreInit ) {
+            c[ method ]( c );
+          } else {
+            c[ method ]();
           }
+        }
       };
     },
-    initializeComponents = function ( components, app ) {
+    initializeComponents = function( components, app ) {
       var result = [];
 
       components.forEach( function( c ) {
         var cObject = exposeComp( c, app );
 
-        if( !cObject ) {
+        if ( !cObject ) {
           return;
         }
 
         //remove cloack
-        if( cObject.el.hasAttribute( conf.cloak ) ) {
+        if ( cObject.el.hasAttribute( conf.cloak ) ) {
           cObject.el.removeAttribute( conf.cloak );
         }
 
         result.push( cObject );
 
-        if(cObject.parent && !cObject.depricated) {
+        if ( cObject.parent && !cObject.depricated ) {
           return;
         }
 
         var current = app[ cObject.id ];
 
-        if( current ) {
-          if( utils.isArray( current ) ) {
+        if ( current ) {
+          if ( scUtils.is.an.array( current ) ) {
             current.push( cObject );
           } else {
             app[ cObject.id ] = [ current, cObject ];
@@ -1497,7 +2134,7 @@ var ComponentManager = function ( lifeCycle, componentStore, presenterStore, boo
         } else {
           app[ cObject.id ] = cObject;
         }
-      });
+      } );
 
       return result;
     };
@@ -1508,15 +2145,15 @@ var ComponentManager = function ( lifeCycle, componentStore, presenterStore, boo
      * Create components for an Application
      * @param  {Application} app application under which you want to create the components
      */
-    componentPipeline: function ( app, el ) {
-      if( !el ) {
+    componentPipeline: function( app, el ) {
+      if ( !el ) {
         el = app.el;
       }
 
       var components = componentParser.parse( el ),
         life = lifeCycle.slice( 0 ); //clone to keep lifeCycle clean
 
-      if ( !utils.contains( life, "initialize" ) ) {
+      if ( !scUtils.array.contains( life, "initialize" ) ) {
         throw new Error( "you must have a initialize method in your lifeCycle" );
       }
 
@@ -1525,7 +2162,7 @@ var ComponentManager = function ( lifeCycle, componentStore, presenterStore, boo
         components.forEach( executeMethod( beforeInitMethod, app, true ) );
       }
 
-      var componentObjects = initializeComponents(components, app );
+      var componentObjects = initializeComponents( components, app );
 
       app.components = app.components || [];
       app.components = app.components.concat( componentObjects );
@@ -1543,7 +2180,7 @@ var ComponentManager = function ( lifeCycle, componentStore, presenterStore, boo
 };
 
 module.exports = ComponentManager;
-},{"../conf":16,"../parser/component":34,"../utils/index":43}],26:[function(_dereq_,module,exports){
+},{"../conf":33,"../parser/component":51,"../utils/index":60,"sc-utils":22}],43:[function(require,module,exports){
 var PluginManager = function ( plugins ) {
 
   return {
@@ -1573,8 +2210,8 @@ var PluginManager = function ( plugins ) {
 };
 
 module.exports = PluginManager;
-},{}],27:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" );
+},{}],44:[function(require,module,exports){
+var utils = require( "../utils/index" );
 
 /**
  * @class Template
@@ -1622,11 +2259,11 @@ var template = function ( templateEngine ) {
 };
 
 module.exports = template;
-},{"../utils/index":43}],28:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" ),
-  classUtils = _dereq_("../utils/class"),
-  extendUtil = _dereq_( "../utils/inheritance" ),
-  Events = _dereq_( "../utils/events" );
+},{"../utils/index":60}],45:[function(require,module,exports){
+var utils = require( "../utils/index" ),
+  classUtils = require("../utils/class"),
+  extendUtil = require( "../utils/inheritance" ),
+  Events = require( "../utils/events" );
 
 module.exports = function( propertyStore ) {
   var BaseModel = function ( initial ) {
@@ -1640,12 +2277,12 @@ module.exports = function( propertyStore ) {
 
   return BaseModel;
 };
-},{"../utils/class":41,"../utils/events":42,"../utils/index":43,"../utils/inheritance":44}],29:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" ),
-  extendUtil = _dereq_( "../utils/inheritance" ),
-  classUtil = _dereq_("../utils/class"),
-  Events = _dereq_( "../utils/events" ),
-  DOM = _dereq_( "../utils/DOM" );
+},{"../utils/class":58,"../utils/events":59,"../utils/index":60,"../utils/inheritance":61}],46:[function(require,module,exports){
+var utils = require( "../utils/index" ),
+  extendUtil = require( "../utils/inheritance" ),
+  classUtil = require("../utils/class"),
+  Events = require( "../utils/events" ),
+  DOM = require( "../utils/DOM" );
 
 //Component Model needs the pluginManager to be be created
 var SetupComponentModel = function ( pluginManager, propertyStore ) {
@@ -1785,28 +2422,30 @@ var SetupComponentModel = function ( pluginManager, propertyStore ) {
 };
 
 module.exports = SetupComponentModel;
-},{"../utils/DOM":38,"../utils/class":41,"../utils/events":42,"../utils/index":43,"../utils/inheritance":44}],30:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" );
+},{"../utils/DOM":55,"../utils/class":58,"../utils/events":59,"../utils/index":60,"../utils/inheritance":61}],47:[function(require,module,exports){
+var utils = require( "../utils/index" ),
+    classUtils = require( "../utils/class" ),
+    extendUtil = require( "../utils/inheritance" );
 
-/**
- * PageCode class
- *
- * @class PageCode
- * @constructor
- * @param  {app} initial value
- * @returns {PageCode}
- */
-var PageCode = function ( app ) {
+module.exports = function( propertyStore ) {
+    /**
+     * PageCode class
+     *
+     * @class PageCode
+     * @constructor
+     * @param  {app} initial value
+     * @returns {PageCode}
+     */
+    var PageCode = function( app ) {
+        utils.initializeProperties( this, app );
+        this.__parameterTemplates = {};
+        this.defineProperties();
+    };
 
-  utils.initializeProperties( this, app );
-
-  /*if ( this.initialize ) {
-    this.initialize.apply( this, arguments );
-  }*/
+    extendUtil.extend( PageCode.prototype, classUtils( propertyStore ) );
+    return PageCode;
 };
-
-module.exports = PageCode;
-},{"../utils/index":43}],31:[function(_dereq_,module,exports){
+},{"../utils/class":58,"../utils/index":60,"../utils/inheritance":61}],48:[function(require,module,exports){
 var Property = function Property( initialValue, component, propertyName ) {
   this.propertyName = propertyName;
   this.value = initialValue;
@@ -1830,8 +2469,8 @@ Property.prototype.get = function () {
 };
 
 module.exports = Property;
-},{}],32:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" );
+},{}],49:[function(require,module,exports){
+var scUtils = require( "sc-utils" );
 
 /**
  * Store object is use to keep all the items used by SPEAK
@@ -1841,7 +2480,7 @@ var utils = _dereq_( "../utils/index" );
  * @param  {String} store name
  * @returns {Store}
  */
-var Store = function ( name ) {
+var Store = function( name ) {
   this.name = name;
   this.dependencies = [];
   this.stores = {};
@@ -1854,27 +2493,27 @@ var Store = function ( name ) {
  * @param  {Object} obj  an object
  * @param  {String} name forcing the name of your element
  */
-Store.prototype.create = function ( deps, obj, name ) {
+Store.prototype.create = function( deps, obj, name ) {
   var self = this,
     compName = name,
     comp = obj;
 
   if ( arguments.length === 1 ) {
     comp = deps;
-    if( !this.isPageCode || !utils.isFunction( comp ) ) {
+    if ( !this.isPageCode || !scUtils.is.a.function( comp ) ) {
       compName = comp.name;
-    } 
+    }
     deps = void 0;
   }
 
-  if ( arguments.length === 2 && !utils.isArray( deps ) ) {
+  if ( arguments.length === 2 && !scUtils.is.an.array( deps ) ) {
     comp = deps;
     deps = void 0;
     compName = obj;
   }
 
-  if (!name && arguments.length === 2 && utils.isArray( deps ) ) {
-    if( !utils.isFunction( obj ) ) {
+  if ( !name && arguments.length === 2 && scUtils.is.an.array( deps ) ) {
+    if ( !scUtils.is.a.function( obj ) ) {
       compName = obj.name;
     }
   }
@@ -1886,7 +2525,7 @@ Store.prototype.create = function ( deps, obj, name ) {
   this.stores[ compName ] = comp || {};
   this.stores[ compName ].deps = deps;
 
-  if ( utils.isArray( deps ) ) {
+  if ( scUtils.is.an.array( deps ) ) {
     self.dependencies.push( deps );
   } else {
     if ( deps ) {
@@ -1895,7 +2534,7 @@ Store.prototype.create = function ( deps, obj, name ) {
   }
 };
 
-Store.prototype.flush = function ( ) {
+Store.prototype.flush = function() {
   this.dependencies = [];
   this.stores = {};
 };
@@ -1906,10 +2545,10 @@ Store.prototype.flush = function ( ) {
  * @param  {String} name is a string but can be a function
  * @return {[type]}      the Object found
  */
-Store.prototype.find = function ( name ) {
-  if ( utils.isFunction( name ) ) {
+Store.prototype.find = function( name ) {
+  if ( scUtils.is.a.function( name ) ) {
     var result = [];
-    this.each( function ( item ) {
+    this.each( function( item ) {
       if ( name( item ) ) {
         result.push( item );
       }
@@ -1925,7 +2564,7 @@ Store.prototype.find = function ( name ) {
  * @method deps
  * @return {Array} array of string
  */
-Store.prototype.deps = function () {
+Store.prototype.deps = function() {
   return this.dependencies;
 };
 
@@ -1934,7 +2573,7 @@ Store.prototype.deps = function () {
  * @method each
  * @param  {Function} func callback to execute for each object in the store
  */
-Store.prototype.each = function ( func ) {
+Store.prototype.each = function( func ) {
   for ( var k in this.stores ) {
     if ( this.stores.hasOwnProperty( k ) ) {
       func( this.stores[ k ] );
@@ -1947,7 +2586,7 @@ Store.prototype.each = function ( func ) {
  * @method keys
  * @return {Array} Array of string
  */
-Store.prototype.keys = function () {
+Store.prototype.keys = function() {
   var keys = Object.keys( this.stores ),
     result = [];
 
@@ -1960,20 +2599,47 @@ Store.prototype.keys = function () {
 };
 
 /**
+ * Method which returns all the scripts resource needed by the Object in the store in one string
+ * @method bundledScripts
+ * @return {Array} Array of string
+ */
+Store.prototype.bundledScripts = function() {
+  var result = [],
+    addResource = function( componentResource ) {
+      result.push( componentResource );
+    };
+
+  for ( var k in this.stores ) {
+    if ( this.stores.hasOwnProperty( k ) ) {
+      var compMeta = this.stores[ k ];
+
+      if ( compMeta.script ) {
+        if ( scUtils.is.an.array( compMeta.script ) ) {
+          compMeta.script.forEach( addResource );
+        } else {
+          result.push( compMeta.script );
+        }
+      }
+    }
+  }
+  return result;
+};
+
+/**
  * Build the store based on an array of element
  * @method build
  * @param  {Array} els An array of DOMElement
  */
-Store.prototype.build = function ( els ) {
+Store.prototype.build = function( els ) {
   var self = this;
 
-  els.forEach( function ( e ) {
+  els.forEach( function( e ) {
     if ( !self.stores[ e.key ] ) {
       self.stores[ e.key ] = e;
       if ( e.presenterScript ) {
         var exclude = [];
-        self.dependencies.forEach( function ( depsArray ) {
-          depsArray.forEach( function ( dep ) {
+        self.dependencies.forEach( function( depsArray ) {
+          depsArray.forEach( function( dep ) {
             var depsLength = e.presenterScript.length;
             for ( var i = 0; i < depsLength; i++ ) {
               if ( e.presenterScript[ i ] === dep ) {
@@ -1982,7 +2648,7 @@ Store.prototype.build = function ( els ) {
             }
           } );
         } );
-        exclude.forEach( function ( index ) {
+        exclude.forEach( function( index ) {
           e.presenterScript.splice( index, 1 );
         } );
         if ( e.presenterScript.length > 0 ) {
@@ -1998,12 +2664,12 @@ Store.prototype.build = function ( els ) {
  * @method scripts
  * @return {Array} array of link to script
  */
-Store.prototype.scripts = function () {
+Store.prototype.scripts = function() {
   var result = [];
 
   for ( var c in this.stores ) {
     if ( this.stores.hasOwnProperty( c ) && this.stores[ c ].script ) {
-      if( utils.isArray( this.stores[ c ].script ) ) {
+      if ( scUtils.is.an.array( this.stores[ c ].script ) ) {
         result = result.concat( this.stores[ c ].script );
       } else {
         result.push( this.stores[ c ].script );
@@ -2014,9 +2680,9 @@ Store.prototype.scripts = function () {
 };
 
 module.exports = Store;
-},{"../utils/index":43}],33:[function(_dereq_,module,exports){
-var conf = _dereq_( "../conf" ),
-  DOMutils = _dereq_( "../utils/DOM" ),
+},{"sc-utils":22}],50:[function(require,module,exports){
+var conf = require( "../conf" ),
+  DOMutils = require( "../utils/DOM" ),
   findApps = DOMutils.findApps,
   getDepth = DOMutils.getDepth,
   findParentApp = DOMutils.findParentApp,
@@ -2055,10 +2721,10 @@ var appParser = {
 };
 
 module.exports = appParser;
-},{"../conf":16,"../utils/DOM":38}],34:[function(_dereq_,module,exports){
-var conf = _dereq_( "../conf" ),
-  utils = _dereq_( "../utils/index" ),
-  DOMutils = _dereq_( "../utils/DOM" ),
+},{"../conf":33,"../utils/DOM":55}],51:[function(require,module,exports){
+var conf = require( "../conf" ),
+  utils = require( "../utils/index" ),
+  DOMutils = require( "../utils/DOM" ),
   findComponents = DOMutils.findComponents,
   findParentComponent = DOMutils.findParentComponent,
   getDepth = DOMutils.getDepth;
@@ -2130,11 +2796,11 @@ var componentParser = {
 };
 
 module.exports = componentParser;
-},{"../conf":16,"../utils/DOM":38,"../utils/index":43}],35:[function(_dereq_,module,exports){
-var pageCodeParser = _dereq_( "./pageCode" ),
-  componentParser = _dereq_( "./component" ),
-  applicationParser = _dereq_( "./app" ),
-  pluginParser = _dereq_( "./plugin" );
+},{"../conf":33,"../utils/DOM":55,"../utils/index":60}],52:[function(require,module,exports){
+var pageCodeParser = require( "./pageCode" ),
+  componentParser = require( "./component" ),
+  applicationParser = require( "./app" ),
+  pluginParser = require( "./plugin" );
 
 var Parser = {
   /**
@@ -2157,10 +2823,9 @@ var Parser = {
 };
 
 module.exports = Parser;
-},{"./app":33,"./component":34,"./pageCode":36,"./plugin":37}],36:[function(_dereq_,module,exports){
-var conf = _dereq_( "../conf" ),
-  utils = _dereq_( "../utils/index" ),
-  DOMutils = _dereq_( "../utils/DOM" ),
+},{"./app":50,"./component":51,"./pageCode":53,"./plugin":54}],53:[function(require,module,exports){
+var conf = require( "../conf" ),
+  DOMutils = require( "../utils/DOM" ),
   findParentApp = DOMutils.findParentApp,
   findPageCodes = DOMutils.findPageCodes;
 
@@ -2170,13 +2835,13 @@ var pageCodeParser = {
    * @param  {DOMElement}   els optionnal dom element served as root for the search
    * @return {[DOMElement]} an array of DOMElement
    */
-  parse: function ( els ) {
+  parse: function( els ) {
     var result = [];
 
-    findPageCodes().forEach( function ( el ) {
+    findPageCodes().forEach( function( el ) {
       var parentApp = findParentApp( el ),
         script = el.getAttribute( "src" );
-        //utils.removeFileExtensionIfNeeded( el.getAttribute( "src" ) );
+
       //if no parentApp, we fallback to the body element
       if ( !parentApp ) {
         parentApp = document;
@@ -2187,8 +2852,6 @@ var pageCodeParser = {
       if ( !pageCodeName ) {
         pageCodeName = "app";
       }
-
-      //      el.setAttribute( conf.PAGECODE_ID, utils.uniqueId( "pageCode_" ) );
 
       result.push( {
         el: el,
@@ -2203,10 +2866,9 @@ var pageCodeParser = {
 };
 
 module.exports = pageCodeParser;
-},{"../conf":16,"../utils/DOM":38,"../utils/index":43}],37:[function(_dereq_,module,exports){
-var conf = _dereq_( "../conf" ),
-  utils = _dereq_( "../utils/index" ),
-  DOMutils = _dereq_( "../utils/DOM" ),
+},{"../conf":33,"../utils/DOM":55}],54:[function(require,module,exports){
+var conf = require( "../conf" ),
+  DOMutils = require( "../utils/DOM" ),
   findPlugins = DOMutils.findPlugins;
 
 var pluginParser = {
@@ -2215,13 +2877,11 @@ var pluginParser = {
    * @param  {DOMElement} els optionnal dom element served as root for the search
    * @return {[DOMElement]}     an array of DOMElement
    */
-  parse: function ( els ) {
+  parse: function( els ) {
     var result = [];
 
-    findPlugins().forEach( function ( el ) {
-      var script =  el.getAttribute( conf.SCRIPT );
-      //utils.removeFileExtensionIfNeeded(
-
+    findPlugins().forEach( function( el ) {
+      var script = el.getAttribute( conf.SCRIPT );
       result.push( {
         el: el,
         key: el.getAttribute( conf.PLUGIN_ID ),
@@ -2234,29 +2894,35 @@ var pluginParser = {
 };
 
 module.exports = pluginParser;
-},{"../conf":16,"../utils/DOM":38,"../utils/index":43}],38:[function(_dereq_,module,exports){
-var toArray = _dereq_( "./index" ).toArray,
-  conf = _dereq_( "../conf" );
+},{"../conf":33,"../utils/DOM":55}],55:[function(require,module,exports){
+var toArray = require( "sc-utils" ).array.toArray,
+  conf = require( "../conf" );
 
-var table = document.createElement( "table" ),
-  tableRow = document.createElement( "tr" ),
-  containers = {
-    "tr": document.createElement( "tbody" ),
-    "tbody": table,
-    "thead": table,
-    "tfoot": table,
-    "td": tableRow,
-    "th": tableRow,
-    "*": document.createElement( "div" )
-  },
-  fragmentRE = /^\s*<(\w+|!)[^>]*>/;
+var isBrowser = typeof window !== "undefined",
+  root = isBrowser ? window : module.exports,
+  doc = root.document;
+
+if ( isBrowser ) {
+  var table = doc.createElement( "table" ),
+    tableRow = doc.createElement( "tr" ),
+    containers = {
+      "tr": doc.createElement( "tbody" ),
+      "tbody": table,
+      "thead": table,
+      "tfoot": table,
+      "td": tableRow,
+      "th": tableRow,
+      "*": doc.createElement( "div" )
+    },
+    fragmentRE = /^\s*<(\w+|!)[^>]*>/;
+}
 
 var DOMutils = {
   /**
    * Find all the DOM element which has the appropriate markup for an application
    * @return {Array} array of DOM Element
    */
-  findApps: function ( el ) {
+  findApps: function( el ) {
     var element = el ? el : document;
 
     return toArray( element.querySelectorAll( conf.ATTR_APP ) );
@@ -2267,22 +2933,22 @@ var DOMutils = {
    * @param  {[type]} el [description]
    * @return {[type]}    [description]
    */
-  findComponents: function ( el ) {
+  findComponents: function( el ) {
     var element = el ? el : document;
 
     return toArray( element.querySelectorAll( conf.ATTR_COMPONENT ) );
   },
-  findPageCodes: function ( el ) {
+  findPageCodes: function( el ) {
     var element = el ? el : document;
 
     return toArray( element.querySelectorAll( conf.ATTR_PAGECODE ) );
   },
-  findPageCode: function ( el ) {
+  findPageCode: function( el ) {
     var element = el ? el : document;
 
     return element.querySelector( conf.ATTR_PAGECODE );
   },
-  findPlugins: function ( el ) {
+  findPlugins: function( el ) {
     var element = el ? el : document;
 
     return toArray( element.querySelectorAll( conf.ATTR_PLUGIN ) );
@@ -2293,7 +2959,7 @@ var DOMutils = {
    * @param  {DOM Element} parent the parent DOM element you want as root, if not, the parent is the window Object
    * @return {Integer}        the depth of the DOM element compared o his parent.
    */
-  getDepth: function ( child, parent ) {
+  getDepth: function( child, parent ) {
     var node = child,
       comp = null,
       depth = 0;
@@ -2310,7 +2976,7 @@ var DOMutils = {
   },
   // Find first ancestor of el with tagName
   // or undefined if not found
-  findParentApp: function ( el ) {
+  findParentApp: function( el ) {
 
     do {
       el = el.parentNode;
@@ -2325,7 +2991,7 @@ var DOMutils = {
     // return undefined
     return null;
   },
-  findParentComponent: function ( el ) {
+  findParentComponent: function( el ) {
     do {
       el = el.parentNode;
       if ( el.hasAttribute && el.hasAttribute( conf.ID ) && el.hasAttribute( conf.NESTED ) ) {
@@ -2338,14 +3004,14 @@ var DOMutils = {
 
     return null;
   },
-  findNestedApplications: function ( el ) {
+  findNestedApplications: function( el ) {
     return toArray( el.querySelectorAll( conf.ATTR_APP ) );
   },
-  createDomElement: function ( html ) {
+  createDomElement: function( html ) {
     var dom, container, name;
 
-    if(! html ) {
-      return document.createElement("div");
+    if ( !html ) {
+      return document.createElement( "div" );
     }
 
     name = fragmentRE.test( html ) && RegExp.$1;
@@ -2362,34 +3028,55 @@ var DOMutils = {
     //clear DOM
     var realArray = Array.prototype.slice.call( container.childNodes );
 
-    realArray.forEach( function ( node ) {
+    /*realArray.forEach( function ( node ) {
       container.removeChild( node );
-    } );
+    } );*/
 
-    if ( realArray.length === 1 ) {
+    /*if ( realArray.length === 1 ) {
       dom = realArray[ 0 ];
-    }
+    }*/
 
-    return dom;
+    return realArray;
   },
-  addCss: function ( cssCode ) {
-    var styleElement = document.createElement("style");
+  addCss: function( cssCode ) {
+    var styleElement = document.createElement( "style" );
 
     styleElement.type = "text/css";
-    if (styleElement.styleSheet) {
+    if ( styleElement.styleSheet ) {
       styleElement.styleSheet.cssText = cssCode;
     } else {
-      styleElement.appendChild(document.createTextNode(cssCode));
+      styleElement.appendChild( document.createTextNode( cssCode ) );
     }
-    document.getElementsByTagName("head")[0].appendChild(styleElement);
+    document.getElementsByTagName( "head" )[ 0 ].appendChild( styleElement );
   },
   addCloak: function() {
     this.addCss( "*[" + conf.cloak + "] { display:none; !important }" );
+  },
+  findMetaLang: function () {
+    var lang = document.querySelector("meta[data-sc-name=sitecoreLanguage]");
+
+    if(!lang) {
+      return;
+    }
+
+    return lang.getAttribute("data-sc-content");
+  },
+  findAntiForgeryToken: function () {
+    var elements = document.querySelectorAll("input[name=__RequestVerificationToken]");
+    if(!elements) {
+      return void 0;
+    }
+
+    if(elements.length === 0){
+      return void 0;
+    }
+
+    return elements[0].value;
   }
 };
 
 module.exports = DOMutils;
-},{"../conf":16,"./index":43}],39:[function(_dereq_,module,exports){
+},{"../conf":33,"sc-utils":22}],56:[function(require,module,exports){
 module.exports = {
   get: function( url, callback ) {
     var errorCallback = function ( args ) {
@@ -2422,217 +3109,230 @@ module.exports = {
     request.send();
   }
 };
-},{}],40:[function(_dereq_,module,exports){
-var utils = _dereq_( "../utils/index" ),
-    ajaxUtils = _dereq_( "../utils/ajax" ),
-    DOM = _dereq_("../utils/DOM");
+},{}],57:[function(require,module,exports){
+var scUtils = require( "sc-utils" ),
+  ajaxUtils = require( "../utils/ajax" ),
+  DOM = require( "../utils/DOM" );
 
-module.exports =  {
-    closeDialog: function (returnValue) {
-      window.top.returnValue = returnValue;
-      window.top.dialogClose(returnValue);
-    },
-    remove: function ( el ) {
-
-      if( utils.isString( el ) ) {
-        el = this.el.querySelector( el );
-      }
-
-      el = el || this.el;
-
-      var parentApp = this,
-          component = [],
-          removeApp = function( app ) {
-            var byUniqueId = function( appObject ) {
-                  return app.__domID === appObject.__domID;
-                },
-                appObj = utils.array.find( parentApp.children, byUniqueId);
-
-            if( appObj ) {
-              appObj.remove();
-              parentApp.children = parentApp.children.filter( byUniqueId );
-            }
-          },
-          removeComponent = function ( compEl ) {
-            var byUniqueId = function( compObject ) {
-                return compEl.__domID === compObject.__domID;
-              },
-              compObj = utils.array.find( parentApp.components, byUniqueId );
-
-            if( compObj ) {
-
-              if( compObj.destroy ) {
-                compObj.destroy( );
-              }
-
-              var fromApp = parentApp[ compObj.id ];
-
-              if( fromApp ) {
-                if( utils.isArray( fromApp ) ) {
-                  parentApp[ compObj.id ] = parentApp[ compObj.id ].filter( byUniqueId );
-                } else {
-                  delete parentApp[ compObj.id ];
-                }
-              }
-
-              parentApp.components = parentApp.components.filter( byUniqueId );
-            }
-          };
-
-      //remove applications
-      var apps = DOM.findApps( el );
-
-      if( apps ) {
-        apps.forEach( removeApp );
-      }
-
-      var comps = DOM.findComponents( el );
-
-      if( comps ) {
-        comps.forEach( removeComponent );
-      }
-
-      el.innerHTML = ""; //empty the HTML element
-
-      return parentApp;
-    },
-    sendMessage: function (returnValue) {
-      window.top.receiveMessage( returnValue, root.getParameterByName( "sp" ) );
-    },
-    findComponent: function ( componentName ) {
-      var componentLenght = 0,
-        components = this.components,
-        nestedApps = this.children,
-        result,
-        found;
-
-      components.forEach( function ( comp ) {
-        if ( !found && ( comp.id === componentName ) ) {
-          found = true;
-          result = comp;
-        }
-      } );
-
-      if ( !result && nestedApps && nestedApps.length ) {
-        nestedApps.forEach( function ( app ) {
-          if ( !found ) {
-            result = app.findComponent( componentName );
-            found = true;
-          }
-        } );
-      }
-
-      return result;
-    },
-    findApplication: function ( appName ) {
-      var result,
-        found,
-        nestedApps = this.children || [];
-
-      if ( !appName ) {
-        return null;
-      }
-
-      if ( this.key === appName ) {
-        return this;
-      } else {
-        nestedApps.forEach( function ( app ) {
-          if ( !found ) {
-            var res = app.findApplication( appName );
-            if ( res ) {
-              found = true;
-              result = res;
-            }
-          }
-        } );
-      }
-
-      return result;
-    },
-    replace: function ( config, callback ) {
-      config.el = config.el ? this.el.querySelector( config.el ) : this.el;
-
-      this.remove( config.el );
-      this.inject( config, callback );
-    },
-    append: function ( config, callback ) {
-      if( utils.isObject( config ) ) {
-        config.el = config.el ? this.el.querySelector( config.el ) : this.el;
-      } else {
-        config = {
-          html: config,
-          el: this.el
-        };
-      }
-
-      config.append = true;
-
-      this.inject( config, callback );
-    },
-    prepend: function ( config, callback ) {
-      if( utils.isObject( config ) ) {
-        config.el = config.el ? this.el.querySelector( config.el ) : this.el;
-      } else {
-        config = {
-          html: config,
-          el: this.el
-        };
-      }
-
-      config.prepend = true;
-
-      this.inject( config, callback );
-    },
-    insertRendering: function (itemId, options, cb) {
-      var item,
-        that = this,
-        selector,
-        $el,
-        defaultOptions = {
-          database: "core",
-          path: "/"
-        };
-
-      if ( utils.isFunction( options ) ) {
-        cb = options;
-      } else if (options) {
-        defaultOptions = utils.extend( defaultOptions, options );
-      }
-
-      if (!defaultOptions.name) {
-        defaultOptions.name = _.uniqueId("subapp_");
-      }
-
-      ajaxUtils.get(defaultOptions.path + "?sc_itemid=" + itemId + "&sc_database=" + defaultOptions.database, function ( data ) {
-        that.insertMarkups( data.result, defaultOptions.name, defaultOptions, cb );
-      });
+module.exports = {
+  closeDialog: function( returnValue ) {
+    window.top.returnValue = returnValue;
+    window.top.dialogClose( returnValue );
   },
-  insertMarkups: function (html, name, options, cb) {
-    var defaultOptions = {
-      prepend: false,
-      el: options.$el
-    };
+  remove: function( el ) {
 
-    defaultOptions = utils.extend( defaultOptions, options );
-
-    if ( defaultOptions.selector ) {
-      defaultOptions.el = document.querySelectorAll( options.selector );
-    } else {
-      defaultOptions.el = document;
+    if ( scUtils.is.a.string( el ) ) {
+      el = this.el.querySelector( el );
     }
 
-    this.inject(defaultOptions);
+    el = el || this.el;
+
+    var parentApp = this,
+      component = [],
+      removeApp = function( app ) {
+        var byUniqueId = function( appObject ) {
+            return app.__domID === appObject.__domID;
+          },
+          appObj = scUtils.array.find( parentApp.children, byUniqueId );
+
+        if ( appObj ) {
+          appObj.remove();
+          parentApp.children = parentApp.children.filter( byUniqueId );
+        }
+      },
+      removeComponent = function( compEl ) {
+        var byUniqueId = function( compObject ) {
+            return compEl.__domID === compObject.__domID;
+          },
+          compObj = scUtils.array.find( parentApp.components, byUniqueId );
+
+        if ( compObj ) {
+
+          if ( compObj.destroy ) {
+            compObj.destroy();
+          }
+
+          var fromApp = parentApp[ compObj.id ];
+
+          if ( fromApp ) {
+            if ( scUtils.is.an.array( fromApp ) ) {
+              parentApp[ compObj.id ] = parentApp[ compObj.id ].filter( byUniqueId );
+            } else {
+              delete parentApp[ compObj.id ];
+            }
+          }
+
+          parentApp.components = parentApp.components.filter( byUniqueId );
+        }
+      };
+
+    //remove applications
+    var apps = DOM.findApps( el );
+
+    if ( apps ) {
+      apps.forEach( removeApp );
+    }
+
+    var comps = DOM.findComponents( el );
+
+    if ( comps ) {
+      comps.forEach( removeComponent );
+    }
+
+    el.innerHTML = ""; //empty the HTML element
+
+    return parentApp;
+  },
+  sendMessage: function( returnValue ) {
+    window.top.receiveMessage( returnValue, root.getParameterByName( "sp" ) );
+  },
+  findComponent: function( componentName ) {
+    var componentLenght = 0,
+      components = this.components,
+      nestedApps = this.children,
+      result,
+      found;
+
+    components.forEach( function( comp ) {
+      if ( !found && ( comp.id === componentName ) ) {
+        found = true;
+        result = comp;
+      }
+    } );
+
+    if ( !result && nestedApps && nestedApps.length ) {
+      nestedApps.forEach( function( app ) {
+        if ( !found ) {
+          result = app.findComponent( componentName );
+          found = true;
+        }
+      } );
+    }
+
+    return result;
+  },
+  findApplication: function( appName ) {
+    var result,
+      found,
+      nestedApps = this.children || [];
+
+    if ( !appName ) {
+      return null;
+    }
+
+    if ( this.key === appName ) {
+      return this;
+    } else {
+      nestedApps.forEach( function( app ) {
+        if ( !found ) {
+          var res = app.findApplication( appName );
+          if ( res ) {
+            found = true;
+            result = res;
+          }
+        }
+      } );
+    }
+
+    return result;
+  },
+  replace: function( config, callback ) {
+    config.el = config.el ? this.el.querySelector( config.el ) : this.el;
+
+    this.remove( config.el );
+    this.inject( config, callback );
+  },
+  append: function( config, callback ) {
+    if ( scUtils.is.an.object( config ) ) {
+      config.el = config.el ? this.el.querySelector( config.el ) : this.el;
+    } else {
+      config = {
+        html: config,
+        el: this.el
+      };
+    }
+
+    config.append = true;
+
+    this.inject( config, callback );
+  },
+  prepend: function( config, callback ) {
+    if ( scUtils.is.an.object( config ) ) {
+      config.el = config.el ? this.el.querySelector( config.el ) : this.el;
+    } else {
+      config = {
+        html: config,
+        el: this.el
+      };
+    }
+
+    config.prepend = true;
+
+    this.inject( config, callback );
+  },
+  insertRendering: function( itemId, options, cb ) {
+    var item,
+      _sc = window.Sitecore.Speak,
+      that = this,
+      selector,
+      $el,
+      queryStringLang = "",
+      langFromDom = DOM.findMetaLang(),
+      lang =  langFromDom ? langFromDom : "",
+      database = "core",
+      defaultOptions = {
+        database: database,
+        path: "/",
+        lang: lang
+      };
+
+    if ( scUtils.is.a.function( options ) ) {
+      cb = options;
+    } else if ( options ) {
+      defaultOptions = scUtils.object.extend( defaultOptions, options );
+    }
+
+    if ( !defaultOptions.name ) {
+      defaultOptions.name = scUtils.string.uniqueId( "subapp_" );
+    }
+
+    if(defaultOptions.lang) {
+      queryStringLang = "&sc_lang=" + lang;
+    }
+
+    ajaxUtils.get( defaultOptions.path + "?sc_itemid=" + itemId + "&sc_database=" + defaultOptions.database + queryStringLang, function( data ) {
+      that.insertMarkups( data.result, defaultOptions.name, defaultOptions, cb );
+    } );
+  },
+  insertMarkups: function( html, name, options, cb ) {
+    var defaultOptions = {
+      prepend: false,
+      el: options.el,
+      html: html
+    };
+
+    defaultOptions = scUtils.object.extend( defaultOptions, options );
+
+    if ( !defaultOptions.el ) {
+      if ( defaultOptions.selector ) {
+        defaultOptions.el = document.querySelectorAll( options.selector );
+      } else {
+        defaultOptions.el = document.body;
+      }
+    }
+
+    this.inject( defaultOptions, cb );
   }
 };
-},{"../utils/DOM":38,"../utils/ajax":39,"../utils/index":43}],41:[function(_dereq_,module,exports){
-var propertyHelper = _dereq_( "../utils/propertyHelper" ),
-  utils = _dereq_( "../utils/index" ),
-  propertyFactory = _dereq_( "../factory/Property" );
+},{"../utils/DOM":55,"../utils/ajax":56,"sc-utils":22}],58:[function(require,module,exports){
+var propertyHelper = require( "../utils/propertyHelper" ),
+  scUtils = require( "sc-utils" ),
+  propertyFactory = require( "../factory/Property" );
 
 module.exports = function( propertyStore ) {
   return {
     get: function( propertyName ) {
-      propertyName = utils.isCapitalize( propertyName ) ? propertyName : utils.capitalize( propertyName );
+      propertyName = scUtils.is.capitalize( propertyName ) ? propertyName : scUtils.string.capitalize( propertyName );
 
       var value = this.__properties[ propertyName ];
 
@@ -2643,7 +3343,7 @@ module.exports = function( propertyStore ) {
       }
     },
     set: function( propertyName, newValue, silent ) {
-      propertyName = utils.isCapitalize( propertyName ) ? propertyName : utils.capitalize( propertyName );
+      propertyName = scUtils.is.capitalize( propertyName ) ? propertyName : scUtils.string.capitalize( propertyName );
 
       var property = this.__properties[ propertyName ],
         isNew;
@@ -2690,9 +3390,9 @@ module.exports = function( propertyStore ) {
 
       if ( metaProperty.type ) {
         var Property = propertyFactory.make( propertyDef );
-        this.__properties[ utils.capitalize( p ) ] = new Property( initial, this, propertyName );
+        this.__properties[ scUtils.string.capitalize( p ) ] = new Property( initial, this, propertyName );
       } else {
-        this.__properties[ utils.capitalize( p ) ] = initial;
+        this.__properties[ scUtils.string.capitalize( p ) ] = initial;
       }
 
       Object.defineProperty( this, p, {
@@ -2707,14 +3407,13 @@ module.exports = function( propertyStore ) {
     }
   };
 };
-},{"../factory/Property":18,"../utils/index":43,"../utils/propertyHelper":46}],42:[function(_dereq_,module,exports){
+},{"../factory/Property":35,"../utils/propertyHelper":63,"sc-utils":22}],59:[function(require,module,exports){
 /* jshint forin: false, loopfunc: true */
 /* Events from backbonejs */
-var utils = _dereq_( "./index" );
-
+var scUtils = require( "sc-utils" );
 var eventSplitter = /\s+/;
 
-var triggerEvents = function ( events, args ) {
+var triggerEvents = function( events, args ) {
   var ev, i = -1,
     l = events.length,
     a1 = args[ 0 ],
@@ -2722,34 +3421,34 @@ var triggerEvents = function ( events, args ) {
     a3 = args[ 2 ];
 
   switch ( args.length ) {
-  case 0:
-    while ( ++i < l ) {
-      ( ev = events[ i ] ).callback.call( ev.ctx );
-    }
-    return;
-  case 1:
-    while ( ++i < l ) {
-      ( ev = events[ i ] ).callback.call( ev.ctx, a1 );
-    }
-    return;
-  case 2:
-    while ( ++i < l ) {
-      ( ev = events[ i ] ).callback.call( ev.ctx, a1, a2 );
-    }
-    return;
-  case 3:
-    while ( ++i < l ) {
-      ( ev = events[ i ] ).callback.call( ev.ctx, a1, a2, a3 );
-    }
-    return;
-  default:
-    while ( ++i < l ) {
-      ( ev = events[ i ] ).callback.apply( ev.ctx, args );
-    }
+    case 0:
+      while ( ++i < l ) {
+        ( ev = events[ i ] ).callback.call( ev.ctx );
+      }
+      return;
+    case 1:
+      while ( ++i < l ) {
+        ( ev = events[ i ] ).callback.call( ev.ctx, a1 );
+      }
+      return;
+    case 2:
+      while ( ++i < l ) {
+        ( ev = events[ i ] ).callback.call( ev.ctx, a1, a2 );
+      }
+      return;
+    case 3:
+      while ( ++i < l ) {
+        ( ev = events[ i ] ).callback.call( ev.ctx, a1, a2, a3 );
+      }
+      return;
+    default:
+      while ( ++i < l ) {
+        ( ev = events[ i ] ).callback.apply( ev.ctx, args );
+      }
   }
 };
 
-var eventsApi = function ( obj, action, name, rest ) {
+var eventsApi = function( obj, action, name, rest ) {
   if ( !name ) {
     return true;
   }
@@ -2766,7 +3465,7 @@ var eventsApi = function ( obj, action, name, rest ) {
       var evtName = names[ i ];
 
       evtName = evtName.split( ":" );
-      evtName[ 1 ] = utils.capitalize( evtName[ 1 ] );
+      evtName[ 1 ] = scUtils.string.capitalize( evtName[ 1 ] );
 
       obj[ action ].apply( obj, [ evtName.join( ":" ) ].concat( rest ) );
     }
@@ -2785,16 +3484,16 @@ var Events = {
    * @method on
    * @static
    */
-  on: function ( name, callback, context ) {
+  on: function( name, callback, context ) {
     if ( !eventsApi( this, "on", name, [ callback, context ] ) || !callback ) {
       return this;
     }
 
     this._events || ( this._events = {} );
 
-    if( name.indexOf( ":" ) > 0 ) {
+    if ( name.indexOf( ":" ) > 0 ) {
       var evtArr = name.split( ":" );
-      evtArr[ 1 ] = utils.capitalize( evtArr[ 1 ] );
+      evtArr[ 1 ] = scUtils.string.capitalize( evtArr[ 1 ] );
       name = evtArr.join( ":" );
     }
 
@@ -2812,14 +3511,14 @@ var Events = {
    * @method once
    * @static
    */
-  once: function ( name, callback, context ) {
+  once: function( name, callback, context ) {
     if ( !eventsApi( this, "once", name, [ callback, context ] ) || !callback ) {
       return this;
     }
 
     var self = this;
 
-    var once = utils.once( function () {
+    var once = scUtils.function.once( function() {
       self.off( name, once );
       callback.apply( this, arguments );
     } );
@@ -2833,7 +3532,7 @@ var Events = {
    * @method off
    * @static
    */
-  off: function ( name, callback, context ) {
+  off: function( name, callback, context ) {
     var retain, ev, events, names, i, l, j, k;
 
     if ( !this._events || !eventsApi( this, "off", name, [ callback, context ] ) ) {
@@ -2845,9 +3544,9 @@ var Events = {
       return this;
     }
 
-    if( name.indexOf( ":" ) > 0 ) {
+    if ( name.indexOf( ":" ) > 0 ) {
       var evtArr = name.split( ":" );
-      evtArr[ 1 ] = utils.capitalize( evtArr[ 1 ] );
+      evtArr[ 1 ] = scUtils.string.capitalize( evtArr[ 1 ] );
       name = evtArr.join( ":" );
     }
 
@@ -2879,7 +3578,7 @@ var Events = {
    * @method trigger
    * @static
    */
-  trigger: function ( name ) {
+  trigger: function( name ) {
     if ( !this._events ) {
       return this;
     }
@@ -2891,7 +3590,7 @@ var Events = {
     }
 
     var events = this._events[ name ];
-    var allEvents = this._events.all;
+    var allEvents = this._events.change;
     if ( events ) {
       triggerEvents( events, args );
     }
@@ -2900,7 +3599,7 @@ var Events = {
     }
     return this;
   },
-  stopListening: function ( obj, name, callback ) {
+  stopListening: function( obj, name, callback ) {
     var listeningTo = this._listeningTo;
 
     if ( !listeningTo ) {
@@ -2950,9 +3649,9 @@ for ( var i in listenMethods ) {
   var implementation = listenMethods[ i ],
     method = i;
 
-  Events[ method ] = function ( obj, name, callback ) {
+  Events[ method ] = function( obj, name, callback ) {
     var listeningTo = this._listeningTo || ( this._listeningTo = {} );
-    var id = obj._listenId || ( obj._listenId = utils.uniqueId( "l" ) );
+    var id = obj._listenId || ( obj._listenId = scUtils.string.uniqueId( "l" ) );
     listeningTo[ id ] = obj;
     if ( !callback && typeof name === "object" ) {
       callback = this;
@@ -2963,120 +3662,15 @@ for ( var i in listenMethods ) {
 }
 
 module.exports = Events;
-},{"./index":43}],43:[function(_dereq_,module,exports){
+},{"sc-utils":22}],60:[function(require,module,exports){
 /* jshint forin:false */
-var conf = _dereq_( "../conf" );
+var conf = require( "../conf" );
+var scUtils = require( "sc-utils" );
 
-var idCounter = 0,
-  arrayProto = Array.prototype,
+var arrayProto = Array.prototype,
   nativeForEach = arrayProto.forEach,
   nativeSlice = arrayProto.slice,
-  uniqueId = function ( prefix ) {
-    var id = ++idCounter + "";
-    return prefix ? prefix + id : id;
-  },
-  extend = function ( obj ) {
-    nativeForEach.call( nativeSlice.call( arguments, 1 ), function ( source ) {
-      if ( source ) {
-        for ( var prop in source ) {
-          if ( source.hasOwnProperty( prop ) ) {
-            obj[ prop ] = source[ prop ];
-          }
-        }
-      }
-    } );
-    return obj;
-  },
-  doParallel = function ( fn ) {
-    return function () {
-      var args = nativeSlice.call( arguments );
-      return fn.apply( null, [ _s.async.each ].concat( args ) );
-    };
-  },
-  only_once = function ( fn ) {
-    var called = false;
-    return function () {
-      if ( called ) {
-        throw new Error( "Callback was already called." );
-      }
-      called = true;
-      fn.apply( window, arguments );
-    };
-  },
-  _asyncEach = function ( arr, iterator, callback ) {
-    callback = callback || function () {};
-    if ( !arr.length ) {
-      return callback();
-    }
-    var completed = 0;
-    arr.forEach( function ( x ) {
-      iterator( x, only_once( function ( err ) {
-        if ( err ) {
-          callback( err );
-          callback = function () {};
-        } else {
-          completed += 1;
-          if ( completed >= arr.length ) {
-            callback( null );
-          }
-        }
-      } ) );
-    } );
-  },
-  _asyncMap = function ( eachfn, arr, iterator, callback ) {
-    var results = [];
-    //!!! Verify - wierd !!!
-    arr = arr.map( function ( x, i ) {
-      return {
-        index: i,
-        value: x
-      };
-    } );
-    eachfn( arr, function ( x, callback ) {
-      iterator( x.value, function ( err, v ) {
-        results[ x.index ] = v;
-        callback( err );
-      } );
-    }, function ( err ) {
-      callback( err, results );
-    } );
-  },
-  toArray = function ( obj ) {
-    var array = [],
-      i = obj.length >>> 0; // ensure that length is an Uint32
-    while ( i-- ) {
-      array[ i ] = obj[ i ];
-    }
-    return array;
-  },
-  inherits = function ( base, init, proto ) {
-    var child = function () {
-      return base.apply( this, arguments );
-    };
-    extend( child, base );
-
-    var Surrogate = function () {
-      this.constructor = child;
-    };
-
-    Surrogate.prototype = base.prototype;
-    child.prototype = new Surrogate();
-
-    child.prototype.initialize = init || base.prototype.initialize || function () {};
-    if ( proto ) {
-      for ( var i in proto ) {
-        if ( proto.hasOwnProperty( i ) ) {
-          child.prototype[ i ] = proto[ i ];
-        }
-      }
-    }
-
-    child.__super__ = base.prototype;
-
-    return child;
-
-  },
-  xhr = function ( obj ) {
+  xhr = function( obj ) {
     var type = obj.type,
       url = obj.url,
       data = obj.data,
@@ -3090,7 +3684,7 @@ var idCounter = 0,
     }
 
     xmlHttp.send( type === "post" ? JSON.stringify( data ) : null );
-    xmlHttp.onreadystatechange = function () {
+    xmlHttp.onreadystatechange = function() {
       if ( xmlHttp.readyState === 4 ) {
         if ( xmlHttp.status === 200 || xmlHttp.status === 0 /*remove this*/ ) {
           cb( xmlHttp.responseText );
@@ -3100,30 +3694,19 @@ var idCounter = 0,
       }
     };
   },
-  scriptLoadError = function () {
+  scriptLoadError = function() {
     console.log( arguments );
   },
-  attachScript = function ( url, cb ) {
+  attachScript = function( url, cb ) {
     var script = document.createElement( "script" );
     script.src = url;
-    script.onload = function () {
+    script.onload = function() {
       cb();
     };
     script.onerror = scriptLoadError;
     ( document.head || document.getElementsByTagName( "head" )[ 0 ] ).appendChild( script );
   },
-  isFunction = function ( content ) {
-    return typeof content === "function";
-  },
-  extendProto = function ( obj, proto ) {
-    for ( var p in proto ) {
-      if ( proto.hasOwnProperty( p ) ) {
-        obj.prototype[ p ] = proto[ p ];
-      }
-    }
-    return obj;
-  },
-  extractProperties = function ( def ) {
+  extractProperties = function( def ) {
     var initialValues = {};
     for ( var i in def ) {
       if ( def.hasOwnProperty( i ) ) {
@@ -3135,7 +3718,7 @@ var idCounter = 0,
     }
     return initialValues;
   },
-  extractProto = function ( def ) {
+  extractProto = function( def ) {
     var protoprops = {};
     for ( var i in def ) {
       var proto = def[ i ];
@@ -3145,9 +3728,9 @@ var idCounter = 0,
     }
     return protoprops;
   },
-  initializeProperties = function ( obj, properties ) {
+  initializeProperties = function( obj, properties ) {
     for ( var i in properties ) {
-      if ( properties.hasOwnProperty( i ) && !isFunction( properties[ i ] ) ) {
+      if ( properties.hasOwnProperty( i ) && !scUtils.is.a.function( properties[ i ] ) ) {
         obj[ i ] = properties[ i ];
       }
     }
@@ -3161,24 +3744,26 @@ var idCounter = 0,
     }
     return 0;
   },
-  sortByDepth = function ( arr ) {
+  sortByDepth = function( arr ) {
     return arr.sort( byDepth ).reverse();
   },
-  buildModRequest = function ( types, type ) {
-    /*var request = conf.ROOTSTATICURL,
-      start = "=[",
-      end = "]",
-      mod = type ? type : "comp";
-
-    return request + mod + ".js?mod" + start + types.join( "," ) + end;
-    */
-    return types.join( "," ) + ".js";
+  /**
+   * Build the request for bundled file
+   * eg. /-/speak/v1/bundles/bundle.js?f=/-/speak/v1/business/button.js,/-/speak/v1/business/text.js
+   * @param  {[type]} types [description]
+   * @return {[type]}       [description]
+   */
+  buildModRequest = function( types ) {
+    var request = conf.ROOTSTATICURL ? conf.ROOTSTATICURL : ( window.location.origin + "/" ),
+      mod = "/-/speak/v1/bundles/bundle.js?d=1&c=1&n=1&f=";
+    return [ request + mod + types.join( "," ) ];
   },
-  createTree = function ( flatArray, k, expose ) {
+  createTree = function( flatArray, k, expose ) {
     var number = flatArray.length,
       tree = [],
       key = k ? k : "key",
-      node, map = {}, roots = [];
+      node, map = {},
+      roots = [];
 
     for ( var j = 0; j < number; j++ ) {
       map[ flatArray[ j ][ key ] ] = j;
@@ -3191,16 +3776,16 @@ var idCounter = 0,
       if ( node.parent ) {
         var parentKey = map[ node.parent ];
 
-        if( parentKey ) {
+        if ( parentKey ) {
           var parent = flatArray[ parentKey ];
           node.parent = parent ? parent : void 0;
 
-          if(parent) {
+          if ( parent ) {
             var c = node.PageCodeObject || node;
             parent.children.push( c );
-            if(expose) {
-              if( parent[ c[ k ] ] ) {
-                throw new Error("Conflicting id for " + k + "in object " + c.id );
+            if ( expose ) {
+              if ( parent[ c[ k ] ] ) {
+                throw new Error( "Conflicting id for " + k + "in object " + c.id );
               }
               parent[ c[ k ] ] = c;
             }
@@ -3213,208 +3798,82 @@ var idCounter = 0,
 
     return roots;
   },
-  removeFileExtensionIfNeeded = function ( str ) {
+  removeFileExtensionIfNeeded = function( str ) {
     str = str.trim();
     if ( /.js$/i.test( str ) ) {
       str = str.slice( 0, -3 );
     }
     return str;
-  },
-  flatten = function ( all, shallow ) {
-
-    shallow = shallow || [];
-
-    if ( !Array.isArray( all ) ) {
-      return all;
-    }
-
-    all.forEach( function ( input ) {
-      if ( Array.isArray( input ) ) {
-        var child = flatten( input );
-        if ( Array.isArray ) {
-          shallow = Array.prototype.concat( shallow, child );
-        } else {
-          shallow.push( input );
-        }
-      } else {
-        shallow.push( input );
-      }
-    } );
-
-    return shallow;
-  },
-  contains = function ( array, obj ) {
-    var i = array.length;
-    while ( i-- ) {
-      if ( array[ i ] === obj ) {
-        return true;
-      }
-    }
-    return false;
-  },
-  defaults = function ( obj ) {
-    nativeSlice.call( arguments, 1 ).forEach( function ( source ) {
-      if ( source ) {
-        for ( var prop in source ) {
-          if ( obj[ prop ] === void 0 ) {
-            obj[ prop ] = source[ prop ];
-          }
-        }
-      }
-    } );
-    return obj;
-  },
-  getParameterByName = function ( name ) {
-    name = name.replace( /[\[]/, "\\[" ).replace( /[\]]/, "\\]" );
-
-    var regexS = "[\\?&]" + name + "=([^&#]*)",
-      regex = new RegExp( regexS ),
-      results = regex.exec( window.location.href );
-
-    if ( results == null ) {
-      return "";
-    } else {
-      return decodeURIComponent( results[ 1 ].replace( /\+/g, " " ) );
-    }
-  },
-  flattenObject = function ( obj ) {
-    var result = [];
-    for ( var app in obj ) {
-      if ( obj.hasOwnProperty( app ) ) {
-        result.push( obj[ app ] );
-      }
-    }
-    return result;
-  },
-  find = function ( obj, predicate ) {
-    var result;
-
-    obj.forEach( function ( value, index ) {
-      if ( predicate.call( context, value, index, obj ) ) {
-        result = value;
-      }
-    });
-
-    return result;
-  },
-  isObject = function( obj ) {
-    return obj === Object(obj);
-  },
-  isString = function( str ) {
-    return str.toString() === "[object String]";
-  },
-  capitalize = function ( str ) {
-    return str.charAt( 0 ).toUpperCase( ) + str.slice( 1 );
-  },
-  isCapitalize = function ( str ) {
-    return str.charAt( 0 ) === str.charAt( 0 ).toUpperCase( );
-  },
-  once = function( func ) {
-    
-    var ran = false, memo;
-
-    return function() {
-      if (ran) {
-        return memo;
-      }
-      ran = true;
-      memo = func.apply(this, arguments);
-      func = null;
-      return memo;
-    };
   };
 
 module.exports = {
-  uniqueId: uniqueId,
-  capitalize: capitalize,
-  isCapitalize: isCapitalize,
-  extend: extend,
-  extractProto: extractProto,
-  isFunction: isFunction,
-  isObject: isObject,
-  isString: isString,
   attachScript: attachScript,
-  inherits: inherits,
-  toArray: toArray,
-  isArray: Array.isArray,
-  once: once,
+  extractProto: extractProto,
   xhr: xhr,
-  defaults: defaults,
-  flatten: flatten,
-  extendProto: extendProto,
   extractProperties: extractProperties,
   initializeProperties: initializeProperties,
   buildModRequest: buildModRequest,
   sortByDepth: sortByDepth,
-  contains: contains,
-  array: {
-    find: find
-  },
-  async: {
-    each: _asyncEach,
-    map: doParallel( _asyncMap )
-  },
-  flattenObject: flattenObject,
   createTree: createTree,
   removeFileExtensionIfNeeded: removeFileExtensionIfNeeded,
-  getParameterByName: getParameterByName
+  security: require("./security")
 };
-},{"../conf":16}],44:[function(_dereq_,module,exports){
-/*jshint loopfunc: true */
-var utils = _dereq_( "./index" );
+},{"../conf":33,"./security":64,"sc-utils":22}],61:[function(require,module,exports){
+  /*jshint loopfunc: true */
+  var scUtils = require( "sc-utils" );
 
-var inheritance = {
-  wrap: function ( Presenter, componentDefinition ) {
-    var component = ( function ( _ctor ) {
-      return function () {
-        _ctor.apply( this, arguments ); //closure
-      };
-    } )( Presenter.prototype.constructor );
+  var inheritance = {
+    wrap: function( Presenter, componentDefinition ) {
+      var component = ( function( _ctor ) {
+        return function() {
+          _ctor.apply( this, arguments ); //closure
+        };
+      } )( Presenter.prototype.constructor );
 
-    for ( var j in Presenter.prototype ) {
-      if ( Presenter.prototype.hasOwnProperty( j ) ) {
-        component.prototype[ j ] = Presenter.prototype[ j ];
-      }
-    }
-
-    if ( componentDefinition.prototype ) { //componentDefinition has a prototype
-      componentDefinition = componentDefinition.prototype;
-    }
-
-    for ( var i in componentDefinition ) {
-      if ( component.prototype[ i ] && utils.isFunction( componentDefinition[ i ] ) ) {
-        component.prototype[ i ] = ( function ( _presenter, _component ) {
-
-          return function () {
-            _component.apply( this, arguments );
-            _presenter.apply( this, arguments );
-
-          };
-        }( Presenter.prototype[ i ], componentDefinition[ i ] ) );
-      } else {
-        component.prototype[ i ] = componentDefinition[ i ];
-      }
-    }
-
-    return component;
-  },
-  extend: function ( obj ) {
-    Array.prototype.slice.call( arguments, 1 ).forEach( function ( source ) {
-      if ( source ) {
-        for ( var prop in source ) {
-          if ( source.hasOwnProperty( prop ) ) {
-            obj[ prop ] = source[ prop ];
-          }
+      for ( var j in Presenter.prototype ) {
+        if ( Presenter.prototype.hasOwnProperty( j ) ) {
+          component.prototype[ j ] = Presenter.prototype[ j ];
         }
       }
-    } );
-    return obj;
-  }
-};
 
-module.exports = inheritance;
-},{"./index":43}],45:[function(_dereq_,module,exports){
-var DOM = _dereq_( "./DOM" );
+      if ( componentDefinition.prototype ) { //componentDefinition has a prototype
+        componentDefinition = componentDefinition.prototype;
+      }
+
+      for ( var i in componentDefinition ) {
+        if ( component.prototype[ i ] && scUtils.is.a.function( componentDefinition[ i ] ) ) {
+          component.prototype[ i ] = ( function( _presenter, _component ) {
+
+            return function() {
+              _component.apply( this, arguments );
+              _presenter.apply( this, arguments );
+
+            };
+          }( Presenter.prototype[ i ], componentDefinition[ i ] ) );
+        } else {
+          component.prototype[ i ] = componentDefinition[ i ];
+        }
+      }
+
+      return component;
+    },
+    extend: function( obj ) {
+      Array.prototype.slice.call( arguments, 1 ).forEach( function( source ) {
+        if ( source ) {
+          for ( var prop in source ) {
+            if ( source.hasOwnProperty( prop ) ) {
+              obj[ prop ] = source[ prop ];
+            }
+          }
+        }
+      } );
+      return obj;
+    }
+  };
+
+  module.exports = inheritance;
+},{"sc-utils":22}],62:[function(require,module,exports){
+var DOM = require( "./DOM" );
 
 module.exports = function( loader, parser, stores ) {
 
@@ -3425,9 +3884,10 @@ module.exports = function( loader, parser, stores ) {
                     el = config.el,
                     html = config.html,
                     append = config.append,
+                    replace = config.replace,
                     prepend = config.prepend;
 
-                if ( !append && !append ) {
+                if ( !append && !prepend && !replace ) {
                     append = true;
                 }
 
@@ -3437,12 +3897,28 @@ module.exports = function( loader, parser, stores ) {
 
                 //el.style.display = 'none';
                 var emptyDiv = DOM.createDomElement(),
-                    element = DOM.createDomElement( html );
+                    elements = DOM.createDomElement( html );
 
-                emptyDiv.appendChild( element );
+                elements.forEach( function( nodeElement ) {
+                    emptyDiv.appendChild( nodeElement );
+                } );
 
                 var allElements = parser.parse( emptyDiv );
 
+                if ( append || replace ) {
+
+                    if ( replace ) {
+                        el.innerHTML = "";
+                        //should clean up app;
+                    }
+                    elements.forEach( function( nodeElement ) {
+                        el.appendChild( nodeElement );
+                    } );
+                } else {
+                    elements.reverse().forEach( function( nodeElement ) {
+                        el.parentNode.insertBefore( nodeElement, el );
+                    } );
+                }
                 var exposeApp = function( apps ) {
 
                     if ( apps ) {
@@ -3452,11 +3928,7 @@ module.exports = function( loader, parser, stores ) {
 
                     Sitecore.Speak.applications = Sitecore.Speak.applications.concat( apps );
 
-                    if ( append ) {
-                        el.appendChild( element );
-                    } else {
-                        el.parentNode.insertBefore( element, el );
-                    }
+
                     if ( callback ) {
                         callback( app );
                     }
@@ -3466,13 +3938,13 @@ module.exports = function( loader, parser, stores ) {
                 stores.build( allElements );
 
                 loader.load( stores, function() {
-                    createApp.call( app, emptyDiv, exposeApp );
+                    createApp.call( app, el, exposeApp );
                 } );
             };
         }
     };
 };
-},{"./DOM":38}],46:[function(_dereq_,module,exports){
+},{"./DOM":55}],63:[function(require,module,exports){
 var excludes = [],
   isObject = function ( obj ) {
     return obj === Object( obj );
@@ -3528,6 +4000,24 @@ var propertyHelper = {
 };
 
 module.exports = propertyHelper;
-},{}]},{},[22])
-(22)
+},{}],64:[function(require,module,exports){
+var DOMHelper = require("./DOM"),
+    antiForgeryTokenValue = DOMHelper.findAntiForgeryToken(),
+    formKey = "__RequestVerificationToken";
+
+module.exports = {
+    antiForgery: {
+        getAntiForgeryToken: function() {
+            return {
+                formKey: formKey,
+                headerKey: "X-RequestVerificationToken",
+                value: antiForgeryTokenValue
+            };
+        }
+    }
+};
+
+},{"./DOM":55}]},{},[39])
+(39)
 });
+;

@@ -9,7 +9,7 @@
         <asp:PlaceHolder runat="server" ID="Icon" /><span style="vertical-align: middle"> <asp:Literal runat="server" ID="ButtonText" /></span>
       </button>
       
-      <img id="Loading" src="/sitecore/shell/Themes/Standard/Images/loading15x15.gif" style="float: left; display: none; margin-top: 8px;" />
+      <img id="Loading" src="/sitecore/shell/Themes/Standard/Images/sc-spinner16.gif" style="float: left; display: none; margin-top: 8px;" />
     </div>
     
   </div>

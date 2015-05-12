@@ -1,10 +1,6 @@
 ﻿define(["sitecore", "/-/speak/v1/experienceprofile/DataProviderHelper.js", "/-/speak/v1/experienceprofile/CintelUtl.js"], function(sc, providerHelper, cintelUtil)
 {
   var intelPath = "/intel",
-      overviewTable = "latest-statistics",
-      latestEventsTable = "latest-events",
-      recentCampaignsTable = "recent-campaigns",
-      bestPatternMatchesTable = "best-pattern-matches",
       dataSetProperty = "dataSet";
 
   var getTypeValue = function(preffered, all)
@@ -81,6 +77,10 @@
           cintelUtil.setText(this.FirstNameValue, jsonData.firstName, true);
           cintelUtil.setText(this.MiddleNameValue, jsonData.middleName, true);
           cintelUtil.setText(this.LastNameValue, jsonData.surName, true);
+          
+          cintelUtil.setTitle(this.FirstNameValue, jsonData.firstName);
+          cintelUtil.setTitle(this.MiddleNameValue, jsonData.middleName);
+          cintelUtil.setTitle(this.LastNameValue, jsonData.surName);
 
           cintelUtil.setText(this.TitleValue, jsonData.jobTitle, true);
 
@@ -94,6 +94,7 @@
           {
             cintelUtil.setText(this.PrimeEmailType, email.type, true);
             this.setEmail(this.PrimeEmailValue, email.value.SmtpAddress);
+            cintelUtil.setTitle(this.PrimeEmailValue, email.value.SmtpAddress);
           }
 
           var phone = getTypeValue(jsonData.preferredPhoneNumber, dataSet.phoneNumbers);
@@ -116,6 +117,7 @@
       {
         cintelUtil.setText(args.app.Type, args.data.Key, true);
         this.setEmail(args.app.Value, args.data.Value.SmtpAddress);
+        cintelUtil.setTitle(args.app.Value, args.data.Value.SmtpAddress);
       }, this);
 
       this.PhoneColumnDataRepeater.on("subAppLoaded", function(args)

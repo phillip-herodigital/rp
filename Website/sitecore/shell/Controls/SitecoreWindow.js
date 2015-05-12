@@ -180,7 +180,7 @@ scWindow.prototype.hitTest = function(evt) {
 
   if (this.canDrag()) {
     while (ctl != null) {
-      if (ctl.className != null && ctl.className.indexOf("scWindowHandle") >= 0 && point.y < 16) {
+      if (ctl.className != null && ctl.className.indexOf("scWindowHandle") >= 0 && point.y < 60) {
         return "handle";
       }
 
@@ -200,10 +200,9 @@ scWindow.prototype.hide = function() {
 
 scWindow.prototype.maximizeWindow = function() {
   if (this.canMaximize()) {
-    if (window.event.clientY > 20) {
+    if (window.event.clientY > 36) {
       return;
     }
-  
     var manager = this.getManager();
     
     if (manager != null) {

@@ -47,7 +47,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       },
       prepareData = function (file, oImage) {
         file.__id = _.uniqueId("file_");
-        var size = file.size;
+        var size = file.size || 0;        
         totalSize += size;
         return {
           id: file.__id,
@@ -90,7 +90,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
             };
             oReader.readAsDataURL(file);
           } else {
-            modelJSON.image = "/sitecore/shell/client/Speak/Assets/img//unknown_icon_32.png";
+            modelJSON.image = "/sitecore/shell/client/Speak/Assets/img/Speak/Uploader/upload_file_icon.png";
             modelJSON.error = false;
             collection.add(new _sc.Definitions.Models.Model(modelJSON));
             cb(modelJSON);
@@ -163,8 +163,24 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
         { name: "globalPercentage", defaultValue: 0 },
         { name: "totalSize", defaultValue: "0 bytes" },
         { name: "uploadedSize", defaultValue: "0 bytes" },
-        { name: "queueWasAborted", defaultValue: null }
+        { name: "queueWasAborted", defaultValue: null },
+        { name: "database", value: "$el.data:sc-databasename" },
     ],
+    extendModel: {
+      set: function (key, value, options) {      
+        var _base = _sc.Definitions.Models.ControlModel;
+        if (!_base) {
+          _base = Backbone.Model;
+        }
+        if (!(options && options.initReadonlyValue) && _.isObject(key)) {
+          key = _.omit(key, "database");
+          _base.prototype.set.apply(this, key, value, options);
+        } else if (!(options && options.initReadonlyValue) && key === "database") {
+          return;
+        }
+        _base.prototype.set.call(this, key, value, options);  
+      }
+    },
     
     initialize: function () {
       var databaseUri = new _sc.Definitions.Data.DatabaseUri("core"),
@@ -174,6 +190,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
         this.$el.find(".drag").hide();        
       }
       this.databaseName = this.$el.data("sc-databasename") ? this.$el.data("sc-databasename") : "core";
+      this.model.set("database", this.databaseName, {initReadonlyValue: true});
       this.setUploadUrl();      
       this.model.set("totalFiles", 0);
       this.model.set("uploadedFiles", 0);
@@ -409,6 +426,9 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
         formData: function (form) {
           var id = form.context.__ids.shift(),
             data = form.serializeArray();
+
+          var token = _sc.Helpers.antiForgery.getAntiForgeryToken();
+          data.push({ name: token.formKey, value: token.value });
 
           return this.getModelData(data, id);
         },

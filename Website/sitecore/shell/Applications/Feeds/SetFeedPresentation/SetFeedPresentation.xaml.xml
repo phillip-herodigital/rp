@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xamlControls 
+<xamlControls
   xmlns:x="http://www.sitecore.net/xaml"
   xmlns:ajax="http://www.sitecore.net/ajax"
   xmlns:rest="http://www.sitecore.net/rest"
@@ -11,107 +11,81 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <Sitecore.Shell.Applications.Feeds.SetFeedPresenation x:inherits="Sitecore.Shell.Applications.Feeds.SetFeedPresentationPage,Sitecore.Client">
-    
-    <Sitecore.Controls.DialogPage runat="server" Icon="Custom/32x32/rss.png" Header="RSS Feed Design" Text="Specify how the item is presented in the RSS feed.">
+
+    <Sitecore.Controls.DialogPage runat="server"  Header="RSS Feed Design" Text="Specify how the items that are based on the template of the selected item are displayed in the RSS feed.">
       <AjaxScriptManager runat="server" />
       <ContinuationManager runat="server" />
 
       <Script type="text/javascript" runat="server">
         Event.observe(window, "load", function() {
-          scForm.postRequest("", "", "", "UpdatePreview");
-        
-          $$("select").each(function(select) { 
-            select.observe("change", function(e) {
-              scForm.postRequest("", "", "", "UpdatePreview");
-            });
-          });
+        scForm.postRequest("", "", "", "UpdatePreview");
+
+        $$("select").each(function(select) {
+        select.observe("change", function(e) {
+        scForm.postRequest("", "", "", "UpdatePreview");
         });
-                
+        });
+        });
+
         function onPreviewUpdated() {
-          $$("#Preview a").each(function(link) {
-            link.observe("click", function(e) {
-              e.stop();
-              return false;
-            });
-          });
+        $$("#Preview a").each(function(link) {
+        link.observe("click", function(e) {
+        e.stop();
+        return false;
+        });
+        });
         }
       </Script>
 
       <Stylesheet runat="server" Key="Preview">
-        .mainContainer {
-          padding: 10px;
-          padding-bottom: 165px;
-        }
-        
-        .mainContainer > div {
-          margin-bottom: 5px;
-        }
-        
-        .mainContainer > div > select {
-          width: 100%;
-        }
-        
-        .scWarning {
-          background: #ffffe4;
-          border: 1px solid #c9c9c9;
-          border-left:none;
-          border-right:none;
-          padding: 4px 2px 4px 4px;
-          margin-bottom: 12px;
-        }
-
-        .scHint {
-          color: #333;
-          margin-bottom: 12px;
-        }
-
         #Preview {
-          margin-bottom: 0;
-          overflow: auto;
-          background: white;
+        margin-top: 10px;
+        margin-bottom: 0;
+        overflow: auto;
+        background: white;
+        height: 350px;
         }
-        
+
         #Preview h2 {
-          font-size: 11pt;
-          color: #3165C6;
-          font-weight: bold;
-          margin-bottom: 0;
-          margin-left: -2px;
-          
-          border-bottom: solid 1px #3165C6;
+        color: #DC291E;
+        font-weight: bold;
+        font-size:14px;
+        margin-bottom: 0;
+        border-bottom: solid 1px #3165C6;
         }
-        
+
         #Preview .scPreviewDate {
-          color: #828282;
-          margin-top: 4px;
-          margin-bottom: 1em;
+        color: #828282;
+        margin-top: 4px;
+        margin-bottom: 1em;
+        }
+
+        #Preview a {
+        color: #DC291E;
+        }
+
         }
       </Stylesheet>
 
-      <div class="scStretch mainContainer">
-        <Border runat="server" ID="WarningPlaceholder" />
-        
-        <div>
-          <Literal runat="server" Text="Title Field:" />
-          <html:select runat="server" ID="TitleField" />
-        </div>
+      <Border runat="server" ID="WarningPlaceholder" />
 
-        <div>
-          <Literal runat="server" Text="Body Field:" />
-          <html:Select runat="server" ID="BodyField" />
-        </div>
+      <GridPanel Columns="2" Width="100%" Class="scFormTable" runat="server">
 
-        <div>
-          <Literal runat="server" Text="Date Field:" />
-          <html:Select runat="server" ID="DateField"/>
-        </div>
+        <Literal runat="server" Text="Title field:" Class="scRssTitle" />
+        <html:select runat="server" ID="TitleField" />
 
-        <Literal runat="server" Text="Preview:" />
+        <Literal runat="server" Text="Body field:" Class="scRssTitle" />
+        <html:Select runat="server" ID="BodyField" />
+
+        <Literal runat="server" Text="Date field:" Class="scRssTitle" />
+        <html:Select runat="server" ID="DateField"/>
+
+      </GridPanel>
+      <Border Style="margin-top: 15px" runat="server">
+        <Literal runat="server" Text="Preview:" Class="scRssTitle" />
         <Scrollbox ID="Preview" runat="server" />
-        
-      </div>
-
+      </Border>
     </Sitecore.Controls.DialogPage>
-    
+
   </Sitecore.Shell.Applications.Feeds.SetFeedPresenation>
 </xamlControls>

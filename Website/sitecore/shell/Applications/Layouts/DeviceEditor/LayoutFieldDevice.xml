@@ -4,25 +4,25 @@
     <Border Class="scContentControlLayoutDevice" Activation="true">
       <GridPanel Width="100%" Height="100%" Columns="2">
       
-        <Border Align="center" Class="scContentControlLayoutDeviceName" DblClick="$DblClick" GridPanel.NoWrap="true" GridPanel.VAlign="top" Width="32">
+        <Border Align="center" Class="scContentControlLayoutDeviceName" DblClick="$DblClick" GridPanel.NoWrap="true" GridPanel.VAlign="top">
           <ThemedImage Src="$DeviceIcon" ToolTip="$DeviceName" Height="32" Width="32"/><br/>
           <Literal Text="$DeviceName" ToolTip="$DeviceName"/>
         </Border>
         
         <Border Class="scContentControlLayoutDeviceRenderings" GridPanel.Width="100%" GridPanel.VAlign="top">
         
-          <Border Class="scRollOver" RollOver="true" Click="$DblClick" Foreground="#072D6B">
-            <Literal Class="scClickFont" Style="font-weight:bold" Text="$LayoutName"/>
+          <Border Class="scRollOver" RollOver="true" Click="$DblClick">
+            <Literal Class="scClickFont" Text="$LayoutName"/>
           </Border>
         
-          <Border Background="#dddddd" Margin="4px 0px 4px 0px" Height="1px"><Space/></Border>
+          <Border Background="transparent" Margin="5px 0" Height="1px"><Space/></Border>
 
           <GridPanel Width="100%" Columns="2" Fixed="true">
 
-            <Border GridPanel.Width="50%" Foreground="#666666" Padding="0px 0px 2px 0px">
+            <Border GridPanel.Width="50%" Padding="0px 0px 2px 0px">
               <Literal Text="Controls" />
             </Border>
-            <Border GridPanel.Width="50%" Foreground="#666666" Padding="0px 0px 2px 0px">
+            <Border GridPanel.Width="50%" Padding="0px 0px 2px 0px">
               <Literal Text="Placeholder Settings" />
             </Border>
 
@@ -31,9 +31,9 @@
 
           </GridPanel>
 
-          <Border Background="#dddddd" Margin="4px 0px 4px 0px" Height="1px"><Space/></Border>
+          <Border Background="#D6D6D6" Margin="5px 0" Height="1px"><Space/></Border>
           <Border Class="scDeviceCommands">
-            <WorkboxCommand Command="$DblClick" Header="Edit" Icon="Applications/16x16/document_edit.png"/>
+            <WorkboxCommand Command="$DblClick" Header="Edit" Icon="Office/16x16/insert_option_assign.png"/>
             <WorkboxCommand Command="$Copy" Header="Copy To" Icon="Core3/16x16/copy_to_folder.png"/>
           </Border>
         </Border>

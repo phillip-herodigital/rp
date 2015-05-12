@@ -22,12 +22,8 @@
       Event.observe(window, 'load', function(){ $$('form')[0].setStyle({overflow:'auto'}); });
       
         function getSelected() {
-          var selected = $("ctl00_ctl00_ctl00_ctl00_SelectedRoles");
-          
-          if (selected == null) {
-            selected = $("ctl00_ctl00_ctl00_ctl00_ctl04_SelectedRoles");
-          }
-          
+          var selected = $$("[id$='SelectedRoles']").first();
+
           return selected;
         }
         
@@ -45,7 +41,7 @@
           
           if (selectedRoles.length == 0) {
             alert(scForm.translate("Please select a role"));
-            return;
+            return false;
           }
 
           var added = false;
@@ -58,14 +54,7 @@
             else {
               var opt = document.createElement("OPTION");
               selectedOptions.appendChild(opt);
-              if(typeof(opt.innerText) != 'undefined')
-              {
-                opt.innerText = roleName;
-              }
-              else{
-                opt.textContent = roleName;
-              }
-              
+              opt.innerHTML = roleName;
               added = true;
             }
           });
@@ -99,7 +88,7 @@
             selected.style.position = selected.style.position == 'relative' ? 'static' : 'relative';
           } else {
             alert(scForm.translate("Please select a role"));
-            return;
+            return false
           }
           
           update();
@@ -119,59 +108,47 @@
               options[options.length - 1].selected = true;
             }
           }
+          
+          return false;
         }
         
         function roleExists(roleName) {
           var selected = getSelected();
           
           return $A(selected.options).find(function(option) {
-            if(typeof(option.innerText) != 'undefined')
-            {
-              return option.innerText == roleName;
-            }
-            else
-            {
-              return option.textContent == roleName;
-            }
+              return option.innerHTML == roleName;
           });
         }
         
         function update() {
-          var hiddenField = $('ctl00_ctl00_ctl00_ctl00_SelectedValues');
+          var hiddenField = $$("[id$='SelectedValues']").first();
           
-          if (hiddenField == null) {
-            hiddenField = $('ctl00_ctl00_ctl00_ctl00_ctl04_SelectedValues');
-          }
-
           var result = "";
           $A(getSelected().options).each(function(option) {
-            var optionValue = "";
-            if(typeof(option.innerText) != 'undefined')
-            {
-              optionValue = option.innerText;
-            }
-            else
-            {
-              optionValue = option.textContent;
-            }
-            
+            var optionValue = option.innerHTML;
+           
             result += encodeURIComponent(optionValue) + "|";
           });
 
           hiddenField.value = result;
         }
+        var timer = setInterval(adjustHeight, 10);
+
+        function adjustHeight() {
+          if (window.Roles && Roles.Loaded) {
+              clearInterval(timer);
+              scForm.autoIncreaseModalDialogHeight();
+              var gridHeight = document.querySelectorAll('table.Grid table')[1].getHeight();
+              getSelected().style.height = gridHeight + 'px';
+          }
+        }
+
       ]]>
       </Script>
       
       <style>
         .GridGroupingNotification {
           display: none;
-        }
-        
-        #ButtonsContainer {
-          padding:8px 0px 16px 0px;
-          -moz-box-sizing: border-box;
-          box-sizing: border-box;
         }
         
         #RolesContainer {
@@ -181,7 +158,6 @@
         
         .Grid{
           height: auto !important;
-          width:100% !important;
         }
         
         .scSelectRolesContainer {
@@ -193,6 +169,10 @@
           width: auto !important;
         }
         
+        .scAddRemoveButtonsContainer {
+          padding-bottom: 9px;
+        }
+       
       </style>
       
       <AjaxScriptManager runat="server"/>
@@ -200,20 +180,8 @@
 
       <html:HtmlInputHidden ID="SelectedValues" runat="server" />
 
-      <div class="scSelectRolesContainer scStretchAbsolute">
-        <Literal Text="Selected Roles:" runat="server" />
-        <html:HtmlSelect ID="SelectedRoles" style="font:9pt verdana;width:100%;" Size="8" Multiple="true" ondblclick="javascript:onSelectedDoubleClick();" runat="server"/>
-
-        <Border runat="server" ID="ButtonsContainer">
-          <html:HtmlButton ID="Add" Type="button" style="width:75px;height:25px;margin-right:5px;" javascript:Click="return scAdd()" runat="server">
-            <Literal Text="Add" runat="server" />
-          </html:HtmlButton>
-          <html:HtmlButton ID="Remove" Type="button" style="width:75px;height:25px" javascript:Click="return scRemove()" runat="server">
-            <Literal Text="Remove" runat="server" />
-          </html:HtmlButton>
-        </Border>
-
-        <Literal Text="Available Roles:" runat="server" />
+      <Border class="col2"  runat="server">
+        <Literal class="scFieldLabel sc-text-bold" Text="Available Roles:" runat="server" />
         <Border runat="server" ID="RolesContainer">
           <Grid id="Roles"
                 RunningMode="Callback"
@@ -240,17 +208,17 @@
                 PageSize="15"
                 PagerStyle="Slider"
                 PagerTextCssClass="GridFooterText"
-                PagerButtonWidth="41"
-                PagerButtonHeight="22"
+                PagerButtonActiveEnabled ="True"
+                PagerButtonHoverEnabled="True"
                 PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
 
                 ShowSearchBox="true"
-                SearchTextCssClass="GridHeaderText"
+                SearchTextCssClass="GridHeaderText scTextAlignRight "
                 SearchBoxCssClass="SearchBox"
 
                 SliderHeight="20"
                 SliderWidth="150"
-                SliderGripWidth="9"
+                SliderGripWidth="24"
                 SliderPopupOffsetX="20"
                 SliderPopupClientTemplateId="SliderTemplate"
 
@@ -280,7 +248,7 @@
                 HeadingCellActiveCssClass="HeadingCellActive"
                 HeadingRowCssClass="HeadingRow"
                 HeadingTextCssClass="HeadingCellText"
-                SelectedRowCssClass="SelectedRow"
+                SelectedRowCssClass="SelectedRow scUnselectable"
                 GroupHeadingCssClass="GroupHeading"
                 SortAscendingImageUrl="asc.gif"
                 SortDescendingImageUrl="desc.gif"
@@ -297,7 +265,7 @@
               <ClientTemplate Id="LoadingFeedbackTemplate" runat="server">
                 <table cellspacing="0" cellpadding="0" border="0">
                   <tr>
-                    <td style="font-size:10px;">
+                    <td>
                       <Literal Text="Loading..." runat="server" />;
                     </td>
                     <td>
@@ -324,7 +292,19 @@
             </ClientTemplates>
           </Grid>
         </Border>
-      </div>
+      </Border>
+      <Border class="col2" runat="server">
+        <Literal class="scFieldLabel sc-text-bold" Text="Selected Roles:" runat="server" />
+        <div class="scAddRemoveButtonsContainer">
+          <html:HtmlButton ID="Add" type="button" class="scButton" javascript:Click="return scAdd()" runat="server">
+            <Literal Text="Add" runat="server" />
+          </html:HtmlButton>
+          <html:HtmlButton ID="Remove" type="button" class="scButton" javascript:Click="return scRemove()" runat="server">
+            <Literal Text="Remove" runat="server" />
+          </html:HtmlButton>
+        </div>
+        <html:HtmlSelect ID="SelectedRoles" Multiple="true" ondblclick="javascript:onSelectedDoubleClick();" runat="server"/>
+      </Border>
 
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Security.SelectRoles>

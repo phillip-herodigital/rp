@@ -3,6 +3,11 @@
   overflow-x: auto;
 }
 
+.sc-globalHeader-content,
+.sc-applicationHeader-content {
+  max-width: 100%;
+}
+
 .sc-text-label, .sc-text-smalltitle, .sc-text-largetitle {
     display: block;
 }
@@ -22,8 +27,17 @@ div[data-sc-id=VisitDialogStatsInnerRow] > div > span {
     font-size: 1.3em;
 }
 
-div[data-sc-id=VisitDialogStatsInnerRow] > div > *:nth-child(2) {
+div[data-sc-id=VisitDialogStatsInnerRow] > div > *:nth-child(1) {
+  width: 100%;
+}
+
+div[data-sc-id=VisitDialogStatsInnerRow] > div > *:nth-child(2),
+div[data-sc-id=VisitDialogStatsInnerRow] > div > span[data-sc-id=VisitDialogPageviews] {
     font-size: 2em;
+}
+
+div[data-sc-id=VisitDialogStatsInnerRow] > div > label[data-sc-id=VisitDialogTouchpointViewsTitle] {
+    font-size: 1em !important;
 }
 
 div[data-sc-id=VisitDialogStatsBorder] > img {
@@ -33,10 +47,6 @@ div[data-sc-id=VisitDialogStatsBorder] > img {
 div[data-sc-id=VisitDialogStatsBorder] > div, div[data-sc-id=VisitDialogStatsBorder] > div[data-sc-id=CampaignBorder] {
     margin-left: 26px;
     margin-bottom: 6px !important;
-}
-
-div[data-sc-id=MorePagesInVisitBorder], div[data-sc-id=MoreInternalSearchBorder], div[data-sc-id=MoreDialogGoalsBorder] {
-  border-top: 1px solid #ccc !important;
 }
 
 div[data-sc-id=VisitDialogMessageBar] {
@@ -55,9 +65,33 @@ div[data-sc-id=VisitDialogMessageBar] {
   border: none;
 }
 
-section.sc-applicationContent-main
+div[data-sc-id=PagesInVisitAccordion],
+div[data-sc-id=InternalSearchAccordion],
+div[data-sc-id=DialogGoalsAccordion] {
+  margin-top: 30px;
+}
+
+div.sc-advancedExpander[data-sc-id=PagesInVisitAccordion] .sc-advancedExpander-body,
+div.sc-advancedExpander[data-sc-id=InternalSearchAccordion] .sc-advancedExpander-body,
+div.sc-advancedExpander[data-sc-id=DialogGoalsAccordion] .sc-advancedExpander-body
 {
-  max-width: 1200px;
-  margin: 0 auto !important;
-  float: none !important;
+  border: none;
+}
+
+.sc-applicationHeader {
+  padding-top: 0;
+}
+
+.sc-applicationHeader-row1:after {
+  top: 0;
+}
+
+@media (min-width: 0px) and (max-width: 992px) {
+  .col-md-5[data-sc-id=VisitDialogContactColumn] {
+    width: 41%;
+  }
+
+  .col-md-2[data-sc-id=VisitDialogValueColumn] {
+    width: 16.67%;
+  }
 }

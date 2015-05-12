@@ -24,7 +24,7 @@
 		   {
 		      if( img != null)
 		      {
-		         img.src = '/sitecore/shell/themes/standard/images/collapse15x15.gif';
+		         img.src = '/sitecore/shell/themes/standard/images/treemenu_expanded.png';
 		      }
 		      section.style.display = '';
 		   }
@@ -32,7 +32,7 @@
 		   {   
 		      if(img != null)
 		      {
-		         img.src = '/sitecore/shell/themes/standard/images/expand15x15.gif';
+		         img.src = '/sitecore/shell/themes/standard/images/treemenu_collapsed.png';
 		      }
 		      section.style.display = 'none';   
 		   }

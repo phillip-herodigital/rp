@@ -32,6 +32,10 @@ define(["sitecore"], function (_sc) {
       this.model.on("change:isOpen", this._changeStatus, this);
       this.model.on("change:isEnabled", this.toggleEnable, this);
       this.model.set("isOpen", false);
+
+      this.$el.find(".sc-dropdownbutton-contentpanel").on("click", function (e) {
+        e.stopPropagation();
+      });
     },
     toggleEnable: function () {
         if (!this.model.get("isEnabled")) {
@@ -66,10 +70,21 @@ define(["sitecore"], function (_sc) {
         }         
      },
      expand: function () {
-        this.$el.find(".sc-dropdownbutton-contentpanel").slideDown(50);
+       this.$el.find(".sc-dropdownbutton-contentpanel").slideDown(50);     
+       $(document).off("click").on("click", $.proxy(collapseOnBodyClick, this));
      },
      collapse: function () {
-         this.$el.find(".sc-dropdownbutton-contentpanel").slideUp(50);
+       this.$el.find(".sc-dropdownbutton-contentpanel").slideUp(50);
+       $(document).off("click");
      }
+    
   });
+  
+ function collapseOnBodyClick(e) {
+    e.stopPropagation();
+    if ($(e.target).closest('.sc-dropdownbutton').size() == 0) {
+      this.model.set("isOpen", false);
+    }
+  }
+  
 });

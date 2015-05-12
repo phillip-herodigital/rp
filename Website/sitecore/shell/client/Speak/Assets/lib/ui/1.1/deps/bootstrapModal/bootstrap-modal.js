@@ -1,5 +1,5 @@
-﻿/* ===========================================================
- * bootstrap-modal.js v2.1
+/* ===========================================================
+ * bootstrap-modal.js v2.2.5
  * ===========================================================
  * Copyright 2012 Jordan Schroter
  *
@@ -19,356 +19,360 @@
 
 !function ($) {
 
-    "use strict"; // jshint ;_;
+	"use strict"; // jshint ;_;
 
-    /* MODAL CLASS DEFINITION
+	/* MODAL CLASS DEFINITION
 	* ====================== */
 
-    var Modal = function (element, options) {
-        this.init(element, options);
-    };
+	var Modal = function (element, options) {
+		this.init(element, options);
+	};
 
-    Modal.prototype = {
+	Modal.prototype = {
 
-        constructor: Modal,
+		constructor: Modal,
 
-        init: function (element, options) {
-            this.options = options;
+		init: function (element, options) {
+			var that = this;
 
-            this.$element = $(element)
+			this.options = options;
+
+			this.$element = $(element)
 				.delegate('[data-dismiss="modal"]', 'click.dismiss.modal', $.proxy(this.hide, this));
 
-            this.options.remote && this.$element.find('.modal-body').load(this.options.remote);
+			this.options.remote && this.$element.find('.modal-body').load(this.options.remote, function () {
+				var e = $.Event('loaded');
+				that.$element.trigger(e);
+			});
 
-            var manager = typeof this.options.manager === 'function' ?
+			var manager = typeof this.options.manager === 'function' ?
 				this.options.manager.call(this) : this.options.manager;
 
-            manager = manager.appendModal ?
-                manager : $(manager).modalmanager().data('modalmanager');
+			manager = manager.appendModal ?
+				manager : $(manager).modalmanager().data('modalmanager');
 
-            manager.appendModal(this);
-        },
+			manager.appendModal(this);
+		},
 
-        toggle: function () {
-            return this[!this.isShown ? 'show' : 'hide']();
-        },
+		toggle: function () {
+			return this[!this.isShown ? 'show' : 'hide']();
+		},
 
-        show: function () {
-            var e = $.Event('show');
+		show: function () {
+			var e = $.Event('show');
 
-            if (this.isShown) return;
+			if (this.isShown) return;
 
-            this.$element.trigger(e);
+			this.$element.trigger(e);
 
-            if (e.isDefaultPrevented()) return;
+			if (e.isDefaultPrevented()) return;
 
-            this.escape();
+			this.escape();
 
-            this.tab();
+			this.tab();
 
-            this.options.loading && this.loading();
-        },
+			this.options.loading && this.loading();
+		},
 
-        hide: function (e) {
-            e && e.preventDefault();
+		hide: function (e) {
+			e && e.preventDefault();
 
-            e = $.Event('hide');
+			e = $.Event('hide');
 
-            this.$element.trigger(e);
+			this.$element.trigger(e);
 
-            if (!this.isShown || e.isDefaultPrevented()) return (this.isShown = false);
+			if (!this.isShown || e.isDefaultPrevented()) return;
 
-            this.isShown = false;
+			this.isShown = false;
 
-            this.escape();
+			this.escape();
 
-            this.tab();
+			this.tab();
 
-            this.isLoading && this.loading();
+			this.isLoading && this.loading();
 
-            $(document).off('focusin.modal');
+			$(document).off('focusin.modal');
 
-            this.$element
+			this.$element
 				.removeClass('in')
 				.removeClass('animated')
 				.removeClass(this.options.attentionAnimation)
 				.removeClass('modal-overflow')
 				.attr('aria-hidden', true);
 
-            $.support.transition && this.$element.hasClass('fade') ?
+			$.support.transition && this.$element.hasClass('fade') ?
 				this.hideWithTransition() :
 				this.hideModal();
-        },
+		},
 
-        layout: function () {
-            var prop = this.options.height ? 'height' : 'max-height',
+		layout: function () {
+			var prop = this.options.height ? 'height' : 'max-height',
 				value = this.options.height || this.options.maxHeight;
 
-            if (this.options.width) {
-                this.$element.css('width', this.options.width);
+			if (this.options.width){
+				this.$element.css('width', this.options.width);
 
-                var that = this;
-                this.$element.css('margin-left', function () {
-                    if (/%/ig.test(that.options.width)) {
-                        return -(parseInt(that.options.width) / 2) + '%';
-                    } else {
-                        return -($(this).width() / 2) + 'px';
-                    }
-                });
-            } else {
-                this.$element.css('width', '');
-                this.$element.css('margin-left', '');
-            }
+				var that = this;
+				this.$element.css('margin-left', function () {
+					if (/%/ig.test(that.options.width)){
+						return -(parseInt(that.options.width) / 2) + '%';
+					} else {
+						return -($(this).width() / 2) + 'px';
+					}
+				});
+			} else {
+				this.$element.css('width', '');
+				this.$element.css('margin-left', '');
+			}
 
-            this.$element.find('.modal-body')
+			this.$element.find('.modal-body')
 				.css('overflow', '')
 				.css(prop, '');
 
-            if (value) {
-                this.$element.find('.modal-body')
+			if (value){
+				this.$element.find('.modal-body')
 					.css('overflow', 'auto')
 					.css(prop, value);
-            }
+			}
 
-            var modalOverflow = $(window).height() - 10 < this.$element.height();
-
-            if (modalOverflow || this.options.modalOverflow) {
-                this.$element
+			var modalOverflow = $(window).height() - 10 < this.$element.height();
+            
+			if (modalOverflow || this.options.modalOverflow) {
+				this.$element
 					.css('margin-top', 0)
 					.addClass('modal-overflow');
-            } else {
-                this.$element
+			} else {
+				this.$element
 					.css('margin-top', 0 - this.$element.height() / 2)
 					.removeClass('modal-overflow');
-            }
-        },
+			}
+		},
 
-        tab: function () {
-            var that = this;
+		tab: function () {
+			var that = this;
 
-            if (this.isShown && this.options.consumeTab) {
-                this.$element.on('keydown.tabindex.modal', '[data-tabindex]', function (e) {
-                    if (e.keyCode && e.keyCode == 9) {
-                        var $next = $(this),
-							$rollover = $(this);
+			if (this.isShown && this.options.consumeTab) {
+				this.$element.on('keydown.tabindex.modal', '[data-tabindex]', function (e) {
+			    	if (e.keyCode && e.keyCode == 9){
+						var elements = [],
+							tabindex = Number($(this).data('tabindex'));
 
-                        that.$element.find('[data-tabindex]:enabled:not([readonly])').each(function (e) {
-                            if (!e.shiftKey) {
-                                $next = $next.data('tabindex') < $(this).data('tabindex') ?
-									$next = $(this) :
-									$rollover = $(this);
-                            } else {
-                                $next = $next.data('tabindex') > $(this).data('tabindex') ?
-									$next = $(this) :
-									$rollover = $(this);
-                            }
-                        });
+						that.$element.find('[data-tabindex]:enabled:visible:not([readonly])').each(function (ev) {
+							elements.push(Number($(this).data('tabindex')));
+						});
+						elements.sort(function(a,b){return a-b});
+						
+						var arrayPos = $.inArray(tabindex, elements);
+						if (!e.shiftKey){
+						 		arrayPos < elements.length-1 ?
+									that.$element.find('[data-tabindex='+elements[arrayPos+1]+']').focus() :
+									that.$element.find('[data-tabindex='+elements[0]+']').focus();
+							} else {
+								arrayPos == 0 ?
+									that.$element.find('[data-tabindex='+elements[elements.length-1]+']').focus() :
+									that.$element.find('[data-tabindex='+elements[arrayPos-1]+']').focus();
+							}
+						
+						e.preventDefault();
+					}
+				});
+			} else if (!this.isShown) {
+				this.$element.off('keydown.tabindex.modal');
+			}
+		},
 
-                        $next[0] !== $(this)[0] ?
-							$next.focus() : $rollover.focus();
+		escape: function () {
+			var that = this;
+			if (this.isShown && this.options.keyboard) {
+				if (!this.$element.attr('tabindex')) this.$element.attr('tabindex', -1);
 
-                        e.preventDefault();
-                    }
-                });
-            } else if (!this.isShown) {
-                this.$element.off('keydown.tabindex.modal');
-            }
-        },
+				this.$element.on('keyup.dismiss.modal', function (e) {
+					e.which == 27 && that.hide();
+				});
+			} else if (!this.isShown) {
+				this.$element.off('keyup.dismiss.modal')
+			}
+		},
 
-        escape: function () {
-            var that = this;
-            if (this.isShown && this.options.keyboard) {
-                if (!this.$element.attr('tabindex')) this.$element.attr('tabindex', -1);
-
-                this.$element.on('keyup.dismiss.modal', function (e) {
-                    e.which == 27 && that.hide();
-                });
-            } else if (!this.isShown) {
-                this.$element.off('keyup.dismiss.modal')
-            }
-        },
-
-        hideWithTransition: function () {
-            var that = this
+		hideWithTransition: function () {
+			var that = this
 				, timeout = setTimeout(function () {
-				    that.$element.off($.support.transition.end);
-				    that.hideModal();
+					that.$element.off($.support.transition.end);
+					that.hideModal();
 				}, 500);
 
-            this.$element.one($.support.transition.end, function () {
-                clearTimeout(timeout);
-                that.hideModal();
-            });
-        },
+			this.$element.one($.support.transition.end, function () {
+				clearTimeout(timeout);
+				that.hideModal();
+			});
+		},
 
-        hideModal: function () {
-            this.$element
-				.hide()
-				.trigger('hidden');
+		hideModal: function () {
+			var prop = this.options.height ? 'height' : 'max-height';
+			var value = this.options.height || this.options.maxHeight;
 
-            var prop = this.options.height ? 'height' : 'max-height';
-            var value = this.options.height || this.options.maxHeight;
-
-            if (value) {
-                this.$element.find('.modal-body')
+			if (value){
+				this.$element.find('.modal-body')
 					.css('overflow', '')
 					.css(prop, '');
-            }
+			}
 
-        },
+			this.$element
+				.hide()
+				.trigger('hidden');
+		},
 
-        removeLoading: function () {
-            this.$loading.remove();
-            this.$loading = null;
-            this.isLoading = false;
-        },
+		removeLoading: function () {
+			this.$loading.remove();
+			this.$loading = null;
+			this.isLoading = false;
+		},
 
-        loading: function (callback) {
-            callback = callback || function () { };
+		loading: function (callback) {
+			callback = callback || function () {};
 
-            var animate = this.$element.hasClass('fade') ? 'fade' : '';
+			var animate = this.$element.hasClass('fade') ? 'fade' : '';
 
-            if (!this.isLoading) {
-                var doAnimate = $.support.transition && animate;
+			if (!this.isLoading) {
+				var doAnimate = $.support.transition && animate;
 
-                this.$loading = $('<div class="loading-mask ' + animate + '">')
+				this.$loading = $('<div class="loading-mask ' + animate + '">')
 					.append(this.options.spinner)
 					.appendTo(this.$element);
 
-                if (doAnimate) this.$loading[0].offsetWidth; // force reflow
+				if (doAnimate) this.$loading[0].offsetWidth; // force reflow
 
-                this.$loading.addClass('in');
+				this.$loading.addClass('in');
 
-                this.isLoading = true;
+				this.isLoading = true;
 
-                doAnimate ?
+				doAnimate ?
 					this.$loading.one($.support.transition.end, callback) :
 					callback();
 
-            } else if (this.isLoading && this.$loading) {
-                this.$loading.removeClass('in');
+			} else if (this.isLoading && this.$loading) {
+				this.$loading.removeClass('in');
 
-                var that = this;
-                $.support.transition && this.$element.hasClass('fade') ?
+				var that = this;
+				$.support.transition && this.$element.hasClass('fade')?
 					this.$loading.one($.support.transition.end, function () { that.removeLoading() }) :
 					that.removeLoading();
 
-            } else if (callback) {
-                callback(this.isLoading);
-            }
-        },
+			} else if (callback) {
+				callback(this.isLoading);
+			}
+		},
 
-        focus: function () {
-            var $focusElem = this.$element.find(this.options.focusOn);
+		focus: function () {
+			var $focusElem = this.$element.find(this.options.focusOn);
 
-            $focusElem = $focusElem.length ? $focusElem : this.$element;
+			$focusElem = $focusElem.length ? $focusElem : this.$element;
 
-            $focusElem.focus();
-        },
+			$focusElem.focus();
+		},
 
-        attention: function () {
-            // NOTE: transitionEnd with keyframes causes odd behaviour
+		attention: function (){
+			// NOTE: transitionEnd with keyframes causes odd behaviour
 
-            if (this.options.attentionAnimation) {
-                this.$element
+			if (this.options.attentionAnimation){
+				this.$element
 					.removeClass('animated')
 					.removeClass(this.options.attentionAnimation);
 
-                var that = this;
+				var that = this;
 
-                setTimeout(function () {
-                    that.$element
+				setTimeout(function () {
+					that.$element
 						.addClass('animated')
 						.addClass(that.options.attentionAnimation);
-                }, 0);
-            }
+				}, 0);
+			}
 
 
-            this.focus();
-        },
+			this.focus();
+		},
 
 
-        destroy: function () {
-            var e = $.Event('destroy');
-            this.$element.trigger(e);
-            if (e.isDefaultPrevented()) return;
+		destroy: function () {
+			var e = $.Event('destroy');
 
-            this.teardown();
-        },
+			this.$element.trigger(e);
 
-        teardown: function () {
-            if (!this.$parent.length) {
-                this.$element.remove();
-                this.$element = null;
-                return;
-            }
+			if (e.isDefaultPrevented()) return;
 
-            if (this.$parent !== this.$element.parent()) {
-                this.$element.appendTo(this.$parent);
-            }
-
-            this.$element.off('.modal');
-            this.$element.removeData('modal');
-            this.$element
+			this.$element
+				.off('.modal')
+				.removeData('modal')
 				.removeClass('in')
 				.attr('aria-hidden', true);
-        }
-    };
+			
+			if (this.$parent !== this.$element.parent()) {
+				this.$element.appendTo(this.$parent);
+			} else if (!this.$parent.length) {
+				// modal is not part of the DOM so remove it.
+				this.$element.remove();
+				this.$element = null;
+			}
+
+			this.$element.trigger('destroyed');
+		}
+	};
 
 
-    /* MODAL PLUGIN DEFINITION
+	/* MODAL PLUGIN DEFINITION
 	* ======================= */
 
-    $.fn.modal = function (option, args) {
-        return this.each(function () {
-            var $this = $(this),
+	$.fn.modal = function (option, args) {
+		return this.each(function () {
+			var $this = $(this),
 				data = $this.data('modal'),
 				options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option);
 
-            if (!data) $this.data('modal', (data = new Modal(this, options)));
-            if (typeof option == 'string') data[option].apply(data, [].concat(args));
-            else if (options.show) data.show()
-        })
-    };
+			if (!data) $this.data('modal', (data = new Modal(this, options)));
+			if (typeof option == 'string') data[option].apply(data, [].concat(args));
+			else if (options.show) data.show()
+		})
+	};
 
-    $.fn.modal.defaults = {
-        keyboard: true,
-        backdrop: true,
-        loading: false,
-        show: true,
-        width: null,
-        height: null,
-        maxHeight: null,
-        modalOverflow: false,
-        consumeTab: true,
-        focusOn: null,
-        replace: false,
-        resize: false,
-        attentionAnimation: 'shake',
-        manager: 'body',
-        spinner: '<div class="loading-spinner" style="width: 200px; margin-left: -100px;"><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>'
-    };
+	$.fn.modal.defaults = {
+		keyboard: true,
+		backdrop: true,
+		loading: false,
+		show: true,
+		width: null,
+		height: null,
+		maxHeight: null,
+		modalOverflow: false,
+		consumeTab: true,
+		focusOn: null,
+		replace: false,
+		resize: false,
+		attentionAnimation: 'shake',
+		manager: 'body',
+		spinner: '<div class="loading-spinner" style="width: 200px; margin-left: -100px;"><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>',
+		backdropTemplate: '<div class="modal-backdrop" />'
+	};
 
-    $.fn.modal.Constructor = Modal;
+	$.fn.modal.Constructor = Modal;
 
 
-    /* MODAL DATA-API
+	/* MODAL DATA-API
 	* ============== */
 
-    $(function () {
-        $(document).off('click.modal').on('click.modal.data-api', '[data-toggle="modal"]', function (e) {
-            var $this = $(this),
+	$(function () {
+		$(document).off('click.modal').on('click.modal.data-api', '[data-toggle="modal"]', function ( e ) {
+			var $this = $(this),
 				href = $this.attr('href'),
 				$target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))), //strip for ie7
 				option = $target.data('modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data());
 
-            e.preventDefault();
-            $target
+			e.preventDefault();
+			$target
 				.modal(option)
 				.one('hide', function () {
-				    $this.focus();
+					$this.focus();
 				})
-        });
-    });
+		});
+	});
 
 }(window.jQuery);

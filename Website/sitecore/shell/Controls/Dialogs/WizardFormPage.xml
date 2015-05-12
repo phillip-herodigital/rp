@@ -3,16 +3,13 @@
   <WizardFormPage def:inherits="Sitecore.Web.UI.Pages.WizardDialogBaseXmlControl,Sitecore.Kernel">
     <Border class="scStretch scFlexColumnContainerWithoutFlexie" style="display:none">
 
-      <Border class="scWizardHeader">
-        <ThemedImage Src="$Icon" />      
+      <Border class="scFormDialogHeader">
         <Border>
-          <Border Class="scWizardTitle"><Literal Text="$Header"/></Border>
-          <Border Class="scWizardText"><Literal Text="$Text"/></Border>
+          <Border Class="DialogHeader"><Literal Text="$Header"/></Border>
+          <Border Class="DialogHeaderDescription"><Literal Text="$Text"/></Border>
         </Border>
       </Border>
-      
-      <Border Class="scBottomEdge" />
-      <Border Class="scTopEdge" />
+      <def:Placeholder name="Notifications"/>
       <def:Placeholder />
 
     </Border>

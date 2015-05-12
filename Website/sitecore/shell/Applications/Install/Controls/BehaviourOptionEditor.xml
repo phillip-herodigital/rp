@@ -4,28 +4,26 @@
     <Stylesheet>
       .BehaviourBox
       {
-        padding: 4px 8px;
-        width: 244px;
-        height: 72px;
-        background-color: #f7f7f7;
+      padding: 4px 8px;
+      height: 72px;
+      border: 1px solid #CCC;
       }
 
-      .ie .BehaviourBox
-      {
-        width: 260px;
-        height: 80px;
+      .scRadioGroup > div {
+      padding: 5px 0;
       }
+      
     </Stylesheet>
-    <GridPanel Columns="2">
+    <GridPanel Width="100%" Columns="2">
 
-      <Border>
+      <Border class="scRadioGroup" GridPanel.width="150px">
         <Border>
           <Radiobutton def:ID="OverwriteItems" Header="Overwrite" Width="100%" Value="1"/>
         </Border>
 
         <Border>
           <Radiobutton def:ID="MergeItems" Name="BehaviourOptions" Header="Merge" Width="100%" Value="2"/>
-          <Listbox def:ID="MergeOptions" Style="display:block" margin="0px 0px 0px 20px">
+          <Listbox def:ID="MergeOptions" Style="display:block; width: initial;width:110px;" margin="10px 0px 0px 20px">
             <ListItem def:ID="ClearVersions" Header="Clear" Value="1" Selected="true"/>
             <ListItem def:ID="AppendVersions" Header="Append" Value="2"/>
             <ListItem def:ID="MergeVersions" Header="Merge" Value="3"/>
@@ -44,9 +42,9 @@
           <Radiobutton def:ID="AskUser" Header="Ask User" Width="100%" Value="0"/>
         </Border>
       </Border>
-      <Border GridPanel.Valign="top" Padding="8px 4px 0px 4px">
+      <Border GridPanel.Valign="top" >
         <Groupbox Class="BehaviourBox">
-          <Literal def:ID="BehaviorOptionText" />
+          <Literal style="display:inline-block; margin-top: 5px;" def:ID="BehaviorOptionText" />
         </Groupbox>
       </Border>
 

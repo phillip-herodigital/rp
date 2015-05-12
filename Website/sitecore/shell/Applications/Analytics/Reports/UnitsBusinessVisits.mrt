@@ -71,8 +71,8 @@
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="23">
-      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-7_x0029_,False,True</value>
-      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,StartDate,StartDate,System.DateTime,GetDefaultStartDate_x0028__x0029_,False,True</value>
+      <value>,EndDate,EndDate,System.DateTime,GetDefaultEndDate_x0028__x0029_,False,True</value>
       <value>Texts</value>
       <value>Texts,ReportTitle,ReportTitle,System.String,,False,False</value>
       <value>Texts,ReportGeneratedText,ReportGeneratedText,System.String,Report_x0020_Generated,False,False</value>
@@ -156,7 +156,7 @@
               <Name>Text13</Name>
               <Page isRef="5" />
               <Parent isRef="6" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text13>
@@ -172,7 +172,7 @@
               <Name>Text22</Name>
               <Page isRef="5" />
               <Parent isRef="6" />
-              <Text>{DateRangeText}: { DateDiff(Today, StartDate).Days == 0 ?  Format("{0:MMM. dd, yyyy}", Today) : Format("{0:MMM. dd, yyyy}", StartDate) +" - "+ Format("{0:MMM. dd, yyyy}", EndDate)}</Text>
+              <Text>{DateRangeText}: { GetFormattedDateRange(StartDate, EndDate) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text22>
@@ -489,7 +489,7 @@
               <Name>Text10</Name>
               <Page isRef="5" />
               <Parent isRef="29" />
-              <Text>{Visits.StartDateTime.ToString("yyyy-MM-dd HH:mm")}</Text>
+              <Text>{ReportDateInterpreter.ToUITime(Visits.StartDateTime).ToString("yyyy-MM-dd HH:mm")}</Text>
               <TextBrush>[135:135:135]</TextBrush>
               <Type>Expression</Type>
             </Text10>
@@ -594,18 +594,20 @@
     using Stimulsoft.Report;
     using Stimulsoft.Report.Dialogs;
     using Stimulsoft.Report.Components;
+    using Sitecore.Analytics.Reports;
 
     namespace Reports
     {
     public class Report : Sitecore.Analytics.Reports.ReportBase
     {
+       
     public Report()
     {
     this.InitializeComponent();
     }
 
     #region StiReport Designer generated code - do not modify
-		#endregion StiReport Designer generated code - do not modify
+    #endregion StiReport Designer generated code - do not modify
     }
     }
   </Script>

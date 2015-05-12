@@ -1,0 +1,21 @@
+﻿[data-sc-id="MessageIcon"] {
+  position: absolute;
+  top: 57px;
+}
+
+[data-sc-id="MessageBody"] {
+  font-size: 1.167em;
+  color: #131313;
+  line-height: 1.42857143;
+  margin-left: 71px !important;
+  display: block;
+  max-height: 70px;
+  overflow: auto;
+  max-width: 305px;
+}
+
+.dialog-content {
+  display: table-cell;
+  vertical-align: middle;
+}
+

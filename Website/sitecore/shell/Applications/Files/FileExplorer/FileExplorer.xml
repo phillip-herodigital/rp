@@ -11,7 +11,7 @@
       <UpAction ID="UpAction" DataContext="FileExplorerDataContext"/>
       
       <ContextMenu ID="TreeContextMenu">
-        <MenuItem Icon="Applications/16x16/refresh.png" Header="Refresh" Click="FileTreeview.Refresh" />
+        <MenuItem Icon="Office/16x16/refresh.png" Header="Refresh" Click="FileTreeview.Refresh" />
       </ContextMenu>
 
       <ContextMenu ID="ContextMenu">

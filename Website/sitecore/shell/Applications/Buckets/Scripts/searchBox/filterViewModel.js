@@ -114,8 +114,8 @@
 
       self.$displayNameElement || (self.$displayNameElement = $(element).prev().prev());
 
-      var maxFilterWidth = 465;
-      var correction = 60; // width of a filter without Value and Display Name
+      var maxFilterWidth = 430;
+      var correction = 75; // width of a filter without Value and Display Name
       var result = maxFilterWidth - correction - self.$displayNameElement.width() + 'px';
       return result;
     };

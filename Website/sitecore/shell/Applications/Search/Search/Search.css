@@ -1,42 +1,82 @@
-﻿.scResult, .scResult:active, .scResult:visited {
-  font: 9pt verdana;
-  color:#0000de;
-  text-decoration: underline;
-  cursor:default;
+﻿
+
+.scResultBox {
+    margin:12px 0;
+    clear:both;
 }
-.scResult:hover, .scResult_Hover {
-  font: 9pt verdana;
-  color:#0000de;
-  text-decoration: underline;
-  cursor:default;
+
+.scResultBox:first-of-type {
+    margin-top: 0;
 }
-.scResultInfo {
-  color:Green;
-  cursor:default;
+
+a.scResult {
+  padding:10px;
+  display:block;
+  line-height:18px;
 }
-.scNoFound {
-  font: 9pt verdana;
-  color:#999999;
-  cursor:default;
+
+a.scResult:hover {
+  background-color:#e3e3e3;
+  text-decoration:none;
+}
+
+.scResult img {
+  display:inline-block;
+  vertical-align:top !important;
+  margin:0 15px 0 0;
+}
+
+.scResultWrap {
+display: inline-block !important;
+}
+
+.scResultHeader {
+  font-weight:bold;
+  font-size:14px;
 }
 
 .scField {
   font-weight:bold;
-  color:Green;
+}
+
+.scResultInfo {
+}
+.scNoFound {
   cursor:default;
 }
 
+
 .scSearchHeader {
-  font: 30pt 'Franklin medium gothic';
-  color: #666666;
+  font-size: 18px;
+  display:block;
 }
 
 .scSearchDescription {
-  font: 12pt 'Franklin medium gothic';
-  color: #666666;
+  
 }
+
+.advancedSearch > tbody > tr > td:first-child {
+    width:150px;
+    padding:15px 0;
+}
+
+.advancedSearch > tbody > tr > td td {
+    padding-right: 10px;
+}
+
+
+.advancedSearch tr:last-child  {
+    margin-left: 150px;
+}
+
+
 
 .ie .lang_ja_jp .scSearchHeader,
 .ie .lang_ja_jp .scSearchDescription {
   font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}
+
+
+.scAdvSearchLink {
+  margin-left:15px;
 }

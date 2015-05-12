@@ -6,7 +6,7 @@ interface SitecoreSpeak {
 
   pageCode(deps: Array<string>, pageCode: any): void;
   pageCode(pageCode: any): void;
-
+  
   plugin(deps: Array<string>, pageCode: any): void;
   plugin(pageCode: any): void;
 
@@ -59,8 +59,8 @@ interface Application {
   replace(config: any, callback): void;
   append(config: any, callback): void;
   prepend(config: any, callback): void;
-  insertRendering(itemId: string, options: any, callback): void;
-  insertMarkups(html: string, name: string, options: any, callback): void;
+  insertRendering(itemId: string, options:any, callback): void;
+  insertMarkups(html: string, name: string, options:any, callback): void;
   inject(config: any, callback): void;
 }
 
@@ -73,7 +73,7 @@ interface Component {
   initialize(initial: ComponentOptions, app: Application, el: Element, sitecore: SitecoreSpeak): void;
   initialized(initial: ComponentOptions, app: Application, el: Element, sitecore: SitecoreSpeak): void;
   id: string;
-  key: string;
+  key: string;                                                                                  
   listenTo(obj, name, callback);
   listenToOnce(obj, name, callback);
   name: string;

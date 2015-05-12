@@ -1,5 +1,7 @@
-﻿@using Sitecore.Diagnostics
+﻿@using System.Web.UI.WebControls
+@using Sitecore.Diagnostics
 @using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @using Sitecore.Web.UI.Controls.Silverlight.SilverlightFrame
 @using Sitecore.Web.UI.Controls.Silverlight.SilverlightFrame.Model
@@ -34,8 +36,8 @@
     var onLoad = parseParameterService.ParseParameter(Constants.ParameterName.OnLoad, userControl.GetString(Constants.ParameterName.OnLoad, Constants.ModelAttributeName.OnLoad, string.Empty));
     var autoUpgrade = userControl.GetBool(Constants.ParameterName.AutoUpgrade, Constants.ModelAttributeName.AutoUpgrade, true);
     var windowLess = userControl.GetBool(Constants.ParameterName.WindowLess, Constants.ModelAttributeName.WindowLess, true);
-    var width = parseParameterService.ParseParameter(Constants.ParameterName.Width, userControl.GetString(Constants.ParameterName.Width, Constants.ModelAttributeName.Width, Constants.DefaultValues.Width));
-    var height = parseParameterService.ParseParameter(Constants.ParameterName.Height, userControl.GetString(Constants.ParameterName.Height, Constants.ModelAttributeName.Height, Constants.DefaultValues.Height));
+    var width = parseParameterService.ParseParameter(Constants.ParameterName.Width, userControl.GetUnit(Constants.ParameterName.Width, Constants.ModelAttributeName.Width, new Unit(Constants.DefaultValues.Width)).ToString());
+    var height = parseParameterService.ParseParameter(Constants.ParameterName.Height, userControl.GetUnit(Constants.ParameterName.Height, Constants.ModelAttributeName.Height, new Unit(Constants.DefaultValues.Height)).ToString());
 
     userControl.Class = "sc-silverlightframe";
     var htmlAttributes = userControl.HtmlAttributes;

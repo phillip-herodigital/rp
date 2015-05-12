@@ -1,0 +1,195 @@
+﻿.sc .sc-applicationContent, .sc.state2 .sc-applicationContent {
+  margin-top: 50px;
+ }
+
+.sc-applicationHeader {
+  padding-top: 0;
+}
+
+.xfile-sc-primaryInfo {
+  margin-bottom: 1px;
+}
+
+.sc-applicationHeader-row1:after {
+  top: 0;
+}
+
+div[data-sc-id=InfoRowPanel] {
+  width: 100%;
+  display: table;
+}
+
+div[data-sc-id=InfoRowPanel] > div {
+  display: table-cell;
+  vertical-align: top;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+span.sc-text[data-sc-id=TimelineText] {
+  vertical-align: middle;
+}
+
+div[data-sc-id=InfoBorder] span.sc-text-largevalue {
+  font-size: 22px;
+  font-weight: 100;
+}
+
+span.sc-text[data-sc-id=TypeText] {
+  margin-bottom: 15px;
+}
+
+span.sc-text[data-sc-id=RecencyValue] {
+  margin-bottom: 37px;
+}
+
+div[data-sc-id=InfoBorder] span.sc-text-largevalue[data-sc-id=ChannelTypeText] {
+  font-size:18px;
+}
+
+div[data-sc-id=InfoBorder] div[data-sc-id=InfoColumnPanel3] {
+  padding-right: 0;
+}
+
+div[data-sc-id=InfoBorder] div[data-sc-id=InfoColumnPanel2] {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  height: 159px;
+}
+
+div[data-sc-id=InfoBorder] div[data-sc-id=InfoColumnPanel2] span.sc-text-largevalue {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+div[data-sc-id=InfoBorder] div.sc-border[data-sc-id=TimeBorder],
+div[data-sc-id=InfoBorder] div.sc-border[data-sc-id=PageviewsBorder] {
+  float: left;
+  width: 50%;
+}
+
+div[data-sc-id=InfoBorder] div.sc-border[data-sc-id=MonetaryBorder] 
+{
+  padding-left: 150px;
+}
+
+div[data-sc-id=InfoBorder] div.sc-border[data-sc-id=VisitNumberBorder],
+div[data-sc-id=InfoBorder] div.sc-border[data-sc-id=OnlineTimeBorder],
+div[data-sc-id=InfoBorder] div.sc-border[data-sc-id=GeneratedBorder],
+div[data-sc-id=InfoBorder] div.sc-border[data-sc-id=VisitNumberBorder] {
+  width: 143px;
+  float: right;
+}
+
+@media (min-width: 0) and (max-width: 992px) {
+  div[data-sc-id=InfoBorder] .col-md-3 {
+    width: 25%;
+  }
+
+  div[data-sc-id=InfoBorder] .col-md-6 {
+    width: 50%;
+  }
+}
+
+div[data-sc-id=InfoBorder] {
+  height: 170px;
+  position: relative;
+}
+
+div[data-sc-id=InfoBorder] div[data-sc-id=CloseIconButton] {
+  position: absolute;
+  right: 15px;
+  top: 5px;
+}
+
+span.sc-text[data-sc-id=ChannelValue],
+span.sc-text[data-sc-id=GoalValue],
+span.sc-text[data-sc-id=CampaignValue],
+span.sc-text[data-sc-id=AssetValue],
+span.sc-text[data-sc-id=GoalsValue],
+span.sc-text[data-sc-id=OutcomeValue]
+{
+  font-weight: bold;
+  margin-bottom: 9px;
+}
+
+span.sc-text[data-sc-id=TimeText],
+span.sc-text[data-sc-id=VisitNumberText],
+span.sc-text[data-sc-id=DurationValue]
+{
+  font-weight: bold;  
+}
+
+div.sc-border[data-sc-id=ValueGeneratedBorder] {
+  padding-bottom: 20px;
+}
+
+div[data-sc-id=InfoBorder] a.sc-hyperlinkbutton {
+  color: #000;
+  font-weight: bold;
+}
+
+span.sc-text-label[data-sc-id=RecencyValue],
+span.sc-text-label[data-sc-id=LocationValue],
+span.sc-text-label[data-sc-id=PageviewsText] {
+  font-weight: bold;
+}
+
+div.sc-border[data-sc-id=OnlineGeneratedBorder],
+div.sc-border[data-sc-id=DurationBorder] {
+  width: 50%;
+  float: left;
+  padding-bottom: 20px;
+}
+
+div[data-sc-id=InfoBorder] div.sc-border[data-sc-id=OnlineTimeBorder] {
+  padding-bottom: 20px;
+}
+
+div.sc-border[data-sc-id=InformationCenterBorder] {
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  margin: 20px 15px 0 15px;
+}
+
+span.sc-text[data-sc-id=CampaignText],
+span.sc-text[data-sc-id=CampaignValue],
+span.sc-text[data-sc-id=AssetText],
+span.sc-text[data-sc-id=AssetValue],
+span.sc-text[data-sc-id=GoalValue],
+span.sc-text[data-sc-id=GoalsText], 
+div[data-sc-id=InfoRowPanel] span.sc-text[data-sc-id=OutcomeText],
+span.sc-text[data-sc-id=GoalsValue], 
+span.sc-text[data-sc-id=OutcomeValue] {
+  width: 47%;
+  float: left;
+  padding-right: 3%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+span.sc-text[data-sc-id=GoalValue] {
+  width: 100%;
+  padding-right: 0;
+}
+
+div.sc-border[data-sc-id=SalesAmountBorder] {
+  width: 50%;
+  float: left;
+}
+
+div.sc-border[data-sc-id=TopValuesBorder] {
+  width: 100%;
+  float: left;
+  padding-bottom: 20px;
+}
+
+div[data-sc-id=VisitNumberBorder] span.sc-text[data-sc-id=VisitNumberText] {
+  font-weight: 100;
+}
+
+div[data-sc-id=VisitNumberBorder] span.sc-text[data-sc-id=VisitNumberValue] {
+  font-weight: bold;
+}

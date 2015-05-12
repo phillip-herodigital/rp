@@ -1,0 +1,93 @@
+﻿.nested {
+    padding-left: 15px;
+}
+
+.nestedList {
+    font-size: 10px;
+}
+
+/******** VISIT ICONS ************/
+
+.experience-explorer-iframe-viewer .visit-counters {
+    float: right;
+    width: 79px;
+    margin: 4px 0 -4px 0;
+}
+
+.experience-explorer-iframe-viewer .visit-counters .inline {
+    margin-left: 1px;
+}
+
+.experience-explorer-iframe-viewer .visit-counters .counter-value {
+    display: block;
+    float: left;
+}
+
+.experience-explorer-iframe-viewer .visit-counters .counter-icon {
+    display: block;
+    float: left;
+    margin-left: 1px;
+    line-height: 10px;
+}
+
+.experience-explorer-iframe-viewer .visit-counters .counter-icon span,
+.experience-explorer-iframe-viewer .visit-counters .counter-icon i {
+    display: block;
+}
+
+/*********** HEADER STYLES ***********/
+.experience-explorer-iframe td.visit-cell,
+.experience-explorer-iframe td.mode-cell {
+    padding-left: 0;
+    width: 75px;
+}
+
+.experience-explorer-iframe td.mode-cell {
+    padding-right: 0;
+}
+
+/***********************************/
+/************* TABS ****************/
+/***********************************/
+
+/*********** PRESET TAB ****************/
+.experience-explorer-iframe-viewer .preset-icon img {
+    max-width: 128px;
+}
+
+/*********** RULES TAB ****************/
+.red-indication,
+.yellow-indication,
+.green-indication {
+    background-position: 0 0;
+    float: left;
+    margin: 0;
+    height: 17px;
+    width: 18px;
+    margin-right: 5px;
+    margin-top: 2px;
+}
+
+label[class="conditions"] {
+  display: block;
+}
+
+.experience-explorer-iframe-viewer .conditions {
+    margin-bottom: 0;
+    padding: 5px;
+}
+
+.experience-explorer-iframe-viewer .conditions:hover {
+    background-color: #eee;
+}
+
+/*********** PROFILES TAB ****************/
+.experience-explorer-iframe-viewer .visit-icon {
+     width: 120px;
+}
+
+/*********** REFERRAL TAB ****************/
+.experience-explorer-iframe-viewer .referral-link {
+    width: 260px;
+}
+

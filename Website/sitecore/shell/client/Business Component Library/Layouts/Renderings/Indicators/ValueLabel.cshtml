@@ -20,7 +20,7 @@
   var labelPosition = userControl.GetString("LabelPosition", "labelPosition", "Bottom");
 
   var language = Sitecore.Context.Culture.TwoLetterISOLanguageName;
-  
+
   userControl.Attributes["data-sc-value"] = value.ToString(CultureInfo.InvariantCulture);
   userControl.Attributes["data-sc-label"] = label;
   userControl.Attributes["data-sc-valuesize"] = valueSize;
@@ -31,19 +31,31 @@
   userControl.Attributes["data-sc-datafield"] = dataField;
   userControl.Attributes["data-sc-labelposition"] = labelPosition;
   userControl.Attributes["data-sc-language"] = language;
-    
+
   userControl.AppendClass(cssClass);
   var htmlAttributes = userControl.HtmlAttributes;
-   
+
 }
 
 <div @htmlAttributes>
   <div class="sc-ValueLabel-Row">
-    <div class="sc-ValueLabel-Cell sc-@labelPosition">
-      <div class="sc-ValueLabel-Value sc-ValueLabel-@valueSize" data-bind="html: value, style: { color: valueColor }"></div> 
-    </div>
-    <div class="sc-ValueLabel-Cell sc-@labelPosition">
-      <div class="sc-ValueLabel-Label sc-ValueLabel-@labelSize" data-bind="html: label, style: { color: labelColor }"></div>
-    </div>
-  </div>  
+    @if (labelPosition == "Top")
+    {
+      <div class="sc-ValueLabel-Cell sc-@labelPosition">
+        <div class="sc-ValueLabel-Label sc-ValueLabel-@labelSize" data-bind="html: label, style: { color: labelColor }"></div>
+      </div>
+      <div class="sc-ValueLabel-Cell sc-@labelPosition">
+        <div class="sc-ValueLabel-Value sc-ValueLabel-@valueSize" data-bind="html: value, style: { color: valueColor }"></div>
+      </div>
+    }
+    else
+    {
+      <div class="sc-ValueLabel-Cell sc-@labelPosition">
+        <div class="sc-ValueLabel-Value sc-ValueLabel-@valueSize" data-bind="html: value, style: { color: valueColor }"></div>
+      </div>
+      <div class="sc-ValueLabel-Cell sc-@labelPosition">
+        <div class="sc-ValueLabel-Label sc-ValueLabel-@labelSize" data-bind="html: label, style: { color: labelColor }"></div>
+      </div>
+    }
+  </div>
 </div>

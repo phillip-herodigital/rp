@@ -11,30 +11,19 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <Sitecore.Shell.Applications.Security.RoleManager.NewRole x:inherits="Sitecore.Shell.Applications.Security.RoleManager.NewRolePage,Sitecore.Client">
-    <Sitecore.Controls.DialogPage Header="New Role" Icon="People/32x32/users4.png" Text="Create a new role." runat="server">
+    <Sitecore.Controls.DialogPage Header="New Role" runat="server">
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <div style="padding:0px 0px 0px 0px">
-        <Literal Text="The role name can only contain the following characters: A-Z, a-z, 1-9 and space." runat="server"/>
-      </div>
+      <Literal class="scFieldLabel" Text="The role name can only contain the following characters: A-Z, a-z, 1-9 and space." runat="server"/>
+      <GridPanel class="scFormTable" Columns="2" Rows="2" Width="100%" runat="server">
 
-      <div style="padding:8px 0px 0px 0px">
-        <Literal Text="Role Name:" runat="server"/>
-      </div>
+        <Literal class="scFieldLabel" Text="Role name:" runat="server"/>
+        <asp:TextBox ID="Name" runat="server"/>
 
-      <div style="padding:4px 0px 0px 0px">
-        <asp:TextBox ID="Name" Width="100%" runat="server"/>
-      </div>
-
-      <div style="padding:8px 0px 0px 0px">
-        <Literal Text="Domain:" runat="server"/>
-      </div>
-
-      <div style="padding:4px 0px 0px 0px">
-        <asp:DropDownList ID="Domain" Width="100%" runat="server"/>
-      </div>
-
+        <Literal class="scFieldLabel" Text="Domain:" runat="server"/>
+        <asp:DropDownList ID="Domain" runat="server"/>
+      </GridPanel>
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Security.RoleManager.NewRole>
 </xamlControls>

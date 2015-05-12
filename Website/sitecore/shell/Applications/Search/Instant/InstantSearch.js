@@ -16,7 +16,7 @@
     
     this.control.observe("blur", function(e) { 
       $(e.target).removeClassName("focus"); 
-      setTimeout(instantSearch.hide.bind(instantSearch), 250); 
+      instantSearch.hide();
     });
     
     Event.observe(window, "resize", this.onResize.bindAsEventListener(this));
@@ -69,7 +69,7 @@
     
     var request = new Ajax.Request(url, {
       onSuccess: function (transport) {
-        if (transport.responseText.indexOf("/sitecore/login/default.js") >= 0) {
+        if (transport.getResponseHeader("SC-Login") == 'true') {
           window.top.location = "/sitecore";
           return;
         }
@@ -78,7 +78,7 @@
         instantSearch.showResults(transport.responseText, version);
       },
       onFailure: function(transport, response) {
-        scForm.showModalDialog("/sitecore/shell/controls/error.htm", new Array(transport.responseText), "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogWidth:506;dialogHeight:103");
+          scForm.showModalDialog("/sitecore/shell/controls/error.htm", new Array(transport.responseText), "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogMinHeight:150;dialogMinWidth:250;dialogWidth:580;dialogHeight:150;header:" + scForm.translate('Error'));
         instantSearch.unregisterProgress();
       }
     });
@@ -99,10 +99,8 @@
     }
     
     var div = new Element("div", { id: "InstantResults" });
-    
-    var popupWidth = this.popupWidth;
-    div.setStyle({ width: popupWidth + "px" });
-    div.innerHTML = "<table width='100%' cellpadding='0' cellspacing='0'><tr><td class='sidebar'></td><td class='results'></td></tr></table>";
+
+    div.innerHTML = html;
     
     this.popup = div;
     
@@ -113,7 +111,6 @@
 
     $('Desktop').insert({ after: div });
 
-    this.popup.down(".results").update(html);
     this.setActiveResult(0);
     
     this.parseResults();
@@ -129,7 +126,7 @@
   parseResults: function() {
     this.results.clear();
     
-    $$("#InstantResults li").each(function(element, index) {
+    $$("#InstantResults a").each(function(element, index) {
       element.resultIndex = index;
       this.results.push(element);
       
@@ -140,16 +137,12 @@
         }
       }.bindAsEventListener(this));
       
-      element.observe("click", function(e) {
+      element.observe("mousedown", function(e) {
         e.stop();
-        this.launch();
+        this.launch(e.target.parentElement.href);
       }.bindAsEventListener(this));
       
     }.bind(this));
-    
-    $$("#InstantResults ul .category").each(function(element) {
-      element.setStyle({ left: "-" + (element.getWidth() + 6) + "px" });
-    }.bind(this));    
   },
   
   setActiveResult: function(index) {
@@ -165,41 +158,27 @@
     this.activeResultIndex = index;
   },
   
-  hide: function(immediate) {
+  hide: function() {
     if (this.popup) {
-      if (immediate) {
-        this.popup.setStyle({ visibility: "hidden"});
-      }
-      else {
-        new Effect.Opacity(this.popup, { 
-          from: 1, 
-          to: 0, 
-          duration: 0.2,
-          afterFinish: function (o) {
-            if (instantSearch.popup && instantSearch.popup.parentElement)
-              instantSearch.popup.remove(); 
-          }
-        });
-      }
+        this.popup.setStyle({ display: "none"});
     }
     
     this.unregisterProgress();
     this.hideCloseButton();
   },
   
-  launch: function() {
-    if (this.results.length == 0) {
+  launch: function(href) {
+    if (!href) {
       this.launchClassic();
+      this.hide();
       return;
     }
     
     if ($(this.results[0]).hasClassName("empty")) {
       return;
     }
-  
-    var result = this.results[this.activeResultIndex];
-    
-    var click = result.down("a").href;
+     
+    var click = href;
     click = click.substring(click.indexOf("#") + 1);
 
     if (click.startsWith("javascript:")) {
@@ -278,12 +257,8 @@
   
   onResize: function() {
     var offset = Position.cumulativeOffset(this.control);
-    var popupWidth = this.popupWidth;
     var controlWidth = this.control.getWidth();
         
-    if (this.popup) {
-      this.popup.setStyle({ left: offset[0] - popupWidth + controlWidth + "px", bottom: $("Startbar").getHeight() - 1 + "px" });
-    }
     if (this.progress) {
       this.progress.setStyle({ left: offset[0] + controlWidth - 18 + "px", top: offset[1] + 2 + "px" });
     }

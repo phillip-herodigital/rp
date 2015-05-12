@@ -79,7 +79,7 @@ scWindowManager.prototype.closeFrame = function(win, closeFrameCallback) {
   try {
     if (win.scForm != null && win.scBeforeUnload != null) {
       if (win.scForm.modified) {
-        win.scForm.showModalDialog("/sitecore/shell/default.aspx?xmlcontrol=YesNoCancel&te=" + encodeURIComponent(scForm.translate("Do you want to save the changes to the item?")), new Array(win), "dialogWidth:300px;dialogHeight:136px;help:no;scroll:auto;resizable:yes;status:no;center:yes", null, function (dialogResult) {
+        win.scForm.showModalDialog("/sitecore/shell/default.aspx?xmlcontrol=YesNoCancel&te=" + encodeURIComponent(scForm.translate("Do you want to save the changes to the item?")), new Array(win), "dialogWidth:430px;dialogHeight:190px;help:no;scroll:auto;resizable:yes;maximizable:no;status:no;center:yes;autoIncreaseHeight:yes", null, function (dialogResult) {
           var shouldCloseDialog = true;
           switch (dialogResult) {
             case "yes":
@@ -166,12 +166,12 @@ scWindowManager.prototype.closeWindow = function (win, form) {
 scWindowManager.prototype.createOutline = function(bounds) {
   var result = scForm.browser.getControl("__outline");
 
-  if (result == null) {
-    var result = document.createElement("div");
+  if (!result) {
+    result = document.createElement("div");
 
     result.id = "__outline";
 
-    document.body.appendChild(result);
+    document.getElementById('Desktop').appendChild(result);
   } else {
     result.style.display = "";
   }
@@ -244,6 +244,10 @@ scWindowManager.prototype.dragMove = function(tag, evt, id) {
     }
 
     this.bounds.offset(dx, dy);
+
+    if (this.bounds.top < 0) {
+      this.bounds.setRect(null, 0);
+    }
 
     var bounds = new scRect();
     bounds.assign(this.bounds);
@@ -603,8 +607,14 @@ scWindowManager.prototype.resizeMove = function(tag, evt, id) {
   }
 
   if (this.mode.indexOf("top") >= 0) {
-    this.bounds.top += dy;
-    this.bounds.height -= dy;
+    var possibleTop = this.bounds.top + dy;
+    if (possibleTop >= 0) {
+      this.bounds.top = possibleTop;
+      this.bounds.height -= dy;
+    } else {
+      this.bounds.top = 0;
+    }
+
   } else if (this.mode.indexOf("bottom") >= 0) {
     this.bounds.height += dy;
   }
@@ -749,9 +759,7 @@ scWindowManager.prototype.activateApplication = function(id) {
   var ctl = this.getApplication(id);
 
   if (ctl != null) {
-    this.updateBackground(ctl, "url(/sitecore/shell/themes/standard/Images/Startbar/ApplicationBackgroundDown.png) black repeat-x");
-    this.updateImage(ctl.childNodes[0].childNodes[0], "/sitecore/shell/themes/standard/Images/Startbar/ApplicationLeftDown.png");
-    this.updateImage(ctl.childNodes[0].childNodes[2], "/sitecore/shell/themes/standard/Images/Startbar/ApplicationRightDown.png");
+    ctl.className = "scActiveApplication";
   }
 };
 
@@ -761,32 +769,26 @@ scWindowManager.prototype.addApplication = function(id, header, icon) {
   if (row != null) {
     cell = this.browser.tableAddCell(row);
 
-    cell.style.background = "black url(/sitecore/shell/themes/standard/Images/Startbar/ApplicationBackground.png) repeat-x"
     cell.style.cursor = "default";
     cell.noWrap = true;
     cell.id = "startbar_application_" + id;
 
     if (icon != "") {
-      icon = this.browser.getImage(icon, 16, 16, "middle", "0px 4px 0px 0px");
+      icon = this.browser.getImage(icon, 16, 16, "middle", "0px 8px 0px 0px");
     }
 
     cell.innerHTML =
       "<div class=\"scStartBarApplication\" onclick=\"javascript:return scManager.focus(this, event)\" oncontextmenu='javascript:return scForm.postEvent(this, event, \"ApplicationMenu.Show\")'>" +
-        "<img src=\"/sitecore/shell/themes/standard/Images/Startbar/ApplicationLeft.png\" border=\"0\" alt=\"\" width=\"11\" height=\"27\" align=\"middle\">" +
         "<span>" + icon + header + "</span>" +
-        "<img src=\"/sitecore/shell/themes/standard/Images/Startbar/ApplicationRight.png\" border=\"0\" alt=\"\" width=\"11\" height=\"27\" align=\"middle\">" +
         "</div>";
   }
 };
 
 scWindowManager.prototype.deactivateApplication = function(id) {
-  ctl = this.getApplication(id);
-
-  if (ctl != null) {
-    this.updateBackground(ctl, "url(/sitecore/shell/themes/standard/Images/Startbar/ApplicationBackground.png) black repeat-x");
-    this.updateImage(ctl.childNodes[0].childNodes[0], "/sitecore/shell/themes/standard/Images/Startbar/ApplicationLeft.png");
-    this.updateImage(ctl.childNodes[0].childNodes[2], "/sitecore/shell/themes/standard/Images/Startbar/ApplicationRight.png");
-  }
+  var ctl = this.getApplication(id);
+  if (ctl) {
+    ctl.className = "scInactiveApplication";
+  };
 };
 
 scWindowManager.prototype.getApplication = function(id) {
@@ -829,7 +831,7 @@ function scWindowManagerIE() {
 }
 
 scWindowManagerIE.prototype.getImage = function(src, width, height, align, margin, style) {
-  style = (style == null ? "" : style);
+  style = (style == null ? "" : style);a
   style += (margin != "" && margin != null ? (style != "" ? ";" : "") + "margin:" + margin : "");
   src = this.getThemedImage(src, "" + width + "x" + height);
 

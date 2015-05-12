@@ -128,7 +128,7 @@ scContentEditor.prototype.addSearchCriteria = function(sender, evt) {
 
     var cell = $(row.insertCell(0));
 
-    cell.innerHTML = "<a href=\"#\" class=\"scSearchOptionName\" onclick=\"javascript:return scForm.postEvent(this,event,'TreeSearchOptionName_Click',true)\">" + name + ":</a>";
+    cell.innerHTML = "<div class='scElementHover elementPadding' onclick=\"javascript:return scForm.postEvent(this,event,'TreeSearchOptionName_Click',true)\"><a href=\"#\" class=\"scSearchOptionName searchOptionAlignment\" >" + name + " <img src='/sitecore/shell/themes/standard/Images/down_h.png' class='arrowDown' /></a></div>";
     cell.addClassName("scSearchOptionsNameContainer");
 
     cell = $(row.insertCell(1));
@@ -143,12 +143,13 @@ scContentEditor.prototype.addSearchCriteria = function(sender, evt) {
     return false;
 };
 
-scContentEditor.prototype.changeSearchCriteria = function(index, name) {
+scContentEditor.prototype.changeSearchCriteria = function (index, name) {
+    var imgArrowDown = " <img src='/sitecore/shell/themes/standard/Images/down_h.png' class='arrowDown paddingLeft' />";
     var table = $("SearchOptionsList");
 
     var row = table.rows[parseInt(index, 10)];
 
-    row.cells[0].childNodes[0].innerHTML = name + ":";
+    row.cells[0].childNodes[0].innerHTML = "<div class=\"searchOptionAlignment\"><div class='inlineBlock'>" + name + "</div><div class='inlineBlock'>" + imgArrowDown + "</div></div>";
     row.cells[1].childNodes[1].value = name;
 
     this.updateSearchCriteria();

@@ -40,10 +40,10 @@
 </script>
 
 <script @String.Format("data-layout-icon{0}", id)="@id"  type="text/x-sc-listcontrol">
-  <div class="sc-iconList-item">
-    <div class="sc-iconList-item-content">
+  <div class="sc-iconList-item" data-bind="style: {height: maxIconSize, width: maxIconSize}">
+    <div class="sc-iconList-item-content" data-bind="style: {lineHeight: maxIconSize}">
       <a data-bind="attr: {href: $url}">
-        <img data-bind="attr: {src: image}" />
+        <img data-bind="attr: {src: image}, style: {maxHeight: maxIconSize, maxWidth: maxIconSize}" />
       </a>
       <div class="sc-iconList-item-title">        
         <span data-bind="text: @iconViewDisplayFieldName"></span>
@@ -62,6 +62,17 @@
     </div>
   </div>
 </script>
+
+<script data-layout-tileList="@id" type="text/x-sc-listcontrol"></script>
+
+<script  @String.Format("data-layout-tile{0}", id)="@id" type="text/x-sc-listcontrol">
+  @if (!string.IsNullOrEmpty(listControl.TileHtmlFileName))
+  {
+    Html.RenderPartial(listControl.TileHtmlFileName);
+  }
+</script>
+
+<script data-layout-endlessscroll="@id" type="text/x-sc-listcontrol"></script>
 
 <div data-sc-behaviors="@behaviors" @htmlAttributes>
 </div>

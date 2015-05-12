@@ -10,7 +10,7 @@
   xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <Sitecore.Shell.Applications.WebEdit.Dialogs.DateSelector x:inherits="Sitecore.Shell.Applications.WebEdit.Dialogs.DateSelector.DateSelectorPage,Sitecore.Client">
+  <Sitecore.Shell.Applications.WebEdit.Dialogs.DateSelector x:inherits="Sitecore.Shell.Applications.WebEdit.Dialogs.DateSelector.DateSelectorPage,Sitecore.ExperienceEditor">
     <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI" />
     
     <Sitecore.Controls.DialogPage runat="server" Icon="Business/32x32/Calendar.png" Header="Select Preview Date" Text="Select the date that you want to preview.">

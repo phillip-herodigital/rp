@@ -5,44 +5,22 @@ UL.BlogPostList {
 }
 
 .BlogPostArea {
-    margin: 0 19px 10px;
-    border: 1px solid #f2f2f2;
-    background: #FAFAFA;
-    padding: 0 0 20px 106px;
-    min-height: 72px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 8px #FFF;
-    list-style: none outside none;
+    margin: 0 15px 0 0;
+    padding: 15px;
+    min-height: 60px;
     text-align: left;
     position: relative;
-    margin-left: 0;
-    padding-left: 0;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     zoom: 1;
 }
 
-.BlogPostArea:hover, .ie .BlogPostArea.hover {
-    border: 1px solid rgb(200, 200, 200);
-    background: rgb(247, 247, 247);
-    box-shadow: 1px 1px 8px #EEE;
+.BlogPostArea:hover, 
+.ie .BlogPostArea.hover {
+    background-color: #E3E3E3;
     cursor: pointer;
 }
 
-.BlogPostArea:hover .quickactions, .ie .BlogPostArea.hover .quickactions {
-  background: #EDEDED;
-}
-
 .quickactions {
-    height: auto;
-    border-radius: 0 0 5px 5px;
-    padding-bottom: 2px;
-    margin-top: 8px;
-    margin-left: 0;
-    min-height: 20px;
-    margin-bottom: -20px;
-    background: #F5F5F5;
-    zoom: 1;
+  position:relative;
 }
 
 .quickactions span {
@@ -53,49 +31,110 @@ UL.BlogPostList {
   }
 
 .BlogPostHeader {
-    padding-left: 110px;
-    margin-top: -14px;
+    padding-left: 78px;
 }
 
-.BlogPostHeader span {
-    float: right;
-    margin-top: -12px;
-    padding: 5px;
-    font-size: 11px;
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-weight: 600;
-    text-decoration: none;
+.BlogPostHeader a {
+  font-size:14px;
+  color:#2b2b2b;
+  font-weight:bold;
 }
 
 .BlogPostContent {
-    padding-left: 10px;
-    padding-left: 110px;
-    font-size: 100%;
+    padding: 10px 0 5px 78px;
 }
 
 .BlogPostFooter {
-    margin: 8px 0 0 0;
-    padding-left: 110px;
-    color: #000;
-    font-size: 90%; 
+    padding-left: 78px;
+    position:relative;
+}
+
+div.BlogPostContent > strong {
+    margin-left:15px;
+}
+
+div.BlogPostContent > strong:first-of-type{
+    margin-left:0;
+}
+
+div.BlogPostFooter > div > strong {
+    margin-left:15px;
+}
+
+div.BlogPostFooter > div > strong:first-of-type{
+    margin-left:0;
 }
 
 .BlogPostViews {
-    margin-top: 7px;
-    text-align: center;
-    padding: 10px 0 10px 3px;
-    margin-left: 15px;
 }
 
     .BlogPostViews a {
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        border-radius: 2px;
-        border: 1px solid #a5a5a5;
-        border: 1px solid rgba(165, 165, 165, .6);
-        background-color: rgba(165, 165, 165, 0.1);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19a5a5a5,endColorstr=#19a5a5a5);
     }
+
+
+.baketLangWrap {
+    display: none;
+}
+
+.baketLang {
+  display:inline-block;
+  margin-right:5px;
+  padding-right:5px;
+  border-right:1px solid #d6d6d6;
+}
+
+  .baketLang:last-of-type {
+  border-right:0px;
+  }
+
+.baketActionListWrap {
+}
+
+
+.baketActionListWrap {
+width: 16px;
+height: 16px;
+overflow: hidden;
+background-color: #fff;
+position:absolute;
+bottom:15px;
+right:0;
+text-align:right;
+  padding:5px;
+  display:none;
+}
+
+.baketActionListWrap:hover {
+  width:160px;
+  height:auto;
+  overflow:auto;
+background-color: #ff0;
+-webkit-transition: all .3s ease;
+-moz-transition: all .3s ease;
+-ms-transition: all .3s ease;
+-o-transition: all .3s ease;
+transition: all .3s ease;
+
+}
+
+
+
+.baketActionListWrap > a {
+  display:none;
+}
+
+.baketActionListWrap:hover > a {
+  display:block;
+}
+
+
+
+.scBucketsActionList {
+  display:block;
+  margin: 5px 0;
+}
+
+
 
 .grayBlur {
   filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale");

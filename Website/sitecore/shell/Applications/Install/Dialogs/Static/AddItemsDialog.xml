@@ -34,9 +34,9 @@
           <Space GridPanel.Height="4px"/>
 
           <Border GridPanel.Height="4px">
-             <Toolbutton Style="float:right" Icon="Applications/24x24/delete2.png" Header="Remove" ToolTip="Removes entry from selection list" Click="Remove(&quot;&quot;)"/>
-             <Toolbutton Icon="Software/24x24/branch.png" Header="Add with Subitems" ToolTip="Adds item with subitems" Click="AddTree"/>
-             <Toolbutton Icon="Software/24x24/element.png" Header="Add Item" ToolTip="Add Item" Click="AddItem"/>
+             <Toolbutton Style="float:right" Icon="office/24x24/delete.png" Header="Remove" ToolTip="Removes entry from selection list" Click="Remove(&quot;&quot;)"/>
+             <Toolbutton Icon="office/24x24/elements_cascade.png" Header="Add with Subitems" ToolTip="Adds item with subitems" Click="AddTree"/>
+             <Toolbutton Icon="office/24x24/document_empty.png" Header="Add Item" ToolTip="Add Item" Click="AddItem"/>
           </Border>
 
           <Space GridPanel.Height="4px"/>

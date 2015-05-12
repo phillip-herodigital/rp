@@ -627,7 +627,7 @@ a.LoginOption:active {
 .password-recovery .lang_ja_jp .failure-text,
 .password-recovery .lang_ja_jp .textbox,
 .password-recovery .lang_ja_jp .submit-button {
-  font-family: ????, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
 }
 
 .password-recovery .lang_ja_jp .label {
@@ -711,7 +711,7 @@ a.LoginOption:active {
 .lang_ja_jp .change-password-control .textbox,
 .lang_ja_jp .change-password-control .submit-button,
 .lang_ja_jp .change-password-control .cancel-button {
-  font-family: ????, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
 }
 
 .change-password .lang_ja_jp .label {
@@ -737,7 +737,7 @@ a.LoginOption:active {
 .lang_ja_jp .FullText,
 .lang_ja_jp .FullButtonHeader,
 .lang_ja_jp .FullButtonText {
-  font-family: ????, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
 }
 
 .boost-users .lang_ja_jp #Body {

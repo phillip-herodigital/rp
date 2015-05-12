@@ -189,11 +189,11 @@ scContentEditor.prototype.getExecuteRequest = function (command, callback) {
 scContentEditor.prototype.executeHandler = function (parameters, callback) {
     if (this.httpRequest != null) {
         if (this.httpRequest.status != "200") {
-            scForm.showModalDialog("/sitecore/shell/controls/error.htm", new Array(this.httpRequest.responseText), "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogWidth:506;dialogHeight:103");
+            scForm.showModalDialog("/sitecore/shell/controls/error.htm", new Array(this.httpRequest.responseText), "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogMinHeight:150;dialogMinWidth:250;dialogWidth:580;dialogHeight:150;header:" + scForm.translate('Error'));
             return;
         }
 
-        if (this.httpRequest.responseText.indexOf("/sitecore/login/default.js") >= 0) {
+        if (this.httpRequest.getResponseHeader("SC-Login") == 'true') {
             window.top.location = "/sitecore";
             return;
         }
@@ -234,19 +234,24 @@ scContentEditor.prototype.getRibbonStrips = function (id) {
 
     return result;
 }
-
 scContentEditor.prototype.ribbonNavigatorButtonClick = function (sender, evt, id) {
-    this.setActiveStrip(id, false);
+    this.setActiveStrip(id);
     return false;
 }
-
-
-
 scContentEditor.prototype.ribbonNavigatorButtonDblClick = function (sender, evt, id) {
-    this.setActiveStrip(id, this.canToggleRibbon());
-    return false;
+  this.setActiveStrip(id);
+  this.toggleRibbon(100);
+  scForm.browser.clearEvent(evt, true, false);
+  return false;
 }
-
+scContentEditor.prototype.toggleRibbon = function (animationTime) {
+  if (this.canToggleRibbon()) {
+    jQuery("#Ribbon_Toolbar").slideToggle(animationTime, function () {
+      var button = document.getElementById('scRibbonToggle');
+      button.className = this.style.display == "none" ? 'scRibbonOpen' : "scRibbonClose";
+    });
+  }
+}
 scContentEditor.prototype.ribbonNavigatorWheel = function (sender, evt) {
     var strips = this.getRibbonStrips(this.getID(sender.id));
     var index = -1;
@@ -271,52 +276,45 @@ scContentEditor.prototype.ribbonNavigatorWheel = function (sender, evt) {
 
     index = (index < 0 ? 0 : index >= strips.length ? index = strips.length - 1 : index);
 
-    this.setActiveStrip(strips[index].id, false);
+    this.setActiveStrip(strips[index].id);
 
     return false;
 }
 
-scContentEditor.prototype.setActiveStrip = function (id, toggleRibbon) {
+scContentEditor.prototype.setActiveStrip = function (id) {
     var ribbonID = this.getID(id);
 
     var strips = this.getRibbonStrips(ribbonID);
 
     for (var n = 0; n < strips.length; n++) {
-        var ctl = strips[n];
+        var strip = strips[n];
 
-        var nav = scForm.browser.getControl(ribbonID + "_Nav_" + ctl.id.substr(ctl.id.lastIndexOf("_") + 1));
+        var nav = scForm.browser.getControl(ribbonID + "_Nav_" + strip.id.substr(strip.id.lastIndexOf("_") + 1));
 
         if (nav != null) {
-            if (ctl.id == id) {
-                var display = toggleRibbon ? (ctl.style.display == "none" ? "" : "none") : "";
-
-                var row = scForm.browser.getControl(ribbonID + "_Toolbar");
-
-                ctl.style.display = display;
-                row.style.display = display;
-
-                if (ctl.firstChild.tagName == "TEXTAREA") {
-                    ctl.innerHTML = ctl.firstChild.value;
+          if (strip.id == id) {
+                strip.style.display = "";
+                if (document.getElementById(ribbonID + "_Toolbar").style.display == "none")
+                { 
+                  this.toggleRibbon(0);
                 }
-
-                if (display == "") {
-                    this.lastVisibleStrip = n;
+                if (strip.firstChild.tagName == "TEXTAREA") {
+                  strip.innerHTML = strip.firstChild.value;
                 }
-
                 nav.className = nav.className.replace(/Normal/gi, "Active");
-
                 this.isContextualTab = nav.className.indexOf("Contextual") >= 0;
 
                 if (!this.isContextualTab) {
                     this.lastNoneContextualStrip = id;
                 }
+                this.lastVisibleStrip = n;
             }
             else {
-                if (this.lastNoneContextualStrip == null && ctl.style.display == "") {
-                    this.lastNoneContextualStrip = ctl.id;
+                if (this.lastNoneContextualStrip == null && strip.style.display == "") {
+                  this.lastNoneContextualStrip = strip.id;
                 }
 
-                ctl.style.display = "none";
+                strip.style.display = "none";
                 nav.className = nav.className.replace(/Active/gi, "Normal");
             }
         }
@@ -377,19 +375,16 @@ scContentEditor.prototype.onTreeClick = function (sender, evt) {
 scContentEditor.prototype.onTreeNodeClick = function (sender, id) {
     sender = $(sender);
 
-    sender.appendChild(new Element("img", { src: "/sitecore/images/blank.gif", "class": "scLoadingGlyph", alt: "", border: "0" }));
-
     setTimeout(function () {
         scForm.disableRequests = true;
 
-        if (navigator.userAgent.indexOf('Trident/6.0') > 0) {
-            var focusKeeper = top.document.getElementById('scIE10FocusKeeper');
+        if (navigator.userAgent.indexOf('Trident') > 0) {
+            var focusKeeper = top.document.getElementById('scIEFocusKeeper');
             if (focusKeeper) focusKeeper.focus();
         }
 
         scForm.postRequest("", "", "", "LoadItem(\"" + id + "\")");
 
-        sender.removeChild(sender.lastChild);
         $(sender.id).focus();
     }, 1);
 
@@ -410,7 +405,7 @@ scContentEditor.prototype.collapseTreeNode = function (sender) {
             node.removeChild(node.childNodes[3]);
         }
 
-        scForm.browser.setOuterHtml(node.childNodes[0], scForm.browser.getOuterHtml(node.childNodes[0]).replace("/collapse15x15", "/expand15x15"));
+        scForm.browser.setOuterHtml(node.childNodes[0], scForm.browser.getOuterHtml(node.childNodes[0]).replace("/treemenu_expanded.png", "/treemenu_collapsed.png"));
     }
 }
 
@@ -435,25 +430,25 @@ scContentEditor.prototype.expandTreeNode = function (sender, result) {
 
             container.innerHTML = result;
 
-            scForm.browser.setOuterHtml(node.childNodes[0], scForm.browser.getOuterHtml(node.childNodes[0]).replace("/expand15x15", "/collapse15x15").replace("/noexpand15x15", "/collapse15x15").replace("/loading15x15", "/collapse15x15"));
+            scForm.browser.setOuterHtml(node.childNodes[0], scForm.browser.getOuterHtml(node.childNodes[0]).replace("/treemenu_collapsed.png", "/treemenu_expanded.png").replace("/noexpand15x15.gif", "/treemenu_expanded.png").replace("/sc-spinner16.gif", "/treemenu_expanded.png"));
 
             document.fire("sc:contenttreeupdated", node);
         }
         else {
-          scForm.browser.setOuterHtml(node.childNodes[0], scForm.browser.getOuterHtml(node.childNodes[0]).replace("/expand15x15", "/noexpand15x15").replace("/collapse15x15", "/noexpand15x15").replace("/loading15x15", "/noexpand15x15"));
+            scForm.browser.setOuterHtml(node.childNodes[0], scForm.browser.getOuterHtml(node.childNodes[0]).replace("/treemenu_collapsed.png", "/noexpand15x15.gif").replace("/treemenu_expanded.png", "/noexpand15x15.gif").replace("/sc-spinner16.gif", "/noexpand15x15.gif"));
         }
     }
 }
 
 scContentEditor.prototype.onTreeGlyphClick = function (sender, id, treeid) {
-    if (sender.src.indexOf("expand15x15") >= 0 && sender.src.indexOf("noexpand15x15") == -1) {
+    if (sender.src.indexOf("treemenu_collapsed.png") >= 0 && sender.src.indexOf("noexpand15x15.gif") == -1) {
         function expandTreeNode(result) {
             scContent.expandTreeNode(sender, result);
         }
 
         var parent = sender.parentNode;
 
-        scForm.browser.setOuterHtml(sender, scForm.browser.getOuterHtml(sender).replace("/expand15x15", "/loading15x15").replace("/collapse5x15", "/loading15x15"));
+        scForm.browser.setOuterHtml(sender, scForm.browser.getOuterHtml(sender).replace("/treemenu_collapsed.png", "/sc-spinner16.gif").replace("/treemenu_expanded.png", "/sc-spinner16.gif"));
 
         sender = parent.childNodes[0];
 
@@ -461,7 +456,7 @@ scContentEditor.prototype.onTreeGlyphClick = function (sender, id, treeid) {
 
         this.execute("GetTreeviewChildren", expandTreeNode, "id", id, "treeid", treeid, "ro", this.getQueryString("ro"), "la", language);
     }
-    else if (sender.src.indexOf("collapse15x15") >= 0) {
+    else if (sender.src.indexOf("treemenu_expanded.png") >= 0) {
         this.collapseTreeNode(sender);
     }
 
@@ -667,7 +662,7 @@ scContentEditor.prototype.onTreeKeyDown = function (tag, evt) {
                 // left
                 node = node.childNodes[0];
 
-                if (node.src.indexOf("/collapse15x15") >= 0) {
+                if (node.src.indexOf("/treemenu_expanded.png") >= 0) {
                     this.RaiseEventClick(node);
                     scForm.browser.clearEvent(evt, true, false);
                 }
@@ -676,7 +671,7 @@ scContentEditor.prototype.onTreeKeyDown = function (tag, evt) {
                 // right
                 node = node.childNodes[0];
 
-                if (node.src.indexOf("/expand15x15") >= 0) {
+                if (node.src.indexOf("/treemenu_collapsed.png") >= 0) {
                     this.RaiseEventClick(node);
                     scForm.browser.clearEvent(evt, true, false);
                 }
@@ -885,32 +880,28 @@ scContentEditor.prototype.showMenu = function (sender, evt, id) {
 // ------------------------------------------------------------------
 
 scContentEditor.prototype.toggleSection = function (id, sectionName) {
-    var e = $(id);
-    if (e == null) {
+    var el = document.getElementById(id);
+    if (el == null) {
         return;
     }
 
-    var nextSibling = e.next();
+    var nextSibling = el.nextSibling;
     var visible = nextSibling.style.display == "none";
 
-    e.className = visible ? "scEditorSectionCaptionExpanded" : "scEditorSectionCaptionCollapsed";
-    var displayStyle = "block";
-    if ((Prototype.Browser.Gecko || Prototype.Browser.WebKit) && nextSibling.nodeName.toLowerCase() == "table") {
-        displayStyle = "table";
-    }
-    nextSibling.style.display = visible ? displayStyle : "none";
+    el.className = visible ? "scEditorSectionCaptionExpanded" : "scEditorSectionCaptionCollapsed";
+    jQuery(nextSibling).slideToggle(100);
 
-    var scSections = $("scSections");
+    var scSections = document.getElementById("scSections");
     var value = scSections.value;
 
     var p = value.toQueryParams();
     p[sectionName] = visible ? "0" : "1";
     scSections.value = Object.toQueryString(p);
 
-    var glyph = $(id + "_Glyph");
+    var glyph = document.getElementById(id + "_Glyph");
     if (glyph != null) {
-        var replace = (visible ? "/expand15x15" : "/collapse15x15");
-        var replaceWith = (visible ? "/collapse15x15" : "/expand15x15");
+        var replace = (visible ? "/accordion_down" : "/accordion_up");
+        var replaceWith = (visible ? "/accordion_up" : "/accordion_down");
 
         scForm.browser.setOuterHtml(glyph, scForm.browser.getOuterHtml(glyph).replace(replace, replaceWith));
     }
@@ -964,7 +955,7 @@ scContentEditor.prototype.activateContextualTab = function (id) {
 
     for (var s = scForm.browser.getEnumerator(contextuals.childNodes) ; !s.atEnd() ; s.moveNext()) {
         if (s.item().className == "scRibbonToolbarStrip" || s.item().className == "scRibbonToolbarContextualStrip") {
-            scContent.setActiveStrip(s.item().id, false);
+            scContent.setActiveStrip(s.item().id);
             return true;
         }
     }
@@ -1004,7 +995,7 @@ scContentEditor.prototype.clearContextualTabs = function (reset) {
     $$("#Ribbon_Navigator .scRibbonNavigatorButtonsContextualGroup").invoke("remove");
 
     if (reset && this.lastNoneContextualStrip != null) {
-        this.setActiveStrip(this.lastNoneContextualStrip, false);
+        this.setActiveStrip(this.lastNoneContextualStrip);
     }
 }
 
@@ -1038,7 +1029,7 @@ scContentEditor.prototype.updateContextualTabs = function (tag, evt, parameters)
             }
 
             if (scContent.isContextualTab) {
-                scContent.setActiveStrip(scContent.lastNoneContextualStrip, false);
+                scContent.setActiveStrip(scContent.lastNoneContextualStrip);
             }
         }
     }
@@ -1130,7 +1121,7 @@ scContentEditor.prototype.watermarkFocus = function (sender, evt) {
 scContentEditor.prototype.watermarkBlur = function (sender, evt) {
     if (sender.value == "") {
         sender.value = sender.watermark;
-        sender.style.color = "#999999";
+        sender.style.color = "#969696";
         sender.dirty = false;
     }
     else {
@@ -1536,20 +1527,10 @@ scContentEditor.prototype.onEditorTabClick = function (sender, evt, id) {
     if (active != null) {
         active.className = "scRibbonEditorTabNormal";
         if (active.parentNode.childNodes[1] == active) {
-            this.replaceImageSrc(active.firstChild, "tab0_h", "tab0");
-            active.childNodes[1].className = "scEditorTabHeaderNormal";
+            active.childNodes[0].className = "scEditorTabHeaderNormal";
         }
         else {
-            var sibling = scForm.browser.getPreviousSibling(active);
-            this.replaceImageSrc(sibling.lastChild, "tab2_h2", "tab2")
             active.firstChild.className = "scEditorTabHeaderNormal";
-        }
-
-        if (active.parentNode.lastChild == active) {
-            this.replaceImageSrc(active.lastChild, "tab3_h", "tab3");
-        }
-        else {
-            this.replaceImageSrc(active.lastChild, "tab2_h1", "tab2");
         }
 
         var frame = scForm.browser.getControl("F" + active.id.substr(1));
@@ -1574,17 +1555,9 @@ scContentEditor.prototype.onEditorTabClick = function (sender, evt, id) {
         active.className = "scRibbonEditorTabActive";
 
         if (active.parentNode.childNodes[1] == active) {
-            this.replaceImageSrc(active.firstChild, "tab0", "tab0_h");
-            active.childNodes[1].className = "scEditorTabHeaderActive";
+            active.childNodes[0].className = "scEditorTabHeaderActive";
         } else {
-            var sibling = scForm.browser.getPreviousSibling(active);
-            this.replaceImageSrc(sibling.lastChild, "tab2.", "tab2_h2.");
             active.firstChild.className = "scEditorTabHeaderActive";
-        }
-        if (active.parentNode.lastChild == active) {
-            this.replaceImageSrc(active.lastChild, "tab3", "tab3_h");
-        } else {
-            this.replaceImageSrc(active.lastChild, "tab2.", "tab2_h1.");
         }
 
         var frame = scForm.browser.getControl("F" + id);
@@ -1671,13 +1644,11 @@ scContentEditor.prototype.showEditorTab = function (command, header, icon, url, 
     // var html = "<a id=\"B" + id + "\" href=\"#\" class=\"scRibbonEditorTabNormal\" onclick=\"javascript:return scContent.onEditorTabClick(this,event,'" + id + "')\"><span class=\"scEditorTabHeader\"><img src=\"" + icon + "\" width=\"16\" height=\"16\" alt=\"\" border=\"0\" class=\"scEditorTabIcon\" />" + header;
     var html = "<a id=\"B" + id + "\" href=\"#\" class=\"scRibbonEditorTabNormal\" oncontextmenu=\"javascript:return scForm.postEvent(this,event,'ShowTabContextMenu');\" onclick=\"javascript:return scContent.onEditorTabClick(this,event,'" + id + "')\"><span class=\"scEditorTabHeader\"><img src=\"" + icon + "\" width=\"16\" height=\"16\" alt=\"\" border=\"0\" class=\"scEditorTabIcon\" />" + header;
     if (closeable) {
-        var src = " src=\"/sitecore/shell/themes/standard/Images/Close.png\"";
+        var src = " src='/sitecore/shell/themes/standard/Images/tab_close_24x24.png'";
         html += "<img class=\"scEditorTabClose\" onmouseover=\"javascript:return scForm.rollOver(this, event)\" onclick=\"javascript:scContent.closeEditorTab('" + id + "');\" onmouseout=\"javascript:return scForm.rollOver(this, event)\" height=\"16\" alt=\"\" width=\"16\" border=\"0\"" + src + " />";
     }
 
-    src = " src='/sitecore/shell/themes/standard/Images/Ribbon/tab3.png'";
-
-    html += "</span><img width=\"21\" height=\"24\" align=\"top\" alt=\"\" border=\"0\"" + src + " /></a>";
+    html += "</span></a>";
 
     div.innerHTML = html;
 
@@ -1802,13 +1773,6 @@ scContentEditor.prototype.closeEditorTab = function (id) {
                 focusId = ctl.id.substr(1);
             }
 
-            if (button == button.parentNode.lastChild) { // if the removed frame is last
-                if (emptyButton) {
-                    scForm.browser.setImageSrc(emptyButton.lastChild, "/sitecore/shell/themes/standard/Images/Ribbon/tab3.png"); // the picture for last tab    
-                } else {
-                    scForm.browser.setImageSrc(ctl.lastChild, "/sitecore/shell/themes/standard/Images/Ribbon/tab3.png"); // the picture for last tab    
-                }
-            }
 
             button.parentNode.removeChild(button); // tab to remove
 
@@ -2095,9 +2059,6 @@ scContentEditor.prototype.fieldResizeDown = function (tag, evt) {
         this.resizeFieldY = evt.screenY;
         this.resizeFieldHeight = $(tag).previous().getHeight();
 
-        $(tag).setStyle({ position: 'absolute' });
-        $(tag).next().setStyle({ display: '' });
-
         scForm.browser.clearEvent(evt, true, false);
     }
 }
@@ -2107,7 +2068,7 @@ scContentEditor.prototype.fieldResizeMove = function (tag, evt) {
         var dy = evt.screenY - this.resizeFieldY;
         var h = this.resizeFieldHeight + dy;
 
-        if (h > 24 && h < 800) {
+        if (h > 35 && h < 800) {
             $(tag).previous().style.height = h + "px";
             $(tag).previous().down().style.height = h + "px";
         }
@@ -2120,14 +2081,11 @@ scContentEditor.prototype.fieldResizeUp = function (tag, evt, id) {
     if (this.dragging) {
         this.dragging = false;
 
-        $(tag).setStyle({ position: '' });
-        $(tag).next().setStyle({ display: 'none' });
-
         var dy = evt.screenY - this.resizeFieldY;
         var h = this.resizeFieldHeight + dy;
 
-        if (h < 24) {
-            h = 24;
+        if (h < 35) {
+            h = 35;
         }
         else if (h > 800) {
             h = 800;

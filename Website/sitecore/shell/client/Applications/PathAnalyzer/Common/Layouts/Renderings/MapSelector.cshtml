@@ -1,0 +1,54 @@
+﻿@using Sitecore
+@using Sitecore.Mvc
+@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer
+@using Sitecore.PathAnalyzer.Localization
+@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.Shared
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+    var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+
+    rendering.Class = "sc-MapSelector";
+    rendering.Requires.Script("pathanalyzer", "MapSelector.js");
+    rendering.Attributes.Add("data-bind", "visible: isVisible");
+    rendering.HasNestedComponents = true;
+}
+
+@EmbedFiltersBar(rendering)
+
+@helper EmbedFiltersBar(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering)
+{
+    var renderingId = rendering.ControlId;
+    var helper = new RenderingHelper(Html, renderingId);
+
+    var dates = rendering.GetDateRangeParameters();
+    var initialStartDate = DateUtil.ToIsoDate(dates.Item1);
+    var initialEndDate =  DateUtil.ToIsoDate(dates.Item2);
+    var datePreset = rendering.GetString("Default Date Preset");
+
+    helper.MakeBorder("ContentWrapper", renderingId + "BarWrapper", contentWrapper =>
+        helper.MakeRow("RowPanel", contentWrapper, false, rowPanel =>
+            helper.MakeColumn("FilterToggleButtonColumnPanel", rowPanel, 12, filterToggleButtonColumnPanel =>
+                helper.MakeDropDownButton("FilterToggleButton", filterToggleButtonColumnPanel, PathAnalyzerTexts.SelectMap, true, filterToggleButton =>
+                {
+                    helper.MakeBorder("FieldsWrapper", filterToggleButton, fieldsWrapper =>
+                    {
+                        helper.MakeTreeDefintion("TreeDefinitionFilter", fieldsWrapper, rendering.GetString("Default Tree Definition"));
+
+                        helper.MakeDateRange("DateRangeFilter", fieldsWrapper, true, initialStartDate, initialEndDate, datePreset);
+                    });
+
+                    helper.MakeBorder("ButtonWrapper", filterToggleButton, buttonWrapper =>
+                        helper.MakeButton("SubmitButton", buttonWrapper, PathAnalyzerTexts.Apply, "Primary")
+                        , "true"
+                        , false,
+                        "Right"
+                        );
+                }))));
+
+    // Rendering
+    <div @rendering.HtmlAttributes>
+        @Html.Sitecore().Controls().Rendering(Html, "{F6C9F461-FCAF-47DC-AA01-C8C64C2EFFB8}", renderingId + "BarWrapper", "", new { })
+    </div>
+}

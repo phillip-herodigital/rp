@@ -12,9 +12,9 @@
       <input type="hidden" id="reloadOnShow" value="1" />
 
       <Menu ID="Menu" Border="none">
-        <MenuHeader Header="Reminder"/>
+        <MenuHeader Header="Set an email reminder"/>
         <MenuLine/>
-        <MenuPanel ID="Panel" Padding="8px 4px 8px 4px" Style="white-space:nowrap"/>
+        <MenuPanel ID="Panel" Class="scMenuItem" />
         <MenuLine/>
       </Menu>
 

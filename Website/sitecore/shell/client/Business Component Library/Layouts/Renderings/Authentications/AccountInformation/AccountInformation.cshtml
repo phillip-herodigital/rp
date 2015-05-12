@@ -1,20 +1,34 @@
-﻿@using Sitecore.Mvc
+﻿@using Sitecore
+@using Sitecore.Mvc
 @using Sitecore.Mvc.Presentation
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @model RenderingModel
 @{
-  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
-  var cssClass = "sc-accountInformation";
-
-  userControl.Class = cssClass;
+  var userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  userControl.Class = "sc-accountInformation";
   userControl.Requires.Script("business", "AccountInformation.js");
- 
-  var controlId = userControl.ControlId;
-  var htmlAttributes = userControl.HtmlAttributes;
-  var name = String.IsNullOrEmpty(Sitecore.Context.User.Profile.FullName) ? Sitecore.Context.User.LocalName : Sitecore.Context.User.Profile.FullName;
 
+  var htmlAttributes = userControl.HtmlAttributes;
+  
+  var user = ClientHost.Context.User;
+  
+  var name = user.Profile.FullName;
+  if (string.IsNullOrEmpty(name))
+  {
+    name = user.LocalName;
+  }
+
+  var portraitUrl = user.Profile.Portrait;
+
+  var LogoutLocalizedText = ClientHost.Globalization.Translate("Logout");
 }
 <ul @htmlAttributes>
-    <li>@name</li>
-    <li><a class="logout" href="/api/sitecore/Authentication/Logout?sc_database=master">Logout</a></li>
+  <li><a class="logout" href="/api/sitecore/Authentication/Logout?sc_database=master">@LogoutLocalizedText</a></li>
+  <li>
+    @name
+    @if (!string.IsNullOrEmpty(portraitUrl))
+    {
+      <img src="/~/icon/@portraitUrl" />
+    }
+</li>
 </ul>

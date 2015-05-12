@@ -27,7 +27,7 @@
         <Edit ID="Link" Width="100%" />
 
         <Border Padding="2px 0px 2px 0px">
-          <Literal Text="For example: http://www.sitecore.net/Product.aspx"/>
+          <Literal Text="For example: http://www.sitecore.net/Platform.aspx"/>
         </Border>
 
       </GridPanel>

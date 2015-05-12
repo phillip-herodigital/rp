@@ -14,7 +14,7 @@
       #States table { width: 100%; }
     </Stylesheet>
 
-    <FormPage Application="Workbox">
+    <FormPage Application="Workbox" Title="Workbox">
 
       <input type="hidden" id="scActiveRibbonStrip" name="scActiveRibbonStrip" />
 
@@ -22,7 +22,7 @@
 
         <Border ID="RibbonPanel"/>
 
-        <Border Padding="0px" Class="scLightBlueGradient scStretchAbsolute" Style="margin-top:67px;overflow:auto;">
+        <Border Class="scGreyBackground scStretchAbsolute scWorkboxContentContainer">
 
           <Border ID="Grid2">
             

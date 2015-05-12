@@ -12,7 +12,7 @@ iframe.scCollapsedRibbon {
 iframe.scFixedRibbon {  
   position:fixed;
   top:0px;
-  left:2px;  
+  left:1px;  
 }
 
 iframe.scWebEditContentEditor {
@@ -499,16 +499,14 @@ div.scTlHoverFrameCorner, div.scTrHoverFrameCorner, div.scBlHoverFrameCorner, di
   background-image: url('/sitecore/shell/themes/standard/images/pageeditor/bg_hover_frame_corner_bl.png');
 }
 
-.scHoverFrameSideHorizontal.scTrHoverFrameCorner
+.scHoverFrameSideHorizontal,
+.scHoverFrameSideVertical
 {
-  background-repeat: no-repeat;
-  background-image: url('/sitecore/shell/themes/standard/images/pageeditor/bg_hover_frame_corner_tr.png');
-}
-
-.scHoverFrameSideHorizontal.scBrHoverFrameCorner
-{
-  background-repeat: no-repeat;
-  background-image: url('/sitecore/shell/themes/standard/images/pageeditor/bg_hover_frame_corner_br.png');
+  position: absolute;
+  z-index: 9000;  
+  border-style: dotted;
+  background: #289BC8;
+  border-width: 1px;
 }
 
 .scInvisible
@@ -675,7 +673,7 @@ span.scChromeBadge
 
 .scTesting
 {
-  width: 280px;
+  width: 880px;
   background-color: White;
 }
 
@@ -871,6 +869,15 @@ img.scDisabled:hover
 {
   position: absolute;
   width: 54px;
+}
+
+.scOpenViewDetailsArea
+{  
+  padding: 3px 3px;
+  margin-left: 54px;
+  margin-right: 0px;  
+  display:block;
+  position: relative;
 }
 
 .scTitleArea

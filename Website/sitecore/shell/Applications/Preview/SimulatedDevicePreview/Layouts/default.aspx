@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" EnableViewState="false" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Sitecore.Shell.Applications.Preview.SimulatedDevicePreview.Layouts.Default" %>
-<%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Kernel" %>
+<%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.ExperienceEditor" %>
 <!DOCTYPE html>
 
 <html>
@@ -50,27 +50,22 @@
 
       .scFixedRibbon.scCollapsedRibbon ~ #ScaleSection
       {
-        top: 34px;
+        top: 150px;
       }
 
        .scFixedRibbon.scTreecrumbVisible ~ #RotateButton
       {        
-        top: 156px;
+        top: 200px;
       }
 
        .scFixedRibbon.scTreecrumbVisible ~ #ScaleSection
       {        
-        top: 132px;
-      }
-
-      .scFixedRibbon ~ #RotateButton
-      {
-        top: 132px;
+        top: 180px;
       }
 
       .scFixedRibbon ~ #ScaleSection
       {
-        top: 108px;
+        padding-top: 10px;
       }
       
       #RotateButton, #ScaleSection
@@ -82,7 +77,7 @@
 
       #RotateButton
       {
-        top:40px;
+        padding-top: 30px;
       }
      
       .rotate.down:hover
@@ -90,7 +85,6 @@
         box-shadow: 1px -1px 0px 0px #A0A0A0;
         filter:alpha(opacity=90);       
         right: -3px;
-        top: 3px;        
       }
 
       .rotate:hover
@@ -291,8 +285,7 @@
     <script type="text/javascript" src="/sitecore/shell/controls/lib/scriptaculous/slider.js" />                      
 </head>
 <body>    
-    <form id="form1" runat="server">                      
-      <sc:WebEditRibbon runat="server" ID="Ribbon" />
+    <form id="form1" runat="server">
       <script type="text/javascript" src="/sitecore/shell/Applications/Page Modes/Utility.js"></script> 
       <script type="text/javascript" src="/sitecore/shell/Controls/Lib/jQuery/jquery.mousewheel.js"></script>      
       <script type="text/javascript" src="/sitecore/shell/Controls/Lib/jQuery/jScrollPane/jquery.jscrollpane.js"></script>
@@ -321,7 +314,7 @@
         </div>
       </div>      
 
-      <div runat="server" id="content">            
+      <div runat="server" id="content">                          
         <div id="device" runat="server">       
           <div id="screenContainer" runat="server">          
             <div id="paneContainer"><div id="pane"><iframe style="display:none;overflow:hidden" scrolling="no" runat="server" frameborder="0" id="screen" marginheight="0" marginwidth="0" name="screen" src="about:blank" /></div></div> 

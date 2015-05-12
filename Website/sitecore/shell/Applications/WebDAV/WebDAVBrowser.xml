@@ -7,7 +7,7 @@
       <Stylesheet Src="MediaBrowser.css" DeviceDependant="true" />
       <CodeBeside Type="Sitecore.Shell.Applications.WebDAV.WebDAVBrowserForm,Sitecore.Client"/>
 
-      <WebFolderView runat="server" ID="DAVFrame" Style="Border:1px inset;" class="scStretch" Visible="false"/>
+      <WebFolderView runat="server" ID="DAVFrame" class="scStretch" Visible="false"/>
       
     </FormDialog>
   </Sitecore.Shell.Applications.WebDAV.WebDAVBrowser>

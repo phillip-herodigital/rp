@@ -52,7 +52,7 @@
       </WizardFormPage>
 
       <WizardFormLastPage ID="LastPage" Icon="Software/16x16/war.png">
-        <Literal Text="The wizard has completed. Click Finish to close the Wizard."/>
+        <Literal Text="The wizard has completed."/>
       </WizardFormLastPage>
       
     </WizardForm>

@@ -4,7 +4,7 @@
   
     <GridPanel Width="100%" Fixed="true">
       <Border def:ID="Caption" Class="scToolboxPaneHeader">
-        <ThemedImage def:ID="Toggle" Src="Images/collapse9x9.gif" Width="9" Height="9" Margin="0px 4px 0px 0px"/>
+        <ThemedImage def:ID="Toggle" Src="Images/treemenu_expanded.png" Width="9" Height="9" Margin="0px 4px 0px 0px"/>
         <Literal def:ID="Header"/>
       </Border>
       

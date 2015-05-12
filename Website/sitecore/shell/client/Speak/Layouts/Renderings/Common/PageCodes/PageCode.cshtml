@@ -1,4 +1,5 @@
-﻿@using Sitecore.Configuration
+﻿@using Sitecore
+@using Sitecore.Configuration
 @using Sitecore.Extensions.StringExtensions
 @using Sitecore.IO
 @using Sitecore.Mvc
@@ -9,21 +10,51 @@
 @model Sitecore.Mvc.Presentation.RenderingModel
 @{
   var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  var waitSeconds = SpeakSettings.Html.RequireJsWaitSeconds;
+  
   var mainFile = SpeakSettings.Html.RequireJsMainFile;
   var bindingFile = SpeakSettings.Html.BindingPluginFile;
   var speakCoreVersion = userControl.GetString("SpeakCoreVersion");
+  var assetsLoadingMode = userControl.GetString("AssetsLoadingType");
   var isSpeak1_1 = string.IsNullOrEmpty(speakCoreVersion) || speakCoreVersion == "{C1B05B3A-689F-474A-918B-5FD50F12849C}";
-
+  var useDevMode = "{6C0818B0-587E-4027-9DDB-96C5D66F9C1A}";
+  var useMinifiedMode = "{3A0CC262-E84F-4F0F-98E9-BCA5F6BEE829}";
+  var useCDNMode = "{84F1BE3E-02A3-42F8-AEB2-E73768790E45}";
+  var useBundled = "{5A598A7A-CBE9-470F-AD2B-4FD7E0561307}";
+  var contextLanguage = ClientHost.Context.Language.Name;
+  
   if (isSpeak1_1)
   {
     mainFile = SpeakSettings.Html.RequireJSMainFile71;
+    
+    if (useMinifiedMode == assetsLoadingMode || SpeakSettings.Html.MinifyScripts)
+    {
+      mainFile = "/-/speak/v1/assets/main.min.js";
+    }
+    else if (useCDNMode == assetsLoadingMode)
+    {
+      mainFile = "/-/speak/v1/assets/main.cdn.min.js";
+    }
+    else if (useBundled == assetsLoadingMode)
+    {
+      mainFile = "/-/speak/v1/assets/main.bundled.min.js";
+    }
   }
   else
   {
-    // set the main file for require.js
-    if (SpeakSettings.Html.MinifyScripts)
+    if (useMinifiedMode == assetsLoadingMode || SpeakSettings.Html.MinifyScripts)
     {
       mainFile = SpeakSettings.Html.RequireJsMainFileMinified;
+      bindingFile = SpeakSettings.Html.BindingPluginFileMinified;
+    }
+    else if (useCDNMode == assetsLoadingMode)
+    {
+      mainFile = "/-/speak/v1/assets/main-1.2.cdn.min.js";
+      bindingFile = SpeakSettings.Html.BindingPluginFileMinified;
+    }
+    else if (useBundled == assetsLoadingMode)
+    {
+      mainFile = "/-/speak/v1/assets/main-1.2.bundled.min.js";
       bindingFile = SpeakSettings.Html.BindingPluginFileMinified;
     }
   }
@@ -71,6 +102,7 @@
     }
   }
 }
+<meta data-sc-name="sitecoreLanguage" data-sc-content="@contextLanguage" />
 <title>@title</title>
 @this.Html.Sitecore().PageStylesheets()
 
@@ -78,12 +110,35 @@
 {
   <script type="text/javascript"> window.__SITECOREDEBUG = true; </script>
 }
-
-@if (!string.IsNullOrEmpty(scriptFileName))
+@if(useBundled == assetsLoadingMode)
 {
-  <script src="@scriptFileName" type="text/x-sitecore-pagecode" @behaviors>
+  <script>
+    var __speak_config = __speak_config || {};
+    __speak_config.useBundle = true;
+    __speak_config.deferred = true;
+  </script>
+  if (isSpeak1_1)
+  {
+     <script src="~/sitecore/shell/client/Speak/Assets/lib/core/1.1/sitecore-1.0.2.packed.js"></script>
+  }
+  else
+  {
+    <script src="~/sitecore/shell/client/Speak/Assets/lib/core/1.2/sitecore.packed.js"></script>
+  }
+}
+
+@if (isSpeak1_1 && !string.IsNullOrEmpty(scriptFileName))
+{
+  <script data-sc-require="@scriptFileName" type="text/x-sitecore-pagecode" @behaviors>
   </script>
 }
+
+@if (!isSpeak1_1 && !string.IsNullOrEmpty(scriptFileName))
+{
+  <script src="@scriptFileName" type="text/x-sitecore-pagecode">
+  </script>
+}
+
 
 @if (!isSpeak1_1)
 {
@@ -91,5 +146,6 @@
 }
 
 <script src="/sitecore/shell/client/Speak/Assets/lib/core/1.2/deps/require.js" data-main="@mainFile" type="text/javascript"></script>
+<script type="text/javascript">require.config({ waitSeconds: @waitSeconds });</script>
 @this.Html.Sitecore().PageScripts()
 @this.Html.Sitecore().Overlays()

@@ -1,0 +1,25 @@
+﻿@using Sitecore.ExperienceAnalytics.Client
+@using Sitecore.ExperienceAnalytics.Client
+@using Sitecore.ExperienceAnalytics.Client.Mvc
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Renderings
+
+@model Sitecore.ExperienceAnalytics.Client.Mvc.Presentation.ExperienceAnalyticsListControlViewModel
+
+@{
+  var helper = new RenderingHelper(Html.HtmlHelper(), Model.Control.ControlId);
+
+  var wrapperId = Model.Control.ControlId + "Wrapper";
+
+  helper.MakeDataProvider("DataProvider", wrapperId, Model.DataUrl);
+  helper.CreateRenderingAt(Globals.Bcl.Renderings.ListAndGrids.ListControl, "ListControl", wrapperId, null, Globals.System.ListControl);
+  helper.MakeBorder("Border", wrapperId, border =>
+  {
+    helper.MakeButton("Button", border, Globals.System.Texts.ShowMore.Guid.ToString());
+  }, "true", true, "Center");
+  helper.MakeProgressIndicator("ProgressIndicator", wrapperId, Model.Control.ControlId, string.Empty);
+}
+     
+<div @Model.Control.HtmlAttributes>
+  @Html.Sitecore().Controls().Rendering(Html.HtmlHelper(), Globals.Bcl.Renderings.Containers.Border, wrapperId, "")
+</div>

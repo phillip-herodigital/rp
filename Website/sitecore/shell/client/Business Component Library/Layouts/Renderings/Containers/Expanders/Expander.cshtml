@@ -12,21 +12,22 @@
   }
   userControl.Requires.Script("business", "expander.js");
   userControl.HasNestedComponents = true;
+  userControl.IsCloaked = true;
 
   var text = userControl.GetString("Text", "Text");
   var placeholderName = userControl.ControlId + ".Body";
   
   var htmlAttributes = userControl.HtmlAttributes;
 }                                                                                  
-<div @htmlAttributes  data-bind="visible: isVisible">
+<div @htmlAttributes data-bind="visible: isVisible, css: { 'open': isOpen }">
   <div class="sc-expander-header" data-bind="click: toogle">
     <div>@text</div>
     <div class="sc-expander-toggler">
       <a href="#" class="sc-expander-button">
-          <div class="sc-expander-chevron" data-bind="css: { 'up': isOpen }"></div>
-        </a>
+        <div class="sc-expander-chevron" data-bind="css: { 'up': isOpen }"></div>
+      </a>
     </div>
-  </div>  
+  </div>
   <div class="sc-expander-body">
     @Html.Sitecore().Placeholder(placeholderName)
   </div>

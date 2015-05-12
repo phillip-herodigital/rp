@@ -1,55 +1,70 @@
 ﻿/// <reference path="../../../../../../assets/lib/dist/sitecore.js" />
 
-define(["sitecore"], function (_sc) {
-    _sc.Factories.createBaseComponent({
+define(["sitecore"], function (sc) {
+    sc.Factories.createBaseComponent({
         name: "RadioButton",
         base: "InputBase",
         selector: ".sc-radiobutton",
         attributes: [
-            { name: "name", defaultValue: "" },
+            { name: "groupName", defaultValue: "" },
             { name: "value", defaultValue: "" },
             { name: "text", defaultValue: "" },
             { name: "isChecked", defaultValue: false}
         ],
         extendModel: {
             check: function () {
-                this.set("isChecked", this.get("value"));
+                this.set("isChecked", true);
             },
             uncheck: function () {
                 this.set("isChecked", false);
             }
         },
         events: {
-            "click": "_changeStatus"
+            "click": "onClick"
         },
-        initialize: function (options) {
+        initialize: function () {
             this._super();
 
             this.input = this.$el.find(".sc-radiobutton-input");
             this.label = this.$el.find(".sc-radiobutton-label");
 
-            this.model.set("name", this.input.prop("name"));
-            var value = this.input.val();
+            this.model.set("groupName", this.input.prop("name"));
+            this.model.set("value", this.input.val());
+            this.model.set("text", this.label.text());          
+            this.model.set("isChecked", this.input.prop("checked"));
 
-            this.model.set("value", value);
-            this.model.set("text", this.label.text());
-
-            this._changeStatus();
-            this._setGlobalValue();
-
-            this.model.on("change:isChecked", this._setGlobalValue, this);
+            this.onCheckChange();
+            this.model.on("change:isChecked", this.onCheckChange, this);
         },
-        _changeStatus: function () {
-            if(this.input.is(":checked")) {
-                this.model.set("isChecked", this.model.get("value"));
-            } else {
-                this.model.set("isChecked", false);
-            }
+
+        onClick: function() {
+          if (this.model.get("isEnabled") && this.model.get("isChecked") !== true) {
+            this.model.set("isChecked", true);
+          }
         },
-        _setGlobalValue: function () {
-            if (this.model.get("isChecked") === this.model.get("value")) {
-                this.app.set(this.model.get("name"), this.model.get("value"));
-            }
+
+        onCheckChange: function() {
+          var isChecked = this.model.get("isChecked");
+
+          if (isChecked) {
+            var groupName = this.model.get("groupName");
+            var name = this.model.get("name");
+
+            var radioButtons = $.grep(this.app.Controls, function(control) {
+              return control.model.componentName === "RadioButton"
+                && control.model.get("groupName") === groupName
+                && control.model.get("name") !== name;
+            });
+
+            $.each(radioButtons, function(i, button) {
+              button.model.set("isChecked", false);
+            });
+          }
+
+          this.input.prop("checked", isChecked);
+
+          var globalValue = (isChecked === true) ? this.model.get("value") : null;
+          this.app.set(this.model.get("groupName"), globalValue);
         }
     });
 });

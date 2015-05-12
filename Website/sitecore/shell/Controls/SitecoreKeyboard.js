@@ -98,54 +98,8 @@ function scRunAnimation(id) {
 }
 
 function scSaveAnimation(id) {
-  this.start(id);
-}
-
-scSaveAnimation.prototype = new scAnimation();
-
-scSaveAnimation.prototype.initialize = function() {
-  this.dx = this.control.offsetWidth / 10;
-  this.dy = this.control.offsetHeight / 10;  
-  
-  if (this.dx < 2) {
-    this.dx = 2;
-  }
-  
-  if (this.dy < 2) {
-    this.dy = 2;
-  }
-  
-  var c = "<div id=\"saveAnimation\" style=\"font:1pt tahoma;border:2px groove;position:absolute;z-index:100\" />";
-
-  scForm.browser.insertAdjacentHTML(this.control, "beforeBegin", c);  
-  
-  this.rect = document.getElementById("saveAnimation");
-
-  this.rect.style.width = this.control.offsetWidth;
-  this.rect.style.height = this.control.offsetHeight;
-}
-
-scSaveAnimation.prototype.finalize = function() {
-  if (this.rect) {
-    scForm.browser.removeChild(this.rect);
-    this.rect = null;
-    this.control = null;
-  }
-}
-
-scSaveAnimation.prototype.beat = function() {
-  if (!this.rect) {
-    return false;
-  }
-
-  if (this.rect.offsetWidth < this.dx || this.rect.offsetHeight < this.dy) {
-    return false;
-  }
-
-  this.rect.style.left = this.rect.offsetLeft + this.dx / 2;
-  this.rect.style.top = this.rect.offsetTop + this.dy / 2
-  this.rect.style.width = this.rect.offsetWidth - this.dx;
-  this.rect.style.height = this.rect.offsetHeight - this.dy;
-
-  return true;
+  var indicator = document.createElement('div');
+  indicator.id = 'saveAnimation';
+  document.body.appendChild(indicator);
+  setTimeout(function() { indicator.remove(); }, 600);
 }

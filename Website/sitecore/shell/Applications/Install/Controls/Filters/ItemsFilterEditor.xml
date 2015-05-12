@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition">
   <Installer.ItemsFilterEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.ItemsFilterEditor,Sitecore.Client">
-    <Stylesheet Src="/sitecore/shell/Applications/Install/Controls/Filters/ItemsFilterEditor.css"/>
     <Border Padding="$Padding" Style="$Style" Class="$Class scStretch itemsFilterEditorContainer">
       <Groupbox header="Item name filter">
         <Installer.ItemNameFilterEditor def:ID="nameFilter"/>

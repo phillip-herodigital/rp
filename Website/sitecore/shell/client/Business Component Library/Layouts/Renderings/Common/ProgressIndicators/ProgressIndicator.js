@@ -176,7 +176,7 @@
         return;
       }
 
-      this.model.viewModel.targetControl.valueHasMutated();
+      this._updateModel();
     },
     _getTargetDomElement: function () {
       var domPrefix = "DOM:", $element;

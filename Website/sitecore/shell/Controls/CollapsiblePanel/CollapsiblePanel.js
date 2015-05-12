@@ -6,11 +6,11 @@ Sitecore.CollapsiblePanel = new function() {
   this.load = function() {
     var headerTitles, headerTitles;
     $sc("div.icon-expand").live("click", this.togglePanel);    
-    $sc(".panel-header").live("dblclick", this.togglePanel);
+    $sc(".scEditorSectionCaptionExpanded").live("dblclick", this.togglePanel);
+    $sc(".scEditorSectionCaptionCollapsed").live("dblclick", this.togglePanel);
     headerTitles = $sc("a.header-title");
     headerTitles.live("click", this.editName);
     headerTitles.live("dblclick", function(e) {e.stopPropagation();});
-    
     headerEdits = $sc("input.header-title-edit");        
     headerEdits.live("blur", this.editNameComplete);
     headerEdits.live("dblclick", function(e) {e.stopPropagation();});   
@@ -28,7 +28,7 @@ Sitecore.CollapsiblePanel = new function() {
     }
 
     name.hide();
-    name.next(".header-title-edit").show().select();   
+    name.next(".header-title-edit").css("display", "inline-block").select();   
   };
 
   this.editNameComplete = function(event) {
@@ -67,15 +67,26 @@ Sitecore.CollapsiblePanel = new function() {
 
   this.togglePanel = function(event) {
     var target = $sc(event.target);
-    var header = target.closest(".panel-header");
-    var panelBody = header.next(".panel")[0];
-    if (!panelBody) {
-      return;
+    var header;
+    if (target.attr('class').indexOf('icon-expand') != -1) {
+      header = target.closest(".scEditorSectionCaptionGlyph").parent();
+      if (!header) {
+        return;
+      }
+    } else {
+      header = target;
     }
     
-    header.find(".icon-expand").toggleClass("collapsed");
-    $sc(panelBody).slideToggle(200);
-  };
+    if (header.attr('class') == "scEditorSectionCaptionExpanded") {
+      header.attr('class', "scEditorSectionCaptionCollapsed");
+    } else {
+      header.attr('class', "scEditorSectionCaptionExpanded");
+    }
 
-  $sc(document).ready($sc.proxy(this.load, this));  
+    var nextSibling = header.next();
+    jQuery(nextSibling).slideToggle(100);
+    header.find(".icon-expand").toggleClass("collapsed");
+  }
+
+  $sc(document).ready($sc.proxy(this.load, this));
 };

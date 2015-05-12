@@ -3,10 +3,10 @@
   <Sitecore.Shell.Applications.Dialogs.DateTimeSelector>
     <FormDialog Header="Date/Time" Text="Select a date/time." Icon="People/32x32/clock.png">
       <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.DateTimeSelectors.DateTimeSelector,Sitecore.Client" />
-
-      <Border Padding="4px 0px 0px 24px">
+      
+      <div style="text-align: center;">
         <DateTimePicker ID="Date"/>
-      </Border>
+      </div>
 
     </FormDialog>
   </Sitecore.Shell.Applications.Dialogs.DateTimeSelector>

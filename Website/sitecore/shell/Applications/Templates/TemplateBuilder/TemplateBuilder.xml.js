@@ -125,7 +125,7 @@ Sitecore.TemplateBuilder = new function() {
                    "/><input id=\"" + id + "_field_id\" type=\"hidden\" /><input id=\"" + id + "_field_deleted\" type=\"hidden\" /><input id=\"" + id + "_field_sortorder\" type=\"hidden\" value=\"0\"/>";
     }
     else if (type == "select") {
-      cell.innerHTML = "<select id=\"" + id + "_field_" + name + "\" class=\"scTableField" + className + "Input\" onfocus=\"javascript:return Sitecore.TemplateBuilder.focus(this,event)\">" + value + "</select>";
+      cell.innerHTML = "<select id=\"" + id + "_field_" + name + "\" class=\"scTableField" + className + "Input scCombobox\" onfocus=\"javascript:return Sitecore.TemplateBuilder.focus(this,event)\">" + value + "</select>";
     }
     else {
       cell.innerHTML = "<input id=\"" + id + "_field_" + name + "\" type=\"" + type + "\" class=\"scTableField" + className + "Input\" onfocus=\"javascript:return Sitecore.TemplateBuilder.focus(this,event)\"/>";

@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <SetIcon>
-    <FormDialog Icon="Core2/32x32/smiley_face2.png" Header="Icon" Submittable="false" Text="Assign an icon to the item.">
+    <FormDialog Header="Change Icon" Submittable="false" Text="Click the new icon that you want to assign to the selected item.">
 
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.SetIcon.SetIconForm,Sitecore.Client"/>
       <Script Src="/sitecore/shell/Applications/Content Manager/Dialogs/Set Icon/SetIcon.js" />
       <Stylesheet>
         #TabStrip {
-        padding-bottom: 30px;
+        padding-bottom: 50px;
         }
 
         .ie #RecentList {
         width: 100% !important;
         }
-
+        #tabcontent_Recent td {vertical-align:top;}
         .scRecentIcon {
         cursor: pointer;
-        margin: 4px;
+        margin: 5px 5px 5px 0;
         }
 
         #List {
         position: absolute;
-        top: 35px;
+        top: 65px;
         bottom: 0;
         left: 0;
         right: 0;
         overflow: auto;
+        padding: 10px 0 10px 5px;
         }
 
         #List > div {
@@ -50,9 +51,10 @@
 
           <Tab ID="Icons" Header="Icons">
             <div class="scStretch">
-              <Border Padding="8px 8px 12px 8px">
-                <Combobox ID="Selector" Float="right" Style="font:8pt tahoma" Change="javascript:scChange(this,event)">
+              <Border Padding="0 5px 15px 5px">
+                <Combobox ID="Selector" Change="javascript:scChange(this,event)">
                   <ListItem Header="Applications" Value="Applications"/>
+				          <ListItem Header="Apps" Value="Apps"/>
                   <ListItem Header="Business" Value="Business"/>
                   <ListItem Header="Controls" Value="Controls"/>
                   <ListItem Header="Core 1" Value="Core1" />
@@ -63,16 +65,20 @@
                   <ListItem Header="Imaging" Value="Imaging"/>
                   <ListItem Header="Multimedia" Value="Multimedia"/>
                   <ListItem Header="Network" Value="Network" />"
+                  <ListItem Header="Office" Value="Office" />
+                  <ListItem Header="Office White" Value="OfficeWhite" />
                   <ListItem Header="Other" Value="Other" />
                   <ListItem Header="People" Value="People" />
                   <ListItem Header="Software" Value="Software" />
                   <ListItem Header="Word Processing" Value="WordProcessing"/>
                 </Combobox>
+              </Border>
+              <Border Padding="0 5px" style="font-weight:bold;">
                 <Literal Text="Icons:"/>
               </Border>
-
               <Border ID="List" Click="javascript:scClick(this,event)">
                 <Scrollbox ID="ApplicationsList" Border="none"/>
+                <Scrollbox ID="AppsList" Visible="false"/>
                 <Scrollbox ID="BusinessList" Visible="false" />
                 <Scrollbox ID="ControlsList" Visible="false" />
                 <Scrollbox ID="Core1List" Visible="false" />
@@ -83,6 +89,8 @@
                 <Scrollbox ID="ImagingList" Visible="false" />
                 <Scrollbox ID="MultimediaList" Visible="false" />
                 <Scrollbox ID="NetworkList" Visible="false" />
+                <Scrollbox ID="OfficeList" Visible="false" />
+                <Scrollbox ID="OfficeWhiteList" Visible="false" />
                 <Scrollbox ID="OtherList" Visible="false" />
                 <Scrollbox ID="PeopleList" Visible="false" />
                 <Scrollbox ID="SoftwareList" Visible="false" />
@@ -92,14 +100,9 @@
           </Tab>
         </VerticalTabstrip>
 
-        <GridPanel class="iconFileName" Columns="2">
-          <Border Padding="0px 8px 0px 0px">
-            <Literal Text="Icon:"/>
-          </Border>
-
-          <Border GridPanel.Width="100%">
-            <Edit ID="IconFile" Width="100%"/>
-          </Border>
+        <GridPanel class="iconFileName scFormTable" Columns="2">
+          <Literal Text="Icon:"/>
+          <Edit ID="IconFile"/>
         </GridPanel>
       </div>
     </FormDialog>

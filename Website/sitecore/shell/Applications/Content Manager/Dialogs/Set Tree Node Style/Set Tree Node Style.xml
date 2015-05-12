@@ -6,21 +6,6 @@
 
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.SetTreeNodeStyle.SetTreeNodeStyleForm,Sitecore.Client"/>
 
-      <Script Key="Edit">
-
-        function editStyle() {
-        var styles = scForm.browser.getControl("Styles");
-
-        var result = window.showModalDialog("/sitecore/shell/Css Editor/WebCSSEditor.htm",styles.value,"dialogWidth:500px;dialogHeight:630px;status:off;help:no");
-
-        if (result != null) {
-        styles.value = result;
-        scForm.browser.getControl('Preview').style.cssText = result;
-        }
-        }
-
-      </Script>
-
       <GridPanel Width="100%" Height="100%" Fixed="true">
 
         <Memo ID="Styles" Width="100%" Height="100%" GridPanel.Height="100%" 
@@ -29,10 +14,6 @@
               onpaste="javascript:scForm.browser.getControl('Preview').style.cssText=this.value"
               oncut="javascript:scForm.browser.getControl('Preview').style.cssText=this.value"
               />
-
-        <Border Align="right" Padding="2px 0px 0px 0px">
-          <Button Header="Edit" Click="javascript:editStyle()"/>
-        </Border>
 
         <Border>
           <Literal Text="Preview:"/>

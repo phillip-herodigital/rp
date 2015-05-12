@@ -202,7 +202,7 @@
               <Name>Text13</Name>
               <Page isRef="8" />
               <Parent isRef="9" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text13>
@@ -704,7 +704,7 @@
               <Name>Text23</Name>
               <Page isRef="8" />
               <Parent isRef="46" />
-              <Text>{string.Format(SessionStartedText, Format("{0:MMM. dd, yyyy}",Visit.StartDateTime), Visit.StartDateTime.ToString("HH:mm"))}</Text>
+              <Text>{string.Format(SessionStartedText, Format("{0:MMM. dd, yyyy}",ReportDateInterpreter.ToUITime(Visit.StartDateTime)), ReportDateInterpreter.ToUITime(Visit.StartDateTime).ToString("HH:mm"))}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text23>

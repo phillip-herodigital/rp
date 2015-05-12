@@ -1,8 +1,4 @@
-﻿div[data-sc-id=DetailsTabMessageBar] {
-    margin-top: 20px;
-}
-
-div[data-sc-id=DetailsRow] {
+﻿div[data-sc-id=DetailsRow] {
   padding-top: 10px;
 }
 
@@ -83,8 +79,19 @@ div[data-sc-id=RightContactColumn] {
   padding-left: 16px;
 }
 
-div[data-sc-id=LeftContactColumn] > div {
+div[data-sc-id=LeftContactColumn] > div,
+div[data-sc-id=RightContactColumn] > div {
   float: left;
   width: 100%;
 }
 
+div[data-sc-id=LeftContactColumn] > div span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+div[data-sc-id=ContactDetailBorder] span[data-sc-id=Value] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -86,7 +86,7 @@ define(["sitecore", "knockout"], function (_sc, ko) {
           f.values().push(v);
         }, this);
 
-        facetList.unshift(f);
+        facetList.push(f);
         
       }, this);      
 

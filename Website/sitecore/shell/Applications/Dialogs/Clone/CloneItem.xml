@@ -18,7 +18,7 @@
               <GridPanel Width="100%" Columns="2">
 
                 <Border Padding="0px 4px 0px 0px" Class="scDialogNoWrap">
-                  <Literal Text="Name:"/>
+                  <Literal Text="Path:"/>
                 </Border>
 
                 <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>

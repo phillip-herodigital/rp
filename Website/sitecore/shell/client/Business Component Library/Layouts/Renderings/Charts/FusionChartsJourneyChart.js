@@ -10,6 +10,11 @@ define(["sitecore", "fusionChartBaseComponent", "css!fusionChartsJourneyChartCss
     name: "FusionChartsJourneyChart",
     base: "FusionChartsBaseComponent",
     selector: ".sc-FusionChartsJourneyChart",
+    segmentSelectionAction: {
+      noAction: "NoAction",
+      drillDown: "DrillDown",
+      showDetails: "ShowDetails"
+    },
     attributes: [
       { name: "data", defaultValue: null },
       { name: "chartProperties", defaultValue: null },
@@ -18,16 +23,10 @@ define(["sitecore", "fusionChartBaseComponent", "css!fusionChartsJourneyChartCss
       { name: "isDurationButtonsPanelVisible", defaultValue: null, value: "$el.data:sc-isdurationbuttonspanelvisible" }
     ],
 
-    lastSelectedId: null,
     durationButtonSortOrder: null,
     categoryDataField: null,
     defaultSelectedButton: null,
     buttons: null,
-    segmentSelectionAction: {
-      noAction: "NoAction",
-      drillDown: "DrillDown",
-      showDetails: "ShowDetails"
-    },
     
     eventName: {
       dataRequested: "dataRequested",
@@ -46,8 +45,8 @@ define(["sitecore", "fusionChartBaseComponent", "css!fusionChartsJourneyChartCss
     // Initialize the component.    
     // </summary>    
     initialize: function() {
-      var scope = this;
       this.app = this;
+      this.allowsDeselection = true;
       this.buttons = {
           prevDuration:null,
           prevUnit:null,
@@ -72,12 +71,6 @@ define(["sitecore", "fusionChartBaseComponent", "css!fusionChartsJourneyChartCss
       this.setDefaultDatarequrestParameters();      
 
       this.model.on("change:data", this.dataChanged, this);
-
-      _.extend(_sc, { Charting: this.Charting });
-
-      this.model.on("segmentClicked", function() {
-        scope.segmentClicked();
-      });
     },
     
     // <summary>
@@ -204,18 +197,6 @@ define(["sitecore", "fusionChartBaseComponent", "css!fusionChartsJourneyChartCss
     // </summary>     
     canDrillUp: function(duration) {
       return this.getDurationButton(duration).attr('data-canDrillUp') === "1";
-    },
-
-    // <summary>
-    // Resets the SelectedSegment object.    
-    // </summary>    
-    resetSelectedSegment: function() {
-      this.Charting.SelectedSegment = {
-        id: null,
-        dataIndex: null,
-        action: null,
-        dataObject: null
-      };
     },
 
     // <summary>
@@ -408,31 +389,6 @@ define(["sitecore", "fusionChartBaseComponent", "css!fusionChartsJourneyChartCss
     },
 
     // <summary>
-    // Change color lumiosity.
-    // <param name="hex">The current color hex value.</param>
-    // <param name="lum">The new luminosity value.</param>
-    // <returns>The new color.</returns>
-    // </summary>    
-    colorLuminosity: function(hex, lum) {
-      // validate hex string
-      hex = String(hex).replace(/[^0-9a-f]/gi, '');
-      if (hex.length < 6) {
-        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-      }
-      lum = lum || 0;
-
-      // convert to decimal and change luminosity
-      var rgb = "#", c, i;
-      for (i = 0; i < 3; i++) {
-        c = parseInt(hex.substr(i * 2, 2), 16);
-        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
-        rgb += ("00" + c).substr(c.length);
-      }
-
-      return rgb;
-    },
-
-    // <summary>
     // Get selected duration button.
     // <param name="duration">The current duration</param>
     // <returns>The button with the given duration.</returns>
@@ -563,8 +519,8 @@ define(["sitecore", "fusionChartBaseComponent", "css!fusionChartsJourneyChartCss
     // </summary>    
     setArrowsTitle: function(duration) {
       var scope = this,
-        databaseUri = new Sitecore.Speak.Definitions.Data.DatabaseUri("core"),
-        database = new Sitecore.Speak.Definitions.Data.Database(databaseUri),
+        databaseUri = new _sc.Definitions.Data.DatabaseUri("core"),
+        database = new _sc.Definitions.Data.Database(databaseUri),
         durationButton = this.getDurationButton(duration),
         durationString = durationButton.text().toLowerCase(),
         unit = durationButton.attr("data-unitValue"),

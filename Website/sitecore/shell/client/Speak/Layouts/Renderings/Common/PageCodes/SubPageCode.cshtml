@@ -44,5 +44,6 @@
 
 @if (!string.IsNullOrEmpty(scriptFileName))
 {
-  <script src="@scriptFileName" type="text/x-sitecore-pagecode" @behaviors> </script>
+  <script data-sc-require="@scriptFileName" type="text/x-sitecore-pagecode" @behaviors>
+  </script>
 }

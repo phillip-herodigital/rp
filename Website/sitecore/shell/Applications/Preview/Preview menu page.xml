@@ -7,7 +7,7 @@
 
       <Script Src="/sitecore/shell/Controls/SitecoreSidebar.js" Form="true"/>
 
-      <CodeBeside Type="Sitecore.Shell.Applications.Preview.PreviewMenuPageForm,Sitecore.Client"/>
+      <CodeBeside Type="Sitecore.Shell.Applications.Preview.PreviewMenuPageForm,Sitecore.ExperienceEditor"/>
 
       <SidebarPortal PortalID="PreviewPortal" PortalDataSource="/sitecore/content/Applications/Preview/Portal"/>
  

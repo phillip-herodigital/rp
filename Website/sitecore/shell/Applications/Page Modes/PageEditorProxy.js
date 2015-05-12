@@ -33,6 +33,10 @@ Sitecore.PageEditorProxy = new function() {
   this.changeShowControls = function(enabled) {
     this._pe().changeShowControls(enabled);
   };
+    
+  this.changeShowOptimization = function (enabled) {
+      this._pe().changeShowOptimization(enabled);
+  };
 
   this.changeVariations = function(combination, selectChrome) {
     this._pe().changeVariations(combination, selectChrome);

@@ -1,0 +1,27 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  var showToolbar = userControl.GetBool("ShowToolbar", true);
+}
+<div>
+  @if (showToolbar)
+  {
+    <section class="sc-dialogContent-toolbar">
+      <div class="sc-dialogContent-toolbar-back">
+        @Html.Sitecore().Placeholder("DialogContent.Back")
+      </div>
+      <div class="sc-dialogContent-toolbar-contextSwitcher">
+        @Html.Sitecore().Placeholder("DialogContent.ContextSwitch")
+      </div>
+      <div class="sc-dialogContent-toolbar-actions text-right">
+        @Html.Sitecore().Placeholder("DialogContent.Actions")
+      </div>
+    </section>
+  }
+  <section class="sc-dialogContent-main">
+    @Html.Sitecore().Placeholder("DialogContent.Main")
+  </section>
+</div>

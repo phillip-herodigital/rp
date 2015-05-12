@@ -62,8 +62,8 @@
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="20">
-      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-7_x0029_,False,True</value>
-      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,StartDate,StartDate,System.DateTime,GetDefaultStartDate_x0028__x0029_,False,True</value>
+      <value>,EndDate,EndDate,System.DateTime,GetDefaultEndDate_x0028__x0029_,False,True</value>
       <value>Texts,ReportTitle,ReportTitle,System.String,Not_x0020_Found,False,False</value>
       <value>Texts</value>
       <value>Texts,NameText,NameText,System.String,Name,False,False</value>
@@ -144,7 +144,7 @@
               <Name>Text13</Name>
               <Page isRef="5" />
               <Parent isRef="6" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text13>
@@ -160,7 +160,7 @@
               <Name>Text14</Name>
               <Page isRef="5" />
               <Parent isRef="6" />
-              <Text>{DateRangeText}: { DateDiff(Today, StartDate).Days == 0 ?  Format("{0:MMM. dd, yyyy}", Today) : Format("{0:MMM. dd, yyyy}", StartDate) +" - "+ Format("{0:MMM. dd, yyyy}", EndDate)}</Text>
+              <Text>{DateRangeText}: { GetFormattedDateRange(StartDate, EndDate) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text14>
@@ -473,7 +473,7 @@ using Stimulsoft.Report.Components;
 namespace Reports
 {
     
-    public class NotFoundReport : Stimulsoft.Report.StiReport
+    public class NotFoundReport : Sitecore.Analytics.Reports.ReportBase
     {
         
         public NotFoundReport()

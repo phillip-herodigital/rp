@@ -1,0 +1,57 @@
+﻿.experience-explorer a {
+    outline: 0;
+}
+
+.experience-explorer .panel {
+    position: fixed;
+    top: 0;
+    width: 350px;
+    height: 100%;
+    background-color: rgba(60, 60, 60, 0.2);
+    z-index: 10000;
+  margin-top: 50px;
+}
+
+.experience-explorer .panel.editor {
+    border-right: 3px solid #3FBFBE;
+}
+
+.experience-explorer .panel.viewer {
+     border-left: 3px solid #62A8D9;
+}
+
+.experience-explorer .trigger {
+    display: block;
+    height: 120px;
+    width: 40px;
+    position: absolute;
+    top: 30%;
+    left: 350px;
+    background: url("/sitecore modules/web/experienceExplorer/assets/images/tabs.jpg") no-repeat 0 0;
+}
+
+.experience-explorer .viewer .trigger {
+    left: -40px;
+    background-position: -42px 0;
+}
+
+.experience-explorer .ee-iframe {
+    height: 100%;
+    width: 100%;
+    border: 0;
+    overflow: hidden;
+}
+
+.experience-explorer .page-editor-link {
+    position: absolute;
+    left: 28px;
+    top: 17px;
+    font-family: 'Segoe UI Light','Helvetica Neue','Segoe UI','Segoe WP',sans-serif;
+    text-align: left;
+    background: url("/sitecore modules/web/experienceExplorer/assets/images/sc-edit.png") no-repeat center left;
+    padding-left: 18px;
+    border: none;
+    width: 50px;
+    line-height: 9px;
+    font-size: 9px;
+}

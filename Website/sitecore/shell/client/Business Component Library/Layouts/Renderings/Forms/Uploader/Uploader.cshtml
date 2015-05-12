@@ -9,7 +9,7 @@
   var destination = userControl.GetString("DestinationUrl", "destinationUrl");
 
   userControl.Requires.Script("business", "uploader.js");
-  userControl.Class = "sc-uploader row-fluid";
+  userControl.Class = "sc-uploader row";
 
   var parametersResolver = new DatasourceBasedParametersResolver(this.Model.Rendering);
 
@@ -53,30 +53,31 @@
   var htmlAttributes = userControl.HtmlAttributes;
 }
 <form @htmlAttributes method="POST" enctype="multipart/form-data">
-        <img class="sc-uploader-preview hide" />
-        <div class="sc-uploader-content">
-                <span class="drag">
-                    @Sitecore.ClientHost.Globalization.Translate(shortDescriptionText)
-                    <br />
-                    @Sitecore.ClientHost.Globalization.Translate("or")
-                    <br />
-                </span>
-            <span class="btn sc-button">@Sitecore.ClientHost.Globalization.Translate(browseButtonText)
-                <input class="sc-uploader-fileupload" type="file" name="files[]"  multiple>
-            </span>
-          <div class="sc-uploader-general-info">
-                <div class="sc-uploader-general-info-progressbar progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                    <div class="bar" data-bind="style: { width: globalPercentage() + '%' }"></div>
-                </div>      
-            <div class="sc-uploader-general-info-data">
-              <div class="sc-uploader-general-info-data-col col1">
-                <div class="sc-uploader-general-info-data-uploadingData"><span data-bind="text: uploadedSize"></span>&nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;</div><span data-bind="  text: totalSize"></span>
-                </div>                
-              <div class="sc-uploader-general-info-data-col col2">|</div>
-              <div class="sc-uploader-general-info-data-col col3">
-                <div class="sc-uploader-general-info-data-uploadingData"><span data-bind="  text: uploadedFiles"></span> &nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;</div><span data-bind="  text: totalFiles"></span>&nbsp;<span data-bind="  visible: totalFiles() > 1">@Sitecore.ClientHost.Globalization.Translate("files")</span><span data-bind="  visible: totalFiles() === 1">@Sitecore.ClientHost.Globalization.Translate("file")</span>      
-                </div>
-              </div>
-          </div>
+  <img class="sc-uploader-preview hide" />
+  <div class="sc-uploader-content">
+    <span class="drag">
+      @Sitecore.ClientHost.Globalization.Translate(shortDescriptionText)
+      <br />
+      @Sitecore.ClientHost.Globalization.Translate("or")
+      <br />
+    </span>
+    <a href="#" class="btn btn-default sc-button">
+      @Sitecore.ClientHost.Globalization.Translate(browseButtonText)
+      <input class="sc-uploader-fileupload" type="file" name="files[]" multiple>
+    </a>
+    <div class="sc-uploader-general-info">
+      <div class="sc-uploader-general-info-progressbar progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <div class="bar" data-bind="style: { width: globalPercentage() + '%' }"></div>
+      </div>
+      <div class="sc-uploader-general-info-data">
+        <div class="sc-uploader-general-info-data-col col1">
+          <div class="sc-uploader-general-info-data-uploadingData"><span data-bind="text: uploadedSize"></span>&nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;</div><span data-bind="  text: totalSize"></span>
         </div>
+        <div class="sc-uploader-general-info-data-col col2">|</div>
+        <div class="sc-uploader-general-info-data-col col3">
+          <div class="sc-uploader-general-info-data-uploadingData"><span data-bind="  text: uploadedFiles"></span> &nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;</div><span data-bind="  text: totalFiles"></span>&nbsp;<span data-bind="  visible: totalFiles() > 1">@Sitecore.ClientHost.Globalization.Translate("files")</span><span data-bind="  visible: totalFiles() === 1">@Sitecore.ClientHost.Globalization.Translate("file")</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>

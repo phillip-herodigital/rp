@@ -8,6 +8,6 @@
   var clientId = rendering.GetControlClientId();
   var htmlAttributes = rendering.HtmlAttributes;
 }
-<div @htmlAttributes data-sc-app="@clientId">
+<div @htmlAttributes id="@clientId" data-sc-app="@clientId">
   @Html.Sitecore().Controls().ItemRenderer(Model.Rendering)
 </div>

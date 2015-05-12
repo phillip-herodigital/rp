@@ -1,189 +1,162 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Sitecore.sitecore.login.LoginPage" %>
-<%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
-<%@ OutputCache Location="None" VaryByParam="none" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Sitecore.sitecore.login.Default" %>
+
+<%@ Import Namespace="Sitecore.Configuration" %>
+<%@ Import Namespace="Sitecore.SecurityModel.License" %>
+
 <!DOCTYPE html>
+
 <html>
 <head runat="server">
-    <title>Sitecore</title>
-    <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
-    <link href="/sitecore/login/default.css" rel="stylesheet" />
-    <meta name="robots" content="noindex, nofollow" />
-    <script type="text/JavaScript" src="/sitecore/login/default.js"></script> 
-    <asp:PlaceHolder id="ExpressStylesheet" runat="server" />
+  <title>Welcome to Sitecore</title>
+  <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+
+  <script type="text/javascript">
+    if (window != top) {
+      top.location.href = '<%#GetLoginPageUrl()%>' + '?returnUrl=' + top.location.pathname;
+    }
+  </script>
+
+  <!-- Bootstrap for testing -->
+  <link href="/sitecore/shell/Themes/Standard/Default/Login.css" rel="stylesheet" />
+
+  <!-- jQuery for testing -->
+  <script src="/sitecore/shell/Controls/Lib/jQuery/jquery-1.10.2.min.js"></script>
+
+  <style>
+
+      .login-outer {
+        background: url('<%#GetBackgroundImageUrl() %>') no-repeat center center fixed;
+		    background-size:cover;
+      }
+
+     
+    </style>
 </head>
-<body onload="javascript:onLoad()">
-    <form id="LoginForm" runat="server">
-    <input id="ActiveTab" runat="server" name="ActiveTab" type="hidden" />
-    <input id="AdvancedOptionsStartUrl" runat="server" name="AdvancedOptionsStartUrl"
-        type="hidden" />
-    <div id="Body">
-        <div id="Banner">
-            <div id="BannerPartnerLogo">
-                <asp:PlaceHolder ID="PartnerLogo" runat="server" />
-            </div>
-            <img id="BannerLogo" src="/sitecore/login/logo.png" alt="Sitecore Logo" border="0" />
+<body class="sc">
+  <div class="login-outer">
+    <div class="login-main-wrap">
+      <div class="login-box">
+        <div class="logo-wrap">
+          <img src="/sitecore/shell/Themes/Standard/Images/Login/logo.png" alt="Sitecore logo" />
         </div>
-        <div id="Menu">
-            <div>
-                <div>
-                    <div></div>
+
+        <form id="LoginForm" runat="server" class="form-signin" role="form">
+
+          <div id="login">
+             <div id="credentialsError" class="sc-messageBar" style="display: none">
+                <div class="sc-messageBar-head alert">
+                  <i class="alert-ico"></i>
+                  <span class="sc-messageBar-messageText">
+                    <asp:Literal runat="server" Text="Please enter your login credentials."></asp:Literal>
+                  </span>
                 </div>
+              </div>
+
+            <asp:PlaceHolder runat="server" ID="FailureHolder" Visible="False">
+              <div class="sc-messageBar">
+                <div class="sc-messageBar-head alert">
+                  <i class="alert-ico"></i>
+                  <span class="sc-messageBar-messageText">
+                    <asp:Literal runat="server" ID="FailureText" Text="Login failed" />  
+                  </span>
+                </div>
+              </div>
+              
+            </asp:PlaceHolder>
+
+            <asp:PlaceHolder runat="server" ID="SuccessHolder" Visible="False">
+              <div class="sc-messageBar">
+                <div class="sc-messageBar-head alert alert-info">
+                  <i class="alert-ico"></i>
+                  <span class="sc-messageBar-messageText">
+                      <asp:Literal runat="server" ID="SuccessText" />
+                  </span>
+                </div>
+              </div>
+            </asp:PlaceHolder>
+
+            <div class="form-wrap">
+              <asp:Label runat="server" ID="loginLbl" CssClass="login-label">User name:</asp:Label>
+              <asp:TextBox ID="UserName" CssClass="form-control" placeholder="Enter user name"  autofocus runat="server" ValidationGroup="Login" />
+              <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" ValidationGroup="Login" />
+              <asp:Label runat="server" ID="passLabel" CssClass="login-label">Password:</asp:Label>
+              <asp:TextBox ID="Password" CssClass="form-control" placeholder="Enter password" runat="server" TextMode="Password" ValidationGroup="Login" />
+              <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="Password" ValidationGroup="Login" />
             </div>
-        </div>
-        <div id="Right">
-            <div id="SystemInformation">
-                <div id="LicensePanel">
-                    <asp:PlaceHolder ID="LicenseText" runat="server" />
+
+            <asp:Button runat="server" ValidationGroup="Login" UseSubmitBehavior="True" CssClass="btn btn-primary btn-block" OnClick="LoginClicked" Text="Log in" />
+
+            <div class="remember-me-wrap">
+              <asp:PlaceHolder ID="PlaceHolder3" runat="server" Visible="<%# !Settings.Login.DisableLicenseInfo %>">
+                <div class="license-info-link-wrap">
+                    <a href="javascript:;" id="licenseOptionsLink" class="login-link">License options</a>
                 </div>
-                <div id="VersionPanel" class="SystemInformationDivider">
-                    <asp:PlaceHolder ID="VersionText" runat="server" />
+              </asp:PlaceHolder>
+            
+              <asp:PlaceHolder ID="PlaceHolder2" runat="server" Visible="<%# !Settings.Login.DisableRememberMe %>">
+                <div class="remember-me-lnk">
+                  <label class="checkbox login-label">
+                    <asp:CheckBox runat="server" ID="RememberMe" />
+                    Remember me
+                  </label>
                 </div>
-                <div id="DatabasePanel" runat="server" class="SystemInformationDivider">
-                    <asp:PlaceHolder ID="DatabaseText" runat="server" />
+              </asp:PlaceHolder>
+                
+              <asp:PlaceHolder ID="PlaceHolder1" runat="server" Visible="<%# !Settings.Login.DisablePasswordRecovery %>">
+                <div class="forgot-pass-link-wrap">
+                  <span class="forgot-pass-separator"></span>
+                  <a href="#" class="show-recovery">Forgot your password?</a>
                 </div>
-                <div id="CustomTextPanel" runat="server" class="SystemInformationDivider">
-                    <asp:PlaceHolder ID="CustomText" runat="server" />
-                </div>
+              </asp:PlaceHolder>
             </div>
-            <div id="SDN">
-                <iframe id="StartPage" runat="server" allowtransparency="true" frameborder="0" scrolling="auto"
-                    marginheight="0" marginwidth="0" style="display: none"></iframe>
+          </div>
+
+          <div id="passwordRecovery" style="display: none">
+            <h2 class="form-signin-heading">Forgot your password?</h2>
+            <asp:PlaceHolder runat="server" Visible="<%# string.IsNullOrEmpty(Settings.MailServer) %>">
+              <div class="sc-messageBar">
+              <div class="sc-messageBar-head alert">
+                  <i class="alert-ico"></i>
+                  <span class="sc-messageBar-messageText">
+                    <asp:Literal runat="server" Text="Mail server settings has not been configured. Password recovery is not possible."></asp:Literal>
+                  </span>
+                </div>
+               </div>
+            </asp:PlaceHolder>
+            <asp:PlaceHolder runat="server" Visible="<%# !string.IsNullOrEmpty(Settings.MailServer) %>">
+              <asp:TextBox disabled ID="UserNameForgot" ValidationGroup="Recovery" CssClass="form-control" placeholder="User name" required runat="server" />
+              <asp:Button runat="server" ValidationGroup="Recovery" UseSubmitBehavior="True" CssClass="btn btn-lg btn-primary btn-block" OnClick="ForgotPasswordClicked" Text="Send" />
+            </asp:PlaceHolder>
+            <div class="forgot-pass-wrap">
+              <a class="hide-recovery login-link" href="javascript:;">&lt; Back</a>
             </div>
-        </div>
-        <div id="Left" align="center">
-            <div id="LoginPanelOuter">
-                <table id="LoginPanel" cellpadding="0" cellspacing="0" border="0">
-                    <tr>
-                        <td valign="top" height="1">
-                            <div id="LoginTitle">
-                                <asp:PlaceHolder ID="LoginTitleText" runat="server" />
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top" align="center" height="1">
-                            <div id="LoginPanelBox">
-                                <asp:Login ID="Login" runat="server" FailureAction="Refresh">
-                                    <LayoutTemplate>
-                                        <table cellpadding="2" cellspacing="0" border="0">
-                                            <tr>
-                                                <td id="UserNameLabel" align="right">
-                                                <sc:Literal Text="User Name:" runat="server" />
-                                                </td>
-                                                <td align="left">
-                                                    <asp:TextBox ID="UserName" runat="server"></asp:TextBox>
-                                                    <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName"
-                                                        Text="*"></asp:RequiredFieldValidator>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td id="PasswordLabel" align="right">
-                                                    <sc:Literal runat="server" Text="Password:" />
-                                                </td>
-                                                <td align="left">
-                                                    <asp:TextBox ID="Password" runat="server" TextMode="Password"></asp:TextBox>
-                                                    <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password"
-                                                        Text="*"></asp:RequiredFieldValidator>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                </td>
-                                                <td align="left" style="padding-bottom: 12px;">
-                                                    <asp:CheckBox Style="margin-left: -4px" ID="Remember" runat="server" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2" align="center">
-                                                    <asp:Button ID="Login" CommandName="Login" runat="server" CssClass="login_button" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <div id="LoginText">
-                                            <sc:Literal ID="FailureText" runat="server" />
-                                        </div>
-                                    </LayoutTemplate>
-                                    <LabelStyle Font-Size="8pt" Font-Names="tahoma" />
-                                    <LoginButtonStyle Width="75px" Height="25px" Font-Names="tahoma" Font-Size="8pt"
-                                        Font-Bold="true" />
-                                    <TextBoxStyle Font-Bold="true" Font-Size="8pt" Font-Names="tahoma" />
-                                </asp:Login>
-                                <div id="LoginText">
-                                    <sc:Literal ID="FailureText2" runat="server" />
-                                </div>
-                                <div id="LoginOptions">
-                                    <a class="LoginOption" id="ForgotYourPassword" runat="server" href="/sitecore/login/passwordrecovery.aspx"><sc:Literal Text="Forgot Your Password" runat="server" /></a>
-                                    <a class="LoginOption" id="ChangePassword" runat="server" href="/sitecore/login/changepassword.aspx"><sc:Literal Text="Change Password" runat="server" /></a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td height="300" valign="top">
-                            <div id="BasicMoreOptions">
-                                <div>
-                                    <a href="#" hidefocus="true" onclick="javascript:return scToggleOptions()"><sc:Literal runat="server" Text="Options" /></a>
-                                </div>
-                                <div id="OptionBox" class="OptionBox" style="display: none" runat="server">
-                                    <div id="AdvancedOptions" class="OptionBoxOptions">
-                                        <div align="left" class="OptionLabel">
-                                            <sc:Literal runat="server" Text="User Interface:" /></div>
-                                        <div class="UIPanel">
-                                            <button id="AdvancedDesktop" type="button" runat="server" onclick="javascript:onClick('AdvancedDesktop', '/sitecore/shell/default.aspx')"
-                                                ondblclick="javascript:onDblClick()">
-                                                <img class="AdvancedOptionImage" src="/sitecore/shell/~/icon/People/24x24/monitor.png.aspx"
-                                                    alt="Desktop" border="0" />
-                                                <sc:Literal runat="server" Text="Desktop" />
-                                            </button>
-                                            <button id="AdvancedContentEditor" type="button" runat="server" onclick="javascript:onClick('AdvancedContentEditor', '/sitecore/shell/applications/clientusesoswindows.aspx')"
-                                                ondblclick="javascript:onDblClick()">
-                                                <img class="AdvancedOptionImage" src="/sitecore/shell/~/icon/People/24x24/cube_blue.png.aspx"
-                                                    alt="Content Editor" border="0" />
-                                                <sc:Literal runat="server" Text="Content Editor" />
-                                            </button>
-                                            <button id="AdvancedWebEdit" type="button" runat="server" onclick="javascript:onClick('AdvancedWebEdit', '/sitecore/shell/applications/webedit.aspx')"
-                                                ondblclick="javascript:onDblClick()">
-                                                <img class="AdvancedOptionImage" src="/sitecore/shell/~/icon/Applications/24x24/document_edit.png.aspx"
-                                                    alt="WebEdit" border="0" />
-                                                <sc:Literal runat="server" Text="Page Editor" />
-                                            </button>
-                                        </div>
-                                      <div class="UIPanel">
-                                            <button id="AdvancedAppLauncher" type="button" runat="server" onclick="javascript:onClick('AdvancedAppLauncher', '/sitecore/client/Applications/Launch Pad')"
-                                                ondblclick="javascript:onDblClick()">
-                                                <img class="AdvancedOptionImage" src="/sitecore/shell/Themes/Standard/Images/Speak/24x24/Startpage.png"
-                                                    alt="Desktop" border="0" />
-                                                <sc:Literal runat="server" Text="Launch Pad" />
-                                            </button>                                            
-                                        </div>
-                                    </div>
-                                    <div id="LanguagePanel">
-                                        <div align="left" class="OptionLabel">
-                                            <sc:Literal runat="server" Text="User Interface Language:" /></div>
-                                        <div style="padding: 4px 0px 8px 0px" align="left">
-                                            <select id="Language" runat="server" name="Language" style="border: 1px solid #ededed;
-                                                width: 100%" />
-                                        </div>
-                                    </div>
-                                    <div style="padding: 4px 0px 0px 0px">
-                                        <button class="close-options" style="" onclick="javascript:return scToggleOptions()">
-                                            <sc:Literal runat="server" Text="Close Options" /></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="bottom" height="1">
-                            <div id="SitecoreLink">
-                                <a href="http://www.sitecore.net" target="_blank"><sc:Literal runat="server" Text="Visit www.sitecore.net" /></a>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+          </div>
+          
+          <div id="licenseOptions" style="display: none;">
+<%--            <h2 class="form-signin-heading">License and browser information</h2>--%>
+            <div class="license-info-wrap">
+              <ul>
+                <li>System information</li>
+                <li>License holder <%# License.Licensee %></li>
+                <li>License ID <%# License.LicenseID %></li>
+                <li>Sitecore version <%# About.VersionInformation() %></li>
+              </ul>
+              
+              <iframe id="StartPage" runat="server" allowtransparency="true" frameborder="0" scrolling="auto"
+                    marginheight="0" marginwidth="0" style="display: none; height: 105px;"></iframe>
+
             </div>
-        </div>
+            <div class="login-link-wrap">
+              <a href="javascript:;" id="licenseOptionsBack" class="login-link">&lt; Back</a>  
+            </div>
+
+          </div>
+        </form>
+      </div>
     </div>
-    </form>
+  </div>
+  <script type="text/javascript" src="/sitecore/login/login.js"></script>
 </body>
 </html>

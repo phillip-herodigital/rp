@@ -1,0 +1,83 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.PathAnalyzer.Localization
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+    var userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+    userControl.Class = "sc-filtercontrol";
+    userControl.DataBind = "visible: isVisible";
+    userControl.Requires.Script("pathanalyzer", "filters.js");
+
+    var htmlAttributes = userControl.HtmlAttributes;
+
+    var resourceManager = new ResourceManager();
+}
+<div @htmlAttributes>
+    <div id="filterBar">
+        <table>
+            <tr>
+                <th>
+                    @resourceManager.Translate(PathAnalyzerTexts.Sort)
+                </th>
+                <th>
+                    @resourceManager.Translate(PathAnalyzerTexts.Filter)
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="sc-filterControl-panel">
+                        <div class="sc-filtercontrol-item">
+                            <label>
+                                <input type="radio" class="sort" name="sortingRadios" id="sortVisits" value="visits" checked="checked">
+                                <span>@resourceManager.Translate(PathAnalyzerTexts.Visits)</span>
+                            </label>
+                        </div>
+                        <div class="sc-filtercontrol-item">
+                            <label>
+                                <input type="radio" class="sort" name="sortingRadios" id="sortValue" value="value">
+                                <span>@resourceManager.Translate(PathAnalyzerTexts.Value)</span>
+                            </label>
+                        </div>
+                        <div class="sc-filtercontrol-item">
+                            <label>
+                                <input type="radio" class="sort" name="sortingRadios" id="sortEfficiency" value="efficiency">
+                                <span>@resourceManager.Translate(PathAnalyzerTexts.ValuePerVisit)</span>
+                            </label>
+                        </div>
+                        <div class="sc-filtercontrol-item">
+                            <label>
+                                <input type="radio" class="sort" name="sortingRadios" id="sortDepth" value="depth">
+                                <span>
+                                    @resourceManager.Translate(PathAnalyzerTexts.PathDepth)
+                                </span>
+                            </label>
+                        </div>
+
+                    </div>
+                </td>
+                <td>
+                    <div class="sc-filterControl-panel">
+                        <div class="sc-filtercontrol-item">
+                            <label>
+                                <input type="radio" class="filter" name="filterRadios" id="topFilter" data-desc="true" data-take="10" checked="checked">
+                                <span>@resourceManager.Translate(PathAnalyzerTexts.Top10)</span>
+                            </label>
+                        </div>
+                        <div class="sc-filtercontrol-item">
+                            <label>
+                                <input type="radio" class="filter" name="filterRadios" id="lowFilter" data-desc="false" data-take="10">
+                                <span>@resourceManager.Translate(PathAnalyzerTexts.Low10)</span>
+                            </label>
+                        </div>
+                        <div class="sc-filtercontrol-item">
+                            <label>
+                                <input type="radio" class="filter" name="filterRadios" id="allFilter" value="all" data-desc="true" data-take="-1">
+                                <span>@resourceManager.Translate(PathAnalyzerTexts.All)</span>
+                            </label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+﻿@model Sitecore.Social.Client.Mvc.Areas.Social.Models.ShareButtonViewModel
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+<div style="float: right;">
+  <fb:like href="@Model.SharePageUrlWithAnalyticsParameters" layout="button_count" show_faces="true"></fb:like>
+</div>
+@Html.Raw(Model.SubscribeToShareButtonEventScript)

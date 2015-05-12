@@ -28,23 +28,23 @@ module.exports = function( sitecore, ko ) {
 },{"./ko":3}],3:[function(require,module,exports){
 var DOMUtils = require( "./dom" );
 
-module.exports = function ( sitecore, ko ) {
+module.exports = function( sitecore, ko ) {
 
-  var markAsRegistered = function ( comp ) {
+  var markAsRegistered = function( comp ) {
     if ( !comp.el ) {
       return;
     }
 
     var bindingsElement = [ comp.el ],
-      nestedBinding = sitecore.utils.toArray( comp.el.querySelectorAll( "[data-bind]" ) );
+      nestedBinding = sitecore.utils.array.toArray( comp.el.querySelectorAll( "[data-bind]" ) );
 
     bindingsElement = bindingsElement.concat( nestedBinding );
 
-    bindingsElement.forEach( function ( el ) {
+    bindingsElement.forEach( function( el ) {
       el.__registered = true;
     } );
 
-    DOMUtils.computeComments( comp.el, function ( el ) {
+    DOMUtils.computeComments( comp.el, function( el ) {
       el.__registered = true;
     } );
 
@@ -54,11 +54,11 @@ module.exports = function ( sitecore, ko ) {
   /**
    * Setup ko
    */
-  var SPEAKBindingProvider = function () {
+  var SPEAKBindingProvider = function() {
     var result = new ko.bindingProvider(),
       originalHasBindings = result.nodeHasBindings;
 
-    result.nodeHasBindings = function ( node ) {
+    result.nodeHasBindings = function( node ) {
       if ( !node.__registered ) {
         return originalHasBindings.call( this, node );
       }

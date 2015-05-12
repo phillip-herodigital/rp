@@ -12,7 +12,7 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   
   <Sitecore.Shell.Applications.ContentEditor.Dialogs.FixHtml x:inherits="Sitecore.Shell.Applications.ContentEditor.Dialogs.FixHtml.FixHtmlPage,Sitecore.Client">
-    <Sitecore.Controls.DialogPage Header="Suggest Fix" Icon="Applications/32x32/check.png" Text="Review the suggested fix. Click Accept to use the modified text." OKButton="Accept" runat="server">
+    <Sitecore.Controls.DialogPage Header="Suggest Fix" OKButton="Accept" runat="server">
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
@@ -24,7 +24,7 @@
         }
 
         .fixHtmlContainer{
-        padding: 8px;
+        padding: 15px;
         }
 
         .column {
@@ -44,7 +44,7 @@
 
         .viewErrors{
         position: absolute;
-        bottom: 5px;
+        bottom: 0px;
         left: 5px;
         right: 0;
         margin-top:5px;
@@ -60,20 +60,20 @@
         }
         
         .infoMessage {
-          margin-bottom: 8px;
+          margin-bottom: 15px;
         }
 
       </Style>
       
-      <div class="fixHtmlContainer scStretchAbsolute scFlexColumnContainer">
-        <Literal class="infoMessage" Text="This field may contain HTML errors. Accepting the suggested corrections can remove HTML tags and attributes.  This can result in the loss of formatting and/or functionality.  Please review the suggested corrections carefully." runat="server" />
+      <div class="scStretch scFlexColumnContainer">
+        <Literal class="infoMessage" Text="Your text may contain HTML errors. To remove all HTML tags and attributes, you should accept the changes suggested in the corrected text. This action can result in loosing formatting or functionality, so please review the suggested changes carefully." runat="server" />
 
         <Tabstrip id="TabStrip" class="scFlexContent" runat="server">
           <Tab ID="TextTab" header="Text" runat="server">
             
             <div class="column">
               <div>
-                <Literal Text="Original Text" style="color:#333333" runat="server" />
+                <Literal Text="Original text" style="color:#333333" runat="server" />
                 :
                 <Literal ID="OriginalErrorCount" runat="server" />
               </div>
@@ -82,14 +82,14 @@
               </div>
               <div class="viewErrors">
                 <a href="#" class="scContentButton" onclick="javascript:scForm.postRequest('','','','ViewOriginalErrors')">
-                  <Literal Text="View Errors" runat="server" />
+                  <Literal Text="View errors" runat="server" />
                 </a>
               </div>
             </div>
 
             <div class="column">
               <div>
-                <Literal Text="Corrected Text" style="color:#333333" runat="server" />
+                <Literal Text="Corrected text" style="color:#333333" runat="server" />
                 :
                 <Literal ID="FixedErrorCount" runat="server" />
               </div>
@@ -98,16 +98,16 @@
               </div>
               <div class="viewErrors">
                 <a href="#" class="scContentButton" onclick="javascript:scForm.postRequest('','','','ViewFixedErrors')">
-                  <Literal Text="View Errors" runat="server" />
+                  <Literal Text="View errors" runat="server" />
                 </a>
               </div>
             </div>
 
           </Tab>
-          <Tab id="HtmlTab" header="Html" runat="server">
+          <Tab id="HtmlTab" header="HTML" runat="server">
             <div class="column">
               <div>
-                <Literal Text="Original Html" style="color:#333333" runat="server" />
+                <Literal Text="Original HTML" style="color:#333333" runat="server" />
                 :
                 <Literal ID="OriginalErrorCount2" runat="server" />
               </div>
@@ -117,13 +117,13 @@
               </div>
               <div class="viewErrors">
                 <a href="#" class="scContentButton" onclick="javascript:scForm.postRequest('','','','ViewOriginalErrors')">
-                  <Literal Text="View Errors" runat="server" />
+                  <Literal Text="View errors" runat="server" />
                 </a>
               </div>
             </div>
             <div class="column">
               <div>
-                <Literal Text="Corrected Html" style="color:#333333" runat="server" />
+                <Literal Text="Corrected HTML" style="color:#333333" runat="server" />
                 :
                 <Literal ID="FixedErrorCount2" runat="server" />
               </div>
@@ -132,7 +132,7 @@
               </div>
               <div class="viewErrors">
                 <a href="#" class="scContentButton" onclick="javascript:scForm.postRequest('','','','ViewFixedErrors')">
-                  <Literal Text="View Errors" runat="server" />
+                  <Literal Text="View errors" runat="server" />
                 </a>
               </div>
             </div>

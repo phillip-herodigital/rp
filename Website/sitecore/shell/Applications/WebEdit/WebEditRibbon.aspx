@@ -5,7 +5,7 @@
 <head runat="server">
   <title>Sitecore</title>
   <sc:Stylesheet runat="server" Src="Content Manager.css" DeviceDependant="true"/><asp:placeholder id="Stylesheets" runat="server" />
-  <sc:Stylesheet runat="server" Src="Ribbon.css" DeviceDependant="true" />
+  <sc:Stylesheet runat="server" Src="/sitecore/shell/Applications/WebEdit/OldRibbon.css" DeviceDependant="true" />
 
   <sc:Stylesheet runat="server" Src="/sitecore/shell/Applications/WebEdit/WebEditRibbon.css"/>
   <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreObjects.js"></script>
@@ -151,7 +151,7 @@
   <input type="hidden" id="scPlainValue" name="scPlainValue" />
   <input type="hidden" id="scLayoutDefinition" name="scLayoutDefinition" />
       
-  <sc:CodeBeside runat="server" Type="Sitecore.Shell.Applications.WebEdit.WebEditRibbonForm,Sitecore.Client"/>
+  <sc:CodeBeside runat="server" Type="Sitecore.Shell.Applications.WebEdit.WebEditRibbonForm,Sitecore.ExperienceEditor"/>
   
   <form id="RibbonForm" runat="server">           
     <sc:Border ID="Buttons" runat="server" />         

@@ -16,15 +16,16 @@
           <value>TotalVisits,System.Int32</value>
           <value>TotalValue,System.Int32</value>
           <value>RecencyYears,RecencyYears,System.Double,Round_x0028__x0028_int_x0029_DataSource.RecencyDays_x002F_365.2425_x0029_</value>
-          <value>IsToday,IsToday,System.Boolean,_x0028__x0028_DateTime_x0029__x0028_Today_x0029__x0029_.Date_x0020__x003D__x003D__x0020__x0028__x0028_DateTime_x0029__x0028_DataSource.Recency_x0029__x0029_.Date</value>
+          <value>IsToday,IsToday,System.Boolean,_x0028__x0028_DateTime_x0029__x0028_UiToday_x0029__x0029_.Date_x0020__x003D__x003D__x0020__x0028__x0028_DateTime_x0029__x0028_DataSource.LocalRecency_x0029__x0029_.Date</value>
           <value>IsYesterday,IsYesterday,System.Boolean,_x0021__x0028__x0028_bool_x0029_DataSource.IsToday_x0029__x0020__x0026__x0026__x0020__x0028_int_x0029_DataSource.RecencyDays_x0020__x003D__x003D__x0020_0</value>
-          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_Today.Year_x0020_-12_x002A__x0028__x0028_DateTime_x0029__x0028_DataSource.Recency_x0029__x0029_.Year_x0020__x002B_Today.Month_x0020_-_x0020__x0028__x0028_DateTime_x0029__x0028_DataSource.Recency_x0029__x0029_.Month</value>
-          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_Today_x002C__x0020__x0028__x0028_DateTime_x0029__x0028_DataSource.Recency_x0029__x0029__x0029_.Days</value>
+          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_UiToday.Year_x0020_-12_x002A__x0028__x0028_DateTime_x0029__x0028_DataSource.LocalRecency_x0029__x0029_.Year_x0020__x002B_UiToday.Month_x0020_-_x0020__x0028__x0028_DateTime_x0029__x0028_DataSource.LocalRecency_x0029__x0029_.Month</value>
+          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_UiToday_x002C__x0020__x0028__x0028_DateTime_x0029__x0028_DataSource.LocalRecency_x0029__x0029__x0029_.Days</value>
           <value>Days,Days,System.Int32,DateDiff_x0028_DataSource.LatestDate_x002C__x0020_DataSource.FirtsVisitDate_x0029_.Days</value>
           <value>ActivityLevel,ActivityLevel,System.Double,_x0031_0_x002A_DataSource.TotalVisitors_x002A_DataSource.TotalVisits_x002F__x0028_DataSource.Days_x002B_1_x0029_</value>
           <value>Rating,System.Double</value>
           <value>LatestDate,System.DateTime</value>
           <value>Recency,System.DateTime</value>
+          <value>LocalRecency,LocalRecency,System.DateTime,ReportDateInterpreter.ToUITime_x0028_DataSource.Recency_x0029_</value>
           <value>FirtsVisitDate,System.DateTime</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
@@ -41,8 +42,8 @@
     <Relations isList="true" count="0"/>
     <Report isRef="0" />
     <Variables isList="true" count="25">
-      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-30_x0029_,False,True</value>
-      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,StartDate,StartDate,System.DateTime,GetDefaultStartDate_x0028__x0029_,False,True</value>
+      <value>,EndDate,EndDate,System.DateTime,GetDefaultEndDate_x0028__x0029_,False,True</value>
       <value>Texts</value>
       <value>Texts,ReportTitle,ReportTitle,System.String,,False,False</value>
       <value>Texts,PrintDateText,PrintDateText,System.String,print_x0020_date,False,False</value>
@@ -126,7 +127,7 @@
               <Name>Text13</Name>
               <Page isRef="5" />
               <Parent isRef="6" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text13>
@@ -141,8 +142,7 @@
               <Name>Text14</Name>
               <Page isRef="5" />
               <Parent isRef="6" />
-              <Text>{IsDaily ? DateText :DateRangeText}: {IsDaily ? Format("{0:MMM. dd, yyyy}", EndDate) : Format("{0:MMM. dd, yyyy}", StartDate) +" - "+ Format("{0:MMM. dd, yyyy}", EndDate)}
-</Text>
+              <Text>{IsDaily ? DateText : DateRangeText}: { IsDaily ? GetFormattedDate(EndDate) : GetFormattedDateRange(StartDate, EndDate) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text14>
@@ -362,7 +362,7 @@
               <Parent isRef="19" />
               <Text>
                 {GetApproximateRecencyText(DataSource.Recency, YearsAgoText, MonthAgoText, TodayText, YesterdayText, DaysAgoTexts)}
-                {Format("{0:MMM.dd,yyyy}", DataSource.Recency)}</Text>
+                {Format("{0:MMM.dd,yyyy}", ReportDateInterpreter.ToUITime(DataSource.Recency))}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text10>

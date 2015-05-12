@@ -10,6 +10,7 @@
       imageUrlProperty = "imageUrl";
 
   var app = sc.Definitions.App.extend({
+    
     initialized: function ()
     {
       var transformers = $.map(
@@ -33,6 +34,7 @@
       this.setupRecentCampaigns(intelBaseUrl);
     },
 
+    
     setupLatestEvents: function (intelBaseUrl, analyticsBaseUrl)
     {
       providerHelper.initProvider(this.LatestEventsProvider, latestEventsTable, intelBaseUrl + "/" + latestEventsTable, this.OverviewTabMessageBar);
@@ -42,12 +44,14 @@
         var data = args.data,
             subapp = args.app;
 
-        subapp.EventIcon.set(imageUrlProperty, analyticsBaseUrl + "pageevents/" + data.EventId + "/image?w=16&h=16");
+        subapp.EventIcon.set(imageUrlProperty, data.ImageUrl + "?w=16&h=16");
         cintelUtil.setText(subapp.EventDisplayName, data.EventDisplayName, true);
         cintelUtil.setText(subapp.Title, data.EventSubjectText, true);
         cintelUtil.setText(subapp.Time, data.FormattedEventDateTime, true);
         cintelUtil.setText(subapp.LocationDisplayName, data.LatestVisitLocationDisplayName, true);
-        cintelUtil.setText(subapp.Url, data.Url, true);
+        cintelUtil.setText(subapp.Url, data.Url != "/" ? data.Url : document.domain, true);
+        subapp.Url.set("navigateUrl", data.Url);
+        subapp.Url.viewModel.$el.attr("target", "_blank");
       };
       
       this.LatestEventsLeftDataRepeater.on("subAppLoaded", fillTemplate, this);
@@ -118,9 +122,24 @@
       }, this);
 
       providerHelper.getListData(this.RecentCampaignsProvider);
-    }
+    },
     
+    goToCampaigns: function () {
+      var activityId = "{EE5CE13E-6619-4BF6-9550-DF29ED6AC0ED}",
+          campaignsId = "{3DC10FB3-23F4-431E-A569-B01EA282A5A1}";
 
+      $("li[data-tab-id='" + activityId + "']").click();
+      $(window).scrollTop(0);
+
+      $("li[data-tab-id='" + campaignsId + "']").size() ?
+        $("li[data-tab-id='" + campaignsId + "']").click() : 
+        sc.on("ActivityApp", function (subapp) {
+          subapp.CampaignsLoadOnDemandPanel.on("change:isLoaded", function () {
+            this.get("isLoaded") ? $("li[data-tab-id='" + campaignsId + "']").click() : $.noop();
+          });
+        }, this);
+    }
   });
+
   return app;
 });

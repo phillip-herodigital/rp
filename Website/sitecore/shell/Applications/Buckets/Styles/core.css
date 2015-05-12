@@ -8,339 +8,303 @@ html, body {
   height: 100%;
 }
 
-div.dark_square .pp_close
-{
-    width: 85px;
+div.dark_square .pp_close {
+  width: 85px;
 }
 
-.margin25px
-{
-    margin: 0px 25px;
+.margin25px {
+  margin: 0px 25px;
 }
 
-.mainmargin
-{
-    margin: 25px 0 25px 0;
-    overflow: hidden;
+.mainmargin {
+  margin: 25px 0 25px 0;
+  overflow: hidden;
 }
 
-.rounded
-{
-    float: left;
-    margin: 20px;
-    width: 200px;
+.rounded {
+  float: left;
+  margin: 20px;
+  width: 200px;
 }
 
-li
-{
-    margin: 0 0 5px 0;
+li {
+  margin: 0 0 5px 0;
 }
 
-.ui-autocomplete
-{
-    text-align: left;
-    max-width: 571px;
+.ui-autocomplete {
+  text-align: left;
+  max-width: 571px;
 }
 
-.search form
-{
-    width: auto !important;
-    padding: 0 !important;
-    margin: -21px 0 0 4px !important;
-    height: auto !important;
+.search form {
+  width: auto !important;
+  padding: 0 !important;
+  margin: -21px 0 0 4px !important;
+  height: auto !important;
 }
 
-.search input
-{
-    margin-bottom: 8px;
+.search input {
+  margin-bottom: 8px;
 }
 
-.search .field
-{
-    background: transparent url(../images/search_bar.png) no-repeat 0 0;
-    font: 11px "Lucida Sans Unicode","Lucida Grande",Garuda,sans-serif;
-    line-height: 22px;
-    width: 152px;
-    height: 20px;
-    color: #fff;
-    float: left;
-    padding: 2px 3px 3px 6px;
-    border: 0;
+.search .field {
+  background: transparent url(../images/search_bar.png) no-repeat 0 0;
+  font: 11px "Lucida Sans Unicode","Lucida Grande",Garuda,sans-serif;
+  line-height: 22px;
+  width: 152px;
+  height: 20px;
+  color: #fff;
+  float: left;
+  padding: 2px 3px 3px 6px;
+  border: 0;
 }
 
-.search .button
-{
-    background: transparent url(../images/search_btn.png) no-repeat;
-    width: 60px;
-    height: 20px;
-    color: #313131;
-    font: 12px "Lucida Sans Unicode","Lucida Grande",Garuda,sans-serif;
-    float: left;
-    border: 0;
+.search .button {
+  background: transparent url(../images/search_btn.png) no-repeat;
+  width: 60px;
+  height: 20px;
+  color: #313131;
+  font: 12px "Lucida Sans Unicode","Lucida Grande",Garuda,sans-serif;
+  float: left;
+  border: 0;
 }
 
 /* --------------------------------------------------------------------- */
 /* GRID CONTAINER STYLING ---------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#grid-content .post_float
-{
-    width: 172px;
-    height: 257px;
-    padding: 10px;
-    background-color: #ffffff;
-    margin: 20px;
-    float: left;
-    border: 1px solid #e1e1e1;
-    border-radius: 5px;
-    box-shadow: 1px 1px 8px #EEE;
-    cursor: pointer;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    vertical-align: top;
-    display: inline-block;
-    text-align: left;
+#grid-content .post_float {
+  width: 180px;
+  height: 260px;
+  padding: 15px;
+  background-color: #ffffff;
+  margin: 15px;
+  float: left;
+  border: 1px solid #e1e1e1;
+  border-radius: 2px;
+  cursor: pointer;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  line-height: 1.6em;
+  overflow: hidden;
 }
 
-.languageLink
-{
-    display: block;
-    float: left;
-    width: 20px;
-    height: 20px;
-}
-
-
-#grid-content .post_float:hover
-{
-    background-color: rgba(165, 165, 165, 0.1);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#19a5a5a5',endColorstr='#19a5a5a5');
+.languageLink {
+  display: block;
+  float: left;
+  width: 20px;
+  height: 20px;
 }
 
 
-#grid-content .highlight
-{
-    background-color: gainsboro;
+#grid-content .post_float:hover {
+  background-color: #e3e3e3;
 }
 
-.highlight
-{
+
+#grid-content .highlight {
+  background-color: gainsboro;
+}
+
+.highlight {
   background-color: #ebebeb;
   border: 1px solid #dbdbdb;
 }
 
-.highlight .quickactions
-{
-  background: #E4E4E4;
+  .highlight .quickactions {
+    background: #E4E4E4;
+  }
+
+.ceebox.imgcontainer {
+  float: left;
 }
 
-.ceebox.imgcontainer
-{
-    display: inline-block;
-    float: left;
-    border: 1px solid #e1e1e1;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#19a5a5a5',endColorstr='#19a5a5a5');
+.scLockView .ceebox.imgcontainer {
+  margin-left: 8px;
 }
 
-.ceebox
-{
-    display: inline-block;
-    text-overflow: ellipsis;
-    max-width: 148px;
-    overflow: hidden;
-     white-space: nowrap; 
+.ceebox {
+  display: inline-block;
+  text-overflow: ellipsis;
+  max-width: 148px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.post_float div.ceebox img
-{
-    margin-bottom: -6px !important;
+.post_float div.ceebox img {
+  margin-bottom: -6px !important;
 }
 
-#grid-content .post_tags a span
-{
-    Font-weight: normal;
+#grid-content .post_tags a span {
+  Font-weight: normal;
 }
 
-#grid-content .post_tags
-{
-    overflow: hidden;
+#grid-content .post_tags {
+  overflow: hidden;
+  text-align: left;
 }
 
-    #grid-content .post_tags a
-    {
-        color: #999;
-        font-size: 10px;
-    }
+.scLockView {
+}
 
-        #grid-content .post_tags a:hover
-        {
-            color: #666;
-        }
+#grid-content .post_tags a {
+}
+
+  #grid-content .post_tags a:hover {
+  }
 
 .post_float img {
-  margin: 2px;
   vertical-align: top;
-  height: 100px;
-  width: 142px;
+}
+
+.post_float .scLockIco,
+.post_float .scUnLockIco {
+  float: right;
+  width: 24px;
+  height: 24px;
+  margin: -10px -10px 0 0;
+  background: url(../images/lockNew.png) no-repeat center;
+}
+
+  .post_float .scLockIco img,
+  .post_float .scUnLockIco img {
+    display:none;
+  }
+
+.post_float .scUnLockIco {
+  background: url(../images/lockNew_open.png) no-repeat center;
+  display: none;
 }
 
 .post_float img.smallIcon {
   height: 48px;
   width: 48px;
-  padding: 27px 47px;
 }
 
-.post_float h2
-{
-    margin: 14px 0 0 0;
+.post_float h2 {
+  margin: 10px 0 0 0;
+  text-align: left;
 }
 
-html, body
-{
-    text-align: center;
-    overflow: auto;
+  .post_float h2 a {
+    color: #2b2b2b;
+  }
+
+
+html, body {
+  text-align: center;
+  overflow: auto;
 }
 
-body
-{
-    color: #333;
-    background-color: white;
-    font: 11px verdana, arial, helvetica, sans-serif;
+body {
+  line-height: initial;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #2B2B2B;
+  border: none;
+  outline: 0;
+  height: 100%;
 }
 
-h1
-{
-    margin: 0px 0px 15px 0px;
-    padding: 0px;
-    font-size: 28px;
-    font-weight: bold;
-    color: #ccc;
+h1 {
+  margin: 0px 0px 15px 0px;
+  padding: 0px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ccc;
 }
 
-h2
-{
-    font: bold 12px/14px verdana, arial, helvetica, sans-serif;
-    margin: 0px 0px 5px 0px;
-    padding: 0px;
+h2 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0px 0px 5px 0px;
+  padding: 0px;
 }
 
 
-.Content > p
-{
-    margin: 0px;
+.Content > p {
+  margin: 0px;
 }
 
-    .Content > p + p
-    {
-        text-indent: 30px;
-    }
+  .Content > p + p {
+    text-indent: 30px;
+  }
 
-a
-{
-    color: #09c;
-    font-size: 11px;
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-weight: bold;
-    text-decoration: none;
+a {
+  color: #DC291E;
+  text-decoration: none;
 }
 
-    a:link
-    {
-        color: #09c;
-    }
 
-    a:visited
-    {
-        color: #07a;
-    }
+  a:hover {
+    text-decoration: underline;
+  }
 
-    a:hover
-    {
-        text-decoration: underline;
-    }
-
-#MainPanel
-{
-    width: auto;
-    position: relative;
-    overflow-x: hidden;
-    margin: 0 auto;
-    height: 100%;
+#MainPanel {
+  width: auto;
+  position: relative;
+  overflow-x: hidden;
+  margin: 0 auto;
+  height: 100%;
 }
 
 /* All the content boxes belong to the content class. */
-.content
-{
-    position: relative; /* Position is declared "relative" to gain control of stacking order (z-index). */
-    margin: 0 auto;
-    background-color: white;
-    z-index: 3; /* This allows the content to overlap the right menu in narrow windows in good browsers. */
-    width: auto;
-    height: 100%;
-    top: 0;
-    overflow: auto;
+.content {
+  position: relative; /* Position is declared "relative" to gain control of stacking order (z-index). */
+  margin: 0 auto;
+  background-color: white;
+  z-index: 3; /* This allows the content to overlap the right menu in narrow windows in good browsers. */
+  width: auto;
+  height: 100%;
+  top: 0;
+  overflow: auto;
 }
 
 
-.contextdataarea
-{
-    position: absolute;
-    width: 150px;
-    right: 0px;
-    padding: 10px;
-    /*z-index: 7;*/
-    margin: 0px 10px 10px -3px;
+.contextdataarea {
 }
 
-body > .contextdataarea
-{
-    width: 128px;
+body > .contextdataarea {
+  width: 128px;
 }
 
-.navAlpha
-{
-    position: absolute;
-    width: 150px;
-    right: 0px;
-    padding: 10px;
-    margin: 0px 10px 10px -3px;
+.navAlpha {
 }
 
-body > .navAlpha
-{
-    width: 128px;
+body > .navAlpha {
+  width: 128px;
 }
 
-#navBeta
-{
-    top: 0;
-    z-index: 7;
+#navBeta {
+  top: 0;
+  z-index: 7;
 }
 
-#navBeta
-{
-    padding: 0 31px;
-    voice-family: "\"}\"";
-    voice-family: inherit;
-    margin: 0 0 10px;
+#navBeta {
+  padding: 0 31px;
+  voice-family: "\"}\"";
+  voice-family: inherit;
+  margin: 0 0 10px;
 }
 
-body > #navBeta
-{
-    width: 168px;
+body > #navBeta {
+  width: 168px;
 }
 
-.left
-{
-    left: 0;
-    top: 110px;
-    position: absolute;
-    z-index: 0;
+.left {
+  left: 0;
+  top: 110px;
+  position: absolute;
+  z-index: 0;
 }
 
 .contentAreaWrapper {
   width: 100%;
   position: relative;
+  min-width: 900px;
 }
 
 .ie8 .contentAreaWrapper {
@@ -348,433 +312,423 @@ body > #navBeta
 }
 
 /* pagination */
-.pagination
-{
-    padding: 0 30px 3px;
-    text-align: center;
-    z-index: 0;
-    padding: 10px;
+.pagination {
+  text-align: center;
+  z-index: 0;
+  position: relative;
+}
+
+  .pagination span,
+  .pagination a {
+  }
+
+  .pagination .link-prev,
+  .pagination .link-next {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    background: url(/images/arrows.png) no-repeat;
+    width: 23px;
+    height: 37px;
+    text-indent: -9999px;
+    overflow: hidden;
+  }
+
+  .pagination .link-next {
+    right: 10px;
+    left: auto;
+    background-position: 0 100%;
+  }
+
+  .pagination ul {
+    list-style: none;
+    margin: 15px 0;
+    padding: 0;
+    line-height: 24px;
     position: relative;
+  }
+
+  .pagination li {
+    display: inline;
+  }
+
+    .pagination li a {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 1px solid #d6d6d6;
+      border-right: 0px;
+      color: #2b2b2b;
+    }
+
+    .pagination li:last-of-type a {
+      border-right: 1px solid #d6d6d6;
+    }
+
+
+    .pagination li.next-pages a.pageLink,
+    .pagination li.previous-pages a.pageLink {
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url(../images/pagination_previous.png);
+      text-indent: -9999px;
+    }
+
+    .pagination li.next-pages a.pageLink {
+      background-image: url(../images/pagination_next.png);
+    }
+
+.pageLink.pageClickLoad {
+  background: url('../images/sc-spinner16.gif') no-repeat center center;
+  color: white;
 }
 
-    .pagination span, .pagination a
-    {
-        margin-right: 5px;
-    }
-
-    .pagination .link-prev, .pagination .link-next
-    {
-        position: absolute;
-        top: 6px;
-        left: 10px;
-        background: url(/images/arrows.png) no-repeat;
-        width: 23px;
-        height: 37px;
-        text-indent: -9999px;
-        overflow: hidden;
-    }
-
-    .pagination .link-next
-    {
-        right: 10px;
-        left: auto;
-        background-position: 0 100%;
-    }
-
-    .pagination ul
-    {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: inline-block;
-        line-height: 24px;
-        font-weight: bold;
-        position: relative;
-    }
-
-    .pagination li
-    {
-        float: left;
-        margin: 0 2px 0 1px;
-        display: inline;
-    }
-
-        .pagination li a
-        {
-            display: block;
-            width: 19px;
-            border: 3px solid #e9e9e9;
-            color: #000;
-        }
-
-.pageLink.pageClickLoad
-{
-    background: url('../images/load.gif') no-repeat center center;
+  .pageLink.pageClickLoad li a:hover {
+    background: url('images/sc-spinner16.gif') no-repeat center center;
     color: white;
+  }
+
+.pagination li a:hover {
+  background-color: #e3e3e3;
+  text-decoration: none;
 }
 
-    .pageLink.pageClickLoad li a:hover
-    {
-        background: url('images/load.gif') no-repeat center center;
-        color: white;
-    }
-
-.pagination li a:hover
-{
-    border-color: #000;
-    text-decoration: none;
+.pagination li.active a {
+  background-color: #D0EBF6;
 }
 
-.pagination li.active a
-{
-    border-color: #000;
-}
-
-.tip
-{
-    list-style: none outside none;
-    padding: 6px 5px;
+.tip {
+  list-style: none outside none;
+  padding: 6px 5px;
 }
 
 .sideMask {
   overflow: hidden;
-  border-radius: 0 0 10px 10px;
-  background: -webkit-linear-gradient(top, #f2f2f2, #fafafa);
-  background: linear-gradient(to bottom, #f2f2f2, #fafafa);
-  width: 177px;
+  background-color: #fff;
+}
+
+
+.side {
+  width: 100%;
+  outline: none;
+  list-style: none;
+  text-align: left;
+}
+
+.sideFilter {
+  margin-bottom: 15px;
+}
+
+.side li {
+  display: inline;
+}
+
+  .side li a {
+    display: block;
+    line-height: 24px;
+    padding: 0 15px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #2b2b2b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 24px;
+    position: relative;
+  }
+
+    .side li a:hover {
+      background-color: #e3e3e3;
+      text-decoration: none;
+    }
+
+    .side li a span {
+      display: inline-block;
+    }
+
+      .side li a span:last-child {
+        position: absolute;
+        right: 5px;
+        font-weight: bold;
+      }
+
+
+    .side li a.facetClickSelected {
+      background-image: url("../images/cancel.png");
+      background-position: 95% center;
+      background-repeat: no-repeat;
+      background-color: #D0EBF6;
+      color: #2b2b2b;
+    }
+
+      .side li a.facetClickSelected:hover {
+        background-color: #e3e3e3;
+      }
+
+
+
+
+.side p {
+  font-size: 12px;
+  letter-spacing: 1px;
+  line-height: 16px;
+  padding: 5px;
+}
+
+.side li input[type="checkbox"] {
   float: left;
-  border: 1px solid #f2f2f2;
-  box-shadow: 1px 1px 3px #666;
-  padding: 6px 5px;
-  margin: 4px 0px;
+  margin: 10px 4px 0 5px;
 }
 
-.ie8 .sideMask {
-  background: #fafafa;
-  filter: progid:DXImageTransform.Microsoft.Shadow(Color=#898989, Strength=3, Direction=135),
-          progid:DXImageTransform.Microsoft.Shadow(Color=#dedede, Strength=2, Direction=315);
+.side .sb_filter {
+  cursor: pointer;
+  clear: both;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 40px;
+  padding: 0 15px;
+  behavior: expression(runtimeStyle.behavior = 'none', onmouseover = function() {this.className += ' hover'}, onmouseout = function() {this.className = this.className.replace(/ hover/g, '')});
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 40px;
+  position: relative;
 }
 
-.side
-{
-    width: 100%;
-    font-size: 24px;
-    font-family: "Myriad Pro", "Trebuchet MS", sans-serif;
-    outline: none;
-    text-shadow: 1px 1px 1px #fff;
-    list-style: none;
-    border-radius: 0 0 10px 10px;
-    text-align: left;
+  .side .sb_filter span {
+    height: 16px;
+    width: 16px;
+    background-color: #ff0;
+    display: inline-block;
+    margin: 12px 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+
+  .side .sb_filter.toggleoff span {
+    background: url(../images/chevron-small-4-01.png) no-repeat right center;
+  }
+
+  .side .sb_filter.toggleon span {
+    background: url(../images/chevron-small-1-01.png) no-repeat right center;
+  }
+
+  .side .sb_filter:hover, .side .hover {
+  }
+
+.side .tip {
+  border: 1px solid #f9f9f9;
+  clear: both;
+  background: #ddd;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #444;
+  height: 16px;
+  line-height: 16px;
+  padding: 5px;
+  box-shadow: 0 0 3px #555 inset;
+  background: url('../images/star.png') no-repeat right;
 }
-
-
-.ie9 .side {
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr='#f2f2f2', EndColorStr='#fafafa');
-}
-
-    .side li
-    {
-        font-size: 16px;
-        width: 100%;
-        display: block;
-        padding-bottom: 2px;
-    }
-
-    .side p
-    {
-        font-size: 12px;
-        letter-spacing: 1px;
-        line-height: 16px;
-        padding: 5px;
-    }
-
-    .side li input[type="checkbox"]
-    {
-        float: left;
-        margin: 10px 4px 0 5px;
-    }
-
-    .side .sb_filter
-    {
-        cursor: pointer;
-        margin-bottom: 5px;
-        border: 1px solid #f9f9f9;
-        clear: both;
-        background: #EDEDED;
-        font-size: 12px;
-        letter-spacing: 1px;
-        color: #444;
-        height: 16px;
-        line-height: 16px;
-        width: 166px;
-        padding: 5px;
-        behavior: expression(runtimeStyle.behavior = 'none', onmouseover = function() {this.className += ' hover'}, onmouseout = function() {this.className = this.className.replace(/ hover/g, '')});
-    }
-
-        .side .sb_filter.toggleoff
-        {
-            background: #EDEDED  url('~/icon/Applications/16x16/zoom_in.png') no-repeat right center;
-            box-shadow: 0 0 3px #bbb inset;
-        }
-
-        .side .sb_filter.toggleon
-        {
-            background: #EDEDED url('~/icon/Applications/16x16/zoom_out.png') no-repeat right center;
-            box-shadow: 0 0 2px #999 inset;
-        
-            border-radius: 5px;
-}
-
-        .side .sb_filter:hover, .side .hover
-        {
-            box-shadow: 0 0 2px #555 inset;
-        
-}
-
-    .side .tip
-    {
-        border: 1px solid #f9f9f9;
-        clear: both;
-        background: #ddd;
-        font-size: 12px;
-        letter-spacing: 1px;
-        color: #444;
-        height: 16px;
-        line-height: 16px;
-        padding: 5px;
-        box-shadow: 0 0 3px #555 inset;
-        background: url('../images/star.png') no-repeat right;
-    }
 
 #views {
   position: absolute;
   top: 8px;
   right: 0;
-  width: 141px;
+  width: 275px;
 }
 
-    #views a
-    {
-        margin-left: 3px;
-        margin-right: 3px;
-    }
+  #views a {
+    margin-right: 10px;
+  }
 
-.scView
-{
-    float: left;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    margin-top: 12px;
-    cursor: pointer;
-    background: url("../images/profile_selected.png");
+.scView,
+.PreviewView,
+.grid,
+.MediaView,
+.LockView,
+.ImageView,
+.TagView,
+.TableView,
+.list {
+  float: left;
+  width: 32px;
+  height: 32px;
+  position: relative;
+  z-index: 1;
+  margin: auto;
+  margin-top: 12px;
+  cursor: pointer;
+  background: url("../images/profile_selected.png") no-repeat center;
 }
 
-    .scView:hover, .scView.active
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/profile.png");
-    }
+  .scView:hover,
+  .scView.active {
+    background: url("../images/profile.png");
+  }
 
-.PreviewView
-{
-    float: left;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    margin-top: 12px;
-    cursor: pointer;
-    background: url("../images/preview.png");
+.PreviewView {
+  background: url("../images/preview.png");
 }
 
-    .PreviewView:hover, .PreviewView.active
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/preview_selected.png");
-    }
+  .PreviewView:hover,
+  .PreviewView.active {
+    background: url("../images/preview_selected.png");
+  }
 
-
-
-
-.grid
-{
-    float: left;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    margin-top: 12px;
-    cursor: pointer;
-    background: url("../images/view_grid.png");
+.grid {
+  background: url("../images/view_grid.png");
 }
 
-    .grid:hover, .grid.active
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/view_grid_selected.png");
-    }
+  .grid:hover,
+  .grid.active {
+    background: url("../images/view_grid_selected.png");
+  }
 
-.MediaView
-{
-    float: left;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    margin-top: 12px;
-    cursor: pointer;
-    background: url("../images/infinitescroll.png");
+.MediaView {
+  background: url("../images/infinitescroll.png");
 }
 
-    .MediaView:hover, .MediaView.active
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/infinitescroll_selected.png");
-    }
+  .MediaView:hover,
+  .MediaView.active {
+    background: url("../images/infinitescroll_selected.png");
+  }
 
-.LockView
-{
-    float: left;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    margin-top: 12px;
-    cursor: pointer;
-    background: url("../images/lock.png");
+.LockView {
+  background: url("../images/lock.png");
 }
 
-    .LockView:hover, .LockView.active
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/lock_selected.png");
-    }
+  .LockView:hover,
+  .LockView.active {
+    background: url("../images/lock_selected.png");
+  }
 
 
-.ImageView
-{
-    float: left;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    margin-top: 12px;
-    cursor: pointer;
-    background: url("../images/image.png");
+.ImageView {
+  background: url("../images/image.png");
 }
 
-    .ImageView:hover, .ImageView.active
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/image_selected.png");
-    }
+  .ImageView:hover,
+  .ImageView.active {
+    background: url("../images/image_selected.png");
+  }
 
-.TagView
-{
-    float: left;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    margin-top: 12px;
-    cursor: pointer;
-    background: url("../images/tagview.png");
+.TagView {
+  background: url("../images/tagview.png");
 }
 
-    .TagView:hover, .TagView.active
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/tagview_selected.png");
-    }
+  .TagView:hover,
+  .TagView.active {
+    background: url("../images/tagview_selected.png");
+  }
 
-.TableView
-{
-    float: left;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    margin-top: 12px;
-    cursor: pointer;
-    background: url("../images/table.png");
+.TableView {
+  background: url("../images/table.png");
 }
 
-    .TableView:hover, .TableView.active
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/table_selected.png");
-    }
+  .TableView:hover,
+  .TableView.active {
+    background: url("../images/table_selected.png");
+  }
+
+
+.list {
+  background: url("../images/view_list.png");
+}
+
+  .list:hover,
+  .list.active {
+    background: url("../images/view_list_selected.png");
+  }
+
+
+
+.ui-slider-horizontal {
+  margin-top: 15px;
+  margin-left: 10px;
+  height: 0.3em;
+}
+
+.boxgrid h3 {
+  margin: 10px 10px 0 10px;
+  font-size: 18px;
+}
+
+.boxgrid {
+  width: 285px;
+  height: 240px;
+  margin: 10px;
+  float: none;
+  background-color: #e3e3e3;
+  border: 1px solid #e1e1e1;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  vertical-align: top;
+  text-align: left;
+  display: inline-block;
+  cursor: pointer;
+}
+
+  .boxgrid img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+  }
+
+  .boxgrid p {
+    padding: 0 10px;
+  }
+
+.boxcaption {
+  float: left;
+  position: absolute;
+  height: 100px;
+  width: 100%;
+  opacity: .8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+}
+
+.captionfull .boxcaption {
+  top: 260px;
+  left: 0;
+}
+
+.caption .boxcaption {
+  top: 220px;
+  left: 0;
+}
+
+.slide-out-div {
+}
+
+.slide-out-div2 {
+  width: 180px;
+}
+
+.scrolling {
+  height: 450px;
+  overflow: scroll;
+}
+
+#resultInfoMessage {
+  margin: 15px 0;
+}
+
+.scIgnoreModified {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+
 
 /*
 Table Style - This is what you want
 ------------------------------------------------------------------ */
-#results{
+/*#results{
 }
 
     #results table a {
@@ -893,141 +847,62 @@ Table Style - This is what you want
             {
                 background: -webkit-linear-gradient(top, #F2F2F2, #f0f0f0);
                 background: linear-gradient(to bottom, #F2F2F2, #f0f0f0);
-            }
+            }*/
 
-.list
-{
-    float: left;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    margin-top: 12px;
+
+
+
+#results table {
+  padding: 0;
+  margin: 15px 0 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  line-height: 1.42857143;
+}
+
+  #results table > tbody:first-child > tr:first-child,
+  #results table > thead {
+    background-color: #5E5E5E;
+    color: white;
+  }
+
+  #results table > tbody > tr:nth-child(odd) {
+    background-color: #f7f7f7;
+  }
+
+  #results table > tbody > tr:hover {
+    background-color: #e3e3e3;
     cursor: pointer;
-    background: url("../images/view_list.png");
-}
+  }
 
-    .list.active
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/view_list_selected.png");
-    }
-
-
-    .list:hover
-    {
-        float: left;
-        width: 28px;
-        height: 28px;
-        position: relative;
-        z-index: 1;
-        margin: auto;
-        margin-top: 12px;
-        cursor: pointer;
-        background: url("../images/view_list_selected.png");
-    }
-
-.ui-slider-horizontal
-{
-    margin-top: 15px;
-    margin-left: 10px;
-    height: 0.3em;
-}
-
-.boxgrid h3
-{
-    margin: 10px 10px 0 10px;
-    color: #FFF;
-    font: 18pt Arial, sans-serif;
-    letter-spacing: -1px;
-    font-weight: bold;
-}
-
-.boxgrid
-{
-    width: 285px;
-    height: 240px;
-    margin: 10px;
-    float: none;
-    background: #161613;
-    border: solid 2px #8399AF;
+  #results table > thead th,
+  #results table > tbody > tr > td {
+    border: 1px solid #ccc;
+    padding: 14px 15px;
+    text-overflow: ellipsis;
     overflow: hidden;
+  }
+
+  #results table > thead th,
+  #results table > tbody:first-child > tr:first-child > td {
+    border: 1px solid #5E5E5E;
     position: relative;
-    vertical-align: top;
-    text-align: left;
-    display: inline-block;
-}
+  }
 
-    .boxgrid img
-    {
-        position: absolute;
-        top: 0;
-        left: 0;
-        border: 0;
+    #results table > thead th:after,
+    #results table > tbody:first-child > tr:first-child > td:after {
+      background: #d6d6d6 right center;
+      position: absolute;
+      width: 1px;
+      display: block;
+      height: 20px;
+      top: 13px;
+      right: 0;
+      content: "";
     }
 
-    .boxgrid p
-    {
-        padding: 0 10px;
-        color: #afafaf;
-        font-weight: bold;
-        font: 10pt "Lucida Grande", Arial, sans-serif;
+    #results table > thead th:last-child:after,
+    #results table > tbody:first-child > tr:first-child > td:last-child:after {
+      background: none;
     }
-
-.boxcaption
-{
-    float: left;
-    position: absolute;
-    background: #000;
-    height: 100px;
-    width: 100%;
-    opacity: .8;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-}
-
-.captionfull .boxcaption
-{
-    top: 260px;
-    left: 0;
-}
-
-.caption .boxcaption
-{
-    top: 220px;
-    left: 0;
-}
-
-.slide-out-div
-{
-    padding: 30px 20px 0 20px;
-    width: 180px;
-}
-
-.slide-out-div2
-{
-    width: 180px;
-}
-
-.scrolling
-{
-    height: 450px;
-    overflow: scroll;
-}
-
-#resultInfoMessage
-{
-    margin-top: 100px;
-}
-
-.scIgnoreModified {
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}

@@ -18,7 +18,7 @@
       <ContinuationManager runat="server" />
       <Stylesheet runat="server" x:placeholder="Stylesheets">
         .languages {
-          margin: 5px;
+          margin: 15px;
         }
       </Stylesheet>
 

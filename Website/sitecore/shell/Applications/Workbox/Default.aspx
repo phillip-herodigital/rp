@@ -1,18 +1,21 @@
 <%@ Page Language="C#" AutoEventWireup="true" Codebehind="Default.aspx.cs" Inherits="Sitecore.Shell.Applications.Workbox.WorkboxPage" %>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.HtmlControls" Assembly="Sitecore.Kernel" %>
+<%@ Register src="~/sitecore/shell/Applications/GlobalHeader.ascx" tagName="GlobalHeader" TagPrefix="uc" %>
+
 <!DOCTYPE html>
 <html>
 <head runat="server">
+  <title><sc:Literal Text="Workbox" runat="server"></sc:Literal></title>
   <asp:placeholder id="BrowserTitle" runat="server"></asp:placeholder>
   <sc:Stylesheet runat="server" Src="Content Manager.css" DeviceDependant="true" />
   <sc:Stylesheet runat="server" Src="Workbox.css" DeviceDependant="true" />
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreObjects.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreWindow.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/Applications/Content Manager/Content Editor.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreObjects.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreWindow.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/Applications/Content Manager/Content Editor.js"></script>
 </head>
 <body class="scWindowBorder1">
   <form id="WorkboxForm" runat="server">
-
+  <uc:GlobalHeader runat="server" />
   <div class="scPanel scFlexColumnContainer scWorkboxPanel scWindowBorder2">
       <div id="CaptionTopLine">
         <img src="/sitecore/images/blank.gif" alt="" style="display: block" />

@@ -13,4 +13,3 @@ define(["require", "exports"], function(require, exports) {
     })();
     exports.ControlBase = ControlBase;
 });
-//# sourceMappingURL=SitecoreSpeak.js.map

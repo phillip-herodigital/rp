@@ -3,7 +3,11 @@
 <head>
   <title></title>
   <link rel="stylesheet" href="/sitecore/shell/Controls/Lib/jQuery/jQueryUI/1.10.3/smoothness/jquery-ui-1.10.3.min.css"/>
-  <style type="text/css">
+  
+    <link rel="stylesheet" href="/sitecore/shell/themes/standard/default/Dialogs.css" />
+
+    
+    <style type="text/css">
     html 
     {
       height: 100%;
@@ -11,7 +15,6 @@
 
     body 
     {
-      font: 8pt tahoma;
       margin: 0;
       padding: 0;
       border: none;
@@ -118,8 +121,9 @@
 
     // Hardcoded just for now
     function getBestDialogSize() {
-      var width = screen.width;
-      var height = screen.height;
+      var viewPortSize = getViewPortSize(top);
+      var width = viewPortSize.width;
+      var height = viewPortSize.height;
 
       if (width >= 1600) {
         width = 1224;
@@ -147,7 +151,7 @@
       var featuresObject = parseModalDialogFeatures(features);
 
       var size = getBestDialogSize();
-      var modalDialogHeaderAndBorderHeight = $.fn.jquery != "1.6.4" ? 29 : 49;
+      var modalDialogHeaderAndBorderHeight = $.fn.jquery != "1.6.4" ? 15 : 35;
       var dialogWidth = featuresObject['dialogWidth'] && featuresObject['getBestDialogSize'] != 'true' ?
         parseInt(featuresObject['dialogWidth'].replace('px', '')) :
         size.width;
@@ -157,8 +161,10 @@
         size.height;
 
       var isResizable = !(featuresObject['resizable'] == 'no' || featuresObject['resizable'] == 'false');
+      var isMaximizable = featuresObject['maximizable'] != 'no';
+      var isClosable = featuresObject['closable'] != 'no';
 
-      contentIframe = $('<iframe id="scContentIframeId' + top._scDialogs.length + '" frameBorder="0" scrolling="auto" />').appendTo($(top.document.getElementById("jqueryModalDialogsFrame").contentWindow.document.body));
+      var contentIframe = $('<iframe id="scContentIframeId' + top._scDialogs.length + '" frameBorder="0" scrolling="auto" />').appendTo($(top.document.getElementById("jqueryModalDialogsFrame").contentWindow.document.body));
 
       var dialogOptions = {
         modal: true,
@@ -166,6 +172,7 @@
         height: dialogHeight,
         width: dialogWidth,
         resizable: isResizable,
+        dialogClass: isClosable ? '' : 'no-close',
         title: '',
         open: function () {
           contentIframe.dialog('widget').css('opacity', 0.001);
@@ -184,7 +191,7 @@
         dialogOptions.minWidth = parseInt(featuresObject['dialogMinWidth'].replace('px', ''));
       }
 
-      var createdDialog = contentIframe.dialog(dialogOptions).dialogExtend({ maximizable : true })
+      var createdDialog = contentIframe.dialog(dialogOptions).dialogExtend({ maximizable: isMaximizable })
         // It's a workaround for correct dragging and resizing of dialogs with iframe inside (http://bugs.jqueryui.com/ticket/7682)
         .bind('dialogresizestart', function () {
           var overlay = $(this).prev('.hidden-dialog-overlay');
@@ -209,10 +216,17 @@
         if (contentIframe && contentIframe.get(0) && contentIframe.get(0).contentWindow) {
           contentIframe.get(0).contentWindow.opener = openerWindow;
           var frameDocument = contentIframe.get(0).contentWindow.document;
+
+          var isSpeakDialog = false;
           if (frameDocument) {
             $(frameDocument).find(':focusable').first().focus();
+
+            var applicationContentContainer = $(frameDocument).find('.scStretchAbsolute.scApplicationContentContainer')[0];
+            if(applicationContentContainer) {
+              applicationContentContainer.scrollTop = 0;
+            }
+
             var scripts = frameDocument.getElementsByTagName('script');
-            var isSpeakDialog = false;
             for (var i = 0; i < scripts.length; i++) {
               var script = $(scripts[i]);
               if ((script.attr('src') || '').indexOf('/sitecore/shell/client/Speak/Assets/lib/core/') == 0 &&
@@ -222,14 +236,27 @@
               }
             }
 
-            if (isSpeakDialog) {
+            if (isSpeakDialog && (!featuresObject['forceDialogSize'] || featuresObject['forceDialogSize'] != 'yes')) {
               createdDialog.dialog('option', 'width', size.width);
               createdDialog.dialog('option', 'height', size.height);
             }
           }
 
+          contentIframe.prev('.DialogHeader').remove();
+          if (!isSpeakDialog && $('.DialogHeader, frameset, .sc-globalHeader', frameDocument).length == 0) {
+            $('<div class="DialogHeader">' + (featuresObject['header'] ? featuresObject['header'] : '') + '</div>').insertBefore(contentIframe);
+          }
+
+          if (featuresObject['autoIncreaseHeight'] == 'yes' && contentIframe[0].contentWindow.scForm) {
+            contentIframe[0].contentWindow.scForm.autoIncreaseModalDialogHeight();
+          }
+
           contentIframe.dialog('widget').css('opacity', 1);
           createdDialog.dialog('widget').scCenter({ animate: false });
+
+          var topBody = top.document.body;
+          topBody.setAttribute('data-overflow', topBody.getAttribute('data-overflow') || topBody.style.overflow || 'empty');
+          topBody.style.overflow = 'hidden';
         }
       });
 
@@ -249,6 +276,7 @@
       }
 
       window.frameElement.style.zIndex = 10000;
+
       top.initializingModalDialog = false;
     };
 
@@ -260,7 +288,7 @@
         }
 
         if (height) {
-          height += $.fn.jquery != "1.6.4" ? 29 : 49;
+          height += 15;
           dialogContentIframe.dialog("option", "height", height);
         }
 
@@ -295,6 +323,11 @@
         contentIframe.src = 'about:blank';
         contentIframe.contentWindow.opener = openerWindow;
         dialogRecord.contentIframe.remove();
+        $('body > .DialogHeader').remove();
+
+        if (top._scDialogs.length == 0) {
+          window.frameElement.style.zIndex = -1;
+        }
 
         if (dialogRecord.request != null) {
           top.returnValue = undefined;
@@ -308,12 +341,13 @@
           }
         }
 
-        if (top._scDialogs.length == 0) {
-          window.frameElement.style.zIndex = -1;
-        }
-
         if (dialogRecord.dialogClosedCallback) {
           dialogRecord.dialogClosedCallback(result);
+        }
+
+        if (top._scDialogs.length == 0) {
+          var dataOverflow = top.document.body.getAttribute('data-overflow');
+          top.document.body.style.overflow = dataOverflow == 'empty' ? '' : dataOverflow;
         }
       } else {
         top._close();
@@ -321,17 +355,7 @@
     };
 
     function isModalDialog(win) {
-      var result = false;
-      while (win != null && win != win.parent) {
-        if (win.parent == window) {
-          result = true;
-          break;
-        }
-
-        win = win.parent;
-      }
-
-      return result;
+      return win && win.parent == window;
     }
 
     function initializeModalDialogs() {

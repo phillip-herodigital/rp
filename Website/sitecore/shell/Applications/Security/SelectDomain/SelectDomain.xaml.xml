@@ -35,6 +35,15 @@
         }
 
         window.onresize = CorrectGridSize;
+        var timer = setInterval(adjustHeight, 10);
+
+        function adjustHeight() {
+          if (window.Domains && Domains.Loaded) {
+              clearInterval(timer);
+              scForm.autoIncreaseModalDialogHeight();
+          }
+        }
+        
         ]]>
       </script>
 
@@ -69,17 +78,17 @@
               PageSize="15"
               PagerStyle="Slider"
               PagerTextCssClass="GridFooterText"
-              PagerButtonWidth="41"
-              PagerButtonHeight="22"
+              PagerButtonActiveEnabled ="True"
+              PagerButtonHoverEnabled="True"
               PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
             
               ShowSearchBox="true"
-              SearchTextCssClass="GridHeaderText"
+              SearchTextCssClass="GridHeaderText scTextAlignRight "
               SearchBoxCssClass="SearchBox"
       	    
               SliderHeight="20"
               SliderWidth="150"
-              SliderGripWidth="9"
+              SliderGripWidth="24"
               SliderPopupOffsetX="20"
               SliderPopupClientTemplateId="SliderTemplate"
             

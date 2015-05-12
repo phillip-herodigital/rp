@@ -6,28 +6,57 @@
 
       <Stylesheet>
         .changeColorContainer{
-        padding-top: 16px;
+            padding-top: 16px;
         }
 
         .ie9 .changeColorContainer .scButton {
-        min-width:50px !important;
+            min-width:50px !important;
+        }
+
+        .scMonitorContainer {
+            height:159px;
+            margin-bottom:10px;
+            text-align:center;
+            background: url(/sitecore/shell/themes/standard/Images/Wallpaper.png) no-repeat center;
+        }
+        
+        .scWallpaperListContainer {
+            position: absolute;
+            bottom: 0;
+            top: 200px;
+            left: 0;
+            right: 0;
+            min-height: 90px;
+        }
+        
+        .scWallpaperPreview {
+          width: 153px;
+          height: 112px;
+          margin-top: 15px;
+          border-radius: 3px;
+        }
+        
+        .scBackgroundsListContainer {
+          height:100%;
+          padding-right: 110px;
+        }
+        
+        .lang_ja_jp .scBackgroundsListContainer {
+          padding-right: 158px;
         }
       </Stylesheet>
-      
+
       <CodeBeside Type="Sitecore.Shell.Applications.ControlPanel.Preferences.Wallpaper.WallpaperForm,Sitecore.Client"/>
 
       <div class="scStretch">
-
-        <div style="height:159px; text-align:center;background: url(/sitecore/shell/themes/standard/Images/Wallpaper.png) no-repeat center">
-          <Image Src="/sitecore/images/blank.gif" ID="Preview" Width="153" Height="112" Margin="15px 0px 0px 0px" RenderAs="WebControl"/>
+        <div class="scMonitorContainer">
+          <Image Src="/sitecore/images/blank.gif" ID="Preview" class="scWallpaperPreview" RenderAs="WebControl"/>
         </div>
 
-        <div style="padding: 8px 0px 2px 0px">
-          <Literal Text="Background:"/>
-        </div>
+        <Literal class="scFieldLabel" Text="Background:"/>
 
-        <div style="position: absolute; bottom: 0; top: 180px; left: 0; right: 0; min-height: 110px;">
-          <div style="height:100%; padding-right: 95px;">
+        <div class="scWallpaperListContainer">
+          <div class="scBackgroundsListContainer">
             <Listbox ID="Backgrounds" style="height:100%;width:100%;" Size="6" Change="Change">
               <ListItem Header="(None)" Value="" isTranslable="false"/>
             </Listbox>
@@ -35,21 +64,18 @@
 
           <div style="position:absolute;top:0;right:0;">
             <div>
-              <div>
-                <Literal Text="Position:"/>
-              </div>
+              <Literal class="scFieldLabel" Text="Position:"/>
 
-              <Combobox ID="Position" FontName="tahoma" FontSize="8pt">
+              <Combobox ID="Position">
                 <ListItem Header="Center" Value="Center"/>
                 <ListItem Header="Tile" Value="Tile"/>
                 <ListItem Header="Stretch" Value="Stretch"/>
+                <ListItem Header="Cover" Value="Cover"/>
               </Combobox>
             </div>
 
             <div class="changeColorContainer">
-              <div>
-                <Literal Text="Color:"/>
-              </div>
+              <Literal class="scFieldLabel" Text="Color:"/>
 
               <Button Click="GetWallpaperBackground">
                 <Border ID="WallpaperBackground" Background="blue" Width="64px" Height="12px" Border="1px solid black">

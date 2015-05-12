@@ -4,8 +4,8 @@
     
     <Section ID="WorkflowSection" Header="Workflow" Icon="Network/16x16/outbox.png" Class="scSection">
 
-      <Border Padding="0px 4px 0px 4px">
-        <GridPanel Columns="2" CellPadding="2">
+      <Border>
+        <GridPanel Columns="2" Class="scListControl">
 
           <Literal GridPanel.Class="scKey" Text="Workflow:"/>
           <Literal GridPanel.Class="scValue" def:ID="Workflow" />

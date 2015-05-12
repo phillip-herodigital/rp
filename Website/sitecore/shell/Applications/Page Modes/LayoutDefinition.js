@@ -173,7 +173,7 @@ Sitecore.LayoutDefinition.getLayoutDefinition = function() {
 Sitecore.LayoutDefinition.setLayoutDefinition = function(layoutDefinition) {
   var newValue = $sc.type(layoutDefinition) === "string" ? layoutDefinition : JSON.stringify(layoutDefinition);
   if ($sc("#scLayout").val() != newValue) {
-    $sc("#scLayout").val(newValue);
+    $sc("#scLayout").val(newValue).change();
     Sitecore.PageModes.PageEditor.setModified(true);
   }
 };
@@ -218,7 +218,7 @@ Sitecore.LayoutDefinition.getShortID = function(id) {
 };
 
 Sitecore.LayoutDefinition.readLayoutFromRibbon = function() {
-  var layout = Sitecore.PageModes.PageEditor.ribbon().contentWindow.$("scLayoutDefinition").value;    
+  var layout = Sitecore.PageModes.PageEditor.layoutDefinitionControl().value;
   if (layout && layout.length > 0) {
     this.setLayoutDefinition(layout);
     return true;

@@ -12,7 +12,7 @@
           <value>Url,System.String</value>
           <value>Text,System.String</value>
           <value>Name,System.String</value>
-          <value>Date,Date,System.String,Format_x0028__x0022__x007B_0:MMM._x0020_dd_x002C__x0020_yyyy_x007D__x0022__x002C__x0020_Failures.StartDateTime_x0029_</value>
+          <value>Date,Date,System.String,Format_x0028__x0022__x007B_0:MMM._x0020_dd_x002C__x0020_yyyy_x007D__x0022__x002C__x0020_ReportDateInterpreter.ToUITime_x0028_Failures.StartDateTime_x0029__x0029_</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
@@ -28,8 +28,8 @@
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="17">
-      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays(-7),False,True</value>
-      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,StartDate,StartDate,System.DateTime,GetDefaultStartDate_x0028__x0029_,False,True</value>
+      <value>,EndDate,EndDate,System.DateTime,GetDefaultEndDate_x0028__x0029_,False,True</value>
       <value>Texts</value>
       <value>Texts,ReportTitle,ReportTitle,System.String,Latest_x0020_Failures,False,False</value>
       <value>Texts,PrintDateText,PrintDateText,System.String,print_x0020_date,False,False</value>
@@ -108,7 +108,7 @@
               <Name>Text13</Name>
               <Page isRef="3" />
               <Parent isRef="4" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text13>
@@ -124,7 +124,7 @@
               <Name>Text22</Name>
               <Page isRef="3" />
               <Parent isRef="4" />
-              <Text>{DateRangeText}: { DateDiff(Today, StartDate).Days == 0 ?  Format("{0:MMM. dd, yyyy}", Today) : Format("{0:MMM. dd, yyyy}", StartDate) +" - "+ Format("{0:MMM. dd, yyyy}", EndDate)}</Text>
+              <Text>{DateRangeText}: { GetFormattedDateRange(StartDate, EndDate) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text22>
@@ -226,7 +226,7 @@
               <Name>Text7</Name>
               <Page isRef="3" />
               <Parent isRef="14" />
-              <Text>{Format("{0:MMM. dd, yyyy}", Failures.StartDateTime)}</Text>
+              <Text>{Format("{0:MMM. dd, yyyy}", ReportDateInterpreter.ToUITime(Failures.StartDateTime))}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text7>
@@ -294,7 +294,7 @@
               <Name>Text3</Name>
               <Page isRef="3" />
               <Parent isRef="17" />
-              <Text> {Format("{0:HH:mm:ss}", Failures.StartDateTime)}</Text>
+              <Text> {Format("{0:HH:mm:ss}", ReportDateInterpreter.ToUITime(Failures.StartDateTime))}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text3>

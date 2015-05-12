@@ -176,7 +176,7 @@
     child.extend = this.extend;
     return child;
   };
-
+  
   var ctor = function () {}, inherits = function (parent, protoProps, staticProps) {
       var child, _super = parent.prototype,
         fnTest = /xyz/.test(function () {
@@ -669,6 +669,7 @@ Speak.Definitions.App = Backbone.Model.extend({
       this.initialized();
     }
 
+    app.ScopedEl.find("[data-sc-cloak]").removeAttr("data-sc-cloak");
     app.trigger("app:loaded");
 
     return app;
@@ -694,6 +695,8 @@ Speak.Definitions.App = Backbone.Model.extend({
       jqxhr,
       successCb;
 
+    var lang = $('meta[data-sc-name=sitecoreLanguage]').attr("data-sc-content");
+    
     if (ajaxOptions && ajaxOptions["success"]) {
       successCb = ajaxOptions["success"];
     }
@@ -709,9 +712,11 @@ Speak.Definitions.App = Backbone.Model.extend({
     if (!defaultOptions.name) {
       defaultOptions.name = _.uniqueId("subapp_");
     }
+
+    var requestUrl = defaultOptions.path + "?sc_itemid=" + itemId + "&sc_database=" + defaultOptions.database + ((lang) ? "&sc_lang=" + lang : "");
     
     jqxhr=$.ajax({
-      url: defaultOptions.path + "?sc_itemid=" + itemId + "&sc_database=" + defaultOptions.database,
+      url: requestUrl,
       method:"GET",
       beforeSend:ajaxOptions["beforeSend"],
       success: function (data, textStatus, jqXHR) {
@@ -886,6 +891,7 @@ _.extend(_sc, {
   load: function (global, scopedEL, appLoaded) {
     // collect dependencies from html attributes - dependencies can be separated by commas
     var depsPageCode = [],
+      allDepsArray = [],
       firstLoad = false;
     if (!scopedEL) {
       scopedEL = $("html");
@@ -895,16 +901,21 @@ _.extend(_sc, {
     $(scopedEL).find("[data-sc-require]").each(function () {
       var $depEl = $(this);
 
-      if (!$depEl.is('[data-sc-app]')) {
+      if (!$depEl.is('[data-sc-app]') && $depEl.attr("type") !== "text/x-sitecore-pagecode") {
         $.each($depEl.data("sc-require").split(","), function (i, e) {
-
-          if (_.indexOf(depsPageCode, e) < 0) {
-            depsPageCode.push(e);
+          if (_.indexOf(allDepsArray, e) < 0) {
+            allDepsArray.push(e);
           }
-
         });
       }
     });
+
+    if (window.__speak_config && window.__speak_config.useBundle) {
+      var allDeps = window.location.origin + "/-/speak/v1/bundles/bundle.js?c=1&n=1&f=" + allDepsArray.join(",");
+      depsPageCode.push(allDeps);
+    } else {
+      depsPageCode = depsPageCode.concat(allDepsArray);
+    }
 
     // override require.js define() to collect sub-dependencies
     var subdeps = [];
@@ -921,18 +932,16 @@ _.extend(_sc, {
         _oldDefinedFunction(name, deps, callback);
     };
 
-    $(scopedEL).find("script[type='text/x-sitecore-pagescript']").each(function () {
-      global.__sc_define($(this).attr("src"));
+    $(scopedEL).find("script[type='text/x-sitecore-pagecode']").each(function () {
+      global.__sc_define($(this).attr("data-sc-require"));
     });
-
-    //_sc.debug("Requiring files: ", deps);
-
+    
     // load dependencies from html attributes
     require(depsPageCode, function () {
       // find the page code
       var $pageCode = $(scopedEL).find("script[type='text/x-sitecore-pagecode']"),
         $page = $(scopedEL),
-        pageCodeSrc = $pageCode.attr("src"),
+        pageCodeSrc = $pageCode.attr("data-sc-require"),
         behaviorsFromPagecode = $pageCode.data("sc-behaviors"),
         pageCode = null;
 
@@ -989,6 +998,8 @@ _.extend(_sc, {
               if (typeof app.initialized != "undefined") {
                 app.initialized();
               }
+
+              app.ScopedEl.find("[data-sc-cloak]").removeAttr("data-sc-cloak");
               app.trigger("app:loaded");
             }
             if (appLoaded) {
@@ -1005,7 +1016,13 @@ _.extend(_sc, {
         }
       };
 
-      run();
+      if (window.__speak_config && window.__speak_config.useBundle) {
+        require(allDepsArray, function () {
+          run();
+        });
+      } else {
+        run();
+      }
     });
   }
 });
@@ -1977,8 +1994,20 @@ var windowHelper = {
   }
 };
 
+var antiForgeryTokenValue = $("input[name=__RequestVerificationToken]").val();
+var antiForgeryHelper = {
+  getAntiForgeryToken: function() {
+    return {
+      formKey: "__RequestVerificationToken",
+      headerKey: "X-RequestVerificationToken",
+      value: antiForgeryTokenValue
+    };
+  }
+};
+
 _.extend(_sc, {
   Helpers: {
+    antiForgery: antiForgeryHelper,
     url: urlHelper,
     date: dateHelper,
     id: idHelper,
@@ -2311,8 +2340,12 @@ var serverClick = {
     var options = {
       url: context.target,
       type: "POST",
-      dataType: "json"
+      dataType: "json",
+      data: {}
     };
+
+    var token = Speak.Helpers.antiForgery.getAntiForgeryToken();
+    options.data[token.formKey] = token.value;
 
     var completed = function (result) {
       //TODO: validate result
@@ -2448,21 +2481,21 @@ var exposedComponent = function (component, componentEl, appName, hasExclude, ha
     collection,
     view;
 
-  if(verifyNestedApp) {
-      var $subApps = $component.find("[data-sc-app]");
-      if($subApps.length > 0) {
-         $.each($subApps, function(){
-          $(this).addClass("data-sc-waiting")
-         });
-      }
+  if (verifyNestedApp) {
+    var $subApps = $component.find("[data-sc-app]");
+    if ($subApps.length > 0) {
+      $.each($subApps, function () {
+        $(this).addClass("data-sc-waiting")
+      });
+    }
   }
   //if it has data on sc-app, it means the component has been already register
   if (!$component.data("sc-app")) {
 
     uniqueId = _.uniqueId('sc_' + component.type + '_');
-    controlName = $component.attr("data-sc-id");  
-    if(app.appId) {
-      controlName = app.appId + ":" + controlName;  
+    controlName = $component.attr("data-sc-id");
+    if (app.appId) {
+      controlName = app.appId + ":" + controlName;
     }
 
     var newClass = _.filter($component.prop("class").split(" "), function (className) {
@@ -2474,12 +2507,12 @@ var exposedComponent = function (component, componentEl, appName, hasExclude, ha
 
     if (hasExclude) {
       if ($("[data-sc-exclude] " + "." + uniqueId).length) {
-        return { }; //return empty object
+        return {}; //return empty object
       }
     }
     if (hasNested) {
       if ($component.closest("[data-sc-app]").attr("id") && "#" + $component.closest("[data-sc-app]").attr("id") != selector) {
-        return { };
+        return {};
       }
     }
 
@@ -2505,13 +2538,13 @@ var exposedComponent = function (component, componentEl, appName, hasExclude, ha
         $el.addClass("data-sc-registered");
       }
     }, this);
-    
+
     /*Also registered comment binding*/
     view.$el.find("*").contents().each(function () {
       try {
         this.registered = (this.nodeType === 8) ? true : false; //Node.COMMENT_NODE 
       } catch (e) {
-          
+
       }
     });
     /*if(! component.model.prototype.defaults) { component.model.prototype.defaults = {}; }
@@ -2532,9 +2565,9 @@ var exposedComponent = function (component, componentEl, appName, hasExclude, ha
     }
     context.Controls.push({ name: controlName, model: model, view: view, collection: collection });
 
-    if(verifyNestedApp) {
+    if (verifyNestedApp) {
       var $deferedKO = $component.find(".data-sc-waiting");
-      $deferedKO.each(function(){
+      $deferedKO.each(function () {
         $(this).removeClass("data-sc-waiting");
       });
     }
@@ -2566,21 +2599,21 @@ var getScope = function (name, id) {
 };
 
 var RegisterTree = function ($element, register) {
-    if ($element.find("[data-sc-hasnested]").length === 0) {
-        register($element);
-    } else {
-        _.each($element.find("[data-sc-hasnested]"), function (child) {
-            RegisterTree($(child), register);
-        });
-        register($element);
-    }
+  if ($element.find("[data-sc-hasnested]").length === 0) {
+    register($element);
+  } else {
+    _.each($element.find("[data-sc-hasnested]"), function (child) {
+      RegisterTree($(child), register);
+    });
+    register($element);
+  }
 };
 
 var initialization = {
   priority: 1000,
   //run: function(name, id, mainApp, app)
   execute: function (context) {
-    context = context || { };
+    context = context || {};
     var name = context.name
       , id = context.id
       , mainApp = context.mainApp
@@ -2591,9 +2624,9 @@ var initialization = {
       , hasNested = $(scoped.$el).find("[data-sc-app]").length || false
       , hasNestedComponents = [];
 
-    context.Controls = [];
-
     app = app || new Speak.Definitions.App(); //empty app
+
+    app.Controls = context.Controls = [];
 
     if (!mainApp) { mainApp = Speak; }
     //throw if app already in the page
@@ -2619,18 +2652,18 @@ var initialization = {
     }
 
     if (hasNestedComponents.length > 0) {
-    _.each(hasNestedComponents, function (component) {
+      _.each(hasNestedComponents, function (component) {
         $(scoped.$el).find(component.el + ":not(.data-sc-registered)").each(function () {
-            /*sub nested*/
-            
-            var element = $(this);
-            RegisterTree(element, function ($elem) {
-                var appropriateComp = _.find(hasNestedComponents, function (comp) {
-                    return $elem.is(comp.el);
-                });
-                exposedComponent(appropriateComp, $elem.get(0), scoped.name, hasExclude, hasNested, scoped.$el.selector, app, context, true);
+          /*sub nested*/
+
+          var element = $(this);
+          RegisterTree(element, function ($elem) {
+            var appropriateComp = _.find(hasNestedComponents, function (comp) {
+              return $elem.is(comp.el);
             });
- 
+            exposedComponent(appropriateComp, $elem.get(0), scoped.name, hasExclude, hasNested, scoped.$el.selector, app, context, true);
+          });
+
         });
       });
     }
@@ -2645,7 +2678,7 @@ var initialization = {
             var ctrlId = ctrl.view.$el.attr("data-sc-id");
             if (ctrlId) {
               e = e.replace("$this", ctrlId);
-            } else { 
+            } else {
               //console.log("Control has no 'data-sc-id' attribute - event '" + eventName + "' is not bound");
               return;
             }
@@ -2668,14 +2701,19 @@ var initialization = {
       mainApp["nested"].push(app);
     }
 
-    app.Controls = context.Controls;
     scoped.$el.find("[data-sc-app]").each(function () {
       var $app = $(this),
-          id = $app.attr("data-sc-app");
+          id = $app.attr("data-sc-app"),
+          $pageCode = $app.find("script[type='text/x-sitecore-pagecode']");
 
       //require
-      var dep = $app.attr("data-sc-require");
-      if(dep) {
+      var dep;
+
+      if ($pageCode) {
+        dep = $pageCode.attr("data-sc-require");
+      }
+
+      if (dep) {
         require(dep.split(','), function (subapp) {
           var instance = new subapp();
           instance.run(id, id, app);
@@ -2694,34 +2732,34 @@ var initialization = {
   }
 };
 
- var getConverter = function(converterName) {
+var getConverter = function (converterName) {
   var converter = _sc.BindingConverters[converterName];
-  if(!converter) {
+  if (!converter) {
     return undefined;
   } else {
     return converter;
   }
 }
 
-var getValue = function(bindingForOneProperty) {
-  if(bindingForOneProperty.converter) {
+var getValue = function (bindingForOneProperty) {
+  if (bindingForOneProperty.converter) {
     var parameters = [];
 
     _.each(bindingForOneProperty.from, function (setup) {
-        parameters.push(setup.model.get(setup.attribute));
+      parameters.push(setup.model.get(setup.attribute));
     });
     return bindingForOneProperty.converter(parameters);
   } else {
     var singleModel = bindingForOneProperty.from[0].model,
         value = bindingForOneProperty.from[0].attribute;
-    
-    return singleModel.get(value);  
+
+    return singleModel.get(value);
   }
 }
 
-var createBinding = function(bindingForOneProperty) {
-   _.each(bindingForOneProperty.from, function(f) {
-    f.model.on("change:" + f.attribute, function() {
+var createBinding = function (bindingForOneProperty) {
+  _.each(bindingForOneProperty.from, function (f) {
+    f.model.on("change:" + f.attribute, function () {
       bindingForOneProperty.model.set(bindingForOneProperty.to, getValue(bindingForOneProperty));
     });
   });
@@ -2756,64 +2794,64 @@ var applyBinding = function ($el, app, scId) {
       conf = $el.attr("data-sc-bindings"),
       bindingConfigurationList = [],
       leftModel = app[namespace];
-    //backward compatibily
-    if(conf.indexOf("{") != 0) {
-      //try to make the old bindings work with new one
-      var compatibleBindings = [];
+  //backward compatibily
+  if (conf.indexOf("{") != 0) {
+    //try to make the old bindings work with new one
+    var compatibleBindings = [];
 
-      _.each(conf.split(","), function(singleBinding) {
-        var compatibleBinding = [];
+    _.each(conf.split(","), function (singleBinding) {
+      var compatibleBinding = [];
 
-        _.each(singleBinding.split(":"), function(part){
-          compatibleBinding.push('"' + part + '"');
-        });
-
-        compatibleBindings.push(compatibleBinding.join(":"));
+      _.each(singleBinding.split(":"), function (part) {
+        compatibleBinding.push('"' + part + '"');
       });
-      conf = "{" + compatibleBindings.join(",") + "}";
-    }
 
-    try {
-       var json = JSON.parse(conf);
-       _.each(_.keys(json), function(key){
+      compatibleBindings.push(compatibleBinding.join(":"));
+    });
+    conf = "{" + compatibleBindings.join(",") + "}";
+  }
 
-        var bindingConfiguration = { from: [], to: key, converter: undefined, model: leftModel },
-            config = json[key],
-            modelPath,
-            model,
-            attribute;
-        
-        bindingConfiguration.to = getUniformAttribute(leftModel, key);
+  try {
+    var json = JSON.parse(conf);
+    _.each(_.keys(json), function (key) {
 
-        if(!_.isObject(config)) {
-          //classic binding Items:SearchDatasource.Items
-          model = app[config.split(".")[0]];
-          attribute = getUniformAttribute(model, config.split(".")[1]);
+      var bindingConfiguration = { from: [], to: key, converter: undefined, model: leftModel },
+          config = json[key],
+          modelPath,
+          model,
+          attribute;
 
-          /*if(!model.attributes[attribute]) {a
-            
-          }*/
+      bindingConfiguration.to = getUniformAttribute(leftModel, key);
+
+      if (!_.isObject(config)) {
+        //classic binding Items:SearchDatasource.Items
+        model = app[config.split(".")[0]];
+        attribute = getUniformAttribute(model, config.split(".")[1]);
+
+        /*if(!model.attributes[attribute]) {a
+          
+        }*/
+        bindingConfiguration.from.push({ model: model, attribute: attribute });
+      } else {
+        bindingConfiguration.converter = getConverter(config.converter);
+
+        _.each(config.parameters, function (value) {
+          model = getUniformModel(app, value.split(".")[0]);
+
+          attribute = getUniformAttribute(model, value.split(".")[1]);
+
           bindingConfiguration.from.push({ model: model, attribute: attribute });
-        } else {
-          bindingConfiguration.converter = getConverter(config.converter);
+        });
+      }
+      bindingConfigurationList.push(bindingConfiguration);
+    });
 
-          _.each(config.parameters, function(value) {
-            model =  getUniformModel(app, value.split(".")[0]);
-
-            attribute = getUniformAttribute(model, value.split(".")[1]);
-            
-            bindingConfiguration.from.push({ model:model, attribute: attribute });
-          });
-        }
-        bindingConfigurationList.push(bindingConfiguration);
-      });
-
-      _.each(bindingConfigurationList, createBinding);
-    }
-    catch (ex) {
-      //alert("Failed to data-bind: " + scId + "." + left + " => " + right + "\n" + ex);
-      throw "Failed to data-bind: " + scId + "\n" + ex;
-    }
+    _.each(bindingConfigurationList, createBinding);
+  }
+  catch (ex) {
+    //alert("Failed to data-bind: " + scId + "." + left + " => " + right + "\n" + ex);
+    throw "Failed to data-bind: " + scId + "\n" + ex;
+  }
 
 };
 

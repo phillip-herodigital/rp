@@ -5,8 +5,8 @@
          <CodeBeside Type="Sitecore.Shell.Applications.Install.Dialogs.FileBrowserForm,Sitecore.Client"/>
          <DataContext ID="FileDataContext" DataViewName="FileSystem"/>
 
-         <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-            <Scrollbox Height="100%" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%">
+         <div class="scStretch">
+            <Scrollbox class="scScrollbox scPaddingless" style="height: calc(100% - 30px)">
 
                <DataTreeview ID="Treeview" DataContext="FileDataContext" Click="SelectTreeNode" ShowRoot="false" ContextMenu='Treeview.GetContextMenu("contextmenu")'>
                   <TreeHeader>
@@ -17,18 +17,16 @@
 
             </Scrollbox>
 
-            <Border Padding="4px 0px 4px 0px">
-               <GridPanel Width="100%" Columns="2">
+           <GridPanel Width="100%" Columns="2">
 
-                  <Border Padding="0px 4px 0px 0px">
-                     <Literal Text="Name:"/>
-                  </Border>
+             <Border Padding="0px 5px 0px 0px">
+               <Literal Text="Name:"/>
+             </Border>
 
-                  <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>
-               </GridPanel>
-            </Border>
+             <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>
+           </GridPanel>
 
-         </GridPanel>
+         </div>
 
          <Button Header="Upload" def:placeholder="Buttons" Click="filebrowser:upload"/>
 

@@ -5,18 +5,27 @@
     background-repeat: no-repeat;
 }
 
+
+.bucketSearch {
+    width: auto !important;
+    display: inline-block !important;
+}
+
 .bucketSearch.active
 {
-    color: black;
+    background-color:#fff;
 }
 
 .bucketSearch.inactive
 {
-    color: gray;
+    color: #969696;
+}
+
+.scBucketListBox, .scBucketListSelectedBox {
+    height: calc(100% - 35px);
 }
 
 .scBucketListSelectedBox
 {
-    margin-top: 30px;
-    height: auto;
+    margin-top: 50px;
 }

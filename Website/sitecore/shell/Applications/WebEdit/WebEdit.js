@@ -2,6 +2,14 @@ if (typeof Sitecore == "undefined") {
   Sitecore = new Object();
 }
 
+appendFormData = function (form, value) {
+  if (form.indexOf(value) == -1) {
+    form += value;
+  }
+
+  return form;
+};
+
 Sitecore.WebEdit = new function() {
   this.loaded = false;
   this.mouseMoveObservers = new Array();

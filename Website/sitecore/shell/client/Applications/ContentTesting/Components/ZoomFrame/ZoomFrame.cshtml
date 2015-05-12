@@ -1,0 +1,25 @@
+﻿@using Sitecore.ContentTesting
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using Sitecore.Globalization;
+@model RenderingModel
+@{
+  var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Class = "sc-ZoomFrame";
+  rendering.Requires.Script("contenttesting", "ZoomFrame.js");
+  // The CSS needs to be added to the parent window so is done through the JS
+
+  var textClickImageToZoom = Translate.Text(Texts.CLICK_IMAGE_TO_ZOOM);
+
+  var htmlAttributes = rendering.HtmlAttributes;
+}      
+<div @htmlAttributes>
+  <div id="dvZoom" style="display:none;">
+    <img id="imgZoomClose" src="/sitecore/shell/client/Applications/ContentTesting/Assets/crossClose.png">
+    <span class="zoomInfo">@textClickImageToZoom</span>
+  </div>
+  <div id="dvImgZoom">
+    <img id="imgZoom" />
+  </div>
+</div>

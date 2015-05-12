@@ -1,54 +1,86 @@
 .scFolderButtons {
+  padding-left: 5px;
 }
 
 #FileList a {  
-  cursor: default;
-  padding: 5px;
   text-decoration: none;
-  width: 256px;
+width: 180px;
+height: 180px;
+padding: 15px;
+background-color: #ffffff;
+margin: 15px;
+float: left;
+border: 1px solid #e1e1e1;
+border-radius: 2px;
+cursor: pointer;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+vertical-align: top;
+display: inline-block;
+text-align: center;
+line-height: 1.6em;
+overflow: hidden;
+}
+
+#FileList a:hover, 
+#FileList a:active, 
+#FileList a.highlight {  
+  background-color:#e3e3e3;
+}
+
+#FileList a.scButton {  
   vertical-align: top;
-  float: left;
+  text-decoration: none;
+  text-align: center;
+  overflow: visible;
+  display: inline-block;
+  margin:15px 0 0 10px;
+  width: auto;
+height: auto;
+padding:8px 12px;
+float:none;
 }
 
-#FileList a:hover, #FileList a:active, #FileList a.highlight {  
-  background:#e8f5fd;
-  border: 1px solid #d8f0fa;
-  padding: 4px;
+
+
+.scIcon {
+  width:16px;
+  height:16px;
+  display:inline-block;
+  margin-right:5px;
+  vertical-align: middle;
 }
 
-#FileList a.scOption {  
-  width: 70px;
-  font: 8pt tahoma;
-	text-align: center;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	z-index: 1;
+.scHeader {
+  display:inline-block;
+  line-height: 36px;
 }
 
 #FileList .scUploadWrapper {
-  width: 70px;
-  float: left;
+  display: inline-block;
   position: relative;
 }
 
 #FileList .scUploadOverlay {
   position: absolute;
   width: 70px;
-  top: 0;
-  left: 0;
+  top: 15px;
+  left: 10px;
   z-index: 2;
 }
+  #FileList .scUploadOverlay:hover {
+    background-repeat: repeat-x;
+    border-color: #bdbdbd;
+    background-color: #d1d1d1;
+    background-position: 0 0;
+    background-image: linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 100%);
 
-#FileList a.scOption:hover, #FileList a.scOption:active {  
-  background: #e8f5fd;
-  border: 1px solid #d8f0fa;
-  padding: 4px;
-}
+opacity: 0.41;
+-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 41);
+filter: alpha(opacity = 41);
+  }
 
 .scMediaBorder {
-  float: left;
-  border: 1px solid #cccccc;
-  margin: 0px 5px 0px 0px;
 }
 
 .scMediaIcon {
@@ -56,6 +88,8 @@
 }
 
 .scMediaTitle {
+font-size: 14px;
+font-weight: bold;
 }
 
 .scMediaDetails {
@@ -64,14 +98,10 @@
 }
 
 .scMediaValidation {
-  margin-left: 75px;
-  padding: 2px 0px 0px 0px;
   color: red;
 }
 
 .scMediaUsages {
-  padding: 2px 0px 0px 0px;
-  color: #999999;
 }
 
 .scTitle {
@@ -94,7 +124,7 @@
 }
 
 #queue {
-  margin: 4px 6px 0;
+  margin: 10px 0;
 }
 
 #queue th {
@@ -114,6 +144,7 @@
     word-wrap: break-word;
     width: 100%;
     max-width: 332px;
+
   }
 
 #queue .size {
@@ -151,14 +182,12 @@
 }
 
 #buttons {
-  clear: left;
-  padding-top: 12px;
-  padding-bottom: 4px;
+  text-align:right;
 }
 
 .scButton {
   width: 90px;
-  margin-left: 4px;
+  margin-left: 10px;
 }
 
 .simple #AdvancedOptions {
@@ -166,7 +195,8 @@
 }
 
 #AdvancedOptions {
-  margin-top: 12px;
+  margin: 15px;
+  line-height:220%
 }
 
 #AdvancedOptions label {

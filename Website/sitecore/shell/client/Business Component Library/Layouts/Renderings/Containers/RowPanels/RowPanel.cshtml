@@ -4,12 +4,21 @@
 @model RenderingModel
 @{
   var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
-  userControl.Class = "row-fluid ";
+  userControl.Class = "row";
   var usePadding = userControl.GetBool("UsePadding");
+  var paddingType = userControl.GetString("PaddingType");
+
   if (usePadding)
   {
-      userControl.Class += " sc-show-padding";
-  }
+    var paddingClass = " sc-show-padding";
+    if (paddingType != "All")
+    {
+      paddingClass += paddingType;
+    }
+
+    userControl.Class += paddingClass;
+ }
+    
   var controlId = userControl.ControlId;
   var htmlAttributes = userControl.HtmlAttributes;
 }

@@ -15,6 +15,12 @@
       <x:register assembly="Telerik.Web.UI" namespace="Telerik.Web.UI" />
       <AjaxScriptManager runat="server" />
       <RadScriptManager runat="server"/>
+      <Stylesheet runat="server">
+        .rcpHexInput {
+          min-height: 24px !important;
+          box-shadow: none !important;
+        }
+      </Stylesheet>
       <Border runat="server">
         <RadColorPicker ID="RadColorPicker" runat="server" PaletteModes="WebPalette"  ShowEmptyColor="false" Style="margin:auto;" />
       </Border>

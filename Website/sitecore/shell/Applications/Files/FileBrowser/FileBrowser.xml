@@ -6,25 +6,18 @@
       
       <DataContext ID="FileDataContext" DataViewName="FileSystem"/>
 
-      <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-        <Scrollbox Class="scScrollbox scFixSize scFixSize8" Height="100%" Background="white" Border="1px inset" Padding="0px" GridPanel.Height="100%">
+      <div class="scStretch">
+        <div class="scScrollbox scPaddingless" style="height: calc(100% - 50px)">
+          <TreeviewEx ID="Treeview" DataContext="FileDataContext" Click="SelectTreeNode" DblClick="Treeview_DblClick" ShowRoot="false" />
+        </div>
 
-          <TreeviewEx ID="Treeview" DataContext="FileDataContext" Click="SelectTreeNode" DblClick="Treeview_DblClick" ShowRoot="false" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
-
-        </Scrollbox>
-
-        <Border Padding="4px 0px 4px 0px">
-          <GridPanel Width="100%" Columns="2">
-
-            <Border Padding="0px 4px 0px 0px" Class="scDialogNoWrap">
-              <Literal Text="Name:"/>
-            </Border>
-
+        <div style="margin: 15px 0 0">
+          <GridPanel class="scFormTable" Width="100%" Columns="2">
+            <Literal class="scDialogNoWrap" Text="Name:"/>
             <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>
           </GridPanel>
-        </Border>
-
-      </GridPanel>
+        </div>
+      </div>
 
       <Button ID="UploadButton" Header="Upload" def:placeholder="Buttons" Click="filebrowser:upload"/>
 

@@ -5,14 +5,18 @@
 .scLink:visited {
   display:block;
   text-decoration:none;
-  padding:2px 2px 2px 16px;
+  padding:8px 15px;
   white-space:nowrap
 }
 
 .scLink:hover {
-  text-decoration:underline;
+    background-color: #E3E3E3;
 }
 
+.scLink img {
+    margin-right:15px;
+} 
+
+
 #Grid {
-  background: #F4F4F5;
 }

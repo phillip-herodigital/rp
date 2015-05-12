@@ -12,7 +12,7 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   
   <Sitecore.Shell.Applications.Security.RoleManager.ViewParentRoles x:inherits="Sitecore.Shell.Applications.Security.RoleManager.ViewParentRolesPage,Sitecore.Client">
-    <Sitecore.Controls.ModalDialogPage Header="Member Of" Icon="Network/32x32/id_card_ok.png" Text="Add or remove parent roles from the current role." ButtonText="Close" runat="server">
+    <Sitecore.Controls.ModalDialogPage Header="Member Of" Text="Add or remove the roles that the selected role must be a member of." ButtonText="Close" runat="server">
       <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>
 
       <Stylesheet Src="Grid.css" DeviceDependant="true" runat="server" />
@@ -73,17 +73,17 @@
             
             PagerStyle="Slider"
             PagerTextCssClass="GridFooterText"
-      	    PagerButtonWidth="41"
-      	    PagerButtonHeight="22"
+            PagerButtonActiveEnabled ="True"
+            PagerButtonHoverEnabled="True"
             PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
             
             ShowSearchBox="true"
-            SearchTextCssClass="GridHeaderText"
+            SearchTextCssClass="GridHeaderText scTextAlignRight "
             SearchBoxCssClass="SearchBox"
       	    
             SliderHeight="20"
             SliderWidth="150"
-            SliderGripWidth="9"
+            SliderGripWidth="24"
             SliderPopupOffsetX="20"
             SliderPopupClientTemplateId="SliderTemplate"
             
@@ -123,8 +123,8 @@
                   <GridColumn DataField="scGridID" Visible="false" runat="server"/>
                   <GridColumn DataField="AccountType" Visible="false" runat="server"/>
                   <GridColumn DataField="Domain" AllowSorting="false" IsSearchable="false" AllowGrouping="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Domain" runat="server" />
-                  <GridColumn DataField="LocalName" AllowSorting="false" IsSearchable="true" AllowGrouping="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Local Name" runat="server" />
-                  <GridColumn DataField="Name" AllowSorting="false" IsSearchable="false" AllowGrouping="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Full Name" runat="server" />
+                  <GridColumn DataField="LocalName" AllowSorting="false" IsSearchable="true" AllowGrouping="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Local name" runat="server" />
+                  <GridColumn DataField="Name" AllowSorting="false" IsSearchable="false" AllowGrouping="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Full name" runat="server" />
                   <GridColumn DataField="Description" AllowSorting="false" IsSearchable="false" AllowGrouping="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Comment" runat="server" />
                 </Columns>
               </GridLevel>

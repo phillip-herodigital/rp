@@ -17,7 +17,7 @@
               <Toolbutton ID="Databases" Icon="Business/16x16/data.png" IconSize="id16x16" Header="Master" Glyph="images/menudropdown_black9x8.png" Click="ShowDatabases" ToolTip="Select another database."/>
               <ToolbarSeperator/>
               <Toolbutton Icon="Core3/16x16/open_document.png" IconSize="id16x16" Click="Open" ToolTip="Open the selected item"/>
-              <Toolbutton Icon="Applications/16x16/refresh.png" IconSize="id16x16" Click="Refresh" ToolTip="Refresh"/>
+              <Toolbutton Icon="Office/16x16/refresh.png" IconSize="id16x16" Click="Refresh" ToolTip="Refresh"/>
             </Toolbar>
             <Border Background="#aca899"><Space/></Border>
           </Border>

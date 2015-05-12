@@ -50,8 +50,8 @@
       <value>,Page,Page,System.String,,False,False</value>
       <value>,PageEvent,PageEvent,System.String,,False,False</value>
       <value>,PageEventDefinition,PageEventDefinition,System.String,,False,False</value>
-      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-7_x0029_,False,True</value>
-      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,StartDate,StartDate,System.DateTime,GetDefaultStartDate_x0028__x0029_,False,True</value>
+      <value>,EndDate,EndDate,System.DateTime,GetDefaultEndDate_x0028__x0029_,False,True</value>
       <value>,ReportTitle,ReportTitle,System.String,Common_x0020_Mistakes,False,False</value>
       <value>Texts</value>
       <value>Texts,NameText,NameText,System.String,Name,False,False</value>
@@ -128,7 +128,7 @@
               <Name>Text13</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text13>
@@ -144,7 +144,7 @@
               <Name>Text14</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
-              <Text>{DateRangeText}: { DateDiff(Today, StartDate).Days == 0 ?  Format("{0:MMM. dd, yyyy}", Today) : Format("{0:MMM. dd, yyyy}", StartDate) +" - "+ Format("{0:MMM. dd, yyyy}", EndDate)}</Text>
+              <Text>{DateRangeText}: { GetFormattedDateRange(StartDate, EndDate) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text14>
@@ -326,7 +326,7 @@
               <Name>Text3</Name>
               <Page isRef="4" />
               <Parent isRef="21" />
-              <Text>{LatestSessions.Date.ToString("yyyy-MM-dd HH:mm:ss")}</Text>
+              <Text>{ReportDateInterpreter.ToUITime(LatestSessions.Date).ToString("yyyy-MM-dd HH:mm:ss")}</Text>
               <TextBrush>[135:135:135]</TextBrush>
               <Type>Expression</Type>
             </Text3>
@@ -385,7 +385,7 @@ using Stimulsoft.Report.Components;
 namespace Reports
 {
     
-    public class CommonMistakesReport : Stimulsoft.Report.StiReport
+    public class CommonMistakesReport : Sitecore.Analytics.Reports.ReportBase
     {
         
         public CommonMistakesReport()

@@ -1905,8 +1905,8 @@ return Q;
 
 });
 
-}).call(this,_dereq_("D:\\TeamCity\\buildAgent\\work\\e43c10be45e00028\\node_modules\\grunt-browserify\\node_modules\\browserify\\node_modules\\insert-module-globals\\node_modules\\process\\browser.js"))
-},{"D:\\TeamCity\\buildAgent\\work\\e43c10be45e00028\\node_modules\\grunt-browserify\\node_modules\\browserify\\node_modules\\insert-module-globals\\node_modules\\process\\browser.js":3}],2:[function(_dereq_,module,exports){
+}).call(this,_dereq_("+NscNm"))
+},{"+NscNm":3}],2:[function(_dereq_,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -2120,8 +2120,11 @@ process.argv = [];
 function noop() {}
 
 process.on = noop;
+process.addListener = noop;
 process.once = noop;
 process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
 process.emit = noop;
 
 process.binding = function (name) {
@@ -2136,7 +2139,7 @@ process.chdir = function (dir) {
 
 },{}],4:[function(_dereq_,module,exports){
 module.exports=_dereq_(1)
-},{"D:\\TeamCity\\buildAgent\\work\\e43c10be45e00028\\node_modules\\grunt-browserify\\node_modules\\browserify\\node_modules\\insert-module-globals\\node_modules\\process\\browser.js":3}],5:[function(_dereq_,module,exports){
+},{"+NscNm":3}],5:[function(_dereq_,module,exports){
 var exludes = [],
   keys = Object.getOwnPropertyNames( Array.prototype ),
   isObject = function ( obj ) {
@@ -2378,12 +2381,14 @@ var Data = extendify( {
     self.option( merge( {}, options ) );
     self.url = hasKey( self.options, "url", "string" ) ? self.options.url : "";
     self.type = hasKey( self.options, "type", "string" ) ? self.options.type : config.defaultHttpMethod;
+    self.headers = hasKey( self.options, "headers", "object") ? self.options.headers : {};
   },
 
   get: function ( url, options ) {
     var self = this;
     url = is.a.string( url ) ? url : self.url;
     options = is.an.object( url ) ? url : options || {};
+    options = merge( options, { headers: self.headers } );
     return new Query( self.url, "get", options );
   },
 
@@ -2391,6 +2396,7 @@ var Data = extendify( {
     var self = this;
     url = is.a.string( url ) ? url : self.url;
     options = is.an.object( url ) ? url : options || {};
+    options = merge( options, { headers: self.headers } );
     return new Query( self.url, "put", options );
   },
 
@@ -2398,6 +2404,7 @@ var Data = extendify( {
     var self = this;
     url = is.a.string( url ) ? url : self.url;
     options = is.an.object( url ) ? url : options || {};
+    options = merge( options, { headers: self.headers } );
     return new Query( self.url, "post", options );
   },
 
@@ -2405,6 +2412,7 @@ var Data = extendify( {
     var self = this;
     url = is.a.string( url ) ? url : self.url;
     options = is.an.object( url ) ? url : options || {};
+    options = merge( options, { headers: self.headers } );
     return new Query( self.url, "delete", options );
   }
 
@@ -2983,7 +2991,11 @@ var Query = extendify( {
 
     self.__parameters = {};
     self.__queries = {};
+    self.__headers = {};
 
+    if( self.options.headers ) {
+      self.__headers = utils.merge( self.__headers, self.options.headers );
+    }
   },
 
   /**
@@ -3063,6 +3075,27 @@ var Query = extendify( {
   },
 
   /**
+   * Gets or sets a header by a key/value pair. A header is the key/value pair which is added to the headers of the request.
+   *
+   * @method header
+   * @chainable
+   * @param  {String} key   The header key
+   * @param  {String} value The header value
+   * @return {Mixed} If `key` and `value` was given `self` is returned, if only `key` was given, the value of that key is returned.
+   */
+  header: function ( key, value ) {
+    var self = this;
+
+    if ( self.__headers.hasOwnProperty( key ) && utils.is.empty( value ) ) {
+      return self.__headers[ key ];
+    }
+
+    self.__headers[ key ] = value;
+
+    return self;
+  },
+
+  /**
    * Executes the query by triggering the XHR request to the given url (end point).
    *
    * @method execute
@@ -3078,7 +3111,8 @@ var Query = extendify( {
       type: self.type,
       url: self.url,
       data: self.__parameters,
-      query: self.__queries
+      query: self.__queries,
+      header: self.__headers
     };
 
     self.middleware( "preRequest", function ( error, middlewareResponse ) {
@@ -3203,6 +3237,7 @@ var Request = function ( options ) {
 
     superagent( task.data.type, task.data.url )[ /get/i.test( task.data.type ) ? "query" : "send" ]( task.data.data )
       .query( task.data.query )
+      .set( task.data.header || {} )
       .accept( "json" )
       .type( "json" )
       .end( function ( error, response ) {
@@ -7502,6 +7537,7 @@ var Entity = DataService.Item.extend( {
     options.binding = options[ "binding" ] === false ? false : true;
     options.trackable = options[ "trackable" ] === true;
     options.url = utils.is.a.string( options[ "url" ] ) ? options[ "url" ] : "";
+    options.headers = utils.is.an.object( options.headers ) ? options.headers : {};
 
     if ( options[ "raw" ] === true && ( options[ "binding" ] === true || options[ "trackable" ] === true ) ) {
       throw new Error( "An entity cannot be raw and have a binding or be trackable" );
@@ -7535,7 +7571,8 @@ var Entity = DataService.Item.extend( {
 
       type: "DELETE",
       url: self.option( "url" ),
-      data: self.json()
+      data: self.json(),
+      header: self.options.headers
 
     } ).then( function ( res ) {
       defer.resolve( self );
@@ -7604,14 +7641,15 @@ var Entity = DataService.Item.extend( {
       }
     }
 
+
     utils.request( {
 
       type: self.isNew ? "POST" : "PUT",
       url: self.option( "url" ),
-      data: self.json()
+      data: self.json(),
+      header: self.options.headers
 
     } ).then( function ( response ) {
-
       if ( utils.is.empty( self[ self.__schema.ENTITY.key ] ) ) {
         if ( utils.hasKey( response, "__id", "string" ) && !utils.is.empty( response.__id ) ) {
           self[ self.__schema.ENTITY.key ] = response.__id;
@@ -7661,156 +7699,166 @@ module.exports = Entity;
  */
 
 var Q = _dereq_( "q" ),
-  DataService = _dereq_( "sc-data" ),
-  Query = _dereq_( "./sc-query" ),
-  utils = _dereq_( "./utils" ),
-  Schema = _dereq_( "sc-schemajs" ),
-  Entity = _dereq_( "./entity" ),
-  config = utils.merge( _dereq_( "./config.json" ), DataService.config );
+    DataService = _dereq_( "sc-data" ),
+    Query = _dereq_( "./sc-query" ),
+    utils = _dereq_( "./utils" ),
+    Schema = _dereq_( "sc-schemajs" ),
+    Entity = _dereq_( "./entity" ),
+    config = utils.merge( _dereq_( "./config.json" ), DataService.config );
 
 _dereq_( "./middleware" );
 
 var EntityService = DataService.extend( {
 
-  init: function EntityCtor( options ) {
-    var self = this;
+    init: function EntityCtor( options ) {
+        var self = this;
 
-    self._super( options );
-    self.hasMetaData = false;
-    self.metadata = null;
-  },
+        self._super( options );
+        self.hasMetaData = false;
+        self.metadata = null;
+    },
 
-  create: function ( data, options ) {
-    var self = this,
-      defer = Q.defer(),
-      emptyEntity,
-      promise,
-      schema = new Schema(),
-      query;
+    create: function ( data, options ) {
+        var self = this,
+            defer = Q.defer(),
+            emptyEntity,
+            promise,
+            schema = new Schema(),
+            query;
 
-    options = utils.is.an.object( options ) ? options : {};
-    options.url = utils.is.a.string( options.url ) && !utils.is.empty( options.url ) ? options.url : self.url;
-    options.trackable = utils.is.a.boolean( options.trackable ) ? options.trackable : self.options.trackable;
-    options.binding = utils.is.a.boolean( options.binding ) ? options.binding : self.options.binding;
-    options.raw = utils.is.a.boolean( options.raw ) ? options.raw : self.options.raw;
+        options = utils.is.an.object( options ) ? options : {};
+        options.url = utils.is.a.string( options.url ) && !utils.is.empty( options.url ) ? options.url : self.url;
+        options.trackable = utils.is.a.boolean( options.trackable ) ? options.trackable : self.options.trackable;
+        options.binding = utils.is.a.boolean( options.binding ) ? options.binding : self.options.binding;
+        options.raw = utils.is.a.boolean( options.raw ) ? options.raw : self.options.raw;
 
-    switch ( true ) {
+        options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
 
-    case utils.is.not.null( data ) && utils.is.an.object( data ):
+        switch ( true ) {
 
-      query = new Query( options.url, "POST", options );
+        case utils.is.not.null( data ) && utils.is.an.object( data ):
 
-      query
-        .parameters( data )
-        .option( "url", options.url )
-        .option( "entityService", self );
+            query = new Query( options.url, "POST", options );
 
-      promise = query;
+            query
+                .parameters( data )
+                .option( "url", options.url )
+                .option( "entityService", self );
 
-      break;
+            promise = query;
 
-    case utils.is.empty( data ):
+            break;
 
-      self.loadMetadata().then( function () {
+        case utils.is.empty( data ):
 
-        emptyEntity = new Entity( schema.sanitize( self.metadata.entity, {} ), self.metadata, options );
-        defer.resolve( emptyEntity );
+            self.loadMetadata().then( function () {
 
-      } ).fail( defer.reject );
+                emptyEntity = new Entity( schema.sanitize( self.metadata.entity, {} ), self.metadata, options );
+                defer.resolve( emptyEntity );
 
-      promise = defer.promise;
+            } ).fail( defer.reject );
 
-      break;
-    }
+            promise = defer.promise;
 
-    return promise;
-  },
+            break;
+        }
 
-  fetchEntity: function ( id, options ) {
-    var self = this,
-      query = new Query( self.url, self.type, options );
+        return promise;
+    },
+    fetchEntity: function ( id, options ) {
+        var self = this;
 
-    query
-      .option( "url", self.url )
-      .option( "entityService", self )
-      .option( "single", true )
-      .parameter( "id", id );
+        options = utils.is.an.object( options ) ? options : {};
+        options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
 
-    self.loadMetadata();
+        var query = new Query( self.url, self.type, options );
 
-    return query;
-  },
+        query
+            .option( "url", self.url )
+            .option( "entityService", self )
+            .option( "single", true )
+            .parameter( "id", id );
 
-  fetchEntities: function ( options ) {
-    var self = this,
-      query = new Query( self.url, self.type, options );
+        self.loadMetadata();
 
-    query
-      .option( "url", self.url )
-      .option( "entityService", self );
+        return query;
+    },
 
-    self.loadMetadata();
+    fetchEntities: function ( options ) {
+        var self = this;
 
-    return query;
-  },
+        options = utils.is.an.object( options ) ? options : {};
+        options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
 
-  loadMetadata: function () {
-    var self = this,
-      defer = Q.defer();
+        var query = new Query( self.url, self.type, options );
 
-    if ( self.metadataLoading ) {
-      return;
-    }
+        query
+            .option( "url", self.url )
+            .option( "entityService", self );
 
-    if ( self.hasMetaData ) {
+        self.loadMetadata();
 
-      defer.resolve( self.metadata );
-      self.emit( "metadata:loaded", null, self.metadata );
+        return query;
+    },
 
-    } else {
+    loadMetadata: function () {
+        var self = this,
+            defer = Q.defer();
 
-      self.metadataLoading = true;
-
-      utils
-        .request( {
-          url: self.url,
-          type: "OPTIONS"
-        } )
-        .then( function ( metadata ) {
-
-          var metadataError;
-
-          if ( utils.hasKey( metadata, "entity", "object" ) === false ) {
-            metadataError = new Error( "The server did not return a valid metadata object" );
-            defer.reject( metadataError );
-            self.emit( "metadata:loaded", metadataError );
+        if ( self.metadataLoading ) {
             return;
-          }
+        }
 
-          utils.metadataValidator.add( metadata.entity ).then( function ( newValidators ) {
+        if ( self.hasMetaData ) {
 
-            self.metadataLoading = false;
-            self.hasMetaData = true;
-            self.metadata = metadata;
             defer.resolve( self.metadata );
             self.emit( "metadata:loaded", null, self.metadata );
 
-          } ).fail( function ( error ) {
+        } else {
 
-            defer.reject( new Error( "There was an error loading the custom validators" ) );
+            self.metadataLoading = true;
 
-          } );
+            utils
+                .request( {
+                    url: self.url,
+                    type: "OPTIONS",
+                    header: self.options.headers || {}
+                } )
+                .then( function ( metadata ) {
 
-        } )
-        .fail( function ( error ) {
-          defer.reject( error );
-          self.emit( "metadata:loaded", error );
-        } );
+                    var metadataError;
 
+                    if ( utils.hasKey( metadata, "entity", "object" ) === false ) {
+                        metadataError = new Error( "The server did not return a valid metadata object" );
+                        defer.reject( metadataError );
+                        self.emit( "metadata:loaded", metadataError );
+                        return;
+                    }
+
+                    utils.metadataValidator.add( metadata.entity ).then( function ( newValidators ) {
+
+                        self.metadataLoading = false;
+                        self.hasMetaData = true;
+                        self.metadata = metadata;
+                        defer.resolve( self.metadata );
+                        self.emit( "metadata:loaded", null, self.metadata );
+
+                    } ).fail( function ( error ) {
+
+                        defer.reject( new Error( "There was an error loading the custom validators" ) );
+
+                    } );
+
+                } )
+                .fail( function ( error ) {
+                    defer.reject( error );
+                    self.emit( "metadata:loaded", error );
+                } );
+
+        }
+
+        return defer.promise;
     }
-
-    return defer.promise;
-  }
 
 } );
 
@@ -7823,8 +7871,9 @@ exports.Entity = Entity;
 exports.utils = utils;
 
 if ( typeof window !== "undefined" ) {
-  window.EntityService = exports;
+    window.EntityService = exports;
 }
+
 },{"./config.json":53,"./entity":54,"./middleware":56,"./sc-query":60,"./utils":63,"q":4,"sc-data":7,"sc-schemajs":44}],56:[function(_dereq_,module,exports){
 var Query = _dereq_( "sc-query" ),
   utils = _dereq_( "../utils" ),
@@ -7871,6 +7920,8 @@ module.exports = function ( res, next ) {
     raw = self.options[ "raw" ] === true,
     hasMetaData = self.options.entityService[ "hasMetaData" ] === true,
     sanitizedEntities = [];
+
+  
 
   switch ( true ) {
 

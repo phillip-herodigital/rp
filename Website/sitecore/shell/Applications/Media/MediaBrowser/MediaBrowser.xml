@@ -20,15 +20,16 @@
           <Tabstrip ID="Tabs">
             <SearchTab Mode="MediaBrowser" Header="Search" Height="100%"/>
             <Tab ID="MediaLibraryTab" Header="Browse" Height="100%">
-              <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" Columns="3" GridPanel.Height="100%">
-
-                <Scrollbox Height="100%" Class="scScrollbox scFixSize scFixSize8" Background="white" GridPanel.Height="100%" GridPanel.Width="200" GridPanel.VAlign="top" Style="overflow:auto;border-top:0;border-left:0;">
-                  <TreeviewEx ID="Treeview" DataContext="MediaDataContext" Click="SelectTreeNode" DblClick="TreeViewDblClick" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' Width="100%" />
-                </Scrollbox>
-
+              <GridPanel Width="100%" Height="100%" Columns="3" GridPanel.Height="100%" Class="scMediaGridPanel">
+                <Border Class="scMediaTreeBorder" GridPanel.Height="100%" GridPanel.Width="50%">
+                  <Scrollbox Class="scScrollbox scMediaTree">
+                    <TreeviewEx ID="Treeview" DataContext="MediaDataContext" Click="SelectTreeNode" DblClick="TreeViewDblClick" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("dropdown")' Width="100%" />
+                  </Scrollbox>
+                </Border>
+    
                 <VSplitter ID="MediaBrowserLeft" Target="left" GridPanel.Width="4" />
 
-                <Scrollbox ID="Listview" Width="100%" Height="100%" Class="scScrollbox scFixSize scFixSize8" Background="white" Padding="0px" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" style="border-top:0;" />
+                <Scrollbox ID="Listview" Width="100%" Height="100%" Class="scScrollbox" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" />
 
               </GridPanel>
             </Tab>

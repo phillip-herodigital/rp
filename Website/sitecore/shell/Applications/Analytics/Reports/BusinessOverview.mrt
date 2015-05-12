@@ -30,16 +30,15 @@
           <value>TotalVisits,System.Int32</value>
           <value>TotalValue,System.Int32</value>
           <value>Recency,System.DateTime</value>
-          <value>LocalRecency,LocalRecency,System.DateTime,DataSource.Recency.ToLocalTime_x0028__x0029_</value>
+          <value>LocalRecency,LocalRecency,System.DateTime,ReportDateInterpreter.ToUITime_x0028_DataSource.Recency_x0029_</value>
           <value>IsYesterday,IsYesterday,System.Boolean,DataSource.RecencyDays_x0020__x003D__x003D__x0020_1</value>
-          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_Today.Year_x0020_-12_x002A_DataSource.LocalRecency.Year_x0020__x002B_Today.Month_x0020_-_x0020_DataSource.LocalRecency.Month</value>
-          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_Today_x002C__x0020_DataSource.LocalRecency.Date_x0029_.Days</value>
-          <value>IsToday,IsToday,System.Boolean,Today.Date_x0020__x003D__x003D__x0020_DataSource.LocalRecency.Date</value>
+          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_UiToday.Year_x0020_-12_x002A_DataSource.LocalRecency.Year_x0020__x002B_UiToday.Month_x0020_-_x0020_DataSource.LocalRecency.Month</value>
+          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_UiToday_x002C__x0020_DataSource.LocalRecency.Date_x0029_.Days</value>
+          <value>IsToday,IsToday,System.Boolean,UiToday.Date_x0020__x003D__x003D__x0020_DataSource.LocalRecency.Date</value>
           <value>RecencyYears,RecencyYears,System.Double,Round_x0028_DataSource.RecencyDays_x002F_365.2425_x0029_</value>
           <value>Days,Days,System.Int32,DateDiff_x0028_DataSource.Recency_x002C__x0020_DataSource.OldDate_x0029_.Days_x0020__x002B_1</value>
           <value>ActivityLevel,ActivityLevel,System.Double,_x0031_0_x002A_DataSource.TotalVisitors_x002A_DataSource.TotalVisits_x002F__x0028_DataSource.Days_x0020__x002B__x0020_1_x0029__x0020_</value>
           <value>OldDate,System.DateTime</value>
-          
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
@@ -57,7 +56,7 @@
           <value>Value,System.Int32</value>
           <value>Visits,System.Int32</value>
           <value>Recency,System.DateTime</value>
-          <value>LocalRecency,LocalRecency,System.DateTime,Visitors.Recency.ToLocalTime_x0028__x0029_</value>
+          <value>LocalRecency,LocalRecency,System.DateTime,ReportDateInterpreter.ToUITime_x0028_Visitors.Recency_x0029_</value>
           <value>Email,System.String</value>
           <value>First_x0020_Name,System.String</value>
           <value>Second_x0020_Name,System.String</value>
@@ -100,11 +99,11 @@
           <value>TotalVisits,System.Int32</value>
           <value>TotalValue,System.Int32</value>
           <value>Recency,System.DateTime</value>
-          <value>LocalRecency,LocalRecency,System.DateTime,Regions.Recency.ToLocalTime_x0028__x0029_</value>
+          <value>LocalRecency,LocalRecency,System.DateTime,ReportDateInterpreter.ToUITime_x0028_Regions.Recency_x0029_</value>
           <value>IsYesterday,IsYesterday,System.Boolean,Regions.RecencyDays_x0020__x003D__x003D__x0020_1</value>
-          <value>IsToday,IsToday,System.Boolean,Today.Date_x0020__x003D__x003D__x0020_Regions.LocalRecency.Date</value>
-          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_Today_x002C__x0020_Regions.LocalRecency.Date_x0029_.Days</value>
-          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_Today.Year_x0020_-12_x002A_Regions.LocalRecency.Year_x0020__x002B_Today.Month_x0020_-_x0020_Regions.LocalRecency.Month</value>
+          <value>IsToday,IsToday,System.Boolean,UiToday.Date_x0020__x003D__x003D__x0020_Regions.LocalRecency.Date</value>
+          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_UiToday_x002C__x0020_Regions.LocalRecency.Date_x0029_.Days</value>
+          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_UiToday.Year_x0020_-12_x002A_Regions.LocalRecency.Year_x0020__x002B_UiToday.Month_x0020_-_x0020_Regions.LocalRecency.Month</value>
           <value>RecencyYears,RecencyYears,System.Double,Round_x0028_Regions.RecencyDays_x002F_365.2425_x0029_</value>
           <value>Country,System.String</value>
           <value>Days,Days,System.Int32,DateDiff_x0028_Regions.Recency_x002C__x0020_Regions.OldDate_x0029_.Days</value>
@@ -134,8 +133,8 @@
       <value>Texts,YearsAgoText,YearsAgoText,System.String,Years_x0020_Ago,False,False</value>
       <value>Texts,ReportDescriptionText,ReportDescriptionText,System.String,Report_x0020_description,False,False</value>
       <value>Texts,YesterdayText,YesterdayText,System.String,Yesterday,False,False</value>
-      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-7_x0029_,False,True</value>
-      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,StartDate,StartDate,System.DateTime,GetDefaultStartDate_x0028__x0029_,False,True</value>
+      <value>,EndDate,EndDate,System.DateTime,GetDefaultEndDate_x0028__x0029_,False,True</value>
       <value>Texts,ClassifyText,ClassifyText,System.String,Classify,False,False</value>
       <value>Texts,SubscribeText,SubscribeText,System.String,Subscribe,False,False</value>
       <value>Texts,UnsubscribeText,UnsubscribeText,System.String,Unsubscribe,False,False</value>
@@ -221,7 +220,7 @@
               <Name>Text13</Name>
               <Page isRef="9" />
               <Parent isRef="10" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -344,7 +343,7 @@
               <Parent isRef="16" />
               <Text>
                 {GetApproximateRecencyText(DataSource.Recency, YearsAgoText, MonthAgoText, TodayText, YesterdayText, DaysAgoTexts)}
-                {Format("{0:MMM.dd,yyyy}", DataSource.Recency)}
+                {Format("{0:MMM.dd,yyyy}", ReportDateInterpreter.ToUITime(DataSource.Recency))}
               </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
@@ -684,7 +683,7 @@
               <Name>Text26</Name>
               <Page isRef="9" />
               <Parent isRef="40" />
-              <Text>{DateDiff( Today, Visitors.LocalRecency.Date).Days} {DaysText}</Text>
+              <Text>{DateDiff( UiToday, Visitors.LocalRecency.Date).Days} {DaysText}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text26>
@@ -1030,7 +1029,8 @@
               <Parent isRef="61" />
               <Text>
                 {GetApproximateRecencyText(Regions.Recency, YearsAgoText, MonthAgoText, TodayText, YesterdayText, DaysAgoTexts)}
-                {Format("{0:MMM.dd,yyyy}", Regions.Recency)}</Text>
+                {Format("{0:MMM.dd,yyyy}", ReportDateInterpreter.ToUITime(Regions.Recency))}
+              </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text45>
@@ -1074,7 +1074,7 @@
     </Page1>
   </Pages>
   <PrinterSettings Ref="69" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
-  <ReferencedAssemblies isList="true" count="9">
+  <ReferencedAssemblies isList="true" count="10">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
     <value>System.Windows.Forms.Dll</value>
@@ -1084,6 +1084,7 @@
     <value>Stimulsoft.Base.Dll</value>
     <value>Stimulsoft.Report.Dll</value>
     <value>Sitecore.Analytics.dll</value>
+    <value>Sitecore.Kernel.dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
   <ReportChanged>5/4/2011 11:53:31 AM</ReportChanged>
@@ -1103,6 +1104,7 @@
     using Stimulsoft.Report;
     using Stimulsoft.Report.Dialogs;
     using Stimulsoft.Report.Components;
+    using Sitecore;
 
     namespace Reports
     {
@@ -1113,7 +1115,7 @@
     this.InitializeComponent();
     }
 
-string Concatenate(LocationDataSource ds) {
+    string Concatenate(LocationDataSource ds) {
     System.Text.StringBuilder result = new System.Text.StringBuilder();
     ds.First();
     while (!ds.IsEof) {

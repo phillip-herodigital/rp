@@ -26,14 +26,6 @@
   var app = sc.Definitions.App.extend({
     initialized: function()
     {
-      this.SearchTextBox.viewModel.$el.keyup($.proxy(function (e)
-      {
-        if (e.keyCode == 13)
-        {
-          this.SearchButton.viewModel.click();
-        }
-      }, this));
-
       var searchTable = "search";
 
       providerHelper.setupHeaders([
@@ -47,11 +39,8 @@
       this.ContactDataRepeater.on("subAppLoaded", this.setContactData, this);
 
       var searchText = decodeURIComponent(cintelUtil.getQueryParam(textProperty));
-      if (searchText)
-      {
-        this.SearchTextBox.set(textProperty, searchText);
-        this.findContacts();
-      }
+      this.SearchTextBox.set(textProperty, searchText);
+      this.findContacts();
       
       this.SearchDataProvider.on("change:" + cidataProperty, function ()
       {
@@ -61,15 +50,13 @@
         var noRepeaterItems = this.ContactDataRepeater.get("renderedApps").length < 1;
         this.NoSearchResult.set(isVisibleProperty, noData && noRepeaterItems);
       }, this);
+      
+      cintelUtil.removeBreadCrumbLastLink(this.Breadcrumb);
     },
     
     findContacts: function()
     {
-      var match = this.SearchTextBox.get(textProperty);
-      if (!match)
-      {
-        return;
-      }
+      var match = this.SearchTextBox.get(textProperty) || "*";
 
       if (!this.ResultsBorder.get(isVisibleProperty))
       {
@@ -80,7 +67,7 @@
 
       history.pushState(null, null, "search?text=" + encodeURIComponent(this.SearchTextBox.get(textProperty)));
 
-      providerHelper.addQueryParameter(this.SearchDataProvider, "match", encodeURIComponent(this.SearchTextBox.get(textProperty)));
+      providerHelper.addQueryParameter(this.SearchDataProvider, "match", encodeURIComponent(match));
       providerHelper.getListData(this.SearchDataProvider);
     },
 
@@ -112,7 +99,7 @@
 
       subapp.LatestVisitLocation.set(textProperty, data.latestVisitLocationDisplayName);
 
-      subapp.ValueValue.set(textProperty, data.latestVisitValue);
+      subapp.ValueValue.set(textProperty, data.value);
       subapp.PageViewsValue.set(textProperty, data.latestVisitPageViewCount);
     }
   });

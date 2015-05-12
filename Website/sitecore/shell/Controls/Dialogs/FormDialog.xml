@@ -32,47 +32,41 @@
 
     </Script>
 
-    <FormPage Application="$Application" Background="#e9e9e9" Overflow="true" FormTarget="$FormTarget" Enctype="$Enctype" DictionaryDomain="$DictionaryDomain" Submittable='${MainUtil.GetString($Submittable,"true")}'>
-      <Border Class='scFlexColumnContainer' Width="100%" Height="100%">
+    <FormPage Application="$Application"  Overflow="true" FormTarget="$FormTarget" Enctype="$Enctype" DictionaryDomain="$DictionaryDomain" Submittable='${MainUtil.GetString($Submittable,"true")}'>
+      <div Class='scFlexColumnContainer scStretch'>
 
         <div>
-          <Border class="scFormDialogHeader">     
-            <ThemedImage Src="$Icon" />
-            
-            <Border style="overflow:hidden;">
-              <Border Foreground="black" Padding="0px 0px 4px 0px" FontSize="9pt" FontBold="true" FontName="tahoma">
-                <Literal Class="$HeaderCssClass" Text="$Header"/>
-              </Border>
-              <Border Foreground="#333333">
-                <Literal Class="$TextCssClass" Text="$Text"/>
-              </Border>
-            </Border>
-
-            <Border class="scHorizontalLine">.</Border>
-          </Border>
+          <div class="scFormDialogHeader">
+            <div Class="DialogHeader">
+              <Literal Class="$HeaderCssClass" Text="$Header"/>
+            </div>
+            <div Class="DialogHeaderDescription">
+              <Literal Class="$TextCssClass" Text="$Text"/>
+            </div>
+          </div>
         </div>
         <def:Placeholder name="Toolbar"/>
 
         <Border Class="scFlexContent scFormDialogContent" Background='${StringUtil.GetString($ClientBackground, "transparent")}' 
                    Border='${StringUtil.GetString($ClientBorder, "none")}'>
-          <Border Width="100%" Height="100%" Class="scDialogContentContainer" Style="position:absolute; overflow:auto;">
+          <div class="scStretchAbsolute scDialogContentContainer">
             <def:Placeholder/>
-          </Border>
+          </div>
         </Border>
         
         <div Class="scFormDialogFooter">     
           <div class="footerOkCancel">
-            <Button ID="OK" Width="76px" Height="23px" Click="#" KeyCode="13">
+            <Button ID="OK" class='${StringUtil.GetString($OKButtonClass, "scButton scButtonPrimary")}' Click="#" KeyCode="13">
               <Literal Text='${StringUtil.GetString($OKButton, "OK")}'/>
             </Button>
-            <Button ID="Cancel" Width="76px" Height="23px" Click="#" KeyCode="27">
+            <Button ID="Cancel" Click="#" KeyCode="27">
               <Literal Text="Cancel"/>
             </Button>
           </div>
           
           <def:Placeholder name="Buttons"/>
         </div>
-      </Border>
+      </div>
     </FormPage>
   </FormDialog>
 </control>

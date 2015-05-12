@@ -1,5 +1,6 @@
 ﻿@using Sitecore.Mvc
 @using Sitecore.Mvc.Presentation
+@using Sitecore.Speak.Charting.sitecore.shell.client.BusinessComponentLibrary.Layouts.Renderings.Charts.Shared
 @using Sitecore.Speak.Charting.sitecore.shell.client.Speak.Layouts.Renderings.Data.DataProviders
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @model RenderingModel
@@ -14,8 +15,10 @@
   var dateTo = userControl.GetString("DateTo");  
   var resolution = userControl.GetString("Resolution");
   var resolutionRange = userControl.GetString("ResolutionRange");
-  
+
+  userControl.Attributes["data-sc-serverreturn"] = ChartHelper.GetTranslation("{884B9AA5-E7A8-457C-B251-8AEA1802D082}", "Server returned");  
   userControl.Attributes["data-sc-datefrom"] = dateFrom;
+  userControl.Attributes["data-sc-dateto"] = dateTo;    
   userControl.Attributes["data-sc-dateto"] = dateTo;    
   userControl.Attributes["data-sc-resolution"] = resolution;
   userControl.Attributes["data-sc-resolutionRange"] = resolutionRange;

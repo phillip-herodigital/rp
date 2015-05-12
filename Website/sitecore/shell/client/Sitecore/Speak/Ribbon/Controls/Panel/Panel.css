@@ -1,0 +1,21 @@
+﻿.panelContentContainer {
+  height: 100%;
+  font-size: 11px;
+  overflow-y: auto;
+  float: left;
+  width: 280px;
+  margin-left: 0.5em;
+}
+
+.panelCommandButtonsContainer {
+  position: relative;
+  float: left;
+  width: 20px;
+  height: 100%;
+}
+
+.showPanelButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}

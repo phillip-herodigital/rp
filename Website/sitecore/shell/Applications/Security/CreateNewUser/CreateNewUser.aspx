@@ -5,7 +5,8 @@
 <head runat="server">
   <title>Sitecore</title>
   <sc:Stylesheet Src="Default.css" DeviceDependant="true" runat="server" />
-  <script language="javascript" type="text/javascript">
+  <sc:Stylesheet Src="Dialogs.css" DeviceDependant="true" runat="server" />
+  <script type="text/javascript">
     window.name="modal";
 
     function onClose() {
@@ -35,6 +36,17 @@
       if (flexie) flexie.updateInstance();
     }
 
+    function fixWindowHight() {
+        scForm.autoIncreaseModalDialogHeight(document.querySelector('.scCreateNewUserContent'));
+    }
+    
+    function DoValidation(validationGroup) {
+        var isValid = Page_ClientValidate(validationGroup);
+        if (!isValid) {
+            fixWindowHight();
+        }
+    }
+
   </script>
 
   <style type="text/css">
@@ -61,14 +73,16 @@
     }
     
     .scCreateNewUserContent {
-      padding-top: 8px; 
-      padding-bottom: 8px; 
-      background: #ebebeb; 
-      vertical-align: top; 
       position:absolute; 
-      top: 41px; 
-      bottom: 0; 
-      width: 100%;
+      top: 60px; 
+      bottom: 56px; 
+      left: 0;
+      right: 0;
+      overflow: auto;
+    }
+
+    .scCreateNewUserValidator {
+        color: #ca241c;
     }
 
     .scCreateNewUserValidatorContainer {
@@ -78,45 +92,39 @@
     }
 
     .scWizardStepAndNavigationContainer {
-      position:absolute; 
-      bottom: 8px; 
-      top: 0; 
-      width: 100%; 
-      padding-left: 8px; 
-      padding-right: 8px;
+      width: 100%;
       overflow: auto;
     }
 
     .scCreateNewUserFormRow, .scCreateNewUserFormRowWithSelect, .scCreateNewUserFormRowAutoHeight {
       position: relative;
       vertical-align: middle;
-      height: 26px;
-      min-height: 26px;
-      line-height: 26px;
+      padding-bottom: 10px;
     }
 
     .scCreateNewUserFormRowWithSelect {
       height: auto;
-      min-height: 80px;
+      min-height: 90px;
     }
 
     .scCreateNewUserFormRowAutoHeight {
       height: auto;
       min-height: 0;
+      padding-bottom: 0;
     }
 
     .scCreateNewUserFormDescriptionColumn {
-      width: 96px;
-      padding: 2px;
+      width: auto;
       display: inline-block;
-      text-align: right;
+      text-align: left;
       vertical-align: middle;
+      line-height: 36px;
     }
     
     .scCreateNewUserFormContentColumn {
       display: inline-block;
-      left: 96px;
-      right: 10px;
+      left: 120px;
+      right: 15px;
       position: absolute;
       padding: 2px;
       vertical-align: middle;
@@ -135,7 +143,7 @@
     }
 
     .scCreateNewUserFormValidationSummaryColumn {
-      padding: 2px 2px 2px 96px;
+      padding: 2px 2px 2px 107px;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
       width: 100%;
@@ -146,24 +154,30 @@
       -moz-box-sizing: border-box;
       box-sizing: border-box;
     }
+
+    .scFormDialogFooter {
+      position: fixed;
+      right: 0;
+      left: 0;
+      bottom: 0;
+    }
   </style>
 </head>
-<body style="overflow:hidden">
+<body onload="fixWindowHight()" style="overflow:hidden">
   <form id="MainForm" runat="server" target="modal">
     <sc:AjaxScriptManager runat="server" />
     <sc:ContinuationManager runat="server" />
     <input type="hidden" id="RolesValue" runat="server" />
-      <div style="border-bottom:#212424;height:40px">
-        <sc:ThemedImage Src="People/32x32/user1_new.png" Width="32" Height="32" runat="server" Float="left" Margin="2px 4px 2px 4px"/>
-
-        <b><sc:Literal Text="Create a New User" runat="server" /></b><br />
-        <sc:Literal Text="Enter information about the user." runat="server" />
-
+    <div class="scFormDialogHeader">
+          <div class="DialogHeader">
+            <sc:Literal Text="Create a New User" runat="server" />
+          </div>
+          <div class="DialogHeaderDescription">
+            <sc:Literal Text="Enter information about the user." runat="server" />
+          </div>
+          <div class="scHorizontalLine"></div>
       </div>
-    
-      <div class="scHorizontalLine"></div>
-
-      <div class="scCreateNewUserContent scBorderBox">
+      <div class="scCreateNewUserContent">
         <asp:CreateUserWizard ID="CreateUserWizard" runat="server"
           Font-Names="tahoma" RequireEmail="false" Height="100%"
           Width="100%" LoginCreatedUser="false"
@@ -178,13 +192,13 @@
                 <ContentTemplate>
                   <div class="scCreateNewUserFormRow">
                     <div class="scCreateNewUserFormDescriptionColumn scBorderBox">
-                      <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName"><sc:Literal ID="litUserName" Text="User Name:" runat="server"/></asp:Label>
+                      <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName"><sc:Literal ID="litUserName" Text="User name:" runat="server"/></asp:Label>
                     </div>
                     <div class="scCreateNewUserFormContentColumn scBorderBox">
                       <asp:TextBox ID="UserName" runat="server" Width="100%" CssClass="scIgnoreModified"></asp:TextBox>
                     </div>
                     <div class="scCreateNewUserFormValidationColumn scBorderBox">
-                      <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ToolTip="User Name is required." ErrorMessage="User Name is required." ValidationGroup="CreateUserWizard1" ControlToValidate="UserName" CssClass="scCreateNewUserValidator">*</asp:RequiredFieldValidator>
+                      <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ToolTip="User name is required." ErrorMessage="User name is required." ValidationGroup="CreateUserWizard1" ControlToValidate="UserName" CssClass="scCreateNewUserValidator" SetFocusOnError="True">*</asp:RequiredFieldValidator>
                       <asp:CustomValidator ID="DomainValidation" runat="server" ValidationGroup="CreateUserWizard1" ControlToValidate="UserName" ToolTip="User name is not valid in the selected domain." ErrorMessage="User name is not valid in the selected domain." OnServerValidate="OnValidateUserNameInDomain">*</asp:CustomValidator>
                     </div>
                   </div>
@@ -199,7 +213,7 @@
                   </div>
                   <div class="scCreateNewUserFormRow">
                     <div class="scCreateNewUserFormDescriptionColumn scBorderBox">
-                      <asp:Label ID="FullNameLabel" runat="server" AssociatedControlID="FullName"><sc:Literal ID="Literal1" Text="Full Name:" runat="server"/></asp:Label></td>
+                      <asp:Label ID="FullNameLabel" runat="server" AssociatedControlID="FullName"><sc:Literal ID="Literal1" Text="Full name:" runat="server"/></asp:Label></td>
                     </div>
                     <div class="scCreateNewUserFormContentColumn scBorderBox">
                       <asp:TextBox ID="FullName" runat="server" Width="100%" CssClass="scIgnoreModified"></asp:TextBox>
@@ -214,8 +228,8 @@
                       <asp:TextBox ID="Email" Width="100%" runat="server" CssClass="scIgnoreModified"></asp:TextBox>
                     </div>
                     <div class="scCreateNewUserFormValidationColumn scBorderBox">
-                      <asp:RequiredFieldValidator ControlToValidate="Email" ErrorMessage="Email is required." ID="EmailRequired" runat="server" ValidationGroup="CreateUserWizard1" CssClass="scCreateNewUserValidator">*</asp:RequiredFieldValidator>
-                      <asp:RegularExpressionValidator ControlToValidate="Email" ID="EmailValidity" runat="server" ValidationGroup="CreateUserWizard1" ValidationExpression="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" CssClass="scCreateNewUserValidator">*</asp:RegularExpressionValidator>
+                      <asp:RequiredFieldValidator ControlToValidate="Email" ErrorMessage="Email is required." ID="EmailRequired" runat="server" ValidationGroup="CreateUserWizard1" CssClass="scCreateNewUserValidator" SetFocusOnError="True">*</asp:RequiredFieldValidator>
+                      <asp:RegularExpressionValidator ControlToValidate="Email" ID="EmailValidity" runat="server" ValidationGroup="CreateUserWizard1" ValidationExpression="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" CssClass="scCreateNewUserValidator" SetFocusOnError="True">*</asp:RegularExpressionValidator>
                     </div>
                   </div>
                   <div class="scCreateNewUserFormRow">
@@ -235,18 +249,18 @@
                       <asp:TextBox ID="Password" runat="server" TextMode="Password" Width="100%" autocomplete="off" CssClass="scIgnoreModified"></asp:TextBox>
                     </div>
                     <div class="scCreateNewUserFormValidationColumn scBorderBox">
-                      <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ValidationGroup="CreateUserWizard1" ControlToValidate="Password" CssClass="scCreateNewUserValidator">*</asp:RequiredFieldValidator>
+                      <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ValidationGroup="CreateUserWizard1" ControlToValidate="Password" CssClass="scCreateNewUserValidator" SetFocusOnError="True">*</asp:RequiredFieldValidator>
                     </div>
                   </div>
                   <div class="scCreateNewUserFormRow">
                     <div class="scCreateNewUserFormDescriptionColumn scBorderBox">
-                      <asp:Label ID="ConfirmPasswordLabel" runat="server" AssociatedControlID="ConfirmPassword"><sc:Literal ID="Literal5" Text="Confirm Password:" runat="server" /></asp:Label>
+                      <asp:Label ID="ConfirmPasswordLabel" runat="server" AssociatedControlID="ConfirmPassword"><sc:Literal ID="Literal5" Text="Confirm password:" runat="server" /></asp:Label>
                     </div>
                     <div class="scCreateNewUserFormContentColumn scBorderBox">
                       <asp:TextBox ID="ConfirmPassword" runat="server" TextMode="Password" Width="100%" CssClass="scIgnoreModified"></asp:TextBox>
                     </div>
                     <div class="scCreateNewUserFormValidationColumn scBorderBox">
-                      <asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ValidationGroup="CreateUserWizard1" ControlToValidate="ConfirmPassword" CssClass="scCreateNewUserValidator">*</asp:RequiredFieldValidator>
+                      <asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ValidationGroup="CreateUserWizard1" ControlToValidate="ConfirmPassword" CssClass="scCreateNewUserValidator" SetFocusOnError="True">*</asp:RequiredFieldValidator>
                     </div>
                   </div>
                   <div class="scCreateNewUserFormRowWithSelect scFlexContent">
@@ -254,13 +268,13 @@
                       <asp:Label ID="RolesLabel" runat="server" AssociatedControlID="Roles"><sc:Literal ID="Literal6" Text="Roles:" runat="server" /></asp:Label>
                     </div>
                     <div class="scCreateNewUserFormContentColumn scBorderBox">
-                      <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
+                      <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" >
                           <tr>
-                            <td height="100%" width="100%" valign="top">
-                              <select ID="Roles" runat="server" style="height:100%;width:100%" Size="4" class="scIgnoreModified"></select>
+                            <td height="100%" width="100%" valign="top" style="padding-right: 10px;">
+                              <select ID="Roles" runat="server" style="height:80px;width:100%" Size="4" class="scIgnoreModified"></select>
                             </td>
                             <td style="padding:0px 0px 0px 4px; vertical-align: top">
-                              <asp:Button ID="AddRoles" Font-Names="tahoma" Font-Size="8pt" Width="56px" Height="25px" OnClientClick="javascript:return scForm.postRequest('','','','AddRoles_Click')" runat="server" />
+                              <asp:Button ID="AddRoles" CssClass="scButton" OnClientClick="javascript:return scForm.postRequest('','','','AddRoles_Click')" runat="server" />
                             </td>
                           </tr>
                         </table>
@@ -272,7 +286,7 @@
                       <asp:Label ID="ProfileLabel" runat="server" AssociatedControlID="Profile"><sc:Literal ID="Literal7" Text="User Profile:" runat="server" /></asp:Label>
                     </div>
                     <div class="scCreateNewUserFormContentColumn scBorderBox">
-                      <asp:ListBox ID="Profile" runat="server" Width="100%" Height="100%" CssClass="scIgnoreModified"></asp:ListBox>
+                      <asp:ListBox ID="Profile" runat="server" Width="100%" Height="80px" CssClass="scIgnoreModified"></asp:ListBox>
                     </div>
                     <div class="scCreateNewUserFormValidationColumn scBorderBox">
                       <asp:RequiredFieldValidator ID="ListboxRequired" runat="server" ValidationGroup="CreateUserWizard1" ControlToValidate="Profile" CssClass="scCreateNewUserValidator">*</asp:RequiredFieldValidator>
@@ -286,29 +300,31 @@
                     </div>
                   </div>
                   <div class="scCreateNewUserFormRowAutoHeight">
-                    <div class="scCreateNewUserFormValidationSummaryColumn scBorderBox" style="color: red; text-align: left" onresize="onValidationSummaryChange();">
+                    <div class="scCreateNewUserFormValidationSummaryColumn scBorderBox" style="color: #ca241c; text-align: left" onresize="onValidationSummaryChange();">
                       <asp:Literal ID="AdditionalErrors" runat="server" EnableViewState="False"></asp:Literal>
                       <asp:ValidationSummary ID="ValidationSummary1" ValidationGroup="CreateUserWizard1" runat="server" DisplayMode="BulletList" />
                     </div>
                   </div>
                 </ContentTemplate>
                 <CustomNavigationTemplate>
-                  <div style="padding:0px 10px 0px 0px" align="right">
-                    <asp:Button
-                      runat="server"
-                      ID="btnMoveNext"
-                      CommandArgument="MoveNext"
-                      CommandName="MoveNext"
-                      ValidationGroup="CreateUserWizard1"
-                      Style="width: 75px; height: 25px; margin-right: 4px"
-                      OnPreRender="MoveButton_PreRender"/>
-                    <asp:Button
-                      runat="server"
-                      ID="btnCancel"
-                      CommandName="Cancel"
-                      Style="width: 75px; height: 25px"
-                      OnClientClick="onCancel();"
-                      OnPreRender="CancelButton_PreRender"/>
+                  <div class="scFormDialogFooter">
+                    <div class="footerOkCancel">
+                      <asp:Button
+                        runat="server"
+                        ID="btnMoveNext"
+                        CssClass="scButton scButtonPrimary"
+                        CommandArgument="MoveNext"
+                        CommandName="MoveNext"
+                        ValidationGroup="CreateUserWizard1"
+                        OnPreRender="MoveButton_PreRender" OnClientClick="DoValidation('CreateUserWizard1');"/>
+                      <asp:Button
+                        runat="server"
+                        ID="btnCancel"
+                        CssClass="scButton"
+                        CommandName="Cancel"
+                        OnClientClick="onCancel();"
+                        OnPreRender="CancelButton_PreRender"/>
+                    </div>
                   </div>
                 </CustomNavigationTemplate>
               </asp:CreateUserWizardStep>
@@ -318,6 +334,7 @@
                   <script type="text/javascript">
                     scForm.setModified(false);
                   </script>
+                    <div class="scDialogContentContainer">
                   <table height="100%" width="100%" border="0" style="padding-left: 8px; padding-right: 8px">
                     <tr height="100%" valign="top">
                       <td>
@@ -328,7 +345,7 @@
 
                         <sc:Space Height="16px" runat="server" />
 
-                        <div style="margin-left: -4px">
+                        <div>
                           <input type="checkbox" id="OpenUserEditor" />
                           <label for="OpenUserEditor"><sc:Literal Text="Open the User Editor" runat="server" /></label>
                         </div>
@@ -337,12 +354,15 @@
 
                     <tr>
                       <td>
-                        <div style="padding:32px 0px 0px 0px" align="right">
-                          <button onclick="javascript:onClose();" type="button" style="width:85px;height:25px"><sc:Literal Text="Finish" runat="server" /></button>
-                        </div>
+                         <div class="scFormDialogFooter">
+                           <div class="footerOkCancel">
+                              <button id="Finish" class="scButton" onclick="javascript:onClose();" type="button"><sc:Literal Text="Close" runat="server" /></button>
+                            </div>
+                         </div>
                       </td>
                     </tr>
                   </table>
+                        </div>
                 </ContentTemplate>
               </asp:CompleteWizardStep>
             </WizardSteps>
@@ -367,7 +387,7 @@
               <asp:PlaceHolder ID="sideBarPlaceHolder" runat="server" />
             </div>
 
-            <div class="scBorderBox scWizardStepAndNavigationContainer scFlexContent scFlexColumnContainer">
+            <div class="scDialogContentContainer scFlexColumnContainer">
               <asp:PlaceHolder ID="WizardStepPlaceHolder" runat="server" />
               <div>
                 <asp:PlaceHolder ID="navigationPlaceHolder" runat="server" />

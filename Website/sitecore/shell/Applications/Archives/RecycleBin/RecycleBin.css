@@ -53,6 +53,7 @@
 
 .versionsGridContainer
 {
+  padding-top: 2px;
   margin-right:4px;
 }
 
@@ -72,7 +73,8 @@
 {
   border-bottom: 1px solid #cfcfcf;
   border-top: 1px solid #666666;
-  text-align: left;
+  text-align: center;
+  cursor: pointer;
 }
 .tablesorter td
 {
@@ -90,41 +92,32 @@
   background-image: none;
   background-repeat: no-repeat;
   background-position: right center;
-  padding-right: 10px;
+  padding-right: 14px;
   display: inline-block;
-  font:8pt tahoma;
 }
 
 .tablesorter th.headerSortUp span
 {
-  background-image: url('/sitecore/shell/Themes/Standard/Images/sortup9x5.png');
+  background-image: url('/sitecore/shell/themes/standard/componentart/grid/asc.gif');
 }
 
 .tablesorter th.headerSortDown span
 {
-  background-image: url('/sitecore/shell/Themes/Standard/Images/sortdown9x5.png');
+  background-image: url('/sitecore/shell/themes/standard/componentart/grid/desc.gif');
 }
 
 .tablesorter .selected td
 {
-  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
-  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
-  font-family: tahoma;
-  font-size: 8pt;
+  background-color: #D0EBF6;
+        border: 1px solid #ccc;
+        border-top: none;
+        padding: 5px;
 }
 
-.tablesorter .languageColumn, .tablesorter .versionColumn
+.tablesorter .languageColumn, .tablesorter .versionColumn, .tablesorter .dateColumn, .tablesorter .byColumn
 {
-  width: 15%;
-}
-
-.tablesorter .dateColumn
-{
-  width: 17%;
-}
-.tablesorter .byColumn
-{
-  width: 20%;
+    border: 1px solid #ccc;
+    border-top: none;
 }
 
 #GridContainer {
@@ -141,3 +134,60 @@
 .scGridFooter div img{
     top: 0 !important;
 }
+
+.Row {
+    background-color: #FFFFFF;
+    height: 24px;
+}
+
+    .Row:nth-child(odd) {
+        background-color: #f7f7f7;
+    }
+
+
+    .Row:hover {
+        background: #e3e3e3;
+    }
+
+    .Row td.DataCell {
+        cursor: default;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .Grid, .Row *, .SelectedRow *, .HeadingRow * {
+        width: auto !important;
+        box-sizing: border-box;
+        margin-left:auto;
+        margin-right: auto;
+    }
+
+    .GridFooter {
+        cursor: default;
+        padding: 5px 5px 0px;
+        height: 30px; /* User manager footer*/
+    }
+
+    .cellSize {
+        height: 37px;
+        width: 173px;
+    }
+
+    .headerBorder {
+        border: none !important;
+    }
+
+    .centerTable {
+        margin-left:auto;
+        margin-right: auto;
+    }
+
+    .scRibbonToolbarLargeButton {
+        padding-bottom: 2px !important;
+    }
+
+    .wrapperHeight {
+        height: calc(100% - 80px);
+        overflow-y: scroll;
+    }

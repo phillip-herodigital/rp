@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+Purpose: This include file contains the configuration settings that let the Path Analyzer API communicate with a remote reporting server.
+This is useful in environments where the reporting SQL Server is located in the cloud, behind a firewall, or where you want to use a separate reporting server.
+This file should be enabled on the CM server where the Path Analyzer app will be used.
+This file requires Sitecore.Analytics.Reporting.RemoteClient.config to be present and enabled.
+
+To enable this include file, rename it so that is has a ".config" extension and update the baseServiceUrl element with the host name of your reporting server.
+
+-->
+
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
+  <sitecore>
+    <!-- SETTINGS -->
+    <settings>
+      <!-- PATH ANALYZER - REMOTE CLIENT - IGNORE SSL CERTIFICATE ERRORS
+                 If true, SSL certificate errors will be ignored when the client attempts to connect to the remote Path Analyzer services.
+                 This is particularly useful for self-signed certificates or other certificates not signed by a recognized CA.
+            -->
+      <setting name="PathAnalyzer.Remote.IgnoreSslCertificateErrors" value="true" />
+    </settings>
+    <!-- PATH ANALYZER
+          Define or override the services used by the Path Analyzer remote client.
+    -->
+    <pathAnalyzer>
+      <!-- DEFINITION SERVICE
+            This service is used to perform CRUD operations against map definitions via a remote service endpoint.
+            Patches the <definitionService /> node defined in Sitecore.PathAnalyzer.config.
+      -->
+      <definitionService patch:instead="definitionService" type="Sitecore.PathAnalyzer.Data.Remote.RemoteTreeDefinitionService, Sitecore.PathAnalyzer" />
+      <!-- TREE PROVIDER
+            This service is used to perform retrieval operations for maps via a remote service endpoint.
+            Patches the <treeProvider /> node defined in Sitecore.PathAnalyzer.config.
+      -->
+      <treeProvider patch:instead="treeProvider" type="Sitecore.PathAnalyzer.Data.Remote.RemoteTreeProvider, Sitecore.PathAnalyzer" />
+      <!-- REMOTE
+            Defines settings related to remote server interaction.
+      -->
+      <remote>
+        <!-- PATHS
+              Defines endpoints that are used for communicating with services on the remote reporting server.
+        -->
+        <paths>
+          <treeDefinitionService>/sitecore/api/PathAnalyzer/RemoteTreeDefinition</treeDefinitionService>
+          <treeService>/sitecore/api/PathAnalyzer/RemoteTree</treeService>
+        </paths>
+      </remote>
+    </pathAnalyzer>
+  </sitecore>
+</configuration>

@@ -1,7 +1,7 @@
 ﻿define(["sitecore", "/-/speak/v1/experienceprofile/DataProviderHelper.js", "/-/speak/v1/experienceprofile/CintelUtl.js"], function (sc, providerHelper, cintelUtil)
 {
   var cidParam = "cid",
-      visitidParam = "visitid",
+      interactionIdParam = "interactionid",
 
       isVisibleProperty = "isVisible",
       intelPath = "/intel",
@@ -19,7 +19,7 @@
     initialized: function ()
     {
       sc.trigger("VisitDetailApp", this);
-      var visitId = cintelUtil.getQueryParam(visitidParam),
+      var interactionId = cintelUtil.getQueryParam(interactionIdParam),
           contactId = cintelUtil.getQueryParam(cidParam);
 
       if (!contactId) return;
@@ -28,8 +28,6 @@
       this.VisitDialogPhoto.viewModel.$el.on("click", function () {
         window.location.assign("contact?cid=" + contactId);
       });
-      
-      sc.trigger("VisitDetailApp", this);
       
       baseUrl = "/sitecore/api/ao/v1/contacts/" + contactId;
 
@@ -48,36 +46,28 @@
       providerHelper.initProvider(this.DialogGoalsDataProvider, visitGoalsTable, null, this.VisitDialogMessageBar);
       providerHelper.initProvider(this.DialogVisitSummaryProvider, visitSummaryTable, null, this.VisitDialogMessageBar);
       providerHelper.initProvider(this.ContactDetailsDataProvider, "", baseUrl, this.ContactTabMessageBar);
-
-      providerHelper.subscribeSorting(this.PagesInVisitDataProvider, this.PagesInVisitList);
-      providerHelper.subscribeSorting(this.InternalSearchDataProvider, this.InternalSearchList);
-      providerHelper.subscribeSorting(this.DialogGoalsDataProvider, this.DialogGoalsList);
-
-      providerHelper.subscribeAccordionHeader(this.PagesInVisitDataProvider, this.PagesInVisitAccordion);
-      providerHelper.subscribeAccordionHeader(this.InternalSearchDataProvider, this.InternalSearchAccordion);
-      providerHelper.subscribeAccordionHeader(this.DialogGoalsDataProvider, this.DialogGoalsAccordion);
-
-      this.open(this, visitId);
+      
+      this.open(this, interactionId);
+      
+      this.DialogGoalsList.on("change:items", cintelUtil.changeUrlToDefault, this.DialogGoalsList);
+      this.InternalSearchList.on("change:items", cintelUtil.changeUrlToDefault, this.InternalSearchList);
+      this.PagesInVisitList.on("change:items", cintelUtil.changeUrlToDefault, this.PagesInVisitList);
     },
     
-    open: function (application, visitId) {
-      if (!visitId) return;
+    open: function (application, interactionId) {
+      if (!interactionId) return;
 
       var dataUrlProperty = "dataUrl",
           intelBaseUrl = baseUrl + "/intel/";
       
-      application.PagesInVisitDataProvider.set(dataUrlProperty, intelBaseUrl + visitPagesTable + "/" + visitId);
-      application.InternalSearchDataProvider.set(dataUrlProperty, intelBaseUrl + visitInternalSearchesTable + "/" + visitId);
-      application.DialogGoalsDataProvider.set(dataUrlProperty, intelBaseUrl + visitGoalsTable + "/" + visitId);
-      application.DialogVisitSummaryProvider.set(dataUrlProperty, intelBaseUrl + visitSummaryTable + "/" + visitId);
+      application.PagesInVisitDataProvider.set(dataUrlProperty, intelBaseUrl + visitPagesTable + "/" + interactionId);
+      application.InternalSearchDataProvider.set(dataUrlProperty, intelBaseUrl + visitInternalSearchesTable + "/" + interactionId);
+      application.DialogGoalsDataProvider.set(dataUrlProperty, intelBaseUrl + visitGoalsTable + "/" + interactionId);
+      application.DialogVisitSummaryProvider.set(dataUrlProperty, intelBaseUrl + visitSummaryTable + "/" + interactionId);
 
       application.VisitDialogMessageBar.removeMessages("error");
       application.VisitDialogMessageBar.removeMessages("warning");
       application.VisitDialogMessageBar.removeMessages("notification");
-
-      providerHelper.getListData(application.PagesInVisitDataProvider, application.PagesInVisitList);
-      providerHelper.getListData(application.InternalSearchDataProvider, application.InternalSearchList);
-      providerHelper.getListData(application.DialogGoalsDataProvider, application.DialogGoalsList);
 
       providerHelper.getData(
         application.ContactDetailsDataProvider,
@@ -86,8 +76,8 @@
           this.VisitDialogPhoto.set("imageUrl", baseUrl + "/image?w=72&h=72");
           cintelUtil.setText(this.VisitDialogTotalVisits, jsonData.visitCount, true);
           var infoEmailLink = jsonData.preferredEmailAddress.Key ?
-              jsonData.preferredEmailAddress.Value.SmtpAddress :
-              jsonData.emailAddresses[0].Value.SmtpAddress;
+            jsonData.preferredEmailAddress.Value.SmtpAddress :
+            jsonData.emailAddresses.length ? jsonData.emailAddresses[0].Value.SmtpAddress : null;
 
           cintelUtil.setText(this.VisitDialogContactEmail, infoEmailLink, true);
           cintelUtil.setText(this.VisitDialogContactProfession, jsonData.jobTitle, true);
@@ -95,22 +85,54 @@
         }, application)
       );
 
-
       providerHelper.getData(
         application.DialogVisitSummaryProvider,
         $.proxy(function () {
-          var data = application.DialogVisitSummaryProvider.get("data").dataSet[visitSummaryTable][0];
+          var data = this.DialogVisitSummaryProvider.get("data").dataSet[visitSummaryTable][0];
 
-          cintelUtil.setText(application.VisitDialogTime, data.FormattedVisitStartDateTime, true);
-          cintelUtil.setText(application.VisitDialogLocation, data.LocationDisplayName, true);
-          cintelUtil.setText(application.VisitDialogCurrentVisit, data.VisitIndex, true);
-          cintelUtil.setText(application.VisitDialogPageviews, data.VisitPageViewCount, true);
-          cintelUtil.setText(application.VisitDialogVisitTime, data.VisitTime, true);
-          cintelUtil.setText(application.VisitDialogValue, data.VisitValue, true);
-          cintelUtil.setText(application.TrafficChannel, data.TrafficTypeDisplayName, true);
+          if (data.ChannelTypeText == "Offline") {
+            this.InternalSearchAccordion.set("isVisible", false);
+            this.ExternalKeywordBorder.set("isVisible", false);
+            this.ExternalKeywordImage.set("isVisible", false);
+            this.DialogGoalsList.set("isVisible", false);
+            this.PagesInVisitList.set("isVisible", false);
+            this.VisitDialogPageviewsTitle.set("isVisible", false);
+            this.PagesInVisitAccordion.set("header", this.TouchpointsInVisitHeader.get("text"));
 
-          cintelUtil.setText(application.Campaign, data.CampaignDisplayName, false);
-          cintelUtil.setText(application.ExternalKeyword, data.ExternalKeyword, false);
+            providerHelper.getListData(this.DialogGoalsDataProvider, this.DialogGoalsOfflineList);
+            providerHelper.getListData(this.PagesInVisitDataProvider, this.TouchpointsInVisitList);
+            
+            providerHelper.subscribeSorting(this.PagesInVisitDataProvider, this.TouchpointsInVisitList);
+            providerHelper.subscribeSorting(this.DialogGoalsDataProvider, this.DialogGoalsOfflineList);
+          } else {
+            this.DialogGoalsOfflineList.set("isVisible", false);
+            this.TouchpointsInVisitList.set("isVisible", false);
+            this.VisitDialogTouchpointViewsTitle.set("isVisible", false);
+            
+            cintelUtil.setText(this.ExternalKeyword, data.ExternalKeyword, false);
+
+            providerHelper.getListData(this.InternalSearchDataProvider, this.InternalSearchList);
+            providerHelper.getListData(this.DialogGoalsDataProvider, this.DialogGoalsList);
+            providerHelper.getListData(this.PagesInVisitDataProvider, this.PagesInVisitList);
+
+            providerHelper.subscribeSorting(this.InternalSearchDataProvider, this.InternalSearchList);
+            providerHelper.subscribeSorting(this.DialogGoalsDataProvider, this.DialogGoalsList);
+            providerHelper.subscribeSorting(this.PagesInVisitDataProvider, this.PagesInVisitList);
+            providerHelper.subscribeAccordionHeader(this.InternalSearchDataProvider, this.InternalSearchAccordion);
+          }
+
+          providerHelper.subscribeAccordionHeader(this.DialogGoalsDataProvider, this.DialogGoalsAccordion);
+          providerHelper.subscribeAccordionHeader(this.PagesInVisitDataProvider, this.PagesInVisitAccordion);
+
+          cintelUtil.setText(this.VisitDialogTime, data.FormattedVisitStartDateTime, true);
+          cintelUtil.setText(this.VisitDialogLocation, data.LocationDisplayName, true);
+          cintelUtil.setText(this.VisitDialogCurrentVisit, data.VisitIndex, true);
+          cintelUtil.setText(this.VisitDialogPageviews, data.VisitPageViewCount, true);
+          cintelUtil.setText(this.VisitDialogVisitTime, data.VisitTime, true);
+          cintelUtil.setText(this.VisitDialogValue, data.VisitValue, true);
+          cintelUtil.setText(this.TrafficChannel, data.ChannelDisplayName, true);
+          cintelUtil.setText(this.Campaign, data.CampaignDisplayName, false);
+          
         }, application)
       );
     }

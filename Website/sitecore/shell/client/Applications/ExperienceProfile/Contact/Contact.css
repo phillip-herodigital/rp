@@ -1,4 +1,5 @@
-﻿code, iframe, .scLoadingIndication {  /* should be delete after fixing itemWebApi problem about page editor */
+﻿/* should be delete after fixing itemWebApi problem about page editor */
+code, iframe, .scLoadingIndication {  
   display: none !important;
 }
 
@@ -12,35 +13,29 @@ header.sc-globalHeader {
   padding-right: 0;
 }
 
+.sc-applicationHeader {
+  z-index: 1;
+  padding-top: 0 !important;
+}
+
 header.sc-globalHeader .sc-global-logo {
   margin-left: 15px !important;
 }
-/*----------*/
-.sc .sc-table thead tr th:after
-{
-  background: #d6d6d6 right center !important;
-  position: absolute !important;
-  width: 1px !important;
-  display: block !important;
-  height: 15px !important;
-  right: 0 !important;
-  content: "";
-  top: 50% !important;
-  margin-top: -7px !important;
-}
 
-img[data-sc-id=InfoPhotoImage] {
-    margin-bottom: 4px;
-    margin-top: 26px;
-}
 
-span[data-sc-id=InfoContactName] {
-    display: block;
-}
-
-span[data-sc-id=LatestVisitHeader], span[data-sc-id=StatsHeader] {
+span.sc-text[data-sc-id=LatestVisitHeader], 
+span.sc-text[data-sc-id=StatsHeader], 
+span.sc-text[data-sc-id=DetailsHeader] {
     display: block;
     margin-bottom: 10px !important;
+    margin-top: 20px;
+    font-size: 15px !important;
+    color: #333;
+    height: 21px;
+}
+
+span.sc-text[data-sc-id=DetailsHeader] {
+  margin-top: 30px;
 }
 
 div[data-sc-id=LatestVisitContentBorder] > img {
@@ -52,8 +47,7 @@ div[data-sc-id=LatestVisitContentBorder] > img[data-sc-id=VisitRecencyImage] {
 }
 
 div[data-sc-id=LatestVisitContentBorder] > div {
-    margin-left: 26px;
-    margin-bottom: 12px;
+  margin-top: 10px;
 }
 
 img[data-sc-id=LatestVisitErrorImage], img[data-sc-id=StatsErrorImage] {
@@ -67,20 +61,23 @@ span[data-sc-id=LatestVisitErrorHeader], span[data-sc-id=StatsErrorHeader] {
     margin-left: 26px !important;
 }
 
-div[data-sc-id=StatsRowsBorder] > div {
-  padding: 3px 0px;
+div[data-sc-id=OverviewBorderPadding] .row {
+  margin: 0;
+  padding: 8px 0;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-div[data-sc-id=StatsRowsBorder] > div >div:nth-child(even) {
+div[data-sc-id=OverviewBorderPadding] .row > div {
+  color: #5e5e5e;
+  font-size: 13px;
+  line-height: 15px;
+}
+
+div[data-sc-id=OverviewBorderPadding] .row >div:nth-child(even) {
   text-align: right;
-}
-
-div[data-sc-id=StatsRowsBorder] > div:nth-child(odd) {
-    background-color: #EEEEEE;
-}
-
-div[data-sc-id=StatsRowsBorder] span.sc-text {
-  margin: 0 5px;
+  color: #131313;
+  font-size: 15px;
 }
 
 div[data-sc-id=DetailsRow].row-fluid {
@@ -92,18 +89,16 @@ div[data-sc-id=DetailsRow].row-fluid > div[class*="span"] {
     float: none;
 }
 
-hr {
-    border: none;
-    border-top: 1px solid #ccc;
+div[data-sc-id=EventsAccordion],
+div[data-sc-id=VisitsAccordion],
+div[data-sc-id=InternalKeywords],
+div[data-sc-id=PaidKeywords] {
+  margin-top: 30px;
 }
 
-.sc-accordion {
-    margin-top: 20px;
+.sc-advancedExpander .sc-table {
+    border: none !important;
 }
-
-    .sc-accordion .sc-table {
-        border: none !important;
-    }
 
 .sc-smartpanel .sc-text-label {
     font-size: 75%;
@@ -117,37 +112,30 @@ hr {
     display: block;
 }
 
-.sc-accordion-footer-more, .sc-accordion-footer-less {
+.sc-sc-advancedExpander-footer-more, .sc-sc-advancedExpander-footer-less {
     text-align: right;
     padding: 0 10px 5px 0 !important;
 }
 
-div[data-sc-id=ContactMessageBar] {
-    margin-top: 20px;
+div.sc-messageBar {
+    margin: 30px 0;
 }
 
 span[data-sc-id=GenderText] {
     text-transform: capitalize;
 }
 
-.sc-accordion .sc-accordion-header table .sc-accordion-header-chevron a {
+/*.sc-sc-advancedExpander .sc-sc-advancedExpander-header table .sc-sc-advancedExpander-header-chevron a {
     display: none !important;
-}
+}*/
 
 .sc div.sc-tabcontrol[data-sc-id=TabControl] a {
     outline: 0 none;
 }
 
-.sc-accordion .sc-accordion-header-title,
+span[data-sc-id=DetailsHeader],
 span[data-sc-id=StatsHeader] {
     text-transform: uppercase;
-}
-
-.btn-primary.sc-button[data-sc-id=RefreshButton] {
-  padding: 4px 8px 5px 8px !important;
-  position: absolute !important;
-  right: 15px !important;
-  top: 53px !important;
 }
 
 div[data-sc-id=MainBorder] {
@@ -168,9 +156,10 @@ span[data-sc-id=OnlineIndicator] {
   display: none;
 }
 
-.sc-list {
+/**/
+/*.sc-list {
   display: none;
-}
+}*/
 
 .btn-primary.sc-button.skinnymode-refresh[data-sc-id=RefreshButton] {
   top: 27px !important;
@@ -181,7 +170,7 @@ span[data-sc-id=OnlineIndicator] {
   padding-right: 9px !important;
 }
 
-.sc .sc-table tbody tr td, 
+/*.sc .sc-table tbody tr td, 
 .sc .sc-table thead td, 
 .sc .sc-table tbody tr th, 
 .sc .sc-table thead th {
@@ -195,7 +184,7 @@ span[data-sc-id=OnlineIndicator] {
 .sc .sc-table thead td.ventilate:after {
   top: 50% !important;
   margin-top: -7px !important;
-}
+}*/
 
 button.sc-button[data-sc-id=BackButton] {
   display: block !important;
@@ -206,14 +195,13 @@ button.sc-button[data-sc-id=OverviewBackButton] {
   margin-bottom: 15px;
 }
 
-a.sc-hyperlinkbutton[data-sc-id=LatestVisitHyperlink] {
-  margin-right: 10px !important;
+a.sc-hyperlinkbutton[data-sc-id=LatestVisitHyperlink],
+a.sc-hyperlinkbutton[data-sc-id=MoreInfoLink] {
+  font-weight: 100 !important;
+  color: #dc271e !important;
 }
 
 /* resolution */
-.row-fluid .sc-border[data-sc-id=OverviewBorder] hr.sc-separator {
-   display: block;
-}
 .sc-border[data-sc-id=MainBorder] {
    width: 75%;
    float: left;
@@ -223,47 +211,99 @@ a.sc-hyperlinkbutton[data-sc-id=LatestVisitHyperlink] {
    width: 25%;
    float: right;
 }
-@media (min-width: 0px) and (max-width: 999px)
+
+@media (min-width: 1000px) {
+  div[data-sc-id=OverviewBorderPadding] {
+    display: block !important;
+  }
+}
+
+div.sc-border[data-sc-id=InfoPhotoImageBorder] img {
+  border: 15px solid #fff;
+}
+
+div.sc-border[data-sc-id=StatsBorder] {
+  padding-bottom: 15px;
+}
+
+div.sc-border[data-sc-id=MoreInfoLinkBorder],
+div.sc-border[data-sc-id=LatestVisitLinkBorder] {
+  margin-top: 10px;
+}
+
+
+@media (min-width: 0) and (max-width: 999px)
 {
+  div[data-sc-id=OverviewBorderPadding] div[data-sc-id=InfoBorder] {
+    height: auto;
+    position: relative;
+  }
+  div.sc-border[data-sc-id=MoreInfoLinkBorder] {
+    margin-top: 72px;
+  }
+  div.sc-border[data-sc-id=LatestVisitLinkBorder] {
+    margin-top: 8px;
+  }
+  div.sc-border[data-sc-id=StatsBorder] {
+    padding-bottom: 0;
+    border-left: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
+  }
   .row-fluid section.span12 {
     width: 100%;
+  }
+  span.sc-text[data-sc-id=LatestVisitHeader], 
+  span.sc-text[data-sc-id=StatsHeader], 
+  span.sc-text[data-sc-id=DetailsHeader] {
+    margin-top: 0 !important;
+  }
+  div.sc-border[data-sc-id=InfoPhotoImageBorder] img {
+    width: 135px;
+  }
+  div.sc-border[data-sc-id=InfoPhotoImageBorder] {
+    width: 135px;
+    float: left;
   }
   .sc-border[data-sc-id=MainBorder] {
     width: 100%;
   }
-  .row-fluid .sc-border[data-sc-id=OverviewBorder] {
+  .sc-applicationContent-main .sc-border[data-sc-id=OverviewBorder] {
     width: 100%;
   }
-  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] {
-    display: table; 
-    width: 100%;
-    margin-top: 10px;
+  .sc-applicationContent-main .sc-border[data-sc-id=OverviewBorder] .sc-border > a {
+    margin-right: 15px;
   }
-  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] > div {
-    display: table-cell; 
-    float: none;
-    vertical-align: top; 
-    padding: 0 15px 15px 15px;
+  .sc-applicationContent-main .sc-border[data-sc-id=OverviewBorder] .sc-text-title {
+    margin-left: 15px;
+    margin-top: -25px !important;
   }
-  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorderAvatar] {
-    width: 33%;
+  .sc-applicationContent-main .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] {
+    padding-left: 135px;
   }
-  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorderAvatar] img[data-sc-id=InfoPhotoImage] {
+  .sc-applicationContent-main .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorderAvatar] img[data-sc-id=InfoPhotoImage] {
     margin: 0;
   }
-  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=LatestVisitBorder] {
-    border-left: 1px solid #ccc; 
-    border-right: 1px solid #ccc;
+  .sc-applicationContent-main .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=LatestVisitBorder] {
+    border-right: 1px solid #f0f0f0;
   }
   .sc .sc-border.sc-show-padding[data-sc-id=OverviewBorderPadding] {
-    border-bottom: 1px solid #ccc;
-    margin: 0 15px;
-    padding: 15px 0 0 0;
+    margin: 30px 0 20px 0;
+    padding: 0;
+    background: #fff;
+    float: left;
+    width: 100%;
   }
-  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] > div[data-sc-id=InfoBorderAvatar] {
+  .sc-applicationContent-main .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] > div.sc-border {
+    width: 33%;
+    float: right;
+    margin-bottom: -1px;
+    height: 198px;
+  }
+  .sc-applicationContent-main .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] > div.sc-border[data-sc-id=InfoBorderAvatar] {
     padding-left: 0;
+    width: 34%;
   }
-  .row-fluid .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] > div[data-sc-id=StatsBorder] {
+  .sc-applicationContent-main .sc-border[data-sc-id=OverviewBorder] .sc-border[data-sc-id=InfoBorder] > div[data-sc-id=StatsBorder] {
     padding-right: 0;
   }
   button.sc-button[data-sc-id=OverviewBackButton] {
@@ -272,51 +312,55 @@ a.sc-hyperlinkbutton[data-sc-id=LatestVisitHyperlink] {
   button.sc-button[data-sc-id=BackButton] {
     display: none !important;
   }
-  .btn-primary.sc-button[data-sc-id=RefreshButton] {
-    top: 27px !important;
+  div[data-sc-id=OverviewBorderPadding] .row .col-md-8 {
+    width: 67%;
+    float: left;
   }
-
+  div[data-sc-id=OverviewBorderPadding] .row .col-md-4 {
+    width: 33%;
+    float: left;
+  }
 }
 
-.row-fluid .sc-border[data-sc-id=OverviewBorder] hr.sc-separator
+div[data-sc-id=BottomRowPanel] 
 {
-  width:100%;
-  margin-top:0;
+  margin-top: 30px;
 }
 
-.sc-border[data-sc-id=InfoBorderAvatar]
-{
-  padding-bottom:10px !important;
-}
-
-a.sc-hyperlinkbutton[data-sc-id=MoreInfoLink]
-{
-  margin-right:15px;
+div[data-sc-id=VisitDialogBorder] {
+  margin-bottom: 40px;
 }
 
 .modal-body {
   height: auto !important;
 }
 
-.modal-scrollable {
-  position: initial !important;
-  overflow: auto !important;
-  height: auto !important;
+.modal-body .sc-border[data-sc-id=MainBorder] {
+  width: 100%;
 }
 
-.modal {
-  position: absolute !important;
-  top: 0 !important;
-  margin-top: 20px !important;
-  margin-bottom: 20px !important;
+.modal-body .sc-applicationHeader {
+  display: none;
+  padding-top: 0 !important;
 }
 
-.sc-dialogWindow .sc-border[data-sc-id=MainBorder] {
-   width: 100% !important;
+.modal-body .sc-applicationContent-main {
+  background: none;
+  padding-top: 0;
 }
 
-.sc-dialogWindow .sc-list {
-  display: block;
+.modal-body div.sc-border[data-sc-id=VisitDialogBorder] {
+  padding-top: 0 !important;
+}
+
+.modal-overflow.modal.fade.in {
+  margin-top: 0 !important;
+}
+
+.modal.fade.in {
+  top: 1% !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.4%;
 }
 
 img[data-sc-id=VisitDialogPhoto] {
@@ -325,4 +369,103 @@ img[data-sc-id=VisitDialogPhoto] {
 
 div[data-sc-id=VisitDialogIndicator] {
   z-index: 3100 !important;
+}
+
+.cintel-sc-journey {
+  padding-top: 50px !important;
+  margin-bottom: -50px;
+  position: relative;
+  z-index: 100;
+}
+
+/*TODO: remove */
+.sc-globalHeader {
+    top: 0;    
+}
+
+div.sc-advancedExpander[data-sc-id=PagesInVisitAccordion] .sc-advancedExpander-body,
+div.sc-advancedExpander[data-sc-id=InternalSearchAccordion] .sc-advancedExpander-body,
+div.sc-advancedExpander[data-sc-id=DialogGoalsAccordion] .sc-advancedExpander-body
+{
+  border: none;
+}
+
+div[data-sc-id=VisitDialogBorder] .sc-advancedExpander-body {
+  background: #fff !important;
+}
+
+div.sc-border[data-sc-id=CloseKeywordDialogBorder] {
+  margin-bottom: 40px;
+}
+
+@media (min-width: 700px) {
+  .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+    float: left;
+  }
+
+  .col-md-4 {
+    width: 33%;
+  }
+
+  .col-md-6 {
+    width: 50%;
+  }
+}
+
+div.sc-charts-pull-left > span, 
+div.sc-charts-pull-left svg {
+  background: none !important;
+}
+
+.sc-applicationContent {
+  margin-left: 0 !important;
+}
+
+.sc-applicationHeader {
+  background: #e3e3e3 !important;
+}
+
+.sc-globalHeader-content,
+.sc-applicationHeader-content {
+  max-width: 100% !important;
+}
+
+.sc-breadcrumb > ul > li {
+  color: #f9d8d7;
+}
+
+.sc-tabcontrol[data-sc-id=TabControl] {
+  margin-top: 15px;
+}
+
+button[data-sc-id=BackButton],
+button[data-sc-id=TimelineToggleButton],
+.btn-primary.sc-button[data-sc-id=RefreshButton] {
+  margin-top: 2px;
+}
+
+.btn-primary.sc-button[data-sc-id=RefreshButton] {
+  margin-right: 10px;
+}
+
+span.sc-text[data-sc-id=ContactHeaderText],
+.sc-applicationHeader-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+div[data-sc-id=OverviewBorderPadding] .row > div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+div[data-sc-id=InfoBorder] a.sc-hyperlinkbutton[data-sc-id=InfoEmailLink] {
+  font-weight: 100;
+}
+
+span.sc-text[data-sc-id=ContactHeaderText] {
+  padding-right: 1px;
 }

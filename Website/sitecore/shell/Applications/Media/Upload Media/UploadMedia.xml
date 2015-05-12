@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <UploadMedia>
-    <FormDialog Icon="Business/32x32/Paperclip.png" FormTarget="sitecoreattach" Enctype="multipart/form-data" Header="Upload a File" 
+    <FormDialog Icon="Business/32x32/Paperclip.png" FormTarget="sitecoreattach" Enctype="multipart/form-data" Header="Upload File" 
       Text="Select a file. When done click the Upload button." OKButton="Upload">
 
       <Script Key="Upload">
@@ -15,6 +15,12 @@
         }
         }
 
+        Event.observe(window, 'load', function(){
+          if(window.scForm) {
+            scForm.autoIncreaseModalDialogHeight()
+          };
+        })
+
       </Script>
 
       <CodeBeside Type="Sitecore.Shell.Applications.Media.UploadMedia.UploadMediaForm,Sitecore.Client"/>
@@ -22,7 +28,7 @@
       <input id="ItemUri" name="ItemUri" type="hidden" value=""/>
 
       <Border Padding="0px 0px 4px 0px">
-        <Literal Text="Filename:" />
+        <Literal Text="File name:" />
       </Border>
 
       <input id="File" name="File" type="file" style="width:100%" />

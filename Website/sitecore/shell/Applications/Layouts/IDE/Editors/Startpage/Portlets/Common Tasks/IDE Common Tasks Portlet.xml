@@ -2,7 +2,7 @@
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <IDE.CommonTasksPortlet def:inherits="Sitecore.Shell.Applications.Layouts.IDE.Editors.Startpage.Portlets.CommonTasks.IDECommonTasksPortletXmlControl,Sitecore.Client">
     <Border def:ID="Portlet">                          
-      <DefaultPortletWindow def:ID="Window" Header="Common Tasks" Icon="Applications/16x16/nav_right_green.png">
+      <DefaultPortletWindow def:ID="Window" Header="Common Tasks" Icon="Office/16x16/arrow_right.png">
 
         <IDE.TaskOption ID="SDN5" Header="Open the SDN5 Website" Click='CommonTasksPortlet.OpenSDN5'/>
         <IDE.TaskOption ID="RestoreWorkspace" Header="Restore Workspace" Click='CommonTasksPortlet.Click("ide:restoreworkspace")'/>

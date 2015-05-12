@@ -6,12 +6,9 @@
         underscore: "/sitecore/shell/client/Speak/Assets/lib/core/1.1/deps/underscore/underscore.1.4.4",
         knockout: "/sitecore/shell/client/Speak/Assets/lib/core/1.1/deps/ko/knockout-2.2.1",
         backbone: "/sitecore/shell/client/Speak/Assets/lib/core/1.1/deps/backbone/backbone.1.0.0",
-        sitecore: "/sitecore/shell/client/Speak/Assets/lib/core/1.1/sitecore-1.0.2",
-        sitecorify: "/sitecore/shell/client/Speak/Assets/css/sitecorify",
+        sitecore: "/sitecore/shell/client/Speak/Assets/lib/core/1.1/sitecore-1.0.2",        
         bootstrap: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/bootstrap",
-        jqueryui: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/jQueryUI/jquery-ui-1.10.1.custom",
-        dynatree: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/DynaTree/jquery.dynatree-1.2.4",
-        dynatreecss: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/DynaTree/skin-vista/ui.dynatree"
+        jqueryui: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/jQueryUI/jquery-ui-1.10.1.custom"
     },
     shim: {
       'jquery': { exports: 'jQuery' },
@@ -29,7 +26,7 @@
     }
   });
 
-  require(["sitecore"], function (_sc) {
-    _sc.load(global);
+  require(["sitecore", "jquery"], function (_sc, $) {
+    $(function () { _sc.load(global); });
   });
 })(this);

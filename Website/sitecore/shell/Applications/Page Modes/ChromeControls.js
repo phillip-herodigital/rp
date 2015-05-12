@@ -269,7 +269,7 @@
       this.chrome.expand();
     }, this));
 
-    var icon = $sc("<img />").attr({ src: "/sitecore/shell/~/icon/ApplicationsV2/16x16/nav_up_left_blue.png.aspx", alt: parent.displayName() });    
+    var icon = $sc("<img />").attr({ src: "/sitecore/shell/~/icon/Office/16x16/elements_tree.png.aspx", alt: parent.displayName() });
     tag.append(icon);
 
     container.append(tag);

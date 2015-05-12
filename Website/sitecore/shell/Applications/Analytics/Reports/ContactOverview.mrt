@@ -11,11 +11,12 @@
           <value>Value,System.Int32</value>
           <value>Visits,System.Int32</value>
           <value>Recency,System.DateTime</value>
+          <value>LocalRecency,LocalRecency,System.DateTime,ReportDateInterpreter.ToUITime_x0028_Visitor.Recency_x0029_</value>
           <value>VisitorClassification,System.Int32</value>
           <value>IsYesterday,IsYesterday,System.Boolean,_x0021_Visitor.IsToday_x0020__x0026__x0026__x0020_Visitor.RecencyDays_x0020__x003D__x003D__x0020_0</value>
-          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_Today.Year_x0020_-12_x002A_Visitor.Recency.Year_x0020__x002B_Today.Month_x0020_-_x0020_Visitor.Recency.Month</value>
-          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_Today_x002C__x0020_Visitor.Recency_x0029_.Days</value>
-          <value>IsToday,IsToday,System.Boolean,Today.Date_x0020__x003D__x003D__x0020_Visitor.Recency.Date</value>
+          <value>RecencyMonths,RecencyMonths,System.Int32,_x0031_2_x002A_UiToday.Year_x0020_-12_x002A_Visitor.LocalRecency.Year_x0020__x002B_UiToday.Month_x0020_-_x0020_Visitor.LocalRecency.Month</value>
+          <value>RecencyDays,RecencyDays,System.Int32,DateDiff_x0028_UiToday_x002C__x0020_Visitor.LocalRecency_x0029_.Days</value>
+          <value>IsToday,IsToday,System.Boolean,UiToday.Date_x0020__x003D__x003D__x0020_Visitor.LocalRecency.Date</value>
           <value>RecencyYears,RecencyYears,System.Double,Round_x0028_Visitor.RecencyDays_x002F_365.2425_x0029_</value>
           <value>Email,System.String</value>
           <value>First_x0020_Name,System.String</value>
@@ -173,7 +174,7 @@
               <Name>Text13</Name>
               <Page isRef="5" />
               <Parent isRef="6" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text13>
@@ -339,7 +340,7 @@
               <Parent isRef="12" />
               <Text>
                 {GetApproximateRecencyText(Visitor.Recency, YearsAgoText, MonthAgoText, TodayText, YesterdayText, DaysAgoText)}
-                {Format("{0:MMM.dd,yyyy}", Visitor.Recency)}</Text>
+                {Format("{0:MMM.dd,yyyy}", ReportDateInterpreter.ToUITime(Visitor.Recency))}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text10>
@@ -681,7 +682,7 @@
               <Name>Text26</Name>
               <Page isRef="5" />
               <Parent isRef="41" />
-              <Text>{Visits.StartDateTime.ToString("yyyy-MM-dd HH:mm")}</Text>
+              <Text>{ReportDateInterpreter.ToUITime(Visits.StartDateTime).ToString("yyyy-MM-dd HH:mm")}</Text>
               <TextBrush>[135:135:135]</TextBrush>
               <Type>Expression</Type>
             </Text26>

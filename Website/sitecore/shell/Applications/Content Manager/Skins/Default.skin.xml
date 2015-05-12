@@ -15,10 +15,17 @@
 
   <skin type="field">
     <sc:marker>
-      <sc:buttons/>
       <sc:label/>
+      <sc:buttons/>
       <sc:input/>
     </sc:marker>
   </skin>
 
+  <skin type="field" fieldtype="Checkbox">
+    <sc:marker>
+      <sc:input/>
+      <sc:label/>
+      <sc:buttons/>
+    </sc:marker>
+  </skin>
 </skins>

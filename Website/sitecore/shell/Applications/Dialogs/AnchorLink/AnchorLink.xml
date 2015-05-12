@@ -8,7 +8,7 @@
 
       <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.AnchorLink.AnchorLinkForm,Sitecore.Client"/>
         
-      <GridPanel CellPadding="2" Columns="2" Width="100%">
+      <GridPanel Class="scFormTable" CellPadding="2" Columns="2" Width="100%">
         <Label For="Text" GridPanel.NoWrap="true"><Literal Text="Link description:"/></Label>
         <Edit ID="Text" Width="100%" GridPanel.Width="100%"/>
         

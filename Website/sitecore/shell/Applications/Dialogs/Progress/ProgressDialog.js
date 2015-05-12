@@ -17,7 +17,7 @@ function progressTo(factor) {
 }
 
 function showException() {
-  scForm.showModalDialog("/sitecore/shell/controls/error.htm", new Array($('ErrorMessage').value), "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogWidth:506;dialogHeight:103");
+    scForm.showModalDialog("/sitecore/shell/controls/error.htm", new Array($('ErrorMessage').value), "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogWidth:506;dialogHeight:170;header:" + scForm.translate("Error"));
 }
 
 function toggle() {

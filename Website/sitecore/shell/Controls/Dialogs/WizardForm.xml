@@ -8,19 +8,17 @@
       <Script Type="text/JavaScript" Language="javascript" Src="/sitecore/shell/controls/Sitecore.Runtime.js"/>
       <Script Type="text/JavaScript" Language="javascript" Src="/sitecore/shell/controls/SitecoreWizard.js"/>
 
-      <Border class="scStretch">
-        <Border class="scWizardPageContainer">
+      <div class="scStretch">
+        <div class="scWizardPageContainer">
           <def:Placeholder />
-        </Border>
-        <Border class="scWizardButtons">
-          <Border class="scBottomEdge" />
-          <Border class="scTopEdge" />
-          <Button ID="BackButton" Class="scButton" Disabled="true" Click="#" Header="&lt; Back"/>
-          <Button ID="NextButton" Class="scButton" Click="#" Header="Next &gt;"/>&#160;&#160;&#160;
-          <Button ID="CancelButton" Class="scButton" Click="#" Header="Cancel"/>&#160;&#160;&#160;
-        </Border>
+        </div>
+        <div class="scWizardButtons">
+          <Button ID="BackButton" Class="scButton" Click="#" Header="Back"/>
+          <Button ID="NextButton" Class="scButton scButtonPrimary" Click="#" Header="Next"/>
+          <Button ID="CancelButton" Class="scButton" Click="#" Header="Cancel"/>
+        </div>
       
-      </Border>
+      </div>
       
     </FormPage>
   </WizardForm>

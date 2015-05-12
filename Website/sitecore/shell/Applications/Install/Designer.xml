@@ -11,7 +11,6 @@
 
       <Stylesheet Src="Content Manager.css" DeviceDependant="true" runat="server" x:placeholder="stylesheets" />
       <Stylesheet  Src="Ribbon.css" DeviceDependant="true" runat="server" x:placeholder="Stylesheets" />
-      <style>form{overflow:auto;}</style>
 
       <CodeBeside Type="Sitecore.Shell.Applications.Install.Designer, Sitecore.Client"/>
 
@@ -19,22 +18,22 @@
       <Literal ID="FrameName" />
       <Border ID="Internals" />
 
-      <GridPanel Class="scInstallerDesignerContainer" Background="white">
+      <div class="scStretch scFlexColumnContainer">
+        <Border ID="RibbonFrame" />
 
-        <Border GridPanel.Row.Height="20px" ID="RibbonFrame" GridPanel.Height="0px" Class="scCaption"/>
-
-        <Border ID="ViewFrame" GridPanel.Style="padding:1px" Height="100%" GridPanel.Height="100%">
-          <Installer.ProjectView ID="View" />
+        <Border ID="ViewFrame" class="scFlexContent">
+          <div class="scStretchAbsolute" style="overflow: auto;">
+            <Installer.ProjectView ID="View" />
+          </div>
         </Border>
 
-        <GridPanel ID="StatusBar" Width="100%" GridPanel.Row.Height="24px" Background="#ededed" Columns="2" CellPadding="1">
-          <Border Border="1px solid silver" Background="White" Margin="2px" Padding="2px" >
+        <div>
+          <Border Border="1px solid #ccc" Background="White" Margin="3px" Padding="2px" >
             <Literal ID="StatusText" Text="&#160;"/>
           </Border>
-        </GridPanel>
-        
-      </GridPanel>  
-      
+        </div>
+      </div>
+
     </FormPage>
   </Installer.Designer>
 </control>

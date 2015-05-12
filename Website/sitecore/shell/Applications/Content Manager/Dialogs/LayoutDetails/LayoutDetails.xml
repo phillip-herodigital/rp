@@ -3,16 +3,8 @@
   <LayoutDetails>
     <FormDialog Icon="Applications/32x32/window_view.png" Header="Layout Details" Text="The details of the assigned layouts, controls and placeholders.">
       <Stylesheet>
-        #LayoutPanel {
-        padding: 4px;
-        }
-
-        .ff #LayoutPanel {
-        padding: 0;
-        }
-
-        .scContentControlLayoutDevice, .scContentControlLayoutDevice_Active {
-        padding-bottom: 6px;
+        #LayoutPanel, #FinalLayoutPanel {
+        padding: 5px 0 0 0;
         }
 
         .scDeviceCommands span:hover {
@@ -37,11 +29,71 @@
         left:7px;
         padding: 0 1px;
         }
+        .scInformation {
+        background: #ffffe4;
+        padding: 4px 2px 4px 4px;
+        }
+
+        #FinalLayoutNoVersionWarningPanel {
+        border: 1px solid #c9c9c9;
+        border-left: none;
+        border-right: none;
+        }
+
+        #WarningTitle {
+        font-weight: bold;
+        }
       </Stylesheet>
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.LayoutDetails.LayoutDetailsForm,Sitecore.Client"/>
 
-      <Scrollbox ID="LayoutPanel" Class="scScrollbox" Padding="0px" />
-      <script Type="text/javascript" Language="javascript" Src="/sitecore/shell/Applications/Layouts/DeviceEditor/LayoutFieldDevice.js">.</script>
+      <Tabstrip ID="Tabs" class="scFlexContent">
+        <Tab ID="SharedLayoutTab" Header="Shared Layout" Height="100%">
+          <Scrollbox Class="scScrollbox" Width="100%" Height="100%">
+            <Border class="scWarning">
+              <ThemedImage Src="/sitecore/shell/themes/standard/Images/warning_yellow.png" />
+              <Literal Text="This tab displays the shared layout details that are used by every version of the item. The Final Layout tab displays the combined presentation details for this specific version (shared + versioned details)." />
+            </Border>
+            <Border ID="LayoutPanel"/>
+          </Scrollbox>
+        </Tab>
+        <Tab ID="FinalLayoutTab" Header="Final Layout" Height="100%">
+          <Scrollbox Class="scScrollbox" Padding="0px" Width="100%" Height="100%" Background="white">
+            <Border class="scWarning">
+              <ThemedImage Src="/sitecore/shell/themes/standard/Images/warning_yellow.png" />
+              <Literal Text="This tab displays the combined presentation details for this specific version (shared + versioned details)." />
+            </Border>
+            <Border ID="FinalLayoutNoVersionWarningPanel" class="scInformation">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                  <tr>
+                    <td valign="top">
+                      <ThemedImage Height="16" Width="16" style="vertical-align:middle; margin-right: 4px" Src="Applications/16x16/warning.png" />
+                    </td>
+                    <td width="100%">
+                      <div>
+                        <Literal ID="WarningTitle" />
+                      </div>
+                      <div>
+                        <Literal Text="To create a version, click Add a New Version or click Add on the Versions tab." />
+                      </div>
+                      <div>
+                        <ul>
+                          <li>
+                            <a onclick="javascript:return scForm.postEvent(this, event,'item:addversion')" href="#">
+                              <Literal Text="Add a new version." />
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </Border>
+            <Border ID="FinalLayoutPanel"/>
+          </Scrollbox>
+        </Tab>
+      </Tabstrip>
 
     </FormDialog>
   </LayoutDetails>

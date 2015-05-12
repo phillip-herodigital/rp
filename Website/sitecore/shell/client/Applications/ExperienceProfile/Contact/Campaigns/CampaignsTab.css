@@ -2,10 +2,15 @@
   border-top: 1px solid #ccc !important;
 }
 
-div[data-sc-id=CampaignsTabMessageBar] {
-    margin-top: 20px;
-}
-
 div[data-sc-id=Campaigns] td.ventilate {
     cursor: pointer;
 }
+
+div.sc-advancedExpander[data-sc-id=CampaignsAccordion] .sc-advancedExpander-body
+{
+  border: none;
+}
+
+
+
+

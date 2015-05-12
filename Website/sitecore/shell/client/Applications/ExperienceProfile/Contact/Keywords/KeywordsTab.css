@@ -2,10 +2,6 @@
   border-top: 1px solid #ccc !important;
 }
 
-div[data-sc-id=KeywordsTabMessageBar] {
-    margin-top: 20px;
-}
-
 div.sc-border.sc-show-padding[data-sc-id=KeywordDialogBorder] {
     padding-top: 0;
 }
@@ -27,4 +23,11 @@ div[data-sc-id=KeywordStatsRow] label
 
 div[data-sc-id=ExternalListControl] td.ventilate, div[data-sc-id=InternalListControl] td.ventilate, div[data-sc-id=PaidListControl] td.ventilate {
     cursor: pointer;
+}
+
+div.sc-advancedExpander[data-sc-id=ExternalKeywords] .sc-advancedExpander-body,
+div.sc-advancedExpander[data-sc-id=InternalKeywords] .sc-advancedExpander-body,
+div.sc-advancedExpander[data-sc-id=PaidKeywords] .sc-advancedExpander-body
+{
+  border: none;
 }

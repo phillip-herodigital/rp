@@ -70,7 +70,7 @@ function fetchChildren(searchResult) {
   var isItemExpanded = element.find(".itemchildselector").hasClass("expanded");
 
   if (isItemExpanded) {
-    element.find(".itemchildselector").attr('src', '/sitecore/shell/Applications/Buckets/images/icons/down.png');
+      element.find(".itemchildselector").attr('src', '/sitecore/shell/themes/standard/images/expand15x15.gif');
     element.parent().find(".ItemChild").remove();
     //remove all child references.
     jQuery(".BlogPostArea").css('box-shadow', '1px 1px 8px #EEE');
@@ -87,7 +87,7 @@ function fetchChildren(searchResult) {
         if (a.d.length > 0) {
           jQuery(".BlogPostArea").css('box-shadow', '#9B9B9B 1px 1px 4px');
           var dropDownImage = element.find(".itemchildselector");
-          dropDownImage.attr('src', '/sitecore/shell/Applications/Buckets/images/icons/up.png');
+          dropDownImage.attr('src', '/sitecore/shell/themes/standard/images/collapse15x15.gif');
           dropDownImage.removeClass("collapsed").addClass("expanded");
 
 
@@ -107,21 +107,21 @@ function fetchChildren(searchResult) {
                 if (objectFromCalll.Languages != null || objectFromCalll.Languages != undefined) {
                   if (objectFromCalll.Languages.length > 0) {
                     $j.each(objectFromCalll.Languages, function () {
-                      languageList += "<span style=\"font-weight:bold;background: url(\'" + this.split('|')[1] + "\') no-repeat left center;padding-left:25px;background-size:16px 16px;background-position-x: 6px;background-position-y: 5px;\"><a href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);scForm.getParentForm().postRequest('','','','" + 'contenteditor:launchtab' + "(url=" + itemId + ", la=" + this.split('|')[0] + ", version=" + version + ")'); return false;\">" + this.split('|')[0] + "</a></span>";
+                        languageList += "<a class=\"baketLang\" href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);scForm.getParentForm().postRequest('','','','" + 'contenteditor:launchtab' + "(url=" + itemId + ", la=" + this.split('|')[0] + ", version=" + version + ")'); return false;\">" + this.split('|')[0] + "</a>";
                     });
                   }
                 }
                 if (objectFromCalll.QuickActions != null) {
                   $j.each(objectFromCalll.QuickActions, function () {
                     var clickHandler = "scForm.getParentForm().postRequest('', '', '', '" + this.split('|')[0] + "(id=" + itemId + ", language=" + language + ", version=" + version + ")');return false;";
-                    actionList += "<span style=\"font-weight:bold;background: url(\'~/icon/Software/16x16/breakpoint.png\') no-repeat left center;padding-left:25px;background-size:16px 16px;background-position-x: 6px;background-position-y: 5px;\"><a href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);" + clickHandler + "\">" + this.split('|')[1] + "</a></span>";
+                    actionList += "<a href=\"\" class=\"scBucketsActionList\" onclick=\"scForm.browser.clearEvent(event || window.event, true);" + clickHandler + "\">" + this.split('|')[1] + "</a>";
                   });
                 }
 
                 if (objectFromCalll.DynamicQuickActions != null) {
                   $j.each(objectFromCalll.DynamicQuickActions, function () {
                     var clickHandler = "scForm.getParentForm().postRequest('', '', '', '" + this.split('|')[0] + "'); return false;";
-                    actionList += "<span style=\"font-weight:bold;background: url(\'~/icon/Software/16x16/breakpoint.png\') no-repeat left center;padding-left:25px;background-size:16px 16px;background-position-x: 6px;background-position-y: 5px;\"><a href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);" + clickHandler + "\">" + this.split('|')[1] + "</a></span>";
+                    actionList += "<a href=\"\" class=\"scBucketsActionList\" onclick=\"scForm.browser.clearEvent(event || window.event, true);" + clickHandler + "\">" + this.split('|')[1] + "</a>";
                   });
                 }
 
@@ -132,8 +132,8 @@ function fetchChildren(searchResult) {
 
                 var resizeTemplateIcon = "";
 
-                var hasChildren = objectFromCalll.HasChildren && SC.enableExpandChildren ? '<span><img class="itemchildselector" src="/sitecore/shell/Applications/Buckets/images/icons/down.png"></span>' : '';
-                var template = '<li id="' + objectFromCalll.ItemId + '" class="BlogPostArea ItemChild" onclick="{0}" style="margin-bottom: 20px;margin-top: 20px;margin-left:' + InnerItem(objectFromCalll) + '"><div class="BlogPostViews">' + '<a class="ceebox imgcontainer"  title="" href="#"  onclick="{0}"><img width="' + imageWidth + '" onerror="this.onerror=null;this.src=\'../Buckets/images/default.jpg\';" height="' + imageHeight + '" src="' + objectFromCalll.ImagePath + '?w=' + imageWidth + '&h=' + imageHeight + '&db=master" ' + resizeTemplateIcon + '  class="attachment-post-thumbnail wp-post-image" alt="' + objectFromCalll.Name + '" title="' + objectFromCalll.Name + ' - ' + objectFromCalll.Path + '" /></a></div><h5 class="BlogPostHeader"><a href="javascript:void(0);" onclick="{0}">' + objectFromCalll.Name + '</a><span title="This item has">' + "" + '</span></h5><div class="BlogPostContent"><strong>' + templateStub + ': </strong>' + objectFromCalll.TemplateName + ' <strong>' + locationStub + ': </strong>' + objectFromCalll.Bucket + '</div><div class="BlogPostFooter"> <div><strong>' + versionStub + ': </strong>' + objectFromCalll.Version + ' <strong>' + createdStub + ': </strong>' + objectFromCalll.CreatedDate.substring(0, 10) + ' <strong> ' + byStub + ': </strong> ' + objectFromCalll.CreatedBy + ' <strong> ' + languageStub + ': </strong> ' + objectFromCalll.Language + ' </div><div></div><div class="quickactions" onclick="scForm.browser.clearEvent(event || window.event, true);">' + actionList + mediaCommand + languageList + '</div><div class="fetchChildren"  onclick="scForm.browser.clearEvent(event || window.event, true); fetchChildren(this);" style="float: right;padding: 4px 6px;" title="Fetch Child Items">' + hasChildren + '</div></li>';;
+                var hasChildren = objectFromCalll.HasChildren && SC.enableExpandChildren ? '<span><img class="itemchildselector" src="/sitecore/shell/themes/standard/images/expand15x15.gif"></span>' : '';
+                var template = '<li id="' + objectFromCalll.ItemId + '" class="BlogPostArea ItemChild" onclick="{0}" style="margin-bottom: 20px;margin-top: 20px;margin-left:' + InnerItem(objectFromCalll) + '"><div class="BlogPostViews">' + '<a class="ceebox imgcontainer"  title="" href="#"  onclick="{0}"><img width="' + imageWidth + '" onerror="this.onerror=null;this.src=\'../Buckets/images/default.jpg\';" height="' + imageHeight + '" src="' + objectFromCalll.ImagePath + '?w=' + imageWidth + '&h=' + imageHeight + '&db=master" ' + resizeTemplateIcon + '  class="attachment-post-thumbnail wp-post-image" alt="' + objectFromCalll.Name + '" title="' + objectFromCalll.Name + ' - ' + objectFromCalll.Path + '" /></a></div><h5 class="BlogPostHeader"><a href="javascript:void(0);" onclick="{0}">' + objectFromCalll.Name + '</a><span title="This item has">' + "" + '</span></h5><div class="BlogPostContent"><strong>' + templateStub + ': </strong>' + objectFromCalll.TemplateName + ' <strong>' + locationStub + ': </strong>' + objectFromCalll.Bucket + '</div><div class="BlogPostFooter"> <div class="moreiteminfo"><strong>' + versionStub + ': </strong>' + objectFromCalll.Version + ' <strong>' + createdStub + ': </strong>' + objectFromCalll.CreatedDate.substring(0, 10) + ' <strong> ' + byStub + ': </strong> ' + objectFromCalll.CreatedBy + ' <strong> ' + languageStub + ': </strong> ' + objectFromCalll.Language + ' </div><div></div><div class="quickactions" onclick="scForm.browser.clearEvent(event || window.event, true);">' + '<div class="baketActionListWrap">' + actionList + '</div>' + mediaCommand + '<div class="baketLangWrap">' + languageList + '<span class="langFadeout"></span></div></div></li>';
 
                 switch (window.currentBucketsViewType) {
                   case window.rteViewType:
@@ -197,9 +197,8 @@ function RemoveFacet(key) {
         }
         }
 
-    $j("#loadingSection").prepend('<div id="ajaxBusy"><p><img src="images/loading.gif"></p></div>');
+    $j("#loadingSection").prepend('<div id="ajaxBusy"></div>');
     $j("#ajaxBusy").css({
-        margin: "0px auto"
     });
 
     if (CurrentFacetFilter.length == 0) {
@@ -256,12 +255,12 @@ function meme(a) {
 
     if (OnlyFacets != undefined) {
         if (OnlyFacets.length > 0) {
-          var facetList = '<div class="sideMask"><div class="side"><div class="sb_filter toggleon">' + currentFilters + '</div><div><ul>';
+          var facetList = '<div class="sideMask"><div class="side"><div class="sb_filter toggleon">' + currentFilters + '</div><div class="sideFilter"><ul>';
             $j.each(OnlyFacets,
                 function () {
                     var escapedText = scHtmlEscape(this.title);
                     var innerText = this.title.length > 16 ? (scHtmlEscape(this.title.substring(0, 16)) + "...") : escapedText;
-                    facetList += '<li class="filter"><a href=\"#\" onclick="javascript:RemoveFacet(\'' + this.value + '\');" title="' + escapedText + '" class="facetClick" style="color:red;">' + innerText + "</a><a href=\"javascript:void(0)\" onclick=\"javascript:RemoveFacet('" + this.value + "');\"> (x) </a></li>";
+                    facetList += '<li class="filter"><a href="javascript:void(0);" onclick="javascript:RemoveFacet(\'' + this.value + '\');" title="' + escapedText + '" class="facetClick facetClickSelected">' + innerText + "</a></li>";
                 });
             facetList += "</ul></div></div></div>";
             $j(".navAlpha").append(facetList);
@@ -271,15 +270,15 @@ function meme(a) {
          function (index) {
              if (typeof (this[0]) != 'undefined') {
 
-                 var b = '<div class="sideMask"><div class="side"><div class="sb_filter ' + (index > 4 ? "toggleoff" : "toggleon") + '">' + this[0].DisplayName + "</div><div " + (index > 4 ? "style=\"display:none\"" : "") + "><ul>";
+               var b = '<div class="sideMask"><div class="side"><div class="sb_filter ' + (index > 4 ? "toggleoff" : "toggleon") + '">' + this[0].DisplayName + "<span></span></div><div class=\"sideFilter\" " + (index > 4 ? "style=\"display:none\"" : "") + "><ul>";
 
                  $j.each(this,
                      function () {
                          var cleanString = this.Template;
                          cleanString = cleanString.replace("\\", "~");
                          var escapedTitle = scHtmlEscape(this.LocalizedName);
-                         var innerText = (this.LocalizedName.length > 16 ? (scHtmlEscape(this.LocalizedName.substring(0, 16)) + "...") : escapedTitle);
-                         b += '<li class="filter"><a href="javascript:void(0);" title="' + escapedTitle + '" class="facetClick" onclick="javascript:AppendFacet(\'' + this.ID + "','" + cleanString + "','" + this.Custom + "','" + escapedTitle + "');\">" + innerText + " (" + this.Value + ")" + "</a></li>";
+                         var innerText = (this.LocalizedName.length > 32 ? (scHtmlEscape(this.LocalizedName.substring(0, 32)) + "...") : escapedTitle);
+                         b += '<li class="filter"><a href="javascript:void(0);" title="' + escapedTitle + '" class="facetClick" onclick="javascript:AppendFacet(\'' + this.ID + "','" + cleanString + "','" + this.Custom + "','" + escapedTitle + "');\"><span>" + innerText + "</span> <span>" + this.Value + "</span>" + "</a></li>";
                      });
 
                  b += "</ul></div></div></div>";
@@ -290,7 +289,7 @@ function meme(a) {
     $j("#ajaxBusyFacet").css({
         display: "none",
         margin: "0px auto",
-        width: "24px"
+        width: "32px"
     });
 
     $j(".side .sb_filter").bind('click',
@@ -307,7 +306,7 @@ function meme(a) {
     $j(this).removeClass("pageClickLoad");
 
     if ($j(".navAlpha .side").length == 0) {
-        var b = '<div class="sideMask"><div class="side"><div class="sb_filter">' + NoFacetsFound + "</div><div><ul></ul></div></div></div>";
+      var b = '<div class="sideMask"><div class="side"><div class="sb_filter">' + NoFacetsFound + "</div><div class=\"sideFilter\"><ul></ul></div></div></div>";
         $j(".navAlpha").append(b);
 
 
@@ -349,9 +348,8 @@ function AppendFacet(b, c, custom, title) {
         }
         }
 
-    $j("#loadingSection").prepend('<div id="ajaxBusy"><p><img src="images/loading.gif"></p></div>');
+    $j("#loadingSection").prepend('<div id="ajaxBusy"></div>');
     $j("#ajaxBusy").css({
-        margin: "0px auto"
     });
 
 
@@ -445,7 +443,7 @@ function OnComplete(a) {
     $j("#ajaxBusyFacet").css({
         display: "none",
         margin: "0px auto",
-        width: "24px"
+        width: "32px"
     });
 }
 
@@ -454,8 +452,8 @@ function renderGridView(data) {
     $j.each(data.items,
         function () {
             var ifTemplateIcon = this.ImagePath.indexOf('/~/icon/') == 0 || this.ImagePath.indexOf(window.IconsCacheFolder) == 0;
-            var imageWidth = ifTemplateIcon ? "48" : "142";
-            var imageHeight = ifTemplateIcon ? "48" : "100";
+            var imageWidth = ifTemplateIcon ? "48" : "48";
+            var imageHeight = ifTemplateIcon ? "48" : "48";
             var resizeTemplateIcon = ifTemplateIcon ? "smallIcon" : "";
             var languageCount = (this.Languages || []).length;
 
@@ -726,7 +724,7 @@ function parseResults(resultCallBack) {
                 if (!!this.Languages) {
                     if (this.Languages.length > 0) {
                         $j.each(this.Languages, function () {
-                          languageList += "<span style=\"font-weight:bold;background: url(\'" + this.split('|')[2] + "\') no-repeat left center;padding-left:25px;background-size:16px 16px;background-position-x: 6px;background-position-y: 5px;\"><a href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);scForm.getParentForm().postRequest('','','','" + resultCallBack.launchType + "(url=" + itemId + ", la=" + this.split('|')[1] + ", version=" + version + ", datasource=" + this.Datasource + ")'); return false;\">" + this.split('|')[0] + "</a></span>";
+                            languageList += "<a class=\"baketLang\" href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);scForm.getParentForm().postRequest('','','','" + resultCallBack.launchType + "(url=" + itemId + ", la=" + this.split('|')[1] + ", version=" + version + ", datasource=" + this.Datasource + ")'); return false;\">" + this.split('|')[0] + "</a>";
                         });
                     }
                 } else {
@@ -736,14 +734,14 @@ function parseResults(resultCallBack) {
                 if (!!this.QuickActions) {
                 $j.each(this.QuickActions, function () {
                     var clickHandler = "scForm.getParentForm().postRequest('', '', '', '" + this.split('|')[0] + "(id=" + itemId + ", language=" + language + ", version=" + version + ")');return false;";
-                    actionList += "<span style=\"font-weight:bold;background: url(\'~/icon/Software/16x16/breakpoint.png\') no-repeat left center;padding-left:25px;background-size:16px 16px;background-position-x: 6px;background-position-y: 5px;\"><a href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);" + clickHandler + "\">" + this.split('|')[1] + "</a></span>";
+                    actionList += "<a href=\"\" class=\"scBucketsActionList\" onclick=\"scForm.browser.clearEvent(event || window.event, true);" + clickHandler + "\">" + this.split('|')[1] + "</a>";
                 });
                 }
 
                 if (!!this.DynamicQuickActions) {
                 $j.each(this.DynamicQuickActions, function () {
                     var clickHandler = "scForm.getParentForm().postRequest('', '', '', '" + this.split('|')[0] + "'); return false;";
-                    actionList += "<span style=\"font-weight:bold;background: url(\'~/icon/Software/16x16/breakpoint.png\') no-repeat left center;padding-left:25px;background-size:16px 16px;background-position-x: 6px;background-position-y: 5px;\"><a href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);" + clickHandler + "\">" + this.split('|')[1] + "</a></span>";
+                    actionList += "<a href=\"\" class=\"scBucketsActionList\" onclick=\"scForm.browser.clearEvent(event || window.event, true);" + clickHandler + "\">" + this.split('|')[1] + "</a>";
                 });
                 }
 
@@ -763,12 +761,12 @@ function parseResults(resultCallBack) {
                     break;
                 }
 
-                var resizeTemplateIcon = ifTemplateIcon ? ' style="padding: 6px 16px"' : "";
-                var hasChildren = this.HasChildren && SC.enableExpandChildren ? '<span><img class="itemchildselector" src="/sitecore/shell/Applications/Buckets/images/icons/down.png"></span>' : '';
+                var resizeTemplateIcon = ifTemplateIcon ? '' : "";
+                var hasChildren = this.HasChildren && SC.enableExpandChildren ? '<span><img class="itemchildselector" src="/sitecore/shell/themes/standard/images/expand15x15.gif"></span>' : '';
                
                 if (!this.CreatedDate) { this.CreatedDate = "" }
               
-                var template = '<div id="' + this.ItemId + '" class="BlogPostArea" onclick="{0}" style="margin-left:' + InnerItem(this) + '"><div class="BlogPostViews">' + '<a class="ceebox imgcontainer"  title="" href="#"  onclick="{0}"><img width="' + imageWidth + '" onerror="this.onerror=null;this.src=\'../Buckets/images/default.jpg\';" height="' + imageHeight + '" src="' + this.ImagePath + '?w=' + imageWidth + '&h=' + imageHeight + '&db=master" ' + resizeTemplateIcon + '  class="attachment-post-thumbnail wp-post-image" alt="' + this.Name + '" title="' + this.Name + ' - ' + this.Path + '" /></a></div><h5 class="BlogPostHeader"><a href="javascript:void(0);" onclick="scForm.browser.clearEvent(event || window.event, true);{0}">' + this.Name + '</a><span title="This item has ' + (this.Languages && this.Languages.length > 1 ? "" + this.Languages.length + " languages" : " 1 language") + '">' + (this.Languages && this.Languages.length > 1 ? "(" + this.Languages.length + ")" : "") + '</span></h5><div class="BlogPostContent"><strong>' + templateStub + ': </strong>' + this.TemplateName + ' <strong>' + locationStub + ': </strong>' + this.Bucket + '</div><div class="BlogPostFooter">' + (this.Content ? (this.Content.length > 250 ? (this.Content.substring(0, 250) + "...") : this.Content) : '') + ' <div><strong>' + versionStub + ': </strong>' + this.Version + ' <strong>' + createdStub + ': </strong>' + this.CreatedDate.substring(0, 10) + ' <strong> ' + byStub + ': </strong> ' + this.CreatedBy + ' <strong> ' + languageStub + ': </strong> ' + this.Language + ' </div><div></div><div class="quickactions" onclick="scForm.browser.clearEvent(event || window.event, true);">' + actionList + mediaCommand + languageList + '</div><div class="fetchChildren" onclick="scForm.browser.clearEvent(event || window.event, true);fetchChildren(this);" style="float: right;padding: 4px 6px;" title="Fetch Child Items">' + hasChildren + '</div></li>';
+                var template = '<div id="' + this.ItemId + '" class="BlogPostArea" onclick="{0}" style="margin-left:' + InnerItem(this) + '"><div class="BlogPostViews">' + '<a class="ceebox imgcontainer"  title="" href="#"  onclick="{0}"><img width="' + imageWidth + '" onerror="this.onerror=null;this.src=\'../Buckets/images/default.jpg\';" height="' + imageHeight + '" src="' + this.ImagePath + '?w=' + imageWidth + '&h=' + imageHeight + '&db=master" ' + resizeTemplateIcon + '  class="attachment-post-thumbnail wp-post-image" alt="' + this.Name + '" title="' + this.Name + ' - ' + this.Path + '" /></a></div><h5 class="BlogPostHeader"><a href="javascript:void(0);" onclick="scForm.browser.clearEvent(event || window.event, true);{0}">' + this.Name + '</a><span title="This item has ' + (this.Languages && this.Languages.length > 1 ? "" + this.Languages.length + " languages" : " 1 language") + '">' + (this.Languages && this.Languages.length > 1 ? "(" + this.Languages.length + ")" : "") + '</span></h5><div class="BlogPostContent"><strong>' + templateStub + ': </strong>' + this.TemplateName + ' <strong>' + locationStub + ': </strong>' + this.Bucket + '</div><div class="BlogPostFooter">' + (this.Content ? (this.Content.length > 250 ? (this.Content.substring(0, 250) + "...") : this.Content) : '') + ' <div><strong>' + versionStub + ': </strong>' + this.Version + ' <strong>' + createdStub + ': </strong>' + this.CreatedDate.substring(0, 10) + ' <strong> ' + byStub + ': </strong> ' + this.CreatedBy + ' <strong> ' + languageStub + ': </strong> ' + this.Language + ' </div><div></div><div class="quickactions" onclick="scForm.browser.clearEvent(event || window.event, true);">' + '<div class="baketActionListWrap">' + actionList + '</div>' + mediaCommand + '<div class="baketLangWrap">' + languageList + '<span class="langFadeout"></span></div></div>' + '<div class="fetchChildren" onclick="scForm.browser.clearEvent(event || window.event, true);fetchChildren(this);" style="float: right;padding: 4px 6px;" title="Fetch Child Items">' + hasChildren + '</div></li>';
                
                 switch (window.currentBucketsViewType) {
                     case window.rteViewType:
@@ -859,6 +857,12 @@ function Initialization() {
   $j("#results").on("mouseout", ".BlogPostArea", function() {
     $j(this).removeClass("hover");
   });
+  
+  //$j("#facetsBTN").click(function () {
+  //        $j("#facets").toggleClass("facetsVis poehali");
+  //        $j("#facetsBTN").toggleClass("facetsBTNActive");
+  //        return false;
+  //  });
 
     function parseSearchForQuery() {
         var query = buildQuery();
@@ -902,12 +906,10 @@ function Initialization() {
         $j.each(c, function () {
             var showMe = this.Name.replace(" ", "");
             showMe = showMe.replace(" ", "");
-            var imgTemplate = '<img src="{0}" class="searchFilterIcon">';
-            var img = imgTemplate.scFormat(this.Icon);
 
             var commandType = this.Command;
             
-            e += '<div title="' + clickToLoad + '" class="sb_filter recent ' + showMe + '">' + img + this.Name + ' - <span style="font-size:12px;">' + this.DisplayText + '</span></div><div class="' + showMe + 'body" style="display:none"></div>';
+            e += '<div title="' + clickToLoad + '" class="sb_filter recent ' + showMe + '">' + this.Name + ' - <span style="font-size:12px;">' + this.DisplayText + '</span></div><div class="' + showMe + 'body" style="display:none"></div>';
             $j(".sb_dropdown").off("click", "." + showMe);
             $j(".sb_dropdown").on("click", "." + showMe,
                 function () {
@@ -933,17 +935,7 @@ function Initialization() {
                                             click = '';
                                         if (commandType == "id") { 
                                             var title = clickToLaunchItem;
-                                            var imgTemp = 'images/pin.png';
-                                            if (this.split('|').length == 3) {
-                                                if (this.split('|')[2].indexOf('/') == 0) {
-                                                    imgTemp = this.split('|')[2];
-                                                } else {
-                                                    imgTemp = this.split('|')[2];
-                                                }
-                                            }
-                                            img = imgTemplate.scFormat(imgTemp);
                                             template = template.scFormat('{0}', '{1}', '{2}', '{3}', classValue);
-
 
                                             if (this.indexOf('sed Tab') > 0) { //TODO: Language Issue
                                                 var splitMe = this.replace("Closed Tabs (", "").replace(")").split("|");
@@ -951,7 +943,7 @@ function Initialization() {
                                                 id = splitMe[1];
                                                 click = 'javascript:launchMultipleTabs("' + splitMe + '")';
                                                 title = clickToLaunchItem + ' ' + this;
-                                                e += template.scFormat(click, id, img + textValue, title);
+                                                e += template.scFormat(click, id, textValue, title);
                                             } else {
                                                 splitMe = this.split("|");
                                                 if (splitMe == undefined) {
@@ -959,7 +951,7 @@ function Initialization() {
                                                 } else {
                                                     id = splitMe[1];
                                                     textValue = splitMe[0];
-                                                    var innerHTML = img + textValue;
+                                                    var innerHTML = textValue;
                                                     switch (window.currentBucketsViewType) {
                                                         case window.rteViewType:
                                                             click = 'scClose(\'~/link.aspx?_id=' + splitMe[1].replace(/{/g, "").replace(/}/g, "").replace(/-/g, "") + '&amp;_z=z\', \'' + this.Name + '\'); return false;';
@@ -982,22 +974,20 @@ function Initialization() {
                                         } else if (commandType == "operations") { 
                                             id = this.split("|")[0].toString().replace(/\s/g, '');
                                             classValue = 'SearchOperation ' + this.split('|')[0].toString().replace(/\s/g, '');
-                                            img = imgTemplate.scFormat(this.split("|")[1]);
                                             textValue = this.split('|')[2];
                                             title = clickToRunOperation;
 
-                                            e += template.scFormat(click, id, img + textValue, title, classValue);
+                                            e += template.scFormat(click, id, textValue, title, classValue);
                                         } else if (commandType == "text") { 
                                             textValue = scHtmlEscape(this);
                                             title = clickToSearch + scHtmlEscape(this);
 
-                                            e += template.scFormat(click, id, img + textValue, title, classValue);
+                                            e += template.scFormat(click, id, textValue, title, classValue);
                                         } else {
-                                            img = imgTemplate.scFormat(this.split("|")[2]);
                                             textValue = this.split('|')[1];
                                             title = clickToLaunch + '' + this.split("|")[0];
 
-                                            e += template.scFormat(click, id, img + textValue, title, classValue, 'data-filter="' + this.split("|")[0] + '"');
+                                            e += template.scFormat(click, id, textValue, title, classValue, 'data-filter="' + this.split("|")[0] + '"');
                                         }
                                     }
                                 });
@@ -1007,7 +997,7 @@ function Initialization() {
                             }
                         });
                     } else {
-                        $j("." + showMe).next("." + showMe + "body").toggle('slow');
+                      $j("." + showMe).next("." + showMe + "body").slideToggle(100);;
                     }
                 });
         });
@@ -1169,9 +1159,8 @@ function Initialization() {
         });
 
     /* This will hide the loading bar once an item has been loaded */
-    $j("#loadingSection").prepend('<div id="ajaxBusy"><p><img src="images/loading.gif"></p></div>');
+    $j("#loadingSection").prepend('<div id="ajaxBusy"></div>');
     $j("#ajaxBusy").css({
         display: "none",
-        margin: "0px auto"
     });
 }

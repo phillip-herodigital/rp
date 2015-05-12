@@ -4,7 +4,7 @@
     <FormPage Application="Control Panel">
       <CodeBeside Type="Sitecore.Shell.Applications.ControlPanel.ControlPanel.ControlPanelForm,Sitecore.Client"/>
       
-      <Scrollbox ID="ControlPanel" Border="none" Padding="0">
+      <div ID="ControlPanel" style="height: 100%; box-sizing: border-box;">
         <TaskBackground>
           <TaskTitle ID="Title"><Literal ID="TitleText"/></TaskTitle>
 
@@ -17,7 +17,7 @@
           </TaskLinks>
           
         </TaskBackground>
-      </Scrollbox>
+      </div>
     
     </FormPage>
   </ControlPanel>

@@ -35,7 +35,7 @@
 
       <GridPanel ID="MainPanel" Height="100%" Width="100%" runat="server">
           <Border ID="GridContainer" GridPanel.Height="90%" Height="100%" runat="server">
-              <Grid id="Contacts"
+              <Grid id="Visitors"
                 RunningMode="Callback"
                 CssClass="Grid"
                 
@@ -68,7 +68,7 @@
                 
                 PagerInfoClientTemplateId ="PagerInfoTemplate"
             
-                ShowSearchBox="true"
+                ShowSearchBox="false"
                 SearchTextCssClass="GridHeaderText"
                 SearchBoxCssClass="SearchBox"
       	    
@@ -76,7 +76,6 @@
                 SliderWidth="150"
                 SliderGripWidth="9"
                 SliderPopupOffsetX="20"
-                SliderPopupClientTemplateId="SliderTemplate"
             
                 TreeLineImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/lines/"
                 TreeLineImageWidth="22"
@@ -93,7 +92,7 @@
 
                   <Levels>
                       <GridLevel
-                        DataKeyField="scGridID"
+                        DataKeyField="ContactId"
                         ShowTableHeading="false"
                         ShowSelectorCells="false"
                         RowCssClass="Row"
@@ -111,14 +110,10 @@
                         SortImageWidth="13"
                         SortImageHeight="13" runat="server">
                           <Columns runat="server">
-                              <GridColumn DataField="scGridID" Visible="false" IsSearchable="false" runat="server"/>
                               <GridColumn DataField="ContactId" Visible="false" IsSearchable="false" runat="server"/>
-                              <GridColumn DataField="User.Profile.Portrait" Visible="false" IsSearchable="false" runat="server"/>
                               <GridColumn DataField="Name" AllowSorting="false" AllowGrouping="false" IsSearchable="true" SortedDataCellCssClass="SortedDataCell" HeadingText="User Name" runat="server" />
                               <GridColumn DataField="Email" AllowSorting="false" AllowGrouping="false" IsSearchable="true" SortedDataCellCssClass="SortedDataCell" HeadingText="Email" runat="server" />
                               <GridColumn DataField="VisitCount" Visible="true" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="No. of Visits" runat="server" />
-                              <GridColumn DataField="LastVisit" Visible="true" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Last Visit" runat="server" />
-
                           </Columns>
                       </GridLevel>
                   </Levels>
@@ -126,11 +121,6 @@
                   <ClientTemplates>
                          <ClientTemplate Id="PagerInfoTemplate" runat="server" >                         
                          
-                      </ClientTemplate>
-                      
-                      <ClientTemplate Id="LocalNameTemplate" runat="server">
-                          <img src="/~/icon/## DataItem.GetMember('User.Profile.Portrait').Value ##.aspx" width="16" height="16" border="0" alt="" align="absmiddle"/>
-                          ## DataItem.GetMember('User.LocalName').Value ##
                       </ClientTemplate>
 
                       <ClientTemplate Id="LoadingFeedbackTemplate" runat="server">
@@ -145,21 +135,6 @@
                               </tr>
                           </table>
                       </ClientTemplate>
-
-                      <ClientTemplate Id="SliderTemplate" runat="server">
-                          <table class="SliderPopup" cellspacing="0" cellpadding="0" border="0">
-                              <tr>
-                                  <td>
-                                      <div style="padding:4px;font:8pt tahoma;white-space:nowrap;overflow:hidden">## DataItem.GetMember('User.Name').Value ##</div>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="height:14px;background-color:#666666;padding:1px 8px 1px 8px;color:white">
-                                      ## DataItem.PageIndex + 1 ## / ## Contacts.PageCount ##
-                                  </td>
-                              </tr>
-                          </table>
-                      </ClientTemplate>                 
                   </ClientTemplates>
               </Grid>             
           </Border>
@@ -174,9 +149,6 @@
                   <Button Visible="false" Id="SeeFullReport" runat="server" Click="FullReportClick">
                       <Literal Text ="Full report" runat="server"/>
                   </Button>
-              </Border>
-              <Border Style="float:right" Padding="4px 0px 0px 0px" runat="server"  NoWrap="NoWrap" >
-                  <Literal runat="server" Id="UnkownUsersMessage" />                  
               </Border>
           </Border>
       </GridPanel>       

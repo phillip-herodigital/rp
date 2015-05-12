@@ -12,18 +12,19 @@
 }
 
 #RightsTable {
-  margin-top: 8px;
 }
 
 .rightsTable {
-  padding: 2px;
-  margin-top: 6px;
-  width: 70%;
   table-layout: fixed;
+  width:100%;
+}
+
+.rightsTable tr td:first-child {
+    text-align:left;
 }
 
 .rightsTable td {
-  padding: 2px;
+  padding: 2px 0;
   text-wrap: no-wrap;
 }
 
@@ -60,7 +61,7 @@
 }
 
 .scSecurityItemDeny, .scInheritanceWarning {
-  color: red;
+  color: #ca241c;
 }
 
 .disabled {
@@ -72,12 +73,7 @@
 }
 
 #NoAccounts a {
-  color: blue;
-}
-
-.scItemSecurityEditorContainer {
-  padding: 10px;
-  overflow: auto !important;
+  color: #ca241c;
 }
 
 .scItemSecurityEditorAccounts {
@@ -86,8 +82,4 @@
 
 #Inheritance {
   height: 40px;
-}
-
-.permissionsLabel {
-  padding: 12px 0 2px;
 }

@@ -1,0 +1,106 @@
+﻿@using System.Linq
+@using Sitecore.Configuration
+@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Resources
+@using Sitecore.Web.UI
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Class = "sc-launchpad";
+  
+  var groups = new List<List<Item>>();
+  var database = Factory.GetDatabase("core");
+  if (database == null)
+  {
+    return;
+  }
+
+  var root = database.GetItem("{C625DB2F-6DB2-4645-B7F7-733ABFC2CAC6}");
+  if (root == null)
+  {
+    return;
+  }
+
+  foreach (var item in root.Children.Where(i => i != null))
+  {
+    var group = new List<Item>();
+    groups.Add(group);
+
+    group.AddRange(item.Children);
+  }
+
+  var grids = new List<List<List<Item>>>();
+  
+  foreach (var group in groups.Where(g => g.Count > 0))
+  {
+    var grid = new List<List<Item>>();
+
+    var width = group.Count % 3 == 0 ? group.Count / 3 : group.Count / 3 + 1;
+
+    for (var y = 0; y <= group.Count / width; y++)
+    {
+      var row = new List<Item>();
+      
+      
+      for (var x = 0; x < width; x++)
+      {
+        var index = x + y * width;
+        if (index >= group.Count)
+        {
+          break;
+        }
+        
+        var item = group.ElementAt(index);
+        row.Add(item);
+      }
+      
+      if (row.Count != 0)
+      {
+        grid.Add(row);  
+      }
+    }                                           
+
+    if (grid.Count == 0)
+    {
+      grid.Add(new List<Item>());
+    }
+    
+    grids.Add(grid);
+  }
+
+  var htmlAttributes = rendering.HtmlAttributes;
+}
+<div @htmlAttributes>
+  @*<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">*@
+      @for (int index = 0; index < grids.Count; index++)
+      {
+        var grid = grids[index];
+        var className = index == 0 ? "first" : index == grids.Count - 1 ? "last" : string.Empty;
+
+        <div class="sc-launchpad-group @className">
+          @foreach (var row in grid)
+          {
+            <div class="sc-launchpad-group-row">
+              @foreach (var item in row)
+              {
+                var icon = Images.GetThemedImageSource(item["Icon"], ImageDimension.id48x48);
+                <a href="@Html.Raw(item["Link"])" class="sc-launchpad-item" @(item["OpenNewTab"]=="1"?"target=_blank":"") title="@item["Text"]">
+                  <span class="icon">
+                    <img src="@Html.Raw(icon)" width="48" height="48" alt="@Html.Raw(item["Text"])" />
+                  </span>
+                  <span class="sc-launchpad-text">
+                    @item["Text"]
+                  </span>
+                </a>
+              }
+            </div>
+          }
+        </div>
+      }
+  @*  </div>
+  </div>*@
+</div>

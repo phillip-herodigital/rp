@@ -6,12 +6,14 @@
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @model RenderingModel
 @{
-  var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
-  rendering.Class = "sc-rule";
-  rendering.Requires.Script("controls", "Rule.js");
+  var control = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  control.Class = "sc-rule";
+  control.Requires.Script("controls", "Rule.js");
 
-  var ruleItemId = rendering.GetString("RuleItemId");
-  var field = rendering.GetString("Field");
+  var ruleItemId = control.GetString("RuleItemId") ?? string.Empty;
+  var field = control.GetString("Field") ?? string.Empty;
+  var loadMode = control.GetString("LoadMode") ?? string.Empty;
+  var useBundle = control.GetBool("UseBundle", true);
 
   var customHandler = SpeakSettings.Html.RequireJsCustomHandler;
 
@@ -34,16 +36,38 @@
   var url = new UrlString(customHandler + "rules/rule.js");
   url.Parameters["i"] = ruleItemId;
   url.Parameters["f"] = field;
+  
   var item = Model.Rendering.Item.Database.GetItem(ruleItemId);
   if (item != null) {
     url.Parameters["t"] = item.Statistics.Revision;
   }
-  
-  rendering.SetAttribute("data-sc-rulescript", url.ToString());
-  rendering.SetAttribute("data-sc-trigger", rendering.GetString("Trigger"));
-  rendering.SetAttribute("data-sc-control", rendering.GetString("TargetControl"));
-  
-  var htmlAttributes = rendering.HtmlAttributes;
+
+  if (useBundle)
+  {
+    url.Parameters["b"] = "1";
+  }
+
+  control.SetAttribute("data-sc-component", "Rule");
+  control.SetAttribute("data-sc-rulescript", url.ToString());
+  control.SetAttribute("data-sc-trigger", control.GetString("Trigger"));
+  control.SetAttribute("data-sc-control", control.GetString("TargetControl"));
+  control.SetAttribute("data-sc-loadmode", loadMode.ToLowerInvariant());
+
+  var output = string.Empty;
+  if (string.Compare(loadMode, "Inline", StringComparison.InvariantCultureIgnoreCase) == 0)
+  {
+    var rule = new Sitecore.Resources.Pipelines.ResolveScript.Rule();
+    var script = rule.WriteScript(url.ToString(), ruleItemId, field, true, true);
+    output = script.Output.ToString();
+    control.SetAttribute(HtmlTextWriterAttribute.Type, "text/javascript");
+  }
+  else
+  {
+    control.SetAttribute(HtmlTextWriterAttribute.Type, "text/x-sitecore-rule");
+  }
+
+  var htmlAttributes = control.HtmlAttributes;
 }      
-<div @htmlAttributes>
-</div>
+<script @htmlAttributes>
+  @Html.Raw(output)
+</script>

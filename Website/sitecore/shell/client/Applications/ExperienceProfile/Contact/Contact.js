@@ -12,14 +12,15 @@
       visitsummaryTable = "visit-summary",
       visitPagesTable = "visit-pages",
       lateststatisticsTable = "latest-statistics",
-      visitDialogApp;
+      visitDialogApp,
+      overviewPanelApp;
 
   var app = sc.Definitions.App.extend({
     initialized: function()
     {
       mainApp = this;
 
-      $('head').prepend('<meta name="viewport" content="width=device-width, initial-scale=1.0" />'); // workaround for responsive design
+      //$('head').prepend('<meta name="viewport" content="width=device-width, initial-scale=1.0" />'); // workaround for responsive design
 
       var contactId = cintelUtil.getQueryParam(cidParam);
       if(!contactId) return;
@@ -32,6 +33,8 @@
         subapp.VisitDialogPhoto.viewModel.$el.off("click");
       }, this);
 
+      this.TimelineToggleButton.set("isOpen", true);
+      
       $(".sc-list").show();
 
       var baseUrl = "/sitecore/api/ao/v1/contacts/" + contactId;
@@ -61,77 +64,19 @@
 
       this.MainBorder.set(isVisibleProperty, true);
 
-      this.initInfoPanel(baseUrl, contactId);
-
-      this.openLatestVisit();
-    },
-
-    initInfoPanel: function(baseUrl, contactId)
-    {
-      this.InfoBorder.set(isVisibleProperty, true);
-
-      providerHelper.initProvider(this.InfoDataProvider, lateststatisticsTable, baseUrl + intelPath + "/" + lateststatisticsTable);
-
-      this.InfoPhotoImage.set("imageUrl", baseUrl + "/image?w=170&h=170");
-      this.checkNoContact(contactId);
-
-      providerHelper.getData(
-        this.InfoDataProvider,
-        $.proxy(function(jsonData)
-        {
-          var dataSet = jsonData.data.dataSet[this.InfoDataProvider.get(cintelTableNameProperty)];
-          if(!dataSet || dataSet.length < 1)
-          {
-            return;
-          }
-
-          var data = dataSet[0];
-
-          cintelUtil.setText(this.VisitTime, data.FormattedTime, false);
-          cintelUtil.setText(this.VisitDate, data.FormattedDate, false);
-          cintelUtil.setText(this.Recency, data.Recency, false);
-          cintelUtil.setText(this.Location, data.LatestVisitLocationDisplayName, false);
-
-          this.VisitsValue.set(textProperty, data.TotalVisitCount);
-          this.ValueValue.set(textProperty, data.ContactValue);
-          this.ValuePerVisitValue.set(textProperty, data.AverageValuePerVisit);
-
-          this.PageviewsValue.set(textProperty, data.TotalPageViewCount);
-
-          this.PagesPerVisitValue.set(textProperty, data.AveragePageViewsPerVisit);
-          this.AverageVisitValue.set(textProperty, data.AverageVisit);
-        }, this)
-      );
-
-      providerHelper.initProvider(this.ContactDetailsDataProvider, "", sc.Contact.baseUrl, this.ContactTabMessageBar);
-      providerHelper.getData(
-        this.ContactDetailsDataProvider,
-        $.proxy(function(jsonData)
-        {
-          this.InfoContactName.set(textProperty, cintelUtil.getFullName(jsonData));
-          this.InfoContactTelephone.set("text", cintelUtil.getFullTelephone(jsonData.preferredPhoneNumber.Value));
-
-          var infoEmailLink = jsonData.preferredEmailAddress.Key ? jsonData.preferredEmailAddress.Value.SmtpAddress : "";
-          if(!infoEmailLink && jsonData.emailAddresses.length > 0)
-          {
-            infoEmailLink = jsonData.emailAddresses[0].Value.SmtpAddress;
-          }
-
-          this.InfoEmailLink.set(textProperty, infoEmailLink);
-          this.InfoEmailLink.viewModel.$el.attr("href", "mailto:" + infoEmailLink);
-        }, this)
-      );
-    },
-
-    checkNoContact: function(contactId)
-    {
-      this.ContactDetailsDataProvider.on("error", function(error)
-      {
-        if(error.response.status === 404)
-        {
-          window.location.replace("ContactNotFound?" + cidParam + "=" + contactId);
-        }
+      sc.on("overviewPanelApp", function (application) {
+        overviewPanelApp = application;
+        this.openLatestVisit();
       }, this);
+
+      this.JourneyLoadOnDemandPanel.viewModel.load();
+
+      this.OverviewpanelLoadOnDemandPanel.off("change:isLoaded").on("change:isLoaded", function () {
+        sc.trigger("contactApp", mainApp, baseUrl, contactId);
+      });
+      this.OverviewpanelLoadOnDemandPanel.viewModel.load();
+      
+      cintelUtil.removeBreadCrumbLastLink(this.Breadcrumb);
     },
 
     loadPanel: function(tabId)
@@ -193,7 +138,7 @@
     {
       var idPanel = this.TabControl.viewModel.$el.find(".sc-tabcontrol-tab:visible .sc-load-on-demand-panel").data("sc-id"),
           panel = this[idPanel];
-
+      
       this.RefreshButton.set("isEnabled", false);
 
       panel.set("isLoaded", false);
@@ -213,8 +158,8 @@
 
     openLatestVisit: function()
     {
-      var tableName = this.InfoDataProvider.get(cintelTableNameProperty),
-          data = this.InfoDataProvider.get("data");
+      var tableName = overviewPanelApp.InfoDataProvider.get(cintelTableNameProperty),
+          data = overviewPanelApp.InfoDataProvider.get("data");
       if(!data) return;
 
       var visitId = data.dataSet[tableName][0].LatestVisitId;
@@ -226,11 +171,12 @@
 
       panel.set("isLoaded", false);
       panel.refresh();
-      this.VisitDialog.show();
+      
       panel.set("isBusy", true);
 
       panel.on("change:isLoaded", function () {
         panel.off("change:isLoaded");
+        this.VisitDialog.show();
         panel.set("isBusy", false);
         visitDialogApp.open(visitDialogApp, visitId);
       }, this);
@@ -244,8 +190,16 @@
       $("header").remove();
       this.BackButton.set("isVisible", false);
       this.RefreshButton.viewModel.$el.addClass("skinnymode-refresh");
-    }
+    },
 
+    toggleJourney: function () {
+      var self = this;
+      
+      this.JourneyLoadOnDemandPanel.viewModel.$el.slideToggle(400, function () {
+        self.JourneyLoadOnDemandPanel.set("isVisible", !self.JourneyLoadOnDemandPanel.get("isVisible"));
+      });
+    }
+       
   });
   return app;
 });

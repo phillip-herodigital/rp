@@ -41,11 +41,11 @@
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="17">
-      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-7_x0029_,False,True</value>
+      <value>,StartDate,StartDate,System.DateTime,GetDefaultStartDate_x0028__x0029_,False,True</value>
       <value>Texts</value>
       <value>Texts,ReportTitle,ReportTitle,System.String,Local_x0020_Searches_x0020_on_x0020_this_x0020_Page,False,False</value>
       <value>Texts,ReportGeneratedText,ReportGeneratedText,System.String,Report_x0020_Generated,False,False</value>
-      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,EndDate,EndDate,System.DateTime,GetDefaultEndDate_x0028__x0029_,False,True</value>
       <value>Texts,ReportDescriptionText,ReportDescriptionText,System.String,Report_x0020_description,False,False</value>
       <value>Texts,TodayText,TodayText,System.String,Today_x000D__x000A_,False,False</value>
       <value>Texts,DaysAgoTexts,DaysAgoTexts,System.String,Days_x0020_Ago,False,False</value>
@@ -120,7 +120,7 @@
               <Name>Text13</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text13>
@@ -136,8 +136,7 @@
               <Name>Text14</Name>
               <Page isRef="4" />
               <Parent isRef="5" />
-              <Text>{DateRangeText}: {Format("{0:MMM. dd, yyyy}", StartDate) +" - "+ Format("{0:MMM. dd, yyyy}", EndDate)}
-</Text>
+              <Text>{DateRangeText}: { GetFormattedDateRange(StartDate, EndDate) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text14>
@@ -362,7 +361,7 @@ using Stimulsoft.Report.Components;
 
 namespace Reports
 {
-    public class Report : Stimulsoft.Report.StiReport
+    public class Report : Sitecore.Analytics.Reports.ReportBase
     {
         public Report()
         {

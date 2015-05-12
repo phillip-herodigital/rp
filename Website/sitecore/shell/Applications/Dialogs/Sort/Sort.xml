@@ -14,7 +14,7 @@
           </div>        
         </Scrollbox>
         
-        <Border Class="commands-container" GridPanel.Class="commands-cell" GridPanel.VAlign="center">
+        <Border Class="commands-container" GridPanel.Class="commands-cell" GridPanel.VAlign="top">
           <Border>
             <Button ID="MoveUp" Click="javascript:scMoveUp()" Disabled="true" Header="Move Up"/>
           </Border>

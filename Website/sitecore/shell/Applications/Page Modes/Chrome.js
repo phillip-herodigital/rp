@@ -378,14 +378,18 @@ Sitecore.PageModes.Chrome = Base.extend({
     return null;
   },
 
-  showHighlight: function() {
+  showHighlight: function (type) {
     if (this._selected) return;
-
-    if (!this._highlight) {      
+    
+    if (!this._highlight) {
+      this._highlight = type;
+    }
+    
+    if (!this._highlight) {
       this._highlight = new Sitecore.PageModes.HighlightFrame();
     }
-       
-    this._highlight.show(this);    
+
+    this._highlight.show(this);
   },
 
   hideHighlight: function() {

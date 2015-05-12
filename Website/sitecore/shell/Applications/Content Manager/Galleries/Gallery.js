@@ -69,7 +69,8 @@ scTGallery.prototype.onLoad = function () {
 
   if (this.autoAdjustSize()) {
     frame.style.height = height + "px";
-    frame.style.width = width + "px";
+    var ieWordWrapFixWidth = 1;
+    frame.style.width = (Number(width) + ieWordWrapFixWidth) + "px";
   }
 
   var viewport = frame.ownerDocument.body;
@@ -105,6 +106,7 @@ scTGallery.prototype.onLoad = function () {
       frame.style.height = (viewport.offsetHeight - frame.offsetTop - 1) + "px";
     }
   }
+  frame.style.zIndex = "2000";
 }
 
 scTGallery.prototype.mouseDown = function (tag, evt) {

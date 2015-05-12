@@ -6,7 +6,7 @@
 
       <CodeBeside Type="Sitecore.Shell.Applications.Files.FileLister.FileListerForm,Sitecore.Client"/>
 
-      <Border Background="white" Border="1px inset" Height="100%">
+      <Border Background="white" Height="100%">
         <Listview ID="FileLister" DblClick="OnFileListerDblClick" View="Details">
           <ListviewHeader>
             <ListviewHeaderItem Name="name" Header="Name"/>

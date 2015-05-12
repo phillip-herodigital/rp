@@ -12,7 +12,7 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   
   <Sitecore.Shell.Applications.Security.SelectAccount x:inherits="Sitecore.Shell.Applications.Security.SelectAccount.SelectAccountPage,Sitecore.Client">
-    <Sitecore.Controls.DialogPage Header="Select an Account" Icon="People/32x32/users2.png" Text="Select a role or a user." runat="server">
+    <Sitecore.Controls.DialogPage Header="Add an Account" Text="Select an account type and then click the relevant role or user." runat="server">
       <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>
 
       <Stylesheet Src="Grid.css" DeviceDependant="true" runat="server" />
@@ -33,13 +33,18 @@
         function show(id) {
           scForm.browser.getControl("UsersPanel").style.display = (id == "Users" ? "" : "none");
           scForm.browser.getControl("RolesPanel").style.display = (id == "Roles" ? "" : "none");
-          if(id == "Users") setTimeout("Users.render()", 25);
+          if(id == "Users") setTimeout("Users.render(); scForm.autoIncreaseModalDialogHeight();", 25);
         }
         
         function scOnGridLoad(scHandler) {
           var users = $(Users.element);
-          if (users.getHeight() > 0) {
-            setTimeout("Users.render()", 25);            
+          if (users && users.getHeight() > 0) {
+            setTimeout("Users.render(); scForm.autoIncreaseModalDialogHeight();", 25);            
+          }
+          
+          var roles = $(Roles.element);
+          if (roles && roles.getHeight() > 0) {
+            setTimeout("Roles.render(); scForm.autoIncreaseModalDialogHeight();", 25);            
           }
         }
         
@@ -72,8 +77,8 @@
         }
 
         #RolesPanel, #UsersPanel {
-        height: 100%;
-        overflow:auto;
+        height: auto;
+        overflow: auto;
         }
 
         .Grid {
@@ -87,10 +92,6 @@
 
         .invisibleAccountSelector{
         padding-bottom: 0px !important;
-        }
-
-        .scDialogContentContainer{
-        overflow: hidden !important;
         }
 
       </style>
@@ -131,17 +132,17 @@
             PageSize="15"
             PagerStyle="Slider"
             PagerTextCssClass="GridFooterText"
-      	    PagerButtonWidth="41"
-      	    PagerButtonHeight="22"
+            PagerButtonActiveEnabled ="True"
+            PagerButtonHoverEnabled="True"
             PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
             
             ShowSearchBox="true"
-            SearchTextCssClass="GridHeaderText"
+            SearchTextCssClass="GridHeaderText scTextAlignRight "
             SearchBoxCssClass="SearchBox"
       	    
             SliderHeight="20"
             SliderWidth="150"
-            SliderGripWidth="9"
+            SliderGripWidth="24"
             SliderPopupOffsetX="20"
             SliderPopupClientTemplateId="SliderTemplate"
             
@@ -243,17 +244,17 @@
             PageSize="15"
             PagerStyle="Slider"
             PagerTextCssClass="GridFooterText"
-      	    PagerButtonWidth="41"
-      	    PagerButtonHeight="22"
+            PagerButtonActiveEnabled ="True"
+            PagerButtonHoverEnabled="True"
             PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
             
             ShowSearchBox="true"
-            SearchTextCssClass="GridHeaderText"
+            SearchTextCssClass="GridHeaderText scTextAlignRight "
             SearchBoxCssClass="SearchBox"
       	    
             SliderHeight="20"
             SliderWidth="150"
-            SliderGripWidth="9"
+            SliderGripWidth="24"
             SliderPopupOffsetX="20"
             SliderPopupClientTemplateId="SliderTemplate"
             
@@ -295,8 +296,8 @@
                   <GridColumn DataField="Name" Visible="false" IsSearchable="false" runat="server"/>
                   <GridColumn DataField="Profile.Portrait" Visible="false" IsSearchable="false" runat="server"/>
                   <GridColumn DataField="Domain" Visible="false" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Domain" runat="server" />
-                  <GridColumn DataField="LocalName" AllowSorting="false" AllowGrouping="false" IsSearchable="true" SortedDataCellCssClass="SortedDataCell" HeadingText="Local Name" DataCellClientTemplateId="LocalNameTemplate" runat="server" />
-                  <GridColumn DataField="DisplayName" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Full Name" runat="server" />
+                  <GridColumn DataField="LocalName" AllowSorting="false" AllowGrouping="false" IsSearchable="true" SortedDataCellCssClass="SortedDataCell" HeadingText="Local name" DataCellClientTemplateId="LocalNameTemplate" runat="server" />
+                  <GridColumn DataField="DisplayName" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Full name" runat="server" />
                   <GridColumn DataField="Profile.Email" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Email" runat="server" />
                   <GridColumn DataField="Profile.Comment" AllowSorting="false" AllowGrouping="false" IsSearchable="false" SortedDataCellCssClass="SortedDataCell" HeadingText="Comment" runat="server" />
                 </Columns>

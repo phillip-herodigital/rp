@@ -13,6 +13,8 @@
             background: #ABD2FF;
         }
     </style>
+
+<%--    <link rel="stylesheet" type="text/css" href="./Styles/IB_vd.css" />--%>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="body" runat="server">

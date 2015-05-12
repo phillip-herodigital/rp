@@ -7,7 +7,6 @@
   const string BindingString = "data-bind=attr:{" +
                                 "'data-modal-overflow':modalOverflow," +
                                 "'data-keyboard':keyboard," +
-                                "'data-max-height':maxHeight," +
                                 "'data-replace':replace," +
                                 "'data-consume-tab':consumeTab," +
                                 "'data-focus-on':focusOn," +
@@ -15,7 +14,7 @@
                                "}," +
                                "css:{fade:isAnimated}";
   
-  const string CssClass = "sc-dialogWindow modal hide";
+  const string CssClass = "sc-dialogWindow modal";
   
 
   var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
@@ -27,15 +26,13 @@
   var headerText = userControl.GetString("HeaderText");
   var closeWithKeyboard = userControl.GetBool("EnableKeyboard");
   var backdrop = userControl.GetString("Backdrop", "backdrop", "true");
-  var maxHeight = userControl.GetString("MaxHeight", "maxHeight", string.Empty);
 
   var isAnimated = userControl.GetBool("IsAnimated", true);
 
-  var initialValues = String.Format("data-sc-initial-values={{\"backdrop\":\"{0}\",\"keyboard\":{1},\"isAnimated\":{2},\"maxHeight\":\"{3}\"}}",
+  var initialValues = String.Format("data-sc-initial-values={{\"backdrop\":\"{0}\",\"keyboard\":{1},\"isAnimated\":{2}}}",
     backdrop.ToLower(),
     closeWithKeyboard.ToString().ToLower(),
-    isAnimated.ToString().ToLower(),
-    maxHeight);
+    isAnimated.ToString().ToLower());
 
   //the headerLess property is used to hide the header of the Dialog
   var headerLess = userControl.GetBool("HeaderLess");
@@ -71,9 +68,7 @@
       </span>
     </div>
     <div class="sc-dialogWindow-header-row2">
-      <div class="sc-dialogWindow-buttons">
-        @Html.Sitecore().Placeholder(controlId + ".Buttons")
-      </div>
+      
       <div class="sc-dialogWindow-navigation">
         @Html.Sitecore().Placeholder(controlId + ".Navigation")
       </div>
@@ -82,5 +77,8 @@
   </div>
   <div class="modal-body sc-dialogWindow-body">
     @this.Html.Sitecore().Placeholder(controlId + ".Content")
+    <div class="sc-dialogWindow-buttons">
+      @Html.Sitecore().Placeholder(controlId + ".Buttons")
+    </div>
   </div>
 </div>

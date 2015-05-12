@@ -1,7 +1,7 @@
 .presetList {
-  border: 1px solid #D5D5D5;
+  border: 1px solid #e3e3e3;
   position: relative;
-  height: 100%;
+  height: calc(100% - 33px);
   width: 100%;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -36,10 +36,8 @@
   }
 
     .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbItem {
-      border-top: 1px solid White;
-      border-left: 1px solid White;
-      border-right: 1px solid White;
-      border-bottom: 1px solid #EAEAEA;
+      border:0px;
+      border-bottom: 1px solid #e3e3e3;
       zoom: 1;
     }
 
@@ -48,14 +46,14 @@
     }
 
     .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbSelected {
-      background: url("/sitecore/shell/Themes/Standard/Images/Personalization/PresetRowSelected.png") repeat-x scroll 0 0 #D1EDFC;
-      background-position: top;
-      border: 1px solid #99DEFD;
+    background-color: #D0EBF6;
+      border-bottom: 1px solid #e3e3e3;
     }
 
     .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbHovered {
-      background-color: #ECF7FD;
-      border: 1px solid #D8F0FA;
+        background-color: #E3E3E3;
+        color: #131313;
+      border-bottom: 1px solid #e3e3e3;
     }
 
   .presetList .RadListBox_Default .rlbTemplateContainer {
@@ -67,29 +65,35 @@
     box-sizing: border-box;
   }
 
-.on {
-  border: 1px #909090 outset;
-  background: #b0b0b0;
-  padding: 2px 8px 2px 8px;
-  font-size: 8pt;
-  font-family: Tahoma;
-  min-width: 100px;
-  margin: 0;
+.RadComboBox .rcbInputCell .rcbInput {
+  min-height:10px;
 }
 
+
+
+.on,
 .off {
-  border: 1px #909090 outset;
-  background: #F6F6F6 -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
-  padding: 2px 8px 2px 8px;
-  font-size: 8pt;
-  font-family: Tahoma;
-  min-width: 100px;
-  margin: 0;
+  background-color: transparent;
+  border:0px;
+  background-image: url(/sitecore/shell/~/icon/Office/24x24/switch3_off.png.aspx);
+  background-position: right center;
+  background-repeat:no-repeat;
+  padding:0 30px 0 0;
+  margin-top:8px;
+  cursor:pointer;
+  outline:none;
 }
+
+.on {
+  background-image: url(/sitecore/shell/~/icon/Office/24x24/switch3_on.png.aspx);
+}
+  .on:hover,
+  .off:hover {
+  color: #131313;
+  }
+
 
 .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbDisabled span {
-  color: #6D6D6D;
 }
 
 .rlbGroup.rlbGroupRight {
@@ -104,70 +108,60 @@
 }
 
 .selectPresetContainer {
-  padding: 5px;
-  margin: 2px 5px;
   overflow: hidden;
-  border: 1px solid #CCCCCC;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  padding-right: 385px;
-}
-
-.ie8 .scDialogHeader, .ie9 .scDialogHeader {
-  position: absolute;
-  top: 0;
-  height: 39px;
-  overflow: hidden;
-}
-
-.ie8 .scDialogContentContainer, .ie9 .scDialogContentContainer {
-  position: absolute;
-  bottom: 40px;
-  top: 40px;
-}
-
-.ie8 .scFormDialogFooter, .ie9 .scFormDialogFooter {
-  position: absolute;
-  bottom: 0;
 }
 
 .rlbGroupContainer {
   height: 100% !important;
+  overflow: auto;
 }
 
 .allPreset {
   height: 100%;
   padding-bottom: 25px;
+  padding-top:15px;
+  padding-left:15px;
+  padding-right:15px;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 .presets {
-  padding: 0 57px 20px 0;
+  padding: 15px;
+  width: 25%;
 }
 
 .presetMoveButtons {
-  position: absolute;
+  height: 100%;
   width: 100px;
-  left: 0;
-  right: 390px;
-  margin: 0 auto;
-  top: 45%;
-  z-index: 1;
+  display: inline-block;
+  position: relative;
+}
+
+.presetMoveButtons .scButton {
+  margin: 5px 0;
+}
+
+.presetMoveButtons > div {
+  position: absolute;
+  top: 40%;
 }
 
 .selectedPresets {
-  padding: 0 0 20px 45px;
+  padding: 15px 15px 15px 5px;
+  width: 25%;
 }
 
 .presetValues {
   width: 370px;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 15px;
+  right: 15px;
   bottom: 5px;
   padding-bottom: 20px;
   z-index: 2;
@@ -175,11 +169,15 @@
 
 .selectPresetContainer .title {
   display: inline-block;
-  font: bold 9pt tahoma;
-  height: 20px;
-  padding-left: 3px;
+  font-size: 14px;
+  font-weight:bold;
+  line-height: 32px;
 }
 
 .rlbGroupCell {
   height: 100% !important;
+}
+
+.profileKeyName {
+  height: 30px;
 }

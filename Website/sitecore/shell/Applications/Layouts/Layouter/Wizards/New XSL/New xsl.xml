@@ -41,7 +41,7 @@
       </WizardFormPage>
 
       <WizardFormLastPage ID="LastPage" Icon="Software/32x32/text_code.png">
-        <Literal Text="The wizard has completed. Click the Finish button to close the Wizard."/>
+        <Literal Text="The wizard has completed."/>
       </WizardFormLastPage>
       
     </WizardForm>

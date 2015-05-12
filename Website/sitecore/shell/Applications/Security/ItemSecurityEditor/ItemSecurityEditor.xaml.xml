@@ -13,42 +13,40 @@
   
   
   <Sitecore.Shell.Applications.Security.ItemSecurityEditor Application="Security/Item Security Editor" x:inherits="Sitecore.Shell.Applications.Security.ItemSecurityEditor.ItemSecurityEditorPage,Sitecore.Client">
-    <Sitecore.Controls.DialogPage Header="Security Settings" Icon="Network/32x32/lock_edit.png" Text="The security settings that apply to the current item." runat="server">
+    <Sitecore.Controls.DialogPage Header="Assign Security Rights" Text="Click a role or user to edit its permissions for the selected item. To add a new role or user to the list, click Add." runat="server">
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
       <Script runat="server" type="text/javascript" Src="/sitecore/shell/Applications/Security/ItemSecurityEditor/ItemSecurityEditor.js" />
       <Stylesheet runat="server" Src="/sitecore/shell/Applications/Security/ItemSecurityEditor/ItemSecurityEditor.css" />
 
-      <Border class="scStretchAbsolute scItemSecurityEditorContainer scFlexColumnContainer" runat="server">
-        <Border Padding="0px 0px 2px 0px"  runat="server">
-          <Literal Text="Roles or User Names:" runat="server"/>
-        </Border>
+      <Border class="scStretch scFlexColumnContainer" runat="server">
+        <Literal class="scFieldLabel" Text="Roles and users:" runat="server"/>
 
         <Border class="scItemSecurityEditorAccounts" runat="server">
           <Listbox ID="Accounts" style="width:100%;" Name="Accounts" Size="8" ajax:Change="Accounts_Change" runat="server" />
           <Border align="right" runat="server">
-            <Button Header="Add" Margin="0px 4px 0px 0px" ID="Add" Click="Add_Click" runat="server" />
+            <Button Header="Add" ID="Add" Click="Add_Click" runat="server" />
             <Button Header="Remove" ID="Remove" Click="Remove_Click" runat="server" />
           </Border>
           <Border ID="NoAccounts" Visible="false" runat="server" style="position: absolute; top: 45px; left:0; right:0; text-align:center;" />
         </Border>
 
-        <Border class="permissionsLabel" runat="server">
+        <div class="scFieldLabel">
           <Literal ID="PermissionsLabel" Text="Permissions for" runat="server"/>
-          <b><Literal ID="Item" Text="Home" Style="padding: 0px 0px 0px 2px" runat="server" /></b>
+          <b><Literal ID="Item" Text="Home" Style="padding: 0px 0px 0px 3px" runat="server" /></b>
           <Literal Text=":" runat="server"/>
-        </Border>
+        </div>
 
         <Scrollbox ID="Permissions" class="scScrollbox scFlexContent" runat="server">
-            <Border ID="NoPermissions" Visible="false" runat="server" style="position: absolute; top: 20px; left:0; right:0; text-align:center; color: gray" />
+           <Border ID="NoPermissions" Visible="false" runat="server" style="position: absolute; top: 20px; left:0; right:0; text-align:center; color: gray" />
         </Scrollbox>
 
-        <Border class="permissionsLabel" runat="server">
+        <div class="scFieldLabel">
           <Literal ID="PermissionsLabel" Text="Inheritance" runat="server"/>
           <Literal ID="SpecializedInheritanceWarning" Class="scInheritanceWarning" runat="server" />
           <Literal Text=":" runat="server"/>
-        </Border>
+        </div>
 
         <Scrollbox ID="Inheritance" runat="server" />
       </Border>

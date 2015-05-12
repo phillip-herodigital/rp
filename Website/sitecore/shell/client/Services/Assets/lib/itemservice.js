@@ -2419,7 +2419,7 @@ var cast = function ( _value, _castType, _default, _values, _additionalPropertie
 
       break;
 
-    case castType === "date":
+    case ( castType === "date" || castType === "datetime" ):
 
       try {
 
@@ -2542,12 +2542,14 @@ var Data = extendify( {
     self.option( merge( {}, options ) );
     self.url = hasKey( self.options, "url", "string" ) ? self.options.url : "";
     self.type = hasKey( self.options, "type", "string" ) ? self.options.type : config.defaultHttpMethod;
+    self.headers = hasKey( self.options, "headers", "object") ? self.options.headers : {};
   },
 
   get: function ( url, options ) {
     var self = this;
     url = is.a.string( url ) ? url : self.url;
     options = is.an.object( url ) ? url : options || {};
+    options = merge( options, { headers: self.headers } );
     return new Query( self.url, "get", options );
   },
 
@@ -2555,6 +2557,7 @@ var Data = extendify( {
     var self = this;
     url = is.a.string( url ) ? url : self.url;
     options = is.an.object( url ) ? url : options || {};
+    options = merge( options, { headers: self.headers } );
     return new Query( self.url, "put", options );
   },
 
@@ -2562,6 +2565,7 @@ var Data = extendify( {
     var self = this;
     url = is.a.string( url ) ? url : self.url;
     options = is.an.object( url ) ? url : options || {};
+    options = merge( options, { headers: self.headers } );
     return new Query( self.url, "post", options );
   },
 
@@ -2569,6 +2573,7 @@ var Data = extendify( {
     var self = this;
     url = is.a.string( url ) ? url : self.url;
     options = is.an.object( url ) ? url : options || {};
+    options = merge( options, { headers: self.headers } );
     return new Query( self.url, "delete", options );
   }
 
@@ -3147,7 +3152,11 @@ var Query = extendify( {
 
     self.__parameters = {};
     self.__queries = {};
+    self.__headers = {};
 
+    if( self.options.headers ) {
+      self.__headers = utils.merge( self.__headers, self.options.headers );
+    }
   },
 
   /**
@@ -3227,6 +3236,27 @@ var Query = extendify( {
   },
 
   /**
+   * Gets or sets a header by a key/value pair. A header is the key/value pair which is added to the headers of the request.
+   *
+   * @method header
+   * @chainable
+   * @param  {String} key   The header key
+   * @param  {String} value The header value
+   * @return {Mixed} If `key` and `value` was given `self` is returned, if only `key` was given, the value of that key is returned.
+   */
+  header: function ( key, value ) {
+    var self = this;
+
+    if ( self.__headers.hasOwnProperty( key ) && utils.is.empty( value ) ) {
+      return self.__headers[ key ];
+    }
+
+    self.__headers[ key ] = value;
+
+    return self;
+  },
+
+  /**
    * Executes the query by triggering the XHR request to the given url (end point).
    *
    * @method execute
@@ -3242,7 +3272,8 @@ var Query = extendify( {
       type: self.type,
       url: self.url,
       data: self.__parameters,
-      query: self.__queries
+      query: self.__queries,
+      header: self.__headers
     };
 
     self.middleware( "preRequest", function ( error, middlewareResponse ) {
@@ -3367,6 +3398,7 @@ var Request = function ( options ) {
 
     superagent( task.data.type, task.data.url )[ /get/i.test( task.data.type ) ? "query" : "send" ]( task.data.data )
       .query( task.data.query )
+      .set( task.data.header || {} )
       .accept( "json" )
       .type( "json" )
       .end( function ( error, response ) {
@@ -5021,6 +5053,12 @@ var ItemService = DataService.extend( {
 
     case utils.is.an.object( data ):
 
+      options = options || {};
+
+      if(!options.headers) {
+        options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
+      }
+
       query = new Query( self.url, "POST", options );
 
       query
@@ -5064,8 +5102,15 @@ var ItemService = DataService.extend( {
    */
   fetchItem: function ( id, options ) {
     var self = this,
-      url = self.url.replace( /([^\/]*)(\/)?$/, "$1/" + id ),
-      query = new Query( url, self.type, options );
+      url = self.url.replace( /([^\/]*)(\/)?$/, "$1/" + id );
+
+    options = options || {};
+
+     if(!options.headers) {
+        options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
+     }
+
+    var query = new Query( url, self.type, options );
 
     query
       .option( "url", url )
@@ -5085,8 +5130,15 @@ var ItemService = DataService.extend( {
    */
   query: function ( theQuery, options ) {
     var self = this,
-      url = self.url.replace( /([^\/]*)(\/)?$/, "$1/" + theQuery + "/query" ),
-      query = new Query( url, "GET", options );
+      url = self.url.replace( /([^\/]*)(\/)?$/, "$1/" + theQuery + "/query" );
+
+     options = options || {};
+
+    if(!options.headers) {
+      options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
+    }
+
+    var query = new Query( url, "GET", options );
 
     query
       .option( "url", url )
@@ -5106,8 +5158,15 @@ var ItemService = DataService.extend( {
    */
   search: function ( theSearch, options ) {
     var self = this,
-      url = self.url.replace( /([^\/]*)(\/)?$/, "$1/search" ),
-      query = new Query( url, "GET", options );
+      url = self.url.replace( /([^\/]*)(\/)?$/, "$1/search" );
+
+    options = options || {};
+
+    if(!options.headers) {
+      options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
+    }
+
+    var query = new Query( url, "GET", options );
 
     query
       .option( "url", url )
@@ -5204,6 +5263,7 @@ var Item = DataService.Item.extend( {
     options.binding = options[ "binding" ] === false ? false : true;
     options.trackable = options[ "trackable" ] === true;
     options.url = utils.is.a.string( options[ "url" ] ) ? options[ "url" ] : "";
+    options.headers = utils.is.a.object( options[ "headers" ] ) ? options[ "headers" ] : "";
 
     if ( options[ "raw" ] === true && ( options[ "binding" ] === true || options[ "trackable" ] === true ) ) {
       throw new Error( "An entity cannot be raw and have a binding or be trackable" );
@@ -5239,8 +5299,15 @@ var Item = DataService.Item.extend( {
    */
   destroy: function ( options ) {
     var self = this,
-      url = self.option( "url" ).replace( /([^\/]*)(\/)?$/, "$1/" + self[ config.idKey ] ),
-      query = new Query( url, "DELETE", options );
+      url = self.option( "url" ).replace( /([^\/]*)(\/)?$/, "$1/" + self[ config.idKey ] );
+
+    options = options || {};
+
+    if(!options.headers) {
+        options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
+    }
+
+    var query = new Query( url, "DELETE", options );
 
     query
       .option( "url", url )
@@ -5259,8 +5326,15 @@ var Item = DataService.Item.extend( {
    */
   fetchChildren: function ( options ) {
     var self = this,
-      url = self.option( "url" ).replace( /([^\/]*)(\/)?$/, "$1/" + self[ config.idKey ] + "/children" ),
-      query = new Query( url, "GET", options );
+      url = self.option( "url" ).replace( /([^\/]*)(\/)?$/, "$1/" + self[ config.idKey ] + "/children" );
+
+    options = options || {};
+
+    if(!options.headers) {
+        options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
+    }
+
+    var query = new Query( url, "GET", options );
 
     query
       .option( "url", self.option( "url" ) )
@@ -5291,8 +5365,15 @@ var Item = DataService.Item.extend( {
   save: function ( options ) {
     var self = this,
       url = self.isNew ? self.option( "url" ) : self.option( "url" ).replace( /([^\/]*)(\/)?$/, "$1/" + self[ config.idKey ] ),
-      type = self.isNew ? "POST" : "PATCH",
-      query = new Query( url, type, options ),
+      type = self.isNew ? "POST" : "PATCH";
+
+    options = options || {};
+
+    if(!options.headers) {
+        options.headers = utils.is.an.object( options.headers ) ? options.headers : self.options.headers;
+    }
+
+    var query = new Query( url, type, options ),
       queryKeysToCopyFromOptions = Object.keys( utils.omit( Query.prototype, [ "init", "constructor" ] ) ),
       json;
 

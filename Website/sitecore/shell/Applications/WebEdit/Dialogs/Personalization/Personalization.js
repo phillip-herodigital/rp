@@ -3,7 +3,6 @@
 }
 
   Sitecore.CollapsiblePanel.addNew = function(id) {        
-    scCreateSortable();
     this.editName(id);    
   };
     
@@ -114,39 +113,3 @@ function scSwitchRendering(element, evt, id) {
  
   scForm.postRequest("", "", "", "SwitchRenderingClick(\"" + id + "\")");
 };
-
-function scCreateSortable() { 
-  Sortable.create('non-default-container', {
-      tag: "div",
-      handle: "drag-handle",      
-      format: /^([0-9a-zA-Z]{32})$/,
-      hoverclass: "drag-over",
-      onChange: function(rule) {
-        window.changingRule = rule;        
-      },
-      onUpdate: function() {
-        if (scForm.browser.isIE) {
-          // Force redraw
-          $$(".rule-container").each(function(r) {r.setStyle({opacity: 0});r.setStyle({opacity: 1});});
-        }
-
-        if (window.changingRule) {                                  
-           var prevRule = Sitecore.CollapsiblePanel.getPreviousRule(changingRule);
-           if (prevRule) {        
-              scForm.postRequest("","","","MoveConditionAfter(\"" + changingRule.id + "\",\"" + prevRule.id + "\")", null, true);
-              return; 
-           }
-
-           var nextRule = Sitecore.CollapsiblePanel.getNextRule(changingRule);
-           if (nextRule) {        
-              scForm.postRequest("","","","MoveConditionBefore(\"" + changingRule.id + "\",\"" + nextRule.id + "\")", null, true);
-              return; 
-           }
-        }                
-      }     
-    });
-};
-
-Event.observe(document, "dom:loaded", function() {  
-  scCreateSortable();  
-});

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <RichText.InsertLink>
-    <FormDialog Icon="Network/32x32/link.png" Header="Insert a Link"
-      Text="Select the item or media that you want to create a link to." OKButton="Link">
+    <FormDialog Icon="Network/32x32/link.png" Header="Insert Link"
+      Text="Navigate to or search for the item that you want to insert a link to." OKButton="Insert">
 
       <script Type="text/javascript" Language="javascript" Src="/sitecore/shell/Controls/Rich Text Editor/InsertLink/InsertLink.js">.</script>
 
@@ -18,16 +18,13 @@
           </Scrollbox>
         </Tab>
         <Tab ID="MediaTab" Header="Media Items">
-          <Scrollbox style="position:absolute;top:0;bottom:32px;left:0;right:0;height:auto;" Width="100%" Background="white" Border="none" >
-            <TreeviewEx ID="MediaTreeview" DataContext="MediaDataContext" Root="true" Click="OnMediaTreeviewClicked" />
-          </Scrollbox>
-          <Border Align="right" Style="border-top:1px solid #919b9c; width:100%; position:absolute;right:0;bottom:0;" Padding="4px 8px 4px 0px">
-            <Button ID="BtnUpload" Header="Upload" Click="media:upload(edit=1,load=1,sc_bw=1)"/>
-          </Border>
+          <TreeviewEx ID="MediaTreeview" DataContext="MediaDataContext" Root="true" Click="OnMediaTreeviewClicked" />
         </Tab>
         <SearchTab Mode="MediaBrowser" Header="Search"/>
       </Tabstrip>
-
+      <Border def:placeholder="Buttons">
+        <Button ID="BtnUpload" style="display:none;" Header="Upload" Click="media:upload(edit=1,load=1)"/>
+      </Border>
     </FormDialog>
   </RichText.InsertLink>
 </control>

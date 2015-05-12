@@ -10,7 +10,7 @@
 
       <input type="hidden" id="__IGNOREMESSAGES" value="1" />
 
-      <Border class="scStretch" Border="1px solid #868686" >
+      <Border class="scStretch">
         <def:Placeholder />
       </Border>
 

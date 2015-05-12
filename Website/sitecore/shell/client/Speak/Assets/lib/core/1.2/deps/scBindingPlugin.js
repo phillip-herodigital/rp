@@ -2,303 +2,308 @@
  *
  * scBindingPlugin
  *
- * Built: Wed Jun 25 2014 16:14:16 GMT+0100 (GMT Daylight Time)
+ * Built: Tue Oct 28 2014 11:25:38 GMT+0000 (GMT Standard Time)
  * PackageVersion: 0.1.1
  *
  */
 
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/*jshint loopfunc: true */
-( function( global ) {
-  //var bindingJS = require( "sc-bindingJS" );
-  var isBrowser = ( typeof window !== "undefined" ),
-    sitecore = isBrowser && window.Sitecore ? window.Sitecore.Speak : requirejs( "boot" ),
-    converters = {},
-    isObject = function( obj ) {
-      return obj === Object( obj );
-    },
-    isFunction = function( content ) {
-      return typeof content === "function";
-    },
-    isDebug = Sitecore.Speak.isDebug(),
-    _printDebug = function( string, type ) {
-      if ( !type ) {
-        type = "log";
-      }
-      if ( isDebug ) {
-        console[ type ]( string );
-      }
-    },
-    lowerCaseFirstLetter = function( string ) {
-      return string.charAt( 0 ).toLowerCase() + string.slice( 1 );
-    },
-    findComponent = function( app, componentKey ) {
-      var result;
-      app.components.forEach( function( c ) {
-        if ( !result && c.id === componentKey ) {
-          result = c;
+module.exports = function( speakUtils, isDebug ) {
+    var utils = require( "./utils" )( isDebug );
+
+    var Binding = function( bindingConfiguration ) {
+        this.bindingConfiguration = bindingConfiguration;
+    };
+
+    var resolve = function( component, to, callback ) {
+        if ( to.indexOf( "." ) === -1 ) {
+            return {
+                component: component,
+                lastProperty: to
+            };
         }
-      } );
 
-      return result;
-    },
-    getConverter = function( converterName ) {
-      var converter = converters[ converterName ];
-      if ( !converter ) {
-        return undefined;
-      } else {
-        return converter;
-      }
-    },
-    getValue = function( binding ) {
-      if ( binding.converter ) {
-        var parameters = [];
+        var toAttributeParts = to.split( "." ),
+            lastProperty = toAttributeParts.pop(),
+            toAttributePartslength = toAttributeParts.length,
+            comp = component;
 
-        _.each( binding.from, function( setup ) {
-          parameters.push( setup.model[ setup.attribute ] );
-        } );
+        for ( var i = 0; i < toAttributePartslength; i++ ) {
+            comp = comp[ toAttributeParts[ i ] ];
+        }
 
-        return binding.converter( parameters );
-      } else {
+        return {
+            component: comp,
+            lastProperty: lastProperty
+        };
+    };
+
+    Binding.prototype.getValue = function( binding ) {
+        if ( binding.converter ) {
+            var parameters = [];
+
+            binding.from.forEach( function( setup ) {
+                parameters.push( setup.component[ setup.attribute ] );
+            } );
+
+            return binding.converter( parameters );
+        }
+
         var singleModel = binding.from[ 0 ].component,
-          attr = binding.from[ 0 ].attribute;
+            attr = binding.from[ 0 ].attribute;
 
-        if ( isFunction( singleModel.get ) ) {
-          if ( singleModel.depricated ) {
-            attr = lowerCaseFirstLetter( attr );
-          }
-          value = singleModel.get( attr );
+        if ( utils.isComponentProperty( singleModel, attr ) ) {
+            if ( singleModel.depricated ) {
+                attr = utils.lowerCaseFirstLetter( attr );
+            }
+
+            value = singleModel.get( attr );
         } else {
-          value = singleModel[ attr ];
+            var res = resolve( singleModel, attr );
+            value = res.component[ res.lastProperty ];
         }
 
-        _printDebug( "      we set the value to: " + value );
+        utils._printDebug( "      we set the value to: " + value );
 
         return value;
-      }
-    },
-    createBindingConfiguration = function( comp, bindingConf, data ) {
-      var component = comp,
-        config = bindingConf,
-        result = [];
 
-      if ( !config ) {
-        return result;
-      }
+    };
 
-      Object.keys( config ).forEach( function( key ) {
-        var bindingConfiguration = {
-            from: [],
-            to: key,
-            converter: undefined,
-            component: component
-          },
-          singleKeyConfig = config[ key ],
-          modelPath,
-          from,
-          attribute;
-
-        if ( !isObject( singleKeyConfig ) ) {
-          var compName = singleKeyConfig.split( "." )[ 0 ];
-          from = data || findComponent( comp.app, compName );
-
-          if ( !from ) {
-            throw new Error( "Could not find Component " + compName + " when applying binding from " + comp.id );
-          }
-
-          attribute = singleKeyConfig.split( "." )[ 1 ];
-
-          bindingConfiguration.from.push( {
-            component: from,
-            attribute: attribute
-          } );
-          result.push( bindingConfiguration );
-        } else if ( config.length ) {
-          var addBinding = function( conf ) {
-            from = data || findComponent( comp.app, conf.split( "." )[ 0 ] );
-
-            result.push( {
-              from: [ {
-                component: from,
-                attribute: conf.split( "." )[ 1 ]
-              } ],
-              to: key,
-              converter: undefined,
-              component: component
-            } );
-          };
-
-          config.forEach( addBinding );
-        } else {
-          bindingConfiguration.converter = getConverter( singleKeyConfig );
-
-          singleKeyConfig.parameters.forEach( function( value ) {
-            from = data || findComponent( comp.app, value.split( "." )[ 0 ] );
-            attribute = value.split( "." )[ 1 ];
-
-            bindingConfiguration.from.push( {
-              component: from,
-              attribute: attribute
-            } );
-          } );
-
-          result.push( bindingConfiguration );
+    Binding.prototype._synchronizeProperty = function( binding ) {
+        //We initialize the value of the current component to the value of the component's value defined by the bindings
+        //NOTE: for multiple bindings, the last one will win for initializing the value
+        var self = this;
+        if ( utils.isComponentProperty( binding.component, binding.to ) ) {
+            return binding.component.set( binding.to, this.getValue( binding ) );
         }
-      } );
 
-      return result;
-    },
+        var res = resolve( binding.component, binding.to );
+
+        res.component[ res.lastProperty ] = this.getValue( binding );
+    };
+
+    Binding.prototype._registerChanges = function( binding, source ) {
+        var self = this;
+        //When the source component change, we update the current component
+        var callback = function( newValue ) {
+            self._synchronizeProperty( binding );
+        };
+
+        if ( source.component.subscribe ) {
+            source.component.subscribe( "change:" + source.attribute, callback );
+        } else if ( !source.component.subscribe && source.component.on ) {
+            source.component.on( "change:" + source.attribute, callback );
+        } else {
+            throw new Error( "Component " + source.component.id + " not suited for Bindings" );
+        }
+    };
+
+    Binding.prototype.syncAndRegisterChanges = function() {
+        var self = this;
+        //For Each bindingConfiguration
+        this.bindingConfiguration.forEach( function( binding ) {
+            utils._printDebug( "Applying bindings for the component: " + ( binding.component.id ? binding.component.id : "$app" ) );
+            utils._printDebug( "  for the property: " + binding.to );
+            //and for each component used as source for the bindings
+            binding.from.forEach( function( source ) {
+
+                utils._printDebug( "    We initialize the value from the component: " + ( source.component ? source.component.id : "a piece of $data" ) );
+
+                self._synchronizeProperty( binding );
+                self._registerChanges( binding, source );
+
+            } );
+        } );
+    };
+
+    return Binding;
+};
+},{"./utils":5}],2:[function(require,module,exports){
+module.exports = function( speakUtils, converterApi, isDebug ) {
+    var utils = require( "./utils" )( isDebug );
     /**
      * Create the bindings for a single component
      * @param  {Object} component                Component where the binding will be setup
      * @param  {Object} jsonBindingConfiguration JSON Object which represent a bindingConfiguration
+     * ex: { "text": "XBinding2.text" }, {"text":{"mode":"twoway","parameters":["TextOustide2.text"]}}, {"text":{"converter":"Has","parameters":["Text1.text"]}}
      * @param  {Object} data                     Object used for bindings not set to a Component to a classic Object
      */
-    createBinding = function( component, jsonBindingConfiguration, data ) {
+    var BindingConfigurationBuilder = function( component, jsonBindingConfiguration, isTwoWay, isData, isApp ) {
+        this.component = component;
+        this.bindingConfiguration = jsonBindingConfiguration;
+        this.isTwoWay = isTwoWay;
+        this.isData = isData;
+        this.isApp = isApp;
+    };
 
-      //Create a binding configuration based on the config set on the data-sc-bindings
-      //List of bindingConfiguration is an array which looks like:
-      //
-      //[
-      //  {
-      //    from: [
-      //            {
-      //              component: "Component - component which will be used for setting the value",
-      //              attribute: "String - property used to set the value"
-      //            }
-      //          ],
-      //    to: "String - component's property that will be set",
-      //    component: "Component - currentComponent (the one from the EL)"
-      //  }, ...
-      //]
-      var bindingForComponent = createBindingConfiguration( component, jsonBindingConfiguration, data );
+    BindingConfigurationBuilder.prototype._createBindingConfigurationForProperty = function( property, bindingConfig ) {
+        var bindingConfForProperty = [];
 
-      if ( bindingForComponent.length === 0 ) {
-        return;
-      }
-      //For Each bindingConfiguration
-      bindingForComponent.forEach( function( binding ) {
-
-        _printDebug( "Applying bindings for the component: " + binding.component.id );
-        _printDebug( "  for the property: " + binding.to );
-
-        if ( binding.component.depricated ) {
-          binding.to = lowerCaseFirstLetter( binding.to );
+        if ( !speakUtils.is.an.object( bindingConfig ) ) { //simple binding
+            var bindingConfigInObject = {
+                parameters: [ bindingConfig ]
+            };
+            bindingConfig = bindingConfigInObject;
         }
-        //and for each component used as source for the bindings
-        binding.from.forEach( function( source ) {
 
-          _printDebug( "    We initialize the value from the component: " + source.component.id );
+        bindingConfForProperty = bindingConfForProperty.concat( this._createBindingConfigurationForPropertyFromObject( property, bindingConfig ) );
 
-          if ( source.component.depricated ) {
-            source.attribute = lowerCaseFirstLetter( source.attribute );
-          }
-          //We initialize the value of the current component to the value of the component's value defined by the bindings
-          //NOTE: for multiple bindings, the last one will win for initializing the value
-          if ( isFunction( binding.component.set ) ) {
-            binding.component.set( binding.to, getValue( binding ) );
-          } else {
-            binding.component[ binding.to ] = getValue( binding );
-          }
+        return bindingConfForProperty;
+    };
 
-          //When the source component change, we update the current component
-          var callback = function( newValue ) {
+    BindingConfigurationBuilder.prototype._createBindingConfigurationForPropertyFromObject = function( property, bindingConfig ) {
+        var result = [],
+            from = [],
+            converter = converterApi.getConverter( bindingConfig.converter ),
+            currentApp = this.isApp ? this.component : this.component.app,
+            self = this;
 
-            _printDebug( "We have received a change from " + source.component.id + ":" + binding.to + ", so we update the value for: " + binding.component.id + "." + binding.to );
-            if ( isFunction( binding.component.set ) ) {
-              binding.component.set( binding.to, getValue( binding ) );
-            } else {
-              binding.component[ binding.to ] = getValue( binding );
+        bindingConfig.parameters.forEach( function( value ) {
+            var componentAndMetaData = utils.getComponentAndBindingMetaData( value, currentApp, self.isData ? self.bindingConfiguration.$data : void 0 );
+            //var compMetaData = utils.getComponentAndBindingMetaData( value );
+            //var fromComponent = self.isData ? self.bindingConfiguration.$data : utils.findComponent( self.component.app, compMetaData.fullCompName );
+
+            from.push( {
+                component: componentAndMetaData.component,
+                attribute: componentAndMetaData.attribute
+            } );
+
+            if ( self.isTwoWay || bindingConfig.mode && bindingConfig.mode.toLowerCase() === "twoway" ) {
+                var reverseBinding = {};
+                var compName = self.isApp ? "$app" : utils.getFullComponentNameFromComponent( self.component );
+                var isData = false,
+                    isApp = ( componentAndMetaData.fullCompName === "$app" ) ? true : false;
+
+                if ( !compName ) {
+                    reverseBinding[ componentAndMetaData.attribute ] = "$data." + property;
+                    reverseBinding.$data = self.component;
+                    isData = true;
+                } else {
+                    reverseBinding[ componentAndMetaData.attribute ] = compName + "." + property;
+                }
+
+                var bindingConfBuilder = new BindingConfigurationBuilder( componentAndMetaData.component, reverseBinding, false, isData, isApp );
+
+                result = result.concat( bindingConfBuilder.generate() );
             }
-          };
 
-          if ( source.component.subscribe ) {
-            source.component.subscribe( "change:" + source.attribute, callback );
-          } else if ( !source.component.subscribe && source.component.on ) {
-            source.component.on( "change:" + source.attribute, callback );
-          } else {
-            throw new Error( "Component " + source.component.id + " not suited for Bindings" );
-          }
+            result.push( {
+                from: from,
+                to: property,
+                converter: converter,
+                component: self.component
+            } );
 
         } );
 
-      } );
+        return result.reverse();
     },
-    createBindingFromData = function( data, config, app ) {
-      for ( var key in config ) {
-        if ( config.hasOwnProperty( key ) ) {
 
-          var pathToProperties = config[ key ];
+    //Create a binding configuration based on the config set on the data-sc-bindings
+    //List of bindingConfiguration is an array which looks like:
+    //
+    //[
+    //  {
+    //    from: [
+    //            {
+    //              component: "Component - component which will be used for setting the value",
+    //              attribute: "String - property used to set the value"
+    //            }
+    //          ],
+    //    to: "String - component's property that will be set",
+    //    component: "Component - currentComponent (the one from the EL)"
+    //  }, ...
+    //]
+    BindingConfigurationBuilder.prototype.generate = function() {
+        var result = [],
+            self = this;
 
-          var addBinding = function( propertyConfig ) {
-            var comp = findComponent( app, propertyConfig.split( "." )[ 0 ] ),
-              pivotConfig = {},
-              property = propertyConfig.split( "." )[ 1 ];
-
-            //TODO: if the property is an array, we need to loop to that array
-            //and add one more config
-            pivotConfig[ property ] = "data." + key;
-            createBinding( comp, pivotConfig, data );
-          };
-
-          if ( Array.isArray( pathToProperties ) ) {
-            pathToProperties.forEach( addBinding );
-          } else {
-            addBinding( pathToProperties );
-          }
+        if ( !this.bindingConfiguration ) {
+            return result;
         }
-      }
-    },
-    syncComponentfromData = function( data, config, app ) {
-      for ( var key in config ) {
-        if ( config.hasOwnProperty( key ) ) {
 
-          var pathToProperties = config[ key ],
-            sync = function( propertyConfig ) {
-              var comp = findComponent( app, propertyConfig.split( "." )[ 0 ] ),
-                property = propertyConfig.split( "." )[ 1 ];
+        utils.forEachPropertyWithBinding( this.bindingConfiguration, function( property, propertyBindingConfiguration ) {
 
-              comp[ property ] = data[ key ];
-            };
+            if ( self.component.depricated ) {
+                property = utils.lowerCaseFirstLetter( property );
+            }
 
-          if ( Array.isArray( pathToProperties ) ) {
-            pathToProperties.forEach( sync );
-          } else {
-            sync( pathToProperties );
-          }
-        }
-      }
+            if ( speakUtils.is.an.array( propertyBindingConfiguration ) ) {
+                propertyBindingConfiguration.forEach( function( propertyConf ) {
+                    result = result.concat( self._createBindingConfigurationForProperty( property, propertyConf ) );
+                } );
+            } else {
+                result = result.concat( self._createBindingConfigurationForProperty( property, propertyBindingConfiguration ) );
+            }
+        } );
+
+        return result;
     };
+
+    return BindingConfigurationBuilder;
+};
+},{"./utils":5}],3:[function(require,module,exports){
+var converters = {};
+
+var converterApi = {
+    getConverter: function( converterName ) {
+        var converter = converters[ converterName ];
+        if ( !converter ) {
+            return undefined;
+        }
+        return converter;
+    },
+    createBindingConverter: function( convert ) {
+        if ( !convert.name || !convert.convert ) {
+            throw "invalid binding converter";
+        }
+        if ( converters[ convert.name ] ) {
+            throw "already a converter with the same name";
+        }
+
+        converters[ convert.name ] = convert.convert;
+    }
+};
+
+module.exports = converterApi;
+},{}],4:[function(require,module,exports){
+/*jshint loopfunc: true */
+( function( global ) {
+  var isBrowser = ( typeof window !== "undefined" ),
+    sitecore = isBrowser && window.Sitecore ? window.Sitecore.Speak : requirejs( "boot" ),
+    speakUtils = sitecore.utils,
+    isDebug = Sitecore.Speak.isDebug(),
+    converterApi = require( "./converter" ),
+    BindingConfigurationBuilder = require( "./bindingConfiguration" )( speakUtils, converterApi, isDebug ),
+    Binding = require( "./binding" )( speakUtils, isDebug ),
+    utils = require( "./utils" )( isDebug );
+
+  /**
+   * Create the bindings for a single component
+   * @param  {Object} component                Component where the binding will be setup
+   * @param  {Object} jsonBindingConfiguration JSON Object which represent a bindingConfiguration
+   * @param  {Object} data                     Object used for bindings not set to a Component to a classic Object
+   */
+  var createBinding = function( component, jsonBindingConfiguration, isTwoWays ) {
+    var bindingConfigurationBuilder = new BindingConfigurationBuilder( component, jsonBindingConfiguration, isTwoWays ),
+      bindingConfigurationForAComponent = bindingConfigurationBuilder.generate();
+
+    if ( bindingConfigurationForAComponent.length === 0 ) {
+      return;
+    }
+
+    var binding = new Binding( bindingConfigurationForAComponent );
+
+    binding.syncAndRegisterChanges();
+  };
 
   Sitecore.Speak.module( "bindings", {
     applyBindings: function( data, config, app ) {
-      var arrConfig = config[ "data" ];
-      if ( arrConfig ) {
-        var comp = findComponent( app, arrConfig.split( "." )[ 0 ] );
-        //when it is an array we just set the data automaticaly to the appropriate component
-        if ( comp.set ) {
-          comp.set( arrConfig.split( "." )[ 1 ], data );
-        } else {
-          comp[ arrConfig.split( "." )[ 1 ] ] = data;
-        }
-      } else {
-        data.app = app;
-
-        //TODO: refactor to integrate sync inside the createBinding
-        syncComponentfromData( data, config, app );
-        createBinding( data, config ); //this is just one way from component to data
-        createBindingFromData( data, config, app );
-      }
+      data.app = app;
+      createBinding( data, config, true, true );
     },
     createBindingConverter: function( convert ) {
-      if ( !convert.name || !convert.convert ) {
-        throw "invalid binding converter";
-      }
-      if ( converters[ convert.name ] ) {
-        throw "already a converter with the same name";
-      }
-
-      converters[ convert.name ] = convert.convert;
+      converterApi.createBindingConverter( convert );
     }
   } );
 
@@ -306,7 +311,7 @@
     name: "Has",
     convert: function( array ) {
       if ( array && array[ 0 ] ) {
-        if ( _.isArray( array[ 0 ] ) ) {
+        if ( Array.isArray( array[ 0 ] ) ) {
           if ( array[ 0 ].length === 0 ) {
             return false;
           }
@@ -331,16 +336,6 @@
 
       //For each component into this application (app)
       app.components.forEach( function( comp ) {
-        //We extract the binding configuration from the attribute data-sc-bindings from the DOM element of the Component
-        //and apply the bindings.
-        //  
-        //The binding configuration is a JSON object which looks like this:
-        //
-        //  { Text: FromComponent.Text }
-        //
-        //  Result:
-        //  This will bind the Text property from the component called "FromComponent"
-        //  with the Text property of the current component (the one defined by the current DOM element).
         var bindingConfiguration = comp.el.getAttribute( "data-sc-bindings" );
 
         if ( bindingConfiguration ) {
@@ -350,5 +345,122 @@
     }
   } );
 } )( this );
-},{}]},{},[1])
+},{"./binding":1,"./bindingConfiguration":2,"./converter":3,"./utils":5}],5:[function(require,module,exports){
+module.exports = function( isDebug ) {
+    return {
+        _printDebug: function( string, type ) {
+            if ( !type ) {
+                type = "log";
+            }
+            if ( isDebug ) {
+                console[ type ]( string );
+            }
+        },
+        isComponentProperty: function( component, property ) {
+            if ( component.set && ( property in component.__properties ) ) { //I know it is private, should add a method in SPEAK
+                return true;
+            }
+
+            return false;
+        },
+        lowerCaseFirstLetter: function( string ) {
+            return string.charAt( 0 ).toLowerCase() + string.slice( 1 );
+        },
+        findComponent: function( app, componentKey ) {
+            var componentSplitByName = componentKey.split( "." ),
+                result = app,
+                levelOfNest = componentSplitByName.length;
+
+            if ( componentSplitByName.length === 1 ) {
+                return app[ componentKey ];
+            }
+
+            for ( var i = 0; i < levelOfNest; i++ ) {
+                result = result[ componentSplitByName[ i ] ];
+            }
+
+            return result;
+        },
+        /**
+         * nameWithAttribute can be:
+         *     - CompName.PropertyName
+         *     - ParentName.CompName.PropertyName
+         *     - CompName.PropertyName.PropertyName
+         *     - ParentName.CompName.PropertyName
+         */
+        getComponentAndBindingMetaData: function( nameWithAttribute, app, data ) {
+            var compMetaData = this.getFullComponentNameAndAttribute( nameWithAttribute ), //first call assume, only one property at the end
+                compNameParts = compMetaData.fullCompName.split( "." ),
+                itemLength = compNameParts.length,
+                addedProperty = [],
+                comp;
+
+            if ( data ) {
+                return {
+                    component: data,
+                    attribute: compMetaData.attribute,
+                    fullCompName: compMetaData.fullCompName
+                };
+            }
+
+            if ( compMetaData.fullCompName === "$app" ) {
+                return {
+                    component: app,
+                    attribute: compMetaData.attribute,
+                    fullCompName: compMetaData.fullCompName
+                };
+            }
+
+            while ( itemLength-- ) {
+                comp = this.findComponent( app, compNameParts.join( "." ) );
+
+                if ( comp.app ) {
+                    break;
+                }
+
+                addedProperty.push( compNameParts.pop() );
+            }
+
+            return {
+                component: comp,
+                attribute: ( addedProperty.length > 0 ) ? addedProperty.reverse().join( "." ) + "." + compMetaData.attribute : compMetaData.attribute,
+                fullCompName: compNameParts ? compNameParts.join( "." ) : void 0
+            };
+        },
+        getFullComponentNameAndAttribute: function( nameWithAttribute, depricated ) {
+            var onlyCompName = nameWithAttribute.split( "." ),
+                attribute = onlyCompName.pop();
+
+            if ( Array.isArray( onlyCompName ) && onlyCompName.length > 1 ) {
+                compName = onlyCompName.join( "." );
+            } else {
+                compName = onlyCompName[ 0 ];
+            }
+
+            return {
+                fullCompName: compName,
+                attribute: depricated ? utils.lowerCaseFirstLetter( source.attribute ) : attribute
+            };
+        },
+        getFullComponentNameFromComponent: function( comp ) {
+            var memo = comp,
+                result = comp.id;
+
+            while ( memo.parent ) {
+                result = comp.parent.id + "." + result;
+                memo = comp.parent;
+            }
+
+            return result;
+        },
+        forEachPropertyWithBinding: function( config, callback ) {
+            Object.keys( config ).forEach( function( property ) {
+                if ( property !== "$data" ) {
+                    callback( property, config[ property ] );
+                }
+            } );
+        }
+    };
+};
+},{}]},{},[4])
 ;

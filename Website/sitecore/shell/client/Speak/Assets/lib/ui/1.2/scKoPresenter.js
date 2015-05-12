@@ -2,12 +2,12 @@
  *
  * koPresenter
  *
- * Built: Thu Jun 26 2014 09:12:41 GMT+0100 (GMT Daylight Time)
+ * Built: Tue Oct 28 2014 11:23:49 GMT+0000 (GMT Standard Time)
  * PackageVersion: 0.0.9
  *
  */
 
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var computeComments = function ( el, callback ) {
   function traverseDom( curr_element ) { // this is the recursive function
     // base case: node is a comment node
@@ -37,35 +37,37 @@ module.exports = function( sitecore, ko ) {
 },{"./ko":3}],3:[function(require,module,exports){
 var DOMUtils = require( "./dom" );
 
-module.exports = function ( sitecore, ko ) {
+module.exports = function( sitecore, ko ) {
 
-  var markAsRegistered = function ( comp ) {
+  var markAsRegistered = function( comp ) {
     if ( !comp.el ) {
       return;
     }
 
     var bindingsElement = [ comp.el ],
-      nestedBinding = sitecore.utils.toArray( comp.el.querySelectorAll( "[data-bind]" ) );
+      nestedBinding = sitecore.utils.array.toArray( comp.el.querySelectorAll( "[data-bind]" ) );
 
     bindingsElement = bindingsElement.concat( nestedBinding );
 
-    bindingsElement.forEach( function ( el ) {
+    bindingsElement.forEach( function( el ) {
       el.__registered = true;
     } );
 
-    DOMUtils.computeComments( comp.el, function ( el ) {
+    DOMUtils.computeComments( comp.el, function( el ) {
       el.__registered = true;
     } );
+
+    comp.el.__registered = true;
   };
 
   /**
    * Setup ko
    */
-  var SPEAKBindingProvider = function () {
+  var SPEAKBindingProvider = function() {
     var result = new ko.bindingProvider(),
       originalHasBindings = result.nodeHasBindings;
 
-    result.nodeHasBindings = function ( node ) {
+    result.nodeHasBindings = function( node ) {
       if ( !node.__registered ) {
         return originalHasBindings.call( this, node );
       }
@@ -176,7 +178,7 @@ module.exports = {
     initialized: function() {
 
       //Setup container for the ViewModel
-      this.viewModel = {};
+      this.viewModel = this.viewModel || {};
       this._subscriptions = {}; //store subscription
 
       _buildViewModel( this, this.viewModel, true );
@@ -215,30 +217,33 @@ module.exports = function ( ko ) {
   };
 };
 },{"./sync":7}],7:[function(require,module,exports){
-module.exports = function ( ko ) { //keep reference to ko
-  var updateViewModel = function ( key, model, viewModel ) {
-    return function () {
-      if ( model._s.utils.isArray( model[ key ] ) && model[ key ].length > 0 && model[ key ][ 0 ] ) {
-        //should desable the 
-        viewModel[ key ]._changing = true;
-        if ( viewModel[ key ].length ) {
-          viewModel[ key ].removeAll();
+module.exports = function( ko ) { //keep reference to ko
+  var updateViewModel = function( key, model, viewModel ) {
+      return function() {
+        if ( Array.isArray( model[ key ] ) && model[ key ].length > 0 && model[ key ][ 0 ] ) {
+          //should desable the 
+          viewModel[ key ]._changing = true;
+          if ( viewModel[ key ]().length > 0) {
+              viewModel[ key ].removeAll();
+          }
+
+          model[ key ].forEach( function( i ) {
+            viewModel[ key ].push( i );
+          } );
+          viewModel[ key ]._changing = false;
+          return;
         }
-
-        model[ key ].forEach( function ( i ) {
-          viewModel[ key ].push( i );
-        } );
-        viewModel[ key ]._changing = false;
-
-      } else {
-        viewModel[ key ]( model[ key ] );
-      }
-    };
-  }, syncFromSpeakObsToKoObs = function ( key, model, viewModel ) {
-      var appropriateFunc = function ( funcToCall ) {
+        
+        if(!Array.isArray(model[key])) {
+          viewModel[ key ]( model[ key ] );
+        }
+      };
+    },
+    syncFromSpeakObsToKoObs = function( key, model, viewModel ) {
+      var appropriateFunc = function( funcToCall ) {
         var callToCall = funcToCall;
 
-        return function () {
+        return function() {
           if ( !viewModel[ key ]._changing ) {
             viewModel[ key ]._changing = true;
             viewModel[ key ][ callToCall ].apply( viewModel[ key ], arguments );
@@ -256,38 +261,38 @@ module.exports = function ( ko ) { //keep reference to ko
       model[ key ].on( "reverse", appropriateFunc( "reverse" ) );
       model[ key ].on( "sort", appropriateFunc( "sort" ) );
     },
-    syncFromKoObsToSpeakObs = function ( key, model, viewModel ) {
+    syncFromKoObsToSpeakObs = function( key, model, viewModel ) {
       var previousValue;
 
-      viewModel[ key ].subscribe( function ( _previousValue ) {
+      viewModel[ key ].subscribe( function( _previousValue ) {
         previousValue = _previousValue.slice( 0 );
       }, undefined, "beforeChange" );
 
-      return viewModel[ key ].subscribe( function ( latestValue ) {
+      return viewModel[ key ].subscribe( function( latestValue ) {
 
         var editScript = ko.utils.compareArrays( previousValue, latestValue );
 
-        viewModel[ key ]._changing = true;
+        //viewModel[ key ]._changing = false;
         for ( var i = 0, j = editScript.length; i < j; i++ ) {
           var index = ko.utils.arrayIndexOf( model[ key ].array || model[ key ], editScript[ i ].value );
 
           switch ( editScript[ i ].status ) {
-          case "retained":
-            break;
-          case "deleted":
-            if ( index >= 0 && !viewModel[ key ]._changing ) {
-              model[ key ].splice( index, 1 );
-            }
-            break;
-          case "added":
-            if ( !viewModel[ key ]._changing ) {
-              if ( editScript[ i ].index === 0 ) {
-                model[ key ].unshift( editScript[ i ].value );
-              } else {
-                model[ key ].push( editScript[ i ].value );
+            case "retained":
+              break;
+            case "deleted":
+              if ( index >= 0 && !viewModel[ key ]._changing ) {
+                model[ key ].splice( index, 1 );
               }
-            }
-            break;
+              break;
+            case "added":
+              if ( !viewModel[ key ]._changing ) {
+                if ( editScript[ i ].index === 0 ) {
+                  model[ key ].unshift( editScript[ i ].value );
+                } else {
+                  model[ key ].push( editScript[ i ].value );
+                }
+              }
+              break;
           }
         }
         if ( !model[ key ].array && !viewModel[ key ]._changing ) { //this is an original, should manually trigger the change
@@ -297,8 +302,8 @@ module.exports = function ( ko ) { //keep reference to ko
         previousValue = undefined;
       } );
     },
-    updateComponent = function ( key, model, viewModel ) {
-      return function ( newValue ) {
+    updateComponent = function( key, model, viewModel ) {
+      return function( newValue ) {
         if ( !viewModel[ key ]._changing ) {
           model[ key ] = newValue;
         }
@@ -313,30 +318,30 @@ module.exports = function ( ko ) { //keep reference to ko
   };
 };
 },{}],8:[function(require,module,exports){
-module.exports = function ( ko ) {
+module.exports = function( ko ) {
 
   var syncUtils = require( "./sync" )( ko );
 
-  var buildComputed = function ( model, viewModel ) {
-    var computedConfiguration = model.computed || {},
-      keys = Object.keys( computedConfiguration );
+  var buildComputed = function( model, viewModel ) {
+      var computedConfiguration = model.computed || {},
+        keys = Object.keys( computedConfiguration );
 
-    keys.forEach( function ( key ) {
-      var computed = computedConfiguration[ key ];
+      keys.forEach( function( key ) {
+        var computed = computedConfiguration[ key ];
 
-      if ( computed[ key ][ "write" ] && !computed[ key ][ "owner" ] ) {
-        computed[ key ][ "owner" ] = viewModel;
-      }
+        if ( computed[ key ][ "write" ] && !computed[ key ][ "owner" ] ) {
+          computed[ key ][ "owner" ] = viewModel;
+        }
 
-      if ( !computed.write ) {
-        viewModel[ key ] = ko.computed( computed.read, viewModel ); //be carefully you can only value already defined
-      } else {
-        viewModel[ key ] = ko.computed( computed ); //be carefully you can only value already defined
-      }
-      viewModel[ key ].isComputed = true;
-    } );
-  },
-    updateViewModelWhenComponentChange = function ( key, component, viewModel ) {
+        if ( !computed.write ) {
+          viewModel[ key ] = ko.computed( computed.read, viewModel ); //be carefully you can only value already defined
+        } else {
+          viewModel[ key ] = ko.computed( computed ); //be carefully you can only value already defined
+        }
+        viewModel[ key ].isComputed = true;
+      } );
+    },
+    updateViewModelWhenComponentChange = function( key, component, viewModel ) {
       var model = component;
 
       if ( typeof model[ key ] === "function" ) {
@@ -350,11 +355,11 @@ module.exports = function ( ko ) {
         syncUtils.syncFromSpeakObsToKoObs( key, model, viewModel );
       }
     },
-    buildPropertyForViewModel = function ( key, component, viewModel, force ) {
+    buildPropertyForViewModel = function( key, component, viewModel, force ) {
       var vm = viewModel,
         value = component[ key ],
         isSPEAKObs = ( value && value.array ),
-        isArray = component._s.utils.isArray( value ),
+        isArray = Array.isArray( value ),
         arrayToBind;
 
       if ( vm[ key ] || !force ) { //if we do not force and key already exists, we skip it
@@ -368,10 +373,10 @@ module.exports = function ( ko ) {
         vm[ key ].arrayBinding = true;
         vm[ key ].arrayType = isSPEAKObs ? "speak" : "original";
 
-      } else if ( component._s.utils.isFunction( value ) ) { //if it is a function
+      } else if ( component._s.utils.is.a.function( value ) ) { //if it is a function
 
-        if ( !vm[ key ] && component._s.utils.isFunction( value ) ) {
-          vm[ key ] = function () {
+        if ( !vm[ key ] && component._s.utils.is.a.function( value ) ) {
+          vm[ key ] = function() {
             return component[ key ].call( component, arguments );
           };
         }
@@ -391,3 +396,4 @@ module.exports = function ( ko ) {
   };
 };
 },{"./sync":7}]},{},[5])
+;

@@ -13,7 +13,7 @@
 
   <Sitecore.Shell.Applications.FlashUpload.Simple x:inherits="Sitecore.Shell.Applications.FlashUpload.Simple.SimpleUploadPage,Sitecore.Client">
 
-    <Sitecore.Controls.DialogPage Header="Upload a File" Icon="Business/32x32/Paperclip.png" Text="Select a file. When done click the Upload button." OKButton="Upload" runat="server">
+    <Sitecore.Controls.DialogPage Header="Upload File" Text="Choose the file that you want to upload." OKButton="Upload" runat="server">
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
@@ -25,37 +25,40 @@
 
       <Style runat="server">
         .filename {
-          height: 22px;
+          height: 34px;
           width: 100%;
-          border: solid 1px #969696;
-          background: white;
-          margin-right: 4px;
+          border: solid 1px #e3e3e3;
+          margin: 0px 10px 5px 0;
           position: relative;
         }
         
         #FilenameText {
           padding: 2px;
           padding-left: 4px;
+          line-height: 34px;
           display: block;
         }
         
         .ff #FilenameText {
-          padding-top: 4px;
+          line-height: 34px;
           position: relative;
           z-index: 2;
         }
         
         .progress {
           width: 0%;
-          height: 20px;
+          height: 34px;
+          line-height:36px;
           position: absolute;
-          background: #eaeaea;
+          background-color: #289BC8;
           z-index: -1;
         }
         
         .ff .progress {
           z-index: 1;
-          height: 22px;
+          height: 34px;
+          line-height:34px;
+          background-color: #289BC8;
         }
         
         .ff .progressImage {
@@ -64,32 +67,35 @@
         }
         
         #Browse {
-          margin-left: 4px;
+          margin-left: 10px;
         }
+        
+      td {vertical-align: top}
       </Style>
 
       <html:HtmlInputHidden class="uploadID" id="InputUploadID" runat="server" />
       <html:HtmlInputHidden class="uploadSessionID" id="UploadSessionID" runat="server" />
       <html:HtmlInputHidden class="uploadSessionID1" id="UploadSessionID1" runat="server" />
 
-      <div class="scStretchAbsolute" style="padding:5px 10px;">
-        <Literal runat="server" Text="Filename:" />
+      <div class="scStretchAbsolute" style="padding:15px;">
+        <GridPanel columns="2" class="scFormTable" runat="server" >
+          <Literal runat="server" Text="File name:" />
 
-        <GridPanel runat="server" Columns="2" Width="100%">
-          <Border runat="server" class="filename" GridPanel.Width="100%">
-            <Border runat="server" class="progress" />
-            <ThemedImage runat="server" Src="People/16x16/clock.png" class="progressImage" style="position: absolute; right: 2px; top: 2px; display: none" />
-            <ThemedImage runat="server" Src="Applications/16x16/check2.png" class="doneImage" style="position: absolute; right: 2px; top: 2px; display: none" />
+          <GridPanel runat="server" Columns="2" Width="100%">
+            <Border runat="server" class="filename" GridPanel.Width="100%" GridPanel.Height="36px">
+              <Border runat="server" class="progress" />
+              <ThemedImage runat="server" Src="Images/blank.png" class="progressImage" style="position: absolute; right: 2px; top: 2px; display: none" />
+              <ThemedImage runat="server" Src="Office/16x16/check.png" class="doneImage" style="position: absolute; right: 2px; top: 2px; display: none" />
 
-            <span id="FilenameText"></span>
-          </Border>
-          
-          <Border runat="server" id="BrowseContainer" GridPanel.Width="72px" style="position:relative">
-            <Button runat="server" Header="Browse" ID="Browse" style="z-index:1"/>
-            <div id="BrowseOverlay" style="width:72px;height:22px;position:absolute;top:1px;left:6px;z-index:2" />
-          </Border>
+              <span id="FilenameText"></span>
+            </Border>
+
+            <Border runat="server" id="BrowseContainer" GridPanel.Width="72px" GridPanel.Height="36px" style="position:relative">
+              <Button runat="server" Header="Browse" ID="Browse" style="z-index:1"/>
+              <div id="BrowseOverlay" style="width:77px;height:33px;position:absolute;top:1px;left:12px;z-index:2" />
+            </Border>
+          </GridPanel>
         </GridPanel>
-
         <Literal runat="server" ID="Message" />
       </div>
 

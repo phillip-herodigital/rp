@@ -12,11 +12,15 @@
 
   <Sitecore.Shell.Applications.Analytics.TrackingField.Goals x:inherits="Sitecore.Shell.Applications.Analytics.TrackingField.GoalsPage,Sitecore.Client">
 
-    <Sitecore.Controls.DialogPage runat="server" Header="Goals" Icon="People/32x32/flag_checkered.png" Text="Select the goal that is achieved when a Contact accesses this page. When a Contact completes a goal, this action is called a conversion.">
+    <Sitecore.Controls.DialogPage runat="server" Header="Goals" Text="Select the goals that you want to associate with the selected item.">
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
       <Script runat="server" Src="/sitecore/Shell/Applications/Analytics/TrackingField/TrackingField.js" />
-
+      <Style runat="server">
+        #GoalsList table tr > td {
+          padding: 0 0 10px 0;
+        }
+      </Style>
       <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td height="100%">

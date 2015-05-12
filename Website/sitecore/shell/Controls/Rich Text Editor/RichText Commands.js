@@ -44,7 +44,7 @@ RadEditorCommandList["InsertSitecoreLink"] = function(commandName, editor, args)
     "/sitecore/shell/default.aspx?xmlcontrol=RichText.InsertLink&la=" + scLanguage + "&fo=" + id + (scDatabase ? "&databasename=" + scDatabase : ""),
     null, //argument
     1100,
-    500,
+    700,
     scInsertSitecoreLink, //callback
     null, // callback args
     "Insert Link",
@@ -169,7 +169,7 @@ RadEditorCommandList["InsertSitecoreMedia"] = function(commandName, editor, args
     "/sitecore/shell/default.aspx?xmlcontrol=RichText.InsertImage&la=" + scLanguage + (id ? "&fo=" + id : "") + (scDatabase ? "&databasename=" + scDatabase : "") ,
     null, //argument
     1105,
-    500,
+    700,
     scInsertSitecoreMedia,
     null,
     "Insert Media",
