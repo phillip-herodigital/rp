@@ -19,7 +19,7 @@
   <xsl:template match="*">
     <xsl:choose>
       <xsl:when test="sc:fld('Image',.) = ''">
-        <div style="height:108px; background: #CA371A;">
+        <div style="height:108px; background: #2f9bce;">
           <sc:image field="Image" style="display:block;"/>
           <xsl:if test="sc:pageMode()/pageEditor/edit = false() and sc:pageMode()/pageEditor/navigate = false()">
             <div align="left" style="height:40px; font-size:13px; color: #EFEFEF; padding: 45px 0px 0px 6px;">[Add an image here]</div>
