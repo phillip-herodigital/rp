@@ -376,6 +376,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.SegmentBuilder.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Services.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Services.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Services.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Services.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Shell.MarketingAutomation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Shell.MarketingAutomation.dll</HintPath>
@@ -699,11 +707,52 @@
     <Content Include="frontend\**\*" />
     <Content Include="Data\web.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Settings.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.config" />
     <Content Include="Data\fw9.pdf" />
     <Content Include="App_Config\ConnectionStrings.production.sitecore.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Config\Include\.Sitecore.Speak.Important.config" />
+    <Content Include="App_Config\Include\Sitecore.SegmentBuilder.config" />
+    <Content Include="App_Config\Include\Sitecore.Services.Client.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.AntiCsrf.SheerUI.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.Applications.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.LaunchPad.config" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Client.config" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.config" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Processing.config" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Services.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Client.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.Index.Master.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.Index.Web.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.IndexConfiguration.config" />
+    <Content Include="App_Config\Include\Sitecore.Media.RequestProtection.config" />
+    <Content Include="App_Config\Include\Sitecore.ExperienceEditor.config" />
+    <Content Include="App_Config\Include\Sitecore.ExperienceEditor.Speak.Requests.config" />
+    <Content Include="App_Config\Include\Sitecore.ExperienceExplorer.config" />
+    <Content Include="App_Config\Include\Sitecore.ExperienceExplorer.Speak.Requests.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Analytics.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.DefaultConfigurations.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Outcome.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.ProcessingPools.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.Services.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Services.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Reporting.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.MarketingTaxonomy.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Model.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.MongoDb.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Conversion.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Automation.TimeoutProcessing.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Compatibility.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Analytics.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Aggregation.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Database.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.RobotDetection.config" />
+    <Content Include="App_Config\Include\Sitecore.Apps.TagInjection.config" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />

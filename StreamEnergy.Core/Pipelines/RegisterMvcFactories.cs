@@ -40,8 +40,6 @@ namespace StreamEnergy.Pipelines
             GlobalFilters.Filters.Add(new Mvc.AntiForgeryFilterMvcAttribute() { CheckXsrfHeader = false });
             GlobalConfiguration.Configuration.Filters.Add(new Mvc.AntiForgeryFilterWebApiAttribute());
             GlobalConfiguration.Configuration.Services.Add(typeof(System.Web.Http.ExceptionHandling.IExceptionLogger), new Mvc.WebApiExceptionLogging());
-            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector), new CustomHttpControllerSelector(GlobalConfiguration.Configuration, new NamespaceQualifiedUniqueNameGenerator()));
-
         }
 
         private void SetupMvcValidations()
