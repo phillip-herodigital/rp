@@ -763,6 +763,9 @@
     <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TagCloud.cshtml" />
     <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TagList.cshtml" />
     <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TextSearch.cshtml" />
+    <Content Include="App_Config\Include\XBlog.Search.config" />
+    <Content Include="App_Config\Include\XBlog.Settings.config" />
+    <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
