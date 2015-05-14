@@ -63,7 +63,7 @@
                                                         {
                                                             ng_model = "formData.phone[1].category",
                                                             ng_options = "type.name as type.display for type in phoneTypes|filter:filter1|filter:filterCustomerType",
-                                                            data_val_if = "formData.phone.length > 1"
+                                                            data_val_if = "additionalInformation.showAdditionalPhoneNumber"
                                                         }))
                             @secondPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)
                         </div>
