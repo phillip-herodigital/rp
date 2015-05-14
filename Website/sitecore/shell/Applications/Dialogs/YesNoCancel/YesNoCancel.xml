@@ -29,9 +29,9 @@
       </GridPanel>
 
       <Border class="scButtonsSubstituteContainer" def:placeholder="Buttons">
-        <Button Click="Yes" class="scButton scButtonPrimary" Header="Yes" />
+        <Button Click="Yes" class="scButton scButtonPrimary" KeyCode="13" Header="Yes" />
         <Button Click="No" Header="No" />
-        <Button Click="CancelPrimary" KeyCode="13" Header="Cancel" />
+        <Button Click="Cancel" Header="Cancel" />
       </Border>
     </FormDialog>
   </YesNoCancel>

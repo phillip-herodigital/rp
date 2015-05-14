@@ -219,11 +219,8 @@ div.container-narrow .sc-globalHeader {
   padding-right: 1px;
   height: 55px;
   border: 1px solid #cccccc;
-  background: #f2f4f8;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #fcfcfc), color-stop(1, #eef1f6));
-  background: -ms-linear-gradient(bottom, #fcfcfc, #eef1f6);
-  background: -moz-linear-gradient(center bottom, #fcfcfc 0%, #eef1f6 100%);
-  background: -o-linear-gradient(#eef1f6, #fcfcfc);
+  background: #fff;
+
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eef1f6', endColorstr='#fcfcfc', GradientType=0);
 }
 .sc-ribbon .sc-chunk-datepanel a {

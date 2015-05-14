@@ -89,23 +89,23 @@ define(["sitecore", "userProfile"], function(_sc, userProfile) {
         var handlerIn = function (el, model) {
           var isOpen = model.get("isOpen");
           if (!isOpen) {
-            $('.sc-accordion-header-actionbar .sc-accordion-header-actionbar-container', el).show();
-            $('.sc-accordion-header-actionbar', el).removeClass("sc-actionbar-collapsed");
+            $('.sc-advancedExpander-header-actionbar .sc-advancedExpander-header-actionbar-container', el).show();
+            $('.sc-advancedExpander-header-actionbar', el).removeClass("sc-actionbar-collapsed");
           }
         };
 
         var handlerOut = function (el, model) {
           var isOpen = model.get("isOpen");
           if (!isOpen) {
-            $('.sc-accordion-header-actionbar .sc-accordion-header-actionbar-container', el).hide();
-            $('.sc-accordion-header-actionbar', el).removeClass("sc-actionbar-collapsed").addClass("sc-actionbar-collapsed");
+            $('.sc-advancedExpander-header-actionbar .sc-advancedExpander-header-actionbar-container', el).hide();
+            $('.sc-advancedExpander-header-actionbar', el).removeClass("sc-actionbar-collapsed").addClass("sc-actionbar-collapsed");
           }
         };
         
-        $(".sc-accordion-header", selfEl).hover(function () { handlerIn(selfEl, selfModel); }, function () { handlerOut(selfEl, selfModel); });
-        $(".sc-accordion-header-title", selfEl).hover(function () { handlerIn(selfEl, selfModel); }, function () { handlerOut(selfEl, selfModel); });
-        $(".sc-accordion-header-actionbar", selfEl).hover(function () { handlerIn(selfEl, selfModel); }, function () { handlerOut(selfEl, selfModel); });
-        $(".sc-accordion-header-chevron", selfEl).hover(function () { handlerIn(selfEl, selfModel); }, function () { handlerOut(selfEl, selfModel); });
+        $(".sc-advancedExpander-header", selfEl).hover(function () { handlerIn(selfEl, selfModel); }, function () { handlerOut(selfEl, selfModel); });
+        $(".sc-advancedExpander-header-title", selfEl).hover(function () { handlerIn(selfEl, selfModel); }, function () { handlerOut(selfEl, selfModel); });
+        $(".sc-advancedExpander-header-actionbar", selfEl).hover(function () { handlerIn(selfEl, selfModel); }, function () { handlerOut(selfEl, selfModel); });
+        $(".sc-advancedExpander-header-chevron", selfEl).hover(function () { handlerIn(selfEl, selfModel); }, function () { handlerOut(selfEl, selfModel); });
       },
 
       close: function() {
@@ -123,11 +123,14 @@ define(["sitecore", "userProfile"], function(_sc, userProfile) {
         }
       },
 
-      toggle: function ()
-      {
-        var isCollapsible = this.model.get("isCollapsible");
-        if (isCollapsible) {
-          this.model.set("isOpen", !this.model.get("isOpen"));
+      toggle: function (viewModel, e) {
+        var isTargetLocatedInsideActionBar = $(e.target).parents(".sc-advancedExpander-header-actionbar").length > 0;
+
+        if (!isTargetLocatedInsideActionBar) {
+          var isCollapsible = this.model.get("isCollapsible");
+          if (isCollapsible) {
+            this.model.set("isOpen", !this.model.get("isOpen"));
+          }
         }
       },
 
@@ -138,12 +141,12 @@ define(["sitecore", "userProfile"], function(_sc, userProfile) {
 
       showPromotedFields: function(html)
       {
-        this.$el.find(".sc-accordion-header-promotedfields").html(html);
+        this.$el.find(".sc-advancedExpander-header-promotedfields").html(html);
       },
 
       hidePromotedFields: function()
       {
-        this.$el.find(".sc-accordion-header-promotedfields").text("");
+        this.$el.find(".sc-advancedExpander-header-promotedfields").text("");
       },
 
       syncIconWidth: function()

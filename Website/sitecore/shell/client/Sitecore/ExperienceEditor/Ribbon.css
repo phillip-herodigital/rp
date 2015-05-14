@@ -3,9 +3,9 @@
 }
 
 iframe.scSpeakWebEditRibbon {
-  top:0;
+  top: 0;
   overflow-y:visible;
-  position:inherit;
+  left: 0;
 }
 
 .scChromeName {

@@ -72,8 +72,6 @@ function (Sitecore) {
 
     editItemInCE: function (itemId) {
       Sitecore.ExperienceEditor.navigateToItemInCE(itemId);
-
-      var url = window.parent.location.toString();
     },
 
     generateNavigationBarButtonHtml: function (enabled, text, functionSource, buttonStyle, tooltip) {
@@ -139,7 +137,7 @@ function (Sitecore) {
       Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Breadcrumb.GetChildItems", function (response) {
         var control = document.getElementById("breadcrumbMenuSubcontrol" + id);
         var position = control.getBoundingClientRect();
-        var positionStyle = "top:" + (position.top + 35) + "px;" + "left:" + (position.left + 0) + "px;";
+        var positionStyle = "top:" + (position.top + 35) + "px;" + "left:" + (position.left + 0 + Sitecore.ExperienceEditor.ribbonFrame().offsetLeft) + "px;";
         var menuControlId = "breadcrumbMenuSubcontrol_context_menu";
         var menuSource = "<nav id='" + menuControlId + "' style='position:absolute;z-index:10000;" + positionStyle + "' class=''>" + response.context.currentControl.generateContextMenuHtmlSource(response.responseValue.value) + "</nav>";
         var element = window.parent.document.getElementById(menuControlId);
@@ -161,7 +159,9 @@ function (Sitecore) {
         return;
       }
 
-      var treeViewUrl = "/sitecore/client/Applications/ExperienceEditor/Pages/NavigationTreeView.aspx";
+      var lang = Sitecore.ExperienceEditor.instance.currentContext.language;
+
+      var treeViewUrl = "/sitecore/client/Applications/ExperienceEditor/Pages/NavigationTreeView.aspx?lang=" + lang;
       var dimensions = {
         width: "300px",
         height: "320px"

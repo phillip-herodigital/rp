@@ -67,6 +67,7 @@ define(["sitecore", "knockout"], function (sc, ko)
   sc.Factories.createBehavior("MultiSelectList", {
     events: {
       "change .sc-cb": "check",
+      "click .cb": "checkCell",
       "change .sc-cball": "checkAll"
     },
     initialize: function() {
@@ -81,16 +82,19 @@ define(["sitecore", "knockout"], function (sc, ko)
     },
     afterRender: function () {
       this.allCheck = [];
-      _.each(this.$el.find("thead tr"), this.insertGlobalcheck, this);
-      _.each(this.$el.find(".sc-table tbody tr"), this.insertcheck, this);
-      this.globalCheck = this.$el.find(".sc-cball");
-      this.on("addrow", this.addrow);
+      var items = this.model.get("items");
+      if (items && items.length) {
+        _.each(this.$el.find("thead tr"), this.insertGlobalcheck, this);
+        _.each(this.$el.find(".sc-table tbody tr"), this.insertcheck, this);
+        this.globalCheck = this.$el.find(".sc-cball");
+        this.on("addrow", this.addrow);
+      }
     },
     addrow: function () {
       this.insertcheck(this.$el.find(".sc-table tbody tr").last());
     },
     insertGlobalcheck: function (row) {
-      var checkbox = "<th class='cb'><input class='sc-cball' type='checkbox' /></th>";
+      var checkbox = "<th class='cb'><input class='sc-cball' type='checkbox' onclick='event.stopPropagation();' /></th>";
       $(row).prepend(checkbox);
       this.model.trigger("globalcheck:inserted");
     },
@@ -153,8 +157,23 @@ define(["sitecore", "knockout"], function (sc, ko)
       
       if(!checked)
       {
-        this.currentSelection = [];
+        this.currentSelection = [];                                      
       }
+    },
+        
+    checkCell: function (evt) {
+      var $current = $(evt.currentTarget);
+      if ($current.hasClass("sc-cb"))
+        return;
+      if ($current.hasClass("sc-cball"))
+        return;
+      var checkBox = $current.find(".sc-cb");
+      if (checkBox.length == 0)
+        checkBox = $current.find(".sc-cball");
+      if (checkBox.length == 0)
+        return;
+      checkBox.prop("checked", !checkBox.is(":checked"));
+      checkBox.trigger("change");
     },
 
     check: function (evt) {
@@ -214,13 +233,12 @@ define(["sitecore", "knockout"], function (sc, ko)
 
           this.model.set("checkedItemIds", checkedItemIdsResult);
           $current.closest("tr").removeClass("checked");
-      }
+      }      
+      
+      var rowsNumber = this.$el.find(".sc-table tbody tr").length;
+      var checkedRows = this.$el.find(".sc-cb:checked").length;
 
-      if (this.model.get("checkedItemIds").length != 0 && this.model.get("checkedItemIds").length === this.$el.find(".sc-table tbody tr").length) {
-        this.globalCheck.prop("checked", true);
-      } else {
-        this.globalCheck.prop("checked", false);
-      }
+      this.globalCheck.prop("checked", (checkedRows > 0 && checkedRows === rowsNumber));
     }
   });
 });

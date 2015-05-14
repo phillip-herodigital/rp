@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+Important: You must specify a value for the Sitecore.Cloud.Xdb.DeploymentId setting before you start Sitecore for the first time after you
+have configured Sitecore to connect to the xDB Cloud Edition.
+ 
+Purpose: This include file contains configuration settings for connecting to the xDB Cloud Edition.
+ 
+To enable this include file, rename it so that it has a ".config" extension.
+
+ -->
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
+  <sitecore>
+  	 <experienceProfile>
+      <searchIndex patch:instead="searchIndex" name="sitecore-analytics-cloud-index" />
+      <providers>
+        <contactSearchProvider patch:instead="contactSearchProvider" type="Sitecore.Cloud.ContentSearch.Search.ContactCloudSearchProvider, Sitecore.Cloud.ContentSearch" singleInstance="true" />
+      </providers>
+    </experienceProfile>
+
+	<pipelines>
+      <group groupName="ExperienceProfileAggregateViews">
+        <pipelines>
+          <latest-visitors>
+            <processor patch:instead="processor[@type='Sitecore.Cintel.Reporting.Aggregate.Visitors.Processors.QueryLatestVisitorsFromSearch, Sitecore.Cintel']" type="Sitecore.Cloud.ContentSearch.Reporting.QueryLatestVisitorsFromSearch, Sitecore.Cloud.ContentSearch" />
+          </latest-visitors>
+        </pipelines>
+      </group>
+    </pipelines>
+ </sitecore>
+</configuration>

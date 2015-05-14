@@ -14,6 +14,7 @@
         theFileTypeIsInvalid = "The file type is invalid. Please select another file and try again.",
         onlyOneFileAtATime = "You can upload only one file at a time. Please remove all other files and try again.",
         notificationTimeout = 10000,
+        importWarningKey = "Your contacts have been imported. However please note that they will only become available to view in the database after they have been indexed. This process may take some time.",
         self;
 
     return {
@@ -193,6 +194,7 @@
         current.UpdatedContactsText.set("text", importSummary.ExpectedExistingContactsCount);
         current.NotProvidedEmailAddressesText.set("text", importSummary.ContactsWithoutEmailCount);
         current.RequiredFieldsNotAvailableText.set("text", importSummary.ContactsWithoutRequiredFieldsCount);
+        current.ContactsLockedText.set("text", importSummary.ContactsLockedOrUnavailableInDatabaseCount);
 
         current.ButtonPrevious.set("isVisible", false);
         current.ButtonNext.set("isVisible", false);
@@ -201,6 +203,11 @@
 
         current.ImportWizardTabControl.set(selectedTabProperty, summaryTabId);
         current.ImportBatchId = importSummary.ImportBatchId;
+
+        if (current.Mode == importContactsMode) {
+          var warning = current.StringDictionary.get(importWarningKey);
+          commonPagesDefinition.showWarning(warning, current.ImportWizardDialogMessageBar, 0, true);
+        }
       },
       showErrorSummary: function(timeout) {
         var current = self;

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <Reminder>
+    <Stylesheet>
+      .scPopup[data-openerid="Date_date"] {
+        left: 15px !important;
+      }
+    </Stylesheet>
     <WizardForm CodeBeside="Sitecore.Shell.Applications.Dialogs.Reminder.ReminderForm,Sitecore.Client">
       <WizardFormPage ID="ReminderText" Header="Set Email Reminder" Text="Enter the text for the email reminder.">
         <WizardFormIndent>

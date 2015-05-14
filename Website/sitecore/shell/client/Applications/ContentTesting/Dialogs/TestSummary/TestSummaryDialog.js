@@ -30,7 +30,7 @@
     },
 
     updateValueImproveText: function () {
-      var template = _.template(this.StringDictionary.get("The experience improved the engagement value by <%= valueChange %> compared to the original, with a confidence level of <%= confidence %>%."));
+      var template = _.template(this.StringDictionary.get("The experience improved the engagement value by <%= valueChange %>% compared to the original, based on <%= confidence %> visits."));
       this.ValueImprovedText.set("text", template({
         valueChange: this.TestSummaryDataSource.get("valueChange"),
         confidence: this.TestSummaryDataSource.get("confidence")
@@ -38,7 +38,7 @@
     },
 
     updateValueDeclineText: function () {
-      var template = _.template(this.StringDictionary.get("The experience decreased the engagement value by <%= valueChange %> compared to the original, with a confidence level of <%= confidence %>%."));
+      var template = _.template(this.StringDictionary.get("The experience decreased the engagement value by <%= valueChange %>% compared to the original, based on <%= confidence %> visits."));
       this.ValueDeclineText.set("text", template({
         valueChange: this.TestSummaryDataSource.get("valueChange"),
         confidence: this.TestSummaryDataSource.get("confidence")

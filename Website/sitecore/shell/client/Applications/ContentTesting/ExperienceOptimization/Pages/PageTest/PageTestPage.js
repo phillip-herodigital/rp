@@ -89,8 +89,10 @@
       var forceLoad = (params.load == "true");
       this._forceLoad = showReport || forceLoad;
       var qsPage = params.page;
+      var qsLanguage = params.language;
       if (qsPage) {
         this.set("selectedItemId", qsPage);
+        this.set("selectedLanguage", qsLanguage);
         this.selectTestPage();
       }
       else {
@@ -178,6 +180,7 @@
 
     selectTestPage: function () {
       var itemId = this.get("selectedItemId");
+      var language = this.get("selectedLanguage");
       var itemTempateId = this.get("selectedTemplateId");
       if (!itemId || itemId.length === 0) {
         alert(this.Texts.get("You must select a page to test"));
@@ -185,11 +188,12 @@
       }
 
       var self = this;
-      versionInfoMod.getLatestVersionNumber(itemId, function (id, version, revision) {
+      versionInfoMod.getLatestVersionNumber({ id: itemId, language: language }, function (id, version, revision, language) {
         var uri = new dataUtilMod.DataUri();
         uri.id = id;
         uri.ver = version;
         uri.rev = revision;
+        uri.lang = language;
 
         self.set(self._testItemUriProperty, uri.toString());
         self.set(self._testItemTemplateIdProperty, itemTempateId);
@@ -201,24 +205,48 @@
       this.SummaryRepeater.viewModel.reset();
       this.SummaryRepeater.viewModel.addData([
         {
-          Name: this.Texts.get("Page"), ValueRef: this.ItemInfoDataSource, ValueProp: "name"
+          Name: this.Texts.get("Page"),
+          ValueRef: this.ItemInfoDataSource,
+          ValueProp: "name"
         },
         {
-          Name: this.Texts.get("Status"), ValueRef: this.ItemInfoDataSource, ValueProp: "status"
+          Name: this.Texts.get("Status"),
+          ValueRef: this.ItemInfoDataSource,
+          ValueProp: "status"
         },
         {
-          Name: this.Texts.get("Created date"), ValueRef: this.ItemInfoDataSource, ValueProp: "testCreatedShort"
+          Name: this.Texts.get("Created date"),
+          ValueRef: this.ItemInfoDataSource,
+          ValueProp: "testCreatedShort"
         },
-        { Name: this.Texts.get("Created by"), ValueRef: this.ItemInfoDataSource, ValueProp: "testCreatedBy" }
+        {
+          Name: this.Texts.get("Created by"),
+          ValueRef: this.ItemInfoDataSource,
+          ValueProp: "testCreatedBy"
+        }
       ]);
 
       if (this.TestDurationDataSource) {
         this.SummaryRepeater.viewModel.addData([
-          { Name: this.Texts.get("Expected time"), ValueRef: this.TestDurationDataSource, ValueProp: "expectedDays", VisibleProp: "expectedDays", Postfix: " " + this.Texts.get("days") }
+          {
+            Name: this.Texts.get("Expected time"),
+            ValueRef: this.TestDurationDataSource,
+            ValueProp: "expectedDays",
+            VisibleProp: "expectedDays",
+            VisibleInv: false,
+            Postfix: " " + this.Texts.get("days")
+          }
         ]);
-
+        
         this.SummaryRepeater.viewModel.addData([
-          { Name: this.Texts.get("Expected time"), ValueRef: this.TestDurationDataSource, ValueProp: "requiredVisits", VisibleProp: "expectedDays", VisibleInv: true, Postfix: " " + this.Texts.get("visitors") }
+          {
+            Name: this.Texts.get("Expected time"),
+            ValueRef: this.TestDurationDataSource,
+            ValueProp: "requiredVisits",
+            VisibleProp: "expectedDays",
+            VisibleInv: true,
+            Postfix: " " + this.Texts.get("visitors")
+          }
         ]);
       }
 
@@ -230,31 +258,55 @@
         }, this);
 
         this.SummaryRepeater.viewModel.addData([
-          { Name: this.Texts.get("Traffic allocation"), ValueRef: this.TrafficAllocationSlider, ValueProp: "selectedValue", Postfix: "%" }
+          {
+            Name: this.Texts.get("Traffic allocation"),
+            ValueRef: this.TrafficAllocationSlider,
+            ValueProp: "selectedValue",
+            Postfix: "%"
+          }
         ]);
       }
 
       if (this.ConfidenceLevelSelect) {
         this.SummaryRepeater.viewModel.addData([
-          { Name: this.Texts.get("Confidence level"), ValueRef: this.ConfidenceLevelSelect, ValueProp: "selectedValue", Postfix: "%" }
+          {
+            Name: this.Texts.get("Confidence level"),
+            ValueRef: this.ConfidenceLevelSelect,
+            ValueProp: "selectedValue",
+            Postfix: "%"
+          }
         ]);
       }
 
       if (this.ObjectiveList) {
         this.SummaryRepeater.viewModel.addData([
-          { Name: this.Texts.get("Test objective"), ValueRef: this.ObjectiveList, ValueProp: "selectedName" }
+          {
+            Name: this.Texts.get("Test objective"),
+            ValueRef: this.ObjectiveList,
+            ValueProp: "selectedName"
+          }
         ]);
       }
 
       if (this.MaximumSelect) {
         this.SummaryRepeater.viewModel.addData([
-          { Name: this.Texts.get("Maximum duration"), ValueRef: this.MaximumSelect, ValueProp: "selectedValue", Postfix: " " + this.Texts.get("days") }
+          {
+            Name: this.Texts.get("Maximum duration"),
+            ValueRef: this.MaximumSelect,
+            ValueProp: "selectedValue",
+            Postfix: " " + this.Texts.get("days")
+          }
         ]);
       }
 
       if (this.MinimumSelect) {
         this.SummaryRepeater.viewModel.addData([
-          { Name: this.Texts.get("Minimum duration"), ValueRef: this.MinimumSelect, ValueProp: "selectedValue", Postfix: " " + this.Texts.get("days") }
+          {
+            Name: this.Texts.get("Minimum duration"),
+            ValueRef: this.MinimumSelect,
+            ValueProp: "selectedValue",
+            Postfix: " " + this.Texts.get("days")
+          }
         ]);
       }
     },
@@ -266,6 +318,7 @@
       subapp.Name.set("text", data.Name);
 
       if (data.ValueRef) {
+        
         data.ValueRef.on("change:" + data.ValueProp, bindingUtil.propagateChange, {
           target: subapp.Value,
           targetProp: "text",
@@ -273,13 +326,14 @@
           sourceProp: data.ValueProp,
           postfix: data.Postfix
         });
+
         var value = data.ValueRef.get(data.ValueProp);
         if (value === null || value === undefined) {
           value = "--";
         }
-      else {
-        value += (data.Postfix || "");
-      }
+        else {
+          value += (data.Postfix || "");
+        }
 
         subapp.Value.set("text", value);
 
@@ -290,6 +344,10 @@
             hide: data.VisibleInv,
             target: subapp.Entry
           });
+
+          if (data.VisibleInv) {
+            subapp.Entry.set("isVisible", false);
+          }
         }
       } else {
         subapp.Value.set("text", data.Value + (data.Postfix || ""));
@@ -370,7 +428,9 @@
       this.actions.loadPageTest(this.get(this._testItemUriProperty), function (data) {
         self.selectPagesToTest.loadTest(data);
         self.reviewTest.loadTest(data);
-        callback(self);
+        if (callback) {
+          callback(self);
+        }
       });
     },
 

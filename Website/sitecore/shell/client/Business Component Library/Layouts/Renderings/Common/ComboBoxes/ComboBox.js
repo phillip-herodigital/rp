@@ -1,11 +1,4 @@
-﻿
-require.config({
-  paths: {
-    selectControlBaseComponent: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Common/ComboBoxes/SelectControlBase",
-  }
-});
-
-define(["sitecore", "selectControlBaseComponent"], function (_sc, selectControlBase) {
+﻿define(["sitecore", "/-/speak/v1/business/selectcontrolbase.js"], function (_sc, selectControlBase) {
   
   _sc.Factories.createBaseComponent({
     name: "ComboBox",

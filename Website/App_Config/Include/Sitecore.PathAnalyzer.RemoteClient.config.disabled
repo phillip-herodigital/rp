@@ -19,6 +19,20 @@ To enable this include file, rename it so that is has a ".config" extension and 
                  This is particularly useful for self-signed certificates or other certificates not signed by a recognized CA.
             -->
       <setting name="PathAnalyzer.Remote.IgnoreSslCertificateErrors" value="true" />
+
+      <!-- PATH ANALYZER - REMOTE SERVICES - AUTHENTICATION - API KEY
+            Specifies the key to use for HMAC authentication.
+            IMPORTANT: do not use the default value, instead generate your own random key.
+            This value must match the value specified in Sitecore.PathAnalyzer.Services.RemoteServer.config.
+      -->
+      <setting name="PathAnalyzer.Remote.Authentication.ApiKey" value="`%L$2I4quWUZULm^Y6%|R2dQP\vM';B5bT2H0|z\G\q8" />
+
+      <!-- PATH ANALYZER - REMOTE SERVICES - AUTHENTICATION - AUTHORIZED CLIENT ID
+            Specifies the unique application Id to use for HMAC authentication. This value should be unique to Path Analyzer.
+            IMPORTANT: do not use the default value, instead generate your own random value.
+            This value must be contained in the "/sitecore/pathAnalyzer/remoteServices/configuration/authorizedClients" list specified in Sitecore.PathAnalyzer.Services.RemoteServer.config.
+      -->
+      <setting name="PathAnalyzer.Remote.Authentication.AuthorizedClientId" value="c241da4e6249fe8cd384be1ca4865bff" />
     </settings>
     <!-- PATH ANALYZER
           Define or override the services used by the Path Analyzer remote client.
@@ -33,19 +47,27 @@ To enable this include file, rename it so that is has a ".config" extension and 
             This service is used to perform retrieval operations for maps via a remote service endpoint.
             Patches the <treeProvider /> node defined in Sitecore.PathAnalyzer.config.
       -->
-      <treeProvider patch:instead="treeProvider" type="Sitecore.PathAnalyzer.Data.Remote.RemoteTreeProvider, Sitecore.PathAnalyzer" />
+      <treeProvider patch:instead="treeProvider" type="Sitecore.PathAnalyzer.Data.Remote.RemoteTreeProvider, Sitecore.PathAnalyzer" singleInstance="true" />
+      <!-- WEB REQUEST FACTORY
+            This service is used to create secure web requests for communicating with remote Path Analyzer services.
+      -->
+      <webRequestFactory type="Sitecore.PathAnalyzer.Data.Remote.RemoteWebRequestFactory, Sitecore.PathAnalyzer">
+        <param desc="configuration" ref="pathAnalyzer/configuration" />
+        <param desc="httpTransportFactory" ref="httpTransportFactory" />
+      </webRequestFactory>
       <!-- REMOTE
             Defines settings related to remote server interaction.
       -->
-      <remote>
-        <!-- PATHS
+      <remoteServices>
+        <!-- ENDPOINTS
               Defines endpoints that are used for communicating with services on the remote reporting server.
         -->
-        <paths>
+        <endpoints>
           <treeDefinitionService>/sitecore/api/PathAnalyzer/RemoteTreeDefinition</treeDefinitionService>
           <treeService>/sitecore/api/PathAnalyzer/RemoteTree</treeService>
-        </paths>
-      </remote>
+          <adminService>/sitecore/api/PathAnalyzer/RemoteAdmin</adminService>
+        </endpoints>
+      </remoteServices>
     </pathAnalyzer>
   </sitecore>
 </configuration>

@@ -6,12 +6,22 @@
   var actionUrlAddVersion = "/sitecore/shell/api/ct/ItemInfo/AddVersion";
 
   var getVersionRequest = function (id, url, callback) {
+    var parsedId, parsedLanguage;
+
+    if (_.isObject(id)) {
+      parsedId = id.id;
+      parsedLanguage = id.language;
+    }
+    else {
+      parsedId = id;
+    }
+
     var ajaxOptions = {
       cache: false,
-      url: url + "?id=" + id,
+      url: _sc.Helpers.url.addQueryParameters(url, {id: parsedId, language: parsedLanguage || ""}),
       context: this,
       success: function(data) {
-        callback(id, data.VersionNumber, data.Revision);
+        callback(parsedId, data.VersionNumber, data.Revision, parsedLanguage);
       }
     };
 

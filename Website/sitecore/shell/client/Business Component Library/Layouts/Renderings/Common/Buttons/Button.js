@@ -14,7 +14,7 @@ define(["sitecore"], function (_sc) {
     initialize: function () {
       this._super();         
       this.model.set("text", this.$el.find(".sc-button-text").text());
-      this.model.set("imageUrl", this.$el.find(".sc-icon").attr("data-sc-imageUrl"));
+      this.model.set("imageUrl", window.encodeURI(this.$el.find(".sc-icon").attr("data-sc-imageUrl")));
       this.model.set("backgroundPosition", this.$el.find(".sc-icon").attr("data-sc-backgroundPosition"));
     }
     

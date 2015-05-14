@@ -13,8 +13,10 @@
     _targetDoc: null,
     _dvZoomElem: null,
 
+    currentMousePos:{},
+
     initialize: function (options) {
-      this._super();
+      //this._super();
 
       if (!window.parent) {
         return;
@@ -73,42 +75,9 @@
 
       // mouse moving in area of "imgZoomELem"
       var self = this;
-      var currentMousePos = { x: -1, y: -1 };
-      imgZoomELem.mousemove(function (event) {
-        var isLeft = false, isRight = false, isUp = false, isDown = false;
-
-        if (event.pageX < currentMousePos.x) isLeft = true;
-        if (event.pageX > currentMousePos.x) isRight = true;
-        if (event.pageY < currentMousePos.y) isUp = true;
-        if (event.pageY > currentMousePos.y) isDown = true;
-
-        currentMousePos.x = event.pageX;
-        currentMousePos.y = event.pageY;
-
-        var scrollStep = 5;
-
-        var zoomContainer = parentBody.find(self._zoomContainer);
-        var toLeft = zoomContainer.scrollLeft();
-        var toTop = zoomContainer.scrollTop();
-
-        if (isLeft) {
-          toLeft -= scrollStep;
-        }
-        else if (isRight) {
-          toLeft += scrollStep;
-        }
-
-        if (isUp) {
-          toTop -= scrollStep;
-        }
-        else if (isDown) {
-          toTop += scrollStep;
-        }
-
-        zoomContainer.scrollLeft(toLeft);
-        zoomContainer.scrollTop(toTop);
-      });
-
+      this.currentMousePos = { x: -1, y: -1 };
+      imgZoomELem.mousemove({contextElem: this}, this.imgZoomMouseMove);
+      
       // mouse wheeling
       parentBody.mousewheel(function (e, delta) {
 
@@ -165,6 +134,47 @@
       });
     },
 
+    imgZoomMouseMove: function (event) {
+      var self = this;
+      if (event.data && event.data.contextElem)
+        self = event.data.contextElem;
+
+      var isLeft = false, isRight = false, isUp = false, isDown = false;
+
+      if (event.pageX < self.currentMousePos.x) isLeft = true;
+      if (event.pageX > self.currentMousePos.x) isRight = true;
+      if (event.pageY < self.currentMousePos.y) isUp = true;
+      if (event.pageY > self.currentMousePos.y) isDown = true;
+
+      self.currentMousePos.x = event.pageX;
+      self.currentMousePos.y = event.pageY;
+
+      var scrollStep = 5;
+
+      var $parentBody = $(self._targetDoc.body);
+
+      var zoomContainer = $parentBody.find(self._zoomContainer);
+      var toLeft = zoomContainer.scrollLeft();
+      var toTop = zoomContainer.scrollTop();
+
+      if (isLeft) {
+        toLeft -= scrollStep;
+      }
+      else if (isRight) {
+        toLeft += scrollStep;
+      }
+
+      if (isUp) {
+        toTop -= scrollStep;
+      }
+      else if (isDown) {
+        toTop += scrollStep;
+      }
+
+      zoomContainer.scrollLeft(toLeft);
+      zoomContainer.scrollTop(toTop);
+    },
+
     closeFrame: function (event) {
       // ZoomFrame is in the event data. Passing in as context would be the source of the event
       var self = event.data;
@@ -186,6 +196,7 @@
         event.data.closeFrame(event);
       }
     }
+
   });
 
   Sitecore.Factories.createComponent("ZoomFrame", model, view, ".sc-ZoomFrame");

@@ -55,30 +55,31 @@
 }
 
 <div @htmlAttributes>
-<div class="sc-advancedExpander-header">
-  <table>
-    <tr>
-      <td class="sc-advancedExpander-header-icon-container " data-bind="css: {'not-empty': imageUrl()!='' }" >
-        <img class="sc-advancedExpander-header-icon" onerror="this.style.display='none'" onload="this.style.display='inline';" alt="" data-bind="attr : {src: imageUrl}" src="@imageUrl" />
-      </td>
-      <td class="sc-advancedExpander-header-title" > 
-        <span class="sc-advancedExpander-header-title-text" data-bind="text: header">@header</span>
-      </td>
-      <td class="sc-advancedExpander-header-actionbar" data-bind="css: {'sc-actionbar-collapsed': !isOpen() }" ><div  class="sc-advancedExpander-header-actionbar-container" data-bind="visible: isOpen" >@this.Html.Sitecore().Placeholder(controlId + ".ActionBar")</div></td>
-      @if (isCollapsible) {
-        <td class="sc-advancedExpander-header-chevron">
-          <a href="#" data-bind="click: toggle">
-            <span class="sc-advancedExpander-header-chevron-glyph" data-bind="css: { 'sc-advancedExpander2-header-chevron-glyph-open': isOpen }"></span>
-          </a>
+  <div class="sc-advancedExpander-header" data-bind="click: toggle">
+    <table>
+      <tr>
+        <td class="sc-advancedExpander-header-icon-container " data-bind="css: {'not-empty': imageUrl()!='' }">
+          <img class="sc-advancedExpander-header-icon" onerror="this.style.display='none'" onload="this.style.display='inline';" alt="" data-bind="attr : {src: imageUrl}" src="@imageUrl" />
         </td>
-      }
-    </tr> 
-    <tr>
-      <td class="sc-advancedExpander-header-promotedfields" colspan=@(isCollapsible ? "4": "3")>
-        @Html.Sitecore().Placeholder(controlId + ".PromotedFields")
-      </td>
-    </tr>
-  </table>
+        <td class="sc-advancedExpander-header-title">
+          <span class="sc-advancedExpander-header-title-text" data-bind="text: header">@header</span>
+        </td>
+        <td class="sc-advancedExpander-header-actionbar" data-bind="css: {'sc-actionbar-collapsed': !isOpen() }"><div class="sc-advancedExpander-header-actionbar-container" data-bind="visible: isOpen">@this.Html.Sitecore().Placeholder(controlId + ".ActionBar")</div></td>
+        @if (isCollapsible)
+        {
+          <td class="sc-advancedExpander-header-chevron">
+            <a href="#">
+              <span class="sc-advancedExpander-header-chevron-glyph" data-bind="css: { 'sc-advancedExpander2-header-chevron-glyph-open': isOpen }"></span>
+            </a>
+          </td>
+        }
+      </tr>
+      <tr>
+        <td class="sc-advancedExpander-header-promotedfields" colspan=@(isCollapsible ? "4": "3")>
+          @Html.Sitecore().Placeholder(controlId + ".PromotedFields")
+        </td>
+      </tr>
+    </table>
   </div>
     
   <div class="sc-advancedExpander-body" data-bind="visible: isOpen">

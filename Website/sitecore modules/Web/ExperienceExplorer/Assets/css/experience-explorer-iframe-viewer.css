@@ -1,4 +1,54 @@
-﻿.nested {
+﻿.experience-explorer-iframe .font-xlarge {
+    color: #fff;
+    font-size: 24px;
+    line-height: 52px;
+    margin-left: 5px;
+}
+
+.experience-explorer-iframe .font-small {
+    font-size: .6em;
+    float: left;
+}
+
+.viewer-header {
+    background-color: #474747;
+}
+
+/********** ICONS  ***********/
+.experience-explorer-iframe-viewer .icon-th {
+    background-image: url("/sitecore modules/Web/ExperienceExplorer/Assets/images/views.png");
+}
+
+.experience-explorer-iframe-viewer .icon-heart {
+    background-image: url("/sitecore modules/Web/ExperienceExplorer/Assets/images/star.png");
+}
+
+/********** HEADER STYLES **********/
+
+.experience-explorer-iframe .visit-counters td {
+  font-size: 1.2em;
+  line-height: 0.85;
+  text-transform: lowercase;
+  font-weight: bold;
+}
+
+.experience-explorer-iframe .visit-counters .inline-flex {
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+}
+
+/*********************************
+************ TABS ***************
+*********************************/
+
+/********** RULES TAB ***************/
+
+.experience-explorer-iframe-viewer .rules {
+    line-height: 28px;
+}
+
+/*.nested {
     padding-left: 15px;
 }
 
@@ -6,7 +56,7 @@
     font-size: 10px;
 }
 
-/******** VISIT ICONS ************/
+******* VISIT ICONS ***********
 
 .experience-explorer-iframe-viewer .visit-counters {
     float: right;
@@ -35,7 +85,7 @@
     display: block;
 }
 
-/*********** HEADER STYLES ***********/
+********** HEADER STYLES **********
 .experience-explorer-iframe td.visit-cell,
 .experience-explorer-iframe td.mode-cell {
     padding-left: 0;
@@ -46,16 +96,16 @@
     padding-right: 0;
 }
 
-/***********************************/
-/************* TABS ****************/
-/***********************************/
+*********************************
+************ TABS ***************
+*********************************
 
-/*********** PRESET TAB ****************/
+********** PRESET TAB ***************
 .experience-explorer-iframe-viewer .preset-icon img {
     max-width: 128px;
 }
 
-/*********** RULES TAB ****************/
+********** RULES TAB ***************
 .red-indication,
 .yellow-indication,
 .green-indication {
@@ -81,13 +131,13 @@ label[class="conditions"] {
     background-color: #eee;
 }
 
-/*********** PROFILES TAB ****************/
+********** PROFILES TAB ***************
 .experience-explorer-iframe-viewer .visit-icon {
      width: 120px;
 }
 
-/*********** REFERRAL TAB ****************/
+********** REFERRAL TAB ***************
 .experience-explorer-iframe-viewer .referral-link {
     width: 260px;
-}
+}*/
 

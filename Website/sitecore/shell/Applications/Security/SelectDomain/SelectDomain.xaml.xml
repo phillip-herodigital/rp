@@ -78,7 +78,6 @@
               PageSize="15"
               PagerStyle="Slider"
               PagerTextCssClass="GridFooterText"
-              PagerButtonActiveEnabled ="True"
               PagerButtonHoverEnabled="True"
               PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
             
@@ -146,18 +145,9 @@
               </ClientTemplate>
 
               <ClientTemplate Id="SliderTemplate" runat="server">
-                <table class="SliderPopup" cellspacing="0" cellpadding="0" border="0">
-                  <tr>
-                    <td>
-                      <div style="padding:4px;font:8pt tahoma;white-space:nowrap;overflow:hidden">## DataItem.GetMember('Name').Value ##</div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="height:14px;background-color:#666666;padding:1px 8px 1px 8px;color:white">
-                      ## DataItem.PageIndex + 1 ## / ## Domains.PageCount ##
-                    </td>
-                  </tr>
-                </table>
+                <div class="SliderPopup">
+                  ## DataItem.PageIndex + 1 ## / ## Domains.PageCount ##
+                </div>
               </ClientTemplate>
             </ClientTemplates>
           </Grid>

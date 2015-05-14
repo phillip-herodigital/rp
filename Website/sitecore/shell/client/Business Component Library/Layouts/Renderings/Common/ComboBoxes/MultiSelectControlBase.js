@@ -1,10 +1,4 @@
-﻿
-require.config({
-  paths: {
-    selectControlBaseComponent: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Common/ComboBoxes/SelectControlBase",
-  }
-});
-define(["sitecore", "selectControlBaseComponent"], function (_sc, selectControlBase) {
+﻿define(["sitecore", "/-/speak/v1/business/selectcontrolbase.js"], function (_sc, selectControlBase) {
 
   var multiSelectControlBaseComponent = _sc.Factories.createBaseComponent({
     name: "MultiSelectControlBase",
@@ -20,50 +14,55 @@ define(["sitecore", "selectControlBaseComponent"], function (_sc, selectControlB
       { name: "selectedItems", defaultValue: [], value: "$el.data:sc-selecteditems" }
     ]),
 
-    initialize: function () {
-      this._super();
+    extendModel: {
+      resetSelection: function () {
+        this._super();
 
-      this.model.on("change:selectedOptions", function () {
-        //User clicks different option
-        this.isRebinding = true;
-        var selectedOptions = this.model.get("selectedOptions");
-        var selectedItems = [];
-        for (var i = 0; i < selectedOptions.length; i++) {
-          selectedItems.push(this.getItemFromValue(this.model.get("selectedOptions")[i]));
-        }
-        this.model.set("selectedItems", selectedItems);
-        this.model.set("selectedValue", selectedOptions[0]);
-        this.model.set("selectedValues", selectedOptions);
-        this.model.set("selectedItem", selectedItems[0]);
-        this.model.set("selectedItemId", this.model.get("selectedValue"));
-        this.model.set("selectedItemIds", this.model.get("selectedValues"));
-        this.isRebinding = false;
-      }, this);
-
-      this.model.on("change:selectedValues", function () {
-        if (!this.isRebinding) {
-          this.rebind(this.model.get("items"), null, null, this.model.get("displayFieldName"), this.model.get("valueFieldName"), null, this.model.get("selectedValues"));
-        }
-      }, this);
+        this.set("selectedItems", []);
+        this.set("selectedItemIds", []);
+        this.set("selectedValues", []);
+      }
     },
 
-    selectItemsChangedHandler: function () {
-      this.model.on("change:selectedItems", function () {
-        if (!this.isRebinding) {
-          this.rebind(this.model.get("items"), null, null, this.model.get("displayFieldName"), this.model.get("valueFieldName"), this.model.get("selectedItems"), null);
-        }
-      }, this);
+    initialize: function () {
+      this._super();
+    },
+
+    addEventHandlers: function() {
+      this._super();
+      this.model.on("change:selectedValues", this.onChangeSelectedValues, this);
+      this.model.on("change:selectedItems", this.onChangeSelectedItems, this);
+    },
+
+    onChangeSelectedOptions: function() {
+      //User clicks different option
+      this.isRebinding = true;
+      var selectedOptions = this.model.get("selectedOptions") || [];
+      var selectedItems = [];
+      for (var i = 0; i < selectedOptions.length; i++) {
+        selectedItems.push(this.getItemFromValue(this.model.get("selectedOptions")[i]));
+      }
+      this.model.set("selectedItems", selectedItems);
+      this.model.set("selectedValue", selectedOptions[0]);
+      this.model.set("selectedValues", selectedOptions);
+      this.model.set("selectedItem", selectedItems[0]);
+      this.model.set("selectedItemId", this.model.get("selectedValue"));
+      this.model.set("selectedItemIds", this.model.get("selectedValues"));
+      this.isRebinding = false;
+    },
+
+    onChangeSelectedValues: function() {
+      this.rebind(this.model.get("items"), null, null, this.model.get("displayFieldName"), this.model.get("valueFieldName"), null, this.model.get("selectedValues"));
+    },
+
+    onChangeSelectedItems: function () {
+      this.rebind(this.model.get("items"), null, null, this.model.get("displayFieldName"), this.model.get("valueFieldName"), this.model.get("selectedItems"), null);
     },
 
     setSelection: function () {
       //If no items
       if (!this.isPopulatedArray(this.model.get("items"))) {
-        this.model.set("selectedItem", null);
-        this.model.set("selectedItems", []);
-        this.model.set("selectedItemId", null);
-        this.model.set("selectedItemIds", []);
-        this.model.set("selectedValue", null);
-        this.model.set("selectedValues", []);
+        this.model.resetSelection();
         return;
       }
 
@@ -116,25 +115,31 @@ define(["sitecore", "selectControlBaseComponent"], function (_sc, selectControlB
 
     rebind: function (items, selectedItem, selectedValue, displayFieldName, valueFieldName, selectedItems, selectedValues) {
       // this._super.apply(this, arguments);
-      this.isRebinding = true;
-      if (items) {
-        this.model.set("items", items);
-      }
-      this.model.set("selectedItem", selectedItem);
-      this.model.set("selectedValue", selectedValue);
-      this.model.set("selectedItemId", selectedValue);
-      if (displayFieldName) {
-        this.model.set("displayFieldName", displayFieldName);
-      }
-      if (valueFieldName) {
-        this.model.set("valueFieldName", valueFieldName);
-      }
-      this.model.set("selectedItems", selectedItems || []);
-      this.model.set("selectedValues", selectedValues || []);
-      this.model.set("selectedItemIds", selectedValues || []);
+      if (!this.isRebinding) {
+        this.isRebinding = true;
 
-      this.setSelection();
-      this.isRebinding = false;
+        if (displayFieldName) {
+          this.model.set("displayFieldName", displayFieldName);
+        }
+
+        if (valueFieldName) {
+          this.model.set("valueFieldName", valueFieldName);
+        }
+
+        if (items) {
+          this.model.set("items", items);
+        }
+
+        this.model.set("selectedItem", selectedItem);
+        this.model.set("selectedValue", selectedValue);
+        this.model.set("selectedItemId", selectedValue);
+        this.model.set("selectedItems", selectedItems || []);
+        this.model.set("selectedValues", selectedValues || []);
+        this.model.set("selectedItemIds", selectedValues || []);
+
+        this.setSelection();
+        this.isRebinding = false;
+      }
     }
 
   });

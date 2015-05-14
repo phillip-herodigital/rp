@@ -37,7 +37,9 @@ define([
         valueId: null
       });
 
-      this.on("change:itemId change:languageName change:version change:combination change:valueId", this.refresh, this);
+      this.on("change:itemId change:languageName change:version", this.refresh, this);
+      this.on("change:valueId", this.refreshByValueId, this);
+      this.on("change:combination", this.refreshByCombination, this);
 
       this.refresh();
     },
@@ -48,7 +50,35 @@ define([
 
       this.fetch();
     },
+    
+    refreshByCombination: function () {
+      this.set("count", 0);
+      this.set("items", []);
 
+      var combination = this.get("combination");
+      if (combination == "" || combination == null || combination == undefined) {
+        return;
+      }
+      
+      this.set("valueId", "", { silent: true });
+
+      this.fetch();
+    },
+    
+    refreshByValueId: function () {
+      this.set("count", 0);
+      this.set("items", []);
+      
+      var valueId = this.get("valueId");
+      if (valueId == "" || valueId == null || valueId == undefined) {
+        return;
+      }
+      
+      this.set("combination", "", { silent: true });
+
+      this.fetch();
+    },
+    
     fetch: function () {
       var uri = dataUtil.composeUri(this);
       if (!uri) {
@@ -56,9 +86,10 @@ define([
       }
 
       var combination = this.get("combination");
-      var actionUrl = this.get("actionUrl");
       var valueId = this.get("valueId");
-      var actionUrlForTestValue = this.get("actionUrlForTestValue");
+
+      var  actionUrlForTestValue = this.get("actionUrlForTestValue"); 
+      var  actionUrl = this.get("actionUrl");
 
       if (!combination && !valueId) {
         return;
@@ -70,10 +101,10 @@ define([
       }
 
       var url = "";
-      if (combination && actionUrl) {
-        url = actionUrl + "?combination=" + combination;
-      } else if (valueId && actionUrlForTestValue) {
+      if (valueId && actionUrl) {
         url = actionUrlForTestValue + "?testValueId=" + valueId;
+      } else if (combination && actionUrl) {
+        url = actionUrl + "?combination=" + combination;
       }
 
       url += "&itemuri=" + encodeURIComponent(uri);

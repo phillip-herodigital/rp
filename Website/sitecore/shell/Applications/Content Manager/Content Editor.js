@@ -194,8 +194,11 @@ scContentEditor.prototype.executeHandler = function (parameters, callback) {
         }
 
         if (this.httpRequest.getResponseHeader("SC-Login") == 'true') {
-            window.top.location = "/sitecore";
-            return;
+          var parser = document.createElement('a');
+          parser.href = this.httpRequest.responseURL;
+          window.top.location = parser.protocol + "//" + parser.host + (parser.pathname[0] == '/' ? '' : '/') + parser.pathname +
+            "?returnUrl=" + (top.location.pathname[0] == '/' ? '' : '/') + encodeURIComponent(top.location.pathname + top.location.search + top.location.hash);
+          return;
         }
 
         this.response = this.httpRequest.responseText;

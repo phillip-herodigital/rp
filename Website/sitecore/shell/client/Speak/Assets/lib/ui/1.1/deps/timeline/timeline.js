@@ -2625,7 +2625,7 @@ links.Timeline.prototype.screenToTime = function (x) {
  */
 links.Timeline.prototype.timeToScreen = function (time) {
   var conversion = this.conversion;
-  return (time.valueOf() - conversion.offset) * conversion.factor;
+  return Math.round((time.valueOf() - conversion.offset) * conversion.factor);
 };
 
 /**

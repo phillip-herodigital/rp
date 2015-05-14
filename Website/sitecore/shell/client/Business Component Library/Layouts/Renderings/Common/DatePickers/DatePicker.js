@@ -88,7 +88,8 @@ define(['sitecore', 'jqueryui'], function (_sc) {
           $.noop();
         }
 
-        this.setDateFormat(this.$el.attr("data-dateformat"));
+        this.initialDateFormat = this.$el.attr("data-dateformat");
+        this.setDateFormat(this.initialDateFormat);
 
         this.model.set("time", this.$el.attr("data-time"));
         this.model.on("change:time", this.timeUpdated, this);
@@ -96,7 +97,7 @@ define(['sitecore', 'jqueryui'], function (_sc) {
         setMinDateAttribute(this);
         setMaxDateAttribute(this);
 
-        this.model.once("change:minDate change:maxDate", this.changeRange, this);
+        this.model.on("change:minDate change:maxDate", this.changeRange, this);
 
         if (this.$el.attr("data-localization")) {
           this.setLocalization();
@@ -108,7 +109,6 @@ define(['sitecore', 'jqueryui'], function (_sc) {
       afterRender: function () {
         this._widget = this.$el.data("datepicker");
         this._widget.dpDiv.addClass("sc-datepicker-dropdown");
-        this.fixTodayButtonClass(this._widget.dpDiv);
 
         if (this.$el.attr("data-date")) {
           this.model.set("date", this.$el.attr("data-date"));
@@ -124,20 +124,7 @@ define(['sitecore', 'jqueryui'], function (_sc) {
       },
 
       beforeShowHandler: function (inp, data) {
-        var self = this;
-        if (!data && !data.dpDiv) {
-          return;
-        }
-        window.setTimeout(function () {
-          self.fixTodayButtonClass(data.dpDiv);
-        }, 0);
 
-      },
-
-      //used for patching today button with SPEAK classes
-      fixTodayButtonClass: function (dpDiv) {
-        var todayBtn = dpDiv.find("button[data-handler='today']");
-        todayBtn.addClass("btn sc-button btn-default");
       },
 
       timeUpdated: function () {
@@ -162,7 +149,7 @@ define(['sitecore', 'jqueryui'], function (_sc) {
         }
         
         if (_sc.Helpers.date.isISO(date)) {
-          dateObject = new Date(this.convertDate(date, "yyyy/mm/dd"));
+          dateObject = new Date(this.convertDate(date, "yy/mm/dd"));
 
           this.setDate(dateObject);
 
@@ -183,20 +170,19 @@ define(['sitecore', 'jqueryui'], function (_sc) {
 
       // Changing attributes for the date range
       changeRange: function () {
+        
+        // set dates
         var minDate = this.model.get("minDate"),
-            maxDate = this.model.get("maxDate");
+          maxDate = this.model.get("maxDate"),
+          format = this.model.get("dateFormat"),
+          self = this;
 
-        this.model.off("change:minDate change:maxDate");
-
-        if (this.model.changed["minDate"]) {
-          this.$el.attr("data-mindate", minDate);
-          this.setMinDateAttribute();
-        } else {
-          this.$el.attr("data-maxdate", maxDate);
-          this.setMaxDateAttribute();
+        // workaround for linked models
+        if (_sc.Helpers.date.isISO(minDate) && _sc.Helpers.date.isISO(maxDate)) {
+          setTimeout(function () {
+            self.$el["datepicker"]("option", { "minDate": self.convertDate(minDate, format), "maxDate": self.convertDate(maxDate, format) });
+          }, 0);
         }
-
-        this.model.once("change:minDate change:maxDate", this.changeRange, this);
       },
 
       // Sets the date on the model
@@ -219,8 +205,14 @@ define(['sitecore', 'jqueryui'], function (_sc) {
 
       // Convert the ISO date into the format given
       convertDate: function (dateString, format) {
-        var dateConverter = _sc.Converters.get("date");
-        return dateConverter.toStringWithFormat(dateString, format);
+        var utcDate = _sc.Helpers.date.parseISO(dateString);
+        var date = null;
+        // workaround for timezone because $.datepicker.formatDate doesn't respect timezone
+        if (utcDate) {
+          date = new Date(utcDate * 1 + utcDate.getTimezoneOffset() * 60000);
+          return $.datepicker.formatDate(format, date);
+        }
+        return null;
       },
 
       // Convert the date object into Sitecore ISO format
@@ -254,7 +246,7 @@ define(['sitecore', 'jqueryui'], function (_sc) {
             format = format.replace("yy", "y");
           }
         } else {
-          format = "dd/mm/yyyy";
+          format = "dd/mm/yy";
         }
 
         this.model.set("dateFormat", format);
@@ -295,18 +287,25 @@ define(['sitecore', 'jqueryui'], function (_sc) {
 
   // Sets the mindate on the model
   function setMinDateAttribute(self) {
+    
     var minDate = self.$el.attr("data-mindate"),
-        format = self.model.get("dateFormat");
+        format = self.model.get("dateFormat");    
 
-    self.model.set("minDate", self.convertDate(minDate, format));
+    if (_sc.Helpers.date.isISO(minDate)) {
+      self.model.set("minDate", minDate);
+      self.$el["datepicker"]("option", { "minDate": self.convertDate(minDate, format) });
+    }
   }
 
   // Sets the maxdate on the model
   function setMaxDateAttribute(self) {
+
     var maxDate = self.$el.attr("data-maxdate"),
         format = self.model.get("dateFormat");
-
-    self.model.set("maxDate", self.convertDate(maxDate, format));
+    if (_sc.Helpers.date.isISO(maxDate)) {
+      self.model.set("maxDate", maxDate);
+      self.$el["datepicker"]("option", { "maxDate": self.convertDate(maxDate, format) });
+    }
   }
 
   // Set the date on the model which is equaled to the current date
@@ -316,7 +315,6 @@ define(['sitecore', 'jqueryui'], function (_sc) {
       this.model.set("date", this.convertToISODate(date));
     }
   }
-  
 
   _sc.Factories.createJQueryUIComponent(_sc.Definitions.Models, _sc.Definitions.Views, control);
 });

@@ -140,14 +140,12 @@ define(["sitecore", "userProfile", "knockout", "underscore", "bootstrap"], funct
         return;
       }
 
-      if (action.isEnabled()) {
-        $(event.target).toggleClass("selected");
-
-        if (action != null) {
-          action.isFavorite(!action.isFavorite());
-          this.updateActionsStatus(action);
-          this.updateFavorites();
-        }
+      // User should be able to promote each type of actions to favorites even disabled actions, according to Bug 18371
+      $(event.target).toggleClass("selected");
+      if (action != null) {
+        action.isFavorite(!action.isFavorite());
+        this.updateActionsStatus(action);
+        this.updateFavorites();
       }
     },
 

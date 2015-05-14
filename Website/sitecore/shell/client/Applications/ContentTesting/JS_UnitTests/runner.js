@@ -53,6 +53,27 @@ require.config({
     UnorderedList: "/sitecore/shell/client/Applications/ContentTesting/Components/UnorderedList/UnorderedList",
     UnorderedListTest: "/sitecore/shell/client/Applications/ContentTesting/Components/UnorderedList/test/UnorderedList.test",
 
+    ScoreGainedSpot: "/sitecore/shell/client/Applications/ContentTesting/Components/ScoreGainedSpot/ScoreGainedSpot",
+    ScoreGainedSpotTest: "/sitecore/shell/client/Applications/ContentTesting/Components/ScoreGainedSpot/test/ScoreGainedSpot.test",
+
+    TestOptions: "/sitecore/shell/client/Applications/ContentTesting/Components/TestOptions/TestOptions",
+    TestOptionsTest: "/sitecore/shell/client/Applications/ContentTesting/Components/TestOptions/test/TestOptions.test",
+
+    OptionsMapper: "/sitecore/shell/client/Applications/ContentTesting/Components/OptionsMapper/OptionsMapper",
+    OptionsMapperTest: "/sitecore/shell/client/Applications/ContentTesting/Components/OptionsMapper/test/OptionsMapper.test",
+
+    ZoomFrame: "/sitecore/shell/client/Applications/ContentTesting/Components/ZoomFrame/ZoomFrame",
+    ZoomFrameTest: "/sitecore/shell/client/Applications/ContentTesting/Components/ZoomFrame/test/ZoomFrame.test",
+
+    ResizableFrameGrip: "/sitecore/shell/client/Applications/ContentTesting/Components/ResizableFrameGrip/ResizableFrameGrip",
+    ResizableFrameGripTest: "/sitecore/shell/client/Applications/ContentTesting/Components/ResizableFrameGrip/test/ResizableFrameGrip.test",
+
+    PageThumbnail: "/sitecore/shell/client/Applications/ContentTesting/Components/PageThumbnail/PageThumbnail",
+    PageThumbnailTest: "/sitecore/shell/client/Applications/ContentTesting/Components/PageThumbnail/test/PageThumbnail.test",
+    
+    AccordionRemoveCollapse: "/sitecore/shell/client/Applications/ContentTesting/Components/Behaviours/AccordionRemoveCollapse",
+    AccordionRemoveCollapseTest: "/sitecore/shell/client/Applications/ContentTesting/Components/Behaviours/test/AccordionRemoveCollapse.test",
+
   },
   shim: {
     'boot': { exports: ["boot"] },
@@ -79,19 +100,26 @@ require.config({
 
 require(["jasmine", "jasmineHtml", "jasmineEnvBoot", "sitecore" ], function (jasmine, jasmineHtml, boot) {
 
-  var testComponents = ["FilteredComboBoxTest",
-                        "SliderAdvancedTest",
-                        "CarouselImageTest",
-                        "CompareImageTest",
-                        "TooltipCustomTest",
-                        "KPISpotTest",
-                        "ValueBarTest",
-                        "ExperienceIndicatorTest",
-                        "ProgressBarCustomTest",
-                        "GroupedCheckboxListTest",
-                        "QueryStringParameterResolverTest",
-                        //"TestObjectivesDataSourceTest",
-                        "UnorderedListTest",
+  var testComponents = [//"FilteredComboBoxTest",
+                        //"SliderAdvancedTest",
+                        //"CarouselImageTest",
+                        //"CompareImageTest",
+                        //"TooltipCustomTest",
+                        //"KPISpotTest",
+                        //"ValueBarTest",
+                        //"ExperienceIndicatorTest",
+                        //"ProgressBarCustomTest",
+                        //"GroupedCheckboxListTest",
+                        //"QueryStringParameterResolverTest",
+                        ////"TestObjectivesDataSourceTest",
+                        //"UnorderedListTest",
+                        //"ScoreGainedSpotTest",
+                        //"TestOptionsTest",
+                        //"OptionsMapperTest",
+                        //"ZoomFrameTest",
+                        //"ResizableFrameGripTest",
+                        //"PageThumbnailTest",
+                        "AccordionRemoveCollapseTest",
                        ];
 
   var pathItem = "/sitecore/client/Applications/ContentTesting/Pages/JS-UnitTests/TestPage";

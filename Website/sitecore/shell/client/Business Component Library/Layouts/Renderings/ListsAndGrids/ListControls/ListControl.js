@@ -2,14 +2,16 @@
   paths: {
     "Scrollbar": "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/behaviors/Scrollbar",
     "EndlessPageScroll": "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/behaviors/EndlessPageScroll",
-    "userProfile": "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/userProfile"
+    "userProfile": "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/userProfile",
+    "ResizableColumns": "/sitecore/shell/client/Business Component Library/Layouts/Renderings/ListsAndGrids/ListControls/ResizableColumns"
   },
   shim: {
     'Scrollbar': { deps: ['sitecore'] }
   }
 });
 
-define(["sitecore", "userProfile", "Scrollbar", "EndlessPageScroll"], function (sc, userProfile) {
+
+define(["sitecore", "userProfile", "Scrollbar", "EndlessPageScroll", "ResizableColumns"], function (sc, userProfile) {
   /**
   * Detail List View
   * Composite View which uses:
@@ -36,7 +38,7 @@ define(["sitecore", "userProfile", "Scrollbar", "EndlessPageScroll"], function (
   var Row = Backbone.LayoutManager.extend({
     template: "row",
     tagName: "tr",
-    events: { "click": "select" },
+    events: { "click td.ventilate": "select" },
     initialize: function (options) {
       this.parent = options.parent;
     },
@@ -128,35 +130,39 @@ define(["sitecore", "userProfile", "Scrollbar", "EndlessPageScroll"], function (
       this.updateArrows();
       this.initResizableColumns();
     },
-    initResizableColumns: function () {
-      var $header = this.$el.find(".sc-table-header.table");
-      var $body = this.$el.find(".sc-listcontrol-body .sc-table.table");
 
-      if (this.resizable == null && $header && $body && $body.is(":visible") && $.contains(document.documentElement, $header[0]) && $body.find(ResizableColumns.prototype.defaults.selectorTD).length > 1) {
-        var state = userProfile.get(this.parent);
-        var columnWidths = state ? state.columnWidths : null;
-        this.resizable = new ResizableColumns($header, $body, columnWidths, { dragOnlyHandlers: !this.model.get("isActiveResizeEnabled") });
-        this.resizable.model.on("change:columnWidths", function () {
-          this.updateResizableState();
-        }, this);
+    initResizableColumns: function () {
+      var state = userProfile.get(this.parent);
+      var columnWidths = state ? state.columnWidths : null;
+
+      if (this.$el.is(":data('sc-resizableColumns')")) {
+        this.$el.resizableColumns("destroy");
       }
-      else if (this.resizable != null) {
-        this.resizable.reinitAndKeepWidth($header, $body);
-      }
+      
+      this.$el.resizableColumns({
+        columnWidths: columnWidths,
+        dragOnlyHandlers: !this.model.get("isActiveResizeEnabled"),
+        resized: _.bind(function (e, data) {
+          this.updateResizableState(data);
+        }, this)
+      });
+
     },
     resizableColumnsSyncHandleWidths: function () {
-      if (this.resizable != null) {
-        this.resizable.syncHandleWidthsEndless();
+      if (this.$el.is(":data('sc-resizableColumns')")) {
+        this.$el.resizableColumns("adjustHandles");
       }
     },
     resizableColumnsSyncActiveResize: function () {
-      if (this.resizable != null) {
-        this.resizable.options.dragOnlyHandlers = !this.model.get("isActiveResizeEnabled");
+      if (this.$el.is(":data('sc-resizableColumns')")) {
+        this.$el.resizableColumns("option", "dragOnlyHandlers", !this.model.get("isActiveResizeEnabled"));
       }
     },
-    updateResizableState: function () {
-      var state = { columnWidths: this.resizable.model.get("columnWidths") };
-      userProfile.update(this.parent, state);
+    updateResizableState: function (columnWidths) {
+      userProfile.update(this.parent, columnWidths);
+      // TODO should be moved into userProfile update method.
+      // Currently placed here to avoid breaking changes
+      this.parent.$el.data(userProfile.defaultParams.stateDataAttributeName, columnWidths);
     },
     removeEmpty: function () {
       this.$el.find(".empty").remove();
@@ -575,8 +581,8 @@ define(["sitecore", "userProfile", "Scrollbar", "EndlessPageScroll"], function (
       });
     },
     destroyResizableColumns: function () {
-      if (this.views[0] && this.views[0].resizable) {
-        this.views[0].resizable.destroy();
+      if (this.$el.is(":data('sc-resizableColumns')")) {
+        this.$el.resizableColumns("destroy");
       }
     }
   });
@@ -690,295 +696,6 @@ define(["sitecore", "userProfile", "Scrollbar", "EndlessPageScroll"], function (
   {
     return size ? size + "px" : "";
   }
-  
-  var ResizableColumns = (function () {
-    var __bind, parseWidth, pointerX, setWidth;
-
-    __bind = function (fn, me) {
-      return function () { return fn.apply(me, arguments); };
-    };
-    
-    parseWidth = function (node) {
-      return parseFloat(node.style.width.replace('%', ''));
-    };
-    
-    setWidth = function (node, width) {
-      if (typeof(width) == "string") {
-        width = parseFloat(width.replace('%', ''));
-      }
-      width = width.toFixed(1);
-      return node.style.width = "" + width + "%";
-    };
-    
-    pointerX = function (e) {
-      if (e.type.indexOf('touch') === 0) {
-        return (e.originalEvent.touches[0] || e.originalEvent.changedTouches[0]).pageX;
-      }
-      return e.pageX;
-    };
-    
-    ResizableColumns.prototype.defaults = {
-      selector: 'tr th.sc-table-head',
-      selectorTD: 'tr td.ventilate',
-      syncHandlers: false,
-      dragOnlyHandlers: true,
-      minWidth: 60
-    };
-
-    function ResizableColumns($header, $body, columnWidths, options) {
-      this.pointerdown = __bind(this.pointerdown, this);
-      this.constrainWidth = __bind(this.constrainWidth, this);
-      this.options = {};
-      _.extend(this.options, this.defaults);
-      _.extend(this.options, options);
-      this.$table = $header;
-      this.$body = $body;
-      this.columnWidths = columnWidths || [];
-      this.model = new Backbone.Model();
-      this.model.set("columnWidths", this.columnWidths);
-      this.setHeaders();
-      this.syncHandleWidths();
-      $(window).on('resize.sc-rc', (function (_this) {
-        return function () {
-          _this.syncHandleWidths();
-        };
-      })(this));
-    }
-    
-    ResizableColumns.prototype.setHeaders = function () {
-      this.$tableHeaders = this.$table.find(this.options.selector);
-      this.$tableBodies = this.$body.find(this.options.selectorTD);
-      if (this.columnWidths.length > 0 && this.$tableHeaders.length == this.columnWidths.length) {
-        this.assignWidthsFromOld(this.columnWidths);
-      } else {
-        this.assignHeaderPercentageWidths();
-        this.assignBodyPercentageWidths();        
-      }
-      this.createHandles();
-    };
-
-    ResizableColumns.prototype.destroy = function () {
-      _.each(this.$handleContainer.find('.sc-rc-handle'), function (el, i) {
-        var $el;
-        $el = $(el);
-        $el.data('th').css({ width: "" });
-        $el.data('td').css({ width: "" });
-      });
-      if ((this.$handleContainer) != null) {
-        this.$handleContainer.remove();
-      }
-      if ((this.$handleBorder) != null) {
-        this.$handleBorder.remove();
-      }
-      this.$table.removeData('resizableColumns');
-      this.$table.add(window).off('.sc-rc');
-    };
-
-    ResizableColumns.prototype.assignHeaderPercentageWidths = function () {
-      //var tablewidth = this.$table.width();
-      var tablewidth = 0;
-      var widthsPx = [];
-      _.each(this.$tableHeaders, function (el, i) {
-        var $el;
-        $el = $(el);
-        tablewidth += $el.outerWidth();
-        widthsPx.push($el.outerWidth());
-      }, this);
-      _.each(this.$tableHeaders, function (el, i) {
-        var $el;
-        $el = $(el);
-        setWidth($el[0], widthsPx[i] / tablewidth * 100);
-        this.columnWidths[i] = $el[0].style.width;
-      }, this);
-      this.model.trigger("change:columnWidths");
-    };
-
-    ResizableColumns.prototype.assignBodyPercentageWidths = function () {
-      //var tablewidth = this.$body.width();
-      var tablewidth = 0;
-      var widthsPx = [];
-      _.each(this.$tableBodies, function (el, i) {
-        if (i >= this.columnWidths.length) {
-          return;
-        }
-        var $el;
-        $el = $(el);
-        tablewidth += $el.outerWidth();
-        widthsPx.push($el.outerWidth());
-      }, this);
-      _.each(this.$tableBodies, function (el, i) {
-        if (i >= this.columnWidths.length) {
-          return;
-        }
-        var $el;
-        $el = $(el);
-        setWidth($el[0], widthsPx[i] / tablewidth * 100);
-      }, this);
-    };
-
-    ResizableColumns.prototype.createHandles = function () {
-      if ((this.$handleContainer) != null) {
-        this.$handleContainer.remove();
-      }
-      if ((this.$handleBorder) != null) {
-        this.$handleBorder.remove();
-      }
-      this.$table.after((this.$handleContainer = $("<div class='sc-rc-handle-container' />")));
-      _.each(this.$tableHeaders, function (el, i) {
-        var $handle;
-        if (this.$tableHeaders.eq(i + 1).length === 0 || (this.$tableHeaders.eq(i).attr('data-noresize') != null) || (this.$tableHeaders.eq(i + 1).attr('data-noresize') != null)) {
-          return;
-        }
-        $handle = $("<div class='sc-rc-handle' />");
-        $handle.data('th', $(el));
-        if ($('td', this.$body).length > 1) {
-          $handle.data('td', $($('td', this.$body)[i]));
-        }
-        $handle.appendTo(this.$handleContainer);
-      }, this);
-      this.$body.parent().after((this.$handleBorder = $("<div class='sc-rc-handle-border-container'><div class='sc-rc-handle-border' /></div>")));
-      this.$handleContainer.on('mousedown touchstart', '.sc-rc-handle', this.pointerdown);
-    };
-
-    ResizableColumns.prototype.syncHandleWidthsEndless = function () {
-      // hack for multiselect behavior
-      this.endlessSyncHandler = setInterval((function (_this) { return function () { _this.syncHandleWidths(); }; })(this), 500);
-    };
-
-    ResizableColumns.prototype.syncHandleWidths = function () {
-      if (this.$handleContainer) {
-        this.$handleContainer.css({
-          top: -this.$table.height()
-        });
-        _.each(this.$handleContainer.width(this.$table.width()).find('.sc-rc-handle'), function (el, i) {
-          var $el;
-          $el = $(el);
-          if ($el.data('th')) {
-            var left = $el.data('th').outerWidth() + ($el.data('th').offset().left - this.$handleContainer.offset().left);
-            var height = this.$table.height();
-            $el.css({
-              left: left,
-              height: height
-            });
-          }
-        }, this);
-      }
-    };
-
-    ResizableColumns.prototype.reinitAndKeepWidth = function ($header, $body) {
-      this.$table = $header;
-      this.$body = $body;
-      this.$tableHeaders = this.$table.find(this.options.selector);
-      this.$tableBodies = this.$body.find(this.options.selectorTD);
-      this.assignWidthsFromOld(this.columnWidths);
-      this.createHandles();
-      this.syncHandleWidths();
-    };
-
-    ResizableColumns.prototype.assignWidthsFromOld = function (widths) {
-      _.each(this.$tableHeaders, function (el, i) {
-        var $el;
-        $el = $(el);
-        setWidth($el[0], widths[i]);
-      });
-      _.each(this.$tableBodies, function (el, i) {
-        if (i >= widths.length) {
-          return;
-        }
-        var $el;
-        $el = $(el);
-        setWidth($el[0], widths[i]);
-      }, this);
-    };
-
-    ResizableColumns.prototype.pointerdown = function (e) {
-      var $currentGrip, $leftColumn, $ownerDocument, $rightColumn, newWidths, startPosition, widths, widthsPx;
-      e.preventDefault();
-      if (this.endlessSyncHandler) {
-        clearInterval(this.endlessSyncHandler);
-        this.endlessSyncHandler = null;
-      }
-      $ownerDocument = $(e.currentTarget.ownerDocument);
-      startPosition = pointerX(e);
-      $currentGrip = $(e.currentTarget);
-      $leftColumn = $currentGrip.data('th');
-      $leftColumnTD = $currentGrip.data('td');
-      $rightColumn = this.$tableHeaders.eq(this.$tableHeaders.index($leftColumn) + 1);
-      $rightColumnTD = this.$tableBodies.eq(this.$tableBodies.index($leftColumnTD) + 1);
-      widths = {
-        left: parseWidth($leftColumn[0]),
-        right: parseWidth($rightColumn[0])
-      };
-      widthsPx = {
-        left: $leftColumn.outerWidth(),
-        right: $rightColumn.outerWidth()
-      };
-      newWidths = {
-        left: widths.left,
-        right: widths.right
-      };
-      if (this.options.dragOnlyHandlers) {
-        var fulltableHeight = this.$table.height() + this.$body.parents(".sc-listcontrol-body").height();
-        $(".sc-rc-handle-border", this.$handleBorder).css({
-          top: -fulltableHeight,
-          height: fulltableHeight - 2,
-          left: widthsPx.left + ($currentGrip.data('th').offset().left - this.$handleBorder.offset().left)
-        }).show();
-      }
-      this.$handleContainer.add(this.$table).addClass('sc-rc-table-resizing');
-      $leftColumn.add($rightColumn).add($currentGrip).addClass('sc-rc-column-resizing');
-      $ownerDocument.on('mousemove.sc-rc touchmove.sc-rc', (function (_this) {
-        return function (e) {
-          var difference, differencePx, leftWidthPx, rightWidthPx;
-          differencePx = pointerX(e) - startPosition;
-          leftWidthPx = widthsPx.left + differencePx;
-          rightWidthPx = widthsPx.right - differencePx;
-          if (leftWidthPx >= _this.options.minWidth && rightWidthPx >= _this.options.minWidth) {
-            difference = (pointerX(e) - startPosition) / _this.$table.width() * 100;
-            newWidths.left = (widths.left + difference);
-            newWidths.right = (widths.right - difference);
-            if (!_this.options.dragOnlyHandlers) {
-              setWidth($leftColumn[0], newWidths.left);
-              setWidth($rightColumn[0], newWidths.right);
-              setWidth($leftColumnTD[0], newWidths.left);
-              setWidth($rightColumnTD[0], newWidths.right);
-            } else {
-              var $el = $currentGrip;
-              var $border = $(".sc-rc-handle-border", this.$handleBorder);
-              var left = leftWidthPx + ($el.data('th').offset().left - _this.$handleContainer.offset().left);
-              $el.add($border).css("left", left);
-            }
-          }
-          if (_this.options.syncHandlers != null && _this.options.syncHandlers) {
-            _this.syncHandleWidths();
-          }
-        };
-      })(this));
-      $ownerDocument.one('mouseup touchend', (function (_this) {
-        return function () {
-          if (_this.options.dragOnlyHandlers) {
-            setWidth($leftColumn[0], newWidths.left);
-            setWidth($rightColumn[0], newWidths.right);
-            setWidth($leftColumnTD[0], newWidths.left);
-            setWidth($rightColumnTD[0], newWidths.right);
-            $(".sc-rc-handle-border", this.$handleBorder).hide();
-          }
-          var i = _this.$tableHeaders.index($leftColumn);
-          _this.columnWidths[i] = $leftColumn[0].style.width;
-          _this.columnWidths[i + 1] = $rightColumn[0].style.width;
-          //_this.model.set("columnWidths", _this.columnWidths);
-          _this.model.trigger("change:columnWidths");
-          $ownerDocument.off('mousemove.sc-rc touchmove.sc-rc');
-          _this.$handleContainer.add(_this.$table).removeClass('sc-rc-table-resizing');
-          $leftColumn.add($rightColumn).add($currentGrip).removeClass('sc-rc-column-resizing');
-          _this.syncHandleWidths();
-        };
-      })(this));
-    };
-
-    return ResizableColumns;
-
-  })();
 
   sc.Factories.createComponent("ListControl", controlModel, controlView, ".sc-listcontrol", SC_Collection);
 });

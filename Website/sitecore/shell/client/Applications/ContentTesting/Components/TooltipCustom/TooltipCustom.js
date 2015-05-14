@@ -58,13 +58,32 @@ TooltipCustom.prototype.cssStyleAdd = function () {
   }
 };
 
+TooltipCustom.prototype.isWindowClick = false;
 
 TooltipCustom.prototype.initialize = function () {
+  var self = this;
+
   // CSS style
   this.cssStyleAdd();
 
   var html = "<span id='" + this.id + "' class='" + this.className + "' style='display: none;'></span>";
   $('body').append(html);
+
+  setInterval(function () {
+    // in case when "targetClick" is set - it's needed to hide tooltip after "window.click"(in any place)
+    if (self.targetClick && self.isWindowClick) {
+      if (self.isTargetClicked) {
+        self.isTargetClicked = false;
+      } else {
+        self.hide();
+      }
+      self.isWindowClick = false;
+    }
+  }, 50);
+
+  $(window).click(function (event) {
+    self.isWindowClick = true;    
+  });
 };
 
 TooltipCustom.prototype.setTarget = function (target, text) {
@@ -81,25 +100,25 @@ TooltipCustom.prototype.setTarget = function (target, text) {
   }
 };
 
-TooltipCustom.prototype.isClickedShow = false;
+TooltipCustom.prototype.isTargetClicked = false;
+TooltipCustom.prototype.targetClick;
 TooltipCustom.prototype.setTargetClick = function (target, text) {
   var self = this;
   self.isAnimate = false;
-  $target = $(target);
+  $target = $(target);  
   if ($target.length > 0) {
+    self.targetClick = $target[0];
     $target.click(function (event) {
-      if (self.isClickedShow) {
-        self.hide();
-        self.isClickedShow = false;
-      }
-      else {
+      var $idElem = $("#" + self.id);
+      if ($idElem.css("display") == "none") {
         self.show(event.pageX + 5, event.pageY + 15, text);
-        self.isClickedShow = true;
+      } else {
+        self.hide();
       }
+      self.isTargetClicked = true;
     });
   }
 };
-
 
 TooltipCustom.prototype.timer = null;
 

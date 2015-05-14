@@ -15,7 +15,7 @@
         <ul class="sc-accountInformation">
           <li>
             <span class="logout" onclick='javascript:$.get("/api/sitecore/Authentication/Logout?sc_database=master", function (){window.location.reload();});' >
-              <sc:Literal Text="Logout" runat="server" />
+              <sc:Literal ID="logoutHeader" Text="Logout" runat="server" />
             </span>
           </li>
           <li>

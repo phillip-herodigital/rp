@@ -17,47 +17,69 @@
       { name: "selectedItemId", defaultValue: null, value: "$el.data:sc-selecteditemid" }
     ],
 
+    extendModel: {
+      addItem: function (item) {
+        var items = this.get("items");
+
+        if (items) {
+          items.push(item);
+        } else {
+          items = [item];
+        }
+        this.setItems(items);
+      },
+
+      setItems: function (items) {
+        this.unset("items", { silent: true });
+        this.set("items", items);
+      },
+
+      resetSelection: function() {
+        this.set("selectedItem", null);
+        this.set("selectedItemId", null);
+        this.set("selectedValue", null);
+      }
+    },
+
     isRebinding: false,
 
     initialize: function (options) {
-
-      this.model.on("change:selectedOptions", function () {
-        //User clicks different option
-        this.isRebinding = true;
-        this.model.set("selectedValue", this.model.get("selectedOptions")[0]);
-        this.model.set("selectedItem", this.getItemFromValue(this.model.get("selectedValue")));
-        this.model.set("selectedItemId", this.model.get("selectedValue"));
-        this.model.set("selectedItems", [this.model.get("selectedItem")]);
-        this.isRebinding = false;
-      }, this);
-
-      this.model.on("change:items", function () {
-        if (!this.isRebinding) {
-          this.rebind(this.model.get("items"), null, null, this.model.get("displayFieldName"), this.model.get("valueFieldName"));
-        }
-      }, this);
-
-      this.model.on("change:selectedItem", function () {
-        if (!this.isRebinding) {
-          this.rebind(this.model.get("items"), this.model.get("selectedItem"), null, this.model.get("displayFieldName"), this.model.get("valueFieldName"));
-        }
-      }, this);
-
-      this.model.on("change:selectedValue", function () {
-        if (!this.isRebinding) {
-          this.rebind(this.model.get("items"), null, this.model.get("selectedValue"), this.model.get("displayFieldName"), this.model.get("valueFieldName"));
-        }
-      }, this);
-
-      this.selectItemsChangedHandler();
+      this.addEventHandlers();
     },
 
-    selectItemsChangedHandler: function () {
-      this.model.on("change:selectedItems", function () {
-        if (!this.isRebinding) {
-          this.rebind(this.model.get("items"), this.model.get("selectedItems")[0], null, this.model.get("displayFieldName"), this.model.get("valueFieldName"));
-        }
-      }, this);
+    addEventHandlers: function () {
+
+      this.model.on("change:selectedOptions", this.onChangeSelectedOptions, this);
+      this.model.on("change:items", this.onChangeItems, this);
+      this.model.on("change:selectedItem", this.onChangeSelectedItem, this);
+      this.model.on("change:selectedValue", this.onChangeSelectedValue, this);
+      this.model.on("change:selectedItems", this.onChangeSelectedItems, this);
+    },
+
+    onChangeSelectedOptions: function() {
+      //User clicks different option
+      this.isRebinding = true;
+      this.model.set("selectedValue", this.model.get("selectedOptions")[0]);
+      this.model.set("selectedItem", this.getItemFromValue(this.model.get("selectedValue")));
+      this.model.set("selectedItemId", this.model.get("selectedValue"));
+      this.model.set("selectedItems", [this.model.get("selectedItem")]);
+      this.isRebinding = false;
+    },
+
+    onChangeItems: function () {
+        this.rebind(this.model.get("items"), null, null, this.model.get("displayFieldName"), this.model.get("valueFieldName"));
+    },
+
+    onChangeSelectedItem: function() {
+        this.rebind(this.model.get("items"), this.model.get("selectedItem"), null, this.model.get("displayFieldName"), this.model.get("valueFieldName"));
+    },
+
+    onChangeSelectedValue: function() {
+        this.rebind(this.model.get("items"), null, this.model.get("selectedValue"), this.model.get("displayFieldName"), this.model.get("valueFieldName"));
+    },
+
+    onChangeSelectedItems: function () {
+        this.rebind(this.model.get("items"), this.model.get("selectedItems")[0], null, this.model.get("displayFieldName"), this.model.get("valueFieldName"));
     },
 
     getItemFromValue: function (value) {
@@ -69,7 +91,8 @@
       }
       return null;
     },
-
+    // It's impossible to simply observe changes of valueFieldName and displayFieldName
+    // TODO: replace "getValueFieldName" and "getDisplayFieldName" with ko Computed Observables
     getValueFieldName: function (item) {
       return item[this.model.get("valueFieldName")];
     },
@@ -85,9 +108,7 @@
     setSelection: function () {
       //If no items
       if (!this.isPopulatedArray(this.model.get("items"))) {
-        this.model.set("selectedItem", null);
-        this.model.set("selectedItemId", null);
-        this.model.set("selectedValue", null);
+        this.model.resetSelection();
         return;
       }
       //If selectedItem, set the selectedValue to match
@@ -106,21 +127,25 @@
     },
 
     rebind: function (items, selectedItem, selectedValue, displayFieldName, valueFieldName) {
-      this.isRebinding = true;
-      if (items) {
-        this.model.set("items", items);
+      if (!this.isRebinding) {
+        this.isRebinding = true;
+        if (items) {
+          this.model.set("items", items);
+        }
+
+        this.model.set("selectedItem", selectedItem);
+        this.model.set("selectedValue", selectedValue);
+        this.model.set("selectedItemId", selectedValue);
+
+        if (displayFieldName) {
+          this.model.set("displayFieldName", displayFieldName);
+        }
+        if (valueFieldName) {
+          this.model.set("valueFieldName", valueFieldName);
+        }
+        this.setSelection();
+        this.isRebinding = false;
       }
-      this.model.set("selectedItem", selectedItem);
-      this.model.set("selectedValue", selectedValue);
-      this.model.set("selectedItemId", selectedValue);
-      if (displayFieldName) {
-        this.model.set("displayFieldName", displayFieldName);
-      }
-      if (valueFieldName) {
-        this.model.set("valueFieldName", valueFieldName);
-      }
-      this.setSelection();
-      this.isRebinding = false;
     }
  });
 

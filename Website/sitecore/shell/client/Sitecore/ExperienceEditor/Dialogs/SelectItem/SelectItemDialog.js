@@ -10,18 +10,18 @@
     },
     setOkButtonClick: function () {
       this.on("button:ok", function () {
-        var resultType = this.ResultTypeText.attributes.text;
+        var resultType = this.ResultTypeText.get("text");
         var result = '';
         var item = this.ItemsListControl.get("selectedItem");
         switch (resultType) {
           case "Name":
-            result = item.attributes.itemName;
+            result = item.get("itemName");
             break;
           case "Path":
             result = item.attributes.$path;
             break;
           default:
-            result = item.attributes.itemId;
+            result = item.get("itemId");
             break;
         }
 
@@ -36,7 +36,7 @@
     },
     setItemSelected: function () {
       this.ItemsListControl.on("change:selectedItem", function () {
-        if (this.ItemsListControl.get("selectedItem") == null || this.OkButton.attributes.isEnabled) {
+        if (this.ItemsListControl.get("selectedItem") == null || this.OkButton.get("isEnabled")) {
           return;
         }
 

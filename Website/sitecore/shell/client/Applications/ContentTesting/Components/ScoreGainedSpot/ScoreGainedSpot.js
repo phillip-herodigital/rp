@@ -6,14 +6,16 @@
     },
 
     render: function (data) {
-      this.viewModel.$el.find(".old-score").html(data.PreviousScore);
-      this.viewModel.$el.find(".new-score").html(data.Score);
+      if (this.viewModel.$el) {
+        this.viewModel.$el.find(".old-score").html(data.PreviousScore);
+        this.viewModel.$el.find(".new-score").html(data.Score);
+      }
     }
   });
 
   var view = Sitecore.Definitions.Views.ControlView.extend({
     initialize: function () {
-      this._super();
+      //this._super();
       
       this.model.on("change:Score", this.render, this);
     },

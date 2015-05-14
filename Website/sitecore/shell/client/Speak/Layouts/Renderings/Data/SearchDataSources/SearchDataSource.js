@@ -149,6 +149,10 @@
 
       completed: function (items, totalCount, result) {
         _sc.debug("SearchDataSource received: ", result);
+        if (result.statusCode === 401) {
+          _sc.Helpers.session.unauthorized();
+          return;
+        }
         
         // logic for parsing dates when $send_localized_dates formatting is set
         var formatting = this.get("formatting");
@@ -228,7 +232,7 @@
         this.model.set("database", this.$el.attr("data-sc-database") || "core");
         this.model.set("facetsRootItemId", this.$el.attr("data-sc-facets-root-id"));
         this.model.set("formatting", this.$el.attr("data-sc-formatting"));
-        this.model.set("sorting", this.$el.attr("data-sc-sorting"));
+        this.model.set("sorting", this.$el.attr("data-sc-sorting") || this.model.get("sorting"));
         this.model.set("rootItemId", this.$el.attr("data-sc-root-id"));
         this.model.set("text", this.$el.attr("data-sc-text") || "");
         this.model.set("searchConfig", this.$el.attr("data-sc-searchconfig"));

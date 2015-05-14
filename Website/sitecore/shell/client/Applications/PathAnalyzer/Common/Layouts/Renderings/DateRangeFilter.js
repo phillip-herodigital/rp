@@ -27,6 +27,11 @@
             this.getToDatePicker().on("change:formattedDate", this.updateToDateAndFromDatePickerLimit, this);
 
             this.setGlobalDateRange();
+
+            // temp workaround for #331 until resolved in SPEAK (U2)
+            $(".ui-corner-all").click(function (e) {
+                e.stopImmediatePropagation();
+            });
         },
 
         setupDefaultDates: function () {
@@ -67,7 +72,7 @@
 
             fromPicker.viewModel.setDate("-1d-1y");
             presets.lastYear = fromPicker.viewModel.getDate();
-            
+
             fromPicker.viewModel.setDate(originalDate);
         },
 

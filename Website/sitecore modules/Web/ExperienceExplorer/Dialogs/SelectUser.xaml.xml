@@ -16,7 +16,6 @@
       <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>
 
       <Stylesheet Src="Grid.css" DeviceDependant="true" runat="server" />
-      <Stylesheet Src="/sitecore modules/Shell/EmailCampaign/UI/EmailCampaignShell.css" runat="server"/>
 
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />

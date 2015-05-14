@@ -17,6 +17,7 @@
     _showAllScreenshots: false,
 
     initialized: function () {
+
       this.set("getThumbnailUrl", "/sitecore/shell/api/ct/TestThumbnails/GetThumbnail");
       this.detectBrowser();
       this.testOptions = new _sc.TestOptions();
@@ -76,7 +77,7 @@
       this._tooltipExpected = new TooltipCustom();
       this._tooltipExpected.setTargetClick(this.ExpectationHelpIconButton.viewModel.$el,
         this.StringDictionary.get("Use the slider to predict how the test will effect the visitor engagement. Your prediction is used as an extra indicator for validation of the test result, and it has an effect on your performance report. You can use this to improve your optimization skill."));
-      
+
 
       // Statistics tooltip
       if (this.StatisticsHelpIconButton) {
@@ -90,7 +91,7 @@
 
       //#5966 - updating CompareImage after show/hide PreviewAccordion
       //this.PreviewAccordion.on("change:isOpen", this.previewAccordionVisibleToggle, this);
-      
+
       this.TestDurationDataSource.on("change:isEstimated", this.setNotEstimatedTextVisibility, this);
 
       this.TestDurationDataSource.on("change", this.validateTestLength, this);
@@ -111,7 +112,10 @@
           app.TestVariablesDropDownButton.set("isOpen", false);
         }
       });
-      
+
+      $(document).ready(this.CmsDialogFix);
+      $(window).resize(this.CmsDialogFix);
+
       //if (this.TrafficAllocationSlider !== undefined) {
       //  this.TrafficAllocationSlider.set("selectedValue", 100);
       //}
@@ -140,6 +144,10 @@
 
       this.OptionsMapper.on("change:TrafficAllocation change:ConfidenceLevel", this.updateExpectedTimeWithoutEstimateText, this);
       this.updateExpectedTimeWithoutEstimateText();
+    },
+
+    CmsDialogFix: function () {
+      $("[data-sc-id='TestWizardTabControl'] .tab-content").height($(window).height() - 200);
     },
 
     previewAccordionVisibleToggle: function () {
@@ -173,9 +181,8 @@
         $(document).find("body").addClass("ie");
       }
     },
-    
-    setNotEstimatedTextVisibility: function()
-    {
+
+    setNotEstimatedTextVisibility: function () {
       this.ExpectedTimeNotEstimateBorder.set("isVisible", !this.TestDurationDataSource.get("isEstimated"));
     },
 
@@ -293,7 +300,7 @@
         this.CompareImage.set("imageThumbs", this._imageThumbs);
         this.CompareImage.set("isVisible", true);
       }
-      else if(this._showAllScreenshots) {
+      else if (this._showAllScreenshots) {
         this.CarouselImage.set("imageThumbs", this._imageThumbs);
         this.CarouselImage.set("isVisible", true);
       }
@@ -416,15 +423,15 @@
         context: this,
         contentType: 'application/json; charset=UTF-8',
         data: this.testOptions.toJSONString(),
-        success: function(data) {
+        success: function (data) {
           this.ServerProgressIndicator.set("isBusy", false);
           self.closeDialog("yes");
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           alert("Request failed: " + status + " - " + error); // todo: skynet: translate text
         }
       };
-      
+
       requestUtil.performRequest(ajaxOptions);
     },
 
@@ -458,8 +465,7 @@
     },
 
     validateTestLength: function () {
-      if (this.MaximumSelect == undefined)
-      {
+      if (this.MaximumSelect == undefined) {
         return;
       }
 
@@ -483,7 +489,7 @@
 
       if (!isEstimated) { // If not enough traffic to do forecasting
         type = 'notification';
-        
+
         templateFirstMessage = _.template(
           this.StringDictionary.get('With the changes you have made, you have created <%= experiences %> experiences.') + ' ' +
           this.StringDictionary.get('The test will require <%= requiredVisits %> visitors to find a winner.') + ' ' +
@@ -496,13 +502,13 @@
       else {
         if (daysExpected > maxDurationValue) { // If test will take too long
           type = 'warning';
-          
+
           templateFirstMessage = _.template(
             this.StringDictionary.get('You have now created <%= experiences %> experiences.') + ' ' +
             this.StringDictionary.get('Historical data shows it will take more than <%= days %> days to finish the test.') + ' ' +
             this.StringDictionary.get('You can reduce this number by disabling some of the variables, or by adjusting the test settings.')
           );
-          
+
           templateSecondMessage = _.template(
            this.StringDictionary.get('This page has <%= viewsPerDay %> visitors per day on average.') + ' ' +
            this.StringDictionary.get('The test is expected to need <%= days %> days to reach a statistically significant result.') + ' ' +
@@ -514,7 +520,7 @@
           templateFirstMessage = _.template(
             this.StringDictionary.get('You have now created <%= experiences %> experiences.') + ' ' +
             this.StringDictionary.get('Historical data shows that it will take about <%= days %> days to finish the test.'));
-          
+
           templateSecondMessage = _.template(
            this.StringDictionary.get('This page has <%= viewsPerDay %> visitors per day on average.') + ' ' +
            this.StringDictionary.get('The test is expected to need <%= days %> days to reach a statistically significant result.') + ' ' +
@@ -559,7 +565,7 @@
         template = _.template(this.VariablesStringDictionary.get("Based on historical data this page has <%= dailyVisists %> visitors per day, with a traffic allocation of <%= trafficAllocation %>% and a confidence level of <%= confidenceLevel %>% the test is expected to last <%= duration %> days."));
         color = "";
       }
-      
+
       this.ExpectedTimeWithEstimate.set("text", template({
         dailyVisists: this.TestDurationDataSource.get("viewsPerDay"),
         trafficAllocation: this.OptionsMapper.get("TrafficAllocation"),

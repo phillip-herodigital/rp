@@ -6,7 +6,7 @@
 @model RenderingModel
 @{
   var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
-  userControl.Requires.Script("business", "uploaderInfo.js");
+  userControl.Requires.Script("business", "uploaderinfo.js");
   userControl.Class = "sc-uploaderInfo";
 
   var controlId = userControl.ControlId;

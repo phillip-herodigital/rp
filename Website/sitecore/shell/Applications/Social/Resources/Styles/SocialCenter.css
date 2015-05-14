@@ -494,15 +494,6 @@ TABLE.scsocCampaignStats
     padding-right: 8px;
   }
 
-.scsocCampaignReportLinks
-{
-  margin-top: 10px;
-  margin-bottom: 3px;
-  font-family: Arial, Tahoma;
-  font-size: 12px;
-  color: #39ADCE;
-}
-
 .scsocCampaignReportLinkSeparator
 {
   font-family: Arial, Tahoma;

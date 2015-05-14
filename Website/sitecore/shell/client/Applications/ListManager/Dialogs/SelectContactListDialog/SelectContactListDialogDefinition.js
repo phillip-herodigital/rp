@@ -24,7 +24,7 @@
               })[0];
               current.updateListOfLists(realbaseStructure);
             }, current);
-            current.isFirstInit = false;
+            baseStructure.dataSource.on("change:isBusy", function(dataSource, isBusy) { current.initializeListOfLists(dataSource, isBusy, dataBindCallback); }, current);
           }
           current.reloadListOfLists(baseStructure, dataBindCallback);
         });
@@ -63,7 +63,6 @@
       initializeDataSourceExtended: function (baseStructure) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         baseStructure.dataSource.on("folderSelected", current.enterFolder, current);
-        baseStructure.dataSource.on("change:isBusy", current.initializeListOfLists, current);
         baseStructure.dataSource.unsubscribeFromSelectListOrFolder();
       },
       bindDataExtended: function () {
@@ -109,15 +108,17 @@
           needsUpdate = true;
         }
         
-        if (needsUpdate === true) {
+        if (needsUpdate === true || current.isFirstInit) {
           baseStructure.dataSource.refresh();
         }
 
-        if (callback && (typeof (callback) === typeof (Function))) {
-          callback();
+        if (!current.isFirstInit) {
+          if (callback && (typeof (callback) === typeof (Function))) {
+            callback();
+          }
         }
       },
-      initializeListOfLists: function (dataSource, isBusy) {
+      initializeListOfLists: function (dataSource, isBusy, callback) {
         if (isBusy === false && dataSource.isReady === true) {
           var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
           var baseStructure = Array.prototype.filter.call(current.baseStructures, function (e) {
@@ -145,6 +146,13 @@
           }
 
           baseStructure.control.set("items", items);
+
+          if (current.isFirstInit) {
+            if (callback && (typeof (callback) === typeof (Function))) {
+              callback();
+            }
+            current.isFirstInit = false;
+          }
         }
       },
       updateListOfLists: function (baseStructure) {

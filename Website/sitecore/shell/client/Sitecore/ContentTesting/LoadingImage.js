@@ -7,7 +7,7 @@ define([], function () {
       $(parent.document.body).append("\
         <div id='" + this.idLoadingElement + "'>\
           <div style='background-color: #000000;opacity: 0.6;width: 100%;height: 100%;position: absolute;top: 0px;left: 0px;' ></div>\
-          <div style='padding: 30px;background-color: #FFFFFF;width: 32px;height: 32px;position: absolute;top: 50%;left: 50%;border-radius: 7px;'>\
+          <div style='display:inline-table;padding: 30px;background-color: #FFFFFF;width: 32px;height: 32px;position: absolute;top: 50%;left: 50%;border-radius: 7px;'>\
             <img src='" + this.pathLoadingImage + "' style='height: 32px;width: 32px;'>\
           </div>\
         </div>");

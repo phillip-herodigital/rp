@@ -76,7 +76,11 @@
 
                 $.ajax({
                     url: "/sitecore/api/ssc/experienceeditorcomponent/service/" + id + "/GetSublayoutHtml?uniqueId=" + renderingUniqueId + "&placeholder=" + self.placeholderKey(),
-                    type: "GET"
+                    type: "GET",
+                    headers: {
+                        "X-RequestVerificationToken": $('[name=__RequestVerificationToken]').val(),
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
                 }).fail(function(error) {
 
                     if (persistedLayout) {

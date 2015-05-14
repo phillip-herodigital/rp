@@ -11,13 +11,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
   
-<head>
+<head runat="server">
   <title>Experience Editor</title>
   <expExplorer:ExpHeader runat="server" ID="expHeader" />
-  <link rel="stylesheet" type="text/css" href="/sitecore/shell/client/Speak/Assets/css/speak-default-theme.css" />
- 
-  <link rel="stylesheet" type="text/css" href="/sitecore modules/Web/ExperienceExplorer/Assets/vendors/jquery-ui/css/jquery-ui-1.9.1.custom.css" />
-  <link rel="stylesheet" type="text/css" href="/sitecore modules/Web/ExperienceExplorer/Assets/css/SpeakExplorer.css" />
+  <link rel="stylesheet" type="text/css" href="/sitecore modules/Web/ExperienceExplorer/Assets/css/experience-explorer-iframe-editor.css" />
+  <script type="text/javascript">
+    var SettingsPanelTranslations = {
+      applyText: "<%= ApplyText %>",
+      resetText: "<%= ResetText %>",
+      waitText: "<%= WaitText %>"
+    };
+  </script>
 </head>
 <body data-spy="scroll" data-target=".bs-docs-sidebar" class="sc ">
   <form id="form1" runat="server">
@@ -26,7 +30,7 @@
     <input type="hidden" value="<%=Sitecore.ExperienceExplorer.Business.Helpers.PresetsHelper.CurrentPresetId %>" id="currentPresetId" />
     <div class="experience-explorer-iframe experience-explorer-iframe-editor">
       <div id="frame-header">
-        <table class="table border-bottom">
+        <table class="mode-table table border-bottom">
           <tbody>
             <tr>
               <td style="display: none;">
@@ -43,14 +47,14 @@
                 </div>
               </td>
               <td class="text-right">
-                <span id="litEditorSpan" class="font-xlarge light">
+                <span id="litEditorSpan" class="font-xlarge hidden light">
                   <asp:Literal ID="litEditor" runat="server" /></span>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div id="accordions-editor" class="accordion">
+      <div id="accordions-editor">
         <asp:Repeater runat="server" ID="rpAccordion" OnItemDataBound="rpAccordion_OnItemDataBound">
 
           <ItemTemplate>
@@ -259,15 +263,9 @@
                 {{for itemData}}
                     <div class="type-switch">
                         <div class="links">
-                            <a href="#" data-source="#MapArea" class="btn" data-toggle="geo-type">
-                                <i class="icon-ok"></i>{{:MapTabTitle}}
-                            </a>
-                            <a href="#" data-source="#CountryArea" class="btn" data-toggle="geo-type">
-                                <i class="icon-ok"></i>{{:CountryTabTitle}}
-                            </a>
-                            <a href="#" data-source="#IpArea" class="btn" data-toggle="geo-type">
-                                <i class="icon-ok"></i>{{:IpTabTitle}}
-                            </a>
+                            <a href="#" data-source="#MapArea" class="btn" data-toggle="geo-type">{{:MapTabTitle}}</a>
+                            <a href="#" data-source="#CountryArea" class="btn" data-toggle="geo-type">{{:CountryTabTitle}}</a>
+                            <a href="#" data-source="#IpArea" class="btn" data-toggle="geo-type">{{:IpTabTitle}}</a>
                         </div>
                         <div class="type-switch-data">
                             <div id="MapArea" class="geo-ip-data collpase-geo">

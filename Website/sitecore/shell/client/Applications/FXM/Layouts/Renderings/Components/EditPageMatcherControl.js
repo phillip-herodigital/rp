@@ -73,6 +73,10 @@
             return this.app[this.model.get("profilesPickerControlId")];
         },
 
+        allPickerControls: function () {
+            return [this.goalsPickerControl(), this.eventsPickerControl(), this.campaignsPickerControl(), this.profilesPickerControl()];
+        },
+
         initialize: function (options) {
             this._super();
 
@@ -139,7 +143,7 @@
             var controls = this.allRadioControls().concat([
                 this.nameControl(),
                 this.urlControl()
-            ]);
+            ]).concat(this.allPickerControls());
 
             var state = this.model.get('isEnabled');
             _.each(controls, function (ctrl) {

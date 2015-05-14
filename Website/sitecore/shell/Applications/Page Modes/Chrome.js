@@ -21,6 +21,45 @@ Sitecore.PageModes.Chrome = Base.extend({
     this._mouseLeaveHandler = $sc.proxy(this._mouseLeaveHandler, this);
 
     $sc.util().log("initialized new chrome: " + this.type.key());
+    this.removeSpansFromChromeValue(domElement[0]);
+  },
+
+  removeSpansFromChromeValue: function (chromeElement) {
+    if (!chromeElement) {
+      return;
+    }
+
+
+    if (chromeElement.nodeName != "SPAN") {
+      return;
+    }
+
+
+    var fieldType = chromeElement.getAttribute("scFieldType");
+    if (!fieldType || fieldType != "rich text") {
+      return;
+    }
+
+    chromeElement.addEventListener('DOMNodeInserted', function(e) {
+      if (!e.target.tagName) {
+        return;
+      }
+
+      if (e.target.tagName != "FONT") {
+        return;
+      }
+
+      var parentElement = e.target.parentNode;
+      parentElement.removeChild(e.target);
+
+      parentElement.innerHTML = "<br />";
+      var range = document.createRange();
+      var selection = window.getSelection();
+      range.setStart(parentElement, 0);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    });
   },
 
   /* DOM manipulation */

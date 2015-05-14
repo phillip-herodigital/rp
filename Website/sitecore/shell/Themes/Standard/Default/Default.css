@@ -330,12 +330,12 @@ input[type="submit"] {
     min-width: 80px;
     height: 36px;
     text-shadow: none;
-    outline: none;
     margin-left: 10px;
     background-repeat: repeat-x;
     -webkit-box-shadow: inset 0 1px #ffffff;
     box-shadow: inset 0 1px #ffffff;
     text-shadow: none;
+    background-color: #d9d9d9;
     background-image: linear-gradient(to bottom, #f0f0f0 0%, #d9d9d9 100%);
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
@@ -359,7 +359,6 @@ input[type="submit"] {
         background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
         background-image: linear-gradient(to bottom, #d9d9d9 0%, #d9d9d9 100%);
         background-repeat: repeat-x;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9d9d9', endColorstr='#ffd9d9d9', GradientType=0);
         -webkit-box-shadow: inset 0 0px 6px #ccc;
         box-shadow: inset 0 0px 6px #ccc;
         background-image: none;
@@ -399,7 +398,8 @@ input[type="submit"] {
     border-radius: 6px;
   }
 
-    .scButtonPrimary:hover {
+    .scButtonPrimary:hover,
+    input[type="submit"].scButtonPrimary:hover {
       background-repeat: repeat-x;
       border-color: #175973;
       background-color: #1d7395;
@@ -407,19 +407,44 @@ input[type="submit"] {
       background-image: linear-gradient(to bottom, #289bc8 0%, #289bc8 100%);
     }
 
-    .scButtonPrimary:active {
+    .scButtonPrimary:active,
+    input[type="submit"].scButtonPrimary:active {
       background-color: #1d7395;
       background-image: -webkit-linear-gradient(top, #207da2 0%, #207da2 100%);
       background-image: -o-linear-gradient(top, #207da2 0%, #207da2 100%);
       background-image: linear-gradient(to bottom, #207da2 0%, #207da2 100%);
       background-repeat: repeat-x;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff207da2', endColorstr='#ff207da2', GradientType=0);
       -webkit-box-shadow: inset 0 3px 3px #13485e;
       box-shadow: inset 0 3px 3px #13485e;
       background-image: none;
       border-color: #175973;
     }
 
+
+.ie9 .scButton, .ie9 input[type="submit"] {
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YwZjBmMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkOWQ5ZDkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+}
+
+    .ie9 .scButton:hover, .ie9 input[type="submit"]:hover {
+        background: #f0f0f0;
+    }
+
+    .ie9 .scButton:active,
+    .ie9 input[type="submit"]:active {
+        background: #d9d9d9;
+    }
+
+    .ie9 .scButtonPrimary {
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI4OWJjOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMDdkYTIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    }
+
+        .ie9 .scButtonPrimary:hover {
+            background: #289bc8;
+        }
+
+        .ie9 .scButtonPrimary:active {
+            background: #207da2;
+        }
 
 .ie8 .scButton, .ie8 .scButton_Disabled {
   min-width: 50px;
@@ -673,6 +698,16 @@ td.scCalendarCell:hover, td.scCalendarToday:hover {
     display: inline-block;
 }
 
+    .scDatePickerComboBox[disabled] .scComboboxDropDown, .scTimePickerComboBox[disabled] .scComboboxDropDown {
+        background-color: #e3e3e3;
+        cursor: auto;
+    }
+
+    .scDatePickerComboBox[disabled] .scComboboxEdit, .scTimePickerComboBox[disabled] .scComboboxEdit {
+        background-color: #e3e3e3 !important;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) !important;
+    }
+
 .scTimePicker {
   width: 80px;
   height: 300px;
@@ -917,16 +952,23 @@ a.scContentLabelLink, a.scContentLabelLink:active, a.scContentLabelLink:visited 
   }
 
 .scContentControl {
-  width: 100%;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -khtml-box-sizing: border-box;
-min-height: 35px;
-padding: 5px;
-
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    min-height: 35px;
+    padding: 5px;
 }
+
+    .scContentControl[disabled] .scComboboxEdit, .scContentControl[disabled] .scComboboxDropDown {
+        background-color: #e3e3e3 !important;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    }
+
+        .scContentControl[disabled] .scComboboxEdit:active, .scContentControl[disabled] .scComboboxDropDown:active {
+        }
 
 iframe.scContentControl {
   padding: 0 0 0 5px;
@@ -1038,6 +1080,14 @@ iframe.scContentControl {
   height: 150px;
 }
 
+.defaultFieldEditorsMultilistContainer {
+    height: 250px;
+}
+
+    .defaultFieldEditorsFrameContainer > iframe {
+        box-sizing: border-box;
+    }
+
 .scContentControlHtmlToolbar {
   padding: 1px 2px 1px 2px;
   background: #505050 url(/sitecore/shell/themes/standard/Images/Toolbar/ToolbarBackground.png) repeat-x;
@@ -1143,6 +1193,7 @@ iframe.scContentControl {
   width:200%;
   overflow:hidden;
   height:50px;
+  white-space: nowrap;
 }
 
   .scMultilistNav a {
@@ -1198,6 +1249,24 @@ line-height:50px;
 
 .scContentControlTree.scScrollbox {
   padding: 10px 0;
+}
+
+.scContentControlMultilistContainer, .scContentControlSearchListContainer {
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.ie .scContentControlSearchListContainer {
+    padding-bottom: 30px;
+}
+
+.ie .scContentControlMultilistContainer {
+    padding-bottom: 50px;
+}
+
+.ff .scContentControlSearchListContainer {
+    padding-bottom: 15px;
 }
 
 .scContentControlMultilistBox {
@@ -2523,11 +2592,12 @@ li.scWizardBullet {
   }
 
 input[type="text"][readonly].scComboboxEdit {
-  border-right: 0px;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   height: 35px;
-  background-color: #fff;
+  background: white;
+  border-color: #cccccc;
+  box-shadow: none !important;
 }
 
 .scComboboxDropDown {
@@ -3105,6 +3175,7 @@ img.scContentTreeNodeGlyph:hover[src="/sitecore/shell/themes/standard/images/noe
       padding: 0;
       white-space: nowrap;
       overflow: hidden;
+      vertical-align: top;
     }
 
   .scTreeview .cell {
@@ -3129,6 +3200,9 @@ margin-left: -8px;
 margin-right: 8px;
   }
 
+    .scTreeview .scTreeHeader {
+        background-color: #5e5e5e;
+    }
 
   .scTreeHeader .scTreeHeaderItem:first-of-type .header:before {
 content: " ";

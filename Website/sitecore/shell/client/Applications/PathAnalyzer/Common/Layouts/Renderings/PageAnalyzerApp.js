@@ -1,12 +1,10 @@
-﻿
-define(["sitecore",
-        "css!/-/speak/v1/pathanalyzer/PageAnalyzerApp.css",
-        "/-/speak/v1/pathanalyzer/PathAnalyzer.js",
-        "/-/speak/v1/pathanalyzer/scripts/libs/d3.js",
-        "/-/speak/v1/pathanalyzer/scripts/app/application.js",
-        "/-/speak/v1/pathanalyzer/scripts/app/utils/eventManager.js",
-        "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/userProfile.js"],
-        function (Sitecore, css, pageAnalyzer, d3, pathAnalyzerApp, EventManager, userProfile) {
+﻿define(["sitecore",
+        "/-/speak/v1/pathanalyzer/libs/d3.min.js",
+        "/-/speak/v1/pathanalyzer/spider.js",
+        "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/userProfile.js",
+        "css!/-/speak/v1/pathanalyzer/spider.css",
+        "css!/-/speak/v1/pathanalyzer/pageAnalyzer.css"],
+        function (Sitecore, d3, spider, userProfile) {
             Sitecore.Factories.createBaseComponent({
                 name: "PageAnalyzerApp",
                 base: "ControlBase",
@@ -19,11 +17,6 @@ define(["sitecore",
                 ],
 
                 initialize: function () {
-                    var treeId = this.model.get("treeId");
-                    var startDate = this.model.get("startDate");
-                    var endDate = this.model.get("endDate");
-                    var stringDictionary = this.app.StringDictionaryDomain;
-
                     this.attachEvents();
 
                     this.model.set("userProfileKey", this.$el.data("sc-userprofilekey"));
@@ -36,7 +29,13 @@ define(["sitecore",
                         this.app.NeverShowLegendAgainCheckbox.set("isChecked", hideLegend);
                     }, { stateDataAttributeName: "sc-appstate" });
 
-                    new pathAnalyzerApp.App(500, 900, treeId, startDate, endDate, '', stringDictionary).initialize();
+
+                    var mapId = this.model.get("treeId");
+                    var startDate = this.model.get("startDate");
+                    var endDate = this.model.get("endDate");
+                    var stringDictionary = this.app.StringDictionaryDomain;
+                    var uriResolver = new ServiceUriResolver("/sitecore/api/PathAnalyzer/Paths", mapId, startDate, endDate);
+                    new Application(500, 900, uriResolver, stringDictionary).initialize();
 
                     var pageName = this.getParameterByName('n');
 
@@ -44,21 +43,71 @@ define(["sitecore",
                         var title = this.app.HeaderTitle.viewModel.text();
                         this.app.HeaderTitle.set("text", title + " - " + pageName);
                     }
-                },
-
-                attachEvents: function () {
 
                     var self = this;
-                    this.bus().subscribe("path:selected", function (path) {
+                    Bus.instance().subscribe("click", function (path) {
                         if (path) {
                             self.showContacts(path.id);
                         }
                     });
 
-                    this.bus().subscribe("reset", function () {
+                    Bus.instance().subscribe("reset", function () {
                         self.app.ContactsSmartPanel.set("isOpen", 0);
                     });
 
+                    Bus.instance().subscribe("query:changed", function () {
+                        self.app.ProgressIndicator.set("isBusy", 1);
+                    });
+
+                    Bus.instance().subscribe("data:error", function (error) {
+                        if (error) {
+                            var type = "notification";
+                            if (error.status !== 404) {
+                                type = "error";
+                            }
+                            var message = {
+                                text: error.responseText,
+                                actions: [],
+                                closable: true
+                            };
+                            self.app.MessageBar.addMessage(type, message);
+                        }
+                        self.app.ProgressIndicator.set("isBusy", 0);
+                    });
+
+                    Bus.instance().subscribe("data:empty", function () {
+                        if(!data) {
+                            var message = {
+                                text: "No data",
+                                actions: [],
+                                closable: true
+                            };
+                            self.app.MessageBar.addMessage("info", message);
+                        }
+                        self.app.ProgressIndicator.set("isBusy", 0);
+                    });
+
+                    Bus.instance().subscribe("data:loaded", function (data) {
+                        if(!data) {
+                            var error = {
+                                text: "No data",
+                                actions: [],
+                                closable: true
+                            };
+                            self.app.MessageBar.addMessage("info", error);
+                        } else {
+                            self.app.MessageBar.removeMessages();
+                        }
+                        self.app.ProgressIndicator.set("isBusy", 0);
+                    });
+
+                    Bus.instance().subscribe("data:updated", function () {
+                        self.app.MessageBar.removeMessages();
+                        self.app.ProgressIndicator.set("isBusy", 0);
+                    });
+                },
+
+                attachEvents: function () {
                     this.app.ContactsDataRepeater.on("subAppLoaded", this.setContactData, this);
 
                     this.app.ContactsDataProvider.on("change:data", function () {
@@ -73,9 +122,6 @@ define(["sitecore",
                         userProfile.update(this, this.model.get("appstate"));
                     }, this);
                 },
-                bus: function () {
-                    return new EventManager.Bus();
-                },
                 showContacts: function (pathId) {
                     this.app.ContactsSmartPanel.set("isOpen", 1);
                     this.findContacts(pathId);
@@ -88,7 +134,7 @@ define(["sitecore",
                     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
                 },
                 findContacts: function (pathId) {
-                    if (!pathId) {
+                    if(!pathId) {
                         return;
                     }
 

@@ -129,6 +129,24 @@ define(arResComponents, function (tooltip, requestUtil) {
           var self = this;
           this._tooltip = new TooltipCustom(false);
 
+          if (items && imgElementLocator && imgElementLocator != null) {
+            _.each(items, function (item) {
+              var el = imgElementLocator(item.uId);
+              if (el && el.length > 0) {
+                var infoElem;
+                if (el[0].id.toLowerCase().indexOf("before") >= 0) {
+                  infoElem = el.parent().parent().find("#imgInfoBefore");
+                } else {
+                  infoElem = el.parent().parent().find("#imgInfoAfter");
+                }
+                if (infoElem) {
+                  var content = self.getTooltipContent(item);
+                  self._tooltip.setTarget(infoElem, content);
+                }
+              }
+            });
+          }
+
           var data = _.map(items, function (item) {
             var attrs = item.attrs;
             if (typeof attrs == 'undefined')
@@ -156,13 +174,23 @@ define(arResComponents, function (tooltip, requestUtil) {
             context: this,
             success: function (data) {
               if (data) {
-                self._tryFinishPopulateImages({
-                  endGetUrl: endGetUrl,
-                  handle: data,
-                  imgElementLocator: imgElementLocator,
-                  itemCallback: itemCallback,
-                  finishCallback: finishCallback
-                });
+                if (data.urls) {
+                  _.each(data.urls, function (t) {
+                    self._setImage(t.uid, t.url, imgElementLocator, itemCallback);
+                  });
+                }
+                if (data.handle) {
+                  self._tryFinishPopulateImages({
+                    endGetUrl: endGetUrl,
+                    handle: data.handle,
+                    imgElementLocator: imgElementLocator,
+                    itemCallback: itemCallback,
+                    finishCallback: finishCallback
+                  });
+                }
+                else if (finishCallback) {
+                  finishCallback();
+                }
               }
             },
             error: function (req, status, error) {
@@ -186,8 +214,18 @@ define(arResComponents, function (tooltip, requestUtil) {
             context: this,
             success: function (data) {
               if (data) {
-                if (!_.isUndefined(data.IsDone) && !data.IsDone) {
-                  setTimeout(function(){
+                if (data.urls) {
+                  _.each(data.urls, function (t) {
+                    self._setImage(t.uid, t.url, params.imgElementLocator, params.itemCallback);
+                  });
+                }
+                if(data.IsDone) {
+                  if (params.finishCallback) {
+                    params.finishCallback();
+                  }
+                }
+                else {
+                  setTimeout(function () {
                     self._tryFinishPopulateImages(params), {
                       endGetUrl: params.endGetUrl,
                       handle: params.handle,
@@ -196,23 +234,6 @@ define(arResComponents, function (tooltip, requestUtil) {
                       finishCallback: params.finishCallback
                     }
                   }, 1500);
-                }
-                else {
-                  _.each(data, function (t) {
-                    var el;
-                    if (params.imgElementLocator) {
-                      el = params.imgElementLocator(t.uid);
-                      el.attr("src", t.url);
-                    }
-
-                    if (params.itemCallback) {
-                      params.itemCallback(t.uid, el, t.url);
-                    }
-                  });
-
-                  if (params.finishCallback) {
-                    params.finishCallback();
-                  }
                 }
               }
             },
@@ -225,6 +246,24 @@ define(arResComponents, function (tooltip, requestUtil) {
           };
 
           requestUtil.performRequest(ajaxOptions);
+        },
+
+        _setImage: function(uid, url, imgElementLocator, itemCallback) {
+          var el;
+          var updated = true;
+          if (imgElementLocator) {
+            el = imgElementLocator(uid);
+            if (el.attr("src") != url) {
+              el.attr("src", url);
+            }
+            else {
+              updated = false;
+            }
+          }
+
+          if (itemCallback && updated) {
+            itemCallback(uid, el, url);
+          }
         },
 
         getTooltipContent: function (item) {

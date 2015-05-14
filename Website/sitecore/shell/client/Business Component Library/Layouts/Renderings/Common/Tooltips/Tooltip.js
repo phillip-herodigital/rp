@@ -1,191 +1,159 @@
-﻿/// <reference path="../../../../../../assets/lib/dist/sitecore.js" />
+﻿define(["sitecore", "jquery", "underscore", "bootstrap"], function(sc, $, _) {
+  var mappers = {
+    delay: function(val) { return { delay: val }; },
+    placement: function(val) { return { placement: val }; },
+    trigger: function(val) { return { trigger: val }; },
+    html: function(val) { return { html: val }; },
+    simple: function() { return {}; },
 
-define(["sitecore", "bootstrap", "jquery"], function (_sc) {
-  var model = _sc.Definitions.Models.ControlModel.extend(
-    {
-      defaults: {
-        html: false,
-        placement: 'bottom',
-        content: "",
-        selector: false,
-        title: '',
-        trigger: 'hover',
-        delay: 0,
-        simple: true,
-        target: ''
-      },
-      initialize: function (options) {
-        this._super();
-        this.set("isVisible", false);
+    content: function(val, isSimple) {
+      var contentValue = getContentValue(val);
+      return isSimple ? { title: contentValue } : { content: contentValue };
+    },
+
+    title: function(val, isSimple) {
+      return isSimple ? {} : { title: getContentValue(val) };
+    }
+  };
+
+  var getContentValue = function(val) {
+    if (val.indexOf("javascript:") === 0) {
+      var tempVal = val;
+      val = function() {
+        return eval("(" + tempVal.replace("javascript:", "") + ")()");
+      };
+    }
+
+    return val;
+  };
+
+  var getTargetElement = function(targetData) {
+    //target control can be passed as a selector or as an id of existing SPEAK control
+    var domPrefix = "DOM:";
+    if (targetData && targetData.indexOf(domPrefix) !== -1) {
+      return targetData.replace(domPrefix, "");
+    }
+
+    return $("[data-sc-id='" + targetData + "']");
+  };
+
+  var getTooltipType = function(view) {
+    return view.model.get("simple") ? "tooltip" : "popover";
+  };
+
+  var containsTooltipChanges = function(changedAttrs) {
+    return _.some(changedAttrs, function(val, key) { return mappers[key]; });
+  };
+
+  var destroyTooltip = function(target) {
+    _.each(["tooltip", "popover"], function(type) {
+      var innerControl = target.data("bs." + type);
+      if (innerControl) {
+        innerControl.destroy();
+        target.data("bs." + type, "");
       }
     });
+  };
 
-
-  var view = _sc.Definitions.Views.ControlView.extend({
-    scTarget: "",
-    //self: {},
-
-    initialize: function (options) {
-
-      this._super();
-
-      this.isSimple = false;
-      this.tooltip = {};
-      this.tipOptions = {};
-      var postponedRender = false,
-            inpSrc = $(this.el).is(":input") ? $(this.el) : [],
-            domPrefix = "DOM:", target,
-            initialData = inpSrc.length > 0 ? JSON.parse(inpSrc.val()) : {};
-
-      this.isSimple = initialData["simple"] ? true : false;
-
-      this.tipOptions = updateOptions(initialData, this.tipOptions, this.isSimple);
-
-
-      //target control can be passed as a selector or as an id of existing SPEAK control
-      if (initialData["target"] && initialData["target"].indexOf(domPrefix) != -1) {
-        
-        target = initialData["target"].replace(domPrefix, "");
-        this.scTarget = initialData["target"];
-        
-      } else {
-        //postponedRender = true;
-        target = initialData["target"];
-        target = $("[data-sc-id='" + target + "']");
-      }
-      //if (!postponedRender) {
-        this.tooltip = renderTooltip(target, this.tipOptions, this.isSimple);
-      //}
-
-      this.model.on("change:isVisible", this.toggle, this);
-
-      this.model.on("change", this.updateView, this);
-
-    },
-
-    afterRender: function () {
-//      var initialData, isSimple = true, tipOptions = {};
-//      if (this.scTarget && this.scTarget !== "") {
-//        if ("view" in eval(this.scTarget) && "el" in eval(this.scTarget).view) {
-//          initialData = JSON.parse(this.$el.val());
-//
-//          tipOptions = updateOptions(initialData, tipOptions, initialData["simple"]);
-//
-//          this.tooltip = renderTooltip(eval(this.scTarget).view.el, tipOptions, initialData["simple"]);
-//        }
-//      }
-    },
-
-    toggle: function () {
-      if (this.model.get("isVisible")) {
-        this.tooltip.show();
-      } else {
-        this.tooltip.hide();
-      }
-    },
-
-    updateView: function () {
-
-      var changedAttrs = this.model.changedAttributes();
-
-      //the handler of the "isVisible" property is already fired
-      if (_.keys(changedAttrs).length === 1 && "isVisible" in changedAttrs) {
-        return;
-      }
-
-      if ("simple" in changedAttrs) {
-        this.isSimple = this.model.changedAttributes()["simple"];
-      }
-
-      this.tipOptions = updateOptions(changedAttrs, this.tipOptions, this.isSimple);
-      this.tooltip = renderTooltip(target, this.tipOptions, this.isSimple);
-    }
-  });
-
-  function destroyTooltip(target) {
-    var tp, popover;
-
-    tp = $(target).data("tooltip");
-    popover = $(target).data("popover");
-
-    if (tp) {
-      tp.destroy();
-      $(target).data("tooltip", "");
-    }
-    if (popover) {
-      popover.destroy();
-      $(target).data("popover", "");
-    }
-  }
-
-  function renderTooltip(target, options, isSimple) {
+  var renderTooltip = function(options, view) {
+    var innerType = getTooltipType(view);
+    var target = $(view.target);
 
     destroyTooltip(target);
 
-    if (isSimple) {
-      $(target).tooltip(options);
-      return $(target).data("tooltip");
-    } else {
-      $(target).popover(options);
-      return $(target).data("popover");
+    target[innerType](options);
+    target.on("hide.bs." + innerType, function() { setIsVisible(view, false); });
+    target.on("show.bs." + innerType, function() { setIsVisible(view, true); });
+  };
+
+  var setIsVisible = function(view, value) {
+    if (view.model.get("isVisible") !== value) {
+      view.model.set("isVisible", value);
     }
-  }
+  };
 
-  function toFunction(str) {
-    return function () {
-      str = str.replace("javascript:", "");
-      return eval('(' + str + ')()');
-    };
-  }
-
-  function updateOptions(srcProps, currentOptions, isSimple) {
-    var tempVal;
-
+  var updateOptions = function(srcProps, currentOptions, isSimple) {
     var res = _.extend(currentOptions, {});
 
-    _.map(srcProps, function (val, key) {
-
-      switch (key) {
-        case "content":
-          if (val.indexOf("javascript:") === 0) {
-            tempVal = val;
-            val = toFunction(tempVal);
-          }
-          _.extend(res, isSimple ? { title: val} : { content: val });
-          break;
-
-        case "isVisible":
-          res = val ? "show" : "hide";
-          break;
-
-        case "title":
-          if (val.indexOf("javascript:") === 0) {
-            tempVal = val;
-            val = toFunction(tempVal);
-          }
-          _.extend(res, isSimple ? {} : { title: val });
-          break;
-        case "delay":
-          _.extend(res, { delay: val });
-          break;
-         
-        case "placement":
-          _.extend(res, { placement: val });
-          break;
-
-        case "trigger":
-          _.extend(res, { trigger: val });
-          break;
-
-        case "html":
-          _.extend(res, { html: val });
-          break;
+    _.map(srcProps, function(val, key) {
+      var mapper = mappers[key];
+      if (mapper) {
+        _.extend(res, mapper(val, isSimple));
       }
-
     });
 
     return res;
-  }
+  };
 
-  _sc.Factories.createComponent("Tooltip", model, view, ".sc-tooltip");
+  var initializeProperty = function(name, initialData, view) {
+    if (initialData[name] !== undefined) {
+      view.model.set(name, initialData[name]);
+    }
+  };
+
+  var getInitialData = function(view) {
+    var inpSrc = $(view.el).is(":input") ? $(view.el) : [];
+    return inpSrc.length > 0 ? JSON.parse(inpSrc.val()) : {};
+  };
+
+  sc.Factories.createBaseComponent({
+    name: "Tooltip",
+    base: "ControlBase",
+    selector: ".sc-tooltip",
+
+    attributes: [
+      { name: "content", defaultValue: "" },
+      { name: "delay", defaultValue: 0 },
+      { name: "html", defaultValue: false },
+      { name: "placement", defaultValue: "bottom" },
+      { name: "simple", defaultValue: true },
+      { name: "title", defaultValue: "" },
+      { name: "trigger", defaultValue: "hover" },
+      { name: "isVisible", defaultValue: false }
+    ],
+
+    initialize: function() {
+      this._super();
+
+      var initialData = getInitialData(this);
+
+      this.target = getTargetElement(initialData["target"]);
+
+      _.each(["content", "title", "delay", "html", "placement", "trigger"], function(name) {
+        initializeProperty(name, initialData, this);
+      }, this);
+
+      var isSimple = initialData["simple"] ? true : false;
+      this.model.set("simple", isSimple);
+
+      this.model.on("change:isVisible", onIsVisibleChanged, this);
+      this.model.on("change", this.updateView, this);
+
+      this.tipOptions = updateOptions(initialData, {}, isSimple);
+      renderTooltip(this.tipOptions, this);
+    },
+
+    updateView: function() {
+      var changedAttrs = this.model.changedAttributes();
+      if (changedAttrs) {
+        if (!containsTooltipChanges(changedAttrs)) {
+          return;
+        }
+
+        this.tipOptions = updateOptions(changedAttrs, this.tipOptions, this.model.get("simple"));
+      }
+
+      renderTooltip(this.tipOptions, this);
+    }
+  });
+
+  // The function is called in view context (this == view).
+  function onIsVisibleChanged() {
+    var innerControl = $(this.target).data("bs." + getTooltipType(this));
+    if (this.model.get("isVisible")) {
+      innerControl.show();
+    } else {
+      innerControl.hide();
+    }
+  }
 });

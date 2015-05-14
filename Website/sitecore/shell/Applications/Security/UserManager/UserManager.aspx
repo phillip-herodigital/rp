@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserManager.aspx.cs" Inherits="Sitecore.Shell.Applications.Security.UserManager.UserManager" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserManager.aspx.cs" Inherits="Sitecore.Shell.Applications.Security.UserManager.UserManager" %>
 
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.WebControls" TagPrefix="sc" %>
@@ -12,6 +12,7 @@
 <head runat="server">
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
   <title><sc:Literal runat="server" Text="User Manager"></sc:Literal></title>
+  <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
   <sc:Stylesheet Src="Content Manager.css" DeviceDependant="true" runat="server" />
   <sc:Stylesheet Src="Ribbon.css" DeviceDependant="true" runat="server" />
   <sc:Stylesheet Src="Grid.css" DeviceDependant="true" runat="server" />
@@ -31,7 +32,7 @@
 
     function OnResize() {
 
-      Users.render();
+      Users.render && Users.render();
 
       /* re-render again after some "magic amount of time" - without this second re-render grid doesn't pick correct width sometimes */
       setTimeout("Users.render()", 150);
@@ -83,7 +84,6 @@
             PageSize="15"
             PagerStyle="Slider"
             PagerTextCssClass="GridFooterText"
-            PagerButtonActiveEnabled ="True"
             PagerButtonHoverEnabled="True"
             PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
             RenderSearchEngineStamp="True"
@@ -175,17 +175,9 @@
               </ca:ClientTemplate>
 
               <ca:ClientTemplate ID="SliderTemplate">
-                <table class="SliderPopup" cellspacing="0" cellpadding="0" border="0">
-                  <tr>
-                    <td>
-                      <div style="padding: 4px; font: 8pt tahoma; white-space: nowrap; overflow: hidden">## DataItem.GetMember('Name').Value ##</div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="height: 14px; background-color: #666666; padding: 1px 8px 1px 8px; color: white">## DataItem.PageIndex + 1 ## / ## Users.PageCount ##
-                    </td>
-                  </tr>
-                </table>
+                <div class="SliderPopup">
+                  ## DataItem.PageIndex + 1 ## / ## Users.PageCount ##
+                </div>
               </ca:ClientTemplate>
             </ClientTemplates>
           </ca:Grid>

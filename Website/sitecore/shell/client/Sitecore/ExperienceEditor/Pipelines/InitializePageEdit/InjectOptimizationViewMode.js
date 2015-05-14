@@ -47,17 +47,30 @@
           }
         };
       };
-      
-      // Turn on/off Optimization View mode
+
+      var activeTests = 0;
+
       Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor(
-        "ExperienceEditor.ToggleRegistryKey.Get",
+        "Optimization.ActiveItemTests.Count",
         function (response) {
-          if (response.responseValue.value !== undefined && response.responseValue.value) {
-            Sitecore.ExperienceEditor.PageEditorProxy.changeShowOptimization(true);
-            response.context.button.set("isPressed", response.responseValue.value);
-          }
+          activeTests = response.responseValue.value;
         },
-        { value: "/Current_User/Page Editor/Show/Optimization" }).execute(context);
+        context.currentContext
+      ).execute(context);
+      
+      // Turn on Optimization View mode if there are active tests and Optimization View button is pressed.
+      if (activeTests > 0) {
+        Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor(
+          "ExperienceEditor.ToggleRegistryKey.Get",
+          function(response) {
+            if (response.responseValue.value !== undefined && response.responseValue.value) {
+              Sitecore.ExperienceEditor.PageEditorProxy.changeShowOptimization(true);
+              response.context.button.set("isPressed", response.responseValue.value);
+            }
+          },
+          { value: "/Current_User/Page Editor/Show/Optimization" }
+        ).execute(context);
+      }
     }
   };
 });

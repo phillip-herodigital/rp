@@ -14,11 +14,7 @@
 <head>
   <title>Experience Viewer</title>
   <expExplorer:ExpHeader runat="server" ID="ExpHeader" />
-  <link rel="stylesheet" type="text/css" href="/sitecore/shell/client/Speak/Assets/css/speak-default-theme.css" />
-
-  <link rel="stylesheet" type="text/css" href="/sitecore modules/Web/ExperienceExplorer/Assets/vendors/jquery-ui/css/jquery-ui-1.9.1.custom.css" />
-  <%--<link rel="stylesheet" type="text/css" href="/sitecore modules/Web/ExperienceExplorer/Assets/vendors/bootstrap/css/metro-bootstrap.css" />--%>
-  <link rel="stylesheet" type="text/css" href="/sitecore modules/Web/ExperienceExplorer/Assets/css/SpeakExplorer.css" />
+  <link rel="stylesheet" type="text/css" href="/sitecore modules/Web/ExperienceExplorer/Assets/css/experience-explorer-iframe-viewer.css" />
 </head>
 <body data-spy="scroll" data-target=".bs-docs-sidebar" class="sc ">
   <form id="form1" runat="server">
@@ -27,21 +23,21 @@
     <input type="hidden" value="<%=Sitecore.ExperienceExplorer.Business.Helpers.PresetsHelper.CurrentPresetId %>" id="currentPresetId" />
     <div class="experience-explorer-iframe experience-explorer-iframe-viewer">
       <div id="frame-header">
-        <div class="viewerHeader">
+        <div class="viewer-header">
           <span class="font-xlarge light">
             <asp:Literal ID="litViewer" runat="server" /></span>
         </div>
-        <table class="viewer table border-bottom">
+        <table class="mode-table table border-bottom">
           <tbody>
             <tr>
-              <td class="mode-cell">
-                <div class="mode" style="margin-left: 10px; margin-top: 4px;">
-                  <i id="JournayLbl" runat="server" class="icon-journey"></i>
-                  <i id="FixedLbl" runat="server" class="icon-fixed"></i>
+              <td>
+                <div class="mode">
+                    <i id="JournayLbl" runat="server" class="icon-journey btn"></i>
+                    <i id="FixedLbl" runat="server" class="icon-fixed btn"></i>
                   <asp:Label ID="lblModeSelected" CssClass="mode-title" runat="server"></asp:Label>
                 </div>
               </td>
-              <td class="visit-cell">
+              <td>
                 <div class="visit-counters">
                   <div class="inline-flex">
                     <table>
@@ -103,11 +99,11 @@
           </tbody>
         </table>
       </div>
-      <div id="accordions-viewer" class="accordion">
+      <div id="accordions-viewer">
         <asp:Repeater runat="server" ID="rpAccordion" OnItemDataBound="rpAccordion_OnItemDataBound">
 
           <ItemTemplate>
-            <div id="accordion" class="accordion-group" runat="server">
+            <div id="accordion" class="sc-advancedExpander accordion-group" runat="server">
               <div class="sc-advancedExpander-header accordion-heading accordion-heading-viewer">
                 <a data-parent="#accordions-viewer" data-toggle="collapse" class="sc-advancedExpander-header-title accordion-toggle" id="accordionLink" runat="server">
                   <asp:Literal ID="litAccordionName" runat="server" />
@@ -548,7 +544,7 @@
     <fieldset class="tab-fieldset">
       {{include tmpl="#HeaderTmpl"/}}
             
-            <ul class="rules">
+            <ul class="rules unstyled">
               {{for itemData.Source}}
                 <li>
                   <img src="{{:Icon}}" alt="{{:Name}}" />
@@ -594,7 +590,6 @@
                         </div>
                         
                       {{/for}} <!-- End "RuleDtos" for -->
-                      <hr class="no-margin" />
                     </li>
                   {{/for}} <!-- End "itemData.Source" for -->
                </ul>

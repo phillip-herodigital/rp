@@ -29,7 +29,7 @@
     },
     setInsertButtonClick: function () {
       this.on("button:insert", function () {
-        var newName = this.ItemNameText.attributes.text.trim();
+        var newName = this.ItemNameText.get("text").trim();
         if (!newName || !this.templateId) {
           return;
         }
@@ -51,7 +51,6 @@
       }, this);
     },
     setInsertOptionsItemSelected: function () {
-      //TODO: Should be moved to insert options control
       this.on("item:selected", function (event) {
         var selectedItem = this.getSelectedItem(event.sender.el);
         var selectedItemId = selectedItem.get("itemId");
@@ -64,7 +63,6 @@
           this.set("isPressed", this.cid === selectedItem.cid);
         });
         this.enableInsertButton();
-        // selectedItem.set("isPressed", true);
       }, this);
     },
     getSelectedItem: function (eventTarget) {

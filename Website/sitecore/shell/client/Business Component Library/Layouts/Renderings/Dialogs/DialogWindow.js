@@ -8,11 +8,11 @@
 });
 
 define(["sitecore", "dialog"], function (_sc) {
-
     _sc.Factories.createBaseComponent({
         name: "Dialog",
         base: "ControlBase",
         selector: ".sc-dialogWindow",
+
         attributes: [
             { name: "keyboard", defaultValue: true },
             { name: "openModal", defaultValue: true },
@@ -57,6 +57,11 @@ define(["sitecore", "dialog"], function (_sc) {
               }
             });
           }
+
+          // Calculations of content height is needed, because Bootstrap "modal" set a height of dialog content element
+          //  without taking into account a height of header and footer.
+          this.$el.data('height', this.getContentHeight());
+
           //this.model.on("change", this.updatePlugin, this);
           this.model.on("show", this.show, this);
           this.model.on("hide", this.hide, this);
@@ -72,6 +77,42 @@ define(["sitecore", "dialog"], function (_sc) {
         },
         loading: function () {
             this.$el.modal("loading");
+        },
+        getContentHeight: function () {
+          var header = this.$el.find(".sc-dialogWindow-header"),
+            footer = this.$el.find(".sc-dialogWindow-buttons"),
+            content = this.$el.find(".sc-dialogWindow-body"),
+            headerHeight = header && header.length ?
+              (header.is(":visible") ? header.outerHeight() : actualSize(header).outerHeight) : 0,
+            footerHeight = footer && footer.length ?
+              (footer.is(":visible") ? footer.outerHeight() : actualSize(footer).outerHeight) : 0,
+            contentHeight = this.$el.data('height') || (content && content.length ?
+              (content.is(":visible") ? content.outerHeight() : actualSize(content).outerHeight) : 0);
+
+          return contentHeight - (headerHeight + footerHeight);
         }
     });
+    
+    /**
+     * Get size of hidden element.
+     * @param {object} element - DOM element
+     * @returns {object} object which contains height, width, outerHeight, outerWidth fields
+     * TODO Need to move this method into SPEAK helpers. 
+     * TODO Take into account parent elements and how they can influence on element size.
+     */
+    function actualSize(element) {
+      var clone = element.clone(false),
+        size;
+
+      $('body').append(clone.css({position: "absolute", top: -1000, left: 0 }).show());
+      size = {
+        width: clone.width(),
+        height: clone.height(),
+        outerWidth: clone.outerWidth(),
+        outerHeight: clone.outerHeight()
+      }
+      clone.remove();
+
+      return size;
+    }
 });

@@ -24,17 +24,26 @@ div[data-sc-id="ButtonRow"] {
   bottom: -10px;
   right: 30px;
 }
+div[data-sc-id="MainColumn"] {
+  width: 55%;
+  padding-right: 15px;
+  padding-left: 0px;
+  height: 700px;
+}
 div[data-sc-id="DetailsColumn"] {
+  width: 45%;
   padding: 0;
   background-color: white;
   height: 700px;
   overflow-y: auto;
   overflow-x: hidden;
 }
-div[data-sc-id="MainColumn"] {
-  padding-right: 15px;
-  padding-left: 0px;
-  height: 700px;
+div[data-sc-id="DetailsColumn"] .sc-KPISpot-text {
+  border-radius: 0 0 3px 3px;
+}
+div[data-sc-id="DetailsColumn"] .sc-KPISpot .spot {
+  border-radius: 3px;
+  padding: 0;
 }
 div[data-sc-id="DescriptionBorder"] {
   color: #7b7b7b;
@@ -47,10 +56,21 @@ div[data-sc-id="DetailPanelBorder"] {
   overflow-y: scroll;
   overflow-x: hidden;
 }
-div[data-sc-id="DetailsColumn"] .sc-KPISpot-text {
-  border-radius: 0 0 3px 3px;
+div[data-sc-id="ThumbnailPanel"] img {
+  max-height: 250px;
 }
-div[data-sc-id="DetailsColumn"] .sc-KPISpot .spot {
-  border-radius: 3px;
-  padding: 0;
+[data-sc-id="RuleNameText"],
+[data-sc-id="ProgressBarCustom"] .scPrBar-spHeader,
+[data-sc-id="TrailingValueText"] {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  color: #131313;
+}
+[data-sc-id="ConditionTitleColumnPanel"] {
+  width: 15%;
+}
+[data-sc-id="ConditionValueColumnPanel"] {
+  width: 80%;
+  float: right;
 }

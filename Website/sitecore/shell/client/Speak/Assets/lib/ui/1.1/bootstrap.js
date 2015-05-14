@@ -3,10 +3,11 @@
       bootstraplib: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/bootstrap/js/bootstrap.min"
   },
   shim: {
-    'bootstraplib': { deps: ['jquery'] }
+    'bootstraplib': { deps: ['jquery', 'jqueryui'] }
   }
 });
 
 define("bootstrap", ["jquery", "bootstraplib"], function () {
+  $.widget.bridge('uitooltip', $.ui.tooltip);
   return true;
 });

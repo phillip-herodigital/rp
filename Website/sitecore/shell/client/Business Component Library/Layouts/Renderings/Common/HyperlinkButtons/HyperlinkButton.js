@@ -1,6 +1,6 @@
 ﻿require.config({
   paths: {
-    hyperlinkButtonBase: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Common/HyperlinkButtons/HyperlinkButtonBase"
+    hyperlinkButtonBase: "/-/speak/v1/business/hyperlinkbuttonbase"
   }
 });
 

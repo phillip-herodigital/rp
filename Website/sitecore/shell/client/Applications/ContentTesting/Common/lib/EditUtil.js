@@ -12,12 +12,16 @@
     
 
   return {
-    openPageEditor: function (id) {
-      var url = "/?sc_mode=edit&sc_itemid=" + id;
+    openPageEditor: function (id, language) {
+      var url = "/?sc_mode=edit";
+      url = _sc.Helpers.url.addQueryParameters(url, {
+        sc_itemid: id,
+        sc_lang: language
+      });
       target.location.href = url;
     },
 
-    openPageTestPage: function (id, showReport, load) {
+    openPageTestPage: function (id, showReport, load, language) {
       if (!showReport) {
         showReport = false;
       }
@@ -27,7 +31,12 @@
       }
 
       var url = "/sitecore/client/Applications/ContentTesting/ExperienceOptimization/Dashboard/PageTest";
-      url = _sc.Helpers.url.addQueryParameters(url, { page: id, report: showReport, load: load });
+      url = _sc.Helpers.url.addQueryParameters(url, {
+        page: id,
+        report: showReport,
+        load: load,
+        language: language
+      });
       target.location.href = url;
     }
   };

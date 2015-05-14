@@ -31,6 +31,16 @@
             Sitecore.ExperienceEditor.Common.showGallery(url, panel, dimensions);
           };
         }
+
+        var panelContent = $(panel).find(".panelContentContainer");
+        var offset = 39;
+        $(panel).find(".scRibbonPanelUp").click(function() {
+          panelContent.scrollTop(panelContent.scrollTop() - offset);
+        });
+
+        $(panel).find(".scRibbonPanelDown").click(function () {
+          panelContent.scrollTop(panelContent.scrollTop() + offset);
+        });
       }
       this._super();
     },

@@ -1,11 +1,4 @@
-﻿
-require.config({
-  paths: {
-    multiSelectControlBaseComponent: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Common/ComboBoxes/MultiSelectControlBase",
-  }
-});
-
-define(["sitecore", "multiSelectControlBaseComponent"], function (_sc, multiSelectControlBaseComponent) {
+﻿define(["sitecore", "/-/speak/v1/business/multiselectcontrolbase.js"], function (_sc, multiSelectControlBaseComponent) {
   _sc.Factories.createBaseComponent({
     name: "ListBox",
     base: "MultiSelectControlBase",

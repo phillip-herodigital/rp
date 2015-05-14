@@ -21,7 +21,7 @@ define(["sitecore",
                     this.rulesValidator = new _validator(this.MessageBarDataSource, this.RulesTabMessageBar);
                     
                     // Manage Functions view manager
-                    this.viewManager = new _viewManager(this.RulesTabTreeview, this.EditClientActionControl, this.EditPageMatcherControl, this.EditElementReplacerControl);
+                    this.viewManager = new _viewManager(this.RulesTabTreeview, this.EditClientActionControl, this.EditPageMatcherControl, this.EditElementReplacerControl, this.rulesValidator);
 
                     // load data
                     this.initMatcher().fin($.proxy(this.wireEvents, this));
@@ -52,7 +52,7 @@ define(["sitecore",
                     _sc.Commands.executeCommand('Sitecore.Speak.Commands.OpenDomainMatcher', context);
                 },
 
-                prepareForChange: function () {
+                readyForSaving: function () {
                     this.SaveButton.set('isEnabled', true);
                     this.currentMatcher.Name = this.DomainTabNameTextBox.get('text');
                     this.currentMatcher.Domain = this.DomainTabUrlTextBox.get('text');
@@ -211,8 +211,8 @@ define(["sitecore",
                     this.on("save:fxmfunction", this.saveItem, this);
 
                     //internal events
-                    this.DomainTabNameTextBox.on("change:text", this.prepareForChange, this);
-                    this.DomainTabUrlTextBox.on("change:text", this.prepareForChange, this);
+                    this.DomainTabNameTextBox.on("change:text", this.readyForSaving, this);
+                    this.DomainTabUrlTextBox.on("change:text", this.readyForSaving, this);
                     
                     // bind view manager
                     this.viewManager.bindAllEvent("saved", this.saveRuleItemSuccess, this);
@@ -236,6 +236,7 @@ define(["sitecore",
 
                 saveRuleItemSuccess: function() {
                     this.rulesValidator.showMessageById('{15CB286C-D247-47D3-8558-9A90E4A44531}');
+                    this.readyForSaving();
                 },
 
                 saveRuleItemError: function() {

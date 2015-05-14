@@ -87,12 +87,6 @@ define(["sitecore", "jqueryui"], function (_sc) {
       //
       this.populate();
     },
-
-    // testing options for unit-tests
-    setTestingOptions: function (options) {
-      this.$el = options.$el;
-      this.model = options.model;
-    },
     
     highLightSelected: function()
     {

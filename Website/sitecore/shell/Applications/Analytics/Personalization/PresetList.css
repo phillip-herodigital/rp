@@ -101,7 +101,7 @@
 }
 
 .RadarChart {
-  width: 344px;
+  width: 370px;
   height: 230px;
   margin: 10px;
   padding: 0;
@@ -158,7 +158,7 @@
 }
 
 .presetValues {
-  width: 370px;
+  width: 395px;
   position: absolute;
   top: 15px;
   right: 15px;

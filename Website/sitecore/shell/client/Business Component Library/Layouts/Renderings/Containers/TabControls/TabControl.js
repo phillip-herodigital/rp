@@ -47,17 +47,15 @@
 
   var view = _sc.Definitions.Views.BlockView.extend({
     initialize: function () {
-      var tabIds, i, selectedTabId, view = this;
+      var tabIds, i, selectedTabId;
       this._super();
 
-      tabIds = $.map(this.$el.find("> ul li[data-tab-id]"), function (tab) {
+      tabIds = $.map(this.$el.find("> ul li[data-tab-id]"), _.bind(function (tab) {
           var $tab = $(tab);
 
-          $tab.click(function (event) {
-              view.onTabClicked.call(view, event);
-          });
+          $tab.on("click", _.bind(this.onTabClicked, this));
           return $tab.attr("data-tab-id");
-      });
+      }, this));
 
       for (i = 0; i < tabIds.length; i += 1) {
           this.model.viewModel.staticTabs.push(tabIds[i]);
@@ -69,6 +67,7 @@
 
       this.model.on("change:selectedTab", onSelectedTabChanged, this);
     },
+
     onTabClicked: function (e) {
       e.preventDefault();
       selectTab(this, $(e.currentTarget));
@@ -107,7 +106,9 @@
 
       var $content = this.$el.find("div.tab-content");
       var $ul = this.$el.find("ul.sc-tabcontrol-navigation");
-      $("<li data-bind=\"css:{active:selectedTab() === '" + tab.id + "'}\" class=\"sc-tabcontrol-header\" data-tab-id=\"" + tab.id + "\"><a href=\"#\" >" + tab.header + "</a></li>").appendTo($ul);
+      $("<li data-bind=\"css:{active:selectedTab() === '" + tab.id + "'}\" class=\"sc-tabcontrol-header\" data-tab-id=\"" + tab.id + "\"><a href=\"#\" >" + tab.header + "</a></li>")
+        .on("click", _.bind(this.onTabClicked, this))
+        .appendTo($ul);
       $("<div data-bind=\"css:{'active':selectedTab() === '" + tab.id + "'}\" class=\"sc-tabcontrol-tab tab-pane\" id=\"" + tab.id + "\" >" + tab.content + "</div>").appendTo($content);
 
       this.model.viewModel.dynamicTabs.push(tab);

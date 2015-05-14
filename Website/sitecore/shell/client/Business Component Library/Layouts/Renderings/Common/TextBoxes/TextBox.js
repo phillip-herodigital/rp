@@ -14,6 +14,7 @@
       "keypress": "checkEnterKey"
     },
     checkEnterKey: function (e) {
+      //it was done to overcome the case when pressing enter doesn't trigger the 'change' event of the 'text' property.
       if (e.keyCode === 13) {
         this.$el.blur().focus();
         e.preventDefault();

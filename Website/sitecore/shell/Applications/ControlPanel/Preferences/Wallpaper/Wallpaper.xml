@@ -42,7 +42,7 @@
         }
         
         .lang_ja_jp .scBackgroundsListContainer {
-          padding-right: 158px;
+          padding-right: 180px;
         }
       </Stylesheet>
 
@@ -77,8 +77,8 @@
             <div class="changeColorContainer">
               <Literal class="scFieldLabel" Text="Color:"/>
 
-              <Button Click="GetWallpaperBackground">
-                <Border ID="WallpaperBackground" Background="blue" Width="64px" Height="12px" Border="1px solid black">
+              <Button style="width: 100%;" Click="GetWallpaperBackground">
+                <Border ID="WallpaperBackground" Background="blue" Width="100%" Height="12px" Border="1px solid black">
                   <Space/>
                 </Border>
               </Button>

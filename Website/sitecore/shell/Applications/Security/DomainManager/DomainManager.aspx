@@ -12,6 +12,7 @@
 <head runat="server">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge"> 
   <title><sc:Literal runat="server" Text="Domain Manager"></sc:Literal></title>
+  <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
   <sc:Stylesheet Src="Content Manager.css" DeviceDependant="true" runat="server" />
   <sc:Stylesheet Src="Ribbon.css" DeviceDependant="true" runat="server" />
   <sc:Stylesheet Src="Grid.css" DeviceDependant="true" runat="server" />
@@ -35,7 +36,7 @@
 
     function OnResize() {
 
-      Domains.render();
+      Domains.render && Domains.render();
 
       /* re-render again after some "magic amount of time" - without this second re-render grid doesn't pick correct width sometimes */
       setTimeout("Domains.render()", 150);
@@ -81,7 +82,6 @@
             GroupingPageSize="5"
             PagerStyle="Slider"
             PagerTextCssClass="GridFooterText"
-            PagerButtonActiveEnabled ="True"
             PagerButtonHoverEnabled="True"
             PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
             ShowSearchBox="true"
@@ -144,17 +144,9 @@
               </ca:ClientTemplate>
 
               <ca:ClientTemplate ID="SliderTemplate">
-                <table class="SliderPopup" cellspacing="0" cellpadding="0" border="0">
-                  <tr>
-                    <td>
-                      <div style="padding: 4px; font: 8pt tahoma; white-space: nowrap; overflow: hidden">## DataItem.GetMember('DisplayName').Value ##</div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="height: 14px; background-color: #666666; padding: 1px 8px 1px 8px; color: white">## DataItem.PageIndex + 1 ## / ## Domains.PageCount ##
-                    </td>
-                  </tr>
-                </table>
+                 <div class="SliderPopup">
+                    ## DataItem.PageIndex + 1 ## / ## Domains.PageCount ##
+                 </div>
               </ca:ClientTemplate>
             </ClientTemplates>
           </ca:Grid>

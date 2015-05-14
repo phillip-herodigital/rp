@@ -164,7 +164,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
         { name: "totalSize", defaultValue: "0 bytes" },
         { name: "uploadedSize", defaultValue: "0 bytes" },
         { name: "queueWasAborted", defaultValue: null },
-        { name: "database", value: "$el.data:sc-databasename" },
+        { name: "database", value: "$el.data:sc-databasename" }
     ],
     extendModel: {
       set: function (key, value, options) {      
@@ -211,9 +211,6 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       // Gets translation of messages for error events
       database.getItem("{7F5A190F-64A6-495B-B148-80569C03348D}", this.setFileSizeExceededErrorMessage);
       database.getItem("{B995246F-A761-451E-9539-AAC4B7761F06}", this.setTimeoutErrorMessage);
-      database.getItem("{B995246F-A761-451E-9539-AAC4B7761F06}", function (item) {
-        console.log(item);
-      });
 
       this.model.on("change:destinationUrl", this.changeDestinationUrl, this);
     },
@@ -223,7 +220,13 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
     },
 
     setUploadUrl: function () {
-      this.url = "/api/sitecore/Media/Upload" + "?database=" + this.databaseName + "&destinationUrl=" + this.model.get("destinationUrl");
+      this.url = "/api/sitecore/Media/Upload?database=" + this.databaseName;
+
+      var destination = this.model.get("destinationUrl");
+      if (destination !== null) {
+        this.url += "&destinationUrl=" + this.model.get("destinationUrl");
+      }
+
       this.$el.find(".sc-uploader-fileupload").attr("data-url", this.url);
     },
 
@@ -329,10 +332,14 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       //for each files - do the upload
       _.each(this.datas, function (data) {
         data.submit().error(function (jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status === 401) {
+            _sc.Helpers.session.unauthorized();
+            return;
+          }
           // Triggers error on each model that had an abort
           if (errorThrown === "abort") {
             that.app.trigger("upload-error", { id: data.__id });
-          }
+          } 
         });
       });
     },
@@ -351,9 +358,10 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           // Abort each file upload, and triggers an error event with each file
           _.each(datas, function (data) {
             data.abort();
-            that.collection.remove(model);
           });
 
+          that.collection.reset();
+          
           clearInterval(uploadTimer);
           
           that.app.trigger("sc-error", [{ id: errorId, Message: timeoutErrorMessage }]);

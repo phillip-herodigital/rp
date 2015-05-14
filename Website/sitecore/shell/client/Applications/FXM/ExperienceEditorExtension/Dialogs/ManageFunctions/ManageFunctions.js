@@ -14,7 +14,7 @@
             
             this.validator = new _validator(this.MessageBarDataSource, this.DialogMessageBar);
 
-            this.viewManager = new _viewManager(this.FunctionTreeview, this.EditClientActionControl, this.EditPageMatcherControl, this.EditElementReplacerControl);
+            this.viewManager = new _viewManager(this.FunctionTreeview, this.EditClientActionControl, this.EditPageMatcherControl, this.EditElementReplacerControl, this.validator);
             this.viewManager.bindAllEvent("saved", this.saveSuccess, this);
             this.viewManager.bindAllEvent("saveerror", this.saveError, this);
 

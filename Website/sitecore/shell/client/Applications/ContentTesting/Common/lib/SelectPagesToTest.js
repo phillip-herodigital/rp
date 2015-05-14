@@ -36,6 +36,7 @@
                 var uri = new dataUtil.DataUri(val);
                 ob.set({
                   itemId: uri.id,
+                  language: uri.lang,
                   version: uri.ver,
                   revision: uri.rev
                 });

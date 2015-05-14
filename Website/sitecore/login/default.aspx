@@ -14,7 +14,7 @@
 
   <script type="text/javascript">
     if (window != top) {
-      top.location.href = '<%#GetLoginPageUrl()%>' + '?returnUrl=' + top.location.pathname;
+      top.location.href = '<%#GetLoginPageUrl()%>' + '?returnUrl=' + (top.location.pathname[0] == '/' ? '' : '/') + encodeURIComponent(top.location.pathname + top.location.search + top.location.hash);
     }
   </script>
 

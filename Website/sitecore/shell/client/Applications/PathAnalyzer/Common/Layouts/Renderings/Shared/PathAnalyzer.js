@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/pathanalyzer/scripts/app/utils/eventManager.js"], function (Sitecore, EventManager) {
+﻿define(["sitecore", "/-/speak/v1/pathanalyzer/spider.js"], function (Sitecore, spider) {
     var pathAnalyzer = Backbone.Model.extend({
         cookiePrefix: "scPathAnalyzer_",
 
@@ -7,10 +7,6 @@
             "treeDefinition": null,
             "messageBar": null,
             "stringDictionary" : null
-        },
-
-        bus: function(){
-            return new EventManager.Bus();
         },
         getTreeDefinition: function () {
             var treeDefinition = "",
@@ -190,7 +186,7 @@
                 pathAnalyzerApp.Content.PathAnalyzer.LoadTreeData(treeDefinitionId, startDate, endDate);
             }
 
-            this.bus().publish("query:changed", { treeId: treeDefinitionId, startDate: startDate, endDate: endDate });
+            Bus.instance().publish("query:changed", { treeId: treeDefinitionId, startDate: startDate, endDate: endDate });
         }
     });
 

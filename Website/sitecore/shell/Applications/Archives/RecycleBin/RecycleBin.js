@@ -1,19 +1,5 @@
 ﻿function OnResize() {
-  var doc = $(document.documentElement);
-  var ribbon = $("RibbonContainer");
-  var grid = $("GridContainer");
-  var versionsContainer = $('VersionsGridContainer');
-  var versionsContainerHeight = versionsContainer.hasClassName("hidden") ? 0 : versionsContainer.getHeight();
-  var paddingSize = 30;
-  rowsContainer = $$(".Grid > tbody > tr:nth-child(2) > td > table");
-  gridHeader = $$(".Grid > tbody > tr:nth-child(3) > td > table");
-  gridPager = $$(".Grid > tbody > tr:nth-child(3) > td > table");
-  
-  gridMinHeight = rowsContainer.length == 0 ? 20 : rowsContainer[0].getHeight() + gridHeader[0].getHeight() + gridPager[0].getHeight() + 10; 
-  gridHeight = doc.getHeight() - ribbon.getHeight() - versionsContainerHeight;
-
-  grid.style.height = ((gridHeight > gridMinHeight ? gridHeight : gridMinHeight)) - paddingSize + 'px';
-
+ 
   if (typeof (Items) != 'undefined') {
     Items.render();
   }
@@ -54,7 +40,7 @@ Event.observe(window, "load", OnResize);
 Event.observe(window, "load", OnLoad);
 
 function OnLoad() {
-  setTimeout(function() { window.parent.frameElement.style.width = window.parent.frameElement.clientWidth + 20 + 'px'; }, 200);
+  setTimeout(function () { window != window.parent && (window.parent.frameElement.style.width = window.parent.frameElement.clientWidth + 20 + 'px'); }, 200);
 }
 
 function showVersionsBox() {

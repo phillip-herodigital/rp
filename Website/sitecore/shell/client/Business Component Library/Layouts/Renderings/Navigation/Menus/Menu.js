@@ -13,10 +13,10 @@ define(["sitecore", "userProfile"], function (_sc, userProfile) {
     attributes: [
       { name: "userProfileKey", defaultValue: null },
       { name: "isEnabled", defaultValue: true, added: true },
-      { name: "selectedItemName", defaultValue: null},
+      { name: "selectedItemName", defaultValue: null },
       { name: "selectedItemId", defaultValue: null }
     ],
-    
+
     initialize: function () {
       this._super();
       this.attachEvents();
@@ -26,7 +26,7 @@ define(["sitecore", "userProfile"], function (_sc, userProfile) {
         this.model.set("menuStatus", state);
       }, { stateDataAttributeName: "sc-menustatus" });
 
-      this.model.set("userProfileKey", this.$el.data("sc-userprofilekey"));     
+      this.model.set("userProfileKey", this.$el.data("sc-userprofilekey"));
       this.model.set("isEnabled", this.$el.data("sc-isenabled"));
       this.model.set("selectedItemName", this.$el.data("sc-selecteditemname"));
       this.model.set("selectedItemId", this.$el.data("sc-selecteditemid"));
@@ -43,29 +43,27 @@ define(["sitecore", "userProfile"], function (_sc, userProfile) {
         this.$el.find(".disableMask").hide();
         return;
       }
-      this.$el.find(".disableMask").show();    
+      this.$el.find(".disableMask").show();
     },
 
     highlightTopClosedParent: function (container) {
-      
-      if (!container.attr("isOpen")) {        
-        var selected =container.next(".itemsContainer").find(".selected");
-        if (selected.length > 0) {          
+      if (!container.attr("isOpen")) {
+        var selected = container.next(".itemsContainer").find(".selected");
+        if (selected.length > 0) {
           container.addClass("highlighted");
-        } 
+        }
+      } else {
+        container.removeClass("highlighted");
       }
-      else {
-        container.removeClass("highlighted");                
-      }      
     },
 
     toggleOpenStatus: function (container, clickedElement, menuItem) {
       if (container.is(":hidden")) {
         clickedElement.addClass("open");
-        menuItem.attr("isOpen","true");
+        menuItem.attr("isOpen", "true");
         this.updateMenuStatus(container.attr('sc-guid'), "open");
       } else {
-        clickedElement.removeClass("open");   
+        clickedElement.removeClass("open");
         menuItem.removeAttr("isOpen");
         this.updateMenuStatus(container.attr('sc-guid'), "closed");
       }
@@ -77,12 +75,17 @@ define(["sitecore", "userProfile"], function (_sc, userProfile) {
       var self = this;
       var app = self.app;
       var header = $(".header");
+
+      $('a[href="#"]').click(function (e) {
+        e.preventDefault();
+      });
+
       header.click(function () {
         var clickedElement = $(this);
         var menuItem = clickedElement.closest(".menuItem");
         var container = clickedElement.next(".toplevelcontainer");
 
-        self.toggleOpenStatus(container, clickedElement, menuItem, true);        
+        self.toggleOpenStatus(container, clickedElement, menuItem, true);
       });
 
       var arrowContainer = $(".arrowcontainer");
@@ -91,57 +94,59 @@ define(["sitecore", "userProfile"], function (_sc, userProfile) {
         var menuItem = clickedElement.closest(".menuItem");
         var container = menuItem.next(".sublevelcontainer");
 
-        self.toggleOpenStatus(container, clickedElement, menuItem, false);       
+        self.toggleOpenStatus(container, clickedElement, menuItem, false);
       });
 
       var clickdLink = $(".itemRow .rightcolumn");
-      clickdLink.click(function () {
-        $(".itemRow, .header").removeClass("selected").removeClass("highlighted");
-        
-        var itemRow = $(this).parent();        
-        itemRow.addClass("selected");      
+      clickdLink.click(function (e) {
+        if (!e.ctrlKey) {
+          $(".itemRow, .header").removeClass("selected").removeClass("highlighted");
+          var itemRow = $(this).parent();
+          itemRow.addClass("selected");
+        }
       });
 
       var clickdRoot = $(".header.rootItem");
-      clickdRoot.click(function () {
-        $(".itemRow, .header").removeClass("selected").removeClass("highlighted");
-
-        $(this).addClass("selected");
+      clickdRoot.click(function (e) {
+        if (!e.ctrlKey) {
+          $(".itemRow, .header").removeClass("selected").removeClass("highlighted");
+          $(this).addClass("selected");
+        }
       });
 
-        this.$el.find("a[data-sc-click]").on("click", function (e) {
-          var clickInvocation = $(this).attr("data-sc-click");
-          var name = $(this).find(".rcpad").html();
-          self.model.set("selectedItemName", name);
-          var id = $(this).attr("data-sc-menuItemid");
-          self.model.set("selectedItemId", id);
+      this.$el.find("a[data-sc-click]").on("click", function (e) {
+        var clickInvocation = $(this).attr("data-sc-click");
+        var name = $(this).find(".rcpad").html();
+        self.model.set("selectedItemName", name);
+        var id = $(this).attr("data-sc-menuItemid");
+        self.model.set("selectedItemId", id);
 
-          if (clickInvocation) {
-            return _sc.Helpers.invocation.execute(clickInvocation, { app: app });
-          }
-          return null;
-        });
-    },    
-    
+        if (clickInvocation) {
+          return _sc.Helpers.invocation.execute(clickInvocation, { app: app });
+        }
+        return null;
+      });
+    },
+
     setStatusInUserProfile: function () {
-      userProfile.update(this, this.model.get("menuStatus"));      
+      userProfile.update(this, this.model.get("menuStatus"));
     },
 
     updateMenuStatus: function (itemId, status) {
       var foundItem = _.find(this.model.get("menuStatus"), function (obj) { return obj.id == itemId; });
 
-      if (foundItem && status === "closed") {        
+      if (foundItem && status === "closed") {
         this.model.get("menuStatus").splice($.inArray(foundItem, this.model.get("menuStatus")), 1);
       }
-      if (!foundItem && status === "open") {        
+      if (!foundItem && status === "open") {
         this.model.get("menuStatus").push(
-          {
-            id: itemId
-          });
+        {
+          id: itemId
+        });
       }
 
       this.setStatusInUserProfile();
-    }     
+    }
   });
 });
 

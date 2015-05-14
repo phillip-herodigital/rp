@@ -22,7 +22,7 @@
     },
     setOkButtonClick: function () {
       this.on("button:ok", function () {
-        var selectedDate = this.SelectedDate.attributes.date;
+        var selectedDate = this.SelectedDate.get("date");
         this.closeDialog(selectedDate.replace("T000000", this.SelectedTime.get("time")));
       }, this);
     },

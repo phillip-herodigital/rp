@@ -5326,7 +5326,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1050;
+  z-index: 1060;
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }
@@ -5368,7 +5368,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 1050;
   background-color: #474747;
 }
 .modal-backdrop.fade {
@@ -5437,7 +5437,7 @@ button.close {
 }
 .tooltip {
   position: absolute;
-  z-index: 1070;
+  z-index: 1080;
   display: block;
   visibility: visible;
   font-size: 11px;
@@ -5537,7 +5537,7 @@ button.close {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1060;
+  z-index: 1070;
   display: none;
   max-width: 276px;
   padding: 1px;
@@ -8116,7 +8116,6 @@ button.close {
   bottom: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  transition: width 0.4s;
   color: #ffffff;
 }
 .sc-navigation-wrapper {
@@ -8126,7 +8125,6 @@ button.close {
   width: 100%;
   padding: 0;
   padding-left: 300px;
-  transition: all 0.4s ease 0s;
 }
 @media (max-width: 768px) {
   .sc-navigation-content {
@@ -8168,6 +8166,9 @@ button.close {
   -webkit-border-radius: 6px;
   border-radius: 6px;
   -webkit-box-shadow: none;
+}
+body {
+  -ms-overflow-style: scrollbar;
 }
 .sc-advancedExpander-header-actionbar .sc-actionpanelpadding-right ul.nav {
   left: auto;
@@ -8358,8 +8359,9 @@ ul.sc-accountInformation li:last-child:after {
   top: 6px;
 }
 .sc-actionpanel .sc-foldout ul > li .sc-action-text {
-  padding-left: 22px;
+  padding: 7px 7px 7px 22px;
   white-space: normal;
+  line-height: 16px;
 }
 .sc-actionpanel .sc-foldout ul > li.nav-header {
   padding: 5px;
@@ -9270,6 +9272,169 @@ fieldset[disabled] .sc .btn-inverse.active {
   display: block;
   padding-right: 25px;
 }
+.sc .sc-datepicker .ui-datepicker-buttonpane.ui-widget-content {
+  text-align: center;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary {
+  text-decoration: none;
+  background-position: 0;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.42857143;
+  border-radius: 6px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  min-width: 80px;
+  height: 36px;
+  text-shadow: none;
+  outline: none;
+  color: #474747;
+  background-color: #f0f0f0;
+  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #d1d1d1 100%);
+  background-image: -o-linear-gradient(top, #f0f0f0 0%, #d1d1d1 100%);
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #d1d1d1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#ffd1d1d1', GradientType=0);
+  border-color: #cccccc;
+  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #f0f0f0 0%, #d9d9d9 100%);
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #d9d9d9 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#ffd9d9d9', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-repeat: repeat-x;
+  -webkit-box-shadow: inset 0 1px #ffffff;
+  box-shadow: inset 0 1px #ffffff;
+  border-color: #bdbdbd;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active:focus,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+  outline: none;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active,
+.open > .dropdown-toggle.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary {
+  color: #474747;
+  background-color: #d6d6d6;
+  border-color: #9e9e9e;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active,
+.open > .dropdown-toggle.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary {
+  background-image: none;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled],
+fieldset[disabled] .sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled:hover,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled]:hover,
+fieldset[disabled] .sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled:focus,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled]:focus,
+fieldset[disabled] .sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled:active,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled]:active,
+fieldset[disabled] .sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled.active,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled].active,
+fieldset[disabled] .sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  background-color: #f0f0f0;
+  border-color: #bdbdbd;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary .badge {
+  color: #f0f0f0;
+  background-color: #474747;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus {
+  background-color: #d1d1d1;
+  background-position: 0 -15px;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  background-color: #d1d1d1;
+  border-color: #cccccc;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus {
+  background-color: #d1d1d1;
+  background-position: 0 -15px;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  background-color: #d1d1d1;
+  border-color: #cccccc;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:disabled,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled] {
+  background-color: #d1d1d1;
+  background-image: none;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled {
+  border-color: #bdbdbd;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover {
+  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #f0f0f0 100%);
+  background-image: -o-linear-gradient(top, #f0f0f0 0%, #f0f0f0 100%);
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#fff0f0f0', GradientType=0);
+  border-color: #bdbdbd;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus {
+  border-color: #bdbdbd;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  background-image: -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: linear-gradient(to bottom, #d9d9d9 0%, #d9d9d9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9d9d9', endColorstr='#ffd9d9d9', GradientType=0);
+  -webkit-box-shadow: inset 0 3px 3px #b0b0b0;
+  box-shadow: inset 0 3px 3px #b0b0b0;
+  background-image: none;
+  border-color: #bdbdbd;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary.up {
+  background-image: -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: linear-gradient(to bottom, #d9d9d9 0%, #d9d9d9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9d9d9', endColorstr='#ffd9d9d9', GradientType=0);
+  -webkit-box-shadow: inset 0 3px 3px #c9c9c9;
+  box-shadow: inset 0 3px 3px #c9c9c9;
+  border-color: #bdbdbd;
+}
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .sc-datepicker button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus {
+  color: #474747;
+  text-decoration: none;
+  background-position: 0;
+}
 .sc .ui-widget-content.sc-datepicker-dropdown {
   display: none;
   border: 1px solid #cccccc;
@@ -9375,6 +9540,169 @@ fieldset[disabled] .sc .btn-inverse.active {
 .sc .ui-widget-content.sc-datepicker-dropdown .ui-widget-header a:hover {
   border: none;
   background-color: none;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content .ui-datepicker-buttonpane.ui-widget-content {
+  text-align: center;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary {
+  text-decoration: none;
+  background-position: 0;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.42857143;
+  border-radius: 6px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  min-width: 80px;
+  height: 36px;
+  text-shadow: none;
+  outline: none;
+  color: #474747;
+  background-color: #f0f0f0;
+  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #d1d1d1 100%);
+  background-image: -o-linear-gradient(top, #f0f0f0 0%, #d1d1d1 100%);
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #d1d1d1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#ffd1d1d1', GradientType=0);
+  border-color: #cccccc;
+  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #f0f0f0 0%, #d9d9d9 100%);
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #d9d9d9 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#ffd9d9d9', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-repeat: repeat-x;
+  -webkit-box-shadow: inset 0 1px #ffffff;
+  box-shadow: inset 0 1px #ffffff;
+  border-color: #bdbdbd;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active:focus,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+  outline: none;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active,
+.open > .dropdown-toggle.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary {
+  color: #474747;
+  background-color: #d6d6d6;
+  border-color: #9e9e9e;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active,
+.open > .dropdown-toggle.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary {
+  background-image: none;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled],
+fieldset[disabled] .sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled:hover,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled]:hover,
+fieldset[disabled] .sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled:focus,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled]:focus,
+fieldset[disabled] .sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled:active,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled]:active,
+fieldset[disabled] .sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled.active,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled].active,
+fieldset[disabled] .sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  background-color: #f0f0f0;
+  border-color: #bdbdbd;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary .badge {
+  color: #f0f0f0;
+  background-color: #474747;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus {
+  background-color: #d1d1d1;
+  background-position: 0 -15px;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  background-color: #d1d1d1;
+  border-color: #cccccc;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus {
+  background-color: #d1d1d1;
+  background-position: 0 -15px;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  background-color: #d1d1d1;
+  border-color: #cccccc;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:disabled,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary[disabled] {
+  background-color: #d1d1d1;
+  background-image: none;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.disabled {
+  border-color: #bdbdbd;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover {
+  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #f0f0f0 100%);
+  background-image: -o-linear-gradient(top, #f0f0f0 0%, #f0f0f0 100%);
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#fff0f0f0', GradientType=0);
+  border-color: #bdbdbd;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus {
+  border-color: #bdbdbd;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:active,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.active {
+  background-image: -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: linear-gradient(to bottom, #d9d9d9 0%, #d9d9d9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9d9d9', endColorstr='#ffd9d9d9', GradientType=0);
+  -webkit-box-shadow: inset 0 3px 3px #b0b0b0;
+  box-shadow: inset 0 3px 3px #b0b0b0;
+  background-image: none;
+  border-color: #bdbdbd;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary.up {
+  background-image: -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: linear-gradient(to bottom, #d9d9d9 0%, #d9d9d9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9d9d9', endColorstr='#ffd9d9d9', GradientType=0);
+  -webkit-box-shadow: inset 0 3px 3px #c9c9c9;
+  box-shadow: inset 0 3px 3px #c9c9c9;
+  border-color: #bdbdbd;
+}
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:hover,
+.sc .ui-datepicker.ui-widget.ui-widget-content button.ui-datepicker-current.ui-state-default.ui-priority-secondary:focus {
+  color: #474747;
+  text-decoration: none;
+  background-position: 0;
 }
 .sc .sc-global-logo {
   display: block;
@@ -9644,7 +9972,7 @@ select.sc-listbox::-webkit-scrollbar-track {
   background-color: #e2eed7;
 }
 .sc .sc-messageBar .alert.alert-success a {
-  color: #588136;
+  color: #6ea244;
 }
 .sc .sc-messageBar .alert.alert-success .alert-icon {
   background-position: 0 0;
@@ -10516,6 +10844,7 @@ select.sc-listbox::-webkit-scrollbar-track {
   line-height: 46px;
   border-left: 5px solid #969696;
   color: #ffffff;
+  cursor: pointer;
 }
 .sc-advancedExpander .sc-advancedExpander-header > table {
   width: 100%;
@@ -10594,6 +10923,10 @@ select.sc-listbox::-webkit-scrollbar-track {
   border-right: 1px solid #cccccc;
   border-bottom: 1px solid #cccccc;
   padding: 0;
+}
+.sc-advancedExpander .sc-advancedExpander-footer {
+  text-align: right;
+  padding: 15px;
 }
 .sc-advancedExpander .sc-advancedExpander-header .btn.btn-default.mainButton {
   border: 0;
@@ -10708,7 +11041,7 @@ select.sc-listbox::-webkit-scrollbar-track {
   background: #ffffff;
   border: 1px solid #cccccc;
   position: fixed;
-  z-index: 2000;
+  z-index: 1040;
   display: none;
   bottom: 0;
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -10731,12 +11064,11 @@ select.sc-listbox::-webkit-scrollbar-track {
   overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
-  top: 45px;
-  bottom: 105px;
-  right: 0;
+  top: 60px;
+  bottom: 60px;
+  right: 5px;
   left: 0;
   padding: 15px;
-  padding-right: 25px;
 }
 .sc .sc-smartpanel-buttons {
   position: absolute;
@@ -11165,11 +11497,7 @@ body.modal-open,
   background-color: #f0f0f0;
   border-top: 1px solid #e3e3e3;
   padding: 10px 15px;
-  position: absolute;
   text-align: right;
-  bottom: 0;
-  left: 0;
-  right: 0;
   height: 56px;
   line-height: 34px;
 }
@@ -12338,6 +12666,7 @@ form.sc-uploader {
   font-size: 15px;
 }
 .sc .sc-menu .menuroot .menuchevron {
+  cursor: pointer;
   top: -31px;
   position: relative;
   left: 270px;

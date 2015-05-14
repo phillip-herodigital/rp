@@ -2,6 +2,7 @@
 @using Sitecore.Data
 @using Sitecore.Mvc
 @using Sitecore.Mvc.Presentation
+@using Sitecore.Web;
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @using Sitecore.Web.UI.Controls.Common.Images
 @using Sitecore.Web.UI.Controls.Common.Texts
@@ -15,6 +16,9 @@
   rendering.Requires.Script(BasePath + "BaseDialogMockup.js");
   rendering.Requires.Css(BasePath + "BaseDialogMockup.css");
 
+  var header = WebUtil.GetQueryString("Header", this.Html.Sitecore().CurrentItem["Header"]);
+  var description = WebUtil.GetQueryString("Description", this.Html.Sitecore().CurrentItem["Description"]);
+
   var htmlAttributes = rendering.HtmlAttributes;
 }
      
@@ -23,10 +27,10 @@
   <div class="dialog-popup">
     <div class="sc-dialogWindow-header" style="padding-top: 0px;">
       <span class="sc-dialogWindow-header-title">
-        @Html.Sitecore().Controls().Text("DialogHeader", this.Html.Sitecore().CurrentItem["Header"])
+        @Html.Sitecore().Controls().Text("DialogHeader", header)
       </span>
       <br/>
-      @Html.Sitecore().Controls().Text("DialogHeader", this.Html.Sitecore().CurrentItem["Description"], new { TextType = TextType.Title})
+      @Html.Sitecore().Controls().Text("DialogHeader", description, new { TextType = TextType.Title})
     </div>    
 
     <div class="dialog-content" id="dialogContent">

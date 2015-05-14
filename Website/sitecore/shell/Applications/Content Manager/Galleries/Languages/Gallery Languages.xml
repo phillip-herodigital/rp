@@ -8,7 +8,7 @@
       <Script>
         window.onload = function() {
           var activeLanguage = document.querySelector('.scMenuPanelItemSelected');
-          activeLanguage.scrollIntoView();
+          activeLanguage.scrollIntoView(false);
         }
       </Script>
       

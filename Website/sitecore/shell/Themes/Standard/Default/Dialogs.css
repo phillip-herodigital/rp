@@ -53,6 +53,10 @@ form {
     overflow: auto;
 }
 
+    .ie9 .scDialogContentContainer.scStretchAbsolute {
+        width: auto;
+    }
+
     .scDialogContentContainer > div {
         -moz-box-sizing: border-box;
         box-sizing: border-box;

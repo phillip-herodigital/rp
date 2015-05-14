@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense" xmlns:shell="http://www.sitecore.net/shell">
   <SecurityEditor>
+    <Favicon Src="/sitecore/images/favicon.ico" />
     <FormPage Application="Security/Security Editor" Title="Security Editor">
       <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
       <Stylesheet Src="Ribbon.css" DeviceDependant="true"/>

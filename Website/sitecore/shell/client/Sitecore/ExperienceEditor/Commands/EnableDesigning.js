@@ -23,8 +23,19 @@
         response.context.button.set("isChecked", response.responseValue.value ? "1" : "0");
         Sitecore.Commands.EnableDesigning.isEnabled = response.responseValue.value == "1";
         Sitecore.ExperienceEditor.PageEditorProxy.changeCapability("design", response.context.button.get("isChecked") == "1");
+        Sitecore.Commands.EnableDesigning.refreshAddComponentButtonState(response.context);
         Sitecore.Commands.ShowControls.reEvaluate();
       }, { value: context.button.get("registryKey") }).execute(context);
+    },
+
+    refreshAddComponentButtonState: function(context) {
+      if (Sitecore.Commands.AddComponent) {
+        var addComponents = Sitecore.ExperienceEditor.CommandsUtil.getControlsByCommand(Sitecore.ExperienceEditor.instance.Controls, "AddComponent");
+        var buttonEnabled = Sitecore.Commands.AddComponent.canExecute(context);
+        $.each(addComponents, function () {
+          this.model.set({ isEnabled: buttonEnabled });
+        });
+      }
     }
   };
 });

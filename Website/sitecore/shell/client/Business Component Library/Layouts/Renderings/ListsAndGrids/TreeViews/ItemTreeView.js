@@ -38,7 +38,8 @@ define(['sitecore', 'dynatree'], function (_sc) {
       { name: "debugLevel", defaultValue: 0 },       // 0:quiet, 1:normal, 2:debug
       { name: "showHiddenItems", defaultValue: false },
       { name: "contentLanguage", defaultValue: "en" },
-      { name: "showIconImage", defaultValue: true }
+      { name: "showIconImage", defaultValue: true },
+      { name: "database", defaultValue: "" }
     ],
 
     events:
@@ -77,6 +78,7 @@ define(['sitecore', 'dynatree'], function (_sc) {
         this.model.set("showHiddenItems", this.$el.attr("data-sc-option-showhiddenitems") !== undefined && this.$el.attr("data-sc-option-showhiddenitems").toLowerCase() === "true");
         this.model.set("showIconImage", this.$el.attr("data-sc-option-showiconimage") === undefined || this.$el.attr("data-sc-option-showiconimage") === "true");
         this.model.set("templates", this.$el.attr("data-sc-templates"));
+        this.model.set("database", this.$el.attr("data-sc-database"));
 
         var items = this.$el.attr("data-sc-rootitem");
         if (!items) {
@@ -105,7 +107,7 @@ define(['sitecore', 'dynatree'], function (_sc) {
             isFolder: true,
             icon: this.model.get("showSitecoreIcons") ? itemIcon : "",
             url: "#",
-            path: "/" + uri[0],
+            path: this.$el.attr("data-sc-rootitempath"),
             itemUri: itemUri,
             selected: selectedItemUri == null
           };
@@ -149,7 +151,13 @@ define(['sitecore', 'dynatree'], function (_sc) {
         var self = this;
 
         var database = new _sc.Definitions.Data.Database(itemUri.getDatabaseUri());
-        database.getChildren(itemUri.getItemId(), function (items) {
+        database.getChildren(itemUri.getItemId(), function (items, totalCount, result) {
+
+          if (result.statusCode === 401) {
+            _sc.Helpers.session.unauthorized();
+            return;
+          }
+          
           var res = [], filteredItems;
 
           filteredItems = items;

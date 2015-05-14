@@ -8,17 +8,17 @@
     var RibbonPageCode = Sitecore.Definitions.App.extend({
       initialized: function () {
         this.currentContext = {
-          language: this.PageEditBar.attributes.language,
-          version: this.PageEditBar.attributes.version,
-          isHome: this.PageEditBar.attributes.isHome,
-          itemId: this.PageEditBar.attributes.itemId,
-          database: this.PageEditBar.attributes.database,
-          deviceId: this.PageEditBar.attributes.deviceId,
-          isLocked: this.PageEditBar.attributes.isLocked,
-          isLockedByCurrentUser: this.PageEditBar.attributes.isLockedByCurrentUser,
-          ribbonUrl: this.PageEditBar.attributes.url,
-          siteName: this.PageEditBar.attributes.siteName,
-          isReadOnly: this.PageEditBar.attributes.isReadOnly,
+          language: this.PageEditBar.get("language"),
+          version: this.PageEditBar.get("version"),
+          isHome: this.PageEditBar.get("isHome"),
+          itemId: this.PageEditBar.get("itemId"),
+          database: this.PageEditBar.get("database"),
+          deviceId: this.PageEditBar.get("deviceId"),
+          isLocked: this.PageEditBar.get("isLocked"),
+          isLockedByCurrentUser: this.PageEditBar.get("isLockedByCurrentUser"),
+          ribbonUrl: this.PageEditBar.get("url"),
+          siteName: this.PageEditBar.get("siteName"),
+          isReadOnly: this.PageEditBar.get("isReadOnly"),
           webEditMode: Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("mode"),
           argument: ""
         };
@@ -103,7 +103,7 @@
           response.context.NotificationBar.removeMessages("");
           for (var i = 0; i < notifications.length; i++) {
             var notification = notifications[i];
-            var notificationElement = Sitecore.ExperienceEditor.instance.showNotification(notificationTypes[notification.Type], notification.Description, false);
+            var notificationElement = Sitecore.ExperienceEditor.instance.showNotification(notificationTypes[notification.Type], notification.Description, true);
             if (notificationElement
               && notification.Options.length > 0) {
               for (var j = 0; j < notification.Options.length; j++) {
@@ -185,6 +185,9 @@
         if (height === undefined)
           height = this.ScopedEl.height();
         var iframe = jQuery("#scWebEditRibbon", window.parent.document.body);
+        if (!window.parent.document.getElementById("scCrossPiece")) {
+          window.parent.$sc("<div id='scCrossPiece' style='visibility: hidden'> </div>").prependTo(window.parent.document.body);
+        }
         var crossPiece = jQuery("#scCrossPiece", window.parent.document.body);
         iframe.height(height);
         crossPiece.height(height);
@@ -235,7 +238,7 @@
         }, this);
         this.on("button:check", function (event) {
           var button = this.getButton(event.sender.el);
-          button.set({ isChecked: !button.attributes.isChecked });
+          button.set({ isChecked: !button.get("isChecked") });
           this.executeButtonCommand(button);
         }, this);
       },
@@ -264,8 +267,8 @@
           return;
         }
 
-        var buttonName = button.attributes.name;
-        var isPressed = button.attributes.isPressed;
+        var buttonName = button.get("name");
+        var isPressed = button.get("isPressed");
         $.each(this.Controls, function (index, control) {
           if (control.name == buttonName) {
             control.model.viewModel.set({ isPressed: !isPressed });
@@ -274,7 +277,7 @@
       },
 
       executeButtonCommand: function (button) {
-        if (button.attributes.command != undefined && button.attributes.command != "") {
+        if (button.get("command") != undefined && button.get("command") != "") {
           this.executeCommand(button.get("command"), "", button);
         }
       },

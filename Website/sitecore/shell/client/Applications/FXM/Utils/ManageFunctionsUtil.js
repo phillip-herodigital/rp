@@ -5,13 +5,14 @@
     "/-/speak/v1/FXM/ElementMatcherService.js"
 ], function (_sc, _pageMatcherService, _itemService, _elementMatcherService) {
 
-    var viewManager = function (treeview, editClientAction, editPageMatcher, editElementReplacer) {
+    var viewManager = function (treeview, editClientAction, editPageMatcher, editElementReplacer, validator) {
 
         this.allowNavigation = true;
         this.treeview = treeview;
         this.editClientActionControl = editClientAction;
         this.editPageMatcherControl = editPageMatcher;
         this.editElementReplacerControl = editElementReplacer;
+        this.validator = validator;
 
         this.updateView = function (selectedItemId, selectedItemTemplateName) {
 
@@ -133,10 +134,20 @@
             var rootItemId = this.treeview.get("rootItemId");
             var selectedItemId = this.treeview.get("selectedItemId");
 
+            if (!selectedItemId) {
+                this.validator.clear();
+                this.validator.showMessageById('{58AE60DB-C805-4022-AFD8-0D72E7E1BD20}');
+                return;
+            }
+
             var templateName = "";
 
             if (selectedItemId != rootItemId) {
                 templateName = this.treeview.viewModel.selectedNode().rawItem.$templateName;
+            } else {
+                this.validator.clear();
+                this.validator.showMessageById('{165E6A94-9151-4402-97AA-533CD6CB3A27}');
+                return;
             }
 
             switch (templateName) {
@@ -152,7 +163,8 @@
                     this.editPageMatcherControl.saveItem();
                     break;
                 default:
-                    alert(templateName + ' cannot be saved.');
+                    this.validator.clear();
+                    this.validator.showMessageById('{0DF43741-4214-412D-8B44-CF5B3D1EC808}');
                     break;
             }
             

@@ -27,7 +27,27 @@
   var showIconImage = userControl.GetBool("ShowIconImage");
   var template = userControl.GetString("Template");
   var baseTemplates = userControl.GetString("Base Templates");
-  var templates = new TemplateHelper().GetRelatedTemplatesString(baseTemplates, ClientHost.Databases.ContentDatabase);
+  var databaseName = userControl.GetString("Database");
+  databaseName = string.IsNullOrEmpty(databaseName) ? "$context_contentdatabase" : databaseName;
+  var database = ClientHost.Databases.ContentDatabase;
+
+  if (!string.IsNullOrEmpty(databaseName))
+  {
+    if (string.Compare(databaseName, "$context_database", StringComparison.InvariantCultureIgnoreCase) == 0)
+    {
+      database = ClientHost.Databases.Database;
+    }
+    else if (string.Compare(databaseName, "$context_contentdatabase", StringComparison.InvariantCultureIgnoreCase) == 0)
+    {
+      database = ClientHost.Databases.ContentDatabase;
+    }
+    else
+    {
+      database = Database.GetDatabase(databaseName);
+    }
+  }
+
+  var templates = new TemplateHelper().GetRelatedTemplatesString(baseTemplates, database);
   if (!string.IsNullOrEmpty(template))
   {
     templates = string.IsNullOrEmpty(templates) ? template : string.Concat(template, "|", templates);
@@ -36,12 +56,12 @@
   Item rootItem = null;
   if (!string.IsNullOrEmpty(rootItemId))
   {
-    rootItem = ClientHost.Databases.ContentDatabase.GetItem(rootItemId, Language.Parse(contentLanguage));
+    rootItem = database.GetItem(rootItemId, Language.Parse(contentLanguage));
   }
 
   if (rootItem == null)
   {
-    rootItem = ClientHost.Databases.ContentDatabase.GetRootItem();
+    rootItem = database.GetRootItem();
   }
   
   var rootItemIcon = Images.GetThemedImageSource(!string.IsNullOrEmpty(rootItem.Appearance.Icon) ? rootItem.Appearance.Icon : "Applications/16x16/documents.png", ImageDimension.id16x16);
@@ -50,6 +70,7 @@
   userControl.SetAttribute("data-sc-loadpath", preLoadPath);
   userControl.SetAttribute("data-sc-contentlanguage", contentLanguage);
   userControl.SetAttribute("data-sc-templates", templates);
+  userControl.SetAttribute("data-sc-database", databaseName);
   
   userControl.AddOptionAttribute("selectedItems");
   userControl.AddOptionAttribute("checkedItems");

@@ -100,7 +100,7 @@
       var boundingClientRect = this.getClientRect(this.$el.attr("data-sc-id"));
 
       var container = window.parent.document.createElement("div");
-      var containerStyle = "position:absolute;z-index:10000;top:" + boundingClientRect.bottom + "px;left:" + boundingClientRect.left + "px;background-color:#ffffff;";
+      var containerStyle = "position:absolute;z-index:10000;top:" + boundingClientRect.bottom + "px;left:" + (boundingClientRect.left + Sitecore.ExperienceEditor.ribbonFrame().offsetLeft) + "px;background-color:#ffffff;";
       container.setAttribute("style", containerStyle);
       container.setAttribute("class", "sc_LargeDropDownButton_DropDownItemsContainer");
       container.setAttribute("id", this.dropDownButtonsListClientId);
@@ -207,7 +207,7 @@
 
     setIcon: function (iconSrc) {
       this.$el.find("img:first").attr("src", iconSrc);
-      var buttons = $("[data-sc-id='" + this.model.attributes.name + "']");
+      var buttons = $("[data-sc-id='" + this.model.get("name") + "']");
       if (buttons.length > 1) {
         $.each(buttons, function (index, button) {
           $(button).find("img:first").attr("src", iconSrc);
@@ -216,7 +216,7 @@
     },
     setLabel: function (label) {
       this.$el.find("span:first").text(label);
-      var buttons = $("[data-sc-id='" + this.model.attributes.name + "']");
+      var buttons = $("[data-sc-id='" + this.model.get("name") + "']");
       if (buttons.length > 1) {
         $.each(buttons, function (index, button) {
           $(button).find("span:first").text(label);

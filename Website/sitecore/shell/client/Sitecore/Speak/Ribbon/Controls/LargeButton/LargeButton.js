@@ -50,7 +50,7 @@
 
     setTitle: function(title) {
       this.$el.find("span:first").text(title);
-      var buttons = $("[data-sc-id='" + this.model.attributes.name + "']");
+      var buttons = $("[data-sc-id='" + this.model.get("name") + "']");
       if (buttons.length > 1) {
         $.each(buttons, function (index, button) {
           $(button).find("span:first").text(title);

@@ -74,8 +74,13 @@
         database.query(query, $.proxy(this.completed, this), options);
       },
 
-      completed: function(items, totalCount)
+      completed: function(items, totalCount, result)
       {
+        if (result.statusCode === 401) {
+          _sc.Helpers.session.unauthorized();
+          return;
+        }
+        
         //extend items with formated fields property
         if (this.get("formatting") == "$send_localized_dates") {
           _.each(items, function (item) {

@@ -532,7 +532,6 @@ div#QuickInfo + .scEditorSectionPanel {
 }
 
 .scCheckBox + .scEditorFieldLabel {
-    float: left;
 }
 
 .scEditorFieldLabel {
@@ -670,6 +669,7 @@ a.scContentButton {
     padding: 2px 6px 2px 6px;
     cursor: default;
     white-space: nowrap;
+    display: inline-block;
 }
 
 /* Template */
@@ -861,6 +861,7 @@ a.scPagerButtonActive {
     background: white;
     padding: 2px;
     margin: 8px 0px 0px 4px;
+    z-index: 1;
     filter: progid:DXImageTransform.Microsoft.BasicImage(opacity=0.75);
 }
 
@@ -1122,7 +1123,7 @@ a.scRibbonEditorTabNormal:hover {
 /* search */
 
 #SearchPanel {
-    padding: 15px;
+    padding: 8px 12px;
     border-bottom: 1px solid #D6D6D6;
 }
 

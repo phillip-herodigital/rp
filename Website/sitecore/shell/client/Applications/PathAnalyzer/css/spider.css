@@ -1,0 +1,168 @@
+﻿rect.innerBar {
+    fill: #D0EBF6;
+}
+
+path.frame {
+    stroke: #6AC0E2;
+    fill: white;
+    stroke-width: 7px;
+}
+
+.selected {
+    stroke: #3FAED9;
+}
+
+.muted {
+    stroke: #F7F7F7;
+}
+div.tooltip {
+    position: absolute;
+    text-align: left;
+    width: 200px;
+    height: 100px;
+    padding: 5px;
+    font: 10px arial;
+    background: #FEF3C8;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+#breadcrumb {
+    padding-left: 30px;
+}
+
+#metricsWell {
+    padding-left: 30px;
+}
+
+#filterBar {
+    padding-left: 30px;
+}
+
+/*** METRICS START ***/
+.metricsLabel {
+    font: 16px arial;
+    fill: #474747;
+}
+
+.metricsValue {
+    font: 20px arial;
+    fill: #A6A6A6;
+    font-weight: bold;
+}
+
+.metrics{
+    text-anchor: middle;
+}
+
+.activeLabel {
+    fill: #000000;
+    cursor: pointer;
+}
+
+/*** METRICS END ***/
+
+/*** NODE NAME LABELS START ***/
+
+.nodeName {
+    font: 16px arial;
+    fill: #474747;
+}
+
+.nodeLabel {
+    font-size: 12px !important;
+    fill: #3FAED9 !important;
+}
+
+.outgoingLabel {
+    text-anchor: start;
+}
+
+.incomingLabel {
+    text-anchor: start;
+}
+
+#current-page-name {
+    font-size: 16px !important;
+    fill: #3FAED9 !important;
+    text-anchor: middle;
+    stroke: none;
+}
+
+#current-page-name.selected{
+    font-weight: bold;
+}
+
+/*** NODE NAME LABELS END ***/
+
+#paths path {
+    cursor: pointer;
+}
+
+path.arrow {
+    cursor: pointer;
+}
+
+.metricsLabelGroup {
+    pointer-events: all;
+    cursor: pointer;
+}
+
+circle.selected {
+    fill: #FFFFFF;
+    stroke: #3FAED9;
+}
+
+circle.dimmed {
+    fill: #FFFFFF;
+    stroke: #F7F7F7;
+    cursor: initial !important;
+}
+
+circle.node {
+    fill: white;
+    cursor: pointer;
+}
+
+circle.current {
+    fill: url(#icon);
+    stroke: none !important;
+}
+
+    circle.current.dimmed {
+        fill: url(#icon-dimmed);
+        stroke-width: 0;
+    }
+
+    circle.current.selected {
+        fill: url(#icon);
+        stroke-width: 0;
+    }
+
+.back {
+    fill: url(#back);
+    stroke: none !important;
+}
+
+    .back:hover {
+        fill: url(#back-hover);
+        stroke: none !important;
+    }
+
+path.muted {
+    cursor: initial !important;
+}
+
+path.selected {
+    cursor: initial !important;
+}
+
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+.modal-scrollable{
+    z-index: 3000 !important;
+}

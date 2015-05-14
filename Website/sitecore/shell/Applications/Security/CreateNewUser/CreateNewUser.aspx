@@ -37,7 +37,13 @@
     }
 
     function fixWindowHight() {
-        scForm.autoIncreaseModalDialogHeight(document.querySelector('.scCreateNewUserContent'));
+      scForm.autoIncreaseModalDialogHeight(document.querySelector('.scCreateNewUserContent'));
+      setTimeout(function () {
+        document.querySelector('.scFormDialogFooter').style.position = 'relative';
+        setTimeout(function () {
+          document.querySelector('.scFormDialogFooter').style.position = 'fixed';
+        }, 1);
+      }, 1);
     }
     
     function DoValidation(validationGroup) {

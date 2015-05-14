@@ -615,6 +615,13 @@ scSitecore.prototype.handleKey = function (tag, evt, parameters, keyFilter, glob
   if (evt.keyCode == 13 && tag != null && (tag.tagName == "TEXTAREA" || tag.isContentEditable)) {
     return;
   }
+  // special tab key handling
+  if (evt.keyCode == 9 && tag && (tag.tagName == "BUTTON" || tag.tagName == "INPUT") && tag.id == "Cancel" && !evt.shiftKey) {
+    var firstInput = document.querySelector('input:not([type=hidden])');
+    firstInput && firstInput.focus();
+    this.browser.clearEvent(evt, true, false);
+    return;
+  }
 
   global = (global != null);
 
@@ -1145,9 +1152,16 @@ scSitecore.prototype.process = function (request, command, name) {
           }
 
           ctl.innerHTML = value;
+          
+          var match;
+          var srcScriptRegex = /(src[\s]*=[\s]*"[^"]*)<script\b[\s\S]*?>([\s\S]*?)<\//ig;
+          
+          while (match = srcScriptRegex.exec(value)) {
+            value = value.replace(match[2], "");
+          }
 
           re = /<script\b[\s\S]*?>([\s\S]*?)<\//ig;
-          var match;
+          
           while (match = re.exec(value)) {
             eval(match[1]);
           }
@@ -1615,7 +1629,10 @@ scRequest.prototype.handle = function () {
     }
 
     if (this.httpRequest.getResponseHeader("SC-Login") == 'true') {
-      window.top.location = "/sitecore";
+      var parser = document.createElement('a');
+      parser.href = this.httpRequest.responseURL;
+      window.top.location = parser.protocol + "//" + parser.host + (parser.pathname[0] == '/' ? '' : '/') + parser.pathname +
+        "?returnUrl=" + (top.location.pathname[0] == '/' ? '' : '/') + encodeURIComponent(top.location.pathname + top.location.search + top.location.hash);
       return false;
     }
 

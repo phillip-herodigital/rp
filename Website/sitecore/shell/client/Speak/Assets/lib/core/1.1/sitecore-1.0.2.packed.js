@@ -792,17 +792,20 @@ Speak.Definitions.App = Backbone.Model.extend({
       ajaxOptions = options["ajax"]|| {},
       defaultOptions = {
         database: "core",
-        path: "/"
+        path: "/api/sitecore/Layout/RenderItem"
       },
       cb = callback,
       jqxhr,
-      successCb;
+      successCb,
+      errorCb;
 
     var lang = $('meta[data-sc-name=sitecoreLanguage]').attr("data-sc-content");
     
     if (ajaxOptions && ajaxOptions["success"]) {
       successCb = ajaxOptions["success"];
     }
+
+    errorCb = ajaxOptions["error"];
     
     if (_.isFunction(options)) {
       cb = options;
@@ -831,7 +834,16 @@ Speak.Definitions.App = Backbone.Model.extend({
           $el: $el
         }, cb);
       },
-      error: ajaxOptions["error"],
+      error: function(jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status === 401) {
+          _sc.Helpers.session.unauthorized();
+          return;
+        }
+
+        if (errorCb) {
+          errorCb.call(jqXHR, textStatus, errorThrown);
+        }
+      },
       complete: ajaxOptions["complete"]
     });
 
@@ -1321,7 +1333,6 @@ _.extend(fctry, {
       , baseComponent
       , isLocalStorage = obj.localStorage
       , extendModel = obj.extendModel || { }
-      , exposedModel
       , collection = obj.collection
       , exposed;
 
@@ -1334,29 +1345,26 @@ _.extend(fctry, {
       baseView = baseComponent.view;
     }
 
-    var ComponentModel;
     if(isLocalStorage) {
       extendModel = _.extend(extendModel, {
-        initialize: function() {
-          this._super();
+        constructor: function () {
+          baseModel.apply(this, arguments);
           this._scInitDefaultValueFromLocalStorage();
         },
-        set: localStoragetSet(baseModel)
-      }, {
-        useLocalStorage: true
+        set: localStoragetSet(baseModel),
+        useLocalStorage: true 
       });
-
-      ComponentModel = baseModel.extend(extendModel);
     } else {
       extendModel = _.extend(extendModel, {
-        initialize: function() {
-          this._super();
+        constructor: function() {
+          baseModel.apply(this, arguments);
           this._scInitDefaultValue();
         }
       });
-      ComponentModel = baseModel.extend(extendModel);
     }
-   
+    
+    var ComponentModel = baseModel.extend(extendModel);
+
     var ComponentView = baseView.extend({
       initialize: function () {
         _sc.debug("initialize - " + componentName);
@@ -2108,6 +2116,27 @@ var antiForgeryHelper = {
   }
 };
 
+var sessionHelper = {
+  unauthorized: function () {
+    sessionHelper.logout(function (result) {
+      window.top.location.replace(top.location.href);
+    });
+  },
+  
+  logout: function (callback) {
+    var ajaxSettings = {
+      url: "/api/sitecore/Authentication/Logout?sc_database=master",
+      type: "POST",
+      data: {},
+      cache: false
+    };
+
+    var token = _sc.Helpers.antiForgery.getAntiForgeryToken();
+    ajaxSettings.data[token.formKey] = token.value;
+    $.ajax(ajaxSettings).complete(callback);
+  }
+};
+
 _.extend(_sc, {
   Helpers: {
     antiForgery: antiForgeryHelper,
@@ -2118,7 +2147,8 @@ _.extend(_sc, {
     object: objectHelper,
     invocation: invocationHelper,
     overlay: overlayHelper,
-    window: windowHelper
+    window: windowHelper,
+    session: sessionHelper
   }
 });
 

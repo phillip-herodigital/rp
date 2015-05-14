@@ -51,7 +51,6 @@
       height = item["Height"];
     }
   }
-
   userControl.Class = CssClass;
   var controlId = userControl.ControlId;
   var htmlAttributes = userControl.HtmlAttributes;
@@ -77,8 +76,8 @@
   </div>
   <div class="modal-body sc-dialogWindow-body">
     @this.Html.Sitecore().Placeholder(controlId + ".Content")
-    <div class="sc-dialogWindow-buttons">
-      @Html.Sitecore().Placeholder(controlId + ".Buttons")
-    </div>
+  </div>
+  <div class="sc-dialogWindow-buttons">
+    @Html.Sitecore().Placeholder(controlId + ".Buttons")
   </div>
 </div>

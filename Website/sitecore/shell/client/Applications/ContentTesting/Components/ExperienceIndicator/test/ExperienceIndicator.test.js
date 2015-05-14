@@ -35,10 +35,8 @@ define(arResComponents, function (_sc) {
 
       $elem = $pageElem.find(".scExp-dvExperienceList");
 
-      expIndicatorProto.setTestingOptions({
-        $el: $elem,
-        model: expIndicatorModel,
-      });
+      expIndicatorProto.$el = $elem;
+      expIndicatorProto.model = expIndicatorModel;
 
       try {
         expIndicatorProto.initialize({});

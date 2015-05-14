@@ -15,11 +15,6 @@
   overflow: hidden;
 }
 
-.ie .versionsContainer
-{
-  height: 160px;
-}
-
 .innerContainer
 {
   width: 0px;
@@ -51,15 +46,10 @@
   margin-left: 2px;
 }
 
-.versionsGridContainer
-{
-  padding-top: 2px;
-  margin-right:4px;
-}
-
-.ie .versionsGridContainer
-{
-  overflow: hidden;
+.versionsGridContainer {
+    min-height: 250px;
+    padding-top: 20px;
+    margin-right: 4px;
 }
 
 .tablesorter
@@ -121,7 +111,6 @@
 }
 
 #GridContainer {
-    overflow: auto;
 }
 .scGridFooter {
     position: relative;   
@@ -133,6 +122,10 @@
 
 .scGridFooter div img{
     top: 0 !important;
+}
+
+.Grid {
+    height: 530px !important;
 }
 
 .Row {
@@ -159,7 +152,7 @@
     .Grid, .Row *, .SelectedRow *, .HeadingRow * {
         width: auto !important;
         box-sizing: border-box;
-        margin-left:auto;
+        margin-left: auto;
         margin-right: auto;
     }
 
@@ -189,5 +182,5 @@
 
     .wrapperHeight {
         height: calc(100% - 80px);
-        overflow-y: scroll;
+        overflow: auto;
     }

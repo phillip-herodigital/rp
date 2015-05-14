@@ -6,7 +6,7 @@
       <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
       <Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js"/>
       <Script Src="/sitecore/shell/Controls/Lib/jQuery/jquery-1.10.0.min.js"/>
-
+      <script type="text/javascript">jQuery.noConflict();</script>
       <input type="hidden" id="scSections" name="scSections" />
       
       <Border ID="Fields" Background="white"/>  

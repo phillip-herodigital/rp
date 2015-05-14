@@ -10,7 +10,6 @@
 
   var view = Sitecore.Definitions.Views.ControlView.extend({
     initialize: function (options) {
-      this._super();
 
       this.$el.mousedown(this, this.mouseDown);
       this.$el.mousemove(this, this.mouseMove);
@@ -18,30 +17,37 @@
       var parentWindow = $(window.parent);
       var frame = window.frameElement;
 
-      parentWindow.mouseup(function () {
-        $(frame).hide();
-      });
+      parentWindow.mouseup(this.mouseupParent);
 
-      $(window).mouseup(this, function (evt) {
-        var component = evt.data;
-        var dragging = component.model.get("dragging");
-        if (dragging) {
-          component.mouseUp(evt);
-        }
-      });
-      $(window).mousemove(this, function (evt) {
-        var component = evt.data;
-        var dragging = component.model.get("dragging");
-        if (dragging) {
-          component.mouseMove(evt);
-        }
-      });
+      $(window).mouseup(this, this.mouseupWindow);
+
+      $(window).mousemove(this, this.mousemoveWindow);
       
       frame = window.frameElement;
       
       this.model.set("height", frame.offsetHeight-4);
     },
 
+    mouseupParent: function () {
+      var frame = window.frameElement;
+      $(frame).hide();
+    },
+
+    mouseupWindow: function (evt) {
+      var component = evt.data;
+      var dragging = component.model.get("dragging");
+      if (dragging) {
+        component.mouseUp(evt);
+      }
+    },
+    
+    mousemoveWindow: function (evt) {
+      var component = evt.data;
+      var dragging = component.model.get("dragging");
+      if (dragging) {
+        component.mouseMove(evt);
+      }
+    },
 
     mouseDown: function (evt) {
       var component = evt.data;
@@ -68,6 +74,8 @@
         var dy = evt.screenY - trackCursor.y;
 
         var frame = window.frameElement;
+        if (typeof frame == 'undefined' || frame == null)
+          return;
 
         if (frame.offsetWidth + dx > minwidth) {
           frame.style.width = (frame.offsetWidth-4 + dx) + "px";
@@ -119,14 +127,14 @@
     clearEvent: function (evt, cancelBubble, returnValue, keyCode) {
       if (evt !== null) {
         if (cancelBubble === true) {
-          if (evt.stopPropagation !== null) {
+          if (typeof evt.stopPropagation != 'undefined' && evt.stopPropagation !== null) {
             evt.stopPropagation();
           } else {
             evt.cancelBubble = true;
           }
         }
         if (returnValue === false) {
-          if (evt.preventDefault !== null) {
+          if (typeof evt.preventDefault != 'undefined' && evt.preventDefault !== null) {
             evt.preventDefault();
           } else {
             evt.returnValue = false;

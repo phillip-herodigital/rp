@@ -34,6 +34,11 @@
       },
       
       error: function (data, textStatus) {
+        if (data.status === 401) {
+          _sc.Helpers.session.unauthorized();
+          return;
+        }
+        
         this.set("response", null);
         this.set("hasResponse", false);
 

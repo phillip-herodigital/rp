@@ -29,21 +29,24 @@
       deleteActionIds = ["FC47E28D97124B23A1B877E0D6A2B227", "5066350562384C7CB75A12118AB15F66", "225FAAB86B4C4DD38186642AFA32026C", "043A34CE15BF4FB7BAF6005E8BAC2803"],
       exportToCsvFileActionIds = ["59083A283E3545FBA2FA8D8E310B2C73", "B6FD42A5C59643AA96537C0669961405", "68FE4B4E7F1244D59D9E7CC3DF97D311", "C09D2914E7814B5C88A312FEF18B462F"],
       findDuplicatesActionIds = ["7EB1A29B64CF4509BFAFB191AD3500F1", "A16B6E7876CC4F85B7347B18406D49CD"],
+      unlockListActionIds = ["7F77A08D5B4B4241B5345A8148118EF3"],
       replaceAllListsWithEntireDatabaseSource = "This option will replace all lists that are currently selected as sources. Do you want to continue?",
       convertListNotification = "The list has been converted to a Contact list.",
       deleteAllContactsConfirmation = "All the contacts will be removed from this list. The contacts will still be available in your Contacts database. Do you want to continue?",
       deleteAllContactsNotification = "All the contacts associated with this list have been removed.",
+      contactsWereNotRemoved = "The contacts was not removed.",
+      unlockListConfirmation = "This list is locked as it may currently be in the process of indexing. If you unlock, your list may be incomplete. Do you want to continue?",
+      listUnlockedNotification = "The list was sucessfully unlocked.",
+      listWasNotUnlocked = "The list was not unlocked.",
       deleteListConfirmation = "The list will be deleted and all the associations to the list will be removed. This cannot be undone. Do you want to continue?",
       duplicatesRemovedNotification = "duplicate contacts have been removed from this list.",
+      duplicateContactsWereNotRemoved = "The duplicate contacts were not removed because an error occurred. Please contact your System Administrator.",
       saveListNotification = "The list has been saved.",
       entireDatabaseKey = "Entire database",
+      listWasNotRemoved = "The list was not removed.",
       listIdKey = "listId",
       filterKey = "filter",
-      pageIndexKey = "pageIndex",
-      pageSizeKey = "pageSize",
-      languageKey = "sc_lang",  
-      defaultPageIndex = 0,
-      defaultPageSize = 10,
+      keyUpKeyCode = 13,
       sourceEmptyText;
 
     if (typeof window !== "undefined") {
@@ -67,7 +70,6 @@
         this.RootPath = "";
         this.initializeDataSources();
         this.initializeActions();
-        this.initializeShowMore();
         this.initializeSpecificControls();
         this.SaveButton.on("click", this.saveList, this);
         this.ContactsSearchButtonTextBox.viewModel.$el.keyup(this.contactSearchTextBoxKeyUp);
@@ -81,7 +83,6 @@
       },
       initializeDataSources: function () {
         this.refreshDeferredDataSource(this.ListAsimovEntityDataSource);
-        this.refreshDeferredDataSource(this.ContactsAsimovEntityDataSource);
         this.ListOwnerDataSource.refresh();
       },
       refreshDeferredDataSource: function (dataSource) {
@@ -90,26 +91,28 @@
         dataSource.IsDeferred = false;
       },
       initializeSpecificControls: function () {
-        this.baseStructures = [
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        current.baseStructures = [
             {
-              control: this.ContactsList,
-              dataSource: this.ContactsAsimovEntityDataSource,
-              concatItems: false,
-              showMoreButton: this.ContactsShowMoreButton,
-              accordion: this.ContactsAccordion
+              control: current.ContactsList,
+              dataSource: current.ContactsDataSource,
+              accordion: current.ContactsAccordion
             }
         ];
-        this.ContactsList.on("change:selectedItemId", this.updateContactActionsStatus);
-        this.ExcludedSourcesListControl.on("change:selectedItem", function () { this.selectSourceItem(this.ExcludedSourcesListControl); }, this);
-        this.IncludedSourcesListControl.on("change:selectedItem", function () { this.selectSourceItem(this.IncludedSourcesListControl); }, this);
+        current.ContactsDataSource.on("itemsChanged", function(items) {
+           current.updateEmbededList(items, current.baseStructures[0]);
+        }, current);
+        current.ContactsList.on("change:selectedItemId", current.updateContactActionsStatus);
+        current.ExcludedSourcesListControl.on("change:selectedItem", function () { current.selectSourceItem(current.ExcludedSourcesListControl); }, current);
+        current.IncludedSourcesListControl.on("change:selectedItem", function () { current.selectSourceItem(current.IncludedSourcesListControl); }, current);
 
-        this.initializeDestinationControl();
+        current.initializeDestinationControl();
       },
-      initializeDestinationControl: function() {
+      initializeDestinationControl: function () {
         var buttonTextBox = this.GeneralInformationDestinationTextBox.viewModel.$el;
         this.StartItem = buttonTextBox.attr("Value");
         var inputs = buttonTextBox.find("input");
-        Array.prototype.forEach.call(inputs, function(i) { i.disabled = true; });
+        Array.prototype.forEach.call(inputs, function (i) { i.disabled = true; });
       },
       initializeActions: function () {
         $.each(this.ListSourceActionControl.get("actions"), function () {
@@ -124,6 +127,7 @@
         this.on("taskpage:add:exclusion", this.addExclusion, this);
         this.on("taskpage.select:folder", this.selectFolder, this);
         this.on("taskpage:remove:duplicates", this.onRemoveDuplicates, this);
+        this.on("taskpage:unlock:list", this.onUnlockList, this);
         this.on("taskpage:set:entireDatabase", this.setEntireDatabase, this);
         this.on("taskpage:export:csv", this.onExportToCsv, this);
         this.initializeListActions();
@@ -161,12 +165,6 @@
           }
         });
       },
-      initializeShowMore: function () {
-        this.on("show:more", this.onShowMore, this);
-      },
-      onShowMore: function (parameters) {
-        this.showMoreCalled(parameters, this.reloadEmbededList);
-      },
       initializeList: function () {
         this.updateOwner();
         var entityId = this.UrlParser.getParameterFromLocationSearchByName("id");
@@ -184,31 +182,17 @@
       },
       initializeContacts: function (entityId) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
-        var baseStructure = Array.prototype.filter.call(current.baseStructures, function (e) {
-          return e.dataSource === current.ContactsAsimovEntityDataSource;
-        })[0];
+        var baseStructure = current.baseStructures[0];
 
-        baseStructure.dataSource.attributes.entityID = entityId;
-        baseStructure.dataSource.query.options.single = false;
-        baseStructure.dataSource.query.__parameters[listIdKey] = entityId;
-        baseStructure.dataSource.query.__parameters[filterKey] = "";
-        baseStructure.dataSource.query.__parameters[pageIndexKey] = defaultPageIndex;
-        baseStructure.dataSource.query.__parameters[pageSizeKey] = defaultPageSize;
-        baseStructure.dataSource.query.__parameters[languageKey] = current.getLanguage();
-        var pageSize = baseStructure.control.get("height");
-        if (!isNaN(pageSize)) {
-          if (pageSize > 0) {
-            baseStructure.dataSource.query.__parameters[pageSizeKey] = pageSize;
-          }
-        }
+        baseStructure.dataSource.set(listIdKey, entityId);
 
-        current.reloadEmbededList(baseStructure, current, current.updateContactActionsStatus);
+        current.reloadEmbededList(baseStructure);
       },
       executeAction: function (parameters, methodName, callback, isConfirm, confirmationText, showProgress, errorMessage) {
         var listId = this.ListAsimovEntityDataSource.get("entityID");
         if (listId !== "") {
           if (isConfirm === true) {
-            if (!confirm(this.StringDictionary.get(confirmationText))) {
+            if (!this.executeActionConfirm(this.StringDictionary.get(confirmationText))) {
               return;
             }
           }
@@ -217,47 +201,23 @@
             this.showContactsProgressBar();
           }
 
-          this.callController(parameters, "/" + methodName + "/" + listId, callback, function (status, statusText) { self.showDefaultError(status, statusText, self.StringDictionary.get(errorMessage), self.ContactListMessageBar); });
+          this.callController(parameters, "/" + methodName + "/" + listId, callback,function (status, statusText) { self.showDefaultError(status, statusText, self.StringDictionary.get(errorMessage), self.ContactListMessageBar); });
         }
       },
-      reloadEmbededList: function (baseStructure, current, callback) {
-        var promise = baseStructure.dataSource.query.execute();
-        promise.then(
-          function (items) {
-            current.updateEmbededList(items, baseStructure);
-
-            if ((typeof callback != "undefined") && (callback != null)) {
-              callback();
-            }
-          },
-          this.reloadEmbededListError
-        );
-        current.showContactsProgressBar();
+      executeActionConfirm: function(message) {
+        return confirm(message);
       },
-      reloadEmbededListError: function (error) {
-        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
-        current.hideContactsProgressBar();
+      reloadEmbededList: function (baseStructure) {
+        baseStructure.dataSource.refresh();
       },
       updateEmbededList: function (items, baseStructure) {
-        if (baseStructure.concatItems === true) {
-          var currentItems = baseStructure.control.get("items");
-          items = Array.prototype.concat.call(currentItems, items);
-        }
-        baseStructure.control.set("items", items);
         if (items.length == 0) {
           this.setHeader(baseStructure, 0);
         }
         if (items.length > 0) {
           this.setHeader(baseStructure, items[0].Count);
-          if (items[0].Count > items.length) {
-            baseStructure.showMoreButton.set("isEnabled", true);
-          } else {
-            baseStructure.showMoreButton.set("isEnabled", false);
-          }
-        } else {
-          baseStructure.showMoreButton.set("isEnabled", false);
         }
-        this.hideContactsProgressBar();
+        this.updateContactActionsStatus();
       },
       showContactsProgressBar: function () {
         this.ContactsProgressIndicator.set("isBusy", true);
@@ -283,14 +243,14 @@
         this.showContactCard(url);
       },
       onDeleteList: function (parameters, isConfirm) {
-        this.executeAction(parameters, "DeleteListById", this.onDeleteListFinished, this.getIsConfirm(isConfirm), deleteListConfirmation, false, "The list was not removed.");
+        this.executeAction(parameters, "DeleteListById", this.onDeleteListFinished, this.getIsConfirm(isConfirm), deleteListConfirmation, false, listWasNotRemoved);
       },
       onDeleteListFinished: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         current.location.href = current.Breadcrumb.get("prevPage");
       },
       onRemoveAllContacts: function (parameters, isConfirm) {
-        this.executeAction(parameters, "RemoveAllContactAssociationsAndSources", this.onRemoveAllContactsFinished, this.getIsConfirm(isConfirm), deleteAllContactsConfirmation, true, "The contacts was not removed.");
+        this.executeAction(parameters, "RemoveAllContactAssociationsAndSources", this.onRemoveAllContactsFinished, this.getIsConfirm(isConfirm), deleteAllContactsConfirmation, true, contactsWereNotRemoved);
       },
       onRemoveAllContactsFinished: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
@@ -303,14 +263,25 @@
         current.hideContactsProgressBar();
       },
       onRemoveDuplicates: function (parameters) {
-        this.executeAction(parameters, "RemoveDuplicates", this.onRemoveDuplicatesFinished, false, "", true, "The duplicate contacts were not removed because an error occurred. Please contact your System Administrator.");
+        this.executeAction(parameters, "RemoveDuplicates", this.onRemoveDuplicatesFinished, false, "", true, duplicateContactsWereNotRemoved);
       },
       onRemoveDuplicatesFinished: function (data) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         var message = current.StringDictionary.get(duplicatesRemovedNotification);
-        current.reloadEmbededList(current.baseStructures[0], current, current.updateContactActionsStatus);
+        current.reloadEmbededList(current.baseStructures[0]);
         current.showNotification(data + " " + message, current.ContactListMessageBar);
         current.hideContactsProgressBar();
+      },
+      onUnlockList: function (parameters, isConfirm) {
+        this.executeAction(parameters, "UnlockList", this.onUnlockListFinished, commonPagesDefinition.defaultIfValueIsUndefinedOrNull(isConfirm, true), unlockListConfirmation, true, listWasNotUnlocked);
+      },
+      onUnlockListFinished: function() {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        var message = current.StringDictionary.get(listUnlockedNotification);
+        current.showNotification(message, current.ContactListMessageBar);
+        current.hideContactsProgressBar();
+
+        current.ListAsimovEntityDataSource.refresh();
       },
       onExportToCsv: function (parameters) {
         var entityId = this.UrlParser.getParameterFromLocationSearchByName("id");
@@ -325,7 +296,7 @@
       showContactCard: function (url) {
         window.open(url, '_blank');
       },
-      refreshListControl: function(listControl) {
+      refreshListControl: function (listControl) {
         listControl.set("items", [{}]);
         listControl.set("items", []);
       },
@@ -348,31 +319,29 @@
         this.updateUiForAdditionalFields(model);
         var sourceIsLocked = this.updateUiForSources(model);
 
-        if (model.IsLocked || model.IsInUse) {
-          current.setActionEnabledStatus(current.ListActions, deleteActionIds, false);
-          current.setActionEnabledStatus(current.ListActions, findDuplicatesActionIds, false);
-          if (current.SegmentationActionControl !== undefined) {
-            current.setActionEnabledStatus(current.SegmentationActionControl, addNewConditionActionIds, false);
-          }
-          if (model.IsLocked) {
-            current.setActionEnabledStatus(current.ListActions, exportToCsvFileActionIds, false);
-            current.ContactsShowMoreButton.set("isEnabled", false);
-            current.showWarning(current.StringDictionary.get("Please note that this list is currently being built and is locked."), current.ContactListMessageBar);
-            if (model.Notification) {
-              current.showWarning(model.Notification, current.ContactListMessageBar, 0, true);
-              current.ContactListMessageBar.set("expanded", true);
-            }
-          } else if (model.IsInUse) {
-            current.showWarning(current.StringDictionary.get("Please note that this list is currently in use."), current.ContactListMessageBar);
-          }
+        current.setActionEnabledStatus(current.ListActions, deleteActionIds, !(model.IsLocked || model.IsInUse));
+        current.setActionEnabledStatus(current.ListActions, findDuplicatesActionIds, !(model.IsLocked || model.IsInUse));
+        if (current.SegmentationActionControl !== undefined) {
+          current.setActionEnabledStatus(current.SegmentationActionControl, addNewConditionActionIds, !(model.IsLocked || model.IsInUse));
         }
-        
+        current.setActionEnabledStatus(current.ListActions, exportToCsvFileActionIds, !model.IsLocked);
+        if (model.IsLocked) {
+          current.showWarning(current.StringDictionary.get("Please note that this list is currently being built and is locked."), current.ContactListMessageBar);
+          if (model.Notification) {
+            current.showWarning(model.Notification, current.ContactListMessageBar, 0, true);
+            current.ContactListMessageBar.set("expanded", true);
+          }
+        } else if (model.IsInUse) {
+          current.showWarning(current.StringDictionary.get("Please note that this list is currently in use."), current.ContactListMessageBar);
+        }
+        current.setActionEnabledStatus(current.ListActions, unlockListActionIds, model.IsLocked);
+
         if (model.IsLocked || sourceIsLocked) {
           current.ContactsList.set("empty", current.StringDictionary.get("Currently building list. Contacts will be viewable when complete."));
           // Fantastic ListControl refresher!!!
           current.refreshListControl(current.ContactsList);
         }
-        
+
         if (!model.IsLocked && !sourceIsLocked) {
           current.initializeContacts(model.Id);
         }
@@ -381,13 +350,18 @@
       },
       updateContactActionsStatus: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        var contacts = current.ContactsList.get("items"),
+            contactsLength = 0;
+        if (typeof contacts !== "undefined" && contacts !== null && "length" in contacts) {
+          contactsLength = contacts.length;
+        }
 
         if (current.ListAsimovEntityDataSource.get("entity").IsLocked || current.ListAsimovEntityDataSource.get("entity").IsInUse) {
           current.setActionEnabledStatus(current.ContactsActionControl, removeAllContactsActionIds, false);
         } else {
-          current.setActionEnabledStatus(current.ContactsActionControl, removeAllContactsActionIds, (current.ContactsList.get("items").length > 0) && (current.PredefinedText === ""));
+          current.setActionEnabledStatus(current.ContactsActionControl, removeAllContactsActionIds, (contactsLength > 0) && (current.PredefinedText === ""));
         }
-        current.setActionEnabledStatus(current.ContactsActionControl, viewContactCardActionIds, (current.ContactsList.get("items").length > 0) && (commonPagesDefinition.defaultIfValueIsUndefinedOrNull(current.ContactsList.get("selectedItemId"), "") !== ""));
+        current.setActionEnabledStatus(current.ContactsActionControl, viewContactCardActionIds, (contactsLength > 0) && (commonPagesDefinition.defaultIfValueIsUndefinedOrNull(current.ContactsList.get("selectedItemId"), "") !== ""));
       },
       updateUiForSources: function (model) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
@@ -425,7 +399,7 @@
           current.ExcludeSourceAccordion.set("isVisible", true);
         }
 
-        if (model.IsLocked || model.IsInUse){
+        if (model.IsLocked || model.IsInUse) {
           current.setActionEnabledStatus(current.ListSourceActionControl, addExclusionActionIds, false);
           current.setActionEnabledStatus(current.ListSourceActionControl, addSourceActionIds, false);
           current.setActionEnabledStatus(current.ListSourceActionControl, removeSourceIds, false);
@@ -434,7 +408,7 @@
 
         return current.hasAdditionalLockCondition(source);
       },
-      hasAdditionalLockCondition: function(source) {
+      hasAdditionalLockCondition: function (source) {
         return false;
       },
       getDestination: function () {
@@ -499,24 +473,18 @@
         }
       },
       contactSearchTextBoxKeyUp: function (e) {
-        if (e.keyCode == 13) {
-          // For unit-testing purpose
+        if (e.keyCode == keyUpKeyCode) {
           var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
           current.findContacts();
         }
       },
       findContacts: function () {
-        // For unit-testing purpose
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
-        var baseStructure = Array.prototype.filter.call(current.baseStructures, function (e) {
-          return e.dataSource === current.ContactsAsimovEntityDataSource;
-        })[0];
+        var baseStructure = current.baseStructures[0];
+
         var searchText = current.ContactsSearchButtonTextBox.get("text");
-        baseStructure.dataSource.query.__parameters[filterKey] = searchText;
-        baseStructure.dataSource.query.__parameters[pageIndexKey] = defaultPageIndex;
-        //baseStructure.showMoreButton.set("isEnabled", true);
-        baseStructure.concatItems = false;
-        current.reloadEmbededList(baseStructure, current, current.updateContactActionsStatus);
+        baseStructure.dataSource.set(filterKey, searchText);
+        current.reloadEmbededList(baseStructure);
       },
       saveList: function () {
         this.SaveButton.set("isEnabled", false);
@@ -750,13 +718,13 @@
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         if (!current.ListAsimovEntityDataSource.get("entity").IsLocked && !current.ListAsimovEntityDataSource.get("entity").IsInUse) {
           if (current.IncludedSourcesListControl.get("selectedItem") != "" || current.ExcludedSourcesListControl.get("selectedItem") != "") {
-            $.each(this.ListSourceActionControl.get("actions"), function() {
+            $.each(this.ListSourceActionControl.get("actions"), function () {
               if (removeSourceIds.indexOf(this.id()) > -1) {
                 this.enable();
               }
             });
           } else {
-            $.each(this.ListSourceActionControl.get("actions"), function() {
+            $.each(this.ListSourceActionControl.get("actions"), function () {
               if (removeSourceIds.indexOf(this.id()) > -1) {
                 this.disable();
               }

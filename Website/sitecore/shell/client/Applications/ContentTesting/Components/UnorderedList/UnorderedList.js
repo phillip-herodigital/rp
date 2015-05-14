@@ -25,7 +25,7 @@ define(["sitecore"], function (Sitecore) {
       var items = this.model.get("items");
       var maxItems = Number(this.model.get("maxItems") || -1);
       var clipped = false;
-      if (items !== null && maxItems !== -1 && items.length > maxItems) {
+      if (items != undefined && items !== null && maxItems !== -1 && items.length > maxItems) {
         items = items.slice(0, maxItems);
         clipped = true;
       }

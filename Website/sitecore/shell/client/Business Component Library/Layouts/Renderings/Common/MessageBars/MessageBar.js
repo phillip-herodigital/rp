@@ -12,7 +12,10 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
     {
       initialize: function () {
         this._super();
-        
+
+        this.temporaryNotification = null;
+        this.temporaryNotificationTimeout = null;
+
         this.set("errors", []);
         this.set("warnings", []);
         this.set("notifications", []);
@@ -74,8 +77,6 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
           }
         });
 
-        this.on("change", this.fadeIn);
-
         this.setMessagesStatus();
       },
   
@@ -86,15 +87,6 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         this.set("hasErrorMessages", this.get("errors").length > 0);
       },
 
-
-      fadeIn: function () {
-        var self = this;
-        if (this.get("totalMessageCount") === 1 && this.get("notifications").length === 1 && this.get("notifications")[0]["temporary"]) {
-          window.setTimeout(function () {
-            self.set("fadeVisible", false);
-          }, 10000);
-        }
-      },
       addMessage: function (type, message) {
         var self = this;
         var messagetoAdd;
@@ -107,6 +99,13 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         if (typeof message === "string" || message instanceof String) {
           messagetoAdd = { text: message, actions: [], closable: false };
         }
+
+        if (this.get("totalMessageCount") > 0 && this.temporaryNotification && this.temporaryNotificationTimeout) {
+          this.convertToClosable(this.temporaryNotification);
+          clearTimeout(this.temporaryNotificationTimeout);
+          this.temporaryNotificationTimeout = null;
+        }
+
         switch (type) {
           case 'error':
             self.viewModel.errors.push(messagetoAdd);
@@ -115,10 +114,12 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
             self.viewModel.warnings.push(messagetoAdd);
             break;
           case 'notification':
+            this.handleTemporaryNotification(messagetoAdd);
+            
             self.viewModel.notifications.push(messagetoAdd);
             break;
         }
-        
+
         this.setMessagesStatus();
       },
         /*.removeMessage(function(error) { return error.id === id })*/
@@ -176,6 +177,33 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         var result = this.viewModel.notifications.remove(testFunc);
         this.setMessagesStatus();
         return result;
+      },
+
+      // Notification can be "temporary" if there is only one notification on MessageBar, otherwise notification will be converted to "closable".
+      handleTemporaryNotification: function (notification) {
+        if (notification.temporary) {
+          if (this.get("totalMessageCount") === 0 || this.get("totalMessageCount") === "") {
+            notification.temporary = ko.observable(notification.temporary);
+            notification.closable = ko.observable(notification.closable);
+
+            this.temporaryNotification = notification;
+
+            this.temporaryNotificationTimeout = window.setTimeout(_.bind(function () {
+              this.removeMessage(function (messageItem) {
+                return messageItem === notification;
+              });
+            }, this), 10000);
+
+          } else {
+            this.convertToClosable(notification);
+
+          }
+        }
+      },
+
+      convertToClosable: function (notification) {
+        $.type(notification.temporary) === 'function' ? notification.temporary(false) : notification.temporary = false;
+        $.type(notification.closable) === 'function' ? notification.closable(true) : notification.closable = true;
       }
     });
 
@@ -194,6 +222,21 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         
         this.model.set("errors", initialData["errors"] || []);
         this.model.set("warnings", initialData["warnings"] || []);
+
+        var notifications = initialData["notifications"] || [];
+
+        // if several temporary notifications is exist in initialData
+        if (notifications.length) {
+          _.each(notifications, _.bind(function (notification) {
+            if (notifications.length > 1) {
+              if (notification.temporary) {
+                model.convertToClosable(notification);
+              }
+            } else {
+              model.handleTemporaryNotification(notification);
+            }
+          }, this));
+        }
         this.model.set("notifications", initialData["notifications"] || []);
 
         this.model.setMessagesStatus();

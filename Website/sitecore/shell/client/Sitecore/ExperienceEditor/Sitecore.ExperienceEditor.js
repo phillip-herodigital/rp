@@ -64,11 +64,19 @@ Sitecore.ExperienceEditor = {
   },
 
   handleIsModified: function () {
-    if (!Sitecore.ExperienceEditor.isModified) {
+    try {
+      if (!Sitecore) {
+        return;
+      }
+
+      if (!Sitecore.ExperienceEditor.isModified) {
+        return;
+      }
+
+      return Sitecore.ExperienceEditor.TranslationsUtils.translateText(Sitecore.ExperienceEditor.TranslationsUtils.keys.There_are_unsaved_changes);
+    } catch (e) {
       return;
     }
-
-    return Sitecore.ExperienceEditor.TranslationsUtils.translateText(Sitecore.ExperienceEditor.TranslationsUtils.keys.There_are_unsaved_changes);
   },
 
   generateDefaultContext: function () {
@@ -115,11 +123,13 @@ Sitecore.ExperienceEditor = {
   },
 
   navigateToItemInCE: function (itemId) {
-    var url = window.top.location.toString();
-    url = Sitecore.ExperienceEditor.Web.replaceItemIdParameter(url, itemId);
-    url = Sitecore.ExperienceEditor.Web.replaceCEParameter(url, "1");
-
-    Sitecore.ExperienceEditor.navigateToUrl(url);
+    var context = Sitecore.ExperienceEditor.generateDefaultContext();
+    context.currentContext.value = itemId;
+    Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Item.GetUri", function (response) {
+      var url = Sitecore.ExperienceEditor.Web.replaceCEParameter(window.top.location.toString(), "1");
+      url = Sitecore.ExperienceEditor.Web.setQueryStringValue(url, "sc_ce_uri", encodeURIComponent(response.responseValue.value));
+      Sitecore.ExperienceEditor.navigateToUrl(url);
+    }).execute(context);
   },
 
   navigateToUrl: function(url) {
@@ -128,8 +138,12 @@ Sitecore.ExperienceEditor = {
     });
   },
 
+  ribbonFrame: function () {
+    return window.parent.document.getElementById("scWebEditRibbon");
+  },
+
   ribbonDocument: function () {
-    return window.parent.document.getElementById("scWebEditRibbon").contentWindow.document;
+    return Sitecore.ExperienceEditor.ribbonFrame().contentWindow.document;
   },
 };
 
@@ -227,7 +241,7 @@ Sitecore.ExperienceEditor.Common = {
   },
 
   showGallery: function (url, initiator, dimensions) {
-    Sitecore.ExperienceEditor.Common.registerDocumentStyles(["/-/speak/v1/ribbon/Gallery.css"], window.parent.document)
+    Sitecore.ExperienceEditor.Common.registerDocumentStyles(["/-/speak/v1/ribbon/Gallery.css"], window.parent.document);
     var clientRect = initiator.getBoundingClientRect();
     var iframeContentStyle = "z-index: 10000; display: none; position: absolute; top: " + clientRect.top + "px; left: " + clientRect.left + "px; width: " + dimensions.width + "; height: " +
       dimensions.height;
@@ -336,33 +350,50 @@ Sitecore.ExperienceEditor.Web = {
   },
 
   getUrlQueryStringValue: function (parameterName) {
+    return this.getQueryStringValue(location.href, parameterName);
+  },
+
+  getQueryStringValue: function(url, parameterName) {
     parameterName = parameterName.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + parameterName + "=([^&#]*)");
-    var results = regex.exec(decodeURIComponent(location.search));
+    var results = regex.exec(decodeURIComponent(url));
     return results == null ? "" : results[1].replace(/\+/g, " ");
   },
 
-  replaceItemIdParameter: function (url, itemId) {
+  setQueryStringValue: function (url, parameterName, newValue) {
     url = url.toLowerCase();
-    if (url.indexOf("&sc_itemid=") == -1 && url.indexOf("?sc_itemid=") == -1) {
+    parameterName = parameterName.toLowerCase();
+    if (url.indexOf("&" + parameterName + "=") == -1 && url.indexOf("?" + parameterName + "=") == -1) {
       var divider = url.indexOf("?") == -1 ? "?" : "&";
-      url += divider + "sc_itemid=" + itemId;
+      url += divider + parameterName + "=" + newValue;
     } else {
-      url = (url.replace(/(sc_itemid=)[^\&]+/, '$1' + itemId));
+      var regExp = new RegExp("(" + parameterName + "=)[^\&]+");
+      url = (url.replace(regExp, '$1' + newValue));
     }
 
     return url;
   },
 
-  replaceCEParameter: function (url, value) {
-    if (url.indexOf("&sc_ce=") == -1 && url.indexOf("?sc_ce=") == -1) {
-      var divider = url.indexOf("?") == -1 ? "?" : "&";
-      url += divider + "sc_ce=" + value;
-    } else {
-      url = (url.replace(/(sc_ce=)[^\&]+/, '$1' + value));
+  removeQueryStringParameter: function (url, parameterName) {
+    url = url.toLowerCase();
+    parameterName = parameterName.toLowerCase();
+    if (url.indexOf("?" + parameterName + "=") != -1) {
+      url = url.replace(new RegExp("(" + parameterName + "=)[^\&]+\&?"), "");
+    }
+
+    if (url.indexOf("&" + parameterName + "=") != -1) {
+      url = url.replace(new RegExp("(\&" + parameterName + "=)[^\&]+"), "");
     }
 
     return url;
+  },
+
+  replaceItemIdParameter: function (url, itemId) {
+    return Sitecore.ExperienceEditor.Web.setQueryStringValue(url, "sc_itemid", itemId);
+  },
+
+  replaceCEParameter: function (url, value) {
+    return Sitecore.ExperienceEditor.Web.setQueryStringValue(url, "sc_ce", value);
   },
 
   postServerRequest: function (requestType, commandContext, handler, async) {
@@ -590,8 +621,8 @@ Sitecore.ExperienceEditor.CommandsUtil = {
   getControlsByCommand: function (app, command) {
     var controls = [];
     $.each(app, function () {
-      if (this.attributes && this.attributes.command == command
-        || this.model && this.model.attributes && this.model.attributes.command == command) {
+      if (this.get && this.get("command") == command
+        || this.model && this.model.get && this.model.get("command") == command) {
         controls.push(this);
       }
     });

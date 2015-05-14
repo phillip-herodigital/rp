@@ -38,6 +38,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
         startGetThumbnailUrl: "/sitecore/shell/api/ct/TestThumbnails/StartGetThumbnails",
         tryFinishGetThumbnailUrl: "/sitecore/shell/api/ct/TestThumbnails/TryFinishGetThumbnails",
         itemId: null,
+        language: null,
         version: 0,
         revision: null,
         combination: null,
@@ -49,7 +50,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
         baseLinkUrl: getBaseUrl()
       });
 
-      this.on("change:itemId change:version change:revision change:combination change:testvalueid", this.refresh, this);
+      this.on("change:itemId change:version change:language change:revision change:combination change:testvalueid", this.refresh, this);
       this.on("change:combination change:baseLinkUrl", this.updateLink, this);
     },
 
@@ -71,6 +72,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
       var id = this.get("itemId") || params.id;
       var comb = this.get("combination");
       var version = this.get("version") || params.vs;
+      var language = this.get("language") || params.la;
       var rule = this.get("testvalueid");
 
       if (!id) {
@@ -78,7 +80,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
       }
 
       if (typeof this.viewModel.$el != 'undefined') {
-        this.set("isBusy", true);        
+        this.set("isBusy", true);
       }
       this.set("invalidated", false);
 
@@ -86,6 +88,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
         attrs: {
           id: id,
           version: version,
+          language: language,
           combination: comb,
           revision: this.get("revision"),
           rules: rule || ""
@@ -118,17 +121,19 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
 
   var view = Sitecore.Definitions.Views.ControlView.extend({
     initialize: function () {
-      this._super();
 
       this.model.set("isBusy", true);
 
       this.model.set({
         itemId: this.$el.attr("data-sc-itemid") || null,
+        language: this.$el.attr("data-sc-language") || null,
+        version: this.$el.attr("data-sc-version") || 0,
+        revision: this.$el.attr("data-sc-revision") || null,
         combination: this.$el.attr("data-sc-combination") || null,
+        testvalueid: this.$el.attr("data-sc-testvalueid") || null,
         showLink: this.$el.attr("data-sc-showlink") === "true", // todo: add version
         baseLinkUrl: this.$el.attr("data-sc-baselinkurl") || getBaseUrl(),
         linkTarget: this.$el.attr("data-sc-linktarget") || "_top",
-        revision: this.$el.attr("data-sc-revision") || null,
         isBusy: this.$el.attr("data-sc-isbusy") == "true" || false
       });
 

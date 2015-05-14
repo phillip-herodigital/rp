@@ -12,6 +12,7 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <Sitecore.Shell.Applications.Archives.RecycleBin x:inherits="Sitecore.Shell.Applications.Archives.RecycleBin.RecycleBinPage,Sitecore.Client">
+    <Favicon Src="/sitecore/images/favicon.ico" runat="server" />
     <Sitecore.Controls.HtmlPage runat="server" Title="Recycle Bin">
       <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>
       <x:register assembly="Sitecore.Kernel" namespace="Sitecore.Web.UI.WebControls.Ribbons"/>
@@ -61,7 +62,6 @@
               PageSize="15"
               PagerStyle="Slider"
               PagerTextCssClass="GridFooterText"
-              PagerButtonActiveEnabled ="True"
               PagerButtonHoverEnabled="True"
               PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
               ShowSearchBox="true"
@@ -85,7 +85,7 @@
               LoadingPanelClientTemplateId="LoadingFeedbackTemplate"
               LoadingPanelPosition="MiddleCenter"
             
-              Width="100%" Height="100%" runat="server">
+              Width="100%" runat="server">
 
               <Levels>
                 <GridLevel
@@ -130,25 +130,16 @@
                 </ClientTemplate>
 
                 <ClientTemplate Id="SliderTemplate" runat="server">
-                  <table class="SliderPopup" cellspacing="0" cellpadding="0" border="0">
-                    <tr>
-                      <td>
-                        <div style="padding:4px;font:8pt tahoma;white-space:nowrap;overflow:hidden">## DataItem.GetMember('Name').Value ##</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="height:14px;background-color:#666666;padding:1px 8px 1px 8px;color:white">
-                        ## DataItem.PageIndex + 1 ## / ## Items.PageCount ##
-                      </td>
-                    </tr>
-                  </table>
+                  <div class="SliderPopup">
+                    ## DataItem.PageIndex + 1 ## / ## Items.PageCount ##
+                  </div>
                 </ClientTemplate>
               </ClientTemplates>
             </Grid>
           </Border>
 
           <input type="hidden" id="selectedVersions" />
-          <Border ID="VersionsGridContainer" Class="hidden versionsGridContainer"  runat="server" Height="211px" GridPanel.Width="100%" Width="100%" Background="White">
+          <Border ID="VersionsGridContainer" Class="hidden versionsGridContainer"  runat="server">
             <table id="versionsGrid" cellspacing="0" cellpadding="0" class="tablesorter">
               <thead>
                 <tr>

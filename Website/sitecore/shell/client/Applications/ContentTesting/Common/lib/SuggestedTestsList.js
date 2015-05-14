@@ -26,12 +26,13 @@ define(["sitecore", "bindingUtil", "editUtil"], function (_sc, bindingUtil, edit
 
         selectionChanged: function () {
           var selected = this._host.TestsList.get("selectedItem");
-          var hostId = selected.get("HostPageId")
+          var hostId = selected.get("HostPageId");
+          var language = selected.get("Language");
           if (!hostId) {
             return;
           }
 
-          editUtil.openPageEditor(hostId);
+          editUtil.openPageEditor(hostId, language);
         }
       }
 

@@ -93,12 +93,9 @@ li {
 }
 
 .languageLink {
-  display: block;
-  float: left;
-  width: 20px;
-  height: 20px;
+    display: inline-block;
+    padding: 0 4px;
 }
-
 
 #grid-content .post_float:hover {
   background-color: #e3e3e3;
@@ -714,7 +711,9 @@ body > #navBeta {
 }
 
 #resultInfoMessage {
-  margin: 15px 0;
+  margin: 15px 300px 15px 0;
+  white-space: nowrap;
+  min-width: 600px;
 }
 
 .scIgnoreModified {
@@ -876,7 +875,7 @@ Table Style - This is what you want
     cursor: pointer;
   }
 
-  #results table > thead th,
+  #results table th,
   #results table > tbody > tr > td {
     border: 1px solid #ccc;
     padding: 14px 15px;
@@ -884,25 +883,25 @@ Table Style - This is what you want
     overflow: hidden;
   }
 
-  #results table > thead th,
+  #results table th,
   #results table > tbody:first-child > tr:first-child > td {
     border: 1px solid #5E5E5E;
     position: relative;
   }
 
-    #results table > thead th:after,
+    #results table th:after,
     #results table > tbody:first-child > tr:first-child > td:after {
       background: #d6d6d6 right center;
       position: absolute;
       width: 1px;
       display: block;
-      height: 20px;
       top: 13px;
+      bottom: 13px;
       right: 0;
       content: "";
     }
 
-    #results table > thead th:last-child:after,
+    #results table th:last-child:after,
     #results table > tbody:first-child > tr:first-child > td:last-child:after {
       background: none;
     }

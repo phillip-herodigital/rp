@@ -72,7 +72,7 @@
     _setZIndex: function () {
       var ctrlId = '[data-sc-id="' + this.model.get("targetControl") + '"]';
       if ($(ctrlId).parents(".sc-smartpanel").length > 0 || $(ctrlId).parents(".sc-dialogWindow").length > 0) {
-        this.$el.zIndex($(ctrlId).zIndex() + 50);
+        this.$el.zIndex($(ctrlId).zIndex() + 15); // Note: Why 15? Because dialogWindows are inserted with an increment of +10. See bootstrap-modalmanager getzIndex for more info.
       }
     },
     _setAutoShowMode: function () {
