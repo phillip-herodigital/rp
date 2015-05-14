@@ -1,0 +1,192 @@
+﻿@using XBlogHelper.Models.Blog
+@using XBlogHelper.Search
+@using XBlogHelper.General
+@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.Links
+@using XBlogHelper
+@using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem)) { 
+
+
+    var sc = Html.Sitecore();
+    var imagestyle = "display:block; border:none; outline:none; text-decoration:none; width:100%; max-width:440px";
+    var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
+    Sitecore.Data.Fields.ImageField image = sc.CurrentItem.Fields["Feature Image"];
+    BlogPost blogPost = Sitecore.Context.Item.CreateAs<BlogPost>();
+
+
+<table width="100%" bgcolor="#efefef" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="left-image">
+    <tbody>
+        <tr>
+            <td>
+                <table width="600" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                    <tbody>
+                        <tr>
+                            <td width="100%">
+                                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <!-- start of left column -->
+
+                                                        <!-- spacing -->
+                                                        <table bgcolor="#ffffff" width="20" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <!-- end of spacing -->
+                                                        <table width="260" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                            <tbody>
+                                                                <!-- image -->
+                                                                <tr>
+                                                                    <td width="260" height="140" align="center" class="devicewidth">
+                                                                        @{
+                                                                            if (Sitecore.Context.PageMode.IsPageEditor)
+                                                                            {
+                                                                                @Html.Sitecore().Field("Feature Image", new { alt="", border="0", width="260", @style="@imagestyle", @class="col2img" })
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                if (!string.IsNullOrEmpty(sc.CurrentItem["Feature Image"]))
+                                                                                {
+                                                                                    // Manually render the image so responsive layouts work properly
+                                                                                    <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(image.MediaItem, mediaOptions)" alt="" border="0" width="260" style="@imagestyle" class="col2img">
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+                                                                <!-- /image -->
+                                                                <!-- spacing for mobile devices-->
+                                                                <tr>
+                                                                    <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                                                                </tr>
+                                                                <!-- end of for mobile devices-->
+                                                            </tbody>
+                                                        </table>
+                                                        <!-- spacing -->
+                                                        <table bgcolor="#ffffff" width="20" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <!-- end of spacing -->
+                                                    
+                                                <!-- end of left column -->
+                                                <!-- start of right column -->
+                                                
+                                                        <table width="300" align="right" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <!-- spacing -->
+                                                                        <table bgcolor="#ffffff" width="10" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <!-- end of spacing -->
+                                                                        <table width="270" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
+                                                                            <tbody>
+
+                                                                                <!-- title -->
+                                                                                <tr>
+                                                                                    <td style="font-family: Helvetica, arial, sans-serif; font-size: 18px; color: #282828; text-align:left; line-height: 24px;">
+                                                                                        <a href="@Html.Raw(LinkManager.GetItemUrl(blogPost.InnerItem))">@Html.Raw(blogPost.Title)</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- end of title -->
+                                                                                <!-- spacing -->
+                                                                                <tr>
+                                                                                    <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                                                                                </tr>
+                                                                                <!-- /spacing -->
+                                                                                <!-- content -->
+                                                                                <tr>
+                                                                                    <td style="font-family: Helvetica, arial, sans-serif; font-size: 14px; color: #889098; text-align:left; line-height: 24px;">
+                                                                                        @Html.Sitecore().Field("Summary")
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- end of content -->
+                                                                                <!-- spacing -->
+                                                                                <tr>
+                                                                                    <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                                                                                </tr>
+                                                                                <!-- /spacing -->
+                                                                                <!-- button -->
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <table width="120" height="32" bgcolor="#0971ce" align="left" valign="middle" border="0" cellpadding="0" cellspacing="0" style="border-radius:3px;" st-button="learnmore">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td height="9" align="center" style="font-size:1px; line-height:1px; min-width:120px;">&nbsp;</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td height="14" align="center" valign="middle" style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; font-weight:bold;color: #ffffff; text-align:center; line-height: 14px; ; -webkit-text-size-adjust:none;" st-title="fulltext-btn">
+                                                                                                        <a href="@Html.Raw(LinkManager.GetItemUrl(blogPost.InnerItem))" style="text-decoration: none;color: #ffffff; text-align:center;">Read More</a>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td height="9" align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- end of button -->
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <!-- spacing -->
+                                                                        <table bgcolor="#ffffff" width="20" align="right" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <!-- end of spacing -->
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    
+                                                <!-- end of right column -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- start of seperator -->
+<table width="100%" bgcolor="#efefef" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="seperator">
+    <tbody>
+        <tr>
+            <td>
+                <table width="600" bgcolor="#ffffff" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
+                    <tbody>
+                        <tr>
+                            <td align="center" height="15" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- end of seperator -->
+}
