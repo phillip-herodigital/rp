@@ -6,12 +6,13 @@
     <DataSources isList="true" count="2">
       <DataSource Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>DataSource</Alias>
-        <Columns isList="true" count="5">
+        <Columns isList="true" count="6">
           <value>VisitorsCount,System.Int32</value>
           <value>Value,System.Int32</value>
           <value>ReferringSite,System.String</value>
           <value>NewVisitors,System.Int64</value>
           <value>Visits,System.Int64</value>
+          <value>NewVisitorsPercentage,NewVisitorsPercentage,System.Double,_x0028__x0028_double_x0029_DataSource.NewVisitors_x0020__x002F__x0020_DataSource.Visits_x0029__x002A_100</value>
         </Columns>
         <CommandTimeout>0</CommandTimeout>
         <Dictionary isRef="1" />
@@ -332,8 +333,8 @@
               <Name>Text11</Name>
               <Page isRef="4" />
               <Parent isRef="20" />
-              <Text>{(double.Parse(DataSource.NewVisitors.ToString())/double.Parse(DataSource.Visits.ToString())*100).ToString("#,##0.00")}%
-</Text>
+              <Text>{DataSource.NewVisitorsPercentage.ToString("#,##0.00")}%
+              </Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text11>
@@ -377,7 +378,7 @@
           <Parent isRef="4" />
           <Sort isList="true" count="2">
             <value>DESC</value>
-            <value>{DataSource.NewVisitors}</value>
+            <value>{DataSource.NewVisitorsPercentage}</value>
           </Sort>
         </DataBand1>
       </Components>

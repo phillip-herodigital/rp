@@ -1,9 +1,8 @@
-﻿define([
-  "sitecore",
-  "/-/speak/v1/contenttesting/BindingUtil.js",
-  "/-/speak/v1/contenttesting/DataUtil.js",
-  "/-/speak/v1/contenttesting/RequestUtil.js"
-], function (_sc, bindingUtil, dataUtil, requestUtil) {
+﻿require.config({
+  baseUrl: '/sitecore/shell/client/Applications/ContentTesting/Common/lib'
+});
+
+define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil"], function (_sc, bindingUtil, dataUtil, requestUtil) {
   var trailingValueVisitGUID = '{00000000-0000-0000-0000-000000000000}';
 
   return {
@@ -198,6 +197,17 @@
           options.TrackWithEngagementValue = true;
           options.TrafficAllocation = 100; // todo: read form settings
           var expectedItem = this._host.ExpectationSlider.get("selectedItem");
+          if (expectedItem) {
+            var iVal = 0;
+            try {
+              iVal = parseInt(expectedItem.Value);
+              if (iVal < 0) {
+                expectedItem.Value = "0";
+              }                
+            }
+            catch (e) { };
+              
+          }
           options.Expectation = expectedItem != null ? expectedItem.Value : 0;
           
           if (this._host.TrafficAllocationSlider) {

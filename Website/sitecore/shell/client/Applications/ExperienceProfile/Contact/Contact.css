@@ -71,7 +71,7 @@ div[data-sc-id=OverviewBorderPadding] .row {
 div[data-sc-id=OverviewBorderPadding] .row > div {
   color: #5e5e5e;
   font-size: 13px;
-  line-height: 15px;
+  line-height: 16px;
 }
 
 div[data-sc-id=OverviewBorderPadding] .row >div:nth-child(even) {
@@ -468,4 +468,12 @@ div[data-sc-id=InfoBorder] a.sc-hyperlinkbutton[data-sc-id=InfoEmailLink] {
 
 span.sc-text[data-sc-id=ContactHeaderText] {
   padding-right: 1px;
+}
+
+.sc-listcontrol .sc-table tbody tr td img {
+  height: 16px;
+}
+
+div[data-sc-id=DialogProgressIndicator] {
+  z-index: 9999;
 }

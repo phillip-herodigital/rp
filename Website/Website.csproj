@@ -890,7 +890,6 @@
     <Content Include="App_Config\Include\Sitecore.Analytics.MarketingTaxonomy.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.Model.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.MongoDb.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Conversion.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.Automation.TimeoutProcessing.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.Compatibility.config" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Analytics.config" />

@@ -40,9 +40,9 @@
       this.model.set("height", this._getHeight());
       this.model.set("width", this._getWidth());
       this.model.set("targetControl", this.$el.data("sc-target-control"));
-      this.model.set("isFullscreen", this.$el.data("sc-fullscreen") === "true");
+      this.model.set("isFullscreen", this.$el.data("sc-fullscreen"));
       this.model.set("delay", this.$el.data("sc-delay"));
-      this.model.set("autoShow", (this.$el.data("sc-auto-show") === "true"));
+      this.model.set("autoShow", this.$el.data("sc-auto-show"));
       this.model.set("autoShowTimeout", parseInt(this.$el.data("sc-auto-show-timeout")));
 
       this.model.on("change:isBusy", this.changeBusy, this);
@@ -86,14 +86,18 @@
       });
 
       $doc.ajaxStop(function () {
-        this._stopTimer();
+        self._stopTimer();
         self.model.set("isBusy", false);
       });
     },
     _getHeight: function () {
+      if (this.model.get("isFullscreen")) {
+        return "100%";
+      }
+
       var $element = this._getTargetDomElement();
       if (!$element) {
-        return this.model.get("isFullscreen") ? "100%" : this.panelHeight + "px";
+        return this.panelHeight + "px";
       }
 
       if (!$element.length) {

@@ -169,6 +169,12 @@ div[data-sc-id="DetailsColumn"]::-webkit-scrollbar-thumb:hover {
 .sc .sc-advancedExpander {
   margin-right: 0;
 }
+.sc div[data-sc-id="DetailTitleRow"] {
+  padding-top: 0px !important;
+}
+.sc div[data-sc-id="DetailPanelBorder"] {
+  border-top: 1px solid #e7e7e7;
+}
 .sc span[data-sc-id="SummaryTitle"] {
   font-weight: bold;
   font-size: 15px;

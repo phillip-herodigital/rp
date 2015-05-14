@@ -1,6 +1,6 @@
 <%@ OutputCache Location="None" VaryByParam="none" %>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Analytics" %>
-<%@ Page Language="c#" CodeBehind="notfound.aspx.cs" EnableViewState="false" EnableViewStateMac="false" AutoEventWireup="True" Inherits="SitecoreClient.Page.NotFound" %>
+<%@ Page Language="c#" CodeBehind="notfound.aspx.cs" EnableViewState="false" AutoEventWireup="True" Inherits="SitecoreClient.Page.NotFound" %>
 <!DOCTYPE html>
 <html>
 <head>

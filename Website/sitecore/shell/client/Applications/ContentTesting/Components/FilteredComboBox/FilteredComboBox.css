@@ -96,6 +96,7 @@ div[data-sc-id="DetailsColumn"]::-webkit-scrollbar-thumb:hover {
   overflow-y: auto;
   border: 1px solid #dddddd;
   height: auto;
+  background-color: #eeeeee;
 }
 .scFiltList-dvList .scFiltList-dvContent ul {
   padding: 0;
@@ -117,6 +118,41 @@ div[data-sc-id="DetailsColumn"]::-webkit-scrollbar-thumb:hover {
 .scFiltList-dvList .scFiltList-dvContent ul li span {
   position: relative;
   top: 10px;
+}
+.scFiltList-dvSearch {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 8px;
+  right: 20px;
+  cursor: pointer;
+  background-image: url("/sitecore/shell/client/Speak/Assets/img/sc-sprite.png");
+  background-position: -221px -153px;
+}
+.scFiltList-dvResultCount {
+  height: 20px;
+}
+.scFiltList-dvPageCount {
+  float: left;
+  margin-left: 10px;
+}
+.scFilList-dvPrevPage {
+  height: 17px;
+  width: 17px;
+  background-image: url("/sitecore/shell/client/Speak/Assets/img/sc-sprite-arrows.png");
+  background-position: -179px -125px;
+  float: left;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.scFilList-dvNextPage {
+  height: 17px;
+  width: 17px;
+  background-image: url("/sitecore/shell/client/Speak/Assets/img/sc-sprite-arrows.png");
+  background-position: -179px -143px;
+  float: left;
+  margin-left: 10px;
+  cursor: pointer;
 }
 .scFiltList-dvInput {
   border: 1px solid #dddddd;

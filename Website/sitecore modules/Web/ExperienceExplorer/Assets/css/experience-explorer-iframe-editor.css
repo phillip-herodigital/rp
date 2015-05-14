@@ -1,5 +1,48 @@
 ﻿/******** COMMON STYLES ***********/
 
+input[type='checkbox'] {
+    vertical-align: middle;
+}
+
+.experience-explorer-iframe-editor .input-tiny {
+    width: 55px;
+    float: right;
+}
+
+.experience-explorer-iframe-editor .table-condensed td {
+    padding: 1px;
+}
+
+/******** WIDGET STYLES ***********/
+.ui-widget {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #131313;
+    max-width: none !important;
+}
+
+.control {
+    margin: 0;
+}
+
+    .control label {
+        border-color: transparent;
+    }
+
+    .control small {
+        margin-left: 4px;
+        font-size: 95%;
+        font-family: "Segoe UI","Segoe WP","Helvetica Neue",sans-serif;
+        line-height: 25px;
+        color: #333;
+        vertical-align: sub;
+        font-weight: normal;
+    }
+
+    .control img {
+        margin: 4px 0 0 4px;
+    }
 
 /*********************************
 ************ TABS ***************
@@ -114,6 +157,13 @@
             padding: 3px 5px;
         }
 
+/********* DEVICE TAB ************/
+.experience-explorer-iframe-editor .device-dropdown .icon {
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+
 /********* GEO IP TAB ************/
 .experience-explorer-iframe-editor .geo-ip {
     max-height: 300px;
@@ -160,7 +210,13 @@
         -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05);
         -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05);
         box-shadow: inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05);
+        background: rgba(0, 0, 0, 0.125);
     }
+
+.experience-explorer-iframe-editor .type-switch .geo-ip-data.collpase-geo {
+    overflow: hidden;
+    height: 0;
+}
 
 /******** COMMON STYLES ***********
 .experience-explorer-iframe-editor .input-tiny {

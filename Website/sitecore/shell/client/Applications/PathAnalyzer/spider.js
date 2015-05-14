@@ -11,7 +11,7 @@ var Settings = (function () {
         this.maxLineHeight = 15;
         this.midPadding = 150;
         this.leftPadding = 10;
-        this.topPadding = 50;
+        this.topPadding = 100;
         this.hoverTimeout = 750;
     }
     Settings.init = function (height, width) {
@@ -1039,8 +1039,8 @@ var IncomingLabels = (function () {
         var _this = this;
         var self = this;
         self.el.selectAll("text.incomingLabel").data(function (d) { return _this.getNodesFunc(d).reverse(); }).enter().append("text").text(function (d) {
-            if (d.name.length > 25)
-                return d.name.substring(0, 25) + "...";
+            if (d.name.length > 20)
+                return d.name.substring(0, 20) + "...";
             return d.name;
         }).attr({
             transform: function (d, i, j) {
@@ -1827,7 +1827,7 @@ var Application = (function () {
             d3.select("#viz").select("g").remove();
             return;
         }
-        if (!data) {
+        if (!data || !data.paths || data.paths.length < 1) {
             Bus.instance().publish("data:empty");
             d3.select("#viz").select("g").remove();
             return;

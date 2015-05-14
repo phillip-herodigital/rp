@@ -16,6 +16,8 @@
         }, this);
       },
       initializeAdditionalFields: function () {
+        $("[data-sc-id='SegmentationAccordion'] > div.sc-advancedExpander-body").css({ "border-left": "0", "border-right": "0" });
+
         var mode = urlParser.getParameterFromLocationSearchByName("alldatabase");
         if (mode == "1") {
           this.updateUiForSources({ Source: "{ \"AllDatabase\" : true, \"IncludedLists\" : [], \"ExcludedLists\" : []}", PredefinedText: "" });
@@ -28,6 +30,9 @@
         current.SegmentBuilder.on("sc.listmanagement.segmentbuilder.rule.changed", function () {
           current.updateSaveButtonUi(current.SegmentBuilder, current.SegmentBuilder.viewModel.getRulesXML(), "Query");
         });
+      },
+      save: function () {
+          this.saveList();
       },
       hasAdditionalLockCondition: function (source) {
         var sourceIsLocked = false;

@@ -133,5 +133,13 @@ html body.sc {
 }
 .sc a.sc-smartpanel-close {
   top: 37px;
-  right: 17px;
+  right: 20px;
+  width: 10px;
+  height: 9px;
+  overflow: hidden;
+  background-image: url("");
+}
+.sc a.sc-smartpanel-close img {
+  width: 9px;
+  height: 18px;
 }

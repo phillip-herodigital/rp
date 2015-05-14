@@ -141,37 +141,74 @@
             <summary>
             Initializes a new instance of the <see cref="T:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths"/> class.
             </summary>
-            <param name="homePage">
-            The home page.
-            </param>
-            <param name="queryCommands">
-            The query commands.
-            </param>
-            <param name="api">
-            The api.
-            </param>
+            <param name="homePage">The home page.</param>
+            <param name="queryCommands">The query commands.</param>
+            <param name="api">The API links.</param>
         </member>
         <member name="T:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links">
             <summary>
             API links.
             </summary>
         </member>
+        <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.ApiVersion">
+            <summary>
+            The API version
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.IdsForBusiness">
+            <summary>
+            The ids for business
+            https://developers.facebook.com/docs/graph-api/reference/v2.2/user/ids_for_business
+            </summary>
+        </member>
         <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Oauth">
-            <summary>Oauth link.</summary>
+            <summary>OAuth link.</summary>
         </member>
         <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.AccessToken">
             <summary>Access token link.</summary>
         </member>
-        <member name="M:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.#ctor(System.String,System.String)">
+        <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Accounts">
+            <summary>
+            The accounts link.
+            https://developers.facebook.com/docs/graph-api/reference/v2.2/user/accounts?locale=en_GB
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Feed">
+            <summary>
+            The feed link.
+            https://developers.facebook.com/docs/graph-api/reference/v2.2/user/feed?locale=en_GB
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.User">
+            <summary>
+            The user link.
+            https://developers.facebook.com/docs/graph-api/reference/v2.2/user?locale=en_GB
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Post">
+            <summary>
+            The post link.
+            https://developers.facebook.com/docs/graph-api/reference/v2.2/post?locale=en_GB
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Comments">
+            <summary>
+            The comments link.
+            https://developers.facebook.com/docs/graph-api/reference/v2.2/object/comments?locale=en_GB
+            </summary>
+        </member>
+        <member name="M:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links"/> struct.
             </summary>
-            <param name="oauth">
-            The oauth.
-            </param>
-            <param name="accessToken">
-            The access token.
-            </param>
+            <param name="apiVersion">The API version.</param>
+            <param name="oauth">The OAuth link.</param>
+            <param name="accessToken">The access token link.</param>
+            <param name="accounts">The accounts link.</param>
+            <param name="feed">The feed link.</param>
+            <param name="user">The user link.</param>
+            <param name="post">The post link.</param>
+            <param name="comments">The comments link.</param>
         </member>
         <member name="T:Sitecore.Social.Facebook.Connector.Paths.FacebookPathsFactory">
             <summary>
@@ -182,6 +219,38 @@
             <summary>
             Facebook paths.
             </summary>
+        </member>
+        <member name="T:Sitecore.Social.Facebook.Connector.Pipelines.MatchUser.FindByFacebookIdsForBusiness">
+            <summary>
+            Defines the processor of the "social.matchUser" pipeline. It is responsible to try to find the existing user by Facebook IDs for Business.
+            </summary>
+        </member>
+        <member name="M:Sitecore.Social.Facebook.Connector.Pipelines.MatchUser.FindByFacebookIdsForBusiness.Process(Sitecore.Social.Connector.Pipelines.MatchUser.SelectUserPipelineArgs)">
+            <summary>
+            Runs the processor.
+            </summary>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="M:Sitecore.Social.Facebook.Connector.Pipelines.MatchUser.FindByFacebookIdsForBusiness.GetApplicationScopedIds(Sitecore.Social.Connector.Pipelines.MatchUser.SelectUserPipelineArgs)">
+            <summary>
+            Gets the application-scoped IDs.
+            </summary>
+            <param name="args">The arguments.</param>
+            <returns>The application-scoped ids except of <c>args.AccountBasicData.Id</c>.</returns>
+        </member>
+        <member name="M:Sitecore.Social.Facebook.Connector.Pipelines.MatchUser.FindByFacebookIdsForBusiness.FindByDomain(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Finds the by domain.
+            </summary>
+            <param name="applicationScopedIds">The application scoped IDs.</param>
+            <returns>The user.</returns>
+        </member>
+        <member name="M:Sitecore.Social.Facebook.Connector.Pipelines.MatchUser.FindByFacebookIdsForBusiness.FindByNetworkCredentials(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Finds the by network credentials.
+            </summary>
+            <param name="applicationScopedIds">The application scoped IDs.</param>
+            <returns>The user.</returns>
         </member>
         <member name="T:Sitecore.Social.Facebook.Exceptions.Analyzers.FacebookExceptionAnalyzer">
             <summary>
@@ -273,6 +342,23 @@
             Link description
             </summary>
         </member>
+        <member name="T:Sitecore.Social.Facebook.Networks.Providers.FacebookProvider">
+            <summary>
+            Represents the network provider for Facebook.
+            </summary>
+        </member>
+        <member name="T:Sitecore.Social.Facebook.Networks.Providers.IGetApplicationScopedIds">
+            <summary>
+            Defines methods to get application-scoped IDs.
+            </summary>
+        </member>
+        <member name="M:Sitecore.Social.Facebook.Networks.Providers.IGetApplicationScopedIds.GetApplicationScopedIds(Sitecore.Social.NetworkProviders.Account)">
+            <summary>
+            Gets the application-scoped IDs.
+            </summary>
+            <param name="account">The account.</param>
+            <returns>The application-scoped IDs.</returns>
+        </member>
         <member name="F:Sitecore.Social.Facebook.Networks.Providers.FacebookProvider.LikesCounterKey">
             <summary>
             The "likes" counter key.
@@ -281,6 +367,16 @@
         <member name="F:Sitecore.Social.Facebook.Networks.Providers.FacebookProvider.CommentsCounterKey">
             <summary>
             The "comments" counter key.
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.Facebook.Networks.Providers.FacebookProvider.ExpiresParameterName">
+            <summary>
+            The expires parameter name
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.Facebook.Networks.Providers.FacebookProvider.AccessTokenParameterName">
+            <summary>
+            The access token parameter name
             </summary>
         </member>
         <member name="M:Sitecore.Social.Facebook.Networks.Providers.FacebookProvider.#ctor(Sitecore.Social.NetworkProviders.Application)">
@@ -383,6 +479,13 @@
             <returns>
             The list of the message comments.
             </returns>
+        </member>
+        <member name="M:Sitecore.Social.Facebook.Networks.Providers.FacebookProvider.GetApplicationScopedIds(Sitecore.Social.NetworkProviders.Account)">
+            <summary>
+            Gets the application scoped ids.
+            </summary>
+            <param name="account">The account.</param>
+            <returns>The enumerable of application scoped ids.</returns>
         </member>
         <member name="M:Sitecore.Social.Facebook.Networks.Providers.FacebookProvider.GetMessageComment(Facebook.JsonObject)">
             <summary>

@@ -505,18 +505,18 @@ define(["sitecore", "userProfile", "Scrollbar", "EndlessPageScroll", "ResizableC
 
           var tempValue = '';
           var additionalValues;
-          if (this.$formatedFields) {
-            additionalValues = this.$formatedFields();
+          if (this.$formattedFields) {
+            additionalValues = this.$formattedFields();
           }
 
          if (format && format == "short") {
-            if (additionalValues) {
+           if (additionalValues && additionalValues[name]) {
               tempValue = additionalValues[name].shortDateValue;
               if (tempValue) val = tempValue;
             }
           }
           else if (format && format == "long") {
-            if (additionalValues) {
+            if (additionalValues && additionalValues[name]) {
               tempValue = additionalValues[name].longDateValue;
               if (tempValue) val = tempValue;
             }

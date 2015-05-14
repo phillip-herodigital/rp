@@ -12,7 +12,6 @@ iframe.scCollapsedRibbon {
 iframe.scFixedRibbon {  
   position:fixed;
   top:0px;
-  left:1px;  
 }
 
 iframe.scWebEditContentEditor {

@@ -18,6 +18,7 @@ define(["sitecore", "Scrollbar"], function(Sitecore) {
       { name: "contentDatabase", defaultValue: null, value: "$el.data:sc-contentdatabase" },
       { name: "items", defaultValue: [] },
       { name: "isLoading", defaultValue: false },
+      { name: "queryStringSuffix", defaultValue: "", value: "$el.data:sc-querystringsuffix" },
       { name: "template", defaultValue: "<div class='sc-repeater-container' />" }
     ],
     extendModel: {
@@ -78,7 +79,7 @@ define(["sitecore", "Scrollbar"], function(Sitecore) {
 
       var ajaxOptions = {
         beforeSend: function(jqXHR, settings) {
-          setContentDatabase(self.model, settings);
+          addUrlParameters(self.model, settings);
         }
       };
 
@@ -131,10 +132,15 @@ define(["sitecore", "Scrollbar"], function(Sitecore) {
     }
   });
 
-  function setContentDatabase(model, settings) {
+  function addUrlParameters(model, settings) {
     var contentDatabase = model.get("contentDatabase");
     if (contentDatabase) {
       settings.url += "&sc_content=" + contentDatabase;
+    }
+
+    var suffix = model.get("queryStringSuffix");
+    if (suffix) {
+      settings.url += "&" + suffix;
     }
 
     return true;

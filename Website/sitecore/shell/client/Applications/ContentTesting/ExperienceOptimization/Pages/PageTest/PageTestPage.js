@@ -16,10 +16,25 @@
     _tooltipStatistics: undefined,
     _testItemUriProperty: "testItemUri",
     _testItemTemplateIdProperty: "testItemTemplateId",
+    _groupTestObjectiveProperty: "groupTestObjective",
+    _selectedLanguageProperty: "selectedLanguage",
+    _selectedVersionProperty: "selectedVersion",
     savedOptions: null,
     invalidated: false,
     _forceLoad: false,
     showThumbnails: true,
+
+    idTabPages: "{A070481F-B6AD-48AC-A91D-43856465A3A4}",
+    $tabPagesElem: undefined,
+    idTabReviewStart: "{45E3278F-45AD-47CA-B14A-BB37E8D002D9}",
+    $tabReviewStartElem: undefined,
+    timerPage: undefined,
+
+    // flag of the finishing of "SelectTestPage"
+    isSelectTestPageFinished: false,
+
+    // flag of the finishing of data loading
+    isLoadDataOK: false,
 
     // ListGoals - selecting "Trailing Value/Visit"
     trailingValueVisitGUID: '{00000000-0000-0000-0000-000000000000}',
@@ -36,7 +51,10 @@
 
       this.on("change:" + this._testItemUriProperty, bindingUtil.propagateChange, { source: this, sourceProp: this._testItemUriProperty, target: this.ItemInfoDataSource, targetProp: "itemUri" });
       this.ItemInfoDataSource.on("change:status", this.testStatusChanged, { self: this });
-      this.on("change:" + this._testItemUriProperty + " change:" + selectPagesToTestMod.testItemsProperty, function () { self.invalidated = true; });
+      this.on("change:" + this._testItemUriProperty + " change:" + selectPagesToTestMod.testItemsProperty, function () {
+        self.invalidated = true;
+        self.savedOptions = self.createTestOptions();
+      });
 
       this.actions = new pageTestActionsMod.PageTestActions({
         messageBar: this.PageMessageBar,
@@ -53,6 +71,9 @@
 
       this.SummaryRepeater.on("subAppLoaded", this.bindSummaryEntry, this);
       this.bindSummaryData();
+
+      // save localizable "DetailPanelTitle" text
+      this.set("detailsTitleText", this.DetailPanelTitle.get("text"));
 
       // Ensure carousel redraws when visible so elastislider can work out it's dimensions
       this.Tabs.on("change:selectedTab", this.CarouselImage.viewModel.populateCarousel, this);
@@ -88,11 +109,22 @@
       var showReport = (params.report == "true");
       var forceLoad = (params.load == "true");
       this._forceLoad = showReport || forceLoad;
+
       var qsPage = params.page;
       var qsLanguage = params.language;
+      var qsVersion = 0;
+
+      if (params.hostUri) {
+        var hostUri = new dataUtilMod.DataUri(params.hostUri);
+        qsPage = hostUri.id;
+        qsLanguage = hostUri.lang;
+        qsVersion = hostUri.ver;
+      }
+
       if (qsPage) {
         this.set("selectedItemId", qsPage);
-        this.set("selectedLanguage", qsLanguage);
+        this.set(this._selectedLanguageProperty, qsLanguage);
+        this.set(this._selectedVersionProperty, qsVersion);
         this.selectTestPage();
       }
       else {
@@ -111,6 +143,88 @@
 
 
       this.TestDefinitionDataSource.on("change:conversions", this.handleTestObjectives, this);
+
+      if (this.TestObjectivesDataSource !== undefined)
+      {
+          this.TestObjectivesDataSource.on("change:items", this.testObjectivesChanged, this);      
+      }
+
+      // timer-handling
+      this.$tabPagesElem = $("[data-tab-id='" + this.idTabPages + "']");
+      this.$tabReviewStartElem = $("[data-tab-id='" + this.idTabReviewStart + "']");
+      this.timerPage = setInterval(function () {
+        // "ThumbnailProgressIndicator" is visible only for "Pages" tab
+        if (self.ThumbnailProgressIndicator.get("isBusy"))
+          self.ThumbnailProgressIndicator.viewModel.$el.css("display", self.$tabPagesElem.hasClass("active") ? "block" : "none");
+
+        // if "DetailPanel" isn't  visible - stop "DetailThumbnailProgressIndicator"
+        if (self.DetailThumbnailProgressIndicator.get("isBusy"))
+          self.DetailThumbnailProgressIndicator.viewModel.$el.css("display", self.DetailPanel.get("isVisible") ? "block" : "none");
+        
+        // "ProgressIndicator"(few elements) are visible only for "Pages" and "Review and Start" tab
+        var isTabReportsActive = !(self.$tabPagesElem.hasClass("active") || self.$tabReviewStartElem.hasClass("active"));
+        if (isTabReportsActive) {
+          var $progressIndicatorElem = $("[data-sc-id='ProgressIndicator']");
+          $progressIndicatorElem.css("display", "none");
+        }
+
+        // setting "savedOptions" when data will be loaded
+        if (!self.isLoadDataOK) {
+          if (self.isLoadData()) {
+            self.isLoadDataOK = true;
+            self.savedOptions = self.createTestOptions();
+          }
+        }
+      }, 200);
+
+      //
+      this.on("change:" + this._groupTestObjectiveProperty, function () {
+        self.savedOptions = self.createTestOptions();
+      });
+      if (this.WinnerManualSelect !== undefined)
+      {
+          this.WinnerManualSelect.check();
+      }
+      
+      if (this.WinnerAutoSelect !== undefined) 
+      {
+        this.WinnerAutoSelect.check();
+      }
+    },
+
+    isLoadData: function () {
+      var dataLoaded = true;
+      
+      if (this.MaximumSelect !== undefined)
+      {
+          dataLoaded = dataLoaded && (this.MaximumSelect.get("items") && this.MaximumSelect.get("items").length > 0);
+      }
+      
+      if (this.ConfidenceLevelSelect !== undefined)
+      {
+        dataLoaded = dataLoaded && (this.ConfidenceLevelSelect.get("items") && this.ConfidenceLevelSelect.get("items").length > 0);
+      }
+      
+      if (this.MinimumSelect !== undefined)
+      {
+        dataLoaded = dataLoaded && (this.MinimumSelect.get("items") && this.MinimumSelect.get("items").length > 0);
+      }
+      
+      if (this.ObjectiveList !== undefined)
+      {
+        dataLoaded = dataLoaded && (this.ObjectiveList.get("items") && this.ObjectiveList.get("items").length > 0);
+      }
+             
+      if (this.ExpectationSlider !== undefined )       
+      {
+        dataLoaded = dataLoaded && (this.ExpectationSlider.get("selectedItem") && this.ExpectationSlider.get("selectedItem") != null);
+      }
+      
+      dataLoaded = dataLoaded && this.isSelectTestPageFinished;
+             
+             
+      
+      return dataLoaded;
     },
 
     initPagesTab: function () {
@@ -130,6 +244,7 @@
         hostPage: this,
         testItemUriProperty: this._testItemUriProperty,
         testItemTemplateProperty: this._testItemTemplateIdProperty,
+        selectedLanguageProperty: this._selectedLanguageProperty,
         compareTemplates : true,
         selectItemDialog: selectItemDialog
       });
@@ -168,6 +283,20 @@
           var uri = new dataUtilMod.DataUri(value);
           ob.set({
             "itemId": uri.id,
+            "version": self.ItemInfoDataSource.get("lastTestVersion") || uri.ver,
+            "languageName": uri.lang
+          });
+        }
+      });
+      
+      this.ItemInfoDataSource.on("change:itemId",bindingUtil.propagateChange, {
+        source: this.ItemInfoDataSource,
+        sourceProp: "itemUri",
+        target: this.DetailThumbnailImage,
+        targetProp: function (ob, value) {
+          var uri = new dataUtilMod.DataUri(value);
+          ob.set({
+            "itemId": uri.id,
             "version": self.ItemInfoDataSource.get("lastTestVersion") || uri.ver
           });
         }
@@ -177,17 +306,72 @@
       this.EngagementValueIndicator.on("change:selectedItem", this.setSelectedExperience, { control: this.EngagementValueIndicator, app: this });
       this.on("change:selectedExperience", this.notifyExperienceChange, { app: this });
     },
+    
+    selectValidTestPage: function()
+    {
+      var itemId = this.get("selectedItemId");
+      var infoItemId = this.ItemInfoDataSource.get("itemId");
+      
+      if (itemId == infoItemId)
+      {
+        this.validateTestStatus();
+      }
+      else
+      {
+          this.ItemInfoDataSource.once("change:name", this.validateTestStatus, this);
+          this.ItemInfoDataSource.set("itemId", itemId);
+      }
+    },
+    
+    validateTestStatus: function()
+    {
+      var status = this.ItemInfoDataSource.get("status");
+      if (status == "Active")
+      {
+        var message = this.Texts.get("This page has active test. Please select another page.");
+        alert(message);
+      }
+      else
+      {
+        this.selectTestPage();
+      }
+    },
 
     selectTestPage: function () {
+      
       var itemId = this.get("selectedItemId");
-      var language = this.get("selectedLanguage");
+      var language = this.get(this._selectedLanguageProperty);
+      var version = this.get(this._selectedVersionProperty);
       var itemTempateId = this.get("selectedTemplateId");
       if (!itemId || itemId.length === 0) {
         alert(this.Texts.get("You must select a page to test"));
         return;
       }
-
+      
       var self = this;
+      
+      _.each(this.ItemInfoDataSource.get("warnings"), function(warning){
+          self.PageMessageBar.addMessage("warning", warning);
+      });
+
+      
+      var setProperties = function (uri) {
+        self.set(self._testItemUriProperty, uri.toString());
+        self.set(self._testItemTemplateIdProperty, itemTempateId);
+        self.SelectPageWindow.hide();
+
+        self.isSelectTestPageFinished = true;
+      };
+
+      if (itemId && language && version) {
+        var uri = new dataUtilMod.DataUri();
+        uri.id = itemId;
+        uri.ver = version;
+        uri.lang = language;
+
+        setProperties(uri);
+      }
+      else {
       versionInfoMod.getLatestVersionNumber({ id: itemId, language: language }, function (id, version, revision, language) {
         var uri = new dataUtilMod.DataUri();
         uri.id = id;
@@ -195,10 +379,9 @@
         uri.rev = revision;
         uri.lang = language;
 
-        self.set(self._testItemUriProperty, uri.toString());
-        self.set(self._testItemTemplateIdProperty, itemTempateId);
-        self.SelectPageWindow.hide();
+          setProperties(uri);
       });
+      }
     },
 
     bindSummaryData: function () {
@@ -234,6 +417,7 @@
             ValueProp: "expectedDays",
             VisibleProp: "expectedDays",
             VisibleInv: false,
+            InitVisibleProp: true,
             Postfix: " " + this.Texts.get("days")
           }
         ]);
@@ -245,6 +429,7 @@
             ValueProp: "requiredVisits",
             VisibleProp: "expectedDays",
             VisibleInv: true,
+            InitVisibleProp: true,
             Postfix: " " + this.Texts.get("visitors")
           }
         ]);
@@ -344,9 +529,12 @@
             hide: data.VisibleInv,
             target: subapp.Entry
           });
-
-          if (data.VisibleInv) {
-            subapp.Entry.set("isVisible", false);
+          if (data.InitVisibleProp)
+          {
+            var currentValue = data.ValueRef.get(data.VisibleProp);
+            var tempValue = currentValue == 0 ? -1 : 0;
+            data.ValueRef.set(data.VisibleProp, tempValue, {silent: true});
+            data.ValueRef.set(data.VisibleProp, currentValue);
           }
         }
       } else {
@@ -389,7 +577,9 @@
         this.WinnerAutoSelectUnless.set("isEnabled", true);
         this.WinnerManualSelect.set("isEnabled", true);
         this.WinnerAutoSelectUnless.check();
-        }
+
+        this.GoalsListFiltered.set("selectedItem", selectedTestObjective);
+      }      
     },
 
     testStatusChanged: function () {
@@ -421,11 +611,18 @@
           }
         }
       }
+      else if (status === "Draft test") {
+        if (this.self._forceLoad) {
+          this.self.loadTest();
+        }
+      }
+
     },
 
     loadTest: function (callback) {
       var self = this;
       this.actions.loadPageTest(this.get(this._testItemUriProperty), function (data) {
+        self.set(self._testItemTemplateIdProperty, data.ItemTemplateId);
         self.selectPagesToTest.loadTest(data);
         self.reviewTest.loadTest(data);
         if (callback) {
@@ -479,7 +676,8 @@
       this.app.set("selectedExperience", {
         Combination: selected.Combination,
         GoalId: selected.GoalId,
-        Description: selected.Description
+        Description: selected.Description,
+        title: selected.title
       });
     },
 
@@ -489,6 +687,9 @@
         this.app.DetailPanel.set("isOpen", false);
         return;
       }
+
+      var detailText = this.app.get("detailsTitleText") + " - " + experience.title;
+      this.app.DetailPanelTitle.set("text", detailText);
 
       this.app.DetailPanel.set("isOpen", true);
 
@@ -529,10 +730,9 @@
     stopTestSucceeded: function () {
       this.AppProgressIndicator.set("isBusy", false);
       this.invalidated = false;
-      window.parent.location = window.parent.location.href;
-      /*window.parent.location = Sitecore.Helpers.url.addQueryParameters(window.parent.location.href, {
-        report: true
-      });*/
+      var redirectUrl = '/?sc_mode=edit&sc_itemid=';
+      redirectUrl = redirectUrl + this.ItemInfoDataSource.get('itemId');
+      window.parent.location = redirectUrl;
     },
 
     stopTestError: function(){
@@ -551,6 +751,21 @@
         var conversion = conversions[0];
         this.GoalsListFiltered.set("selectedItem", conversion);
       }
+    },
+
+    testObjectivesChanged: function () {
+      var self = this;
+      //#25880 - removing "Trailing Value/Visit" value from "Select a goal" combobox contains in "Conversion rate" section
+      var items = this.GoalsListFiltered.get("items");
+      if (items && items.length > 0) {
+        var itemsCorrect = [];
+        _.each(items, function (item) {
+          if (item.guid && item.guid != self.trailingValueVisitGUID) {
+            itemsCorrect.push(item);
+          }
+        });
+        this.GoalsListFiltered.set("items", itemsCorrect);
+      }      
     },
 
   });

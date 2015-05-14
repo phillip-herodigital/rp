@@ -135,7 +135,11 @@
       params = (params.length > 0) ? "?" + params : "";
       params = Sitecore.Helpers.url.addQueryParameters(params, hashObject).replace("?", "");
 
-      window.location.hash = params;
+      if (window.history.replaceState) {
+        window.history.replaceState({ state: null }, null, window.location.pathname + window.location.search + "#" + params);
+      } else {
+        window.location.hash = params;
+      }
     },
 
     removeEmptyParams: function(url) {

@@ -173,10 +173,10 @@
       panel.refresh();
       
       panel.set("isBusy", true);
-
+      this.VisitDialog.show();
+      
       panel.on("change:isLoaded", function () {
         panel.off("change:isLoaded");
-        this.VisitDialog.show();
         panel.set("isBusy", false);
         visitDialogApp.open(visitDialogApp, visitId);
       }, this);
@@ -199,7 +199,7 @@
         self.JourneyLoadOnDemandPanel.set("isVisible", !self.JourneyLoadOnDemandPanel.get("isVisible"));
       });
     }
-       
+    
   });
   return app;
 });

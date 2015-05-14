@@ -157,3 +157,11 @@ div.sc-advancedExpander[data-sc-id=VisitorsAccordion] .sc-advancedExpander-body
   color: #f9d8d7;
 }
 
+.sc-listcontrol .sc-table tbody tr td a[href] {
+  text-decoration: underline;
+}
+
+.sc-listcontrol .sc-table tbody tr td a[href]:hover {
+  text-decoration: none;
+}
+

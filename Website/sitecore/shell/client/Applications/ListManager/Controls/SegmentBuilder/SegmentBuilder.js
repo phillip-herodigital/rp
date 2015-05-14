@@ -134,9 +134,11 @@
                 self.segmentBuilderFrameContainer.attachEvent = self.segmentBuilderFrameContainer.addEventListener;
               }
             }
-            Array.prototype.filter.call(self.segmentBuilderFrameContainer.jQuery.find(self.ruleContainerSelector), function (existingCondition) {
-              self.insertCondition(existingCondition, false);
-            });
+            if (typeof self.segmentBuilderFrameContainer.jQuery !== "undefined" && self.segmentBuilderFrameContainer.jQuery !== null) {
+              Array.prototype.filter.call(self.segmentBuilderFrameContainer.jQuery.find(self.ruleContainerSelector), function(existingCondition) {
+                self.insertCondition(existingCondition, false);
+              });
+            }
           }
         });
       }

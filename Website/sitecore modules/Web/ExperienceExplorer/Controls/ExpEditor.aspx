@@ -139,13 +139,13 @@
             <ul id="ExperienceExplorerPresets" class="jcarousel-skin-tango">
                 {{for itemData.Source}}
                     <li class="item">{{if Selected}}
-                            <a class="item-inner selected" data-id="{{:ID}}" href="#">
+                            <a class="item-inner selected" data-id="{{:ID}}" href="#" title="{{:Name}}">
                                 <img src="/sitecore modules/Web/ExperienceExplorer/Assets/images/con-tick.png" class="tick" width="15" height="15" />
                                 <img alt="{{:Name}}" src="{{:Image}}" width="75" />
                                 <span class="name">{{:Name}}</span>
                             </a>
                         {{else}}
-                            <a class="item-inner" href="#" data-id="{{:ID}}">
+                            <a class="item-inner" href="#" data-id="{{:ID}}" title="{{:Name}}">
                                 <img src="/sitecore modules/Web/ExperienceExplorer/Assets/images/con-tick.png" class="tick" width="15" height="15" />
                                 <img alt="{{:Name}}" src="{{:Image}}" width="75" />
                                 <span class="name">{{:Name}}</span>

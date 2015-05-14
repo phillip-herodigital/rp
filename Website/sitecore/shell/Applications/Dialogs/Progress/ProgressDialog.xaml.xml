@@ -69,7 +69,7 @@
             <a href="#" class="scContentButton" onclick="javascript:scForm.postRequest('', '', '', 'ToggleInformation');return false">
               <ThemedImage ID="MoreImage" runat="server" Height="19" Width="19" Src="Images/Progress/more_collapsed.png" />
               <ThemedImage ID="LessImage" runat="server" Height="19" Width="19" Src="Images/Progress/more_expanded.png" Style="display:none" />
-              <Literal ID="MoreInformation" runat="server" Text="View all messages" style="vertical-align:top;" />
+              <Literal ID="MoreInformation" runat="server" Text="" style="vertical-align:top;" />
             </a>
           </Border>
         </div>

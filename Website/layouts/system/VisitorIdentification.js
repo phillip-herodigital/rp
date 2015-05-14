@@ -1,5 +1,21 @@
-﻿function startActivityHandler(e) {
-    document.removeEventListener("touchstart", arguments.callee, false);
+﻿function subscribeEvent(event, listener, useCapture) {
+  if (document.addEventListener) {
+    document.addEventListener(event, listener, useCapture);
+  } else if (document.attachEvent) {
+    document.attachEvent(event, listener, useCapture);
+  }
+}
+
+function unsubscribeEvent(event, listener, useCapture) {
+  if (document.removeEventListener) {
+    document.removeEventListener(event, listener, useCapture);
+  } else if (document.detachEvent) {
+    document.detachEvent(event, listener, useCapture);
+  }
+}
+
+function startActivityHandler(e) {
+    unsubscribeEvent("touchstart", arguments.callee, false);
     document.documentElement.onmousemove = null; // We need it here to turn off mouse move too.
 
    if (true) {
@@ -7,7 +23,7 @@
     }
 };
 document.documentElement.onmousemove = startActivityHandler;
-document.addEventListener("touchstart", startActivityHandler, false);
+subscribeEvent("touchstart", startActivityHandler, false);
 
 function placeCheckerRequest() {
     var stt1 = '/layouts/system';

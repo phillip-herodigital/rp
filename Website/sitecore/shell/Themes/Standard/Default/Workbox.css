@@ -87,6 +87,25 @@ form {
   padding: 0;
 }
 
+.lang_ja_jp .scRibbon .chunk .panel .scRibbonGalleryList {
+  width:400px;
+  overflow-y: auto; 
+  overflow-x: hidden;
+  -ms-overflow-y: auto;
+  -ms-overflow-x: hidden;
+}
+
+.scRibbonWorkbox {
+    overflow:auto;
+    margin-top: 67px;
+}
+
+.lang_ja_jp .scRibbonWorkbox {
+    overflow:auto;
+    margin-top: 77px;
+}
+}
+
 
 .scRollover,
 .scRollover_Hover {

@@ -31,7 +31,7 @@
       <Border class="scButtonsSubstituteContainer" def:placeholder="Buttons">
         <Button Click="Yes" class="scButton scButtonPrimary" KeyCode="13" Header="Yes" />
         <Button Click="No" Header="No" />
-        <Button Click="Cancel" Header="Cancel" />
+        <Button Click="CancelClick" Header="Cancel" />
       </Border>
     </FormDialog>
   </YesNoCancel>

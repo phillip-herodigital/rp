@@ -2,13 +2,12 @@
   // The trick to test in node and in browser.
   var dependencies = (typeof window !== "undefined")
     ? ["/-/speak/v1/listmanager/commonPagesDefinition.js",
-       "/-/speak/v1/listmanager/guidGenerator.js",
        "/-/speak/v1/listmanager/urlParser.js",
        "/-/speak/v1/listmanager/storageMediator.js",
        "/-/speak/v1/listmanager/dialogs.js"]
-    : ["../commonPagesDefinition", "../guidGenerator", "../urlParser", "../storageMediator", null];
+    : ["../commonPagesDefinition", "../urlParser", "../storageMediator", null];
 
-  define(dependencies, function (commonPagesDefinition, guidGenerator, urlParser, storageMediator, dialogs) {
+  define(dependencies, function (commonPagesDefinition, urlParser, storageMediator, dialogs) {
     var self,
       global = {},
       fakeLocation = {
@@ -44,9 +43,12 @@
       saveListNotification = "The list has been saved.",
       entireDatabaseKey = "Entire database",
       listWasNotRemoved = "The list was not removed.",
+      listSourceIsCurrentlyInUse = "List source is currently in use and cannot be added to or amended at this time. Please try again later.",
       listIdKey = "listId",
       filterKey = "filter",
       keyUpKeyCode = 13,
+      fromExisting = "fromexisting",
+      defaultSource = '{"AllDatabase":false,"ExcludedLists":[],"IncludedLists":[],"PredefinedText":""}',
       sourceEmptyText;
 
     if (typeof window !== "undefined") {
@@ -64,14 +66,13 @@
         this.dialogs = dialogs;
         this.location = global.location;
         this.document = global.document;
-        this.GuidGenerator = guidGenerator;
         this.UrlParser = urlParser;
         this.StorageMediator = storageMediator;
         this.RootPath = "";
         this.initializeDataSources();
         this.initializeActions();
         this.initializeSpecificControls();
-        this.SaveButton.on("click", this.saveList, this);
+        this.SaveButton.on("click", this.saveButtonClick, this);
         this.ContactsSearchButtonTextBox.viewModel.$el.keyup(this.contactSearchTextBoxKeyUp);
         this.ListOwnerDataSource.on("change:hasResponse", this.initializeList, this);
         this.ListAsimovEntityDataSource.on("change:entity", this.updateUiForList, this);
@@ -80,6 +81,12 @@
         sourceEmptyText = this.IncludedSourcesListControl.get("empty");
         this.initializeAdditionalFields();
         this.dialogs.init(this.DialogsLoadOnDemandPanel);
+      },
+      saveButtonClick: function () {
+        this.save();
+      },
+      save: function () {
+        this.saveIfSourcesNotLocked();
       },
       initializeDataSources: function () {
         this.refreshDeferredDataSource(this.ListAsimovEntityDataSource);
@@ -99,8 +106,8 @@
               accordion: current.ContactsAccordion
             }
         ];
-        current.ContactsDataSource.on("itemsChanged", function(items) {
-           current.updateEmbededList(items, current.baseStructures[0]);
+        current.ContactsDataSource.on("itemsChanged", function (items) {
+          current.updateEmbededList(items, current.baseStructures[0]);
         }, current);
         current.ContactsList.on("change:selectedItemId", current.updateContactActionsStatus);
         current.ExcludedSourcesListControl.on("change:selectedItem", function () { current.selectSourceItem(current.ExcludedSourcesListControl); }, current);
@@ -122,7 +129,7 @@
         });
         this.on("view:contact", this.onViewContact, this);
         this.on("remove:contacts", this.onRemoveAllContacts, this);
-        this.on("taskpage:add:source", this.addSource, this);
+        this.on("taskpage:add:source", this.addInclusion, this);
         this.on("taskpage:remove:source", this.removeSource, this);
         this.on("taskpage:add:exclusion", this.addExclusion, this);
         this.on("taskpage.select:folder", this.selectFolder, this);
@@ -136,7 +143,7 @@
         var actionFromUrl = this.UrlParser.getParameterFromLocationSearchByName("action");
         if (actionFromUrl === "convert") {
           this.showNotification(convertListNotification, this.ContactListMessageBar);
-        } else if (actionFromUrl === "fromexisting") {
+        } else if (actionFromUrl === fromExisting) {
           var items = this.StorageMediator.getFromStorage("items");
           if (items !== null) {
             this.IncludedSourcesListControl.set("items", items);
@@ -189,22 +196,33 @@
         current.reloadEmbededList(baseStructure);
       },
       executeAction: function (parameters, methodName, callback, isConfirm, confirmationText, showProgress, errorMessage) {
-        var listId = this.ListAsimovEntityDataSource.get("entityID");
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        var listId = current.ListAsimovEntityDataSource.get("entityID");
         if (listId !== "") {
           if (isConfirm === true) {
-            if (!this.executeActionConfirm(this.StringDictionary.get(confirmationText))) {
+            if (!current.executeActionConfirm(current.StringDictionary.get(confirmationText))) {
               return;
             }
           }
 
           if (showProgress === true) {
-            this.showContactsProgressBar();
+            current.showContactsProgressBar();
           }
 
-          this.callController(parameters, "/" + methodName + "/" + listId, callback,function (status, statusText) { self.showDefaultError(status, statusText, self.StringDictionary.get(errorMessage), self.ContactListMessageBar); });
+          current.callController(
+            parameters,
+            "/" + methodName + "/" + listId,
+            callback,
+            function (status, statusText) {
+              current.defaultErrorCallback(status, statusText, errorMessage);
+            });
         }
       },
-      executeActionConfirm: function(message) {
+      defaultErrorCallback: function (status, statusText, errorMessage) {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        current.showDefaultError(status, statusText, current.StringDictionary.get(errorMessage), current.ContactListMessageBar);
+      },
+      executeActionConfirm: function (message) {
         return confirm(message);
       },
       reloadEmbededList: function (baseStructure) {
@@ -275,7 +293,7 @@
       onUnlockList: function (parameters, isConfirm) {
         this.executeAction(parameters, "UnlockList", this.onUnlockListFinished, commonPagesDefinition.defaultIfValueIsUndefinedOrNull(isConfirm, true), unlockListConfirmation, true, listWasNotUnlocked);
       },
-      onUnlockListFinished: function() {
+      onUnlockListFinished: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         var message = current.StringDictionary.get(listUnlockedNotification);
         current.showNotification(message, current.ContactListMessageBar);
@@ -338,7 +356,6 @@
 
         if (model.IsLocked || sourceIsLocked) {
           current.ContactsList.set("empty", current.StringDictionary.get("Currently building list. Contacts will be viewable when complete."));
-          // Fantastic ListControl refresher!!!
           current.refreshListControl(current.ContactsList);
         }
 
@@ -382,12 +399,10 @@
 
         if (current.entireDatabase) {
           current.IncludedSourcesListControl.set("empty", this.StringDictionary.get(entireDatabaseKey));
-          // Fantastic ListControl refresher!!!
           current.refreshListControl(current.IncludedSourcesListControl);
           current.setActionEnabledStatus(current.ListSourceActionControl, setEntireDatabaseActionIds, false);
         } else {
           current.IncludedSourcesListControl.set("empty", sourceEmptyText);
-          // Fantastic ListControl refresher!!!
           current.refreshListControl(current.IncludedSourcesListControl);
           current.IncludedSourcesListControl.set("items", source.IncludedLists);
           current.setActionEnabledStatus(current.ListSourceActionControl, setEntireDatabaseActionIds, true);
@@ -492,14 +507,12 @@
         var listName = this.GeneralInformationNameValue.get("text");
         if (listName !== "") {
           var model,
-              id,
               owner = this.GeneralInformationOwnerComboBox.get("selectedItemId"),
               description = this.GeneralInformationDescriptionValue.get("text"),
               destination = this.getDestination(),
               entityId = this.ListAsimovEntityDataSource.get("entityID");
           if (entityId === "") {
-            id = this.GuidGenerator.getGuid();
-            model = { Id: id };
+            model = {};
           } else {
             model = this.ListAsimovEntityDataSource.get("entity");
           }
@@ -531,6 +544,55 @@
       saveAdditionalFields: function (model) {
         return model;
       },
+      saveIfSourcesNotLocked: function () {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        var isFromExisiting = this.UrlParser.getParameterFromLocationSearchByName("action") === fromExisting;
+        if (current.pendingSources.length !== 0 || isFromExisiting) {
+          var allSourceLists = current.IncludedSourcesListControl.get("items").concat(current.ExcludedSourcesListControl.get("items"));
+          var sourcesToCheck = allSourceLists.map(function (src) {
+            return src.Id;
+          });
+          var url = current.ListSourcesDataSource.get("url");
+          current.ajax({
+            url: url,
+            type: "GET",
+            data: { idList: sourcesToCheck },
+            success: function (result) {
+              var isLocked = false;
+              for (var i = 0; i < sourcesToCheck.length; i++) {
+                if (result[sourcesToCheck[i]] === true) {
+                  current.showError(listSourceIsCurrentlyInUse, current.ContactListMessageBar);
+                  current.pendingSources = [];
+                  if (isFromExisiting) {
+                    current.IncludedSourcesListControl.set("items", []);
+                  } else {
+                    isLocked = true;
+                    var model = current.ListAsimovEntityDataSource.get("entity");
+                    if (typeof model === "undefined" || model === null) {
+                      model = {};
+                    }
+                    if (!model.hasOwnProperty("Source")) {
+                      model.Source = defaultSource;
+                    }
+                    current.updateUiForSources(model);
+                  }
+
+                  break;
+                }
+              }
+
+              if (!isLocked) {
+                current.saveList();
+              }
+            },
+            error: function (jqXhr) {
+              current.defaultErrorCallback(jqXhr.status, JSON.parse(jqXhr.responseText).Message, listSourceIsCurrentlyInUse);
+            }
+          });
+        } else {
+          current.saveList();
+        }
+      },
       notify: function (model) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         current.SaveButton.set("isEnabled", false);
@@ -545,7 +607,7 @@
       updateEntityAndNotify: function (model) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         current.ListAsimovEntityDataSource.set("entityID", model.Id);
-        current.showNotification(current.StringDictionary.get(saveListNotification), current.ContactListMessageBar);
+        current.showNotificationWithPreviousMessage(current.StringDictionary.get(saveListNotification), current.ContactListMessageBar);
         current.ListActions.set("isVisible", true);
         current.initializeContacts(model.Id);
 
@@ -560,7 +622,12 @@
         } catch (e) {
           message = error.message;
         }
-        current.showError(message, current.ContactListMessageBar);
+
+        if (message == "Authorization has been denied for this request.") {
+          current.location.reload();
+        } else {
+          current.showError(message, current.ContactListMessageBar);
+        }
       },
       getContactListSource: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
@@ -590,11 +657,26 @@
           sourceControl.set("defaultSelectedItemId", null);
         }
       },
-      addSource: function () {
+      addInclusion: function () {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        current.addSource(current.IncludedSourcesListControl, function (items) {
+          current.entireDatabase = false;
+        });
+      },
+      addExclusion: function () {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        current.addSource(current.ExcludedSourcesListControl, function (items) {
+          if (items.length > 0) {
+            current.ExcludeSourceAccordion.set("isVisible", true);
+          }
+        });
+      },
+      pendingSources: [],
+      addSource: function (sourcesListControl, additionalActions) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         var callback = function (itemId, item) {
           if (typeof item != "undefined" && item != null) {
-            var currentItems = current.IncludedSourcesListControl.get("items");
+            var currentItems = sourcesListControl.get("items");
             var newItems = [];
             newItems.push(item);
             var items;
@@ -604,11 +686,10 @@
               items = newItems;
             }
 
-            current.IncludedSourcesListControl.set("items", items);
-
-            current.entireDatabase = false;
-
+            sourcesListControl.set("items", items);
+            additionalActions(items);
             current.updateSaveButtonUi(current.IncludedSourcesListControl, current.getContactListSource(), "Source");
+            current.pendingSources.push(itemId);
           }
         };
 
@@ -652,53 +733,6 @@
           selectedItemId: selectedItemPath,
         };
         current.dialogs.showDialog(current.dialogs.Ids.SelectFolderDialog, dialogParams);
-      },
-      addExclusion: function () {
-        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
-        var callback = function (itemId, item) {
-          if (typeof item != "undefined" && item != null) {
-            var currentItems = current.ExcludedSourcesListControl.get("items");
-            var newItems = [];
-            newItems.push(item);
-            var items;
-            if (currentItems.length > 0) {
-              items = Array.prototype.concat.call(currentItems, newItems);
-            } else {
-              items = newItems;
-            }
-            if (items.length > 0) {
-              current.ExcludeSourceAccordion.set("isVisible", true);
-            }
-
-            current.ExcludedSourcesListControl.set("items", items);
-            current.updateSaveButtonUi(current.ExcludedSourcesListControl, current.getContactListSource(), "Source");
-          }
-        };
-
-        var includeItems = current.IncludedSourcesListControl.get("items");
-        var excludeItem = current.ExcludedSourcesListControl.get("items");
-
-        var allExcludeItems = Array.prototype.concat.call(includeItems, excludeItem);
-
-        var allExcludeItemsIds = [];
-        for (var i = 0; i < allExcludeItems.length; i++) {
-          allExcludeItemsIds.push(allExcludeItems[i].Id);
-        }
-
-        var listId = this.UrlParser.getParameterFromLocationSearchByName("id");
-
-        if (listId !== "") {
-          listId = this.ListAsimovEntityDataSource.get("entity").Id;
-        }
-
-        var dialogParams = {
-          callback: callback,
-          excludelists: allExcludeItemsIds,
-          currentListId: listId,
-          filter: "getContactLists"
-        };
-
-        current.dialogs.showDialog(current.dialogs.Ids.SelectListDialog, dialogParams);
       },
       setEntireDatabase: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
@@ -748,14 +782,20 @@
         var newItems = [];
         var index;
 
-        if (sourceControl.get("selectedItemId") !== "") {
+        var selectedItemId = sourceControl.get("selectedItemId");
+        if (selectedItemId !== "") {
           oldItems = sourceControl.get("items");
 
           for (index = 0; index < oldItems.length; ++index) {
-            if (oldItems[index].Id != sourceControl.get("selectedItemId")) {
+            if (oldItems[index].Id != selectedItemId) {
               newItems.push(oldItems[index]);
             }
           }
+
+          current.pendingSources = current.pendingSources.filter(function (id) {
+            return id != selectedItemId;
+          });
+
           sourceControl.off("change:selectedItem");
           sourceControl.set("selectedItem", null);
           sourceControl.set("selectedItemId", null);

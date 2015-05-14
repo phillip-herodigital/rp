@@ -122,15 +122,23 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], functi
         scaleRecursively = !!field.ScaleRecursively,
         numOfValues = listOfValues.length,
         outputArray = [],
-        remainingValue = value;
+        remainingValue = value,
+        isPercentage = (listOfUnits.length === 1 && listOfUnits[0] === "%");
 
       for (var i = numOfValues; i > 0; i--) {
         var totalValue = _.reduce(listOfValues, function (memo, num) { return memo * num; }),
           arrIndex = i - 1,
-          currentUnitValue = scaleRecursively ? remainingValue / totalValue : Math.floor(remainingValue / totalValue);
+          currentUnitValue = scaleRecursively || isPercentage ? remainingValue / totalValue : Math.floor(remainingValue / totalValue);
 
-        if (currentUnitValue >= 1 || value == 0) {
+        if (currentUnitValue >= 1 || isPercentage || value == 0) {
+          if (isPercentage) {
+            currentUnitValue = Math.round(currentUnitValue * 100) / 100;
+          }
+
           remainingValue = remainingValue - (currentUnitValue * totalValue);
+          if (isPercentage) {
+            currentUnitValue = currentUnitValue.toFixed(2);
+          }
           outputArray.push(currentUnitValue + listOfUnits[arrIndex]);
 
           if (scaleRecursively || value == 0)

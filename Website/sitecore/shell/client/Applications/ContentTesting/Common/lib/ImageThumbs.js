@@ -2,7 +2,8 @@
 if (window.location.host && window.location.host != '') { // launching when address to web-page
   arResComponents = [
                       "/-/speak/v1/contenttesting/TooltipCustom.js",
-                      "/-/speak/v1/contenttesting/RequestUtil.js"
+                      "/-/speak/v1/contenttesting/RequestUtil.js",
+                      "/-/speak/v1/assets/moment.min.js"
   ];
 }
 else { // launching of the code-coverage estemating
@@ -290,12 +291,9 @@ define(arResComponents, function (tooltip, requestUtil) {
             }
 
             if (item.createdDate) {
-              var d = new Date(parseInt(item.createdDate.substr(6)));
-              if (d) {
-                year = d.getFullYear();
-                month = this.pad(d.getMonth() + 1, 2);
-                day = this.pad(d.getDate(), 2);
-                finalDate = day + "-" + month + "-" + year;
+              var d = (new Date(item.createdDate));
+              if (d && !isNaN(d)) {
+                var finalDate = moment(d).format("DD-MMM-YYYY");
                 info += this.dictionary.get("Created:") + " " + finalDate + "</br>";
               }
             }

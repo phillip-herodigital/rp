@@ -164,6 +164,15 @@ function scOnLoad() {
   Event.observe(document.body, "contextmenu", function(e) {  
     e.stop();
   });
+
+  prepareHeaderButtons();
+}
+
+function prepareHeaderButtons() {
+  var globalLogo = document.getElementsByClassName("sc-global-logo");
+  if (globalLogo.length > 0) {
+    globalLogo[0].setAttribute("target", "_parent");
+  }
 }
 
 function scAdjustSize() {

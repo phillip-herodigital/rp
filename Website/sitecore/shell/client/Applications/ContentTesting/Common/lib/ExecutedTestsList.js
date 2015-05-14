@@ -1,11 +1,8 @@
 ﻿require.config({
-  paths: {
-    bindingUtil: "/-/speak/v1/contenttesting/BindingUtil",
-    editUtil: "/-/speak/v1/contenttesting/EditUtil"
-  }
+  baseUrl: '/sitecore/shell/client/Applications/ContentTesting/Common/lib'
 });
 
-define(["sitecore", "bindingUtil", "editUtil"], function (_sc, bindingUtil, editUtil) {
+define(["sitecore", "BindingUtil", "EditUtil", "DataUtil"], function (_sc, bindingUtil, editUtil, dataUtil) {
   return {
     ExecutedTestsList: function (options) {
       var mod = {
@@ -17,17 +14,17 @@ define(["sitecore", "bindingUtil", "editUtil"], function (_sc, bindingUtil, edit
 
         selectionChanged: function () {
           var selected = this._host.TestsList.get("selectedItem");
-          var hostId = selected.get("HostPageId")
-          var language = selected.get("Language");
-          if (!hostId) {
+
+          var hostUri = selected.get("HostPageUri");
+          if (!hostUri) {
             return;
           }
 
-          if (selected.get("ContentOnly")) {
-            editUtil.openPageTestPage(hostId, false, true, language);
+          if (selected.get("ContentOnly") && selected.get("TestType") != "Personalization") {
+            editUtil.openPageTestPage(hostUri, false, true);
           }
           else {
-            editUtil.openPageEditor(hostId, language);
+            editUtil.openPageEditor(hostUri);
           }
         }
       };

@@ -1,7 +1,8 @@
 ﻿(function () {
   var dependencies = (typeof window !== "undefined") ? ["sitecore", "/-/speak/v1/listmanager/cookieParser.js"] : [null, "./cookieParser"];
   define(dependencies, function (sitecore, cookieParser) {
-    var pageIndexKey = "pageIndex";
+    var pageIndexKey = "pageIndex",
+        ieAccessDeniedMessage = "At the moment, you cannot use or edit the list. Another user is using the list or its source. Please try again later.";
 
     return {
       cookieParser: cookieParser,
@@ -80,6 +81,9 @@
       showNotification: function (text, messageContainer) {
         this.showMessage(text, messageContainer, "notification", 10000);
       },
+      showNotificationWithPreviousMessage: function (text, messageContainer) {
+        this.showMessage(text, messageContainer, "notification", 10000, true);
+      },
       showPinnedNotification: function (text, messageContainer) {
         this.showMessage(text, messageContainer, "notification", 0);
       },
@@ -119,6 +123,7 @@
 
         return value;
       },
+      // ToDo: remove when file-downloader will be added to framework
       downloadFile: function (fileUrl, onErrorCallback) {
         var hiddenIFrameId = 'hiddenDownloader',
         iframe = document.getElementById(hiddenIFrameId);
@@ -131,9 +136,20 @@
         }
         iframe.src = fileUrl;
       },
+      // ToDo: remove when file-downloader will be added to framework
       onLoadHandler: function (iframe, onErrorCallback) {
-        if (iframe.contentDocument.body.innerText !== "") {
+        // This is specific IE case. Unknown type is presented in JScript
+        // implementation of ECMAScript
+        if (typeof iframe.contentDocument === "unknown") {
+          onErrorCallback(ieAccessDeniedMessage);
+        }
+        // Chrome case
+        else if (typeof iframe.contentDocument.body.innerText !== "undefined" && iframe.contentDocument.body.innerText !== "") {
           onErrorCallback(JSON.parse(iframe.contentDocument.body.innerText).Message);
+        }
+        // Firefox case
+        else if (typeof iframe.contentDocument.body.textContent !== "undefined" && iframe.contentDocument.body.textContent !== "") {
+          onErrorCallback(JSON.parse(iframe.contentDocument.body.textContent).Message);
         }
       },
       getLanguage: function () {

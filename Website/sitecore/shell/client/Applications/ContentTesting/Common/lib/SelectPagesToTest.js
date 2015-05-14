@@ -1,8 +1,8 @@
-﻿define([
-  "/-/speak/v1/contenttesting/BindingUtil.js",
-  "/-/speak/v1/contenttesting/VersionInfo.js",
-  "/-/speak/v1/contenttesting/DataUtil.js"],
-  function (bindingUtil, versionInfo, dataUtil) {
+﻿require.config({
+  baseUrl: '/sitecore/shell/client/Applications/ContentTesting/Common/lib'
+});
+
+define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUtil, versionInfo, dataUtil, idUtil) {
     var testItemsProperty = "testItemUris";
 
     var SelectPagesToTest = function (options) {
@@ -11,6 +11,7 @@
         _itemInfo: options.testItemDataSource,
         _testItemUriProperty: options.testItemUriProperty,
         _testItemTemplateIdProperty: options.testItemTemplateProperty,
+        _selectedLanguageProperty: options.selectedLanguageProperty,
         _selectItemDialog: options.selectItemDialog,
         _pageVersionTestAdded: false,
         _compareTemplates: options.compareTemplates,
@@ -205,8 +206,11 @@
 
           var self = this;
           var uri = new dataUtil.DataUri(itemUri);
-          versionInfo.getTestCandidateVersionNumber(uri.id, function (id, version, revision) {
-            if (self._addTestItem(id, version, revision)) {
+          versionInfo.getTestCandidateVersionNumber({
+            id: uri.id,
+            lang: uri.lang
+          }, function (id, version, revision, lang) {
+            if (self._addTestItem(id, lang, version, revision)) {
               self._host.AddPageDialog.hide();
               self._pageVersionTestAdded = true;
             }
@@ -224,8 +228,11 @@
           if (warningText && confirm(warningText)) {
             var self = this;
             var uri = new dataUtil.DataUri(itemUri);
-            versionInfo.addNewVersion(uri.id, function (id, version, revision) {
-              if (self._addTestItem(id, version, revision)) {
+            versionInfo.addNewVersion({
+              id: uri.id,
+              lang: uri.lang
+            }, function (id, version, revision, lang) {
+              if (self._addTestItem(id, lang, version, revision)) {
                 self._host.AddPageDialog.hide();
               }
             });
@@ -254,12 +261,14 @@
             alert(this._host.Texts.get("You must select a page to test"));
             return;
           }
+
+          var lang = this._host.get(this._selectedLanguageProperty);
           
           if (this._compareTemplates)
           {
             var templateId = this._host.get("selectedTemplateId");
             var testItemTemplateId = this._host.get(this._testItemTemplateIdProperty);
-            if (templateId != testItemTemplateId)
+            if (!idUtil.areEqual(templateId, testItemTemplateId))
             {
               alert(this._host.Texts.get("The selected page has a different template. Please select another page"));
               return;
@@ -267,8 +276,10 @@
           }
 
           var self = this;
-          versionInfo.getLatestVersionNumber(itemId, function (id, version, revision) {
-            if (self._addTestItem(id, version, revision)) {
+          versionInfo.getLatestVersionNumber({
+            id: itemId, lang: lang
+          }, function (id, version, revision, lang) {
+            if (self._addTestItem(id, lang, version, revision)) {
               self._selectItemDialog.hide();
             }
           });
@@ -315,13 +326,15 @@
             subapp.PageThumbnail.set({
               itemId: data.id,
               version: data.ver,
-              revision: data.rev
+              revision: data.rev,
+              language: data.lang
             });
           }
 
           subapp.ItemInfoDataSource.set("itemUri", data.toString());
           subapp.set("itemId", data.id);
           subapp.set("version", data.ver);
+          subapp.set("language", data.lang);
 
           // todo: Investigate why binding isn't working for this.
           subapp.ItemInfoDataSource.on("change:name", bindingUtil.propagateChange, {
@@ -383,11 +396,12 @@
           $(w).unload(refresh);
         },
 
-        _addTestItem: function (id, ver, rev) {
+        _addTestItem: function (id, lang, ver, rev) {
           // store this in the host app to make observation easier
 
           var toAdd = new dataUtil.DataUri();
           toAdd.id = id;
+          toAdd.lang = lang;
           toAdd.ver = ver;
           toAdd.rev = rev;
 
@@ -401,7 +415,7 @@
           var self = this;
 
           if (_.find(compareItems, function (item) {
-              return item.id == toAdd.id && item.ver == toAdd.ver;
+              return item.id == toAdd.id && item.lang == toAdd.lang && item.ver == toAdd.ver;
           }) != undefined) {
             alert(self._host.Texts.get("The item has already been added"));
             return false;

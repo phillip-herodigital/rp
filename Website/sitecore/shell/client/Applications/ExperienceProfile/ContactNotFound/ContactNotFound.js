@@ -3,12 +3,6 @@
   var app = sc.Definitions.App.extend({
     initialized: function () {
       cintelUtil.removeBreadCrumbLastLink(this.Breadcrumb);
-      
-      this.SearchTextBox.viewModel.$el.keyup($.proxy(function (e) {
-        if (e.keyCode == 13) {
-          this.SearchButton.viewModel.click();
-        }
-      }, this));
 
       var cid = decodeURIComponent(cintelUtil.getQueryParam("cid"));
       if (!cid) {
@@ -19,7 +13,7 @@
       this.ContactNotFoundMessageBar.addMessage("notification", notificationMessage);
     },
 
-    findContact: function () {
+    findContacts: function () {
       window.location.assign('search?text=' + encodeURIComponent(this.SearchTextBox.get('text')));
     }
   });

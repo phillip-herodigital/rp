@@ -15,7 +15,7 @@ To enable this include file, rename it to have a ".config" extension.
         <indexes>
           <index id="sitecore_marketing_asset_index_web" type="Sitecore.ContentSearch.SolrProvider.SolrSearchIndex, Sitecore.ContentSearch.SolrProvider">
             <param desc="name">$(id)</param>
-            <param desc="core">marketingdefinitions</param>
+            <param desc="core">$(id)</param>
             <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
             <strategies hint="list:AddStrategy">
               <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/onPublishEndAsync" />

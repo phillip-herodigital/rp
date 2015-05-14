@@ -72,23 +72,24 @@ define(["sitecore", "jqueryMouseWheel", "scrollPlugin"], function (_sc) {
     },
     scrollHandler: function (e, _this) {
       var scrollPadding = 50;
+      var scrollTop = _this.$el.find(".mCSB_container").position().top;
       if (_this.model.get("isEndlessScrollEnabled")) {
-        var scrollTop = _this.$el.find(".mCSB_container").position().top;
         var scrollHeight = _this.$el.find(".mCustomScrollBox").height();
         var totalScroll = _this.$el.find(".totalScrollOffset").position().top;
 
         scrollPadding = (totalScroll - scrollHeight - scrollPadding - 20) > 0 ? scrollPadding : 10;
 
         if (totalScroll + scrollTop - scrollHeight < scrollPadding) {
-          // store scroll position
+          
           this.lastScrollTop = -scrollTop;
-          // trigger action
           var invocation = _this.$el.data("sc-scrollmoredata");
           if (invocation) {
             _sc.Helpers.invocation.execute(invocation, { control: _this, app: _this.app });
           }
         }
       }
+      // store scroll position
+      this.lastScrollTop = -scrollTop;
     }
   });
 });

@@ -54,3 +54,16 @@ div[data-sc-id=BestPatternMatchesColumn] {
 div[data-sc-id=RecentCampaignsColumn] {
   padding-left: 0;
 }
+
+span.sc-text[data-sc-id=CampaignName],
+span.sc-text[data-sc-id=CampaignColon] {
+  font-weight: bold;
+}
+
+div.sc-border[data-sc-id=CampaignNameBorder] .sc-text-value {
+  display: inline;
+}
+
+span.sc-text[data-sc-id=CampaignColon] {
+  margin-right: 5px;
+}

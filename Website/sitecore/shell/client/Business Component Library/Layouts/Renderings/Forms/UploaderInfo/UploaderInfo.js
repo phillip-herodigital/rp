@@ -7,9 +7,13 @@
         updateInfo: function () {
             var percentage = this.model.get("percentage"),
             hasError = this.model.get("error");
+            
+            if (percentage > 0 || hasError) {
+              this.$el.find("input").attr("disabled", "disabled");
+              this.$el.find("textarea").attr("disabled", "disabled");
+            }
+          
             if (hasError) {
-                this.$el.find("input").attr("disabled", "disabled");
-                this.$el.find("textarea").attr("disabled", "disabled");
                 //this.$el.find(".remove").removeAttr("disabled");
                 //this.$el.find(".remove").remove();
                 this.$el.find(".remove").hide();
@@ -18,21 +22,18 @@
                 this.$el.find(".failed").fadeIn();
                 return;
             }
-            
+          
             if (percentage === 100) {
                 this.model.viewModel.done(true);
-                this.$el.find("input").attr("disabled", "disabled");
-                this.$el.find("textarea").attr("disabled", "disabled");
                 this.$el.find(".remove").removeAttr("disabled");
                 this.$el.find(".remove").remove();
                 this.$el.find(".progress").hide();
-                this.$el.find(".completed").fadeIn();                
+                this.$el.find(".completed").removeClass("hide").fadeIn();                
             } else if (percentage > 0) {
                 this.$el.find(".ready").addClass("hide");
                 this.$el.find(".progress").removeClass("hide").fadeIn();
                 this.$el.find(".remove").attr("disabled", "disabled");
             }
-
         },
         initialize: function (options) {
             this.parent = options.parent;

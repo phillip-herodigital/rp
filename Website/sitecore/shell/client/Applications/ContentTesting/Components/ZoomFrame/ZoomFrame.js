@@ -60,8 +60,11 @@
     zoomImage: function (e) {
       var targetElem = e.currentTarget;
 
+      var zoomElemWidth = window.outerWidth;
+      if (zoomElemWidth < window.innerWidth)
+        zoomElemWidth = window.innerWidth + 10;
       this._dvZoomElem.css({
-        width: window.outerWidth,
+        width: zoomElemWidth,
         height: window.outerHeight,
         display: "block"
       });

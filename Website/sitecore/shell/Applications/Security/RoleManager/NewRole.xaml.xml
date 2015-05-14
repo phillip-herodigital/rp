@@ -15,7 +15,7 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <Literal class="scFieldLabel" Text="The role name can only contain the following characters: A-Z, a-z, 1-9 and space." runat="server"/>
+      <Literal class="scFieldLabel" Text="The role name can only contain the following characters: A-Z, a-z, 0-9 and space." runat="server"/>
       <GridPanel class="scFormTable" Columns="2" Rows="2" Width="100%" runat="server">
 
         <Literal class="scFieldLabel" Text="Role name:" runat="server"/>

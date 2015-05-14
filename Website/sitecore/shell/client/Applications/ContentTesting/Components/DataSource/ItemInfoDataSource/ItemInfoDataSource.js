@@ -32,7 +32,8 @@
         bounceRate: null,
         averageDuration: null,
         warnings: null,
-        hasWarnings: false
+        hasWarnings: false,
+        hasActiveTest: false
       });
 
       this.on("change:itemUri", this.updateItemId, this);
@@ -92,7 +93,8 @@
                 bounceRate: data.BounceRate,
                 averageDuration: data.AverageDuration,
                 warnings: data.Warnings,
-                hasWarnings: data.Warnings && data.Warnings.length > 0
+                hasWarnings: data.Warnings && data.Warnings.length > 0,
+                hasActiveTest: data.HasActiveTest
               });
             }
           },

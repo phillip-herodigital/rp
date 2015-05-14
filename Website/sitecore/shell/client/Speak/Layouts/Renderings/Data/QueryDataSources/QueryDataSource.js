@@ -81,13 +81,15 @@
           return;
         }
         
-        //extend items with formated fields property
-        if (this.get("formatting") == "$send_localized_dates") {
+        // logic for parsing dates when $send_localized_dates formatting is set
+        var formatting = this.get("formatting");
+        if (formatting && formatting.toLowerCase().indexOf("$send_localized_dates") > -1) {
           _.each(items, function (item) {
-            var formatedFields = [];
+            var formattedFields = [];
             _.each(item.$fields, function (field) {
-              if (field.type == "datetime") {
-                formatedFields[field.fieldName] = {
+              var fieldType = field.type ? field.type.toLowerCase() : '';
+              if (fieldType === "datetime" || fieldType === "date") {
+                formattedFields[field.fieldName] = {
                   type: field.type,
                   formattedValue: field.formattedValue,
                   longDateValue: field.longDateValue,
@@ -95,8 +97,12 @@
                 };
               }
             });
-            
-            item.$formatedFields = formatedFields;
+            //obsolete should be removed when the breaking changes can be introduced
+            //extend item with formated fields
+            item.$formatedFields = formattedFields;
+
+            //corrected property  '$formatedFields' -> '$formattedFields'
+            item.$formattedFields = formattedFields;
           });
         }
         

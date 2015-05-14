@@ -16,7 +16,6 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       wCreds = window.XMLHttpRequest && "withCredentials" in new XMLHttpRequest,
       hasXMLRequestLevel2 = progEv && fdata && wCreds,
       ONLYIMAGE = /^(image\/bmp|image\/dib|image\/gif|image\/jpeg|image\/jpg|image\/jpe|image\/jfif|image\/png|image\/tif|image\/tiff)$/i,
-      totalSize = 0,
       uploadedSize = 0,
       iMaxFilesize = 10485760, // 10MB
       fileSizeExceededErrorMessage = "",
@@ -45,10 +44,10 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       validateFiles = function (files) {
         _.each(files, validateFile);
       },
-      prepareData = function (file, oImage) {
+      prepareData = function (file, component) {
         file.__id = _.uniqueId("file_");
         var size = file.size || 0;        
-        totalSize += size;
+        component.totalSize += size;
         return {
           id: file.__id,
           name: removeExtension(file.name),
@@ -63,12 +62,12 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           alternate: ""
         };
       },
-      setupDataForFiles = function (preview, files, collection, cb) {
+      setupDataForFiles = function (preview, files, component, cb) {
         var that = this;
 
         _.each(files, function (file) {
           var oImage = preview.clone().get(0),
-              modelJSON = prepareData(file);
+              modelJSON = prepareData(file, component);
 
           var isImg = ONLYIMAGE.test(file.type);
           if (typeof FileReader !== "undefined" && isImg) {
@@ -84,7 +83,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
                 modelJSON.height = oImage.naturalHeight;
                 modelJSON.error = false;
                 var model = new _sc.Definitions.Models.Model(modelJSON);
-                collection.add(model);
+                component.collection.add(model);
                 cb(modelJSON);
               };
             };
@@ -92,7 +91,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           } else {
             modelJSON.image = "/sitecore/shell/client/Speak/Assets/img/Speak/Uploader/upload_file_icon.png";
             modelJSON.error = false;
-            collection.add(new _sc.Definitions.Models.Model(modelJSON));
+            component.collection.add(new _sc.Definitions.Models.Model(modelJSON));
             cb(modelJSON);
           }
         }, this);
@@ -118,7 +117,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           ++index;
         }, this);
 
-        totalSize = totalSize - model.get("size");
+        this.totalSize = this.totalSize - model.get("size");
 
         this.collection.remove(model);
 
@@ -181,8 +180,10 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
         _base.prototype.set.call(this, key, value, options);  
       }
     },
-    
-    initialize: function () {
+
+    initialize: function() {
+      this.totalSize = 0;
+
       var databaseUri = new _sc.Definitions.Data.DatabaseUri("core"),
         database = new _sc.Definitions.Data.Database(databaseUri);      
       
@@ -242,7 +243,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
     },
     
     getTotalSize: function () {
-      var hasFilesToUpload = this.model.get("totalFiles") && totalSize < this.model.get("maxRequestLength");
+      var hasFilesToUpload = this.model.get("totalFiles") && this.totalSize < this.model.get("maxRequestLength");
 
       if (this.model.get("hasFilesToUpload") !== hasFilesToUpload && !this.model.get("queueWasAborted")) {
         this.model.set("hasFilesToUpload", hasFilesToUpload);
@@ -253,15 +254,15 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
         this.model.set("hasFilesToUpload", false);
       }
       
-      return bytesToSize(totalSize);
+      return bytesToSize(this.totalSize);
     },
     
     setFileSizeExceeded: function () {
       var errorId = "upload-error-fileSizeExceeded";
       
-      if (totalSize > this.model.get("maxRequestLength")) {
+      if (this.totalSize > this.model.get("maxRequestLength")) {
         this.app.trigger("sc-error", [{ id: errorId, Message: fileSizeExceededErrorMessage + " " + bytesToSize(this.model.get("maxRequestLength")) }]);
-        this.app.trigger(errorId, totalSize);
+        this.app.trigger(errorId, this.totalSize);
       } else {
         this.app.trigger("sc-uploader-remove", { id: errorId });
       }
@@ -371,7 +372,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           
           // Resets everything
           that.datas = [];
-          totalSize = 0;
+          that.totalSize = 0;
           uploadedSize = 0;
           that.model.set("queueWasAborted", true);
         }
@@ -408,7 +409,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           that.model.set("totalFiles", (currentNumber + files.length));
 
           validateFiles(files);
-          setupDataForFiles(that.$preeview, files, that.collection, function (model) {
+          setupDataForFiles(that.$preeview, files, that, function (model) {
 
             /*if (data.form) {
                 data.form.__id = model.id;

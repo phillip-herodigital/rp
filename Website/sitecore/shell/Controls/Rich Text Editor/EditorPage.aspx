@@ -26,7 +26,21 @@
     <asp:Placeholder runat="server" ID="ScriptConstants" />
 
     var scRichText = new Sitecore.Controls.RichEditor(scClientID);
-    var currentKey = null;      
+    var currentKey = null;  
+    
+    var $j = jQuery.noConflict();
+ 
+    $j(document).ready(function() {      
+        $j(".reMode_design").click(function(){
+            RemoveInlineScripts();
+        });
+    });
+
+    function RemoveInlineScripts() {
+        if (scRemoveScripts === "true") {
+            removeInlineScriptsInRTE(scRichText);
+        }
+    }
 
     function scLoad(key, html) {
       if (key == currentKey) {
@@ -80,7 +94,8 @@
       }
 
       $("EditorValue").value = editor.get_html(true);
-
+        
+        RemoveInlineScripts();
       scForm.browser.clearEvent(evt);
         
       scForm.postRequest("", "", "", command);
@@ -127,7 +142,7 @@
     <telerik:RadScriptManager ID="ScriptManager1" runat="server" />
 
     <input type="hidden" id="EditorValue" />
-
+ 
     <div class="scStretch scFlexColumnContainer">
 
       <div class="scFlexContent">
@@ -155,8 +170,6 @@
                 MediaManager-UploadPaths="/media library"
                 MediaManager-DeletePaths="/media library"
                 MediaManager-ViewPaths="/media library"
-                DocumentManager-DeletePaths="/"
-                DocumentManager-ViewPaths="/"
                 TemplateManager-UploadPaths="/media library"
                 TemplateManager-DeletePaths="/media library"
                 TemplateManager-ViewPaths="/media library"
@@ -189,6 +202,11 @@
         </div>
       </div>
     </div>
-  </form>
-</body>
+        
+        <script type="text/javascript">
+            fixFirefoxPaste();
+        </script>
+
+    </form>
+  </body>
 </html>

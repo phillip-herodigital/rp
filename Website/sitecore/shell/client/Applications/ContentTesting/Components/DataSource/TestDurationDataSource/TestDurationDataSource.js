@@ -6,12 +6,15 @@
     initialize: function (options) {
       this._super();
 
+      var params = Sitecore.Helpers.url.getQueryParameters(window.location.href);
+
       this.set({
         actionUrl: "/sitecore/shell/api/ct/TestVariables/GetExpectedTestDuration",
         actionUrlForPageTest: "/sitecore/shell/api/ct/TestVariables/GetExpectedTestDurationForPageTest",
         isBusy: false,
         invalidated: false,
         itemUri: null,
+        device: params.device || null,
         additionalPageCount: null,
         trafficAllocation: 0,
         confidence: 0,
@@ -45,7 +48,11 @@
       var url = "";
 
       if (this.get("additionalPageCount") !== null) {
-        url = this.get("actionUrlForPageTest") + "?additionalPageCount=" + this.get("additionalPageCount");
+        var additionalPageCount = this.get("additionalPageCount");
+        if (additionalPageCount > 0)
+        {
+          url = this.get("actionUrlForPageTest") + "?additionalPageCount=" + additionalPageCount;
+        }
       }
       else {
         var disabledVariantIds = "?";
@@ -61,7 +68,8 @@
       url +=
         "&itemuri=" + this.composeUri() +
         "&trafficAllocationPercentage=" + (this.get("trafficAllocation") || "") +
-        "&confidencePercentage=" + (this.get("confidence") || "");
+        "&confidencePercentage=" + (this.get("confidence") || "") +
+        "&deviceId=" + (this.get("device") || "");
 
       var ajaxOptions = {
         cache: false,

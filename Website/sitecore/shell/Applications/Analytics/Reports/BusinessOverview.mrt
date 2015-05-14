@@ -144,14 +144,14 @@
       <value>Texts,RecencyText,RecencyText,System.String,Recency,False,False</value>
       <value>Texts,ActivityLevelText,ActivityLevelText,System.String,Activity_x0020_Level,False,False</value>
       <value>Texts,ReportDescriptionVar,ReportDescriptionVar,System.String,Report_x0020_description,False,False</value>
-      <value>Texts,Top_Visitors_By_Recency_ValueText,Top_Visitors_By_Recency_ValueText,System.String,Top_x0020__x007B_0_x007D__x0020_Visitors_x0020__x0028_by_x0020_recency_x002C__x0020_value_x0029_,False,False</value>
+      <value>Texts,Top_Visitors_By_Recency_ValueText,Top_Visitors_By_Recency_ValueText,System.String,Top_x0020__x007B_0_x007D__x0020_Contacts_x0020__x0028_by_x0020_recency_x002C__x0020_value_x0029_,False,False</value>
       <value>Texts,ValueText,ValueText,System.String,Value,False,False</value>
       <value>Texts,VisitsText,VisitsText,System.String,Visits,False,False</value>
       <value>Texts,EmailText,EmailText,System.String,Email,False,False</value>
       <value>Texts,Total_Conversions_By_ValueText,Total_Conversions_By_ValueText,System.String,Total_x0020_Conversions_x0020__x0028_byValue_x0029_,False,False</value>
       <value>Texts,GoalsText,GoalsText,System.String,Goals,False,False</value>
-      <value>Texts,VisitorsText,VisitorsText,System.String,Visitors,False,False</value>
-      <value>Texts,Total_VisitorsText,Total_VisitorsText,System.String,Total_x0020_Visitors,False,False</value>
+      <value>Texts,VisitorsText,VisitorsText,System.String,Contacts,False,False</value>
+      <value>Texts,Total_VisitorsText,Total_VisitorsText,System.String,Total_x0020_Contacts,False,False</value>
       <value>Texts,N_AText,N_AText,System.String,N_x002F_A,False,False</value>
       <value>Texts,BusinessUnitText,BusinessUnitText,System.String,Business_x0020_Unit,False,False</value>
       <value>,AnonymousText,AnonymousText,System.String,Anonymous,False,False</value>

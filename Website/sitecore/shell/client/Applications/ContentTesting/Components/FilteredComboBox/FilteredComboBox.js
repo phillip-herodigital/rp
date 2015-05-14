@@ -28,10 +28,14 @@ define(["sitecore"], function (_sc) {
       initialize: function (options) {
         this._super();
 
+        this.set("totalItems", 0);
         this.set("items", []);
         this.set("selectedItem", "");
         this.set("selectedGuid", "");
         this.set("selectedName", "");
+        this.set("searchTerm","");
+        this.set("pageSize", 5);
+        this.set("page", 1);
       }
     });
 
@@ -90,7 +94,7 @@ define(["sitecore"], function (_sc) {
       var hintText = this.$el.data("sc-hinttext");
       this.model.set("HintText", hintText);
 
-      this.model.on("change:items", this.populate, this);
+      this.model.on("change:items change:totalItems", this.populate, this);
       this.model.on("change:selectedItem", this.selectedItemChanged, this);
       this.model.on("change:selectedGuid", this.selectByGuid, this);
       this.model.on("change:selectedItem", function () {
@@ -116,6 +120,16 @@ define(["sitecore"], function (_sc) {
 
 
       var $dvList = this.$el.find(".scFiltList-dvList");
+      
+      var searchButton = this.$el.find(".scFiltList-dvSearch");
+      searchButton.click(function(){
+        var term = self.$el.find(".scFiltList-inputSearch").val().toLowerCase();
+        if (term !== hintText.toLowerCase())
+        {
+          self.model.set({"searchTerm": term, "page":1});
+        }
+      });
+      
 
       // inputSearch
       var inputSearchElem = this.$el.find('.scFiltList-inputSearch');
@@ -134,8 +148,16 @@ define(["sitecore"], function (_sc) {
         if ($dvList.css("visibility") === "visible")
           $dvList.css("visibility", "hidden");
         else if (self.isEnabled()) {
-          inputSearchElem.val(hintText);
-          inputSearchElem.addClass("hintText");
+          var searchTerm = self.model.get("searchTerm");
+          if (searchTerm != "")
+          {
+            inputSearchElem.val(searchTerm);
+          }
+          else
+          {
+            inputSearchElem.val(hintText);
+            inputSearchElem.addClass("hintText");
+          }
 
           self.filteredText = "";
           self.renderComponent();
@@ -218,14 +240,14 @@ define(["sitecore"], function (_sc) {
       this.itemsSortDesc.sort(this.sortDesc);
 
       // launching timer: for filtering and sorting
-      if (this.timer > 0)
+      /*if (this.timer > 0)
         clearInterval(this.timer);
       var intervalPeriod = 200;
       if (this.items.length > 1000)
         intervalPeriod = 1000;
       this.timer = setInterval(function () {
         self.timerHandle();
-      }, intervalPeriod);
+      }, intervalPeriod);*/
 
       // renreding
       this.renderComponent();
@@ -335,6 +357,46 @@ define(["sitecore"], function (_sc) {
       var $liSel = self.$ulContent.find(".scFiltList-liSelected");
       if ($liSel.length === 0)
         this.$ulContent.children().first().addClass("scFiltList-liSelected");
+        
+      var pagingBar = this.$el.find(".scFiltList-dvResultCount");
+      this.renderPaginator(pagingBar);
+    },
+    
+    renderPaginator : function(container)
+    {
+      container.empty();
+      
+      var self = this;
+      var pageSize = this.model.get("pageSize");
+      var totalItems = this.model.get("totalItems");
+      var totalPages = Math.ceil(totalItems/pageSize);
+      if (totalItems == 0)
+      {
+        totalPages = 1;
+      }
+      var page = this.model.get("page");
+      var result = "page " + page + " of " + totalPages;
+      var resultDiv = $("<div class='scFiltList-dvPageCount'></div>");
+      resultDiv.append(result);
+      container.append(resultDiv);
+      
+      if (page > 1)
+      {
+        var backward = $("<div class='scFilList-dvPrevPage'></div>");
+        backward.click(function(){
+          self.model.set("page", page-1);
+        });
+        container.append(backward);
+      }
+      
+      if (page+1<= totalPages)
+      {
+        var forward = $("<div class='scFilList-dvNextPage'></div>");
+        forward.click(function(){
+          self.model.set("page", page+1);
+        });
+        container.append(forward);
+      }
     },
 
     // adding of the item
@@ -358,6 +420,7 @@ define(["sitecore"], function (_sc) {
 
         var itemFind = self.getItemOfLiSelected();
         self.setSelectedItem(itemFind);
+        event.preventDefault();
       });
     },
 
@@ -472,7 +535,7 @@ define(["sitecore"], function (_sc) {
       if ($dvList.css("visibility") === "visible") {
         var top = $dvList.offset().top - this.$el.find(".scFiltList-btnList")[0].offsetHeight;
         var left = $dvList.offset().left;
-        var height = $dvList.height();
+        var height = $dvList.height() + this.$el.find(".scFiltList-btnList")[0].offsetHeight;
         var width = $dvList.outerWidth();
         var isLocated = event.pageX > left && event.pageX < (left + width)
                         && event.pageY > top && event.pageY < (top + height);

@@ -64,7 +64,7 @@
         <td class="sc-advancedExpander-header-title">
           <span class="sc-advancedExpander-header-title-text" data-bind="text: header">@header</span>
         </td>
-        <td class="sc-advancedExpander-header-actionbar" data-bind="css: {'sc-actionbar-collapsed': !isOpen() }"><div class="sc-advancedExpander-header-actionbar-container" data-bind="visible: isOpen">@this.Html.Sitecore().Placeholder(controlId + ".ActionBar")</div></td>
+        <td class="sc-advancedExpander-header-actionbar" data-bind="css: {'sc-actionbar-collapsed': !showActionBar() }"><div class="sc-advancedExpander-header-actionbar-container" data-bind="visible: showActionBar">@this.Html.Sitecore().Placeholder(controlId + ".ActionBar")</div></td>
         @if (isCollapsible)
         {
           <td class="sc-advancedExpander-header-chevron">

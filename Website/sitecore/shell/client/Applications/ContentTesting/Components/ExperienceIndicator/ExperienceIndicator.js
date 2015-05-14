@@ -99,7 +99,19 @@ define(["sitecore", "jqueryui"], function (_sc) {
           $(this).removeClass("scExp-dvExperienceSelected");
           $(this).addClass("scExp-dvExperienceWhite");
         });
-        var selected = this.$el.find("#"+id);
+
+        var parentElem;
+        // if "GroupName" is defined - find it's html-elem(parent for items)
+        if (selectedItem.GroupName && selectedItem.GroupName != null && selectedItem.GroupName != '') {
+          parentElem = this.$el.find("[id='" + selectedItem.GroupName + "']");
+          if (parentElem.length == 0) {
+            parentElem = this.$el;
+          }
+        } else {
+          parentElem = this.$el;
+        }        
+
+        var selected = parentElem.find("#" + id);
         selected.addClass("scExp-dvExperienceSelected").removeClass("scExp-dvExperienceWhite");
         this.selectedItemElem = selected[0];
       }      
@@ -422,7 +434,11 @@ define(["sitecore", "jqueryui"], function (_sc) {
         self.selectedItemElem = event.currentTarget;
         $(event.currentTarget).removeClass("scExp-dvExperienceHover").addClass("scExp-dvExperienceSelected");
 
-        var findItem = self.findItemById(self.selectedItemElem.id);
+        var groupName;
+        var parElem = $(self.selectedItemElem).parent();
+        if (parElem.length > 0 && parElem[0].id && parElem[0].id != '')
+          groupName = parElem[0].id;
+        var findItem = self.findItemById(self.selectedItemElem.id, groupName);
         if (findItem)
           self.model.set("selectedItem", findItem);
       });
@@ -481,12 +497,21 @@ define(["sitecore", "jqueryui"], function (_sc) {
     },
 
     // finding item by id
-    findItemById: function (id) {
+    findItemById: function (id, groupName) {
       var groups = this.model.get("items");
 
       var findItem = null;
       for (var i = 0; i < groups.length; i++) {
         var group = groups[i];
+        
+        if (groups.length > 1)
+        {
+          if (groupName && groupName != '' && group.name != '' && groupName != group.name)
+          {
+            continue;
+          }
+        }
+        
         for (var j = 0; j < group.items.length; j++) {
           var item = group.items[j];
           if (item.guid && item.guid !== '' && item.guid === id) {

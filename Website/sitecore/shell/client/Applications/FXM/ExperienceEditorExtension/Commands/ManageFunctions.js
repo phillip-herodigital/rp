@@ -6,9 +6,7 @@
         },
         execute: function (context) {
 
-            var itemId = Sitecore.Helpers.url.getQueryParameters(window.parent.location.href)["sc_itemid"] || '';
-
-            var dialogPath = "/sitecore/client/Applications/FXM/ExperienceEditorExtension/Dialogs/ManageFunctions?sc_itemId=" + itemId;
+            var dialogPath = "/sitecore/client/Applications/FXM/ExperienceEditorExtension/Dialogs/ManageFunctions";
             var dialogFeatures = "dialogHeight:450;dialogWidth:700;ignoreSpeakSizes:true";
 
             Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function(result) {

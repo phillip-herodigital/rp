@@ -1,4 +1,4 @@
-define(["sitecore", "knockout"], function (sc, ko)
+define(["sitecore", "knockout", "underscore"], function (sc, ko, _)
 {
   // Clears checkedItems array when control gets new data.
   function addRefreshEventHandler(control)
@@ -63,7 +63,55 @@ define(["sitecore", "knockout"], function (sc, ko)
     this.globalCheck.prop("checked", false);
     this.checkAll();
   }
-  
+
+  function checkAllItems(model) {
+    var items = model.get("items");
+    var checkedItemIds = model.get("checkedItemIds");
+    var checkedItems = model.get("checkedItems");
+
+    var addedItems = [];
+    var addedIds = [];
+
+    _.each(items, function (item) {
+      if (!_.contains(checkedItemIds, item.itemId) && !_.contains(addedIds, item.itemId)) {
+        addedIds.push(item.itemId);
+      }
+
+      if (!_.contains(checkedItems, item)) {
+        addedItems.push(item);
+      }
+    });
+
+    var newCheckedItems = [].concat(items);
+    model.set("checkedItems", newCheckedItems, { silent: true });
+    model.trigger("change:checkedItems", createChangeArgument(addedItems, []));
+
+    // remove this trigger when breaking changes are allowed
+    model.trigger("change", model, newCheckedItems);
+
+    model.set("checkedItemIds", checkedItemIds.concat(addedIds), { silent: true });
+    model.trigger("change:checkedItemIds", createChangeArgument(addedIds, []));
+  }
+
+  function uncheckAllItems(model) {
+    var removedItems = model.get("checkedItems");
+    var removedIds = model.get("checkedItemIds");
+
+    var newCheckedItems = [];
+    model.set("checkedItems", newCheckedItems, { silent: true });
+    model.trigger("change:checkedItems", createChangeArgument([], removedItems));
+
+    // remove this trigger when breaking changes are allowed
+    model.trigger("change", model, newCheckedItems);
+
+    model.set("checkedItemIds", [], { silent: true });
+    model.trigger("change:checkedItemIds", createChangeArgument([], removedIds));
+  }
+
+  function createChangeArgument(added, removed) {
+    return { added: added, removed: removed };
+  }
+
   sc.Factories.createBehavior("MultiSelectList", {
     events: {
       "change .sc-cb": "check",
@@ -124,9 +172,16 @@ define(["sitecore", "knockout"], function (sc, ko)
       }
 
       items = convertToIdArray(items);
-      
-      this.model.set("checkedItemIds", _.union(this.model.get("checkedItemIds"), items));
-      setChecked(this, items, true);
+
+      var checkedItemIds = this.model.get("checkedItemIds");
+      var newCheckedItemIds = _.union(checkedItemIds, items);
+      var addedItemIds = _.chain(items).difference(checkedItemIds).uniq().value();
+
+      if (checkedItemIds.length !== newCheckedItemIds.length) {
+        this.model.set("checkedItemIds", newCheckedItemIds, { silent: true });
+        this.model.trigger("change:checkedItemIds", createChangeArgument(addedItemIds, []));
+        setChecked(this, items, true);
+      }
     },
     
     uncheckItem: function (item)
@@ -143,22 +198,34 @@ define(["sitecore", "knockout"], function (sc, ko)
 
       items = convertToIdArray(items);
 
-      this.model.set("checkedItemIds", _.difference(this.model.get("checkedItemIds"), items));
-      setChecked(this, items, false);
+      var checkedItemIds = this.model.get("checkedItemIds");
+      var newCheckedItemIds = _.difference(checkedItemIds, items);
+      var removedItemIds = _.chain(items).intersection(checkedItemIds).uniq().value();
+
+      if (checkedItemIds.length !== newCheckedItemIds.length) {
+        this.model.set("checkedItemIds", newCheckedItemIds, { silent: true });
+        this.model.trigger("change:checkedItemIds", createChangeArgument([], removedItemIds));
+        setChecked(this, items, false);
+      }
     },
 
-    checkAll: function ()
-    {
-      var checked = this.globalCheck.is(":checked");
-      _.each(this.allCheck, function(el)
-      {
-        updateCheckBox(el, checked);
-      });
-      
-      if(!checked)
-      {
-        this.currentSelection = [];                                      
+    checkAll: function () {
+      var isChecked = this.globalCheck.is(":checked");
+      var $checkBoxes = this.$el.find(".sc-cb");
+
+      if (isChecked) {
+        this.model.set("selectedItemId", null);
+        this.currentSelection = [];
+
+        checkAllItems(this.model);
+        $checkBoxes.closest("tr").addClass("checked");
+      } else {
+        uncheckAllItems(this.model);
+        $checkBoxes.closest("tr").removeClass("checked");
       }
+
+      $checkBoxes.prop("checked", isChecked);
+      this.$el.find(".sc-cball").prop("checked", isChecked);
     },
         
     checkCell: function (evt) {
@@ -181,60 +248,55 @@ define(["sitecore", "knockout"], function (sc, ko)
           $row = $current.closest("tr"),
           rowItem,
           checkedItemsResult,
-          checkedItemIdsResult,
-          rowItemCalc = {};
+          checkedItemIdsResult;
       
-      //getting the ko context item
-      rowItem = getRowData($row);
-      
-      //translate ko-observable properties into regular values
-      _.each(rowItem, function (value, key) {
-        
-        if (_.isFunction(value) && (ko.isObservable(value) || ko.isComputed(value))) {
-          rowItemCalc[key] = value();
-        }
-      });
-      rowItem = rowItemCalc;
+      rowItem = this.model.get("items")[$row.index()];
 
-      //this.model.set("checkedItemIds", []);
+      var colItems = this.model.get("checkedItems"),
+          colItemIds = this.model.get("checkedItemIds");
 
       if ($current.is(":checked")) {
-        var colItems = this.model.get("checkedItems"),
-          colItemIds = this.model.get("checkedItemIds"),
-          containsItemId = _.contains(colItemIds, rowItem.itemId),
-          containsItem = _.some(colItems, function(item) { return item.itemId === rowItem.itemId; });
-          
+        var containsItemId = _.contains(colItemIds, rowItem.itemId),
+            containsItem = _.contains(colItems, rowItem);
+
         if (!containsItem) {
           colItems.push(rowItem);
-          this.model.set("checkedItems", colItems, { force: true });
+          this.model.set("checkedItems", colItems, { silent: true });
           this.model.trigger("change", this.model, colItems);
-          this.model.trigger("change:checkedItems");
+          this.model.trigger("change:checkedItems", createChangeArgument([rowItem], []));
         }
 
         if (!containsItemId) {
           colItemIds.push(rowItem.itemId);
-          this.model.set("checkedItemIds", colItemIds, { force: true });
-          this.model.trigger("change:checkedItemIds");
+          this.model.set("checkedItemIds", colItemIds, { silent: true });
+          this.model.trigger("change:checkedItemIds", createChangeArgument([rowItem.itemId], []));
         }
 
         this.model.set("selectedItemId", null);
         $current.closest("tr").addClass("checked");
       } else {
-     
-          checkedItemsResult = _.filter(this.model.get("checkedItems"), function (item) {
-            return item.itemId !== rowItem.itemId;
-          });
-          this.model.set("checkedItems", checkedItemsResult);
-          this.model.trigger("change", this.model, checkedItemsResult);
-          
-          checkedItemIdsResult = _.filter(this.model.get("checkedItemIds"), function (item) {
-            return item !== rowItem.itemId;
-          });
+        checkedItemsResult = _.filter(colItems, function (item) {
+          return item !== rowItem;
+        });
 
-          this.model.set("checkedItemIds", checkedItemIdsResult);
-          $current.closest("tr").removeClass("checked");
-      }      
-      
+        if (checkedItemsResult.length !== colItems.length) {
+          this.model.set("checkedItems", checkedItemsResult, { silent: true });
+          this.model.trigger("change", this.model, checkedItemsResult);
+          this.model.trigger("change:checkedItems", createChangeArgument([], [rowItem]));
+        }
+
+        checkedItemIdsResult = _.filter(colItemIds, function (itemId) {
+          return itemId !== rowItem.itemId;
+        });
+
+        if (checkedItemIdsResult.length !== colItemIds.length) {
+          this.model.set("checkedItemIds", checkedItemIdsResult, { silent: true });
+          this.model.trigger("change:checkedItemIds", createChangeArgument([], [rowItem.itemId]));
+        }
+
+        $current.closest("tr").removeClass("checked");
+      }
+
       var rowsNumber = this.$el.find(".sc-table tbody tr").length;
       var checkedRows = this.$el.find(".sc-cb:checked").length;
 

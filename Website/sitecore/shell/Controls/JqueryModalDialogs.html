@@ -167,6 +167,7 @@
       var contentIframe = $('<iframe id="scContentIframeId' + top._scDialogs.length + '" frameBorder="0" scrolling="auto" />').appendTo($(top.document.getElementById("jqueryModalDialogsFrame").contentWindow.document.body));
 
       var dialogOptions = {
+        closeText: top.scForm.translate("Close"),
         modal: true,
         draggable: !isMobileBrowser(),
         height: dialogHeight,

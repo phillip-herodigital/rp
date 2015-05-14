@@ -56,9 +56,35 @@
 
 <style>
     /* adding this in .css file doesn't affect the positioning during initial load */
-     .sc-progressindicator-inner {
-         top: 405px;
-         left: 455px;
+    .sc-progressindicator-inner {
+        top: 405px;
+        left: 455px;
+    }
+
+    /* adding these styles here as a workaround for FF not being able to show SVG fill via # pattern reference (#350) */
+    circle.current {
+        stroke: none !important;
+        fill: url(#icon);
+    }
+
+    circle.current.dimmed {
+        fill: url(#icon-dimmed);
+        stroke-width: 0;
+    }
+
+    circle.current.selected {
+        fill: url(#icon);
+        stroke-width: 0;
+    }
+
+    .back {
+        fill: url(#back);
+        stroke: none !important;
+    }
+
+    .back:hover {
+        fill: url(#back-hover);
+        stroke: none !important;
      }
 </style>
 
@@ -66,10 +92,10 @@
     <svg id="viz" width="900" height="495">
         <defs id="mdef">
             <pattern id="icon" x="0" y="0" height="26" width="26">
-                <image x="0" y="0" width="26" height="26" xlink:href="/Sitecore/Shell/client/Applications/PathAnalyzer/img/icon.png">
+                <image x="0" y="0" width="26" height="26" xlink:href="/Sitecore/Shell/client/Applications/PathAnalyzer/img/icon.png"></image>
             </pattern>
             <pattern id="icon-dimmed" x="0" y="0" height="26" width="26">
-                <image x="0" y="0" width="26" height="26" xlink:href="/Sitecore/Shell/client/Applications/PathAnalyzer/img/icon_dimmed.png">
+                <image x="0" y="0" width="26" height="26" xlink:href="/Sitecore/Shell/client/Applications/PathAnalyzer/img/icon_dimmed.png"></image>
             </pattern>
             <pattern id="back" x="0" y="0" height="36" width="36">
                 <image x="0" y="0" width="36" height="36" xlink:href="/Sitecore/Shell/client/Applications/PathAnalyzer/img/back_button.png"></image>

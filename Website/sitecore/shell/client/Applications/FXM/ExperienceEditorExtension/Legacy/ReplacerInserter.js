@@ -6,6 +6,8 @@
     "/-/speak/v1/FXM/ExperienceEditorExtension/Commands/CreateReplacer.js" // used through legacy selector 
 ], function (_sc, _scl, $sc, _fxm) {
 
+    var translator = null;
+
     var beforeKey = "{B8F49EBF-2542-4CB0-B3BB-63858918CE8B}",
         afterKey = "{18F0F47F-2214-4F23-B6FA-F2D86A0C9E5A}",
         replaceKey = "{FDBF46B4-5B52-4C7A-A254-B588EC52944E}";
@@ -18,18 +20,18 @@
 
         activate: function () {
             this.addTarget('top', this.placeholder, beforeKey, {
-                tooltip: "Add a new placeholder before the element",
-                header: "Add before"
+                tooltip: translator.translate("Add a new placeholder before the element"),
+                header: translator.translate("Add before")
             });
             
             this.addTarget('middle', this.placeholder, replaceKey, {
-                tooltip: "Add a new placeholder instead of the element",
-                header: "Replace"
+                tooltip: translator.translate("Add a new placeholder instead of the element"),
+                header: translator.translate("Replace")
             });
             
             this.addTarget('after', this.placeholder, afterKey, {
-                tooltip: "Add a new placeholder after the element",
-                header: "Add after"
+                tooltip: translator.translate("Add a new placeholder after the element"),
+                header: translator.translate("Add after")
             });
         },
 
@@ -66,4 +68,10 @@
             _sc.Commands.executeCommand('Sitecore.Speak.Commands.CreateReplacer', context);
         }
     });
+
+    return {
+        initialize: function (translations) {
+            translator = translations;
+        }
+    };
 });

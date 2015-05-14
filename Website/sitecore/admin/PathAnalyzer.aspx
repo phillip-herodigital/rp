@@ -48,6 +48,9 @@
           </ul>
         </div>
         <div class="section">
+          <asp:Literal ID="ltlManagerMessage" runat="server" />
+        </div>
+        <div class="section">
           <h3>Deploy individual maps</h3>
           <asp:Repeater ID="rptMaps" runat="server" OnItemCommand="rptMaps_OnItemCommand">
             <HeaderTemplate>
@@ -103,6 +106,10 @@
         <div class="section">
           <h3>New Map Agent</h3>
           <asp:Button ID="btnNewMapAgent" runat="server" Text="Run New Map Agent" OnClick="btnRunNewMapAgent_OnClick" />
+        </div>
+        <div class="section">
+          <h3>Rebuild All Deployed Maps</h3>
+          <asp:Button runat="server" ID="btnRebuildAllDeployedMaps" Text="Rebuild All Deployed Maps" OnClick="btnRebuildAllDeployedMaps_OnClick"/>
         </div>
       </div>
     </div>

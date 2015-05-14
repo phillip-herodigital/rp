@@ -12,6 +12,10 @@ define(["sitecore", "/-/speak/v1/experienceprofile/DataProviderHelper.js"], func
   var internalType = "internal";
   var paidType = "paid";
 
+  var pageEventIdParam = "pageEventId";
+  var channelIdParam = "channelId";
+  var sourceParam = "source";
+
   var app = sc.Definitions.App.extend({
     initialized: function ()
     {
@@ -88,8 +92,21 @@ define(["sitecore", "/-/speak/v1/experienceprofile/DataProviderHelper.js"], func
 
       var selectedRow = listControl.get("selectedItem");
       var searchTerm = selectedRow.get("SearchTerm");
+      var pageEventId = selectedRow.get("PageEventId");
+      var channelId = selectedRow.get("ChannelId");
+      var source = selectedRow.get("Source");
 
-      this.Keyword.set(textProperty, searchTerm);
+      if (!pageEventId) {
+          pageEventId = "";
+      }
+       
+      if (keywordType == internalType) {
+          var searchTermDisplayText = selectedRow.get("SearchTermDisplayText");
+          this.Keyword.set(textProperty, searchTermDisplayText);
+      } else {
+          this.Keyword.set(textProperty, searchTerm);
+      }
+
       this.KeywordDetailProvider.set("data", null);
 
       this.KeywordDialogMessageBar.removeMessages("error");
@@ -99,7 +116,15 @@ define(["sitecore", "/-/speak/v1/experienceprofile/DataProviderHelper.js"], func
       this.KeywordDialog.show();
 
       var tableName = keywordType + keywordDetailPostfix;
+
       providerHelper.initProvider(this.KeywordDetailProvider, tableName, intelBaseUrl + tableName + "/" + searchTerm, this.KeywordDialogMessageBar);
+
+      if (keywordType == internalType) {
+          providerHelper.addQueryParameter(this.KeywordDetailProvider, pageEventIdParam, pageEventId);
+      } else {
+          providerHelper.addQueryParameter(this.KeywordDetailProvider, channelIdParam, channelId);
+          providerHelper.addQueryParameter(this.KeywordDetailProvider, sourceParam, encodeURIComponent(source));
+      }
 
       var targetList = visibility.internal ? this.InternalKeywordList : this.KeywordDetailList;
       providerHelper.setDefaultSorting(this.KeywordDetailProvider, "VisitStartDateTime", true);

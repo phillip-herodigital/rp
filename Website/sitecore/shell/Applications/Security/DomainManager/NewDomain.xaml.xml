@@ -15,7 +15,7 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <Literal class="scFieldLabel" Text="The domain name can only contain the following characters: A-Z, a-z, 1-9 and cannot contain spaces." runat="server"/>
+      <Literal class="scFieldLabel" Text="The domain name can only contain the following characters: A-Z, a-z, 0-9 and cannot contain spaces." runat="server"/>
 
       <GridPanel Columns="2" Rows="2" class="scFormTable" runat="server">
         <Literal Text="Domain Name:" runat="server"/>

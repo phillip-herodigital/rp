@@ -157,7 +157,6 @@ function OpenSegmentBuilderWindow(stateId) {
             return;
           }
           
-          control.Content.Supervisor.VisitorsAdded(false);
           AddVisitorsFromSegment(stateId, returnValue);
         });
       }
@@ -227,7 +226,6 @@ function OpenSelectRoleWindow(stateId) {
         var roleName = returnValue.substring(0, indx);
       }
 
-      control.Content.Supervisor.VisitorsAdded(false);
       AddVisitors(stateId, roleName);
     });
   }

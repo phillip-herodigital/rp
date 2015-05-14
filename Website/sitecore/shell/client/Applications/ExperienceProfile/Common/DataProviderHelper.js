@@ -256,6 +256,7 @@
 
       provider.on("error", function (error)
       {
+        error.response.status == 401 ? document.location.reload() : $.noop();
         provider.set(hasMoreDataProperty, false);
         provider.set("isBusy", false);
         provider.set(cidataProperty, null);

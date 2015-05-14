@@ -125,31 +125,6 @@ circle.node {
     cursor: pointer;
 }
 
-circle.current {
-    fill: url(#icon);
-    stroke: none !important;
-}
-
-    circle.current.dimmed {
-        fill: url(#icon-dimmed);
-        stroke-width: 0;
-    }
-
-    circle.current.selected {
-        fill: url(#icon);
-        stroke-width: 0;
-    }
-
-.back {
-    fill: url(#back);
-    stroke: none !important;
-}
-
-    .back:hover {
-        fill: url(#back-hover);
-        stroke: none !important;
-    }
-
 path.muted {
     cursor: initial !important;
 }

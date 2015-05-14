@@ -24,9 +24,10 @@
               })[0];
               current.updateListOfLists(realbaseStructure);
             }, current);
-            baseStructure.dataSource.on("change:isBusy", function(dataSource, isBusy) { current.initializeListOfLists(dataSource, isBusy, dataBindCallback); }, current);
+            baseStructure.dataSource.on("change:isBusy", function (dataSource, isBusy) { current.initializeListOfLists(dataSource, isBusy, dataBindCallback); }, current);
           }
-          current.reloadListOfLists(baseStructure, dataBindCallback);
+          current.isFirstInit = false;
+          current.reloadListOfLists(baseStructure);
         });
       },
       initializeSpecificControls: function () {
@@ -69,9 +70,8 @@
       },
       initializeDialogs: function () {
       },
-      reloadListOfLists: function (baseStructure, callback) {
+      reloadListOfLists: function (baseStructure) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
-        var needsUpdate = false;
 
         if (typeof baseStructure.defaultFolder !== "undefined" && baseStructure.defaultFolder !== null) {
           var currentFolder = baseStructure.dataSource.get(current.folderParameterKey);
@@ -79,44 +79,31 @@
             baseStructure.dataSource.set(current.folderParameterKey, baseStructure.defaultFolder);
             baseStructure.dataSource.ancestorIds = [""];
             current.ListPathControl.reset();
-            needsUpdate = true;
           }
         }
 
-        var currentPageSize, currentPageSizeCopy;
-        currentPageSize = currentPageSizeCopy = baseStructure.dataSource.get(current.pageSizeKey);
-        
+        var currentPageSize = baseStructure.dataSource.get(current.pageSizeKey);
+
         if (typeof baseStructure.defaultPageSize !== "undefined" && baseStructure.defaultPageSize !== null) {
           currentPageSize = baseStructure.defaultPageSize;
         }
 
-        if (current.ExcludeLists !== null) {
+        if (typeof current.ExcludeLists !== "undefined" && current.ExcludeLists !== null && current.ExcludeLists.length !== 0) {
           currentPageSize = currentPageSize + current.ExcludeLists.length;
         }
-        if (current.CurrentListId !== null && current.CurrentListId !== "") {
+
+        if (typeof current.CurrentListId !== "undefined" && current.CurrentListId !== null && current.CurrentListId !== "") {
           currentPageSize = currentPageSize + 1;
         }
 
-        if (currentPageSize !== currentPageSizeCopy) {
-          baseStructure.dataSource.set(current.pageSizeKey, currentPageSize);
-          needsUpdate = true;
-        }
+        baseStructure.dataSource.set(current.pageSizeKey, currentPageSize);
 
         var filter = baseStructure.dataSource.get(current.filterParameterKey);
         if (filter !== current.Filter) {
           baseStructure.dataSource.set(current.filterParameterKey, current.Filter);
-          needsUpdate = true;
-        }
-        
-        if (needsUpdate === true || current.isFirstInit) {
-          baseStructure.dataSource.refresh();
         }
 
-        if (!current.isFirstInit) {
-          if (callback && (typeof (callback) === typeof (Function))) {
-            callback();
-          }
-        }
+        baseStructure.dataSource.refresh();
       },
       initializeListOfLists: function (dataSource, isBusy, callback) {
         if (isBusy === false && dataSource.isReady === true) {
@@ -147,11 +134,8 @@
 
           baseStructure.control.set("items", items);
 
-          if (current.isFirstInit) {
-            if (callback && (typeof (callback) === typeof (Function))) {
-              callback();
-            }
-            current.isFirstInit = false;
+          if (callback && (typeof (callback) === typeof (Function))) {
+            callback();
           }
         }
       },
@@ -199,14 +183,14 @@
       },
       showDialog: function (dialogParams) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
-        
+
         current.CallBackFunction = null;
         current.CurrentListId = null;
         current.SelectedId = null;
         current.SelectedItem = null;
         current.ExcludeLists = [];
         current.Filter = "";
-        
+
         var callback = dialogParams.callback;
         var excludelists = dialogParams.excludelists;
         var currentListId = dialogParams.currentListId;

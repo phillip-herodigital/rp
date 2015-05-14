@@ -21,7 +21,7 @@
 
   var htmlAttributes = rendering.HtmlAttributes;
 }
-     
+
 <div @htmlAttributes>
   @Html.Sitecore().Controls().ProgressIndicator("dialogProgressIndicator", true, new { IsFullScreen = true })
   <div class="dialog-popup">
@@ -47,6 +47,7 @@
   var width = '@this.Html.Sitecore().CurrentItem["Width"]';
   var height = '@this.Html.Sitecore().CurrentItem["Height"]';
   var dialogContent = document.getElementById("dialogContent");
+  var heightDelta = location.href.toLowerCase().indexOf("message") != -1 ? 100 : 121;
   dialogContent.style.width = width + "px";
-  dialogContent.style.height = parseInt(height) - 100 + "px";
+  dialogContent.style.height = parseInt(height) - heightDelta + "px";
 </script>

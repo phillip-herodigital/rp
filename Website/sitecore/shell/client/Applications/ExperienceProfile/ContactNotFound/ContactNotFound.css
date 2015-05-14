@@ -28,10 +28,6 @@ button[data-sc-id=SearchButton] {
   margin-bottom: 20px;
 }
 
-.sc-advancedExpander-header-title-text {
-  text-transform: uppercase;
-}
-
 input[data-sc-id=SearchTextBox] {
   width: 370px;
   float: left;

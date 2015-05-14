@@ -34,7 +34,7 @@ scSitecore.prototype.initializeModalDialogs = function () {
     top.document.body.appendChild(jqueryModalDialogsFrame);
 
     if (!top.scForm) {
-      top.scForm = { getTopModalDialog: window.scForm.getTopModalDialog };
+      top.scForm = { getTopModalDialog: window.scForm.getTopModalDialog, keymap: this.keymap, translate: this.translate };
     }
   }
 };
@@ -262,28 +262,22 @@ scSitecore.prototype.drag = function (tag, evt, parameters) {
   }
 };
 
-scSitecore.prototype.drop = function (tag, evt, parameters) {
-  var data = evt.dataTransfer.getData("text");
+scSitecore.prototype.dragover = function(tag, evt, parameters) {
+    this.browser.clearEvent(evt, true, false);
+    return true;
+};
 
+scSitecore.prototype.drop = function(tag, evt, parameters) {
+  var data = evt.dataTransfer.getData("text");   
   if (data != null) {
     if (data.substring(0, 9) == "sitecore:") {
-      switch (evt.type) {
-        case "dragover":
-          evt.dataTransfer.dropEffect = (parameters != null && parameters != "" ? parameters : (evt.ctrlKey ? "copy" : "move"));
-          this.browser.clearEvent(evt, true, false);
-          return true;
-        case "drop":
-          this.browser.clearEvent(evt, true, false);
-
-          this.postEvent(tag, evt, parameters.replace(/\$Data/gi, data));
-          break;
-      }
+        this.browser.clearEvent(evt, true, false);
+        this.postEvent(tag, evt, parameters.replace(/\$Data/gi, data));
     } else {
       evt.dataTransfer.dropEffect = "none";
       this.browser.clearEvent(evt, null, false);
     }
   }
-
   return false;
 };
 
@@ -672,7 +666,7 @@ scSitecore.prototype.handleKey = function (tag, evt, parameters, keyFilter, glob
     var win = window.parent;
 
     if (win != null && win != window) {
-      if (typeof (win.scForm) != "undefined") {
+      if (typeof (win.scForm) != "undefined" && win.scForm.handleKey) {
         return win.scForm.handleKey(tag, evt, parameters, keyFilter, global);
       }
     }
@@ -1867,6 +1861,43 @@ scRequest.prototype.send = function () {
 
       window.defaultStatus = status;
     }
+  }
+};
+
+scSitecore.prototype.getChildrenModified = function () {
+  if (this.modified) {
+    return true;
+  }
+
+  for (var i = 0; i < frames.length; i++) {
+    if (frames[i].scForm && frames[i].scForm.modified) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+scSitecore.prototype.registerLaunchpadClick = function () {
+  var logo = $("globalLogo");
+
+  if (logo) {
+    Event.observe(logo, "click", function (e) {
+      if (scForm.getChildrenModified()) {
+        scForm.browser.closePopups("checkModifiedShowModalDialog");
+
+        var arguments = { message: scForm.translate("There are unsaved changes. Are you sure you want to continue?") };
+        var features = "dialogWidth:430px;dialogHeight:190px;help:no;scroll:auto;resizable:yes;maximizable:no;status:no;center:yes;autoIncreaseHeight:yes";
+
+        scForm.showModalDialog("/sitecore/shell/default.aspx?xmlcontrol=Confirm", arguments, features, null, function (result) {
+          if (result === "yes") {
+            window.location.href = e.target.href;
+          }
+        });
+
+        e.preventDefault();
+      }
+    });
   }
 };
 

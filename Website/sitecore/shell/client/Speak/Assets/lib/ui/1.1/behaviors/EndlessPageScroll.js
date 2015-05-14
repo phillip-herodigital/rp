@@ -1,5 +1,7 @@
 ﻿define(["sitecore"], function (Sitecore) {
-  var SCROLL_PADDING = 50;
+  var SCROLL_PADDING = 50,
+    enteredHotZone = false,
+    docHeight = 0;
 
   Sitecore.Factories.createBehavior("EndlessPageScroll", {
     setupEventHandlers: _.once(function () {
@@ -17,7 +19,23 @@
     },
 
     isScrolledToBottom: function () {
-      return $(window).scrollTop() + $(window).height() >= $(document).height() - SCROLL_PADDING;
+
+      var oldDocHeight = docHeight;
+      docHeight = $(document).height();
+
+      //See whether we are inside the hot zone
+      if ($(window).scrollTop() + $(window).height() < docHeight - SCROLL_PADDING) {
+        enteredHotZone = false;
+        return false;
+      }
+
+      //See whether we have just entered the hot zone, or if the page has changed height
+      if (!enteredHotZone || oldDocHeight !== docHeight) {
+        enteredHotZone = true;
+        return true;
+      }
+
+      return false;
     },
 
     invokeMoreData: function () {

@@ -117,6 +117,7 @@
             subapp = args.app;
 
         cintelUtil.setText(subapp.CampaignName, data.CampaignDisplayName, true);
+        cintelUtil.setText(subapp.CampaignChannel, data.ChannelDisplayName, true);
         cintelUtil.setText(subapp.VisitsAgo, data.VisitIndex, true);
         cintelUtil.setText(subapp.Recency, data.Recency, true);
       }, this);

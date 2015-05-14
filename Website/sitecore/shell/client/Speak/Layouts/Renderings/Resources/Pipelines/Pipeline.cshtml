@@ -10,7 +10,7 @@
   control.Requires.Script("controls", "Pipeline.js");
 
   var pipelineItemId = control.GetString("PipelineItemId");
-  var loadMode = control.GetString("LoadMode") ?? string.Empty;
+  var loadMode = control.GetString("LoadMode", "", "Immediately");
   var useBundle = control.GetBool("UseBundle", true);
 
   var customHandler = SpeakSettings.Html.RequireJsCustomHandler;

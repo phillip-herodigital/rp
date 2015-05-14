@@ -132,7 +132,7 @@
       <value>Texts,HourText,HourText,System.String,hr,False,False</value>
       <value>Texts,MinutesText,MinutesText,System.String,min,False,False</value>
       <value>Texts,ReportGeneratedText,ReportGeneratedText,System.String,Report_x0020_Generated,False,False</value>
-      <value>Texts,VisitorText,VisitorText,System.String,Visitor,False,False</value>
+      <value>Texts,VisitorText,VisitorText,System.String,Contact,False,False</value>
       <value>Texts,SearchTermText,SearchTermText,System.String,Search_x0020_Term,False,False</value>
       <value>Texts,ReportDescriptionVar,ReportDescriptionVar,System.String,Report_x0020_description,False,False</value>
       <value>Texts,GoalText,GoalText,System.String,Goal,False,False</value>
@@ -841,7 +841,7 @@
               <Name>Text38</Name>
               <Page isRef="8" />
               <Parent isRef="56" />
-              <Text>{!string.IsNullOrEmpty(PageEvents.Text) ? PageEvents.Text : (PageEvents.Name + " [" + (PageEvents.IsGoal ? GoalText : PageEvents.IsFailure ? FailureText : EventText) + "]")}</Text>
+              <Text>{!string.IsNullOrEmpty(PageEvents.Text) ? System.Net.WebUtility.HtmlEncode(PageEvents.Text) : (PageEvents.Name + " [" + (PageEvents.IsGoal ? GoalText : PageEvents.IsFailure ? FailureText : EventText) + "]")}</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text38>

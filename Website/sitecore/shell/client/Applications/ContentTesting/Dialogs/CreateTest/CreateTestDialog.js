@@ -16,11 +16,20 @@
     _showCompareScreenshot: false,
     _showAllScreenshots: false,
 
+    srcCloseIcon: "/sitecore/shell/client/Speak/Assets/img/Speak/DialogWindow/close_button_sprite.png",
+
     initialized: function () {
 
       this.set("getThumbnailUrl", "/sitecore/shell/api/ct/TestThumbnails/GetThumbnail");
       this.detectBrowser();
       this.testOptions = new _sc.TestOptions();
+
+      this.ItemInfoDataSource.set("itemUri", this.TestVariablesDataSource.get("itemuri"));
+
+      // adding "img" elem to ".sc-smartpanel-close" link - for showing "small" close icon
+      var $smartPanelElem = this.TestVariationsSmartPanel.viewModel.$el;
+      var $smartPanelCloseLink = $smartPanelElem.find(".sc-smartpanel-close");
+      $smartPanelCloseLink.append("<img src='" + this.srcCloseIcon + "' />");
 
       var screenshotSetting = this.SettingsDictionary.get("ContentTesting.GenerateScreenshots");
       this._showCompareScreenshot = screenshotSetting == "all" || screenshotSetting == "limited";
@@ -42,8 +51,10 @@
       this.CompareImage.set("isVisible", false);
 
       this.TestVariablesDataSource.on("change:items", this.itemsUpdate, this);
-      this.TestVariablesDataSource.on("change:items", this.validateDependencies, this);
       this.TestVariablesDataSource.on("change:items", this.validateTestLength, this);
+      this.TestVariablesDataSource.on("change:multipleDevices", this.checkMultipleDevices, this);
+
+      this.ItemInfoDataSource.on("change:hasActiveTest", this.checkActiveTest, this);
 
       // Subscribe to change of the "Maximum duration"
       if (this.MaximumSelect !== undefined) {
@@ -111,6 +122,17 @@
           app.BeforeAfterDropDownButton.set("isOpen", false);
           app.TestVariablesDropDownButton.set("isOpen", false);
         }
+
+        // #25956 - hiding of the SmartPanel by clicking outside
+        if (app.TestVariationsSmartPanel && event.target) {
+          var $targetElemInSmartPanel = app.TestVariationsSmartPanel.viewModel.$el.find(event.target);
+          var $targetElemInStateListControl = app.TestVariablesStateListControl.viewModel.$el.find(event.target);
+          // if "event.target" isn't lain in "TestVariationsSmartPanel", "TestVariablesStateListControl"
+          if ($targetElemInSmartPanel.length == 0 && $targetElemInStateListControl.length == 0) {
+            app.TestVariationsSmartPanel.set("isOpen", false);
+          }
+        }        
+
       });
 
       $(document).ready(this.CmsDialogFix);
@@ -198,7 +220,11 @@
       // Set the default maximum duration value from the config in the Maximum Duration combobox.
       var defaultMaxDuration = this.SettingsDictionary.get("ContentTesting.MaximumContentTestDuration");
       if (this.MaximumSelect) {
-        this.MaximumSelect.set("selectedValue", defaultMaxDuration);
+        var initialized = this.MaximumSelect.get("initialized");
+        if (!initialized)
+        {
+          this.MaximumSelect.set("selectedValue", defaultMaxDuration);
+        }
       }
     },
 
@@ -279,40 +305,51 @@
       var items = this.TestVariablesDataSource.get("items");
       var itemCount = items.length;
 
-      this.TestWizardTabControl.set("isVisible", itemCount > 0);
-      this.NoCandidatesMessage.set("isVisible", itemCount === 0);
-      this.EndWizardButton.set("isVisible", itemCount === 0);
-
-      var isContentTesting = this.isJustContentTesting(items);
-
-      // Identify testing type and display corresponding preview components
-      this.displayPreviewContent(isContentTesting);
-
-      // Update the default maximum duration value if MV test is configured from the configuration file.
-      if (this.MaximumSelect !== undefined) {
-        if (!isContentTesting) {
-          var defaultMVMaxDuration = this.SettingsDictionary.get("ContentTesting.MaximumOptimizationTestDuration");
-          this.MaximumSelect.set("selectedValue", defaultMVMaxDuration);
-        }
-      }
-
-      if (isContentTesting && this._showCompareScreenshot) {
-        this.CompareImage.set("imageThumbs", this._imageThumbs);
-        this.CompareImage.set("isVisible", true);
-      }
-      else if (this._showAllScreenshots) {
-        this.CarouselImage.set("imageThumbs", this._imageThumbs);
-        this.CarouselImage.set("isVisible", true);
-      }
-
-      if (!this.CompareImage.get("isVisible") && !this.CarouselImage.get("isVisible")) {
-        this.PreviewAccordion.set("isVisible", false);
+      if (itemCount == 0) {
+        this._disableDialog([this.NoCandidatesMessage]);
       }
       else {
-        this.PreviewAccordion.set("isVisible", true);
-      }
+        var isContentTesting = this.isJustContentTesting(items);
 
-      this.TestCandidatesDataSource.set("itemUri", this.TestVariablesDataSource.get("itemuri"));
+        // Identify testing type and display corresponding preview components
+        this.displayPreviewContent(isContentTesting);
+
+        // Update the default maximum duration value if MV test is configured from the configuration file.
+        if (this.MaximumSelect !== undefined) {
+          if (!isContentTesting) {
+            var defaultMVMaxDuration = this.SettingsDictionary.get("ContentTesting.MaximumOptimizationTestDuration");
+            var items = this.MaximumSelect.get("items");
+            if (items.length > 0) {
+              this.MaximumSelect.set("selectedValue", defaultMVMaxDuration);
+              this.MaximumSelect.set("initialized", true);
+            }
+            else {
+              this.MaximumSelect.once("change:items", function () {
+                this.MaximumSelect.set("selectedValue", defaultMVMaxDuration);
+                this.MaximumSelect.set("initialized", true);
+              }, this)
+            }
+          }
+        }
+
+        if (isContentTesting && this._showCompareScreenshot) {
+          this.CompareImage.set("imageThumbs", this._imageThumbs);
+          this.CompareImage.set("isVisible", true);
+        }
+        else if (this._showAllScreenshots) {
+          this.CarouselImage.set("imageThumbs", this._imageThumbs);
+          this.CarouselImage.set("isVisible", true);
+        }
+
+        if (!this.CompareImage.get("isVisible") && !this.CarouselImage.get("isVisible")) {
+          this.PreviewAccordion.set("isVisible", false);
+        }
+        else {
+          this.PreviewAccordion.set("isVisible", true);
+        }
+
+        this.TestCandidatesDataSource.set("itemUri", this.TestVariablesDataSource.get("itemuri"));
+      }
     },
 
     displayPreviewContent: function (isContentTesting) {
@@ -416,6 +453,9 @@
 
       this.testOptions.set("disabledVariations", disabledVariationsList);
 
+      var params = _sc.Helpers.url.getQueryParameters(window.location.href);
+      this.testOptions.set("DeviceId", params.device);
+
       var self = this;
       var ajaxOptions = {
         type: "POST",
@@ -461,7 +501,7 @@
     validateDisabledTestVariations: function () {
       //TODO: Think about a SPEAK dialog
       alert(this.StringDictionary.get(
-          'You cannot disable this variation because the test needs at least two variations to be enabled'));
+          'You cannot disable this variation because the test needs at least two variations to be enabled.'));
     },
 
     validateTestLength: function () {
@@ -483,6 +523,14 @@
       var requiredVisits = this.TestDurationDataSource.get("requiredVisits");
 
       var templateFirstMessage, templateSecondMessage, type;
+      
+      if (this.MinimumSelect !== undefined) {
+        var minDuration = parseInt(this.MinimumSelect.get("selectedValue"), 10);
+        if (daysExpected < minDuration)
+        {
+          daysExpected = minDuration;
+        }
+      }
 
       this.PreviewTabMessageBar.viewModel.$el.css("display", "block");
       this.PreviewTabMessageBar.removeMessages();
@@ -555,6 +603,14 @@
 
       var parsedMaxSelectedValue = maxSelectedItem ? parseInt(maxSelectedItem.Value, 10) : 0;
       var expectedDays = this.TestDurationDataSource.get("expectedDays");
+      
+      if (this.MinimumSelect !== undefined) {
+        var minDuration = parseInt(this.MinimumSelect.get("selectedValue"), 10);
+        if (expectedDays < minDuration)
+        {
+          expectedDays = minDuration;
+        }
+      }
 
       var template, color;
 
@@ -570,7 +626,7 @@
         dailyVisists: this.TestDurationDataSource.get("viewsPerDay"),
         trafficAllocation: this.OptionsMapper.get("TrafficAllocation"),
         confidenceLevel: this.OptionsMapper.get("ConfidenceLevel"),
-        duration: this.TestDurationDataSource.get("expectedDays"),
+        duration: expectedDays,
         maximumDuration: parsedMaxSelectedValue
       }));
 
@@ -583,6 +639,30 @@
         trafficAllocation: this.OptionsMapper.get("TrafficAllocation"),
         confidenceLevel: this.OptionsMapper.get("ConfidenceLevel"),
       }));
+    },
+
+    checkMultipleDevices: function () {
+      if(this.TestVariablesDataSource.get("multipleDevices")) {
+        this._disableDialog([this.MultipleDevicesMessage]);
+      }
+    },
+
+    checkActiveTest: function() {
+      if (this.ItemInfoDataSource.get("hasActiveTest")) {
+        this._disableDialog([this.ContainsActiveTestMessage]);
+      }
+    },
+
+    _disableDialog: function (allowedComponents) {
+      this.TestWizardTabControl.set("isVisible", false);
+      this.EndWizardButton.set("isVisible", false);
+      this.StartTestButton.set("isVisible", false);
+
+      if (allowedComponents) {
+        _.each(allowedComponents, function (component) {
+          component.set("isVisible", true);
+        });
+      }
     }
   });
 

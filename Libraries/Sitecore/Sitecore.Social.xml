@@ -1686,6 +1686,11 @@
             A class represents the arguments for SelectConnectorUser pipeline.
             </summary>
         </member>
+        <member name="M:Sitecore.Social.Connector.Pipelines.MatchUser.SelectUserPipelineArgs.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sitecore.Social.Connector.Pipelines.MatchUser.SelectUserPipelineArgs"/> class.
+            </summary>
+        </member>
         <member name="P:Sitecore.Social.Connector.Pipelines.MatchUser.SelectUserPipelineArgs.AccountBasicData">
             <summary>
             The network account basic data
@@ -1712,6 +1717,14 @@
             </summary>
             <value>
             The context domain.
+            </value>
+        </member>
+        <member name="P:Sitecore.Social.Connector.Pipelines.MatchUser.SelectUserPipelineArgs.CreateNewUserIfNoExistingFound">
+            <summary>
+            Gets or sets a value indicating whether a new user will be created if no existing is found.
+            </summary>
+            <value>
+            <c>true</c> new user will be created if no existing is found; otherwise, <c>false</c>.
             </value>
         </member>
         <member name="T:Sitecore.Social.Connector.Providers.XdbSocialProfileFieldsProvider">
@@ -2393,6 +2406,35 @@
             - Visits;
             - Value per Visits.
             </returns>
+        </member>
+        <member name="T:Sitecore.Social.Encryption.StringCipher">
+            <summary>
+            Represents a string encryption.
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.Encryption.StringCipher.EncryptionKey">
+            <summary>
+            The encryption key
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.Encryption.StringCipher.Bytes">
+            <summary>
+            The bytes
+            </summary>
+        </member>
+        <member name="M:Sitecore.Social.Encryption.StringCipher.Encrypt(System.String)">
+            <summary>
+            Do encryption
+            </summary>
+            <param name="clearText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sitecore.Social.Encryption.StringCipher.Decrypt(System.String)">
+            <summary>
+            Do decryption
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
         </member>
         <member name="T:Sitecore.Social.Exceptions.AccountBuilderIsNotFoundException">
             <summary>
@@ -3261,6 +3303,39 @@
               <c>true</c> if the social profile fields are expired; otherwise, <c>false</c>.
             </returns>
         </member>
+        <member name="M:Sitecore.Social.ISocialProfileBusinessManager.SocialProfileAccountCredentialsExpired(System.String,System.String)">
+            <summary>
+            Defines if social profile account credentials are expired in the specified network.
+            </summary>
+            <param name="userName">
+            The user name.
+            </param>
+            <param name="networkName">
+            The network name.
+            </param>
+            <returns>
+            <c>true</c> if the social profile account credentials are expired; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Sitecore.Social.ISocialProfileBusinessManager.SocialProfileAccountCredentialsExpired(Sitecore.Social.Domain.Model.Identifier,System.String)">
+            <summary>
+            Defines if social profile account credentials are expired in the specified network.
+            </summary>
+            <param name="contactId">The contact identifier.</param>
+            <param name="networkName">The network name.</param>
+            <returns>
+              <c>true</c> if the social profile account credentials are expired; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Sitecore.Social.ISocialProfileBusinessManager.SocialProfileAccountCredentialsExpired(Sitecore.Social.Domain.Model.SocialProfile)">
+            <summary>
+            Defines if social profile account credentials are expired.
+            </summary>
+            <param name="socialProfile">The social profile.</param>
+            <returns>
+              <c>true</c> if the social profile account credentials are expired; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="M:Sitecore.Social.ISocialProfileBusinessManager.AttachSocialProfile(System.String,Sitecore.Social.Domain.Model.SocialProfile)">
             <summary>
             Attaches a social profile to the specified user.
@@ -3278,6 +3353,22 @@
             </summary>
             <param name="contactId">The contact identifier.</param>
             <param name="socialProfile">The social profile.</param>
+        </member>
+        <member name="M:Sitecore.Social.ISocialProfileBusinessManager.AttachSocialProfile(System.String,Sitecore.Social.Domain.Model.SocialProfile,System.Boolean)">
+            <summary>
+            Attaches a social profile to the specified user.
+            </summary>
+            <param name="userName">The user name.</param>
+            <param name="socialProfile">The social profile.</param>
+            <param name="checkNetworkAccountAlreadyAttached">if set to <c>true</c> then check that network account is already attached.</param>
+        </member>
+        <member name="M:Sitecore.Social.ISocialProfileBusinessManager.AttachSocialProfile(Sitecore.Social.Domain.Model.Identifier,Sitecore.Social.Domain.Model.SocialProfile,System.Boolean)">
+            <summary>
+            Attaches a social profile to the specified contact.
+            </summary>
+            <param name="contactId">The contact identifier.</param>
+            <param name="socialProfile">The social profile.</param>
+            <param name="checkNetworkAccountAlreadyAttached">if set to <c>true</c> then check that network account is already attached.</param>
         </member>
         <member name="M:Sitecore.Social.ISocialProfileBusinessManager.DetachSocialProfile(System.String,System.String)">
             <summary>
@@ -3422,6 +3513,17 @@
             </summary>
             <param name="networkName">Name of the network.</param>
             <param name="socialProfileIdentityData">The social profile identity data.</param>
+            <returns>
+            The user name.
+            </returns>
+        </member>
+        <member name="M:Sitecore.Social.ISocialProfileBusinessManager.MatchUserForNetworkAccount(System.String,Sitecore.Social.Domain.Model.SocialProfileIdentityData,System.Boolean)">
+            <summary>
+            Matches the user for network account based on social profile identity data.
+            </summary>
+            <param name="networkName">Name of the network.</param>
+            <param name="socialProfileIdentityData">The social profile identity data.</param>
+            <param name="createNewUserIfNoExistingFound"><c>true</c> new user will be created if no existing is found; otherwise, <c>false</c>.</param>
             <returns>
             The user name.
             </returns>
@@ -5291,6 +5393,17 @@
             
             </summary>
         </member>
+        <member name="M:Sitecore.Social.MessagePosting.Providers.ProfileAccountProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sitecore.Social.MessagePosting.Providers.ProfileAccountProvider"/> class.
+            </summary>
+        </member>
+        <member name="M:Sitecore.Social.MessagePosting.Providers.ProfileAccountProvider.#ctor(Sitecore.Social.ISocialProfileBusinessManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sitecore.Social.MessagePosting.Providers.ProfileAccountProvider"/> class.
+            </summary>
+            <param name="socialProfileBusinessManager">The social profile business manager.</param>
+        </member>
         <member name="M:Sitecore.Social.MessagePosting.Providers.ProfileAccountProvider.GetAccounts(Sitecore.Security.Accounts.User)">
             <summary>
             Gets the accounts.
@@ -5298,9 +5411,22 @@
             <param name="user">The user.</param>
             <returns></returns>
         </member>
+        <member name="P:Sitecore.Social.MessagePosting.Providers.ProfileAccountProvider.SocialProfileBusinessManager">
+            <summary>
+            Gets or sets the social profile business manager.
+            </summary>
+            <value>
+            The social profile business manager.
+            </value>
+        </member>
         <member name="T:Sitecore.Social.MessagePosting.Providers.MessagePostingProviderBase">
             <summary>
             Represents the base provider for the posting providers.
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.MessagePosting.Providers.MessagePostingProviderBase.IsAccessTokenExpiredKey">
+            <summary>
+            The is access token expired key
             </summary>
         </member>
         <member name="F:Sitecore.Social.MessagePosting.Providers.MessagePostingProviderBase.Message">
@@ -6326,6 +6452,35 @@
               <c>true</c> if the social profile fields are expired; otherwise, <c>false</c>.
             </returns>
         </member>
+        <member name="M:Sitecore.Social.SocialProfileBusinessManager.SocialProfileAccountCredentialsExpired(System.String,System.String)">
+            <summary>
+            Defines if social profile account credentials are expired in the specified network.
+            </summary>
+            <param name="userName">The user name.</param>
+            <param name="networkName">The network name.</param>
+            <returns>
+              <c>true</c> if the social profile account credentials are expired; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Sitecore.Social.SocialProfileBusinessManager.SocialProfileAccountCredentialsExpired(Sitecore.Social.Domain.Model.Identifier,System.String)">
+            <summary>
+            Defines if social profile account credentials are expired in the specified network.
+            </summary>
+            <param name="contactId">The contact identifier.</param>
+            <param name="networkName">The network name.</param>
+            <returns>
+              <c>true</c> if the social profile account credentials are expired; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Sitecore.Social.SocialProfileBusinessManager.SocialProfileAccountCredentialsExpired(Sitecore.Social.Domain.Model.SocialProfile)">
+            <summary>
+            Defines if social profile account credentials are expired.
+            </summary>
+            <param name="socialProfile">The social profile.</param>
+            <returns>
+              <c>true</c> if the social profile account credentials are expired; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="M:Sitecore.Social.SocialProfileBusinessManager.AttachSocialProfile(System.String,Sitecore.Social.Domain.Model.SocialProfile)">
             <summary>
             Attaches a social profile to the specified user.
@@ -6345,6 +6500,24 @@
             </summary>
             <param name="contactId">The contact identifier.</param>
             <param name="socialProfile">The social profile.</param>
+        </member>
+        <member name="M:Sitecore.Social.SocialProfileBusinessManager.AttachSocialProfile(System.String,Sitecore.Social.Domain.Model.SocialProfile,System.Boolean)">
+            <summary>
+            Attaches a social profile to the specified user.
+            </summary>
+            <param name="userName">The user name.</param>
+            <param name="socialProfile">The social profile.</param>
+            <param name="checkNetworkAccountAlreadyAttached">if set to <c>true</c> then check that network account is already attached.</param>
+            <exception cref="T:Sitecore.Social.Exceptions.AccountInUserDuplicatedException"></exception>
+            <exception cref="T:Sitecore.Social.Exceptions.AccountInDomainDuplicatedException"></exception>
+        </member>
+        <member name="M:Sitecore.Social.SocialProfileBusinessManager.AttachSocialProfile(Sitecore.Social.Domain.Model.Identifier,Sitecore.Social.Domain.Model.SocialProfile,System.Boolean)">
+            <summary>
+            Attaches a social profile to the specified contact.
+            </summary>
+            <param name="contactId">The contact identifier.</param>
+            <param name="socialProfile">The social profile.</param>
+            <param name="checkNetworkAccountAlreadyAttached">if set to <c>true</c> then check that network account is already attached.</param>
         </member>
         <member name="M:Sitecore.Social.SocialProfileBusinessManager.DetachSocialProfile(System.String,System.String)">
             <summary>
@@ -6494,6 +6667,20 @@
             </summary>
             <param name="networkName">Name of the network.</param>
             <param name="socialProfileIdentityData">The social profile identity data.</param>
+            <returns>
+            The user name.
+            </returns>
+            <remarks>
+            If no users are found a new one will be created.
+            </remarks>
+        </member>
+        <member name="M:Sitecore.Social.SocialProfileBusinessManager.MatchUserForNetworkAccount(System.String,Sitecore.Social.Domain.Model.SocialProfileIdentityData,System.Boolean)">
+            <summary>
+            Matches the user for network account based on social profile identity data.
+            </summary>
+            <param name="networkName">Name of the network.</param>
+            <param name="socialProfileIdentityData">The social profile identity data.</param>
+            <param name="createNewUserIfNoExistingFound"><c>true</c> new user will be created if no existing is found; otherwise, <c>false</c>.</param>
             <returns>
             The user name.
             </returns>

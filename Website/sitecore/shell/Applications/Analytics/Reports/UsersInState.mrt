@@ -32,7 +32,7 @@
       <value>Texts,EmailText,EmailText,System.String,Email,False,False</value>
       <value>Texts,DaysText,DaysText,System.String,Days_x0020_in_x0020_state,False,False</value>
       <value>Texts,TotalText,TotalText,System.String,Total:,False,False</value>
-      <value>Texts,UsersInStateText,UsersInStateText,System.String,Visitors_x0020_in_x0020_state,False,False</value>
+      <value>Texts,UsersInStateText,UsersInStateText,System.String,Contacts_x0020_in_x0020_state,False,False</value>
       <value>Texts,ReportDescriptionText,ReportDescriptionText,System.String,This_x0020_report_x0020_shows_x0020_,False,False</value>
       <value>Texts,ReportDescriptionVar,ReportDescriptionVar,System.String,See_x0020_report_x0020_description,False,False</value>
       <value>Texts,VisitCountText,VisitCountText,System.String,No._x0020_of_x0020_Visits,False,False</value>

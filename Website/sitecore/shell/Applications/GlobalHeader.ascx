@@ -8,7 +8,7 @@
     <div class="sc-globalHeader-content">
       <div class="col2">
         <div class="sc-globalHeader-startButton">
-          <a id="globalLogo" class="sc-global-logo" href="#" runat="server"></a>
+          <a id="globalLogo" ClientIDMode="Static" class="sc-global-logo" href="#" runat="server"></a>
         </div>
       </div>
       <div class="col2">
@@ -27,5 +27,11 @@
       </div>
     </div>
   </header>
-
+  <Script Type="text/javascript">
+    Event.observe(window, "load", function () {
+      if (window.scForm) {
+          window.scForm.registerLaunchpadClick();
+      }
+    });
+  </Script>
 </asp:PlaceHolder>

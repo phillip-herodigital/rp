@@ -834,6 +834,13 @@
             <param name="additionalParameters">The additional parameters, which were kept during the authentication flow.</param>
             <exception cref="T:Sitecore.Social.Exceptions.AccountInUserDuplicatedException">User already has another attached account of the same network.</exception>
         </member>
+        <member name="M:Sitecore.Social.Client.Api.ConnectorClientManager.ShouldSocialProfileBeRefreshed(Sitecore.Social.Domain.Model.SocialProfile)">
+            <summary>
+            Determines whether social profile should be refreshed.
+            </summary>
+            <param name="socialProfile">The social profile.</param>
+            <returns>true if social profile should be refreshed.</returns>
+        </member>
         <member name="M:Sitecore.Social.Client.Api.ConnectorClientManager.UpdateUserFullName(System.String)">
             <summary>
             Updates the full name of the user.

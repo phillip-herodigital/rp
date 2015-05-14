@@ -148,27 +148,27 @@
       
       <style>
         .GridGroupingNotification {
-          display: none;
+        display: none;
         }
-        
+
         #RolesContainer {
-          overflow:auto;
-          min-height:100px;
+        overflow:auto;
+        min-height:100px;
         }
-        
+
         .Grid{
           height: auto !important;
         }
-        
+
         .scSelectRolesContainer {
-          margin:5px 10px;
-          overflow:auto;
+        margin:5px 10px;
+        overflow:auto;
         }
-        
+
         .Row *, .SelectedRow *, .HeadingRow * {
-          width: auto !important;
+        width: auto !important;
         }
-        
+
         .scAddRemoveButtonsContainer {
           padding-bottom: 9px;
         }

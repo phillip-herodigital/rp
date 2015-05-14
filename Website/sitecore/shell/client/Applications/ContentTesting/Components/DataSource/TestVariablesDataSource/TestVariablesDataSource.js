@@ -1,44 +1,50 @@
 ﻿define(["sitecore", "/-/speak/v1/contenttesting/RequestUtil.js"], function (Sitecore, requestUtil) {
+  var actionUrl = "/sitecore/shell/api/ct/TestVariables/GetTestVariables";
   var model = Sitecore.Definitions.Models.ControlModel.extend({
     initialize: function (options) {
       this._super();
 
-      var uri = this.getQueryVariable("uri");
+      var params = Sitecore.Helpers.url.getQueryParameters(window.location.href);
 
-      this.set("itemuri", uri);
+      var uri = params.uri;
+      var device = params.device;
+
+      this.set({
+        itemuri: uri,
+        multipleDevices: false,
+        items: null,
+        device: device
+      });
 
       this.getTestVariables();
     },
 
     getTestVariables: function () {
+      var url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
+        itemuri: this.get("itemuri"),
+        deviceId: this.get("device")
+      });
 
       var ajaxOptions = {
-        url: "/sitecore/shell/api/ct/TestVariables/GetTestVariables?itemuri=" + this.get("itemuri"),
-        
-        headers: {},
+        url: url,
         context: this,
         cache: false,
         success: function (data) {
-            this.set("items", data);
+          if (data) {
+            if (data.MultipleDevices) {
+              this.set({
+                multipleDevices: data.MultipleDevices,
+                items: null
+              });
+            }
+            else {
+              this.set("items", data);
+            }
+          }
         }
       };
         
       requestUtil.performRequest(ajaxOptions);
-    },
-
-    getQueryVariable: function (variable) {
-      var query = window.location.search.substring(1);
-      var vars = query.split('&');
-
-      for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split('=');
-
-        if (decodeURIComponent(pair[0]) === variable) {
-          return pair[1];
-        }
-      }
-
-      return null;
     }
   });
 

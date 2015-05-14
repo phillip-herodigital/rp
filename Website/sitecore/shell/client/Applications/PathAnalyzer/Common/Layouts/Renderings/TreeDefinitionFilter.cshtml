@@ -1,5 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using Sitecore
+@using Sitecore.Data
 @using Sitecore.Data.Items
 @using Sitecore.Mvc
 @using Sitecore.PathAnalyzer.Localization
@@ -36,12 +37,19 @@
         InvalidTreeDefinition = Helper.GetTextValue(PathAnalyzerTexts.MapFilterInvalidMap)
     };
 
+    Guid rootItemId;
+    var defaultMapRoot = rendering.GetString("DefaultMapRoot");
+    if (string.IsNullOrEmpty(defaultMapRoot) || !Guid.TryParse(defaultMapRoot, out rootItemId))
+    {
+        rootItemId = Sitecore.PathAnalyzer.Constants.ItemIDs.TreeDefinitionsRoot.Guid;
+    }
+    
     rendering.Attributes.Add("data-sc-errormessages", JsonConvert.SerializeObject(errorMessages));
 }
 
-@EmbedTreeDefinitionFilter(rendering, initialItem)
+@EmbedTreeDefinitionFilter(rendering, initialItem, new ID(rootItemId))
 
-@helper EmbedTreeDefinitionFilter(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering, Item initialItem)
+@helper EmbedTreeDefinitionFilter(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering, Item initialItem, ID rootItemId)
 {
     var renderingId = rendering.ControlId;
     var helper = new RenderingHelper(Html, renderingId);
@@ -49,7 +57,6 @@
     helper.MakeRow("ControlsRow", renderingId + "ContentWrapper", true, controlsRow =>
     {
         helper.MakeText("TreeDefinitionText", controlsRow, PathAnalyzerTexts.MapFilterTitle, TextType.Title);
-        var rootItemId = Sitecore.PathAnalyzer.Constants.ItemIDs.TreeDefinitionsRoot;
         var preloadPath = initialItem != null ? rootItemId + initialItem.Paths.GetPath(rootItemId.ToString(), "/", ItemPathType.ItemID) : string.Empty;
         helper.MakeTreeView("TreeDefinitionTreeView", controlsRow, rootItemId, preloadPath, 1, false);
     });

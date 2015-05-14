@@ -1,5 +1,6 @@
 ﻿@using System.Configuration
 @using System.Web.Configuration
+@using Sitecore
 @using Sitecore.Mvc
 @using Sitecore.Mvc.Presentation
 @using Sitecore.Web.UI.Controls.Common.UserControls
@@ -16,16 +17,16 @@
   var browseButtonText = userControl.GetString("BrowseButtonText", "browseButtonText");
   if (string.IsNullOrEmpty(browseButtonText))
   {
-    browseButtonText = "Browse for media files";
+    browseButtonText = ClientHost.Globalization.Translate(Sitecore.Names.Texts.BrowseForMediaFiles);
   }
 
   var shortDescriptionText = userControl.GetString("ShortDescriptionText", "shortDescriptionText");
   if (string.IsNullOrEmpty(shortDescriptionText))
   {
-    shortDescriptionText = "Drag and drop files here";
+    shortDescriptionText = ClientHost.Globalization.Translate(Sitecore.Names.Texts.DragAndDropFiles);
   }
 
-  var database = parametersResolver.GetString("Database", "");
+  var database = parametersResolver.GetString("Database", "", "$context_database");
   if (!string.IsNullOrEmpty(database))
   {
     if (string.Compare(database, "$context_database", StringComparison.InvariantCultureIgnoreCase) == 0)
@@ -56,13 +57,13 @@
   <img class="sc-uploader-preview hide" />
   <div class="sc-uploader-content">
     <span class="drag">
-      @Sitecore.ClientHost.Globalization.Translate(shortDescriptionText)
+      @shortDescriptionText
       <br />
       @Sitecore.ClientHost.Globalization.Translate("or")
       <br />
     </span>
     <a href="#" class="btn btn-default sc-button">
-      @Sitecore.ClientHost.Globalization.Translate(browseButtonText)
+      @browseButtonText
       <input class="sc-uploader-fileupload" type="file" name="files[]" multiple>
     </a>
     <div class="sc-uploader-general-info">
@@ -75,7 +76,11 @@
         </div>
         <div class="sc-uploader-general-info-data-col col2">|</div>
         <div class="sc-uploader-general-info-data-col col3">
-          <div class="sc-uploader-general-info-data-uploadingData"><span data-bind="  text: uploadedFiles"></span> &nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;</div><span data-bind="  text: totalFiles"></span>&nbsp;<span data-bind="  visible: totalFiles() > 1">@Sitecore.ClientHost.Globalization.Translate("files")</span><span data-bind="  visible: totalFiles() === 1">@Sitecore.ClientHost.Globalization.Translate("file")</span>
+          <div class="sc-uploader-general-info-data-uploadingData">
+            <span data-bind="  text: uploadedFiles"></span> &nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;
+          </div>
+          <span data-bind="  text: totalFiles"></span>&nbsp;<span data-bind="  visible: totalFiles() > 1">@Sitecore.ClientHost.Globalization.Translate(Sitecore.Names.Texts.Files)</span>
+          <span data-bind="  visible: totalFiles() === 1">@Sitecore.ClientHost.Globalization.Translate(Sitecore.Names.Texts.File)</span>
         </div>
       </div>
     </div>

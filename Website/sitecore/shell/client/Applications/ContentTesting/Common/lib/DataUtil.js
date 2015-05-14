@@ -8,13 +8,14 @@
       this.lang = null;
       this.rev = null;
 
-      this.from = function(str) {
+      this.from = function (str) {
         if (str.indexOf(prefix) != 0) {
           return;
         }
 
         var idEnd = str.indexOf("?") || str.length - 1;
         this.id = str.slice(prefix.length, idEnd);
+        this._ensureIdFormat();
 
         if (idEnd < str.length - 1) {
           var params = Sitecore.Helpers.url.getQueryParameters(str);
@@ -22,9 +23,24 @@
           this.lang = params.lang;
           this.rev = params.rev;
         }
-      }
+      };
 
-      this.toString = function() {
+      this.fromObject = function (ob) {
+        if(ob.ItemID) {
+          this.id = ob.ItemID;
+          this._ensureIdFormat();
+        }
+        
+        if(ob.Language && ob.Language.Name) {
+          this.lang = ob.Language.Name;
+        }
+        
+        if (ob.Version && ob.Version.Number) {
+          this.ver = ob.Version.Number;
+        }
+      };
+
+      this.toString = function () {
         var output = prefix + this.id;
         if (this.ver) {
           output = Sitecore.Helpers.url.addQueryParameters(output, { ver: this.ver });
@@ -39,10 +55,23 @@
         }
 
         return output;
-      }
+      };
+
+      this._ensureIdFormat = function () {
+        if (this.id.substring(0, 1) != "{") {
+          this.id = "{" + this.id + "}";
+        }
+
+        this.id = this.id.toUpperCase();
+      };
 
       if (initVal) {
-        this.from(initVal);
+        if (_.isObject(initVal)) {
+          this.fromObject(initVal);
+        }
+        else {
+          this.from(initVal);
+        }
       }
     },
 

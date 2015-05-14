@@ -43,9 +43,7 @@
             overflow: hidden;
         }
 
-        #Editors, #MainPanel {
-            background: #f0f1f2 !important;
-        }
+
 
         #EditorPanel, .scEditorPanelCell {
             padding-bottom: 1px;
@@ -59,9 +57,13 @@
             margin-top: 2px;
         }
 
+        .scEditorSections {
+            margin-right: 11px;
+            background-color: transparent;
+        }
+
         .ff .scEditorSections {
             margin-top: -2px;
-            margin-right: 1px;
         }
 
         #HeaderRow {
@@ -69,29 +71,30 @@
         }
 
         #FooterRow {
-            padding: 0 14px 4px 0;
-            border-top: solid 1px #DBDBDB;
+            position: relative;
+            background-color: #f0f0f0;
+            border-top: 1px solid #e3e3e3;
+            padding: 8px 15px 9px;
+            height: 56px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            line-height: 34px;
         }
 
             #FooterRow > div {
-                float: right;
                 white-space: nowrap;
-            }
-
-            #FooterRow input {
-                margin-right: 4px;
+                position: absolute;
+                right: 15px;
+                text-align: right;
             }
 
         .scEditorSectionPanelCell {
             padding-left: 8px;
         }
 
+
         .scEditorSectionCaptionExpanded {
             padding: 1px 2px 1px 2px;
-        }
-
-        .scButton {
-            font: 8pt tahoma;
         }
 
         #WarningRow {
@@ -100,12 +103,21 @@
             font-weight: bolder;
         }
 
+        .scEditorPanel {
+            overflow-y: auto;
+        }
+
         .novalidators .scEditorPanel {
           margin-right: 0;
         }
+
+        tr {
+            vertical-align: top;
+        }
+
     </style>
 </head>
-<body runat="server" id="Body" style="background-color: #e9e9e9">
+<body runat="server" id="Body">
     <form id="ContentEditorForm" style="" runat="server">
         <sc:CodeBeside ID="CodeBeside1" runat="server" Type="Sitecore.sitecore.shell.Applications.Workbox.CommentEditor, Sitecore.Client" />
         <asp:PlaceHolder ID="scLanguage" runat="server" />

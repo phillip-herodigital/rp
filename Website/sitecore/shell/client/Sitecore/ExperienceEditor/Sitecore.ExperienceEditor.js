@@ -118,6 +118,7 @@ Sitecore.ExperienceEditor = {
   navigateToItem: function (itemId) {
     var url = window.top.location.toString();
     url = Sitecore.ExperienceEditor.Web.replaceItemIdParameter(url, itemId);
+    url = Sitecore.ExperienceEditor.Web.setQueryStringValue(url, "sc_ee_fb", "false");
 
     Sitecore.ExperienceEditor.navigateToUrl(url);
   },
@@ -125,6 +126,23 @@ Sitecore.ExperienceEditor = {
   navigateToItemInCE: function (itemId) {
     var context = Sitecore.ExperienceEditor.generateDefaultContext();
     context.currentContext.value = itemId;
+    var usePopUpContentEditor = window.parent.Sitecore.WebEditSettings.usePopUpContentEditor;
+    if (usePopUpContentEditor) {
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Breadcrumb.EditItem", function (response) {
+        var value = response.responseValue.value.split('|');
+        if (value.length != 2) {
+          return;
+        }
+
+        var dialogUrl = value[0];
+        var dialogFeatures = value[1];
+        console.log(response.responseValue.value);
+        Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogUrl, null, dialogFeatures);
+      }).execute(context);
+
+      return;
+    }
+
     Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Item.GetUri", function (response) {
       var url = Sitecore.ExperienceEditor.Web.replaceCEParameter(window.top.location.toString(), "1");
       url = Sitecore.ExperienceEditor.Web.setQueryStringValue(url, "sc_ce_uri", encodeURIComponent(response.responseValue.value));

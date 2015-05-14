@@ -15,7 +15,6 @@
       this.set("RuleValue", "--");
       this.set("Default", "--");
       this.set("ChangeRate", "--");
-      this.set("ChangeValue", "0");
       this.set("RuleVisitors", "0");
       this.set("VisitorsRate", "0");
 
@@ -23,6 +22,9 @@
     },
     
     fetch: function () {
+      if (this.get("isSilent"))
+        return;
+
       var uri = dataUtil.composeUri(this);
       var ruleSetId = this.get("ruleSetId");
       var ruleId = this.get("ruleId");
@@ -31,13 +33,13 @@
         return;
       }
 
-      if (this.get("isBusy")) {
-        this.set("invalidated", true);
-        return;
-      }
+      //if (this.get("isBusy")) {
+      //  this.set("invalidated", true);
+      //  return;
+      //}
 
-      this.set("isBusy", true);
-      this.set("invalidated", false);
+      //this.set("isBusy", true);
+      //this.set("invalidated", false);
 
       var self = this;
       var url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
@@ -51,19 +53,18 @@
         url: url,
         context: this,
         success: function(data) {
-          if (self.get("invalidated")) {
-            self.fetch();
-          } else {
-            self.set("isBusy", false);
+          //if (self.get("invalidated")) {
+          //  self.fetch();
+          //} else {
+          //  self.set("isBusy", false);
             self.set({
               RuleValue: data.RuleValue,
               Default: data.DefaultValue,
               ChangeRate: data.ChangeRate,
-              ChangeValue: data.ChangeValue,
               RuleVisitors: data.Visitors,
               VisitorsRate: data.VisitorsRate
             });
-          }
+          //}
         }
       };
 

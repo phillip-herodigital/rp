@@ -21,6 +21,9 @@ To enable this include file, rename it so that is has a ".config" extension.
     </settings>
     <!-- PATH ANALYZER -->
     <pathAnalyzer>
+      <propertyStore type="Sitecore.PathAnalyzer.Processing.SqlPropertyStore, Sitecore.PathAnalyzer" singleInstance="true">
+        <param desc="connectionString">reporting</param>
+      </propertyStore>
       <remoteServices>
         <!-- AUTHORIZED CLIENTS
                 Specifies a list of client apps that are allowed to communicate/authenticate with the services API.

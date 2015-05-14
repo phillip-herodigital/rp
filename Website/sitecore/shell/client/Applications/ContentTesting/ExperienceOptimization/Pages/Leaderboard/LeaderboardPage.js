@@ -10,6 +10,7 @@ define(["sitecore", "dataRepeaterBinding"], function (_sc, dataRepeaterBinding) 
     },
 
     initialized: function () {
+      var self = this;
 
       dataRepeaterBinding.init({
         improvementText: this.Texts.get("{0} % improvement from last month"),
@@ -30,6 +31,20 @@ define(["sitecore", "dataRepeaterBinding"], function (_sc, dataRepeaterBinding) 
       this.CurrentTestOutcomes.on("subAppLoaded", dataRepeaterBinding.bindLeaderboardEntryData, this);
 
       this.on("setview", this.setview, this);
+
+      // #26554 - hiding of the "ProgressIndicators" if their top-position == 0(changing of the top-position for invisibility)
+      var idInterval = setInterval(function () {
+        var arIndicators = [self.PreviousAverageDataBusyIndicator, self.PreviousAverageBusyIndicator, self.PreviousPeriodDataBusyIndicator, self.PreviousPeriodBusyIndicator,
+                            self.CurrentAverageDataBusyIndicator, self.CurrentAverageBusyIndicator, self.CurrentDataBusyIndicator, self.CurrentBusyIndicator];
+
+        for (var i = 0; i < arIndicators.length; i++) {
+          var top = parseInt(arIndicators[i].viewModel.$el.css("top"));
+          if (top == 0) {
+            arIndicators[i].viewModel.$el.css("top", (top - 1000) + "px");
+          }
+        }        
+      }, 50);
+
     },
 
     setRepeaterAverageData: function () {

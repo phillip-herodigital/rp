@@ -181,12 +181,7 @@ table.scDialogContentContainer
 
 .scConditionsAndActions > div
 {
-  height: 95%;
-}
-
-.ie .scConditionsAndActions > div
-{
-  height: 75%;
+  height: 100%;
 }
 
 .scConditions
@@ -268,6 +263,8 @@ table.scDialogContentContainer
   border: 1px solid;
   border-color: #d6d6d6;
   padding: 5px;
+  height: calc(100% - 75px);
+  min-height: 1px !important;
 }
 
 .scDescription

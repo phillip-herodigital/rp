@@ -1,6 +1,6 @@
 <%@ OutputCache Location="None" VaryByParam="none" %>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Analytics" %>
-<%@ Page Language="c#" CodeBehind="noaccess.aspx.cs" EnableViewState="false" EnableViewStateMac="false" AutoEventWireup="True" Inherits="SitecoreClient.Page.NoAccess" %>
+<%@ Page Language="c#" CodeBehind="noaccess.aspx.cs" EnableViewState="false" AutoEventWireup="True" Inherits="SitecoreClient.Page.NoAccess" %>
 <!DOCTYPE html>
 <html>
 <head>

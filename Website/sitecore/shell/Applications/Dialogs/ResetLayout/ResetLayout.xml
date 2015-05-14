@@ -6,7 +6,7 @@
 
       <Border>
         <Border Margin="8px 0px 0px 0px">
-          <Checkbox ID="ResetFinalCheckbox" Header="Reset the versioned layout details." Checked="true" Change="OnResetFinalCheckboxClick"/>
+          <Checkbox ID="ResetFinalCheckbox" Header="Reset the final layout details." Checked="true" Change="OnResetFinalCheckboxClick"/>
           <Border Margin="0px 0px 0px 15px">
             <Border Margin="5px 0px 0px 0px">
               <Radiobutton ID="ResetFinalInThisVersion" Name="ResetFinal" Value="ThisVersion" Header="Reset this version." Checked="true" />

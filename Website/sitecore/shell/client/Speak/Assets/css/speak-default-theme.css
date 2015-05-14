@@ -8574,10 +8574,10 @@ fieldset[disabled] .sc .btn-inverse.active {
   position: relative;
   display: inline-block;
 }
-.sc .sc-dropdownbutton .btn {
+.sc .sc-dropdownbutton > .btn {
   padding-right: 30px;
 }
-.sc .sc-dropdownbutton .btn .sc-icon {
+.sc .sc-dropdownbutton > .btn .sc-icon {
   border: 0;
   position: relative;
   width: 16px;
@@ -8586,13 +8586,13 @@ fieldset[disabled] .sc .btn-inverse.active {
   margin-top: 2px;
   margin-right: 4px;
 }
-.sc .sc-dropdownbutton .btn .sc-dropdownbutton-toggler {
+.sc .sc-dropdownbutton > .btn .sc-dropdownbutton-toggler {
   position: absolute;
   right: 12px;
   top: 50%;
   margin-top: -4px;
 }
-.sc .sc-dropdownbutton .btn .sc-dropdownbutton-chevron {
+.sc .sc-dropdownbutton > .btn .sc-dropdownbutton-chevron {
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
@@ -10185,7 +10185,11 @@ select.sc-listbox::-webkit-scrollbar-track {
   margin-bottom: 15px;
 }
 .sc .sc-textarea {
+  resize: vertical;
   margin: 0;
+}
+.sc .sc-textarea[disabled] {
+  resize: none;
 }
 .sc .sc-textarea.input-block-level {
   width: 100%;
@@ -11541,6 +11545,7 @@ a.sc-dialogWindow-close:hover {
   background-position: 0 -16px;
 }
 a.sc-dialogWindow-close:before {
+  pointer-events: none;
   content: "";
   display: block;
   float: left;
@@ -11667,9 +11672,6 @@ form.sc-uploader {
   margin-top: 20px;
   min-height: 128px;
 }
-.sc-uploaderInfo-row textarea {
-  resize: vertical;
-}
 .sc-uploaderInfo-row.error {
   border: 1px solid #ca241c;
   background-color: #f7f7f7;
@@ -11692,6 +11694,38 @@ form.sc-uploader {
 }
 .sc-uploaderInfo-extra .progress {
   width: 200px;
+  height: 18px;
+  overflow: hidden;
+  background-color: #fafafa;
+  background-image: -webkit-linear-gradient(top, #fafafa 0%, #fafafa 100%);
+  background-image: -o-linear-gradient(top, #fafafa 0%, #fafafa 100%);
+  background-image: linear-gradient(to bottom, #fafafa 0%, #fafafa 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffafafa', endColorstr='#fffafafa', GradientType=0);
+  border-radius: 6px;
+  -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1);
+}
+.sc-uploaderInfo-extra .progress .bar {
+  width: 0;
+  height: 12px;
+  margin-top: 3px;
+  float: left;
+  background-color: #6ea244;
+  background-image: -webkit-linear-gradient(top, #88bb5d 0%, #6ea244 100%);
+  background-image: -o-linear-gradient(top, #88bb5d 0%, #6ea244 100%);
+  background-image: linear-gradient(to bottom, #88bb5d 0%, #6ea244 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff88bb5d', endColorstr='#ff6ea244', GradientType=0);
+  -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.15);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: width 0.6s ease;
+  -o-transition: width 0.6s ease;
+  transition: width 0.6s ease;
+  border-radius: 6px;
 }
 .sc-uploaderInfo-extra-status,
 .sc-uploaderInfo-extra-action {
@@ -11886,8 +11920,9 @@ form.sc-uploader {
   width: 0;
   height: 0;
   position: absolute;
-  right: 15px;
-  top: 15px;
+  right: 0;
+  top: 50%;
+  margin-top: -4px;
   cursor: pointer;
   border-left: 0.500em solid transparent;
   border-right: 0.500em solid transparent;
@@ -12093,8 +12128,8 @@ form.sc-uploader {
 }
 .sc-listcontrol .sc-table tbody tr th .sc-table-sortable,
 .sc-listcontrol .sc-table thead th .sc-table-sortable {
-  right: 12px;
-  top: 5px;
+  right: 0;
+  top: 50%;
 }
 .sc-listcontrol .sc-listcontrol-body .table,
 .sc-listcontrol .sc-listcontrol-body .sc-table {
@@ -12988,7 +13023,7 @@ form.sc-uploader {
 .mCSB_scrollTools .mCSB_buttonDown,
 .mCSB_scrollTools .mCSB_buttonLeft,
 .mCSB_scrollTools .mCSB_buttonRight {
-  background-image: url(../../Speak/Renderings/Behaviors/mCSB_buttons.png);
+  background-image: url(../Speak/Renderings/Behaviors/mCSB_buttons.png);
   background-repeat: no-repeat;
   opacity: 0.4;
   filter: "alpha(opacity=40)";

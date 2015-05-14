@@ -1,12 +1,11 @@
 ﻿require.config({
+  baseUrl: '/sitecore/shell/client/Applications/ContentTesting/Common/lib',
   paths: {
-    bindingUtil: "/-/speak/v1/contenttesting/BindingUtil",
-    editUtil: "/-/speak/v1/contenttesting/EditUtil",
     loadingImage: "/sitecore/shell/client/Sitecore/ContentTesting/LoadingImage"
   }
 });
 
-define(["sitecore", "bindingUtil", "editUtil", "loadingImage"], function (_sc, bindingUtil, editUtil, loadingImage) {
+define(["sitecore", "BindingUtil", "EditUtil", "loadingImage"], function (_sc, bindingUtil, editUtil, loadingImage) {
   var DraftTests = _sc.Definitions.App.extend({
     initialized: function () {
       this.TestsList.on("change:selectedItemId", this.selectionChanged, this);
@@ -20,13 +19,13 @@ define(["sitecore", "bindingUtil", "editUtil", "loadingImage"], function (_sc, b
 
     selectionChanged: function () {
       var selected = this.TestsList.get("selectedItem");
-      var hostId = selected.get("HostPageId");
-      var language = selected.get("Language");
-      if (!hostId) {
+
+      var hostUri = selected.get("HostPageUri");
+      if (!hostUri) {
         return;
       }
 
-      editUtil.openPageTestPage(hostId, false, true, language);
+      editUtil.openPageTestPage(hostUri, false, true);
     }
   });
 

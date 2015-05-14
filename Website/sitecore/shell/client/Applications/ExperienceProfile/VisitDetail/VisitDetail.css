@@ -95,3 +95,12 @@ div.sc-advancedExpander[data-sc-id=DialogGoalsAccordion] .sc-advancedExpander-bo
     width: 16.67%;
   }
 }
+
+div[data-sc-id=VisitDialogContactBorder] span,
+div[data-sc-id=VisitDialogContactBorder] a
+{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+}

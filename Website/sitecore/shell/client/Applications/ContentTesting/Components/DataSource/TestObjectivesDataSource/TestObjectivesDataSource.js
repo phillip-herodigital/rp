@@ -23,10 +23,23 @@ define([
 
         this.set("excludeItems", "");
         this.set("items", []);
+        this.set("totalItems", 0);
+        this.set("page", 1);
+        this.set("pageSize", 5);
+        this.set("searchTerm", "");
+        
+        this.on("change:searchTerm change:page", this.refresh, this);
       },
 
       refresh: function () {
         var excludeItems = this.get("excludeItems") || "";
+        if (this.changed.searchTerm != undefined){
+          this.set("page", 1, {silent: true});
+        }
+        
+        var page = this.get("page");
+        var pageSize = this.get("pageSize");
+        var searchTerm = this.get("searchTerm");
         /*var parameters = (excludeListParameter === undefined || excludeListParameter === "")
           ? ""
           : "?excludeitems=" + excludeListParameter;*/
@@ -40,13 +53,27 @@ define([
         var url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
           excludeitems: excludeItems
         });
+        
+        url = Sitecore.Helpers.url.addQueryParameters(url, {
+          "page": page
+        });
+        
+        url = Sitecore.Helpers.url.addQueryParameters(url, {
+          "pageSize": pageSize
+        });
+        
+        url = Sitecore.Helpers.url.addQueryParameters(url, {
+          "query": searchTerm
+        });
+        
+        
 
         var ajaxOptions = {
           cache: false,
           url: url,
           context: this,
           success: function (data) {
-            this.set("items", data);
+            this.set({"items": data.items,"totalItems": data.totalResults});
           }
         };
 

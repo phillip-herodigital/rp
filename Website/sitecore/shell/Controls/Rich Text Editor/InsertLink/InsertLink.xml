@@ -20,7 +20,7 @@
         <Tab ID="MediaTab" Header="Media Items">
           <TreeviewEx ID="MediaTreeview" DataContext="MediaDataContext" Root="true" Click="OnMediaTreeviewClicked" />
         </Tab>
-        <SearchTab Mode="MediaBrowser" Header="Search"/>
+        <SearchTab Mode="MiniResults" Header="Search"/>
       </Tabstrip>
       <Border def:placeholder="Buttons">
         <Button ID="BtnUpload" style="display:none;" Header="Upload" Click="media:upload(edit=1,load=1)"/>

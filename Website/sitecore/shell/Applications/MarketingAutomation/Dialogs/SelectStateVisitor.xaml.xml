@@ -20,8 +20,7 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <script type="text/javascript" language="javascript" runat="server" x:placeholder="Scripts">
-        <![CDATA[
+      <script type="text/javascript">
         function Visitors_onDoubleClick(sender, eventArgs)
         {
           scForm.postRequest('','','','OK_Click');
@@ -30,7 +29,6 @@
         {
           //scForm.postRequest('','','','OpenReport');
         }
-        ]]>
       </script>
 
       <GridPanel ID="MainPanel" Height="100%" Width="100%" runat="server">

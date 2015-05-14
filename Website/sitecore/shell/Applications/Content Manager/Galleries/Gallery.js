@@ -106,7 +106,7 @@ scTGallery.prototype.onLoad = function () {
       frame.style.height = (viewport.offsetHeight - frame.offsetTop - 1) + "px";
     }
   }
-  frame.style.zIndex = "2000";
+  frame.style.zIndex = "10000";
 }
 
 scTGallery.prototype.mouseDown = function (tag, evt) {

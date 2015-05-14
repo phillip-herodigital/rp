@@ -23,7 +23,7 @@
           argument: ""
         };
 
-        this.collapsed = false;
+        this.collapsed = Sitecore.ExperienceEditor.Common.getCookieValue("sitecore_webedit_ribbon") == "1";
         this.setToggleShow();
 
         Sitecore.ExperienceEditor.instance = this;
@@ -42,6 +42,7 @@
         Sitecore.ExperienceEditor.PipelinesUtil.executePipeline(this.InitializePageEditPipeline, function () {
           Sitecore.Pipelines.InitializePageEdit.execute({ app: self, currentContext: pipelineContext });
           self.setHeight();
+          self.trigger("button:toggleshow", true);
         });
 
         $(window).bind("click resize", function () {
@@ -64,6 +65,12 @@
           return;
         }
 
+        if (window.parent
+          && window.parent.document
+          && window.parent.document.activeElement
+          && window.parent.document.activeElement.blur) {
+          window.parent.document.activeElement.blur();
+        }
         Sitecore.ExperienceEditor.instance.executeCommand("Save", null);
       },
       prepareHeaderButtons: function() {
@@ -167,18 +174,26 @@
 
         this.QuickRibbon.viewModel.$el.attr("style", "float:right");
         this.QuickRibbon.viewModel.$el.find("img").attr("src", "/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/dark_gray/navigate_down.png");
-        this.on("button:toggleshow", function () {
+        this.on("button:toggleshow", function (denyCollapse) {
+          if (denyCollapse != true) {
+            this.collapsed = !this.collapsed;
+          }
+
           if (this.collapsed) {
             this.QuickRibbon.viewModel.$el.find("img").attr("src", "/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/dark_gray/navigate_up.png");
             this.Ribbon.viewModel.$el.show();
             this.setHeight(this.ScopedEl.height());
-            this.collapsed = false;
           } else {
             this.QuickRibbon.viewModel.$el.find("img").attr("src", "/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/dark_gray/navigate_down.png");
             this.Ribbon.viewModel.$el.hide();
             this.setHeight(this.ScopedEl.height());
-            this.collapsed = true;
           }
+
+          if (denyCollapse == true) {
+            return;
+          }
+
+          Sitecore.ExperienceEditor.Common.setCookie("sitecore_webedit_ribbon", !this.collapsed ? "0" : "1");
         }, this);
       },
       setHeight: function (height) {
@@ -222,9 +237,14 @@
         this.showNotification("error", message, true, true);
       },
       refreshOnItem: function (context) {
-        Sitecore.ExperienceEditor.modifiedHandling(null, function(isOk) {
-          var url = "/?sc_itemId=" + context.itemId + "&sc_lang=" + context.language + "&sc_db=" + context.database + "&sc_device=" + context.deviceId + "&sc_mode=" + context.webEditMode;
-          window.parent.location = url;
+        Sitecore.ExperienceEditor.modifiedHandling(null, function (isOk) {
+          if (escape(Sitecore.ExperienceEditor.instance.currentContext.itemId) != escape(context.itemId)) {
+            var url = "/?sc_itemid=" + context.itemId + "&sc_lang=" + context.language + "&sc_db=" + context.database + "&sc_device=" + context.deviceId + "&sc_mode=" + context.webEditMode;
+            window.parent.location = url;
+            return;
+          }
+
+          window.parent.location.reload();
         });
       },
       enableButtonClickEvents: function () {

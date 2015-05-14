@@ -1,34 +1,34 @@
 ﻿// Hack described here http://www.telerik.com/community/forums/sharepoint-2007/full-featured-editor/paragraph-style-names-don-t-match-config.aspx
 function OnClientSelectionChange(editor, args) {
-  var tool = editor.getToolByName("FormatBlock");
-  if (tool) {
-    setTimeout(function () {
-      var defaultBlockSets = [
-        ["p", "Normal"],
-        ["h1", "Heading 1"],
-        ["h2", "Heading 2"],
-        ["h3", "Heading 3"],
-        ["h4", "Heading 4"],
-        ["h5", "Heading 5"],
-        ["menu", "Menu list"],
-        ["pre", "Formatted"],
-        ["address", "Address"]];
+    var tool = editor.getToolByName("FormatBlock");
+    if (tool) {
+        setTimeout(function () {
+            var defaultBlockSets = [
+              ["p", "Normal"],
+              ["h1", "Heading 1"],
+              ["h2", "Heading 2"],
+              ["h3", "Heading 3"],
+              ["h4", "Heading 4"],
+              ["h5", "Heading 5"],
+              ["menu", "Menu list"],
+              ["pre", "Formatted"],
+              ["address", "Address"]];
 
-      var value = tool.get_value();
+            var value = tool.get_value();
 
-      var block = Prototype.Browser.IE
-        ? defaultBlockSets.find(function (element) { return element[1] == value; })
-        : [value];
+            var block = Prototype.Browser.IE
+              ? defaultBlockSets.find(function (element) { return element[1] == value; })
+              : [value];
 
-      if (block) {
-        var tag = block[0];
-        var correctBlock = editor._paragraphs.find(function (element) { return element[0].indexOf(tag) > -1; });
-        if (correctBlock) {
-          tool.set_value(correctBlock[1]);
-        }
-      }
-    }, 0);
-  }
+            if (block) {
+                var tag = block[0];
+                var correctBlock = editor._paragraphs.find(function (element) { return element[0].indexOf(tag) > -1; });
+                if (correctBlock) {
+                    tool.set_value(correctBlock[1]);
+                }
+            }
+        }, 0);
+    }
 }
 
 function OnClientModeChange(editor) {
@@ -59,26 +59,26 @@ function OnClientModeChange(editor) {
 }
 
 function OnClientCommandExecuted(sender, args) {
-  if (args.get_commandName() == "SetImageProperties") {
-    replaceClearImgeDimensionsFunction();
-  }
+    if (args.get_commandName() == "SetImageProperties") {
+        replaceClearImgeDimensionsFunction();
+    }
 }
 
 function replaceClearImgeDimensionsFunction(count) {
-  if (!count) count = 0;
-  setTimeout(function () {
-      try {
-          var selector = 'iframe[src^="Telerik.Web.UI.DialogHandler.aspx?DialogName=ImageProperties"]';
-          $$(selector)[0].contentWindow.Telerik.Web.UI.Widgets.ImageProperties.prototype._clearImgeDimensions = function (image) {
-              fixImageParameters(image, prefixes.split('|'));
-          };
-      } catch (e) {
-          if (count < 10) {
-              count++;
-              replaceClearImgeDimensionsFunction(count);
-          }
-      }
-  }, 500);
+    if (!count) count = 0;
+    setTimeout(function () {
+        try {
+            var selector = 'iframe[src^="Telerik.Web.UI.DialogHandler.aspx?DialogName=ImageProperties"]';
+            $$(selector)[0].contentWindow.Telerik.Web.UI.Widgets.ImageProperties.prototype._clearImgeDimensions = function (image) {
+                fixImageParameters(image, prefixes.split('|'));
+            };
+        } catch (e) {
+            if (count < 10) {
+                count++;
+                replaceClearImgeDimensionsFunction(count);
+            }
+        }
+    }, 500);
 }
 
 function fixImageParameters(image, mediaPrefixes) {
@@ -90,24 +90,24 @@ function fixImageParameters(image, mediaPrefixes) {
             continue;
         };
 
-      var imageHost = decodeURI(window.location.protocol + "//" + window.location.hostname);
+        var imageHost = decodeURI(window.location.protocol + "//" + window.location.hostname);
 
-      if (new RegExp("^" + imageHost + "(.)*/" + decodeURI(mediaPrefixes[i]) + "*", "i").test(decodeURI(image.src))) {
-          isMediaLink = true;
-          break;
-      };
+        if (new RegExp("^" + imageHost + "(.)*/" + decodeURI(mediaPrefixes[i]) + "*", "i").test(decodeURI(image.src))) {
+            isMediaLink = true;
+            break;
+        };
     };
 
     if (!isMediaLink) { return; };
 
-    _toQueryParams = function(href) {
+    _toQueryParams = function (href) {
         var result = {};
 
         var search = href.split("?")[1];
 
         if (search !== undefined) {
             var params = search.split("&");
-            $sc.each(params, function(index, value) {
+            $sc.each(params, function (index, value) {
                 var param = value.split("=");
                 result[param[0]] = param[1];
             });
@@ -140,12 +140,12 @@ function fixImageParameters(image, mediaPrefixes) {
         image.removeAttribute("height");
         params["h"] = height;
     }
-    // else if attribute
+        // else if attribute
     else if (image.attributes !== undefined && image.attributes["height"] !== undefined && image.attributes["height"] !== "") {
         image.style.height = image.attributes["height"].value + "px";
         params["h"] = image.attributes["height"].value;
     }
-    // no style, no attribute
+        // no style, no attribute
     else {
         delete params["h"];
     }
@@ -156,12 +156,12 @@ function fixImageParameters(image, mediaPrefixes) {
         image.removeAttribute("width");
         params["w"] = width;
     }
-    // else if attribute
+        // else if attribute
     else if (image.attributes !== undefined && image.attributes["width"] !== undefined && image.attributes["width"] !== "") {
         image.style.width = image.attributes["width"].value + "px";
         params["w"] = image.attributes["width"].value;
     }
-    // no style, no attribute
+        // no style, no attribute
     else {
         delete params["w"];
     }
@@ -177,68 +177,113 @@ function fixImageParameters(image, mediaPrefixes) {
 
 // Fix mentioned here http://www.telerik.com/community/forums/aspnet-ajax/editor/html-entity-characters-are-not-escaped-on-hyperlink-editor-email-subject.aspx
 function OnClientPasteHtml(sender, args) {
-  var commandName = args.get_commandName();
-  var value = args.get_value();
-  if (Prototype.Browser.IE && (commandName == "LinkManager" || commandName == "SetLinkProperties")) {
-    if (/<a[^>]*href=['|"]mailto:.*subject=/i.test(value)) {
-      var hrefMarker = 'href=';
+    var commandName = args.get_commandName();
+    var value = args.get_value();
+    if (Prototype.Browser.IE && (commandName == "LinkManager" || commandName == "SetLinkProperties")) {
+        if (/<a[^>]*href=['|"]mailto:.*subject=/i.test(value)) {
+            var hrefMarker = 'href=';
 
-      // quote could be ' or " depending on subject content
-      var quote = value.charAt(value.indexOf(hrefMarker) + hrefMarker.length);
-      var regex = new RegExp(hrefMarker + quote + 'mailto:.*subject=.*' + quote, 'i');
-      var fixedValue = value.replace(regex, function (str) { return str.replace(/</g, "&lt;").replace(/>/g, "&gt;"); });
-      args.set_value(fixedValue);
+            // quote could be ' or " depending on subject content
+            var quote = value.charAt(value.indexOf(hrefMarker) + hrefMarker.length);
+            var regex = new RegExp(hrefMarker + quote + 'mailto:.*subject=.*' + quote, 'i');
+            var fixedValue = value.replace(regex, function (str) { return str.replace(/</g, "&lt;").replace(/>/g, "&gt;"); });
+            args.set_value(fixedValue);
+        }
+    } else if (commandName == "Paste") {
+        // The StripPathsFilter() method receives as a parameter an array of strings (devided by a white space) that will be stripped from the absolute links.
+        var relativeUrl = getRelativeUrl(); //returns the relative url.
+        var domainUrl = window.location.protocol + '//' + window.location.host;
+        if (relativeUrl) {
+            var filter = new Telerik.Web.UI.Editor.StripPathsFilter([relativeUrl, domainUrl]); //strip the domain name from the absolute path
+
+            var contentElement = document.createElement("SPAN");
+            contentElement.innerHTML = value;
+            var newElement = filter.getHtmlContent(contentElement);
+            value = newElement.innerHTML;
+            if (scForm.browser.isFirefox) {
+                value = value.replace(/%7e\//ig, '~/');
+            }
+
+            args.set_value(value);  //set the modified pasted content in the editor
+        }
     }
-} else if (commandName == "Paste") {
-    // The StripPathsFilter() method receives as a parameter an array of strings (devided by a white space) that will be stripped from the absolute links.
-    var relativeUrl = getRelativeUrl(); //returns the relative url.
-    var domainUrl = window.location.protocol + '//' + window.location.host;
-    if (relativeUrl) {
-      var filter = new Telerik.Web.UI.Editor.StripPathsFilter([relativeUrl, domainUrl]); //strip the domain name from the absolute path
 
-      var contentElement = document.createElement("SPAN");
-      contentElement.innerHTML = value;
-      var newElement = filter.getHtmlContent(contentElement);
-      value = newElement.innerHTML;
-      if (scForm.browser.isFirefox) {
-        value = value.replace(/%7e\//ig, '~/');
-      }
-
-      args.set_value(value);  //set the modified pasted content in the editor
-  }
-  }
-
-  if (Prototype.Browser.IE) {
-    var helperIframe = $$("iframe[title^='Paste helper']:first")[0];
-    if (helperIframe) {
-        Element.setStyle(helperIframe, { width: 0, height: 0 });
+    if (Prototype.Browser.IE) {
+        var helperIframe = $$("iframe[title^='Paste helper']:first")[0];
+        if (helperIframe) {
+            Element.setStyle(helperIframe, { width: 0, height: 0 });
+        }
     }
-  }
 }
 
 function getRelativeUrl() {
-  var result = window.location.href;
-  if (result) {
-    var query = window.location.search;
-    if (query) {
-      result = result.substring(0, result.length - query.length);
+    var result = window.location.href;
+    if (result) {
+        var query = window.location.search;
+        if (query) {
+            result = result.substring(0, result.length - query.length);
+        }
+
+        var slashPosition = result.lastIndexOf('/');
+        if (slashPosition > -1) {
+            result = result.substring(0, slashPosition + 1);
+        }
     }
 
-    var slashPosition = result.lastIndexOf('/');
-    if (slashPosition > -1) {
-      result = result.substring(0, slashPosition + 1);
-    }
-  }
-
-  return result;
+    return result;
 }
 
 function fixIeObjectTagBug() {
-  var objects = Element.select($('Editor_contentIframe').contentWindow.document, 'object');
-  var i;
-  for (i = 0; i < objects.length; i++) {
-    if (!objects[i].id || objects[i].id.indexOf('IE_NEEDS_AN_ID_') > -1) {
-      objects[i].id = 'IE_NEEDS_AN_ID_' + i;
+    var objects = Element.select($('Editor_contentIframe').contentWindow.document, 'object');
+    var i;
+    for (i = 0; i < objects.length; i++) {
+        if (!objects[i].id || objects[i].id.indexOf('IE_NEEDS_AN_ID_') > -1) {
+            objects[i].id = 'IE_NEEDS_AN_ID_' + i;
+        }
     }
-  }
+}
+
+// Fix mentioned here http://www.telerik.com/forums/odd-behavior-when-cut-and-paste-in-firefox.
+function fixFirefoxPaste() {
+    var onBeforePaste = Telerik.Web.UI.RadEditor.prototype._onBeforePaste;
+    Telerik.Web.UI.RadEditor.prototype._onBeforePaste = function (oEvent) {
+        onBeforePaste.call(this, oEvent);
+        if ($telerik.isFirefox) {
+            this.getSelection().getRange().deleteContents();
+        }
+    }
+}
+
+function removeInlineScriptsInRTE(scRichText) {
+    var editor = scRichText.getEditor();
+
+    var content = editor.get_html();
+    var result = content;
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(result, "text/html");
+
+    validateScripts(doc.body);
+    result = doc.body.innerHTML;
+    editor.set_html(result);
+}
+
+function validateScripts(el) {
+    if (el) {
+        el.removeAttribute('srcdoc');
+        el.removeAttribute('allowscriptaccess');
+
+        for (var i = 0; i < el.attributes.length; i++) {
+            if (el.attributes[i].name.startsWith('on') || (el.attributes[i].value.indexOf("javascript") > -1) || (el.attributes[i].value.indexOf("base64") > -1)) {
+                el.removeAttribute(el.attributes[i].name);
+            }
+        }
+
+        if (el.childNodes.length > 0) {
+            for (var child in el.childNodes) {
+                /* nodeType == 1 is filter element nodes only */
+                if (el.childNodes[child].nodeType == 1)
+                    validateScripts(el.childNodes[child]);
+            }
+        }
+    }
 }

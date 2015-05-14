@@ -174,6 +174,9 @@ define(["sitecore",
                     this.ExperienceEditorButton.set('isVisible', !editMode);
                     var saveRuleItemVisibility = editMode && this.RulesTabAccordionWrapper.get("isVisible");
                     this.SaveRuleItem.set('isVisible', saveRuleItemVisibility);
+
+                    var saveRuleItemEnabled = this.viewManager.treeview.viewModel.selectedNode() != null;
+                    this.SaveRuleItem.set('isEnabled', saveRuleItemEnabled);
                 },
 
                 initMatcher: function () {

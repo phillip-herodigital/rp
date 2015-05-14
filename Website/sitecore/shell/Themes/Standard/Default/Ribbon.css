@@ -954,7 +954,8 @@ a:hover .scRibbonToolbarSmallButtonPrefix {
 .lang_ja_jp .scRibbon a.scRibbonNavigatorButtonsNormal,
 .lang_ja_jp .scRibbonTranslatePanelRow,
 .lang_ja_jp .scRibbonCombobox {
-    font: 12px Meiryo, tahoma, sans-serif;
+   font-size: 12pt;
+   font-family: メイリオ, Meiryo, tahoma, sans-serif;
 }
 
     .lang_ja_jp .scRibbon a.scRibbonNavigatorButtonsNormal {

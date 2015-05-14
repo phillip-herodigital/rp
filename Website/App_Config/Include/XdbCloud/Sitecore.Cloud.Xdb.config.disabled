@@ -42,6 +42,62 @@ To enable this include file, rename it so that it has a ".config" extension.
         </paths>
       </remote>
     </reporting>
+	
+	<marketingDefinitions>
+      
+      <deploymentManager>
+        <param desc="targetRepository">remote</param>
+      </deploymentManager>
+
+      <!--Enable remote definition repositories-->
+      <campaign>
+        <repositories>
+          <remote type="Sitecore.Marketing.Definitions.Campaigns.Data.Remote.CampaignRemoteDefinitionRepository, Sitecore.Marketing" singleInstance="true">
+            <param desc="httpTransport" ref="httpTransportFactory" />
+            <param desc="handler">/~/v80/marketingdefinitions/remote/campaign/</param>
+          </remote>
+        </repositories>
+      </campaign>
+
+      <goal>
+        <repositories>
+          <remote type="Sitecore.Marketing.Definitions.Goals.Data.Remote.GoalRemoteDefinitionRepository, Sitecore.Marketing" singleInstance="true">
+            <param desc="httpTransport" ref="httpTransportFactory" />
+            <param desc="handler">/~/v80/marketingdefinitions/remote/goal/</param>
+          </remote>
+        </repositories>
+      </goal>
+
+      <outcome>
+        <repositories>
+          <remote type="Sitecore.Marketing.Definitions.Outcomes.Data.Remote.OutcomeRemoteDefinitionRepository, Sitecore.Marketing" singleInstance="true">
+            <param desc="httpTransport" ref="httpTransportFactory" />
+            <param desc="handler">/~/v80/marketingdefinitions/remote/outcome/</param>
+          </remote>
+        </repositories>
+      </outcome>
+      <!--End-->
+	  
+	  <asset>
+        <repositories>
+          <remote type="Sitecore.Marketing.Definitions.MarketingAssets.Data.Remote.MarketingAssetRemoteDefinitionRepository, Sitecore.Marketing.Definitions.MarketingAssets.Repositories" singleInstance="true">
+            <param desc="httpTransport" ref="httpTransportFactory" />
+            <param desc="handler">/~/v80/marketingdefinitions/remote/asset/</param>
+          </remote>
+        </repositories>
+      </asset>      
+    </marketingDefinitions>
+	
+	<taxonomy>
+      <deployHandler>
+        <patch:delete />
+      </deployHandler>
+
+      <deployHandler type="Sitecore.Marketing.Taxonomy.Deploy.HttpDeployHandler, Sitecore.Marketing.Taxonomy" singleInstance="true">
+        <param desc="httpTransport" ref="httpTransportFactory"/>
+        <param desc="publishPath">/~/v80/publish/taxonomy/</param>
+      </deployHandler>
+    </taxonomy>
 
     <aggregation>
       <reportingStorageProviders>

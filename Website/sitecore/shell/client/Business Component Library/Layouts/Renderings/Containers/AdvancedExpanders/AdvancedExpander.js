@@ -17,6 +17,7 @@ define(["sitecore", "userProfile"], function(_sc, userProfile) {
         this.set("isOpen", true);
         this.set("isCollapsible", true);
         this.set("showAdditional", false);
+        this.set("showActionBar", false);
         this.set("enableAdditional", false);
         this.set("contentHeight", "100%");
         this.set("userProfileKey", "");
@@ -28,6 +29,8 @@ define(["sitecore", "userProfile"], function(_sc, userProfile) {
       initialize: function(options)
       {
         this._super();
+        
+        this.hasContentInActionBar = this.$el.find(".sc-advancedExpander-header-actionbar-container").has("*").length != 0;
 
         this.model.set("imageUrl", this.$el.attr("data-sc-imageurl"));
         this.syncIconWidth();
@@ -40,6 +43,7 @@ define(["sitecore", "userProfile"], function(_sc, userProfile) {
         this.model.on("change:isOpen", function() {
           _sc.trigger((this.model.get("isOpen") ? "opened" : "closed") + ":" + this.$el.attr("data-sc-id"));
           this.updateStateInUserProfile();
+          this.model.set("showActionBar", this.hasContentInActionBar && this.model.get("isOpen"));
         }, this);
 
         var id = this.$el.attr("data-sc-id");
@@ -72,7 +76,8 @@ define(["sitecore", "userProfile"], function(_sc, userProfile) {
           this.model.set("isOpen", false);
         } else {
           this.model.set("isOpen", true);
-        }   
+        }
+        this.model.set("showActionBar", this.hasContentInActionBar && this.model.get("isOpen"));
         
         var isCollapsible = this.$el.data("sc-iscollapsible");
         if (isCollapsible === "False") {
@@ -85,10 +90,11 @@ define(["sitecore", "userProfile"], function(_sc, userProfile) {
 
         var selfModel = this.model;
         var selfEl = this.$el;
+        var self = this;
 
         var handlerIn = function (el, model) {
           var isOpen = model.get("isOpen");
-          if (!isOpen) {
+          if (self.hasContentInActionBar && !isOpen) {
             $('.sc-advancedExpander-header-actionbar .sc-advancedExpander-header-actionbar-container', el).show();
             $('.sc-advancedExpander-header-actionbar', el).removeClass("sc-actionbar-collapsed");
           }
@@ -96,7 +102,7 @@ define(["sitecore", "userProfile"], function(_sc, userProfile) {
 
         var handlerOut = function (el, model) {
           var isOpen = model.get("isOpen");
-          if (!isOpen) {
+          if (self.hasContentInActionBar && !isOpen) {
             $('.sc-advancedExpander-header-actionbar .sc-advancedExpander-header-actionbar-container', el).hide();
             $('.sc-advancedExpander-header-actionbar', el).removeClass("sc-actionbar-collapsed").addClass("sc-actionbar-collapsed");
           }

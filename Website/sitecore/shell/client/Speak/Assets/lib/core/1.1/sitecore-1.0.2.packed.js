@@ -215,7 +215,7 @@ var f=b.data("precompiled");f||(f=b.text()||"",f=F.template(p,"{{ko_with $item.k
     }
   };
   //KO stuffs  
-  var myPartialBindingProvider = function (initialExclusionSelector, waitingSelector) {
+  var myPartialBindingProvider = function (initialExclusionSelector, waitingSelector, componentSelector) {
     var result = new ko.bindingProvider(),
       originalHasBindings = result.nodeHasBindings;
 
@@ -234,12 +234,28 @@ var f=b.data("precompiled");f||(f=b.text()||"",f=F.template(p,"{{ko_with $item.k
       return false;
     };
 
+    result.getBindings = function (node, bindingContext) {
+      // Only getBindings if context is right. Context must match the component
+      var contextNode = bindingContext.$root.$el,
+        componentNode = $(node).closest(componentSelector);
+
+      if (contextNode && componentNode.length) {
+        var contextNodeMatchesComponent = contextNode.is(componentNode);
+        
+        if (!contextNodeMatchesComponent) {
+          return null;
+        }
+      }
+      
+      return ko.bindingProvider.prototype.getBindings.apply(this, arguments);
+    };
+
     return result;
   };
 
   //to prevent registering the same component multiple times,
   //we add the class data-sc-registered at each component which have been data-bound.
-  ko.bindingProvider.instance = new myPartialBindingProvider(".data-sc-registered", ".data-sc-waiting");
+  ko.bindingProvider.instance = new myPartialBindingProvider(".data-sc-registered", ".data-sc-waiting", "[data-sc-id]");
 
   //Readonly binding usefull for basic controls
   ko.bindingHandlers.readonly = {
@@ -1104,19 +1120,22 @@ _.extend(_sc, {
 
             if (firstLoad) {
               app = Speak.Factories.createApp();
-            } else {
-              app = Speak.Factories.createApp(scopedEL.attr("id"), scopedEL.attr("id"));
-            }
-            if (firstLoad) {
+
               _sc.Helpers.overlay.loadOverlays(app);
               // If the 'initializated' method is defined, run it
               if (typeof app.initialized != "undefined") {
                 app.initialized();
               }
+            } else {
+              app = Speak.Factories.createApp(scopedEL.attr("id"), scopedEL.attr("id"));
+            }
 
-              app.ScopedEl.find("[data-sc-cloak]").removeAttr("data-sc-cloak");
+            app.ScopedEl.find("[data-sc-cloak]").removeAttr("data-sc-cloak");
+
+            if (firstLoad) {
               app.trigger("app:loaded");
             }
+
             if (appLoaded) {
               appLoaded(app);
             }
@@ -4199,9 +4218,15 @@ _.extend(data.Database.prototype, {
 
     var url = this.getUrl(id, options);
 
-    this.get(url).pipe(this.convertToItem).done(completed).fail(function (err) {
-      completed(null, err);
-    });
+    if (options["scope"] && (_.contains(options["scope"], "parent") || _.contains(options["scope"], "children"))) {
+      this.get(url).pipe(this.convertToItems).done(completed).fail(function (err) {
+        completed(null, err);
+      });
+    } else {
+      this.get(url).pipe(this.convertToItem).done(completed).fail(function (err) {
+        completed(null, err);
+      });
+    }
   },
   search: function(searchText, completed, options) {
     if (!completed) {
@@ -4700,7 +4725,7 @@ _.extend(data.Item.prototype, {
   convertResponse: ajaxHelper.convertResponse
 });
 _.extend(_sc.Factories, {
-  createJQueryUIComponent: function (Models, Views, control) {
+  createJQueryUIComponent: function (Models, Views, control, separateWidgetModel) {
     var model = Models.ControlModel.extend({
       initialize: function (options) {
         this._super();
@@ -4725,6 +4750,32 @@ _.extend(_sc.Factories, {
       }
     });
 
+    /*separate model for plugin*/
+    var widgetModel;
+    if (separateWidgetModel) {
+      widgetModel = Models.ControlModel.extend({
+        initialize: function (options) {
+          this._super();
+
+          /* create attributes */
+          _.each(control.attributes, function (attribute) {
+            //skip the sitecore added properties in model
+            if (attribute.added == true)
+              return;
+            //the name of the attribute property can be different for sitecore control model and for jqueryUI plugin
+            var pluginPropertyName = typeof attribute.pluginProperty !== "undefined" ? attribute.pluginProperty : attribute.name;
+            var defaultValue = typeof attribute.defaultValue != "undefined" ? attribute.defaultValue : null;
+            this.set(pluginPropertyName, defaultValue);
+          }, this);
+
+          /* call post initialize function */
+          if (typeof this.initialized != "undefined") {
+            this.initialized();
+          }
+        }
+      });
+    }
+
     var view = Views.ControlView.extend({
       initialize: function (options) {
         this._super();
@@ -4739,13 +4790,15 @@ _.extend(_sc.Factories, {
           }, this);
         }
 
+        if (separateWidgetModel) 
+          this.widgetModel = new widgetModel();
+        
         /* setup attributes on the model */
         _.each(control.attributes, function (attribute) {
+          pluginPropertyName = typeof attribute.pluginProperty !== "undefined" ? attribute.pluginProperty : attribute.name;
           var defaultValue = typeof attribute.defaultValue != "undefined" ? attribute.defaultValue : null;
-          if (typeof defaultValue !== "undefined" && defaultValue !== null) {
-            pluginPropertyName = typeof attribute.pluginProperty !== "undefined" ? attribute.pluginProperty : attribute.name;
+          if (typeof defaultValue !== "undefined" && defaultValue !== null) 
             options[pluginPropertyName] = defaultValue;
-          }
 
           var value = this.$el.attr("data-sc-option-" + pluginPropertyName);
 
@@ -4757,16 +4810,19 @@ _.extend(_sc.Factories, {
             if (value == "false") {
               value = false;
             }
-
-            this.model.set(attribute.name, value);
+            if (separateWidgetModel) {
+              if (this.widgetModel.has(pluginPropertyName))
+                this.model.set(pluginPropertyName, value);
+            }            
+            else
+              this.model.set(attribute.name, value);
 
             /*if (typeof options[attribute.name] === "undefined") {*/
-            pluginPropertyName = typeof attribute.pluginProperty !== "undefined" ? attribute.pluginProperty : attribute.name;
             options[pluginPropertyName] = value;
             /*}*/
           }
         }, this);
-
+        
         /* setup events */
         _.each(control.events, function (eventDescriptor) {
           if (typeof options[eventDescriptor.name] === "undefined") {
@@ -4803,30 +4859,65 @@ _.extend(_sc.Factories, {
         }, this);
 
         /* subscribe to changes */
-        this.model.on("change", function (modelArg, opts) {
-          var changes = {}, jqPluginPropertyName, attr;
-          if (!modelArg.changed) {
-            return;
-          }
+        if (separateWidgetModel) {
+          this.widgetModel.on("change", function (modelArg, opts) {
+            var changes = {};
+            if (!modelArg.changed) {
+              return;
+            }
 
-          _.each(_.keys(modelArg.changed), function (attributeName) {
-            //skip the sitecore added properties in model
-            if (!_.find(control.attributes, function (attribute) {
-              return attribute.name == attributeName && attribute.added == true;
-            })) {
+            _.each(_.keys(modelArg.changed), function (attributeName) {
+              changes[attributeName] = modelArg.get(attributeName);
+            });
+            this.$el[control.control]("option", changes);
+          }, this);
+          this.model.on("change", function (modelArg, opts) {
+            var changes = {}, jqPluginPropertyName, attr;
+            if (!modelArg.changed) {
+              return;
+            }
+
+            _.each(_.keys(modelArg.changed), function (attributeName) {
               //getting changed attribute object
               attr = _.find(control.attributes, function (attribute) {
                 return attribute.name == attributeName;
               });
-
-              //the name of the attribute property can be different for sitecore control model and for jqueryUI plugin
-              jqPluginPropertyName = (attr && typeof attr.pluginProperty !== "undefined") ? attr.pluginProperty : attributeName;
-              changes[jqPluginPropertyName] = modelArg.get(attributeName);
+              //skip the sitecore added properties in model
+              //skip the properties with manual sync
+              if (attr && !(attr.added == true || attr.manualSync == true)) {
+                //the name of the attribute property can be different for sitecore control model and for jqueryUI plugin
+                jqPluginPropertyName = (attr && typeof attr.pluginProperty !== "undefined") ? attr.pluginProperty : attributeName;
+                this.widgetModel.set(jqPluginPropertyName, modelArg.get(attributeName));
+              }
+            }, this);
+            this.$el[control.control]("option", changes);
+          }, this);
+        } else {
+          this.model.on("change", function (modelArg, opts) {
+            var changes = {}, jqPluginPropertyName, attr;
+            if (!modelArg.changed) {
+              return;
             }
-          });
-          this.$el[control.control]("option", changes);
-        }, this);
 
+            _.each(_.keys(modelArg.changed), function (attributeName) {
+              //skip the sitecore added properties in model
+              if (!_.find(control.attributes, function (attribute) {
+                return attribute.name == attributeName && attribute.added == true;
+              })) {
+                //getting changed attribute object
+                attr = _.find(control.attributes, function (attribute) {
+                  return attribute.name == attributeName;
+                });
+
+                //the name of the attribute property can be different for sitecore control model and for jqueryUI plugin
+                jqPluginPropertyName = (attr && typeof attr.pluginProperty !== "undefined") ? attr.pluginProperty : attributeName;
+                changes[jqPluginPropertyName] = modelArg.get(attributeName);
+              }
+            });
+            this.$el[control.control]("option", changes);
+          }, this);
+        }
+        
         /* call post initialize function */
         if (typeof this.initialized != "undefined") {
           this.initialized();

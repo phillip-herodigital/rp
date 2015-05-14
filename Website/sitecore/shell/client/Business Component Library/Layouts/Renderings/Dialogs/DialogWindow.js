@@ -19,7 +19,6 @@ define(["sitecore", "dialog"], function (_sc) {
             { name: "backdrop", defaultValue: true },
             { name: "remote", defaultValue: false },
             { name: "isAnimated", defaultValue: true },
-            { name: "size", defaultValue: "medium" },
             { name: "focusOn", defaultValue: "" },
             { name: "spinner", defaultValue: "" },
             { name: "maxHeight", defaultValue: "" },

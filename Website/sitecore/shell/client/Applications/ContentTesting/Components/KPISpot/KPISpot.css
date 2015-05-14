@@ -5,6 +5,8 @@
   position: relative;
 }
 .sc-KPISpot-value {
+  word-wrap: break-word;
+  width: 100%;
   font-size: 36px;
   color: #e0b406;
   margin-top: 8px;

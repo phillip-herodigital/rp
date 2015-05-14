@@ -23,15 +23,16 @@ define(['sitecore', 'jqueryui'], function (_sc) {
       { name: "formattedDate", defaultValue: null },
       { name: "viewMode", defaultValue: null },
       { name: "date", defaultValue: null },
-      { name: "dateFormat", defaultValue: null },
+      { name: "dateFormat", defaultValue: null, manualSync: true },
       { name: "firstDay", defaultValue: 1 },
       { name: "showOtherMonths", defaultValue: false },
       { name: "showButtonPanel", defaultValue: false },
       { name: "isReadOnly", defaultValue: false, added: true },
       { name: "isEnabled", defaultValue: true, added: true },
-      { name: "minDate", defaultValue: null },
-      { name: "maxDate", defaultValue: null },
+      { name: "minDate", defaultValue: null, manualSync: true },
+      { name: "maxDate", defaultValue: null, manualSync: true },
       { name: "time", defaultValue: null },
+      { name: "disabled", defaultValue: null },
 
       // Localization attributes
       { name: "prevText", defaultValue: null },
@@ -80,25 +81,29 @@ define(['sitecore', 'jqueryui'], function (_sc) {
         this.model.set("showButtonPanel", this.$el.attr("data-showtoday") === "true");
         this.model.set("viewMode", this.$el.data("viewmode"));
 
-        this.model.set("isEnabled", !this.$el.is(":disabled"));
+        this.model.set("isEnabled", this.model.get("viewMode") != "calendar" ?
+          !this.$el.is(":disabled") : this.$el.attr("data-isenabled") === "true");
 
         if (this.$el.attr("readonly")) {
           this.model.set("isReadOnly", this.$el.attr("readonly"));
         } else {
           $.noop();
         }
+        
+        this.model.set("disabled", !this.model.get("isEnabled"));
 
-        this.initialDateFormat = this.$el.attr("data-dateformat");
-        this.setDateFormat(this.initialDateFormat);
+        this.model.on("change:dateFormat", this.changeDateFormat, this);
+        this.model.on("change:isEnabled", $.proxy(changeDisabled, this));
+
+        this.model.set("dateFormat", this.$el.attr("data-dateformat"));
 
         this.model.set("time", this.$el.attr("data-time"));
         this.model.on("change:time", this.timeUpdated, this);
         
-        setMinDateAttribute(this);
-        setMaxDateAttribute(this);
-
         this.model.on("change:minDate change:maxDate", this.changeRange, this);
-
+        this.model.set("minDate", this.$el.attr("data-mindate"));
+        this.model.set("maxDate", this.$el.attr("data-maxdate"));
+        
         if (this.$el.attr("data-localization")) {
           this.setLocalization();
         }
@@ -174,13 +179,17 @@ define(['sitecore', 'jqueryui'], function (_sc) {
         // set dates
         var minDate = this.model.get("minDate"),
           maxDate = this.model.get("maxDate"),
-          format = this.model.get("dateFormat"),
+          format = this.widgetModel.get("dateFormat"),
           self = this;
 
+        minDate = minDate == "" ? null : minDate;
+        maxDate = maxDate == "" ? null : maxDate;
+
         // workaround for linked models
-        if (_sc.Helpers.date.isISO(minDate) && _sc.Helpers.date.isISO(maxDate)) {
+        if (_sc.Helpers.date.isISO(minDate) || _sc.Helpers.date.isISO(maxDate) || minDate == null || maxDate == null) {
           setTimeout(function () {
-            self.$el["datepicker"]("option", { "minDate": self.convertDate(minDate, format), "maxDate": self.convertDate(maxDate, format) });
+            self.widgetModel.set("minDate", self.convertDate(minDate, format));
+            self.widgetModel.set("maxDate", self.convertDate(maxDate, format));
           }, 0);
         }
       },
@@ -206,10 +215,9 @@ define(['sitecore', 'jqueryui'], function (_sc) {
       // Convert the ISO date into the format given
       convertDate: function (dateString, format) {
         var utcDate = _sc.Helpers.date.parseISO(dateString);
-        var date = null;
         // workaround for timezone because $.datepicker.formatDate doesn't respect timezone
         if (utcDate) {
-          date = new Date(utcDate * 1 + utcDate.getTimezoneOffset() * 60000);
+          var date = new Date(utcDate * 1 + utcDate.getTimezoneOffset() * 60000);
           return $.datepicker.formatDate(format, date);
         }
         return null;
@@ -236,9 +244,16 @@ define(['sitecore', 'jqueryui'], function (_sc) {
 
         return "T000000";
       },
+      
+      changeDateFormat: function () {
+        var format = this.model.get("dateFormat");
+        this.setDateFormat(format);
+      },
 
       // Changes the format, so it matches jQuery UI date format
       setDateFormat: function (format) {
+        if (this.model.get("dateFormat") != format)
+          this.model.set("dateFormat", format);
         if (format) {
           if (format.indexOf("yyyy") !== -1) {
             format = format.replace("yyyy", "yy");
@@ -249,12 +264,12 @@ define(['sitecore', 'jqueryui'], function (_sc) {
           format = "dd/mm/yy";
         }
 
-        this.model.set("dateFormat", format);
+        this.widgetModel.set("dateFormat", format);
 
         if (this.model.get("date")) {
           this.setFormattedDateAttribute();
         }
-
+        this.changeRange();
       },
 
       // Sets localized texts
@@ -284,37 +299,20 @@ define(['sitecore', 'jqueryui'], function (_sc) {
 
     }
   };
-
-  // Sets the mindate on the model
-  function setMinDateAttribute(self) {
-    
-    var minDate = self.$el.attr("data-mindate"),
-        format = self.model.get("dateFormat");    
-
-    if (_sc.Helpers.date.isISO(minDate)) {
-      self.model.set("minDate", minDate);
-      self.$el["datepicker"]("option", { "minDate": self.convertDate(minDate, format) });
-    }
-  }
-
-  // Sets the maxdate on the model
-  function setMaxDateAttribute(self) {
-
-    var maxDate = self.$el.attr("data-maxdate"),
-        format = self.model.get("dateFormat");
-    if (_sc.Helpers.date.isISO(maxDate)) {
-      self.model.set("maxDate", maxDate);
-      self.$el["datepicker"]("option", { "maxDate": self.convertDate(maxDate, format) });
-    }
-  }
-
+  
   // Set the date on the model which is equaled to the current date
   function setCurrentDayOnClickToday(e) {
     if (e.target.className.search('ui-datepicker-current') != -1) {
       var date = new Date();
       this.model.set("date", this.convertToISODate(date));
     }
+
+    e.stopImmediatePropagation();
   }
 
-  _sc.Factories.createJQueryUIComponent(_sc.Definitions.Models, _sc.Definitions.Views, control);
+  function changeDisabled() {
+    this.model.set("disabled", !this.model.get("isEnabled"));
+  }
+
+  _sc.Factories.createJQueryUIComponent(_sc.Definitions.Models, _sc.Definitions.Views, control, true);
 });

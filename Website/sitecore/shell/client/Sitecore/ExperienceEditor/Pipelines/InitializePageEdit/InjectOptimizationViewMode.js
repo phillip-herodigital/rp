@@ -41,7 +41,11 @@
               }
             }
 
-            if (chrome && chrome.type && chrome.type instanceof sc.PageModes.ChromeTypes.Field && chrome.type.parameters && chrome.type.parameters["sc-highlight-contentchange"] === "yes") {
+            if (chrome && chrome.type && chrome.type instanceof sc.PageModes.ChromeTypes.Field && chrome.type.parameters &&
+               // if chrome is text field without opening and close markers 
+               (chrome.type.parameters["sc-highlight-contentchange"] === "yes" ||
+               // if chrome is image or link field with opening and close markers 
+               (chrome._openingMarker != null && chrome._openingMarker.context.attributes["sc_parameters"].value.indexOf("sc-highlight-contentchange=yes") != -1))) { 
               chrome.element.addClass("scEnabledChromePageVersionTest");
             }
           }

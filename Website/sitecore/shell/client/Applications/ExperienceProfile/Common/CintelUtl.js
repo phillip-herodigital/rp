@@ -53,6 +53,13 @@
       detailList.viewModel.$el.find("a.url").each(function () {
         $(this).html() == "/" ? $(this).html(document.domain) : $.noop();
       });
+    },
+    
+    removeMailLink: function (listControl) {
+      listControl.viewModel.$el.find("a").each(function () {
+        $(this).attr("href") == "mailto:" || $(this).attr("href").indexOf('{{') > 0 ?
+          $(this).removeAttr("href") : $.noop();
+      });
     }
     
   };

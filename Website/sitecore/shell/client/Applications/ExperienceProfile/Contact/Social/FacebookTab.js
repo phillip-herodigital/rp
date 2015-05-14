@@ -10,7 +10,7 @@ define(["sitecore", "/-/speak/v1/experienceprofile/CintelUtl.js", "./SocialUtil.
 
         that.NoFacebookDataPanel.set("isVisible", false);
         that.FacebookInformationPanel.set("isVisible", true);
-        cintelUtil.setText(that.FacebookScreenNameValue, facebookData.ScreenName, false);
+        cintelUtil.setText(that.FacebookUpdatedTimeValue, facebookData.UpdatedTime, false);
         cintelUtil.setText(that.FacebookFirstNameValue, facebookData.FirstName, false);
         cintelUtil.setText(that.FacebookMiddleNameValue, facebookData.MiddleName, false);
         cintelUtil.setText(that.FacebookLastNameValue, facebookData.LastName, false);

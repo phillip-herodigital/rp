@@ -34,7 +34,7 @@
       var fields = {};
       if (postElements) {
         for (var i = 0; i < postElements.length; i++) {
-          fields[postElements[i].id] = Sitecore.ExperienceEditor.Web.encodeHtml(postElements[i].value);
+          fields[postElements[i].id] = Sitecore.ExperienceEditor.Web.encodeHtml(postElements[i].value.replace(/\\/g, '\\\\'));
         }
       }
 

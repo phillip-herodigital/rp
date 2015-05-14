@@ -1,5 +1,5 @@
 <%@ OutputCache Location="None" VaryByParam="none" %>
-<%@ Page Language="c#" CodeBehind="nolicense.aspx.cs" EnableViewState="false" EnableViewStateMac="false" AutoEventWireup="True" Inherits="SitecoreClient.Page.NoLicense" %>
+<%@ Page Language="c#" CodeBehind="nolicense.aspx.cs" EnableViewState="false" AutoEventWireup="True" Inherits="SitecoreClient.Page.NoLicense" %>
 <!DOCTYPE html>
 <html>
 <head>

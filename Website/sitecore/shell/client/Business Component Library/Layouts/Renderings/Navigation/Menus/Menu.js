@@ -76,7 +76,7 @@ define(["sitecore", "userProfile"], function (_sc, userProfile) {
       var app = self.app;
       var header = $(".header");
 
-      $('a[href="#"]').click(function (e) {
+      $('.sc-menu a[href="#"]').click(function (e) {
         e.preventDefault();
       });
 

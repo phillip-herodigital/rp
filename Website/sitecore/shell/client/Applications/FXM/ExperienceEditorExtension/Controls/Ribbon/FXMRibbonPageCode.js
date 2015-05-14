@@ -8,16 +8,17 @@
     // legacy wrappers for FXM editing
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/ChromeControls.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/ClientActionInserter.js",
+    "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/ReplacerInserter.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/Chrome.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/SelectorChromeType.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/ClientActionChromeType.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/PlaceholderChromeType.js",
+    "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/RenderingChromeType.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/ChromeManager.js",
-    "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/ReplacerInserter.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/scSitecore.js",
     "/-/speak/v1/ExperienceEditor/Commands/ChangeLanguage.js" // change language command must be loaded
   ],
-    function(Sitecore, RibbonPageCode, _clientBeacon, $sc, _chromeControls, _clientActionInserter) {
+    function(Sitecore, RibbonPageCode, _clientBeacon, $sc, _chromeControls, _clientActionInserter, _replacerInserter) {
         var FxmPageCode = RibbonPageCode.extend({
             initialize: function() {
                 //Initialize of parent extend type
@@ -30,6 +31,7 @@
 
                 _chromeControls.initialize(this.TranslationDictionary);
                 _clientActionInserter.initialize(this.TranslationDictionary);
+                _replacerInserter.initialize(this.TranslationDictionary);
 
                 var self = this;
                 var pipelineContext = this.clone(this.currentContext);

@@ -73,7 +73,6 @@
                 <a id="SystemMenu" runat="server" href="#" class="scSystemMenu" onclick="javascript:return scForm.postEvent(this, event, 'SystemMenu_Click')" ondblclick="javascript:return scForm.invoke('contenteditor:close')"></a>
                 <div runat="server" id="RibbonPanel" class="RibbonPanel" onclick="javascript:scContent.onEditorClick(this, event);">
                     <asp:PlaceHolder ID="RibbonPlaceholder" runat="server" />
-                    <a id="scRibbonToggle" href="#" class="scRibbonClose" title="<%= Translate.Text(Texts.ToggleRibbon) %>" onclick="javascript:return scContent.toggleRibbon(100);"></a>
                 </div>
             </div>
             <div class="scFlexContent" id="MainPanel" onclick="javascript:scContent.onEditorClick(this, event);">

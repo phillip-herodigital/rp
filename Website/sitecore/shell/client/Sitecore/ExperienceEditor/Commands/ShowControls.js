@@ -16,7 +16,7 @@
         return false;
       }
 
-      var isAllowed = Sitecore.Commands.EnableEditing.isEnabled || Sitecore.Commands.EnableDesigning.isEnabled;
+      var isAllowed = (Sitecore.Commands.EnableEditing && Sitecore.Commands.EnableEditing.isEnabled) || (Sitecore.Commands.EnableDesigning && Sitecore.Commands.EnableDesigning.isEnabled);
       Sitecore.ExperienceEditor.PageEditorProxy.changeShowControls(context.button.get("isChecked") == "1" && isAllowed);
       if (!Sitecore.Commands.ShowControls.commandContext) {
         Sitecore.Commands.ShowControls.commandContext = Sitecore.ExperienceEditor.instance.clone(context);

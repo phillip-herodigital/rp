@@ -4,12 +4,8 @@
     <contentSearch>
       <configuration type="Sitecore.ContentSearch.ContentSearchConfiguration, Sitecore.ContentSearch">
         <indexes hint="list:AddIndex">
-          <index id="sitecore-analytics-cloud-index" type="Sitecore.Cloud.ContentSearch.CloudSearchProviderIndex, Sitecore.Cloud.ContentSearch">
+          <index id="sitecore_analytics_index" type="Sitecore.Cloud.ContentSearch.CloudSearchProviderIndex, Sitecore.Cloud.ContentSearch" patch:instead="/sitecore/contentSearch/configuration/indexes/index[@id='sitecore_analytics_index']">
             <param desc="name">$(id)</param>
-            <param desc="cloudIndexName">$(id)</param>
-            <param desc="searchService"></param>
-            <param desc="apiKey"></param>
-            <param desc="apiVersion"></param>
             <param desc="totalParallelServices">5</param>
             <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
             <configuration ref="contentSearch/indexConfigurations/defaultCloudIndexConfiguration">

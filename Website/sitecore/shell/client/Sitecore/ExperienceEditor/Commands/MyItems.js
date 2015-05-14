@@ -19,7 +19,7 @@
 
     execute: function (context) {
       var dialogPath = "/sitecore/shell/~/xaml/Sitecore.Shell.Applications.WebEdit.Dialogs.LockedItems.aspx";
-      var dialogFeatures = "dialogHeight: 600px;dialogWidth: 500px;";
+      var dialogFeatures = "dialogHeight: 600px;dialogWidth: 800px;";
       Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function () {
         Sitecore.Commands.MyItems.canExecute(context);
         context.currentContext.isLocked = context.app.canExecute("ExperienceEditor.MyItems.Count", context.currentContext);

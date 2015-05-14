@@ -21,7 +21,6 @@ div[data-sc-id="RowPanel"] {
 }
 div[data-sc-id="ButtonRow"] {
   position: absolute;
-  bottom: -10px;
   right: 30px;
 }
 div[data-sc-id="MainColumn"] {
@@ -51,9 +50,15 @@ div[data-sc-id="DescriptionBorder"] {
 }
 .scExp-dvExperienceList {
   margin-top: 15px;
+  height: 635px !important;
+  overflow-y: auto;
+}
+.scExp-dvExperienceList .scExp-dvListContent {
+  height: 100%;
+  overflow-y: initial;
 }
 div[data-sc-id="DetailPanelBorder"] {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 div[data-sc-id="ThumbnailPanel"] img {
@@ -73,4 +78,8 @@ div[data-sc-id="ThumbnailPanel"] img {
 [data-sc-id="ConditionValueColumnPanel"] {
   width: 80%;
   float: right;
+}
+.col-md-4 {
+  width: auto;
+  min-width: 33%;
 }

@@ -145,7 +145,7 @@
         uri.rev = revision;
 
         self.set(self._testItemUriProperty, uri.toString());
-		self.set(self._testItemTemplateIdProperty, itemTempateId);
+        self.set(self._testItemTemplateIdProperty, itemTempateId);
         self.AppProgressIndicator.set("isBusy", false);
         self.SelectPageWindow.hide();
       });

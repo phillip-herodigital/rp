@@ -1,17 +1,15 @@
-﻿define(["sitecore", "/-/speak/v1/experienceprofile/DataProviderHelper.js", "/-/speak/v1/experienceprofile/CintelUtl.js"], function (sc, providerHelper, cintelUtil)
-{
+﻿define(["sitecore", "/-/speak/v1/experienceprofile/DataProviderHelper.js", "/-/speak/v1/experienceprofile/CintelUtl.js"], function (sc, providerHelper, cintelUtil) {
   var cidParam = "cid",
       interactionIdParam = "interactionid",
-
       isVisibleProperty = "isVisible",
-      intelPath = "/intel",
-    
+      intelPath = "/intel",    
       visitsummaryTable = "visit-summary",
       visitPagesTable = "visit-pages",
-      lateststatisticsTable = "latest-statistics", 
+      lateststatisticsTable = "latest-statistics",
       visitInternalSearchesTable = "visit-internal-searches",
       visitGoalsTable = "visit-goals",
-      visitSummaryTable = "visit-summary";
+      visitSummaryTable = "visit-summary",
+      offlineChannelTypeId = "3648772f-0cb9-4b90-9e65-a97b2c729008";
 
   var baseUrl;
 
@@ -34,7 +32,8 @@
       providerHelper.setupHeaders([
         { urlKey: intelPath + "/" + visitsummaryTable, headerValue: visitsummaryTable },
         { urlKey: intelPath + "/" + lateststatisticsTable + "?", headerValue: lateststatisticsTable },
-        { urlKey: intelPath + "/" + visitPagesTable, headerValue: visitPagesTable }
+        { urlKey: intelPath + "/" + visitPagesTable, headerValue: visitPagesTable },
+        { urlKey: intelPath + "/" + visitInternalSearchesTable, headerValue: visitInternalSearchesTable }
       ]);
 
       $('.sc-progressindicator').first().show().hide(); // prefetch indicator background images
@@ -82,6 +81,10 @@
           cintelUtil.setText(this.VisitDialogContactEmail, infoEmailLink, true);
           cintelUtil.setText(this.VisitDialogContactProfession, jsonData.jobTitle, true);
           this.VisitDialogContactEmail.viewModel.$el.attr("href", "mailto:" + infoEmailLink);
+
+          cintelUtil.setTitle(this.VisitDialogContactName, cintelUtil.getFullName(jsonData));
+          cintelUtil.setTitle(this.VisitDialogContactProfession, jsonData.jobTitle);
+          cintelUtil.setTitle(this.VisitDialogContactEmail, infoEmailLink);
         }, application)
       );
 
@@ -90,7 +93,7 @@
         $.proxy(function () {
           var data = this.DialogVisitSummaryProvider.get("data").dataSet[visitSummaryTable][0];
 
-          if (data.ChannelTypeText == "Offline") {
+          if (data.ChannelTypeDefinitionId == offlineChannelTypeId) {
             this.InternalSearchAccordion.set("isVisible", false);
             this.ExternalKeywordBorder.set("isVisible", false);
             this.ExternalKeywordImage.set("isVisible", false);

@@ -15,6 +15,8 @@ function (Sitecore) {
 
     selectedItem: null,
 
+    isPreview: false,
+
     goText: "",
     editText: "",
     editTooltip: "",
@@ -24,6 +26,10 @@ function (Sitecore) {
       //this._super();
       document.breadcrumbContext = this;
       window.parent.document.breadcrumbContext = this;
+
+      var mode = Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("mode");
+      this.isPreview = mode != null && mode.toLowerCase() == "preview";
+
       this.goText = this.$el[0].attributes["data-sc-dic-go"].value;
       this.editText = this.$el[0].attributes["data-sc-dic-edit"].value;
       this.editTooltip = this.$el[0].attributes["data-sc-dic-edit-tooltip"].value;
@@ -58,7 +64,10 @@ function (Sitecore) {
       var canEdit = isItemValid && lastItem.CanEdit;
       htmlSource += "<div class=\"sc-breadcrumb-item\">";
       htmlSource += this.generateNavigationBarButtonHtml(enabled, this.goText, "javascript:document.breadcrumbContext.navigateToItem(document.breadcrumbContext.selectedItem);", "btn-primary", "");
-      htmlSource += this.generateNavigationBarButtonHtml(canEdit, this.editText, "javascript:document.breadcrumbContext.editItemInCE(document.breadcrumbContext.selectedItem);", "btn-default", this.editTooltip);
+      if (!this.isPreview) {
+        htmlSource += this.generateNavigationBarButtonHtml(canEdit, this.editText, "javascript:document.breadcrumbContext.editItemInCE(document.breadcrumbContext.selectedItem);", "btn-default", this.editTooltip);
+      }
+
       htmlSource += "</div>";
       var breadcrumbContent = Sitecore.ExperienceEditor.ribbonDocument().getElementById("breadcrumbContent" + this.$el[0].attributes["data-sc-itemid"].value);
       breadcrumbContent.innerHTML = htmlSource;

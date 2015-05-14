@@ -3,6 +3,9 @@
     initialize: function () {
       this._super();
 
+      var params = Sitecore.Helpers.url.getQueryParameters(window.location.href);
+      var device = params.device;
+
       this.set({
         isBusy: false,
         invalidated: false,
@@ -11,7 +14,8 @@
         itemUri: null,
         items: [],
         candidateCount: 0,
-        showCarousel: false
+        showCarousel: false,
+        device: device
       });
 
       this.on("change:itemId change:itemUri", this.refresh, this);
@@ -36,7 +40,7 @@
         this.set("isBusy", true);
         this.set("invalidated", false);
 
-        url = this.get("baseActionUrl") + url;
+        url = this.get("baseActionUrl") + url + "&deviceId=" + this.get("device");
 
         var ajaxOptions = {
             cache: false,

@@ -101,7 +101,7 @@
       <value>Texts,eMailText,eMailText,System.String,Email,False,False</value>
       <value>Texts,Total_Conversions_By_ValueText,Total_Conversions_By_ValueText,System.String,Total_x0020_Conversions_x0020__x0028_by_x0020_Value_x0029_,False,False</value>
       <value>Texts,GoalsText,GoalsText,System.String,Goals,False,False</value>
-      <value>Texts,VisitorsText,VisitorsText,System.String,Visitors,False,False</value>
+      <value>Texts,VisitorsText,VisitorsText,System.String,Contacts,False,False</value>
       <value>Texts,VisitText,VisitText,System.String,Visit,False,False</value>
       <value>Texts,Date_TimeText,Date_TimeText,System.String,Date_x0020__x0026__x0020_Time,False,False</value>
       <value>Texts,Region_CityText,Region_CityText,System.String,Region_x002C_City,False,False</value>
@@ -113,7 +113,7 @@
       <value>Texts,HourText,HourText,System.String,hr,False,False</value>
       <value>Texts,MinutesText,MinutesText,System.String,min,False,False</value>
       <value>Texts,ReportGeneratedText,ReportGeneratedText,System.String,Report_x0020_Generated,False,False</value>
-      <value>Texts,VisitorText,VisitorText,System.String,Visitor,False,False</value>
+      <value>Texts,VisitorText,VisitorText,System.String,Contact,False,False</value>
       <value>Texts,AnonymousText,AnonymousText,System.String,Anonymous,False,False</value>
       <value>Texts,ReportDescriptionVar,ReportDescriptionVar,System.String,Report_x0020_description,False,False</value>
     </Variables>

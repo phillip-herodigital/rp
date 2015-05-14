@@ -124,6 +124,9 @@ define([
         return self.generateEntryId(item);
       });
 
+      //#25904 - fixing empty slider-tiles after filtering
+      listContainer.empty();
+
       var imgIds = _.map(listContainer.find("img"), function (img) {
         return $(img).attr("data-entry-id");
       });

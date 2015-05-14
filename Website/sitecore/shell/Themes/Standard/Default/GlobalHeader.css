@@ -12,6 +12,10 @@
     padding-top: 50px;
 }
 
+    .sc-globalHeader ~ .scPopup {
+        padding-top: 0;
+    }
+
     .sc-globalHeader ~ div > .scWorkboxContentContainer {
         margin-top: 130px;
     }

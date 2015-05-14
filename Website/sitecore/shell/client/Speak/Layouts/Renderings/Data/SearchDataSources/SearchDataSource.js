@@ -153,16 +153,16 @@
           _sc.Helpers.session.unauthorized();
           return;
         }
-        
+
         // logic for parsing dates when $send_localized_dates formatting is set
         var formatting = this.get("formatting");
         if(formatting && formatting.toLowerCase().indexOf("$send_localized_dates") > -1) {
           _.each(items, function (item) {
-            var formatedFields = [];
+            var formattedFields = [];
             _.each(item.$fields, function (field) {
               var fieldType = field.type ? field.type.toLowerCase() : '';
               if (fieldType === "datetime" || fieldType === "date") {
-                formatedFields[field.fieldName] = {
+                formattedFields[field.fieldName] = {
                   type: field.type,
                   formattedValue: field.formattedValue,
                   longDateValue: field.longDateValue,
@@ -170,8 +170,13 @@
                 };
               }
             });
+            //obsolete should be removed when the breaking changes can be introduced
             //extend item with formated fields
-            item.$formatedFields = formatedFields;
+            item.$formatedFields = formattedFields;
+
+            //corrected property  '$formatedFields' -> '$formattedFields'
+            item.$formattedFields = formattedFields;
+
           });
         }
 
@@ -198,6 +203,10 @@
         }
 
         this.trigger("itemsChanged");
+
+        if (result.statusCode === 500) {
+          this.trigger("error", result.error.message);
+        }
       }
     }
   );

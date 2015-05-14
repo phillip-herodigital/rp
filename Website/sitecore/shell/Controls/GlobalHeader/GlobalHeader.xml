@@ -8,7 +8,7 @@
       <div class="sc-globalHeader-content">
         <div class="col2">
           <div class="sc-globalHeader-startButton">
-            <html:HtmlAnchor def:ID="globalLogo" class="sc-global-logo" href="#">&#160;</html:HtmlAnchor>
+            <html:HtmlAnchor ID="globalLogo" class="sc-global-logo" href="#">&#160;</html:HtmlAnchor>
           </div>
         </div>
         <div class="col2">
@@ -30,5 +30,12 @@
       </div>
     </Border>
 
+    <Script Type="text/javascript">
+      Event.observe(window, "load", function () {
+        if (window.scForm) {
+          window.scForm.registerLaunchpadClick();
+        }
+      });
+    </Script>
   </GlobalHeader>
 </control>

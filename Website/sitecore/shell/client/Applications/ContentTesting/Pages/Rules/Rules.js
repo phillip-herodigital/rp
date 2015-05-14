@@ -3,7 +3,20 @@
     initialized: function () {
       this.RulesDataSource.on("change:items", this.notifyChangeRules, this);
       this.RulePerformanceIndicator.on("change:selectedItem", this.updateWithSelectedValue, this);
-      this.listenToOnce(this.RulePerformanceIndicator, "change:items", this.updateWithDefaultValue); 
+      this.listenToOnce(this.RulePerformanceIndicator, "change:items", this.updateWithDefaultValue);
+
+      this.TestsDataSource1.on("change:items", this.updateEditButtonState, this);
+      this.TestsDataSource1.set({ hostItemId: this.ItemFromQueryString1.get("itemId") });
+    },
+    
+    updateEditButtonState: function () {
+      var items = this.TestsDataSource1.get("items");
+      
+      if (items.length > 0) {
+        this.EditPersonalization.viewModel.hide();
+      } else {
+        this.EditPersonalization.viewModel.show();
+      }
     },
     
     updateWithDefaultValue: function()
@@ -39,16 +52,32 @@
         componentCount: componentscount
       }));
     },
-    updateDetails: function()
+
+    updateDetails: function ()
     {
       var app = this;
       var ruleId = app.get("ruleId");
       if (ruleId !== "")
       {
+        app.RulePerformanceDataSource.set("isSilent", true);
+        app.RulePerformanceDataSource.set("ruleId", "");
+        app.RulePerformanceDataSource.set("ruleSetId", "");
         app.RulePerformanceDataSource.set("ruleId", ruleId);
+        app.RulePerformanceDataSource.set("isSilent", false);
         app.RulePerformanceDataSource.set("ruleSetId", app.get("ruleSetId"));
+
+        
+        
+
         app.ReachDataSource.set("valueId", ruleId);
+
+        app.PersonalizationRuleDataSource.set("isSilent", true);
+        app.PersonalizationRuleDataSource.set("ruleId", "");
+        app.PersonalizationRuleDataSource.set("ruleSetId", "");
         app.PersonalizationRuleDataSource.set("ruleId", ruleId);
+        app.PersonalizationRuleDataSource.set("isSilent", false);
+        app.PersonalizationRuleDataSource.set("ruleSetId", app.get("ruleSetId"));
+        
         app.RuleNameText.set("text", app.get("ruleName"));
         app.ThumbnailImage.set("testvalueid", ruleId);
       }

@@ -27,11 +27,6 @@
             this.getToDatePicker().on("change:formattedDate", this.updateToDateAndFromDatePickerLimit, this);
 
             this.setGlobalDateRange();
-
-            // temp workaround for #331 until resolved in SPEAK (U2)
-            $(".ui-corner-all").click(function (e) {
-                e.stopImmediatePropagation();
-            });
         },
 
         setupDefaultDates: function () {

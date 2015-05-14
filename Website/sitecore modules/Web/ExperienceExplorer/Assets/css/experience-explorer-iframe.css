@@ -26,6 +26,14 @@ body {
     margin-bottom: 0;
 }
 
+    .experience-explorer-iframe .table td {
+        border-top: 0px;
+    }
+
+.experience-explorer-iframe .table-condensed td {
+    vertical-align: middle;
+}
+
 .experience-explorer-iframe .no-margin {
     margin: 0;
 }
@@ -164,6 +172,10 @@ body {
 }
 
 /******** TABS STYLES *********/
+
+.experience-explorer-iframe .tab-fieldset p {
+    margin-bottom: 0;
+}
 
 .experience-explorer-iframe .sc-tabcontrol .nav-tabs {
     margin-bottom: 5px;

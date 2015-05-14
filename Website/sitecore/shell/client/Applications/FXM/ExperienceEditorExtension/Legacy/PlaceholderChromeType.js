@@ -75,7 +75,7 @@
                 var self = this;
 
                 $.ajax({
-                    url: "/sitecore/api/ssc/experienceeditorcomponent/service/" + id + "/GetSublayoutHtml?uniqueId=" + renderingUniqueId + "&placeholder=" + self.placeholderKey(),
+                    url: "/sitecore/api/ssc/experienceeditorcomponent/service/" + id + "/GetRenderingHtml?uniqueId=" + renderingUniqueId + "&placeholder=" + self.placeholderKey(),
                     type: "GET",
                     headers: {
                         "X-RequestVerificationToken": $('[name=__RequestVerificationToken]').val(),
@@ -109,6 +109,79 @@
         $sc.ajax(options);                  
     }
 
+    function editPropertiesResponse(renderingChrome) {
+        if (!_scl.LayoutDefinition.readLayoutFromRibbon()) {
+            return;
+        }
+
+        var commandName = "preview";
+        var options = _scl.PageModes.ChromeTypes.Placeholder.getDefaultAjaxOptions(commandName);
+
+        options.data.renderingUniqueId = renderingChrome.type.uniqueId();
+        options.data.url = window.location.href;
+
+        this._addAnalyticsOptions(renderingChrome, options);
+
+        if (options.data.variationId) {
+            options.data.command += "variation";
+        }
+        else if (options.data.conditionId) {
+            options.data.command += "condition";
+        }
+
+        options.context = this;
+        options.success = function (serverData) {
+            var data = _scl.PageModes.Utility.parsePalleteResponse(serverData);
+            var persistedLayout;
+
+            _scl.PageModes.ChromeHighlightManager.stop();
+
+            if (data.url != null) {
+
+                var self = this;
+
+                var id = renderingChrome.type.renderingId();
+                var renderingUniqueId = options.data.renderingUniqueId;
+
+                var requestUrl = "/sitecore/api/ssc/experienceeditorcomponent/service/" + id;
+                requestUrl = requestUrl + "/UpdateRenderingHtml?uniqueId=" + renderingUniqueId;
+                requestUrl = requestUrl + "&deviceId=" + options.data.deviceid;
+                requestUrl = requestUrl + "&placeholder=" + self.placeholderKey();
+
+                $.ajax({
+                    url: requestUrl,
+                    type: "POST",
+                    headers: {
+                        "X-RequestVerificationToken": $('[name=__RequestVerificationToken]').val(),
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    data: "=" + options.data.layout
+                }).fail(function (error) {
+                    alert(error);
+                }).done(function (response) {
+
+                    _scl.PageModes.ChromeManager.select(null);
+
+                    var responseHtml = jQuery(response);
+                    var sublayout = responseHtml.select("#r_" + id);
+
+                    var renderingData = { html: sublayout };
+
+                    _scl.PageModes.ChromeManager.select(null);
+                    self._doUpdateRenderingProperties(renderingChrome, renderingData);
+                });
+            }
+            else {
+                _scl.PageModes.ChromeManager.select(null);
+                _scl.PageModes.Utility.tryAddStyleSheets(data.styleSheets);
+                _scl.PageModes.Utility.tryAddScripts(data.scripts);
+                this._doUpdateRenderingProperties(renderingChrome, data.html);
+            }
+        };
+
+        $sc.ajax(options);
+    }
+
     function handleMessage(message, params) {
         switch (message) {
             
@@ -119,12 +192,12 @@
 
         this._handleMessage(message, params);
     }
-
-
+    
     // reassign prototypes
     _scl.PageModes.ChromeTypes.Placeholder.prototype._handleMessage = _scl.PageModes.ChromeTypes.Placeholder.prototype.handleMessage;
     _scl.PageModes.ChromeTypes.Placeholder.prototype.handleMessage = handleMessage;
 
     _scl.PageModes.ChromeTypes.Placeholder.prototype.removePlaceholder = removePlaceholder;
     _scl.PageModes.ChromeTypes.Placeholder.prototype.addControlResponse = addControlResponse;
+    _scl.PageModes.ChromeTypes.Placeholder.prototype.editPropertiesResponse = editPropertiesResponse;
 });

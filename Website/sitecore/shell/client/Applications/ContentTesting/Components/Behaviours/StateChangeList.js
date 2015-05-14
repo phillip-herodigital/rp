@@ -14,6 +14,8 @@
       this.enabledIconpath = this.getBehaviorAttributeValue("data-sc-enablediconpath");
       this.disabledIconpath = this.getBehaviorAttributeValue("data-sc-disablediconpath");
       this.enabledTooltip = this.getBehaviorAttributeValue("data-sc-enabledtooltip");
+      this.notAllowDisableTooltip = this.getBehaviorAttributeValue("data-sc-notallowdisabletooltip");
+      this.notAllowDisableIconpath = this.getBehaviorAttributeValue("data-sc-notallowdisableiconpath");
       this.disabledTooltip = this.getBehaviorAttributeValue("data-sc-disabledtooltip");
       this.header = this.getBehaviorAttributeValue("data-sc-header");
       this.validationEnabled = true;
@@ -69,14 +71,28 @@
 
     insertStateIcon: function (el) {
       var $el = $(el);
+      var stateImage = "<td></td>";
       if (!$el.hasClass("empty")) {
-        var stateImage = "<td class='ventilate sc-text-align-center'><img class ='stateimg' src='" +
-            this.enabledIconpath + "' title='" +
-            this.enabledTooltip + "'/></td>";
-        $el.append(stateImage);
-      } else {
-        $el.append("<td></td>");
+        var allowDisable = true;
+
+        var kocontext = ko.contextFor(el);
+        if (kocontext && kocontext.$data.AllowDisable) {
+          allowDisable = kocontext.$data.AllowDisable();
+        }
+
+        if (allowDisable) {
+          stateImage = "<td class='ventilate sc-text-align-center'><img class ='stateimg' src='" +
+              this.enabledIconpath + "' title='" +
+              this.enabledTooltip + "'/></td>";
+        }
+        else {
+          stateImage = "<td class='ventilate sc-text-align-center'><img src='" +
+              this.notAllowDisableIconpath + "' title='" +
+              this.notAllowDisableTooltip + "'/></td>";
+        }
       }
+
+      $el.append(stateImage);
     },
 
     check: function (evt) {

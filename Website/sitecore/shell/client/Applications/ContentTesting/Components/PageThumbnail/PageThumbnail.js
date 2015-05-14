@@ -108,6 +108,9 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
 
       var finishCallback = function () {
         self.set("isBusy", false);
+        if (self.get("invalidated")) {
+          self.refresh();
+        }
       };
 
       if (url) {

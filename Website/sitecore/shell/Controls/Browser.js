@@ -65,8 +65,8 @@ scBrowser.prototype.clearEvent = function(evt, cancelBubble, returnValue, keyCod
   // ignore keycode
 };
 
-scBrowser.prototype.closePopups = function(reason, exclusions) {
-  if (window.top.popups != null) {
+scBrowser.prototype.closePopups = function (reason, exclusions) {
+  if (window.top && window.top.popups != null) {
     if (reason == "mainWindowBlur") {
       return;
     }
@@ -86,9 +86,11 @@ scBrowser.prototype.closePopups = function(reason, exclusions) {
     }
   }
 
-  window.top.popups = exclusions ? $$(".scPopup") : null;
-  if (this.onPopupClosed) {
-    this.onPopupClosed.call(this, reason);
+  if (window.top) {
+    window.top.popups = exclusions ? $$(".scPopup") : null;
+    if (this.onPopupClosed) {
+      this.onPopupClosed.call(this, reason);
+    }
   }
 };
 
@@ -360,7 +362,7 @@ scBrowser.prototype.showPopup = function(data) {
 
   var popup = document.createElement("div");
 
-  popup.className = "scPopup";
+  popup.className = "scPopup" ;
   popup.style.position = "absolute";
   popup.style.left = "0px";
   popup.style.top = "0px";
@@ -390,10 +392,16 @@ scBrowser.prototype.showPopup = function(data) {
     }
   }
 
+   
   popup.innerHTML = html;
 
-  document.body.appendChild(popup);
+  var form = $$("form")[0];
+  if (!form) {
+      return;
+  }
+  form.appendChild(popup);
   // popupTrapper.appendChild(popup);
+    
   var width = popup.offsetWidth;
   var height = popup.offsetHeight;
 
@@ -460,7 +468,7 @@ scBrowser.prototype.showPopup = function(data) {
 
   var viewport = document.body;
   if (viewport.clientHeight == 0) {
-    var form = $$("form")[0];
+  
     if (form && form.clientHeight > 0) {
       viewport = form;
     }

@@ -127,6 +127,14 @@
       line-height: 36px;
     }
     
+    .lang_ja_jp .scCreateNewUserFormDescriptionColumn {
+      width: 130px;      
+    }
+
+    .lang_ja_jp .scCreateNewUserFormContentColumn {
+      left: 124px;
+    }
+
     .scCreateNewUserFormContentColumn {
       display: inline-block;
       left: 120px;
