@@ -196,7 +196,7 @@
         </member>
         <member name="M:Sitecore.Social.Facebook.Exceptions.Analyzers.FacebookExceptionAnalyzer.CheckIfStrngIsFacebookError(System.String)">
             <summary>
-            Checks if STRING is facebook error.
+            Checks if STRING is Facebook error.
             </summary>
             <param name="error">The error.</param>
             <returns></returns>
@@ -393,7 +393,7 @@
         </member>
         <member name="T:Sitecore.Social.Facebook.MessagePosting.Items.FacebookMessageItem">
             <summary>
-            Represents a social facebook message.
+            Represents a social Facebook message.
             </summary>
         </member>
         <member name="M:Sitecore.Social.Facebook.MessagePosting.Items.FacebookMessageItem.#ctor">

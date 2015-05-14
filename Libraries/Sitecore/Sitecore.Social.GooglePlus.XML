@@ -37,10 +37,10 @@
         </member>
         <member name="P:Sitecore.Social.GooglePlus.Configuration.SettingsConfiguration.DefaultGooglePlusOneGoal">
             <summary>
-            Gets or sets the default goal to trigger on google +1 button.
+            Gets or sets the default goal to trigger on Google +1 button.
             </summary>
             <value>
-            The default goal to trigger on google +1 button.
+            The default goal to trigger on Google +1 button.
             </value>
         </member>
         <member name="T:Sitecore.Social.GooglePlus.Configuration.SettingsConfigurationManager">

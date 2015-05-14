@@ -124,7 +124,7 @@
         </member>
         <member name="F:Sitecore.Social.Twitter.Networks.Providers.TwitterProvider.twitterService">
             <summary>
-            The twitter service
+            The Twitter service
             </summary>
         </member>
         <member name="M:Sitecore.Social.Twitter.Networks.Providers.TwitterProvider.#ctor(Sitecore.Social.NetworkProviders.Application)">
@@ -193,9 +193,9 @@
         </member>
         <member name="M:Sitecore.Social.Twitter.Networks.Providers.TwitterProvider.ThrowTwitterError(TweetSharp.TwitterResponse)">
             <summary>
-            Throws the twitter error.
+            Throws the Twitter error.
             </summary>
-            <param name="twitterResponse">The twitter response.</param>
+            <param name="twitterResponse">The Twitter response.</param>
             <exception cref="T:Sitecore.Social.NetworkProviders.Exceptions.BadRequestException">Throws in a case of a bad request.</exception>
             <exception cref="T:Sitecore.Social.NetworkProviders.Exceptions.AuthException">Throws in a case of authorization error.</exception>
             <exception cref="T:Sitecore.Social.NetworkProviders.Exceptions.AccessDeniedException">Throws in a case of access denying.</exception>
@@ -205,7 +205,7 @@
         </member>
         <member name="M:Sitecore.Social.Twitter.Networks.Providers.TwitterProvider.GetTwitterUserProfile(Sitecore.Social.NetworkProviders.Account)">
             <summary>
-            Gets the twitter user profile.
+            Gets the Twitter user profile.
             </summary>
             <param name="account">The account.</param>
             <returns>The user profile.</returns>
@@ -220,7 +220,7 @@
         </member>
         <member name="T:Sitecore.Social.Twitter.MessagePosting.Items.TwitterMessageItem">
             <summary>
-            Represents a social twitter message.
+            Represents a social Twitter message.
             </summary>
         </member>
         <member name="M:Sitecore.Social.Twitter.MessagePosting.Items.TwitterMessageItem.#ctor">
@@ -236,7 +236,7 @@
         </member>
         <member name="T:Sitecore.Social.Twitter.MessagePosting.Providers.TwitterMessagePostingProvider">
             <summary>
-            Represents the twitter posting provider.
+            Represents the Twitter posting provider.
             </summary>
         </member>
         <member name="M:Sitecore.Social.Twitter.MessagePosting.Providers.TwitterMessagePostingProvider.#ctor(Sitecore.Social.MessagePosting.Messages.Message)">
@@ -252,7 +252,7 @@
         </member>
         <member name="M:Sitecore.Social.Twitter.MessagePosting.Providers.TwitterMessagePostingProvider.BuildTwitterMessage(Sitecore.Social.MessagePosting.Messages.Message)">
             <summary>
-            Composes the twitter status.
+            Composes the Twitter status.
             </summary>
             <param name="message">The message.</param>
             <returns></returns>

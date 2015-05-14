@@ -205,7 +205,7 @@
             Gets or sets the Klout application manager.
             </summary>
             <value>
-            The klout application manager.
+            The Klout application manager.
             </value>
         </member>
         <member name="F:Sitecore.Social.Klout.Client.Tasks.SynchronizeKloutScores.kloutScoreUtils">
@@ -213,7 +213,7 @@
             Gets or sets the Klout Score utils.
             </summary>
             <value>
-            The klout score utils.
+            The Klout score utils.
             </value>
         </member>
         <member name="F:Sitecore.Social.Klout.Client.Tasks.SynchronizeKloutScores.membershipWrapper">
@@ -237,7 +237,7 @@
             Gets or sets the Klout profile manager.
             </summary>
             <value>
-            The klout profile manager.
+            The Klout profile manager.
             </value>
         </member>
         <member name="M:Sitecore.Social.Klout.Client.Tasks.SynchronizeKloutScores.#ctor">
@@ -274,7 +274,7 @@
             <summary>
             Sets the Klout Score to <see cref="F:Sitecore.Social.Klout.Api.Domain.Model.KloutScore.Empty"/>.
             </summary>
-            <param name="kloutProfile">The klout profile.</param>
+            <param name="kloutProfile">The Klout profile.</param>
         </member>
         <member name="M:Sitecore.Social.Klout.Client.Tasks.SynchronizeKloutScores.DoRun">
             <summary>

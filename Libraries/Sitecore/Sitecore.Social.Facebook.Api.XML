@@ -74,14 +74,14 @@
         </member>
         <member name="M:Sitecore.Social.Facebook.Api.Managers.IFacebookSocialProfileManager.DetachFacebookProfile(System.String,System.String)">
             <summary>
-            Detaches the facebook profile.
+            Detaches the Facebook profile.
             </summary>
             <param name="applicationId">The application identifier.</param>
             <param name="signedRequest">The signed request.</param>
         </member>
         <member name="F:Sitecore.Social.Facebook.Api.Managers.FacebookSocialProfileManager.FacebookNetworkName">
             <summary>
-            The facebook network name
+            The Facebook network name
             </summary>
         </member>
         <member name="F:Sitecore.Social.Facebook.Api.Managers.FacebookSocialProfileManager.Encoding">
@@ -91,7 +91,7 @@
         </member>
         <member name="M:Sitecore.Social.Facebook.Api.Managers.FacebookSocialProfileManager.DetachFacebookProfile(System.String,System.String)">
             <summary>
-            Detaches the facebook profile.
+            Detaches the Facebook profile.
             </summary>
             <param name="applicationId">The application identifier.</param>
             <param name="signedRequest">The signed request.</param>

@@ -609,9 +609,9 @@
              <summary></summary>
             --------------------------------------------------------------------------
         </member>
-        <member name="T:Sitecore.sitecore.admin.ConvertUsersToContacts">
+        <member name="T:Sitecore.sitecore.admin.Aggregation">
             <summary>
-            Convert users to contacts page.
+            Aggregation class.
             </summary>
         </member>
         <member name="T:Sitecore.sitecore.admin.AdminPage">
@@ -639,124 +639,6 @@
             <value>
             <c>true</c> if current user is developer; otherwise, <c>false</c>.
             </value>
-        </member>
-        <member name="F:Sitecore.sitecore.admin.ConvertUsersToContacts.databaseProperties">
-            <summary>
-            The database properties.
-            </summary>
-        </member>
-        <member name="F:Sitecore.sitecore.admin.ConvertUsersToContacts.taskProcessor">
-            <summary>
-            The task processor.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.admin.ConvertUsersToContacts.ButtonGo_Click(System.Object,System.EventArgs)">
-            <summary>
-            Handles the Button go_ click event.
-            </summary>
-            <param name="sender">
-            The sender.
-            </param>
-            <param name="e">
-            The <see cref="T:System.EventArgs"/> instance containing the event data.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.admin.ConvertUsersToContacts.ProgressTimer_Tick(System.Object,System.EventArgs)">
-            <summary>
-            Handles the Tick event of the ProgressTimer control.
-            </summary>
-            <param name="sender">The source of the event.</param>
-            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
-        </member>
-        <member name="M:Sitecore.sitecore.admin.ConvertUsersToContacts.Page_Load(System.Object,System.EventArgs)">
-            <summary>
-            Handles the Load event of the Page control.
-            </summary>
-            <param name="sender">
-            The source of the event.
-            </param>
-            <param name="e">
-            The <see cref="T:System.EventArgs"/> instance containing the event data.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.admin.ConvertUsersToContacts.GetStatusString(Sitecore.Analytics.Processing.ProcessingTaskStatus)">
-            <summary>
-            The get status string.
-            </summary>
-            <param name="status">
-            The status.
-            </param>
-            <returns>
-            The <see cref="T:System.String"/>.
-            </returns>
-        </member>
-        <member name="F:Sitecore.sitecore.admin.ConvertUsersToContacts.Head1">
-            <summary>
-            Head1 control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.admin.ConvertUsersToContacts.mainForm">
-            <summary>
-            mainForm control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.admin.ConvertUsersToContacts.ScriptManager1">
-            <summary>
-            ScriptManager1 control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.admin.ConvertUsersToContacts.ProgressTimer">
-            <summary>
-            ProgressTimer control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.admin.ConvertUsersToContacts.UpdatePanel1">
-            <summary>
-            UpdatePanel1 control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.admin.ConvertUsersToContacts.lblProcessingStatus">
-            <summary>
-            lblProcessingStatus control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.admin.ConvertUsersToContacts.btnGo">
-            <summary>
-            btnGo control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="T:Sitecore.sitecore.admin.Aggregation">
-            <summary>
-            Aggregation class.
-            </summary>
         </member>
         <member name="F:Sitecore.sitecore.admin.Aggregation.CheckRefreshSessionTag">
             <summary>
@@ -23902,11 +23784,6 @@
         <member name="F:Sitecore.Shell.Applications.Dialogs.YesNoCancel.YesNoCancelForm.Text">
             <summary>
             The text.
-            </summary>
-        </member>
-        <member name="M:Sitecore.Shell.Applications.Dialogs.YesNoCancel.YesNoCancelForm.CancelPrimary">
-            <summary>
-            Closes this dialog. Dialog value will be 'cancel'.
             </summary>
         </member>
         <member name="M:Sitecore.Shell.Applications.Dialogs.YesNoCancel.YesNoCancelForm.No">

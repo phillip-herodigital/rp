@@ -47,7 +47,7 @@
                // to grant publish on the wall
                accountDataRequest.Permissions.Add("publish_actions", string.Empty);
             
-               // to retreive user pages accessTokens
+               // to retrieve user pages accessTokens
                accountDataRequest.Permissions.Add("manage_pages", string.Empty);
             
                // to get message statistics
@@ -147,7 +147,7 @@
               <code>
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.LogOnUser("Facebook", callbackUrl);
+              connectorClientManager.LogOnUser("Facebook", callbackUrl);
             }
               </code>
               <remarks>
@@ -158,15 +158,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -189,7 +189,7 @@
               <code>
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.LogOnUser("Facebook", callbackUrl, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
+              connectorClientManager.LogOnUser("Facebook", callbackUrl, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
             }
               </code>
               <remarks>
@@ -200,15 +200,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -231,7 +231,7 @@
               <code>
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.LogOnUser("Facebook", callbackUrl, true);
+              connectorClientManager.LogOnUser("Facebook", callbackUrl, true);
             }
               </code>
               <remarks>
@@ -242,15 +242,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -274,7 +274,7 @@
               <code>
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.LogOnUser("Facebook", callbackUrl, true, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
+              connectorClientManager.LogOnUser("Facebook", callbackUrl, true, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
             }
               </code>
               <remarks>
@@ -285,15 +285,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -316,7 +316,7 @@
               <code>
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.LogOnUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"));
+              connectorClientManager.LogOnUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"));
             }
               </code>
               <remarks>
@@ -327,15 +327,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -359,7 +359,7 @@
               <code>
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.LogOnUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
+              connectorClientManager.LogOnUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
             }
               </code>
               <remarks>
@@ -370,15 +370,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -402,7 +402,7 @@
               <code>
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.LogOnUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), true);
+              connectorClientManager.LogOnUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), true);
             }
               </code>
               <remarks>
@@ -413,15 +413,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -446,7 +446,7 @@
               <code>
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.LogOnUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), true, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
+              connectorClientManager.LogOnUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), true, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
             }
               </code>
               <remarks>
@@ -457,15 +457,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -488,7 +488,7 @@
               <code>
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.AttachToUser("Facebook", callbackUrl);
+              connectorClientManager.AttachToUser("Facebook", callbackUrl);
             }
               </code>
               <remarks>
@@ -499,15 +499,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -531,7 +531,7 @@
               <code>
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.AttachToUser("Facebook", callbackUrl, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
+              connectorClientManager.AttachToUser("Facebook", callbackUrl, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
             }
               </code>
               <remarks>
@@ -542,15 +542,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -574,7 +574,7 @@
               <code>
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.AttachToUser("Facebook", callbackUrl, true);
+              connectorClientManager.AttachToUser("Facebook", callbackUrl, true);
             }
               </code>
               <remarks>
@@ -585,15 +585,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -618,7 +618,7 @@
               <code>
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.AttachToUser("Facebook", callbackUrl, true, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
+              connectorClientManager.AttachToUser("Facebook", callbackUrl, true, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
             }
               </code>
               <remarks>
@@ -629,15 +629,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -661,7 +661,7 @@
               <code>
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.AttachToUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"));
+              connectorClientManager.AttachToUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"));
             }
               </code>
               <remarks>
@@ -672,15 +672,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -705,7 +705,7 @@
               <code>
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.AttachToUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
+              connectorClientManager.AttachToUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
             }
               </code>
               <remarks>
@@ -716,15 +716,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -749,7 +749,7 @@
               <code>
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.AttachToUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), true);
+              connectorClientManager.AttachToUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), true);
             }
               </code>
               <remarks>
@@ -760,15 +760,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>
@@ -794,7 +794,7 @@
               <code>
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-            connectorClientManager.AttachToUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), true, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
+              connectorClientManager.AttachToUser("Facebook", callbackUrl, new ApplicationCredentials("&lt;application key&gt;", "&lt;application secret&gt;"), true, new Dictionary{string, object}(){ {"parameter1", "parameterValue1"} });
             }
               </code>
               <remarks>
@@ -805,15 +805,15 @@
             var exceptionInfo = exceptionClientManager.GetExceptionInfo(HttpContext.Current.Request);
             if (exceptionInfo.IsEmpty)
             {
-            var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
-            if (!facebookProfile.IsEmpty)
-            {
-            this.ShowSocialProfile(facebookProfile);
-            }
+              var facebookProfile = HttpContext.Current.User.GetSocialProfile("Facebook");
+              if (!facebookProfile.IsEmpty)
+              {
+                this.ShowSocialProfile(facebookProfile);
+              }
             }
             else
             {
-            Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
+              Console.WriteLine("Simple message: {0}\nDetailed message: {1}", exceptionInfo.SimpleMessage, exceptionInfo.DetailedMessage);
             }
               </code>
               </example>

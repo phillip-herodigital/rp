@@ -1199,52 +1199,52 @@
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.FacebookContentCampaignId">
             <summary>
-            The facebook content campaign identifier
+            The Facebook content campaign identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.FacebookGoalCampaignId">
             <summary>
-            The facebook goal campaign identifier
+            The Facebook goal campaign identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.FacebookShareButtonsCampaignId">
             <summary>
-            The facebook share buttons campaign identifier
+            The Facebook share buttons campaign identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.TwitterContentCampaignId">
             <summary>
-            The twitter content campaign identifier
+            The Twitter content campaign identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.TwitterGoalCampaignId">
             <summary>
-            The twitter goal campaign identifier
+            The Twitter goal campaign identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.TwitterShareButtonsCampaignId">
             <summary>
-            The twitter share buttons campaign identifier
+            The Twitter share buttons campaign identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.GooglePlusOneGoalId">
             <summary>
-            The google plus one goal identifier
+            The Google+ one goal identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.GooglePlusShareButtonsCampaignId">
             <summary>
-            The google plus share buttons campaign identifier
+            The Google+ share buttons campaign identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.LinkedInShareGoalId">
             <summary>
-            The linked in share goal identifier
+            The LinkedIn share goal identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.LinkedInShareButtonsCampaignId">
             <summary>
-            The linked in share buttons campaign identifier
+            The LinkedIn share buttons campaign identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.SocialMarketerCampaignId">
@@ -1279,7 +1279,7 @@
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.FacebookNetworkId">
             <summary>
-            The facebook network identifier
+            The Facebook network identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.LinkImageFieldId">
@@ -1299,7 +1299,7 @@
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.TwitterNetworkId">
             <summary>
-            The twitter network identifier
+            The Twitter network identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.ApplicationTemplateId">
@@ -1434,12 +1434,12 @@
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.FacebookMessageTemplateStandardValuesItemId">
             <summary>
-            The facebook message template standard values item identifier
+            The Facebook message template standard values item identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.TwitterMessageTemplateStandardValuesItemId">
             <summary>
-            The twitter message template standard values item identifier
+            The Twitter message template standard values item identifier
             </summary>
         </member>
         <member name="F:Sitecore.Social.Infrastructure.Utils.ItemsIds.SocialMarketerMessageTemplateStandardValuesItemId">
