@@ -25,6 +25,7 @@
 
           <Border ID="ConfirmLanguages" Padding="0px 0px 16px 16px"/>
 
+          <Literal ID="WarningMessage" Text="Note: All the data in these languages will also be deleted." Style="font-weight:bold; color:maroon"/>
         </WizardFormIndent>
       </WizardFormPage>
 

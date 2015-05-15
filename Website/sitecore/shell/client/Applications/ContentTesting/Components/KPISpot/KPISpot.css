@@ -34,3 +34,7 @@
   background: no-repeat url('/sitecore/shell/client/Applications/ContentTesting/Assets/height25/nochange25.png');
   padding-left: 45px;
 }
+.sc-KPISpot-tooltip {
+  margin-left: 10px;
+  text-transform: none;
+}

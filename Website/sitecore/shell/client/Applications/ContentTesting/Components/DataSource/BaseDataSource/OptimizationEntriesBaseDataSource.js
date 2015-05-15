@@ -54,11 +54,11 @@
         }
 
         if (data.HasItemsBefore != undefined) {
-          this.set("hasItemsBefore", data.HasItemsBefore)
+          this.set("hasItemsBefore", data.HasItemsBefore);
         }
 
         if (data.HasItemsAfter != undefined) {
-          this.set("hasItemsAfter", data.HasItemsAfter)
+          this.set("hasItemsAfter", data.HasItemsAfter);
         }
       },
 

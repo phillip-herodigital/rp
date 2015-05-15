@@ -16,10 +16,11 @@ define(["sitecore", "loadingImage"], function (Sitecore, loadingImage) {
       var dialogPath = "/sitecore/client/Applications/ContentTesting/Pages/TestResults.aspx?"
         + "id=" + context.app.currentContext.itemId
         + "&la=" + context.app.currentContext.language
-        + "&vs=" + context.app.currentContext.version;
+        + "&vs=" + context.app.currentContext.version
+        + "&deviceId=" + context.app.currentContext.deviceId;
 
       var dialogFeatures = "dialogHeight: 800px;dialogWidth: 1000px;";
-      Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function (result) {
+      Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogPath, "", dialogFeatures, null, function (result) {
         if (!result) {
           return;
         }

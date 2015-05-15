@@ -1,12 +1,12 @@
-﻿@using System.Linq
-@using Sitecore.Configuration
+﻿@using Sitecore.Configuration
 @using Sitecore.Data.Items
+@using Sitecore.Links
 @using Sitecore.Mvc
-@using Sitecore.Mvc.Presentation
 @using Sitecore.Resources
+@using Sitecore.Web
 @using Sitecore.Web.UI
 @using Sitecore.Web.UI.Controls.Common.UserControls
-@model RenderingModel
+@model Sitecore.Mvc.Presentation.RenderingModel
 @{
   var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
   rendering.Class = "sc-launchpad";
@@ -71,6 +71,13 @@
     grids.Add(grid);
   }
 
+  var externalApp = database.GetItem("{E5AB0B90-D057-43AF-90CC-69B58C9A5CB0}");
+  string externalAppLink = null;
+  if (externalApp != null)
+  {
+    externalAppLink = LinkManager.GetItemUrl(externalApp);
+  }
+  
   var htmlAttributes = rendering.HtmlAttributes;
 }
 <div @htmlAttributes>
@@ -88,7 +95,7 @@
               @foreach (var item in row)
               {
                 var icon = Images.GetThemedImageSource(item["Icon"], ImageDimension.id48x48);
-                <a href="@Html.Raw(item["Link"])" class="sc-launchpad-item" @(item["OpenNewTab"]=="1"?"target=_blank":"") title="@item["Text"]">
+                <a href="@(item["OpenIframe"] == "1" ?  Html.Raw(WebUtil.AddQueryString(externalAppLink, "id", item.ID.ToString())) : Html.Raw(item["Link"]))" class="sc-launchpad-item" @(item["OpenNewTab"] == "1" ? "target=_blank" : "") title="@item["Text"]">
                   <span class="icon">
                     <img src="@Html.Raw(icon)" width="48" height="48" alt="@Html.Raw(item["Text"])" />
                   </span>

@@ -59,10 +59,11 @@ RadEditorCommandList["SetImageProperties"] = function (commandName, editor, args
   var currentImage = editor.getSelectedElement();
 
   if (currentImage.getAttribute("_languageInserted")) {
-    currentImage = currentImage.cloneNode();
+    // following line is commented due to bug# 410521
+    //currentImage = currentImage.cloneNode();
     var src = scGetImageSource(currentImage.outerHTML);
     src = scReplaceAmps(src);
-    currentImage.setAttribute("src", scRemoveLanguageFromImageSource(src, window.scLanguage));
+    currentImage.setAttribute("src", src);
   }
 
   var callbackFunction = window.Telerik.Web.UI.Editor.CommandList.getCallbackFunction(args, function (sender, arg) {
@@ -79,7 +80,7 @@ RadEditorCommandList["SetImageProperties"] = function (commandName, editor, args
 
         if (newSrc == source) {
           if (newImage.getAttribute("_languageInserted")) {
-            newImage.removeAttribute("_languageInserted");
+            //newImage.removeAttribute("_languageInserted");
           }
         } else {
           newImage.setAttribute("_languageInserted", true);
@@ -100,7 +101,8 @@ RadEditorCommandList["ImageMapDialog"] = function (commandName, editor, args) {
 
   if (currentImage.getAttribute("_languageInserted")) {
     argument.ImageSrc = scReplaceAmps(argument.ImageSrc);
-    argument.ImageSrc = scRemoveLanguageFromImageSource(argument.ImageSrc, window.scLanguage);
+    // following line is commented due to bug#427585 
+    //argument.ImageSrc = scRemoveLanguageFromImageSource(argument.ImageSrc, window.scLanguage);
   }
 
   var callbackFunction = window.Telerik.Web.UI.Editor.CommandList.getCallbackFunction(args, function (sender, arg) {
@@ -108,7 +110,8 @@ RadEditorCommandList["ImageMapDialog"] = function (commandName, editor, args) {
 
       if (arg.ImageSrc) {
         arg.ImageSrc = scReplaceAmps(arg.ImageSrc);
-        arg.ImageSrc = scAddLanguageToImageSource(arg.ImageSrc, window.scLanguage);
+        // following line is  commented due to bug#427585 
+        //arg.ImageSrc = scAddLanguageToImageSource(arg.ImageSrc, window.scLanguage);
       }
     }
     window.Telerik.Web.UI.Editor.CommandList._setImageMapProperties(editor, arg, commandName);

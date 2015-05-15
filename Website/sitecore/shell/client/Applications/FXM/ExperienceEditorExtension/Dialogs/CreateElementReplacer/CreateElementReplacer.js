@@ -69,7 +69,8 @@
                 return;
             }
 
-            _service.create(item, self.ParentTreeview.get('selectedItemPath'))
+            parent = parent.substring(0, parent.lastIndexOf('/') + 1) + this.ParentTreeview.get('selectedItemId');
+            _service.create(item, parent)
                 .then(function (data) {
                     _service.fetchItem(data.ItemID)
                         .then(function(instance) {

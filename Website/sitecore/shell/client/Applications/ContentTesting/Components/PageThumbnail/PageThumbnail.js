@@ -41,6 +41,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
         language: null,
         version: 0,
         revision: null,
+        deviceId: null,
         combination: null,
         testvalueid: null,
         imgSrc: null,
@@ -74,6 +75,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
       var version = this.get("version") || params.vs;
       var language = this.get("language") || params.la;
       var rule = this.get("testvalueid");
+      var device = this.get("deviceId") || params.deviceId;
 
       if (!id) {
         return;
@@ -89,6 +91,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
           id: id,
           version: version,
           language: language,
+          deviceId: device,
           combination: comb,
           revision: this.get("revision"),
           rules: rule || ""
@@ -132,6 +135,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
         language: this.$el.attr("data-sc-language") || null,
         version: this.$el.attr("data-sc-version") || 0,
         revision: this.$el.attr("data-sc-revision") || null,
+        deviceId: this.$el.attr("data-sc-deviceid") || null,
         combination: this.$el.attr("data-sc-combination") || null,
         testvalueid: this.$el.attr("data-sc-testvalueid") || null,
         showLink: this.$el.attr("data-sc-showlink") === "true", // todo: add version

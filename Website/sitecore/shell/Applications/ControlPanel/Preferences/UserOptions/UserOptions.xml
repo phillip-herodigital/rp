@@ -38,7 +38,7 @@
                 <Checkbox ID="Gutter" Header="Quick action bar"/>
               </Border>
               <Border>
-                <Checkbox ID="SearchPanel" Header="Seach panel"/>
+                <Checkbox ID="SearchPanel" Header="Search panel"/>
               </Border>
               <Border>
                 <Checkbox ID="ValidatorBar" Header="Validator bar"/>

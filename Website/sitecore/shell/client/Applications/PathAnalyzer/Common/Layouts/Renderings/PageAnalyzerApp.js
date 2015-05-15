@@ -97,18 +97,8 @@
                     self.app.ProgressIndicator.set("isBusy", 0);
                 });
 
-                Bus.instance().subscribe("data:loaded", function (data) {
-                    if (!data || !data.paths || data.paths.length < 1) {
-                        var messageText = self.app.StringDictionaryDomain.get("NoData");
-                        var message = {
-                            text: messageText,
-                            actions: [],
-                            closable: true
-                        };
-                        self.app.MessageBar.addMessage("notification", message);
-                    } else {
-                        self.app.MessageBar.removeMessages();
-                    }
+                Bus.instance().subscribe("data:loaded", function () {
+                    self.app.MessageBar.removeMessages();
                     self.app.ProgressIndicator.set("isBusy", 0);
                 });
 

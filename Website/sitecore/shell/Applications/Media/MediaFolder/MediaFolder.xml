@@ -8,9 +8,7 @@
       
       <Border id="SettingsContainer" style="display:none" />
       
-      <Script runat="server" Src="/sitecore/shell/controls/lib/YUIupload/yahoo-dom-event/yahoo-dom-event.js" />
-      <Script runat="server" Src="/sitecore/shell/controls/lib/YUIupload/element/element-beta-min.js" />
-      <Script runat="server" Src="/sitecore/shell/controls/lib/YUIupload/uploader/uploader-experimental-min.js" />
+      <Script runat="server" Src="/sitecore/shell/controls/lib/YUIupload/uploader/yui-uploader-min.js" />
 
       <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/lib/scriptaculous/scriptaculous.js?load=effects" />
       <Script type="text/JavaScript" language="javascript" Src="/sitecore/shell/controls/SitecoreLightbox.js" />

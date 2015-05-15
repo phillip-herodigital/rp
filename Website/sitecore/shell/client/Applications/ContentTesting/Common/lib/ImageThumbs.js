@@ -163,7 +163,8 @@ define(arResComponents, function (tooltip, requestUtil) {
               itemName: item.name,
               compareVersion: attrs.compareVersion,
               revision: attrs.revision,
-              uid: item.uId
+              uid: item.uId,
+              deviceId: attrs.deviceId
             };
           });
 
@@ -269,13 +270,17 @@ define(arResComponents, function (tooltip, requestUtil) {
 
         getTooltipContent: function (item) {
           // todo: Skynet: translate
-          var info = "<span><b>" + this.dictionary.get("Variation information:") + "</b></span></br>";
+          var info = "";
+          if(this.dictionary)
+            info = "<span><b>" + this.dictionary.get("Variation information:") + "</b></span></br>";
           info += this.getVariationInfo(item);
           return info;
         },
 
         getVariationInfo: function (item) {
           var info = "";
+          if (!this.dictionary)
+            return info;
           if (item.testType) {
             info += this.dictionary.get("Type:") + " " + this.dictionary.get(item.testType) + "</br>";
           }

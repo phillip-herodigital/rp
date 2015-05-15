@@ -7,7 +7,7 @@
         },
 
         openDialogWindow: function (params) {
-            var url = "/sitecore/client/applications/PathAnalyzer/PageAnalyzerDialog?id=" + params.id + "&n=" + params.name + "&treeDefinition=" + params.treeId + "&dateFrom=" + params.startDate + "&dateFrom=" + params.endDate;
+            var url = "/sitecore/client/applications/PathAnalyzer/PageAnalyzerDialog?id=" + params.id + "&n=" + params.name + "&treeDefinition=" + params.treeId + "&dateFrom=" + params.startDate + "&dateTo=" + params.endDate;
             this.PageAnalyzerFrame.set("sourceUrl", url);
 
             var appName = this.PageAnalyzerFrameTitle.get("text");

@@ -32,20 +32,12 @@
       $smartPanelCloseLink.append("<img src='" + this.srcCloseIcon + "' />");
 
       var screenshotSetting = this.SettingsDictionary.get("ContentTesting.GenerateScreenshots");
-      this._showCompareScreenshot = screenshotSetting == "all" || screenshotSetting == "limited";
-      this._showAllScreenshots = screenshotSetting == "all";
+      this._showCompareScreenshot = screenshotSetting === "all" || screenshotSetting === "limited";
+      this._showAllScreenshots = screenshotSetting === "all";
 
       this._imageThumbs = new thumbsMod.ImageThumbs({
         dictionary: this.StringDictionary
       });
-
-      //// setting "width" - LaunchTestWizardAction::StartWizard - setting of the "width", "height" in SheerResponse.ShowModalDialog doesn't work
-      //var parentElem = $(window.frameElement).parent();
-      //parentElem.css("width", "1000px");
-      //var widthElem = parentElem[0].clientWidth;
-      //// centering of the wizard
-      //var leftElem = screen.width / 2 - widthElem / 2;
-      //parentElem.css("left", leftElem + "px");
 
       this.CarouselImage.set("isVisible", false);
       this.CompareImage.set("isVisible", false);
@@ -57,7 +49,7 @@
       this.ItemInfoDataSource.on("change:hasActiveTest", this.checkActiveTest, this);
 
       // Subscribe to change of the "Maximum duration"
-      if (this.MaximumSelect !== undefined) {
+      if (this.MaximumSelect) {
         this.MaximumSelect.on("change:selectedItem", this.validateTestLength, this);
       }
 
@@ -79,7 +71,7 @@
       this.ViewAllTestVariablesHyperlinkButton.viewModel.$el.click({ self: this }, this.setViewAllPreview);
 
       // Update TestObjective UI according to selected test objective item
-      if (this.ObjectiveList !== undefined) {
+      if (this.ObjectiveList) {
         this.ObjectiveList.on("change:items", this.listGoalsItemsChanged, this);
         this.ObjectiveList.on("change:selectedItem", this.updateTestObjectiveUI, this);
       }
@@ -128,7 +120,7 @@
           var $targetElemInSmartPanel = app.TestVariationsSmartPanel.viewModel.$el.find(event.target);
           var $targetElemInStateListControl = app.TestVariablesStateListControl.viewModel.$el.find(event.target);
           // if "event.target" isn't lain in "TestVariationsSmartPanel", "TestVariablesStateListControl"
-          if ($targetElemInSmartPanel.length == 0 && $targetElemInStateListControl.length == 0) {
+          if ($targetElemInSmartPanel.length === 0 && $targetElemInStateListControl.length === 0) {
             app.TestVariationsSmartPanel.set("isOpen", false);
           }
         }        
@@ -138,13 +130,8 @@
       $(document).ready(this.CmsDialogFix);
       $(window).resize(this.CmsDialogFix);
 
-      //if (this.TrafficAllocationSlider !== undefined) {
-      //  this.TrafficAllocationSlider.set("selectedValue", 100);
-      //}
-
       this.OptionsMapper.addOptionComponent(this.TrafficAllocationSlider, "selectedValue", "TrafficAllocation");
       this.OptionsMapper.addOptionComponent(this.ConfidenceLevelSelect, "selectedValue", "ConfidenceLevel");
-
 
       // Set default values for the controls
       this.setDefaults();
@@ -178,22 +165,22 @@
 
     setDefaults: function () {
 
-      if (this.TrafficAllocationSlider !== undefined) {
+      if (this.TrafficAllocationSlider) {
         this.TrafficAllocationSlider.set("selectedValue", this.SettingsDictionary.get("ContentTesting.DefaultTrafficAllocation"));
       }
 
       // Composite may be missing due to security
-      if (this.ConfidenceLevelSelect !== undefined) {
+      if (this.ConfidenceLevelSelect) {
         this.ConfidenceLevelSelect.on("change:items", function () {
           this.ConfidenceLevelSelect.set("selectedValue", this.SettingsDictionary.get("ContentTesting.DefaultConfidenceLevel"));
         }, this);
       }
 
-      if (this.MinimumSelect !== undefined) {
+      if (this.MinimumSelect) {
         this.MinimumSelect.on("change:items", this.setMinDurationDefaultValue, this);
       }
 
-      if (this.MaximumSelect !== undefined) {
+      if (this.MaximumSelect) {
         this.MaximumSelect.on("change:items", this.setMaxDurationDefaultValue, this);
       }
     },
@@ -211,7 +198,7 @@
     setMinDurationDefaultValue: function () {
       // Set the default minimum duration value from the config in the Minimum Duration combobox.
       var defaultMinDuration = this.SettingsDictionary.get("ContentTesting.MinimumDuration");
-      if (this.MinimumSelect !== undefined) {
+      if (this.MinimumSelect) {
         this.MinimumSelect.set("selectedValue", defaultMinDuration);
       }
     },
@@ -305,7 +292,7 @@
       var items = this.TestVariablesDataSource.get("items");
       var itemCount = items.length;
 
-      if (itemCount == 0) {
+      if (itemCount === 0) {
         this._disableDialog([this.NoCandidatesMessage]);
       }
       else {
@@ -315,7 +302,7 @@
         this.displayPreviewContent(isContentTesting);
 
         // Update the default maximum duration value if MV test is configured from the configuration file.
-        if (this.MaximumSelect !== undefined) {
+        if (this.MaximumSelect) {
           if (!isContentTesting) {
             var defaultMVMaxDuration = this.SettingsDictionary.get("ContentTesting.MaximumOptimizationTestDuration");
             var items = this.MaximumSelect.get("items");
@@ -393,7 +380,7 @@
 
       this.testOptions.set("trafficAllocation", this.OptionsMapper.get("TrafficAllocation"));
 
-      if (this.ObjectiveList !== undefined) {
+      if (this.ObjectiveList) {
         var goal = this.ObjectiveList.get("selectedItem");
         if (goal) {
           if (goal.guid !== '{00000000-0000-0000-0000-000000000000}') {
@@ -403,15 +390,15 @@
         }
       }
 
-      if (this.ExpectationSlider !== undefined) {
+      if (this.ExpectationSlider) {
         this.testOptions.set("Expectation", this.ExpectationSlider.get("selectedValue"));
       }
 
-      if (this.MaximumSelect !== undefined) {
+      if (this.MaximumSelect) {
         this.testOptions.set("MaxDuration", this.MaximumSelect.get("selectedValue"));
       }
 
-      if (this.MinimumSelect !== undefined) {
+      if (this.MinimumSelect) {
         this.testOptions.set("MinDuration", this.MinimumSelect.get("selectedValue"));
       }
 
@@ -505,7 +492,7 @@
     },
 
     validateTestLength: function () {
-      if (this.MaximumSelect == undefined) {
+      if (!this.MaximumSelect) {
         return;
       }
 
@@ -524,7 +511,7 @@
 
       var templateFirstMessage, templateSecondMessage, type;
       
-      if (this.MinimumSelect !== undefined) {
+      if (this.MinimumSelect) {
         var minDuration = parseInt(this.MinimumSelect.get("selectedValue"), 10);
         if (daysExpected < minDuration)
         {
@@ -539,9 +526,9 @@
         type = 'notification';
 
         templateFirstMessage = _.template(
-          this.StringDictionary.get('With the changes you have made, you have created <%= experiences %> experiences.') + ' ' +
-          this.StringDictionary.get('The test will require <%= requiredVisits %> visitors to find a winner.') + ' ' +
-          this.StringDictionary.get('We do not have enough historical data to provide a forecasting on duration.'));
+          this.StringDictionary.get("With the changes you have made, you have created <%= experiences %> experiences.") + " " +
+          this.StringDictionary.get("The test will require <%= requiredVisits %> visitors to find a winner.") + " " +
+          this.StringDictionary.get("We do not have enough historical data to provide a forecasting on duration."));
 
         this.PreviewTabMessageBar.addMessage(
           type,
@@ -549,30 +536,30 @@
       }
       else {
         if (daysExpected > maxDurationValue) { // If test will take too long
-          type = 'warning';
+          type = "warning";
 
           templateFirstMessage = _.template(
-            this.StringDictionary.get('You have now created <%= experiences %> experiences.') + ' ' +
-            this.StringDictionary.get('Historical data shows it will take more than <%= days %> days to finish the test.') + ' ' +
-            this.StringDictionary.get('You can reduce this number by disabling some of the variables, or by adjusting the test settings.')
+            this.StringDictionary.get("You have now created <%= experiences %> experiences.") + " " +
+            this.StringDictionary.get("Historical data shows it will take more than <%= days %> days to finish the test.") + " " +
+            this.StringDictionary.get("You can reduce this number by disabling some of the variables, or by adjusting the test settings.")
           );
 
           templateSecondMessage = _.template(
-           this.StringDictionary.get('This page has <%= viewsPerDay %> visitors per day on average.') + ' ' +
-           this.StringDictionary.get('The test is expected to need <%= days %> days to reach a statistically significant result.') + ' ' +
-           this.StringDictionary.get('Then it is possible to determine which experience contributes the most to the engagement value.') + ' ' +
-           this.StringDictionary.get('You can manually stop the test by picking a winner before the test ends automatically.'));
+           this.StringDictionary.get("This page has <%= viewsPerDay %> visitors per day on average.") + " " +
+           this.StringDictionary.get("The test is expected to need <%= days %> days to reach a statistically significant result.") + " " +
+           this.StringDictionary.get("Then it is possible to determine which experience contributes the most to the engagement value.") + " " +
+           this.StringDictionary.get("You can manually stop the test by picking a winner before the test ends automatically."));
         } else {
-          type = 'notification';
+          type = "notification";
 
           templateFirstMessage = _.template(
-            this.StringDictionary.get('You have now created <%= experiences %> experiences.') + ' ' +
-            this.StringDictionary.get('Historical data shows that it will take about <%= days %> days to finish the test.'));
+            this.StringDictionary.get("You have now created <%= experiences %> experiences.") + " " +
+            this.StringDictionary.get("Historical data shows that it will take about <%= days %> days to finish the test."));
 
           templateSecondMessage = _.template(
-           this.StringDictionary.get('This page has <%= viewsPerDay %> visitors per day on average.') + ' ' +
-           this.StringDictionary.get('The test is expected to need <%= days %> days to reach a statistically significant result.') + ' ' +
-           this.StringDictionary.get('Then it is possible to determine which experience contributes the most to the engagement value.'));
+           this.StringDictionary.get("This page has <%= viewsPerDay %> visitors per day on average.") + " " +
+           this.StringDictionary.get("The test is expected to need <%= days %> days to reach a statistically significant result.") + " " +
+           this.StringDictionary.get("Then it is possible to determine which experience contributes the most to the engagement value."));
         }
 
         this.PreviewTabMessageBar.addMessage(
@@ -586,10 +573,13 @@
     },
 
     updateTestMetricsText: function () {
-      var template = _.template(this.VariablesStringDictionary.get("The <%= variableCount %> <%= variable %> have combined <%= valueCount %> variations, which together create <%= experienceCount %> experiences."));
+      var templateTextKey = this.TestDurationDataSource.get("variableCount") === 1 ?
+        "The <%= variableCount %> variable has <%= valueCount %> variations, which together create <%= experienceCount %> experiences." :
+        "The <%= variableCount %> variables have combined <%= valueCount %> variations, which together create <%= experienceCount %> experiences.";
+
+      var template = _.template(this.VariablesStringDictionary.get(templateTextKey));
       this.TestMetricsText.set("text", template({
         variableCount: this.TestDurationDataSource.get("variableCount"),
-        variable: this.TestDurationDataSource.get("variableCount") === 1 ? this.VariablesStringDictionary.get("variable") : this.VariablesStringDictionary.get("variables"),
         valueCount: this.TestDurationDataSource.get("valueCount"),
         experienceCount: this.TestDurationDataSource.get("experienceCount")
       }));
@@ -604,7 +594,7 @@
       var parsedMaxSelectedValue = maxSelectedItem ? parseInt(maxSelectedItem.Value, 10) : 0;
       var expectedDays = this.TestDurationDataSource.get("expectedDays");
       
-      if (this.MinimumSelect !== undefined) {
+      if (this.MinimumSelect) {
         var minDuration = parseInt(this.MinimumSelect.get("selectedValue"), 10);
         if (expectedDays < minDuration)
         {

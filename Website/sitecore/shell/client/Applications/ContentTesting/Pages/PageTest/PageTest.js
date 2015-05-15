@@ -64,7 +64,7 @@
       var db = new _sc.Definitions.Data.Database(databaseUri);
       var item = db.getItem(uri.id, function(item){
         self.set("selectedTemplateId", item.$templateId);
-        self.selectTestPage(uri.id);
+        self.selectTestPage(uri);
       });
       
       
@@ -138,11 +138,12 @@
       }
 
       var self = this;
-      versionInfoMod.getLatestVersionNumber(itemId, function (id, version, revision) {
+      versionInfoMod.getLatestVersionNumber(itemId, function (id, version, revision, language) {
         var uri = new dataUtilMod.DataUri();
         uri.id = id;
         uri.ver = version;
         uri.rev = revision;
+        uri.lang = language;
 
         self.set(self._testItemUriProperty, uri.toString());
         self.set(self._testItemTemplateIdProperty, itemTempateId);

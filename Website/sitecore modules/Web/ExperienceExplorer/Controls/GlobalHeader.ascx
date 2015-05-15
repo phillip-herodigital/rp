@@ -7,7 +7,7 @@
   <div class="sc-globalHeader-content">
     <div class="col2">
       <div class="sc-globalHeader-startButton">
-        <a class="sc-global-logo" href='javascript:$.get("/?sc_mode=edit", function (){window.location="/sitecore/shell/sitecore/client/Applications/LaunchPad";});'></a>
+        <a class="sc-global-logo" href="#" onclick='javascript:$.get("/?sc_mode=edit", function (){window.location="/sitecore/shell/sitecore/client/Applications/LaunchPad";});'></a>
       </div>
     </div>
     <div class="col2">

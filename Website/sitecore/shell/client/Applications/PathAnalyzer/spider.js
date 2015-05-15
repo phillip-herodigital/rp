@@ -13,13 +13,15 @@ var Settings = (function () {
         this.leftPadding = 10;
         this.topPadding = 100;
         this.hoverTimeout = 750;
+        this.domainPadding = 25;
     }
     Settings.init = function (height, width) {
         if (Settings._instance === null) {
             Settings._instance = new Settings();
             Settings._instance.width = width;
             Settings._instance.height = height;
-            Settings._instance.domainEndRange = width / 2 - Settings._instance.midPadding * 1.5;
+            Settings._instance.domainStartRange = 20;
+            Settings._instance.domainEndRange = width / 2 - Settings._instance.midPadding * 1.5 + Settings._instance.domainPadding;
         }
     };
     Settings.instance = function () {
@@ -120,18 +122,27 @@ var Scales = (function () {
         if (Scales._instance) {
             throw new Error("Error: Instantiation failed: Use Scales.getInstance() instead of new.");
         }
-        this.w = w;
-        this.h = h;
         this.SelectedColor = Settings.instance().SelectedColor;
         this.topPadding = Settings.instance().topPadding;
-        Scales._instance = this;
+        this.setupSubscribers();
     }
-    Scales.init = function (w, h) {
-        Scales._instance = new Scales(w, h);
+    Scales.prototype.setupSubscribers = function () {
+        var _this = this;
+        Bus.instance().subscribe("data:loaded", function () {
+            _this.updateScales();
+        });
+        Bus.instance().subscribe("data:updated", function () {
+            _this.updateScales();
+        });
     };
-    Scales.prototype.load = function (data) {
-        var paths = Filter.getInstance().process(data.paths);
-        var efficiencySet = data.paths.map(function (p) {
+    Scales.init = function (w, h) {
+        if (Scales._instance === null) {
+            Scales._instance = new Scales(w, h);
+        }
+    };
+    Scales.prototype.updateScales = function () {
+        var paths = DataContext.dataSet.paths;
+        var efficiencySet = paths.map(function (p) {
             return d3.round(p.efficiency, 0);
         }).filter(function (item, pos, self) {
             return self.indexOf(item) == pos;
@@ -147,12 +158,8 @@ var Scales = (function () {
         });
         var colorRange = Settings.instance().colorRange;
         this.scale = d3.scale.ordinal().range(colorRange).domain([0 /* Poor */, 1 /* Fair */, 3 /* Good */, 4 /* Great */]);
-        var minVisits = d3.min(paths, function (p) {
-            return p.visits;
-        });
-        var maxVisits = d3.max(paths, function (p) {
-            return p.visits;
-        });
+        var minVisits = d3.min(paths, function (p) { return p.visits; });
+        var maxVisits = d3.max(paths, function (p) { return p.visits; });
         this.strokeScale = d3.scale.linear().domain([minVisits, maxVisits]).range([5, 20]);
         var previousNodes = d3.merge(paths.map(function (p) {
             if (p.previous)
@@ -163,19 +170,11 @@ var Scales = (function () {
                 return p.next;
         }));
         var allNodes = previousNodes.concat(nextNodes);
-        var minValue = d3.min(allNodes, function (p) {
-            return p.value;
-        });
-        var maxValue = d3.max(allNodes, function (p) {
-            return p.value;
-        });
+        var minValue = d3.min(allNodes, function (p) { return p.value; });
+        var maxValue = d3.max(allNodes, function (p) { return p.value; });
         this.nodeRadiusScale = d3.scale.linear().domain([minValue, maxValue]).range([8, 16]);
-        var minNextValue = d3.min(nextNodes, function (p) {
-            return p.value;
-        });
-        var maxNextValue = d3.max(nextNodes, function (p) {
-            return p.value;
-        });
+        var minNextValue = d3.min(nextNodes, function (p) { return p.value; });
+        var maxNextValue = d3.max(nextNodes, function (p) { return p.value; });
         this.nextNodeRadiusScale = d3.scale.linear().domain([minNextValue, maxNextValue]).range([5, 15]);
         this.exitMarkerScale = d3.scale.linear().domain([0, maxVisits]).range([500, 500]);
     };
@@ -201,42 +200,101 @@ var Scales = (function () {
     Scales._instance = null;
     return Scales;
 })();
-var Filter = (function () {
-    function Filter(sortBy, desc, take) {
-        if (Filter.instance === null) {
-            this.init(sortBy, desc, take);
-        }
-        return Filter.instance;
+var DataContext = (function () {
+    function DataContext(uriResolver) {
+        this.uriResolver = uriResolver;
+        this._dataSet = null;
+        this.setupSubscribers();
     }
-    Filter.prototype.init = function (sortBy, desc, take) {
-        Filter.instance = this;
-        this.sortBy = sortBy;
-        this.desc = desc;
-        this.take = take;
+    DataContext.init = function (uriResolver) {
+        if (DataContext.instance === null) {
+            DataContext.instance = new DataContext(uriResolver);
+            DataContext.instance.loadData();
+        }
     };
-    Filter.prototype.process = function (paths) {
+    DataContext.prototype.setupSubscribers = function () {
         var _this = this;
-        if (this.sortBy) {
-            var sortBy = this.sortBy;
-            paths.sort(function (a, b) {
-                if (_this.desc)
-                    return d3.descending(a[sortBy], b[sortBy]);
-                return d3.ascending(a[sortBy], b[sortBy]);
-            });
+        Bus.instance().subscribe("filter:changed", function () {
+            _this.shufflePaths();
+        });
+        Bus.instance().subscribe("query:changed", function () {
+            _this.loadData(true);
+        });
+        Bus.instance().subscribe("stub:datasetchanged", function () {
+            Bus.instance().publish("reset", _this, { ignoreMute: true });
+            _this.loadData(true);
+        }, true);
+    };
+    Object.defineProperty(DataContext.prototype, "token", {
+        get: function () {
+            return $('input[name=__RequestVerificationToken]').val();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataContext, "dataSet", {
+        get: function () {
+            return this.getInstance()._dataSet;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataContext, "incomingPathCount", {
+        get: function () {
+            return DataContext.visiblePaths.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataContext, "nextNodeCount", {
+        get: function () {
+            return d3.merge(DataContext.visiblePaths.map(function (p) {
+                if (p.next)
+                    return p.next;
+            })).length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataContext, "visiblePaths", {
+        get: function () {
+            return this.getInstance()._dataSet.paths.filter(function (p) { return !p.hidden; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DataContext.prototype.shufflePaths = function () {
+        this._dataSet.paths = PathData.processPaths(this._dataSet.paths);
+    };
+    DataContext.prototype.loadData = function (update) {
+        var _this = this;
+        if (update === void 0) { update = false; }
+        var serviceUri = this.uriResolver.resolve();
+        var token = this.token;
+        d3.json(serviceUri).header("X-RequestVerificationToken", token).header("X-Requested-With", "XMLHttpRequest").get(function (err, data) { return _this.dataLoadedCallback(err, data, update); });
+    };
+    DataContext.prototype.dataLoadedCallback = function (err, data, update) {
+        if (err) {
+            Bus.instance().publish("data:error", err);
+            return;
         }
-        if (this.take > 0) {
-            return paths.slice(0, this.take);
+        if (!data || !data.paths || data.paths.length < 1) {
+            Bus.instance().publish("data:empty");
+            return;
         }
-        return paths;
+        this._dataSet = PathData.create(data);
+        if (this._dataSet) {
+            var message = "data:loaded";
+            if (update)
+                message = "data:updated";
+            Bus.instance().publish(message);
+        }
     };
-    Filter.getInstance = function () {
-        return Filter.instance;
+    DataContext.getInstance = function () {
+        return DataContext.instance;
     };
-    Filter.showingAll = function () {
-        return Filter.instance.take < 0;
-    };
-    Filter.instance = null;
-    return Filter;
+    DataContext.instance = null;
+    return DataContext;
 })();
 var DisplayNode = (function () {
     function DisplayNode(id, name, url, visits, value, pathEfficiency, current, next) {
@@ -315,39 +373,58 @@ var MetricHelper = (function () {
     return MetricHelper;
 })();
 var PathData = (function () {
-    function PathData(root, contextid, contextname, paths, value, visits, efficiency, exitcount, exitvalue, exitefficiency, exitpotential, landing, maxinteractions) {
-        this.root = root;
-        this.contextid = contextid;
-        this.contextname = contextname;
-        this.paths = paths;
-        this.value = value;
-        this.visits = visits;
-        this.efficiency = efficiency;
-        this.exitcount = exitcount;
-        this.exitvalue = exitvalue;
-        this.exitefficiency = exitefficiency;
-        this.exitpotential = exitpotential;
-        this.landing = landing;
-        this.maxinteractions = maxinteractions;
-        var exitingPaths = paths.filter(function (d) { return d.isExit; });
-        this.averageExitingPathEfficiency = d3.mean(exitingPaths, function (d) { return d.efficiency; });
-        this.totalExitingPathVisits = d3.sum(exitingPaths, function (d) { return d.visits; });
+    function PathData() {
     }
     PathData.create = function (source) {
         if (!source) {
             return null;
         }
+        var pathData = new PathData();
+        pathData.root = new DisplayNode(source.root.id, "root", "", source.root.visits, source.root.value, -1, source.root.current, false);
+        pathData.contextid = source.contextid;
+        pathData.contextname = source.contextname;
+        pathData.value = source.value;
+        pathData.visits = source.visits;
+        pathData.efficiency = source.efficiency;
+        pathData.exitcount = source.exitcount;
+        pathData.exitvalue = source.exitvalue;
+        pathData.exitefficiency = source.exitefficiency;
+        pathData.exitpotential = source.exitpotential;
+        pathData.landing = source.landing;
+        pathData.maxinteractions = source.maxinteractions;
+        var exitingPaths = source.paths.filter(function (d) { return d.isExit; });
+        pathData.averageExitingPathEfficiency = d3.mean(exitingPaths, function (d) { return d.efficiency; });
+        pathData.totalExitingPathVisits = d3.sum(exitingPaths, function (d) { return d.visits; });
         var paths = new Array();
-        var root = new DisplayNode(source.root.id, "root", "", source.root.visits, source.root.value, -1, source.root.current, false);
-        var filteredPaths = Filter.getInstance().process(source.paths);
-        filteredPaths.forEach(function (p) {
+        source.paths.forEach(function (p) {
             var pathId = PathData.createPathId(p);
             var previousNodes = PathData.hydrateNodes(pathId, p.efficiency, p.previous, source.nodes);
             var nextNodes = PathData.hydrateNodes(pathId, p.efficiency, p.next, source.nodes, true);
-            var path = Path.create(pathId, p, previousNodes, nextNodes);
-            paths.push(path);
+            paths.push(Path.create(pathId, p, previousNodes, nextNodes));
         });
-        return new PathData(root, source.contextid, source.contextname, paths, source.value, source.visits, source.efficiency, source.exitcount, source.exitvalue, source.exitefficiency, source.exitpotential, source.landing, source.maxinteractions);
+        pathData.paths = this.processPaths(paths);
+        return pathData;
+    };
+    PathData.processPaths = function (paths) {
+        var sortBy = FilterBar.getInstance().sort;
+        var desc = FilterBar.getInstance().desc;
+        var take = FilterBar.getInstance().take;
+        if (sortBy) {
+            paths.sort(function (a, b) {
+                if (desc)
+                    return d3.descending(a[sortBy], b[sortBy]);
+                return d3.ascending(a[sortBy], b[sortBy]);
+            });
+        }
+        var i = 0;
+        paths.forEach(function (p) {
+            p.hidden = false;
+            if (take > 0 && i >= take && !p.isLanding) {
+                p.hidden = true;
+            }
+            i++;
+        });
+        return paths;
     };
     PathData.hydrateNodes = function (pathId, pathEfficiency, source, dataNodes, next) {
         if (next === void 0) { next = false; }
@@ -371,22 +448,23 @@ var PathData = (function () {
     return PathData;
 })();
 var Path = (function () {
-    function Path(id, visits, value, exitcount, exitvalue, depth, efficiency, exitpotential, previous, next) {
-        this.id = id;
-        this.visits = visits;
-        this.value = value;
-        this.exitcount = exitcount;
-        this.exitvalue = exitvalue;
-        this.depth = depth;
-        this.efficiency = efficiency;
-        this.exitpotential = exitpotential;
-        this.previous = previous;
-        this.next = next;
-        this._isLanding = this.previous.length === 1 && this.previous[0].current;
-        this._isExit = this.exitcount > 0;
+    function Path() {
     }
     Path.create = function (id, source, previousNodes, nextNodes) {
-        return new Path(id, source.visits, source.value, source.exitcount, source.exitvalue, source.depth, source.efficiency, source.exitpotential, previousNodes, nextNodes);
+        var path = new Path();
+        path.id = id;
+        path.visits = source.visits;
+        path.value = source.value;
+        path.exitcount = source.exitcount;
+        path.exitvalue = source.exitvalue;
+        path.depth = source.depth;
+        path.efficiency = source.efficiency;
+        path.exitpotential = source.exitpotential;
+        path.previous = previousNodes;
+        path.next = nextNodes;
+        path._isLanding = path.previous.length === 1 && path.previous[0].current;
+        path._isExit = path.exitcount > 0;
+        return path;
     };
     Path.getPreviousNodes = function (path) {
         if (path.previous.length > 0) {
@@ -422,6 +500,7 @@ var EfficiencyGrade;
 })(EfficiencyGrade || (EfficiencyGrade = {}));
 var State = (function () {
     function State() {
+        this.maxDetailViewPathCount = 15;
     }
     State.init = function () {
         if (State._instance === null) {
@@ -430,36 +509,21 @@ var State = (function () {
         }
     };
     State.prototype.setupSubscribers = function () {
-        var _this = this;
-        Bus.instance().subscribe("data:loaded", function (data) {
-            _this.updateCounts(data);
-        });
-        Bus.instance().subscribe("data:updated", function (data) {
-            _this.updateCounts(data);
-        });
         Bus.instance().subscribe("click", function () {
             State.pathSelected = true;
         });
-    };
-    State.prototype.updateCounts = function (data) {
-        var nextNodes = d3.merge(data.paths.map(function (p) {
-            if (p.next)
-                return p.next;
-        }));
-        this.nextNodeCount = nextNodes.length;
-        this.prevPathCount = data.paths.length;
     };
     State.instance = function () {
         return State._instance;
     };
     State.prototype.highLevelEntryEnabled = function () {
-        if (this.prevPathCount < 15) {
+        if (DataContext.incomingPathCount < this.maxDetailViewPathCount) {
             return false;
         }
-        return Filter.showingAll();
+        return FilterBar.getInstance().take < 0;
     };
     State.prototype.highLevelExitEnabled = function () {
-        if (this.nextNodeCount > 15) {
+        if (DataContext.nextNodeCount > this.maxDetailViewPathCount) {
             return true;
         }
         return this.highLevelEntryEnabled();
@@ -545,6 +609,25 @@ var ExitGroup = (function () {
         return this.el;
     };
     return ExitGroup;
+})();
+var ExitArea = (function () {
+    function ExitArea() {
+    }
+    ExitArea.prototype.render = function (parent) {
+        parent.append("rect").attr("x", 400).attr("y", 350).attr("width", 100).attr("height", 150).attr("class", "overlay");
+    };
+    return ExitArea;
+})();
+var LandingArea = (function () {
+    function LandingArea(hasLandings) {
+        this.hasLandings = hasLandings;
+    }
+    LandingArea.prototype.render = function (parent) {
+        if (this.hasLandings) {
+            parent.append("rect").attr("x", 400).attr("y", 50).attr("width", 100).attr("height", 100).attr("class", "overlay");
+        }
+    };
+    return LandingArea;
 })();
 var LandingMarker = (function () {
     function LandingMarker(parent, color) {
@@ -743,10 +826,10 @@ var IncomingPaths = (function () {
     IncomingPaths.prototype.render = function () {
         var _this = this;
         var domain = [];
-        for (var i = this.entryNodeCount - 1; i >= 0; i--) {
+        for (var i = this.entryNodeCount - 2; i >= 0; i--) {
             domain.push(i);
         }
-        this.nodeXScale = d3.scale.ordinal().domain(domain).rangePoints([0, Settings.instance().domainEndRange], 0.01);
+        this.nodeXScale = d3.scale.ordinal().domain(domain).rangePoints([Settings.instance().domainStartRange, Settings.instance().domainEndRange]);
         var self = this;
         this.pathGroup.append("path").attr("class", "prevPath").attr("d", function (d, i) {
             var start = self.nodeXScale(d.previous.length - 2);
@@ -792,16 +875,24 @@ var IncomingNode = (function () {
         this.cssClass = "node previousNode";
     }
     IncomingNode.prototype.render = function () {
-        var _this = this;
         var self = this;
         this.el = this.parent.append("circle").attr("id", function (d) {
             return "node" + d.id;
         }).attr("cx", function (d, i) {
             return self.nodeXScale(i);
-        }).attr("cy", function (d, i, j) { return _this.nodeYScale(j); }).attr("r", function (d) { return d.radius(); }).attr("style", function (d) { return d.style(); }).attr("stroke", function (d) { return d.stroke(); }).attr("stroke-width", function (d) { return d.strokeWidth(); }).attr("class", self.cssClass).classed("current", function (d) { return d.current; }).on("click", function (d) {
+        }).attr("cy", function (d, i, j) {
+            return self.nodeYScale(j);
+        }).attr("r", function (d) { return d.radius(); }).attr("style", function (d) { return d.style(); }).attr("stroke", function (d) { return d.stroke(); }).attr("stroke-width", function (d) { return d.strokeWidth(); }).attr("class", self.cssClass).classed("current", function (d) { return d.current; }).on("click", function (d) {
             var x = d3.event.clientX;
             var y = d3.event.clientY;
-            var args = { el: this, path: this.parentNode.__data__, isNode: true, parent: this.parentNode, x: x, y: y };
+            var args = {
+                el: this,
+                path: this.parentNode.__data__,
+                isNode: true,
+                parent: this.parentNode,
+                x: x,
+                y: y
+            };
             Bus.instance().publish("mouseover", d, args);
             Bus.instance().publish("click", d, args);
         }).on("mouseover", function (d, i) {
@@ -1011,10 +1102,10 @@ var IncomingLabels = (function () {
         this.getNodesFunc = Path.getPreviousNodes;
         this.setupSubscribers();
         var domain = [];
-        for (var i = maxEntryNodeCount - 1; i >= 0; i--) {
+        for (var i = maxEntryNodeCount - 2; i >= 0; i--) {
             domain.push(i);
         }
-        this.nodeXScale = d3.scale.ordinal().domain(domain).rangePoints([0, Settings.instance().domainEndRange], 0.1);
+        this.nodeXScale = d3.scale.ordinal().domain(domain).rangePoints([Settings.instance().domainStartRange, Settings.instance().domainEndRange]);
         this.nodeYScale = d3.scale.linear().domain([0, pathLength]).range([Settings.instance().topPadding, Settings.instance().height]);
     }
     IncomingLabels.prototype.setupSubscribers = function () {
@@ -1039,6 +1130,8 @@ var IncomingLabels = (function () {
         var _this = this;
         var self = this;
         self.el.selectAll("text.incomingLabel").data(function (d) { return _this.getNodesFunc(d).reverse(); }).enter().append("text").text(function (d) {
+            if (!d.name)
+                return null;
             if (d.name.length > 20)
                 return d.name.substring(0, 20) + "...";
             return d.name;
@@ -1062,10 +1155,10 @@ var IncomingNodes = (function () {
         this.getNodesFunc = Path.getPreviousNodes;
         this.selector = ".previousNodes";
         var domain = [];
-        for (var i = maxEntryNodeCount - 1; i >= 0; i--) {
+        for (var i = maxEntryNodeCount - 2; i >= 0; i--) {
             domain.push(i);
         }
-        this.nodeXScale = d3.scale.ordinal().domain(domain).rangePoints([0, Settings.instance().domainEndRange], 0.1);
+        this.nodeXScale = d3.scale.ordinal().domain(domain).rangePoints([Settings.instance().domainStartRange, Settings.instance().domainEndRange]);
         this.nodeYScale = d3.scale.linear().domain([0, pathLength]).range([Settings.instance().topPadding, Settings.instance().height]);
         this.setupSubscribers();
     }
@@ -1082,7 +1175,9 @@ var IncomingNodes = (function () {
             var SelectedColor = Settings.instance().SelectedColor;
             d3.selectAll("circle.previousNode").attr("stroke", null).attr("style", function () {
                 if (State.instance().highLevelEntryEnabled()) {
-                    return "fill:" + SelectedColor;
+                    if (this.parentNode.__data__.isExit)
+                        return "fill:" + SelectedColor;
+                    return "fill:" + DimColor;
                 }
             }).classed("selected", function () {
                 return this.parentNode.__data__.isExit;
@@ -1192,17 +1287,11 @@ var Metrics = (function () {
                 };
             });
         });
-        Bus.instance().subscribe("data:loaded", function (data) {
-            if (!data) {
-                self.remove();
-            }
-            self.render(data);
+        Bus.instance().subscribe("data:loaded", function () {
+            self.render();
         });
-        Bus.instance().subscribe("data:updated", function (data) {
-            if (!data) {
-                self.remove();
-            }
-            self.render(data);
+        Bus.instance().subscribe("data:updated", function () {
+            self.render();
         });
         Bus.instance().subscribe("data:error", function () {
             self.remove();
@@ -1214,11 +1303,14 @@ var Metrics = (function () {
     Metrics.prototype.remove = function () {
         this.el.selectAll("div").remove();
     };
-    Metrics.prototype.render = function (data) {
+    Metrics.prototype.render = function () {
         this.remove();
-        var metrics = MetricHelper.create(data.visits, data.value);
-        var metricsSelection = this.el.selectAll("div").data(metrics);
-        metricsSelection.enter().append("div").attr("id", function (d) { return d.id; }).append("span").text(function (d) { return d.displayLabel; }).append("h3").text(function (d) { return d.displayValue; }).classed("currentMetric", true);
+        var data = DataContext.dataSet;
+        if (data) {
+            var metrics = MetricHelper.create(data.visits, data.value);
+            var metricsSelection = this.el.selectAll("div").data(metrics);
+            metricsSelection.enter().append("div").attr("id", function (d) { return d.id; }).append("span").text(function (d) { return d.displayLabel; }).append("h3").text(function (d) { return d.displayValue; }).classed("currentMetric", true);
+        }
     };
     return Metrics;
 })();
@@ -1303,26 +1395,56 @@ var Breadcrumb = (function () {
 var FilterBar = (function () {
     function FilterBar(el) {
         this.el = el;
-        this.filter = new Filter("visits", true, 10);
-        this.id = "filterBar";
-        this.init();
-    }
-    FilterBar.prototype.render = function () {
-    };
-    FilterBar.prototype.init = function () {
+        this._take = -1;
+        this._desc = true;
+        this._sort = "visits";
         var self = this;
+        var selectedFilter = this.el.selectAll("input.filter:checked");
+        this._take = parseInt(selectedFilter.attr("data-take"));
+        this._desc = selectedFilter.attr("data-desc") === 'true';
+        this._sort = this.el.selectAll("input.sort:checked").attr("value");
         this.el.selectAll("input.filter").on("change", function () {
             var take = d3.select(this).attr("data-take");
             var desc = d3.select(this).attr("data-desc");
-            self.filter.take = parseInt(take);
-            self.filter.desc = desc === 'true';
-            Bus.instance().publish("reset", this, { ignoreMute: true });
+            self._take = parseInt(take);
+            self._desc = desc === 'true';
+            Bus.instance().publish("filter:changed", this, { ignoreMute: true });
         });
         this.el.selectAll("input.sort").on("change", function () {
-            self.filter.sortBy = this.value;
-            Bus.instance().publish("sort:changed", this, { ignoreMute: true });
+            self._sort = this.value;
+            Bus.instance().publish("filter:changed", this, { ignoreMute: true });
         });
+    }
+    FilterBar.init = function (el) {
+        if (FilterBar._instance === null) {
+            FilterBar._instance = new FilterBar(el);
+        }
     };
+    FilterBar.getInstance = function () {
+        return FilterBar._instance;
+    };
+    Object.defineProperty(FilterBar.prototype, "take", {
+        get: function () {
+            return this._take;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FilterBar.prototype, "desc", {
+        get: function () {
+            return this._desc;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FilterBar.prototype, "sort", {
+        get: function () {
+            return this._sort;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FilterBar._instance = null;
     return FilterBar;
 })();
 var Icon = (function () {
@@ -1379,17 +1501,13 @@ var Landings = (function () {
         this.setupSubscribers();
     }
     Landings.prototype.render = function () {
-        var data = this.el[0][0].__data__;
-        this.update(data.paths);
-    };
-    Landings.prototype.update = function (paths) {
-        paths = Filter.getInstance().process(paths);
+        var paths = DataContext.visiblePaths;
         this.nextNodes = d3.merge(paths.map(function (p) {
             if (State.instance().highLevelEntryEnabled())
                 return p.next.slice(0, 2);
             return p.next;
         }));
-        var landingPaths = paths.filter(function (d) { return d.isLanding; });
+        var landingPaths = paths.filter(function (p) { return p.isLanding; });
         if (landingPaths.length > 0) {
             this.renderLandingPaths(landingPaths);
         }
@@ -1407,15 +1525,14 @@ var Landings = (function () {
         var labelGroup = new LandingGroup(g).render();
         new LandingLabels(labelGroup, true).render();
         new LandingMarker(labelGroup, this.color).render();
+        new LandingArea(true).render(labelGroup);
         new OutgoingPaths(g, this.nextNodes).render();
         new OutgoingNodes(g, this.nextNodes).render();
         new OutgoingLabels(g, this.nextNodes).render();
     };
     Landings.prototype.renderGroup = function (landingPaths) {
         var g = this.el.selectAll(".landing").data(landingPaths);
-        g.selectAll("path").remove();
-        g.selectAll("circle").remove();
-        g.selectAll(".metricsLabelGroup").remove();
+        g.selectAll("*").remove();
         g.enter().append('g').attr("class", "landing");
         g.exit().remove();
         return g;
@@ -1437,7 +1554,7 @@ var Landings = (function () {
         Bus.instance().subscribe("reset", function () {
             self.render();
         });
-        Bus.instance().subscribe("sort:changed", function () {
+        Bus.instance().subscribe("filter:changed", function () {
             self.render();
         });
         Bus.instance().subscribe("mouseover", function (node, data) {
@@ -1503,6 +1620,7 @@ var Exits = (function () {
         var labelGroup = new ExitGroup(g).render();
         new ExitLabels(labelGroup).render();
         new ExitMarker(labelGroup).render();
+        new ExitArea().render(labelGroup);
     };
     Exits.prototype.off = function () {
         this.el.selectAll(".arrow").attr("fill", Settings.instance().DimColor);
@@ -1564,6 +1682,9 @@ var Exits = (function () {
         Bus.instance().subscribe("reset", function () {
             _this.render();
         });
+        Bus.instance().subscribe("filter:changed", function () {
+            _this.render();
+        });
     };
     return Exits;
 })();
@@ -1591,10 +1712,10 @@ var Body = (function () {
         Bus.instance().subscribe("reset", function () {
             _this.render();
         });
-        Bus.instance().subscribe("data:updated", function (data) {
-            _this.update(data.paths);
+        Bus.instance().subscribe("data:updated", function () {
+            _this.update();
         });
-        Bus.instance().subscribe("sort:changed", function () {
+        Bus.instance().subscribe("filter:changed", function () {
             _this.render();
         });
         Bus.instance().subscribe("exit:mouseout", function () {
@@ -1622,26 +1743,25 @@ var Body = (function () {
         this.update(this.el[0][0].__data__.paths);
     };
     Body.prototype.update = function (paths) {
-        var paths = Filter.getInstance().process(paths);
-        var nonLanding = paths.filter(function (p) { return !p.isLanding; });
+        if (paths === void 0) { paths = DataContext.dataSet.paths; }
+        var visiblePaths = paths.filter(function (p) { return !p.hidden; });
+        var nonLanding = visiblePaths.filter(function (p) { return !p.isLanding; });
         var pathGroup = this.el.selectAll(".nonlanding").data(nonLanding, function (p) {
             var id = p.previous.map(function (p) {
                 return p.id;
             }).join('-');
             return id;
         });
-        pathGroup.selectAll("path").remove();
-        pathGroup.selectAll("circle").remove();
-        pathGroup.selectAll("text").remove();
+        pathGroup.selectAll("*").remove();
         pathGroup.enter().append("g").attr("id", function (p) { return "group" + p.id; }).attr("class", "nonlanding");
         pathGroup.exit().remove();
-        this.renderLeft(pathGroup, nonLanding);
-        this.renderRight(pathGroup, paths);
-    };
-    Body.prototype.renderLeft = function (pathGroup, paths) {
         var entryNodeCount = d3.max(paths.map(function (a) {
             return a.previous.length;
         }));
+        this.renderLeft(pathGroup, nonLanding, entryNodeCount);
+        this.renderRight(pathGroup, visiblePaths);
+    };
+    Body.prototype.renderLeft = function (pathGroup, paths, entryNodeCount) {
         var pathCount = paths.length;
         new IncomingPaths(pathGroup, pathCount, entryNodeCount).render();
         new IncomingNodes(pathGroup, pathCount, entryNodeCount).render();
@@ -1763,82 +1883,57 @@ var Application = (function () {
     }
     Application.prototype.initialize = function () {
         this.init();
-        this.loadData();
     };
     Application.prototype.setupSubscribers = function () {
         var _this = this;
-        Bus.instance().subscribe("data:loaded", function (data) {
-            _this.handleDataLoad(data);
+        Bus.instance().subscribe("data:loaded", function () {
+            _this.handleDataLoad();
         });
-        Bus.instance().subscribe("data:updated", function (data) {
-            _this.handleDataLoad(data);
+        Bus.instance().subscribe("data:updated", function () {
+            _this.handleDataLoad();
         });
-        Bus.instance().subscribe("query:changed", function () {
-            _this.loadData(true);
-        });
-        Bus.instance().subscribe("stub:datasetchanged", function () {
-            _this.loadData(true);
-        });
-        Bus.instance().subscribe("sort:changed", function () {
+        Bus.instance().subscribe("filter:changed", function () {
             State.pathSelected = false;
         });
+        Bus.instance().subscribe("data:error", function () {
+            _this.hide();
+        });
+        Bus.instance().subscribe("data:empty", function () {
+            _this.hide();
+        });
     };
-    Application.prototype.handleDataLoad = function (data) {
-        Scales.getInstance().load(data);
-        d3.selectAll("#viz").call(this.render, { data: data, app: this });
+    Application.prototype.hide = function () {
+        d3.select("#viz").select("g").remove();
     };
-    Application.prototype.loadData = function (update) {
-        var _this = this;
-        if (update === void 0) { update = false; }
-        var serviceUri = this.uriResolver.resolve();
-        var token = this.getToken();
-        d3.json(serviceUri).header("X-RequestVerificationToken", token).header("X-Requested-With", "XMLHttpRequest").get(function (err, data) { return _this.processData(err, data, update); });
+    Application.prototype.handleDataLoad = function () {
+        d3.selectAll("#viz").call(this.render, { app: this });
     };
     Application.prototype.init = function () {
-        Settings.init(this.height, this.width);
         State.init();
         Dictionary.init(this.sourceDictionary);
+        Settings.init(this.height, this.width);
         Scales.init(this.width, this.height);
+        FilterBar.init(d3.select("#filterBar"));
+        DataContext.init(this.uriResolver);
         this.setupSubscribers();
         DatasetSelector.render(d3.select("#dataset"));
         new Metrics(d3.select("#pageMetrics"));
         new Tooltip(d3.select("body")).render();
         new Breadcrumb(d3.select("#breadcrumb")).render();
-        new FilterBar(d3.select("#filterBar")).render();
     };
     Application.prototype.render = function (viz, parameters) {
-        var data = parameters.data;
         var app = parameters.app;
+        var data = DataContext.dataSet;
         var spiderSelection = viz.selectAll("g").data([data]);
         spiderSelection.enter().append("g").attr("id", "spider");
         spiderSelection.append("rect").attr({ "class": "overlay", "width": app.width, "height": app.height }).on("click", function () {
-            State.pathSelected = false;
-            Bus.instance().publish("reset", this, { ignoreMute: true });
+            if (State.pathSelected) {
+                State.pathSelected = false;
+                Bus.instance().publish("reset", this, { ignoreMute: true });
+            }
         });
         spiderSelection.exit().remove();
         new Spider(spiderSelection, data.contextname).render();
-    };
-    Application.prototype.getToken = function () {
-        return $('input[name=__RequestVerificationToken]').val();
-    };
-    Application.prototype.processData = function (err, data, update) {
-        if (err) {
-            Bus.instance().publish("data:error", err);
-            d3.select("#viz").select("g").remove();
-            return;
-        }
-        if (!data || !data.paths || data.paths.length < 1) {
-            Bus.instance().publish("data:empty");
-            d3.select("#viz").select("g").remove();
-            return;
-        }
-        this.data = PathData.create(data);
-        if (this.data) {
-            var message = "data:loaded";
-            if (update)
-                message = "data:updated";
-            Bus.instance().publish(message, this.data);
-        }
     };
     Application.cctor = (function () {
         Bus.init();
@@ -1881,7 +1976,9 @@ var OutgoingNodes = (function () {
             var SelectedColor = Settings.instance().SelectedColor;
             d3.selectAll("circle.previousNode").attr("stroke", null).attr("style", function () {
                 if (State.instance().highLevelEntryEnabled()) {
-                    return "fill:" + SelectedColor;
+                    if (this.parentNode.__data__.isExit)
+                        return "fill:" + SelectedColor;
+                    return "fill:" + DimColor;
                 }
             }).classed("selected", function () {
                 return this.parentNode.__data__.isExit;

@@ -71,7 +71,6 @@
 .scLine
 {
   padding: 9px 4px 9px 4px;
-  white-space: nowrap;
   position: relative;
 }
 
@@ -83,6 +82,18 @@
     right: 4px;
     top: 9px;
   }
+
+    .scLine div p
+    {
+        margin: 0;
+        padding: 0;
+        width: 65px;
+        display: inline-block;
+        background: linear-gradient(to right, rgba(255, 0, 0, 0), #e3e3e3);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#00e3e3e3, endColorStr=#e3e3e3, GradientType=1);
+        height: 14px;
+        vertical-align: top;
+    }
 
 .ie .scLine div
 {
@@ -102,6 +113,8 @@
 .scLineButton
 {
   color: #666666;
+  background: #e3e3e3;
+  padding-left: 7px;
 }
 
 .scAction

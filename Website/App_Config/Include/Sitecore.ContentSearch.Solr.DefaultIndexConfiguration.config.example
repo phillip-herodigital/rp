@@ -185,6 +185,7 @@
               <mediaIndexing ref="contentSearch/indexConfigurations/defaultSolrIndexConfiguration/mediaIndexing"/>
             </field>
             <field fieldName="calculateddimension"            returnType="stringCollection">Sitecore.ContentSearch.ComputedFields.CalculatedDimension,Sitecore.ContentSearch</field>
+            <field fieldName="culture"                        returnType="string"          >Sitecore.ContentSearch.ComputedFields.Culture,Sitecore.ContentSearch</field>
             <field fieldName="haschildren"                    returnType="bool"            >Sitecore.ContentSearch.ComputedFields.HasChildren,Sitecore.ContentSearch</field>
             <field fieldName="istemplate"                     returnType="bool"            >Sitecore.ContentSearch.ComputedFields.IsTemplate,Sitecore.ContentSearch</field>
             <field fieldName="lock"                           returnType="bool"            >Sitecore.ContentSearch.ComputedFields.IsLocked,Sitecore.ContentSearch</field>

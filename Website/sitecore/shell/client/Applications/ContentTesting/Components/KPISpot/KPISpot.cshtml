@@ -8,9 +8,13 @@
     var htmlAttributes = component.HtmlAttributes;
 }
 
-<div @htmlAttributes class="sc-KPISpot">
+<div @htmlAttributes class="sc-KPISpot" data-sc-hasnested="true">
   <div class="spot">
-    <div class="sc-KPISpot-text" data-bind="text: text">
+    <div class="sc-KPISpot-text">
+      <span data-bind="text: text"></span>
+      <span class="sc-KPISpot-tooltip">
+        @Html.Sitecore().Placeholder(component.ControlId + ".Tooltip")
+      </span>
     </div>
     <div class="sc-KPISpot-value" data-bind="text: value() != null && value() != undefined ? (value() + (percentage() ? '%' : '')) : '--'">
     </div>

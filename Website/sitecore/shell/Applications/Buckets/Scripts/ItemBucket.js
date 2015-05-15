@@ -821,6 +821,11 @@ function parseResults(resultCallBack) {
 
 
 function c(resultCallBack) {
+    if (resultCallBack.Redirect) {
+      window.top.location.href = resultCallBack.Redirect;
+      return;
+    }
+
     $j("#results").html("");
     $j(".pagination").remove();
     $j("#results").append('<div id="resultAppendDiv" style="overflow: auto; height: auto;">');

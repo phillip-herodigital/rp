@@ -1,4 +1,4 @@
-.sc-globalHeader-content,
+﻿.sc-globalHeader-content,
 .sc-applicationContent,
 .sc-applicationHeader-content {
   max-width: none;
@@ -44,6 +44,7 @@
   color: #131313;
 }
 .sc-launchpad-item .icon {
+  background-color: #f7f7f7;
   background-image: -webkit-linear-gradient(#ffffff, #f7f7f7);
   background-image: -o-linear-gradient(#ffffff, #f7f7f7);
   background-image: linear-gradient(#ffffff, #f7f7f7);

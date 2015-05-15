@@ -17,11 +17,21 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <Script runat="server" Src="/sitecore/shell/controls/lib/YUIupload/yahoo-dom-event/yahoo-dom-event.js" />
-      <Script runat="server" Src="/sitecore/shell/controls/lib/YUIupload/element/element-beta-min.js" />
-      <Script runat="server" Src="/sitecore/shell/controls/lib/YUIupload/uploader/uploader-experimental-min.js" />
+      <Script runat="server" Src="/sitecore/shell/controls/lib/YUIupload/uploader/yui-uploader-min.js" />
 
-      <Script runat="server" Src="/sitecore/shell/applications/flashupload/attach/attach.js" />
+      <Script runat="server" Src="/sitecore/shell/applications/flashupload/Upload.js" />
+
+      <Script>
+        Event.observe(window, "load", function () {
+          window.scUpload = new SitecoreMultiUpload();
+          scUpload.destination = "/sitecore/shell/applications/flashupload/attach/attachtarget.aspx" + window.location.search + "&amp;uploadID=" + $$(".uploadID")[0].value;
+          scUpload.init();
+
+          scUpload.close = function () {
+            setTimeout(function () { scForm.postRequest("", "", "", "Close()"); }.bind(this), 25);
+          };
+        });
+      </Script>
 
       <Style runat="server">
         .filename {
@@ -75,8 +85,21 @@
         }
 
         #contentWrapper{
-          max-height:50px;
-          display: block
+        max-height:50px;
+        display: block
+        }
+
+        .yui3-uploader-content
+        {
+        width: 100%;
+        height: 100%;
+        overflow:hidden;
+        }
+
+        .yui3-uploader-content button
+        {
+        opacity: 0;
+        cursor:pointer;
         }
       </Style>
       <div id="contentWrapper">

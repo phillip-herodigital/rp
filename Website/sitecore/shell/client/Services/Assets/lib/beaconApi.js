@@ -409,7 +409,7 @@ process.chdir = function (dir) {
         self.Q = definition();
 
     } else {
-        throw new Error("This environment was not anticiapted by Q. Please file a bug.");
+        throw new Error("This environment was not anticipated by Q. Please file a bug.");
     }
 
 })(function () {
@@ -1852,7 +1852,7 @@ Promise.prototype.keys = function () {
 Q.all = all;
 function all(promises) {
     return when(promises, function (promises) {
-        var countDown = 0;
+        var pendingCount = 0;
         var deferred = defer();
         array_reduce(promises, function (undefined, promise, index) {
             var snapshot;
@@ -1862,12 +1862,12 @@ function all(promises) {
             ) {
                 promises[index] = snapshot.value;
             } else {
-                ++countDown;
+                ++pendingCount;
                 when(
                     promise,
                     function (value) {
                         promises[index] = value;
-                        if (--countDown === 0) {
+                        if (--pendingCount === 0) {
                             deferred.resolve(promises);
                         }
                     },
@@ -1878,7 +1878,7 @@ function all(promises) {
                 );
             }
         }, void 0);
-        if (countDown === 0) {
+        if (pendingCount === 0) {
             deferred.resolve(promises);
         }
         return deferred.promise;
@@ -1887,6 +1887,55 @@ function all(promises) {
 
 Promise.prototype.all = function () {
     return all(this);
+};
+
+/**
+ * Returns the first resolved promise of an array. Prior rejected promises are
+ * ignored.  Rejects only if all promises are rejected.
+ * @param {Array*} an array containing values or promises for values
+ * @returns a promise fulfilled with the value of the first resolved promise,
+ * or a rejected promise if all promises are rejected.
+ */
+Q.any = any;
+
+function any(promises) {
+    if (promises.length === 0) {
+        return Q.resolve();
+    }
+
+    var deferred = Q.defer();
+    var pendingCount = 0;
+    array_reduce(promises, function(prev, current, index) {
+        var promise = promises[index];
+
+        pendingCount++;
+
+        when(promise, onFulfilled, onRejected, onProgress);
+        function onFulfilled(result) {
+            deferred.resolve(result);
+        }
+        function onRejected() {
+            pendingCount--;
+            if (pendingCount === 0) {
+                deferred.reject(new Error(
+                    "Can't get fulfillment value from any promise, all " +
+                    "promises were rejected."
+                ));
+            }
+        }
+        function onProgress(progress) {
+            deferred.notify({
+                index: index,
+                value: progress
+            });
+        }
+    }, undefined);
+
+    return deferred.promise;
+}
+
+Promise.prototype.any = function() {
+    return any(this);
 };
 
 /**
@@ -5686,14 +5735,18 @@ var api = function(endpoint) {
                                 switch (match.RenderedPosition) {
                                     case '{B8F49EBF-2542-4CB0-B3BB-63858918CE8B}': // before
                                         utils.forEach(wrapper.childNodes, function (node) {
+                                          if (node && e) {
                                             e.parentNode.insertBefore(node, e);
+                                          }
                                         });
                                         break;
                                     case '{18F0F47F-2214-4F23-B6FA-F2D86A0C9E5A}': // after
                                         var children = wrapper.childNodes;
                                         Array.prototype.reverse(children);
                                         utils.forEach(children, function (node) {
+                                          if (node && e && e.nextSibling) {
                                             e.parentNode.insertBefore(node, e.nextSibling);
+                                          }
                                         });
                                         break;
                                 }

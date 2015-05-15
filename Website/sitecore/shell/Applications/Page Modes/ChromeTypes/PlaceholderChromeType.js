@@ -22,7 +22,7 @@
     return this._selectable;
   },
 
-  addControl: function(position) {
+  addControl: function (position) {
     this._insertPosition = position;
 
     var ribbon = Sitecore.PageModes.PageEditor.ribbon();
@@ -37,7 +37,17 @@
     options.data.rendering = id;
     options.data.placeholderKey = this.placeholderKey();
     options.data.position = this._insertPosition;
-    options.data.url = window.location.href;                
+    options.data.url = window.location.href;
+
+    var allowedrenderingsIds = "";
+    for (var i = 0; i < this.chrome.data.custom.allowedRenderings.length; i++) {
+      allowedrenderingsIds += this.chrome.data.custom.allowedRenderings[i].toString();
+      if (i < this.chrome.data.custom.allowedRenderings.length - 1) {
+        allowedrenderingsIds += "|";
+      }
+    }
+
+    options.data.allowedRenderingsIds = allowedrenderingsIds;
     
     if (ds) {
       options.data.datasource = ds;
@@ -622,11 +632,11 @@
 
     renderingChrome.remove();
     Sitecore.PageModes.ChromeManager.resetChromes();
-  } 
+  }
 },
 {
   emptyLookFillerCssClass: "scEmptyPlaceholder",
-  getDefaultAjaxOptions: function(commandName) {
+  getDefaultAjaxOptions: function (commandName) {
     var options = {
       type: "POST",
       url: "/sitecore/shell/Applications/WebEdit/Palette.aspx",     

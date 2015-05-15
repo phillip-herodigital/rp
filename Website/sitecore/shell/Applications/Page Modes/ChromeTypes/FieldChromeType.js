@@ -364,11 +364,11 @@
     // MSIE
     if (document.selection && document.selection.createRange) {
       this.selection = document.selection.createRange();
-      selectionText = this.selection.text;
+      selectionText = this.selection.htmlText;
     }
     else if (window.getSelection && window.getSelection().getRangeAt) {
       this.selection = window.getSelection().getRangeAt(0);
-      selectionText = this.selection.toString();
+      selectionText = !this.selection.commonAncestorContainer.innerHTML ? this.selection.toString() : this.selection.commonAncestorContainer.innerHTML;
     }
     
     if ($sc.trim(selectionText) == "") {
@@ -388,8 +388,15 @@
     }
 
     // TODO: add preserving link contents for FF.
+    var selectionText;
+    if (isIE) {
+      selectionText = this.selection.htmlText;
+    } else {
+      selectionText = !this.selection.commonAncestorContainer.innerHTML ? this.selection.toString() : this.selection.commonAncestorContainer.innerHTML;
+    }
+
     var data = {
-      html: isIE ? this.selection.htmlText : this.selection.toString(),
+      html: selectionText,
       url: url
     };
 

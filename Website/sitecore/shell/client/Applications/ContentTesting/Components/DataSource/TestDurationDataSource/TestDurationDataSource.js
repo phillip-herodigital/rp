@@ -48,11 +48,8 @@
       var url = "";
 
       if (this.get("additionalPageCount") !== null) {
-        var additionalPageCount = this.get("additionalPageCount");
-        if (additionalPageCount > 0)
-        {
-          url = this.get("actionUrlForPageTest") + "?additionalPageCount=" + additionalPageCount;
-        }
+        var additionalPageCount = this.get("additionalPageCount") || 0;
+        url = this.get("actionUrlForPageTest") + "?additionalPageCount=" + additionalPageCount;
       }
       else {
         var disabledVariantIds = "?";

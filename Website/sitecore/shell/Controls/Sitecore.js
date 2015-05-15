@@ -287,11 +287,11 @@ scSitecore.prototype.expandHtml = function (html) {
     return html;
   }
 
-  var textareas = "";
+  var blockQuotes = "";
 
-  for (var e = this.browser.getEnumerator(document.getElementsByTagName("TEXTAREA")) ; !e.atEnd() ; e.moveNext()) {
+  for (var e = this.browser.getEnumerator(document.getElementsByTagName("BLOCKQUOTE")) ; !e.atEnd() ; e.moveNext()) {
     var ctl = e.item();
-    textareas += ctl.value;
+    blockQuotes += ctl.innerHTML;
   }
 
   while (n >= 0) {
@@ -309,18 +309,39 @@ scSitecore.prototype.expandHtml = function (html) {
       text = this.browser.getOuterHtml(ctl);
       var i = text.toUpperCase().lastIndexOf("</DIV>");
       text = text.substring(0, i) + "</div id=\"" + id + "\">";
+
+      var div = document.createElement("DIV");
+      div.innerHTML = text;
+
+      text = scForm.getInnerHtmlWithParsedAttributes(div);
+      text = text.substring("<div>".length, text.length - "</div>".length);
     } else {
-      var h = textareas.indexOf(id);
+      var h = blockQuotes.indexOf(id);
 
       if (h >= 0) {
-        var i1 = textareas.lastIndexOf("<div", h);
-        var i2 = textareas.lastIndexOf("<DIV", h);
+        var i1 = blockQuotes.lastIndexOf("<div", h);
+        var i2 = blockQuotes.lastIndexOf("<DIV", h);
 
         i = (i1 > i2 ? i1 : i2);
 
-        var j = textareas.indexOf("</div id=\"" + id + "\">", i);
+        var j = blockQuotes.indexOf("</div id=\"" + id + "\">", i);
+
+        if(j < 0){
+          var openDivsCounter = 1;
+          var reg = new RegExp("<div|</div", "ig");
+          reg.lastIndex = i+ "<div".length;
+          var nextDiv;
+          while(openDivsCounter > 0 && (nextDiv = reg.exec(blockQuotes)))
+          {
+            openDivsCounter = nextDiv[0] === "<div" ? openDivsCounter + 1 : openDivsCounter - 1;
+            reg.lastIndex = nextDiv.index + nextDiv[0].length;
+          }
+
+          j = reg.lastIndex - nextDiv[0].length;
+        }
+
         if (j >= 0) {
-          text = textareas.substring(i, j) + "</div id=\"" + id + "\">";
+          text = blockQuotes.substring(i, j) + "</div id=\"" + id + "\">";
         }
       }
     }
@@ -947,7 +968,9 @@ scSitecore.prototype.process = function (request, command, name) {
       }
       break;
     case "CloseWindow":
-      window.top.dialogClose();
+    if (window.top.dialogClose != undefined) {
+        window.top.dialogClose();
+    }
       break;
     case "ClosePopups":
       if (command.value == "1") {
@@ -1244,6 +1267,47 @@ scSitecore.prototype.process = function (request, command, name) {
       break;
   }
 };
+
+scSitecore.prototype.getInnerHtmlWithParsedAttributes = function (elem) {
+  if(elem.nodeType!==1){
+    return elem.nodeType===8 ? "<!--" + elem.nodeValue + "-->" : elem.nodeValue;
+  }
+
+  var innerHtml = "";
+  var attributes = "";
+  var outerHtml = document.createElement(elem.tagName).outerHTML;
+
+  for(var i = 0; i < elem.attributes.length; i++){
+    attributes += " " + this.encodeAttribute(elem.attributes[i]);
+  }
+
+  var attrIndex = outerHtml.indexOf("><");
+
+  if(attrIndex === -1){
+    attrIndex = outerHtml.indexOf(">");
+    return [outerHtml.slice(0, attrIndex), attributes," /", outerHtml.slice(attrIndex)].join("");
+  }
+
+  for(i = 0; i < elem.childNodes.length; i++){
+    innerHtml += this.getInnerHtmlWithParsedAttributes(elem.childNodes[i]);
+  }
+
+  return [outerHtml.slice(0, attrIndex), attributes, ">", innerHtml, outerHtml.slice(attrIndex + 1)].join("");
+}
+
+scSitecore.prototype.encodeAttribute = function (attr) {
+  var attrValue = attr.value;
+
+  if (attr.name.indexOf("on") !== 0) {
+    attrValue = ("" + attrValue).replace(/&/g, "&amp;")
+      .replace(/'/g, "&apos;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  return attr.name + "=\"" + attrValue + "\"";
+}
 
 scSitecore.prototype.getAbsoluteUrl = function (relativeOrAbsoluteUrl) {
   // Handle absolute URLs (with protocol-relative prefix)

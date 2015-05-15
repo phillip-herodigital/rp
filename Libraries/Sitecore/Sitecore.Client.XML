@@ -10623,6 +10623,67 @@
             The property is set and the <see cref="T:System.Collections.Generic.IList`1"/> is read-only.
               </exception>
         </member>
+        <member name="T:Sitecore.Shell.Applications.Install.Controls.FilterEditorControl">
+            <summary>
+            The base class for all other filter editor control classes.
+            </summary>
+        </member>
+        <member name="T:Sitecore.Shell.Applications.Install.IFilterEditorControl">
+            <summary>
+            Filter editor
+            </summary>
+        </member>
+        <member name="T:Sitecore.Shell.Applications.Install.IEditor">
+            <summary>
+            Defines basic methods of an editor
+            </summary>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.IEditor.BindTo(System.Object)">
+            <summary>
+            Binds to the instance.
+            </summary>
+            <param name="instance">The instance.</param>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.IEditor.Matches(System.Object)">
+            <summary>
+            Returrns a value indicaing whether the inctance matches to this editor.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.IFilterEditorControl.CreateFilter">
+            <summary>
+            Creates a filter.
+            </summary>
+            <returns>A filter.</returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.Controls.FilterEditorControl.BindTo(System.Object)">
+            <summary>
+            Bind the filter for the control.
+            </summary>
+            <param name="instance">The filter instance.</param>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.Controls.FilterEditorControl.Matches(System.Object)">
+            <summary>
+            Returns a value indicaing whether the specified filter matches the editor control.
+            </summary>
+            <param name="instance">The filter instance.</param>
+            <returns><c>true</c> if current instance of the editor can bi bound to the specified filter.</returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.Controls.FilterEditorControl.CreateFilter">
+            <summary>
+            Creates a filter instance for the editor.
+            </summary>
+            <returns>
+            A filter.
+            </returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.Controls.FilterEditorControl.InitializeEditorProperties(Sitecore.Shell.Applications.Install.Controls.FilterEditorControl)">
+            <summary>
+            Initializes the editor properties of the current instance by copying values from the given instance.
+            </summary>
+            <param name="editorControl">The editor control to copy property values from.</param>
+        </member>
         <member name="T:Sitecore.Shell.Applications.GlobalHeader">
             <summary>
             
@@ -11276,6 +11337,12 @@
             <returns>
             The validate.
             </returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Security.EditUser.EditUserPage.ValidateTicket">
+            <summary>
+            Validates the ticket.
+            </summary>
+            <returns>The validate ticket.</returns>
         </member>
         <member name="M:Sitecore.Shell.Applications.Security.EditUser.EditUserPage.SaveCustomProperties(Sitecore.Security.UserProfile,System.Boolean@)">
             <summary>
@@ -16130,6 +16197,20 @@
             The context.
             </param>
         </member>
+        <member name="M:Sitecore.Shell.Applications.ContentManager.Panels.WorkflowPanel.CanShowCommands(Sitecore.Data.Items.Item,Sitecore.Workflows.WorkflowCommand[])">
+            <summary>
+            Determines whether this instance can show commands.
+            </summary>
+            <param name="item">
+            The item to check.
+            </param>
+            <param name="commands">
+            The commands.
+            </param>
+            <returns>
+            <c>true</c> if this instance [can show commands] the specified item; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="M:Sitecore.Shell.Applications.ContentManager.Panels.WorkflowPanel.GetCommands(Sitecore.Data.Items.Item[],Sitecore.Workflows.IWorkflow@,Sitecore.Workflows.WorkflowCommand[]@)">
             <summary>
             Gets the commands.
@@ -16153,20 +16234,6 @@
             </param>
             <returns>
             The get text.
-            </returns>
-        </member>
-        <member name="M:Sitecore.Shell.Applications.ContentManager.Panels.WorkflowPanel.CanShowCommands(Sitecore.Data.Items.Item,Sitecore.Workflows.WorkflowCommand[])">
-            <summary>
-            Determines whether this instance can show commands.
-            </summary>
-            <param name="item">
-            The item to check.
-            </param>
-            <param name="commands">
-            The commands.
-            </param>
-            <returns>
-            <c>true</c> if this instance [can show commands] the specified item; otherwise, <c>false</c>.
             </returns>
         </member>
         <member name="M:Sitecore.Shell.Applications.ContentManager.Panels.WorkflowPanel.GetCheckInItem">
@@ -17966,6 +18033,9 @@
         <member name="F:Sitecore.Shell.Applications.Globalization.DeleteLanguage.DeleteLanguageForm.ResultText">
             <summary></summary>
         </member>
+        <member name="F:Sitecore.Shell.Applications.Globalization.DeleteLanguage.DeleteLanguageForm.WarningMessage">
+            <summary></summary>
+        </member>
         <member name="M:Sitecore.Shell.Applications.Globalization.DeleteLanguage.DeleteLanguageForm.ActivePageChanged(System.String,System.String)">
             <summary>
             Called when the active page has been changed.
@@ -18007,6 +18077,11 @@
         <member name="M:Sitecore.Shell.Applications.Globalization.DeleteLanguage.DeleteLanguageForm.StartDeleting">
             <summary>
             Starts the deleting.
+            </summary>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Globalization.DeleteLanguage.DeleteLanguageForm.SetVisibilityOfControlFields">
+            <summary>
+            Sets the visibility of control fields.
             </summary>
         </member>
         <member name="M:Sitecore.Shell.Applications.Globalization.DeleteLanguage.DeleteLanguageForm.GetLanguages">
@@ -18265,7 +18340,7 @@
             </summary>
             <param name="linkDatabase">The link database.</param>
             <param name="targetItem">The target item.</param>
-            <param name="removeCloneLinks">if set to <c>true</c> links from clone items will be removed.</param>
+            <param name="removeCloneLinks">If set to <c>True</c> links from clone items will be removed.</param>
         </member>
         <member name="T:Sitecore.Shell.Applications.Dialogs.BreakingLinks.BreakingLinksForm.Relink">
             <summary>
@@ -18308,14 +18383,13 @@
             </summary>
             <param name="linkDatabase">The link database.</param>
             <param name="targetItem">The item to process.</param>
-            <param name="relinkCloneLinks">if set to <c>true</c> links from clones will be processed.</param>
+            <param name="relinkCloneLinks">If set to <c>true</c> links from clones will be processed.</param>
         </member>
-        <member name="M:Sitecore.Shell.Applications.Dialogs.BreakingLinks.BreakingLinksForm.Relink.RelinkLink(Sitecore.Data.Items.Item,Sitecore.Data.Items.Item,Sitecore.Links.ItemLink)">
+        <member name="M:Sitecore.Shell.Applications.Dialogs.BreakingLinks.BreakingLinksForm.Relink.RelinkLink(Sitecore.Data.Items.Item,Sitecore.Links.ItemLink)">
             <summary>
             Removes the link.
             </summary>
             <param name="sourceItem">The source item.</param>
-            <param name="version">The version.</param>
             <param name="itemLink">The item link.</param>
         </member>
         <member name="T:Sitecore.Shell.Applications.Links.EditLinksForm">
@@ -23618,6 +23692,22 @@
               <requires name="source" condition="not null" />
               <requires name="destination" condition="none" />
             </contract>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Dialogs.TransferToDatabase.TransferToDatabaseForm.TransferVersionedMediaItemBlob(Sitecore.Data.Items.Item,Sitecore.Data.Items.Item,System.Boolean)">
+            <summary>
+            Transfers the versioned media item BLOB.
+            </summary>
+            <param name="source">The source.</param>
+            <param name="destination">The destination.</param>
+            <param name="processChildren">If set to <c>true</c> [process children].</param>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Dialogs.TransferToDatabase.TransferToDatabaseForm.TransferMediaItemBlob(Sitecore.Data.Items.Item,Sitecore.Data.Items.Item,System.Boolean)">
+            <summary>
+            Transfers the media item BLOB version.
+            </summary>
+            <param name="source">The source.</param>
+            <param name="destination">The destination.</param>
+            <param name="processChildren">if set to <c>true</c> [process children].</param>
         </member>
         <member name="T:SitecoreClient.sitecore.shell.Applications.Upload.UploadPage">
             <summary>
@@ -36602,24 +36692,6 @@
         <member name="T:Sitecore.Shell.Applications.Install.Controls.BaseSourceEditor">
             <summary></summary>
         </member>
-        <member name="T:Sitecore.Shell.Applications.Install.IEditor">
-            <summary>
-            Defines basic methods of an editor
-            </summary>
-        </member>
-        <member name="M:Sitecore.Shell.Applications.Install.IEditor.BindTo(System.Object)">
-            <summary>
-            Binds to the instance.
-            </summary>
-            <param name="instance">The instance.</param>
-        </member>
-        <member name="M:Sitecore.Shell.Applications.Install.IEditor.Matches(System.Object)">
-            <summary>
-            Returrns a value indicaing whether the inctance matches to this editor.
-            </summary>
-            <param name="instance">The instance.</param>
-            <returns></returns>
-        </member>
         <member name="F:Sitecore.Shell.Applications.Install.Controls.BaseSourceEditor.Tabs">
             <summary></summary>
         </member>
@@ -40954,17 +41026,6 @@
         <member name="T:Sitecore.Shell.Applications.Install.Controls.FileDateFilterEditor">
             <summary></summary>
         </member>
-        <member name="T:Sitecore.Shell.Applications.Install.IFilterEditorControl">
-            <summary>
-            Filter editor
-            </summary>
-        </member>
-        <member name="M:Sitecore.Shell.Applications.Install.IFilterEditorControl.CreateFilter">
-            <summary>
-            Creates a filter.
-            </summary>
-            <returns>A filter.</returns>
-        </member>
         <member name="F:Sitecore.Shell.Applications.Install.Controls.FileDateFilterEditor.PastDays">
             <summary></summary>
         </member>
@@ -41010,6 +41071,12 @@
             Creates a filter.
             </summary>
             <returns>A filter.</returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.Controls.FileDateFilterEditor.InitializeEditorProperties(Sitecore.Shell.Applications.Install.Controls.FilterEditorControl)">
+            <summary>
+            Initializes the editor properties of the current instance by copying values from the given instance.
+            </summary>
+            <param name="editorControl">The editor control to copy property values from.</param>
         </member>
         <member name="M:Sitecore.Shell.Applications.Install.Controls.FileDateFilterEditor.ClearFilter">
             <summary>
@@ -41195,6 +41262,12 @@
             </summary>
             <returns>A filter.</returns>
         </member>
+        <member name="M:Sitecore.Shell.Applications.Install.Controls.ItemDateFilterEditor.InitializeEditorProperties(Sitecore.Shell.Applications.Install.Controls.FilterEditorControl)">
+            <summary>
+            Initializes the editor properties of the current instance by copying values from the given instance.
+            </summary>
+            <param name="editorControl">The editor control to copy property values from.</param>
+        </member>
         <member name="M:Sitecore.Shell.Applications.Install.Controls.ItemDateFilterEditor.ClearFilter">
             <summary></summary>
         </member>
@@ -41258,6 +41331,12 @@
             Creates a filter.
             </summary>
             <returns>A filter.</returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.Controls.ItemLanguageFilterEditor.InitializeEditorProperties(Sitecore.Shell.Applications.Install.Controls.FilterEditorControl)">
+            <summary>
+            Initializes the editor properties of the current instance by copying values from the given instance.
+            </summary>
+            <param name="editorControl">The editor control to copy property values from.</param>
         </member>
         <member name="M:Sitecore.Shell.Applications.Install.Controls.ItemLanguageFilterEditor.BindTo(System.Object)">
             <summary>
@@ -41492,6 +41571,12 @@
             Creates a filter.
             </summary>
             <returns>A filter.</returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Install.Controls.ItemUserFilterEditor.InitializeEditorProperties(Sitecore.Shell.Applications.Install.Controls.FilterEditorControl)">
+            <summary>
+            Initializes the editor properties of the current instance by copying values from the given instance.
+            </summary>
+            <param name="editorControl">The editor control to copy property values from.</param>
         </member>
         <member name="M:Sitecore.Shell.Applications.Install.Controls.ItemUserFilterEditor.BindTo(System.Object)">
             <summary>

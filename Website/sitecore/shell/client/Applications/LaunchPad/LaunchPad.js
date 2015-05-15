@@ -76,7 +76,7 @@ define(["sitecore", "experienceAnalytics", "jquery", "underscore"], function (Si
       this.chartsDataLoaded++;
       
       if (this.chartsDataLoaded === 2) {
-        if (!$("[data-sc-id='InteractionsBorder']").is(":visible") && !$("[data-sc-id='ColumnPanelCampaigns']").is(":visible")) {
+        if (!$("[data-sc-id='ColumnPanelInteractions']").is(":visible") && !$("[data-sc-id='ColumnPanelCampaigns']").is(":visible")) {
           this.showFallbackMsg();
         } else {
           this.FallBackMessageBorder.set("isVisible", false);

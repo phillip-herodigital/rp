@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Sitecore.sitecore.login.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Async="true" CodeBehind="Default.aspx.cs" Inherits="Sitecore.sitecore.login.Default" %>
 
 <%@ Import Namespace="Sitecore.Configuration" %>
 <%@ Import Namespace="Sitecore.SecurityModel.License" %>
@@ -13,9 +13,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
 
   <script type="text/javascript">
-    if (window != top) {
-      top.location.href = '<%#GetLoginPageUrl()%>' + '?returnUrl=' + (top.location.pathname[0] == '/' ? '' : '/') + encodeURIComponent(top.location.pathname + top.location.search + top.location.hash);
-    }
+      if (window != top) {
+          var urlParams = encodeURIComponent(top.location.pathname + top.location.search + top.location.hash);
+          if (urlParams) {
+              top.location.href = '<%#GetLoginPageUrl()%>' + '?returnUrl=' + (top.location.pathname[0] == '/' ? '' : '/') + urlParams;
+          }
+      }
   </script>
 
   <!-- Bootstrap for testing -->

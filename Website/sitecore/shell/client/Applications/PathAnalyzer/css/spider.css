@@ -73,6 +73,7 @@ div.tooltip {
 .nodeLabel {
     font-size: 12px !important;
     fill: #3FAED9 !important;
+    pointer-events: none;
 }
 
 .outgoingLabel {

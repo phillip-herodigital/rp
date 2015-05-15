@@ -78,10 +78,20 @@ scBrowser.prototype.closePopups = function (reason, exclusions) {
 
       var ctl = $(window.top.popups[n]);
       if (ctl) {
+          try {
         var id = ctl.getAttribute('data-openerId');
         var opener = document.getElementById(id) || top.document.getElementById(id);
         Element.removeClassName(opener, 'scPopupOpener');
-        ctl.remove();
+              ctl.remove();
+          } catch (ex) {
+              try {
+                  if (ctl.parentNode != undefined) 
+                      ctl.parentNode.removeChild(ctl);
+                  
+              } catch (e) {
+                  /*eat up any further exceptions */
+              }
+          }
       }
     }
   }

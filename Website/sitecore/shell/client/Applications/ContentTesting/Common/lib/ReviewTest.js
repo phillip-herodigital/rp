@@ -260,6 +260,7 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil"], function (_sc, bi
                 id: testItems[i].id,
                 version: testItems[i].ver,
                 revision: testItems[i].rev,
+                language: testItems[i].lang,
                 original: i == 0
               }
             });
@@ -276,8 +277,9 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil"], function (_sc, bi
           uri.id = item.attrs.id;
           uri.ver = item.attrs.version;
           uri.rev = item.attrs.revision;
+          uri.lang = item.attrs.language;
 
-          var url = "/sitecore/shell/api/ct/ItemInfo/GetByUri?uri=" + uri.toString();
+          var url = "/sitecore/shell/api/ct/ItemInfo/GetByUri?uri=" + encodeURIComponent(uri);
 
           var ajaxOptions = {
             cache: false,

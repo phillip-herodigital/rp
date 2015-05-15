@@ -10,7 +10,7 @@
 
     if (_.isObject(id)) {
       parsedId = id.id;
-      parsedLanguage = id.language;
+      parsedLanguage = id.la;
     }
     else {
       parsedId = id;

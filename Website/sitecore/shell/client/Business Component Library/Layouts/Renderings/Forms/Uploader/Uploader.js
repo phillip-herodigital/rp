@@ -340,6 +340,10 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           // Triggers error on each model that had an abort
           if (errorThrown === "abort") {
             that.app.trigger("upload-error", { id: data.__id });
+          } else {
+            var errors = [{ Message: errorThrown }];
+            that.app.trigger("sc-error", errors);
+            that.app.trigger("upload-error", { id: data.__id, errors: errors });
           } 
         });
       });

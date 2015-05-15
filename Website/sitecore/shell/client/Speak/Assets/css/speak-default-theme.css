@@ -1,4 +1,4 @@
-﻿/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -7991,6 +7991,11 @@ button.close {
   height: 60px;
   padding: 10px 0;
 }
+/*OT issue #430149 fix (IE11)*/
+_:-ms-fullscreen,
+:root header.sc-dialogHeader .sc-dialogHeader {
+  position: absolute;
+}
 .sc-dialogHeader-content {
   max-width: 1200px;
   margin-right: auto;
@@ -13023,7 +13028,7 @@ form.sc-uploader {
 .mCSB_scrollTools .mCSB_buttonDown,
 .mCSB_scrollTools .mCSB_buttonLeft,
 .mCSB_scrollTools .mCSB_buttonRight {
-  background-image: url(../Speak/Renderings/Behaviors/mCSB_buttons.png);
+  background-image: url(mCSB_buttons.png);
   background-repeat: no-repeat;
   opacity: 0.4;
   filter: "alpha(opacity=40)";

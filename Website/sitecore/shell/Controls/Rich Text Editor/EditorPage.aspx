@@ -93,6 +93,7 @@
         editor.set_mode(1); //Set mode to Design
       }
 
+        RemoveInlineScripts();
       $("EditorValue").value = editor.get_html(true);
         
         RemoveInlineScripts();

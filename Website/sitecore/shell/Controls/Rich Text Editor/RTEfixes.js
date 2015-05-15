@@ -287,3 +287,37 @@ function validateScripts(el) {
         }
     }
 }
+
+function removeInlineScriptsInRTE(scRichText) {
+    var editor = scRichText.getEditor();
+
+    var content = editor.get_html();
+    var result = content;
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(result, "text/html");
+
+    validateScripts(doc.body);
+    result = doc.body.innerHTML;
+    editor.set_html(result);
+}
+
+function validateScripts(el) {
+    if (el) {
+        el.removeAttribute('srcdoc');
+        el.removeAttribute('allowscriptaccess');
+
+        for (var i = 0; i < el.attributes.length; i++) {
+            if (el.attributes[i].name.startsWith('on') || (el.attributes[i].value.indexOf("javascript") > -1) || (el.attributes[i].value.indexOf("base64") > -1)) {
+                el.removeAttribute(el.attributes[i].name);
+            }
+        }
+
+        if (el.childNodes.length > 0) {
+            for (var child in el.childNodes) {
+                /* nodeType == 1 is filter element nodes only */
+                if (el.childNodes[child].nodeType == 1)
+                    validateScripts(el.childNodes[child]);
+            }
+        }
+    }
+}

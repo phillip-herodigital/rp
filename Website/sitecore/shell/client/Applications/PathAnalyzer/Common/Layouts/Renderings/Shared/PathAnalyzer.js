@@ -186,6 +186,7 @@
                 pathAnalyzerApp.Content.PathAnalyzer.LoadTreeData(treeDefinitionId, startDate, endDate);
             }
 
+            State.pathSelected = false;
             Bus.instance().publish("query:changed", { treeId: treeDefinitionId, startDate: startDate, endDate: endDate });
         }
     });

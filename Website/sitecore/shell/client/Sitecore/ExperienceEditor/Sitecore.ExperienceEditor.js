@@ -116,7 +116,7 @@ Sitecore.ExperienceEditor = {
   },
 
   navigateToItem: function (itemId) {
-    var url = window.top.location.toString();
+    var url = window.parent.location.origin + window.parent.location.search;
     url = Sitecore.ExperienceEditor.Web.replaceItemIdParameter(url, itemId);
     url = Sitecore.ExperienceEditor.Web.setQueryStringValue(url, "sc_ee_fb", "false");
 

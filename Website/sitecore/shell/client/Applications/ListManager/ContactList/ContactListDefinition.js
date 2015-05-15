@@ -546,50 +546,58 @@
       },
       saveIfSourcesNotLocked: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
-        var isFromExisiting = this.UrlParser.getParameterFromLocationSearchByName("action") === fromExisting;
-        if (current.pendingSources.length !== 0 || isFromExisiting) {
+        var isFromExisting = this.UrlParser.getParameterFromLocationSearchByName("action") === fromExisting;
+        if (current.pendingSources.length !== 0 || isFromExisting) {
           var allSourceLists = current.IncludedSourcesListControl.get("items").concat(current.ExcludedSourcesListControl.get("items"));
           var sourcesToCheck = allSourceLists.map(function (src) {
             return src.Id;
           });
           var url = current.ListSourcesDataSource.get("url");
-          current.ajax({
-            url: url,
-            type: "GET",
-            data: { idList: sourcesToCheck },
-            success: function (result) {
-              var isLocked = false;
-              for (var i = 0; i < sourcesToCheck.length; i++) {
-                if (result[sourcesToCheck[i]] === true) {
-                  current.showError(listSourceIsCurrentlyInUse, current.ContactListMessageBar);
-                  current.pendingSources = [];
-                  if (isFromExisiting) {
-                    current.IncludedSourcesListControl.set("items", []);
-                  } else {
-                    isLocked = true;
-                    var model = current.ListAsimovEntityDataSource.get("entity");
-                    if (typeof model === "undefined" || model === null) {
-                      model = {};
-                    }
-                    if (!model.hasOwnProperty("Source")) {
-                      model.Source = defaultSource;
-                    }
-                    current.updateUiForSources(model);
-                  }
-
-                  break;
-                }
-              }
-
-              if (!isLocked) {
-                current.saveList();
-              }
-            },
-            error: function (jqXhr) {
-              current.defaultErrorCallback(jqXhr.status, JSON.parse(jqXhr.responseText).Message, listSourceIsCurrentlyInUse);
-            }
-          });
+          current.checkSourcesOnServer(sourcesToCheck, url, isFromExisting);
         } else {
+          current.saveList();
+        }
+      },
+      checkSourcesOnServer: function (sourcesToCheck, url, isFromExisting) {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        current.ajax({
+          url: url,
+          type: "GET",
+          data: { idList: sourcesToCheck },
+          success: function (result) {
+            current.processSourcesFromServer(result, sourcesToCheck, isFromExisting);
+          },
+          error: function (jqXhr) {
+            current.defaultErrorCallback(jqXhr.status, JSON.parse(jqXhr.responseText).Message, listSourceIsCurrentlyInUse);
+          }
+        });
+      },
+      processSourcesFromServer: function (result, sourcesToCheck, isFromExisting) {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        var isLocked = false;
+        for (var i = 0; i < sourcesToCheck.length; i++) {
+          if (result[sourcesToCheck[i]] === true) {
+            current.showError(listSourceIsCurrentlyInUse, current.ContactListMessageBar);
+            current.pendingSources = [];
+            if (isFromExisting) {
+              current.IncludedSourcesListControl.set("items", []);
+            } else {
+              isLocked = true;
+              var model = current.ListAsimovEntityDataSource.get("entity");
+              if (typeof model === "undefined" || model === null) {
+                model = {};
+              }
+              if (!model.hasOwnProperty("Source")) {
+                model.Source = defaultSource;
+              }
+              current.updateUiForSources(model);
+            }
+
+            break;
+          }
+        }
+
+        if (!isLocked) {
           current.saveList();
         }
       },
