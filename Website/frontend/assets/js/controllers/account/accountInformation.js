@@ -19,7 +19,9 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 					$scope.formData = data;
 					$scope.formDataOriginal = angular.copy($scope.formData);
 
-					$scope.formData.serviceAddress = $scope.formData.serviceAddresses[0];
+					if (typeof($scope.formData.serviceAddresses) != 'undefined') {
+						$scope.formData.serviceAddress = $scope.formData.serviceAddresses[0];
+					}
 					
 					$scope.additionalInformation = {
 					    showAdditionalPhoneNumber: ($scope.formData.phone[1] && typeof($scope.formData.phone[1].number) != 'undefined'),

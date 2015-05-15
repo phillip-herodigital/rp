@@ -134,8 +134,8 @@
                     </div>
                 </div>
             </div>
-            <hr class="content-divider" />
-            <div class="edit-preferences">
+            <hr class="content-divider" ng-if="formData.customerType != 'Mobile'" />
+            <div class="edit-preferences" ng-if="formData.customerType != 'Mobile'">
                 <div class="item">
                     <ul class="checkbox-list">
                         <li>
