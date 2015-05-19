@@ -472,10 +472,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                      let username = customer.Username.Substring(domain.AccountPrefix.Length)
                                      orderby username
                                      select username).ToArray();
-
-                    success = await emailService.SendEmail(new Guid("{126E9D71-C90B-4D06-AEE8-979F92BC772C}"), request.Email.Address, new NameValueCollection() {
-                        {"usernames", string.Join(", ", usernames)}
-                    });
+                    
+                    if (usernames.Length > 0)
+                    {
+                        success = await emailService.SendEmail(new Guid("{126E9D71-C90B-4D06-AEE8-979F92BC772C}"), request.Email.Address, new NameValueCollection() {
+                            {"usernames", string.Join(", ", usernames)}
+                        });
+                    }
                 }
             }
             return new RecoverUsernameResponse
