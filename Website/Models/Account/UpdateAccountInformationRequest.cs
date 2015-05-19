@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ResponsivePath.Validation;
-using StreamEnergy.DomainModels;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
