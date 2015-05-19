@@ -1616,7 +1616,7 @@ article.mobile-pricing-plans {
     }
 }
 
-.global-connect-modal {
+.global-connect-modal, .swap-it-modal {
     h3 {
         color: #00a8e1;
         font-size: 30px;
@@ -1624,13 +1624,12 @@ article.mobile-pricing-plans {
         margin-bottom: -10px;
     }
     p.intro {
-        margin: 1em 0;
+        margin: 0 0 1em;
         font-size: 20px;
     }
     .col {
         padding-left: 100px;
         background: left top no-repeat;
-        @include retina-background("global.png", "icon");
         h4 {
             margin-bottom: 0;
         }
@@ -1640,6 +1639,18 @@ article.mobile-pricing-plans {
     }
     img {
         vertical-align: middle;
+    }
+}
+
+.global-connect-modal {
+    .col {
+        @include retina-background("global.png", "icon");
+    }
+}
+
+.swap-it-modal {
+    .col {
+        @include retina-background("swapit.png", "icon");
     }
 }
 
