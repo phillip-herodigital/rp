@@ -34,7 +34,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (internalContext.IdentityCheck.IsCompleted)
+            // if it's completed and we have an identity check id, we need to submit the answers
+            if (internalContext.IdentityCheck.IsCompleted && !string.IsNullOrEmpty(internalContext.IdentityCheck.Data.IdentityCheckId))
             {
                 internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.MailingAddress, new AdditionalIdentityInformation
                 {
@@ -42,8 +43,9 @@ namespace StreamEnergy.DomainModels.Enrollments
                     SelectedAnswers = context.SelectedIdentityAnswers
                 });
             }
-            else
+            else if (!internalContext.IdentityCheck.IsCompleted)
             {
+                // if it's not completed, we need to wait for the results
                 internalContext.IdentityCheck = await enrollmentService.EndIdentityCheck(internalContext.IdentityCheck);
             }
 
