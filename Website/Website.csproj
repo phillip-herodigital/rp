@@ -680,6 +680,22 @@
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
+    <Reference Include="XBlogGlobal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\XBlogGlobal.dll</HintPath>
+    </Reference>
+    <Reference Include="XBlogHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\XBlogHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="XBlogMVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\XBlogMVC.dll</HintPath>
+    </Reference>
+    <Reference Include="XBlogWF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\XBlogWF.dll</HintPath>
+    </Reference>
     <Reference Include="Yahoo.Yui.Compressor">
       <HintPath>..\Libraries\Sitecore\Yahoo.Yui.Compressor.dll</HintPath>
     </Reference>
@@ -846,6 +862,47 @@
     <Content Include="App_Config\Prefetch\Webdb.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\facebook.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\github.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\google_plus.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\instagram.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\linkedin.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\mail.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\pinterest.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\pocket.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\reddit.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\tumblr.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\twitter.svg" />
+    <Content Include="Components\XBlog Assets\Icons\RRSSB\youtube.svg" />
+    <Content Include="Components\XBlog Assets\JS\RRSSB\rrssb.js" />
+    <Content Include="Components\XBlog Assets\JS\RRSSB\rrssb.min.js" />
+    <Content Include="Components\XBlog Assets\JS\RRSSB\vendor\jquery.1.10.2.min.js" />
+    <Content Include="Components\XBlog Assets\JS\RRSSB\vendor\modernizr-2.6.2-respond-1.1.0.min.js" />
+    <Content Include="Components\XBlog Assets\Style\RRSSB\demo.css" />
+    <Content Include="Components\XBlog Assets\Style\RRSSB\normalize.min.css" />
+    <Content Include="Components\XBlog Assets\Style\RRSSB\rrssb.css" />
+    <Content Include="Components\XBlog Assets\Style\XBlog.css" />
+    <Content Include="Components\XBlogWF\Layouts\XBlogLayout.aspx" />
+    <Content Include="Components\XBlogWF\Sublayouts\AuthorViewSL.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\BlogListing.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\BlogListingSL.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\BlogPostSL.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\Callouts\AuthorList.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\Callouts\AuthorViewList.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\Callouts\CategoryList.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\Callouts\OGPostMeta.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\Callouts\RecentBlog.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\Callouts\RelatedBlog.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\Callouts\TagCloud.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\Callouts\TagList.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\Callouts\TextSearch.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\XBlog\BlogListing.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\XBlog\BlogListingSL.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\XBlog\BlogPostSL.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\XBlog\Callouts\AuthorList.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\XBlog\Callouts\CategoryList.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\XBlog\Callouts\TagCloud.ascx" />
+    <Content Include="Components\XBlogWF\Sublayouts\XBlog\Callouts\TagList.ascx" />
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
@@ -947,6 +1004,22 @@
     <Content Include="App_Config\Include\Social\Sitecore.Social.Solr.IndexConfiguration.config.disabled" />
     <Content Include="App_Config\Include\Social\Sitecore.Social.Twitter.config" />
     <Content Include="App_Config\Include\XdbCloud\Sitecore.Cloud.Xdb.config.disabled" />
+    <Content Include="Components\XBlogMVC\Layouts\XBlogMain.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\AuthorView.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\BlogListing.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\BlogPost.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\AuthorList.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\AuthorViewList.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\CategoryList.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\OGPostMeta.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\RecentBlog.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\RelatedBlog.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TagCloud.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TagList.cshtml" />
+    <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TextSearch.cshtml" />
+    <Content Include="App_Config\Include\XBlog.Search.config" />
+    <Content Include="App_Config\Include\XBlog.Settings.config" />
+    <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
@@ -1354,6 +1427,7 @@
     <Content Include="Views\Components\Marketing\Mobile\Mobile Validate ESN.cshtml" />
     <Content Include="Views\Pages\Marketing\Pay\Pay.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile SIM Activation.cshtml" />
+    <Content Include="Views\Components\Email\Blog Summary.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
