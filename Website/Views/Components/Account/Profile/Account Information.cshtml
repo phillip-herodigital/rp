@@ -52,7 +52,7 @@
                     {
                         <div class="item group-col" @secondPhone.Validation().ErrorClass(m => m.Number)>
                             <label for="@secondPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
-                            @secondPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "formData.phone[1].number", data_val_if = "formData.phone.length > 1" }))
+                            @secondPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "formData.phone[1].number", data_val_if = "additionalInformation.showAdditionalPhoneNumber" }))
                             @secondPhone.ValidationMessageFor(m => m.Number)
                         </div>
                         <div class="item group-col" @secondPhone.Validation().ErrorClass(m => m.Category)>
@@ -63,7 +63,7 @@
                                                         {
                                                             ng_model = "formData.phone[1].category",
                                                             ng_options = "type.name as type.display for type in phoneTypes|filter:filter1|filter:filterCustomerType",
-                                                            data_val_if = "formData.phone.length > 1"
+                                                            data_val_if = "additionalInformation.showAdditionalPhoneNumber"
                                                         }))
                             @secondPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)
                         </div>
@@ -97,7 +97,7 @@
                         </select>
                     </div>
                     <div class="billing-address" ng-show="formData.sameAsService && formData.serviceAddresses.length == 1">
-                        {{ formData.serviceAddress.line1 }} {{ formData.serviceAddressline2 }}<br>
+                        {{ formData.serviceAddress.line1 }} {{ formData.serviceAddress.line2 }}<br>
                         {{ formData.serviceAddress.city }}, {{ formData.serviceAddress.stateAbbreviation }} {{ formData.serviceAddress.postalCode5 }}
                     </div>
 
@@ -134,8 +134,8 @@
                     </div>
                 </div>
             </div>
-            <hr class="content-divider" />
-            <div class="edit-preferences">
+            <hr class="content-divider" ng-if="formData.customerType != 'Mobile'" />
+            <div class="edit-preferences" ng-if="formData.customerType != 'Mobile'">
                 <div class="item">
                     <ul class="checkbox-list">
                         <li>
