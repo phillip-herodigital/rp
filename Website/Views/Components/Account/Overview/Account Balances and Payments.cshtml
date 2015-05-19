@@ -1,4 +1,7 @@
 ﻿@model StreamEnergy.MyStream.Models.Account.MakeMultiplePaymentsRequest
+
+@using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
+{
 <article class="balances-payments" ng-controller="AcctBalancesAndPaymentsCtrl" ng-init="utilityProviders = @(Html.Action("UtilityProviders", "Data").ToHtmlString());">
     <header>
         <h2>@Html.Sitecore().Field("Account Balances and Payments Text")</h2>
@@ -15,6 +18,7 @@
                 </div>
             </div>
             <div class="content" ng-show="activeState == 'step1'" loading-indicator>
+                @Html.ValidationSummary()
                 <div class="intro" ng-if="selectedAccount.systemOfRecord == 'CIS1' && selectedAccount.amountDue > 0">
                     @Html.Sitecore().Field("CIS1 Intro Text")
                 </div>
@@ -146,6 +150,7 @@
         </form>
     </div>
 </article>
+}
 
 <script type="text/ng-template" id="PaymentBlockingAlert/Duplicate">
     <div class="modal-header">
