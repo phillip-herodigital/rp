@@ -1,4 +1,7 @@
 @model StreamEnergy.MyStream.Models.Account.SetAutoPayRequest
+
+@using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
+{
 <article class="grey-box payments" ng-controller="AutoPayCtrl" ng-init="PaymentAccountError = '@HttpUtility.JavaScriptStringEncode(Html.Sitecore().Field("Payment Account Error").ToHtmlString())'">
     <header>
         <h2>@Html.Sitecore().Field("Header Text")</h2>
@@ -20,6 +23,7 @@
             <div class="notice message">
                 @Html.Sitecore().Field("Notice Text")
             </div>
+            @Html.ValidationSummary()
             <div class="payment-selection additional-fields">
                 <input type="radio" id="autopay-on" name="payment-type" ng-model="account.autoPay.isEnabled" ng-value="true">
                 <label for="autopay-on">@Html.Sitecore().Field("AutoPay On Label")</label>
@@ -93,6 +97,7 @@
         </footer>
     </form>
 </article>
+}
 
 <script type="text/ng-template" id="AddPaymentAccount">
     <div class="modal-header">

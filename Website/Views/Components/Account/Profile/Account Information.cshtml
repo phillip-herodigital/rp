@@ -1,6 +1,8 @@
 ﻿@model StreamEnergy.MyStream.Models.Account.UpdateAccountInformationRequest
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 
+@using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
+{ 
 <article class="grey-box account account-holder-information" ng-controller="AcctAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
     <form ng-submit="updateAccountInformation()" data-val-bind-messages="validations">
         <div class="content" loading-indicator>
@@ -16,6 +18,7 @@
                 </div>
                 <hr class="content-divider" />
             </div>
+            @Html.ValidationSummary()
             <div class="item account-holder">
                 <label class="account-holder-title">@Html.Sitecore().Field("Account Holder Name Text")</label>
                 {{ formData.customerName.first }} {{ formData.customerName.last }}
@@ -153,3 +156,4 @@
         </footer>
     </form>
 </article>
+}
