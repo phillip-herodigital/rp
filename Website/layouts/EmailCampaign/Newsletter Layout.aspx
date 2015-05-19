@@ -69,31 +69,16 @@
                     <td width="9">
                         <img height="2" width="9" border="0" style="border-color: transparent; display:block;" alt="" src="~/media/Images/Newsletter/Common/bg_white.ashx" /></td>
                     <%--content--%>
-                    <td width="392" style="font-size: 12px;">
+                    <td width="591" style="font-size: 12px;">
                         <table cellspacing="0" cellpadding="0" border="0" width="100%" style="font-family: arial,helvetica,sans-serif; font-size: 11px;">
                             <tr>
-                                <td><img height="2" width="392" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/white_line.ashx" /></td>
+                                <td><img height="2" width="591" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/white_line.ashx" /></td>
                             </tr>
                             <tr>
                                 <td height="18"><div style="height: 18px;">&#32;</div></td>
                             </tr>
                         </table>
                         <sc:Placeholder Key="nl-body" runat="server" />
-                    </td>
-                    <%--White Spase--%>
-                    <td width="9">
-                        <img height="2" width="9" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/bg_white.ashx" /></td>
-                    <%--Sidebar--%>
-                    <td bgcolor="#F0F3F7" width="190" style="font-size: 11px;">
-                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="font-family: arial,helvetica,sans-serif; font-size: 11px;">
-                            <tr>
-                                <td bgcolor="white"><img height="2" width="190" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/white_line.ashx" /></td>
-                            </tr>
-                            <tr>
-                                <td bgcolor="white" height="16"><div style="height: 16px;">&#32;</div></td>
-                            </tr>
-                        </table>
-                        <sc:Placeholder Key="nl-sidebar" runat="server" />
                     </td>
                     <%--Right Shadow--%>
                     <td width="1" bgcolor="#E6E7ED" style="font-size: 1px;">&#32;</td>
