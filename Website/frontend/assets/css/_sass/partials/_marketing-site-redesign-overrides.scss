@@ -1360,7 +1360,7 @@ article.mobile-pricing-plans {
                 padding: 10px;
                 border: 1px solid #e5e5e5;
                 border-bottom-style: none;
-
+                position: relative;
                 @include breakpoint(small) {
                     border: 0;
                     border-top: 1px solid #e5e5e5;
@@ -1372,6 +1372,25 @@ article.mobile-pricing-plans {
 
                 &:last-of-type {
                     border-right-style: none;
+                }
+                .special-offer {
+                    background: #3189bb;
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    color: #fff;
+                    font-weight: 600;
+                    font-style: italic;
+                    font-size: 12px;
+                    line-height: 22px;
+                    text-transform: uppercase;
+                }
+                .original-price {
+                    color: #888;
+                    display: block;
+                    font-size: 14px;
+                    text-decoration: line-through;
                 }
             }
         }
@@ -1500,35 +1519,179 @@ article.mobile-pricing-plans {
     }
 }
 
-.mobile-additional-services {
+.mobile-find-savings {
+    h2 {
+        text-align: center;
+        margin-top: 0;
+    }
+    p.intro {
+        margin: 1em 0;
+        font-size: 20px;
+        text-align: center;
+    }
     .col {
-        // background: image-url("marketing/redesign/Modules/divider.png") center left no-repeat;
-
-        // &:first-child {
-        //     background-image: none;
-        // }
-
         .inner {
-            padding-top: 140px;
-            //margin: 0 30px;
+            padding-top: 100px;
+            margin-top: 40px;
             background: center top no-repeat;
         }
-
-        &.international-calling {
+        &.bill-analysis {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/map.png");
+                @include retina-background("bill-analysis-circle.png", "icon");
             }
         }
-
-        &.warranty {
+        &.data-calculator {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/target.png");
+                @include retina-background("calculator-circle.png", "icon");
             }
         }
-
-        &.trade-and-save {
+        &.trade {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/trade-and-save.png");
+                @include retina-background("trade-circle.png", "icon");
+            }
+        }
+    }
+}
+
+.mobile-upgrade-device {
+    h2 {
+        text-align: center;
+        margin-top: 0;
+    }
+    p.intro {
+        margin: 1em 0;
+        font-size: 20px;
+        text-align: center;
+    }
+    .col {
+        .inner {
+            padding-left: 100px;
+            padding-right: 50px;
+            background: left top no-repeat;
+        }
+        &.installment {
+            .inner {
+                @include retina-background("installment.png", "icon");
+            }
+        }
+        &.device-assistant {
+            .inner {
+                @include retina-background("device-assistant.png", "icon");
+            }
+        }
+        &.swapit {
+            .inner {
+                @include retina-background("swapit.png", "icon");
+            }
+        }
+        &.protection {
+            .inner {
+                @include retina-background("protection.png", "icon");
+            }
+        }
+    }
+}
+
+.mobile-stay-connected {
+    h2 {
+        text-align: center;
+        margin-top: 0;
+    }
+    p.intro {
+        margin: 1em 0;
+        font-size: 20px;
+        text-align: center;
+    }
+    .col {
+        .inner {
+            padding-top: 60px;
+            margin-top: 20px;
+            background: center top no-repeat;
+        }
+        &.global-connect {
+            .inner {
+                @include retina-background("global.png", "icon");
+            }
+        }
+    }
+}
+
+.global-connect-modal, .swap-it-modal {
+    h3 {
+        color: #00a8e1;
+        font-size: 30px;
+        font-weight: 600;
+        margin-bottom: -10px;
+    }
+    p.intro {
+        margin: 0 0 1em;
+        font-size: 20px;
+    }
+    .col {
+        padding-left: 100px;
+        background: left top no-repeat;
+        h4 {
+            margin-bottom: 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    }
+    img {
+        vertical-align: middle;
+    }
+}
+
+.global-connect-modal {
+    .col {
+        @include retina-background("global.png", "icon");
+    }
+}
+
+.swap-it-modal {
+    .col {
+        @include retina-background("swapit.png", "icon");
+    }
+}
+
+.mobile-guides {
+    background: image-url('marketing/redesign/footer-section-bottom-rule.png') center top repeat-x;
+    p.intro {
+        margin: 1em 0;
+        font-size: 20px;
+        text-align: center;
+    }
+    .col {
+        padding: 0 100px;
+        a {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        @include breakpoint(small) {
+            padding: 0;
+        }
+    }
+}
+
+.mobile-additional-services {
+    .col {
+        .inner {
+            padding-top: 60px;
+            background: center top no-repeat;
+        }
+        &.trade {
+            .inner {
+                @include retina-background("trade.png", "icon");
+            }
+        }
+        &.device-assistant {
+            .inner {
+                @include retina-background("device-assistant.png", "icon");
+            }
+        }
+        &.global {
+            .inner {
+                @include retina-background("global.png", "icon");
             }
         }
     }
@@ -1551,7 +1714,20 @@ article.mobile-pricing-plans {
         border-radius: 5px;
 
         thead {
-            background-color: #fbfbfb;
+            background: none;
+            border: none;
+            td {
+                border: none;
+                &.is-special-offer {
+                    background: #3189bb;
+                    color: #fff;
+                    font-weight: 600;
+                    font-style: italic;
+                    font-size: 12px;
+                    line-height: 22px;
+                    text-transform: uppercase;
+                }
+            }
         }
 
         tfoot {
@@ -1564,6 +1740,12 @@ article.mobile-pricing-plans {
 
         td {
             text-align: center;
+            .original-price {
+                text-decoration: line-through;
+                font-size: 14px;
+                color: #888;
+                display: block;
+            }
         }
 
         button {

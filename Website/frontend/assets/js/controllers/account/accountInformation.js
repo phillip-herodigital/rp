@@ -18,11 +18,13 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 				.success(function (data, status, headers, config) {
 					$scope.formData = data;
 					$scope.formDataOriginal = angular.copy($scope.formData);
-					if ($scope.formData.sameAsService) {
-						$scope.formData.serviceAddress = $scope.formData.billingAddress;
+
+					if (typeof($scope.formData.serviceAddresses) != 'undefined') {
+						$scope.formData.serviceAddress = $scope.formData.serviceAddresses[0];
 					}
+					
 					$scope.additionalInformation = {
-					    showAdditionalPhoneNumber: $scope.formData.phone[1].number != "",
+					    showAdditionalPhoneNumber: ($scope.formData.phone[1] && typeof($scope.formData.phone[1].number) != 'undefined'),
 					};
 					$scope.successMessage = false;
 					$scope.isLoading = false;
@@ -40,7 +42,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 
     // create a filter so that the same phone type can't be selected twice
     $scope.filter1 = function(item){
-        return (!($scope.formData.phone.length > 0 && $scope.formData.phone[0].category) || item.name != $scope.formData.phone[0].category);
+        return (!($scope.formData.phone[0] && $scope.formData.phone[0].category) || item.name != $scope.formData.phone[0].category);
     };
 
     $scope.filter2 = function(item){

@@ -437,6 +437,13 @@ article.events {
             color: #00a8e1;
         }
     }
+    &.events-connect {
+        background-color: #97c93d;
+        .button {
+            float: right;
+            color: #97c93d;
+        }
+    }
     &.events-top-performers {
         h2, a {
             color: #666666;
