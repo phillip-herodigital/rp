@@ -7,6 +7,7 @@ ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filte
     $scope.paymentsTable.columnList = [];
     $scope.paymentsTable.values = [];
     $scope.isLoading = true;
+    $scope.streamConnectError = false;
     $scope.showExpand = true;
     $scope.filters = {};
     $scope.filtersList = {};
@@ -51,6 +52,10 @@ ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filte
         _.find($scope.paymentsTable.columnList, { 'field': 'paymentDate' }).initialSort = true;
         
         $scope.isLoading = false;
+        $scope.streamConnectError = false;
+    }).error(function() {
+        $scope.isLoading = false;
+        $scope.streamConnectError = true; 
     });
 
     // methods

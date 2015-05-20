@@ -6,6 +6,7 @@
 <article class="grey-box account account-holder-information" ng-controller="AcctAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
     <form ng-submit="updateAccountInformation()" data-val-bind-messages="validations">
         <div class="content" loading-indicator>
+            <div stream-connect-errors="AcctAccountInformationCtrl"></div>
             <div ng-show="successMessage">
                 <div class="notice success">
                     @Html.Sitecore().Field("Success Message Text")

@@ -8,6 +8,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     $scope.total = 0;
     $scope.overriddenWarnings = [];
     $scope.isLoading = true;
+    $scope.streamConnectError = false;
     $scope.activeState = 'step1';
     $scope.modalInstance = {};
     $scope.newAccount = '';
@@ -27,6 +28,10 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         $scope.hasCIS1Account = _.some($scope.accountsTable.values, { 'systemOfRecord': 'CIS1' });
 
         $scope.isLoading = false;
+        $scope.streamConnectError = false;
+    }).error(function() {
+        $scope.isLoading = false;
+        $scope.streamConnectError = true; 
     });
 
     $http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) { 

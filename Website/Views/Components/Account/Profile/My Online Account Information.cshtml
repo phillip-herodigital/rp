@@ -8,6 +8,7 @@
     </header>
     <form ng-submit="updateOnlineAccount()" data-val-bind-messages="validations">
         <div class="content" data-loading-indicator>
+            <div stream-connect-errors="AcctOnlineAccountCtrl"></div>
             <div ng-show="successMessage">
                 <div class="notice success">
                     @Html.Sitecore().Field("Success Message Text")

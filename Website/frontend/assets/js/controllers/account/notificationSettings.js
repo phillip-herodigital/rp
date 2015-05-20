@@ -21,6 +21,11 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 					$scope.successMessage = false;
 					$scope.preferenceSuccessMessage = false;
 					$scope.isLoading = false;
+					$scope.streamConnectError = false;
+				})
+				.error(function() {
+					$scope.isLoading = false;
+        			$scope.streamConnectError = true; 
 				});
 		}
 	});

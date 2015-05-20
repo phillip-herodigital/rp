@@ -9,6 +9,7 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 	$scope.formData.challenges = [{},{}];
 
 	$scope.isLoading = true;
+	$scope.streamConnectError = false;
 
 	// get the current data
 	$http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
@@ -19,7 +20,11 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 		$scope.formDataOriginal = angular.copy($scope.formData);
 		$scope.languagePreference = data.languagePreference;
 		$scope.isLoading = false;
+		$scope.streamConnectError = false;
 		$scope.selectedIds = [$scope.formData.challenges[0].selectedQuestion != null ? $scope.formData.challenges[0].selectedQuestion.id : "", $scope.formData.challenges[1].selectedQuestion != null ? $scope.formData.challenges[1].selectedQuestion.id : ""];
+	}).error(function() {
+		$scope.isLoading = false;
+        $scope.streamConnectError = true; 
 	});
 
 	// create a filter so that the same security question can't be selected twice

@@ -12,6 +12,7 @@
                 <div class="intro" ng-if="hasCIS1Account">
                     @Html.Sitecore().Field("CIS1 Intro Text")
                 </div>
+                <div stream-connect-errors="MakePaymentCtrl"></div>
                 @Html.ValidationSummary()
                 <div class="payment-account stretch">
                     <table grid-table ng-model="accountsTable" class="grid-table">

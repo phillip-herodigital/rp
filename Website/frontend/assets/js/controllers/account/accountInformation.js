@@ -28,6 +28,11 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 					};
 					$scope.successMessage = false;
 					$scope.isLoading = false;
+					$scope.streamConnectError = false;
+				})
+				.error(function () {
+					$scope.isLoading = false;
+        			$scope.streamConnectError = true; 
 				});
 		}
 	}); 

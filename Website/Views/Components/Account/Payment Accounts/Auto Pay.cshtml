@@ -8,6 +8,7 @@
     </header>
     <form data-val-bind-messages="validations" ng-submit="setAutoPay()">
         <div class="content" loading-indicator>
+            <div stream-connect-errors="AutoPayCtrl"></div>
             <div ng-show="successMessage">
                 <div class="notice success">
                     @Html.Sitecore().Field("Success Message Text")

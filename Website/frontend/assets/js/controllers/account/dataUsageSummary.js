@@ -63,13 +63,19 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 $scope.data.estimatedUsage = getEstimatedUsage();
                 $scope.data.graphScale = calculateGraphScale();
                 $scope.isLoading = false;
-			});
+                $scope.streamConnectError = false;
+			})
+            .error(function() {
+                $scope.isLoading = false;
+                $scope.streamConnectError = true; 
+            });
 
         }
     });
 
     $scope.init = function () {
         $scope.isLoading = true;
+        $scope.streamConnectError = false;
     };
 
     $scope.getPercentage = function(val, bottom, top) {
