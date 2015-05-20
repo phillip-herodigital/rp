@@ -908,7 +908,6 @@
     <Content Include="default.js" />
     <Content Include="frontend\**\*" />
     <Content Include="Data\web.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.Settings.config" />
     <Content Include="Data\fw9.pdf" />
     <Content Include="App_Config\ConnectionStrings.production.sitecore.config">
       <SubType>Designer</SubType>
