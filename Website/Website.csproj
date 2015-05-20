@@ -813,7 +813,6 @@
     <Content Include="frontend\**\*" />
     <Content Include="Data\web.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Settings.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.config" />
     <Content Include="Data\fw9.pdf" />
     <Content Include="App_Config\ConnectionStrings.production.sitecore.config">
       <SubType>Designer</SubType>
@@ -1066,7 +1065,6 @@
     <Content Include="App_Config\Include\Sitecore.Publishing.Optimizations.config.example" />
     <Content Include="App_Config\Include\Sitecore.Publishing.Parallel.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Publishing.Recovery.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Speak.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
     <Content Include="Views\web.config" />
