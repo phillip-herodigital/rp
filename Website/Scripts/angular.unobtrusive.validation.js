@@ -251,7 +251,7 @@
         };
     }])
 
-    .directive('valSubmit', ['validation', '$location', '$anchorScroll', function (validation, $location, $anchorScroll) {
+    .directive('valSubmit', ['validation', '$document', function (validation, $document) {
         return {
             restrict: 'A',
             require: '^?form',
@@ -263,8 +263,9 @@
                         // Cancels the suppression of validation messages, which reveals error classes, validation summaries, etc.
                         validation.cancelSuppress(scope);
                         scope.$digest();
-                        $location.hash('validation-summary');
-                        $anchorScroll();
+                        var offset = angular.element(document.querySelector('header.site-header'))[0].offsetHeight;
+                        var summary = angular.element(document.getElementById('validation-summary'));
+                        $document.scrollToElement(summary, offset);
                     }
                 });
                 /*
