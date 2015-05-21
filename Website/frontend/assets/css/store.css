@@ -1,4 +1,8 @@
 /* Global */
+body,
+#content {
+    font-size: 12px;
+}
 center {
     text-align: right;
 }
@@ -10,8 +14,9 @@ input[type="submit"] {
     margin-left: 10px;
     padding: 7px 18px;
     transition: none;
-    background-color: #257ab3;
+    background: #257ab3;
     border: none;
+    -webkit-appearance: none;
 }
 input[type="button"]:hover,
 input[type="submit"]:hover {
@@ -56,6 +61,7 @@ textarea:focus {
 #navigation {
     height: auto;
     max-height: none;
+    font-size: 12px;
 }
 #navigation .search {
     width: auto;
@@ -159,9 +165,6 @@ textarea:focus {
 #ctl00_PageContent_pnlContent > table > tbody > tr {
     display: inline;
 }
-#ctl00_PageContent_pnlContent > table > tbody > tr > td {
-    display: inline;
-}
 #ctl00_PageContent_pnlContent > table > tbody > tr > td > table {
     display: inline;
     width: 25%;
@@ -173,7 +176,16 @@ textarea:focus {
     float: left;
     margin: 1em;
 }
+#ctl00_PageContent_pnlContent > table > tbody > tr > td > table > tbody > tr:nth-child(5) td {
+    padding-top: .5em;
+}
+#ctl00_PageContent_pnlContent > table > tbody > tr > td > table > tbody a {
+    line-height: 1.25em;
+}
 @media only screen and (max-width: 830px) {
+    #ctl00_PageContent_pnlContent > table > tbody > tr > td {
+        display: inline;
+    }
     #ctl00_PageContent_pnlContent > table > tbody > tr > td > table {
         width: 33%;
     }
@@ -186,9 +198,15 @@ textarea:focus {
 @media only screen and (max-width: 400px) {
     #ctl00_PageContent_pnlContent > table > tbody > tr > td > table {
         width: 100%;
+        margin-bottom: -25px;
     }
     #ctl00_PageContent_pnlContent > table > tbody > tr > td > table > tbody {
         float: none;
+    }
+    #ctl00_PageContent_pnlContent > table > tbody > tr > td > table > tbody > tr,
+    #ctl00_PageContent_pnlContent > table > tbody > tr > td > table > tbody > tr > td {
+        width: 100%;
+        display: block;
     }
 }
 
@@ -213,9 +231,12 @@ div#ctl00_PageContent_pnlContent table tbody tr td div table tbody tr td div tab
     width: 100% !important;
     margin-left: auto !important;
 }
-
+.kit_groups .kit_groupName {
+    cursor: default;
+}
 div#ctl00_PageContent_pnlContent > table.kit_table {
     width: 100% !important;
+    font-size: 12px;
 }
 div#ctl00_PageContent_pnlContent > table.kit_table > tbody > tr {
     display: table-row;
@@ -240,6 +261,11 @@ div#ctl00_PageContent_pnlContent #KitSideBar {
 }
 div#ctl00_PageContent_pnlContent #KitSideBar .kit_sidebar_header {
     height: 12px;
+    width: 250px;
+    background-size: 250px 22px;
+}
+table.kit_table td.kit_column_content div.kit_groups div.kit_group div.kit_groupContent input {
+    float: none;
 }
 div#ctl00_PageContent_pnlContent > table > tbody > tr > td > div:only-child {
     width: 100% !important;
@@ -293,6 +319,11 @@ div#ctl00_PageContent_pnlContent > table > tbody > tr > td > div:only-child {
 #ctl00_PageContent_pnlPaymentOptions img {
     float: left;
     margin-right: 5px;
+}
+td.shopping_cart table tbody tr td:nth-child(3),
+div.cart_items div table tbody tr td div,
+div.cart_items div table tbody tr td:nth-child(3) table tbody tr td {
+    text-align: left;
 }
 .ccPanel input {
     width: 225px !important;
