@@ -4,6 +4,8 @@
 @using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity
 @using GeorgiaGas = StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 
+@using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
+{
 <div id="accountInformation" class="enrollment" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); previousProvidersGeorgia = @(Html.Action("PreviousProvidersGeorgia", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")');">    
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
@@ -17,6 +19,7 @@
         <div class="wrapper cols-2 enrollment__account-information">
             <section>
                 <form data-val-bind-messages="validations" name="accountInfo" ng-submit="completeStep()">
+                    @Html.ValidationSummary()
                     @* Loop through utility addresses *@
                     <article class="enrollment__box form" ng-if="cartHasUtility()" ng-repeat="(index, item) in utilityAddresses()" ng-init="init();">
                         <header>
@@ -377,6 +380,7 @@
         </div>
     </div>
 </div>
+}
 
 <script type="text/ng-template" id="offerOptions/TexasElectricity">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))

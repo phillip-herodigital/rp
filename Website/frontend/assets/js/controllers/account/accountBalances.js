@@ -10,6 +10,7 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
     $scope.overriddenWarnings = [];
     $scope.confirmationNumber = '';
     $scope.isLoading = true;
+    $scope.streamConnectError = false;
     $scope.activeState = 'step1';
     $scope.modalInstance = {};
     $scope.newAccount = '';
@@ -25,7 +26,11 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
 		$scope.paymentAmount = $scope.selectedAccount.amountDue;
         $scope.accountsCount = $scope.accounts.length;
         $scope.isLoading = false;
-	});
+        $scope.streamConnectError = false;
+	}).error(function () { 
+        $scope.isLoading = false;
+        $scope.streamConnectError = true; 
+    });
 	$http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) { 
 		$scope.paymentAccounts = data; 
 	});

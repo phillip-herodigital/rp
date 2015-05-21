@@ -4,6 +4,7 @@
 ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$window', '$location', function ($scope, $rootScope, $http, $window, $location) {
     $scope.utilityPlan = {};
     $scope.isLoading = true;
+    $scope.streamConnectError = false;
     $scope.renewalRedirect = ($location.absUrl().toLowerCase().indexOf('renew') > 0);
 
     // when the account selector changes, reload the data
@@ -25,6 +26,10 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
                 $scope.utilityPlan.description = (product) ? product.description : null;
                 
                 $scope.isLoading = false;
+                $scope.streamConnectError = false;
+            }).error(function() {
+                $scope.isLoading = false;
+                $scope.streamConnectError = true; 
             });
         }
     });
