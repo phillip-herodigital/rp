@@ -9,6 +9,12 @@ namespace StreamEnergy.MyStream.Controllers
     [ChildActionOnly]
     public class DataController : Controller
     {
+        private readonly ISettings settings;
+
+        public DataController(ISettings settings)
+        {
+            this.settings = settings;
+        }
 
         public ActionResult States()
         {
@@ -93,7 +99,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult MobileEnrollmentSettings()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
+            var item = settings.GetSettingsItem("Mobile Enrollment Options");
 
             var data =  new
             {
@@ -115,7 +121,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult SimActivationSettings()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/SIM Activation Options");
+            var item = settings.GetSettingsItem("SIM Activation Options");
 
             var weekdayStartTime = item.Fields["Weekday Start Time"].Value;
             var weekdayEndTime = item.Fields["Weekday End Time"].Value;
