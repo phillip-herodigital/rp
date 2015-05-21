@@ -162,12 +162,8 @@ textarea:focus {
 }
 
 /* Listing Pages */
-#ctl00_PageContent_pnlContent > table > tbody > tr {
-    display: inline;
-}
 #ctl00_PageContent_pnlContent > table > tbody > tr > td > table {
     display: inline;
-    width: 25%;
     float: left;
     min-height: 260px;
 }
@@ -183,6 +179,9 @@ textarea:focus {
     line-height: 1.25em;
 }
 @media only screen and (max-width: 830px) {
+    #ctl00_PageContent_pnlContent > table > tbody > tr {
+        display: inline;
+    }
     #ctl00_PageContent_pnlContent > table > tbody > tr > td {
         display: inline;
     }
