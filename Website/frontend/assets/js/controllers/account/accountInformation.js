@@ -1,7 +1,7 @@
 /* Account Information Controller
  *
  */
-ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http', '$document', function ($scope, $rootScope, $http, $document) {
 	// create a blank object to hold the form information
 	$scope.formData = { phone : []};
 
@@ -101,6 +101,10 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 			        // if successful, show the success message
 			        $scope.formDataOriginal = angular.copy($scope.formData);
 			        $scope.successMessage = true;
+			        // scroll to the success message
+			        var offset = angular.element(document.querySelector('header.site-header'))[0].offsetHeight;
+			        var message = angular.element(document.querySelector('.success'))[0];
+                    $document.scrollToElement(message, offset);
 			    }
 			})
 	        .error(function (data, status, headers, config) {

@@ -1,7 +1,7 @@
 /* My Online Account Controller
  *
  */
-ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
+ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$document', '$timeout', function ($scope, $rootScope, $http, $document, $timeout) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
@@ -85,6 +85,10 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 					$scope.validations = [];
 					$scope.isLoading = false;
 					$scope.successMessage = true;
+					// scroll to the success message
+			        var offset = angular.element(document.querySelector('header.site-header'))[0].offsetHeight;
+			        var message = angular.element(document.querySelector('.success'))[0];
+                    $document.scrollToElement(message, offset);
 				}
 			});
 	};
