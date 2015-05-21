@@ -1,4 +1,10 @@
 /* Global */
+center {
+    text-align: right;
+}
+center input {
+    display: inline-block !important;
+}
 input[type="button"],
 input[type="submit"] {
     margin-left: 10px;
@@ -11,9 +17,18 @@ input[type="button"]:hover,
 input[type="submit"]:hover {
     background-color: #6b6b6b;
 }
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-width: 2px;
+}
 #logodiv > div,
 #logodiv > div img {
     max-width: 100% !important;
+}
+#ctl00_PageContent_pnlContent img {
+    float: none;
 }
 @media only screen and (max-width: 1030px) {
     #wrapper,
@@ -40,7 +55,7 @@ input[type="submit"]:hover {
 
 #navigation {
     height: auto;
-    max-height: initial;
+    max-height: none;
 }
 #navigation .search {
     width: auto;
@@ -48,7 +63,8 @@ input[type="submit"]:hover {
 }
 #navigation .search input[type="text"],
 #navigation .search input[type="button"] {
-    position: initial;
+    position: static;
+    right: 0;
     float: left;
     margin-top: 10px;
 }
@@ -103,12 +119,17 @@ input[type="submit"]:hover {
 /* Footer */
 #footer2 {
     margin-top: -150px;
+    width: 960px;
+}
+#wrapper #footer2 {
+    width: 1030px;
 }
 #footer-bottom-part2 li a {
     white-space: nowrap;
 }
 @media only screen and (max-width: 830px) {
     #footer2,
+    #wrapper #footer2,
     #footer-bottom-part2 {
         left: 0;
         width: auto;
@@ -252,11 +273,30 @@ div#ctl00_PageContent_pnlContent > table > tbody > tr > td > div:only-child {
 #ctl00_PageContent_pnlCoupon table table td {
     padding: 5px;
 }
-div.shoppingCartContainer div:last-child {
-    padding: 5px;
-}
 
 /* Checkout */
+#ctl00_PageContent_tblSkipReg img {
+    float: left;
+}
+#ctl00_PageContent_shippingselect_gif,
+#ctl00_PageContent_paymentselect_gif {
+    margin-left: -1px;
+}
+#ctl00_PageContent_tdBillingInfo table td:last-child input,
+#ctl00_PageContent_tdShipingInfo table td:last-child input {
+    width: 225px;
+}
+#ctl00_PageContent_tdBillingInfo > div:first-child,
+#ctl00_PageContent_tdShipingInfo > div:first-child {
+    height: 20px;
+}
+#ctl00_PageContent_pnlPaymentOptions img {
+    float: left;
+    margin-right: 5px;
+}
+.ccPanel input {
+    width: 225px !important;
+}
 @media only screen and (max-width: 800px) {
     div#ctl00_PageContent_pnlAshland table:nth-of-type(2) tbody tr {
         display: inline;
@@ -269,4 +309,22 @@ div.shoppingCartContainer div:last-child {
         display: block;
         width: 100% !important;
     }
+    #ctl00_PageContent_tdShipingInfo {
+        padding: 0 !important;
+        margin-top: 10px;
+    }
+    #ctl00_PageContent_tdBillingInfo table,
+    #ctl00_PageContent_tdShipingInfo table {
+        width: 100%;
+    }
+    #ctl00_PageContent_tdBillingInfo table td:first-child,
+    #ctl00_PageContent_tdShipingInfo table td:first-child {
+        width: 100px;
+    }
+    #ctl00_PageContent_tdBillingInfo table td:last-child input,
+    #ctl00_PageContent_tdShipingInfo table td:last-child input {
+        width: 92%;
+    }
 }
+
+/* Confirmation Page */
