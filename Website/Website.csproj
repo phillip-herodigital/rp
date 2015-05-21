@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StreamEnergy.MyStream</RootNamespace>
     <AssemblyName>StreamEnergy.MyStream</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -24,6 +24,7 @@
     <RestorePackages>true</RestorePackages>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <IsCompassProject>True</IsCompassProject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -586,6 +587,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
@@ -610,8 +612,7 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -652,15 +653,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Telerik.Web.UI, Version=2012.2.607.35, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Telerik.Web.UI.dll</HintPath>
@@ -908,7 +908,6 @@
     <Content Include="default.js" />
     <Content Include="frontend\**\*" />
     <Content Include="Data\web.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.Settings.config" />
     <Content Include="Data\fw9.pdf" />
     <Content Include="App_Config\ConnectionStrings.production.sitecore.config">
       <SubType>Designer</SubType>
@@ -1377,26 +1376,26 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="NewRelicServerMonitor_x64_3.2.6.0.msi">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ToOutputDirectory>Always</ToOutputDirectory>
     </Content>
     <Content Include="NewRelicAgent_x64_3.6.177.0.msi">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ToOutputDirectory>Always</ToOutputDirectory>
     </Content>
     <Content Include="newrelic.cmd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ToOutputDirectory>Always</ToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
     <Content Include="updateTypeaheadIndex.cmd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ToOutputDirectory>Always</ToOutputDirectory>
     </Content>
     <Content Include="updateTypeaheadIndex.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ToOutputDirectory>Always</ToOutputDirectory>
     </Content>
     <Content Include="installStreamEnergy.RenderingService.cmd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ToOutputDirectory>Always</ToOutputDirectory>
     </Content>
     <Content Include="Views\Components\Authentication\Impersonate.cshtml" />
     <Content Include="sitecore\apps\dialogs\Empty.Master" />
@@ -1419,10 +1418,10 @@
     <Content Include="Views\Components\Marketing\Mobile\Mobile Pay.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Protective FAQs.cshtml" />
     <Content Include="updateDataFolderPath.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ToOutputDirectory>Always</ToOutputDirectory>
     </Content>
     <Content Include="updateDataFolderPath.cmd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ToOutputDirectory>Always</ToOutputDirectory>
     </Content>
     <Content Include="Views\Components\Activation\ActivateEsn.cshtml" />
     <Content Include="Views\Components\Marketing\Video Player.cshtml" />
