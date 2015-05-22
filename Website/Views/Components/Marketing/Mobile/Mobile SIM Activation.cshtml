@@ -207,6 +207,46 @@
                         @Html.Sitecore().Field("Contact Text")
                     </div>
                     <div class="phone">@Html.Sitecore().Field("Phone Number Text")</div>
+                    <div ng-show="activeState != 'step2CDMA'">@Html.Sitecore().Field("Activation Instructions Text")</div>
+                </div>
+
+                <div ng-show="footerActivateData">
+                    <div class="data-intro">
+                        @Html.Sitecore().Field("Activate Data Intro")
+                    </div>
+                    <article class="enrollment__box form data-box" id="activateData">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Activate Data Header")</h1>
+                        </header>
+                        <div class="content">
+                            <div class="btn-group btn-group-options">
+                                <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'apple'">
+                                    <i class="icon-apple"></i>
+                                    @Html.Sitecore().Field("Apple Text")
+                                </a>
+                                <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'android'">
+                                    <i class="icon-android"></i>
+                                    @Html.Sitecore().Field("Android Text")
+                                </a>
+                                <a href="" class="button btn-phone-type btn-group-arrow" ng-model="selectedPhone" btn-radio="'windows'">
+                                    <i class="icon-windows"></i>
+                                    @Html.Sitecore().Field("Windows Text")
+                                </a>
+                            </div>
+                            <div class="phone-instructions apple" ng-if="selectedPhone == 'apple'">
+                                @Html.Sitecore().Field("Apple Instructions")
+                            </div>
+                            <div class="phone-instructions android" ng-if="selectedPhone == 'android'">
+                                @Html.Sitecore().Field("Android Instructions")
+                            </div>
+                            <div class="phone-instructions windows" ng-if="selectedPhone == 'windows'">
+                                @Html.Sitecore().Field("Windows Instructions")
+                            </div>
+                        </div>
+                        <footer>
+                            @Html.Sitecore().Field("Activate Data Footer")
+                        </footer>
+                    </article>
                 </div>
             </div>
         </div>
