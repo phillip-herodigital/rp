@@ -766,6 +766,7 @@
     <Content Include="App_Config\Include\XBlog.Search.config" />
     <Content Include="App_Config\Include\XBlog.Settings.config" />
     <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config" />
+    <None Include="App_Config\Include\Sitecore.SharedSource.GeoIpTester.config.disabled" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
