@@ -7,11 +7,11 @@
     <form ng-submit="updateAccountInformation()" data-val-bind-messages="validations">
         <div class="content" loading-indicator>
             <div stream-connect-errors="AcctAccountInformationCtrl"></div>
-            <div ng-show="successMessage">
-                <div class="notice success">
+            <div id="successMessage">
+                <div class="notice success" ng-show="successMessage">
                     @Html.Sitecore().Field("Success Message Text")
                 </div>
-                <hr class="content-divider" />
+                <hr class="content-divider" ng-show="successMessage" />
             </div>
             <div ng-show="errorMessage">
                 <div class="notice error">
