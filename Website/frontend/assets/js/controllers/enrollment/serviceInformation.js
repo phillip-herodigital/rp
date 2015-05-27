@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService) {
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
     // TODO - chose state by geoIP
     if (!$scope.data || !$scope.data.serviceState) {
         if ($location.absUrl().indexOf('State=GA') > 0 || $location.absUrl().indexOf('St=GA') > 0) {
@@ -111,6 +111,15 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             enrollmentCartService.addService({ location: $scope.data.serviceLocation });
             enrollmentService.setServiceInformation();
         }
+
+        var provider = '';
+        var tx = _($scope.data.serviceLocation.capabilities).find({ capabilityType: "TexasElectricity" });
+        if (tx && tx.tdu) {
+            provider = tx.tdu;
+        } else if (_($scope.data.serviceLocation.capabilities).some({ capabilityType: "GeorgiaGas" })) {
+            provider = "AGLC";
+        }
+        analytics.sendVariables(1, $scope.data.serviceLocation.address.postalCode5, 2, provider, 5, $scope.data.isNewService ? "Move In" : "Switch");
     };
 
 }]);
