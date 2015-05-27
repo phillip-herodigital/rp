@@ -1,4 +1,4 @@
-ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'mobileEnrollmentService', 'analytics', function ($scope, $window, enrollmentService, enrollmentStepsService, enrollmentCartService, mobileEnrollmentService, analytics) {
+ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'mobileEnrollmentService', 'analytics', '$timeout', function ($scope, $window, enrollmentService, enrollmentStepsService, enrollmentCartService, mobileEnrollmentService, analytics, $timeout) {
     $scope.accountInformation = {};
     var confirmationDevices = [];
     var allPhones = [];
@@ -90,13 +90,15 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
                 $window.location.href = '/enrollment/please-contact';
             }
 
-            analytics.sendVariables(11, confirmationSuccess ? "Confirmed" : "Submitted");
+            $timeout(function () {
+                analytics.sendVariables(11, $scope.confirmationSuccess ? "Confirmed" : "Submitted");
 
-            _(enrollmentCartService.services).map(function (l) {
-                return l.offerInformationByType[0].key
-            }).uniq().each(function (t) {
-                analytics.sendVariables(12, t);
-            });
+                _(enrollmentCartService.services).map(function (l) {
+                    return l.offerInformationByType[0].key
+                }).uniq().each(function (t) {
+                    analytics.sendVariables(12, t);
+                });
+            }, 5000);
         }
     };
 }]);
