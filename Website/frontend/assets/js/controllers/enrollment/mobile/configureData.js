@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $filter, $modal, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
+﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'analytics', function ($scope, $filter, $modal, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, analytics) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
@@ -113,6 +113,8 @@
             var offerId = selectedOffer.id;
             var childId = selectedOffer.childOfferId;
             var devices = enrollmentCartService.getCartDevices();
+
+            analytics.sendVariables(3, selectedOffer.data, 4, devices.length);
 
             // Add plan for each device, and add to the selected offers array
             for (var i = 0, len = devices.length; i < len; i++) {

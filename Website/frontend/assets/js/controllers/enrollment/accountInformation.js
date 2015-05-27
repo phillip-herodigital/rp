@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', function ($scope, enrollmentService, enrollmentCartService, $modal, validation) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
     $scope.accountInformation = enrollmentService.accountInformation;
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
@@ -35,6 +35,12 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             })
             .filter({ enrollmentType: "switch" })
             .any();
+
+        _(enrollmentCartService.services).map(function (l) {
+            return l.offerInformationByType[0].key
+        }).uniq().each(function (t) {
+            analytics.sendVariables(10, t);
+        });
     }, true);
 
     // create a filter so that the same phone type can't be selected twice
