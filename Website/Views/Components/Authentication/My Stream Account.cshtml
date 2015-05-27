@@ -29,7 +29,7 @@
                 <div class="group">
                     <div class="item group-col" @Html.Validation().ErrorClass(model => model.Password)>
                         <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
-                        @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password" })
+                        @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password", @class = "maskField", })
                         @Html.ValidationMessageFor(model => model.Password)
                     </div>
                     <div class="item group-col">

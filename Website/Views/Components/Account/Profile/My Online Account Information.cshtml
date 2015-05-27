@@ -31,7 +31,7 @@
                     <div class="group">
                         <div class="item group-col" @Html.Validation().ErrorClass(m => m.CurrentPassword) float-label>
                             <label for="@Html.IdFor(m => m.CurrentPassword)">@Html.Sitecore().Field("Current Password Text")</label>
-                            @Html.PasswordFor(m => m.CurrentPassword, new { ng_model = "formData.currentPassword", data_val = "true", data_val_required = "", data_val_if = "isOpen" })
+                            @Html.PasswordFor(m => m.CurrentPassword, new { ng_model = "formData.currentPassword", @class = "maskField", data_val = "true", data_val_required = "", data_val_if = "isOpen" })
                             @Html.ValidationMessageFor(m => m.CurrentPassword)
                         </div>
                         <div class="item group-col"></div>
@@ -39,13 +39,13 @@
                     <div class="group">
                         <div class="item group-col" @Html.Validation().ErrorClass(m => m.Password) float-label>
                             <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("New Password Text")</label>
-                            @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password", data_val = "true", data_val_required = "", data_val_notequalto_other = "Username", data_val_if = "isOpen" })
+                            @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password", @class = "maskField", data_val = "true", data_val_required = "", data_val_notequalto_other = "Username", data_val_if = "isOpen" })
                             @Html.ValidationMessageFor(m => m.Password)
                             <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
                         </div>
                         <div class="item group-col" @Html.Validation().ErrorClass(m => m.ConfirmPassword) float-label>
                             <label for="@Html.IdFor(m => m.ConfirmPassword)">@Html.Sitecore().Field("Confirm Password Text")</label>
-                            @Html.PasswordFor(m => m.ConfirmPassword, new { ng_model = "formData.confirmPassword", data_val = "true", data_val_required = "", data_val_if = "isOpen" })
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { ng_model = "formData.confirmPassword", @class = "maskField", data_val = "true", data_val_required = "", data_val_if = "isOpen" })
                             @Html.ValidationMessageFor(m => m.ConfirmPassword)
                         </div>
                     </div>
