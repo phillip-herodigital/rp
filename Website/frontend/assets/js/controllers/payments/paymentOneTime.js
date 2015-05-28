@@ -17,6 +17,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
         }
     };
     $scope.isLoading = false;
+    $scope.streamConnectError = false;
     //Step 1
     this.lookupAccount = function () {
         $scope.isLoading = true;
@@ -28,6 +29,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
         })
             .success(function (data, status, headers, config) {
                 $scope.isLoading = false;
+                $scope.streamConnectError = false;
                 if (!data.success) {
                     ctrl.errorMessage = true;
                 } else {
@@ -35,6 +37,10 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
                     ctrl.paymentAmount = ctrl.account.amountDue;
                     ctrl.activeStep = 2;
                 }
+            })
+            .error(function() {
+                $scope.isLoading = false;
+                $scope.streamConnectError = true; 
             });
     };
 

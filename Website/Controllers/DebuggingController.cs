@@ -20,7 +20,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public DebuggingController(EnvironmentCategory environment, ILogReader reader)
         {
-            if (environment == EnvironmentCategory.Production)
+            if (environment == EnvironmentCategory.Production && Sitecore.Context.User.GetDomainName() != "sitecore")
             {
                 throw new NotSupportedException();
             }

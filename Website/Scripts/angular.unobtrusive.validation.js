@@ -251,7 +251,7 @@
         };
     }])
 
-    .directive('valSubmit', ['validation', function (validation) {
+    .directive('valSubmit', ['validation', '$document', function (validation, $document) {
         return {
             restrict: 'A',
             require: '^?form',
@@ -263,6 +263,9 @@
                         // Cancels the suppression of validation messages, which reveals error classes, validation summaries, etc.
                         validation.cancelSuppress(scope);
                         scope.$digest();
+                        var offset = angular.element(document.querySelector('header.site-header'))[0].offsetHeight;
+                        var summary = angular.element(document.getElementById('validation-summary'));
+                        $document.scrollToElement(summary, offset);
                     }
                 });
                 /*
@@ -288,12 +291,12 @@
         return {
             restrict: 'A',
             scope: {},
-            template: '<div class="alert alert-error" ng-if="started" ng-show="validationSummary.length">' +
+            template: '<div id="validation-summary" class="notice error" ng-if="started" ng-show="validationSummary.length">' +
                 '   <ul>' +
                 '       <li data-ng-repeat="err in validationSummary" data-ng-bind-html="err"></span>' +
                 '   </ul>' +
                 '</div>' +
-                '<div class="alert alert-error" ng-transclude ng-if="!started"></div>',
+                '<div class="notice error" ng-transclude ng-if="!started"></div>',
             transclude: true,
             link: function (scope, element) {
                 scope.started = false;

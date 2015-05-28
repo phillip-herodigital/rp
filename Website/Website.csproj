@@ -766,6 +766,7 @@
     <Content Include="App_Config\Include\XBlog.Search.config" />
     <Content Include="App_Config\Include\XBlog.Settings.config" />
     <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config" />
+    <None Include="App_Config\Include\Sitecore.SharedSource.GeoIpTester.config.disabled" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
@@ -1182,6 +1183,7 @@
     <Content Include="Views\Pages\Marketing\Pay\Pay.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile SIM Activation.cshtml" />
     <Content Include="Views\Components\Email\Blog Summary.cshtml" />
+    <Content Include="Views\Components\Account\Error Messages\Stream Connect Errors.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

@@ -1,0 +1,16 @@
+﻿
+<div class="stream-connect">
+    <div class="notice error" ng-show="streamConnectError && !selectedAccount.systemOfRecord">
+        @Html.Sitecore().Field("General Error")
+    </div>
+    <div class="notice error" ng-show="streamConnectError && selectedAccount.systemOfRecord == 'CIS1'">
+        @Html.Sitecore().Field("TX Error")
+    </div>
+    <div class="notice error" ng-show="streamConnectError && selectedAccount.systemOfRecord == 'ISTA'">
+        @Html.Sitecore().Field("GA Error")
+    </div>
+    <div class="notice error" ng-show="streamConnectError && selectedAccount.systemOfRecord == 'BeQuick'">
+        @Html.Sitecore().Field("Mobile Error")
+    </div>
+</div>
+

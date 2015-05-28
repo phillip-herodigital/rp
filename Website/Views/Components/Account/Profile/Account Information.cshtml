@@ -1,14 +1,17 @@
 ﻿@model StreamEnergy.MyStream.Models.Account.UpdateAccountInformationRequest
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 
+@using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
+{ 
 <article class="grey-box account account-holder-information" ng-controller="AcctAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
     <form ng-submit="updateAccountInformation()" data-val-bind-messages="validations">
         <div class="content" loading-indicator>
-            <div ng-show="successMessage">
-                <div class="notice success">
+            <div stream-connect-errors="AcctAccountInformationCtrl"></div>
+            <div id="successMessage">
+                <div class="notice success" ng-show="successMessage">
                     @Html.Sitecore().Field("Success Message Text")
                 </div>
-                <hr class="content-divider" />
+                <hr class="content-divider" ng-show="successMessage" />
             </div>
             <div ng-show="errorMessage">
                 <div class="notice error">
@@ -16,6 +19,7 @@
                 </div>
                 <hr class="content-divider" />
             </div>
+            @Html.ValidationSummary()
             <div class="item account-holder">
                 <label class="account-holder-title">@Html.Sitecore().Field("Account Holder Name Text")</label>
                 {{ formData.customerName.first }} {{ formData.customerName.last }}
@@ -134,8 +138,8 @@
                     </div>
                 </div>
             </div>
-            <hr class="content-divider" />
-            <div class="edit-preferences">
+            <hr class="content-divider" ng-if="formData.customerType != 'Mobile'" />
+            <div class="edit-preferences" ng-if="formData.customerType != 'Mobile'">
                 <div class="item">
                     <ul class="checkbox-list">
                         <li>
@@ -153,3 +157,4 @@
         </footer>
     </form>
 </article>
+}

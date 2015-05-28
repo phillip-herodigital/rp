@@ -7,6 +7,7 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
     $scope.invoicesTable.columnList = [];
     $scope.invoicesTable.values = [];
     $scope.isLoading = true;
+    $scope.streamConnectError = false;
     $scope.filters = {};
     $scope.filtersList = {};
     $scope.filtersList.serviceType = [];
@@ -33,7 +34,10 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
         _.find($scope.invoicesTable.columnList, { 'field': 'dueDate' }).initialSort = true;
 
         $scope.isLoading = false;
-
+        $scope.streamConnectError = false; 
+    }).error(function() {
+        $scope.isLoading = false;
+        $scope.streamConnectError = true; 
     });
 
     // methods

@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChooseNetworkCtrl', ['$scope', '$filter', '$modal', '$http', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'mobileEnrollmentService', function ($scope, $filter, $modal, $http, enrollmentService, enrollmentCartService, enrollmentStepsService, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentChooseNetworkCtrl', ['$scope', '$filter', '$modal', '$http', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'mobileEnrollmentService', 'analytics', function ($scope, $filter, $modal, $http, enrollmentService, enrollmentCartService, enrollmentStepsService, mobileEnrollmentService, analytics) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
 
@@ -80,6 +80,7 @@
     });
 
     $scope.chooseNetwork = function(network, phoneType) {
+        analytics.sendVariables(2, network);
         $scope.mobileEnrollment.phoneTypeTab = phoneType;
         mobileEnrollmentService.selectedNetwork = _.where($scope.mobileEnrollmentService.availableNetworks, { value: network })[0];
 
@@ -88,6 +89,7 @@
 
     $scope.lookupZip = function () {
         enrollmentService.isLoading = true;
+        analytics.sendVariables(1, $scope.postalCode5);
         $http.get('/api/addresses/lookupZip/' + $scope.postalCode5)
         .success(function (data) {
             enrollmentService.isLoading = false;

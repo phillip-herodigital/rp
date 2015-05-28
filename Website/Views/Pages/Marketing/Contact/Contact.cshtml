@@ -46,7 +46,7 @@
             <div class="wrapper">
                 <h2>@Html.Sitecore().Field("Request Form Text")</h2>
                 <p>@Html.Sitecore().Field("Required Text")</p>
-                <form action="@Request.Url.AbsolutePath" method="post">
+                <form action="@Request.Url.AbsolutePath" method="post" name="Contact">
                     @Html.ValidationSummary()
                     <div class="grid">
                         <div class="col">

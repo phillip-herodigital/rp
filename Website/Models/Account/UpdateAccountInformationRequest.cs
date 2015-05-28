@@ -1,10 +1,11 @@
-﻿using System;
+﻿using StreamEnergy.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using ResponsivePath.Validation;
-using StreamEnergy.DomainModels;
 
 namespace StreamEnergy.MyStream.Models.Account
 {

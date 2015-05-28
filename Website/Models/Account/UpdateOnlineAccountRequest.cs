@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
+using System.Web.Mvc;
 using ResponsivePath.Validation;
 using StreamEnergy.MyStream.Models.Authentication;
+using StreamEnergy.DomainModels;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
@@ -13,16 +14,15 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public string Username { get; set; }
 
-        [Required]
         [ValidateObject(ErrorMessagePrefix="Email ")]
-        public DomainModels.Email Email { get; set; }
+        public Email Email { get; set; }
 
         public string CurrentPassword { get; set; }
 
-        [MembershipPassword(ErrorMessage = "Password Invalid")]
+        [System.Web.Security.MembershipPassword(ErrorMessage = "Password Invalid")]
         public string Password { get; set; }
 
-        [Compare("Password", ErrorMessage = "Confirm Password Mismatch")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Confirm Password Mismatch")]
         public string ConfirmPassword { get; set; }
 
         [ValidateEnumerable]
@@ -33,7 +33,7 @@ namespace StreamEnergy.MyStream.Models.Account
         {
             if (Username != null)
             {
-                if (Membership.FindUsersByName(Username).Count > 0)
+                if (System.Web.Security.Membership.FindUsersByName(Username).Count > 0)
                     yield return new ValidationResult("Username In Use", new[] { "Username" });
             }
 
