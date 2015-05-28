@@ -1,6 +1,6 @@
 ﻿@{
     var planContent = new Dictionary<string, dynamic>();
-    foreach (var plan in new string[] { "Electricity Month-to-Month Rates", "Electricity Green Rates", "Gas Month-to-Month Rates" })
+    foreach (var plan in new string[] { "Electricity Month-to-Month Rates", "Gas Month-to-Month Rates" })
     {
         var variablePricePlanItems = Html.Sitecore().CurrentItem.Children[plan].Children.OrderByDescending(C => C.Fields["Date"].Value);
         var variablePricePlanRows = new Dictionary<string, List<dynamic>>();
