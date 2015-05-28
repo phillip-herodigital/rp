@@ -37,13 +37,19 @@ ngApp.controller('ChangeMobilePlanCtrl', ['$scope', '$filter', '$http', 'scrollS
 		        dataPlans = data.dataPlans;
 		        $scope.currentPlan = _.find(dataPlans, { 'id': data.currentPlanId });
 		        $scope.isLoading = false;
-		    });
+                $scope.streamConnectError = false; 
+		    })
+            .error(function () {
+                $scope.isLoading = false;
+                $scope.streamConnectError = true; 
+            });
         }
     });
 
     var dataPlans = null;
     $scope.init = function () {
         $scope.isLoading = true;
+        $scope.streamConnectError = false; 
         $scope.selectedAcct = null;
     };
 

@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', '$window', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse, $window) {
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', '$window', 'analytics', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse, $window, analytics) {
     var hasSubmitted = false;
     $scope.currentLocationInfo = enrollmentCartService.getActiveService;
     $scope.isRenewal = enrollmentService.isRenewal;
@@ -145,6 +145,15 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         else {
             submitStep(addAdditional);
         }
+
+        var planId = ($scope.planSelection.selectedOffers.TexasElectricity || $scope.planSelection.selectedOffers.GeorgiaGas);
+
+        var i = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
+            return (o.id == planId);
+        }),
+        plan = $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[i];
+
+        analytics.sendVariables(6, plan.rateType == "fixed" ? "Fixed" : "Variable", 7, plan.termMonths, 8, (i+1), 9, plan.id);
     };
     var submitStep = function (addAdditional) {
         var onComplete = function () {

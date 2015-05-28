@@ -23,6 +23,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
     var acct = null;
     $scope.isLoading = true;
+    $scope.streamConnectError = false;
     $scope.noUsage = false;
     $scope.hideComponent = true;
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
@@ -83,6 +84,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         })
         .success(function (data, status, headers, config) {
             $scope.isLoading = false;
+            $scope.streamConnectError = false;
             $scope.data = data;
 
             if (firstLoad)
@@ -101,6 +103,10 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             
             $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit * GIGA;
             updateDeviceTotals();
+        })
+        .error(function() {
+            $scope.isLoading = false;
+            $scope.streamConnectError = true; 
         });
 
     }

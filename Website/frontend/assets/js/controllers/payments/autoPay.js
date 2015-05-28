@@ -6,6 +6,7 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
     $scope.modalInstance = {};
     $scope.newAccount = '';
     $scope.isLoading = true;
+    $scope.streamConnectError = false;
     $scope.formData = {
         nickname: '',
         paymentAccount: {}
@@ -51,9 +52,13 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
                 $scope.successMessage = false;
                 $scope.errorMessage = false;
                 $scope.isLoading = false;
+                $scope.streamConnectError = false;
                 if ($scope.account.autoPay.isEnabled && $scope.account.autoPay.paymentMethodId == "00000000-0000-0000-0000-000000000000") {
                     $scope.showUnknownOption = true;
                 }
+            }).error(function() {
+                $scope.isLoading = false;
+                $scope.streamConnectError = true; 
             });
         }
     });

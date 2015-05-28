@@ -8,12 +8,17 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 	$scope.isLoading = true;
 	$scope.successMessage = false;
 	$scope.failureMessage = false;
+	$scope.streamConnectError = false;
 
 	// get the current data
 	$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
 		$scope.formData = data;
 		$scope.formDataOriginal = angular.copy($scope.formData);
 		$scope.isLoading = false;
+		$scope.streamConnectError = false; 
+	}).error(function() {
+		$scope.isLoading = false;
+        $scope.streamConnectError = true; 
 	});
 
 	// when a new account is added, reload the data

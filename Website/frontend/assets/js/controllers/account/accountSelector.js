@@ -19,9 +19,11 @@ ngApp.controller('AcctAccountSelectorCtrl', ['$scope', '$rootScope', '$http', fu
 		    //$scope.currentSubAccount = $scope.currentAccount.subAccounts[0];
 		    $scope.updateSelectedAccount($scope.currentAccount.accountNumber, $scope.currentAccount.subAccountLabel, $scope.currentSubAccount);
 		}
-		
+		$scope.streamConnectError = false; 
 
-	});
+	}).error(function () { 
+        $scope.streamConnectError = true; 
+    });
 
 	$scope.updateSelectedAccount = function(accountNumber, subAccountLabel, subaccount) {
 		$scope.selectedAccount.accountNumber = accountNumber;

@@ -370,6 +370,12 @@ article, .modal-body {
             @include retina-background("success.png", "icon");
         }
     }
+    #validation-summary {
+    	ul {
+    		margin: 0;
+    		padding-left: 20px;
+    	}
+    }
     .loadingMessage {
         position: absolute;
         top: 0;

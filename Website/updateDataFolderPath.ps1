@@ -15,5 +15,7 @@ $webConfig = 'E:\sitesroot\0\Web.config'
 $doc = (Get-Content $webConfig) -as [Xml]
 $obj = $doc.configuration.sitecore['sc.variable'] | where {$_.Name -eq 'dataFolder'}
 $obj.value = $storageDir
+$obj2 = $doc.configuration.sitecore['sc.variable'] | where {$_.Name -eq 'tempFolder'}
+$obj2.value = $storageDir + '\temp'
 
 $doc.Save($webConfig)
