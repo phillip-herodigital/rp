@@ -1184,6 +1184,10 @@
     <Content Include="Views\Components\Marketing\Mobile\Mobile SIM Activation.cshtml" />
     <Content Include="Views\Components\Email\Blog Summary.cshtml" />
     <Content Include="Views\Components\Account\Error Messages\Stream Connect Errors.cshtml" />
+    <Content Include="Views\Components\Currents Header.cshtml" />
+    <Content Include="Views\Components\Currents Footer.cshtml" />
+    <Content Include="Views\Pages\Currents\BlogListing.cshtml" />
+    <Content Include="Views\Pages\Currents\BlogPost.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
