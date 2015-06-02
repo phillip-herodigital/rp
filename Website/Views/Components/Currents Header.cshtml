@@ -43,53 +43,37 @@
     var settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(blogDataSourceItem != null ? blogDataSourceItem : Sitecore.Context.Item);
 
 }
-<header class="site-header" main-nav="@selectedNavItem" data-fixed-fix>
+<header class="site-header currents__header" main-nav="@selectedNavItem" data-fixed-fix>
     <script id="mobileNav" type="text/ng-template">
         <nav class="mobile-nav" mobile-nav="@selectedNavItem">
             <ul>
-                @foreach (var node in topLevelNavigation)
-                {
-                    <li ng-class="{ opened: subnav == @node.Number }">
-                        <span>
-                            @if (node.Value.HasChildNodes)
-                            {
-                                <span class="arrow" ng-click="toggleSubnav(@node.Number)"><i ng-class="{'icon-nav-arrow-expanded': subnav == @node.Number, 'icon-nav-arrow-collapsed': subnav != @node.Number}"></i></span>
-                            }
-                            @Html.Sitecore().Field("Navigation Link", node.Value.Item)
-                        </span>
-                        @if (node.Value.HasChildNodes)
-                        {
-                            <ul ng-hide="subnav != @node.Number">
-                                @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
-                                {
-                                    <li>@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
-                                }
-                            </ul>
-                        }
-                    </li>
-                }
+                <li ng-class="">
+                    <span>
+                        <a href="#">Events</a>
+                    </span>
+                        
+                </li>
                 <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                 <li><a href="/auth/login">Back to Mystream.com</a></li>
             </ul>
         </nav>
     </script>
-    <div class="wrapper">
-        <a href="/" class="logo">Stream</a>
+    <div class="layout">
+        <a href="/" class="logo">Currents</a>
+        <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+        <nav class="main-nav currents-nav">
+            <ul class="wrapper">
+                <li class="nav-events" ng-class="{ selected: false }"><a href="#">Events</a></li>
+                <li class="nav-promotions" ng-class="{ selected: false }"><a href="#">Promotions</a></li>
+                <li class="nav-recognition" ng-class="{ selected: false }"><a href="#">Recognition</a></li>
+            </ul>
+        </nav>
         <div class="utility">
             <ul>
                 <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                 <li><a href="/auth/login">Back to Mystream.com</a></li>
             </ul>
         </div>
-        <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
-        <nav class="main-nav">
-            <ul class="wrapper">
-                @foreach (var node in topLevelNavigation)
-                {
-                    <li class="nav-@node.Number nav-@node.Value.Item.Name.ToLowerInvariant()" ng-class="{ selected: subnav==@node.Number }">@Html.Sitecore().Field("Navigation Link", @node.Value.Item)</li>
-                }
-            </ul>
-        </nav>
     </div>
     
 </header>
@@ -110,7 +94,7 @@
     }
 }
 
-<carousel interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
+<carousel class="currents__carousel" interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
     <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
         <div class="wrapper">
             <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>

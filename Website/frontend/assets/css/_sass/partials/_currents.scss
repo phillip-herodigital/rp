@@ -6,17 +6,74 @@
 }
 
 /*
-    Generic Styling for all Currents <article> elements
+    Currents header
  */
-.currents__box {
-    
+.currents__header {
+    background: image-url('bg/currents-header-bg.png') top center no-repeat;
+    position: relative;
+    height: 300px;
+    z-index: 9000;
+    .layout {
+        background-color: transparent;
+        padding-bottom: 0;
+        @include box-shadow(none);
+    }
+    .logo {
+        @include image-replace("bg/currents-logo-desktop.png", "bg2x/currents-logo-desktop.png");
+        float: left;
+        margin-top: 30px;
+        margin-bottom: 28px;
+    }
+    .currents-nav {
+        float: left !important;
+        margin: 0 0 0 40px !important;
+        ul { 
+            display: table;
+        }
+        li {
+            margin-right: 15px;
+            height: 85px !important;
+            display: table-cell !important;
+            vertical-align: bottom !important;
+            padding: 0 35px !important;
+            background-repeat: no-repeat;
+            background-position-y: 50px;
+            a {
+                color: #2a2a2a !important;
+                font-size: 16px !important;
+                font-weight: 500 !important;
+                padding: 4px 0 !important;
+            }
+            &.nav-events {
+                @include retina-background('currents-events.png', 'icon');
+                a {
+                    border-top: 5px solid #00a3e0;
+                }
+            }
+            &.nav-promotions {
+                @include retina-background('currents-promotions.png', 'icon');
+                a {
+                    border-top: 5px solid #97c93d;
+                }
+            }
+            &.nav-recognition {
+                @include retina-background('currents-recognition.png', 'icon');
+                a {
+                    border-top: 5px solid #f99d25;
+                }
+            }
+        }
+    }
+}
+.currents__carousel {
+    margin-top: -180px;
 }
 
 /*
-    Currents navigation
+    Generic Styling for all Currents <article> elements
  */
-.currents__nav {
-    
+.currents__box {
+
 }
 
 /*
