@@ -472,7 +472,7 @@
             </div>
             <div class="item group-col" @offer.Validation().ErrorClass(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectTime)>
                 <ul class="checkbox-list">
-                    <li><input type="checkbox" name="current-active-service" id="current-active-service" ng-model="currentActiveService" ng-change="selectedOffer.offerOption.connectTime = 'All Day'"><label for="current-active-service">@Html.Sitecore().Field("GA Current Active Service Label")</label></li>
+                    <li><input type="checkbox" name="current-active-service" id="current-active-service" ng-model="currentActiveService" ng-change="selectedOffer.offerOption.connectTime = 'AllDay'"><label for="current-active-service">@Html.Sitecore().Field("GA Current Active Service Label")</label></li>
                 </ul>
                 <span class="connect-time">
                     <select id="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectTime))"
