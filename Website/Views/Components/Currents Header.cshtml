@@ -47,32 +47,36 @@
     <script id="mobileNav" type="text/ng-template">
         <nav class="mobile-nav" mobile-nav="@selectedNavItem">
             <ul>
-                <li ng-class="">
-                    <span>
-                        <a href="#">Events</a>
-                    </span>
-                        
-                </li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">Promotions</a></li>
+                <li><a href="#">Recognition</a></li>
+                <li><a href="/">Rates</a></li>
                 <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
-                <li><a href="/auth/login">Back to Mystream.com</a></li>
+                <li><a href="/">Back to Mystream.com</a></li>
             </ul>
         </nav>
     </script>
     <div class="layout">
-        <a href="/" class="logo">Currents</a>
+        <a href="/currents" class="logo">Currents</a>
         <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
         <nav class="main-nav currents-nav">
             <ul class="wrapper">
-                <li class="nav-events" ng-class="{ selected: false }"><a href="#">Events</a></li>
-                <li class="nav-promotions" ng-class="{ selected: false }"><a href="#">Promotions</a></li>
-                <li class="nav-recognition" ng-class="{ selected: false }"><a href="#">Recognition</a></li>
+                <li class="nav-events" ng-class="{ selected: false }"><a href="#"><span class="color-block"></span>Events</a></li>
+                <li class="nav-promotions" ng-class="{ selected: false }"><a href="#"><span class="color-block"></span>Promotions</a></li>
+                <li class="nav-recognition" ng-class="{ selected: false }"><a href="#"><span class="color-block"></span>Recognition</a></li>
             </ul>
         </nav>
-        <div class="utility">
+        <div class="right-nav">
             <ul>
+                <li>@Html.Sitecore().Field("Rates Dropdown", blogDataSourceItem)</li>
                 <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
-                <li><a href="/auth/login">Back to Mystream.com</a></li>
+                <li><a href="/">@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</a></li>
             </ul>
+            <div class="search">
+                <form>
+                    <input name="currentsSearch" type="search" id="currentsSearch" class="typeahead" placeholder="@Html.Sitecore().Field("Search Text", blogDataSourceItem)" />
+                </form>
+            </div>
         </div>
     </div>
     

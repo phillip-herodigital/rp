@@ -1,6 +1,10 @@
 /*
     Generic styling for Currents blog
  */
+$events-color: #00a3e0;
+$promotions-color: #97c93d;
+$recognition-color: #f99d25;
+
 .currents {
     
 }
@@ -32,7 +36,7 @@
         }
         li {
             margin-right: 15px;
-            height: 85px !important;
+            height: 86px !important;
             display: table-cell !important;
             vertical-align: bottom !important;
             padding: 0 35px !important;
@@ -40,26 +44,102 @@
             background-position-y: 50px;
             a {
                 color: #2a2a2a !important;
+                background-color: #fff;
                 font-size: 16px !important;
                 font-weight: 500 !important;
-                padding: 4px 0 !important;
+                padding: 0 0 4px !important;
+                .color-block {
+                    height: 58px;
+                    display: block;
+                    @include transition(background-color 0.2s linear);
+                }
+                &:hover .color-block {
+                    @include transition(background-color 0.2s linear);
+                }
             }
             &.nav-events {
                 @include retina-background('currents-events.png', 'icon');
                 a {
-                    border-top: 5px solid #00a3e0;
+                    .color-block {
+                        border-bottom: 5px solid $events-color;
+                    }
+                    &:hover .color-block {
+                        background-color: $events-color;
+                    }
                 }
             }
             &.nav-promotions {
                 @include retina-background('currents-promotions.png', 'icon');
                 a {
-                    border-top: 5px solid #97c93d;
+                    .color-block {
+                        border-bottom: 5px solid $promotions-color;
+                    }
+                    &:hover .color-block {
+                        background-color: $promotions-color;
+                    }
                 }
             }
             &.nav-recognition {
                 @include retina-background('currents-recognition.png', 'icon');
                 a {
-                    border-top: 5px solid #f99d25;
+                    .color-block {
+                        border-bottom: 5px solid $recognition-color;
+                    }
+                    &:hover .color-block {
+                        background-color: $recognition-color;
+                    }
+                }
+            }
+        }
+    }
+    .right-nav {
+        float: right;
+        padding: 15px 10px;
+        color: #00a3e0;
+        font-size: 12px;
+        font-weight: 300;
+        text-transform: uppercase;
+        a {
+            color: inherit;
+        }
+        ul {
+            @include inline-block-list();
+            display: inline;
+            li {
+                border-left: 1px solid #00a3e0;
+                padding: 0 1em;
+            }
+            li:first-child {
+                border: none;
+            }
+            li:last-child {
+                padding-right: 0;
+            }
+        }
+        .search {
+            margin-top: 10px;
+            input {
+                float: right;
+                width: 265px;
+                border-color: #66afe9;
+                @include retina-background('blue-search.png', 'icon'); 
+                background-position: 95% center;
+                background-repeat: no-repeat;
+                &::-webkit-input-placeholder {
+                    color: #00a3e0;
+                    text-transform: uppercase;
+                }
+                &:-moz-placeholder { /* Firefox 18- */
+                    color: #00a3e0;
+                    text-transform: uppercase;  
+                }
+                &::-moz-placeholder {  /* Firefox 19+ */
+                    color: #00a3e0;
+                    text-transform: uppercase;
+                }
+                &:-ms-input-placeholder {  
+                    color: #00a3e0;
+                    text-transform: uppercase;
                 }
             }
         }
