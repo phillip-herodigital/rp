@@ -391,18 +391,18 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <div class="item" data-val-error="simNumber" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' && customerType == 'commercial'">
+                                    <div class="item" data-val-error="activationCode" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'">
                                         <label>
                                             @Html.Sitecore().Field("Header - SIM Card Number")
                                             <span class="label-description">@Html.Sitecore().Field("Text - SIM Card Number Note")</span>
                                         </label>
                                         <div class="btn-group-options">
                                             <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
-                                            <input type="text" name="simNumber" ng-model="phoneOptions.simNumber" />
+                                            <input type="text" class="byo-input" name="activationCode" ng-model="phoneOptions.activationCode" ng-blur="validateActivationCode()" />
                                             <span class="note"><a href="" ng-click="showModal('instructions/sim')">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></span>
                                         </div>
                                     </div>
-                                    <hr ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' && customerType == 'commercial'" />
+                                    <hr ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
                                     <div class="item">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
@@ -523,21 +523,21 @@
                         <div class="content additional-device" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                             <div class="new-line new-byod" ng-if="mobileEnrollmentService.selectedNetwork.value != 'sprint' || mobileEnrollmentSettings.sprintByod">
                                 @Html.Sitecore().Field("Bring A Device")
-                                <button type="button" ng-click="addDeviceToCart('existing')" ng-disabled="addDevice.$invalid || esnInvalid">@Html.Sitecore().Field("Bring A Device Link")</button>
+                                <button type="button" ng-click="addDeviceToCart('existing')" ng-disabled="addDevice.$invalid || esnInvalid || activationCodeInvalid">@Html.Sitecore().Field("Bring A Device Link")</button>
                             </div>
                             <div class="new-line-or" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 @Html.Sitecore().Field("Or")
                             </div>
                             <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 @Html.Sitecore().Field("Shop Phones")
-                                <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid || esnInvalid">@Html.Sitecore().Field("Shop Phones Link")</button>
+                                <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid || esnInvalid || activationCodeInvalid">@Html.Sitecore().Field("Shop Phones Link")</button>
                             </div>
                             <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && !mobileEnrollmentSettings.attBuyPhone)"></div>
                         </div>
                         <div class="content additional-device" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && !mobileEnrollmentSettings.sprintByod">
                             <div class="new-line" ng-if="(mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhone) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhone)">
                                 @Html.Sitecore().Field("Shop Phones")
-                                <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid || esnInvalid">@Html.Sitecore().Field("Shop Phones Link")</button>
+                                <button type="button" ng-click="addDeviceToCart('new')" ng-disabled="addDevice.$invalid || esnInvalid || activationCodeInvalid">@Html.Sitecore().Field("Shop Phones Link")</button>
                             </div>
                             <div class="new-line"></div>
                         </div>
@@ -545,7 +545,7 @@
                     <div class="enrollment__choose-device">
                         <div class="buttons" ng-if="mobileEnrollment.phoneTypeTab == 'existing' || selectedPhone">
                             <span class="complete-step" ng-if="mobileEnrollmentSettings.disableSharedPlans != true">@Html.Sitecore().Field("Complete Step Text")</span>
-                            <button type="submit" class="primary" ng-disabled="isCartFull() || esnInvalid" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
+                            <button type="submit" class="primary" ng-disabled="isCartFull() || esnInvalid || activationCodeInvalid" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
                             <button type="button" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Button")</button>
                         </div>
                         <p class="footnotes" ng-if="mobileEnrollment.phoneTypeTab == 'new'">@Html.Sitecore().Field("Footnotes")</p>
