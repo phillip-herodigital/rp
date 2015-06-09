@@ -1,6 +1,6 @@
 @{
     var siteFooter = Sitecore.Context.Database.GetItem("{9D39657B-DE17-49AB-98ED-6391329B8223}");
-    var blogDataSourceItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/Currents");
+    var blogDataSourceItem = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
 }
 <footer class="currents__footer">
     <div class="logos">
@@ -18,18 +18,15 @@
         <div class="wrapper">
             <div class="links">
                 <ul>
-                    <li><a href="#">Recent Posts</a></li>
-                    <li><a href="#">Associate Promotions</a></li>
-                    <li><a href="#">Customer Promotions</a></li>
-                    <li><a href="#">Event Calendar</a></li>
-                    <li><a href="#">Recognition</a></li>
+                    <li>@Html.Sitecore().Field("Footer Link 1", blogDataSourceItem)</li>
+                    <li>@Html.Sitecore().Field("Footer Link 2", blogDataSourceItem)</li>
+                    <li>@Html.Sitecore().Field("Footer Link 3", blogDataSourceItem)</li>
+                    <li>@Html.Sitecore().Field("Footer Link 4", blogDataSourceItem)</li>
+                    <li>@Html.Sitecore().Field("Footer Link 5", blogDataSourceItem)</li>
                 </ul>
             </div>
-
             <div class="site-footer-legal">
-                <p>
-                    &copy; 2005-2015 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC.  |  To subscribe to the Stream Currents email, <a href="#">CLICK HERE</a>.
-                </p>
+                @Html.Sitecore().Field("Copyright Content", blogDataSourceItem)
             </div>
         </div>
     </div>

@@ -39,7 +39,7 @@
     var topLevelNavigation = SiteMap.RootNode.ChildNodes.Cast<ItemSiteMapNode>().Select((n, i) => new { Value = n, Number = i + 1 }).ToArray();
     var selectedNavItem = topLevelNavigation.Where(node => selectedNode != null && (node.Value.Key == selectedNode.Key || selectedNode.IsDescendantOf(node.Value))).Select(node => node.Number).FirstOrDefault();
 
-    var blogDataSourceItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/Currents");
+    var blogDataSourceItem = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
     var settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(blogDataSourceItem != null ? blogDataSourceItem : Sitecore.Context.Item);
 
 }
