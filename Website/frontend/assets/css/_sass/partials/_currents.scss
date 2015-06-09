@@ -171,5 +171,52 @@ $recognition-color: #f99d25;
     Currents footer
  */
 .currents__footer {
-    
+    clear: both;
+    color: #fff;
+    border-top: 1px solid #f5f5f5;
+    a {
+        color: #fff;
+    }
+    .logos {
+        @extend .clearfix;
+        background: #333 image-url('marketing/redesign/footer-section-bottom-rule.png') center bottom repeat-x;
+        padding: 45px 0;
+        text-align: center;
+        .logo {
+            @include image-replace("bg/logo-footer.png", "bg2x/logo-footer.png");
+        }
+        ul {
+            @include inline-block-list();
+            li {
+                margin: 0 20px;
+            }
+        }
+    }
+    .footer-links {
+        background-color: #2f9bce;
+        .links {
+            padding: 35px 0;
+            text-align: center;
+            ul {
+                @include inline-block-list();
+                li {
+                    margin: 0 25px;
+                    a {
+                        font-size: 16px;
+                        text-transform: uppercase;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+    .site-footer-legal {
+        border-top: 1px solid #44a5d3;
+        padding: 20px 0;
+        font-size: 14px;
+        text-align: center;
+        a {
+            font-weight: bold;
+        }
+    }
 }

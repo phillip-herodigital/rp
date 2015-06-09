@@ -1,65 +1,36 @@
 @{
-    var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"] ?? Sitecore.Context.Item.Fields["Hide Super Footer"];
-    var showSuperFooter = hideSuperFooterField == null || hideSuperFooterField.Value != "1";
-
-    var supportEMail = Html.Sitecore().CurrentItem["Support E-Mail"];
+    var siteFooter = Sitecore.Context.Database.GetItem("{9D39657B-DE17-49AB-98ED-6391329B8223}");
+    var blogDataSourceItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/Currents");
 }
-<footer class="site-footer">
-    @*<div class="contact">
+<footer class="currents__footer">
+    <div class="logos">
         <div class="wrapper">
-            <div class="grid three">
-                <div class="col support">@Html.Sitecore().Field("Support Message")</div>
-                <div class="col"><a href="@Html.Sitecore().CurrentItem["Support Phone Number URI"]"><i class="icon-call"></i> @Html.Sitecore().Field("Support Phone Number")</a></div>
-                <div class="col"><a href="mailto:@supportEMail"><i class="icon-email"></i> @Html.Sitecore().Field("Support E-Mail")</a></div>
-            </div>
-        </div>
-    </div>*@
-    <div class="wrapper">
-        @if (showSuperFooter)
-        {
-            <div class="grid five links">
-            @foreach (var linkGroupItem in Html.Sitecore().CurrentItem.Children.Where(item => item.TemplateName == "Link Group"))
-            {
-                <div class="col">
-                    <h4>@Html.Sitecore().Field("Name", linkGroupItem)</h4>
-                    <ul>
-                        @foreach (var navigationItemItem in linkGroupItem.Children.Where(item => item.TemplateName == "Navigation Item"))
-                        {
-                            <li>@Html.Sitecore().Field("Navigation Link", navigationItemItem)</li>
-                        }
-                    </ul>
-                </div>
-            }
-            </div>
-            <div class="logos">
-                <a href="/" class="logo">Stream</a>
-                <ul>
-                    <li><a href="@Html.Sitecore().Field("Facebook Page")" target="_blank"><i class="icon-facebook"></i></a></li>
-                    <li><a href="@Html.Sitecore().Field("Twitter Page")" target="_blank"><i class="icon-twitter"></i></a></li>
-                    <li><a href="@Html.Sitecore().Field("YouTube Page")" target="_blank"><i class="icon-youtube"></i></a></li>
-                    <li><a href="@Html.Sitecore().Field("Pinterest Page")" target="_blank"><i class="icon-pinterest"></i></a></li>
-                </ul>
-            </div>
-        }
-        @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
-        {
-            <div class="wrapper clearfix footnotes">
-                @Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
-            </div>
-        }
-        <div class="site-footer-legal">
             <ul>
-                <li><a href="@Html.Sitecore().Field("BBB Page")" target="_blank"><i class="icon-bbb"></i></a></li>
-                <li><a href="@Html.Sitecore().Field("DSA Page")" target="_blank"><i class="icon-dsa"></i></a></li>
+                <li><a href="/" class="logo">Stream</a></li>
+                <li><a href="@Html.Sitecore().Field("Facebook Page", siteFooter)" target="_blank"><i class="icon-facebook"></i></a></li>
+                <li><a href="@Html.Sitecore().Field("Twitter Page", siteFooter)" target="_blank"><i class="icon-twitter"></i></a></li>
+                <li><a href="@Html.Sitecore().Field("YouTube Page", siteFooter)" target="_blank"><i class="icon-youtube"></i></a></li>
+                <li><a href="@Html.Sitecore().Field("Pinterest Page", siteFooter)" target="_blank"><i class="icon-pinterest"></i></a></li>
             </ul>
-            <p>
-                @Html.Sitecore().Field("Copyright Content")
-            </p>
         </div>
     </div>
-    <div class="legal">
+    <div class="footer-links">
         <div class="wrapper">
-            @Html.Sitecore().Field("Legal Links")
+            <div class="links">
+                <ul>
+                    <li><a href="#">Recent Posts</a></li>
+                    <li><a href="#">Associate Promotions</a></li>
+                    <li><a href="#">Customer Promotions</a></li>
+                    <li><a href="#">Event Calendar</a></li>
+                    <li><a href="#">Recognition</a></li>
+                </ul>
+            </div>
+
+            <div class="site-footer-legal">
+                <p>
+                    &copy; 2005-2015 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC.  |  To subscribe to the Stream Currents email, <a href="#">CLICK HERE</a>.
+                </p>
+            </div>
         </div>
     </div>
 </footer>
