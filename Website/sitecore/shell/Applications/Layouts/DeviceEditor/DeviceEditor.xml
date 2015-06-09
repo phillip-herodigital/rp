@@ -27,6 +27,17 @@
         padding: 1px 3px;
         }
 
+        .scTestContainer{
+        background-color: #934444;
+        color: White;
+        float: left;
+        left: 20px;
+        position: absolute;
+        text-align: center;
+        top: 0px;
+        padding: 1px 3px;
+        }
+
         .scLongConditionContainer
         {
         left:16px;
@@ -37,17 +48,27 @@
         position: absolute;
         top: 0;
         right: 0;
-        width: 90px;
         text-align: right;
         white-space: normal;
         }
 
+        .optionButtons .scButton{
+        width: 100%;
+        margin: 0;
+        display: block;
+        }
+
         #Renderings, #Placeholders {
-        margin-right: 90px;
+        margin-right: 110px;
+        }
+
+        #Renderings > div:hover, #Placeholders > div:hover {
+        background-color: #E3E3E3;
+        cursor: pointer;
         }
 
         .ie .lang_ja_jp #Renderings {
-        margin-right: 110px;
+        margin-right: 140px;
         }
 
       </Stylesheet>
@@ -60,7 +81,7 @@
           <TreePicker ID="Layout" DataContext="LayoutDataContext" SelectOnly="true" AllowNone="true" Width="100%"/>
         </Tab>
 
-        <Tab ID="ControlsTab" Header="Controls"> 
+        <Tab ID="ControlsTab" Header="Controls">
           <div class="scStretch">
             <Scrollbox ID="Renderings" Padding="0px" />
             <div class="optionButtons">

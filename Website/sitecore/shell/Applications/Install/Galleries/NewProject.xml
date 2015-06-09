@@ -2,8 +2,6 @@
 <control xmlns:def="Definition">
   <Installer.Gallery.NewProject>
     <Gallery>
-      <Stylesheet Src="/sitecore/shell/Applications/Content Manager/Content Editor.css"/>
-
       <CodeBeside Type="Sitecore.Shell.Applications.Install.Galleries.NewProject, Sitecore.Client"/>
 
       <GridPanel Width="100%" Height="100%">

@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <information>
   <version>
-    <major>7</major>
-    <minor>2</minor>
+    <major>8</major>
+    <minor>0</minor>
     <build>
     </build>
-    <revision>140228</revision>
+    <revision>150427</revision>
   </version>
-  <date>February 28, 2014</date>
+  <date>April 27, 2015</date>
   <title>Sitecore.NET</title>
   <company>Sitecore Corporation</company>
   <copyright>© Sitecore. All rights reserved.</copyright>

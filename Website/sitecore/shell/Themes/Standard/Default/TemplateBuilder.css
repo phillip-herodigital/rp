@@ -6,26 +6,19 @@
 }
 
 .scTableHeader {
-	background: threedface url(/sitecore/shell/themes/standard/images/listviewheader16x17.png) repeat-x;
+	background-color:#ccc;
 	border-left: 1px solid #E0E0E0;
 	border-right: 1px solid #FFF;
 	color: #373738;
 	height: 17px;
 	padding: 1px 3px 1px 3px;
-	text-align: left;
+	text-align: center;
 	white-space: nowrap;
 }
 
 /* Section */
 
 .scTableSection {
-  margin: 8px 0px 0px 0px;
-  padding: 3px;
-}
-
-.ff .scTableSection {
-  padding-right: 8px;
-  padding-bottom: 4px;
 }
 
 .scTableSectionRow {
@@ -38,13 +31,9 @@
 /* Field */
 
 .scTableFieldRow td {
-  padding: 2px;
+
 }
 
-.ff .scTableFieldRow td {
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
 
 .scTableFieldRow .scTableFieldName {
   padding-left: 32px;
@@ -52,10 +41,10 @@
 }
 
 .ff .scTableFieldRow .scTableFieldName {
-  padding-right: 6px;
 }
 
 .scTableFieldType {
+    min-width: 140px;
 }
 
 .scTableFieldSource {

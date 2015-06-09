@@ -1,32 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition">
   <Installer.ItemSourceRootEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.ItemSourceRootEditor,Sitecore.Client">
-    <Stylesheet>
+    <Stylesheet Key="Style">
       .scSelectRootItem{
-      margin-top:40px;
-      height:auto;
+      margin-top:10px;
+      height:calc(100% - 45px);
+      }
+
+      .scTreeHeaderItem {
+      width: 100% !important;
       }
     </Stylesheet>
     <Border Height="100%" Padding="$Padding" Style="$Style" Class="$Class">
       <DataContext def:ID="DataContext" Root="/" filter="@@virtual=0"/>
 
-      <Border class="scStretch">
-        <Border Padding="8px 0px 0px" height="2em">
-          <GridPanel Width="100%" Columns="2">
-            <Literal Text="Database:&#160;" Style="white-space:nowrap;margin-right:0.5em"/>
+      <GridPanel columns="2" class="scFormTable">
+        <Literal Text="Database:&#160;"/>
+        <Combobox def:ID="Databases" Change="ChangeDatabase"/>
+      </GridPanel>
 
-            <Combobox def:ID="Databases" Change="ChangeDatabase" Width="100%" Padding="0px 0px 0px 4px" GridPanel.Width="100%"/>
-          </GridPanel>
-        </Border>
 
-        <Scrollbox Class="scScrollbox scStretchAbsolute scSelectRootItem">
-          <DataTreeview def:ID="Treeview" Root="true">
-            <TreeHeader>
-              <TreeHeaderItem Name="name" Header="Name"/>
-            </TreeHeader>
-          </DataTreeview>
-        </Scrollbox>
-      </Border>
+      <Scrollbox Class="scScrollbox scSelectRootItem">
+        <DataTreeview def:ID="Treeview" Root="true">
+          <TreeHeader>
+            <TreeHeaderItem Name="name" Header="Name"/>
+          </TreeHeader>
+        </DataTreeview>
+      </Scrollbox>
+
 
     </Border>
   </Installer.ItemSourceRootEditor>

@@ -6,6 +6,7 @@ var dataSourceViewType = 'DataSource';
 var rteViewType = 'Rte';
 var mediaViewType = 'Media';
 var indexName;
+var databaseName;
 var DefaultPageSize = 20;
 /*****************************************/
 
@@ -171,6 +172,7 @@ function runQuery(o, pageNumber, onSuccessFunction, onErrorFunction, pageSize) {
   }
 
   var internalIndexName = indexName != undefined ? indexName : "";
+  var dbName = databaseName != undefined ? databaseName : "";
   var parameters = {
     q: __scCleanupProperties(o),
     pageNumber: pageNumber,
@@ -178,7 +180,8 @@ function runQuery(o, pageNumber, onSuccessFunction, onErrorFunction, pageSize) {
     pageSize: pageSize,
     version: "1",
     id: getParameterByName("id"),
-    indexName: internalIndexName
+    indexName: internalIndexName,
+    db: dbName
   };
 
   __includeAdditionalParameters(parameters);

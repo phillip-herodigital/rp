@@ -68,10 +68,10 @@ Sitecore.PageModes.Personalization.Condition = Base.extend({
       },
 
       error:function(xhr, textStatus, errorThrown) {
-        // TODO: display error message
         destination.html("");
         destination.removeClass("scConditionDescriptionUpdating");
         console.error(textStatus);
+        alert(Sitecore.PageModes.Texts.ErrorOcurred);
       }
     });    
   }

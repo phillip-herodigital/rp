@@ -11,11 +11,14 @@
       { name: "watermark", value: "$el.prop:placeholder" }
     ],
     events: {
-      "keyup": "checkEnterKey"
+      "keypress": "checkEnterKey"
     },
     checkEnterKey: function (e) {
-      e.keyCode == '13' ? this.$el.change() : $.noop();
+      //it was done to overcome the case when pressing enter doesn't trigger the 'change' event of the 'text' property.
+      if (e.keyCode === 13) {
+        this.$el.blur().focus();
+        e.preventDefault();
+      }
     }
-
   });
 });

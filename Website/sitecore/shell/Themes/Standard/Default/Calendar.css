@@ -131,3 +131,19 @@
 .military .amPmControl {
   display: none !important;
 }
+
+#AMPMInput {
+  width: 44px;
+}
+
+.lang_ja_jp #AMPMInput {
+  width: 52px;
+}
+
+#Hour, #Minute {
+  width: 36px;
+}
+
+.lang_ja_jp #Hour, .lang_ja_jp #Minute {
+  width: 44px;
+}

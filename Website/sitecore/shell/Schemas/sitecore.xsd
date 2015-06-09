@@ -87,7 +87,6 @@
       <xsd:element ref="Menu" />
       <xsd:element ref="ContextMenu" />
       <xsd:element ref="MenuHeader" />
-      <xsd:element ref="MenuLine" />
       <xsd:element ref="MenuPanel" />
       <xsd:element ref="DataContextMenu" />
       <xsd:element ref="Menubar" />
@@ -113,9 +112,6 @@
       <xsd:element ref="Date" />
       <xsd:element ref="Link" />
       <xsd:element ref="Text" />
-      <xsd:element ref="WebEditButton" />
-      <xsd:element ref="WebEditContentEditor" />
-      <xsd:element ref="WebEditRibbon" />
       <xsd:element ref="LanguageMeta" />
       <xsd:element ref="GalleryMenu" />
       <xsd:element ref="Action" />
@@ -207,6 +203,7 @@
     <xsd:attribute name="Hidden" type="xsd:boolean" />
     <xsd:attribute name="Password" type="xsd:boolean" />
     <xsd:attribute name="Value" />
+    <xsd:attribute name="Placeholder" />
   </xsd:attributeGroup>
   <xsd:element name="Edit">
     <xsd:complexType mixed="true">
@@ -578,6 +575,7 @@
   <xsd:attributeGroup name="TimePickerAttributes">
     <xsd:attributeGroup ref="ComboboxBaseAttributes" />
     <xsd:attribute name="Format" />
+    <xsd:attribute name="Value" />
   </xsd:attributeGroup>
   <xsd:element name="TimePicker">
     <xsd:complexType mixed="true">
@@ -885,6 +883,7 @@
   <xsd:attributeGroup name="DatePickerAttributes">
     <xsd:attributeGroup ref="ComboboxBaseAttributes" />
     <xsd:attribute name="Format" />
+    <xsd:attribute name="Value" />
   </xsd:attributeGroup>
   <xsd:element name="DatePicker">
     <xsd:complexType mixed="true">
@@ -1084,15 +1083,6 @@
     <xsd:complexType mixed="true">
       <xsd:group ref="__Content" />
       <xsd:attributeGroup ref="MenuHeaderAttributes" />
-    </xsd:complexType>
-  </xsd:element>
-  <xsd:attributeGroup name="MenuLineAttributes">
-    <xsd:attributeGroup ref="ControlAttributes" />
-  </xsd:attributeGroup>
-  <xsd:element name="MenuLine">
-    <xsd:complexType mixed="true">
-      <xsd:group ref="__Content" />
-      <xsd:attributeGroup ref="MenuLineAttributes" />
     </xsd:complexType>
   </xsd:element>
   <xsd:attributeGroup name="MenuPanelAttributes">
@@ -1385,35 +1375,6 @@
     <xsd:complexType mixed="true">
       <xsd:group ref="__Content" />
       <xsd:attributeGroup ref="TextAttributes" />
-    </xsd:complexType>
-  </xsd:element>
-  <xsd:attributeGroup name="WebEditButtonAttributes" />
-  <xsd:element name="WebEditButton">
-    <xsd:complexType mixed="true">
-      <xsd:group ref="__Content" />
-      <xsd:attributeGroup ref="WebEditButtonAttributes" />
-    </xsd:complexType>
-  </xsd:element>
-  <xsd:attributeGroup name="WebEditControlAttributes" />
-  <xsd:attributeGroup name="WebEditContentEditorAttributes">
-    <xsd:attributeGroup ref="WebEditControlAttributes" />
-  </xsd:attributeGroup>
-  <xsd:element name="WebEditContentEditor">
-    <xsd:complexType mixed="true">
-      <xsd:group ref="__Content" />
-      <xsd:attributeGroup ref="WebEditContentEditorAttributes" />
-    </xsd:complexType>
-  </xsd:element>
-  <xsd:attributeGroup name="WebEditRibbonAttributes">
-    <xsd:attributeGroup ref="WebEditControlAttributes" />
-    <xsd:attribute name="Debug" type="xsd:boolean" />
-    <xsd:attribute name="SiteName" />
-    <xsd:attribute name="WebEdit" type="xsd:boolean" />
-  </xsd:attributeGroup>
-  <xsd:element name="WebEditRibbon">
-    <xsd:complexType mixed="true">
-      <xsd:group ref="__Content" />
-      <xsd:attributeGroup ref="WebEditRibbonAttributes" />
     </xsd:complexType>
   </xsd:element>
   <xsd:attributeGroup name="ErrorControlAttributes">

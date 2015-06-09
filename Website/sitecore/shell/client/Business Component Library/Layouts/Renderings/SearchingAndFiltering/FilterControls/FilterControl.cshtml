@@ -10,10 +10,6 @@
 
   var facets = userControl.GetString("Facets", "Facets");
 
-  // TODO: remove this after refactoring of 03/2013
-  var text = userControl.GetString("TextBinding", "Text");
-  var rootItemId = userControl.GetString("RootItemIdBinding", "RootItemId");  
-
   var htmlAttributes = userControl.HtmlAttributes;
 }       
 <div @htmlAttributes>
@@ -26,9 +22,11 @@
       <tr data-bind="foreach: facetList">
         <td>
           <div data-bind="foreach: $data.values" class="sc-filterControl-panel">
-            <div class="sc-filterControl-item">
-              <label><input class="sc-filterControl-checkbox" type="checkbox" data-bind="disable: count() == 0, checked: checked, attr: { 'data-sc-value': value }" /> 
-              <span data-bind="text: displayText + ' (' + count() + ')'" /></label>
+            <div class="sc-filtercontrol-item">
+              <label>
+                <input type="checkbox" data-bind="disable: count() == 0, checked: checked, attr: { 'data-sc-value': value }" />
+                <span data-bind="text: displayText + ' (' + count() + ')'"></span>
+              </label>
             </div>
           </div>
         </td>

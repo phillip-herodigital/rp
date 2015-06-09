@@ -8,7 +8,7 @@
 
         <GalleryMenu ID="Options"/>
 
-        <Scrollbox ID="List" GridPanel.Height="100%" GridPanel.VAlign="top" Height="100%" Background="#F4F4F5" Padding="0px" Border="none" Class="scScrollbox scFixSize">
+        <Scrollbox ID="List" GridPanel.Height="100%" GridPanel.VAlign="top" Height="100%" Border="none" Class="scScrollbox scFixSize">
           <FavoritesTreeviewEx ID="FavoritesTreeview" DataContext="FavoritesDataContext" Click="FavoritesTreeview_Click" ShowRoot="false"/>
         </Scrollbox>
 

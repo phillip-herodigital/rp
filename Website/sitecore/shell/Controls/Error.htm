@@ -1,147 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sitecore</title>
+    <title>Sitecore</title>
 
-  <style>
-    html, body
-    {
-      height: 100%;
-    }
+    <link href="/sitecore/shell/Themes/Standard/Default/Default.css" type="text/css" rel="stylesheet" />
+    <link href="/sitecore/shell/Themes/Standard/Default/Dialogs.css" type="text/css" rel="stylesheet" />
+    <link href="/sitecore/shell/Controls/Lib/Flexie/flex.css" type="text/css" rel="stylesheet" />
 
-    #Simple
-    {
-      border: 0;
-      width: 100%;
-      height: 100%;
-      background: threedface;
-    }
+    <!--[if IE 9]>
+        <script src="/sitecore/shell/Controls/Lib/Flexie/flexie.min.js"></script>
+    <![endif]-->
 
-    #header
-    {
-      position: absolute;
-      top: 0;
-      padding-top: 8px;
-      width: 100%;
-    }
+    <style>
+        html, body {
+            height: 100%;
+        }
 
-    #headerIcon
-    {
-      padding: 0 8px 0 8px;
-      vertical-align: top;
-      float: left;
-      display: inline-block;
-    }
+        #Simple {
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-      #headerIcon img
-      {
-        display: block;
-      }
+        #header {
+            overflow: hidden;
+        }
 
-    #SimpleText
-    {
-      font: 8pt tahoma;
-      display: block;
-      position: absolute;
-      left: 48px;
-      right: 0;
-      top: 10px;
-    }
+        #headerIcon {
+            padding: 0 8px 0 8px;
+            vertical-align: top;
+            float: left;
+            display: inline-block;
+        }
 
-    #Details
-    {
-      padding: 8px 8px 0 8px;
-      vertical-align: top;
-      width: 100%;
-      position: absolute;
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-    }
+            #headerIcon img {
+                display: block;
+            }
 
-    #footer
-    {
-      padding: 8px 8px 8px 8px;
-      text-align: right;
-      vertical-align: bottom;
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-    }
-  </style>
-  <script type="text/javascript">
+        #Details {
+            height: calc(100% - 65px);
+        }
+    </style>
+    <script type="text/javascript">
 
-    function onLoad() {
-      var text = top._scDialogs[0].dialogArguments[0].___Message ? top._scDialogs[0].dialogArguments[0].___Message : top._scDialogs[0].dialogArguments[0];
+        function onLoad() {
+            var text = top._scDialogs[0].dialogArguments[0].___Message ? top._scDialogs[0].dialogArguments[0].___Message : top._scDialogs[0].dialogArguments[0];
 
-      if (text == null) {
-        var n = location.href.search.indexOf("error=");
-        text = location.location.href.search.substr(n + 6);
-      }
+            if (text == null) {
+                var n = location.href.search.indexOf("error=");
+                text = location.location.href.search.substr(n + 6);
+            }
 
-      var simpleText = "";
+            var simpleText = "";
 
-      var n = text.indexOf("<h2> <i>");
-      if (n >= 0) {
-        simpleText = text.substr(n + 8);
-        n = simpleText.indexOf("</i>");
-        simpleText = simpleText.substr(0, n);
-      }
-      else {
-        simpleText = text;
-      }
+            var n = text.indexOf("<h2> <i>");
+            if (n >= 0) {
+                simpleText = text.substr(n + 8);
+                n = simpleText.indexOf("</i>");
+                simpleText = simpleText.substr(0, n);
+            }
+            else {
+                simpleText = text;
+            }
 
-      if (top._scDialogs[0].dialogArguments == null) {
-        simpleText = simpleText.replace(/\</gi, "&lt;").replace(/\>/gi, "&gt;");
-      }
+            if (top._scDialogs[0].dialogArguments == null) {
+                simpleText = simpleText.replace(/\</gi, "&lt;").replace(/\>/gi, "&gt;");
+            }
 
-      document.getElementById("error").contentWindow.document.write(text);
-      document.getElementById("CopyToClipboard").style.display = (window.clipboardData != null ? "" : "none");
-      document.getElementById("SimpleText").innerHTML = simpleText;
-      document.getElementById("Close1").focus();
-    }
+            document.getElementById("error").contentWindow.document.write(text);
+            document.getElementById("SimpleText").innerHTML = simpleText;
+            document.getElementById("Close1").focus();
 
-    function scShowDetails() {
-      document.getElementById("Details").style.display = "";
-      document.getElementById("Simple").style.height = "100%";
-      document.getElementById("Details1").disabled = true;
+            top.scForm.autoIncreaseModalDialogHeight(null, window);
+        }
 
-      var dialogContentIframe = top._scDialogs[0].contentIframe;
-      if (dialogContentIframe) {
-        dialogContentIframe.dialog("option", "height", 568);
-        dialogContentIframe.dialog('widget').scCenter({ animate: false });
+        function scShowDetails() {
+            document.getElementById("Details").style.display = "";
+            document.getElementById("Simple").style.height = "100%";
+            document.getElementById("Details1").disabled = true;
+            top.scForm.setDialogDimension(null, 568);
+        }
 
-        onResize();
-      }
-    }
-
-    function onResize() {
-      document.getElementById("Details").style.top = document.getElementById("header").clientHeight + "px";
-      document.getElementById("Details").style.bottom = document.getElementById("footer").clientHeight + "px";
-    }
-
-    window.onresize = onResize;
-  </script>
+    </script>
 </head>
-<body onload='javascript:onLoad()' scroll="no" style="margin: 0">
-  <div id="Simple">
-    <div id="header">
-      <div id="headerIcon">
-        <img src="/sitecore/shell/themes/standard/images/error.gif" width="32" height="32" border="0" alt="0" />
-      </div>
-      <div id="SimpleText">
-      </div>
+<body onload='javascript:onLoad();' scroll="no" style="margin: 0">
+    <div id="Simple" class="scStretch" style="height: 100%">
+        <div class="scFormDialogContent" style="height: calc(100% - 56px); position: relative;">
+            <div class="scStretchAbsolute scDialogContentContainer">
+                <div id="header">
+                    <table>
+                        <tr>
+                            <td>
+                                <div id="headerIcon">
+                                    <img src="/sitecore/shell/themes/standard/images/error.png" class="scConfirmationIcon" />
+                                </div>
+                            </td>
+                            <td>
+                                <div id="SimpleText" class="scDialogMessage">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="Details" style="display: none">
+                    <iframe id="error" src="about:blank" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+        </div>
+        <div id="footer" class="scFormDialogFooter">
+            <div class="footerOkCancel">
+                <button id="Details1" class="scButton" onclick="javascript:scShowDetails();">Details</button>
+                <button id="Close1" class="scButton" onclick="javascript:window.top.dialogClose();">Close</button>
+            </div>
+        </div>
     </div>
-    <div id="Details" style="display: none">
-      <iframe id="error" src="about:blank" width="100%" height="100%"></iframe>
-    </div>
-    <div id="footer">
-      <hr />
-      <button id="CopyToClipboard" style="font: 8pt tahoma; border: none; background: transparent; float: left" onclick="window.clipboardData.setData('Text', top._scDialogs[0].dialogArguments[0])">Copy to clipboard</button>
-      <button id="Details1" style="font: 8pt tahoma; width: 75px; height: 25px; margin: 0px 4px 0px 0px" onclick="javascript:scShowDetails()">Details</button>
-      <button id="Close1" style="font: 8pt tahoma; width: 75px; height: 25px" onclick="javascript:window.top.dialogClose();">Close</button>
-    </div>
-  </div>
 </body>
 </html>

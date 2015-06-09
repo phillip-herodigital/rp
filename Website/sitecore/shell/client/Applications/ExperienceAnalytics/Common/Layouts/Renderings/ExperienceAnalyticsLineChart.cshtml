@@ -1,0 +1,24 @@
+﻿@using System.Web.Mvc.Html
+@using Sitecore.ExperienceAnalytics.Client
+@using Sitecore.ExperienceAnalytics.Client.Mvc
+
+@model Sitecore.ExperienceAnalytics.Client.Mvc.Presentation.ExperienceAnalyticsLineChartViewModel
+
+@EmbedChart(Model.Control)
+
+@Html.Partial("/sitecore/shell/client/Applications/ExperienceAnalytics/Common/Layouts/Renderings/Shared/_DvcWrapper.cshtml", Model)
+
+
+@helper EmbedChart(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering)
+{
+    var helper = new RenderingHelper(Html.HtmlHelper(), rendering.ControlId);
+
+    var bindingTitle = "{Binding " + rendering.ControlId + ".title}";
+
+    helper.MakeAdvancedExpander("AdvancedExpander", rendering.ControlId + "Wrapper", bindingTitle, false, entry =>
+    {
+        helper.MakeActionControl("ActionControl", entry, Globals.System.ChartActionControl, ".ActionBar");
+        helper.MakeDataProvider("DataProvider", entry, Model.DataUrl, ".Body");
+        helper.MakeLineChart("LineChart", entry, "", ".Body");
+    });
+}

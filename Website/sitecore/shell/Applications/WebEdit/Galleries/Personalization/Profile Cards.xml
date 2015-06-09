@@ -29,7 +29,7 @@
       }
     </Stylesheet>
     <Gallery>
-      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Galleries.Personalization.ProfileCardsForm, Sitecore.Client"/>
+      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Galleries.Personalization.ProfileCardsForm,Sitecore.ExperienceEditor"/>
       <GridPanel Width="100%" Height="100%" Fixed="true">
         <Scrollbox Width="100%" Height="100%" Padding="0px" Border="none" GridPanel.Class="scFillParent" GridPanel.Height="100%" Class="scFixSize scScrollbox">
           <!--Adding scRibbon css class to make large buttons render properly-->

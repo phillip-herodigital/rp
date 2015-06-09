@@ -1,67 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition">
   <Installer.MetadataEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.MetadataEditor,Sitecore.Client">
+    <Literal class="sc-text-bold scFieldLabel" Text="General Info"/>
 
-    <Installer.FieldSet Header="General Info">
+    <GridPanel Class="scFormTable" Columns="2">
 
-      <Space Height="5px"/>
-      <Literal Text="Package Name" />
+      <Literal Text="Package Name:" />
       <Edit def:ID="PackageName" Width="100%" class="scInstallerField" maxlength="50"/>
 
-      <Space Height="5px"/>
-      <Literal Text="Author"/>
+      <Literal Text="Author:"/>
       <Edit def:ID="Author" Width="100%" Class="scInstallerField"/>
 
-      <Space Height="5px"/>
-      <Literal Text="Version"/>
+      <Literal Text="Version:"/>
       <Edit def:ID="Version" Width="100%" Class="scInstallerField" maxlength="50"/>
 
+      <Literal class="sc-text-bold"  Text="Publishing"/>
+      <Space />
 
-    </Installer.FieldSet>
-
-    <Installer.FieldSet Header="Publishing">
-
-      <Space Height="5px"/>
-      <Literal Text="Publisher"/>
+      <Literal Text="Publisher:"/>
       <Edit def:ID="Publisher" Width="100%" Class="scInstallerField"/>
 
-      <Space Height="5px"/>
-      <Border>
-        <Literal Text="License"/>
-        <Toolbutton Icon="Applications/16x16/edit.png" IconSize="id16x16" Tooltip="Modify..." Click="installer:modifylicense"/>
-      </Border>
-      <Scrollbox Height="200px" Border="solid 1px #dcdcdc">
+      <div>
+        <Literal style="margin-right:5px;" Text="License:"/>
+        <Toolbutton Icon="Office/16x16/edit.png" IconSize="id16x16" Tooltip="Edit the license in the Rich Text Editor." Click="installer:modifylicense"/>
+      </div>
+      <Scrollbox Height="200px" Border="solid 1px #dcdcdc" Padding="10px">
         <Literal def:ID="License" Width="100%"/>
       </Scrollbox>
 
-    </Installer.FieldSet>
+      <Literal class="sc-text-bold" Text="Documentation"/>
+      <Space />
 
-    <Installer.FieldSet Header="Documentation">
+      <Literal Text="Comment:"/>
+      <Memo def:ID="Comment" Width="100%" Height="100px" Padding="10px" Class="scInstallerField"/>
 
-      <Space Height="5px"/>
-      <Literal Text="Comment"/>
-      <Memo def:ID="Comment" Width="100%" Height="100px" Class="scInstallerField"/>
+      <div>
+        <Literal style="margin-right:5px;" Text="Read me:"/>
+        <Toolbutton Icon="Office/16x16/edit.png" IconSize="id16x16" Tooltip="Modify..." Click="installer:modifyreadme"/>
+      </div>
+      <Memo def:ID="Readme" ReadOnly="true" Class="scInstallerField" Width="100%" Height="200px" Style="padding: 10px;"/>
 
-      <Space Height="5px"/>
-      <Border>
-        <Literal Text="Read me"/>
-        <Toolbutton Icon="Applications/16x16/edit.png" IconSize="id16x16" Tooltip="Modify..." Click="installer:modifyreadme"/>
-      </Border>
-      <Memo def:ID="Readme" ReadOnly="true" Class="scInstallerField" Width="100%" Height="200px" Style="scroll:auto"/>
+      <Literal class="sc-text-bold"  Text="System"/>
+      <Space />
 
-    </Installer.FieldSet>
+      <Literal Text="Post Step:" />
+      <Edit def:ID="PostStep" Width="100%" Class="scInstallerField" />
 
-    <Installer.FieldSet Header="System">
-
-      <Space Height="5px" />
-      <Literal Text="Post Step" Margin="0 0 0 2px"/>
-      <Edit def:ID="PostStep" Width="100%" Class="scInstallerField" Margin="0px 2px"/>
-
-      <Space Height="5px" />
-      <Literal Text="Custom Attributes" Margin="0 0 0 2px"/>
-      <Scrollbox Height="200px" Border="none" Padding="0px">
+      <Literal Text="Custom Attributes:"/>
+      <div class="scMetadataCustomAttributes">
         <Installer.AttributesEditor def:ID="CustomAttributes"/>
-      </Scrollbox>
-    </Installer.FieldSet>
+      </div>
+    </GridPanel>
   </Installer.MetadataEditor>
 </control>

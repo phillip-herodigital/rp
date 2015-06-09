@@ -22,7 +22,6 @@ using StreamEnergy.Services.Clients;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
-using EmailFactory = Sitecore.Modules.EmailCampaign.Factory;
 using System.Collections.Specialized;
 using ResponsivePath.Logging;
 

@@ -1,0 +1,26 @@
+﻿@using System.Web.Mvc.Html
+@using Sitecore.ExperienceAnalytics.Client
+@using Sitecore.ExperienceAnalytics.Client
+@using Sitecore.ExperienceAnalytics.Client.Mvc
+
+@model Sitecore.ExperienceAnalytics.Client.Mvc.Presentation.ExperienceAnalyticsAreaChartViewModel
+
+@EmbedChart(Model.Control)
+
+@Html.Partial("/sitecore/shell/client/Applications/ExperienceAnalytics/Common/Layouts/Renderings/Shared/_DvcWrapper.cshtml", Model)
+
+
+@helper EmbedChart(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering)
+{
+  var renderingControlId = rendering.ControlId;
+  var helper = new RenderingHelper(Html.HtmlHelper(), renderingControlId);
+
+  var bindingTitle = "{Binding " + renderingControlId + ".title}";
+
+  helper.MakeAdvancedExpander("AdvancedExpander", renderingControlId + "Wrapper", bindingTitle, false, entry =>
+  {
+    helper.MakeActionControl("ActionControl", entry, Globals.System.ChartActionControl, ".ActionBar");
+    helper.MakeDataProvider("DataProvider", entry, Model.DataUrl, ".Body");
+    helper.MakeAreaChart("AreaChart", entry, "", ".Body");
+  });
+}

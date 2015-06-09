@@ -1,10 +1,13 @@
 ﻿@using Sitecore.Mvc
-<div class="row-fluid">
-  <section class="span9 sc-applicationContent-main">
+<header class="sc-applicationHeader">
+  @Html.Sitecore().Placeholder("ApplicationHeader")
+</header>
+<div class="row sc-contentRowFix">
+  <section class="col-md-9 sc-applicationContent-main">
     @Html.Sitecore().Placeholder("ApplicationContent.Main")
   </section>
 
-  <aside class="span3 sc-applicationContent-info">
+  <aside class="col-md-3 sc-applicationContent-info">
     @Html.Sitecore().Placeholder("ApplicationContent.Info")
   </aside>
 </div>

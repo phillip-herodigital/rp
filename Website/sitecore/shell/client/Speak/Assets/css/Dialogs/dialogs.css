@@ -40,7 +40,7 @@ padding: 5px 0;
   display: block;
 }
 
-.sc-search, div[data-sc-id="TreeView"]
+div[data-sc-id="TreeView"]
 {
   padding-top: 14px;
 }

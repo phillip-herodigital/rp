@@ -25,8 +25,9 @@
         this.set("hasItems", false);
         this.set("hasNoItems", true);
         this.set("hasMoreItems", false);
+        this.set("showHiddenItems", false);
 
-        this.on("change:searchType change:text change:pageSize change:pageIndex change:selectedFacets change:rootItemId change:searchConfig change:sorting", this.refresh, this);
+        this.on("change:searchType change:text change:pageSize change:pageIndex change:selectedFacets change:rootItemId change:searchConfig change:sorting change:showHiddenItems", this.refresh, this);
 
         this.isReady = false;
         this.pendingRequests = 0;
@@ -139,20 +140,29 @@
         if (this.get("sorting") != "") {
           options.sorting = this.get("sorting");
         }
-
+        if(this.get("showHiddenItems")){
+          options.showHiddenItems = true;
+        }
+        
         return options;
       },
 
       completed: function (items, totalCount, result) {
         _sc.debug("SearchDataSource received: ", result);
-        
-        // logic for parsing dates when formatting==$send_localized_dates 
-        if (this.get("formatting") == "$send_localized_dates") {
+        if (result.statusCode === 401) {
+          _sc.Helpers.session.unauthorized();
+          return;
+        }
+
+        // logic for parsing dates when $send_localized_dates formatting is set
+        var formatting = this.get("formatting");
+        if(formatting && formatting.toLowerCase().indexOf("$send_localized_dates") > -1) {
           _.each(items, function (item) {
-            var formatedFields = [];
+            var formattedFields = [];
             _.each(item.$fields, function (field) {
-              if (field.type == "datetime") {
-                formatedFields[field.fieldName] = {
+              var fieldType = field.type ? field.type.toLowerCase() : '';
+              if (fieldType === "datetime" || fieldType === "date") {
+                formattedFields[field.fieldName] = {
                   type: field.type,
                   formattedValue: field.formattedValue,
                   longDateValue: field.longDateValue,
@@ -160,10 +170,14 @@
                 };
               }
             });
+            //obsolete should be removed when the breaking changes can be introduced
             //extend item with formated fields
-            item.$formatedFields = formatedFields;
+            item.$formatedFields = formattedFields;
+
+            //corrected property  '$formatedFields' -> '$formattedFields'
+            item.$formattedFields = formattedFields;
+
           });
-          
         }
 
         if (this.get("pagingMode") == "appending" && this.lastPage > 0) {
@@ -182,8 +196,16 @@
 
         this.pendingRequests--;
         if (this.pendingRequests <= 0) {
-          this.set("isBusy", false);
+          var self = this;          
+          self.set("isBusy", false);
+          
           this.pendingRequests = 0;
+        }
+
+        this.trigger("itemsChanged");
+
+        if (result.statusCode === 500) {
+          this.trigger("error", result.error.message);
         }
       }
     }
@@ -219,13 +241,17 @@
         this.model.set("database", this.$el.attr("data-sc-database") || "core");
         this.model.set("facetsRootItemId", this.$el.attr("data-sc-facets-root-id"));
         this.model.set("formatting", this.$el.attr("data-sc-formatting"));
-        this.model.set("sorting", this.$el.attr("data-sc-sorting"));
+        this.model.set("sorting", this.$el.attr("data-sc-sorting") || this.model.get("sorting"));
         this.model.set("rootItemId", this.$el.attr("data-sc-root-id"));
         this.model.set("text", this.$el.attr("data-sc-text") || "");
         this.model.set("searchConfig", this.$el.attr("data-sc-searchconfig"));
+        this.model.set("showHiddenItems", this.$el.data("sc-showhiddenitems"));
         this.model.set("pagingMode", this.$el.attr("data-sc-pagingmode") || "appending"); // or paged
 
         this.model.isReady = true;
+      },
+
+      afterRender: function () {
         this.refresh();
       },
 

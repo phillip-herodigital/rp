@@ -1,13 +1,14 @@
 ﻿require.config({
   paths: {
-    chartPalette: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Charts/Shared/ChartPalette",
-    chartDictionary: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Charts/Shared/ChartDictionary",
+    chartPalette: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Charts/Shared/ChartPalette"    
   }
 });
 
-define(["chartPalette", "chartDictionary"], function (chartPalette, chartDictionary) {
+define(["chartPalette"], function (chartPalette) {
   var fusionChartsAdapter = {
+    chartDictionary: null,
     propertySeperator: ";",
+    disableSelection: false,
     fusionChartsAttributeNames: {
       axis: "axis",
       category: "category",
@@ -27,9 +28,10 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
     },
 
     // Convert the data into the correct format depending on the dataType
-    convert: function (datasetIndex, dataType, data, dataMapping, thresholdPercentage) {
+    convert: function (datasetIndex, dataType, data, dataMapping, thresholdPercentage, dictionary, disableSelection) {
       "use strict";
-
+      this.chartDictionary = dictionary;
+      this.disableSelection = disableSelection;
       var arrayData = data.dataset[datasetIndex].data,
         localization = data.localization;
 
@@ -88,11 +90,13 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
       return data;
     },
 
+
     // Returns the correctly formatted data for Mapping charts
     mapping: function (arrayData, dataMapping, thresholdPercentage) {
       "use strict";
 
       var data = {};
+
       var minMax = this.setDataMinMax(arrayData, dataMapping.valueChartFields[0].dataField);
       var minValue = minMax.min;
       var maxValue = minMax.max;
@@ -126,7 +130,8 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
           suffix: axes[i].suffix,
           numberScale: axes[i].numberScale,
           decimalSeparator: axes[i].decimalSeparator,
-          thousandSeparator: axes[i].thousandSeparator
+          thousandSeparator: axes[i].thousandSeparator,
+          scaleRecursively: axes[i].scaleRecursively,
         };
         axisDefinitions.push(currentAxisDefinition);
       }
@@ -152,13 +157,13 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         "numberprefix": axisDefinitions.prefix,
         "numbersuffix": axisDefinitions.suffix,
         "decimalSeparator": axisDefinitions.decimalSeparator,
-        "thousandSeparator": axisDefinitions.thousandSeparator
+        "thousandSeparator": axisDefinitions.thousandSeparator        
       };
       
       if (axisDefinitions.numberScale) {
         singleAxis["numberScaleValue"] = axisDefinitions.numberScale.scaleValue.replace(/"/g, "");
         singleAxis["numberScaleUnit"] = axisDefinitions.numberScale.scaleUnit.replace(/"/g, "");
-        singleAxis["scaleRecursively"] = 1;
+        singleAxis["scaleRecursively"] = axisDefinitions.scaleRecursively ? 1 : 0;
       }
 
       singleAxis[this.fusionChartsAttributeNames.dataset] = this.createMultiAxisDataset(arrayData, dataMapping, axisDefinitions);
@@ -183,7 +188,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         j;
 
       if (arrayData[0][dataMapping.categoryChartField.dataField] !== 0 && !arrayData[0][dataMapping.categoryChartField.dataField]) {
-        throw { name: "Error", message: chartDictionary["CategoryChartField not found"] };
+        throw { name: "Error", message: chartDictionary["CategoryChartField not defined"] };
       }
 
       category[this.fusionChartsAttributeNames.category] = [];
@@ -215,7 +220,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
       categories.push(category);
 
       if (categories[0].category.length === 0) {
-        throw { name: "Warning", message: chartDictionary["No categories found"] };
+        throw { name: "Warning", message: chartDictionary["Categories not defined"] };
       }
 
       return categories;
@@ -246,7 +251,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         key;
 
       if (!arrayData[0][dataMapping.seriesChartField.dataField]) {
-        throw { name: "Error", message: chartDictionary["SeriesChartField not found"] };
+        throw { name: "Error", message: chartDictionary["SeriesChartField not defined"] };
       }
 
       for (i = 0; i < arrayDataLength; i += 1) {
@@ -271,8 +276,12 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
       if (tooltip) {
         setObj["toolText"] = tooltip.replace(/<br \/>/g, "{br}");
       }
-      
-      if (selectedSegment) {
+            
+      if (selectedSegment.dataObject.color) {
+        setObj["color"] = selectedSegment.dataObject.color;
+      }
+
+      if (!this.disableSelection) {
         setObj[this.fusionChartsAttributeNames.link] = "javascript:_sc.Charting.SelectedSegment = " + JSON.stringify(selectedSegment);
       }
       
@@ -308,7 +317,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         selectedSegment;
 
       if (arrayData[0][dataMapping.valueChartFields[0].dataField] !== 0 && !arrayData[0][dataMapping.valueChartFields[0].dataField]) {
-        throw { name: "Error", message: chartDictionary["ValueChartField not found"] };
+        throw { name: "Error", message: chartDictionary["ValueChartField not defined"] };
       }
       
       // Locate the correct localization translation
@@ -341,9 +350,9 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         seriesValue = currentDatarow[dataMapping.seriesChartField.dataField];
         seriesIndex = seriesKeys.indexOf(seriesValue);
         if (currentDatarow[this.reservedDataProperties.id]) {
-          selectedSegment = this.createSelectedSegment(currentDatarow[this.reservedDataProperties.id], i, currentDatarow);
+          selectedSegment = this.createSelectedSegment(currentDatarow[this.reservedDataProperties.id], i, currentDatarow, seriesIndex);
         } else {
-          selectedSegment = this.createSelectedSegment(currentDatarow[dataMapping.categoryChartField.dataField], i, currentDatarow);
+          selectedSegment = this.createSelectedSegment(currentDatarow[dataMapping.categoryChartField.dataField], i, currentDatarow, seriesIndex);
         }
         
         if (seriesIndex !== -1) {
@@ -357,7 +366,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
       return dataset;
     },
     
-    createSelectedSegment: function(id, dataIndex, dataObject) {
+    createSelectedSegment: function (id, dataIndex, dataObject, seriesIndex) {
       if (!id) {
         return null;
       }
@@ -366,6 +375,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         id: id,
         action: null,
         dataIndex: dataIndex,
+        seriesIndex: seriesIndex,
         dataObject: dataObject
       };
     },
@@ -417,7 +427,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         selectedSegment;
 
       if (arrayData[0][dataMapping.valueChartFields[0].dataField] !== 0 && !arrayData[0][dataMapping.valueChartFields[0].dataField]) {
-        throw { name: "Error", message: chartDictionary["ValueChartField not found"] };
+        throw { name: "Error", message: chartDictionary["ValueChartField not defined"] };
       }
 
       if (arrayData[0][dataMapping.categoryChartField.dataField] !== 0 && !arrayData[0][dataMapping.categoryChartField.dataField]) {
@@ -432,9 +442,9 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         existsInData = false;
 
         if (arrayData[i][this.reservedDataProperties.id]) {
-          selectedSegment = this.createSelectedSegment(arrayData[i][this.reservedDataProperties.id], i, arrayData[i]);
+          selectedSegment = this.createSelectedSegment(arrayData[i][this.reservedDataProperties.id], i, arrayData[i], 0);
         } else {
-          selectedSegment = this.createSelectedSegment(arrayData[i][dataMapping.categoryChartField.dataField], i, arrayData[i]);
+          selectedSegment = this.createSelectedSegment(arrayData[i][dataMapping.categoryChartField.dataField], i, arrayData[i], 0);
         }
 
 
@@ -458,7 +468,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
       }
 
       if (arrayData.length > 0 && categoryFilter && data.length === 0) {
-        throw { name: "Warning", message: chartDictionary["No categories found"] };
+        throw { name: "Warning", message: chartDictionary["Categories not defined"] };
       }
 
       return data;
@@ -480,11 +490,11 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         selectedSegment;
 
       if (arrayData[0][dataMapping.valueChartFields[0].dataField] !== 0 && !arrayData[0][dataMapping.valueChartFields[0].dataField]) {
-        throw { name: "Error", message: chartDictionary["ValueChartField not found"] };
+        throw { name: "Error", message: chartDictionary["ValueChartField not defined"] };
       }
 
       if (arrayData[0][dataMapping.categoryChartField.dataField] !== 0 && !arrayData[0][dataMapping.categoryChartField.dataField]) {
-        throw { name: "Error", message: chartDictionary["CategoryChartField not found"] };
+        throw { name: "Error", message: chartDictionary["CategoryChartField not defined"] };
       }
       
       // Add seriesname
@@ -502,7 +512,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         if (currentDatarow[this.reservedDataProperties.id]) {
           selectedSegment = this.createSelectedSegment(currentDatarow[this.reservedDataProperties.id], i, currentDatarow);
         } else {
-          selectedSegment = this.createSelectedSegment(currentDatarow[currentCategory], i, currentDatarow);
+          selectedSegment = this.createSelectedSegment(currentCategory, i, currentDatarow);
         }
 
         var segmentTooltip = currentDatarow[this.reservedDataProperties.segmentTooltip];
@@ -542,7 +552,7 @@ define(["chartPalette", "chartDictionary"], function (chartPalette, chartDiction
         var result = 0;
 
         if (!data.dataset[0].data[0][dataField]) {
-          throw { name: "Error", message: chartDictionary["DataField not found"] };
+          throw { name: "Error", message: chartDictionary["DataField not defined"] };
         }
 
         switch (dataFunction) {

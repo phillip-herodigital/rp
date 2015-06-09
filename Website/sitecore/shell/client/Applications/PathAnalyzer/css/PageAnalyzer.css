@@ -1,0 +1,687 @@
+﻿body, .sc .sc-applicationContent-main {
+    background-color: white;
+}
+
+.sc-dialogContent-main {
+    background-color: white;
+    clear: both;
+    position: relative;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    padding-left: 15px;
+    padding-top: 0px;
+}
+
+    .sc-dialogContent-main:first-child {
+    }
+
+        .sc-dialogContent-main:first-child > div:first-of-type > * {
+            display: block;
+            width: auto !important;
+            float: left;
+            margin-right: 15px;
+        }
+
+        .sc-dialogContent-main:first-child > div:first-of-type > div:first-of-type {
+            margin-left: 15px;
+        }
+
+        .sc-dialogContent-main:first-child > div:first-of-type .col-md-12 {
+            padding-right: 0;
+        }
+
+.dialog-wrap {
+    margin-top: 75px;
+}
+
+.sc-dialogContent-toolbar,
+.sc-dialogFooter {
+    display: none;
+}
+
+.sc-dialogHeader {
+    top: 0px;
+    position: absolute;
+}
+
+.sc-dialogContent-title {
+    display: none;
+}
+
+.sc .sc-dialogContent {
+    background: white;
+    margin-top: 25px;
+    margin-bottom: 0;
+}
+
+    .sc .sc-dialogContent.mini {
+        margin-top: 0;
+    }
+
+.sc div[data-sc-id="FiltersToggle"] .sc-dropdownbutton-content {
+    padding: 0;
+}
+
+.sc div[data-sc-id="Filters"] > #filterBar {
+    padding-left: 0 !important;
+    width: 400px;
+    height: 170px;
+}
+
+    .sc div[data-sc-id="Filters"] > #filterBar .sc-filtercontrol .sc-filterControl-panel {
+        height: 110px;
+        overflow-y: auto;
+    }
+
+/* MapSelector */
+.sc .sc-MapSelector .sc-border[data-sc-id="MapSelectorFieldsWrapper"] {
+    width: 700px;
+    overflow: hidden;
+}
+
+.sc .sc-MapSelector .sc-dropdownbutton .btn[data-sc-id="MapSelectorSubmitButton"] {
+    padding-right: 15px;
+}
+
+.sc .sc-MapSelector div[data-sc-id="MapSelectorDateRangeFilterPresetsInnerRow"] label.sc-radiobutton:hover {
+    background-color: #e3e3e3;
+}
+
+.sc .row.sc-show-padding[data-sc-id="ButtonsRowPanel"],
+.sc .sc-MapSelector .row.sc-show-padding[data-sc-id="MapSelectorDateRangeFilterFromDatePickerRow"] {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 15px;
+}
+
+.sc-MapSelector .sc-TreeDefinitionFilter {
+    width: 50%;
+    float: left;
+}
+
+.sc-MapSelector .sc-DateRangeFilter {
+    width: 50%;
+    float: left;
+}
+
+.sc-MapSelector > .data-sc-registered:last-child {
+    clear: both;
+}
+
+.sc-MapSelector {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding-bottom: 10px;
+}
+
+    .sc-MapSelector .sc-radiobutton {
+        margin-bottom: 4px;
+        width: 100%;
+    }
+
+.sc .sc-filtercontrol table td input[type='radio'] {
+    margin: 0;
+    vertical-align: middle;
+}
+
+.sc ul.dynatree-container li {
+    line-height: normal;
+}
+
+.sc div[data-sc-id="AnalyzeItemWindow"] .modal-body.sc-dialogWindow-body {
+    padding: 0;
+}
+
+
+.sc .sc-filtercontrol .sc-filterControl-panel {
+    overflow-y: visible;
+}
+
+div.tooltip {
+    min-width: 200px;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 10px !important;
+    line-height: 220%;
+    background-color: #ffffff !important;
+    background-clip: padding-box !important;
+    border: 1px solid #e6e6e6 !important;
+    border-radius: 3px !important;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    white-space: normal !important;
+    font-size: 12px !important;
+}
+
+div.tooltip {
+    top: 0;
+    left: 0;
+    max-width: 600px;
+}
+
+    div.tooltip strong {
+        font-size: 14px !important;
+        display: block;
+    }
+
+    div.tooltip span {
+        display: block;
+        font-weight: bold;
+        margin-top: 5px;
+        text-overflow: ellipsis;
+        width: 100%;
+        overflow: hidden;
+    }
+
+.metricsLabel, .landingMetricsLabel {
+    font-size: 14px !important;
+    fill: #474747 !important;
+}
+
+.sc-dialogContent-title-right {
+    float: right;
+    margin-top: 15px;
+    height: 45px;
+}
+
+.sc-dialogContent-main {
+    background-color: white;
+    clear: both;
+    position: relative;
+}
+
+.sc-dialogContent-title-left {
+    float: left;
+    font-size: 24px;
+    margin-top: 5px;
+    font-weight: normal !important;
+}
+
+.sc-PageAnalyzerApp {
+}
+
+.sc-pagemetrics {
+    position: relative;
+    margin-left: 0;
+    margin-top: 10px;
+    color: #289bc8;
+    overflow: visible;
+    height: auto !important;
+    overflow: visible !important;
+    line-height: 220%;
+    background-clip: padding-box !important;
+    white-space: normal !important;
+    font-size: 12px !important;
+}
+
+#pageMetrics {
+    margin: 0px 0px 10px 0px;
+}
+
+#valueMetric, #visitsMetric, #efficiencyMetric {
+    display: inline-block;
+    margin: 0 35px 0 0;
+    line-height: 100%;
+    min-width: 70px;
+    color: #474747;
+}
+
+#pageMetrics h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #A6A6A6;
+    font-weight: bold;
+}
+
+#valueMetric {
+}
+
+#visitsMetric {
+}
+
+#efficiencyMetric {
+}
+
+#breadcrumb {
+    padding-left: 0 !important;
+}
+
+.breadcrumb {
+    margin: 0;
+    padding: 0;
+}
+
+    .breadcrumb li {
+        font-size: 12px;
+        line-height: 24px;
+        height: 24px;
+        margin: 0;
+        padding: 0;
+        vertical-align: top;
+        color: #474747;
+    }
+
+        .breadcrumb li:first-of-type {
+            padding-left: 5px;
+        }
+
+        .breadcrumb li::before {
+            content: normal !important;
+            padding: 0 !important;
+        }
+
+        .breadcrumb li::after {
+            content: url(../img/navigate_right_blue.png);
+            line-height: 24px;
+            height: 24px;
+            margin: 0 5px;
+            vertical-align: top;
+        }
+
+        .breadcrumb li:last-of-type::after {
+            content: " ";
+        }
+
+        .breadcrumb li.current {
+            font-weight: bold;
+            font-size: 12px;
+            color: #289bc8;
+        }
+/* Legend */
+
+.sc-smartpanel.sc_SmartPanel_111.data-sc-registered.panel-right.small {
+    top: 60px !important;
+}
+
+span[data-sc-id="LegendTitleText"],
+.sc-text.sc_Text_18.data-sc-registered {
+    font-size: 18px !important;
+}
+
+.sc-legend {
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.legendWrapper {
+    line-height: 140%;
+    color: #5E5E5E;
+}
+
+.legendWrapperClose {
+    width: 16px;
+    height: 16px;
+    background: transparent url(/sitecore/shell/themes/standard/images/close.png) no-repeat center;
+    float: right;
+}
+
+    .legendWrapperClose:hover {
+        background-image: url(/sitecore/shell/themes/standard/images/close_h.png);
+        cursor: pointer;
+    }
+
+.legendWrapper h3 {
+    margin: 20px 0 5px;
+    font-size: 18px !important;
+}
+
+    .legendWrapper h3:first-of-type {
+        margin-top: 0;
+    }
+
+
+
+
+.circle {
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 16px;
+}
+
+.circleSize8 {
+    width: 8px;
+    height: 8px;
+    border: 2px solid #e6e6e6;
+}
+
+.circleSize16 {
+    width: 16px;
+    height: 16px;
+    border: 3px solid #e6e6e6;
+}
+
+.circleSize24 {
+    width: 24px;
+    height: 24px;
+    border: 5px solid #e6e6e6;
+}
+
+.line {
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 16px;
+    background-color: #e6e6e6;
+    width: 40px;
+}
+
+.lineSize4 {
+    height: 4px;
+}
+
+.lineSize8 {
+    height: 8px;
+}
+
+.lineSize16 {
+    height: 16px;
+}
+
+.legendColors {
+    margin-top: 10px;
+}
+
+.legendLabels {
+    margin-bottom: 25px;
+    width: 225px;
+}
+
+    .legendLabels span {
+        display: inline-block;
+        width: 33%;
+        text-align: center;
+    }
+
+        .legendLabels span:first-of-type {
+            text-align: left;
+        }
+
+        .legendLabels span:last-of-type {
+            text-align: right;
+        }
+
+
+
+
+.square {
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 4px;
+    width: 8px;
+    height: 8px;
+}
+
+.sq1 {
+    background-color: #da3b1f;
+}
+
+.sq2 {
+    background-color: #e0593d;
+}
+
+.sq3 {
+    background-color: #ec9d8d;
+}
+
+.sq4 {
+    background-color: #f5cfc6;
+}
+
+.sq5 {
+    background-color: #fae3dd;
+}
+
+.sq6 {
+    background-color: #ebf3e8;
+}
+
+.sq7 {
+    background-color: #deead9;
+}
+
+.sq8 {
+    background-color: #bdd4b2;
+}
+
+.sq9 {
+    background-color: #90b67d;
+}
+
+.sq10 {
+    background-color: #7ca965;
+}
+
+.sq11 {
+    background-color: #698e57;
+}
+
+
+
+iframe {
+    height: 100%;
+    width: 100%;
+}
+
+.scPathContacts {
+    font-size: 12px;
+}
+
+    .scPathContacts .contact * {
+        position: relative;
+    }
+
+    .scPathContacts .contact > div {
+        margin-bottom: 5px;
+    }
+
+    .scPathContacts a {
+        text-decoration: none;
+    }
+
+    .scPathContacts .contact {
+        margin-top: 25px;
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        background-color: #ffffff;
+        border: 1px solid #d6d6d6;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        -moz-box-shadow: 0px 0px 6px #ccc;
+        -webkit-box-shadow: 0px 0px 6px #ccc;
+        box-shadow: 0px 0px 6px #ccc;
+        background-color: #f7f7f7;
+    }
+
+    .scPathContacts .picture {
+        width: 70px;
+        height: 70px;
+        overflow: hidden;
+        padding: 5px;
+        border: 1px solid #d6d6d6;
+        background-color: #fff;
+        float: left;
+    }
+
+        .scPathContacts .picture img {
+            width: 100%;
+        }
+
+    .scPathContacts .name {
+        font-size: 18px;
+        line-height: 22px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.contactInfo {
+    width: 153px;
+    float: left;
+    margin-left: 15px;
+}
+
+.scPathContacts .email {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .scPathContacts .email a {
+        white-space: nowrap;
+        color: #DC291E;
+    }
+
+.scPathContacts .visitdata, .scPathContacts .valuedata {
+    color: #666;
+    margin-top: 15px;
+}
+
+    .scPathContacts .visitdata strong, .scPathContacts .valuedata strong {
+        font-size: 18px;
+        font-weight: normal;
+        display: block;
+    }
+
+.scPathContacts .details {
+}
+
+.CCbtn {
+    width: 280px;
+    line-height: 24px;
+    height: 24px;
+    color: #474747;
+    margin: 15px auto;
+}
+
+.CCbtn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.CCbtn {
+    color: #474747;
+    background-color: #f0f0f0;
+    border-color: #bdbdbd;
+}
+
+.CCbtn {
+    background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #d1d1d1 100%);
+    background-image: -o-linear-gradient(top, #f0f0f0 0%, #d1d1d1 100%);
+    background-image: linear-gradient(to bottom, #f0f0f0 0%, #d1d1d1 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#ffd1d1d1', GradientType=0);
+    border-color: #cccccc;
+    background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #d9d9d9 100%);
+    background-image: -o-linear-gradient(top, #f0f0f0 0%, #d9d9d9 100%);
+    background-image: linear-gradient(to bottom, #f0f0f0 0%, #d9d9d9 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#ffd9d9d9', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+    -webkit-box-shadow: inset 0 1px #ffffff;
+    box-shadow: inset 0 1px #ffffff;
+    text-shadow: none;
+    border-color: #bdbdbd;
+}
+
+    .CCbtn:hover {
+        background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #f0f0f0 100%);
+        background-image: -o-linear-gradient(top, #f0f0f0 0%, #f0f0f0 100%);
+        background-image: linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 100%);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#fff0f0f0', GradientType=0);
+        border-color: #bdbdbd;
+        background-color: #d1d1d1;
+    }
+
+    .CCbtn:active {
+        background-image: -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+        background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+        background-image: linear-gradient(to bottom, #d9d9d9 0%, #d9d9d9 100%);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9d9d9', endColorstr='#ffd9d9d9', GradientType=0);
+        -webkit-box-shadow: inset 0 3px 3px #b0b0b0;
+        box-shadow: inset 0 3px 3px #b0b0b0;
+        background-image: none;
+        border-color: #bdbdbd;
+        background-color: #d1d1d1;
+    }
+
+.row {
+    margin-right: 0px;
+}
+
+.sc div[data-sc-id="ContactBorder"] {
+    border: 0px !important;
+    border-bottom: 1px solid #E3E3E3 !important;
+}
+
+.sc a[data-sc-id="ContactName"] {
+    font-size: 16px;
+}
+
+.sc div[data-sc-id="ImageColumn"] img {
+    cursor: pointer;
+}
+
+.sc span[data-sc-id="ContactEmail"] {
+    display: block;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.sc-smartpanel-content {
+    top: 60px !important;
+    bottom: 60px !important;
+}
+
+div[data-sc-id="ContactsDataRepeater"] {
+}
+
+.modal-body {
+    background-color: #f0f0f0 !important;
+    padding: 0px !important;
+}
+
+.sc-dialogWindow-buttons {
+    display: none;
+}
+
+.sc .sc-ValueLabel-Label.sc-ValueLabel-Normal {
+    font-size: 12px !important;
+}
+
+.sc .sc-ValueLabel-Value.sc-ValueLabel-Small {
+    font-weight: bold;
+    font-size: 20px;
+    color: #a6a6a6;
+}
+
+div[data-sc-id="xfileDialogWindow"] > div.modal-body.sc-dialogWindow-body {
+    height: 100% !important;
+}
+
+
+iframe[data-sc-id="xfileFrame"] {
+    height:595px !important;
+    width: 100% !important;
+}
+
+.modal-backdrop.fade.in {z-index: 2050 !important;}
