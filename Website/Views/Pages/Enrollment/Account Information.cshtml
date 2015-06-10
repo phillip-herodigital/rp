@@ -477,11 +477,13 @@
                 <span class="connect-time">
                     <select id="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectTime))"
                             name="@offer.Fix(h => h.NameFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectTime))"
-                            data-val="true" data-val-required
+                            data-val="true"
+                            data-val-required="@Html.Sitecore().Field("ConnectTime Required")"
                             ng-model="selectedOffer.offerOption.connectTime"
-                            ng-show="!currentActiveService">
+                            ng-disabled="currentActiveService">
                         @Html.Sitecore().Field("GA Connect Time Options")
                     </select>
+                    @offer.Fix(h => h.ValidationMessageFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectTime))
                 </span>
                 <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
             </div>
