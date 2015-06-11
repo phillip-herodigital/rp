@@ -307,6 +307,12 @@
     <Reference Include="Sitecore.ExperienceExplorer.Web">
       <HintPath>..\Libraries\Sitecore\Sitecore.ExperienceExplorer.Web.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Forms.Core">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Forms.Custom">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Forms.Custom.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.FXM">
       <HintPath>..\Libraries\Sitecore\Sitecore.FXM.dll</HintPath>
     </Reference>
@@ -1016,6 +1022,8 @@
     <Content Include="App_Config\ConnectionStrings.test-upgrade.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.config" />
+    <Content Include="App_Config\Include\Sitecore.Index.master.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
