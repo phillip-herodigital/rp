@@ -98,14 +98,22 @@
     }
 }
 
-<carousel class="currents__carousel" interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
-    <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
-        <div class="wrapper">
-            <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
-        </div>
-    </slide>
-</carousel>
+@if (Sitecore.Context.Item.TemplateName != "Blog Post") {
+    <carousel class="currents__carousel" interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
+        <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
+            <div class="wrapper">
+                <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
+            </div>
+        </slide>
+    </carousel>
 
-<div class="currents__tagline">
-    @Html.Sitecore().Field("Tagline Text", blogDataSourceItem)
-</div>
+    <div class="currents__tagline">
+        @Html.Sitecore().Field("Tagline Text", blogDataSourceItem)
+    </div>
+}
+else
+{
+    <div class="banner">
+        @Html.Sitecore().Field("Top Banner")
+    </div>
+}

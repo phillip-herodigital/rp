@@ -18,7 +18,28 @@
     option.AlwaysIncludeServerUrl = true;
     string currentUrl = HttpUtility.UrlEncode(LinkManager.GetItemUrl(blogPost.InnerItem, option));
     string title = HttpUtility.UrlEncode(blogPost.Title);
+    
+    // Video
+    var videoID = Sitecore.Context.Item.Fields["YouTube ID"].Value;
+    var embedUrl = !string.IsNullOrEmpty(videoID) ? "http://www.youtube.com/embed/" + videoID : "";
 }
+
+<article class="currents currents__box">
+    <div class="blog-info">
+        <div class="publish-time">
+            @Html.Raw(blogPost.PublishDate.DateTime.ToString(settingsItem.BlogPostDateFormat))
+        </div>
+        <div class="blog-title">
+            <h1>@Html.Sitecore().Field(BlogPost.BlogPostTitleFieldId, blogPost.InnerItem)</h1>
+        </div>
+    </div>
+    @if (embedUrl != "") {
+        <div class="video-container">
+            <iframe ng-src="@embedUrl" frameborder="0" allowfullscreen></iframe>
+        </div>
+    }
+    
+</article>
 
 <div id='@Html.Raw(settingsItem.PrimaryCSSID)' >
     <div itemprop="headline">
