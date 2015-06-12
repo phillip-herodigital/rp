@@ -1,0 +1,42 @@
+﻿@using Sitecore.EmailCampaign.Server.Model.Review
+@using Sitecore.EmailCampaign.Server.Services
+@using Sitecore.Modules.EmailCampaign
+@using Sitecore.Modules.EmailCampaign.Messages
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+  UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Requires.Script("ecm", "EmailPreviewResult.js");
+  rendering.Requires.Css("ecm", "EmailPreviewResult.css");
+  rendering.Class = "sc-EmailPreviewResult";
+  string messageId = rendering.GetString("MessageId");
+  string variantId = rendering.GetString("VariantId");
+  string reportId = rendering.GetString("ReportId");
+  string language = rendering.GetString("Language");
+  string dateandtime = rendering.GetString("DateAndTime");
+
+  MessageItem messageItem = Factory.Instance.GetMessageItem(messageId, language);
+  IEnumerable<EmailPreviewReportResult> result = new ReportsService().GetEmailPreviewReportResult(messageItem, variantId, reportId);
+}
+
+<div @rendering.HtmlAttributes data-sc-hasnested="true">
+  <div class="sc-emailpreviewresult" data-sc-variant-id="@variantId" data-sc-report-datetime="@dateandtime">
+    @foreach (EmailPreviewReportResult reportResult in result)
+    {
+      <div class="sc-report-item">
+        @if (reportResult.CanPreview)
+        {
+          <div class="thumbnail"><a href="#" data-sc-url="@reportResult.PreviewUrl" data-sc-name="@reportResult.ClientName"><img src="@reportResult.PreviewThumbnailUrl" /></a></div>
+        }
+        else
+        {
+          <div class="nothumbnail"><a href="#" data-sc-url="" data-sc-name="@reportResult.ClientName"><img src="@reportResult.PreviewThumbnailUrl" /></a></div>
+        }
+        
+        <div class="name">@reportResult.ClientName</div>
+      </div>
+    }
+  </div>
+</div>

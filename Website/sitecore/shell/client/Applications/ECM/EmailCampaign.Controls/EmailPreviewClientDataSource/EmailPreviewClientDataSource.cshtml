@@ -1,0 +1,7 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+
+@using EmailCampaign.Controls.EmailPreviewClientDataSource
+
+@model RenderingModel
+@Html.Sitecore().Controls().EmailPreviewClientDataSource(Model.Rendering)

@@ -13,12 +13,6 @@
     </style>
     
     <script type="text/javascript" language="javascript">
-        function correctFileInput()
-        {
-            if (navigator.userAgent.indexOf('MSIE') == -1)
-                document.getElementById('FileInput').setAttribute('style', 'float: right; height: 24px;');
-        }
-
         function saveFile()
         {
             var finput = document.getElementById('FileInput');
@@ -47,7 +41,7 @@
         }
     </script>
 </head>
-<body style="background: transparent;" onload="correctFileInput()">
+<body style="background: transparent;">
     <form id="UploadFileForm" runat="server" enctype="multipart/form-data">
     <div style="width: 75px; overflow: hidden;">
         <input id="LastFile" type="hidden" runat="server" />
