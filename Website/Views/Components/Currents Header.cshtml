@@ -6,6 +6,7 @@
 @using Sitecore.Mvc
 @using StreamEnergy.MyStream.Utility
 @using System.Collections.Specialized
+@using XBlogHelper
 @using XBlogHelper.Models.Blog
 @using XBlogHelper.Search
 @using XBlogHelper.General
@@ -41,6 +42,13 @@
 
     var blogDataSourceItem = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
     var settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(blogDataSourceItem != null ? blogDataSourceItem : Sitecore.Context.Item);
+    string category = "";
+
+    if (Sitecore.Context.Item.TemplateName == "Blog Post") 
+    {
+        BlogPost blogPost = Sitecore.Context.Item.CreateAs<BlogPost>();
+        category = blogPost.Categories.Any() ? blogPost.Categories.FirstOrDefault().Name.ToLower() : "";
+    }
 
 }
 <header class="site-header currents__header" main-nav="@selectedNavItem" data-fixed-fix>
@@ -61,9 +69,9 @@
         <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
         <nav class="main-nav currents-nav">
             <ul class="wrapper">
-                <li class="nav-events" ng-class="{ selected: false }"><a href="#"><span class="color-block"></span>Events</a></li>
-                <li class="nav-promotions" ng-class="{ selected: false }"><a href="#"><span class="color-block"></span>Promotions</a></li>
-                <li class="nav-recognition" ng-class="{ selected: false }"><a href="#"><span class="color-block"></span>Recognition</a></li>
+                <li class="nav-events" ng-class="{ current: '@category' == 'events' }"><a href="#"><span class="color-block"></span>Events</a></li>
+                <li class="nav-promotions" ng-class="{ current: '@category' == 'promotions' }"><a href="#"><span class="color-block"></span>Promotions</a></li>
+                <li class="nav-recognition" ng-class="{ current: '@category' == 'recognition' }"><a href="#"><span class="color-block"></span>Recognition</a></li>
             </ul>
         </nav>
         <div class="right-nav">
@@ -113,7 +121,5 @@
 }
 else
 {
-    <div class="banner">
-        @Html.Sitecore().Field("Top Banner")
-    </div>
+    <div class="banner currents__banner @category" style="@Html.AsBackgroundStyle("Top Banner", Sitecore.Context.Item)"></div>
 }

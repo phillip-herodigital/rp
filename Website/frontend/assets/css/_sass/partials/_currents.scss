@@ -6,7 +6,45 @@ $promotions-color: #97c93d;
 $recognition-color: #f99d25;
 
 .currents {
-    
+    position: relative;
+    .blog-info {
+        position: absolute;
+        background-color: #fff;
+        top: -220px;
+        left: 100px;
+        min-height: 220px;
+        width: 540px;
+        padding: 30px;
+        .publish-time {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .blog-title {
+            h1 {
+                font-size: 60px;
+                font-weight: 300;
+                letter-spacing: -2px;
+                margin: 10px 0 5px;
+                line-height: .8;
+            }
+        }
+        .sub-headline {
+            font-size: 24px;
+            font-weight: 300;
+            font-style: italic;
+        }
+        &.events, &.events h1 {
+            color: $events-color;
+        }
+        &.promotions, &.promotions h1 {
+            color: $promotions-color;
+        }
+        &.recognition, &.recognition h1 {
+            color: $recognition-color;
+        }
+    }
 }
 
 /*
@@ -67,6 +105,9 @@ $recognition-color: #f99d25;
                         background-color: $events-color;
                     }
                 }
+                &.current .color-block {
+                    background-color: $events-color;
+                }
             }
             &.nav-promotions {
                 @include retina-background('currents-promotions.png', 'icon');
@@ -78,6 +119,9 @@ $recognition-color: #f99d25;
                         background-color: $promotions-color;
                     }
                 }
+                &.current .color-block {
+                    background-color: $promotions-color;
+                }
             }
             &.nav-recognition {
                 @include retina-background('currents-recognition.png', 'icon');
@@ -88,6 +132,9 @@ $recognition-color: #f99d25;
                     &:hover .color-block {
                         background-color: $recognition-color;
                     }
+                }
+                &.current .color-block {
+                    background-color: $recognition-color;
                 }
             }
         }
@@ -145,8 +192,24 @@ $recognition-color: #f99d25;
         }
     }
 }
-.currents__carousel, .banner {
+.currents__carousel {
     margin-top: -180px;
+}
+
+.currents__banner {
+    margin-top: -180px;
+    width: 100%;
+    border-bottom: 5px solid;
+    height: 300px;
+    &.events {
+        border-color: $events-color;
+    }
+    &.promotions {
+        border-color: $promotions-color;
+    }
+    &.recognition {
+        border-color: $recognition-color;
+    }
 }
 
 .currents__tagline {
@@ -164,18 +227,69 @@ $recognition-color: #f99d25;
     Generic Styling for all Currents <article> elements
  */
 .currents__box {
+    padding-top: 40px;
+    border: none;
+    @include border-radius(none);
     .video-container {
         position: relative;
         padding-bottom: 56.25%;
         padding-top: 35px;
         height: 0;
         overflow: hidden;
+        margin-bottom: 20px;
         iframe {
             position: absolute;
             top:0;
             left: 0;
             width: 100%;
             height: 100%;
+        }
+    }
+    .grid {
+        margin: 20px 0;
+        .col {
+            padding-right: 50px;
+            h2 {
+                margin: 0 0 10px;
+            }
+        }
+    }
+    .social {
+        margin: 20px 0;
+        @include inline-block-list();
+        li {
+            margin: 0 15px;
+        }
+    }
+    .post-nav {
+        margin-top: 20px;
+        a {
+            font-size: 24px;
+        }
+        .col {
+            text-align: center;
+            &.col-first {
+                text-align: left;
+            }
+            &.col-last {
+                text-align: right;
+            }
+        }
+
+    }
+    &.events {
+        h2, h3, a {
+            color: $events-color;
+        }
+    }
+    &.promotions {
+        h2, h3, a {
+            color: $promotions-color;
+        }
+    }
+    &.recognition {
+        h2, h3, a {
+            color: $recognition-color;
         }
     }
 }
