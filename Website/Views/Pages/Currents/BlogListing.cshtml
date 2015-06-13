@@ -112,96 +112,64 @@
     
 }
 
-<div id='@Html.Raw(settingsItem.PrimaryCSSID)' >
-    <h1>@Html.Sitecore().Field(BlogHome.BlogNameFieldId, XBlogHelper.General.DataManager.GetBlogHomeItem(dataSourceItem != null ? dataSourceItem : Sitecore.Context.Item))</h1>
-    <h3>@Html.Raw(searchHeading)</h3>
 
+<div class="currents__blocks">
     @{
-        
-        
         if (blogs == null || !blogs.Any())
         {
             @Html.Raw("Sorry no matching results were found.");
         }
         else
         {
-           <div class="container-wrapper">
-                <div class="container-fluid">
-                    @foreach (BlogPost blogPost in blogs)
-                    {
-                        <div itemprop="headline">
-                            <h2><a href="@Html.Raw(LinkManager.GetItemUrl(blogPost.InnerItem))">@Html.Raw(blogPost.Title)</a></h2>
+
+            <div class="currents-grid">
+                <div class="grid-sizer"></div>
+                <div class="gutter-sizer"></div>
+
+                @foreach (var blogPost in blogs.Select((blog,i) => new {i, blog}))
+                {
+                    <div class="grid-item 
+                         @blogPost.blog.Categories.FirstOrDefault().Name.ToLower() 
+                         @(@blogPost.i == 0 || @blogPost.i == 8 ? "grid-item--width4" : "") 
+                         @(@blogPost.i == 3 || @blogPost.i == 9 ? "grid-item--width2 grid-item--height2" : "")  
+                         @(@blogPost.i == 6 || @blogPost.i == 15 ? "grid-item--width3" : "")"
+                         style="@Html.AsBackgroundStyle("Small Square", blogPost.blog.InnerItem)"
+                         >
+                        <div class="headline">
+                            @Html.Raw(blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat))
+                            <h2><a href="@Html.Raw(LinkManager.GetItemUrl(blogPost.blog.InnerItem))">@Html.Raw(blogPost.blog.Title)</a></h2>
                         </div>
-                        <div class="set authorheading" itemprop="author">
-                            By
-                            @{
-                                string profileImage = "";
-                                if (blogPost.Authors.Any())
-                                {
-                                    List<Sitecore.Data.ID> authorIds = new List<Sitecore.Data.ID>();
-                                    foreach (Author a in blogPost.Authors)
-                                    {
-                                        authorIds.Add(a.ItemId);
-                                    }
-
-                                    List<Author> authors = AuthorManager.GetAuthorsForBlogPost(authorIds);
-
-                                    string authorNames = string.Empty;
-
-                                    foreach (Author a in authors)
-                                    {
-                                        authorNames += a.FullName;
-                                    }
-
-                                    if (authors[0].ProfileImage != null && authors[0].ProfileImage.MediaItem != null && settingsItem.DisplayAuthorImage)
-                                    {
-                                        profileImage = String.Format("<img src=\"{0}?mw={1}\" border=\"0\" />", MediaManager.GetMediaUrl(authors[0].ProfileImage.MediaItem), settingsItem.AuthorImageMaxWidth);
-                                    }
-                                    
-                                    @Html.Raw(profileImage)
-                                    @Html.Raw(authors[0].FullName);
-                                
-                                
-                                }
-                            }
-                            <br />
-                            @Html.Raw(blogPost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat))
-                            
-                        </div>
-                        <p class="clear">
-                            @if (!String.IsNullOrEmpty(blogPost.Summary))
+                        <p>
+                            @if (!String.IsNullOrEmpty(blogPost.blog.Summary))
                             {
-                                @Html.Raw(blogPost.Summary);
+                                @Html.Raw(blogPost.blog.Summary);
                             }
                             else
                             {
-                                @Html.Raw(XBlogHelper.Helpers.Helper.SafeSubstring(blogPost.Summary, settingsItem.DisplaySummaryLength));
+                                @Html.Raw(XBlogHelper.Helpers.Helper.SafeSubstring(blogPost.blog.Summary, settingsItem.DisplaySummaryLength));
                             }
                         </p>
-
-                       
-                        <div itemprop="articleSection">
-                            @Html.Raw("<strong>" + settingsItem.BlogListingCategoryTitle + "</strong> " + CategoryManager.GetCommaSeperatedCategoryList(blogPost))
-                        </div>
-                        <div itemprop="articleSection">
-                            @Html.Raw("<strong>" + settingsItem.BlogListingTagTitle + "</strong> " + TagManager.GetCommaSeperatedTagList(blogPost))
-                        </div>
-                        if (settingsItem.ReadMoreLinkText != "")
-                        {
-                            <div class="readmore">
-                                <a href="@Html.Raw(LinkManager.GetItemUrl(blogPost.InnerItem))">@Html.Raw(settingsItem.ReadMoreLinkText)</a>
-                            </div>
-                        }
-                        <br />
-                    }
-                    <div class="pagination">@Html.Raw(BlogManager.GetBlogPagination(settingsItem, currentPage, totalRows, maximumRows))</div>
-                </div>
+                    </div>
+                }
             </div>
-    
         }
-        
     }
-    
-                
+
 
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        $('.currents-grid').isotope({
+            itemSelector: '.grid-item',
+            percentPosition: true,
+            masonry: {
+                columnWidth: '.grid-sizer',
+                gutter: '.gutter-sizer'
+            }
+        });
+
+    });
+
+</script>
