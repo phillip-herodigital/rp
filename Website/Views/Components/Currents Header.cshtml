@@ -39,10 +39,14 @@
 
     var topLevelNavigation = SiteMap.RootNode.ChildNodes.Cast<ItemSiteMapNode>().Select((n, i) => new { Value = n, Number = i + 1 }).ToArray();
     var selectedNavItem = topLevelNavigation.Where(node => selectedNode != null && (node.Value.Key == selectedNode.Key || selectedNode.IsDescendantOf(node.Value))).Select(node => node.Number).FirstOrDefault();
-
+    
     var blogDataSourceItem = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
     var settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(blogDataSourceItem != null ? blogDataSourceItem : Sitecore.Context.Item);
     string category = "";
+
+    var navItem1 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 1"]);
+    var navItem2 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 2"]);
+    var navItem3 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 3"]); 
 
     if (Sitecore.Context.Item.TemplateName == "Blog Post") 
     {
@@ -50,17 +54,23 @@
         category = blogPost.Categories.Any() ? blogPost.Categories.FirstOrDefault().Name.ToLower() : "";
     }
 
+    if (Sitecore.Context.Item.TemplateName == "Blog Category")
+    {
+        var categoryID = Sitecore.Context.Item.Fields["Category"].Value.ToString();
+        category = Sitecore.Context.Database.GetItem(categoryID).Name.ToLower();
+    }
+
 }
 <header class="site-header currents__header" main-nav="@selectedNavItem" data-fixed-fix>
     <script id="mobileNav" type="text/ng-template">
         <nav class="mobile-nav" mobile-nav="@selectedNavItem">
             <ul>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Promotions</a></li>
-                <li><a href="#">Recognition</a></li>
+                <li>@Html.Sitecore().Field("Navigation Link 1", blogDataSourceItem)</li>
+                <li>@Html.Sitecore().Field("Navigation Link 2", blogDataSourceItem)</li>
+                <li>@Html.Sitecore().Field("Navigation Link 3", blogDataSourceItem)</li>
                 <li><a href="/">Rates</a></li>
                 <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
-                <li><a href="/">Back to Mystream.com</a></li>
+                <li><a href="/">@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</a></li>
             </ul>
         </nav>
     </script>
@@ -69,9 +79,9 @@
         <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
         <nav class="main-nav currents-nav">
             <ul class="wrapper">
-                <li class="nav-events" ng-class="{ current: '@category' == 'events' }"><a href="#"><span class="color-block"></span>Events</a></li>
-                <li class="nav-promotions" ng-class="{ current: '@category' == 'promotions' }"><a href="#"><span class="color-block"></span>Promotions</a></li>
-                <li class="nav-recognition" ng-class="{ current: '@category' == 'recognition' }"><a href="#"><span class="color-block"></span>Recognition</a></li>
+                <li class="nav-events" ng-class="{ current: '@category' == 'events' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem1.TargetItem)"><span class="color-block"></span>@navItem1.Text</a></li>
+                <li class="nav-promotions" ng-class="{ current: '@category' == 'promotions' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem2.TargetItem)"><span class="color-block"></span>@navItem2.Text</a></li>
+                <li class="nav-recognition" ng-class="{ current: '@category' == 'recognition' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem3.TargetItem)"><span class="color-block"></span>@navItem3.Text</a></li>
             </ul>
         </nav>
         <div class="right-nav">
@@ -115,7 +125,7 @@
         </slide>
     </carousel>
 
-    <div class="currents__tagline">
+    <div class="currents__tagline @category">
         @Html.Sitecore().Field("Tagline Text", blogDataSourceItem)
     </div>
 }

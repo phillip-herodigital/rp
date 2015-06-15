@@ -5,6 +5,7 @@
 @using Sitecore.Mvc
 @using Sitecore.Links
 @using Sitecore.Resources.Media
+@using Sitecore.Resources
 @inherits System.Web.Mvc.WebViewPage
 
 
@@ -16,35 +17,15 @@
     string authorID = "";
     string tagID = "";
     string searchText = "";
+    string category = "";
 
     string urlCategoryName = DataManager.GetUrlValByPattern(Request.Url.PathAndQuery, XBSettings.XBCategoryUrlPattern);
-    if (!String.IsNullOrEmpty(urlCategoryName))
+
+    if (Sitecore.Context.Item.TemplateName == "Blog Category")
     {
-        Category categoryItem = CategoryManager.GetCategoryByName(Sitecore.Context.Item, urlCategoryName);
-        if (categoryItem != null)
-        {
-            categoryID = categoryItem.InnerItem.ID.ToString();
-
-            if (settingsItem.DisplayFilterMessage)
-            {
-                searchHeading = settingsItem.CategoryFilterTitle + categoryItem.CategoryName;
-            }
-        }
-    }
-
-    string urlAuthorName = DataManager.GetUrlValByPattern(Request.Url.PathAndQuery, XBSettings.XBAuthorUrlPattern);
-    if (!String.IsNullOrEmpty(urlAuthorName))
-    {
-        Author authorItem = AuthorManager.GetAuthorByName(Sitecore.Context.Item, urlAuthorName);
-        if (authorItem != null)
-        {
-            authorID = authorItem.InnerItem.ID.ToString();
-
-            if (settingsItem.DisplayFilterMessage)
-            {
-                searchHeading = settingsItem.AuthorFilterTitle + authorItem.FullName;
-            }
-        }
+        categoryID = Sitecore.Context.Item.Fields["Category"].Value.ToString();
+        category = Sitecore.Context.Database.GetItem(categoryID).Name.ToLower();
+        
     }
 
     string urlTagName = DataManager.GetUrlValByPattern(Request.Url.PathAndQuery, XBSettings.XBTagsUrlPattern);
@@ -80,13 +61,8 @@
     
     //Get search results
     int currentPage = 1;
-    int maximumRows = 5;
+    int maximumRows = 100;
     int startRowIndex = 1;
-    bool rowResult = Int32.TryParse(settingsItem.PageSize, out maximumRows);
-    if (!rowResult)
-    {
-        maximumRows = 5;   
-    }
 
     bool pageResult = false;
         
@@ -100,9 +76,9 @@
     }
 
     startRowIndex = (currentPage - 1) * maximumRows;
-        
-        
-    IEnumerable<BlogPost> blogs = BlogManager.GetBlogPosts(Sitecore.Context.Item, categoryID, authorID, tagID, searchText, startRowIndex, maximumRows);
+
+
+    IEnumerable<BlogPost> blogs = BlogManager.GetBlogPosts(Sitecore.Context.Item, categoryID, authorID, tagID, searchText, startRowIndex, maximumRows).Where(b => b.InnerItem.Language == Sitecore.Context.Language);
     int totalRows = BlogManager.GetBlogsCount(Sitecore.Context.Item, categoryID, authorID, tagID, searchText);
     
     if (searchHeading != "")
@@ -122,39 +98,52 @@
         else
         {
 
-            <div class="currents-grid">
+            <div class="currents-grid clearfix">
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
 
-                @foreach (var blogPost in blogs.Select((blog,i) => new {i, blog}))
+                @foreach (var blogPost in blogs.Select((blog, i) => new { i, blog }))
                 {
                     <div class="grid-item 
                          @blogPost.blog.Categories.FirstOrDefault().Name.ToLower() 
                          @(@blogPost.i == 0 || @blogPost.i == 8 ? "grid-item--width4" : "") 
                          @(@blogPost.i == 3 || @blogPost.i == 9 ? "grid-item--width2 grid-item--height2" : "")  
                          @(@blogPost.i == 6 || @blogPost.i == 15 ? "grid-item--width3" : "")"
-                         style="@Html.AsBackgroundStyle("Small Square", blogPost.blog.InnerItem)"
+                         style="@Html.AsBackgroundStyle("Small Square", blogPost.blog.InnerItem)
+                         @(@blogPost.i == 0 || @blogPost.i == 8 ? @Html.AsBackgroundStyle("Large Rectangle", blogPost.blog.InnerItem) : "") 
+                         @(@blogPost.i == 3 || @blogPost.i == 9 ? @Html.AsBackgroundStyle("Large Square", blogPost.blog.InnerItem) : "")  
+                         @(@blogPost.i == 6 || @blogPost.i == 15 ? @Html.AsBackgroundStyle("Medium Rectangle", blogPost.blog.InnerItem) : "")"
                          >
-                        <div class="headline">
-                            @Html.Raw(blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat))
+                        @if (!string.IsNullOrEmpty(@blogPost.blog.InnerItem.Fields["YouTube ID"].Value)) 
+                        {
+                            <div class="article-video"></div>
+                        }
+                        <div class="article-overview">
+                            <span class="article-date">@Html.Raw(blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat))</span>
                             <h2><a href="@Html.Raw(LinkManager.GetItemUrl(blogPost.blog.InnerItem))">@Html.Raw(blogPost.blog.Title)</a></h2>
+                            <div class="article-summary">
+                                @if (!String.IsNullOrEmpty(blogPost.blog.Summary))
+                                {
+                                    @Html.Raw(blogPost.blog.Summary);
+                                }
+                                else
+                                {
+                                    @Html.Raw(XBlogHelper.Helpers.Helper.SafeSubstring(blogPost.blog.Summary, settingsItem.DisplaySummaryLength));
+                                }
+                            </div>
                         </div>
-                        <p>
-                            @if (!String.IsNullOrEmpty(blogPost.blog.Summary))
-                            {
-                                @Html.Raw(blogPost.blog.Summary);
-                            }
-                            else
-                            {
-                                @Html.Raw(XBlogHelper.Helpers.Helper.SafeSubstring(blogPost.blog.Summary, settingsItem.DisplaySummaryLength));
-                            }
-                        </p>
+                        
                     </div>
                 }
+                <div id="more-articles" class="clearfix"></div>
             </div>
         }
     }
 
+    <div class="currents__tagline @category">
+        <a href="#" id="load-more">Load More Stories</a>
+        @Html.Sitecore().Field("Load More Text", dataSourceItem)
+    </div>
 
 </div>
 
@@ -170,6 +159,16 @@
             }
         });
 
+    });
+
+    $("#load-more").click(function () {
+        @{
+            startRowIndex += maximumRows;
+            blogs = BlogManager.GetBlogPosts(Sitecore.Context.Item, categoryID, authorID, tagID, searchText, startRowIndex, maximumRows);
+            string moreArticles = "";
+            
+        }
+        $("#more-articles").append("<h1>HELLO</h1>");
     });
 
 </script>
