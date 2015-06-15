@@ -13,7 +13,7 @@ namespace StreamEnergy.Mvc
     {
         public override void OnActionExecuting(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
-            if (actionContext.Request.Method != HttpMethod.Get)
+            if (actionContext.Request.Method != HttpMethod.Get && actionContext.Request.RequestUri.PathAndQuery.StartsWith("/sitecore/") == false)
             {
                 var values = actionContext.Request.Headers.GetValues("X-XSRF-TOKEN");
                 if (values == null || values.Count() != 1)
