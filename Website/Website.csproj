@@ -73,6 +73,9 @@
     <Reference Include="EcmaScript.NET.modified">
       <HintPath>..\Libraries\Sitecore\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
+    <Reference Include="EmailCampaign.Controls">
+      <HintPath>..\Libraries\Sitecore\EmailCampaign.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
@@ -225,6 +228,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Analytics.Automation.Aggregation">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Automation.Aggregation.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Analytics.Automation.MongoDB">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Automation.MongoDB.dll</HintPath>
     </Reference>
@@ -236,6 +242,12 @@
     </Reference>
     <Reference Include="Sitecore.Analytics.RobotDetection">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.RobotDetection.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.Sql">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Sql.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.TestFramework">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.TestFramework.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Apps.Loader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -261,6 +273,9 @@
     <Reference Include="Sitecore.Client, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Client.Extensions.Compiler">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Client.Extensions.Compiler.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ContentSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -294,6 +309,43 @@
     </Reference>
     <Reference Include="Sitecore.ControlPanel">
       <HintPath>..\Libraries\Sitecore\Sitecore.ControlPanel.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Analytics.Model">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Analytics.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.App">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.App.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Application">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Client">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Data">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Domain">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Presentation">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Presentation.UI">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Presentation.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Server">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Speak.Server">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Speak.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Statistics">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ExperienceAnalytics">
       <HintPath>..\Libraries\Sitecore\Sitecore.ExperienceAnalytics.dll</HintPath>
@@ -400,6 +452,21 @@
     <Reference Include="Sitecore.Publishing.WebDeploy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Publishing.WebDeploy.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Core">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Lucene.3030">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Lucene.3030.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Speak">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Speak.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Validation">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Validation.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Security.AntiCsrf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -543,6 +610,9 @@
     <Reference Include="Sitecore.Social.Twitter.Client.Mvc">
       <HintPath>..\Libraries\Sitecore\Sitecore.Social.Twitter.Client.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Speak">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Speak.Applications">
       <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Applications.dll</HintPath>
     </Reference>
@@ -552,6 +622,9 @@
     <Reference Include="Sitecore.Speak.Client">
       <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Speak.Dialogs">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Dialogs.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Speak.ItemWebApi">
       <HintPath>..\Libraries\Sitecore\Sitecore.Speak.ItemWebApi.dll</HintPath>
     </Reference>
@@ -560,6 +633,9 @@
     </Reference>
     <Reference Include="Sitecore.Speak.Web">
       <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.WebSite">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.WebSite.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Update, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

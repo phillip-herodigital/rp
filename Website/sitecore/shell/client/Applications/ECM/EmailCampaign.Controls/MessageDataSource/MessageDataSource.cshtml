@@ -1,0 +1,7 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+
+@using EmailCampaign.Controls.MessageDataSource
+
+@model RenderingModel
+@Html.Sitecore().Controls().MessageDataSource(Model.Rendering)

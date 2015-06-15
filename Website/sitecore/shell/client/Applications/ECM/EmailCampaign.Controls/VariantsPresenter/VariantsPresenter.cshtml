@@ -1,0 +1,19 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@model RenderingModel
+@{
+  UserControl userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  userControl.Class = "sc-variants-presenter";
+  userControl.Requires.Script("ecm", "VariantsPresenter.js");
+}
+
+<div @userControl.HtmlAttributes>
+    @userControl.GetString("Text") @for (char index = 'A'; index <= 'Z'; index++)
+    {
+      <span class="variant-button" data-variants-selector-index="@(index - 'A')" style="display: inline;"><span class="sc-togglebutton-text" >@index</span></span>
+    }
+</div>
+
+

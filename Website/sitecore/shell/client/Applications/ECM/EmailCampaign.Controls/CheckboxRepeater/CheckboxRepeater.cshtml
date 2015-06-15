@@ -1,0 +1,23 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+  UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Requires.Script("ecm", "CheckboxRepeater.js");
+  rendering.Requires.Css("ecm", "CheckboxRepeater.css");
+  rendering.Class = "sc-CheckboxRepeater";
+  rendering.GetString("Items", "items");
+  string selectAllText = rendering.GetString("SelectAll");
+  string selectNoneText = rendering.GetString("SelectNone");
+}
+
+<div @rendering.HtmlAttributes data-sc-hasnested="true">
+  <div class="sc-checkboxrepeater">
+  </div>
+  <div class="br"></div>
+  <div class="right">
+    <a href="#" data-bind="click: toggleAll" data-sc-selectalltext="@selectAllText" data-sc-selectnonetext="@selectNoneText">@selectAllText</a>
+  </div>
+  <div class="br"></div>
+</div>
