@@ -145,7 +145,7 @@ $recognition-color: #f99d25;
         }
     }
 }
-.currents__carousel {
+.currents__carousel, .banner {
     margin-top: -180px;
 }
 
@@ -164,7 +164,20 @@ $recognition-color: #f99d25;
     Generic Styling for all Currents <article> elements
  */
 .currents__box {
-
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        padding-top: 35px;
+        height: 0;
+        overflow: hidden;
+        iframe {
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 
 /*
