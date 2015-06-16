@@ -74,6 +74,7 @@
             </ul>
         </nav>
     </script>
+   
     <div class="layout">
         <a href="/currents" class="logo">Currents</a>
         <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
@@ -97,6 +98,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+    document.getElementById('currentsSearch').onkeydown = function (e) {
+        if (e.keyCode == 13) {
+            window.location.href = "/currents/search?term=" + escape(document.getElementById('currentsSearch').value);
+        }
+    };
+    </script>
+
+
     
 </header>
 
@@ -116,7 +127,8 @@
     }
 }
 
-@if (Sitecore.Context.Item.TemplateName != "Blog Post") {
+@if (Sitecore.Context.Item.TemplateName == "Blog Home" || Sitecore.Context.Item.TemplateName == "Blog Category")
+{
     <carousel class="currents__carousel" interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
         <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
             <div class="wrapper">
