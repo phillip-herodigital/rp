@@ -2,6 +2,7 @@
 @using XBlogHelper.Search
 @using XBlogHelper.General
 @using Sitecore.Data.Items
+@using Sitecore.Data.Fields
 @using Sitecore.Mvc
 @using Sitecore.Links
 @using Sitecore.Resources.Media
@@ -63,6 +64,7 @@
     int currentPage = 1;
     int maximumRows = 100;
     int startRowIndex = 1;
+    int itemsPerPage = 16;
 
     bool pageResult = false;
         
@@ -79,12 +81,68 @@
 
 
     IEnumerable<BlogPost> blogs = BlogManager.GetBlogPosts(Sitecore.Context.Item, categoryID, authorID, tagID, searchText, startRowIndex, maximumRows).Where(b => b.InnerItem.Language == Sitecore.Context.Language);
-    int totalRows = BlogManager.GetBlogsCount(Sitecore.Context.Item, categoryID, authorID, tagID, searchText);
+    int totalRows = blogs.Count();
+    int totalPages = (int)Math.Ceiling((double)totalRows/(double)itemsPerPage);
+    List<string> moreArticles = new List<string>();
+
+    while (currentPage < totalPages)
+    {
+        currentPage += 1;
+        string currentBlock = "";
+        var pagBlogs = blogs.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage);
+
+        foreach (var blogPost in pagBlogs.Select((blog, i) => new { i, blog }))
+        {
+            
+            var imageField = (ImageField)blogPost.blog.InnerItem.Fields["Small Square"];
+            var gridClasses = "<div class=\"grid-item " + blogPost.blog.Categories.FirstOrDefault().Name.ToLower();
+            if (blogPost.i == 0 || blogPost.i == 8) 
+            {
+                gridClasses += " grid-item--width4";
+                imageField = (ImageField)blogPost.blog.InnerItem.Fields["Large Rectangle"]; 
+            }
+            if (blogPost.i == 3 || blogPost.i == 9) 
+            {
+                gridClasses += " grid-item--width2 grid-item--height2";
+                imageField = (ImageField)blogPost.blog.InnerItem.Fields["Large Square"]; 
+            }
+            if (blogPost.i == 6 || blogPost.i == 15) 
+            {
+                gridClasses += " grid-item--width3";
+                imageField = (ImageField)blogPost.blog.InnerItem.Fields["Medium Rectangle"]; 
+            }
+            
+            currentBlock += gridClasses + "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\') \">";
+
+            if (!string.IsNullOrEmpty(@blogPost.blog.InnerItem.Fields["YouTube ID"].Value))
+            {
+                currentBlock += "<div class=\"article-video\"></div>";
+            }
+           currentBlock += "<div class=\"article-overview\">" +
+                "<span class=\"article-date\">" + Html.Raw(blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat)) + "</span>" +
+                "<h2><a href=\"" + Html.Raw(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\">" + Html.Raw(blogPost.blog.Title) + "</a></h2>" +
+                "<div class=\"article-summary\">";
+            if (!String.IsNullOrEmpty(blogPost.blog.Summary))
+            {
+                currentBlock += Html.Raw(blogPost.blog.Summary);
+            }
+            else
+            {
+                currentBlock += Html.Raw(XBlogHelper.Helpers.Helper.SafeSubstring(blogPost.blog.Summary, settingsItem.DisplaySummaryLength));
+            }
+            currentBlock += "</div></div></div>";
+        }
+        moreArticles.Add(currentBlock);
+    }
+    
+
     
     if (searchHeading != "")
     {
         searchHeading = totalRows.ToString() + " " + searchHeading;   
     }
+
+    var currentBlogs = blogs.Take(itemsPerPage);
     
 }
 
@@ -102,7 +160,7 @@
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
 
-                @foreach (var blogPost in blogs.Select((blog, i) => new { i, blog }))
+                @foreach (var blogPost in currentBlogs.Select((blog, i) => new { i, blog }))
                 {
                     <div class="grid-item 
                          @blogPost.blog.Categories.FirstOrDefault().Name.ToLower() 
@@ -140,9 +198,9 @@
         }
     }
 
-    <div class="currents__tagline @category">
-        <a href="#" id="load-more">Load More Stories</a>
-        @Html.Sitecore().Field("Load More Text", dataSourceItem)
+    <div class="load-more @category">
+        <a href="#" id="load-more">@Html.Sitecore().Field("Load More Text", dataSourceItem) <i class="icon-load-more"></i></a>
+        @Html.Raw(BlogManager.GetBlogPagination(settingsItem, currentPage, totalRows, maximumRows))
     </div>
 
 </div>
@@ -160,13 +218,7 @@
     });
 
     $("#load-more").click(function () {
-        @{
-            startRowIndex += maximumRows;
-            blogs = BlogManager.GetBlogPosts(Sitecore.Context.Item, categoryID, authorID, tagID, searchText, startRowIndex, maximumRows);
-            string moreArticles = "";
-            
-        }
-        $("#more-articles").append("<h1>HELLO</h1>");
+        var $items = $('@Html.Raw(moreArticles[0])');
+        $('.currents-grid').append($items).isotope('appended', $items);
     });
-
 </script>

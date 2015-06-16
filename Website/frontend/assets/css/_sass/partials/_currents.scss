@@ -316,6 +316,31 @@ $recognition-color: #f99d25;
     .grid-item--width4 { width: 99%; }
     .grid-item--height2 { height: 610px; }
 
+    .load-more {
+        width: 99%;        
+        background-color: #0070b9;
+        text-align: center;
+        padding: 5px 0;
+        &.events {
+            background-color: $events-color;
+        }
+        &.promotions {
+            background-color: $promotions-color;
+        }
+        &.recognition {
+            background-color: $recognition-color;
+        }
+        a {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            i {
+                margin-left: 10px;
+            }
+        }
+    }
+
     @include breakpoint(small) {
         .grid-item, .grid-item--width2,.grid-item--width3, 
         .grid-item--width4, grid-item--height2 { 
