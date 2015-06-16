@@ -1438,6 +1438,7 @@
     <Content Include="Views\Pages\Currents\BlogListing.cshtml" />
     <Content Include="Views\Pages\Currents\BlogPost.cshtml" />
     <Content Include="Views\Pages\Currents\BlogSearch.cshtml" />
+    <Content Include="Views\Pages\Currents\Rates Page.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
