@@ -1,0 +1,23 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  userControl.Class = "sc-variants-selector";
+  userControl.Requires.Script("ecm", "VariantsSelector.js");
+  userControl.Requires.Css("ecm", "VariantsSelector.css");
+
+  var htmlAttributes = userControl.HtmlAttributes;
+  
+}
+
+<div @htmlAttributes data-sc-hasnested="true">
+  <div class="sc-variants-selector-body">
+    @for (char index = 'A'; index <= 'Z'; index++)
+    {<span class="variant-button" data-variants-selector-index="@(index - 'A')">@Html.Sitecore().Controls().ToggleButton("VariantsSelectorButton" + index, new { Text = index })</span>}
+  </div>
+</div>
+
+

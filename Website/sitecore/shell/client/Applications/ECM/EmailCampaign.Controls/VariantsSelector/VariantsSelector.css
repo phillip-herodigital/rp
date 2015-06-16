@@ -1,0 +1,13 @@
+﻿  .variant-button .sc-togglebutton {
+    padding: 2px !important;
+    outline: none !important;
+  }
+
+  .variant-button .sc-togglebutton-text {
+    text-decoration: none;
+    color: #4b4b4b;
+    font: 1.1em arial;
+    background: #fff;
+    border: 1px solid #c03417;
+    padding: 0 4px;
+  }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/" xmlns:set="http://www.sitecore.net/xmlconfig/set/">
+  <sitecore>
+    <scheduling>
+      <agent  patch:instead="*[@type='Sitecore.Tasks.DatabaseAgent' and contains(.,'master')]" type="Sitecore.Tasks.DatabaseAgent" method="Run" interval="00:00:59" hint="ECM"><patch:delete  /></agent>
+    </scheduling>
+  </sitecore>
+</configuration>

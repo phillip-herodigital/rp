@@ -1,0 +1,20 @@
+﻿
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+    var userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+    userControl.Requires.Script("ecm", "CreateMessage.js");
+    userControl.Requires.Css("ecm", "CreateMessage.css");
+    userControl.Class = "sc-createmessage";
+    userControl.Attributes["data-bind"] = "visible: isVisible, value: dataSourceValue";
+    userControl.SetAttribute("data-sc-messagetype", userControl.GetString("MessageType", "messageType"));
+    userControl.SetAttribute("data-sc-emptyContentMessage", userControl.GetString("EmptyContentMessage", "emptyContentMessage"));
+
+    var htmlAttributes = userControl.HtmlAttributes;
+}
+
+<div @htmlAttributes>
+  <div class="sc-message-thumbnails">
+  </div>
+</div>

@@ -1,0 +1,7 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+
+@using EmailCampaign.Controls.TokensDataSource
+
+@model RenderingModel
+@Html.Sitecore().Controls().TokensDataSource(Model.Rendering)

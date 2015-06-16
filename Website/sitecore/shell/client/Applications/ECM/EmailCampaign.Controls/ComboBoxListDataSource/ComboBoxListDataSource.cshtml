@@ -1,0 +1,15 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using EmailCampaign.Controls.ComboBoxListDataSource
+@using Sitecore.Web.UI.Controls.Common.ComboBoxes
+
+@model RenderingModel
+@Html.Sitecore().Controls().ComboBoxListDataSource(Model.Rendering) 
+@{
+  var html = Html.Sitecore().Controls().ComboBoxListDataSource(Model.Rendering).ToString();
+  var attributes = new ComboBoxListDataSource().GetDataSourceAttributes(html);
+  var dataId = attributes[0].Value;
+  var comboboxId = attributes[2].Value;
+}
+               
+@Html.Sitecore().Controls().ComboBox(comboboxId, new { Items = string.Format("{{Binding {0}.ComboBoxList}}", dataId), DisplayFieldName = "name", ValueFieldName = "id", Options = "id" } )

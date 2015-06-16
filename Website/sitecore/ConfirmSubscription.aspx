@@ -1,4 +1,4 @@
-<%@ Page Language="c#" AutoEventWireup="true" %>
+﻿<%@ Page Language="c#" AutoEventWireup="true" %>
 
 <%@ Import Namespace="Sitecore.Modules.EmailCampaign" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>

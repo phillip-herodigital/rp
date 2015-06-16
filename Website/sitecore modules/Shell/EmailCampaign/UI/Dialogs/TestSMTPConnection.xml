@@ -69,9 +69,9 @@
 
           <Border ID="VerifyMtaPanel"  GridPanel.Align="left"  style="margin-top:2px;visibility:hidden;display:text-align:left;">
             <Border  style="overflow:auto;">
-              <Scrollbox ID="ReportBox" Background="transparent" 
+              <Scrollbox ID="ReportBox" Height="300px" Background="transparent" 
                          GridPanel.Height="100%" 
-                         Style="height: 300px !important; border-width:1px;border-style:solid none solid none;border-color:#ADADAD;font-family: courier new; font-size: 14px;" />
+                         Style="border-width:1px;border-style:solid none solid none;border-color:#ADADAD;font-family: courier new; font-size: 14px;" />
             </Border>
             <Space Height="10px"/>
             <Border Width="100%" >

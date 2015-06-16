@@ -1,0 +1,17 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+  var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Class = "sc-ecm-funnel";
+  var htmlAttributes = rendering.HtmlAttributes;
+} 
+
+<div @htmlAttributes>
+    <div><span id="TotalRecipients" class="sc-ecm-funnelLabelText" style="margin-left: 182px;">@Html.Sitecore().Placeholder("Funnel.TotalRecipients")</span></div>
+    <div><span id="ActualRecipients" class="sc-ecm-funnelLabelText" style="margin-left: 170px;">@Html.Sitecore().Placeholder("Funnel.ActualRecipients")</span></div>
+    <div><span id="Opened" class="sc-ecm-funnelLabelText" style="margin-left: 160px;">@Html.Sitecore().Placeholder("Funnel.Opened")</span></div>
+    <div><span id="Clicked" class="sc-ecm-funnelLabelText" style="margin-left: 150px;">@Html.Sitecore().Placeholder("Funnel.Clicked")</span></div>
+    <div><span id="Browsed" class="sc-ecm-funnelLabelText" style="margin-left: 140px;">@Html.Sitecore().Placeholder("Funnel.Browsed")</span></div>
+    <div><span id="Productive" class="sc-ecm-funnelLabelText" style="margin-left: 128px;">@Html.Sitecore().Placeholder("Funnel.Productive")</span></div>
+</div>
