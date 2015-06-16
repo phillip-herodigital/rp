@@ -1514,6 +1514,9 @@
     <Content Include="Views\Pages\Currents\BlogPost.cshtml" />
     <Content Include="Views\Pages\Currents\BlogSearch.cshtml" />
     <Content Include="Views\Pages\Currents\Rates Page.cshtml" />
+    <Content Include="Views\Components\Email\Currents\Currents Email Header.cshtml" />
+    <Content Include="Views\Components\Email\Currents\Currents Email Footer.cshtml" />
+    <Content Include="Views\Components\Email\Currents\Currents Email Blog Container.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
