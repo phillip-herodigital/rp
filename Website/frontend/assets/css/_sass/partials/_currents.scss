@@ -148,6 +148,7 @@ $recognition-color: #f99d25;
         font-size: 12px;
         font-weight: 300;
         text-transform: uppercase;
+        text-align: right;
         a {
             color: inherit;
         }
@@ -165,11 +166,43 @@ $recognition-color: #f99d25;
                 padding-right: 0;
             }
         }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0px;
+            display: none;
+            float: left;
+            padding: 0;
+            margin: 2px 0px 0px;
+            border: 1px solid #0070b9;
+            min-width: 0;
+            @include border-radius(0);
+            li {
+                display: block;
+                border: none;
+                padding: 0;
+                a {
+                    display: block;
+                    padding: 10px 30px;
+                    clear: both;
+                    line-height: 1.5;
+                    white-space: nowrap;
+                    text-align: left;
+                }
+            } 
+        }
+        .open > .dropdown-menu {
+            display: block;
+        }
         .search {
             margin-top: 10px;
             input {
                 float: right;
-                width: 265px;
+                width: 205px;
+                padding: 0 25px 0 10px;
                 border-color: #66afe9;
                 @include retina-background('blue-search.png', 'icon'); 
                 background-position: 95% center;
@@ -193,9 +226,91 @@ $recognition-color: #f99d25;
             }
         }
     }
+    @include breakpoint(small) {
+        height: 57px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9000;
+        border-bottom: 1px solid $dark-border-color;
+        @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
+        > .layout {
+            background-color: #fff;
+            background-repeat: repeat-x;
+            z-index: 2;
+            height: 57px;
+            padding: 0 20px;
+        }
+        .logo {
+            @include image-replace("bg/currents-logo-mobile.png", "bg2x/currents-logo-mobile.png");
+            position: absolute;
+            left: 50%;
+            top: 18px;
+            margin-top: 0;
+            margin-left: image-width("bg/currents-logo-mobile.png") / 2 * -1;
+        }
+        .right-nav {
+            display: none;
+        }
+        .nav-toggle{
+            margin-top: 22px;
+        }
+        &.fixed-fix {
+            position: absolute;
+        }
+        nav {
+            display: none;
+        }
+    }
+    @include breakpoint(medium-large) {
+        .nav-toggle {
+            display: none;
+        }
+        .cart-toggle {
+            display: none;
+        }
+        .shadow-wrapper {
+            @include box-shadow(0 0 3px rgba(0, 0, 0, .2));
+            position: relative;
+        }
+        &.fixed {
+            background: #fff;
+            height: 75px;
+            > .wrapper {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                background-repeat: repeat-x;
+                z-index: 9000;
+                height: 75px;
+                border-bottom: 1px solid $dark-border-color;
+                @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
+
+                @include breakpoint(small) {
+                    background: #fff;
+                }
+            }
+            .logo {
+                position: absolute;
+                left: 50%;
+                top: 10px;
+                margin-top: 0;
+                margin-left: (image-width("bg/currents-logo-desktop.png") / 2) * -1;
+                }
+            .nav-toggle {
+                margin-top: 22px;
+            }
+        }
+    }
 }
 .currents__carousel {
     margin-top: -180px;
+    @include breakpoint(small) {
+        margin-top: 0;
+    }
 }
 
 .currents__banner {

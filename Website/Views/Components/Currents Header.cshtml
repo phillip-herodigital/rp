@@ -68,9 +68,15 @@
                 <li>@Html.Sitecore().Field("Navigation Link 1", blogDataSourceItem)</li>
                 <li>@Html.Sitecore().Field("Navigation Link 2", blogDataSourceItem)</li>
                 <li>@Html.Sitecore().Field("Navigation Link 3", blogDataSourceItem)</li>
-                <li><a href="/">Rates</a></li>
                 <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
-                <li><a href="/">@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</a></li>
+                <li ng-class="{ opened: subnav == 1 }">
+                    <span>
+                        <span class="arrow" ng-click="toggleSubnav(1)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 1, 'icon-nav-arrow-collapsed': subnav != 1}"></i></span>
+                        <a href="" ng-click="toggleSubnav(1)">@Html.Sitecore().Field("Rates Text", blogDataSourceItem)</a>
+                    </span>
+                    @Html.Sitecore().Field("Mobile Rates Dropdown", blogDataSourceItem)
+                </li>
+                <li>@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</li>
             </ul>
         </nav>
     </script>
@@ -87,9 +93,14 @@
         </nav>
         <div class="right-nav">
             <ul>
-                <li>@Html.Sitecore().Field("Rates Dropdown", blogDataSourceItem)</li>
                 <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
-                <li><a href="/">@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</a></li>
+                <li>
+                    <span class="dropdown" dropdown on-toggle="toggled(open)">
+                        <a href class="dropdown-toggle" dropdown-toggle>@Html.Sitecore().Field("Rates Text", blogDataSourceItem)</a>
+                        @Html.Sitecore().Field("Rates Dropdown", blogDataSourceItem)
+                    </span>
+                </li>
+                <li>@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</li>
             </ul>
             <div class="search">
                 <form>
