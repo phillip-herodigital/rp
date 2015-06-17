@@ -50,10 +50,6 @@ namespace StreamEnergy.MyStream.Controllers.Components
 
         public ActionResult OneTimePaymentIndex()
         {
-            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
-            {
-                return Redirect("/ga-upgrade-faq");
-            }
             return View("~/Views/Components/Payments/One Time Payment.cshtml");
         }
 
