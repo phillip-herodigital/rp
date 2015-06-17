@@ -20,6 +20,7 @@ using StreamEnergy.MyStream.Models.Enrollment;
 using StreamEnergy.Processes;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Documents;
+using StreamEnergy.DomainModels.Activation;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -32,6 +33,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly StackExchange.Redis.IDatabase redisDatabase;
         private readonly IEnrollmentService enrollmentService;
+        private readonly IActivationCodeLookup activationCodeLookup;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -48,7 +50,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -57,6 +59,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.validation = validation;
             this.redisDatabase = redisDatabase;
             this.enrollmentService = enrollmentService;
+            this.activationCodeLookup = activationCodeLookup;
             //this.documentStore = documentStore;
         }
 
@@ -86,6 +89,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<VerifyEsnResponseCode> ValidateEsn([FromBody]string esn)
         {
             return await enrollmentService.IsEsnValid(esn);
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<string> ValidateActivationCode([FromBody]string activationCode)
+        {
+            return await activationCodeLookup.LookupEsn(activationCode);
         }
 
         [HttpGet]
