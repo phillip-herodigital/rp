@@ -26,7 +26,7 @@ function Expand-ZIPFile($file, $destination)
 	$zip = $shell.NameSpace($file)
 	foreach($item in $zip.items())
 	{
-		$shell.Namespace($destination).copyhere($item)
+		$shell.Namespace($destination).copyhere($item, 0x14)
 	}
 }
 Expand-ZIPFile $file $storageDir

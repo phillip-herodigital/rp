@@ -3,6 +3,7 @@
     var maxMobileItems = 10;
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
+    $scope.activationCodeInvalid = false;
     $scope.esnInvalid = false;
     $scope.esnError = false;
     $scope.cartLte = null;
@@ -136,6 +137,30 @@
         } else {
             $scope.esnError = false;
             $scope.esnInvalid = false;
+        }
+    }
+
+    $scope.validateActivationCode = function () {
+        if (mobileEnrollmentService.selectedNetwork.value == 'att' && $scope.phoneOptions.activationCode) {
+            $scope.activationCodeInvalid = true;
+
+            $http.post('/api/enrollment/validateActivationCode', $scope.phoneOptions.activationCode, { transformRequest: function (code) { return JSON.stringify(code); } })
+            .success(function (data) {
+                var activationCodeResponse = JSON.parse(data);
+                if (!activationCodeResponse) {
+                    $scope.addDevice.activationCode.$setValidity('required', false);
+                    $scope.validations = [{
+                        'memberName': 'activationCode'
+                    }];
+                } else {
+                    $scope.activationCodeInvalid = false;
+                    $scope.addDevice.activationCode.$setValidity('required', true);
+                    $scope.validations = [];
+                    $scope.phoneOptions.simNumber = activationCodeResponse;
+                }
+            })
+        } else {
+            $scope.activationCodeInvalid = false;
         }
     }
 
