@@ -782,6 +782,7 @@
     <Compile Include="Conditions\EnrollmentTrafficCopHelper.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
+    <Compile Include="Controllers\ApiControllers\CurrentsController.cs" />
     <Compile Include="Controllers\ApiControllers\LogViewerController.cs" />
     <Compile Include="Controllers\ApiControllers\MarketingController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileActivationController.cs" />
@@ -900,6 +901,7 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\Currents\LoadPostsRequest.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
