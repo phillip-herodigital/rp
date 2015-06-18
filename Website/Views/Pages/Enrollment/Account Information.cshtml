@@ -469,6 +469,22 @@
                            datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
                     <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
                 </span>
+            </div>
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectTime)>
+                <ul class="checkbox-list">
+                    <li><input type="checkbox" name="current-active-service" id="current-active-service" ng-model="currentActiveService" ng-change="selectedOffer.offerOption.connectTime = 'AllDay'"><label for="current-active-service">@Html.Sitecore().Field("GA Current Active Service Label")</label></li>
+                </ul>
+                <span class="connect-time">
+                    <select id="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectTime))"
+                            name="@offer.Fix(h => h.NameFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectTime))"
+                            data-val="true"
+                            data-val-required="@Html.Sitecore().Field("ConnectTime Required")"
+                            ng-model="selectedOffer.offerOption.connectTime"
+                            ng-disabled="currentActiveService">
+                        @Html.Sitecore().Field("GA Connect Time Options")
+                    </select>
+                    @offer.Fix(h => h.ValidationMessageFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectTime))
+                </span>
                 <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
             </div>
             <div class="item item--no-input inline-label utility-connect">
