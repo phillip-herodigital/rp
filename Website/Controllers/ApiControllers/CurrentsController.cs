@@ -59,10 +59,49 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 			}
 			catch (Exception exception)
 			{
-				Log.Error("Currents GetBlogResults error", exception, new object());
+                Log.Error("Currents GetCurrentsPosts error", exception, new object());
 			}
 			return null;
 		}
+
+        public static int GetCurrentsCount(Item currentItem, string categoryID, string authorID, string tagID, string searchText, string language)
+        {
+            try
+            {
+                Item repositorySearchItem = XBlogHelper.General.DataManager.GetBlogHomeItem(currentItem);
+                ISearchIndex index = ContentSearchManager.GetIndex(new SitecoreIndexableItem(repositorySearchItem));
+                using (IProviderSearchContext providerSearchContext = index.CreateSearchContext(SearchSecurityOptions.EnableSecurityCheck))
+                {
+                    Expression<Func<SearchResultItem, bool>> expression = PredicateBuilder.True<SearchResultItem>();
+                    expression = expression.And((SearchResultItem item) => item.TemplateName == "Blog Post" && item.Language == language && item.Paths.Contains(repositorySearchItem.ID));
+                    if (!string.IsNullOrEmpty(categoryID))
+                    {
+                        expression = expression.And((SearchResultItem c) => c["Category"].Contains(categoryID));
+                    }
+                    if (!string.IsNullOrEmpty(authorID))
+                    {
+                        expression = expression.And((SearchResultItem a) => a["Author"].Contains(authorID));
+                    }
+                    if (!string.IsNullOrEmpty(tagID))
+                    {
+                        expression = expression.And((SearchResultItem t) => t["Tags"].Contains(tagID));
+                    }
+                    if (!string.IsNullOrEmpty(searchText))
+                    {
+                        expression = expression.And((SearchResultItem t) => t["_content"].Contains(searchText));
+                    }
+                    return (
+                        from t in providerSearchContext.GetQueryable<SearchResultItem>().Where(expression)
+                        orderby t[XBSettings.XBSearchPublishDate] descending
+                        select t).CreateAs<BlogPost>().Count<BlogPost>();
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Error("Currents GetCount error", exception, new object());
+            }
+            return 0;
+        }
 
         [HttpPost]
         public dynamic LoadPosts (LoadPostsRequest request)
@@ -77,25 +116,37 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             foreach (var blogPost in blogs.Select((blog, i) => new { blog, i }))
             {
             
-                var imageField = (ImageField)blogPost.blog.InnerItem.Fields["Small Square"];
+                ImageField imageField = null;
                 var gridClasses = "<div class=\"grid-item " + blogPost.blog.Categories.FirstOrDefault().Name.ToLower();
                 if (blogPost.i == 0 || blogPost.i == 8) 
                 {
                     gridClasses += " grid-item--width4";
                     imageField = (ImageField)blogPost.blog.InnerItem.Fields["Large Rectangle"]; 
                 }
-                if (blogPost.i == 3 || blogPost.i == 9) 
+                else if (blogPost.i == 3 || blogPost.i == 9) 
                 {
                     gridClasses += " grid-item--width2 grid-item--height2";
                     imageField = (ImageField)blogPost.blog.InnerItem.Fields["Large Square"]; 
                 }
-                if (blogPost.i == 6 || blogPost.i == 15) 
+                else if (blogPost.i == 6 || blogPost.i == 15) 
                 {
                     gridClasses += " grid-item--width3";
                     imageField = (ImageField)blogPost.blog.InnerItem.Fields["Medium Rectangle"]; 
                 }
-            
-                currentBlock += gridClasses + "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\') \">";
+                else
+                {
+                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Small Square"];
+                }
+
+                if (imageField.MediaItem == null)
+                {
+                    gridClasses += " no-image";
+                    currentBlock += gridClasses + "\">";
+                }
+                else
+                {
+                    currentBlock += gridClasses + "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\') \">";
+                }
 
                 if (!string.IsNullOrEmpty(blogPost.blog.InnerItem.Fields["YouTube ID"].Value))
                 {

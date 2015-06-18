@@ -394,6 +394,7 @@ $recognition-color: #f99d25;
         margin-bottom: 10px;
         color: #fff;
         border-bottom: 5px solid;
+        background-size: cover;
         &.events {
             background-color: $events-color;
             border-color: $events-color;
@@ -454,6 +455,46 @@ $recognition-color: #f99d25;
                 @include opacity(.80);
             }
         }
+        &.no-image {
+            .article-overview {
+                position: absolute;
+                height: 150px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 20px 20px 0;
+                overflow: hidden;
+                background: #000;
+                @include opacity(.80);
+                .article-date {
+                    @include retina-background('calendar-small.png', 'icon');
+                    background-position: top left;
+                    background-repeat: no-repeat;
+                    padding-left: 20px;
+                    font-size: 11px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+                h2 {
+                    font-size: 20px;
+                    margin: 5px 0;
+                    a {
+                        color: #fff;
+                    }
+                }
+                &:after{
+                    content: ' ';
+                    display: block;
+                    height: 10px;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: #000;
+                    @include opacity(.80);
+                }
+            }
+        }
     }
     .grid-item--width2 { width: 49%; }
     .grid-item--width3 { width: 74%; }
@@ -464,7 +505,17 @@ $recognition-color: #f99d25;
         width: 99%;        
         background-color: #0070b9;
         text-align: center;
+        vertical-align: middle;
         padding: 5px 0;
+        .loading {
+            @include image-replace("loading_screen.gif");
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: block;
+            height: 20px;
+            width: 20px;
+            margin: 2px auto;
+        }
         &.events {
             background-color: $events-color;
         }
