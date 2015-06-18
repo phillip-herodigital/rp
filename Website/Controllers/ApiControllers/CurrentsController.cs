@@ -126,16 +126,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 else if (blogPost.i == 3 || blogPost.i == 9) 
                 {
                     gridClasses += " grid-item--width2 grid-item--height2";
-                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Large Square"]; 
+                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"]; 
                 }
                 else if (blogPost.i == 6 || blogPost.i == 15) 
                 {
                     gridClasses += " grid-item--width3";
-                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Medium Rectangle"]; 
+                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Small Rectangle"]; 
                 }
                 else
                 {
-                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Small Square"];
+                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
                 }
 
                 if (imageField.MediaItem == null)
