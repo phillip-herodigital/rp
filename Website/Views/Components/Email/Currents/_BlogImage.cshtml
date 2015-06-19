@@ -1,0 +1,57 @@
+@model  Sitecore.Data.Items.Item
+@{ 
+
+    var sc = Html.Sitecore();
+    var imagestyle = "display:block; border:none; outline:none; text-decoration:none; width:100%; max-width:440px";
+    var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
+    Sitecore.Data.Fields.ImageField imageField = sc.CurrentItem.Fields["Square"];
+    var imagePath = "";
+    if(imageField.MediaItem != null) 
+    {
+        imagePath = Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem, mediaOptions);
+    }
+
+    var color = "blue";
+    var rc = Sitecore.Mvc.Presentation.RenderingContext.CurrentOrNull;
+    if (rc != null)
+    {
+        var parms = rc.Rendering.Parameters;
+        if(parms["Color"] != null) {
+            color = parms["Color"];
+        }
+    }
+}
+
+<table width="260" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+    <tbody>
+        <!-- image -->
+        <tr>
+            <td width="260" height="140" align="center" class="devicewidth">
+                <div style="position:relative; width:260px; height: 262px; padding: 0;">
+                    @{
+                        if (Sitecore.Context.PageMode.IsPageEditor)
+                        {
+                            @Html.Sitecore().Field("Feature Image", new { alt="", border="0", width="260", style="@imagestyle", @class="col2img" })
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(sc.CurrentItem["Feature Image"]))
+                            {
+                                // Manually render the image so responsive layouts work properly
+                                <img src="@imagePath" alt="" border="0" width="260" style="@imagestyle" class="col2img">
+                            }
+                        }
+                    }
+                    <div style="position:absolute; bottom:0; left:0; z-index:100; width:260px; height:7px; background-color:pink;"></div>
+                </div>
+            </td>
+        </tr>
+        <!-- /image -->
+        <!-- spacing for mobile devices-->
+        <tr>
+            <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+        </tr>
+        <!-- end of for mobile devices-->
+    </tbody>
+</table>
+ 
