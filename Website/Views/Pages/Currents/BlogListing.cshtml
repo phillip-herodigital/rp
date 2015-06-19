@@ -12,6 +12,7 @@
 
 @{
     Item dataSourceItem = Sitecore.Context.Database.GetItem(Sitecore.Mvc.Presentation.RenderingContext.Current.Rendering.DataSource);
+    Item blogRoot = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
     BlogSettings settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(dataSourceItem != null ? dataSourceItem : Sitecore.Context.Item);
     string searchHeading = "";
     string categoryID = "";
@@ -126,7 +127,7 @@
                     }
                     currentBlock += "<div class=\"article-overview\">" +
                          "<span class=\"article-date\">" + (blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat)) + "</span>" +
-                         "<h2><a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\">" + HttpUtility.HtmlEncode(blogPost.blog.Title) + "</a></h2>" +
+                         "<h2><a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\">" + blogPost.blog.Title + "</a></h2>" +
                          "<div class=\"article-summary\">";
                     if (!String.IsNullOrEmpty(blogPost.blog.Summary))
                     {
@@ -140,7 +141,7 @@
     }
 
     <div class="load-more @category" ng-show="currentPage < totalPages">
-        <a href="#" ng-click="loadMore()" ng-show="!isLoading">@Html.Sitecore().Field("Load More Text", dataSourceItem) <i class="icon-load-more"></i></a>
+        <a href="#" ng-click="loadMore()" ng-show="!isLoading">@Html.Sitecore().Field("Load More Text", blogRoot) <i class="icon-load-more"></i></a>
         <div class="loading" ng-show="isLoading"></div>
     </div>
 

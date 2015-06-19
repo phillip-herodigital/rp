@@ -1,7 +1,7 @@
 /* Currents Controller
  *
  */
-ngApp.controller('CurrentsCtrl', ['$scope', '$rootScope', '$sce', '$http', function ($scope, $rootScope, $sce, $http) {
+ngApp.controller('CurrentsCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
     $scope.currentItem = '';
     $scope.searchHeading = '';
     $scope.categoryID = '';

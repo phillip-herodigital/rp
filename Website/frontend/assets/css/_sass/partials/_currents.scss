@@ -89,7 +89,7 @@ $recognition-color: #f99d25;
             vertical-align: bottom !important;
             padding: 0 35px !important;
             background-repeat: no-repeat;
-            background-position-y: 50px;
+            background-position: 0 50px;
             a {
                 color: #2a2a2a !important;
                 background-color: #fff;
@@ -439,6 +439,7 @@ $recognition-color: #f99d25;
             h2 {
                 font-size: 20px;
                 margin: 5px 0;
+                line-height: 1;
                 a {
                     color: #fff;
                 }
@@ -457,42 +458,24 @@ $recognition-color: #f99d25;
         }
         &.no-image {
             .article-overview {
-                position: absolute;
-                height: 150px;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                padding: 20px 20px 0;
-                overflow: hidden;
-                background: #000;
-                @include opacity(.80);
-                .article-date {
-                    @include retina-background('calendar-small.png', 'icon');
-                    background-position: top left;
-                    background-repeat: no-repeat;
-                    padding-left: 20px;
-                    font-size: 11px;
-                    font-weight: 600;
-                    text-transform: uppercase;
-                }
+                height: 240px;
+                top: 50px;
+                background: transparent;
                 h2 {
-                    font-size: 20px;
-                    margin: 5px 0;
-                    a {
-                        color: #fff;
-                    }
+                    font-size: 36px;
                 }
                 &:after{
-                    content: ' ';
-                    display: block;
-                    height: 10px;
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    background: #000;
-                    @include opacity(.80);
+                    @include opacity(1);
                 }
+            }
+            &.events .article-overview:after {
+                background-color: $events-color;
+            }
+            &.promotions .article-overview:after {
+                background-color: $promotions-color;
+            }
+            &.recognition .article-overview:after {
+                background-color: $recognition-color;
             }
         }
     }

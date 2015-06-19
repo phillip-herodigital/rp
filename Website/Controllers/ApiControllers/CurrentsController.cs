@@ -22,6 +22,12 @@ using XBlogHelper.Models.Blog;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
+    public class CurrentsSearchResultItem : SearchResultItem
+    {
+        [IndexField("publish_date")]
+        public string PublishDate { get; set; }
+    }
+    
     [RoutePrefix("api/currents")]
     public class CurrentsController : ApiController
     {
@@ -33,26 +39,30 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 				ISearchIndex index = ContentSearchManager.GetIndex(new SitecoreIndexableItem(repositorySearchItem));
 				using (IProviderSearchContext providerSearchContext = index.CreateSearchContext(SearchSecurityOptions.EnableSecurityCheck))
 				{
-					Expression<Func<SearchResultItem, bool>> expression = PredicateBuilder.True<SearchResultItem>();
-					expression = expression.And((SearchResultItem item) => item.TemplateName == "Blog Post" && item.Language == language && item.Paths.Contains(repositorySearchItem.ID));
+                    Expression<Func<CurrentsSearchResultItem, bool>> expression = PredicateBuilder.True<CurrentsSearchResultItem>();
+                    expression = expression.And((CurrentsSearchResultItem item) => item.TemplateName == "Blog Post" && item.Language == language && item.Paths.Contains(repositorySearchItem.ID));
 					if (!string.IsNullOrEmpty(categoryID))
 					{
-						expression = expression.And((SearchResultItem c) => c["Category"].Contains(categoryID));
+                        expression = expression.And((CurrentsSearchResultItem c) => c["Category"].Contains(categoryID));
 					}
 					if (!string.IsNullOrEmpty(authorID))
 					{
-						expression = expression.And((SearchResultItem a) => a["Author"].Contains(authorID));
+                        expression = expression.And((CurrentsSearchResultItem a) => a["Author"].Contains(authorID));
 					}
 					if (!string.IsNullOrEmpty(tagID))
 					{
-						expression = expression.And((SearchResultItem t) => t["Tags"].Contains(tagID));
+                        expression = expression.And((CurrentsSearchResultItem t) => t["Tags"].Contains(tagID));
 					}
 					if (!string.IsNullOrEmpty(searchText))
 					{
-						expression = expression.And((SearchResultItem t) => t["_content"].Contains(searchText));
+                        expression = expression.And((CurrentsSearchResultItem t) => t["_content"].Contains(searchText));
 					}
+                    if (currentItem.TemplateName == "Blog Post") 
+                    {
+                        expression = expression.And((CurrentsSearchResultItem item) => Convert.ToDateTime(item.PublishDate) < Convert.ToDateTime(currentItem.Fields["Publish Date"].Value));
+                    }
 					return (
-						from t in providerSearchContext.GetQueryable<SearchResultItem>().Where(expression)
+                        from t in providerSearchContext.GetQueryable<CurrentsSearchResultItem>().Where(expression)
 						orderby t[XBSettings.XBSearchPublishDate] descending
 						select t).Slice(startRowIndex, maximumRows).CreateAs<BlogPost>().ToList<BlogPost>();
 				}
@@ -154,7 +164,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                currentBlock += "<div class=\"article-overview\">" +
                     "<span class=\"article-date\">" + (blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat)) + "</span>" +
-                    "<h2><a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\">" + HttpUtility.HtmlEncode(blogPost.blog.Title) + "</a></h2>" +
+                    "<h2><a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\">" + blogPost.blog.Title + "</a></h2>" +
                     "<div class=\"article-summary\">";
                 if (!String.IsNullOrEmpty(blogPost.blog.Summary))
                 {
