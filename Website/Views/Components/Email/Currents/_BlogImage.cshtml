@@ -4,7 +4,7 @@
     var sc = Html.Sitecore();
     var imagestyle = "display:block; border:none; outline:none; text-decoration:none; width:100%; max-width:440px";
     var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
-    Sitecore.Data.Fields.ImageField imageField = sc.CurrentItem.Fields["Feature Image"];
+    Sitecore.Data.Fields.ImageField imageField = sc.CurrentItem.Fields["Square"];
     var imagePath = "";
     if(imageField.MediaItem != null) 
     {
