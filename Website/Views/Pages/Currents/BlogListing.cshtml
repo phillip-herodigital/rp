@@ -74,6 +74,7 @@
     int totalRows = CurrentsController.GetCurrentsCount(Sitecore.Context.Item, categoryID, authorID, tagID, searchText, Sitecore.Context.Language.ToString());
     int totalPages = (int)Math.Ceiling((double)totalRows / (double)maximumRows);
     string currentBlock = "";
+    string articleText = "";
     
 }
 
@@ -82,7 +83,7 @@
     @{
         if (blogs == null || !blogs.Any())
         {
-            @Html.Raw("Sorry no matching results were found.");
+            //@Html.Raw("Sorry no matching results were found.");
         }
         else
         {
@@ -94,7 +95,7 @@
                 @foreach (var blogPost in blogs.Select((blog, i) => new { i, blog }))
                 {
                     ImageField imageField = null;
-                    var gridClasses = "<div class=\"grid-item " + blogPost.blog.Categories.FirstOrDefault().Name.ToLower();
+                    var gridClasses = "<div class=\"grid-item medium-large " + blogPost.blog.Categories.FirstOrDefault().Name.ToLower();
                     if (blogPost.i == 0 || blogPost.i == 8)
                     {
                         gridClasses += " grid-item--width4";
@@ -127,17 +128,30 @@
 
                     if (!string.IsNullOrEmpty(blogPost.blog.InnerItem.Fields["YouTube ID"].Value))
                     {
-                        currentBlock += "<div class=\"article-video\"></div>";
+                        articleText += "<div class=\"article-video\"></div>";
                     }
-                    currentBlock += "<div class=\"article-overview\">" +
+                    articleText += "<div class=\"article-overview\">" +
                          "<span class=\"article-date\">" + (blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat)) + "</span>" +
                          "<h2><a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\">" + blogPost.blog.Title + "</a></h2>" +
                          "<div class=\"article-summary\">";
                     if (!String.IsNullOrEmpty(blogPost.blog.Summary))
                     {
-                        currentBlock += HttpUtility.HtmlEncode(blogPost.blog.Summary);
+                        articleText += HttpUtility.HtmlEncode(blogPost.blog.Summary);
                     }
-                    currentBlock += "</div></div></div>";
+                    articleText += "</div></div>";
+                    currentBlock += articleText + "</div>";
+                    // create the block for mobile styles
+                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
+                    gridClasses = "<div class=\"grid-item small " + blogPost.blog.Categories.FirstOrDefault().Name.ToLower();
+                    if (imageField.MediaItem == null)
+                    {
+                        gridClasses += " no-image";
+                    }
+                    else
+                    {
+                        gridClasses += "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\')";
+                    }
+                    currentBlock += gridClasses + "\">" + articleText + "</div>";
                 }
                 @Html.Raw(currentBlock);
             </div>

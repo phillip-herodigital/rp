@@ -506,6 +506,16 @@ $recognition-color: #f99d25;
                 }
             }
         }
+        @include breakpoint(medium-large) {
+            &.small {
+                display: none;
+            }
+        }
+        @include breakpoint(small) {
+            &.medium-large {
+                display: none;
+            }
+        }
     }
     .grid-item--width2 { width: 49%; }
     .grid-item--width3 { width: 74%; }
