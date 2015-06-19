@@ -61,7 +61,7 @@
     }
 
 }
-<header class="site-header currents__header" main-nav="@selectedNavItem" data-fixed-fix>
+<header class="site-header currents__header" ng-controller="CurrentsHeaderCtrl" main-nav="@selectedNavItem" data-fixed-fix>
     <script id="mobileNav" type="text/ng-template">
         <nav class="mobile-nav" mobile-nav="@selectedNavItem">
             <ul>
@@ -80,7 +80,7 @@
             </ul>
         </nav>
     </script>
-   
+
     <div class="layout">
         <a href="/currents" class="logo">Currents</a>
         <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
@@ -104,22 +104,11 @@
             </ul>
             <div class="search">
                 <form>
-                    <input name="currentsSearch" type="search" id="currentsSearch" class="typeahead" placeholder="@Html.Sitecore().Field("Search Text", blogDataSourceItem)" />
+                    <input type="search" class="typeahead" placeholder="@Html.Sitecore().Field("Search Text", blogDataSourceItem)" ng-model="searchTerm" ng-keyup="$event.keyCode == 13 && searchCurrents()" />
                 </form>
             </div>
         </div>
     </div>
-
-    <script>
-    document.getElementById('currentsSearch').onkeydown = function (e) {
-        if (e.keyCode == 13) {
-            window.location.href = "/currents/search?term=" + escape(document.getElementById('currentsSearch').value);
-        }
-    };
-    </script>
-
-
-    
 </header>
 
 
