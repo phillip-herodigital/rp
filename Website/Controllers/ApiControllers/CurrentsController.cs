@@ -25,7 +25,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     public class CurrentsSearchResultItem : SearchResultItem
     {
         [IndexField("publish_date")]
-        public string PublishDate { get; set; }
+        public DateTime PublishDate { get; set; }
     }
     
     [RoutePrefix("api/currents")]
@@ -57,10 +57,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 					{
                         expression = expression.And((CurrentsSearchResultItem t) => t["_content"].Contains(searchText));
 					}
-                    if (currentItem.TemplateName == "Blog Post") 
+                    /*if (currentItem.TemplateName == "Blog Post") 
                     {
-                        expression = expression.And((CurrentsSearchResultItem item) => Convert.ToDateTime(item.PublishDate) < Convert.ToDateTime(currentItem.Fields["Publish Date"].Value));
+                        expression = expression.And((CurrentsSearchResultItem item) => item.PublishDate < Convert.ToDateTime(currentItem.Fields["Publish Date"].Value));
                     }
+                    */
 					return (
                         from t in providerSearchContext.GetQueryable<CurrentsSearchResultItem>().Where(expression)
 						orderby t[XBSettings.XBSearchPublishDate] descending

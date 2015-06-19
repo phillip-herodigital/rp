@@ -45,6 +45,10 @@
         }
     }
 
+    if (Sitecore.Context.Item.TemplateName == "Rates Page")
+    {
+        tagID = Sitecore.Context.Item.Fields["Tag"].Value.ToString();
+    }
 
     string urlSearchName = DataManager.GetUrlValByPattern(Request.Url.PathAndQuery, XBSettings.XBSearchURLPattern);
     if (!String.IsNullOrEmpty(urlSearchName))
@@ -74,7 +78,7 @@
 }
 
 
-<div class="currents__blocks" ng-controller="CurrentsCtrl" ng-init="currentItem = '@Sitecore.Context.Item.ID.ToString()'; categoryId = '@categoryID'; totalPages = '@totalPages'; language = '@Sitecore.Context.Language.ToString()';">
+<div class="currents__blocks" ng-controller="CurrentsCtrl" ng-init="currentItem = '@Sitecore.Context.Item.ID.ToString()'; categoryId = '@categoryID'; tagId = '@tagID'; totalPages = '@totalPages'; language = '@Sitecore.Context.Language.ToString()';">
     @{
         if (blogs == null || !blogs.Any())
         {
