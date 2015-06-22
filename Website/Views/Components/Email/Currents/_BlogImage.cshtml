@@ -1,28 +1,19 @@
-@model  Sitecore.Data.Items.Item
-@{ 
+@using Sitecore.Data.Items
 
-    var sc = Html.Sitecore();
+@model  Item
+
+@{ 
+    var align = ViewData["align"] == "right" ? "left" : "right";
     var imagestyle = "display:block; border:none; outline:none; text-decoration:none; width:100%; max-width:440px";
     var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
-    Sitecore.Data.Fields.ImageField imageField = sc.CurrentItem.Fields["Square"];
     var imagePath = "";
-    if(imageField.MediaItem != null) 
+    if(ViewData.Keys.Contains("image"))
     {
-        imagePath = Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem, mediaOptions);
-    }
-
-    var color = "blue";
-    var rc = Sitecore.Mvc.Presentation.RenderingContext.CurrentOrNull;
-    if (rc != null)
-    {
-        var parms = rc.Rendering.Parameters;
-        if(parms["Color"] != null) {
-            color = parms["Color"];
-        }
-    }
+        imagePath = ViewData["image"].ToString();
+    };
 }
 
-<table width="260" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+<table width="260" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
     <tbody>
         <!-- image -->
         <tr>
@@ -31,18 +22,19 @@
                     @{
                         if (Sitecore.Context.PageMode.IsPageEditor)
                         {
-                            @Html.Sitecore().Field("Feature Image", new { alt="", border="0", width="260", style="@imagestyle", @class="col2img" })
+                            @Html.Sitecore().Field("Square", new { alt="", border="0", width="260", style="@imagestyle", @class="col2img" })
                         }
                         else
                         {
-                            if (!string.IsNullOrEmpty(sc.CurrentItem["Feature Image"]))
+                            if (!string.IsNullOrEmpty(imagePath))
                             {
                                 // Manually render the image so responsive layouts work properly
                                 <img src="@imagePath" alt="" border="0" width="260" style="@imagestyle" class="col2img">
                             }
                         }
                     }
-                    <div style="position:absolute; bottom:0; left:0; z-index:100; width:260px; height:7px; background-color:pink;"></div>
+                    <div style="position:absolute; bottom:7px; left:0; z-index:100; width:260px; height:7px; background-color:@this.ViewData["color"];"></div>
+                    <img src="@this.ViewData["dropShadow"]" alt="" border="0" style="position:absolute; bottom:-5px; left:0; z-index:100; width:100%; height:12px; border:none; outline:none;">
                 </div>
             </td>
         </tr>
