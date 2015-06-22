@@ -34,28 +34,17 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <!-- start of left column -->
                                                 @{
-                                                    if (alignment == "left") {
+                                                    if (alignment.ToLower() == "left") {
                                                         @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem)
-                                                    } 
-                                                    else {
                                                         @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem)
+                                                    } 
+                                                    else
+                                                    {
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem)
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem)
                                                     }
                                                 }
-                                                <!-- end of left column -->
-
-
-                                                <!-- start of right column -->
-                                                @{
-                                                    if (alignment == "left") {
-                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem)
-                                                    } 
-                                                    else {
-                                                         @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem)
-                                                   }
-                                                }
-                                                <!-- end of right column -->
                                             </td>
                                         </tr>
                                     </tbody>
