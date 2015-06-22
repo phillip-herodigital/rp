@@ -13,8 +13,11 @@
     if (rc != null)
     {
         var parms = rc.Rendering.Parameters;
-        if(parms["Alignment"] != null) {
-            alignment = parms["Alignment"];
+        var allRenderings = rc.PageContext.PageDefinition.Renderings.Where(r => r.Placeholder == rc.Rendering.Placeholder);
+        var index = allRenderings.ToList().FindIndex(r => r.Id == rc.Rendering.Id);
+        if (index % 2 == 0)
+        {
+            alignment = "right";
         }
         if(parms["Color"] != null) {
             color = parms["Color"];
@@ -36,13 +39,13 @@
                                             <td>
                                                 @{
                                                     if (alignment.ToLower() == "left") {
-                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem)
-                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem)
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem, new ViewDataDictionary() { {"align", "left"} })
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem, new ViewDataDictionary() { { "align", "right" } })
                                                     } 
                                                     else
                                                     {
-                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem)
-                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem)
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem, new ViewDataDictionary() { { "align", "left" } })
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem, new ViewDataDictionary() { { "align", "right" } })
                                                     }
                                                 }
                                             </td>
