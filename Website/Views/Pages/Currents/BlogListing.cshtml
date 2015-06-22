@@ -95,8 +95,8 @@
                 @foreach (var blogPost in blogs.Select((blog, i) => new { i, blog }))
                 {
                     ImageField imageField = null;
-                    category = blogPost.blog.Categories.Any() ? blogPost.blog.Categories.FirstOrDefault().Name.ToLower() : "";
-                    var gridClasses = "<div class=\"grid-item medium-large " + category;
+                    string blogCategory = blogPost.blog.Categories.Any() ? blogPost.blog.Categories.FirstOrDefault().Name.ToLower() : "";
+                    var gridClasses = "<div class=\"grid-item medium-large " + blogCategory;
                     if (blogPost.i == 0 || blogPost.i == 8)
                     {
                         gridClasses += " grid-item--width4";
@@ -143,7 +143,7 @@
                     currentBlock += articleText + "</div>";
                     // create the block for mobile styles
                     imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
-                    gridClasses = "<div class=\"grid-item small " + category;
+                    gridClasses = "<div class=\"grid-item small " + blogCategory;
                     if (imageField.MediaItem == null)
                     {
                         gridClasses += " no-image";
