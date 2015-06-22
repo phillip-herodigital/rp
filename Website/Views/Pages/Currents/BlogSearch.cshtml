@@ -4,6 +4,7 @@
 @using Sitecore.Data.Items
 @using Sitecore.Mvc
 @using Sitecore.Links
+@using StreamEnergy.MyStream.Controllers.ApiControllers
 @using XBlogHelper
 @using System.Web
 @inherits System.Web.Mvc.WebViewPage
@@ -33,8 +34,8 @@
     }
 
     string blogUrl = LinkManager.GetItemUrl(blogRoot, option);
-    var blogs = BlogManager.GetBlogPosts(blogRoot, "", "", "", searchText, 0, 100);
-    int totalRows = BlogManager.GetBlogsCount(blogRoot, "", "", "", searchText);
+    var blogs = CurrentsController.GetCurrentsPosts(blogRoot, "", "", "", searchText, 0, 100, Sitecore.Context.Language.ToString());
+    int totalRows = CurrentsController.GetCurrentsCount(blogRoot, "", "", "", searchText, Sitecore.Context.Language.ToString());
     var previousPost = "";
     string previousUrl = previousPost != null ? previousPost : "";
     var nextPost = "";

@@ -15,8 +15,7 @@ ngApp.controller('CurrentsCtrl', ['$scope', '$rootScope', '$http', function ($sc
 
     $scope.loadMore = function () {
         $scope.isLoading = true;
-        $scope.currentPage += 1;
-        startRow = ($scope.currentPage - 1) * maxRows
+        startRow = ($scope.currentPage) * maxRows
         $http.post('/api/currents/LoadPosts', {
             currentItemId: $scope.currentItem,
             categoryID: $scope.categoryID, 
@@ -28,6 +27,7 @@ ngApp.controller('CurrentsCtrl', ['$scope', '$rootScope', '$http', function ($sc
             language: $scope.language
         }).success(function (data) {
             $scope.isLoading = false;
+            $scope.currentPage += 1;
             var $item = $(data.html);
             $('.currents-grid').append($item).isotope('appended', $item);
         });
@@ -41,6 +41,11 @@ ngApp.controller('CurrentsCtrl', ['$scope', '$rootScope', '$http', function ($sc
                 columnWidth: '.grid-sizer',
                 gutter: '.gutter-sizer'
             }
+        });
+        $('.article-summary').ellipsis({
+            lines: 'auto',
+            ellipClass: 'ellip', 
+            responsive: true
         });
     });
 

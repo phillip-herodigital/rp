@@ -444,16 +444,31 @@ $recognition-color: #f99d25;
                     color: #fff;
                 }
             }
-            &:after{
-                content: ' ';
+            .article-summary {
+                height: 50px;
+            }
+            .ellip {
                 display: block;
-                height: 10px;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: #000;
-                @include opacity(.80);
+                height: 100%;
+            }
+            .ellip-line {
+                display: inline-block;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                word-wrap: normal;
+                max-width: 100%;
+            }
+            .ellip,
+            .ellip-line {
+                position: relative;
+                overflow: hidden;
+            }
+        }
+        &.grid-item--width2, &.grid-item--width3, &.grid-item--width4 {
+            @include breakpoint(medium-large) {
+                .article-summary {
+                    height: 70px;
+                }
             }
         }
         &.no-image {
@@ -467,6 +482,9 @@ $recognition-color: #f99d25;
                 &:after{
                     @include opacity(1);
                 }
+                .article-summary {
+                    height: 70px;
+                }
             }
             &.events .article-overview:after {
                 background-color: $events-color;
@@ -476,6 +494,26 @@ $recognition-color: #f99d25;
             }
             &.recognition .article-overview:after {
                 background-color: $recognition-color;
+            }
+            &.grid-item--height2 {
+                @include breakpoint(medium-large) {
+                    .article-overview {
+                        height: 340px;
+                        .article-summary {
+                            height: 200px;
+                        }
+                    }
+                }
+            }
+        }
+        @include breakpoint(medium-large) {
+            &.small {
+                display: none;
+            }
+        }
+        @include breakpoint(small) {
+            &.medium-large {
+                display: none;
             }
         }
     }
