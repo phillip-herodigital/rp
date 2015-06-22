@@ -7,7 +7,7 @@
     var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
 
     // alignment of the blog post
-    var alignment = "left";
+    var alignment = "right";
     var isLast    = false;
     var rc = Sitecore.Mvc.Presentation.RenderingContext.CurrentOrNull;
     if (rc != null)
@@ -17,7 +17,7 @@
         var index = allRenderings.ToList().FindIndex(r => r.Id == rc.Rendering.Id);
         if (index % 2 == 0)
         {
-            alignment = "right";
+            alignment = "left";
         }
         if (index == allRenderings.ToList().Count - 1) {
             isLast = true;
@@ -94,7 +94,7 @@
     };
 }
 
-<table width="100%" bgcolor="#efefef" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="left-image" style="margin:20px 0;">
+<table width="100%" bgcolor="#efefef" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="left-image" style="margin-bottom:20px;">
     <tbody>
         <tr>
             <td>
@@ -140,6 +140,6 @@
 </table>
 @if (!isLast) {
     <p style="text-align:center;">
-        <hr style="width:90%; height: 2px; background:#9c9c9c; margin:28px 0;" />
+        <hr style="width:90%; height: 2px; background:#9c9c9c; margin:56px 0;" />
     </p>
 }
