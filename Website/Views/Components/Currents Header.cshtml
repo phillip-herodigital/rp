@@ -103,8 +103,9 @@
                 <li>@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</li>
             </ul>
             <div class="search">
-                <form>
+                <form ng-submit="searchCurrents()">
                     <input type="search" class="typeahead" placeholder="@Html.Sitecore().Field("Search Text", blogDataSourceItem)" ng-model="searchTerm" ng-keyup="$event.keyCode == 13 && searchCurrents()" />
+                    <button type="submit"></button>
                 </form>
             </div>
         </div>

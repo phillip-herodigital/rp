@@ -111,13 +111,21 @@ $recognition-color: #f99d25;
                     .color-block {
                         border-bottom: 5px solid $events-color;
                     }
-                    &:hover .color-block {
+                    &:hover {
+                        color: $events-color !important;
+                        .color-block {
+                            background-color: $events-color;
+                        }
+                    } 
+                }
+                &.current {
+                    a {
+                        color: $events-color !important;
+                    }
+                    .color-block {
                         background-color: $events-color;
                     }
-                }
-                &.current .color-block {
-                    background-color: $events-color;
-                }
+                } 
             }
             &.nav-promotions {
                 @include retina-background('currents-promotions.png', 'icon');
@@ -125,13 +133,21 @@ $recognition-color: #f99d25;
                     .color-block {
                         border-bottom: 5px solid $promotions-color;
                     }
-                    &:hover .color-block {
-                        background-color: $promotions-color;
+                    &:hover {
+                        color: $promotions-color !important;
+                        .color-block {
+                            background-color: $promotions-color;
+                        }
+                    } 
+                }
+                &.current {
+                    a {
+                        color: $promotions-color !important;
                     }
-                }
-                &.current .color-block {
-                    background-color: $promotions-color;
-                }
+                    .color-block {
+                            background-color: $promotions-color;
+                    }
+                } 
             }
             &.nav-recognition {
                 @include retina-background('currents-recognition.png', 'icon');
@@ -139,13 +155,21 @@ $recognition-color: #f99d25;
                     .color-block {
                         border-bottom: 5px solid $recognition-color;
                     }
-                    &:hover .color-block {
+                    &:hover {
+                        color: $recognition-color !important;
+                        .color-block {
+                            background-color: $recognition-color;
+                        }
+                    } 
+                }
+                &.current {
+                    a {
+                        color: $recognition-color !important;
+                    }
+                    .color-block {
                         background-color: $recognition-color;
                     }
-                }
-                &.current .color-block {
-                    background-color: $recognition-color;
-                }
+                } 
             }
         }
     }
@@ -180,25 +204,31 @@ $recognition-color: #f99d25;
         .dropdown-menu {
             position: absolute;
             top: 100%;
-            left: 0px;
+            right: 0px;
             display: none;
             float: left;
             padding: 0;
             margin: 2px 0px 0px;
-            border: 1px solid #0070b9;
             min-width: 0;
+            background-color: #e4e4e4;
             @include border-radius(0);
             li {
                 display: block;
                 border: none;
                 padding: 0;
                 a {
+                    color: #333;
+                    font-size: 16px;
                     display: block;
-                    padding: 10px 30px;
+                    padding: 15px 70px;
                     clear: both;
                     line-height: 1.5;
                     white-space: nowrap;
                     text-align: left;
+                    text-transform: none;
+                    &:hover {
+                        color: #fff;
+                    }
                 }
             } 
         }
@@ -207,14 +237,13 @@ $recognition-color: #f99d25;
         }
         .search {
             margin-top: 10px;
+            position: relative;
             input {
                 float: right;
                 width: 205px;
                 padding: 0 25px 0 10px;
                 border-color: #66afe9;
-                @include retina-background('blue-search.png', 'icon'); 
-                background-position: 95% center;
-                background-repeat: no-repeat;
+                background-image: none;
                 &::-webkit-input-placeholder {
                     color: #00a3e0;
                     text-transform: uppercase;
@@ -232,6 +261,27 @@ $recognition-color: #f99d25;
                     text-transform: uppercase;
                 }
             }
+            button {
+                position: absolute;
+                top: 8px; 
+                right: 8px;
+                border: 0;
+                padding: 0;
+                cursor: pointer;
+                height: 18px;
+                width: 16px;
+                @include retina-background('blue-search.png', 'icon'); 
+                background-color: transparent;
+                background-position: 95% center;
+                background-repeat: no-repeat;
+                &:active, &:hover {
+                    outline: 0;
+                }
+                &::-moz-focus-inner {
+                    border: 0;
+                    padding: 0;
+                }
+            }   
         }
     }
     @include breakpoint(small) {

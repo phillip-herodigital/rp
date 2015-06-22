@@ -21,8 +21,14 @@
                     <li>@Html.Sitecore().Field("Footer Link 1", blogDataSourceItem)</li>
                     <li>@Html.Sitecore().Field("Footer Link 2", blogDataSourceItem)</li>
                     <li>@Html.Sitecore().Field("Footer Link 3", blogDataSourceItem)</li>
-                    <li>@Html.Sitecore().Field("Footer Link 4", blogDataSourceItem)</li>
-                    <li>@Html.Sitecore().Field("Footer Link 5", blogDataSourceItem)</li>
+                    @if (@Html.Sitecore().Field("Footer Link 4", blogDataSourceItem).ToString() != "") 
+                    {
+                        <li>@Html.Sitecore().Field("Footer Link 4", blogDataSourceItem)</li>
+                    }
+                    @if (@Html.Sitecore().Field("Footer Link 5", blogDataSourceItem).ToString() != "")
+                    {
+                        <li>@Html.Sitecore().Field("Footer Link 5", blogDataSourceItem)</li>
+                    }
                 </ul>
             </div>
             <div class="site-footer-legal">
