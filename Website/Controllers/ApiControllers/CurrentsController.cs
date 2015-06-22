@@ -139,7 +139,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             
                 ImageField imageField = null;
                 string articleText = "";
-                var gridClasses = "<div class=\"grid-item medium-large " + blogPost.blog.Categories.FirstOrDefault().Name.ToLower();
+                string category = blogPost.blog.Categories.Any() ? blogPost.blog.Categories.FirstOrDefault().Name.ToLower() : "";
+                var gridClasses = "<div class=\"grid-item medium-large " + category;
                 if (blogPost.i == 0 || blogPost.i == 8) 
                 {
                     gridClasses += " grid-item--width4";
@@ -186,7 +187,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 currentBlock += articleText + "</div>";
                 // create the block for mobile styles
                 imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
-                gridClasses = "<div class=\"grid-item small " + blogPost.blog.Categories.FirstOrDefault().Name.ToLower();
+                gridClasses = "<div class=\"grid-item small " + category;
                 if (imageField.MediaItem == null)
                 {
                     gridClasses += " no-image";
