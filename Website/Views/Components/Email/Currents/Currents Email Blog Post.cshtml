@@ -1,14 +1,14 @@
-﻿@{ 
+﻿@using Sitecore.Data
+@using Sitecore.Data.Fields
+@using Sitecore.Data.Items
+@{ 
 
     var sc = Html.Sitecore();
     var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
-    Sitecore.Data.Fields.ImageField imageField = sc.CurrentItem.Fields["Feature Image"];
-    var title = sc.CurrentItem.Fields["Title"];
-    var summary = sc.CurrentItem.Fields["Summary"];
 
-
-    string color = "blue";
+    // alignment of the blog post
     var alignment = "left";
+    var isLast    = false;
     var rc = Sitecore.Mvc.Presentation.RenderingContext.CurrentOrNull;
     if (rc != null)
     {
@@ -19,13 +19,82 @@
         {
             alignment = "right";
         }
-        if(parms["Color"] != null) {
-            color = parms["Color"];
+        if (index == allRenderings.ToList().Count - 1) {
+            isLast = true;
         }
     }
+
+    // blog post fields
+    var title = sc.CurrentItem.Fields["Title"];
+    var summary = sc.CurrentItem.Fields["Summary"];
+    var publishDateField = (DateField) sc.CurrentItem.Fields["Publish Date"];
+    var publishDateString = "";
+    if(publishDateField != null) {
+        publishDateString = publishDateField.DateTime.ToString("MMMM dd, yyyy");
+    }
+
+    // blog post image
+    Sitecore.Data.Fields.ImageField imageField = sc.CurrentItem.Fields["Square"];
+    var imagePath = "";
+    if(imageField.MediaItem != null) 
+    {
+        imagePath = Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem, mediaOptions);
+    }
+
+    // blog category
+    var category = "events";
+    try
+    {
+        ID categoryId = ID.Parse(new Guid(sc.CurrentItem.Fields["Category"].ToString()));
+        Item categoryItem = Sitecore.Context.Database.GetItem(categoryId);
+        if (categoryItem != null)
+        {
+            category = categoryItem.Fields["Category Name"].ToString().ToLower();
+        }
+    }
+    catch (Exception e)
+    {}
+
+    var orange = "#f99d25";
+    var blue   = "#00a3e0";
+    var green  = "#97c93d";
+    var color  = blue;
+
+    switch(category) {
+        case "promotions":
+            color = orange;
+            break;
+        case "recognition":
+            color = green;
+            break;
+    }
+
+    // extra icons
+    Item calItem = Sitecore.Context.Database.GetItem("/sitecore/media library/Images/Currents/Email/currents_email_calendar_icon");
+    var calendarIconPath = Sitecore.Resources.Media.MediaManager.GetMediaUrl(calItem, mediaOptions);
+
+    Item buttonItem = Sitecore.Context.Database.GetItem("/sitecore/media library/Images/Currents/Email/currents_email_read_more_icon");
+    var buttonIconPath = Sitecore.Resources.Media.MediaManager.GetMediaUrl(buttonItem, mediaOptions);
+
+    Item dropShadowItem = Sitecore.Context.Database.GetItem("/sitecore/media library/Images/Currents/Email/currents_email_drop_shadow");
+    var dropShadowPath = Sitecore.Resources.Media.MediaManager.GetMediaUrl(dropShadowItem, mediaOptions);
+
+
+    var partialDataDictionary =  new ViewDataDictionary { 
+        { "align", alignment.ToLower() == "left" ? "left" : "right"},
+        { "title", title },
+        { "summary", summary },
+        { "publishDate", publishDateString },
+        { "image", imagePath },
+        { "dropShadow", dropShadowPath },
+        { "category", category },
+        { "color", color }, 
+        { "calendarIcon", calendarIconPath },
+        { "buttonIcon", buttonIconPath }
+    };
 }
 
-<table width="100%" bgcolor="#efefef" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="left-image" style="margin: 20px 0;">
+<table width="100%" bgcolor="#efefef" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="left-image" style="margin:20px 0;">
     <tbody>
         <tr>
             <td>
@@ -36,16 +105,25 @@
                                 <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
                                     <tbody>
                                         <tr>
-                                            <td>
+                                            <td style="vertical-align:top;">
                                                 @{
                                                     if (alignment.ToLower() == "left") {
-                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem, new ViewDataDictionary() { {"align", "left"} })
-                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem, new ViewDataDictionary() { { "align", "right" } })
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem, partialDataDictionary)
                                                     } 
                                                     else
                                                     {
-                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem, new ViewDataDictionary() { { "align", "left" } })
-                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem, new ViewDataDictionary() { { "align", "right" } })
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem, partialDataDictionary)
+                                                    }
+                                                }
+                                            </td>
+                                            <td style="vertical-align:top;">
+                                                @{
+                                                    if(alignment.ToLower() == "left") {
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogSummary.cshtml", sc.CurrentItem, partialDataDictionary)
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.Partial("~/Views/Components/Email/Currents/_BlogImage.cshtml", sc.CurrentItem, partialDataDictionary)
                                                     }
                                                 }
                                             </td>
@@ -60,3 +138,8 @@
         </tr>
     </tbody>
 </table>
+@if (!isLast) {
+    <p style="text-align:center;">
+        <hr style="width:90%; height: 2px; background:#9c9c9c; margin:28px 0;" />
+    </p>
+}
