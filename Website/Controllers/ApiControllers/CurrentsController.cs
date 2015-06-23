@@ -163,12 +163,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 if (imageField.MediaItem == null)
                 {
-                    gridClasses += " no-image";
-                    currentBlock += gridClasses + "\">";
+                    gridClasses += " no-image\">";
                 }
                 else
                 {
-                    currentBlock += gridClasses + "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\') \">";
+                    gridClasses += "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\') \">";
                 }
 
                 if (!string.IsNullOrEmpty(blogPost.blog.InnerItem.Fields["YouTube ID"].Value))
@@ -184,7 +183,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     articleText += HttpUtility.HtmlEncode(blogPost.blog.Summary);
                 }
                 articleText += "</div></div>";
-                currentBlock += articleText + "</div>";
+                currentBlock += gridClasses + articleText + "</div>";
                 // create the block for mobile styles
                 imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
                 gridClasses = "<div class=\"grid-item small " + category;
