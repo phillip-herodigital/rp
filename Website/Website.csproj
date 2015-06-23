@@ -1100,7 +1100,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Include\Sitecore.ContentSearch.config" />
-    <Content Include="App_Config\Include\Sitecore.Index.master.config" />
+    <Content Include="App_Config\Include\Currents.Index.master.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -1270,7 +1270,7 @@
     <Content Include="App_Config\Include\Sitecore.AntiCsrf.config" />
     <Content Include="App_Config\Include\Sitecore.Buckets.config" />
     <Content Include="App_Config\Include\Sitecore.Buckets.Scaling.config.example" />
-    <None Include="App_Config\Include\Sitecore.Buckets.WarmupQueries.config" />
+    <None Include="App_Config\Include\Sitecore.Buckets.WarmupQueries.config.example" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Core.config.example" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Master.config.example" />

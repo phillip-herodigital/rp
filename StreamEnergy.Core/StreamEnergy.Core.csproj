@@ -237,6 +237,7 @@
     <Compile Include="Mvc\Sitecore\SitecoreTranslatingModelValidatorProvider.cs" />
     <Compile Include="NullSettings.cs" />
     <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
+    <Compile Include="Pipelines\RebuildSearchIndex.cs" />
     <Compile Include="Pipelines\LogException.cs" />
     <Compile Include="Providers\ItemProvider.cs" />
     <Compile Include="Pipelines\NoChangeOrderer.cs" />
