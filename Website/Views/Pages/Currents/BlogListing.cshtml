@@ -74,7 +74,6 @@
     int totalRows = CurrentsController.GetCurrentsCount(Sitecore.Context.Item, categoryID, authorID, tagID, searchText, Sitecore.Context.Language.ToString());
     int totalPages = (int)Math.Ceiling((double)totalRows / (double)maximumRows);
     string currentBlock = "";
-    string articleText = "";
     
 }
 
@@ -95,6 +94,7 @@
                 @foreach (var blogPost in blogs.Select((blog, i) => new { i, blog }))
                 {
                     ImageField imageField = null;
+                    string articleText = "";
                     string blogCategory = blogPost.blog.Categories.Any() ? blogPost.blog.Categories.FirstOrDefault().Name.ToLower() : "";
                     var gridClasses = "<div class=\"grid-item medium-large " + blogCategory;
                     if (blogPost.i == 0 || blogPost.i == 8)
@@ -119,12 +119,11 @@
 
                     if (imageField.MediaItem == null)
                     {
-                        gridClasses += " no-image";
-                        currentBlock += gridClasses + "\">";
+                        gridClasses += " no-image\">";
                     }
                     else
                     {
-                        currentBlock += gridClasses + "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\') \">";
+                        gridClasses += "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\') \">";
                     }
 
                     if (!string.IsNullOrEmpty(blogPost.blog.InnerItem.Fields["YouTube ID"].Value))
@@ -140,7 +139,7 @@
                         articleText += HttpUtility.HtmlEncode(blogPost.blog.Summary);
                     }
                     articleText += "</div></div>";
-                    currentBlock += articleText + "</div>";
+                    currentBlock += gridClasses + articleText + "</div>";
                     // create the block for mobile styles
                     imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
                     gridClasses = "<div class=\"grid-item small " + blogCategory;
