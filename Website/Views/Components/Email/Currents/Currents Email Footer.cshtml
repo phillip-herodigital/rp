@@ -17,24 +17,25 @@
 <table width="600" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="footer">
     <tbody>
         <tr>
-            <td>
-                <table width="600" bgcolor="#333333" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+            <td width="600">
+                <table width="600" bgcolor="#333333" cellpadding="0" cellspacing="0" border="0">
                     <tbody>
                         <tr>
-                            <td width="100%" valign="top" align="left" >
-                                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                            <td width="600" valign="top" align="left" >
+                                <table width="600" cellpadding="0" cellspacing="0" border="0">
                                     <tbody>
                                         <!-- spacing -->
                                         <tr>
-                                            <td height="20" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                                            <td width="600" height="20" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
                                         </tr>
                                         <!-- spacing -->
                                         <tr>
-                                            <td>
+                                            <td width="600" style="text-align:center;">
                                                 <!-- social icons -->
-                                                <table align="right" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                <table width="600" align="right" border="0" cellpadding="0" cellspacing="0">
                                                     <tbody>
                                                         <tr>
+                                                            <td align="right" width="60" style="font-size:1px; line-height:1px;">&nbsp;</td>
                                                             <td align="right" style="font-family: Helvetica, arial, sans-serif; font-size: 14px; color: #ffffff; text-align:center; line-height: 14px; text-transform:uppercase; ">
                                                                 <div class="imgpop">
                                                                     <a target="_blank" href="/">
@@ -74,7 +75,7 @@
                                                                     </a>
                                                                 </div>
                                                             </td>
-                                                            <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                            <td align="right" width="60" style="font-size:1px; line-height:1px;">&nbsp;</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -84,7 +85,7 @@
                                         </tr>
                                         <!-- spacing -->
                                         <tr>
-                                            <td height="30" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                                            <td width="600" height="30" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
                                         </tr>
                                         <!-- spacing -->
                                     </tbody>
@@ -102,15 +103,16 @@
     <tbody>
         <tr>
             <td bgcolor="#ffffff">
-                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                <table width="600" cellpadding="0" cellspacing="0" border="0">
                     <tbody>
                         <tr>
-                            <td width="100%" valign="top" align="left" bgcolor="#00a3e0" style="background-image:url(@footerBgPath); background-repeat: no-repeat;">
+                            <td width="600" valign="top" align="left" bgcolor="#00a3e0" style="background-image:url(@footerBgPath); background-repeat: no-repeat;">
                                 <!--[if gte mso 9]>
-                                    <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
-                                    <v:fill type="tile" src="@footerBgPath" color="#0071b9"/>
-                                    </v:background>
-                                <![endif]-->
+                                    <v:rect style="width:600px;height:212px;" strokecolor="none">
+                                        <v:fill type="frame" src="@footerBgPath" color="#0071b9"/>
+                                    </v:rect>
+                                    <v:shape id="overlay" style="position:absolute;width:600px;height:212px;">
+                                <![endif]-->                            
                                 <table width="600" height="40">
                                     <tr>
                                         <td>
@@ -118,7 +120,10 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <table width="600" bgcolor="#00a3e0" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                <!--[if gte mso 9]>
+                                    </v:shape>
+                                <![endif]-->     
+                                <table width="600" bgcolor="#00a3e0" border="0" cellpadding="0" cellspacing="0">
                                     <tbody>
                                         <tr>
                                             <td width="25" bgcolor="#00a3e0"></td>

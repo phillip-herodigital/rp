@@ -9,51 +9,55 @@
         headerBgPath = Sitecore.Resources.Media.MediaManager.GetMediaUrl(headerBgField.MediaItem, mediaOptions);
     }
 }
-<table width="600" height="139" bgcolor="#e2e1df" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="header">
+<table width="600" height="139" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="header">
     <tbody>
         <tr>
             <td>
-                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center">
                     <tbody>
                         <tr>
-                            <td width="100%">
-                                <!--[if gte mso 9]>
-                                    <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
-                                        <v:fill type="tile" src="@headerBgPath" color="#00a8e1"/>
-                                    </v:background>
-                                <![endif]-->
-                                <table width="600" height="139" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                            <td width="600">
+                                <table width="600" height="139" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" align="center">
                                     <tbody>
                                         <tr>
                                             <td width="600" valign="top" align="left" background="@headerBgPath" style="padding-top: 32px;">
-                                                    <!-- spacing -->
-                                                    <table width="445" height="18" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <!-- end of spacing -->
-                                                    <!-- espanol -->
-                                                    <table width="67" height="18" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td width="67" height="18" align="center">
-                                                                    @if (espanol.MediaItem != null)
-                                                                    {
-                                                                        <div class="imgpop">
-                                                                            <a target="_blank" href="http://mystream.com/es/currents">
-                                                                                <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(espanol.MediaItem, mediaOptions)" alt="" border="0" width="@espanol.Width" height="@espanol.Height" style="@espanolstyle">
-                                                                            </a>
-                                                                        </div>
-                                                                    }
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <!-- end of espanol -->
-                                                </td>
+                                                <!--[if gte mso 9]>
+                                                    <v:rect style="width:600px;height:139px;" strokecolor="none">
+                                                        <v:fill type="frame" src="@headerBgPath" color="#ffffff"/>
+                                                    </v:rect>
+                                                    <v:shape id="overlay" style="position:absolute;width:600px;height:212px;">
+                                                <![endif]-->
+                                                <!-- spacing -->
+                                                <table width="445" height="18" align="left" border="0" cellpadding="0" cellspacing="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!-- end of spacing -->
+                                                <!-- espanol -->
+                                                <table width="67" height="18" align="left" border="0" cellpadding="0" cellspacing="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="67" height="18" align="center">
+                                                                @if (espanol.MediaItem != null)
+                                                                {
+                                                                    <div class="imgpop">
+                                                                        <a target="_blank" href="http://mystream.com/es/currents">
+                                                                            <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(espanol.MediaItem, mediaOptions)" alt="" border="0" width="@espanol.Width" height="@espanol.Height" style="@espanolstyle">
+                                                                        </a>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!-- end of espanol -->
+                                                <!--[if gte mso 9]>
+                                                    </v:shape>
+                                                <![endif]-->
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
