@@ -100,6 +100,10 @@
     <Reference Include="Sitecore.Analytics.Model">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Model.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.ContentSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Kernel">
       <HintPath>..\Libraries\Sitecore\Sitecore.Kernel.dll</HintPath>
     </Reference>
@@ -200,6 +204,7 @@
     <Compile Include="Extensions\ModelStateExtensions.cs" />
     <Compile Include="Extensions\PaginationHelper.cs" />
     <Compile Include="Extensions\SettingsExtensions.cs" />
+    <Compile Include="IndexingStrategies\RebuildOnApplicationStartStrategy.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="ITypeIndicatorLookup.cs" />
