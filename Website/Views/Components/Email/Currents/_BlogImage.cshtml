@@ -4,7 +4,7 @@
 
 @{ 
     var align = ViewData["align"] == "right" ? "left" : "right";
-    var imagestyle = "display:block; border:none; outline:none; text-decoration:none; width:100%; max-width:440px";
+    var imagestyle = "display:block; border:none; outline:none; text-decoration:none; width:260px; height: 253px; max-width:440px";
     var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
     var imagePath = "";
     if(ViewData.Keys.Contains("image"))
@@ -29,7 +29,7 @@
                             if (!string.IsNullOrEmpty(imagePath))
                             {
                                 // Manually render the image so responsive layouts work properly
-                                <img src="@imagePath" alt="" border="0" width="260" height="253" style="@imagestyle" class="col2img">
+                                <img src="@imagePath" alt="" border="0" width="260" height="253" style="@imagestyle">
                             }
                         }
                     }
