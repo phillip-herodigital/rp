@@ -22,14 +22,14 @@
                     @{
                         if (Sitecore.Context.PageMode.IsPageEditor)
                         {
-                            @Html.Sitecore().Field("Square", new { alt="", border="0", width="260", style="@imagestyle", @class="col2img" })
+                            @Html.Sitecore().Field("Square", new { alt="", border="0", width="260", height="253", style="@imagestyle", @class="col2img" })
                         }
                         else
                         {
                             if (!string.IsNullOrEmpty(imagePath))
                             {
                                 // Manually render the image so responsive layouts work properly
-                                <img src="@imagePath" alt="" border="0" width="260" style="@imagestyle" class="col2img">
+                                <img src="@imagePath" alt="" border="0" width="260" height="253" style="@imagestyle" class="col2img">
                             }
                         }
                     }
