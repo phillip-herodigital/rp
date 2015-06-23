@@ -1270,7 +1270,7 @@
     <Content Include="App_Config\Include\Sitecore.AntiCsrf.config" />
     <Content Include="App_Config\Include\Sitecore.Buckets.config" />
     <Content Include="App_Config\Include\Sitecore.Buckets.Scaling.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Buckets.WarmupQueries.config.example" />
+    <None Include="App_Config\Include\Sitecore.Buckets.WarmupQueries.config" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Core.config.example" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Master.config.example" />
