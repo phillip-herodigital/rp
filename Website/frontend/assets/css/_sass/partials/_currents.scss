@@ -4,6 +4,7 @@
 $events-color: #00a3e0;
 $promotions-color: #97c93d;
 $recognition-color: #f99d25;
+$default-color: #333333;
 
 .currents {
     position: relative;
@@ -394,6 +395,7 @@ $recognition-color: #f99d25;
     width: 100%;
     border-bottom: 5px solid;
     height: 300px;
+    border-color: $default-color;
     &.events {
         border-color: $events-color;
     }
@@ -444,7 +446,9 @@ $recognition-color: #f99d25;
         margin-bottom: 10px;
         color: #fff;
         border-bottom: 5px solid;
+        border-color: $default-color;
         background-size: cover;
+        background-color: $default-color;
         &.events {
             background-color: $events-color;
             border-color: $events-color;
@@ -531,6 +535,7 @@ $recognition-color: #f99d25;
                 }
                 &:after{
                     @include opacity(1);
+                    background-color: $default-color;
                 }
                 .article-summary {
                     height: 70px;
