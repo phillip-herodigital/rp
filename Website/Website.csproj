@@ -637,6 +637,9 @@
     <Reference Include="Sitecore.Speak.WebSite">
       <HintPath>..\Libraries\Sitecore\Sitecore.Speak.WebSite.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Support.414299">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Support.414299.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Update, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Update.dll</HintPath>
