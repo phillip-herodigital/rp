@@ -22,25 +22,16 @@
                                         <tr>
                                             <td width="600" valign="top" align="left" background="@headerBgPath" style="padding-top: 32px;">
                                                 <!--[if gte mso 9]>
-                                                    <v:rect style="width:600px;height:139px;" strokecolor="none">
+                                                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false"  style="width:600px;height:139px;">
                                                         <v:fill type="frame" src="@headerBgPath" color="#ffffff"/>
-                                                    </v:rect>
-                                                    <v:shape id="overlay" style="position:absolute;width:600px;height:212px;">
+                                                        <v:textbox inset="0,0,0,0">
                                                 <![endif]-->
-                                                <!-- spacing -->
                                                 <table width="445" height="18" align="left" border="0" cellpadding="0" cellspacing="0">
                                                     <tbody>
                                                         <tr>
-                                                            <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <!-- end of spacing -->
-                                                <!-- espanol -->
-                                                <table width="67" height="18" align="left" border="0" cellpadding="0" cellspacing="0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td width="67" height="18" align="center">
+                                                            <td width="445" align="center" style="font-size:1px; line-height:1px;">&    nbsp;
+                                                            </td>
+                                                            <td height="18" align="center" style="text-align:left">
                                                                 @if (espanol.MediaItem != null)
                                                                 {
                                                                     <div class="imgpop">
@@ -53,9 +44,9 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <!-- end of espanol -->
                                                 <!--[if gte mso 9]>
-                                                    </v:shape>
+                                                        </v:textbox>
+                                                    </v:rect>
                                                 <![endif]-->
                                             </td>
                                         </tr>
