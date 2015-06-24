@@ -54,7 +54,7 @@ namespace StreamEnergy.Pipelines
                 .Include("~/Scripts/angular.unobtrusive.validation.min.js")
                 .Include("~/frontend/assets/js/libs/jSignature/jSignature.min.noconflict.js")
                 .Include("~/frontend/assets/js/libs/isotope/isotope.pkgd.min.js")
-                .Include("~/frontend/assets/js/libs/jquery-ellipsis/jquery.ellipsis.min.js")
+                .Include("~/frontend/assets/js/libs/jquery-dotdotdot/jquery.dotdotdot.min.js")
                 .IncludeDirectory("~/frontend/assets/js/modules/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/config/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/services/", "*.js", true)

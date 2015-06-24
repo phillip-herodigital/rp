@@ -177,7 +177,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 articleText += "<div class=\"article-overview\">" +
                     "<span class=\"article-date\">" + (blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat)) + "</span>" +
                     "<h2><a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\">" + blogPost.blog.Title + "</a></h2>" +
-                    "<div class=\"article-summary\">";
+                    "<div class=\"article-summary\" ellipsis>";
                 if (!String.IsNullOrEmpty(blogPost.blog.Summary))
                 {
                     articleText += HttpUtility.HtmlEncode(blogPost.blog.Summary);
