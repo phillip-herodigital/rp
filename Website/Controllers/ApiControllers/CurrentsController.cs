@@ -180,7 +180,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     "<div class=\"article-summary\" ellipsis>";
                 if (!String.IsNullOrEmpty(blogPost.blog.Summary))
                 {
-                    articleText += HttpUtility.HtmlEncode(blogPost.blog.Summary);
+                    articleText += blogPost.blog.Summary;
                 }
                 articleText += "</div></div>";
                 currentBlock += gridClasses + articleText + "</div>";

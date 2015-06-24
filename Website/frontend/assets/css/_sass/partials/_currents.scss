@@ -90,7 +90,7 @@ $default-color: #333333;
             vertical-align: bottom !important;
             padding: 0 35px !important;
             background-repeat: no-repeat;
-            background-position: 0 50px;
+            background-position: 0 88%;
             a {
                 color: #2a2a2a !important;
                 background-color: #fff;
@@ -331,6 +331,7 @@ $default-color: #333333;
             li {
                 height: 30px !important;
                 padding: 0 10px !important;
+                background-image: none !important;
                 .color-block {
                     height: 10px !important;
                 }
