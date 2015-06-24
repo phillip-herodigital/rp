@@ -244,6 +244,7 @@
     <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
     <Compile Include="Pipelines\RebuildSearchIndex.cs" />
     <Compile Include="Pipelines\LogException.cs" />
+    <Compile Include="Providers\MediaProvider.cs" />
     <Compile Include="Providers\ItemProvider.cs" />
     <Compile Include="Pipelines\NoChangeOrderer.cs" />
     <Compile Include="Providers\StubItem.cs" />
