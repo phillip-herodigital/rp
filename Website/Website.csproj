@@ -1493,12 +1493,15 @@
     </Content>
     <Content Include="NewRelicServerMonitor_x64_3.2.6.0.msi">
       <ToOutputDirectory>Always</ToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="NewRelicAgent_x64_3.6.177.0.msi">
       <ToOutputDirectory>Always</ToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="newrelic.cmd">
       <ToOutputDirectory>Always</ToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
@@ -1506,12 +1509,15 @@
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
     <Content Include="updateTypeaheadIndex.cmd">
       <ToOutputDirectory>Always</ToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="updateTypeaheadIndex.ps1">
       <ToOutputDirectory>Always</ToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="installStreamEnergy.RenderingService.cmd">
       <ToOutputDirectory>Always</ToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Components\Authentication\Impersonate.cshtml" />
     <Content Include="sitecore\apps\dialogs\Empty.Master" />
@@ -1535,9 +1541,11 @@
     <Content Include="Views\Pages\Marketing\Services\Protective FAQs.cshtml" />
     <Content Include="updateDataFolderPath.ps1">
       <ToOutputDirectory>Always</ToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="updateDataFolderPath.cmd">
       <ToOutputDirectory>Always</ToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Components\Activation\ActivateEsn.cshtml" />
     <Content Include="Views\Components\Marketing\Video Player.cshtml" />
