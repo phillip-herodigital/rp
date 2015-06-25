@@ -985,6 +985,10 @@
     <Content Include="Components\XBlogWF\Sublayouts\XBlog\Callouts\TagCloud.ascx" />
     <Content Include="Components\XBlogWF\Sublayouts\XBlog\Callouts\TagList.ascx" />
     <Content Include="Data\license.xml" />
+    <Content Include="Data\tools\phantomjs\phantomjs.exe" />
+    <Content Include="Data\tools\phantomjs\sc-ee.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="default.css" />
     <Content Include="default.js" />
     <Content Include="frontend\**\*" />
