@@ -23,12 +23,13 @@ module.exports = function(grunt) {
 				files: ['assets/css/*.css'],
 				options: {
 					livereload: true,
-				}
+				},
+				tasks: ['csssplit']
 			},
 			sass: {
 				files: ['**/*.scss'],
 				tasks: ['compass:dist']
-			}
+			},
 		},
 		compass: {
 			dist: {
@@ -63,11 +64,24 @@ module.exports = function(grunt) {
 					dest: 'assets/i/bg'
 				}]
 			}
-		}
+		},
+		csssplit: {
+		    dev: {
+		    	expand: true,
+    			cwd: 'assets/css',
+				src: ['global.css'],
+				dest: 'assets/css',
+				options: {
+					maxSelectors: 4095,
+		            suffix: '_'
+		        }
+			},
+		},
 	});
  
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-image-resize');
+	grunt.loadNpmTasks('grunt-csssplit');
  
 };

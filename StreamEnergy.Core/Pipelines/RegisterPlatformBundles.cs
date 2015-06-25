@@ -20,7 +20,8 @@ namespace StreamEnergy.Pipelines
         private void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/frontend/assets/css/bundle")
-                .Include("~/frontend/assets/css/global.css"));
+                .Include("~/frontend/assets/css/global_1.css")
+                .Include("~/frontend/assets/css/global_2.css"));
 
             bundles.Add(new StyleBundle("~/frontend/assets/css/printbundle")
                 .Include("~/frontend/assets/css/partials/print.css"));
