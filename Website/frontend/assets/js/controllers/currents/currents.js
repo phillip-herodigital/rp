@@ -42,6 +42,7 @@ ngApp.controller('CurrentsCtrl', ['$scope', '$rootScope', '$http', function ($sc
                 gutter: '.gutter-sizer'
             }
         });
+        $('.currents__box img').removeAttr('height width');
     });
 
 }]);
