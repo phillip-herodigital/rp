@@ -71,6 +71,13 @@
         </script>
     <![endif]-->
     @Styles.Render("~/frontend/assets/css/bundle")
+
+    <!--[if lte IE 9]>
+        <link href="/frontend/assets/css/global_2.css" rel="stylesheet">
+        <link href="/frontend/assets/css/global_3.css" rel="stylesheet">
+    <![endif]-->
+
+
     @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle")
 
     @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
