@@ -1,6 +1,4 @@
-﻿@using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
-@using XBlogHelper.Models.Blog
+﻿@using XBlogHelper.Models.Blog
 @using XBlogHelper.Search
 @using XBlogHelper.General
 @using Sitecore.Data.Items
@@ -33,11 +31,10 @@
     
     // Video
     var videoID = Sitecore.Context.Item.Fields["YouTube ID"].Value;
-    var imageGallery = Sitecore.Context.Item.Fields["Image Gallery"];
     var embedUrl = !string.IsNullOrEmpty(videoID) ? "//www.youtube.com/embed/" + videoID : "";
 }
 
-<div class="currents" ng-controller="CurrentsPostCtrl">
+<div class="currents">
     <div class="blog-info @category">
         <div class="publish-time">
             @Html.Raw(blogPost.PublishDate.DateTime.ToString(settingsItem.BlogPostDateFormat))
@@ -60,38 +57,6 @@
             @Html.Sitecore().Field(BlogPost.BlogPostBodyFieldId, blogPost.InnerItem)
         </div>
 
-        @{
-            var slides = new JArray();
-            if (imageGallery.HasValue)
-            {
-                Sitecore.Data.Fields.MultilistField gallery = imageGallery;
-                foreach (var imageItem in gallery.TargetIDs.Select((Sitecore.Data.ID image, int i) => new { i, image }))
-                {
-                    MediaItem imageField = Sitecore.Context.Database.Items[imageItem.image];
-                    slides.Add(new JObject {
-                        { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField) },
-                        { "index", imageItem.i}
-                    });
-                }
-            }
-        }
-
-        @if (imageGallery.HasValue)
-        {
-            <carousel class="currents__carousel" interval="-1" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
-                <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
-                    <div class="wrapper">
-                        <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
-                    </div>
-                </slide>
-            </carousel>
-            <div class="carousel-thumbnails">
-                <div class="thumbnail" ng-class="{ active : 'slide.active'}" ng-repeat=" slide in slides">
-                    <img ng-src="{{slide.image}}" ng-click="setActive(slide.index)">
-                </div>
-            </div>
-        }
-        
         <div class="wrapper">
             <ul class="social">
                 @if (settingsItem.IncludeFacebookOnBlogPost)
