@@ -42,11 +42,6 @@ ngApp.controller('CurrentsCtrl', ['$scope', '$rootScope', '$http', function ($sc
                 gutter: '.gutter-sizer'
             }
         });
-        $('.article-summary').ellipsis({
-            lines: 'auto',
-            ellipClass: 'ellip', 
-            responsive: true
-        });
     });
 
 }]);

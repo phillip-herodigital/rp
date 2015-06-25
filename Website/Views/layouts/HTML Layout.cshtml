@@ -1,6 +1,7 @@
 ﻿@{
     var pageTitle = "";
     var pageTitleField = Html.Sitecore().CurrentItem.Fields["Page Title"];
+    var postTitleField = Html.Sitecore().CurrentItem.Fields["Title"];
     if (pageTitleField != null)
     {
         pageTitle = Html.Sitecore().CurrentItem.Fields["Page Title"].Value;
@@ -9,7 +10,17 @@
         {
             pageTitle += " | ";
         }
+    } 
+    else if (postTitleField != null)
+    {
+        pageTitle = Html.Sitecore().CurrentItem.Fields["Title"].Value;
+
+        if (!string.IsNullOrEmpty(pageTitle))
+        {
+            pageTitle += " | ";
+        }
     }
+    
     pageTitle += "Stream";
     var settings = StreamEnergy.Unity.Container.Instance.Resolve<StreamEnergy.ISettings>();
     var enableDecibelInsight = !string.IsNullOrEmpty(settings.GetSettingsField("Decibel Insight", "Enable Decibel Insight").Value);
