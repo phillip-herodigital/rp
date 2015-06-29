@@ -1,6 +1,4 @@
-﻿@using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
-@using XBlogHelper.Models.Blog
+﻿@using XBlogHelper.Models.Blog
 @using XBlogHelper.Search
 @using XBlogHelper.General
 @using Sitecore.Data.Items
@@ -11,7 +9,7 @@
 @inherits System.Web.Mvc.WebViewPage
 
 @{
-
+    
     Item dataSourceItem = Sitecore.Context.Database.GetItem(Sitecore.Mvc.Presentation.RenderingContext.Current.Rendering.DataSource);
     Item blogRoot = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
     BlogPost blogPost = Sitecore.Context.Item.CreateAs<BlogPost>();
@@ -27,17 +25,16 @@
     string previousUrl = previousPost != null ? previousPost.Url : "";
     var nextPost = allPosts.TakeWhile(x => x.ItemId != blogPost.ItemId).LastOrDefault();
     string nextUrl = nextPost != null ? nextPost.Url : "";
-
+    
     // Primary Category
     var category = blogPost.Categories.Any() ? blogPost.Categories.FirstOrDefault().Name.ToLower() : "";
-
+    
     // Video
     var videoID = Sitecore.Context.Item.Fields["YouTube ID"].Value;
-    var imageGallery = Sitecore.Context.Item.Fields["Image Gallery"];
     var embedUrl = !string.IsNullOrEmpty(videoID) ? "//www.youtube.com/embed/" + videoID : "";
 }
 
-<div class="currents" ng-controller="CurrentsPostCtrl">
+<div class="currents">
     <div class="blog-info @category">
         <div class="publish-time">
             @Html.Raw(blogPost.PublishDate.DateTime.ToString(settingsItem.BlogPostDateFormat))
@@ -59,38 +56,6 @@
         <div class="wrapper">
             @Html.Sitecore().Field(BlogPost.BlogPostBodyFieldId, blogPost.InnerItem)
         </div>
-
-        @{
-            var slides = new JArray();
-            if (imageGallery.HasValue)
-            {
-                Sitecore.Data.Fields.MultilistField gallery = imageGallery;
-                foreach (var imageItem in gallery.TargetIDs.Select((Sitecore.Data.ID image, int i) => new { i, image }))
-                {
-                    MediaItem imageField = Sitecore.Context.Database.Items[imageItem.image];
-                    slides.Add(new JObject {
-                        { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField) },
-                        { "index", imageItem.i}
-                    });
-                }
-            }
-        }
-
-        @if (imageGallery.HasValue)
-        {
-            <carousel class="currents__carousel" interval="-1" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
-                <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
-                    <div class="wrapper">
-                        <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
-                    </div>
-                </slide>
-            </carousel>
-            <div class="carousel-thumbnails">
-                <div class="thumbnail" ng-class="{ active : 'slide.active'}" ng-repeat=" slide in slides">
-                    <img ng-src="{{slide.image}}" ng-click="setActive(slide.index)">
-                </div>
-            </div>
-        }
 
         <div class="wrapper">
             <ul class="social">
@@ -180,11 +145,11 @@
                             <span class="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve">
                                 <g>
-                                <path d="M20.111 26.147c-2.336 1.051-4.361 1.401-7.125 1.401c-6.462 0-12.146-4.633-12.146-12.265 c0-7.94 5.762-14.833
-                                14.561-14.833c6.853 0 11.8 4.7 11.8 11.252c0 5.684-3.194 9.265-7.399 9.3 c-1.829 0-3.153-0.934-3.347-2.997h-0.077c-1.208
-                                1.986-2.96 2.997-5.023 2.997c-2.532 0-4.361-1.868-4.361-5.062 c0-4.749 3.504-9.071 9.111-9.071c1.713 0 3.7 0.4 4.6 0.973l-1.169
-                                7.203c-0.388 2.298-0.116 3.3 1 3.4 c1.673 0 3.773-2.102 3.773-6.58c0-5.061-3.27-8.994-9.303-8.994c-5.957 0-11.175 4.673-11.175
-                                12.1 c0 6.5 4.2 10.2 10 10.201c1.986 0 4.089-0.43 5.646-1.245L20.111 26.147z M16.646 10.1 c-0.311-0.078-0.701-0.155-1.207-0.155c-2.571
+                                <path d="M20.111 26.147c-2.336 1.051-4.361 1.401-7.125 1.401c-6.462 0-12.146-4.633-12.146-12.265 c0-7.94 5.762-14.833 
+                                14.561-14.833c6.853 0 11.8 4.7 11.8 11.252c0 5.684-3.194 9.265-7.399 9.3 c-1.829 0-3.153-0.934-3.347-2.997h-0.077c-1.208 
+                                1.986-2.96 2.997-5.023 2.997c-2.532 0-4.361-1.868-4.361-5.062 c0-4.749 3.504-9.071 9.111-9.071c1.713 0 3.7 0.4 4.6 0.973l-1.169 
+                                7.203c-0.388 2.298-0.116 3.3 1 3.4 c1.673 0 3.773-2.102 3.773-6.58c0-5.061-3.27-8.994-9.303-8.994c-5.957 0-11.175 4.673-11.175 
+                                12.1 c0 6.5 4.2 10.2 10 10.201c1.986 0 4.089-0.43 5.646-1.245L20.111 26.147z M16.646 10.1 c-0.311-0.078-0.701-0.155-1.207-0.155c-2.571 
                                 0-4.595 2.53-4.595 5.529c0 1.5 0.7 2.4 1.9 2.4 c1.441 0 2.959-1.828 3.311-4.087L16.646 10.068z" />
                                 </g>
                                 </svg>
@@ -194,25 +159,25 @@
                 }
             </ul>
             @*
-                <div class="post-nav">
-                    <div class="grid three">
-                        <div class="col col-first">
-                            @if (previousUrl != "")
-                            {
-                                <a href="@previousUrl">@settingsItem.PreviousPageText</a>
-                            }
-                        </div>
-                        <div class="col">
-                            <a href="@blogUrl">@settingsItem.RecentBlogTitle</a>
-                        </div>
-                        <div class="col col-last">
-                           @if (nextUrl != "")
-                           {
-                            <a href="@nextUrl">@settingsItem.NextPageText</a>
-                           }
-                        </div>
+            <div class="post-nav">
+                <div class="grid three">
+                    <div class="col col-first">
+                        @if (previousUrl != "")
+                        {
+                            <a href="@previousUrl">@settingsItem.PreviousPageText</a>
+                        }
+                    </div>
+                    <div class="col">
+                        <a href="@blogUrl">@settingsItem.RecentBlogTitle</a>
+                    </div>
+                    <div class="col col-last">
+                       @if (nextUrl != "")
+                       {
+                        <a href="@nextUrl">@settingsItem.NextPageText</a>
+                       }
                     </div>
                 </div>
+            </div>
             *@
         </div>
 
