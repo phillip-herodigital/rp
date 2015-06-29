@@ -41,6 +41,7 @@
     var selectedNavItem = topLevelNavigation.Where(node => selectedNode != null && (node.Value.Key == selectedNode.Key || selectedNode.IsDescendantOf(node.Value))).Select(node => node.Number).FirstOrDefault();
     
     var blogDataSourceItem = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
+    var dataSourceItem = Sitecore.Context.Item;
     var settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(blogDataSourceItem != null ? blogDataSourceItem : Sitecore.Context.Item);
     string category = "";
 
@@ -112,24 +113,20 @@
     </div>
 </header>
 
-
-@{
+@if (Sitecore.Context.Item.TemplateName == "Blog Home" || Sitecore.Context.Item.TemplateName == "Blog Category")
+{
     var slides = new JArray();
     for (var i = 1; i <= 4; i++)
     {
-        if (blogDataSourceItem.Fields["Slide " + i + " Image"].HasValue)
+        if (dataSourceItem.Fields["Slide " + i + " Image"].Value != "")
         {
             slides.Add(new JObject {
-                { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField)blogDataSourceItem.Fields["Slide " + i + " Image"]).MediaItem) },
-                { "text", blogDataSourceItem.Fields["Slide " + i + " Text"].Value },
-                { "classes", blogDataSourceItem.Fields["Slide " + i + " CSS Classes"].Value }
+                { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField)dataSourceItem.Fields["Slide " + i + " Image"]).MediaItem) },
+                { "text", dataSourceItem.Fields["Slide " + i + " Text"].Value },
+                { "classes", dataSourceItem.Fields["Slide " + i + " CSS Classes"].Value }
             });
         }
     }
-}
-
-@if (Sitecore.Context.Item.TemplateName == "Blog Home" || Sitecore.Context.Item.TemplateName == "Blog Category")
-{
     <carousel class="currents__carousel" interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
         <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
             <div class="wrapper">
@@ -139,7 +136,7 @@
     </carousel>
 
     <div class="currents__tagline @category">
-        @Html.Sitecore().Field("Tagline Text", blogDataSourceItem)
+        @Html.Sitecore().Field("Tagline Text", dataSourceItem)
     </div>
 }
 else
