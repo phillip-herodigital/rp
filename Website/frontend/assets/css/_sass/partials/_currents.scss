@@ -322,7 +322,7 @@ $default-color: #333333;
             display: none;
         }
     }
-    @include breakpoint-min-max(751px, 1165px) {
+    @include breakpoint-min-max(751px, 1220px) {
         .layout {
             padding: 0 20px;
         }
