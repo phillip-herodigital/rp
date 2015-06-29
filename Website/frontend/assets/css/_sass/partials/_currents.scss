@@ -4,7 +4,7 @@
 $events-color: #00a3e0;
 $promotions-color: #97c93d;
 $recognition-color: #f99d25;
-$default-color: #333333;
+$default-color: #d2d3d3;
 
 .currents {
     position: relative;
@@ -322,7 +322,7 @@ $default-color: #333333;
             display: none;
         }
     }
-    @include breakpoint-min-max(751px, 1165px) {
+    @include breakpoint-min-max(751px, 1220px) {
         .layout {
             padding: 0 20px;
         }
@@ -659,6 +659,27 @@ $default-color: #333333;
                 img {
                     max-width: 100%;
                 }
+            }
+        }
+    }
+    .currents__carousel {
+        margin: 40px 0 0;
+        .wrapper {
+            height: 856px;
+        }
+        .carousel-indicators li { 
+            visibility: hidden; 
+        }
+    }
+    .carousel-thumbnails {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 40px;
+        .thumbnail {
+            display: inline-block;
+            width: 10%;
+            img {
+                vertical-align: top;
             }
         }
     }
