@@ -37,7 +37,7 @@
         }
       </script>
     
-      <CodeBeside Type="Sitecore.Shell.Applications.ContentEditor.ContentEditorForm,Sitecore.Client"/>
+      <CodeBeside Type="Sitecore.Shell.Applications.ContentEditor.ContentEditorForm,Sitecore.ExperienceEditor"/>
    
       <shell:ContentDataContext ID="ContentEditorDataContext"/>
       <UpAction ID="UpAction" DataContext="ContentEditorDataContext"/>

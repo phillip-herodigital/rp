@@ -112,7 +112,7 @@ scContentEditor.prototype.searchWithSameRoot = function() {
     return scForm.postEvent(this, event, "SearchTreeByRoot(\"" + rootId + "\")");
 };
 
-scContentEditor.prototype.addSearchCriteria = function(sender, evt) {
+scContentEditor.prototype.addSearchCriteria = function (sender, evt) {
     var input = $("SearchOptionsAddCriteria");
     var name = input.value;
 
@@ -128,7 +128,7 @@ scContentEditor.prototype.addSearchCriteria = function(sender, evt) {
 
     var cell = $(row.insertCell(0));
 
-    cell.innerHTML = "<a href=\"#\" class=\"scSearchOptionName\" onclick=\"javascript:return scForm.postEvent(this,event,'TreeSearchOptionName_Click',true)\">" + name + ":</a>";
+    cell.innerHTML = "<div class='scElementHover elementPadding' onclick=\"javascript:return scForm.postEvent(this,event,'TreeSearchOptionName_Click',true)\"><a href=\"#\" class=\"scSearchOptionName searchOptionAlignment\" >" + name + " <img src='/sitecore/shell/themes/standard/Images/down_h.png' class='arrowDown' /></a></div>";
     cell.addClassName("scSearchOptionsNameContainer");
 
     cell = $(row.insertCell(1));
@@ -143,22 +143,26 @@ scContentEditor.prototype.addSearchCriteria = function(sender, evt) {
     return false;
 };
 
-scContentEditor.prototype.changeSearchCriteria = function(index, name) {
+scContentEditor.prototype.changeSearchCriteria = function (index, name) {
+    var imgArrowDown = " <img src='/sitecore/shell/themes/standard/Images/down_h.png' class='arrowDown paddingLeft' />";
     var table = $("SearchOptionsList");
 
-    var row = table.rows[parseInt(index, 10)];
+    var searchOptionsName = table.rows[parseInt(index, 10)].cells[0].select("a[class=scSearchOptionName]")[0];
+    var searchOptionsValue = table.rows[parseInt(index, 10)].cells[1].select("input[type=hidden]")[0];
 
-    row.cells[0].childNodes[0].innerHTML = name + ":";
-    row.cells[1].childNodes[1].value = name;
+    if (searchOptionsName && searchOptionsValue) {
 
-    this.updateSearchCriteria();
+        searchOptionsName.innerHTML = "<div class=\"searchOptionAlignment\"><div class='inlineBlock'>" + name + "</div><div class='inlineBlock'>" + imgArrowDown + "</div></div>";
+        searchOptionsValue.value = name;
+        this.updateSearchCriteria();
+    }
 
     scForm.browser.closePopups();
 
     return false;
 };
 
-scContentEditor.prototype.removeSearchCriteria = function(index) {
+scContentEditor.prototype.removeSearchCriteria = function (index) {
     var table = $("SearchOptionsList");
 
     var row = table.rows[parseInt(index, 10)];
@@ -172,16 +176,16 @@ scContentEditor.prototype.removeSearchCriteria = function(index) {
     return false;
 };
 
-scContentEditor.prototype.updateSearchCriteria = function() {
+scContentEditor.prototype.updateSearchCriteria = function () {
     var table = $("SearchOptionsList");
 
     for (var r = 0; r < table.rows.length - 1; r++) {
         var cell = table.rows[r].cells[0];
-        cell.childNodes[0].id = "SearchOptionsControl" + r;
+        cell.select("a[class=scSearchOptionName]")[0].id = "SearchOptionsControl" + r;
 
         cell = table.rows[r].cells[1];
 
-        cell.childNodes[0].id = "SearchOptionsValue" + r;
-        cell.childNodes[1].id = "SearchOptionsName" + r;
+        cell.select("input[class=scSearchOptionsInput scIgnoreModified]")[0].id = "SearchOptionsValue" + r;
+        cell.select("input[type=hidden]")[0].id = "SearchOptionsName" + r;
     }
 };

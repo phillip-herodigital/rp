@@ -3,7 +3,7 @@
 }
 
 /**
-* The enumeration for availablle page editor's capabilities.
+* The enumeration for availablle page editor's capabilities. 
 * @enum {String}
 */
 Sitecore.PageModes.Capabilities = {
@@ -66,6 +66,20 @@ Sitecore.PageModes.PageEditor = new function() {
     else {
       Sitecore.PageModes.ChromeHighlightManager.activate();
     } 
+  };
+    
+
+  this.changeShowOptimization = function (enabled) {
+      if (!this.editing()) {
+          return;
+      }
+
+      if (!enabled) {
+          Sitecore.PageModes.ChromeOptimizationView.deactivate();
+      }
+      else {
+          Sitecore.PageModes.ChromeOptimizationView.activate();
+      }
   };
 
   this.changeVariations = function(combination, selectChrome) {    
@@ -286,6 +300,19 @@ Sitecore.PageModes.PageEditor = new function() {
     return $sc("#scWebEditRibbon")[0];
   };
 
+  this.layoutDefinitionControl = function () {
+    var iframeLayoutDefinition = Sitecore.PageModes.PageEditor.ribbon().contentWindow.$("scLayoutDefinition");
+    if (iframeLayoutDefinition.value == null) {
+      return $sc("#scLayoutDefinition")[0];
+    }
+
+    return iframeLayoutDefinition;
+  };
+
+  this.layout = function () {
+    return $sc("#scLayout");
+  };
+
   /**
   * @description Gets the ribbon's Sitecore form instance
   * @returns {scSitecore} The sitecore form. @see scSitecore.
@@ -298,6 +325,10 @@ Sitecore.PageModes.PageEditor = new function() {
     
     if (!ribbon.contentWindow) {
       return null;
+    }
+
+    if (!ribbon.contentWindow.scForm) {
+      ribbon.contentWindow.scForm = scForm;
     }
 
     return ribbon.contentWindow.scForm;
@@ -525,18 +556,24 @@ Sitecore.PageModes.PageEditor = new function() {
     }        
     
     $sc(ribbon.contentWindow).resize($sc.proxy(this.onRibbonResize, this));
-        
-    if (this.editing()) {
-      $sc(window).bind("scroll", $sc.proxy(this.onWindowScroll.fire, this.onWindowScroll));
-      if (typeof(ribbon.contentWindow.scShowControls) != "undefined" && ribbon.contentWindow.scShowControls) {
-        setTimeout($sc.proxy(Sitecore.PageModes.ChromeHighlightManager.activate, Sitecore.PageModes.ChromeHighlightManager), 100);      
+
+    if (typeof (ribbon.contentWindow) != "undefined" && ribbon.contentWindow) {
+      if (this.editing()) {
+        $sc(window).bind("scroll", $sc.proxy(this.onWindowScroll.fire, this.onWindowScroll));
+        if (typeof(ribbon.contentWindow.scShowControls) != "undefined" && ribbon.contentWindow.scShowControls) {
+          setTimeout($sc.proxy(Sitecore.PageModes.ChromeHighlightManager.activate, Sitecore.PageModes.ChromeHighlightManager), 100);
+        }
+
+        if (typeof (ribbon.contentWindow.scShowOptimization) != "undefined" && ribbon.contentWindow.scShowOptimization) {
+          setTimeout($sc.proxy(Sitecore.PageModes.ChromeOptimizationView.activate, Sitecore.PageModes.ChromeOptimizationView), 100);
+        }
       }
+
+      var $ribbonDoc = $sc(ribbon.contentWindow.document);
+      $ribbonDoc.keyup($sc.proxy(this.onKeyUp, this));
+      $ribbonDoc.keydown($sc.proxy(this.onKeyDown, this));
     }
-       
-    var $ribbonDoc = $sc(ribbon.contentWindow.document);
-    $ribbonDoc.keyup($sc.proxy(this.onKeyUp, this));
-    $ribbonDoc.keydown($sc.proxy(this.onKeyDown, this));      
-    
+
     // Hide loading indicator
     $sc("#scPeLoadingIndicator").hide();
     this._isLoaded = true;

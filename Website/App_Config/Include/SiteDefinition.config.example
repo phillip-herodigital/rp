@@ -25,7 +25,7 @@ XPath relative to the parent node of the inserted element.
             domain="extranet"
             allowDebug="true"
             cacheHtml="true"
-            htmlCacheSize="10MB"
+            htmlCacheSize="50MB"
             enablePreview="true"
             enableWebEdit="true"
             enableDebugger="true"

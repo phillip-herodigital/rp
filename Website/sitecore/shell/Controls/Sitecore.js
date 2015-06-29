@@ -24,17 +24,17 @@ function scSitecore() {
 scSitecore.prototype.initializeModalDialogs = function () {
   if (!top.scIsDialogsInitialized) {
     top.scIsDialogsInitialized = true;
-    
+
     var jqueryModalDialogsFrame = top.document.createElement("iframe");
     jqueryModalDialogsFrame.setAttribute("frameborder", "0");
     jqueryModalDialogsFrame.setAttribute("allowTransparency", "true");
     jqueryModalDialogsFrame.setAttribute("id", "jqueryModalDialogsFrame");
     jqueryModalDialogsFrame.setAttribute("src", "/sitecore/shell/Controls/JqueryModalDialogs.html");
-    jqueryModalDialogsFrame.setAttribute("style", "position: absolute; left: 0; right: 0; top: 0; bottom: 0; width: 100%; height: 100%; z-index: -1; margin: 0; padding: 0; border-width: 0; overflow: hidden");
+    jqueryModalDialogsFrame.setAttribute("style", "position: fixed; left: 0; right: 0; top: 0; bottom: 0; width: 100%; height: 100%; z-index: -1; margin: 0; padding: 0; border-width: 0; overflow: hidden");
     top.document.body.appendChild(jqueryModalDialogsFrame);
 
     if (!top.scForm) {
-      top.scForm = { getTopModalDialog: window.scForm.getTopModalDialog };
+      top.scForm = { getTopModalDialog: window.scForm.getTopModalDialog, keymap: this.keymap, translate: this.translate };
     }
   }
 };
@@ -47,7 +47,7 @@ scSitecore.prototype.showModalDialog = function (url, dialogArguments, features,
   }
 };
 
-scSitecore.prototype.setDialogDimension = function(width, height) {
+scSitecore.prototype.setDialogDimension = function (width, height) {
   var jqueryModalDialogsFrame = top.document.getElementById("jqueryModalDialogsFrame");
   if (jqueryModalDialogsFrame && jqueryModalDialogsFrame.contentWindow) {
     jqueryModalDialogsFrame.contentWindow.setDialogDimension(width, height);
@@ -55,45 +55,72 @@ scSitecore.prototype.setDialogDimension = function(width, height) {
 };
 
 scSitecore.prototype.hideCloseButton = function () {
-  top._scDialogs[0].contentIframe.dialog('widget').addClass('no-close');
+  top._scDialogs[0] && top._scDialogs[0].contentIframe.dialog('widget').addClass('no-close');
 };
 
 scSitecore.prototype.showCloseButton = function () {
-  top._scDialogs[0].contentIframe.dialog('widget').removeClass('no-close');
+  top._scDialogs[0] && top._scDialogs[0].contentIframe.dialog('widget').removeClass('no-close');
+};
+
+scSitecore.prototype.hideDialogTitlebarButtons = function () {
+  top._scDialogs[0] && top._scDialogs[0].contentIframe.dialog('widget').addClass('no-close no-maximize no-restore');
+};
+
+scSitecore.prototype.showDialogTitlebarButtons = function () {
+  top._scDialogs[0] && top._scDialogs[0].contentIframe.dialog('widget').removeClass('no-close no-maximize no-restore');
 };
 
 scSitecore.prototype.getTopModalDialog = function () {
-  var jqueryModalDialogsFrame = top.document.getElementById("jqueryModalDialogsFrame");
-  if (jqueryModalDialogsFrame && jqueryModalDialogsFrame.contentWindow && top._scDialogs && top._scDialogs.length > 0) {
-    var dialog = top._scDialogs[0];
-    if (dialog) {
-      var contentFrame = dialog.contentIframe[0];
-      var framesCollection = jqueryModalDialogsFrame.contentWindow.frames;
-      for (var i = 0; i < framesCollection.length; i++) {
-        if (framesCollection[i].frameElement == contentFrame) {
-          return framesCollection[i];
-        }
-      }
-    }
+  return top._scDialogs[0] && top._scDialogs[0].contentIframe[0].contentWindow;
+};
+
+scSitecore.prototype.getDialogArguments = function () {
+  return top._scDialogs[0] && top._scDialogs[0].dialogArguments;
+}
+
+scSitecore.prototype.autoIncreaseModalDialogHeight = function (element, contextWindow, extraCalling) {
+  contextWindow = contextWindow || window;
+  var contextDocument = contextWindow.document;
+  element = element || contextDocument.querySelector('.scDialogContentContainer');
+  if (!element) {
+    return;
   }
 
-  return null;
-};
+  var heightDelta = element.scrollHeight - element.clientHeight;
+  if (heightDelta > 0) {
+    var initialDialogHeight = this.getViewPortSize(contextWindow).height;
+    var maxDialogHeight = this.getViewPortSize(top).height - 80;
 
-scSitecore.prototype.enableModifiedHandling = function() {
+    var bottomDialogContentContainerPadding = 15;
+    var newHeight = initialDialogHeight + heightDelta + bottomDialogContentContainerPadding;
+
+    scForm.setDialogDimension(null, newHeight < maxDialogHeight ? newHeight : maxDialogHeight);
+    if (contextWindow.Flexie) {
+      contextWindow.Flexie.updateInstance();
+    }
+
+    // Extra calling is necessary in case if dialog height initially was very small
+    if (!extraCalling) {
+      this.autoIncreaseModalDialogHeight(element, contextWindow, true);
+    }
+  }
+}
+
+scSitecore.prototype.enableModifiedHandling = function(beforeUnloadCallback) {
   this.modifiedHandlingEnabled = true;
-  window.scBeforeUnload = function() { };
+  window.scBeforeUnload = function () { };
+  if (beforeUnloadCallback) window.onbeforeunload = beforeUnloadCallback;
 };
 
-scSitecore.prototype.modifiedHandling = function() {
+scSitecore.prototype.modifiedHandling = function () {
   return !this.modifiedHandlingEnabled || !top._scDialogs[0].modified || confirm(scForm.translate("There are unsaved changes. Are you sure you want to continue?"));
 };
 
-scSitecore.prototype.onBlur = function() {
+scSitecore.prototype.onBlur = function () {
   this.browser.closePopups("mainWindowBlur");
 };
 
-scSitecore.prototype.onKeyDown = function(evt) {
+scSitecore.prototype.onKeyDown = function (evt) {
   evt = (evt != null ? evt : window.event);
 
   if (evt != null) {
@@ -123,7 +150,7 @@ scSitecore.prototype.onKeyDown = function(evt) {
     var result = this.handleKey(evt.srcElement, evt, null, null, true);
 
     if (evt.keyCode == 112 && evt.altKey) {
-      for (var e = this.browser.getEnumerator(document.getElementsByTagName("span")); !e.atEnd(); e.moveNext()) {
+      for (var e = this.browser.getEnumerator(document.getElementsByTagName("span")) ; !e.atEnd() ; e.moveNext()) {
         var ctl = e.item();
 
         if (ctl.className.indexOf("scRibbonToolbarKeyCode") >= 0) {
@@ -136,13 +163,13 @@ scSitecore.prototype.onKeyDown = function(evt) {
   }
 };
 
-scSitecore.prototype.onLoad = function() {
-  this.browser.attachEvent(document, "onkeydown", function(evt) {
+scSitecore.prototype.onLoad = function () {
+  this.browser.attachEvent(document, "onkeydown", function (evt) {
     if (scForm != null) {
       return scForm.onKeyDown(evt);
     }
   });
-  this.browser.attachEvent(document, "onkeypress", function(evt) {
+  this.browser.attachEvent(document, "onkeypress", function (evt) {
     evt = evt || window.event;
     if (evt.keyCode == 0 && evt.ctrlKey && scForm.browser.shouldKeyPressBeCleared(evt)) {
       scForm.browser.clearEvent(evt, true, false);
@@ -166,11 +193,11 @@ scSitecore.prototype.onLoad = function() {
   window.setInterval(scKeepAlive, keepAliveTimeout);
 };
 
-scSitecore.prototype.onUnload = function() {
+scSitecore.prototype.onUnload = function () {
   this.browser.closePopups("mainWindowUnload");
 };
 
-scSitecore.prototype.activate = function(tag, evt) {
+scSitecore.prototype.activate = function (tag, evt) {
   if (!tag.disabled) {
     this.setClass(tag, evt.type == "activate", "_Active");
   }
@@ -178,7 +205,7 @@ scSitecore.prototype.activate = function(tag, evt) {
   return false;
 };
 
-scSitecore.prototype.broadcast = function(win, request, command) {
+scSitecore.prototype.broadcast = function (win, request, command) {
   if (typeof (win.scForm) != "undefined" && typeof (win.scForm.browser) != "undefined") {
     if (win.scForm.frameName == null) {
       win.scForm.frameName = "";
@@ -201,7 +228,7 @@ scSitecore.prototype.broadcast = function(win, request, command) {
       if (this.broadcast(win.frames[n], request, command)) {
         return true;
       }
-    } catch(ex) {
+    } catch (ex) {
       console.log("Failed to accees frame. This typically happens due to a Permission Denied exception in IE9 caused by an intricate issue with Popup and ShowModalDialog calls. " + ex.message);
     }
   }
@@ -209,68 +236,62 @@ scSitecore.prototype.broadcast = function(win, request, command) {
   return false;
 };
 
-scSitecore.prototype.drag = function(tag, evt, parameters) {
+scSitecore.prototype.drag = function (tag, evt, parameters) {
   switch (evt.type) {
-  case "mousedown":
-    if (evt.button == 1) {
-      this.dragMouseDown = tag;
-      this.dragMouseDownX = evt.x;
-      this.dragMouseDownY = evt.y;
-    }
-    break;
-  case "mousemove":
-    if (this.dragMouseDown != null && this.dragMouseDown == tag && evt.button == 1) {
-      if (Math.abs(this.dragMouseDownX - evt.x) > 4 || Math.abs(this.dragMouseDownY - evt.y) > 4) {
-        evt.srcElement.dragDrop();
+    case "mousedown":
+      if (evt.button == 1) {
+        this.dragMouseDown = tag;
+        this.dragMouseDownX = evt.x;
+        this.dragMouseDownY = evt.y;
+      }
+      break;
+    case "mousemove":
+      if (this.dragMouseDown != null && this.dragMouseDown == tag && evt.button == 1) {
+        if (Math.abs(this.dragMouseDownX - evt.x) > 4 || Math.abs(this.dragMouseDownY - evt.y) > 4) {
+          evt.srcElement.dragDrop();
+          this.dragMouseDown = null;
+        }
+      } else {
         this.dragMouseDown = null;
       }
-    } else {
-      this.dragMouseDown = null;
-    }
-    break;
-  case "dragstart":
-    evt.dataTransfer.setData("text", "sitecore:" + parameters);
-    evt.dataTransfer.effectAllowed = "all";
-    break;
+      break;
+    case "dragstart":
+      evt.dataTransfer.setData("text", "sitecore:" + parameters);
+      evt.dataTransfer.effectAllowed = "all";
+      break;
   }
 };
 
-scSitecore.prototype.drop = function(tag, evt, parameters) {
-  var data = evt.dataTransfer.getData("text");
+scSitecore.prototype.dragover = function(tag, evt, parameters) {
+    this.browser.clearEvent(evt, true, false);
+    return true;
+};
 
+scSitecore.prototype.drop = function(tag, evt, parameters) {
+  var data = evt.dataTransfer.getData("text");   
   if (data != null) {
     if (data.substring(0, 9) == "sitecore:") {
-      switch (evt.type) {
-      case "dragover":
-        evt.dataTransfer.dropEffect = (parameters != null && parameters != "" ? parameters : (evt.ctrlKey ? "copy" : "move"));
         this.browser.clearEvent(evt, true, false);
-        return true;
-      case "drop":
-        this.browser.clearEvent(evt, true, false);
-
         this.postEvent(tag, evt, parameters.replace(/\$Data/gi, data));
-        break;
-      }
     } else {
       evt.dataTransfer.dropEffect = "none";
       this.browser.clearEvent(evt, null, false);
     }
   }
-
   return false;
 };
 
-scSitecore.prototype.expandHtml = function(html) {
+scSitecore.prototype.expandHtml = function (html) {
   var n = html.indexOf("[[X:");
   if (n < 0) {
     return html;
   }
 
-  var textareas = "";
+  var blockQuotes = "";
 
-  for (var e = this.browser.getEnumerator(document.getElementsByTagName("TEXTAREA")); !e.atEnd(); e.moveNext()) {
+  for (var e = this.browser.getEnumerator(document.getElementsByTagName("BLOCKQUOTE")) ; !e.atEnd() ; e.moveNext()) {
     var ctl = e.item();
-    textareas += ctl.value;
+    blockQuotes += ctl.innerHTML;
   }
 
   while (n >= 0) {
@@ -288,18 +309,39 @@ scSitecore.prototype.expandHtml = function(html) {
       text = this.browser.getOuterHtml(ctl);
       var i = text.toUpperCase().lastIndexOf("</DIV>");
       text = text.substring(0, i) + "</div id=\"" + id + "\">";
+
+      var div = document.createElement("DIV");
+      div.innerHTML = text;
+
+      text = scForm.getInnerHtmlWithParsedAttributes(div);
+      text = text.substring("<div>".length, text.length - "</div>".length);
     } else {
-      var h = textareas.indexOf(id);
+      var h = blockQuotes.indexOf(id);
 
       if (h >= 0) {
-        var i1 = textareas.lastIndexOf("<div", h);
-        var i2 = textareas.lastIndexOf("<DIV", h);
+        var i1 = blockQuotes.lastIndexOf("<div", h);
+        var i2 = blockQuotes.lastIndexOf("<DIV", h);
 
         i = (i1 > i2 ? i1 : i2);
 
-        var j = textareas.indexOf("</div id=\"" + id + "\">", i);
+        var j = blockQuotes.indexOf("</div id=\"" + id + "\">", i);
+
+        if(j < 0){
+          var openDivsCounter = 1;
+          var reg = new RegExp("<div|</div", "ig");
+          reg.lastIndex = i+ "<div".length;
+          var nextDiv;
+          while(openDivsCounter > 0 && (nextDiv = reg.exec(blockQuotes)))
+          {
+            openDivsCounter = nextDiv[0] === "<div" ? openDivsCounter + 1 : openDivsCounter - 1;
+            reg.lastIndex = nextDiv.index + nextDiv[0].length;
+          }
+
+          j = reg.lastIndex - nextDiv[0].length;
+        }
+
         if (j >= 0) {
-          text = textareas.substring(i, j) + "</div id=\"" + id + "\">";
+          text = blockQuotes.substring(i, j) + "</div id=\"" + id + "\">";
         }
       }
     }
@@ -312,20 +354,20 @@ scSitecore.prototype.expandHtml = function(html) {
   return html;
 };
 
-scSitecore.prototype.focus = function(ctl) {
+scSitecore.prototype.focus = function (ctl) {
   try {
     ctl.focus();
-  } catch(e) {
+  } catch (e) {
   }
 };
 
-scSitecore.prototype.getParentForm = function() {
+scSitecore.prototype.getParentForm = function () {
   var frame = this.browser.getFrameElement(window);
 
   if (frame != null) {
     var win = this.browser.getParentWindow(frame.ownerDocument);
 
-    if (typeof(win.scForm) != "undefined") {
+    if (typeof (win.scForm) != "undefined") {
       return win.scForm;
     }
   }
@@ -333,7 +375,19 @@ scSitecore.prototype.getParentForm = function() {
   return null;
 };
 
-scSitecore.prototype.invoke = function(method) {
+scSitecore.prototype.getViewPortSize = function (win) {
+  win = win || window;
+  var w = win,
+      d = win.document,
+      e = d.documentElement,
+      g = d.getElementsByTagName('body')[0],
+      x = w.innerWidth || e.clientWidth || g.clientWidth,
+      y = w.innerHeight || e.clientHeight || g.clientHeight;
+
+  return { width: x, height: y };
+};
+
+scSitecore.prototype.invoke = function (method) {
   var e = window.event;
   if (method != "LoadItem" && scForm && scForm.disableRequests) {
     alert(this.translate("Please wait while the Content Editor is loading."));
@@ -344,7 +398,7 @@ scSitecore.prototype.invoke = function(method) {
     var argumentsList = [];
     for (var n = 1; n < arguments.length; n++) {
       var arg = arguments[n];
-      var isEventArg = arg && (typeof(arg.stopPropagation) != "undefined" || typeof(arg.cancelBubble) != "undefined");
+      var isEventArg = arg && (typeof (arg.stopPropagation) != "undefined" || typeof (arg.cancelBubble) != "undefined");
       if (isEventArg) {
         e = arg;
         continue;
@@ -377,7 +431,7 @@ scSitecore.prototype.invoke = function(method) {
   return this.postRequest("", "", "", method);
 };
 
-scSitecore.prototype.invokeCallback = function(method, callback, async) {
+scSitecore.prototype.invokeCallback = function (method, callback, async) {
   if (arguments.length > 0) {
     method += "(";
 
@@ -391,7 +445,7 @@ scSitecore.prototype.invokeCallback = function(method, callback, async) {
   return this.postRequest("", "", "", method, callback, async);
 };
 
-scSitecore.prototype.invokeAsync = function(object) {
+scSitecore.prototype.invokeAsync = function (object) {
   var request = new scRequest();
 
   request.async = true;
@@ -410,7 +464,7 @@ scSitecore.prototype.invokeAsync = function(object) {
   request.execute();
 };
 
-scSitecore.prototype.invokeUrl = function(url, async, callback) {
+scSitecore.prototype.invokeUrl = function (url, async, callback) {
   var request = new scRequest();
 
   request.async = async == true;
@@ -433,8 +487,8 @@ scSitecore.prototype.invokeUrl = function(url, async, callback) {
   request.execute();
 };
 
-scSitecore.prototype.isSiblingsHidden = function(tag) {
-  for (var e = this.browser.getEnumerator(tag.parentNode.childNodes); !e.atEnd(); e.moveNext()) {
+scSitecore.prototype.isSiblingsHidden = function (tag) {
+  for (var e = this.browser.getEnumerator(tag.parentNode.childNodes) ; !e.atEnd() ; e.moveNext()) {
     var ctl = e.item();
 
     if (ctl != tag && ctl.style.display != "none") {
@@ -445,7 +499,7 @@ scSitecore.prototype.isSiblingsHidden = function(tag) {
   return true;
 };
 
-scSitecore.prototype.getCookie = function(name) {
+scSitecore.prototype.getCookie = function (name) {
   name = name + "=";
 
   var i = 0;
@@ -473,7 +527,7 @@ scSitecore.prototype.getCookie = function(name) {
   return null;
 };
 
-scSitecore.prototype.getCookieName = function() {
+scSitecore.prototype.getCookieName = function () {
   var href = window.location.href;
 
   var n = href.indexOf("xmlcontrol=");
@@ -489,7 +543,7 @@ scSitecore.prototype.getCookieName = function() {
   return href;
 };
 
-scSitecore.prototype.getEventControl = function(evt, tag) {
+scSitecore.prototype.getEventControl = function (evt, tag) {
   var ctl = this.browser.getSrcElement(evt);
 
   while (ctl != null && ctl != tag && (ctl.id == null || ctl.id == "")) {
@@ -499,16 +553,16 @@ scSitecore.prototype.getEventControl = function(evt, tag) {
   return ctl;
 };
 
-scSitecore.prototype.getParameters = function(form) {
+scSitecore.prototype.getParameters = function (form) {
   // for overriding
   return form;
 };
 
-scSitecore.prototype.help = function(tag, evt, link) {
+scSitecore.prototype.help = function (tag, evt, link) {
   window.showHelp(link);
 };
 
-scSitecore.prototype.insertIntoTable = function(ctl, command) {
+scSitecore.prototype.insertIntoTable = function (ctl, command) {
   var container = ctl.ownerDocument.createElement("div");
 
   container.innerHTML = "<table>" + command.value + "</table>";
@@ -532,7 +586,7 @@ scSitecore.prototype.insertIntoTable = function(ctl, command) {
   }
 };
 
-scSitecore.prototype.insertIntoDiv = function(control, command) {
+scSitecore.prototype.insertIntoDiv = function (control, command) {
   var container = control.ownerDocument.createElement("div");
   container.innerHTML = "<div>" + command.value + "</div>";
   var grid = container.childNodes[0];
@@ -549,7 +603,7 @@ scSitecore.prototype.insertIntoDiv = function(control, command) {
   }
 };
 
-scSitecore.prototype.getGridRows = function(grid) {
+scSitecore.prototype.getGridRows = function (grid) {
   var result = [];
 
   for (var i = 0; i < grid.childNodes.length; i++) {
@@ -563,7 +617,7 @@ scSitecore.prototype.getGridRows = function(grid) {
   return result;
 };
 
-scSitecore.prototype.handleKey = function(tag, evt, parameters, keyFilter, global) {
+scSitecore.prototype.handleKey = function (tag, evt, parameters, keyFilter, global) {
   if (evt.keyCode == null) {
     return;
   }
@@ -574,6 +628,13 @@ scSitecore.prototype.handleKey = function(tag, evt, parameters, keyFilter, globa
   }
   // special enter key handling
   if (evt.keyCode == 13 && tag != null && (tag.tagName == "TEXTAREA" || tag.isContentEditable)) {
+    return;
+  }
+  // special tab key handling
+  if (evt.keyCode == 9 && tag && (tag.tagName == "BUTTON" || tag.tagName == "INPUT") && tag.id == "Cancel" && !evt.shiftKey) {
+    var firstInput = document.querySelector('input:not([type=hidden])');
+    firstInput && firstInput.focus();
+    this.browser.clearEvent(evt, true, false);
     return;
   }
 
@@ -626,14 +687,14 @@ scSitecore.prototype.handleKey = function(tag, evt, parameters, keyFilter, globa
     var win = window.parent;
 
     if (win != null && win != window) {
-      if (typeof(win.scForm) != "undefined") {
+      if (typeof (win.scForm) != "undefined" && win.scForm.handleKey) {
         return win.scForm.handleKey(tag, evt, parameters, keyFilter, global);
       }
     }
   }
 };
 
-scSitecore.prototype.registerKey = function(key, click, group) {
+scSitecore.prototype.registerKey = function (key, click, group) {
   this.keymap[key] = { click: click, group: group };
 };
 
@@ -686,7 +747,7 @@ scSitecore.prototype.isFunctionKey = function (evt, editorKeys) {
   return false;
 };
 
-scSitecore.prototype.postEvent = function(tag, evt, parameters) {
+scSitecore.prototype.postEvent = function (tag, evt, parameters) {
   var result;
 
   if (evt.type == "contextmenu") {
@@ -721,7 +782,7 @@ scSitecore.prototype.postEvent = function(tag, evt, parameters) {
   return result;
 };
 
-scSitecore.prototype.postMessage = function(message, target, top, postSelf) {
+scSitecore.prototype.postMessage = function (message, target, top, postSelf) {
   var win = window;
   var topWindow;
 
@@ -751,7 +812,7 @@ scSitecore.prototype.postMessage = function(message, target, top, postSelf) {
         try {
           win = win.dialogArguments[0];
           var dummy = win.scForm;
-        } catch(e) {
+        } catch (e) {
           win = null;
         }
       } else {
@@ -767,7 +828,7 @@ scSitecore.prototype.postMessage = function(message, target, top, postSelf) {
   }
 };
 
-scSitecore.prototype.postMessageToWindow = function(win, message, target, postSelf) {
+scSitecore.prototype.postMessageToWindow = function (win, message, target, postSelf) {
   if (win.scForm != null) {
     var ok = true;
 
@@ -789,13 +850,13 @@ scSitecore.prototype.postMessageToWindow = function(win, message, target, postSe
   for (var n = 0; n < win.frames.length; n++) {
     try {
       this.postMessageToWindow(win.frames[n], message, target, postSelf);
-    } catch(ex) {
+    } catch (ex) {
       console.log("Failed to accees frame. This typically happens due to a Permission Denied exception in IE9 caused by an intricate issue with Popup and ShowModalDialog calls. " + ex.message);
     }
   }
 };
 
-scSitecore.prototype.postRequest = function(control, source, eventtype, parameters, callback, async) {
+scSitecore.prototype.postRequest = function (control, source, eventtype, parameters, callback, async) {
   var request = new scRequest();
 
   request.parameters = parameters;
@@ -809,7 +870,7 @@ scSitecore.prototype.postRequest = function(control, source, eventtype, paramete
   return request.execute();
 };
 
-scSitecore.prototype.postResult = function(result, pipeline) {
+scSitecore.prototype.postResult = function (result, pipeline) {
   var request = new scRequest();
 
   request.form = "&__RESULT=" + encodeURIComponent(result) +
@@ -821,380 +882,434 @@ scSitecore.prototype.postResult = function(result, pipeline) {
   return request.execute();
 };
 
-scSitecore.prototype.process = function(request, command, name) {
+scSitecore.prototype.process = function (request, command, name) {
   name = (name == null ? command.command : name);
   this.state.pipeline = request.pipeline;
   var r;
   switch (name) {
-  case "Alert":
-    alert(command.value);
-    if (command.response != null) {
-      this.postResult(command.response, request.pipeline);
-    }
-    break;
-  case "Broadcast":
-    if (window.dialogArguments != null) {
-      this.broadcast(window.dialogArguments[0].top, request, command);
-    }
-    this.broadcast(window.top, request, command);
-    break;
-  case "Cache":
-    this.cache[request.cacheKey] = request.response;
-    break;
-  case "CheckModified":
-    if (command.frame == null) {
-      var form = this;
-    } else {
-      form = this.browser.getControl(command.frame);
-      if (form != null) {
-        form = form.contentWindow.scForm;
-      }
-    }
-
-    var modified = false;
-    if (form != null) {
-      try {
-        modified = form.modified;
-      } catch(e) {
-      }
-    }
-
-    if (modified) {
+    case "Alert":
       if (request.dialogResult == "__!!NoDialogResult!!__") {
-        this.browser.closePopups("checkModifiedShowModalDialog");
-        this.showModalDialog("/sitecore/shell/default.aspx?xmlcontrol=YesNoCancel&te=" + command.value, [window], "dialogWidth:300px;dialogHeight:136px;help:no;scroll:auto;resizable:yes;status:no;center:yes", request);
-      }
-      r = request.dialogResult;
-      if (r != "__!!NoDialogResult!!__") {
-        switch (r) {
-        case "yes":
-          form.setModified(false);
-          var saved = form.postRequest("", "", "", command.disableNotifications == "1" ? "item:save(disableNotifications=true)" : "item:save");
+        this.browser.closePopups("ShowModalWindowCommand");
 
-          if (saved == "failed") {
-            form.setModified(true);
-            request.abort = true;
-            r = "cancel";
-          }
-          break;
-        case "no":
-          form.setModified(false);
-          form.disableRequests = false;
-          break;
-        case "cancel":
-          request.abort = true;
-          form.disableRequests = false;
-          break;
-        }
-
-        if (command.response == "1") {
-          modified = form.modified;
-          this.postResult(r, request.pipeline);
-          form.setModified(modified);
-        }
-      }
-    } else {
-      if (command.response == "1") {
-        this.postResult("no", request.pipeline);
-      }
-    }
-    break;
-  case "CloseWindow":
-    window.top.dialogClose();
-    break;
-  case "ClosePopups":
-    if (command.value == "1") {
-      this.browser.closePopups("ClosePopupsCommand");
-    } else {
-      request.closePopups = false;
-    }
-    break;
-  case "Confirm":
-    if (confirm(command.value)) {
-      this.postResult("yes", request.pipeline);
-    } else {
-      this.postResult("no", request.pipeline);
-    }
-    break;
-  case "Debug":
-    window.defaultStatus =
-      "ViewState: " + command.viewstatesize + " bytes; " +
-        "ControlStore: " + command.controlstoresize + " bytes; " +
-        "Controls: " + command.controlcount + "; " +
-        "Client time: " + request.timer + "ms; " +
-        "Response: " + request.response.length + " bytes; " +
-        "Commands: " + request.commands.length + ";";
-    break;
-  case "Download":
-    var iframe = document.createElement("iframe");
-    if (command.value.substring(0, 4) == 'http') {
-      iframe.src = command.value;
-    } else {
-      iframe.src = "/sitecore/shell/download.aspx?file=" + encodeURIComponent(command.value);
-    }
-    iframe.width = "1";
-    iframe.height = "1";
-    iframe.style.position = "absolute";
-    iframe.style.display = "none";
-    document.body.appendChild(iframe);
-    break;
-  case "Eval":
-    r = eval(command.value);
-    if (command.response != null) {
-      this.postResult(r, request.pipeline);
-    }
-    break;
-  case "Error":
-    this.showModalDialog("/sitecore/shell/controls/reload.htm", [command.value], "center:yes;help:no;resizable:yes;scroll:yes;status:no;", request);
-    window.top.location.href = window.top.location.href;
-    break;
-  case "Focus":
-    ctl = this.browser.getControl(command.value);
-    if (ctl != null) {
-      this.focus(ctl);
-
-      if (command.scrollintoview == "1") {
-        this.browser.scrollIntoView(ctl);
-      }
-    }
-    break;
-  case "Input":
-    var input = command.defaultValue;
-    var maxlength = (command.maxlength != null ? parseInt(command.maxlength, 10) : 0);
-
-    while (true) {
-      if (command.validation != null) {
-        var re = new RegExp(command.validation);
-
-        while (true) {
-          input = scForm.browser.prompt(command.value, input);
-          if (input == null || re.test(input)) {
-            break;
-          }
-          alert(command.validationtext.replace(/\$Input/gi, input));
-        }
+        this.showModalDialog(command.url, { message: command.value.replace(/(?:\r\n|\r|\n)/g, '<br />'), header: command.header}, "dialogWidth:400px;dialogHeight:190px;help:no;scroll:no;resizable:no;maximizable:no;status:no;center:yes;autoIncreaseHeight:yes", request, request.onCloseModalDialogCallback);
+        request.onCloseModalDialogCallback = null;
       } else {
-        input = scForm.browser.prompt(command.value, input);
+        if (command.response) {
+          this.postResult(command.response, request.pipeline);
+        }
       }
 
-      if (maxlength == 0 || input == null || input.length <= maxlength) {
-        break;
+      break;
+    case "Broadcast":
+      if (window.dialogArguments != null) {
+        this.broadcast(window.dialogArguments[0].top, request, command);
       }
-
-      alert(command.maxLengthValidatationText);
-    }
-
-    if (typeof(input) == "undefined") {
-      input = null;
-    }
-
-    this.postResult(input, request.pipeline);
-    break;
-  case "Insert":
-    var id = command.id;
-    var where = command.where;
-
-    var ctl = (id != null && id != "" ? this.browser.getControl(id) : document.body);
-
-    if (ctl != null) {
-      if (where == "table") {
-        this.insertIntoTable(ctl, command);
-      } else if (where == "div") {
-        this.insertIntoDiv(ctl, command);
-        scTreeview.align();
-      } else if (where == "append") {
-        var div = document.createElement("div");
-
-        if (command.tag != null) {
-          command.value = "<" + command.tag + ">" + command.value + "</" + command.tag + ">";
-        }
-
-        div.innerHTML = command.value;
-
-        var source = (command.tag != null ? div.childNodes[0] : div);
-
-        while (source.childNodes.length > 0) {
-          ctl.appendChild(source.childNodes[0]);
-        }
+      this.broadcast(window.top, request, command);
+      break;
+    case "Cache":
+      this.cache[request.cacheKey] = request.response;
+      break;
+    case "CheckModified":
+      if (command.frame == null) {
+        var form = this;
       } else {
-        if (where == null || where == "") {
-          where = "afterBegin";
+        form = this.browser.getControl(command.frame);
+        if (form != null) {
+          form = form.contentWindow.scForm;
         }
-        this.browser.insertAdjacentHTML(ctl, where, command.value);
       }
-    }
-    break;
-  case "Redraw":
-    request.currentCommand++;
-    request.suspend = true;
 
-    this.suspended[this.uniqueID] = request;
-    setTimeout("scForm.resume(" + this.uniqueID + ")", 0);
-
-    this.uniqueID++;
-    break;
-  case "RegisterKey":
-    this.registerKey(command.keycode, command.value, command.group);
-    break;
-  case "RegisterTranslation":
-    this.registerTranslation(command.key, command.value);
-    break;
-  case "Remove":
-    ctl = this.browser.getControl(command.id);
-    if (ctl != null) {
-      this.browser.removeChild(ctl);
-    }
-    break;
-  case "SetAttribute":
-    ctl = this.browser.getControl(command.id);
-    if (ctl != null) {
-      value = command.value;
-
-      switch (command.name) {
-      case "id":
-        ctl.id = value;
-        break;
-      case "class":
-      case "className":
-        ctl.className = value;
-        break;
-      case "disabled":
-        ctl.disabled = value;
-        break;
-      case "checked":
-        ctl.checked = value;
-        break;
-      case "value":
-        ctl.value = value;
-        break;
-      default:
-        ctl.setAttribute(command.name, value);
-      }
-    }
-    break;
-  case "SetDialogValue":
-    window.returnValue = command.value;
-    window.top.returnValue = command.value;
-    break;
-  case "SetInnerHtml":
-    ctl = this.browser.getControl(command.id);
-    if (ctl != null) {
-      var frames = $$('#' + command.id + " iframe");
-      for (var i = 0; i < frames.length; i++) {
+      var modified = false;
+      if (form != null) {
         try {
-          if (frames[i].contentWindow.scDisplose) frames[i].contentWindow.scDisplose();
-        } catch(e) {} 
+          modified = form.modified;
+        } catch (e) {
+        }
       }
 
-      var value = this.expandHtml(command.value);
+      if (modified) {
+        if (request.dialogResult == "__!!NoDialogResult!!__") {
+          this.browser.closePopups("checkModifiedShowModalDialog");
+          this.showModalDialog("/sitecore/shell/default.aspx?xmlcontrol=YesNoCancel&te=" + command.value, [window], "dialogWidth:430px;dialogHeight:190px;help:no;scroll:auto;resizable:yes;maximizable:no;status:no;center:yes;autoIncreaseHeight:yes", request);
+        }
+        r = request.dialogResult || 'cancel';
+        if (r != "__!!NoDialogResult!!__") {
+          switch (r) {
+            case "yes":
+              form.setModified(false);
+              var saved = form.postRequest("", "", "", command.disableNotifications == "1" ? "item:save(disableNotifications=true)" : "item:save");
 
-      if (ctl.tagName == "TEXTAREA") {
-        ctl.value = value;
-      } else {
-        var scrollTop = null;
-        var scrollElement = ctl;
-        if (command.preserveScrollTop == true) {
-          if (command.preserveScrollElement != null) {
-            scrollElement = this.browser.getControl(command.preserveScrollElement);
+              if (saved == "failed") {
+                form.setModified(true);
+                request.abort = true;
+                r = "cancel";
+              }
+              break;
+            case "no":
+              form.setModified(false);
+              form.disableRequests = false;
+              break;
+            case "cancel":
+              request.abort = true;
+              form.disableRequests = false;
+              break;
           }
 
-          scrollTop = scrollElement.scrollTop;
+          if (command.response == "1") {
+            modified = form.modified;
+            this.postResult(r, request.pipeline);
+            form.setModified(modified);
+          }
         }
-
-        ctl.innerHTML = value;
-
-        re = /<script\b[\s\S]*?>([\s\S]*?)<\//ig;
-        var match;
-        while (match = re.exec(value)) {
-          eval(match[1]);
-        }
-
-        if (scrollTop != null) {
-          window.setTimeout("scForm.browser.getControl('" + scrollElement.id + "').scrollTop=" + scrollTop, 1);
-        }
-      }
-    }
-    break;
-  case "SetLocation":
-    try {
-      if (command.value != null && command.value != "") {
-        var fullUrl = this.getAbsoluteUrl(command.value);
-        window.location.href = fullUrl;
       } else {
-        window.location.reload(true);
+        if (command.response == "1") {
+          this.postResult("no", request.pipeline);
+        }
       }
-    } catch(e) {
-      // silent - user may have aborted action
+      break;
+    case "CloseWindow":
+    if (window.top.dialogClose != undefined) {
+        window.top.dialogClose();
     }
-    break;
-  case "SetModified":
-    this.setModified(command.value);
-    break;
-  case "SetOuterHtml":
-    ctl = this.browser.getControl(command.id);
-    if (ctl != null) {
-      this.browser.setOuterHtml(ctl, this.expandHtml(command.value));
-    }
-    break;
-  case "SetPipeline":
-    request.pipeline = command.value;
-    break;
-  case "SetReturnValue":
-    request.returnValue = command.value;
-    break;
-  case "SetStyle":
-    ctl = this.browser.getControl(command.id);
-    if (ctl != null) {
-      ctl.style[command.name] = command.value;
-    }
-    break;
-  case "SetTableRowClass":
-    ctl = this.browser.getControl(command.id);
-    if (ctl != null) {
-      ctl.className = command.row;
+      break;
+    case "ClosePopups":
+      if (command.value == "1") {
+        this.browser.closePopups("ClosePopupsCommand");
+      } else {
+        request.closePopups = false;
+      }
+      break;
+    case "Confirm":
+      if (request.dialogResult == "__!!NoDialogResult!!__") {
+        this.browser.closePopups("ShowModalWindowCommand");
 
-      ctl.childNodes[0].className = command.firstcell;
-
-      for (var n = 1; n < ctl.childNodes.length - 1; n++) {
-        ctl.childNodes[n].className = command.cell;
+        this.showModalDialog(command.url, { message: command.value }, "dialogWidth:400px;dialogHeight:190px;help:no;scroll:no;resizable:no;maximizable:no;status:no;center:yes;autoIncreaseHeight:yes", request, request.onCloseModalDialogCallback);
+        request.onCloseModalDialogCallback = null;
       }
 
-      ctl.childNodes[ctl.childNodes.length - 1].className = command.lastcell;
-    }
-    break;
-  case "ShowModalDialog":
-    if (request.dialogResult == "__!!NoDialogResult!!__") {
-      this.browser.closePopups("ShowModalWindowCommand");
-
-      window.___Message = command.message;
-      this.showModalDialog(command.value, [window], command.features, request, request.onCloseModalDialogCallback);
-      request.onCloseModalDialogCallback = null;
-    }
-    r = request.dialogResult;
-    if (r != "__!!NoDialogResult!!__") {
+      r = request.dialogResult || 'no';
+      if (r != "__!!NoDialogResult!!__") {
+        this.postResult(r, request.pipeline);
+      }
+      break;
+    case "Debug":
+      window.defaultStatus =
+        "ViewState: " + command.viewstatesize + " bytes; " +
+          "ControlStore: " + command.controlstoresize + " bytes; " +
+          "Controls: " + command.controlcount + "; " +
+          "Client time: " + request.timer + "ms; " +
+          "Response: " + request.response.length + " bytes; " +
+          "Commands: " + request.commands.length + ";";
+      break;
+    case "Download":
+      var iframe = document.createElement("iframe");
+      if (command.value.substring(0, 4) == 'http') {
+        iframe.src = command.value;
+      } else {
+        iframe.src = "/sitecore/shell/download.aspx?file=" + encodeURIComponent(command.value);
+      }
+      iframe.width = "1";
+      iframe.height = "1";
+      iframe.style.position = "absolute";
+      iframe.style.display = "none";
+      document.body.appendChild(iframe);
+      break;
+    case "Eval":
+      r = eval(command.value);
       if (command.response != null) {
         this.postResult(r, request.pipeline);
       }
+      break;
+    case "Error":
+      this.showModalDialog("/sitecore/shell/controls/reload.htm", [command.value], "center:yes;help:no;resizable:yes;scroll:yes;status:no;", request);
+      window.top.location.href = window.top.location.href;
+      break;
+    case "Focus":
+      ctl = this.browser.getControl(command.value);
+      if (ctl != null) {
+        this.focus(ctl);
 
-      if (r != null && command.message != null) {
-        this.postRequest("", "", "", command.message);
+        if (command.scrollintoview == "1") {
+          this.browser.scrollIntoView(ctl);
+        }
       }
-    }
-    break;
-  case "ShowPopup":
-    this.showPopup(command);
-    request.closePopups = false;
-    break;
-  case "Timer":
-    setTimeout("scForm.postRequest(\"\", \"\", \"\", \"" + command["event"] + "\")", command.delay);
-    break;
-  case "UnregisterKeyGroup":
-    this.unregisterKeyGroup(command.value);
-    break;
+      break;
+    case "Input":
+      if (request.dialogResult == "__!!NoDialogResult!!__") {
+        this.browser.closePopups("ShowModalWindowCommand");
+
+        var dialogArguments = {
+          message: command.value,
+          defaultValue: command.defaultValue,
+          maxLength: command.maxlength,
+          validation: command.validation,
+          validationText: command.validationtext,
+          maxLengthValidatationText: command.maxLengthValidatationText,
+          header: command.header
+        };
+
+        this.showModalDialog(command.url, dialogArguments, "dialogWidth:400px;dialogHeight:190px;help:no;scroll:no;resizable:no;maximizable:no;status:no;center:yes;autoIncreaseHeight:yes", request, request.onCloseModalDialogCallback);
+        request.onCloseModalDialogCallback = null;
+      }
+
+      r = request.dialogResult;
+      if (r != "__!!NoDialogResult!!__") {
+          this.postResult(r, request.pipeline);     
+      }
+      break;
+    case "Insert":
+      var id = command.id;
+      var where = command.where;
+
+      var ctl = (id != null && id != "" ? this.browser.getControl(id) : document.body);
+
+      if (ctl != null) {
+        if (where == "table") {
+          this.insertIntoTable(ctl, command);
+        } else if (where == "div") {
+          this.insertIntoDiv(ctl, command);
+          scTreeview.align();
+        } else if (where == "append") {
+          var div = document.createElement("div");
+
+          if (command.tag != null) {
+            command.value = "<" + command.tag + ">" + command.value + "</" + command.tag + ">";
+          }
+
+          div.innerHTML = command.value;
+
+          var source = (command.tag != null ? div.childNodes[0] : div);
+
+          while (source.childNodes.length > 0) {
+            ctl.appendChild(source.childNodes[0]);
+          }
+        } else {
+          if (where == null || where == "") {
+            where = "afterBegin";
+          }
+          this.browser.insertAdjacentHTML(ctl, where, command.value);
+        }
+      }
+      break;
+    case "Redraw":
+      request.currentCommand++;
+      request.suspend = true;
+
+      this.suspended[this.uniqueID] = request;
+      setTimeout("scForm.resume(" + this.uniqueID + ")", 0);
+
+      this.uniqueID++;
+      break;
+    case "RegisterKey":
+      this.registerKey(command.keycode, command.value, command.group);
+      break;
+    case "RegisterTranslation":
+      this.registerTranslation(command.key, command.value);
+      break;
+    case "Remove":
+      ctl = this.browser.getControl(command.id);
+      if (ctl != null) {
+        this.browser.removeChild(ctl);
+      }
+      break;
+    case "SetAttribute":
+      ctl = this.browser.getControl(command.id);
+      if (ctl != null) {
+        value = command.value;
+
+        switch (command.name) {
+          case "id":
+            ctl.id = value;
+            break;
+          case "class":
+          case "className":
+            ctl.className = value;
+            break;
+          case "disabled":
+            ctl.disabled = value;
+            break;
+          case "checked":
+            ctl.checked = value;
+            break;
+          case "value":
+            ctl.value = value;
+            break;
+          default:
+            ctl.setAttribute(command.name, value);
+        }
+      }
+      break;
+    case "SetDialogValue":
+      window.returnValue = command.value;
+      window.top.returnValue = command.value;
+      break;
+    case "SetInnerHtml":
+      ctl = this.browser.getControl(command.id);
+      if (ctl != null) {
+        var frames = $$('#' + command.id + " iframe");
+        for (var i = 0; i < frames.length; i++) {
+          try {
+            if (frames[i].contentWindow.scDisplose) frames[i].contentWindow.scDisplose();
+          } catch (e) { }
+        }
+
+        var value = this.expandHtml(command.value);
+
+        if (ctl.tagName == "TEXTAREA") {
+          ctl.value = value;
+        } else {
+          var scrollTop = null;
+          var scrollElement = ctl;
+          if (command.preserveScrollTop == true) {
+            if (command.preserveScrollElement != null) {
+              scrollElement = this.browser.getControl(command.preserveScrollElement);
+            }
+
+            scrollTop = scrollElement.scrollTop;
+          }
+
+          ctl.innerHTML = value;
+          
+          var match;
+          var srcScriptRegex = /(src[\s]*=[\s]*"[^"]*)<script\b[\s\S]*?>([\s\S]*?)<\//ig;
+          
+          while (match = srcScriptRegex.exec(value)) {
+            value = value.replace(match[2], "");
+          }
+
+          re = /<script\b[\s\S]*?>([\s\S]*?)<\//ig;
+          
+          while (match = re.exec(value)) {
+            eval(match[1]);
+          }
+
+          if (scrollTop != null) {
+            window.setTimeout("scForm.browser.getControl('" + scrollElement.id + "').scrollTop=" + scrollTop, 1);
+          }
+        }
+      }
+      break;
+    case "SetLocation":
+      try {
+        if (command.value != null && command.value != "") {
+          var fullUrl = this.getAbsoluteUrl(command.value);
+          window.location.href = fullUrl;
+        } else {
+          window.location.reload(true);
+        }
+      } catch (e) {
+        // silent - user may have aborted action
+      }
+      break;
+    case "SetModified":
+      this.setModified(command.value);
+      break;
+    case "SetOuterHtml":
+      ctl = this.browser.getControl(command.id);
+      if (ctl != null) {
+        this.browser.setOuterHtml(ctl, this.expandHtml(command.value));
+      }
+      break;
+    case "SetPipeline":
+      request.pipeline = command.value;
+      break;
+    case "SetReturnValue":
+      request.returnValue = command.value;
+      break;
+    case "SetStyle":
+      ctl = this.browser.getControl(command.id);
+      if (ctl != null) {
+        ctl.style[command.name] = command.value;
+      }
+      break;
+    case "SetTableRowClass":
+      ctl = this.browser.getControl(command.id);
+      if (ctl != null) {
+        ctl.className = command.row;
+
+        ctl.childNodes[0].className = command.firstcell;
+
+        for (var n = 1; n < ctl.childNodes.length - 1; n++) {
+          ctl.childNodes[n].className = command.cell;
+        }
+
+        ctl.childNodes[ctl.childNodes.length - 1].className = command.lastcell;
+      }
+      break;
+    case "ShowModalDialog":
+      if (request.dialogResult == "__!!NoDialogResult!!__") {
+        this.browser.closePopups("ShowModalWindowCommand");
+
+        window.___Message = command.message;
+        this.showModalDialog(command.value, [window], command.features, request, request.onCloseModalDialogCallback);
+        request.onCloseModalDialogCallback = null;
+      }
+      r = request.dialogResult;
+      if (r != "__!!NoDialogResult!!__") {
+        if (command.response != null) {
+          this.postResult(r, request.pipeline);
+        }
+
+        if (r != null && command.message != null) {
+          this.postRequest("", "", "", command.message);
+        }
+      }
+      break;
+    case "ShowPopup":
+      this.showPopup(command);
+      request.closePopups = false;
+      break;
+    case "Timer":
+      setTimeout("scForm.postRequest(\"\", \"\", \"\", \"" + command["event"] + "\")", command.delay);
+      break;
+    case "UnregisterKeyGroup":
+      this.unregisterKeyGroup(command.value);
+      break;
   }
 };
 
-scSitecore.prototype.getAbsoluteUrl = function(relativeOrAbsoluteUrl) {
+scSitecore.prototype.getInnerHtmlWithParsedAttributes = function (elem) {
+  if(elem.nodeType!==1){
+    return elem.nodeType===8 ? "<!--" + elem.nodeValue + "-->" : elem.nodeValue;
+  }
+
+  var innerHtml = "";
+  var attributes = "";
+  var outerHtml = document.createElement(elem.tagName).outerHTML;
+
+  for(var i = 0; i < elem.attributes.length; i++){
+    attributes += " " + this.encodeAttribute(elem.attributes[i]);
+  }
+
+  var attrIndex = outerHtml.indexOf("><");
+
+  if(attrIndex === -1){
+    attrIndex = outerHtml.indexOf(">");
+    return [outerHtml.slice(0, attrIndex), attributes," /", outerHtml.slice(attrIndex)].join("");
+  }
+
+  for(i = 0; i < elem.childNodes.length; i++){
+    innerHtml += this.getInnerHtmlWithParsedAttributes(elem.childNodes[i]);
+  }
+
+  return [outerHtml.slice(0, attrIndex), attributes, ">", innerHtml, outerHtml.slice(attrIndex + 1)].join("");
+}
+
+scSitecore.prototype.encodeAttribute = function (attr) {
+  var attrValue = attr.value;
+
+  if (attr.name.indexOf("on") !== 0) {
+    attrValue = ("" + attrValue).replace(/&/g, "&amp;")
+      .replace(/'/g, "&apos;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  return attr.name + "=\"" + attrValue + "\"";
+}
+
+scSitecore.prototype.getAbsoluteUrl = function (relativeOrAbsoluteUrl) {
   // Handle absolute URLs (with protocol-relative prefix)
   // Example: //domain.com/file.png
   if (relativeOrAbsoluteUrl.search(/^\/\//) != -1) {
@@ -1223,7 +1338,7 @@ scSitecore.prototype.getAbsoluteUrl = function(relativeOrAbsoluteUrl) {
   return base + relativeOrAbsoluteUrl;
 };
 
-scSitecore.prototype.resume = function(suspendID) {
+scSitecore.prototype.resume = function (suspendID) {
   var request = this.suspended[suspendID];
 
   if (request != null) {
@@ -1232,7 +1347,7 @@ scSitecore.prototype.resume = function(suspendID) {
   }
 };
 
-scSitecore.prototype.hasSuspendedRequests = function() {
+scSitecore.prototype.hasSuspendedRequests = function () {
   for (var n in this.suspended) {
     if (n != null) {
       return true;
@@ -1242,7 +1357,7 @@ scSitecore.prototype.hasSuspendedRequests = function() {
   return false;
 };
 
-scSitecore.prototype.rollOver = function(tag, evt) {
+scSitecore.prototype.rollOver = function (tag, evt) {
   if (!tag.disabled) {
     if (tag.tagName == "IMG") {
       var src = this.browser.getImageSrc(tag);
@@ -1255,14 +1370,14 @@ scSitecore.prototype.rollOver = function(tag, evt) {
       }
 
       switch (evt.type) {
-      case "mouseover":
-      case "focus":
-        this.browser.setImageSrc(tag, src + "_h" + ext);
-        break;
-      case "mouseout":
-      case "blur":
-        this.browser.setImageSrc(tag, src + ext);
-        break;
+        case "mouseover":
+        case "focus":
+          this.browser.setImageSrc(tag, src + "_h" + ext);
+          break;
+        case "mouseout":
+        case "blur":
+          this.browser.setImageSrc(tag, src + ext);
+          break;
       }
     } else {
       this.setClass(tag, evt.type == "mouseover" || evt.type == "focus", "_Hover");
@@ -1276,7 +1391,7 @@ scSitecore.prototype.rollOver = function(tag, evt) {
   return false;
 };
 
-scSitecore.prototype.scrollIntoView = function(id, alignToTop, force) {
+scSitecore.prototype.scrollIntoView = function (id, alignToTop, force) {
   if (force == null || force == false) {
     if (window.dialogArguments == null) {
       return;
@@ -1289,7 +1404,7 @@ scSitecore.prototype.scrollIntoView = function(id, alignToTop, force) {
   }
 };
 
-scSitecore.prototype.setClass = function(tag, enable, modifier) {
+scSitecore.prototype.setClass = function (tag, enable, modifier) {
   var className = tag.className;
 
   if (className != null && className != "") {
@@ -1307,7 +1422,7 @@ scSitecore.prototype.setClass = function(tag, enable, modifier) {
   }
 };
 
-scSitecore.prototype.setCookie = function(name, value, expires, path, domain, secure) {
+scSitecore.prototype.setCookie = function (name, value, expires, path, domain, secure) {
   if (expires == null) {
     expires = new Date();
     expires.setMonth(expires.getMonth() + 3);
@@ -1324,12 +1439,12 @@ scSitecore.prototype.setCookie = function(name, value, expires, path, domain, se
     (secure ? "; secure" : "");
 };
 
-scSitecore.prototype.setModified = function(value) {
+scSitecore.prototype.setModified = function (value) {
   this.modified = value;
   if (top._scDialogs && top._scDialogs.length != 0) top._scDialogs[0].modified = value;
 };
 
-scSitecore.prototype.showContextMenu = function(tag, evt, controlid) {
+scSitecore.prototype.showContextMenu = function (tag, evt, controlid) {
   if (evt.ctrlKey == true) {
     return null;
   }
@@ -1349,7 +1464,7 @@ scSitecore.prototype.showContextMenu = function(tag, evt, controlid) {
   return false;
 };
 
-scSitecore.prototype.showPopup = function(node, id, controlid, where, value, doc) {
+scSitecore.prototype.showPopup = function (node, id, controlid, where, value, doc) {
   var evt = (scForm.lastEvent != null ? scForm.lastEvent : window.event);
 
   if (doc == null) {
@@ -1378,11 +1493,11 @@ scSitecore.prototype.showPopup = function(node, id, controlid, where, value, doc
   this.browser.showPopup(node);
 };
 
-scSitecore.prototype.registerTranslation = function(key, message) {
+scSitecore.prototype.registerTranslation = function (key, message) {
   this.keymap[key] = { message: message };
 };
 
-scSitecore.prototype.translate = function(key) {
+scSitecore.prototype.translate = function (key) {
   var k = this.keymap[key];
 
   if (k != null) {
@@ -1392,7 +1507,7 @@ scSitecore.prototype.translate = function(key) {
   return key;
 };
 
-scSitecore.prototype.unregisterKeyGroup = function(group) {
+scSitecore.prototype.unregisterKeyGroup = function (group) {
   for (var key in this.keymap) {
     if (this.keymap[key].group == group) {
       delete this.keymap[key];
@@ -1427,7 +1542,7 @@ function scRequest() {
   this.async = this.isAsync();
 }
 
-scRequest.prototype.debug = function() {
+scRequest.prototype.debug = function () {
   for (var index = 0; index < this.commands.length; index++) {
     var command = this.commands[index];
 
@@ -1445,7 +1560,7 @@ scRequest.prototype.debug = function() {
   }
 };
 
-scRequest.prototype.build = function(control, source, eventtype, parameters, isevent, contextmenu, modified) {
+scRequest.prototype.build = function (control, source, eventtype, parameters, isevent, contextmenu, modified) {
   this.control = control;
   this.source = source;
   this.eventtype = eventtype;
@@ -1487,66 +1602,72 @@ scRequest.prototype.build = function(control, source, eventtype, parameters, ise
   this.form = scForm.getParameters(this.form);
 };
 
-scRequest.prototype.buildFields = function(doc) {
+appendFormData = function(form, value) {
+  form += value;
+
+  return form;
+};
+
+scRequest.prototype.buildFields = function (doc) {
   if (doc == null) {
     doc = document;
   }
   var e;
   var ctl;
 
-  for (e = scForm.browser.getEnumerator(doc.getElementsByTagName("INPUT")); !e.atEnd(); e.moveNext()) {
+  for (e = scForm.browser.getEnumerator(doc.getElementsByTagName("INPUT")) ; !e.atEnd() ; e.moveNext()) {
     ctl = e.item();
 
     if ((ctl.type != "checkbox" && ctl.type != "radio") || ctl.checked) {
-      this.form += this.getValue(ctl, ctl.value);
+      this.form = appendFormData(this.form, this.getValue(ctl, ctl.value));
     }
   }
 
-  for (e = scForm.browser.getEnumerator(doc.getElementsByTagName("TEXTAREA")); !e.atEnd(); e.moveNext()) {
+  for (e = scForm.browser.getEnumerator(doc.getElementsByTagName("TEXTAREA")) ; !e.atEnd() ; e.moveNext()) {
     ctl = e.item();
     if (ctl.className != "scSheerIgnore") {
-      this.form += this.getValue(ctl, ctl.value);
+      this.form = appendFormData(this.form, this.getValue(ctl, ctl.value));
     }
   }
 
-  for (e = scForm.browser.getEnumerator(doc.getElementsByTagName("IFRAME")); !e.atEnd(); e.moveNext()) {
+  for (e = scForm.browser.getEnumerator(doc.getElementsByTagName("IFRAME")) ; !e.atEnd() ; e.moveNext()) {
     var iframe = e.item();
 
     try {
-      if (typeof(iframe.contentWindow.scGetFrameValue) != "undefined") {
+      if (typeof (iframe.contentWindow.scGetFrameValue) != "undefined") {
         var v = iframe.contentWindow.scGetFrameValue(this.form, this);
 
         if (v != null) {
-          this.form += this.getValue(iframe, v);
+          this.form = appendFormData(this.form, this.getValue(iframe, v));
         }
       } else {
         var attr = iframe.attributes["sc_value"];
 
         if (attr != null) {
-          this.form += this.getValue(iframe, attr.value);
+          this.form = appendFormData(this.form, this.getValue(iframe, attr.value));
         }
       }
-    } catch(ex) {
+    } catch (ex) {
       console.log("Failed to call scGetFrameValue in IFrame tag. This typically happens due to a Permission Denied exception in IE9 caused by an intricate issue with Popup and ShowModalDialog calls. " + ex.message);
     }
   }
 
-  for (e = scForm.browser.getEnumerator(doc.getElementsByTagName("SELECT")); !e.atEnd(); e.moveNext()) {
+  for (e = scForm.browser.getEnumerator(doc.getElementsByTagName("SELECT")) ; !e.atEnd() ; e.moveNext()) {
     var options = "";
 
-    for (var o = scForm.browser.getEnumerator(e.item().options); !o.atEnd(); o.moveNext()) {
+    for (var o = scForm.browser.getEnumerator(e.item().options) ; !o.atEnd() ; o.moveNext()) {
       if (o.item().selected) {
         options += (options != "" ? "," : "") + o.item().value;
       }
     }
 
     if (options != "") {
-      this.form += this.getValue(e.item(), options);
+      this.form = appendFormData(this.form, this.getValue(e.item(), options));
     }
   }
 };
 
-scRequest.prototype.execute = function() {
+scRequest.prototype.execute = function () {
   this.evt = null;
 
   this.send();
@@ -1558,15 +1679,18 @@ scRequest.prototype.execute = function() {
   return false;
 };
 
-scRequest.prototype.handle = function() {
+scRequest.prototype.handle = function () {
   if (this.httpRequest != null) {
     if (this.httpRequest.status != "200") {
-      scForm.showModalDialog("/sitecore/shell/controls/error.htm", [this.httpRequest.responseText], "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogWidth:506;dialogHeight:150");
+        scForm.showModalDialog("/sitecore/shell/controls/error.htm", [this.httpRequest.responseText], "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogMinHeight:150;dialogMinWidth:250;dialogWidth:580;dialogHeight:150;header:" + scForm.translate("Error"));
       return false;
     }
 
-    if (this.httpRequest.responseText.indexOf("/sitecore/login/default.js") >= 0) {
-      window.top.location = "/sitecore";
+    if (this.httpRequest.getResponseHeader("SC-Login") == 'true') {
+      var parser = document.createElement('a');
+      parser.href = this.httpRequest.responseURL;
+      window.top.location = parser.protocol + "//" + parser.host + (parser.pathname[0] == '/' ? '' : '/') + parser.pathname +
+        "?returnUrl=" + (top.location.pathname[0] == '/' ? '' : '/') + encodeURIComponent(top.location.pathname + top.location.search + top.location.hash);
       return false;
     }
 
@@ -1596,7 +1720,7 @@ scRequest.prototype.handle = function() {
   return false;
 };
 
-scRequest.prototype.getValue = function(ctl, value) {
+scRequest.prototype.getValue = function (ctl, value) {
   var key = (ctl.name != null && ctl.name != "" ? ctl.name : (ctl.id != null && ctl.id != "" ? ctl.id : null));
 
   if (key != null) {
@@ -1606,7 +1730,7 @@ scRequest.prototype.getValue = function(ctl, value) {
   return "";
 };
 
-scRequest.prototype.isAsync = function() {
+scRequest.prototype.isAsync = function () {
   var ctl = document.getElementsByName("__VIEWSTATE");
 
   if (ctl != null) {
@@ -1643,7 +1767,7 @@ scRequest.prototype.sortCommands = function (unsortedCommands) {
   return sortedCommands;
 };
 
-scRequest.prototype.parse = function() {
+scRequest.prototype.parse = function () {
   var c = eval('(' + this.response + ')');
 
   this.commands = this.sortCommands(c.commands);
@@ -1653,27 +1777,27 @@ scRequest.prototype.parse = function() {
   }
 };
 
-scRequest.prototype.resume = function() {
+scRequest.prototype.resume = function () {
   this.suspend = false;
 
   while (this.currentCommand < this.commands.length) {
     if (!window.scForm) {
       return;
     }
-    
+
     // It is not allowed to perform a SetLocation command before the ShowModalDialog one since Sitecore 7.1. So, here is a tricky fix for such kind of rare situations:
     // If a "SetLocation" command is placed before the "ShowModalDialog" one, then "SetLocation" command will not performed immediatly
     // It will be performed after closing the modal dialog.
     if (this.commands[this.currentCommand].command == "SetLocation") {
       for (var i = this.currentCommand; i < this.commands.length; i++) {
         var command = this.commands[i];
-        if (command.command == "ShowModalDialog") {
+        if (["ShowModalDialog", "Input", "Confirm", "Alert"].indexOf(command.command) > -1) {
           var newLocation = this.commands[this.currentCommand].value;
-          this.onCloseModalDialogCallback = function() {
+          this.onCloseModalDialogCallback = function () {
             try {
               if (newLocation) { location.href = newLocation; }
               else { location.reload(true); }
-            } catch(e) {}
+            } catch (e) { }
           };
         }
       }
@@ -1718,8 +1842,8 @@ scRequest.prototype.resume = function() {
       var ancestors = ctl.ancestors();
       var popupTree = null;
       try {
-        popupTree = ancestors.find(function(e) { return e.tagName != "BODY" && e.hasClassName("scPopupTree"); });
-      } catch(ex) { }
+        popupTree = ancestors.find(function (e) { return e.tagName != "BODY" && e.hasClassName("scPopupTree"); });
+      } catch (ex) { }
 
       if (popupTree != null) {
         canClose = ancestors.find(function (e) { return e.hasClassName("scTreeItem"); }) != null;
@@ -1727,14 +1851,18 @@ scRequest.prototype.resume = function() {
     }
   }
 
-  if (canClose && this.closePopups && typeof(scForm) != "undefined") {
+  if (canClose && this.closePopups && typeof (scForm) != "undefined") {
     scForm.browser.closePopups("Request");
   }
 
   return this.returnValue;
 };
 
-scRequest.prototype.send = function() {
+scSitecore.prototype.postRequestUrlRewriter = function (url) {
+  return url;
+};
+
+scRequest.prototype.send = function () {
   if (this.cacheKey != null && this.cacheKey != "") {
     this.response = scForm.cache[this.cacheKey];
   }
@@ -1764,6 +1892,7 @@ scRequest.prototype.send = function() {
       }
     }
 
+    url = scSitecore.prototype.postRequestUrlRewriter(url);
     this.httpRequest = scForm.browser.createHttpRequest();
 
     this.httpRequest.open("POST", url, this.async);
@@ -1783,7 +1912,7 @@ scRequest.prototype.send = function() {
 
     try {
       this.httpRequest.send(this.form);
-    } catch(e) {
+    } catch (e) {
       alert("An error occured while communicating with the Sitecore server:\n\n" + e.message);
     }
 
@@ -1796,6 +1925,43 @@ scRequest.prototype.send = function() {
 
       window.defaultStatus = status;
     }
+  }
+};
+
+scSitecore.prototype.getChildrenModified = function () {
+  if (this.modified) {
+    return true;
+  }
+
+  for (var i = 0; i < frames.length; i++) {
+    if (frames[i].scForm && frames[i].scForm.modified) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+scSitecore.prototype.registerLaunchpadClick = function () {
+  var logo = $("globalLogo");
+
+  if (logo) {
+    Event.observe(logo, "click", function (e) {
+      if (scForm.getChildrenModified()) {
+        scForm.browser.closePopups("checkModifiedShowModalDialog");
+
+        var arguments = { message: scForm.translate("There are unsaved changes. Are you sure you want to continue?") };
+        var features = "dialogWidth:430px;dialogHeight:190px;help:no;scroll:auto;resizable:yes;maximizable:no;status:no;center:yes;autoIncreaseHeight:yes";
+
+        scForm.showModalDialog("/sitecore/shell/default.aspx?xmlcontrol=Confirm", arguments, features, null, function (result) {
+          if (result === "yes") {
+            window.location.href = e.target.href;
+          }
+        });
+
+        e.preventDefault();
+      }
+    });
   }
 };
 
@@ -1860,7 +2026,7 @@ function scInitializeGrid(sender, args) {
   }
 }
 
-var scFlashDetection = function() {
+var scFlashDetection = function () {
   var isIE = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
   var isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : false;
   var isOpera = (navigator.userAgent.indexOf("Opera") != -1) ? true : false;
@@ -1996,10 +2162,10 @@ function Treeview()
   this.isHidden = false;
 }
 
-Treeview.prototype.align = function() {
+Treeview.prototype.align = function () {
   try {
     this.initialize();
-  } catch(exception) {
+  } catch (exception) {
     return;
   }
 
@@ -2013,11 +2179,9 @@ Treeview.prototype.align = function() {
   for (var i = 0; i < this.columnCount; i++) {
     this.alignColumn(i);
   }
-
-  this.treeview.setStyle("width: " + this.getTreeviewWidth() + "px");
 };
 
-Treeview.prototype.alignColumn = function(column) {
+Treeview.prototype.alignColumn = function (column) {
   var cells = this.getColumnCells(column);
   var maxWidth = this.getMaxCellWidth(cells);
 
@@ -2026,7 +2190,7 @@ Treeview.prototype.alignColumn = function(column) {
   }
 };
 
-Treeview.prototype.getColumnCells = function(column) {
+Treeview.prototype.getColumnCells = function (column) {
   var cells = [];
 
   for (var i = 0; i < this.rows.length; i++) {
@@ -2036,7 +2200,7 @@ Treeview.prototype.getColumnCells = function(column) {
   return cells;
 };
 
-Treeview.prototype.getMaxCellWidth = function(cells) {
+Treeview.prototype.getMaxCellWidth = function (cells) {
   var maxWidth = 0;
 
   for (var i = 0; i < cells.length; i++) {
@@ -2050,7 +2214,7 @@ Treeview.prototype.getMaxCellWidth = function(cells) {
   return maxWidth;
 };
 
-Treeview.prototype.getRows = function() {
+Treeview.prototype.getRows = function () {
   var treeHeader = $$(".scTreeHeader")[0];
 
   if (!treeHeader) {
@@ -2072,7 +2236,7 @@ Treeview.prototype.getRows = function() {
   return rows;
 };
 
-Treeview.prototype.getTreeviewWidth = function() {
+Treeview.prototype.getTreeviewWidth = function () {
   if (this.rows.length == 0) {
     return 0;
   }
@@ -2087,7 +2251,7 @@ Treeview.prototype.getTreeviewWidth = function() {
   return width;
 };
 
-Treeview.prototype.initialize = function() {
+Treeview.prototype.initialize = function () {
   this.rows = this.getRows();
 
   if (this.initialized) {
@@ -2117,7 +2281,7 @@ Treeview.prototype.FixLayout = function()
 {
   var widthAdjustment = 17;
 
-  if (scForm.browser.isIE) {  
+  if (scForm.browser.isIE) {
     var itemsToFix = $$('.scTreeview .cell.text');
     if (itemsToFix.length == 0 && document.popup) {
       itemsToFix = Element.select(document.popup.document, '.scTreeview .cell.text');

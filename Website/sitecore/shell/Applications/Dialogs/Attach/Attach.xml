@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <Attach>
-    <FormDialog Icon="Business/32x32/Paperclip.png" FormTarget="sitecoreattach" Enctype="multipart/form-data" Header="Attach a File" 
-      Text="Select a file. When done click the Attach button." OKButton="Attach">
+    <FormDialog FormTarget="sitecoreattach" Enctype="multipart/form-data" Header="Attach File" OKButton="Attach">
 
       <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.Attach.AttachForm,Sitecore.Client"/>
 
@@ -23,7 +22,7 @@
       <input id="FieldID" name="FieldID" type="hidden" value=""/>
 
       <Border Padding="0px 0px 4px 0px">
-        <Literal Text="Filename:" />
+        <Literal Text="File name:" />
       </Border>
 
       <input id="File" name="File" type="file" style="width:100%" />

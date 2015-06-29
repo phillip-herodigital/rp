@@ -1,0 +1,58 @@
+﻿@using EmailCampaign.Controls.SpamCheckResult
+@using Sitecore.EmailCampaign.Server.Model.Review
+@using Sitecore.EmailCampaign.Server.Services
+@using Sitecore.Modules.EmailCampaign
+@using Sitecore.Modules.EmailCampaign.Messages
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+  UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Requires.Script("ecm", "SpamCheckResult.js");
+  rendering.Requires.Css("ecm", "SpamCheckResult.css");
+  rendering.Class = "sc-SpamCheckResult";
+  string messageId = rendering.GetString("MessageId");
+  string variantId = rendering.GetString("VariantId");
+  string reportId = rendering.GetString("ReportId");
+  string language = rendering.GetString("Language");
+  string dateandtime = rendering.GetString("DateAndTime");
+
+  MessageItem messageItem = Factory.Instance.GetMessageItem(messageId, language);
+  List<SpamCheckReportResult> result = new ReportsService().GetSpamCheckReportResult(messageItem, variantId, reportId).ToList();
+}
+
+<div @rendering.HtmlAttributes data-sc-hasnested="true">
+  <div class="sc-spamcheckresult" data-sc-variant-id="@variantId" data-sc-report-datetime="@dateandtime">
+    @foreach (object value in Enum.GetValues(typeof(SpamCheckResultState)))
+    {
+      SpamCheckResultState state = (SpamCheckResultState)value;
+
+      if (result.All(x => x.State != state))
+      {
+        continue;
+      }
+
+      <div class="sc-report-section-header"><h3>@SpamCheckResultHelper.GetLocalizedSectionText(state)</h3></div>
+      <div class="sc-report-items">
+        @foreach (SpamCheckReportResult reportResult in result.Where(x => x.State == state))
+        {
+          <div class="sc-report-item">
+            <img src="@SpamCheckResultHelper.GetStateImage(state)" />
+            @if (state == SpamCheckResultState.PassedCommented)
+            {
+              <a href="#" data-sc-title="@SpamCheckResultHelper.GetDetailsTitle(reportResult)" data-sc-body="@reportResult.Details" data-sc-name="@reportResult.ClientName">@reportResult.ClientName</a>
+            }
+            else
+            {
+              @reportResult.ClientName
+            }
+  
+          </div>
+        }
+
+        <div class="breaker"></div>
+      </div>
+    }
+  </div>
+</div>

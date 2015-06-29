@@ -97,7 +97,6 @@ namespace StreamEnergy.Interpreters
                     switch (State)
                     {
                         case "TX":
-                            return () => BuildDpiUrl("/nr_quote_zip.asp");
                         case "GA":
                             return () => BuildCommercialRFQUrl();
                         case "PA":

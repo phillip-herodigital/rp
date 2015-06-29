@@ -1,0 +1,25 @@
+.sc-ecm-managerroot .nav .dropdown .managerroot-btn {
+  padding-right: 30px;
+}
+.sc-ecm-managerroot .managerroot-list .sc-actionControl-foldout-grid {
+  width: 100%;
+  padding-bottom: 3px;
+}
+.sc-ecm-managerroot .managerroot-list ul .sc-actionMenu-item {
+  list-style-type: none;
+  position: relative;
+  padding: 0;
+}
+.sc-ecm-managerroot .managerroot-list ul .sc-actionMenu-item a {
+  padding: 5px 3px 5px 20px;
+  color: rgb(19, 19, 19);
+}
+.sc-ecm-managerroot .managerroot-list ul .sc-actionMenu-item a.current {
+  font-weight: bold;
+}
+.sc .sc-applicationHeader-contextSwitch .sc-ecm-managerroot .managerroot-list.open {
+  height: auto;
+}
+.sc-ecm-managerroot ul.nav > li {
+  padding-right: 0 !important;
+}

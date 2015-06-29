@@ -1,0 +1,13 @@
+﻿.scTreeview .scExtendedSecurityItem {
+    height: 36px;
+}
+
+    .scTreeview .scExtendedSecurityItem li {
+        line-height: 32px;
+    }
+
+    .scTreeview .scExtendedSecurityItem .scDescendantAccessRights {
+        float: left;
+        line-height: normal;
+    }
+

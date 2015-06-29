@@ -1,0 +1,769 @@
+/*
+    Generic styling for Currents blog
+ */
+$events-color: #00a3e0;
+$promotions-color: #97c93d;
+$recognition-color: #f99d25;
+$default-color: #333333;
+
+.currents {
+    position: relative;
+    background-color: transparent;
+    @include box-shadow(none);
+    .blog-info {
+        position: absolute;
+        background-color: #fff;
+        top: -220px;
+        left: 100px;
+        min-height: 220px;
+        width: 540px;
+        padding: 30px;
+        .publish-time {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .blog-title {
+            h1 {
+                font-size: 60px;
+                font-weight: 300;
+                letter-spacing: -2px;
+                margin: 10px 0 5px;
+                line-height: .8;
+            }
+        }
+        .sub-headline {
+            font-size: 24px;
+            font-weight: 300;
+            font-style: italic;
+        }
+        &.events, &.events h1 {
+            color: $events-color;
+        }
+        &.promotions, &.promotions h1 {
+            color: $promotions-color;
+        }
+        &.recognition, &.recognition h1 {
+            color: $recognition-color;
+        }
+    }
+    @include breakpoint(small) {
+        .blog-info {
+            position: relative;
+            width: auto;
+            top: 0;
+            left: 0;
+        }
+    }
+}
+
+/*
+    Currents header
+ */
+.currents__header {
+    background: image-url('bg/currents-header-bg.png') top center no-repeat;
+    position: relative;
+    height: 300px;
+    z-index: 9000;
+    .layout {
+        background-color: transparent;
+        padding-bottom: 0;
+        @include box-shadow(none);
+    }
+    .logo {
+        @include image-replace("bg/currents-logo-desktop.png", "bg2x/currents-logo-desktop.png");
+        float: left;
+        margin-top: 30px;
+        margin-bottom: 28px;
+    }
+    .currents-nav {
+        float: left !important;
+        margin: 2px 0 0 40px !important;
+        ul { 
+            display: table;
+        }
+        li {
+            margin-right: 15px;
+            height: 86px !important;
+            display: table-cell !important;
+            vertical-align: bottom !important;
+            padding: 0 35px !important;
+            background-repeat: no-repeat;
+            background-position: 0 88%;
+            a {
+                color: #2a2a2a !important;
+                background-color: #fff;
+                font-size: 16px !important;
+                font-weight: 500 !important;
+                padding: 0 0 4px !important;
+                .color-block {
+                    height: 60px;
+                    display: block;
+                    @include transition(background-color 0.2s linear);
+                }
+                &:hover .color-block {
+                    @include transition(background-color 0.2s linear);
+                }
+            }
+            &.nav-events {
+                @include retina-background('currents-events.png', 'icon');
+                a {
+                    .color-block {
+                        border-bottom: 5px solid $events-color;
+                    }
+                    &:hover {
+                        color: $events-color !important;
+                        .color-block {
+                            background-color: $events-color;
+                        }
+                    } 
+                }
+                &.current {
+                    a {
+                        color: $events-color !important;
+                    }
+                    .color-block {
+                        background-color: $events-color;
+                    }
+                } 
+            }
+            &.nav-promotions {
+                @include retina-background('currents-promotions.png', 'icon');
+                a {
+                    .color-block {
+                        border-bottom: 5px solid $promotions-color;
+                    }
+                    &:hover {
+                        color: $promotions-color !important;
+                        .color-block {
+                            background-color: $promotions-color;
+                        }
+                    } 
+                }
+                &.current {
+                    a {
+                        color: $promotions-color !important;
+                    }
+                    .color-block {
+                            background-color: $promotions-color;
+                    }
+                } 
+            }
+            &.nav-recognition {
+                @include retina-background('currents-recognition.png', 'icon');
+                a {
+                    .color-block {
+                        border-bottom: 5px solid $recognition-color;
+                    }
+                    &:hover {
+                        color: $recognition-color !important;
+                        .color-block {
+                            background-color: $recognition-color;
+                        }
+                    } 
+                }
+                &.current {
+                    a {
+                        color: $recognition-color !important;
+                    }
+                    .color-block {
+                        background-color: $recognition-color;
+                    }
+                } 
+            }
+        }
+    }
+    .right-nav {
+        float: right;
+        padding: 15px 10px;
+        color: #00a3e0;
+        font-size: 12px;
+        font-weight: 300;
+        text-transform: uppercase;
+        text-align: right;
+        a {
+            color: inherit;
+        }
+        ul {
+            @include inline-block-list();
+            display: inline;
+            li {
+                border-left: 1px solid #00a3e0;
+                padding: 0 1em;
+            }
+            li:first-child {
+                border: none;
+            }
+            li:last-child {
+                padding-right: 0;
+            }
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0px;
+            display: none;
+            float: left;
+            padding: 0;
+            margin: 2px 0px 0px;
+            min-width: 0;
+            background-color: #e4e4e4;
+            @include border-radius(0);
+            li {
+                display: block;
+                border: none;
+                padding: 0;
+                a {
+                    color: #333;
+                    font-size: 16px;
+                    display: block;
+                    padding: 15px 70px;
+                    clear: both;
+                    line-height: 1.5;
+                    white-space: nowrap;
+                    text-align: left;
+                    text-transform: none;
+                    &:hover {
+                        color: #fff;
+                    }
+                }
+            } 
+        }
+        .open > .dropdown-menu {
+            display: block;
+        }
+        .search {
+            margin-top: 10px;
+            position: relative;
+            input {
+                float: right;
+                width: 205px;
+                padding: 0 25px 0 10px;
+                border-color: #66afe9;
+                background-image: none;
+                &::-webkit-input-placeholder {
+                    color: #00a3e0;
+                    text-transform: uppercase;
+                }
+                &:-moz-placeholder { /* Firefox 18- */
+                    color: #00a3e0;
+                    text-transform: uppercase;  
+                }
+                &::-moz-placeholder {  /* Firefox 19+ */
+                    color: #00a3e0;
+                    text-transform: uppercase;
+                }
+                &:-ms-input-placeholder {  
+                    color: #00a3e0;
+                    text-transform: uppercase;
+                }
+            }
+            button {
+                position: absolute;
+                top: 8px; 
+                right: 8px;
+                border: 0;
+                padding: 0;
+                cursor: pointer;
+                height: 18px;
+                width: 16px;
+                @include retina-background('blue-search.png', 'icon'); 
+                background-color: transparent;
+                background-position: 95% center;
+                background-repeat: no-repeat;
+                &:active, &:hover {
+                    outline: 0;
+                }
+                &::-moz-focus-inner {
+                    border: 0;
+                    padding: 0;
+                }
+            }   
+        }
+    }
+    @include breakpoint(small) {
+        height: 57px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9000;
+        border-bottom: 1px solid $dark-border-color;
+        @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
+        > .layout {
+            background-color: #fff;
+            background-repeat: repeat-x;
+            z-index: 2;
+            height: 57px;
+            padding: 0 20px;
+        }
+        .logo {
+            @include image-replace("bg/currents-logo-mobile.png", "bg2x/currents-logo-mobile.png");
+            position: absolute;
+            left: 50%;
+            top: 18px;
+            margin-top: 0;
+            margin-left: image-width("bg/currents-logo-mobile.png") / 2 * -1;
+        }
+        .right-nav {
+            display: none;
+        }
+        .nav-toggle{
+            margin-top: 22px;
+        }
+        &.fixed-fix {
+            position: absolute;
+        }
+        nav {
+            display: none;
+        }
+    }
+    @include breakpoint-min-max(751px, 1165px) {
+        .layout {
+            padding: 0 20px;
+        }
+        .currents-nav {
+            float: right !important;
+            li {
+                height: 30px !important;
+                padding: 0 10px !important;
+                background-image: none !important;
+                .color-block {
+                    height: 10px !important;
+                }
+            }
+        }
+        .right-nav {
+            padding: 5px 10px;
+        }
+    }
+    @include breakpoint(medium-large) {
+        .nav-toggle {
+            display: none;
+        }
+        .cart-toggle {
+            display: none;
+        }
+        .shadow-wrapper {
+            @include box-shadow(0 0 3px rgba(0, 0, 0, .2));
+            position: relative;
+        }
+        &.fixed {
+            background: #fff;
+            height: 75px;
+            > .wrapper {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                background-repeat: repeat-x;
+                z-index: 9000;
+                height: 75px;
+                border-bottom: 1px solid $dark-border-color;
+                @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
+
+                @include breakpoint(small) {
+                    background: #fff;
+                }
+            }
+            .logo {
+                position: absolute;
+                left: 50%;
+                top: 10px;
+                margin-top: 0;
+                margin-left: (image-width("bg/currents-logo-desktop.png") / 2) * -1;
+                }
+            .nav-toggle {
+                margin-top: 22px;
+            }
+        }
+    }
+}
+.currents__carousel {
+    margin-top: -180px;
+    @include breakpoint(small) {
+        margin-top: 0;
+    }
+}
+
+.currents__banner {
+    margin-top: -180px;
+    width: 100%;
+    border-bottom: 5px solid;
+    height: 300px;
+    border-color: $default-color;
+    &.events {
+        border-color: $events-color;
+    }
+    &.promotions {
+        border-color: $promotions-color;
+    }
+    &.recognition {
+        border-color: $recognition-color;
+    }
+    @include breakpoint(small) {
+        margin-top: 0;
+    }
+}
+
+.currents__tagline {
+    width: 100%;
+    color: #fff;
+    background-color: #0070b9;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 0;
+    &.events {
+        background-color: $events-color;
+    }
+    &.promotions {
+        background-color: $promotions-color;
+    }
+    &.recognition {
+        background-color: $recognition-color;
+    }
+}
+
+/*
+    Generic Styling for all Currents listing page elements
+ */
+.currents__blocks {
+    .currents-grid {
+        margin-top: 10px;
+    }
+    .grid-item,
+    .grid-sizer { width: 24%; }
+    .gutter-sizer { width: 1%; }
+    .grid-item {
+        float: left;
+        position: relative;
+        height: 300px;
+        margin-bottom: 10px;
+        color: #fff;
+        border-bottom: 5px solid;
+        border-color: $default-color;
+        background-size: cover;
+        background-color: $default-color;
+        &.events {
+            background-color: $events-color;
+            border-color: $events-color;
+        }
+        &.promotions {
+            background-color: $promotions-color;
+            border-color: $promotions-color;
+        }
+        &.recognition {
+            background-color: $recognition-color;
+            border-color: $recognition-color;
+        }
+        .article-video {
+            @include retina-background('video-currents.png', 'icon');
+            background-position: top right;
+            background-repeat: no-repeat;
+            position: absolute;
+            width: 96px;
+            height: 91px;
+            top: 0;
+            right: 0;
+        }
+        .article-overview {
+            position: absolute;
+            height: 150px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 20px 0;
+            overflow: hidden;
+            background: #000;
+            @include opacity(.80);
+            .article-date {
+                @include retina-background('calendar-small.png', 'icon');
+                background-position: top left;
+                background-repeat: no-repeat;
+                padding-left: 20px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+            h2 {
+                font-size: 20px;
+                margin: 5px 0;
+                line-height: 1;
+                a {
+                    color: #fff;
+                }
+            }
+            .article-summary {
+                height: 50px;
+            }
+            .ellip {
+                display: block;
+                height: 100%;
+            }
+            .ellip-line {
+                display: inline-block;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                word-wrap: normal;
+                max-width: 100%;
+            }
+            .ellip,
+            .ellip-line {
+                position: relative;
+                overflow: hidden;
+            }
+        }
+        &.grid-item--width2, &.grid-item--width3, &.grid-item--width4 {
+            @include breakpoint(medium-large) {
+                .article-summary {
+                    height: 70px;
+                }
+            }
+        }
+        &.no-image {
+            .article-overview {
+                height: 240px;
+                top: 50px;
+                background: transparent;
+                h2 {
+                    font-size: 36px;
+                }
+                &:after{
+                    @include opacity(1);
+                    background-color: $default-color;
+                }
+                .article-summary {
+                    height: 70px;
+                }
+            }
+            &.events .article-overview:after {
+                background-color: $events-color;
+            }
+            &.promotions .article-overview:after {
+                background-color: $promotions-color;
+            }
+            &.recognition .article-overview:after {
+                background-color: $recognition-color;
+            }
+            &.grid-item--height2 {
+                @include breakpoint(medium-large) {
+                    .article-overview {
+                        height: 340px;
+                        .article-summary {
+                            height: 200px;
+                        }
+                    }
+                }
+            }
+        }
+        @include breakpoint(medium-large) {
+            &.small {
+                display: none;
+            }
+        }
+        @include breakpoint(small) {
+            &.medium-large {
+                display: none;
+            }
+        }
+    }
+    .grid-item--width2 { width: 49%; }
+    .grid-item--width3 { width: 74%; }
+    .grid-item--width4 { width: 99%; }
+    .grid-item--height2 { height: 610px; }
+
+    .load-more {
+        width: 99%;        
+        background-color: #0070b9;
+        text-align: center;
+        vertical-align: middle;
+        padding: 5px 0;
+        .loading {
+            @include image-replace("loading_screen.gif");
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: block;
+            height: 20px;
+            width: 20px;
+            margin: 2px auto;
+        }
+        &.events {
+            background-color: $events-color;
+        }
+        &.promotions {
+            background-color: $promotions-color;
+        }
+        &.recognition {
+            background-color: $recognition-color;
+        }
+        a {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            i {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    @include breakpoint(small) {
+        .grid-item, .grid-item--width2,.grid-item--width3, 
+        .grid-item--width4, grid-item--height2 { 
+            width: 100%; 
+            height: 300px;
+        }
+    }
+
+}
+/*
+    Generic Styling for all Currents <article> elements
+ */
+.currents__box {
+    padding-top: 40px;
+    border: none;
+    @include border-radius(none);
+    img {
+        max-width: 100%;
+    }
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        padding-top: 35px;
+        height: 0;
+        overflow: hidden;
+        margin-bottom: 20px;
+        iframe {
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .grid {
+        margin: 20px 0;
+        .col {
+            padding-right: 50px;
+            h2 {
+                margin: 0 0 10px;
+            }
+            @include breakpoint(small) {
+                padding-right: 0;
+                img {
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+    .social {
+        margin: 20px 0;
+        @include inline-block-list();
+        li {
+            margin: 0 15px;
+        }
+    }
+    .post-nav {
+        margin-top: 20px;
+        a {
+            font-size: 24px;
+        }
+        .col {
+            text-align: center;
+            &.col-first {
+                text-align: left;
+            }
+            &.col-last {
+                text-align: right;
+            }
+        }
+
+    }
+    .search-result {
+        margin-bottom: 20px;
+        .article-date {
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+            h2 {
+                font-size: 30px;
+                margin: 5px 0;
+            }
+    }
+    &.events {
+        h2, h3, a {
+            color: $events-color;
+        }
+    }
+    &.promotions {
+        h2, h3, a {
+            color: $promotions-color;
+        }
+    }
+    &.recognition {
+        h2, h3, a {
+            color: $recognition-color;
+        }
+    }
+}
+
+/*
+    Currents footer
+ */
+.currents__footer {
+    clear: both;
+    color: #fff;
+    border-top: 1px solid #f5f5f5;
+    a {
+        color: #fff;
+    }
+    .logos {
+        @extend .clearfix;
+        background: #333 image-url('marketing/redesign/footer-section-bottom-rule.png') center bottom repeat-x;
+        padding: 45px 0;
+        text-align: center;
+        .logo {
+            @include image-replace("bg/logo-footer.png", "bg2x/logo-footer.png");
+        }
+        ul {
+            @include inline-block-list();
+            li {
+                margin: 0 20px;
+            }
+        }
+    }
+    .footer-links {
+        background-color: #2f9bce;
+        .links {
+            padding: 35px 0;
+            text-align: center;
+            ul {
+                @include inline-block-list();
+                li {
+                    margin: 0 25px;
+                    a {
+                        font-size: 16px;
+                        text-transform: uppercase;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+    .site-footer-legal {
+        border-top: 1px solid #44a5d3;
+        padding: 20px 0;
+        font-size: 14px;
+        text-align: center;
+        a {
+            font-weight: bold;
+        }
+    }
+}

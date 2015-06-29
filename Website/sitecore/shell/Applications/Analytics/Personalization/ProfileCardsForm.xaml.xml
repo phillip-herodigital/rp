@@ -12,41 +12,18 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <Sitecore.Shell.Applications.Analytics.Personalization.ProfileCardsForm x:inherits="Sitecore.Shell.Applications.Analytics.Personalization.ProfileCardsForm,Sitecore.Client">
-    <Sitecore.Controls.DialogPage runat="server" Header="Profile Cards" Icon="Business/32x32/radar-chart.png" Text="The profile cards that are assigned to the current item.&lt;/br&gt;Click Edit to assign a profile card or change the profile cards that are assigned." OKButton="Close">
+    <Sitecore.Controls.DialogPage runat="server" Header="Profile Cards" Text="Click Edit to associate a new profile card to the item or to edit the existing profile card.">
       <Stylesheet Src="Content Manager.css" DeviceDependant="true" runat="server" />
       <Script Src="/sitecore/shell/Controls/Lib/jQuery/jquery.noconflict.js" runat="server"/>
       <script Src="/sitecore/shell/Applications/Analytics/Personalization/Carousel/jquery.jcarousel.min.js" runat="server"/>
       <Stylesheet Src="/sitecore/shell/Applications/Analytics/Personalization/Carousel/skin.css" runat="server"/>
-      <style>
-        .ProfileCardsContainer
-        {
-        background: white;
-        border: 1px solid #cccccc;
-        color: black;
-        font: 10pt verdana;
-        overflow-y:auto;
-        margin:5px 10px;
-        }
-
-        .NoProfilesText{
-        margin:10px;
-        color:#666666;
-        }
-
-        #TextLiteral
-        {
-          display:block;
-          padding-bottom:2px;
-        }
-        
-        #Cancel{
-          display: none;
-        }
-      </style>
+      <script runat="server">
+        scForm.setDialogDimension(1020, 600);
+      </script>
       <x:register assembly="Sitecore.Client" namespace="Sitecore.Shell.Applications.Analytics.Personalization" />
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
-        <div class="ProfileCardsContainer scStretchAbsolute" runat="server" ID="ProfileCardsContainer">
+        <div class="ProfileCardsContainer scStretch" runat="server" ID="ProfileCardsContainer">
           <ProfileCards ID="ProfileCards" runat="server"/>
         </div>
     </Sitecore.Controls.DialogPage>

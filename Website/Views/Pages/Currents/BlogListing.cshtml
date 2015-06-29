@@ -1,0 +1,166 @@
+﻿@using XBlogHelper.Models.Blog
+@using XBlogHelper.Search
+@using XBlogHelper.General
+@using Sitecore.Data.Items
+@using Sitecore.Data.Fields
+@using Sitecore.Mvc
+@using Sitecore.Links
+@using Sitecore.Resources.Media
+@using Sitecore.Resources
+@using StreamEnergy.MyStream.Controllers.ApiControllers
+@inherits System.Web.Mvc.WebViewPage
+
+@{
+    Item dataSourceItem = Sitecore.Context.Database.GetItem(Sitecore.Mvc.Presentation.RenderingContext.Current.Rendering.DataSource);
+    Item blogRoot = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
+    BlogSettings settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(dataSourceItem != null ? dataSourceItem : Sitecore.Context.Item);
+    string searchHeading = "";
+    string categoryID = "";
+    string authorID = "";
+    string tagID = "";
+    string searchText = "";
+    string category = "";
+
+    string urlCategoryName = DataManager.GetUrlValByPattern(Request.Url.PathAndQuery, XBSettings.XBCategoryUrlPattern);
+
+    if (Sitecore.Context.Item.TemplateName == "Blog Category")
+    {
+        categoryID = Sitecore.Context.Item.Fields["Category"].Value.ToString();
+        category = Sitecore.Context.Database.GetItem(categoryID).Name.ToLower();
+        
+    }
+
+    string urlTagName = DataManager.GetUrlValByPattern(Request.Url.PathAndQuery, XBSettings.XBTagsUrlPattern);
+    if (!String.IsNullOrEmpty(urlTagName))
+    {
+        Tag tagItem = TagManager.GetTagByName(Sitecore.Context.Item, urlTagName);
+        if (tagItem != null)
+        {
+            tagID = tagItem.InnerItem.ID.ToString();
+
+            if (settingsItem.DisplayFilterMessage)
+            {
+                searchHeading = settingsItem.TagFilterTitle + tagItem.TagName;
+            }
+        }
+    }
+
+    if (Sitecore.Context.Item.TemplateName == "Rates Page")
+    {
+        tagID = Sitecore.Context.Item.Fields["Tag"].Value.ToString();
+    }
+
+    string urlSearchName = DataManager.GetUrlValByPattern(Request.Url.PathAndQuery, XBSettings.XBSearchURLPattern);
+    if (!String.IsNullOrEmpty(urlSearchName))
+    {
+        if (!String.IsNullOrEmpty(urlSearchName))
+        {
+            searchText = urlSearchName;
+
+            if (settingsItem.DisplayFilterMessage)
+            {
+                searchHeading = settingsItem.SearchFilterTitle + searchText;
+            }
+        }
+    }
+    
+    //Get search results
+    int currentPage = 1;
+    int maximumRows = 16;
+    int startRowIndex = 1;
+
+    startRowIndex = (currentPage - 1) * maximumRows;
+    IEnumerable<BlogPost> blogs = CurrentsController.GetCurrentsPosts(Sitecore.Context.Item, categoryID, authorID, tagID, searchText, startRowIndex, maximumRows, Sitecore.Context.Language.ToString());
+    int totalRows = CurrentsController.GetCurrentsCount(Sitecore.Context.Item, categoryID, authorID, tagID, searchText, Sitecore.Context.Language.ToString());
+    int totalPages = (int)Math.Ceiling((double)totalRows / (double)maximumRows);
+    string currentBlock = "";
+    
+}
+
+
+<div class="currents__blocks" ng-controller="CurrentsCtrl" ng-init="currentItem = '@Sitecore.Context.Item.ID.ToString()'; categoryId = '@categoryID'; tagId = '@tagID'; totalPages = '@totalPages'; language = '@Sitecore.Context.Language.ToString()';">
+    @{
+        if (blogs == null || !blogs.Any())
+        {
+            //@Html.Raw("Sorry no matching results were found.");
+        }
+        else
+        {
+
+            <div class="currents-grid clearfix">
+                <div class="grid-sizer"></div>
+                <div class="gutter-sizer"></div>
+
+                @foreach (var blogPost in blogs.Select((blog, i) => new { i, blog }))
+                {
+                    ImageField imageField = null;
+                    string articleText = "";
+                    string blogCategory = blogPost.blog.Categories.Any() ? blogPost.blog.Categories.FirstOrDefault().Name.ToLower() : "";
+                    var gridClasses = "<div class=\"grid-item medium-large " + blogCategory;
+                    if (blogPost.i == 0 || blogPost.i == 8)
+                    {
+                        gridClasses += " grid-item--width4";
+                        imageField = (ImageField)blogPost.blog.InnerItem.Fields["Large Rectangle"];
+                    }
+                    else if (blogPost.i == 3 || blogPost.i == 9)
+                    {
+                        gridClasses += " grid-item--width2 grid-item--height2";
+                        imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
+                    }
+                    else if (blogPost.i == 6 || blogPost.i == 15)
+                    {
+                        gridClasses += " grid-item--width3";
+                        imageField = (ImageField)blogPost.blog.InnerItem.Fields["Small Rectangle"];
+                    }
+                    else
+                    {
+                        imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
+                    }
+
+                    if (imageField.MediaItem == null)
+                    {
+                        gridClasses += " no-image\">";
+                    }
+                    else
+                    {
+                        gridClasses += "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\') \">";
+                    }
+
+                    if (!string.IsNullOrEmpty(blogPost.blog.InnerItem.Fields["YouTube ID"].Value))
+                    {
+                        articleText += "<div class=\"article-video\"></div>";
+                    }
+                    articleText += "<div class=\"article-overview\">" +
+                         "<span class=\"article-date\">" + (blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat)) + "</span>" +
+                         "<h2><a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\">" + blogPost.blog.Title + "</a></h2>" +
+                         "<div class=\"article-summary\" ellipsis>";
+                    if (!String.IsNullOrEmpty(blogPost.blog.Summary))
+                    {
+                        articleText += blogPost.blog.Summary;
+                    }
+                    articleText += "</div></div>";
+                    currentBlock += gridClasses + articleText + "</div>";
+                    // create the block for mobile styles
+                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
+                    gridClasses = "<div class=\"grid-item small " + blogCategory;
+                    if (imageField.MediaItem == null)
+                    {
+                        gridClasses += " no-image";
+                    }
+                    else
+                    {
+                        gridClasses += "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\')";
+                    }
+                    currentBlock += gridClasses + "\">" + articleText + "</div>";
+                }
+                @Html.Raw(currentBlock);
+            </div>
+        }
+    }
+
+    <div class="load-more @category" ng-show="currentPage < totalPages">
+        <a href="#" ng-click="loadMore()" ng-show="!isLoading">@Html.Sitecore().Field("Load More Text", blogRoot) <i class="icon-load-more"></i></a>
+        <div class="loading" ng-show="isLoading"></div>
+    </div>
+
+</div>

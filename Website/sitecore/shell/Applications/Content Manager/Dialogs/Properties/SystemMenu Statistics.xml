@@ -4,8 +4,8 @@
     
     <Section ID="StatisticsSection" Header="Statistics" Icon="Business/16x16/date-time_preferences.png" Class="scSection">
 
-      <Border Padding="0px 4px 0px 4px">
-        <GridPanel Columns="2" CellPadding="2">
+      <Border>
+        <GridPanel Columns="2" Class="scListControl">
 
           <Literal GridPanel.Class="scKey" Text="Modified:"/>
           <Literal GridPanel.Class="scValue" def:ID="Updated" />

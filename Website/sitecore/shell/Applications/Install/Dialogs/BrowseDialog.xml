@@ -7,7 +7,7 @@
       
       <style>
         #FileExplorerFrame {
-          background:white;
+          margin-top: 5px;
         }
         
         #FileExplorer{
@@ -19,13 +19,9 @@
         }
         
         .scFileName {
-          padding:8px 0px 2px 0px;
+          padding: 15px 0 0;
         }
-        .scFlexColumnContainer{
-          padding-top:2px;
-          width:100%;
-          height:100%;
-        }
+
       </style>
       
       <DataContext ID="FileExplorerDataContext"/>
@@ -34,13 +30,14 @@
         <ListviewViewsMenuItems Listview="FileExplorer"/> 
       </ContextMenu>
 
-      <Border Class="scFlexColumnContainer scBrowseDialog">
-        <Toolbar>
-          <Toolbutton Icon="Applications/16x16/refresh.png" Tooltip="Refresh the files view" Header="Refresh" Click="dialog:refresh"/>
-          <Toolbutton Icon="Applications/16x16/folder_up.png" Tooltip="Upload a file" Header="Upload" Click="dialog:upload"/>
-          <Toolbutton Icon="Network/16x16/download.png" Tooltip="Download the selected file" Header="Download" Click="dialog:download" Visible='${Sitecore.Context.IsAdministrator.ToString()}'/>
-          <Toolbutton Icon="Applications/16x16/delete2.png" Tooltip="Delete the selected file" Header="Delete" Click="dialog:delete"/>
-        </Toolbar>
+      <Toolbar def:placeholder="Toolbar">
+        <Toolbutton Icon="Office/16x16/refresh.png" Tooltip="Refresh the files view" Header="Refresh" Click="dialog:refresh"/>
+        <Toolbutton Icon="Office/16x16/upload.png" Tooltip="Upload a file" Header="Upload" Click="dialog:upload"/>
+        <Toolbutton Icon="Office/16x16/download.png" Tooltip="Download the selected file" Header="Download" Click="dialog:download" Visible='${Sitecore.Context.IsAdministrator.ToString()}'/>
+        <Toolbutton Icon="Office/16x16/delete.png" Tooltip="Delete the selected file" Header="Delete" Click="dialog:delete"/>
+      </Toolbar>
+
+      <Border Class="scFlexColumnContainer scStretch">
         <Scrollbox Class="scFlexContent" ID="FileExplorerFrame" Border="none" Padding="0" ContextMenu="show:ContextMenu" >
           <Listview ID="FileExplorer" Click="SelectListItem" DblClick="OK.ClickButton" DataContext="FileExplorerDataContext">
             <ListviewHeader>
@@ -51,11 +48,9 @@
           </Listview>
         </Scrollbox>
         <Border class="scFileName">
-          <GridPanel Width="100%" Columns="2">
+          <GridPanel Class="scFormTable" Width="100%" Columns="2">
 
-            <Border Padding="0px 4px 0px 0px" Width="5em">
-              <Literal Text="File name:"/>
-            </Border>
+            <Literal Text="File name:"/>
 
             <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>
           </GridPanel>

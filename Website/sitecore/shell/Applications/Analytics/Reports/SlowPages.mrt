@@ -4,7 +4,7 @@
     <BusinessObjects isList="true" count="0" />
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="1">
-      <Failures Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+      <Failures Ref="2" type="Sitecore.Analytics.Reports.Data.StimulsoftIntegration.SitecoreStiSource" isKey="true">
         <Alias>Failures</Alias>
         <Columns isList="true" count="3">
           <value>Url,System.String</value>
@@ -19,7 +19,7 @@
           <value>_x0040_StartDate,StartDate,4,0</value>
           <value>_x0040_EndDate,EndDate,4,0</value>
         </Parameters>
-        <SqlCommand />
+        <SqlCommand>item:42B304D6-F29B-4DCC-B0EE-C8A3CFC92E40</SqlCommand>
       </Failures>
     </DataSources>
     <Relations isList="true" count="0" />
@@ -31,8 +31,8 @@
       <value>,Page,Page,System.String,,False,False</value>
       <value>,PageEvent,PageEvent,System.String,,False,False</value>
       <value>,PageEventDefinition,PageEventDefinition,System.String,,False,False</value>
-      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-7_x0029_,False,True</value>
-      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,StartDate,StartDate,System.DateTime,GetDefaultStartDate_x0028__x0029_,False,True</value>
+      <value>,EndDate,EndDate,System.DateTime,GetDefaultEndDate_x0028__x0029_,False,True</value>
       <value>,ReportTitle,ReportTitle,System.String,Slow_x0020_Pages,False,False</value>
       <value>Texts</value>
       <value>Texts,NameText,NameText,System.String,Name,False,False</value>
@@ -112,7 +112,7 @@
               <Name>Text13</Name>
               <Page isRef="3" />
               <Parent isRef="4" />
-              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <Text>{ReportGeneratedText}: { GetFormattedReportGeneratedDate() }</Text>
               <TextBrush>Gray</TextBrush>
               <Type>Expression</Type>
             </Text13>
@@ -128,7 +128,7 @@
               <Name>Text14</Name>
               <Page isRef="3" />
               <Parent isRef="4" />
-              <Text>{DateRangeText}: { DateDiff(Today, StartDate).Days == 0 ?  Format("{0:MMM. dd, yyyy}", Today) : Format("{0:MMM. dd, yyyy}", StartDate) +" - "+ Format("{0:MMM. dd, yyyy}", EndDate)}</Text>
+              <Text>{DateRangeText}: { GetFormattedDateRange(StartDate, EndDate) }</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text14>
@@ -271,7 +271,7 @@
               <Name>Text3</Name>
               <Page isRef="3" />
               <Parent isRef="15" />
-              <Text>{(new TimeSpan(Failures.TimeTaken)).Milliseconds} {MillisecondsText}</Text>
+              <Text>{Failures.TimeTaken} {MillisecondsText}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text3>
@@ -348,7 +348,7 @@ using Stimulsoft.Report.Components;
 namespace Reports
 {
     
-    public class SlowPagesReport : Stimulsoft.Report.StiReport
+    public class SlowPagesReport : Sitecore.Analytics.Reports.ReportBase
     {
         
         public SlowPagesReport()

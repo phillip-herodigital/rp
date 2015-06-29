@@ -14,15 +14,15 @@
   <Sitecore.Controls.DialogPage>
     <x:param name="Icon" value="Applications/32x32/about.png" />
     <x:param name="Header" value="Dialog" />
-    <x:param name="Text" value="Dialog" />
+    <x:param name="Text" value="" />
     <x:param name="OKButton" value="OK" />
 
     <BaseDialogPage Icon="{Icon}" Header="{Header}" Text="{Text}" runat="server">
-      <Button runat="server" ID="OK" Width="76px" Height="23px" KeyCode="13" Margin="0px 0px 0px 4px" Click="OK_Click" x:placeholder="DialogButtons">
+      <Button runat="server" ID="OK" class="scButton scButtonPrimary" KeyCode="13" Click="OK_Click" x:placeholder="DialogButtons">
         <Literal runat="server" Text="{OKButton}"/>
       </Button>
 
-      <Button runat="server" ID="Cancel" Width="76px" Height="23px" KeyCode="27" Margin="0px 0px 0px 4px" Click="Cancel_Click" x:placeholder="DialogButtons">
+      <Button runat="server" ID="Cancel" KeyCode="27" Click="Cancel_Click" x:placeholder="DialogButtons">
         <Literal runat="server" Text="Cancel"/>
       </Button>
 

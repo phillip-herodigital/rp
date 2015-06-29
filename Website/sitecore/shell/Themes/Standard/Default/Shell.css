@@ -20,6 +20,17 @@ body {
   height:100%;
 }
 
+.DesktopArea {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 50px;
+    right: 0px;
+    width: auto;
+    height: auto !important;
+    overflow: hidden;
+}
+
 .scDesktopItemIcons {
   cursor: default;
   display: inline-block;
@@ -49,10 +60,17 @@ body {
 .scToolbutton {
   color:white;
 }
+
 .scDatabaseName {
-  cursor:default;
-  position:absolute;
-  margin:-44px 0px 0px -8px;
-  color:green;
-  font:14pt tahoma;
+    cursor: default;
+    position: absolute;
+    font: 14pt arial;
+    top: -30px;
+    right: 15px;
+    color: #fff;
+    text-shadow: 1px 0px 0px black, -1px 0px 0px black, 0px 1px 0px black, 0px -1px 0px black;
+}
+
+.scChecked {
+    background-color: #aadbee;
 }

@@ -1,6 +1,7 @@
 ﻿@{
     var pageTitle = "";
     var pageTitleField = Html.Sitecore().CurrentItem.Fields["Page Title"];
+    var postTitleField = Html.Sitecore().CurrentItem.Fields["Title"];
     if (pageTitleField != null)
     {
         pageTitle = Html.Sitecore().CurrentItem.Fields["Page Title"].Value;
@@ -9,10 +10,25 @@
         {
             pageTitle += " | ";
         }
+    } 
+    else if (postTitleField != null)
+    {
+        pageTitle = Html.Sitecore().CurrentItem.Fields["Title"].Value;
+
+        if (!string.IsNullOrEmpty(pageTitle))
+        {
+            pageTitle += " | ";
+        }
     }
+    
     pageTitle += "Stream";
     var settings = StreamEnergy.Unity.Container.Instance.Resolve<StreamEnergy.ISettings>();
     var enableDecibelInsight = !string.IsNullOrEmpty(settings.GetSettingsField("Decibel Insight", "Enable Decibel Insight").Value);
+    var bodyClass = "";
+    if (Html.Sitecore().CurrentItem.Fields["Body CSS Classes"] != null)
+    {
+        bodyClass = Html.Sitecore().CurrentItem.Fields["Body CSS Classes"].Value;
+    }
 }
 <!DOCTYPE html>
 <!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
@@ -55,6 +71,13 @@
         </script>
     <![endif]-->
     @Styles.Render("~/frontend/assets/css/bundle")
+
+    <!--[if lte IE 9]>
+        <link href="/frontend/assets/css/global_2.css" rel="stylesheet">
+        <link href="/frontend/assets/css/global_3.css" rel="stylesheet">
+    <![endif]-->
+
+
     @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle")
 
     @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
@@ -70,13 +93,11 @@
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 
 </head>
-<body class="@Html.Sitecore().Field("Body CSS Classes")" ng-class="{'fixed-header':isFixedHeader}" ng-controller="MainCtrl" id="top">
-
+<body class="@bodyClass" ng-class="{'fixed-header':isFixedHeader}" ng-controller="MainCtrl" id="top">
     <!-- Google Tag Manager -->
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-NMT3GS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>(function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f); })(window, document, 'script', 'dataLayer', 'GTM-NMT3GS');</script>
     <!-- End Google Tag Manager -->
-
     <div class="page-wrapper" ng-class="{open:sidebarOpen}">
         <div ng-if="hasMobileNav" ng-include="'mobileNav'" mobile-nav="0"></div>
         <div class="page-content">
@@ -89,6 +110,5 @@
     </div>
     @Html.Sitecore().Placeholder("extras")
     <script type="text/javascript" src="/frontend/utilities/foresee/foresee-trigger.js"></script>
-
 </body>
 </html>

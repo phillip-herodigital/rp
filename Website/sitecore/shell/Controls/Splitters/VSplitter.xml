@@ -4,6 +4,6 @@
     <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreObjects.js"/>
     <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreVSplitter.js"/>
 
-    <Image def:ID="Image" Src="/sitecore/images/blank.gif" Cursor="move" Height="100%"/>         
+    <Image def:ID="Image" Src="/sitecore/images/blank.gif" Cursor="col-resize" Height="100%"/>         
   </VSplitter>
 </control>

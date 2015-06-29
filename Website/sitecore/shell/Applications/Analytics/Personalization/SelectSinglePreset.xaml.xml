@@ -11,7 +11,7 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <Sitecore.Shell.Applications.Analytics.Personalization.SelectSinglePreset x:inherits="Sitecore.Shell.Applications.Analytics.Personalization.SelectSinglePreset,Sitecore.Client">
-    <Sitecore.Controls.DialogPage runat="server" Header="Select Profile Card" Icon="BusinessV2/32x32/chart_radar.png" Text="Select the profile card whose values you want to assign to the current page.">
+    <Sitecore.Controls.DialogPage runat="server" Header="Select Profile Card" Text="Select a predefined profile card or click Customize if you want to create and associate a custom profile card.">
       <x:register assembly="Sitecore.Client" namespace="Sitecore.Shell.Applications.Analytics.Personalization" />
       <x:register assembly="Telerik.Web.UI" namespace="Telerik.Web.UI" />
 
@@ -21,6 +21,26 @@
       <Script Src="/sitecore/shell/Applications/Analytics/Personalization/PresetList.js" runat="server"/>
       <Script Src="/sitecore/shell/Applications/Analytics/Personalization/Tooltip.js" runat="server"/>
 
+      <Stylesheet runat="server">
+        .ie9 .scDialogHeader {
+          position: absolute;
+          top: 0;
+          height: 58px;
+          overflow: hidden;
+        }
+
+        .ie9 .scFlexContent {
+          position: absolute;
+          bottom: 55px;
+          top: 58px;
+        }
+
+        .ie9 .scFormDialogFooter {
+          position: absolute;
+          bottom: 0;
+        }
+      </Stylesheet>
+      
       <RadScriptManager runat="server"/>
 
       <script type="text/javascript">
@@ -104,52 +124,54 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
       <RadToolTipManager runat="server" ID="ToolTipManager"/>
-      <div class="selectPresetContainer">
-        <div class="allPreset">
-          <div style="padding-left:3px;height:25px;">
-            <Literal Text="Profile Cards" runat="server" Style="font:bold 9pt tahoma;"/>
+      <div class="scStretch">
+        <div class="selectPresetContainer">
+          <div class="col2">
+            <div>
+              <Literal Text="Profile Cards" runat="server" Class="title" />
+            </div>
+            <div id="PresetsContainer" class="presetList" >
+              <RadListBox ID="Presets" class="scStretchAbsolute" runat="server">
+                <Items>
+                </Items>
+              </RadListBox>
+            </div>
           </div>
-          <div id="PresetsContainer" class="presetList" >
-            <RadListBox ID="Presets" class="scStretchAbsolute" runat="server">
-              <Items>
-              </Items>
-            </RadListBox>
-          </div>
-        </div>
-        <div class="presetValues">
-          <div style="padding: 2px 0 0; margin:0;height:25px;">
-            <Literal Text="Profile Card Details" runat="server" Style="font:bold 9pt tahoma;padding-left:10px;"/>
-            <Button runat="server" id="CustomizeButton" click="CustomizeProfile" style="float:right;">
-              <Literal runat="server" Text="Customize"/>
-            </Button>
-          </div>
-          <div style="margin:0;padding:0;width:100%;overflow-y:auto;overflow-x:hidden;border-top:1px solid #A0A0A0;vertical-align:top;" id="rightContainer">
-            <table border="0" cellspacing="0" cellpadding="0" style="padding:0; margin:0;" width="100%">
-              <tr>
-                <td valign="top" id="CardContainer" runat="server" style="padding-top:5px; margin:0;width:100%;">
-                  <div id="PresetCardContainer" runat="server" style="width:100%;height:74px;border:1px solid #d4d4d4;;background-color:White;">
-                    <PresetCard runat="server" id="PresetCard" CssClass="scPresetCard" Height="74px" Width="100%" ShowMoreLink="false" ShowTextBoxSlider="false"></PresetCard>
-                  </div>
-                  <div id="CustomizationCardContainer" runat="server" style="width:100%;height:100%;display:none;border:1px solid #d4d4d4;;background-color:White;">
-                    <CustomizationProfileCard runat="server" id="CustomizationPresetCard" CssClass="PresetCustomizationCard" Height="150px" Width="100%"/>
-                  </div>
-                </td>
-              </tr>
-              <tr height="25px">
-                <td style="padding-left:10px;border:0;">
-                  <Literal Text="Profile Card Values" ID="ChartLabel" runat="server" Style="font:bold 9pt tahoma;"/>
-                </td>
-              </tr>
-              <tr>
-                <td valign="top" align="center" style="width:100%; height:250px;">
-                  <div id="ChartContainer" runat="server" style="width:100%; height:100%; border:1px solid #d4d4d4;background-color:White;">
-                    <RadarChart runat="server" id="PersonalizationRadarChart" CssClass="RadarChart"></RadarChart>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </div>
+          <div class="col2">
+            <div>
+              <Literal Text="Profile Card Details" runat="server" Class="title" />
+              <Button runat="server" id="CustomizeButton" click="CustomizeProfile" style="float:right;">
+                <Literal runat="server" Text="Customize"/>
+              </Button>
+            </div>
+            <div style="margin:0;padding:0;width:100%;overflow-y:auto;overflow-x:hidden;border-top:1px solid #e3e3e3;vertical-align:top;height:100%" id="rightContainer">
+              <table border="0" cellspacing="0" cellpadding="0" style="padding:0; margin:0;" width="100%">
+                <tr>
+                  <td valign="top" id="CardContainer" runat="server" style="padding-top:5px; margin:0;width:100%;">
+                    <div id="PresetCardContainer" runat="server" style="width:100%;height:74px;">
+                      <PresetCard runat="server" id="PresetCard" CssClass="scPresetCard" Height="74px" Width="100%" ShowMoreLink="false" ShowTextBoxSlider="false"></PresetCard>
+                    </div>
+                    <div id="CustomizationCardContainer" runat="server" style="width:100%;height:100%;display:none;">
+                      <CustomizationProfileCard runat="server" id="CustomizationPresetCard" CssClass="PresetCustomizationCard" Height="150px" Width="100%"/>
+                    </div>
+                  </td>
+                </tr>
+                <tr height="25px">
+                  <td style="padding-left:10px;border:0;font-weight:bold;">
+                    <Literal Text="Profile Card Values" ID="ChartLabel" runat="server" />
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top" align="center" style="width:100%; height:250px;">
+                    <div id="ChartContainer" runat="server" style="width:100%; height:100%;">
+                      <RadarChart runat="server" id="PersonalizationRadarChart" CssClass="RadarChart"></RadarChart>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
 
+          </div>
         </div>
       </div>
     </Sitecore.Controls.DialogPage>

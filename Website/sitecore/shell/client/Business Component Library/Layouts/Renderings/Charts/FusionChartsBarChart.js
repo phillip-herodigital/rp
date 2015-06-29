@@ -16,6 +16,7 @@ define(["sitecore", "fusionChartBaseComponent"], function (_sc) {
     initialize: function () {
       this._super();
       this.initializeChart(false);
+      this.allowsDeselection = true;      
     },
 
     // Returns the FusionCharts component name

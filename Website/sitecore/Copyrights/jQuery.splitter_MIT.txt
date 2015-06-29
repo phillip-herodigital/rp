@@ -1,8 +1,7 @@
-jQuery.splitter.js - two-pane splitter window plugin
-http://methvin.com/splitter/
-version 1.6 (2010/01/03) 
+The MIT License (MIT)
 
-Dual licensed under the MIT and GPL licenses.
+Copyright (c) 2010 Dave Methvin (dave.methvin@gmail.com)\
+version 1.6
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

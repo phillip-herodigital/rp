@@ -1,132 +1,115 @@
-<%@ Page language="c#" AutoEventWireup="True" Inherits="Sitecore.Shell.Applications.Security.ChangePassword.ChangePasswordPage" CodeBehind="ChangePassword.aspx.cs" %>
-<%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
+<%@ Page Language="c#" AutoEventWireup="True" Inherits="Sitecore.Shell.Applications.Security.ChangePassword.ChangePasswordPage" MasterPageFile="~/sitecore/shell/DialogPage.Master" CodeBehind="ChangePassword.aspx.cs" %>
+
+<%@ Register TagPrefix="sc" TagName="DialogHeader" Src="~/sitecore/shell/DialogHeader.ascx" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
-<!DOCTYPE html>
-<html>
-<head>
-  <base target="_self" />
+
+<asp:Content ContentPlaceHolderID="Head" runat="server">
+
   <title>Sitecore</title>
-  <link href="/sitecore/login/default.css" rel="stylesheet" />
+ 
   <style>
-    html {
-      background: white;
-    }
-    
     body {
-      font: 8pt Tahoma;
+      background-color: white;
+      color: #5E5E5E;
+      line-height: 1.42857143;
     }
-    
-    #ChangePassword{
-      margin: auto;
-    }
-    
+
     .titleText {
       display: none;
     }
-    
-    .scButton {
-    	color: black;
-	    width: 75px;
-	    height: 24px;
-	    font: 8pt Tahoma;
-	    
-	    margin-top: 28px;
+
+    #ChangePassword {
+      width: 100%;
     }
-    
-    .error .scButton {
-      margin-top: 8px;
+
+    .scPasswordForm {
+      width: 100%;
+      text-align: left !important;
     }
-    
-    .changePassword {
-      position: absolute;
-      right: 90px;
-      width: 120px !important;
+
+      .scPasswordForm input[type=password] {
+        width: -webkit-calc(100% - 15px) !important;
+        width: calc(100% - 15px) !important;
+        display: inline !important;
+      }
+
+
+      .scPasswordForm tr:nth-child(1) td, .scPasswordForm tr:nth-child(2) td, .scPasswordForm tr:nth-child(3) td {
+        padding: 5px;
+      }
+
+        .scPasswordForm tr:nth-child(1) td:first-child, .scPasswordForm tr:nth-child(2) td:first-child, .scPasswordForm tr:nth-child(3) td:first-child {
+          vertical-align: top;
+          padding-top: 14px;
+          padding-left: 0;
+        }
+
+      .scPasswordForm tr:nth-child(4) td {
+        text-align: left;
+        padding-top: 10px;
+      }
+
+      .scPasswordForm input + span {
+        color: #ca241c;
+        margin-left: 5px;
+      }
+
+    .scDialogContentContainer {
+      overflow: visible !important;
     }
-    
-    .cancel {
-      position: absolute;
-      right: 8px;
+
+    .scFormDialogFooter {
+      position: absolute !important;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
-    
-    .continue {
-      position: absolute;
-      right: 8px;
-      top: 130px;
+
+    .scErrorPanel {
+      margin-top: 15px;
+      color: #ca241c;
+      line-height: 1.42857143;
     }
-    
-    .label {
-      padding-top: 1px;
-      padding-right: 4px;
-    }
-    
-    .textBox {
-      width: 320px;
+
+    .validationErrors {
+      padding: 5px 0 0;
+      color: #ca241c !important;
+      line-height: 1.42857143;
+      text-align: left;
     }
   </style>
-</head>
-<body style="overflow:auto">
- <form id="LoginForm" runat="server">
-    <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr>
-        <td style="border-bottom:#212424;height:40px">
-          <sc:ThemedImage Src="Control/32x32/edit_mask.png" Width="32" Height="32" runat="server" Float="left" Margin="-2px 8px 4px 8px"/>
-        
-          <b style="margin-top: 4px; padding-top: 4px"><sc:Literal Text="Change Password" Style="font-size: 9pt" runat="server" /></b><br />
-          <div style="padding-top: 4px">
-            <sc:Literal style="color: #333333" Text="Enter your current and new password." runat="server" />
-          </div>          
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="scHorizontalLine">.</div>
-        </td>
-      </tr>
-      <tr>
-        <td height="100%" style="padding: 16px 8px 8px 8px; background: #ebebeb; vertical-align: top" valign="top">
-        <asp:ChangePassword ID="ChangePassword" runat="server" 
-          DisplayUserName="false" TitleTextStyle-CssClass="titleText"
-          InstructionText="" Font-Names="tahoma" Font-Size="8pt">
-          <CancelButtonStyle BackColor="#FFFBFF" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" Font-Names="tahoma" ForeColor="#284775" />
-          <ChangePasswordButtonStyle BackColor="#FFFBFF" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" Font-Names="tahoma" ForeColor="#284775" />
-          <ContinueButtonStyle CssClass="scButton continue" />
-          <CancelButtonStyle CssClass="scButton cancel" />
-          <ChangePasswordButtonStyle CssClass="scButton changePassword" Width="120px" />
-          <TitleTextStyle Font-Bold="True" ForeColor="black" />
-          <PasswordHintStyle Font-Italic="True" ForeColor="#888888" />
-          <InstructionTextStyle ForeColor="Black" Font-Size="8pt" Font-Names="tahoma"  />
-          <LabelStyle Font-Size="8pt" Font-Names="tahoma" HorizontalAlign="Left" CssClass="label" />
-          <TextBoxStyle CssClass="textBox" />
-          <TextBoxStyle Font-Bold="true" Font-Size="8pt" Font-Names="tahoma" />
-          <ValidatorTextStyle CssClass="validationErrors" />
-          <FailureTextStyle CssClass="failure" />
-        </asp:ChangePassword>
-        </td>
-      </tr>
-    </table>
-  </form>
-  <script type="text/javascript">
-    $$(".scButton").each(function(button) {
-      button.setAttribute("style", "");
-      button.removeAttribute("style");
-    });
-    
-    
-    Event.observe(window, "load", function() { setTimeout(update, 500); });
-    if ($$(".changePassword").length > 0) {
-      $$(".changePassword")[0].observe("click", function() { setTimeout(update, 500); });
-    }
-    
-    function update() {
-      $$(".validationErrors").each(function(error) {
-        if (error.style.visibility == "hidden" || error.style.display == "none" || error.innerHTML == "*") {
-          return;
-        }
-      
-        $(document.body).addClassName("error");
-      });
-    }
-  </script>
 
-</body>
-</html>
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="DialogHeader" runat="server">
+  <sc:DialogHeader Name="Change Password" Description="Enter your current password and the new password that you want to use." Icon="Control/32x32/edit_mask.png" runat="server" />
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="Content" runat="server">
+  <asp:ChangePassword ID="ChangePassword" ClientIDMode="Static" runat="server"
+    DisplayUserName="false" TitleTextStyle-CssClass="titleText">
+    <ChangePasswordButtonStyle CssClass="scButton scButtonPrimary" />
+    <ContinueButtonStyle CssClass="scButton scButtonPrimary" />
+    <CancelButtonStyle CssClass="scButton" />
+    <InstructionTextStyle />
+    <LabelStyle HorizontalAlign="Left" CssClass="label" />
+    <TextBoxStyle CssClass="textBox" />
+    <ValidatorTextStyle CssClass="validationErrors" />
+    <FailureTextStyle HorizontalAlign="Left" CssClass="validationErrors" />
+  </asp:ChangePassword>
+
+  <script type="text/javascript">
+    document.observe('dom:loaded', function () {
+      var footerOkCancel = $$('.footerOkCancel')[0];
+      if ($('ChangePasswordPushButton')) {
+        Element.addClassName($$('table table')[0], 'scPasswordForm');
+        Element.insert(footerOkCancel, { bottom: $('ChangePasswordPushButton').remove() });
+        Element.insert(footerOkCancel, { bottom: $('CancelPushButton').remove() });
+        Element.remove($$('.scPasswordForm tr:first-child')[0]);
+        Element.remove($$('.scPasswordForm tr:last-child')[0]);
+      } else {
+        Element.insert(footerOkCancel, { bottom: $('ContinuePushButton').remove() });
+      }
+    });
+  </script>
+</asp:Content>

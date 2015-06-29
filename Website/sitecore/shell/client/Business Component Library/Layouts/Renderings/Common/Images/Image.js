@@ -1,10 +1,9 @@
 ﻿define(["sitecore"], function (_sc) {
-  var model = Sitecore.Definitions.Models.ControlModel.extend(
+  var model = _sc.Definitions.Models.ControlModel.extend(
     {
       defaults: {
         imageUrl: "",
         alt: "",
-        background: "",
         width: 0,
         height: 0,
         isVisible: true
@@ -18,7 +17,6 @@
           read: function () {
             var url = this.imageUrl();
 
-            url = _sc.Helpers.url.addQueryParameters(url, { bc: this.background() });
             if (this.width() != 0) {
               url = _sc.Helpers.url.addQueryParameters(url, { w: parseInt(this.width()) });
             }
@@ -32,7 +30,7 @@
         });
       }
     });
-    var view = Sitecore.Definitions.Views.ControlView.extend(
+    var view = _sc.Definitions.Views.ControlView.extend(
     {
       initialize: function (options) {
         this._super();

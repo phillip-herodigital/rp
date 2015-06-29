@@ -20,14 +20,9 @@
     
     .defaultmessage
     {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
       color:#333333;
-      font-family: tahoma;
-      font-size: 8pt;
-      font-size-adjust: none;
-      font-style: normal;
-      font-variant: normal;
-      font-weight: normal;
-      line-height: normal;
       padding:5px;
     }
   </style>

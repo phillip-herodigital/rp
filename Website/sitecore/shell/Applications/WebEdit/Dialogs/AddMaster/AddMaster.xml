@@ -6,7 +6,7 @@
     <FormDialog ID="Dialog" Icon="Applications/32x32/document_new.png" Header="Insert" 
       Text="Select the item that you want to insert. You must give the item a name." OKButton="Insert">
 
-      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Dialogs.AddMaster.AddMasterForm,Sitecore.Client"/>
+      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Dialogs.AddMaster.AddMasterForm,Sitecore.ExperienceEditor"/>
       
       <Stylesheet Key="Style">
         .addMasterContainer {

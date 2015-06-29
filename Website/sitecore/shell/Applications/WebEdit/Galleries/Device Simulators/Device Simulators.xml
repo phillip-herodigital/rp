@@ -15,7 +15,7 @@
     </Stylesheet>
     <Script Src="/sitecore/shell/Applications/WebEdit/Galleries/Device Simulators/DeviceSimulators.js"/>
     <Gallery>
-      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Galleries.DeviceSimulatorsForm,Sitecore.Client"/>     
+      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Galleries.DeviceSimulatorsForm,Sitecore.ExperienceEditor"/>     
       <Scrollbox Border="none" Width="100%" Class="scScrollbox" Height="100%" Padding="0" Margin="0" ID="Simulators">
       </Scrollbox>
       <Script Type="text/javascript">

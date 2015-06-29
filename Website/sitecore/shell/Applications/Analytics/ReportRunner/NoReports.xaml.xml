@@ -13,7 +13,7 @@
 
   <Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport>
     <div style="text-align:center;padding-top:100px;" >
-      <Literal FontName="Tahoma" FontSize="8pt" FontItalic="true" Text="Select a report to run." runat="server" />
+      <Literal FontName="Tahoma" FontSize="8pt" FontItalic="true" Text="Click a report to run it on the selected item." runat="server" />
     </div>
   </Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport>
 </xamlControls>

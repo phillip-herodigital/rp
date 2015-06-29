@@ -18,14 +18,14 @@
       <DockWindowChrome Header="Toolbox">
       
         <ContextMenu ID="ContextMenu">
-          <MenuItem Icon="Applications/16x16/refresh.png" Header="Refresh" Click="Refresh" />
+          <MenuItem Icon="Office/16x16/refresh.png" Header="Refresh" Click="Refresh" />
         </ContextMenu>
 
         <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
 
           <Border>
             <Toolbar>
-              <Toolbutton Icon="Applications/16x16/refresh.png" IconSize="id16x16" Header="Refresh" Click="javascript:location.reload(true)" ToolTip="Refresh"/>
+              <Toolbutton Icon="Office/16x16/refresh.png" IconSize="id16x16" Header="Refresh" Click="javascript:location.reload(true)" ToolTip="Refresh"/>
             </Toolbar>
           </Border>
           

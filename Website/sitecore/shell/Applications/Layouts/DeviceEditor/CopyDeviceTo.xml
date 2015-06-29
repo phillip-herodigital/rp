@@ -6,13 +6,12 @@
       <Stylesheet>
         .title{
         display: block;
-        padding: 0 5px;
+        padding: 0 5px 0 0;
         }
 
         .devicesContainer, .treeviewContainer {
-        background: white;
         overflow: auto;
-        border: 1px inset;
+        border: 1px solid #ccc;
 
         position: absolute;
         top: 25px;
@@ -20,6 +19,14 @@
         left: 5px;
         right: 5px;
 
+        }
+
+        #Devices{
+          padding: 10px 10px;
+        }
+        
+        #Treeview {
+          padding: 10px 0;
         }
 
       </Stylesheet>
@@ -38,18 +45,14 @@
             <div class="col2">
               <Literal class="title" Text="Target Item:" />
               <div class="treeviewContainer">
-                <TreeviewEx ID="Treeview" DataContext="DataContext" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
+                <TreeviewEx ID="Treeview" DataContext="DataContext" />
               </div>
             </div>
             
           </div>
 
         </Tab>
-        <Tab ID="MediaTab" Header="Search" Height="100%">
-          <div class="scStretch" Style="padding:5px;">
-            <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" Width="100%" Height="100%"></Frame>
-          </div>
-        </Tab>
+        <SearchTab Mode="FieldResults" Header="Search" Height="100%"/>
       </Tabstrip>
 
     </FormDialog>

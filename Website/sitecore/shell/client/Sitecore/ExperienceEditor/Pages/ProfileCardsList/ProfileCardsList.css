@@ -1,0 +1,13 @@
+﻿#profileCardsList {
+    overflow-y: auto;
+    width: 100%;
+    margin-left: 5px;
+    max-height: 88px;
+}
+
+[data-sc-id="EditProfilesBorder"] {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+

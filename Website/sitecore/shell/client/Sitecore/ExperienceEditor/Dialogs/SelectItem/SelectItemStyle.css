@@ -1,0 +1,27 @@
+﻿[data-sc-id="IconBorder"] {
+    float: left;
+    width: 48px;
+    height: 48px;
+}
+
+[data-sc-id="TextBorder"] {
+    float: left;
+    margin-left: 30px;
+    margin-top: 5px;
+}
+
+[data-sc-id="DialogNameText"] {
+    font-size: 16px;
+    font-weight: 400;
+    display: block;
+}
+
+[data-sc-id="DialogDescriptionText"] {
+    display: block;
+}
+
+[data-sc-id="CommandButtonsBorder"] {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}

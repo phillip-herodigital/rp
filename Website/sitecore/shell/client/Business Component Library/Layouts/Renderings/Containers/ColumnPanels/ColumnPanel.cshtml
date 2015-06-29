@@ -6,23 +6,28 @@
   var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
 
   var cssClass = string.Empty;
-  var gridColoums = userControl.GetInt("GridColumns");  
+  var gridColoums = userControl.GetInt("GridColumns");
+  var applyGridColumsToAllSizes = userControl.GetBool("ApplyGridColumsToAllSizes", false);
   if (gridColoums > 0)
   {
-    cssClass = "span" + gridColoums;
+    cssClass = "col-md-" + gridColoums;
+    if (applyGridColumsToAllSizes)
+    {
+      cssClass = cssClass + " col-lg" + gridColoums + " col-sm-" + gridColoums + " col-xs-" + gridColoums;
+    }
   }
 
   var contentAlignment = userControl.GetString("ContentAlign");
   switch (contentAlignment)
 {        
     case "Right":
-        cssClass += " pull-right";
+        cssClass += " text-right";
         break;
     case "Center":
-        cssClass += " pull-center";
+        cssClass += " text-center";
         break;
     case "Left":
-    cssClass += " pull-left";
+        cssClass += " text-left";
         break;
 }
 

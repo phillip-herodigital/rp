@@ -1,6 +1,6 @@
 ﻿require.config({
   paths: {    
-    arrowIndicatorCss: "../../Business Component Library/Layouts/Renderings/Indicators/ArrowIndicator"
+    arrowIndicatorCss: "/sitecore/shell/client/Business Component Library/Layouts/Renderings/Indicators/ArrowIndicator"
   }
 });
 

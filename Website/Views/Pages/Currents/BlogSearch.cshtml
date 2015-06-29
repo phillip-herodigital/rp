@@ -1,0 +1,113 @@
+﻿@using XBlogHelper.Models.Blog
+@using XBlogHelper.Search
+@using XBlogHelper.General
+@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.Links
+@using StreamEnergy.MyStream.Controllers.ApiControllers
+@using XBlogHelper
+@using System.Web
+@inherits System.Web.Mvc.WebViewPage
+
+@{
+    
+    Item dataSourceItem = Sitecore.Context.Database.GetItem(Sitecore.Mvc.Presentation.RenderingContext.Current.Rendering.DataSource);
+    Item blogRoot = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
+    BlogSettings settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(dataSourceItem != null ? dataSourceItem : Sitecore.Context.Item);
+    string searchHeading = "";
+    string searchText = "";
+
+    UrlOptions option = new UrlOptions();
+    option.AlwaysIncludeServerUrl = true;
+    string urlSearchName = Request.QueryString["term"];
+    if (!String.IsNullOrEmpty(urlSearchName))
+    {
+        if (!String.IsNullOrEmpty(urlSearchName))
+        {
+            searchText = urlSearchName;
+
+            if (settingsItem.DisplayFilterMessage)
+            {
+                searchHeading = settingsItem.SearchFilterTitle + searchText;
+            }
+        }
+    }
+
+    string blogUrl = LinkManager.GetItemUrl(blogRoot, option);
+    var blogs = CurrentsController.GetCurrentsPosts(blogRoot, "", "", "", searchText, 0, 100, Sitecore.Context.Language.ToString());
+    int totalRows = CurrentsController.GetCurrentsCount(blogRoot, "", "", "", searchText, Sitecore.Context.Language.ToString());
+    var previousPost = "";
+    string previousUrl = previousPost != null ? previousPost : "";
+    var nextPost = "";
+    string nextUrl = nextPost != null ? nextPost : "";
+    
+}
+
+<div class="currents">
+    <div class="blog-info">
+        <div class="publish-time">
+            @Html.Sitecore().Field("Search For Text")
+        </div>
+        <div class="blog-title">
+            <h1>@searchText</h1>
+        </div>
+        <div class="sub-headline">
+           @blogs.Count() @Html.Sitecore().Field("Results Text")
+        </div>
+    </div>
+    <article class="currents currents__box">
+        
+        <div class="wrapper">
+        @{
+            if (blogs == null || !blogs.Any())
+            {
+                @Html.Sitecore().Field("No Results Text")
+            }
+            else
+            {
+                foreach (BlogPost blogPost in blogs)
+                {
+                    <div class="search-result">
+                        <span class="article-date">@Html.Raw(blogPost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat))</span>
+                        <h2><a href="@Html.Raw(LinkManager.GetItemUrl(blogPost.InnerItem))">@Html.Raw(blogPost.Title)</a></h2>
+                        <div class="article-summary">
+                            @if (!String.IsNullOrEmpty(blogPost.Summary))
+                            {
+                                @Html.Raw(blogPost.Summary);
+                            }
+                            else
+                            {
+                                @Html.Raw(XBlogHelper.Helpers.Helper.SafeSubstring(blogPost.Summary, settingsItem.DisplaySummaryLength));
+                            }
+                        </div>
+                    </div>
+                }
+            }
+}
+        </div>
+
+        <div class="wrapper">
+            
+            <div class="post-nav">
+                <div class="grid three">
+                    <div class="col col-first">
+                        @if (previousUrl != "")
+                        {
+                            <a href="@previousUrl">@settingsItem.PreviousPageText</a>
+                        }
+                    </div>
+                    <div class="col">
+                        <a href="@blogUrl">@settingsItem.RecentBlogTitle</a>
+                    </div>
+                    <div class="col col-last">
+                       @if (nextUrl != "")
+                       {
+                        <a href="@nextUrl">@settingsItem.NextPageText</a>
+                       }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </article>
+</div>

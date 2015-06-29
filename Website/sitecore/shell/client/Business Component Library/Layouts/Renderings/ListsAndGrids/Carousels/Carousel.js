@@ -1,9 +1,9 @@
 ﻿/// <reference path="../../../../../../assets/lib/dist/sitecore.js" />
 require.config({
     paths: {
-        modernizr: "lib/ui/deps/modernizr/modernizr.custom.17475",
-        jquerypp: "lib/ui/deps/jquerypp/jquerypp.custom",
-        elastislide: "lib/ui/deps/elastislide/jquery.elastislide"
+        modernizr: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/modernizr/modernizr.custom.17475",
+        jquerypp: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/jquerypp/jquerypp.custom",
+        elastislide: "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/elastislide/jquery.elastislide"
     },
     shim: {
         'jquerypp': { deps: ['jquery'] },

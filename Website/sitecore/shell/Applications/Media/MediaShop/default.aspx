@@ -2,6 +2,8 @@
 <%@ Import Namespace="Sitecore.Diagnostics"%>
 <%@ Import Namespace="Sitecore.Text"%>
 <%@ Import Namespace="Sitecore"%>
+<%@ Import Namespace="Sitecore.Configuration" %>
+<%@ Import Namespace="Sitecore.Web" %>
 <script language="c#" runat="server">
   override protected void OnInit([NotNull] EventArgs e) {
     Assert.ArgumentNotNull(e, "e");
@@ -24,7 +26,10 @@
     url.Add("ic", "Applications/16x16/photo_scenery.png");
     url.Add("mo", "media");
     url.Add("ro", ItemIDs.MediaLibraryRoot.ToString());
-    
+    if (WebUtil.GetQueryString(State.Client.UsesBrowserWindowsQueryParameterName) == "1")
+    {
+      url.Add(State.Client.UsesBrowserWindowsQueryParameterName, "1");
+    }
     
     Response.Redirect(url.ToString());   
   }

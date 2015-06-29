@@ -22,12 +22,12 @@
     return this._selectable;
   },
 
-  addControl: function(position) {
+  addControl: function (position) {
     this._insertPosition = position;
 
     var ribbon = Sitecore.PageModes.PageEditor.ribbon();
 
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();        
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
     Sitecore.PageModes.PageEditor.postRequest("webedit:addrendering(placeholder=" + this.placeholderKey() + ")");
   },
   
@@ -37,7 +37,17 @@
     options.data.rendering = id;
     options.data.placeholderKey = this.placeholderKey();
     options.data.position = this._insertPosition;
-    options.data.url = window.location.href;                
+    options.data.url = window.location.href;
+
+    var allowedrenderingsIds = "";
+    for (var i = 0; i < this.chrome.data.custom.allowedRenderings.length; i++) {
+      allowedrenderingsIds += this.chrome.data.custom.allowedRenderings[i].toString();
+      if (i < this.chrome.data.custom.allowedRenderings.length - 1) {
+        allowedrenderingsIds += "|";
+      }
+    }
+
+    options.data.allowedRenderingsIds = allowedrenderingsIds;
     
     if (ds) {
       options.data.datasource = ds;
@@ -62,7 +72,7 @@
           }
           else {
             if (persistedLayout) {
-              $sc("#scLayout").val(persistedLayout);
+              $sc("#scLayout").val(persistedLayout).change();
             }
 
             alert(callbackData.error);
@@ -106,7 +116,7 @@
       return;
     }
     
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
         
     Sitecore.PageModes.PageEditor.postRequest("webedit:editrenderingproperties(uniqueid=" + chrome.type.uniqueId() + ")");
   },
@@ -162,7 +172,7 @@
       return;
     }
         
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();  
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
     Sitecore.PageModes.PageEditor.postRequest("webedit:editplaceholdersettings(key=" + this.placeholderKey() + ")");    
   },
 
@@ -359,7 +369,7 @@
   morphRenderings: function(chrome, morphingRenderingsIds) {
     var ribbon = Sitecore.PageModes.PageEditor.ribbon();
 
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();    
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
     this._insertPosition = chrome.type.positionInPlaceholder();    
     Sitecore.PageModes.PageEditor.postRequest("webedit:addrendering(placeholder=" + this.placeholderKey() + ",renderingIds=" + 
                                                 morphingRenderingsIds.join('|') + ")");
@@ -399,7 +409,7 @@
           }
           else {
             if (persistedLayout) {
-              $sc("#scLayout").val(persistedLayout);
+              $sc("#scLayout").val(persistedLayout).change();
             }
 
             alert(callbackData.error);
@@ -622,11 +632,11 @@
 
     renderingChrome.remove();
     Sitecore.PageModes.ChromeManager.resetChromes();
-  } 
+  }
 },
 {
   emptyLookFillerCssClass: "scEmptyPlaceholder",
-  getDefaultAjaxOptions: function(commandName) {
+  getDefaultAjaxOptions: function (commandName) {
     var options = {
       type: "POST",
       url: "/sitecore/shell/Applications/WebEdit/Palette.aspx",     

@@ -3,120 +3,68 @@
   <TransferToDatabase>
     <WizardForm CodeBeside="Sitecore.Shell.Applications.Dialogs.TransferToDatabase.TransferToDatabaseForm,Sitecore.Client">
 
-      <WizardFormFirstPage ID="FirstPage" Icon="Business/32x32/Data_Into.png">
-        <Border Class="scWizardWelcomeTitle">
-          <Literal ID="Welcome" Text="Welcome to the Transfer Item to Other Database Wizard."/>
-        </Border>
-        <Literal Text="This wizard helps you:"/>
-        <ul>
-          <li class="scWizardBullet">
-            <Literal Text="Select the source item."/>
-          </li>
-          <li class="scWizardBullet">
-            <Literal Text="Select a destination database."/>
-          </li>
-          <li class="scWizardBullet">
-            <Literal Text="Transfer the item and subitems."/>
-          </li>
-        </ul>
-      </WizardFormFirstPage>
-
-      <WizardFormPage ID="Source" Header="Source Item." Text="Select the item that you want to transfer. Click Next to continue." Icon="Business/32x32/Data_Into.png">
+      <WizardFormPage ID="Source" Header="Move an Item to Another Database" Text="Navigate to the item that you want to move and click Next.">
         <DataContext ID="SourceDataContext" Root="/" DataViewName="Master" filter="@@virtual=0"/>
 
         <WizardFormPadding>
-          <Scrollbox Width="100%" Height="100%" Padding="0px">
+          <div class="scScrollbox">
             <TreeviewEx ID="SourceTreeview" DataContext="SourceDataContext" Root="true" />
-          </Scrollbox>
+          </div>
         </WizardFormPadding>
 
       </WizardFormPage>
 
-      <WizardFormPage ID="Destination" Header="Destination." Text="Select the database that you want to transfer the item to and the destination folder. Click Next to continue." Icon="Business/32x32/Data_Into.png">
+      <WizardFormPage ID="Destination" Header="Move an Item to Another Database" Text="Navigate to the database and the folder that you want to move the item to and click Next.">
         <DataContext ID="DestinationDataContext" Root="/" DataViewName="Master" filter="@@virtual=0"/>
         <WizardFormPadding>
           <div>
-            <Literal Text="Database:&#160;" Style="white-space:nowrap;margin-right:0.5em"/>
-            <Combobox ID="Databases" Change="ChangeDatabase" Padding="0px 0px 0px 4px"/>
+            <Literal class="scFieldLabel sc-text-bold" Text="Destination database:"/>
+            <Combobox ID="Databases" Change="ChangeDatabase"/>
+            <Literal class="scFieldLabel sc-text-bold" Text="Destination folder:"/>
           </div>
-          <Scrollbox style="padding:4px; height: auto; position: absolute; bottom: 8px; top: 35px; left: 8px; right: 8px;">
+          <div class="scScrollbox" style="height: calc(100% - 105px)">
             <TreeviewEx ID="DestinationTreeview" DataContext="DestinationDataContext" Root="true" />
-          </Scrollbox>
+          </div>
         </WizardFormPadding>
       </WizardFormPage>
 
-      <WizardFormPage ID="Ready" Header="Ready" Text="You are ready to transfer the item. Click Transfer to transfer the item." Icon="Business/32x32/Data_Into.png">
+      <WizardFormPage ID="Ready" Header="Move an Item to Another Database" Text="You are ready to transfer the item. Click Transfer to transfer the item.">
+        <Border class="scWizardWarning" def:content="Notifications">
+          <ThemedImage src="Images/warning_yellow.png" />
+          <Literal class="scEditorWarningText" Text="Moving the item will fail if:" />
+          <ul style="overflow: hidden; list-style-type: disc; padding-left: 15px;">
+            <li>
+              <Literal Text="you do not have write access to the destination folder." />
+            </li>
+            <li>
+              <Literal Text="the template of the selected item does not exist in the destination database." />
+            </li>
+          </ul>
+        </Border>
         <WizardFormIndent>
-          <Border Padding="0px 0px 8px 0px">
-            <b>
-              <Literal Text="Transfer the item"/>
-            </b>
-          </Border>
-          <Border Padding="0px 0px 8px 0px">
-            <li>
-              <Literal ID="SourcePath"/>
-            </li>
-          </Border>
-          <Border FontBold="true" Padding="0px 0px 8px 0px">
-            <b>
-              <Literal Text="to"/>
-            </b>
-          </Border>
-          <Border Padding="0px 0px 8px 0px">
-            <li>
-              <Literal ID="DestinationPath"/>
-            </li>
-          </Border>
+          <Literal class="scFieldLabel sc-text-bold" Text="Item"/>
+
+          <Literal ID="SourcePath"/>
+
+          <Literal class="scFieldLabel sc-text-bold" Text="Destination"/>
+          
+          <Literal ID="DestinationPath"/>
 
           <Groupbox Header="Options">
-            <Border Padding="4px">
-              <Checkbox ID="Deep" Header="Include subitems."/>
-            </Border>
+            <Checkbox ID="Deep" Header="Include subitems."/>
           </Groupbox>
-
-          <Border Border="2px groove" Padding="4px 4px 0px 4px" Margin="16px 0px 0px 0px">
-            <b>
-              <ThemedImage Src="Applications/16x16/warning.png" Width="16" Height="16" Align="absmiddle" Margin="0px 4px 0px 0px" />
-              <Literal Text="Please notice that transfering will fail:" />
-              <ul>
-                <li>
-                  <Literal Text="if you do not have write access to the destination." />
-                </li>
-                <li>
-                  <Literal Text="if a template of a transfered item does not exist in the target database." />
-                </li>
-              </ul>
-            </b>
-          </Border>
 
         </WizardFormIndent>
       </WizardFormPage>
 
-      <WizardFormPage ID="Transferring" Header="Transferring..." Text="Please wait while transferring..." Icon="Business/32x32/Data_Into.png">
-        <GridPanel Width="100%">
-          <Border Height="64px"/>
+      <WizardFormProgressPage ID="Transferring" Header="Move an Item to Another Database" Text="Please wait while the item is being moved." ActionText="Transferring...">
+      </WizardFormProgressPage>
 
-          <ThemedImage Src="Business/32x32/Data_Into.png" Width="48" Height="48" GridPanel.Align="center"/>
-
-          <Space Height="16px"/>
-
-          <Border Align="center">
-            <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
-          </Border>
-
-          <Space Height="16px"/>
-
-          <Border ID="PublishingText" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
-            <Literal Text="Transferring..."/>
-          </Border>
-        </GridPanel>
+      <WizardFormPage ID="LastPage" Header="Move an Item to Another Database">
+        <WizardFormPadding>
+          <Literal class="sc-text-largevalue" Text="The item has been moved."/>
+        </WizardFormPadding>
       </WizardFormPage>
-
-      <WizardFormLastPage ID="LastPage" Icon="Business/32x32/Data_Into.png">
-        <Border>
-          <Literal Text="The wizard has completed. Click Finish to close the wizard."/>
-        </Border>
-      </WizardFormLastPage>
 
     </WizardForm>
   </TransferToDatabase>

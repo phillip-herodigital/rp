@@ -20,6 +20,10 @@
 
     this.serverValue = function() {
       var parsedValue = self.filterType.clientSideHook.parse(self.value());
+      if (self.filterType.clientSideHook.name == 'date' && parsedValue) {
+        return self.value();
+      }
+      
       return (parsedValue + '' === parsedValue) || !parsedValue
         ? parsedValue
         : parsedValue.key + '|' + parsedValue.value;
@@ -110,8 +114,8 @@
 
       self.$displayNameElement || (self.$displayNameElement = $(element).prev().prev());
 
-      var maxFilterWidth = 465;
-      var correction = 60; // width of a filter without Value and Display Name
+      var maxFilterWidth = 430;
+      var correction = 75; // width of a filter without Value and Display Name
       var result = maxFilterWidth - correction - self.$displayNameElement.width() + 'px';
       return result;
     };

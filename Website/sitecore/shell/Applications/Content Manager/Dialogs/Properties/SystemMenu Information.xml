@@ -4,22 +4,22 @@
 
     <Section ID="InformationSection" Header="Information" Icon="Applications/16x16/information.png" Class="scSection">
 
-      <GridPanel Columns="2" Fixed="true" Padding="0px 4px 0px 4px">
-        <GridPanel Columns="2" CellPadding="2">
+      <GridPanel Columns="2" Fixed="true" Style="width:100%">
+        <GridPanel Columns="2" Class="scListControl">
 
-          <Literal GridPanel.Class="scKey" Text="Item Key:"/>
+          <Literal GridPanel.Class="scKey" Text="Item key:"/>
           <Literal GridPanel.Class="scValue" def:ID="ItemName" />
 
-          <Literal GridPanel.Class="scKey" Text="Display Name:"/>
+          <Literal GridPanel.Class="scKey" Text="Display name:"/>
           <Literal GridPanel.Class="scValue" def:ID="DisplayName" />
 
-          <Literal GridPanel.Class="scKey" Text="Item Path:"/>
+          <Literal GridPanel.Class="scKey" Text="Item path:"/>
           <input def:ID="ItemPath" class="scItemID" GridPanel.Class="scValue" readonly="readonly" onclick="javascript:this.select();return false" />
 
           <Literal GridPanel.Class="scKey" Text="Item ID:"/>
           <input def:ID="ItemID" class="scItemID" GridPanel.Class="scValue" readonly="readonly" onclick="javascript:this.select();return false" />
 
-          <Literal GridPanel.Class="scKey" Text="Created From:"/>
+          <Literal GridPanel.Class="scKey" Text="Created from:"/>
           <Literal GridPanel.Class="scValue" def:ID="Master" />
 
           <Literal GridPanel.Class="scKey" Text="Template:"/>

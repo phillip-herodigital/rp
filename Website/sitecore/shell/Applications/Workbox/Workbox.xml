@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <Workbox>
+    <Favicon Src="/sitecore/images/favicon.ico" runat="server" />
     <CodeBeside Type="Sitecore.Shell.Applications.Workbox.WorkboxForm,Sitecore.Client"/>
     <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
     <Stylesheet Src="Ribbon.css" DeviceDependant="true"/>
@@ -14,7 +15,7 @@
       #States table { width: 100%; }
     </Stylesheet>
 
-    <FormPage Application="Workbox">
+    <FormPage Application="Workbox" Title="Workbox">
 
       <input type="hidden" id="scActiveRibbonStrip" name="scActiveRibbonStrip" />
 
@@ -22,7 +23,7 @@
 
         <Border ID="RibbonPanel"/>
 
-        <Border Padding="0px" Class="scLightBlueGradient scStretchAbsolute" Style="margin-top:67px;overflow:auto;">
+        <Border Class="scGreyBackground scStretchAbsolute scWorkboxContentContainer">
 
           <Border ID="Grid2">
             

@@ -3,7 +3,7 @@
   <StaticCommandsPortlet def:inherits="Sitecore.Shell.Controls.CommandPortal.Portlets.StaticCommands.StaticCommandsPortletXmlControl,Sitecore.Client">
 
     <Border def:ID="Portlet">
-      <DefaultPortletWindow def:ID="Window" Header="Commands" Icon="Applications/16x16/nav_right_green.png">
+      <DefaultPortletWindow def:ID="Window" Header="Commands" Icon="Office/16x16/arrow_right.png">
       
         <Border def:ID="Body"/>
 

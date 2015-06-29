@@ -1,6 +1,8 @@
 ﻿@using Sitecore.Mvc
-<div class="row-fluid">
-  <section class="span12 sc-applicationContent-main">
-    @Html.Sitecore().Placeholder("ApplicationContent.Main")
-  </section>
-</div>
+<header class="sc-applicationHeader">
+  @Html.Sitecore().Placeholder("ApplicationHeader")
+</header>
+
+<section class="sc-applicationContent-main">
+  @Html.Sitecore().Placeholder("ApplicationContent.Main")
+</section>

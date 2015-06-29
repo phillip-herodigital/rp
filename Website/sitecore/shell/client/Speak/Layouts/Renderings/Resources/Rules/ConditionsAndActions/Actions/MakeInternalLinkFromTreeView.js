@@ -9,9 +9,12 @@
       targetWindowID = context.app[args.targetWindowID],
       targetControlID = context.app[args.targetControlID],
 	    selectedItemsPropertyName="selectedNode",
-      template = "<link text='<%=displayText%>' linktype='internal' class='<%=styleClass%>' alt='<%=alternateText%>' <%=target%> querystring='<%=queryString%>' id='<%=itemId%>' />",
+      template = '<link text="<%=displayText%>" linktype="internal" class="<%=styleClass%>" title="<%=alternateText%>" <%=target%> querystring="<%=queryString%>" id="<%=itemId%>" />',
       targetWindowValue, itemLink, path,
-      emptyOptionID = "{A3C9DB39-1D1B-4AA1-8C68-7B9674D055EE}";
+      emptyOptionID = "{A3C9DB39-1D1B-4AA1-8C68-7B9674D055EE}",
+      htmlEncode = function (str) {
+        return str.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      };
 
     if (!targetDisplayTextID) {
       console.log("Provide at least display text for your link");
@@ -34,8 +37,8 @@
     }
 
     itemLink = _.template(template,{
-      displayText: targetDisplayTextID.get("text"),
-      alternateText: encodeURIComponent(targetAltTextID.get("text")),
+      displayText: htmlEncode(targetDisplayTextID.get("text")),
+      alternateText: htmlEncode(targetAltTextID.get("text")),
       itemId: targetControlID.get("selectedItemId"),
       queryString: encodeURIComponent(targetQueryID.get("text")),
       target: targetWindowValue,

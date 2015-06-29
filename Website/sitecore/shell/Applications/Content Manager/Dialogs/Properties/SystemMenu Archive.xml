@@ -4,8 +4,8 @@
     
     <Section ID="ArchiveSection" Header="Archive" Icon="Network/32x32/Server_Time.png" Class="scSection">
 
-      <Border Padding="0px 4px 0px 4px">
-        <GridPanel Columns="2" CellPadding="2">
+      <Border>
+        <GridPanel Columns="2" Class="scListControl">
 
           <Literal GridPanel.Class="scKey" Text="Archive:"/>
           <Literal GridPanel.Class="scValue" def:ID="Archive" />
