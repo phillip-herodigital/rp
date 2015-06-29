@@ -1,1 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MessageBody.aspx.cs" Inherits="Sitecore.Modules.EmailCampaign.UI.Dialogs.MessageBody" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MessageBody.aspx.cs" EnableSessionState="ReadOnly" Inherits="Sitecore.Modules.EmailCampaign.UI.Dialogs.MessageBody" %>
+ 
+ 
+   
+   

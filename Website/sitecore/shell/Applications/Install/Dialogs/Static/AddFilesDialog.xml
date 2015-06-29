@@ -12,7 +12,7 @@
       <UpAction ID="UpAction" DataContext="DataContext"/>
 
       <ContextMenu ID="ContextMenu">
-        <MenuItem Icon="Applications/16x16/folder_up.png" Header="Up" Action="UpAction" Click="DataContext.Up" />
+        <MenuItem Icon="Office/16x16/folder_into.png" Header="Up" Action="UpAction" Click="DataContext.Up" />
         <MenuDivider/>
         <ListviewViewsMenuItems Listview="FileExplorer"/>
       </ContextMenu>
@@ -42,8 +42,8 @@
         <Space GridPanel.Height="4px"/>
 
         <Border GridPanel.Height="4px">
-           <Toolbutton Style="float:right" Icon="Applications/24x24/delete2.png" Header="Remove" ToolTip="Remove entry from selection list." Click="Remove(&quot;&quot;)"/>
-           <Toolbutton Icon="Applications/24x24/add.png" Header="Add File" ToolTip="Adds a file to the package." Click="AddFile"/>
+           <Toolbutton Style="float:right" Icon="Office/24x24/delete.png" Header="Remove" ToolTip="Remove entry from selection list." Click="Remove(&quot;&quot;)"/>
+           <Toolbutton Icon="Office/24x24/add.png" Header="Add File" ToolTip="Adds a file to the package." Click="AddFile"/>
         </Border>
 
         <Space GridPanel.Height="4px"/>

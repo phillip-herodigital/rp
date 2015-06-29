@@ -1,0 +1,15 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+    var userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+    userControl.Class = "sc-pagemetrics";
+    userControl.Requires.Script("pathanalyzer", "pagemetrics.js");
+
+    var htmlAttributes = userControl.HtmlAttributes;
+}
+<div @htmlAttributes>
+
+    <div id="pageMetrics">
+    </div>
+</div>

@@ -17,7 +17,7 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <Border class="scScrollboxStretchAbsolute" ID="Columns" runat="server"/>
+      <Border ID="Columns" runat="server"/>
 
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Security.SecurityEditor.SelectColumns>

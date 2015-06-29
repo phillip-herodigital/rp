@@ -1,0 +1,21 @@
+﻿
+@using Sitecore.EmailCampaign.Server.Helpers
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.StringExtensions
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{  
+  var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  var createLayoutHelper = new CreateLayoutHelper();
+  var importFolderId = createLayoutHelper.CreateImportFolder();
+  var designImporterUrl = @"/sitecore%20modules/Shell/DesignImporter/DesignImporter.aspx" + "?saveOptions=hide&cp={0}".FormatWith(importFolderId);
+  
+  rendering.Class = "sc-DesignImporter";
+  rendering.Requires.Script("client", "DesignImporter.js");
+  rendering.Requires.Css("ecm", "DesignImporter.css");
+  var htmlAttributes = rendering.HtmlAttributes;
+}      
+<div @htmlAttributes data-importfolderid="@importFolderId">
+  <iframe @htmlAttributes src="@designImporterUrl"></iframe>
+</div>

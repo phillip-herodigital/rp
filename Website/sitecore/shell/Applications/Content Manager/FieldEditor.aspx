@@ -8,13 +8,15 @@
   <asp:placeholder id="BrowserTitle" runat="server" />
   <sc:Stylesheet runat="server" Src="Content Manager.css" DeviceDependant="true"/>
   <asp:placeholder id="Stylesheets" runat="server" />
+  
+  <script type="text/JavaScript" src="/sitecore/shell/Controls/Lib/jQuery/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript">if (!window.$sc) $sc = jQuery.noConflict();</script>
+  <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreObjects.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreKeyboard.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/controls/SitecoreVSplitter.js"></script>
 
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreObjects.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreKeyboard.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreVSplitter.js"></script>
-
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/Applications/Content Manager/Content Editor.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/TreeviewEx/TreeviewEx.js"></script>  
+  <script type="text/JavaScript" src="/sitecore/shell/Applications/Content Manager/Content Editor.js"></script>
+  <script type="text/JavaScript" src="/sitecore/shell/controls/TreeviewEx/TreeviewEx.js"></script>  
   
   <script type="text/javascript">
     function OnResize() {
@@ -43,66 +45,28 @@
       overflow: hidden;
     }
 
-     #Editors, #MainPanel {
-       background: #f0f1f2 !important;  
+     #Editors, #MainPanel, .scValidatorPanel, .scEditorSections {
+       background: white;  
      }
-    
-    #EditorPanel, .scEditorPanelCell {
-      padding-bottom: 1px;
-    }
     
     .scEditorPanelCell {
       padding-bottom: 1px;
     }
     
-    .ie #ValidatorPanel {
-      margin-top: 2px;
-    }
-    
-    .scEditorSections {
-      background: blue;
-    }
-    
-    .ff .scEditorSections {
-      margin-top: -2px;
-      margin-right: 1px;
-    }
-    
     #HeaderRow {
       display: none;
     }
-    
+
     #FooterRow {
-      padding: 0 14px 4px 0;
-      border-top: solid 1px #DBDBDB;
+      background-color: #f0f0f0;
+      border-top: 1px solid #e3e3e3;
+      padding: 8px 15px 9px;
+      height: 56px;
     }
     
     #FooterRow>div {
       float: right;
       white-space: nowrap;
-    }
-
-    #FooterRow input {
-      margin-right: 4px;
-    }
-    
-    .scEditorSectionPanelCell {
-      padding-left: 8px;
-    }
-    
-    .scEditorSectionCaptionExpanded {
-      padding: 1px 2px 1px 2px;
-    }
-    
-    .scButton {
-      font:8pt tahoma;
-    }
-
-    #WarningRow
-    {
-      background: #ffffe4;      
-      padding: 2px;
-      font-weight: bolder;
     }
   </style>
 </head>
@@ -133,11 +97,12 @@
         </tr>
       </table>
     </div>
-    <div Visible="False" id="WarningRow" runat="server">
-      <sc:ThemedImage runat="server" Height="16" Width="16" style="vertical-align:middle; margin-right: 4px" Src="Applications/16x16/warning.png" /><asp:Literal runat="server" ID="warningText"></asp:Literal>
+    <div Visible="False" class="scWarning" id="WarningRow" runat="server">
+      <sc:ThemedImage Src="Images/warning_yellow.png" runat="server"  />
+      <sc:Literal ID="warningText" Class="scWarningText" runat="server" />
     </div>
     <div id="MainPanel" class="scFlexContent" onclick="javascript:scContent.onEditorClick(this, event);">
-      <div id="MainContent" class="scStretchAbsolute">
+      <div id="MainContent" class="scStretchAbsolute scMarginAbsolute">
         <sc:Border ID="ContentEditor" runat="server" Class="scEditor" style="margin-top: -1px"/>
       </div>
     </div>

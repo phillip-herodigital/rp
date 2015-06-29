@@ -185,7 +185,7 @@
     }
 
     var ribbon = Sitecore.PageModes.PageEditor.ribbon();
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
     var controlId = this.controlId();
     if (sender) {
       controlId = sender.controlId(); 
@@ -291,7 +291,7 @@
 
   personalize: function(commandName) {
     var ribbon = Sitecore.PageModes.PageEditor.ribbon();
-    ribbon.contentWindow.$("scLayoutDefinition").value = $sc("#scLayout").val();         
+    Sitecore.PageModes.PageEditor.layoutDefinitionControl().value = Sitecore.PageModes.PageEditor.layout().val();
     Sitecore.PageModes.PageEditor.postRequest(commandName + "(uniqueId=" + this.uniqueId() +")");
   },
 
@@ -733,7 +733,7 @@
       return Sitecore.PageModes.ChromeTypes.Rendering.personalizationBar.renderHidden(
         context,        
         Sitecore.PageModes.Texts.Analytics.ChangeCondition, 
-        "/sitecore/shell/~/icon/PeopleV2/16x16/users3.png");
+        "/sitecore/shell/~/icon/Office/16x16/users3.png");
     }
     
     var ctrl = Sitecore.PageModes.ChromeTypes.Rendering.personalizationBar.render(context)

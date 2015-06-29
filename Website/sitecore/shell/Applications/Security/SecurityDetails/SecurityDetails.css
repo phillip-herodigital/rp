@@ -1,17 +1,25 @@
 .scAccountName {
-  font:8pt tahoma;
-  text-align:right;
-  padding:2px 4px 2px 4px;
+  padding:2px 15px 2px 4px;
 }
 
 .scAccountHeader {
-  padding:2px 4px 2px 4px;
-  font:bold 8pt tahoma;
+  padding: 2px 4px 10px 4px;
+  font-weight: bold;
 }
 
 .scAccountRight {
   padding:2px 16px 2px 4px;
-  font:8pt tahoma;
+}
+
+.scAccessIcons {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.scAccessType {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
 }
 
 .scAccountRightAllow {
@@ -19,7 +27,7 @@
 }
 
 .scAccountRightDeny {
-  color:red;
+  color:#ca241c;
 }
 
 .scAccountRightUnknown {
@@ -27,7 +35,7 @@
 }
 
 .scAccountSpacer {
-  padding:0px 0px 8px;
+  padding:0 0 10px;
 }
 
 .scAccountName a:link,
@@ -44,15 +52,34 @@
   text-decoration:underline;
 }
 
+.scSecurityDetails {
+    margin: 15px;
+}
+
 #Permissions a:link,
 #Permissions a:visited,
 #Permissions a:hover,
 #Permissions a:active {
   text-decoration:none;
-  color:blue;
 }
 
 #Permissions a:hover,
 #Permissions a:active {
   text-decoration:underline;
+  cursor: pointer;
 }
+
+
+.scAccessIcons img:nth-of-type(3),  .scAccessIcons img:nth-of-type(4) {
+position: relative;
+top: -1px;
+}
+
+.scNoSecurityDetails {
+    padding:16px 8px 16px 8px;
+    text-align:center;
+}
+
+    .scNoSecurityDetails a {
+        color: #ca241c;
+    }

@@ -1,19 +1,32 @@
 ﻿@using System.Configuration
 @using System.Web.Configuration
+@using Sitecore
 @using Sitecore.Mvc
 @using Sitecore.Mvc.Presentation
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @model RenderingModel
 @{
   var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
-  //var destination = userControl.GetString("DestinationUrl", "destinationUrl");
+  var destination = userControl.GetString("DestinationUrl", "destinationUrl");
 
   userControl.Requires.Script("business", "uploader.js");
-  userControl.Class = "sc-uploader row-fluid";
+  userControl.Class = "sc-uploader row";
 
   var parametersResolver = new DatasourceBasedParametersResolver(this.Model.Rendering);
 
-  var database = parametersResolver.GetString("Database", "");
+  var browseButtonText = userControl.GetString("BrowseButtonText", "browseButtonText");
+  if (string.IsNullOrEmpty(browseButtonText))
+  {
+    browseButtonText = ClientHost.Globalization.Translate(Sitecore.Names.Texts.BrowseForMediaFiles);
+  }
+
+  var shortDescriptionText = userControl.GetString("ShortDescriptionText", "shortDescriptionText");
+  if (string.IsNullOrEmpty(shortDescriptionText))
+  {
+    shortDescriptionText = ClientHost.Globalization.Translate(Sitecore.Names.Texts.DragAndDropFiles);
+  }
+
+  var database = parametersResolver.GetString("Database", "", "$context_database");
   if (!string.IsNullOrEmpty(database))
   {
     if (string.Compare(database, "$context_database", StringComparison.InvariantCultureIgnoreCase) == 0)
@@ -35,32 +48,41 @@
       userControl.SetAttribute("data-sc-executiontimeout", section.ExecutionTimeout.TotalSeconds.ToString());
     }
   }
-//  userControl.SetAttribute("data-sc-destinationUrl", destination);
+  userControl.SetAttribute("data-sc-destinationurl", destination);
 
   var controlId = userControl.ControlId;
   var htmlAttributes = userControl.HtmlAttributes;
 }
 <form @htmlAttributes method="POST" enctype="multipart/form-data">
-        <img class="sc-uploader-preview hide" />
-        <div class="sc-uploader-content">
-                <span class="drag">
-                    @Sitecore.ClientHost.Globalization.Translate("Drag and drop files here")
-                    <br />
-                    @Sitecore.ClientHost.Globalization.Translate("or")
-                    <br />
-                </span>
-            <span class="btn sc-button">
-                @Sitecore.ClientHost.Globalization.Translate("Browse for media files")
-                <input class="sc-uploader-fileupload" type="file" name="files[]"  multiple>
-            </span>
-            
-            <div class="sc-uploader-general-info">
-                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                    <div class="bar" data-bind="style: { width: globalPercentage() + '%' }"></div>
-                </div>
-                <p>
-                    <span data-bind="text:totalSize"></span>&nbsp;|&nbsp;<span data-bind="text:totalFiles"></span>&nbsp;files
-                </p>
-            </div>
+  <img class="sc-uploader-preview hide" />
+  <div class="sc-uploader-content">
+    <span class="drag">
+      @shortDescriptionText
+      <br />
+      @Sitecore.ClientHost.Globalization.Translate("or")
+      <br />
+    </span>
+    <a href="#" class="btn btn-default sc-button">
+      @browseButtonText
+      <input class="sc-uploader-fileupload" type="file" name="files[]" multiple>
+    </a>
+    <div class="sc-uploader-general-info">
+      <div class="sc-uploader-general-info-progressbar progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <div class="bar" data-bind="style: { width: globalPercentage() + '%' }"></div>
+      </div>
+      <div class="sc-uploader-general-info-data">
+        <div class="sc-uploader-general-info-data-col col1">
+          <div class="sc-uploader-general-info-data-uploadingData"><span data-bind="text: uploadedSize"></span>&nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;</div><span data-bind="  text: totalSize"></span>
         </div>
+        <div class="sc-uploader-general-info-data-col col2">|</div>
+        <div class="sc-uploader-general-info-data-col col3">
+          <div class="sc-uploader-general-info-data-uploadingData">
+            <span data-bind="  text: uploadedFiles"></span> &nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;
+          </div>
+          <span data-bind="  text: totalFiles"></span>&nbsp;<span data-bind="  visible: totalFiles() > 1">@Sitecore.ClientHost.Globalization.Translate(Sitecore.Names.Texts.Files)</span>
+          <span data-bind="  visible: totalFiles() === 1">@Sitecore.ClientHost.Globalization.Translate(Sitecore.Names.Texts.File)</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>

@@ -6,53 +6,53 @@
       <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
       <Stylesheet Src="Ribbon.css" DeviceDependant="true"/>
       <Stylesheet Key="BrokenLinks">
-         #Report > table {
-           width:100%;
-         }
-        
-         #Report td {
-           padding:4px;
-           vertical-align:top;
-         }
-         
-         .scBreak {
-           display: inline-block;
-           width: 0px;
-         }
+
+        td {
+            vertical-align:top;
+        }
+
+        .scBreak {
+            display: inline-block;
+            width: 0px;
+        }
+
+        .scListControl td:first-child {
+            white-space: normal;
+        }
+
+        .scListControl td:last-child {
+            white-space: normal;
+            word-break: break-all;
+            word-break: break-word;
+            min-width: 140px;
+        }
       </Stylesheet>
       <Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js"/>
 
-      <GridPanel Width="100%" Height="100%">
+      <div class="scStretch scFlexColumnContainer">
 
         <Border ID="RibbonPanel"/>
 
-        <Scrollbox ID="Report" Class="scScrollbox scFixSize" Border="none" Height="100%" GridPanel.Height="100%" Padding="0px">
+        <Scrollbox ID="Report" Class="scScrollbox scFlexContent" Border="none" HPadding="0px">
           <GridPanel Width="100%">
-
-            <Space Height="64"/>
-
-            <ThemedImage Src="Network/48x48/link_delete.png" Width="48" Height="48" GridPanel.Align="center"/>
+            <Border Height="64"/>
 
             <Space Height="16"/>
 
-            <Border Align="center">
-              <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
+            <Border class="scProgressIndicator32" GridPanel.Align="center"></Border>
+
+            <Space Height="16"/>
+
+            <Border ID="PublishingText" class="sc-text-title" Align="center" GridPanel.Align="center">
+              <Literal Text="Building report..."/>
             </Border>
-
-            <Space Height="16"/>
-
-            <Border ID="Text" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
-              <Literal Text="Building Report..."/>
-            </Border>
-            <Space Height="16"/>
             <Border ID="Status" Align="center" GridPanel.Align="center">
               &#160;
             </Border>
-
           </GridPanel>
         </Scrollbox>
       
-      </GridPanel>
+      </div>
 
     </FormPage>
 

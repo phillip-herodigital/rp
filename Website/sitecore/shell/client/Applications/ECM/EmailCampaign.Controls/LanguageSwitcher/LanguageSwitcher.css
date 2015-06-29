@@ -1,0 +1,29 @@
+﻿.sc .sc-ecm-language {
+  margin-right: 5px;
+}
+.sc .sc-ecm-language .nav-header {
+  white-space: nowrap;
+}
+.sc .sc-ecm-language .language-switcher-list {
+  padding: 5px 3px;
+  text-align: left;
+}
+.sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item.selected:before {
+  position: absolute;
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: url("/sitecore/shell/client/Speak/Assets/img/sc-sprite.png") no-repeat -322px -339px;
+  top: 5px;
+}
+.sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item a {
+  padding-left: 25px;
+  display: list-item;
+  color: rgb(19, 19, 19);
+}
+.sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item a.isdefault {
+  font-weight: bold;
+}
+.sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item.hidden {
+  display: none;
+}

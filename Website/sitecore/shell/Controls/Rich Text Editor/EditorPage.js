@@ -47,39 +47,7 @@ Sitecore.Controls.RichEditor = Class.create({
   },
 
   fitEditorToScreen: function () {
-    var editor = this.getEditor();
-    if (!editor) {
-      return;
-    }
-
-    var container = $$("form")[0];
-
-    var width = 0;
-    var height = 0;
-
-    if (container.getHeight != null) {
-      height = container.getHeight() - 28;
-      width = container.getWidth();
-    }
-    else {
-      width = container.offsetWidth;
-      height = (container.offsetHeight - 28);
-    }
-
-    if (height < 0) {
-      return;
-    }
-
-    editor.setSize(width, height);
-
-    if (!scForm.browser.isIE) {
-      if (height - 53 > 0) {
-        $('EditorCenter').style.height = (height - $('EditorTop').offsetHeight - 27) + 'px';
-      }
-      else {
-        $('EditorCenter').style.height = '0px';
-      }
-    }
+    
   },
 
   saveRichText: function (html) {

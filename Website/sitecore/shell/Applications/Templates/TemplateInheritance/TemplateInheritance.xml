@@ -5,11 +5,7 @@
       <CodeBeside Type="Sitecore.Shell.Applications.Templates.TemplateInheritance.TemplateInheritanceForm,Sitecore.Client"/>
       <Stylesheet Src="TemplateWorkspaceBaseTemplates.css" DeviceDependant="true"/>
 
-      <GridPanel Width="100%" Height="100%" Background="white" Fixed="true">
-
-        <Scrollbox ID="TemplateList" Height="100%" Background="Transparent" Border="none" GridPanel.Height="100%"/>
-
-        </GridPanel>
+      <Scrollbox ID="TemplateList" Height="100%" Background="White" Padding="15px" Border="none" GridPanel.Height="100%"/>
 
     </FormPage>
   </TemplateInheritance>

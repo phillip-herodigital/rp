@@ -1,0 +1,80 @@
+@using Sitecore.Data.Fields
+@using Sitecore.Data.Items
+@using Sitecore.Data
+
+@model  Item
+
+@{ 
+    var sc = Html.Sitecore();
+    var iconstyle = "display:inline; border:none; outline:none; text-decoration:none; vertical-align: middle;";
+}
+
+<table width="300" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+    <tbody>
+        <tr>
+            <td>
+
+                <table width="270" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
+                    <tbody>
+
+                    	<tr>
+                    		<td style="font-family: Helvetica, arial, sans-serif; font-size: 18px; text-align:left; line-height: 24px;" class="@this.ViewData["category"]">
+                                <img src="@this.ViewData["calendarIcon"]" alt="" border="0" style="@iconstyle; margin-right:5px;">
+                        		<span style="font-family: Helvetica, arial, sans-serif; font-size: 14px; color:#9c9c9c; font-weight: bold;">@this.ViewData["publishDate"]</span>
+                        	</td>
+                    	</tr>
+
+                        <!-- title -->
+                        <tr>
+                            <td style="font-family: Helvetica, arial, sans-serif; font-size: 18px; color:@this.ViewData["color"]; text-align:left; line-height: 24px;">
+                                <a href="@Html.Raw(Sitecore.Links.LinkManager.GetItemUrl( sc.CurrentItem))" style="color:@this.ViewData["color"];">@Html.Raw(this.ViewData["title"])</a>
+                            </td>
+                        </tr>
+                        <!-- end of title -->
+                        <!-- spacing -->
+                        <tr>
+                            <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                        </tr>
+                        <!-- /spacing -->
+                        <!-- content -->
+                        <tr>
+                            <td style="font-family: Helvetica, arial, sans-serif; font-size: 14px; color: #889098; text-align:left; line-height: 24px;">
+                                @this.ViewData["summary"]
+                            </td>
+                        </tr>
+                        <!-- end of content -->
+                        <!-- spacing -->
+                        <tr>
+                            <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+                        </tr>
+                        <!-- /spacing -->
+                        <!-- button -->
+                        <tr>
+                            <td>
+                                <table width="132" height="32" bgcolor="#0971ce" align="left" valign="middle" border="0" cellpadding="0" cellspacing="0" style="border-radius:3px; background-color: @this.ViewData["color"];" st-button="learnmore">
+                                    <tbody>
+                                        <tr>
+                                            <td width="132" height="9" align="center" style="font-size:1px; line-height:1px; min-width:120px;">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="132" height="14" align="center" valign="middle" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight:bold; color:#ffffff; text-align:center; line-height: 14px; ; -webkit-text-size-adjust:none; min-width:132px" st-title="fulltext-btn">
+                                                <a href="@Html.Raw(Sitecore.Links.LinkManager.GetItemUrl(sc.CurrentItem))" style="text-decoration: none;color: #ffffff; text-align:center;">
+                                                    <span>READ STORY</span>
+                                                    <img src="@this.ViewData["buttonIcon"]" alt="" border="0" style="@iconstyle; margin-left:5px;">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="9" align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- end of button -->
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,84 @@
+﻿@using Newtonsoft.Json
+
+@using Sitecore
+@using Sitecore.Data
+@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.PathAnalyzer.Localization
+@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.Shared
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+
+<script>
+    function getToken()
+    {
+        return document.getElementsByName("__RequestVerificationToken")[0].value;
+    }
+</script>
+
+@model RenderingModel
+@{
+    UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+
+    rendering.Class = "sc-PathAnalyzerApp";
+    rendering.Requires.Script("pathanalyzer", "PathAnalyzerApp.js");
+
+    rendering.Attributes.Add("data-bind", "visible: isVisible");
+
+    const string dateFormat = "MM-dd-yyyy";
+
+    //get the initial tree definition id from cookie, else from rendering parameters
+    var initialItemId = Helper.GetTreeDefinitionCookieValue();
+    if (string.IsNullOrWhiteSpace(initialItemId))
+    {
+        initialItemId = rendering.GetString("Default Tree Definition");
+    }
+    var initialItem = (!string.IsNullOrWhiteSpace(initialItemId) ? ClientHost.Databases.ContentDatabase.GetItem(initialItemId) : null);
+    {
+        if (initialItem != null)
+        {
+            rendering.Attributes.Add("data-sc-initialitem", initialItem.DisplayName + "," + initialItem.Database.Name + "," + initialItem.ID);
+        }
+    }
+
+    var dates = rendering.GetDateRangeParameters();
+    var initialStartDate = dates.Item1.ToString(dateFormat);
+    var initialEndDate = dates.Item2.ToString(dateFormat);
+
+    rendering.Attributes.Add("data-sc-initialstartdate", initialStartDate);
+    rendering.Attributes.Add("data-sc-initialenddate", initialEndDate);
+
+    rendering.HasNestedComponents = true;
+
+    var errorMessages = new
+    {
+        InvalidTreeDefinition = Helper.GetTextValue(PathAnalyzerTexts.MapFilterInvalidMap)
+    };
+
+    rendering.Attributes.Add("data-sc-errormessages", JsonConvert.SerializeObject(errorMessages));
+}
+
+@EmbedPathAnalyzerApp(rendering, initialItem, initialStartDate, initialEndDate)
+
+@helper EmbedPathAnalyzerApp(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering, Item initialItem, string initialStartDate, string initialEndDate)
+{
+    var renderingId = rendering.ControlId;
+    var helper = new RenderingHelper(Html, renderingId);
+
+    var initialTreeDefinitionId = initialItem != null ? initialItem.ID.ToString() : string.Empty;
+    var initParams = string.Format("DefaultTreeDefinitionId={0},InitialStartDate={1},InitialEndDate={2},Culture={3},ColorBlind=false", initialTreeDefinitionId, initialStartDate, initialEndDate, Sitecore.Context.Language.CultureInfo.Name);
+    const string silverlightSource = "/sitecore/shell/ClientBin/Sitecore.PathAnalyzer.PathExplorer.xap";
+    const string splashScreenSource = "/sitecore/shell/ClientBin/EmptySplashScreen.xaml";
+    helper.MakeSilverlightFrame("SilverlightApp", renderingId + "ContentWrapper", silverlightSource, initParams, splashScreenSource, string.Empty, true, "scSilverlightPathExplorer", string.Empty, string.Empty, true, "100%", "100%", "onSilverlightError", "5.0.61118.0");
+
+    // Rendering
+    <div @rendering.HtmlAttributes>
+        @Html.Sitecore().Controls().Rendering(Html, "{F6C9F461-FCAF-47DC-AA01-C8C64C2EFFB8}", renderingId + "ContentWrapper", "", new
+        {
+            UsePadding = false
+        })
+    </div>
+}

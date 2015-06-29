@@ -1,0 +1,28 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  userControl.Class = "sc-expander-ecm";
+  userControl.Requires.Script("ecm", "Expander.js");
+  userControl.Requires.Css("ecm", "Expander.css");
+
+  var controlId = userControl.ControlId;
+  var htmlAttributes = userControl.HtmlAttributes;
+}
+<div @htmlAttributes>
+
+  <div class="sc-expander-ecm-body">
+    @this.Html.Sitecore().Placeholder(controlId + ".Body")
+  </div>
+
+  <div class="sc-expander-ecm-footer">
+    <div class="sc-expander-ecm-footer-less" data-bind="visible: isExpanded">
+      <a href="#" data-bind="click: toggleExpanded">Less</a>
+    </div>
+    <div class="sc-expander-ecm-footer-more" data-bind="visible: !isExpanded()">
+      <a href="#" data-bind="click: toggleExpanded">More</a>
+    </div>
+  </div>
+</div>

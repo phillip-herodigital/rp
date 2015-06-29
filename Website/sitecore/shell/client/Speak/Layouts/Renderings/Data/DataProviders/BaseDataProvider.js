@@ -1,10 +1,4 @@
-﻿require.config({
-  paths: {
-    dataProviderDictionary: "/sitecore/shell/client/Speak/Layouts/Renderings/Data/DataProviders/DataProviderDictionary"
-  }
-});
-
-define(["sitecore", "dataProviderDictionary"], function (_sc, dataProviderDictionary) {
+﻿define(["sitecore"], function (_sc) {
   _sc.Factories.createBaseComponent({
     name: "BaseDataProvider",
     base: "ControlBase",
@@ -18,15 +12,16 @@ define(["sitecore", "dataProviderDictionary"], function (_sc, dataProviderDictio
         { name: "hasNoData", defaultValue: false },
         { name: "isBusy", defaultValue: false }
     ],
+
     initialize: function () {
     },
 
     getData: function () {
-      this.handleError({ name: "Error", message: dataProviderDictionary["GetData is not overridden"] });
+      this.handleError({ name: "Error", message: "GetData is not overridden" });
     },
     
     successHandler: function() {
-      this.handleError({ name: "Error", message: dataProviderDictionary["SuccessHandler is not overridden"] });
+      this.handleError({ name: "Error", message: "SuccessHandler is not overridden" });
     },    
 
     performRequest: function (serverRequestUrl, providerItemProperties, serverRequestParameters, serverRequestOnSuccess) {
@@ -35,18 +30,24 @@ define(["sitecore", "dataProviderDictionary"], function (_sc, dataProviderDictio
       var self = this;
       this.model.set("isBusy", true);
 
-      $.ajax({
-        dataType: "json",      
+      var ajaxOptions = {
+        dataType: "json",
 
+        headers: {},
         data: this.getRequestDataString(providerItemProperties, serverRequestParameters, this.model.get("queryParameters")),
         url: serverRequestUrl,
-        success: function (data) {
-          self.baseSuccessHandler(data, serverRequestOnSuccess);                   
+        success: function(data) {
+          self.baseSuccessHandler(data, serverRequestOnSuccess);
         },
-        error: function (response) {
-          self.handleError({ name: "Error", message: dataProviderDictionary["Server returned"] + ": " + response.status + " (" + response.statusText + ")", response: response });
+        error: function(response) {
+          self.handleError({ name: "Error", message: self.$el.data("sc-serverreturn") + ": " + response.status + " (" + response.statusText + ")", response: response });
         }
-      });      
+      };
+
+      var token = _sc.Helpers.antiForgery.getAntiForgeryToken();
+      ajaxOptions.headers[token.headerKey] = token.value;
+
+      $.ajax(ajaxOptions);
     },
 
     baseSuccessHandler: function (data, serverRequestOnSuccess) {

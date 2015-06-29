@@ -1,0 +1,49 @@
+@using Sitecore.Data.Items
+
+@model  Item
+
+@{ 
+    var align = ViewData["align"] == "right" ? "left" : "right";
+    var imagestyle = "display:block; border:none; outline:none; text-decoration:none; width:260px; height: 253px; max-width:440px";
+    var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
+    var imagePath = "";
+    if(ViewData.Keys.Contains("image"))
+    {
+        imagePath = ViewData["image"].ToString();
+    };
+}
+
+<table width="260" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+        <!-- image -->
+        <tr>
+            <td width="260" height="262" align="center">
+                <div style="position:relative; width:260px; height: 262px; padding: 0;">
+                    @{
+                        if (Sitecore.Context.PageMode.IsPageEditor)
+                        {
+                            @Html.Sitecore().Field("Square", new { alt="", border="0", width="260", height="253", style="@imagestyle", @class="col2img" })
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(imagePath))
+                            {
+                                // Manually render the image so responsive layouts work properly
+                                <img src="@imagePath" alt="" border="0" width="260" height="253" style="@imagestyle">
+                            }
+                        }
+                    }
+                    <div style="position:absolute; bottom:7px; left:0; z-index:100; width:260px; height:7px; background-color:@this.ViewData["color"];"></div>
+                    <img src="@this.ViewData["dropShadow"]" alt="" border="0" style="position:absolute; bottom:-5px; left:0; z-index:100; width:100%; height:12px; border:none; outline:none;">
+                </div>
+            </td>
+        </tr>
+        <!-- /image -->
+        <!-- spacing for mobile devices-->
+        <tr>
+            <td width="100%" height="15" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td>
+        </tr>
+        <!-- end of for mobile devices-->
+    </tbody>
+</table>
+ 

@@ -1,0 +1,60 @@
+﻿@using Sitecore
+@using Sitecore.EmailCampaign.Server.Services
+@using Sitecore.Modules.EmailCampaign
+@using Sitecore.Mvc  
+@using Sitecore.Web.UI.Controls.Common.UserControls
+
+@model Sitecore.Mvc.Presentation.RenderingModel
+
+@{
+  var userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  userControl.Requires.Script("ecm", "ManagerRootSwitcher.js");
+  userControl.Requires.Css("ecm", "ManagerRootSwitcher.css");
+  userControl.Class = "sc-ecm-managerroot sc-actionpanel";
+  userControl.Attributes["data-bind"] = "visible: isVisible";
+
+  var rootItems = Factory.Instance.GetManagerRoots();
+  if (rootItems.Count != 0)
+  {
+    userControl.SetAttribute("data-sc-defaultmanagerrootid", rootItems.First().InnerItem.ID.ToString());
+  }
+
+  var getMessageIdFromUrlService = new GetMessageIdFromUrlService();
+  string messageId = getMessageIdFromUrlService.GetMessageIdFromUrl(HttpContext.Current.Request.Url.OriginalString);
+  if (!string.IsNullOrEmpty(messageId))
+  {
+    var message = Factory.Instance.GetMessageItem(messageId);
+    if (message != null)
+    {
+      userControl.SetAttribute("data-sc-defaultmanagerrootid", message.ManagerRoot.InnerItem.ID.ToString());
+    }
+    
+    userControl.SetAttribute("data-sc-istaskpage", "1");
+  }
+  
+  var htmlAttributes = userControl.HtmlAttributes;
+}
+
+<div @htmlAttributes style="display:none;" data-sc-hasnested="true">
+  <ul role="menu" class="nav">
+    <li role="menuitem">
+      <div style="display:none" class="sc-actionpanel-popup data-sc-registered"></div> 
+      <div class="dropdown">
+        <a class="btn btn-default managerroot-btn js-managerroot-btn" title="@ClientHost.Globalization.Translate("Change root manager")"><span></span><span class="sc-dropdownbutton-chevron sc-dropdownbutton-toggler"></span></a> 
+        <div role="menu" class="sc-foldout dropdown-menu managerroot-list js-managerroot-list">
+          <div class="sc-foldout-content">
+            <ul>
+              @foreach (var rootItem in rootItems)
+              {
+                <li class="sc-actionMenu-item">
+                  <a class="root-item" data-root-id="@rootItem.InnerItem.ID" tabindex="-1" href="#" title="@ClientHost.Globalization.Translate("Item path:") @rootItem.InnerItem.Paths.FullPath">@rootItem.InnerItem.DisplayName</a>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+    </li>
+  </ul>
+</div>

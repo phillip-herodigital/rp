@@ -1,28 +1,35 @@
 ﻿@using Sitecore.Mvc
-<div class="row-fluid sc-applicationHeader-content">
-  <div class="span6">
-    <div class="sc-applicationHeader-breadCrumb">
-      @Html.Sitecore().Placeholder("ApplicationHeader.BreadCrumb")
-    </div>
-  </div>
-
-  <div class="span6">
-    <div class="sc-applicationHeader-contextSwitch">
-      @Html.Sitecore().Placeholder("ApplicationHeader.ContextSwitch")    
-    </div>
-  </div>
-</div>
-
-<div class="row-fluid sc-applicationHeader-content">
-  <div class="span6">
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  var showHeader = userControl.GetBool("ShowHeader", true);
+}
+<div class="sc-applicationHeader-row1">
+  <div class="sc-applicationHeader-content">
     <div class="sc-applicationHeader-title">
       @Html.Sitecore().Placeholder("ApplicationHeader.Title")
     </div>
   </div>
 
-  <div class="span6">
-    <div class="sc-applicationHeader-actions">
-      @Html.Sitecore().Placeholder("ApplicationHeader.Actions")    
+  <div class="sc-applicationHeader-content breadcrumb">
+    <div class="sc-applicationHeader-breadCrumb">
+      @Html.Sitecore().Placeholder("ApplicationHeader.BreadCrumb")
     </div>
   </div>
 </div>
+@if (showHeader)
+{
+  <div class="sc-applicationHeader-row2">    
+    <div class="sc-applicationHeader-back">
+      @Html.Sitecore().Placeholder("ApplicationHeader.Back")
+    </div>
+    <div class="sc-applicationHeader-contextSwitcher">
+      @Html.Sitecore().Placeholder("ApplicationHeader.ContextSwitch")
+    </div>          
+    <div class="sc-applicationHeader-actions">
+      @Html.Sitecore().Placeholder("ApplicationHeader.Actions")
+    </div>
+  </div>
+}

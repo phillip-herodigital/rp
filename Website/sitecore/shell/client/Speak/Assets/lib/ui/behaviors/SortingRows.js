@@ -1,18 +1,12 @@
-define(["sitecore"], function (_sc) {
+/*
+NOTE: THIS FILE IS OBSOLETE AND ONLY SERVES AS A REDIRECT FOR BACKWARD COMPATIBILITY
+*/
+require.config({
+  paths: {
+      "SortingRowsBehaviorV1.1": "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/behaviors/SortingRows",
+  }
+});
 
-    _sc.Factories.createBehavior("sort", {
-        events: {
-            "click .sort": "sort"
-        },
-        afterRender: function () {
-            var $sortEL = this.$el.find("[data-sc-sort]");
-
-            var template = "<i class='sort asc'></span>";
-            $sortEL.each(function () {
-                $(this).append(template);
-            });
-        },
-        sort: function (evt) {
-        }
-    });
+define(["SortingRowsBehaviorV1.1"], function (component) {
+  return component;
 });

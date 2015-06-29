@@ -32,8 +32,8 @@
   Sitecore.Treeview.onTreeGlyphClick = function(node, treeElement, id) {
     var glyph = node.down();
     var isMultiRoot = false;
-    if (glyph.src.indexOf("expand15x15") >= 0 && glyph.src.indexOf("noexpand15x15") == -1) {
-      this.setGlyph(glyph, "/loading15x15");
+    if (glyph.src.indexOf("treemenu_collapsed") >= 0 && glyph.src.indexOf("noexpand15x15") == -1) {
+      this.setGlyph(glyph, "/sc-spinner16.gif");
     
       var content = $F(treeElement.id + "_Database");
       var dataContext = this.getDataContext(node);    
@@ -59,6 +59,10 @@
         body += "&" + treeElement.id + "_displayFieldName=" + escape(displayFieldName.value);
       }
 
+      if (window.scCSRFToken && window.scCSRFToken.key && window.scCSRFToken.value) {
+        body += "&" + window.scCSRFToken.key + "=" + window.scCSRFToken.value;
+      }
+
       new Ajax.Request("/sitecore/shell/Controls/TreeviewEx/TreeviewEx.aspx?treeid=" + encodeURIComponent(treeElement.id) + "&id=" + encodeURIComponent(id) + (content != null ? "&sc_content=" + content : "") + (isMultiRoot ? "&mr=1" : ""), {
           method:"post",
           postBody: body,
@@ -67,7 +71,7 @@
           onFailure: function(request){ alert("Failed") }
         });
     }
-    else if (glyph.src.indexOf("collapse15x15") >= 0) {
+    else if (glyph.src.indexOf("treemenu_expanded") >= 0) {
       this.collapseTreeNode(node);
     }
   

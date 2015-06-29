@@ -11,26 +11,15 @@
   xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <Sitecore.Shell.Applications.Analytics.VisitorIdentification x:inherits="Sitecore.Shell.Applications.Analytics.VisitorIdentification.VisitorIdentificationPage,Sitecore.Client">
-    <Sitecore.Controls.DialogPage runat="server" Header="Visitor Classification" Text="Classify a visitor." Icon="Network/16x16/shield1.png">
+  <Sitecore.Shell.Applications.Analytics.VisitorIdentification x:inherits="Sitecore.sitecore.shell.Applications.Analytics.VisitorIdentifications.VisitorIdentificationPage,Sitecore.Client">
+    <Sitecore.Controls.DialogPage runat="server" Header="Classification" Text="Changing of classification." Icon="Network/16x16/shield1.png">
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
       <Script runat="server" Src="/sitecore/shell/Applications/Analytics/VisitorIdentifications/VisitorIdentification.js" />
-
+      <Script runat="server"  src='/sitecore/shell/controls/lib/scriptaculous/slider.js'/>
       <GridPanel runat="server" Width="100%">
-        <Border runat="server" ID="Preview" Padding="4px" Border="1px inset" Margin="0px 0px 8px 0px">
-          <Border id="PreviewName" runat="server" Style="font-weight:bold" />
-          <Border id="PreviewDescription" runat="server"/>
-
-          <Border id="PreviewOverridden" style="color:maroon;margin:8px 0px 0px 0px" runat="server">
-            <Literal runat="server" Text="The 'This Visitor' classification overrides all other classifications."/>
-          </Border>
-        </Border>
-
         <Border runat="server" ID="Panel"/>
       </GridPanel>
-
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Analytics.VisitorIdentification>
-  <!-- http://localhost:94/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.VisitorIdentification.aspx?SessionId={27E42B45-B7DD-435F-8E21-004E31484C9E}&IpOwnerId={D98C1DD4-008F-04B2-E980-0998ECF8427E} -->
 </xamlControls>

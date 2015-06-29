@@ -27,12 +27,8 @@
         <Border ID="Ribbon"/>
       </Border>
 
-      <GridPanel Width="100%" Height="100%">
+      <Scrollbox ID="TemplatePanel" />
 
-        <Scrollbox ID="TemplatePanel" Width="100%" Height="100%" Background="white" Padding="0px" Border="none" GridPanel.Height="100%"/>
-        
-      </GridPanel>
-      
       <RegisterKey KeyCode="c83" Click="templatebuilder:save" />
       
     </FormPage>

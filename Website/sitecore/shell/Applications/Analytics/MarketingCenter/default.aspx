@@ -2,11 +2,13 @@
 <%@ Import Namespace="Sitecore.Diagnostics"%>
 <%@ Import Namespace="Sitecore.Text"%>
 <%@ Import Namespace="Sitecore"%>
+<%@ Import Namespace="Sitecore.Configuration" %>
+<%@ Import Namespace="Sitecore.Web" %>
 <script language="c#" runat="server">
   override protected void OnInit([NotNull] EventArgs e) {
     Assert.ArgumentNotNull(e, "e");
 
-    Assert.CanRunApplication("Analytics/Marketing Center");
+    Assert.CanRunApplication("Analytics/Marketing Control Panel");
     
     var url = new UrlString("/sitecore/shell/Applications/Content Manager/default.aspx");
 
@@ -18,7 +20,7 @@
     }
 
     if (header.Length == 0) {
-      header = "Marketing Center";
+        header = "Marketing Control Panel";
     }
     
     var marketingCenter = Client.ContentDatabase.GetItem(ItemIDs.Analytics.MarketingCenterItem);
@@ -31,6 +33,11 @@
     url.Add("pa", "0");
     url.Add("ic", "People/16x16/megaphone.png");
     url.Add("ro", marketingCenter.ID.ToString());
+    if (WebUtil.GetQueryString(State.Client.UsesBrowserWindowsQueryParameterName) == "1")
+    {
+      url.Add(State.Client.UsesBrowserWindowsQueryParameterName, "1");
+    }
+    
     url["mo"] = "templateworkspace";
     
     Response.Redirect(url.ToString());   

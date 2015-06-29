@@ -12,10 +12,14 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
     {
       initialize: function () {
         this._super();
-        
+
+        this.temporaryNotification = null;
+        this.temporaryNotificationTimeout = null;
+
         this.set("errors", []);
         this.set("warnings", []);
         this.set("notifications", []);
+        this.set("translations", {});
         this.set("expanded", false);
         this.set("fadeVisible", true);
         
@@ -47,19 +51,19 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         this.set("headText", "", {
           computed: true,
           read: function () {
-            var result = "You have few ";
+            var result = this.translations()["youHaveFew"] + " ";
 
             if (this.errors().length + this.warnings().length + this.notifications().length > 1) {
               if (this.errors().length > 0) {
-                result += "errors";
+                result += this.translations()["errors"];
               }
               if (this.warnings().length > 0) {
-                result += (this.errors().length > 0) ? ", warnings" : "warnings";
+                result += (this.errors().length > 0) ? ", " + this.translations()["warnings"] : this.translations()["warnings"];
               }
               if (this.notifications().length > 0) {
-                result += (this.errors().length > 0 || this.warnings().length > 0) ? ", notifications" : "notifications";
+                result += (this.errors().length > 0 || this.warnings().length > 0) ? ", " + this.translations()["notifications"] : this.translations()["notifications"];
               }
-              return result;
+              return result + ".";
             } else
               return "";
           }
@@ -73,8 +77,6 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
           }
         });
 
-        this.on("change", this.fadeIn);
-
         this.setMessagesStatus();
       },
   
@@ -85,20 +87,11 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         this.set("hasErrorMessages", this.get("errors").length > 0);
       },
 
-
-      fadeIn: function () {
-        var self = this;
-        if (this.get("totalMessageCount") === 1 && this.get("notifications").length === 1 && this.get("notifications")[0]["temporary"]) {
-          window.setTimeout(function () {
-            self.set("fadeVisible", false);
-          }, 10000);
-        }
-      },
       addMessage: function (type, message) {
         var self = this;
         var messagetoAdd;
         if (!type || !message) {
-          throw "Provide at least type and message";
+          throw this.get("translations")["provideTypeAndMessage"];
         }
         if ($.isPlainObject(message) && message["text"] !== '') {
           messagetoAdd = message;
@@ -106,6 +99,13 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
         if (typeof message === "string" || message instanceof String) {
           messagetoAdd = { text: message, actions: [], closable: false };
         }
+
+        if (this.get("totalMessageCount") > 0 && this.temporaryNotification && this.temporaryNotificationTimeout) {
+          this.convertToClosable(this.temporaryNotification);
+          clearTimeout(this.temporaryNotificationTimeout);
+          this.temporaryNotificationTimeout = null;
+        }
+
         switch (type) {
           case 'error':
             self.viewModel.errors.push(messagetoAdd);
@@ -114,10 +114,12 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
             self.viewModel.warnings.push(messagetoAdd);
             break;
           case 'notification':
+            this.handleTemporaryNotification(messagetoAdd);
+            
             self.viewModel.notifications.push(messagetoAdd);
             break;
         }
-        
+
         this.setMessagesStatus();
       },
         /*.removeMessage(function(error) { return error.id === id })*/
@@ -125,7 +127,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
 
         var result = [];
         if (!$.isFunction(testFunc)) {
-          throw "Provide function with conditions to check";
+          throw this.get("translations")["provideFunction"];
         }
 
         result = result.concat(this.viewModel.errors.remove(testFunc));
@@ -151,7 +153,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
       },
       removeError: function (testFunc) {
         if (!$.isFunction(testFunc)) {
-          throw "Provide function with conditions to check ";
+          throw this.get("translations")["provideFunction"];
         }
         var result = this.viewModel.errors.remove(testFunc);
         this.setMessagesStatus();
@@ -160,7 +162,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
 
       removeWarning: function (testFunc) {
         if (!$.isFunction(testFunc)) {
-          throw "Provide function with conditions to check ";
+          throw this.get("translations")["provideFunction"];
         }
         var result = this.viewModel.warnings.remove(testFunc);
         this.setMessagesStatus();
@@ -169,12 +171,39 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
 
       removeNotification: function (testFunc) {
         if (!$.isFunction(testFunc)) {
-          throw "Provide function with conditions to check ";
+          throw this.get("translations")["provideFunction"];
         }
 
         var result = this.viewModel.notifications.remove(testFunc);
         this.setMessagesStatus();
         return result;
+      },
+
+      // Notification can be "temporary" if there is only one notification on MessageBar, otherwise notification will be converted to "closable".
+      handleTemporaryNotification: function (notification) {
+        if (notification.temporary) {
+          if (this.get("totalMessageCount") === 0 || this.get("totalMessageCount") === "") {
+            notification.temporary = ko.observable(notification.temporary);
+            notification.closable = ko.observable(notification.closable);
+
+            this.temporaryNotification = notification;
+
+            this.temporaryNotificationTimeout = window.setTimeout(_.bind(function () {
+              this.removeMessage(function (messageItem) {
+                return messageItem === notification;
+              });
+            }, this), 10000);
+
+          } else {
+            this.convertToClosable(notification);
+
+          }
+        }
+      },
+
+      convertToClosable: function (notification) {
+        $.type(notification.temporary) === 'function' ? notification.temporary(false) : notification.temporary = false;
+        $.type(notification.closable) === 'function' ? notification.closable(true) : notification.closable = true;
       }
     });
 
@@ -182,13 +211,32 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
     {
       initialize: function (options) {
         this._super();
-
+        var app = this.app;
         var inpSrc = $("input:hidden", this.$el);
         var initialData = inpSrc.length > 0 ? JSON.parse($("input:hidden", this.$el).val()) : [];
         var model = this.model;
+
+        if (this.$el.attr("data-translations")) {
+          this.model.set("translations", JSON.parse(this.$el.attr("data-translations")));
+        }
         
         this.model.set("errors", initialData["errors"] || []);
         this.model.set("warnings", initialData["warnings"] || []);
+
+        var notifications = initialData["notifications"] || [];
+
+        // if several temporary notifications is exist in initialData
+        if (notifications.length) {
+          _.each(notifications, _.bind(function (notification) {
+            if (notifications.length > 1) {
+              if (notification.temporary) {
+                model.convertToClosable(notification);
+              }
+            } else {
+              model.handleTemporaryNotification(notification);
+            }
+          }, this));
+        }
         this.model.set("notifications", initialData["notifications"] || []);
 
         this.model.setMessagesStatus();
@@ -203,7 +251,7 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
           var clickInvocation = $(this).attr("data-sc-click");
 
           if (clickInvocation) {            
-            return Sitecore.Helpers.invocation.execute(clickInvocation, { app: window.app});
+            return Sitecore.Helpers.invocation.execute(clickInvocation, { app: app });
           }
           return null;
         });
@@ -227,5 +275,5 @@ define(["sitecore", "knockout"], function (Sitecore, ko) {
       }
     });
 
-  _sc.Factories.createComponent("MessageBar", model, view, ".sc-messageBar");
+  Sitecore.Factories.createComponent("MessageBar", model, view, ".sc-messageBar");
 });

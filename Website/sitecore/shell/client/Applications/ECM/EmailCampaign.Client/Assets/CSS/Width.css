@@ -1,0 +1,752 @@
+﻿.sc-breadcrumb.ecm > ul > li a {
+  color: white;
+}
+
+.sc-breadcrumb.ecm > ul > li:last-child:after {
+  margin-left: 0;
+}
+
+.sc-breadcrumb.ecm > ul > li:last-child {
+  padding-right: 2px;
+}
+
+.sc-breadcrumb.ecm {
+  display: inline-block;
+}
+
+span[data-sc-id="BreadCrumbMessageName"] {
+  display: inline-block;
+  color: white;
+  position: absolute;
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/white/separator.png");
+  background-repeat: no-repeat;
+  background-position: 0 5px;
+  padding-left: 15px;
+}
+
+.sc-breadcrumb.ecm > ul > li a:hover {
+  color: white !important;
+  text-decoration: underline;
+}
+
+.sc-textbox[data-sc-id="SearchTextBox"],
+.sc-textbox[data-sc-id="IncludedRecipientsSearchTextBox"],
+.sc-textbox[data-sc-id="ExcludedRecipientsSearchTextBox"],
+.sc-textbox[data-sc-id="ListsSearchTextBox"] {
+  width: 530px;
+  float: left;
+}
+
+.sc-textbox[data-sc-id="IncludedRecipientsSearchTextBox"],
+.sc-textbox[data-sc-id="ExcludedRecipientsSearchTextBox"] {
+  width: 510px;
+}
+
+.sc-textbox[data-sc-id="ListsSearchTextBox"] {
+  width: 580px;
+}
+
+.sc-search.row .sc-search-searches {
+  padding-bottom: 10px;
+}
+
+.sc-navigation-content .sc-applicationHeader .sc-applicationHeader-contextSwitcher {
+  float: right;
+}
+
+.sc-applicationContent .sc-applicationHeader .sc-applicationHeader-row2 .sc-applicationHeader-actions div[data-sc-id="EmailManagerRoot"] {
+  margin-right: 10px;
+}
+
+.sc-applicationContent .sc-applicationHeader .sc-applicationHeader-row2 .sc-applicationHeader-actions > div {
+  float: right;
+}
+
+.sc-applicationContent .sc-applicationHeader .sc-applicationHeader-row2 .sc-applicationHeader-actions button.btn.sc-button.btn-primary {
+  float: right;
+  margin-left: 10px;
+}
+
+.sc .sc-hyperlinkbuttonsgroup li {
+  margin: 2px 2px 0 0;
+  padding-top: 2px;
+}
+
+  .sc .sc-hyperlinkbuttonsgroup li[sc-selected] {
+    background-color: #5e5e5e !important;
+  }
+
+  .sc .sc-hyperlinkbuttonsgroup li.selected {
+    background-image: url("/sitecore/shell/client/Speak/Assets/img/Speak/Menu/menu_selectedarrow.png");
+  }
+div[data-sc-id="PageProgressIndicator"] {
+  z-index: 5000;
+}
+/*Message Info block. BEGIN*/
+.sc-applicationContent-info .sc-MessageInfo,
+.sc-applicationContent-info .sc-MessageOverview {
+  margin-right: 15px;
+  margin-left: -15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+  .sc-applicationContent-info .sc-MessageInfo h3,
+  .sc-applicationContent-info .sc-MessageOverview h3 {
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+  }
+
+.sc .sc-message-progress {
+  width: 100%;
+}
+
+.sc .sc-message-progress-table {
+  width: 100%;
+  background-color: white;
+}
+
+  .sc .sc-message-progress-table tr {
+    border-bottom: solid 2px rgb(240, 240, 240);
+  }
+
+    .sc .sc-message-progress-table tr td {
+      padding: 7px 10px;
+    }
+
+      .sc .sc-message-progress-table tr td:last-child {
+        font-weight: bold;
+      }
+
+.sc .sc-message-progress-value {
+  text-align: right;
+  width: 50%;
+}
+/*Message Info block. END*/
+.sc .sc-icon-button-image {
+  top: 10px !important;
+  left: 8px !important;
+}
+
+.sc .sc-messageBar {
+  /*margin: 15px 0;*/
+}
+
+  .sc .sc-messageBar .alert .close {
+    margin-top: -8px !important;
+  }
+
+div[data-sc-id="MainBorder"] > div[data-sc-id="UploaderRowPanel"] {
+  margin-left: 0;
+}
+
+.sc-load-on-demand-panel .tab-content, div[data-sc-id="TabControl"] .tab-content {
+  margin-top: 30px;
+}
+
+.sc .sc-tabcontrol.subTab > ul.nav-tabs {
+  margin-top: -30px;
+}
+
+.sc .sc-load-on-demand-panel .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.sc .row div[data-sc-id="MainBorder"] {
+  padding: 0 15px 15px 15px;
+}
+
+.sc .row div[data-sc-id="BodyRightColumnPanel"] {
+  padding-left: 0;
+}
+
+.sc .sc-load-on-demand-panel .sc-border.sc-show-padding {
+  padding: 8px 0;
+}
+
+.sc .row.sc-show-padding {
+  padding: 8px 5px !important;
+}
+
+.sc .sc-advancedExpander {
+  margin-bottom: 30px;
+}
+
+.sc-advancedExpander + button.btn.sc-button.btn-default {
+  margin-top: -15px;
+  margin-bottom: 15px;
+}
+
+.sc-textbox[data-sc-id="CampaignCategoryTextBox"] {
+  width: 514px;
+  margin-right: 13px !important;
+  display: inline-block;
+}
+
+.sc-textarea[data-sc-id="DescriptionArea"] {
+  margin-bottom: 0;
+  resize: none;
+}
+
+textarea[readonly] {
+  resize: none;
+}
+
+span.sc-text[data-sc-id="HeaderTitle"] {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  overflow: hidden;
+  padding-bottom: 2px;
+}
+
+div.sc-advancedExpander-footer-more,
+div.sc-advancedExpander-footer-less {
+  padding: 0px 20px 10px;
+  text-align: right;
+}
+
+.sc .sc-border.sc-show-padding[data-sc-id="AccordionBorder"],
+.sc .sc-border.sc-show-padding[data-sc-id="IncludedRecipientsAccordionBorder"],
+.sc .sc-border.sc-show-padding[data-sc-id="ExcludedRecipientsAccordionBorder"] {
+  padding: 10px 10px 0 10px !important;
+}
+
+div[data-sc-id="MessageVariantAccordion"] div.sc-advancedExpander-body {
+  padding: 5px 15px;
+}
+
+div.sc-border.sc-show-border.sc-show-padding[data-sc-id="TopRowBorder"],
+div.sc-border.sc-show-border[data-sc-id="AddListButtonsBorder"] {
+  padding: 5px 20px !important;
+  margin: 0;
+}
+
+div.sc-border.sc-show-border[data-sc-id="AddListButtonsBorder"] {
+  padding-left: 16px !important;
+}
+
+div[data-sc-id="AddRecipientsListTitleColumnPanel"] {
+  padding: 8px 0;
+}
+
+div[data-sc-id="AddRecipientsListOrColumnPanel"] {
+  padding: 8px;
+}
+
+div.sc-border.sc-align-right.sc-show-padding[data-sc-id="BehaviorLinkBorder"] {
+  padding: 0 20px 12px !important;
+}
+
+div[data-sc-id="AttachmentAccordion"] {
+  width: 500px;
+}
+
+div[data-sc-id="MessageVariantRepeater"] div.sc-advancedExpander-footer-more,
+div[data-sc-id="MessageVariantRepeater"] div.sc-advancedExpander-footer-less {
+  padding: 8px 5px;
+}
+
+.sc div[data-sc-id="MessageVariantRepeater"] .row.sc-show-padding {
+  padding: 5px 5px !important;
+}
+
+  .sc div[data-sc-id="MessageVariantRepeater"] .row.sc-show-padding span,
+  .sc div[data-sc-id="SaveAsSubscriptionDialog"] .row.sc-show-padding span {
+    font-weight: bold;
+    cursor: default;
+  }
+
+.sc div[data-sc-id="SaveAsSubscriptionDialog"] .row.sc-show-padding {
+  padding: 8px 0 !important;
+}
+
+div.sc-border.sc-show-padding[data-sc-id="GeneralMessageInfoAccordionBorder"],
+div.sc-border.sc-show-padding[data-sc-id="SenderAccordionBorder"] {
+  padding-bottom: 8px;
+}
+
+.sc div.sc-accordion {
+  margin: 15px 0 0 0;
+}
+
+.sc .sc-label {
+  padding-top: 4px;
+}
+
+.sc .sc-border.sc-show-padding[data-sc-id="MessagePerformanceBorder"],
+.sc div[data-sc-id="SaveAsSubscriptionDialog"] div[data-sc-id="DialogBorderContentBorder"] {
+  padding: 0 !important;
+}
+
+.sc .row-fluid.sc-show-padding[data-sc-id="SubjectTextBoxRowPanel"],
+.sc .row-fluid.sc-show-padding[data-sc-id="BodyRowPanel"],
+.sc .row-fluid.sc-show-padding[data-sc-id="AlternativeRowPanel"] {
+  padding: 5px;
+  moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.abn-letter {
+  text-decoration: none;
+  color: #4b4b4b;
+  margin: 3px 10px;
+  font: 1em arial;
+  background: #fff;
+  border: 1px solid #c03417;
+  padding: 0 4px;
+}
+
+/*dispatch tab start*/
+div[data-sc-id="DispatchAccordionBorder"] {
+  padding: 8px 20px !important;
+}
+
+  div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-label {
+    padding-top: 8px;
+    font-weight: normal;
+  }
+
+.sc-combobox[data-sc-id="ScheduledTimeComboBox"],
+.sc-combobox[data-sc-id="ScheduleRecurringTimeComboBox"],
+.sc-combobox[data-sc-id="ScheduledEndTimeComboBox"] {
+  width: 100px;
+}
+
+.sc-combobox[data-sc-id="ScheduleTimezoneComboBox"] {
+  width: 550px;
+}
+
+.sc-textbox[data-sc-id="NotificationEmailValueTextBox"] {
+  width: 100%;
+}
+
+.sc-border[data-sc-id="NotificationEmailValueBorder"] {
+  margin-left: 22px;
+  margin-right: 20px;
+}
+
+.sc-border[data-sc-id="ScheduledMessageDataBorder"],
+.sc-border[data-sc-id="ScheduleRecurringBorder"],
+.row[data-sc-id="ABVariantsSizeRowPanel"] {
+  margin-top: 6px;
+  margin-left: 34px;
+}
+
+div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-radiobutton {
+  margin: 5px 0;
+}
+
+div[data-sc-id="MonthlyFirstRowPanel"],
+div[data-sc-id="MonthlySecondRowPanel"],
+div[data-sc-id="YearlyFirstRowPanel"],
+div[data-sc-id="YearlySecondRowPanel"],
+div[data-sc-id="YearlyThirdRowPanel"],
+div[data-sc-id="ScheduleRecurringDailyRowPanel"],
+div[data-sc-id="ScheduleRecurringEndAfterRowPanel"],
+div[data-sc-id="ScheduleRecurringEndByRowPanel"],
+div[data-sc-id="ScheduledMessagesDateTimeRowPanel"],
+div[data-sc-id="ScheduleRecurringBorderRowPanel"],
+div[data-sc-id="ScheduleRecurringDateTimeRowPanel"],
+div[data-sc-id="ScheduleRecurringTimezoneRowPanel"],
+div[data-sc-id="ScheduledMessagesEndDateTimeRowPanel"] {
+  padding-bottom: 6px;
+}
+
+div[data-sc-id="MonthlyFirstRowFirstColumnPanel"],
+div[data-sc-id="MonthlySecondRowFirstColumnPanel"],
+div[data-sc-id="YearlyFirstRowFirstColumnPanel"],
+div[data-sc-id="YearlySecondRowFirstColumnPanel"],
+div[data-sc-id="YearlyThirdRowFirstColumnPanel"],
+div[data-sc-id="ScheduleRecurringEndNoEndDateColumnPanel"],
+div[data-sc-id="ScheduleRecurringEndAfterColumnPanel"],
+div[data-sc-id="ScheduleRecurringEndByColumnPanel"] {
+  padding-left: 0;
+}
+
+div[data-sc-id="ScheduleRecurringEndNoEndDateRowPanel"] {
+  padding-bottom: 9px;
+}
+
+.sc-text[data-sc-id="NotificationEmailHintText"],
+.sc-text[data-sc-id="UsePreferredLanguageHintText1"],
+.sc-text[data-sc-id="UsePreferredLanguageHintText2"],
+.sc-text[data-sc-id="UsePreferredLanguageHintTextDefaultLanguage"] {
+  font-style: italic;
+  display: block;
+  padding-left: 18px;
+  line-height: normal;
+}
+
+.sc-text[data-sc-id="UsePreferredLanguageHintTextDefaultLanguage"] {
+  display: inline;
+}
+
+.sc-text[data-sc-id="UsePreferredLanguageHintTextContextLanguage"] {
+  display: inline;
+  font-style: italic;
+  line-height: normal;
+}
+
+.sc-text[data-sc-id="NotificationEmailHintText"],
+.sc-text[data-sc-id="UsePreferredLanguageHintText1"] {
+  padding-top: 8px;
+}
+
+.sc-border[data-sc-id="NotificationHeaderBorder"],
+.sc-border[data-sc-id="MultiLanguageHeaderBorder"],
+.sc-border[data-sc-id="NotificationEmailBorder"],
+.sc-border[data-sc-id="EmulationModeHeaderBorder"],
+.sc-border[data-sc-id="ABVariantsInstructionsBorder"],
+.sc-border[data-sc-id="ABVariantsSelectorBorder"],
+.sc-border[data-sc-id="ABWinnerInstructionsBorder"] {
+  margin-bottom: 4px;
+}
+
+.sc-border[data-sc-id="DeliverySpacerBorder"],
+.sc-border[data-sc-id="ABVariantsSizeBorder"] {
+  margin-top: 5px;
+}
+
+.sc-border[data-sc-id="ButtonsBorder"] {
+  margin-bottom: 15px;
+}
+
+.sc-tabcontrol div[data-sc-id="AutomaticIntervalValueColumnPanel"] {
+  width: 100px;
+}
+
+.sc-border[data-sc-id="ScheduleRecurringSpaceBorder"],
+.sc-border[data-sc-id="ABWinnerBorder"],
+.sc-border[data-sc-id="DeliveryHeaderBorder"] {
+  margin-top: 15px;
+}
+
+.sc-combobox[data-sc-id="ABVariantsSizeComboBox"] {
+  width: 80px;
+}
+
+div.row[data-sc-id="AutomaticRowPanel"] input.sc-textbox[data-sc-id="AutomaticTimeTextBox"] {
+  text-align: center;
+}
+
+div[data-sc-id="AutomationUsingLabelColumnPanel"] {
+  text-align: right;
+  margin-right: 10px;
+  max-width: 50px;
+}
+
+div.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="AutomationOptionsColumnPanel"] label.sc-radiobutton {
+  margin: 0 0 5px 0;
+}
+
+div.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="AutomationOptionsColumnPanel"] div.row div.sc-border {
+  margin-top: -2px;
+}
+
+div.sc-border[data-sc-id="DispatchAccordionBorder"] button.manualWinnerSelectButton {
+  height: 30px;
+  padding-top: 5px;
+}
+
+div.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="VariantsList"] table tr td.ventilate:last-child {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-tabcontrol.progressive > .nav-tabs > li > a:before {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/TabControl/arrow_black_whitetoblack.png");
+}
+
+div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-tabcontrol.progressive > .nav-tabs > li:first-child > a:before {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/TabControl/arrow_black_blacktoblack.png");
+}
+
+div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-tabcontrol.progressive > .nav-tabs > li.active > a:before {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/TabControl/arrow_white_blacktowhite.png");
+}
+
+div[data-sc-id="AutomaticTimeValueColumnPanel"] {
+  margin-right: 10px;
+}
+
+.sc-combobox[data-sc-id="AutomaticIntervalComboBox"] {
+  width: 80px;
+}
+
+.manual-variant-abn-letter {
+  margin: 0;
+  margin-right: 3px;
+}
+
+.sc-tabcontrol[data-sc-id="ABWinnerTabControl"] .sc-tabcontrol-header {
+  width: 120px;
+}
+
+.sc-tabcontrol[data-sc-id="ABWinnerTabControl"] .nav-tabs li.active a:after {
+  content: "";
+  left: 50%;
+  position: absolute;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border-top: none;
+  border-bottom: 6px solid #cccccc;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  bottom: 0;
+  margin-left: -9px;
+  background: none;
+}
+
+
+
+/*confirmation dialog*/
+.sc-border[data-sc-id="ActivateMessageBorder"],
+.sc-border[data-sc-id="DispatchConfirmationMessageBorder"] {
+  margin: 0 80px;
+}
+
+.sc-border[data-sc-id="CancelSchedulingConfirmationMessageBorder"] {
+  margin: 0 180px;
+}
+
+.sc-border[data-sc-id="ManualWinnerMessageBorder"] {
+  margin: 0 50px;
+}
+
+.sc-border[data-sc-id="WinnerResumeMessageBorder"] {
+  margin: 0 130px;
+}
+
+.sc-border[data-sc-id="TriggeredScheduleMessageBorder"],
+.sc-border[data-sc-id="DeactivateMessageBorder"] {
+  margin: 0 170px;
+}
+
+.sc-text[data-sc-id="WhouldYouLikeText"],
+.sc-text[data-sc-id="PreferredMessageWillBeSentText"],
+.sc-text[data-sc-id="PreferredAsYouHaveSelectedText"],
+.sc-text[data-sc-id="PreferredEachReciepientText"] {
+  display: block;
+}
+/*confirmation dialog end*/ 
+
+/*dispath tab end*/
+
+/*create popover begin*/
+.sc-popover[data-sc-id="CreatePopover"] .sc-text {
+  color: grey;
+  font-style: italic;
+}
+
+.sc-popover[data-sc-id="CreatePopover"] .sc-text-largetitle {
+  color: inherit;
+  font-style: inherit;
+}
+
+.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateMessageBorder"] > div,
+.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateListBorder"] > div {
+  margin-bottom: 10px;
+}
+.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateMessageBorder"] > div:hover,
+.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateListBorder"] > div:hover {
+  background-color: #D6D6D6;
+}
+
+.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateMessageBorder"]  div[class^="col-"],
+.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateListBorder"]  div[class^="col-"] {
+  padding-left: 0;
+  padding-right: 0;
+}
+.sc-popover[data-sc-id="CreatePopover"] a.sc-hyperlinkbutton {
+  font-weight: bolder;
+  color: #131313;
+  text-decoration: none;
+}
+
+
+/*create popover end*/
+
+/* white backgrounds in accordians and borders */
+div.sc-advancedExpander-body, div.sc-border.sc-show-border {
+  background: #fff !important;
+}
+
+/* Funnel.css */
+#sc-ecm-funnelContainer {
+  background-color: White;
+  border: 0px solid #CCC;
+  padding: 20px;
+  position: relative;
+  color: #606060;
+}
+
+.sc-ecm-funnelContainer {
+  padding-top: 20px;
+}
+
+.sc-ecm-funnel {
+  background-image: url("/sitecore/shell/client/Applications/ECM/EmailCampaign.Client/Assets/Images/funnelGradient.png");
+  background-repeat: no-repeat;
+  height: 186px;
+  text-align: left;
+  width: 350px;
+  margin: auto;
+}
+
+#sc-scm-funnelFooter {
+  margin: auto;
+  text-align: left;
+  width: 400px;
+}
+
+.sc-ecm-funnel div {
+  padding: 9px 0;
+  display: inline-block;
+  height: 31px;
+}
+
+.sc-ecm-funnelLabelText {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+#sc-ecm-funnelSeparator {
+  border-bottom: 1px solid #EAEAEA;
+  margin: 20px 0;
+}
+
+.sc-ecm-funnelLabelValue {
+  text-align: right;
+  font-weight: bold;
+}
+
+
+/* ReviewTab.css */
+.sc-dropdownbutton[data-sc-id='EmailPreviewReportsDropDown'] .sc-dropdownbutton-contentpanel,
+.sc-dropdownbutton[data-sc-id='SpamCheckReportsDropDown'] .sc-dropdownbutton-contentpanel {
+  left: -400px !important;
+  min-width: 500px;
+  width: 500px;
+}
+
+.sc-dropdownbutton[data-sc-id='EmailPreviewClientsDropDown'] .sc-dropdownbutton-contentpanel,
+.sc-dropdownbutton[data-sc-id='SpamCheckClientsDropDown'] .sc-dropdownbutton-contentpanel {
+  left: -600px !important;
+  min-width: 700px;
+  width: 700px;
+}
+
+.sc-dropdownbutton[data-sc-id='EmailPreviewClientsDropDown'] div.sc-dropdownbutton-content,
+.sc-dropdownbutton[data-sc-id='EmailPreviewReportsDropDown'] div.sc-dropdownbutton-content,
+.sc-dropdownbutton[data-sc-id='SpamCheckClientsDropDown'] div.sc-dropdownbutton-content,
+.sc-dropdownbutton[data-sc-id='SpamCheckReportsDropDown'] div.sc-dropdownbutton-content {
+  text-align: left;
+}
+
+.sc-dropdownbutton[data-sc-id='SpamCheckClientsDropDown'] div[data-sc-id='SpamCheckClientsHeaderRow'],
+.sc-dropdownbutton[data-sc-id='EmailPreviewClientsDropDown'] div[data-sc-id='EmailPreviewClientsHeaderRow'] {
+  padding: 3px;
+}
+
+.sc-border[data-sc-id="EmailPreviewSelectedVariantsBorder"],
+.sc-border[data-sc-id="SpamCheckSelectedVariantsBorder"] {
+  margin-top: 15px;
+}
+
+.sc-border[data-sc-id="SendQuickTestVariantsTextBorder"],
+.sc-border[data-sc-id="EmailPreviewVariantsTextBorder"],
+.sc-border[data-sc-id="SpamCheckVariantsTextBorder"] {
+  margin-bottom: 15px;
+}
+
+div.sc-variants-selector .variant-button button.btn.sc-togglebutton {
+  min-width: 0;
+  border: solid 1px rgb(189, 189, 189);
+  background-color: transparent;
+  box-shadow: none;
+  width: 31px;
+  height: 30px;
+  margin-right: 1px;
+  margin-bottom: 1px;
+}
+
+  div.sc-variants-selector .variant-button button.btn.sc-togglebutton.up {
+    background-image: none;
+    background-color: #969696;
+    border: solid 1px #636363;
+  }
+
+div[data-sc-id="EmailPreviewVariantsColumn"],
+div[data-sc-id="SpamCheckVariantsColumn"] {
+  border-right: solid 1px rgb(204, 204, 204);
+}
+
+div[data-sc-id="SendQuickTestTextColumn"], div[data-sc-id="SendQuickTestTextBoxColumn"] {
+  padding-left: 0;
+}
+
+div[data-sc-id="SendQuickTestVariantsPresenter"] {
+  margin-top: 10px;
+}
+
+.sc-applicationContent-navigation.sc-navigation-menu a[data-sc-id="DashboardHyperlinkButton"] {
+
+  height: 42px;
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+  padding: 0 15px;
+  font-size: 15px;
+  padding-top: 11px;
+  background: transparent;
+}
+
+.sc-applicationContent-navigation.sc-navigation-menu .sc-text.sc-text-divider {
+    font-size: 15px;
+}
+
+.sc-applicationContent-navigation.sc-navigation-menu a[data-sc-id="DashboardHyperlinkButton"]:hover {
+  color: #ffffff;
+}
+
+.sc-applicationContent-navigation.sc-navigation-menu a[data-sc-id="DashboardHyperlinkButton"]:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.sc-applicationContent-navigation.sc-navigation-menu a.selected[data-sc-id="DashboardHyperlinkButton"] {
+  background: #dc271e;
+}
+
+[data-sc-id="ConfirmText"] {
+  font-size: 1.167em;
+  color: #131313;
+  line-height: 1.42857143;
+  margin-left: 71px !important;
+  display: block;
+}
+
+.sc-border[data-sc-id="CreateBorder"]{
+  max-width: 650px;
+}
+
+/* Experience Analytics Charts */
+
+.sc-ChartComposites .sc-advancedExpander-header .sc-actioncontrol {
+  display: none;
+}
+
+.sc-ChartComposites .sc-advancedExpander-body {
+  padding-top: 18px;
+}
+
+.sc-ChartComposites .sc-advancedExpander-bodywrapper {
+  padding: 0 8%;
+}

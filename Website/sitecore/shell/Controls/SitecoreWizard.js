@@ -19,24 +19,22 @@ function scKeyDown(evt) {
 
 function scWizardInitialize() {
   scForm.browser.attachEvent(document, "onkeydown", scKeyDown);
+  scUpdateWizardControls();
 }
 
 scForm.browser.attachEvent(window, "onload", scWizardInitialize);
 
-scForm.browser.attachEvent(window, "onload", scAlignWizardButtons);
-
-function scAlignWizardButtons() {
-  var anothersWizardsButtons = $$('button.scButton', 'button.scButton_Disabled');
-  var wizardsMainButtons = $('BackButton', 'NextButton', 'CancelButton');
-  wizardsMainButtons.each(function(item) { anothersWizardsButtons = anothersWizardsButtons.without(item); });
-  anothersWizardsButtons.each(function(item) { Sitecore.UI.alignButtons(new Array(item)); });
-  Sitecore.UI.alignButtons(wizardsMainButtons);
-}
-
 function scUpdateWizardControls() {   
-  scForm.browser.initializeFixsizeElements(); 
-
-  if (typeof(scTreeview) != 'undefined' && scTreeview.isHidden) {   
+  if (window.scTreeview && scTreeview.isHidden) {   
     scTreeview.align();
-  }  
+  }
+
+  $$('.ie9 .scWizardFormContentForOldIE').forEach(function (element) {
+    var scFormDialogHeader = element.previous('.scFormDialogHeader');
+    var scWizardWarning = element.previous('.scWizardWarning') || null;
+
+    var height = scFormDialogHeader && scFormDialogHeader.getHeight() + (scWizardWarning && scWizardWarning.getHeight());
+
+    height && element.setStyle({ top: height + 'px' });
+  });
 }   

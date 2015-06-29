@@ -18,7 +18,7 @@
     <script type="text/javascript" src="/sitecore/shell/Controls/Lib/iso8601/iso8601.min.js"></script>
     <script type="text/javascript" src="/sitecore/shell/Controls/Lib/Console/ConsoleStub.js"></script>
     <script type="text/javascript">
-      var updatePreviewInterval = <%= Settings.GetLongSetting("PagePreview.PreviewUpdateInterval", 20000) %>;
+      var updatePreviewInterval = <%= Sitecore.Configuration.Settings.GetLongSetting("PagePreview.PreviewUpdateInterval", 20000) %>;
       var scTexts = {
         noDevicesAvailable : "<%= Translate.Text(Sitecore.Texts.Nodevicesavailable) %>",
         previewWillAppearSoon : "<%= Translate.Text(Sitecore.Texts.PleasewaitThepreviewwillappearheresoon) %>",

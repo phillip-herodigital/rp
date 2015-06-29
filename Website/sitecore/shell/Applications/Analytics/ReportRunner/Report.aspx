@@ -22,7 +22,7 @@
       <tr>
         <td height="100%">
           <pre id="ErrorMessage" runat="server" visible="false"></pre>
-          <cc1:stiwebviewer id="ReportViewer" runat="server" buttonimagespath="/sitecore/shell/Themes/Standard/Reports/" width="100%" height="100%" PageBorderColorDark="#dddddd" PageBorderColorLight="#999999" ViewMode="WholeReport" CurrentPage="0" />
+          <cc1:stiwebviewer id="ReportViewer" runat="server" buttonimagespath="/sitecore/shell/Themes/Standard/Reports/" width="100%" height="100%" PageBorderColorDark="#dddddd" PageBorderColorLight="#999999" ViewMode="WholeReport" CurrentPage="0" PrintDestination="Pdf" />
           <cc2:StiWebDesigner id="Designer" runat="server" OnSaveReport="Designer_SaveReport"  OnGetPreviewDataSet="Designer_GetPreviewDataSet" />    
           <asp:Button runat="server" id="Design" OnClick="Design_Click" style="display:none"  />
         </td>
@@ -54,15 +54,24 @@
 
     function patchStyle(id) {
       var element = $(id);
-
-      element.up().style.width = "75px";
-      element.up().style.height = "25px";
+      var elu = element.up();
+      elu.style.width = "75px";
+      elu.style.height = "25px";
       
       element.style.width = "75px";
 
-      element.down().align = "absmiddle";
-      element.down().next().style.verticalAlign = "";
+      var eld = element.down();
+      if (eld) {
+          eld.setStyle({ 'verticalAlign': 'middle' });
+
+          var next = eld.next();
+          if (next) {
+              next.setStyle({ 'verticalAlign': '' });
+          }
+      }
     }
+
+      
   
     function scMail() {
       var itemId = '<asp:placeholder runat=server id="ItemId" />';
@@ -87,11 +96,11 @@
       return window.parent.scForm.showModalDialog(url, dialogArguments, features, request);
     }
 
-    var element = $("ReportViewer");
-    element = element.down(6).rows[0];
-    var cell = new Element("td");
-    cell.innerHTML = "<div class=\"webMenu\"><a onclick=\"javascript:return scMail();\" style=\"white-space:nowrap;border:1px solid #e9e9e9;background:#f9f9f9;margin:1px 0px 0px 0px;padding:4px 4px 0px 4px; width:75px;height:25px;font:8pt tahoma\"><img src=\"/sitecore/shell/Themes/Standard/Reports/MenuMail.gif\" align=\"absmiddle\" width=\"16\" height=\"16\" style=\"width:16px;height:16px\" />&nbsp;<%=Sitecore.Globalization.Translate.Text(Sitecore.Texts.MailReport) %></a></div>";
-    element.appendChild(cell);
+    var cell = $$('#ReportViewer_ReportViewer_toolBar tr td').first();
+
+    if (cell) {
+        cell.innerHTML = "<div class=\"webMenu\"><a onclick=\"javascript:return scMail();\" style=\"white-space:nowrap;border:1px solid #e9e9e9;background:#f9f9f9;margin:1px 0px 0px 0px;padding:4px 4px 0px 4px; width:75px;height:25px;font:8pt tahoma\"><img src=\"/sitecore/shell/Themes/Standard/Reports/MenuMail.gif\" align=\"absmiddle\" width=\"16\" height=\"16\" style=\"width:16px;height:16px\" />&nbsp;<%=Sitecore.Globalization.Translate.Text(Sitecore.Texts.MailReport) %></a></div>";
+    }
   </script>
   
   <style type="text/css">

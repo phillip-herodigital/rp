@@ -2,7 +2,7 @@
 
 define(["sitecore"], function (_sc) {
 
-  var model = Sitecore.Definitions.Models.ButtonBaseModel.extend({
+  var model = _sc.Definitions.Models.ButtonBaseModel.extend({
     initialize: function () {
       this._super();
 
@@ -20,15 +20,15 @@ define(["sitecore"], function (_sc) {
         newPath.indexOf("/~/icon/") >= 0 ||
         newPath.indexOf("http://") === 0 ||
         newPath.indexOf("https://") === 0 ||
-        newPath.indexOf(Sitecore.SiteInfo.virtualFolder) === 0)) {
-        newPath = Sitecore.SiteInfo.virtualFolder + "~/icon/" + newPath;
+        newPath.indexOf(_sc.SiteInfo.virtualFolder) === 0)) {
+        newPath = _sc.SiteInfo.virtualFolder + "~/icon/" + newPath;
       }
 
       return newPath;
     }
   });
 
-  var view = Sitecore.Definitions.Views.ButtonBaseView.extend({
+  var view = _sc.Definitions.Views.ButtonBaseView.extend({
     initialize: function () {
       this._super();
 

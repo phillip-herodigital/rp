@@ -76,7 +76,7 @@
 
       <WizardFormLastPage ID="LastPage" Icon="Network/32x32/Link_new.png">
         <div class="scStretch scFlexColumnContainerWithoutFlexie">
-          <Literal class="wizardCompleteText" Text="The wizard has completed. Click Finish to close the wizard."/>
+          <Literal class="wizardCompleteText" Text="The wizard has completed."/>
           <Literal class="wizardResult" Text="Result:"/>
           <div class="scFlexContentWithoutFlexie scWizardLastPageResultText">
             <div class="scStretchAbsolute">

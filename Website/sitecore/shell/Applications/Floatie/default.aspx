@@ -27,7 +27,7 @@
         onmousemove="javascript:return Sitecore.Floatie.mouseMove(this, event);"
         onmouseup="javascript:return Sitecore.Floatie.mouseUp(this, event);">
         <sc:Border runat="server" Class="scFloatieWindowButtions" Click="javascript:Sitecore.Floatie.toggle()">
-          <sc:ThemedImage runat="server" ID="WindowButton" Src="Images/Window Management/Switch_blue.png" Class="scWindowManagementButton" Alt="Expand/Collapse" RollOver="true"/>
+          <sc:ThemedImage runat="server" ID="WindowButton" Src="Images/Window Management/page_switcher.png" Class="scWindowManagementButton" Alt="Expand/Collapse" RollOver="true"/>
         </sc:Border>
 
         <sc:Literal runat="server" Text="Sitecore" />

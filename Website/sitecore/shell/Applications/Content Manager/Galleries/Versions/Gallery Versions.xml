@@ -5,7 +5,10 @@
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Galleries.Versions.GalleryVersionsForm,Sitecore.Client"/>
 
       <Stylesheet Key="GalleryLanguages">
-        .scMenuPanelItem, .scMenuPanelItem_Hover, .scMenuPanelItemSelected_Hover, .scMenuPanelItemSelected {
+        .scMenuPanelItem, 
+        .scMenuPanelItem_Hover, 
+        .scMenuPanelItemSelected_Hover, 
+        .scMenuPanelItemSelected {
           padding-left: 0;
           padding-right: 0;
         }
@@ -37,7 +40,7 @@
           <GalleryMenu ID="Options" Class="scStretch">
 
             <MenuPanel Height="100%">
-              <Scrollbox ID="Versions" Class="scScrollbox" Background="#F4F4F5" Padding="0px" Border="none" />
+              <Scrollbox ID="Versions" Class="scScrollbox" />
             </MenuPanel>
 
           </GalleryMenu>

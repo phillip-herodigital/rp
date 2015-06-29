@@ -5,24 +5,33 @@
       Text="Change your personal information.">
 
       <CodeBeside Type="Sitecore.Shell.Applications.ControlPanel.Preferences.UserInformation.UserInformationForm,Sitecore.Client"/>
-    
-      <GridPanel Columns="2" Width="100%" CellPadding="3">
+      <Stylesheet>
+        .scSelectedUserPic{
+            border: 1px solid #D6D6D6;
+            display: block;
+            vertical-align: top;
+            width: 48px;
+            height: 48px;
+            margin-right: 10px;
+        }
+        
+        #Portraits {
+            height: 357px;
+        }
+      </Stylesheet>
+      
+      <GridPanel class="scFormTable" Columns="2">
 
-         <Literal Text="Full Name:" GridPanel.NoWrap="true"/>
+         <Literal Text="Full name:" />
          <Edit ID="Fullname" Width="100%" GridPanel.Width="100%"/>
         
-         <Literal Text="Email:" GridPanel.NoWrap="true"/>
+         <Literal Text="Email:" />
          <Edit ID="Email" Width="100%"/>
 
-          <Literal Text="Portrait:" GridPanel.VAlign="top"/>
+          <Literal Text="Portrait:" />
           <GridPanel Columns="2" Width="100%">
-
-            <Border Border="1px inset" Margin="0px 16px 0px 0px" GridPanel.VAlign="top">
-              <Image ID="Portrait" Src="/sitecore/images/blank.gif" Height="48" Width="48" RenderAs="WebControl"/>
-            </Border>
-            
-            <Listbox ID="Portraits" Width="100%" Size="8" GridPanel.VAlign="top" Change="Change" GridPanel.Width="100%"/>
-            
+            <Image class="scSelectedUserPic" ID="Portrait" Src="/sitecore/images/blank.gif" GridPanel.VAlign="top" RenderAs="WebControl"/>        
+            <Listbox ID="Portraits" Width="100%" Size="2" GridPanel.VAlign="top" Change="Change" GridPanel.Width="100%"/>         
           </GridPanel>
 
       </GridPanel>

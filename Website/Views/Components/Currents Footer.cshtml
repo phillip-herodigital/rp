@@ -1,0 +1,39 @@
+@{
+    var siteFooter = Sitecore.Context.Database.GetItem("{9D39657B-DE17-49AB-98ED-6391329B8223}");
+    var blogDataSourceItem = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
+}
+<footer class="currents__footer">
+    <div class="logos">
+        <div class="wrapper">
+            <ul>
+                <li><a href="/" class="logo">Stream</a></li>
+                <li><a href="@Html.Sitecore().Field("Facebook Page", siteFooter)" target="_blank"><i class="icon-facebook"></i></a></li>
+                <li><a href="@Html.Sitecore().Field("Twitter Page", siteFooter)" target="_blank"><i class="icon-twitter"></i></a></li>
+                <li><a href="@Html.Sitecore().Field("YouTube Page", siteFooter)" target="_blank"><i class="icon-youtube"></i></a></li>
+                <li><a href="@Html.Sitecore().Field("Pinterest Page", siteFooter)" target="_blank"><i class="icon-pinterest"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-links">
+        <div class="wrapper">
+            <div class="links">
+                <ul>
+                    <li>@Html.Sitecore().Field("Footer Link 1", blogDataSourceItem)</li>
+                    <li>@Html.Sitecore().Field("Footer Link 2", blogDataSourceItem)</li>
+                    <li>@Html.Sitecore().Field("Footer Link 3", blogDataSourceItem)</li>
+                    @if (@Html.Sitecore().Field("Footer Link 4", blogDataSourceItem).ToString() != "") 
+                    {
+                        <li>@Html.Sitecore().Field("Footer Link 4", blogDataSourceItem)</li>
+                    }
+                    @if (@Html.Sitecore().Field("Footer Link 5", blogDataSourceItem).ToString() != "")
+                    {
+                        <li>@Html.Sitecore().Field("Footer Link 5", blogDataSourceItem)</li>
+                    }
+                </ul>
+            </div>
+            <div class="site-footer-legal">
+                @Html.Sitecore().Field("Copyright Content", blogDataSourceItem)
+            </div>
+        </div>
+    </div>
+</footer>
