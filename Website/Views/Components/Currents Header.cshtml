@@ -123,16 +123,22 @@
             slides.Add(new JObject {
                 { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField)dataSourceItem.Fields["Slide " + i + " Image"]).MediaItem) },
                 { "text", dataSourceItem.Fields["Slide " + i + " Text"].Value },
-                { "classes", dataSourceItem.Fields["Slide " + i + " CSS Classes"].Value }
+                { "classes", dataSourceItem.Fields["Slide " + i + " CSS Classes"].Value },
+                { "link", (dataSourceItem.Fields["Slide " + i + " Link"].Value != "") ? Sitecore.Links.LinkManager.GetItemUrl(((Sitecore.Data.Fields.LinkField)dataSourceItem.Fields["Slide " + i + " Link"]).TargetItem) : "" }
             });
         }
     }
     <carousel class="currents__carousel" interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
-        <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
-            <div class="wrapper">
-                <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
-            </div>
-        </slide>
+            <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
+                <a href="{{ slide.link }}" ng-if="slide.link != ''">
+                    <div class="wrapper">
+                        <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
+                    </div>
+                </a>
+                <div class="wrapper" ng-if="slide.link == ''">
+                    <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
+                </div>
+            </slide>
     </carousel>
 
     <div class="currents__tagline @category">
