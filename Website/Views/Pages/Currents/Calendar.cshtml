@@ -1,0 +1,28 @@
+﻿@using XBlogHelper.Models.Blog
+@using XBlogHelper.Search
+@using XBlogHelper.General
+@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.Links
+@using XBlogHelper
+@using System.Web
+@inherits System.Web.Mvc.WebViewPage
+
+@{
+    
+    Item dataSourceItem = Sitecore.Context.Database.GetItem(Sitecore.Mvc.Presentation.RenderingContext.Current.Rendering.DataSource);
+    Item blogRoot = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
+    BlogSettings settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(dataSourceItem != null ? dataSourceItem : Sitecore.Context.Item);
+    
+}
+
+<div class="currents__calendar" ng-controller="CurrentsCalendarCtrl">
+    <div class="calendar-header clearfix">
+        <div class="current-month-year">
+            <span class="calendar-nav prev-month" ng-click="cal.gotoPreviousMonth()"><i class="icon-previous-month"></i>{{ previousMonth() }}</span>
+            <span class="current-month">{{ cal.getMonthName() }} {{ cal.getYear() }}</span>
+            <span class="calendar-nav next-month" ng-click="cal.gotoNextMonth()">{{ nextMonth() }}<i class="icon-next-month"></i></span>
+        </div>
+    </div>
+    <div id="calendar" class="fc-calendar-container"></div>
+</div>
