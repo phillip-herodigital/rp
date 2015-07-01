@@ -6,7 +6,7 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', funct
     $scope.weekAbbrs = [ 'Sn', 'M', 'T', 'W', 'Th', 'F', 'St' ];
     $scope.months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
     $scope.events = {
-        '06-30-2015' : '<a href="#">Test Event</a>',
+        '07-01-2015' : '<a href="#">Test Event</a>',
     };
 
     $scope.cal = $('#calendar').calendario({

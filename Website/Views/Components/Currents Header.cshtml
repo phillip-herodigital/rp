@@ -52,12 +52,15 @@
     {
         BlogPost blogPost = Sitecore.Context.Item.CreateAs<BlogPost>();
         category = blogPost.Categories.Any() ? blogPost.Categories.FirstOrDefault().Name.ToLower() : "";
-    }
-
-    if (Sitecore.Context.Item.TemplateName == "Blog Category")
+    } 
+    else if (Sitecore.Context.Item.TemplateName == "Blog Category")
     {
         var categoryID = Sitecore.Context.Item.Fields["Category"].Value.ToString();
         category = Sitecore.Context.Database.GetItem(categoryID).Name.ToLower();
+    }
+    else if (Sitecore.Context.Item.TemplateName == "Calendar")
+    {
+        category = "calendar";
     }
 
 }

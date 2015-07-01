@@ -174,3 +174,9 @@
 	background: image-url("../i/{$color}-alpha-{$opacity}.png") repeat;
 	background: rgba($color, $opacity / 100);
 }
+
+@mixin calc($property, $expression) {
+	#{$property}: -moz-calc(#{$expression});
+  	#{$property}: -webkit-calc(#{$expression});
+  	#{$property}: calc(#{$expression});
+}

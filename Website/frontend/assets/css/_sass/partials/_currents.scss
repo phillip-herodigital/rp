@@ -48,6 +48,10 @@ $default-color: #333333;
             color: $recognition-color;
         }
     }
+    &.calendar-layout {
+        z-index: 9100;
+        padding-bottom: 100px;
+    }
     @include breakpoint(small) {
         .blog-info {
             position: relative;
@@ -405,6 +409,11 @@ $default-color: #333333;
     }
     &.recognition {
         border-color: $recognition-color;
+    }
+    &.calendar {
+        background-color: $events-color;
+        border-color: $events-color;
+        height: 400px
     }
     @include breakpoint(small) {
         margin-top: 0;
@@ -772,26 +781,96 @@ $default-color: #333333;
     Currents Calendar
  */
 .currents__calendar {
+    margin-top: -395px;
+    h1 {
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 48px;
+        color: #fff;
+        margin-bottom: 10px;
+    }
+    .calendar-links {
+        font-size: 18px;
+        font-weight: 500;
+        color: #fff;
+        a {
+            color: #fff;
+            margin: 0 8px;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+    .calendar-filters {
+        margin: 10px 0;
+        select {
+            width: 25%;
+            float: left;
+        }
+        .type-filter {
+            margin-right: 10px;
+        }
+        .search {
+            position: relative;
+            float: right;
+            width: 25%;
+            input {
+                @include calc(width, '100% - 35px');
+                padding: 0 25px 0 10px;
+                border-color: #66afe9;
+                background-image: none;
+                &::-webkit-input-placeholder {
+                    color: #00a3e0;
+                    text-transform: uppercase;
+                }
+                &:-moz-placeholder { /* Firefox 18- */
+                    color: #00a3e0;
+                    text-transform: uppercase;  
+                }
+                &::-moz-placeholder {  /* Firefox 19+ */
+                    color: #00a3e0;
+                    text-transform: uppercase;
+                }
+                &:-ms-input-placeholder {  
+                    color: #00a3e0;
+                    text-transform: uppercase;
+                }
+            }
+            button {
+                position: absolute;
+                top: 8px; 
+                right: 8px;
+                border: 0;
+                padding: 0;
+                cursor: pointer;
+                height: 18px;
+                width: 16px;
+                @include retina-background('blue-search.png', 'icon'); 
+                background-color: transparent;
+                background-position: 95% center;
+                background-repeat: no-repeat;
+                &:active, &:hover {
+                    outline: 0;
+                }
+                &::-moz-focus-inner {
+                    border: 0;
+                    padding: 0;
+                }
+            }   
+        }
+    }
     .calendar-header {
         position: relative;
         background-color: $events-color;
         padding: 20px 0;
-        .current-month-year {
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 40px;
-            text-align: center;
-            color: #fff;
-        }
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 40px;
+        text-align: center;
+        color: #fff;
         .calendar-nav {
             position: absolute;
             bottom: 25px;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
             cursor: pointer;
             font-size: 30px;
             font-weight: 400;
@@ -809,14 +888,12 @@ $default-color: #333333;
             }
         }
     }
-
     .fc-calendar-container {
         position: relative;
         height: 1025px;
         width: 100%;
         background: #eee;
     }
-
     .fc-calendar {
         width: auto;
         height: auto;
@@ -825,150 +902,118 @@ $default-color: #333333;
         bottom: 0;
         left: 0;
         right: 0;
+        .fc-head {
+            height: 125px;
+            background: #fff;
+            > div {
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 36px;
+                color: #808080;
+                padding-top: 50px;
+                float: left;
+                height: 100%;
+                width:  14.28%;
+                @include calc(width, '100%/7');
+                position: relative;
+                text-align: center;
+                &:last-child {
+                    border-right: none;
+                }
+            }
+        }
+        .fc-body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            @include calc(height, '100% - 125px');
+            border: 1px solid #eee;
+        }
+        .fc-row {
+            width: 100%;
+            border-bottom: 1px solid #eee;
+            > div {
+                border-right: 1px solid #eee;
+                overflow: hidden;
+                position: relative;
+                background: #fff;
+                float: left;
+                height: 100%;
+                width:  14.28%;
+                @include calc(width, '100%/7');
+                > span.fc-date {
+                    position: absolute;
+                    width: 48px;
+                    height: 48px;
+                    font-size: 48px;
+                    line-height: 48px;
+                    font-weight: 500;
+                    color: #aaa;
+                    top: 50%;
+                    left: 50%;
+                    text-align: center;
+                    margin: -24px 0 0 -24px;
+                }
+                time {
+                    display: none;
+                }
+                > span.fc-weekday {
+                    display: none;
+                }
+                div.fc-out {
+                    opacity: 0.6;
+                }
+                &.fc-today {
+                    background: $events-color;
+                    span.fc-date {
+                        color: #fff;
+                    }
+                }
+                &:last-child {
+                    border-right: none;
+                }
+                // events
+                > div {
+                    margin-top: 35px;
+                    a, span {
+                        color: rgba(255,255,255,0.7);
+                        font-size: 12px;
+                        text-transform: uppercase;
+                        display: inline-block;
+                        padding: 3px 5px;
+                        border-radius: 3px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 100%;
+                        margin-bottom: 1px;
+                        background: rgba(255,255,255,0.1);
+                    }
+                }
+            }
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        
     }
-
-    .fc-calendar .fc-head {
-        height: 125px;
-        background: #fff;
-    }
-
-    .fc-calendar .fc-head > div {
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 36px;
-        color: #808080;
-        padding-top: 50px;
-    }
-
-    .fc-calendar .fc-body {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        height: -moz-calc(100% - 125px);
-        height: -webkit-calc(100% - 125px);
-        height: calc(100% - 125px);
-        border: 1px solid #eee;
-    }
-
-    .fc-calendar .fc-row {
-        width: 100%;
-        border-bottom: 1px solid #eee;
-    }
-
     .fc-four-rows .fc-row  {
         height: 25%;
     }
-
     .fc-five-rows .fc-row  {
         height: 20%;
     }
-
     .fc-six-rows .fc-row {
         height: 16.66%;
-        height: -moz-calc(100%/6);
-        height: -webkit-calc(100%/6);
-        height: calc(100%/6);
+        @include calc(height, '100%/6');
     }
-
-    .fc-calendar .fc-row > div,
-    .fc-calendar .fc-head > div {
-        float: left;
-        height: 100%;
-        width:  14.28%; /* 100% / 7 */
-        width: -moz-calc(100%/7);
-        width: -webkit-calc(100%/7);
-        /* width: calc(100%/7); */ 
-        position: relative;
-    }
-
     /* IE 9 is rounding up the calc it seems */
     .ie9 .fc-calendar .fc-row > div,
     .ie9 .fc-calendar .fc-head > div {
         width:  14.2%;
     }
 
-    .fc-calendar .fc-row > div {
-        border-right: 1px solid #eee;
-        overflow: hidden;
-        position: relative;
-        background: #fff;
-    }
-
-    .fc-calendar .fc-head > div {
-        text-align: center;
-    }
-
-    .fc-calendar .fc-row > div > span.fc-date {
-        position: absolute;
-        width: 48px;
-        height: 48px;
-        font-size: 48px;
-        line-height: 48px;
-        font-weight: 500;
-        color: #aaa;
-        top: 50%;
-        left: 50%;
-        text-align: center;
-        margin: -24px 0 0 -24px;
-    }
-
-    .fc-calendar .fc-row > div time {
-        display: none;
-    }
-
-    .fc-calendar .fc-row > div > span.fc-weekday {
-        padding-left: 5px;
-        display: none;
-    }
-
-    .fc-calendar .fc-row > div.fc-out {
-        opacity: 0.6;
-    }
-
-    .fc-calendar .fc-row > div:last-child,
-    .fc-calendar .fc-head > div:last-child {
-        border-right: none;
-    }
-
-    .fc-calendar .fc-row > div.fc-today {
-        background: $events-color;
-        span.fc-date {
-            color: #fff;
-        }
-    }
-
-    .fc-calendar .fc-row:last-child {
-        border-bottom: none;
-    }
-
-    .fc-calendar .fc-row > div > div {
-        margin-top: 35px;
-    }
-
-    .fc-calendar .fc-row > div > div a,
-    .fc-calendar .fc-row > div > div span {
-        color: rgba(255,255,255,0.7);
-        font-size: 12px;
-        text-transform: uppercase;
-        display: inline-block;
-        padding: 3px 5px;
-        border-radius: 3px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-        margin-bottom: 1px;
-        background: rgba(255,255,255,0.1);
-    }
-
-    .no-touch .fc-calendar .fc-row > div > div a:hover {
-        background: rgba(255,255,255,0.3);
-    }
-
     @media screen and (max-width: 880px) , screen and (max-height: 450px) {
-        html, body, .container {
-            height: auto;
-        }
         .calendar-header,
         .calendar-header nav,
         .calendar-calendar-full,
@@ -984,19 +1029,31 @@ $default-color: #333333;
             height: auto;
             width: auto;
         }
-
-        .fc-calendar {
-            margin: 0 20px 20px;
+        .calendar-links {
+            margin: 0 10px;
         }
-
-        .calendar-header h2,
-        .calendar-header h3 {
-            float: none;
-            width: auto;
-            text-align: left;
-            padding-right: 100px;
+        .calendar-filters {
+            select {
+                margin: 5px;
+                width: 98%;
+            }
+            .search {
+                margin: 5px;
+                width: 98%;
+                float: left;
+            }
         }
-
+        .calendar-header .calendar-nav {
+            .month-name {
+                display: none;
+            }
+            &.prev-month {
+                left: 10px;
+            }
+            &.next-month {
+                right: 10px;
+            }
+        }
         .fc-calendar .fc-row,
         .ie9 .fc-calendar .fc-row > div,
         .fc-calendar .fc-row > div {
@@ -1004,50 +1061,45 @@ $default-color: #333333;
             width: 100%;
             border: none;
         }
-
-        .fc-calendar .fc-row > div {
-            float: none;
-            min-height: 50px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .fc-calendar .fc-row > div:empty{
-            min-height: 0;
-            height: 0;
-            padding: 0;
-        }
-
-        .fc-calendar .fc-head {
-            display: none;
-        }
-
-        .fc-calendar .fc-row > div > div {
-            margin-top: 0px;
-            padding-left: 10px;
-            max-width: 80%;
-            display: inline-block;
-        }
-
-        .fc-calendar .fc-row > div.fc-today:after { 
-            display: none;
-        }
-
-        .fc-calendar .fc-row > div > span.fc-date {
-            width: 50px;
-            display: inline-block;
-            text-align: right;
-            font-size: 18px;
-            font-weight: 400;
-        }
-
-        .fc-calendar .fc-row > div > span.fc-weekday {
-            display: inline-block;
-            width: 40px;
-            color: #fff;
-            color: rgba(255,255,255,0.7);
-            font-size: 10px;
-            text-transform: uppercase;
+        .fc-calendar {
+            margin: 0 20px 20px;
+            .fc-row > div {
+                float: none;
+                min-height: 50px;
+                border-bottom: 1px solid #eee;
+                &:empty{
+                    min-height: 0;
+                    height: 0;
+                    padding: 0;
+                }
+                > div {
+                    margin-top: 0px;
+                    padding-left: 10px;
+                    max-width: 80%;
+                    display: inline-block;
+                }
+                &.fc-today:after { 
+                    display: none;
+                }
+                > span.fc-date {
+                    width: 50px;
+                    display: inline-block;
+                    text-align: right;
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+                > span.fc-weekday {
+                    display: inline-block;
+                    width: 40px;
+                    color: #fff;
+                    color: rgba(255,255,255,0.7);
+                    font-size: 10px;
+                    text-transform: uppercase;
+                }
+            }
+            .fc-head {
+                display: none;
+            }
         }
     }
-
 }
