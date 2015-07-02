@@ -5,10 +5,10 @@
         @Html.Sitecore().Field("Nav Links")
     </div>
     <div class="calendar-filters clearfix">
-        <select class="type-filter" ng-model="typeFilter" ng-options="eventType.name as eventType.display for eventType in eventTypes">
+        <select class="type-filter" ng-model="typeFilter" ng-options="eventType.name as eventType.display for eventType in eventTypes" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("Type Filter Text")</option>
         </select>
-        <select class="state-filter" ng-model="stateFilter" ng-options="state.abbreviation as state.display for state in usStates">
+        <select class="state-filter" ng-model="stateFilter" ng-options="state.abbreviation as state.display for state in usStates" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("State Filter Text")</option>
         </select>
         <div class="search">
