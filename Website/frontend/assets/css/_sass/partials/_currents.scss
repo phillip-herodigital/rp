@@ -781,6 +781,92 @@ $default-color: #333333;
     Currents Calendar
  */
 .currents__calendar {
+    .popover{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1010;
+        display: none;
+        padding: 1px;
+        text-align: left;
+        background-color: $events-color;
+        color: #fff;
+        margin-top: -10px;
+        border: 1px solid #fff;
+        .popover-content {
+            padding: 10px;
+            .event-heading {
+                font-size: 20px;
+                font-weight: 500;
+                .event-title {
+                    display: inline-block;
+                }
+                .event-date {
+                    display: inline-block;
+                    float: right;
+                }
+                .event-location {
+                    font-size: 12px;
+                    text-transform: uppercase;
+                }
+            }
+            .event-summary {
+                margin: 5px 0;
+                font-size: 14px;
+            }
+            .map {
+                padding-left: 30px;
+            }
+            .event-links {
+                margin-top: 15px;
+                a {
+                    color: $events-color;
+                    font-size: 18px;
+                    font-weight: 500;
+                    display: inline-block;
+                    padding: 8px 20px;
+                    max-width: 100%;
+                    background-color: #fff;
+                    @include border-radius(10px);
+                    &.info {
+                        float: right;
+                    }
+                    &.view-map {
+                        float: right;
+                        margin-left: 10px;
+                    }
+                }
+                a:before {
+                  content: '';
+                }
+            }
+
+        }
+        >.arrow, >.arrow:after {
+            position: absolute;
+            display: block;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+        }
+        >.arrow {
+            border-width: 11px;
+            left: 50%;
+            margin-left: -11px;
+            border-bottom-width: 0;
+            border-top-color: $events-color;
+            bottom: -11px;
+            &:after{
+                content: " ";
+                bottom: 1px;
+                margin-left: -10px;
+                border-bottom-width: 0;
+                border-top-color: #fff
+            }
+        }
+    }
+
     margin-top: -395px;
     h1 {
         text-align: center;
@@ -934,7 +1020,6 @@ $default-color: #333333;
             border-bottom: 1px solid #eee;
             > div {
                 border-right: 1px solid #eee;
-                overflow: hidden;
                 position: relative;
                 background: #fff;
                 float: left;
@@ -969,6 +1054,14 @@ $default-color: #333333;
                     span.fc-date {
                         color: #fff;
                     }
+                    > div {
+                        a, span {
+                            color: #fff !important;
+                        }
+                        .popover a {
+                            color: $events-color !important;
+                        }
+                    }
                 }
                 &:last-child {
                     border-right: none;
@@ -997,7 +1090,7 @@ $default-color: #333333;
                             color: $recognition-color;
                         }
                     }
-                    a:before {
+                    a:before, span:before {
                       content: '\00B7';
                       width: 20px;
                       font-size: 70px;
@@ -1048,6 +1141,25 @@ $default-color: #333333;
             right: auto;
             height: auto;
             width: auto;
+        }
+        .popover {
+            max-width: 100%;
+            .popover-content {
+                img {
+                    max-width: 100%;
+                }
+                .map {
+                    padding: 0;
+                }
+                .event-links {
+                    margin: 5px 0;
+                    a {
+                        width: 100%;
+                        margin: 5px 0;
+                    }
+                }
+            }
+            
         }
         .calendar-links {
             margin: 0 10px;
