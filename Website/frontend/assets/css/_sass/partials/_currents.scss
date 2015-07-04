@@ -780,93 +780,133 @@ $default-color: #333333;
 /*
     Currents Calendar
  */
-.currents__calendar {
-    .popover{
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 1010;
-        display: none;
-        padding: 1px;
-        text-align: left;
-        background-color: $events-color;
+ .popover-html{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9110;
+    display: none;
+    max-width: 890px;
+    //width: 890px;
+    height: 335px;
+    padding: 1px;
+    text-align: left;
+    background-color: $events-color;
+    background-clip: padding-box;
+    border: 1px solid #fff;
+    white-space: normal;
+    margin-top: -10px;
+    .popover-content {
+        padding: 10px;
         color: #fff;
-        margin-top: -10px;
-        border: 1px solid #fff;
-        .popover-content {
-            padding: 10px;
-            .event-heading {
-                font-size: 20px;
+        .event-heading {
+            font-size: 20px;
+            font-weight: 500;
+            .event-title {
+                display: inline-block;
+            }
+            .event-date {
+                display: inline-block;
+                float: right;
+            }
+            .event-location {
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+        }
+        .event-summary {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .map {
+            padding-left: 30px;
+        }
+        .event-links {
+            margin-top: 15px;
+            a {
+                color: $events-color;
+                font-size: 18px;
                 font-weight: 500;
-                .event-title {
-                    display: inline-block;
-                }
-                .event-date {
-                    display: inline-block;
+                display: inline-block;
+                padding: 8px 20px;
+                max-width: 100%;
+                background-color: #fff;
+                @include border-radius(10px);
+                &.info {
                     float: right;
                 }
-                .event-location {
-                    font-size: 12px;
-                    text-transform: uppercase;
+                &.view-map {
+                    float: right;
+                    margin-left: 10px;
                 }
             }
-            .event-summary {
-                margin: 5px 0;
-                font-size: 14px;
+            a:before {
+              content: '';
             }
-            .map {
-                padding-left: 30px;
-            }
-            .event-links {
-                margin-top: 15px;
-                a {
-                    color: $events-color;
-                    font-size: 18px;
-                    font-weight: 500;
-                    display: inline-block;
-                    padding: 8px 20px;
-                    max-width: 100%;
-                    background-color: #fff;
-                    @include border-radius(10px);
-                    &.info {
-                        float: right;
-                    }
-                    &.view-map {
-                        float: right;
-                        margin-left: 10px;
-                    }
-                }
-                a:before {
-                  content: '';
-                }
-            }
+        }
 
-        }
-        >.arrow, >.arrow:after {
-            position: absolute;
-            display: block;
-            width: 0;
-            height: 0;
-            border-color: transparent;
-            border-style: solid;
-        }
-        >.arrow {
-            border-width: 11px;
-            left: 50%;
-            margin-left: -11px;
+    }
+    >.arrow, >.arrow:after {
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+    }
+    >.arrow {
+        border-width: 11px;
+        left: 50%;
+        margin-left: -11px;
+        border-bottom-width: 0;
+        border-top-color: $events-color;
+        bottom: -11px;
+        &:after{
+            content: " ";
+            bottom: 1px;
+            margin-left: -10px;
             border-bottom-width: 0;
-            border-top-color: $events-color;
-            bottom: -11px;
-            &:after{
-                content: " ";
-                bottom: 1px;
-                margin-left: -10px;
-                border-bottom-width: 0;
-                border-top-color: #fff
-            }
+            border-top-color: #fff
         }
     }
+    &.top-offset-left .arrow {
+        left: 87%;
+    }
+    &.top-offset-right .arrow {
+        left: 5%;
+    }
+    @media screen and (max-width: 880px) , screen and (max-height: 450px) {
+        width: 100%;
+        height: auto;
+        left: 0 !important;
+        .popover-content {
+            img {
+                max-width: 100%;
+            }
+            .event-heading .event-date {
+                float: none;
+            }
+            .map {
+                padding: 0;
+            }
+            .event-links {
+                margin: 5px 0;
+                a {
+                    width: 100%;
+                    margin: 5px 0;
+                    &.info {
+                        float: none;
+                    }
+                }
+            }
+        }
+        &.top-offset-right .arrow {
+            left: 50%;
+        }
+    }
+}
 
+.currents__calendar {
     margin-top: -395px;
     h1 {
         text-align: center;
@@ -1141,25 +1181,6 @@ $default-color: #333333;
             right: auto;
             height: auto;
             width: auto;
-        }
-        .popover {
-            max-width: 100%;
-            .popover-content {
-                img {
-                    max-width: 100%;
-                }
-                .map {
-                    padding: 0;
-                }
-                .event-links {
-                    margin: 5px 0;
-                    a {
-                        width: 100%;
-                        margin: 5px 0;
-                    }
-                }
-            }
-            
         }
         .calendar-links {
             margin: 0 10px;

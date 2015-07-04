@@ -12,23 +12,39 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', funct
         "</div><div class='col map'><img src='/~/media/Images/Currents/Calendar/VegasMap.ashx?la=en'></div>" +
         "</div><div class='event-links'><a href='http://google.com' class='register'>Register Here</a><a href='http://google.com' class='view-map'>View Map</a><a href='http://google.com' class='info'>Hotel / Travel Info</a></div>";
     $scope.events = {
-        '07-01-2015' : ['<a href="#" data-popover-html="' + eventHtml +'\">Test Event</a>'],
+        '07-01-2015' : ['<a href="#" popover-append-to-body="true"  data-popover-html="' + eventHtml +'\">Test Event</a>'],
         '07-02-2015' : [ 
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\">Test Event 2 is really long</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\" class="events">Test Event 3</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\" class="promotions">Test Event 4</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\" class="recognition">Test Event 5</a>'}
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 2 is really long</a>'},
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\" class="events">Test Event 3</a>'},
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\" class="promotions">Test Event 4</a>'},
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\" class="recognition">Test Event 5</a>'}
             ],
         '07-07-2015' : [ 
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\">Test Event 6 is really long</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\" class="events">Test Event 7</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\"class="promotions">Test Event 8</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\" class="recognition">Test Event 9</a>'}
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 6 is really long</a>'},
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\" class="events">Test Event 7</a>'},
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\"class="promotions">Test Event 8</a>'},
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\" class="recognition">Test Event 9</a>'}
+            ],
+        '07-19-2015' : [ 
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 10 is really long</a>'}
             ],
         '07-20-2015' : [ 
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\">Test Event 10 is really long</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\" class="events">Test Event 11</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\" class="recognition">Test Event 12</a>'}
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 10 is really long</a>'}
+            ],
+        '07-21-2015' : [ 
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 10 is really long</a>'}
+            ],
+        '07-22-2015' : [ 
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 10 is really long</a>'}
+            ],
+        '07-23-2015' : [ 
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 10 is really long</a>'}
+            ],
+        '07-24-2015' : [ 
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 10 is really long</a>'}
+            ],
+        '07-25-2015' : [ 
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 10 is really long</a>'}
             ],
     };
 
