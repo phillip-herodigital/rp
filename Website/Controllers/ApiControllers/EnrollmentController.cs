@@ -65,20 +65,25 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         public async Task Initialize()
         {
-            bool useRemoteEnrollment;
-            NameValueCollection enrollmentDpiParameters = null;
-            int Percentage = 0;
-            StreamEnergy.MyStream.Conditions.EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out enrollmentDpiParameters, Percentage);
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
-            if (enrollmentDpiParameters != null)
+
+            if (stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters == null)
             {
-                if (!stateHelper.IsDefault && enrollmentDpiParameters["renewal"] != "true")
+                bool useRemoteEnrollment;
+                NameValueCollection enrollmentDpiParameters = null;
+                int Percentage = 0;
+                StreamEnergy.MyStream.Conditions.EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out enrollmentDpiParameters, Percentage);
+                if (enrollmentDpiParameters != null)
                 {
-                    stateHelper.Reset();
-                    await stateHelper.EnsureInitialized().ConfigureAwait(false);
+                    if (!stateHelper.IsDefault && enrollmentDpiParameters["renewal"] != "true")
+                    {
+                        stateHelper.Reset();
+                        await stateHelper.EnsureInitialized().ConfigureAwait(false);
+                    }
+                    stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
                 }
-                stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
             }
+
             this.stateMachine = stateHelper.StateMachine;
         }
 
