@@ -788,7 +788,7 @@ $default-color: #333333;
     display: none;
     max-width: 890px;
     //width: 890px;
-    height: 335px;
+    min-height: 335px;
     padding: 1px;
     text-align: left;
     background-color: $events-color;
@@ -870,12 +870,12 @@ $default-color: #333333;
         }
     }
     &.top-offset-left .arrow {
-        left: 87%;
+        left: 90%;
     }
     &.top-offset-right .arrow {
         left: 5%;
     }
-    @media screen and (max-width: 880px) , screen and (max-height: 450px) {
+    @media screen and (max-width: 1024px) , screen and (max-height: 450px) {
         width: 100%;
         height: auto;
         left: 0 !important;
@@ -1166,7 +1166,7 @@ $default-color: #333333;
         width:  14.2%;
     }
 
-    @media screen and (max-width: 880px) , screen and (max-height: 450px) {
+    @media screen and (max-width: 1024px) , screen and (max-height: 450px) {
         .calendar-header,
         .calendar-header nav,
         .calendar-calendar-full,

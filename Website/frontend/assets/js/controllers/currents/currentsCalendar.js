@@ -1,7 +1,7 @@
 /* Currents Calendar Controller
  *
  */
-ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$compile', function ($scope, $rootScope, $http, $compile) {
     $scope.weeks = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
     $scope.weekAbbrs = [ 'Sn', 'M', 'T', 'W', 'Th', 'F', 'St' ];
     $scope.months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
@@ -76,11 +76,9 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', funct
 
     $scope.searchCalendar = function () {
         $scope.events = {
-            '07-07-2015' : [ 
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\">Test Event 6 is really long</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\" class="events">Test Event 7</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\"class="promotions">Test Event 8</a>'},
-            {content: '<a href="#" data-popover-html="' + eventHtml +'\" class="recognition">Test Event 9</a>'}
+            '07-02-2015' : [ 
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 2 is really long</a>'},
+            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\" class="recognition">Test Event 5</a>'}
             ],
         };
         $scope.cal.setData($scope.events, true);
