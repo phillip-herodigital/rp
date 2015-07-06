@@ -63,8 +63,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             //this.documentStore = documentStore;
         }
 
-        public async Task Initialize(NameValueCollection enrollmentDpiParameters = null)
+        public async Task Initialize()
         {
+            bool useRemoteEnrollment;
+            NameValueCollection enrollmentDpiParameters = null;
+            int Percentage = 0;
+            StreamEnergy.MyStream.Conditions.EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out enrollmentDpiParameters, Percentage);
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
             if (enrollmentDpiParameters != null)
             {
