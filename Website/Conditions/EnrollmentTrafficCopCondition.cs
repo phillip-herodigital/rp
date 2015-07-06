@@ -59,8 +59,6 @@ namespace StreamEnergy.MyStream.Conditions
 
             dependencies.EnrollmentParameters.Initialize(queryString);
 
-            dependencies.Context.Items["Enrollment Dpi Parameters"] = queryString;
-
             var targetDpiUrl = dependencies.EnrollmentParameters.GetTargetDpiUrlBuilder();
 
             if (targetDpiUrl == null || queryString["renewal"] == "true")

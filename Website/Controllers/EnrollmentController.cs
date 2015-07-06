@@ -27,9 +27,6 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ClientData()
         {
-            NameValueCollection enrollmentDpiParameters = null;
-            if (HttpContext.Items.Contains("Enrollment Dpi Parameters"))
-                enrollmentDpiParameters = (NameValueCollection)(HttpContext.Items["Enrollment Dpi Parameters"]);
             inner.Initialize().Wait();
             return this.Content(StreamEnergy.Json.Stringify(inner.ClientData()));
         }
