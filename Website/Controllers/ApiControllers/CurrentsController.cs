@@ -201,5 +201,89 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new { html = currentBlock };
         }
 
+        [HttpGet]
+        public dynamic CalendarEvents()
+        {
+            Dictionary<string, List<dynamic>> events = new Dictionary<string, List<dynamic>>();
+           
+            var currentsEvents = Sitecore.Context.Database.GetItem("{13388824-92B0-4280-A48D-254F00A5A026}").Children;
+
+            foreach (Item currentsEvent in currentsEvents)
+            {
+                DateTime startDate = DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
+                DateTime endDate = currentsEvent.Fields["End Date"].Value == "" ? startDate : DateUtil.IsoDateToDateTime(currentsEvent.Fields["End Date"].Value);
+                string eventHtml = "<a href=\"\" popover-append-to-body=\"true\"  data-popover-html=\"" + "<div class='grid'><div class='col'>";
+                var imageField = (ImageField)currentsEvent.Fields["Event Image"];
+                var mapImageField = (ImageField)currentsEvent.Fields["Map Image"];
+                var registrationLink = (LinkField)currentsEvent.Fields["Registration Link"];
+                var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
+                var mapLink = (LinkField)currentsEvent.Fields["Map Link"];
+                var category = currentsEvent.Fields["Event Type"].Value;
+                var state = currentsEvent.Fields["Event State"].Value;
+
+                if (imageField.MediaItem != null)
+                {
+                    eventHtml += "<img src='" + MediaManager.GetMediaUrl(imageField.MediaItem) + "'>" ;
+                }
+                eventHtml += "<div class='event-heading'><div class='event-title'>" + currentsEvent.Fields["Event Title"].Value + "</div>" +
+                "<div class='event-date'>"
+                + startDate.ToString("MMMM d");
+                if (startDate != endDate)
+                {
+                    eventHtml += " - ";
+                    eventHtml += (startDate.Month == endDate.Month) ? endDate.Day.ToString() : endDate.ToString("MMMM d");
+                    eventHtml += ", " + endDate.ToString("yyyy");
+                }
+                else 
+                {
+                    eventHtml += ", " + startDate.ToString("yyyy");
+                }
+                eventHtml += "</div><div class='event-location'>" + currentsEvent.Fields["Event Location"].Value + "</div></div>" +
+                "<div class='event-summary'>" + currentsEvent.Fields["Event Summary"].Value + "</div>";
+                if (mapImageField.MediaItem != null)
+                {
+                    eventHtml += "</div><div class='col map'><img src='" + MediaManager.GetMediaUrl(mapImageField.MediaItem) + "'></div></div>";
+                }
+                eventHtml += "<div class='event-links'>";
+                if (registrationLink.Url != null)
+                {
+                    eventHtml += "<a href='" + registrationLink.Url + "' class='register' target='_blank'>" + registrationLink.Text + "</a>";
+                }
+                if (mapLink.Url != null)
+                {
+                    eventHtml += "<a href='" + infoLink.Url + "' class='view-map' target='_blank'>" + mapLink.Text + "</a>";
+                }
+                if (infoLink.Url != null)
+                {
+                    eventHtml += "<a href='" + infoLink.Url + "' class='info' target='_blank'>" + infoLink.Text + "</a>";
+                }
+                eventHtml += "</div>\"";
+                if (category != "")
+                {
+                    eventHtml += " class='" + category.ToLower() + "'";
+                }
+                eventHtml += ">" + currentsEvent.Fields["Event Title"].Value + "</a>";
+                
+               
+                while (startDate <= endDate)
+                {
+                    string currentDateString = startDate.ToString(@"MM-dd-yyyy");
+                    if (events.ContainsKey(currentDateString)) 
+                    {
+                        events[currentDateString].Add(new { content = eventHtml, category = category, state = state });
+                    }
+                    else
+                    {
+                        var dailyEvents = new List<dynamic>();
+                        dailyEvents.Add(new { content = eventHtml, category = category, state = state });
+                        events.Add(currentDateString, dailyEvents);
+                    }
+                    startDate = startDate.AddDays(1);
+                }
+            }
+
+            return events;
+        }
+
     }
 }
