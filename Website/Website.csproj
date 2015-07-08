@@ -1107,7 +1107,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Include\Sitecore.ContentSearch.config" />
-    <Content Include="App_Config\Include\Currents.Index.master.config" />
+    <Content Include="App_Config\Custom\Currents.Index.master.config" />
     <Content Include="App_Config\Include\ListManager.EmailCampaign\Sitecore.ListManager.EmailCampaign.config" />
     <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.config.disabled" />
     <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.DefaultIndexConfiguration.config.disabled" />
@@ -1139,6 +1139,7 @@
     <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.MarketingAssets.config.disabled" />
     <Content Include="App_Config\Include\SwitchMasterToWeb.config.example" />
     <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config.disabled" />
+    <Content Include="App_Config\Custom\Currents.Index.web.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
