@@ -8,6 +8,8 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$com
 
     $http.get('/api/currents/calendarEvents').success(function (data, status, headers, config) { 
         $scope.events = data; 
+        $scope.eventsOriginal = angular.copy($scope.events);
+        $scope.eventStates = _($scope.events).filter().flatten().pluck('state').uniq().value();
 
         $scope.cal = $('#calendar').calendario({
             weeks : $scope.weeks,
@@ -38,12 +40,21 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$com
 
 
     $scope.searchCalendar = function () {
-        $scope.events = {
-            '07-02-2015' : [ 
-            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\">Test Event 2 is really long</a>'},
-            {content: '<a href="#" popover-append-to-body="true" data-popover-html="' + eventHtml +'\" class="recognition">Test Event 5</a>'}
-            ],
-        };
+        var filteredEvents = angular.copy($scope.eventsOriginal);
+        _.forEach(filteredEvents, function(eventsArray, day) {
+            if ($scope.typeFilter != null) {
+                filteredEvents[day] = _.filter(eventsArray, {category: $scope.typeFilter});
+            }
+            if ($scope.stateFilter != null) {
+                filteredEvents[day] = _.filter(eventsArray, {state: $scope.stateFilter});
+            }
+            if ($scope.searchTerm != null) {
+                filteredEvents[day] = _.filter(eventsArray, function(singleEvent) {
+                    return singleEvent.content.toLowerCase().indexOf($scope.searchTerm.toLowerCase()) > -1
+                })
+            }
+        });
+        $scope.events = filteredEvents;
         $scope.cal.setData($scope.events, true);
     };
 

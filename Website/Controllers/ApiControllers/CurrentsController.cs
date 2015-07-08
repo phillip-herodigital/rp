@@ -218,7 +218,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var registrationLink = (LinkField)currentsEvent.Fields["Registration Link"];
                 var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
                 var mapLink = (LinkField)currentsEvent.Fields["Map Link"];
-                var category = currentsEvent.Fields["Event Type"].Value;
+                var category = currentsEvent.Fields["Event Type"].Value.ToLower();
                 var state = currentsEvent.Fields["Event State"].Value;
 
                 if (imageField.MediaItem != null)
@@ -260,7 +260,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 eventHtml += "</div>\"";
                 if (category != "")
                 {
-                    eventHtml += " class='" + category.ToLower() + "'";
+                    eventHtml += " class='" + category + "'";
                 }
                 eventHtml += ">" + currentsEvent.Fields["Event Title"].Value + "</a>";
                 

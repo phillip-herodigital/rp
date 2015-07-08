@@ -1,5 +1,5 @@
 ﻿
-<div class="currents__calendar" ng-controller="CurrentsCalendarCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); eventTypes = @(Html.Action("CurrentsCategories", "Data").ToHtmlString()); getEvents();">
+<div class="currents__calendar" ng-controller="CurrentsCalendarCtrl" ng-init="eventTypes = @(Html.Action("CurrentsCategories", "Data").ToHtmlString()); getEvents();">
     <h1>@Html.Sitecore().Field("Calendar Title")</h1>
     <div class="calendar-links">
         @Html.Sitecore().Field("Nav Links")
@@ -8,7 +8,7 @@
         <select class="type-filter" ng-model="typeFilter" ng-options="eventType.name as eventType.display for eventType in eventTypes" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("Type Filter Text")</option>
         </select>
-        <select class="state-filter" ng-model="stateFilter" ng-options="state.abbreviation as state.display for state in usStates" ng-change="searchCalendar()">
+        <select class="state-filter" ng-model="stateFilter" ng-options="state as state for state in eventStates" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("State Filter Text")</option>
         </select>
         <div class="search">
@@ -19,9 +19,9 @@
         </div>
     </div>
     <div class="calendar-header clearfix" ng-cloak>
-        <div class="calendar-nav prev-month" ng-click="cal.gotoPreviousMonth()"><i class="icon-previous-month"></i><span class="month-name">{{ previousMonth() }}</span></div>
+        <div class="calendar-nav prev-month" ng-click="cal.gotoPreviousMonth(); searchCalendar()"><i class="icon-previous-month"></i><span class="month-name">{{ previousMonth() }}</span></div>
         <div class="current-month">{{ cal.getMonthName() }} {{ cal.getYear() }}</div>
-        <div class="calendar-nav next-month" ng-click="cal.gotoNextMonth()"><span class="month-name">{{ nextMonth() }}</span><i class="icon-next-month"></i></div>
+        <div class="calendar-nav next-month" ng-click="cal.gotoNextMonth(); searchCalendar()"><span class="month-name">{{ nextMonth() }}</span><i class="icon-next-month"></i></div>
     </div>
     <div id="calendar" class="fc-calendar-container" ng-model="calContainer" dynamic="events"></div>
 </div>
