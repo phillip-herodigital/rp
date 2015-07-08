@@ -247,15 +247,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 eventHtml += "<div class='event-links'>";
                 if (registrationLink.Url != null)
                 {
-                    eventHtml += "<a href='" + registrationLink.Url + "' class='register' target='_blank'>" + registrationLink.Text + "</a>";
+                    eventHtml += "<a href='" + registrationLink.GetFriendlyUrl() + "' class='register' target='_blank'>" + registrationLink.Text + "</a>";
                 }
                 if (mapLink.Url != null)
                 {
-                    eventHtml += "<a href='" + infoLink.Url + "' class='view-map' target='_blank'>" + mapLink.Text + "</a>";
+                    eventHtml += "<a href='" + infoLink.GetFriendlyUrl() + "' class='view-map' target='_blank'>" + mapLink.Text + "</a>";
                 }
                 if (infoLink.Url != null)
                 {
-                    eventHtml += "<a href='" + infoLink.Url + "' class='info' target='_blank'>" + infoLink.Text + "</a>";
+                    eventHtml += "<a href='" + infoLink.GetFriendlyUrl() + "' class='info' target='_blank'>" + infoLink.Text + "</a>";
                 }
                 eventHtml += "</div>\"";
                 if (category != "")
