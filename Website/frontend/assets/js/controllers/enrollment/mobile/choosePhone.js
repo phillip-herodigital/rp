@@ -161,6 +161,8 @@
             })
         } else {
             $scope.activationCodeInvalid = false;
+            $scope.addDevice.activationCode.$setValidity('required', true);
+            $scope.validations = [];
         }
     }
 
