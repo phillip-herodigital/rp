@@ -225,7 +225,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
                 var mapLink = (LinkField)currentsEvent.Fields["Map Link"];
                 var category = currentsEvent.Fields["Event Type"].Value.ToLower();
-                var state = currentsEvent.Fields["Event State"].Value;
+                var stateField =  (Sitecore.Data.Fields.MultilistField) currentsEvent.Fields["Event State"];
+                var state = new List<string>();
+                foreach (Sitecore.Data.ID id in stateField.TargetIDs)
+                {
+                    state.Add(Sitecore.Context.Database.Items[id].Name);
+                } 
 
                 if (imageField.MediaItem != null)
                 {
@@ -251,15 +256,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     eventHtml += "</div><div class='col map'><img src='" + MediaManager.GetMediaUrl(mapImageField.MediaItem) + "'></div></div>";
                 }
                 eventHtml += "<div class='event-links'>";
-                if (registrationLink.Url != null)
+                if (!string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()))
                 {
                     eventHtml += "<a href='" + registrationLink.GetFriendlyUrl() + "' class='register' target='_blank'>" + registrationLink.Text + "</a>";
                 }
-                if (mapLink.Url != null)
+                if (!string.IsNullOrEmpty(mapLink.GetFriendlyUrl()))
                 {
                     eventHtml += "<a href='" + infoLink.GetFriendlyUrl() + "' class='view-map' target='_blank'>" + mapLink.Text + "</a>";
                 }
-                if (infoLink.Url != null)
+                if (!string.IsNullOrEmpty(infoLink.GetFriendlyUrl()))
                 {
                     eventHtml += "<a href='" + infoLink.GetFriendlyUrl() + "' class='info' target='_blank'>" + infoLink.Text + "</a>";
                 }
