@@ -133,7 +133,7 @@
                 { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField)dataSourceItem.Fields["Slide " + i + " Image"]).MediaItem) },
                 { "text", dataSourceItem.Fields["Slide " + i + " Text"].Value },
                 { "classes", dataSourceItem.Fields["Slide " + i + " CSS Classes"].Value },
-                { "link", (dataSourceItem.Fields["Slide " + i + " Link"].Value != "") ? Sitecore.Links.LinkManager.GetItemUrl(((Sitecore.Data.Fields.LinkField)dataSourceItem.Fields["Slide " + i + " Link"]).TargetItem) : "" }
+                { "link", ((Sitecore.Data.Fields.LinkField)dataSourceItem.Fields["Slide " + i + " Link"]).GetFriendlyUrl() }
             });
         }
     }
