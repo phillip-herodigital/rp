@@ -4,7 +4,8 @@ ngApp = angular.module("ngApp", ['ui.bootstrap',
                                  'maskJQuery',
                                  'duScroll',
                                  'n3-line-chart',
-                                 'uiGmapgoogle-maps']);
+                                 'uiGmapgoogle-maps',
+                                 'popover-html']);
 
 // Init Application
 ngApp.value("appName", "ngApp");
