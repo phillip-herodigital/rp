@@ -6,7 +6,7 @@
     
     <GridPanel Columns="3" Height="100%" Style="margin:0px;" Fixed="true" Width="100%">
 
-      <Scrollbox def:ID="SideFrame" GridPanel.valign="top" GridPanel.Width="120px" Border="none" Padding="0px" Height="100%" GridPanel.Height="100%">
+      <Scrollbox def:ID="SideFrame" GridPanel.valign="top" GridPanel.Width="120px" Padding="12px" GridPanel.Height="100%">
         <Border def:ID="SideFrameContent"/>
       </Scrollbox>
 

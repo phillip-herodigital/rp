@@ -3,13 +3,13 @@
   <Gallery.Indexes.Option>
     <Border RollOver="true" Class="scMenuPanelItem" Click="$Click">
       <GridPanel Columns="2">
-        <Border Class="scClickFont" NoWrap="true" FontName="Ariel" FontSize="16px" FontBold="true" Height="25px" GridPanel.VAlign="top">
+        <Border Class="scClickFont" NoWrap="true" GridPanel.VAlign="top">
           <Literal Text="$Number"/>
         </Border>
 
         <Border NoWrap="true">
 
-          <Border Padding="0px 0px 0px 8px">
+          <Border>
             <Literal Text="$Header"/>
           </Border>
 

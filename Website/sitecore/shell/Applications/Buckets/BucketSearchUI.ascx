@@ -33,10 +33,12 @@
         <div class="selectable" id="results">
         </div>
       </div>
-      <div class="facets">
+<%--	  <a href="#" id="facetsBTN" class="facetsBTN"></a>     --%>
+      <div id="facets" class="facets facetsVis">
         <div class="contextdataarea"></div>  
         <div class="navAlpha slide-out-div"></div>
       </div>
+      <div style="clear:both"></div> 
     </div>
   </div>
 </div>

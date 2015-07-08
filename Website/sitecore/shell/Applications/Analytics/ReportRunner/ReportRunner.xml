@@ -40,7 +40,7 @@
 
       <GridPanel Width="100%" Height="100%" Columns="3" CellPadding="0" Style="table-layout:fixed;background:white">
 
-        <Scrollbox GridPanel.ID="TreeViewPanel" Class="scScrollbox scFixSize scFixSize8" Height="100%" GridPanel.Height="100%" GridPanel.Width="250px" Border="none" Padding="0px">
+        <Scrollbox GridPanel.ID="TreeViewPanel" Class="scScrollbox" Height="100%" GridPanel.Height="100%" GridPanel.Width="250px" Border="none" Padding="0px">
           <TreeviewEx ID="Treeview" DataContext="DataContext" Click="Refresh" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
         </Scrollbox>
 

@@ -10,7 +10,7 @@ Sitecore.Treeview.collapseTreeNode = function (node) {
     node.removeChild(node.childNodes[2]);
   }
 
-  this.setGlyph(node.down(), "/expand15x15");
+  this.setGlyph(node.down(), "/treemenu_collapsed.png");
 };
 
 Sitecore.Treeview.expandTreeNode = function (node, html) {
@@ -19,9 +19,9 @@ Sitecore.Treeview.expandTreeNode = function (node, html) {
   if (html != "") {
     node.insert("<div>" + html + "</div>");
 
-    this.setGlyph(node.down(), "/collapse15x15");
+    this.setGlyph(node.down(), "/treemenu_expanded.png");
   } else {
-    this.setGlyph(node.down(), "/noexpand15x15");
+    this.setGlyph(node.down(), "/notreemenu_collapsed.png.gif");
   }
 };
 
@@ -44,8 +44,8 @@ Sitecore.Treeview.onTreeClick = function (element, evt, click) {
 Sitecore.Treeview.onTreeGlyphClick = function (node, treeElement, id) {
   var glyph = node.down();
 
-  if (glyph.src.indexOf("expand15x15") >= 0 && glyph.src.indexOf("noexpand15x15") == -1) {
-    this.setGlyph(glyph, "/loading15x15");
+  if (glyph.src.indexOf("treemenu_collapsed.png") >= 0 && glyph.src.indexOf("notreemenu_collapsed.png.gif") == -1) {
+    this.setGlyph(glyph, "/sc-spinner16.gif");
 
     var content = $F(treeElement.id + "_Database");
 
@@ -80,7 +80,7 @@ Sitecore.Treeview.onTreeGlyphClick = function (node, treeElement, id) {
         onFailure: function (request) { alert("Failed"); }
     });
   } 
-  else if (glyph.src.indexOf("collapse15x15") > 0) {
+  else if (glyph.src.indexOf("treemenu_expanded.png") > 0) {
     this.collapseTreeNode(node);
   }
 
@@ -122,7 +122,7 @@ Sitecore.Treeview.onTreeNodeClick = function (node, treeElement, evt, id, click)
 };
 
 Sitecore.Treeview.setGlyph = function (glyph, src) {
-  glyph.src = glyph.src.replace("/expand15x15", src).replace("/noexpand15x15", src).replace("/collapse15x15", src).replace("/loading15x15", src);
+  glyph.src = glyph.src.replace("/treemenu_collapsed.png", src).replace("/notreemenu_collapsed.png.gif", src).replace("/treemenu_expanded.png", src).replace("/sc-spinner16.gif", src);
 };
 
 Sitecore.Treeview.onTreeDrag = function (element, evt) {
@@ -164,7 +164,7 @@ Sitecore.Treeview.onKeyDown = function(element, evt) {
     switch (evt.keyCode) {
       case 37: // left
         node = node.childNodes[0];
-        if (node.src.indexOf("/collapse15x15") >= 0) {
+        if (node.src.indexOf("/treemenu_expanded.png") >= 0) {
           this.RaiseEventClick(node);
           scForm.browser.clearEvent(evt, true, false);
         }
@@ -172,7 +172,7 @@ Sitecore.Treeview.onKeyDown = function(element, evt) {
 
       case 39: // right
         node = node.childNodes[0];
-        if (node.src.indexOf("/expand15x15") >= 0) {
+        if (node.src.indexOf("/treemenu_collapsed.png") >= 0) {
           this.RaiseEventClick(node);
           scForm.browser.clearEvent(evt, true, false);
         }

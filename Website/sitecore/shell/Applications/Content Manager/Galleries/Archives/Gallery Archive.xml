@@ -14,7 +14,7 @@
       <Menu ID="Menu" Border="none">
         <MenuHeader Header="Archive"/>
         <MenuLine/>
-        <MenuPanel ID="Panel" Padding="8px 4px 8px 4px" Style="white-space:nowrap"/>
+        <MenuPanel ID="Panel" Class="scMenuItem" />
         <MenuLine/>
       </Menu>
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/" xmlns:set="http://www.sitecore.net/xmlconfig/set/">
+  <sitecore>
+    <pipelines>
+      <initialize>
+        <processor type="Sitecore.Modules.EmailCampaign.Core.Pipelines.Initialize.EnsureDispatchUsersEnrolled, Sitecore.EmailCampaign" ><patch:delete  /></processor>
+      </initialize>
+    </pipelines>
+    <scheduling>
+      <agent patch:instead="*[@type='Sitecore.Tasks.DatabaseAgent' and contains(.,'master')]" type="Sitecore.Tasks.DatabaseAgent" method="Run" interval="00:00:59" hint="ECM"><patch:delete  /></agent>
+    </scheduling>
+	<processing>
+      <module type="Sitecore.Analytics.Processing.ProcessingModule">
+        <BackgroundServices hint="list:Add">
+          <dispatch_taskagent type="Sitecore.Analytics.Core.BackgroundService">
+            <patch:delete  />
+          </dispatch_taskagent>
+
+          <dispatch_recoveryAgent type="Sitecore.Analytics.Core.BackgroundService">
+            <patch:delete  />
+          </dispatch_recoveryAgent>
+
+          <dispatch_cleanupAgent type="Sitecore.Analytics.Core.BackgroundService">
+            <patch:delete  />
+          </dispatch_cleanupAgent>
+
+          <automationQueueAgent type="Sitecore.Analytics.Core.BackgroundService">
+            <patch:delete  />
+          </automationQueueAgent>
+        </BackgroundServices>
+      </module>
+    </processing>	
+  </sitecore>
+</configuration>

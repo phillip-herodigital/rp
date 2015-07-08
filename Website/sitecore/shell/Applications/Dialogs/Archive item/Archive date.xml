@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <ArchiveDate>
-    <FormDialog Header="Archive Date and Time."
-      Text="Select the date and time when the current item will be archived." Icon="Network/32x32/Server_Time.png">
+    <FormDialog Header="Set Archive Date"
+      Text="Specify when you want to archive the item or an item version." >
       <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.ArchiveDate.ArchiveDateForm,Sitecore.Client" />
-      <Script runat="server">
+      <Script>
         function clearall(){
         $$('.scComboboxEdit').each(function(e){ e.value=''});
         }
       </Script>
-      <div class="scStretch" style="padding-bottom: 71px;">
-        <div style="margin-bottom: 2px; font-weight:bold;">
-          <Literal Text="Archive Item" runat="server" />
-        </div>
-        <Border runat="server">
-          <Literal Text="Date and time" runat="server" />
+
+      <div class="scFlexColumnContainer scStretch">
+        <Literal class="scFieldLabel sc-text-title" Text="Archive item" />
+        <GridPanel columns="2" class="scFormTable">
+          <Literal Text="Date and time" />
           <DateTimePicker ID="ItemArchiveDate" />
-        </Border>
+        </GridPanel>
 
-        <Literal style="font-weight:bold;padding-top:10px;display:inline-block;" Text="Archive Version" />            
+        <Literal class="scFieldLabel sc-text-title" Text="Archive version" />
 
-        <Scrollbox ID="VerisonsPanel" class="scScrollbox" Padding="0" runat="server">
+        <Scrollbox ID="VerisonsPanel" class="scScrollbox" Padding="0">
           <Border ID="Versions"  />
         </Scrollbox>
       </div>
-      <Border def:placeholder="Buttons" runat="server">
-        <Button Header="Clear all" runat="server"  Type="button" Click="" onclick="javascript:clearall()"/>
+      <Border def:placeholder="Buttons">
+        <Button Header="Clear all" Type="button" Click="" onclick="javascript:clearall()"/>
       </Border>
     </FormDialog>
   </ArchiveDate>

@@ -1,19 +1,5 @@
 ﻿function OnResize() {
-  var doc = $(document.documentElement);
-  var ribbon = $("RibbonContainer");
-  var grid = $("GridContainer");
-  var versionsContainer = $('VersionsGridContainer');
-  var versionsContainerHeight = versionsContainer.hasClassName("hidden") ? 0 : versionsContainer.getHeight();
-  rowsContainer = $$(".Grid > tbody > tr:nth-child(2) > td > table");
-  gridHeader = $$(".Grid > tbody > tr:nth-child(3) > td > table");
-  gridPager = $$(".Grid > tbody > tr:nth-child(3) > td > table");
-  
-  gridMinHeight = rowsContainer.length == 0 ? 20 : rowsContainer[0].getHeight() + gridHeader[0].getHeight() + gridPager[0].getHeight() + 10; 
-  gridHeight = doc.getHeight() - ribbon.getHeight() - versionsContainerHeight;
-
-  grid.style.height = (gridHeight > gridMinHeight ? gridHeight : gridMinHeight) + 'px';
-  grid.style.width = doc.getWidth() + 'px';
-
+ 
   if (typeof (Items) != 'undefined') {
     Items.render();
   }
@@ -28,7 +14,7 @@
   });
   /* re-render again after some "magic amount of time" - without this second re-render grid doesn't pick correct width sometimes */
   setTimeout("Items.render()", 150);
-  $('VersionsGridContainer').style.width = doc.getWidth() + 'px';
+
   if (jQuery("#versionsGrid tbody")[0].initialized) {
     jQuery("#versionsGrid").trigger('tableresize');
   }
@@ -54,7 +40,7 @@ Event.observe(window, "load", OnResize);
 Event.observe(window, "load", OnLoad);
 
 function OnLoad() {
-  setTimeout(function() { window.parent.frameElement.style.width = window.parent.frameElement.clientWidth + 20 + 'px'; }, 200);
+  setTimeout(function () { window != window.parent && (window.parent.frameElement.style.width = window.parent.frameElement.clientWidth + 20 + 'px'); }, 200);
 }
 
 function showVersionsBox() {
@@ -94,9 +80,9 @@ function renderVersions(versions) {
   var tableBody = jQuery("#versionsGrid tbody")[0];
   
   versions.each(function (version) {
-    jQuery(tableBody).append("<tr versionId='" + version.versionId + "'><td class='languageColumn'><input type='hidden' id='hidField'/>" +
+      jQuery(tableBody).append("<tr class=\"Row\" versionId='" + version.versionId + "'><td class='languageColumn'><input type='hidden' id='hidField'/>" +
       version.language + "</td><td class='versionColumn'>" + version.version + "</td></td><td class='dateColumn'>" + 
-      version.date + "</td><td class='byColumn'>" + version.by + "</td><td>&nbsp;</td></tr>");
+      version.date + "</td><td class='byColumn'>" + version.by + "</td></tr>");
   });
 
   var rowsNum = jQuery("#versionsGrid tbody tr") ? jQuery("#versionsGrid tbody tr").length : 0;
@@ -155,7 +141,7 @@ function registerTranslations(translationsJSON){
   }
 
   translations.each(function (phrase) {
-    scForm.registerTranslation(phrase.key, phrase.value)
+      scForm.registerTranslation(phrase.key, phrase.value);
   });
 }
 

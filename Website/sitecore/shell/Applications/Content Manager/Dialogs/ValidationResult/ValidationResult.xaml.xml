@@ -16,44 +16,39 @@
 
       <Stylesheet runat="server">
         .scWarning {
-          background: #ffffe4;
-          border-bottom: 1px solid #c9c9c9;
-          padding: 4px 2px 4px 4px;
-          margin: -2px 0px 12px 0px;
-          overflow: auto;
+        background: #ffffe4;
+        border-bottom: 1px solid #c9c9c9;
+        padding: 4px 2px 4px 4px;
+        margin: -2px 0px 12px 0px;
+        overflow: auto;
         }
-        
+
         .scWarning img {
-          margin-top: 2px;
-          margin-right: 4px;
-          vertical-align: middle;          
-          float: left;
+        margin-top: 2px;
+        margin-right: 4px;
+        vertical-align: middle;
+        float: left;
         }
 
         .scWarningTitle {
-          font-weight: bold;
+        font-weight: bold;
         }
-        
+
         .scWarningHelp {
-          padding: 2px 0 0 0px;
-          margin-left: 21px;
-          display: block;
+        padding: 2px 0 0 0px;
+        margin-left: 21px;
+        display: block;
         }
-        
-        .scValidatorTitle {
-        vertical-align:top;
-        }
-        
-        tr>td:first-child{
-          vertical-align:top;
-        }
-        
+
         #Validation{
-          margin: 10px;
-          padding: 2px;
-          height:auto !important;
+        margin: 15px;
+        height:auto !important;
         }
-        
+
+        .scValidatorResult {
+        white-space: normal !important;
+        }
+
       </Stylesheet>
 
       <AjaxScriptManager runat="server"/>

@@ -1,0 +1,100 @@
+﻿@using Newtonsoft.Json
+@using Sitecore.Mvc
+@using Sitecore.PathAnalyzer.Localization
+@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.Shared
+@using Sitecore.PathAnalyzer.Localization
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.Texts
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+    var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+    rendering.Class = "sc-DateRangeFilter";
+    rendering.Requires.Script("pathanalyzer", "DateRangeFilter.js");
+    rendering.Attributes.Add("data-bind", "visible: isVisible");
+    rendering.HasNestedComponents = true;
+
+    var errorMessages = new
+    {
+        InvalidDate = Helper.GetTextValue(PathAnalyzerTexts.InvalidDateDateHasBeenSetToDefaultValue)
+    };
+
+    rendering.Attributes.Add("data-sc-errormessages", JsonConvert.SerializeObject(errorMessages));
+
+    var initialStartDate = Helper.GetFromDateCookieValue();
+    DateTime parsedStartDate;
+    if (string.IsNullOrWhiteSpace(initialStartDate) || !DateTime.TryParse(initialStartDate, out parsedStartDate))
+    {
+        initialStartDate = rendering.GetString("InitialStartDate");
+    }
+    rendering.Attributes.Add("data-sc-initialstartdate", initialStartDate);
+
+    var initialEndDate = Helper.GetToDateCookieValue();
+    DateTime parsedEndDate;
+    if (string.IsNullOrWhiteSpace(initialEndDate) || !DateTime.TryParse(initialEndDate, out parsedEndDate))
+    {
+        initialEndDate = rendering.GetString("InitialEndDate");
+    }
+    rendering.Attributes.Add("data-sc-initialenddate", initialEndDate);
+
+    var selectedPreset = rendering.GetString("SelectedPreset").ToLowerInvariant();
+    rendering.Attributes.Add("data-sc-selectedpreset", selectedPreset);
+}
+
+@EmbedDateRangerFilter(rendering, initialStartDate, initialEndDate, selectedPreset)
+
+@helper EmbedDateRangerFilter(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering, string initialStartDate, string initialEndDate, string selectedPreset)
+{
+    var renderingId = rendering.ControlId;
+    var helper = new RenderingHelper(Html, renderingId);
+
+    helper.MakeBorder("ContentWrapper", renderingId + "DropDownWrapper", (contentWrapper) =>
+    {
+        helper.MakeRow("DescriptionRow", contentWrapper, true, (descriptionRow) => helper.MakeText("Description", descriptionRow, PathAnalyzerTexts.DateRangeFilterTitle, TextType.Title));
+
+        helper.MakeRow("ControlsRow", contentWrapper, false, (controlsRow) =>
+        {
+            helper.MakeColumn("DatePickersColumn", controlsRow, 7, (datepickersColumn) =>
+            {
+                helper.MakeRow("FromDatePickerRow", datepickersColumn, true, (fromRow) =>
+                {
+                    helper.MakeColumn("FromDatePickerLeftColumn", fromRow, 2, (leftColumn) => helper.MakeText("FromDatePickerText", leftColumn, PathAnalyzerTexts.From));
+
+                    helper.MakeColumn("FromDatePickerRightColumn", fromRow, 10, (rightColumn) => helper.MakeDatePicker("FromDatePicker", rightColumn, initialStartDate));
+                });
+
+                helper.MakeRow("ToDatepickerRow", datepickersColumn, false, (toRow) =>
+                {
+                    helper.MakeColumn("ToDatePickerLeftColumn", toRow, 2, (leftColumn) => helper.MakeText("ToDatePickerText", leftColumn, PathAnalyzerTexts.DateRangeFilterToDate));
+
+                    helper.MakeColumn("ToDatePickerRightColumn", toRow, 10, (rightColumn) => helper.MakeDatePicker("ToDatePicker", rightColumn, initialEndDate));
+                });
+            });
+
+            helper.MakeColumn("PresetsColumn", controlsRow, 5, (presetsColumn) =>
+                helper.MakeRow("PresetsInnerRow", presetsColumn, false, (innerRow) =>
+                {
+                    helper.MakeColumn("PresetsInnerLeftColumn", innerRow, 12, (leftColumn) =>
+                    {
+                        helper.MakeRadioButton("Yesterday", leftColumn, "daterangepreset", "day", PathAnalyzerTexts.DateRangeFilterYesterday, selectedPreset == "yesterday");
+                        helper.MakeRadioButton("LastWeek", leftColumn, "daterangepreset", "week", PathAnalyzerTexts.DateRangeFilterLastWeek, selectedPreset == "last week");
+                        helper.MakeRadioButton("LastMonth", leftColumn, "daterangepreset", "month", PathAnalyzerTexts.LastMonth, selectedPreset == "last month");
+                        //});
+
+                        //helper.MakeColumn("PresetsInnerRightColumn", innerRow, 6, (rightColumn) =>
+                        //{
+                        helper.MakeRadioButton("LastQuarter", leftColumn, "daterangepreset", "quarter", PathAnalyzerTexts.DateRangeFilterLastQuarter, selectedPreset == "last quarter");
+                        helper.MakeRadioButton("LastTwoQuarters", leftColumn, "daterangepreset", "twoquarter", PathAnalyzerTexts.DateRangeFilterLastTwoQuarters, selectedPreset == "last 2 quarters");
+                        helper.MakeRadioButton("LastYear", leftColumn, "daterangepreset", "year", PathAnalyzerTexts.DateRangeFilterLastYear, selectedPreset == "prev year");
+                    });
+                }));
+        });
+    });
+
+    <div @rendering.HtmlAttributes>
+        @Html.Sitecore().Controls().Rendering(Html, "{F6C9F461-FCAF-47DC-AA01-C8C64C2EFFB8}", renderingId + "DropDownWrapper", "", new
+        {
+            UsePadding = false
+        })
+    </div>
+}

@@ -19,7 +19,7 @@
       
         <Toolbar>
           <GridPanel Columns="3" Width="100%">
-            <Toolbutton Icon="Applications/16x16/refresh.png" IconSize="id16x16" Click="Select"/>
+            <Toolbutton Icon="Office/16x16/refresh.png" IconSize="id16x16" Click="Select"/>
 
             <Toolbutton ID="PreviewButton" Icon="Network/16x16/earth_view.png" IconSize="id16x16" Header="Preview" Click="TogglePreview"/>
 

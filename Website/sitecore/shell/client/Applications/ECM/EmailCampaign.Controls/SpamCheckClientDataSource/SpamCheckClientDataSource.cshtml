@@ -1,0 +1,7 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+
+@using EmailCampaign.Controls.SpamCheckClientDataSource
+
+@model RenderingModel
+@Html.Sitecore().Controls().SpamCheckClientDataSource(Model.Rendering)

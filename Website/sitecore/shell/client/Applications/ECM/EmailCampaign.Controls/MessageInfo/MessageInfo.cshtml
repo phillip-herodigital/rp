@@ -1,0 +1,47 @@
+﻿@using Sitecore.EmailCampaign.Server.Services
+@using Sitecore.Modules.EmailCampaign.Core
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@model RenderingModel
+@{
+    UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+
+    rendering.Class = "sc-MessageInfo";
+    rendering.Requires.Script("client", "MessageInfo.js");
+    rendering.Requires.Css("ecm", "MessageInfo.css");
+    rendering.GetString("MessageId", "messageId");
+    
+    HtmlString htmlAttributes = rendering.HtmlAttributes;
+    string messageId = new GetMessageIdFromUrlService().GetMessageIdFromUrl(HttpContext.Current.Request.Url.OriginalString);
+    
+    var utcOffset = 0;
+    if (HttpContext.Current.Request.Cookies.AllKeys.Contains("utcOffset"))
+    {
+      var httpCookie = HttpContext.Current.Request.Cookies["utcOffset"];
+      if (httpCookie != null)
+      {
+        utcOffset = Convert.ToInt32(httpCookie.Value);
+      }
+    }
+
+    List<KeyValuePair<string, string>> valuePairs = new MessageInfoService().Get(messageId, utcOffset);
+}
+<div @htmlAttributes>
+    <h3>
+        @EcmTexts.Localize(EcmTexts.MessageInfo)
+    </h3>
+
+    <table class="sc-message-progress-table">
+        <tbody>
+            @foreach (KeyValuePair<string, string> element in valuePairs)
+            {
+                <tr>
+                    <td>@element.Key</td>
+                    <td class="sc-message-progress-value">@Html.Raw(element.Value)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

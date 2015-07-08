@@ -157,27 +157,26 @@
               <tr> <td >
               <table width="100%"  style="border-collapse:collapse;"  >
                <tr style="font-weight:bold;" >
-                <td class="column1" style="padding:2px;"><%#Translate.Text(EcmTexts.FetchAutomationStates) %></td>                
+                <td class="column1" style="padding:2px;"><%#Translate.Text(EcmTexts.FetchAutomationStates)%></td>                
                 <td class="column2" style="padding:2px;"><%#Translate.Text(EcmTexts.FetchRecipient) %></td>
                 <td class="column3" style="padding:2px;"><%#Translate.Text(EcmTexts.GenerateSingleEmail) %></td>                
                 <td class="column4" style="padding:2px;"><%#Translate.Text(EcmTexts.SendEmail) %></td>
             </tr>
             <tr >
             <td valign="top" class="column1">
-            <table class="blank" >
-              <tr >
-               <td ><%#Translate.Text(EcmTexts.Total) %></td> 
-               <td id="SumAutomationMilliseconds" ><%#Eval("AvgSumAutomationTime")%> <%#Translate.Text(EcmTexts.Millisecond) %></td>           
-             </tr>
-             <tr > 
-               <td><%#Translate.Text(EcmTexts.Lock) %></td> 
-                 <td id="AvgAutomationWaitTotalMilliseconds" ><%#Eval("AvgAutomationWait")%> <%#Translate.Text(EcmTexts.Millisecond) %></td>                  
-             </tr>
-             <tr >
+            <table class="blank">
+              <tr>
+                <td><%#Translate.Text(EcmTexts.Total) %></td>
+                <td id="SumAutomationMilliseconds"> <%#Eval("AvgSumAutomationTime")%> <%#Translate.Text(EcmTexts.Millisecond) %></td>
+              </tr>
+              <tr>
+                <td><%#Translate.Text(EcmTexts.Lock) %></td>
+                <td id="AvgAutomationWaitTotalMilliseconds"> <%#Eval("AvgAutomationWait")%> <%#Translate.Text(EcmTexts.Millisecond) %></td>
+              </tr>
+              <tr>
                 <td><%#Translate.Text(EcmTexts.Process) %></td>
-               <td id="AvgAutomationFetchedTotalMilliseconds" > <%#Eval("AvgAutomationFetched")%> <%#Translate.Text(EcmTexts.Millisecond) %></td>                         
-             </tr>
-
+                <td id="AvgAutomationFetchedTotalMilliseconds"> <%#Eval("AvgAutomationFetched")%> <%#Translate.Text(EcmTexts.Millisecond) %></td>
+              </tr>
             </table>
             </td>
             <td valign="top" class="column2">
@@ -237,7 +236,9 @@
               <tr>
               <td>
               <table class="blank">
-                <tr><td id="AutomationStateFetchedPerSecond" ><%#Translate.Text(EcmTexts.FetchingSpeed) %></td><td>  <%#Eval("AutomationStateFetchedPerSecond")%>  <%#Translate.Text(EcmTexts.States) %></td>                   
+                <tr>
+                  <td><%#Translate.Text(EcmTexts.FetchingSpeed) %></td>
+                  <td id="AutomationStateFetchedPerSecond"> <%#Eval("AutomationStateFetchedPerSecond")%> <%#Translate.Text(EcmTexts.States)%></td>                   
                 </tr>
                 <tr> <td><%#Translate.Text(EcmTexts.Sending) %></td><td>  <%#Eval("ServerSendingMailsPerSecond")%>  <%#Translate.Text(EcmTexts.EmailsOnThisServer) %></td> </tr>
                 <tr>  <td ><%#Translate.Text(EcmTexts.TotalMailsSent) %></td><td>  <%#Eval("MessagesProcessed")%>  <%#Translate.Text(EcmTexts.OnThisServer) %></td> </tr>

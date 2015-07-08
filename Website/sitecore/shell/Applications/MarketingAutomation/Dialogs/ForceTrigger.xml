@@ -57,20 +57,26 @@
         </ul>
       </WizardFormFirstPage>
 
-      <WizardFormPage ID="VisitorAndTrigger" Header="Visitor &amp; Trigger" Text="Select the visitor that you want to use and the trigger that you want to execute." Icon="Applications/32x32/flash.png">
+      <WizardFormPage ID="ContactAndTrigger" Header="Contact &amp; Trigger" Text="Select the visitor that you want to use and the trigger that you want to execute." Icon="Applications/32x32/flash.png">
         <WizardFormPadding>
-          <Label Header="Visitor:" />
-          <GridPanel GridPanel.VAlign="top"  Columns="3" Width="100%">
-            <Edit ID="Visitor" GridPanel.Width="100%" Width="100%" ReadOnly="true" />
-            <Space Width="6px" />
-            <Button Header="Select" Click="SelectVisitor_Click" />
-          </GridPanel>
-          
+          <GridPanel Width="100%" VAlign="top" >
+
+            <Label Header="Contact:" />
+            <Space Height="4"/>
+
+            <GridPanel GridPanel.VAlign="top"  Columns="3" Width="100%">
+              <Edit ID="Contact" GridPanel.Width="100%" Width="100%" ReadOnly="true" />
+              <Space Width="6px" />
+              <Button Header="Select" Click="SelectContact_Click" />
+            </GridPanel>
+
           <Label Header="Trigger:" style="display:inline-block; margin-top:5px;" />
-          <GridPanel GridPanel.VAlign="top" Columns="3" Width="100%">
-            <Edit ID="Trigger" GridPanel.Width="100%" Width="100%" ReadOnly="true" />
-            <Space Width="6px" />
-            <Button Header="Select" Click="SelectTrigger_Click" />
+            <GridPanel GridPanel.VAlign="top" Columns="3" Width="100%">
+              <Edit ID="Trigger" GridPanel.Width="100%" Width="100%" ReadOnly="true" />
+              <Space Width="6px" />
+              <Button Header="Select" Click="SelectTrigger_Click" />
+            </GridPanel>
+
           </GridPanel>
         </WizardFormPadding>
       </WizardFormPage>

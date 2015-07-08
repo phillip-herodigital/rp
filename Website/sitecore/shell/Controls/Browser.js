@@ -16,6 +16,7 @@ scBrowser.prototype.initialize = function() {
   this.adjustFillParentElements();
   this.initializeFixsizeElements();
   this.fixSafariModalDialogs();
+  this.scInitializeIEFocusKeeper();
   Event.observe(window, "resize", function () { setTimeout(scForm.browser.resizeFixsizeElements.bind(scForm.browser), 1); });
 };
 
@@ -38,9 +39,9 @@ scBrowser.prototype.detachEvent = function(object, eventName, method) {
   eventName = eventName.replace(/on/, "");
 
   if (typeof(method._eventHandler) == "function") {
-    Event.observe(object, eventName, method._eventHandler, false);
+    Event.stopObserving(object, eventName, method._eventHandler, false);
   } else {
-    Event.observe(object, eventName, method, true);
+    Event.stopObserving(object, eventName, method, true);
   }
 };
 
@@ -64,8 +65,8 @@ scBrowser.prototype.clearEvent = function(evt, cancelBubble, returnValue, keyCod
   // ignore keycode
 };
 
-scBrowser.prototype.closePopups = function(reason, exclusions) {
-  if (window.top.popups != null) {
+scBrowser.prototype.closePopups = function (reason, exclusions) {
+  if (window.top && window.top.popups != null) {
     if (reason == "mainWindowBlur") {
       return;
     }
@@ -77,14 +78,29 @@ scBrowser.prototype.closePopups = function(reason, exclusions) {
 
       var ctl = $(window.top.popups[n]);
       if (ctl) {
-        ctl.remove();
+          try {
+        var id = ctl.getAttribute('data-openerId');
+        var opener = document.getElementById(id) || top.document.getElementById(id);
+        Element.removeClassName(opener, 'scPopupOpener');
+              ctl.remove();
+          } catch (ex) {
+              try {
+                  if (ctl.parentNode != undefined) 
+                      ctl.parentNode.removeChild(ctl);
+                  
+              } catch (e) {
+                  /*eat up any further exceptions */
+              }
+          }
       }
     }
   }
 
-  window.top.popups = exclusions ? $$(".scPopup") : null;
-  if (this.onPopupClosed) {
-    this.onPopupClosed.call(this, reason);
+  if (window.top) {
+    window.top.popups = exclusions ? $$(".scPopup") : null;
+    if (this.onPopupClosed) {
+      this.onPopupClosed.call(this, reason);
+    }
   }
 };
 
@@ -93,7 +109,7 @@ scBrowser.prototype.createHttpRequest = function() {
 };
 
 scBrowser.prototype.getControl = function(id, doc) {
-  return (doc != null ? doc : document).getElementById(id);
+  return (doc || document).getElementById(id);
 };
 
 scBrowser.prototype.getEnumerator = function(collection) {
@@ -242,19 +258,6 @@ scBrowser.prototype.getTableRows = function(table) {
   return result;
 };
 
-scBrowser.prototype.prompt = function (text, defaultValue) {
-  if (navigator.userAgent.indexOf('Trident') > -1 || this.isSafari) {
-    var arguments = new Array(text, defaultValue);
-    var data = { height: "110"};
-
-    var features = "dialogWidth:400px;dialogHeight:#{height}px;help:no;scroll:no;resizable:no;status:no;center:yes".interpolate(data);
-
-    return showModalDialog("/sitecore/shell/prompt.html", arguments, features);
-  } else {
-    return prompt(text, defaultValue);
-  }
-};
-
 scBrowser.prototype.insertAdjacentHTML = function(control, where, html) {
   control.insertAdjacentHTML(where, html);
 };
@@ -369,12 +372,21 @@ scBrowser.prototype.showPopup = function(data) {
 
   var popup = document.createElement("div");
 
-  popup.id = "Popup" + (window.top.popups != null ? window.top.popups.length + 1 : 0);
-  popup.className = "scPopup";
+  popup.className = "scPopup" ;
   popup.style.position = "absolute";
   popup.style.left = "0px";
   popup.style.top = "0px";
   popup.onBlur = "scForm.browser.removeChild(this.parentNode)";
+  var self = this;
+  this.attachEvent(popup, "onclick", function (evtArg) {
+    Event.stop(evtArg || window.event);
+    self.closePopups(null, [popup]);
+  });
+
+  this.attachEvent(popup, "ondblclick", function (evtArg) {
+    Event.stop(evtArg || window.event);
+    self.closePopups(null, [popup]);
+  });
 
   var html = "";
 
@@ -390,22 +402,36 @@ scBrowser.prototype.showPopup = function(data) {
     }
   }
 
+   
   popup.innerHTML = html;
 
-  document.body.appendChild(popup);
+  var form = $$("form")[0];
+  if (!form) {
+      return;
+  }
+  form.appendChild(popup);
   // popupTrapper.appendChild(popup);
+    
   var width = popup.offsetWidth;
   var height = popup.offsetHeight;
 
-  var ctl = null;
   var x = evt.clientX != null ? evt.clientX : 0;
   var y = evt.clientY != null ? evt.clientY : 0;
 
-  if (id != null && id != "") {
-    ctl = scForm.browser.getControl(id, doc);
+  if (id) {
+    try {
+      // exception occurs in case if id contains parentheses
+      var nodes = (doc || document).querySelectorAll('#' + id);
+    } catch (e) {
+      nodes = (doc || document).getElementById(id);
+    }
+
+    var ctl = nodes.length ? nodes[nodes.length - 1] : nodes;
 
     if (ctl != null) {
       ctl = $(ctl);
+
+      Element.addClassName(ctl, 'scPopupOpener');
 
       var dimensions = ctl.getDimensions();
 
@@ -425,7 +451,7 @@ scBrowser.prototype.showPopup = function(data) {
           break;
         case "above":
           x = 0;
-          y = -height + 1;
+          y = -height;
           break;
         case "below-right":
           x = dimensions.width - width;
@@ -441,16 +467,18 @@ scBrowser.prototype.showPopup = function(data) {
           y = dimensions.height;
         }
 
-        var vp = ctl.viewportOffset();
-        x += vp.left;
-        y += vp.top;
+        if (data.where != "contextmenu"){
+          var vp = ctl.viewportOffset();
+          x += vp.left;
+          y += vp.top;
+        }
       }
     }
   }
 
   var viewport = document.body;
   if (viewport.clientHeight == 0) {
-    var form = $$("form")[0];
+  
     if (form && form.clientHeight > 0) {
       viewport = form;
     }
@@ -473,10 +501,12 @@ scBrowser.prototype.showPopup = function(data) {
     height = viewport.clientHeight;
     var scrolWidth = getScrollBarWidth();
     width += scrolWidth;
-    if (x > scrolWidth && navigator.userAgent.indexOf('Firefox') < 0) {
-      x -= scrolWidth;
-    }
+    x -= scrolWidth;
     popup.style.overflow = "auto";
+  }
+
+  if (height < 10) {
+    popup.style.display = "none";
   }
 
   popup.style.width = "" + width + "px";
@@ -484,6 +514,8 @@ scBrowser.prototype.showPopup = function(data) {
   popup.style.top = "" + y + "px";
   popup.style.left = "" + x + "px";
   popup.style.zIndex = (window.top.popups == null ? 1000 : 1000 + window.top.popups.length);
+
+  popup.setAttribute('data-openerId', id);
 
   if (window.top.popups != null) {
     window.top.popups.push(popup);
@@ -504,7 +536,8 @@ scBrowser.prototype.showPopup = function(data) {
     }
   }
 
-  this.closePopups("show popup", exclusions || new Array(popup));
+  this.closePopups("show popup", exclusions || [popup]);
+  popup.id = "Popup" + (window.top.popups ? window.top.popups.length : 0);
 
   scForm.focus(popup);
 };
@@ -557,6 +590,12 @@ scBrowser.prototype.fixSafariModalDialogs = function () {
         return true;
       };
     });
+  }
+};
+
+scBrowser.prototype.scInitializeIEFocusKeeper = function() {
+  if (navigator.userAgent.indexOf('Trident') > 0 && !top.document.getElementById('scIEFocusKeeper')) {
+    Element.insert(top.document.body, { bottom: '<input id="scIEFocusKeeper" type="text" style="position:absolute;width:0px;height:0px;top:-1px;opacity:0;" />' });
   }
 };
 
@@ -777,7 +816,7 @@ var scGeckoCapturedEventExecuting = false;
 var scGeckoCaptureFunction = null;
 
 function scGeckoDispatchCapturedEvent(evt) {
-  if (window.scGeckoCapturedControl != null && !scGeckoCapturedEventExecuting) {
+  if (window && window.scGeckoCapturedControl && !scGeckoCapturedEventExecuting) {
     scGeckoCapturedEventExecuting = true;
 
     try {

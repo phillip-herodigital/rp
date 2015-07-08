@@ -15,7 +15,6 @@
   userControl.AppendClass(cssClass);
   var htmlAttributes = userControl.HtmlAttributes;
 }
-
 <div @htmlAttributes> 
 </div>
  @this.Html.Sitecore().Controls().ProgressIndicator(userControl.ControlId + "ProgressIndicator", false, new { TargetControl = userControl.ControlId })

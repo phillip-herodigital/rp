@@ -3,8 +3,6 @@
     this.idSequence = 0;
     this.uploaders = new Array();
 
-    YAHOO.widget.Uploader.SWFURL = "/sitecore/shell/controls/lib/YUIupload/uploader/assets/uploader.swf";
-
     var simpleButton = $(this.getButton("media:multiupload"));
     var advancedButton = $(this.getButton("media:multiupload", "options=1"));
 
@@ -83,21 +81,45 @@ var SitecoreMediaUploader = Class.create({
     this.cancelledFiles = new Array();
     this.uploadedFiles = "";
 
-    this.yUploader = new YAHOO.widget.Uploader(id);
+    YUI({ bootstrap: false, logLevel: "error" }).use('uploader', function (y) {
 
-    this.yUploader.addListener("contentReady", this.onContentReady.bind(this));
-    this.yUploader.addListener("fileSelect", this.onFileSelect.bind(this));
-    this.yUploader.addListener("uploadProgress", this.onUploadProgress.bind(this));
-    this.yUploader.addListener("uploadCompleteData", this.onUploadCompleteData.bind(this));
-    this.yUploader.addListener("uploadError", this.onUploadError.bind(this));
+      if (y.UA.ie == "11") {
+        y.UA.ie = false;
+      }
+
+      this.yUploader = new y.Uploader({
+        width: "100%",
+        height: "100%",
+        swfURL: "/sitecore/shell/controls/lib/YUIupload/uploader/assets/uploader.swf",
+        multipleFiles: true
+      });
+
+      this.yUploader.after("fileselect", this.onFileSelect.bind(this));
+      this.yUploader.after("fileuploadstart", this.onFileUploadStart.bind(this));
+      this.yUploader.after("uploadprogress", this.onUploadProgress.bind(this));
+      this.yUploader.after("uploadcomplete", this.onUploadCompleteData.bind(this));
+      this.yUploader.after("uploaderror", this.onUploadError.bind(this));
+
+      this.yUploader.render("#" + id);
+
+      this.yUploader.isFlash = y.Uploader.TYPE !== "html5";
+
+      this.yUploader.cancel = function () {
+        if (this._swfReference) {
+          this._swfReference.callSWF("cancel", [this.get("id")]);
+        }
+
+        if (this.currentXhr) {
+          this.currentXhr.abort();
+        }
+
+        this.fire("uploadcancel");
+      };
+    }.bind(this));
 
     this.destination = "/sitecore/shell/applications/flashupload/advanced/uploadtarget.aspx" + window.location.search + "&uploadID=" + this.settings.uploadID;
   },
-
-  onContentReady: function() {
-    this.yUploader.setAllowMultipleFiles(true);
-  },
-
+  
   onFileSelect: function(event) {
     scMediaFolder.activeUploader = this;
 
@@ -112,8 +134,14 @@ var SitecoreMediaUploader = Class.create({
     $("Scrollbox").setStyle({ height: this.lightbox.getHeight() - optionsHeight - $("buttons").getHeight() });
   },
 
+  onFileUploadStart: function (event) {
+    if (event.xhr) {
+      this.yUploader.currentXhr = event.xhr;
+    }
+  },
+  
   onUploadProgress: function(event) {
-    var element = $(event.id);
+    var element = this.yUploader.isFlash? $(event.originEvent.id): $(event.details[0].target.id);
 
     var progress = element.down('.progress');
     progress.setStyle({ visibility: 'visible' });
@@ -126,7 +154,7 @@ var SitecoreMediaUploader = Class.create({
   },
 
   onUploadCompleteData: function(event) {
-    var row = $(event.id);
+    var row = this.yUploader.isFlash? $(event.originEvent.id): $(event.details[0].target.id);
 
     this.uploadedFiles += event.data;
     if (!this.uploadedFiles.endsWith("|")) {
@@ -138,7 +166,7 @@ var SitecoreMediaUploader = Class.create({
 
       progress.down('img').remove();
       progress.setStyle({ backgroundImage: 'none' });
-      progress.insert({ bottom: "<img src='/~/icon/Applications/16x16/check2.png.aspx' alt='Uploaded' />" });
+      progress.insert({ bottom: "<img src='/~/icon/Office/16x16/check.png.aspx' alt='Uploaded' />" });
 
       row.addClassName("completed");
       row.removeClassName("queued");
@@ -169,7 +197,7 @@ var SitecoreMediaUploader = Class.create({
 
     progress.down('img').remove();
     progress.setStyle({ backgroundImage: 'none' });
-    progress.insert({ bottom: new Element("img", { src: '/~/icon/Applications/16x16/delete2.png.aspx', alt: event.status, title: event.status }) });
+    progress.insert({ bottom: new Element("img", { src: '/~/icon/Office/16x16/delete.png.aspx', alt: event.status, title: event.status }) });
 
     this.processNextFile();
   },
@@ -189,10 +217,12 @@ var SitecoreMediaUploader = Class.create({
   },
 
   processSelectedFiles: function(files) {
-    for (var file in files) {
-      if (YAHOO.lang.hasOwnProperty(files, file)) {
-        file = files[file];
-      }
+    for (var i=0;i<files.length;i++ ) {
+
+      var file = files[i];
+      file.size = file.get("size");
+      file.name = file.get("name");
+      file.id = file.get("id");
 
       if (file.size > this.uploadLimit()) {
         if (this.simple || file.size > this.uploadFileLimit()) {
@@ -208,7 +238,7 @@ var SitecoreMediaUploader = Class.create({
 
       file.size = (file.size / 1000).toFixed(0) + " KB";
 
-      var html = "<tr id='#{id}' class='queued'><td class='name'>#{name}</td><td class='size'>#{size}</td><td class='alt'><input class='scFont alt' type='text' id='#{id}_alt' /></td><td class='progress'><img class='filler' style='width:0px' src='/sitecore/shell/Themes/Standard/Images/Progress/filler_media.png' alt='' /></td></tr>".interpolate(file);
+      var html = "<tr id='#{id}' class='queued'><td class='name'>#{name}<span class='progress'><img class='filler' style='width:0px;' src='/sitecore/shell/Themes/Standard/Images/Progress/filler_media.png' alt='' /></span></td><td class='size'>#{size}</td><td class='alt'><input class='scFont alt' type='text' id='#{id}_alt' /></td></tr>".interpolate(file);
 
       $$("#queue tbody")[0].insert({ bottom: html });
       if (!this.simple) {
@@ -282,11 +312,12 @@ var SitecoreMediaUploader = Class.create({
     }
 
     var file = this.queue.pop();
+    file.id = file.get("id");
 
     var alt = $(file.id).down("input.alt").value;
     params["Alt"] = alt;
 
-    this.yUploader.upload(file.id, this.destination, "POST", params);
+    this.yUploader.upload(file, this.destination, "POST", params);
     return true;
   },
 
@@ -325,6 +356,7 @@ Event.observe(document, "dom:loaded", scMediaFolder.load.bind(scMediaFolder));
 
 window.scDisplose = function () {
   scMediaFolder.uploaders.each(function (item) {
+    item.yUploader.cancel();
     item.yUploader.destroy();
   });
 }

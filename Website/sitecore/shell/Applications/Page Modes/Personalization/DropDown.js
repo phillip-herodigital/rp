@@ -19,7 +19,7 @@ Sitecore.PageModes.Personalization.DropDown = Base.extend({
     "  <div class='scHeader'>${texts.Analytics.AvailableConditions}</div>",
     "  <div class='scItemsList'></div>",
     "  <a class='scEditButton'>",
-    "    <div><img src='/sitecore/shell/~/icon/PeopleV2/16x16/users3_edit.png' /></div>",
+    "    <div><img src='/sitecore/shell/~/icon/Office/16x16/users_family.png' /></div>",
     "    ${texts.Analytics.EditConditions}",
     "  </a>",
     "</div>",

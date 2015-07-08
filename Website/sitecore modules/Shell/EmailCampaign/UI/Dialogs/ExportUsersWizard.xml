@@ -44,7 +44,7 @@
             <GridPanel Columns="3" Cellspacing="2">
               <Label Header="Recipient Information:" GridPanel.Colspan="3" />
 
-              <Scrollbox Width="246"  Style="height: 250px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+              <Scrollbox Width="246" Height="250" Background="white" Border="1px solid #ADADAD" Padding="0">
                 <Listview ID="AllProperties" Height="100%" View="Details" MultiSelect="true" DblClick="PropertiesToExport_Click" />
               </Scrollbox>
 
@@ -58,7 +58,7 @@
                 </Border>
               </Border>
 
-              <Scrollbox Width="246" Style="height: 250px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+              <Scrollbox Width="246" Height="250" Background="white" Border="1px solid #ADADAD" Padding="0">
                 <Listview ID="ExportedProperties" Height="100%" View="Details" MultiSelect="true" DblClick="PropertiesFromExport_Click" />
               </Scrollbox>
 
@@ -73,7 +73,7 @@
 
               <Label Header="Selected:" />
 
-              <Scrollbox ID="AllTargetAudiencesScrollbox" Width="246" Style="height: 250px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+              <Scrollbox ID="AllTargetAudiencesScrollbox" Width="246" Height="250" Background="white" Border="1px solid #ADADAD" Padding="0">
                 <Listview ID="AllTargetAudiences" Height="100%" View="Details" MultiSelect="true" DblClick="TargetAudienceToExport_Click" />
               </Scrollbox>
 
@@ -87,7 +87,7 @@
                 </Border>
               </Border>
 
-              <Scrollbox Width="246" Style="height: 250px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+              <Scrollbox Width="246" Height="250" Background="white" Border="1px solid #ADADAD" Padding="0">
                 <Listview ID="ExportedTargetAudiences" Height="100%" View="Details" MultiSelect="true" DblClick="TargetAudienceFromExport_Click" />
               </Scrollbox>
 
@@ -102,7 +102,7 @@
               <GridPanel ID="RolesPanel" Columns="2" Cellspacing="4" Style="display: none;">
                 <Label Header="Security Roles:" ToolTip="Export members of this role." GridPanel.Colspan="2"/>
 
-                <Scrollbox Width="415" Style="height: 130px !important" Backgroud="white" Border="1px solid #ADADAD" Padding="0">
+                <Scrollbox Width="415" Height="130" Backgroud="white" Border="1px solid #ADADAD" Padding="0">
                   <Border ID="RolesBox" Padding="3px" />
                 </Scrollbox>
 

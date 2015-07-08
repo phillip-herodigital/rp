@@ -15,7 +15,7 @@
           <Literal ID="Caption" Text="$Header"/>
         </Border>
         <Border Align="right" Padding="3px 2px 0px 0px" GridPanel.Width="20">
-          <WindowButton def:ID="CloseButton" Src="Images/CloseWindow16x16.png" Click="javascript:scWin.hideWindow()" Width="16" Height="16" Margin="1 1" ToolTip="Close"/>
+          <WindowButton def:ID="CloseButton" Src="Images/close_red.png" Click="javascript:scWin.hideWindow()" Width="16" Height="16" Margin="1 1" ToolTip="Close"/>
         </Border>
       </GridPanel>
       

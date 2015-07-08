@@ -1,4 +1,5 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "jqueryui"], function(Sitecore)
+{
   var model = Sitecore.Definitions.Models.ControlModel.extend({
     initialize: function () {
       this._super();
@@ -30,7 +31,7 @@
   });
 
   var view = Sitecore.Definitions.Views.ControlView.extend({
-    listen: _.extend({}, _sc.Definitions.Views.ControlView.prototype.listen, {
+    listen: _.extend({}, Sitecore.Definitions.Views.ControlView.prototype.listen, {
       "start:$this": "setBusy",
       "hide:$this": "changeBusy"
     }),
@@ -39,9 +40,9 @@
       this.model.set("height", this._getHeight());
       this.model.set("width", this._getWidth());
       this.model.set("targetControl", this.$el.data("sc-target-control"));
-      this.model.set("isFullscreen", this.$el.data("sc-fullscreen") === "true");
+      this.model.set("isFullscreen", this.$el.data("sc-fullscreen"));
       this.model.set("delay", this.$el.data("sc-delay"));
-      this.model.set("autoShow", (this.$el.data("sc-auto-show") === "true"));
+      this.model.set("autoShow", this.$el.data("sc-auto-show"));
       this.model.set("autoShowTimeout", parseInt(this.$el.data("sc-auto-show-timeout")));
 
       this.model.on("change:isBusy", this.changeBusy, this);
@@ -71,7 +72,7 @@
     _setZIndex: function () {
       var ctrlId = '[data-sc-id="' + this.model.get("targetControl") + '"]';
       if ($(ctrlId).parents(".sc-smartpanel").length > 0 || $(ctrlId).parents(".sc-dialogWindow").length > 0) {
-        this.$el.zIndex($(ctrlId).zIndex() + 50);
+        this.$el.zIndex($(ctrlId).zIndex() + 15); // Note: Why 15? Because dialogWindows are inserted with an increment of +10. See bootstrap-modalmanager getzIndex for more info.
       }
     },
     _setAutoShowMode: function () {
@@ -85,14 +86,18 @@
       });
 
       $doc.ajaxStop(function () {
-        this._stopTimer();
+        self._stopTimer();
         self.model.set("isBusy", false);
       });
     },
     _getHeight: function () {
+      if (this.model.get("isFullscreen")) {
+        return "100%";
+      }
+
       var $element = this._getTargetDomElement();
       if (!$element) {
-        return this.model.get("isFullscreen") ? "100%" : this.panelHeight + "px";
+        return this.panelHeight + "px";
       }
 
       if (!$element.length) {
@@ -175,7 +180,7 @@
         return;
       }
 
-      this.model.viewModel.targetControl.valueHasMutated();
+      this._updateModel();
     },
     _getTargetDomElement: function () {
       var domPrefix = "DOM:", $element;

@@ -8,10 +8,9 @@
   <sc:Head runat="server" />
   <sc:Script runat="server" Src="/sitecore/shell/Controls/Sitecore.Runtime.js"/>
   <sc:Script runat="server" Src="/sitecore/shell/Applications/Media/UploadManager/Result.aspx.js"/>
-  
+  <link rel="stylesheet" href="/sitecore/shell/themes/standard/default/Dialogs.css">
   <style type="text/css">
     body { 
-      background:#e9e9e9; 
       overflow:hidden;
     }
     #Form {
@@ -24,7 +23,11 @@
       height:100%; vertical-align:top 
     }
     #FileList { 
-      background:white; border:1px #eeeeee inset; height:100%; width:100%; overflow:auto; 
+      background:white; 
+      border:1px solid #e3e3e3; 
+      height:100%; 
+      width:100%; 
+      overflow:auto; 
     }
     #FileList a, #FileList a:link, #FileList a:visited, #FileList a:hover, #FileList a:active{  
       cursor:default;
@@ -42,11 +45,13 @@
     }
     
     #Buttons { 
-      text-align:right;
-      position:absolute;
-      bottom:0;
-      height: 30px;
+    text-align: right;
+      position: absolute;
+      bottom: 0px;
+      height: 65px;
       width: 100%;
+      padding: 15px;
+      box-sizing: border-box;
     }
     
     #CloseButton {
@@ -98,7 +103,7 @@
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        padding: 5px 5px 60px 5px;
+        padding: 15px 15px 100px 15px;
     }
     
   </style>
@@ -107,11 +112,11 @@
 <body>
   <form id="Form" runat="server">
       <div class="FileListWrapper">
-        <sc:Literal runat="server" Text="Uploaded Media Items:"/>
+        <sc:Literal runat="server" Text="Uploaded media items:" Style="font-size:14px;"/>
         <div id="FileList" runat="server"></div>
       </div>
-      <div id="Buttons">
-        <button id="CloseButton" onclick="javascript:return window.top.dialogClose();" style="font:8pt tahoma;height:24px;width:75px">
+      <div id="Buttons" class="scFormDialogFooter">
+        <button id="CloseButton" onclick="javascript:return window.top.dialogClose();" class="scButton">
             <sc:Literal runat="server" Text="Close"/>
         </button>
       </div>

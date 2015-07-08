@@ -46,10 +46,11 @@
               <Edit ID="Filename" GridPanel.Width="100%" Width="100%" ReadOnly="true" />
               <Space Width="6px" />
 
-              <Border Width="75px" GridPanel.Width="75px">
+              <Border Width="75px" GridPanel.Width="75px" Height="26px">
                 <Border Style="position: relative;">
-                  <Frame ID="UploadFileFrame" Height="26px" Style="position: relative; -moz-opacity:0; filter:alpha(opacity: 0);	opacity: 0;	z-index: 2;" SourceUri="/sitecore modules/shell/EmailCampaign/UI/Dialogs/UploadFile.aspx"/>
-                  <button class="scButton" type="button" Style="position: absolute; top: 1px; left: 0px; z-index: 1;">
+
+                  <Frame ID="UploadFileFrame" Style="position: relative; -moz-opacity:0; filter:alpha(opacity: 0);	opacity: 0;	z-index: 2;" SourceUri="/sitecore modules/shell/EmailCampaign/UI/Dialogs/UploadFile.aspx"/>
+                  <button class="scButton" type="button" Style="position: absolute; top: 1px; left: 0px; z-index: 1; margin: 2px 0px;">
                     <Literal Text="Browse" />
                   </button>
                 </Border>
@@ -110,7 +111,7 @@
             <Border>
               <Label Header="Recipient Lists:" Style="display: block;" />
               <Space Height="4"/>
-              <Scrollbox Width="244" Style="height: 250px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+              <Scrollbox Width="244" Height="250" Background="white" Border="1px solid #ADADAD" Padding="0">
                 <Listview ID="AlltargetAudiences" Height="100%" View="Details" MultiSelect="true" />
               </Scrollbox>
             </Border>
@@ -129,7 +130,7 @@
                 </Border>
               </Border>
 
-              <Scrollbox Width="244" Style="height: 114px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+              <Scrollbox Width="244" Height="114" Background="white" Border="1px solid #ADADAD" Padding="0">
                 <Listview ID="SubscribeTo" Height="100%" View="Details" MultiSelect="true" DblClick="SubscribeOut_Click" />
               </Scrollbox>
 
@@ -146,7 +147,7 @@
                 </Border>
               </Border>
 
-              <Scrollbox Width="244" Style="height: 114px !important" Backgroud="white" Border="1px solid #ADADAD" Padding="0">
+              <Scrollbox Width="244" Height="114" Backgroud="white" Border="1px solid #ADADAD" Padding="0">
                 <Listview ID="OptOutOf" Height="100%" View="Details" MultiSelect="true" DblClick="OptOutOut_Click" />
               </Scrollbox>
             </GridPanel>
@@ -161,7 +162,7 @@
               <GridPanel ID="RolesPanel" Columns="2" Cellspacing="4" Style="display: none;">
                 <Label Header="Security Roles:" ToolTip="Roles to assign to each new recipient" GridPanel.Colspan="2"/>
 
-                <Scrollbox Width="415" Style="height: 126px !important" Backgroud="white" Border="1px solid #ADADAD" Padding="0" >
+                <Scrollbox Width="415" Height="126" Backgroud="white" Border="1px solid #ADADAD" Padding="0" >
                   <Border ID="RolesBox" Padding="3px" />
                 </Scrollbox>
 

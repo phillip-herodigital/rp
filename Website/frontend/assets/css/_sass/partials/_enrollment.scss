@@ -1009,11 +1009,18 @@
     .icon-calendar {
         display: none;
     }
+    .connect-time {
+        select {
+            width: auto;
+            margin-top: 10px;
+        }
+    }
     .location {
         margin-bottom: 10px !important;
     }
     .availibility {
         margin-top: 8px;
+        color: #333 !important;
     }
     .mailing-address, .previous-address {
         margin-bottom: 20px;

@@ -39,7 +39,7 @@
         <GalleryMenu ID="Options" Class="scIndexesGalleryMenu">
 
           <MenuPanel Height="100%">
-            <Scrollbox ID="Indexes" Class="scScrollbox scFixSize" Height="100%" Background="#F4F4F5" Padding="0px" Border="none"/>
+            <Scrollbox ID="Indexes" Class="scScrollbox scFixSize" Height="100%" Padding="0px" Border="none"/>
           </MenuPanel>
 
         </GalleryMenu>

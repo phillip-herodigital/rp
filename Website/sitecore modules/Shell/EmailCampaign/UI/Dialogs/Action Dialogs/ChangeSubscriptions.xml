@@ -12,12 +12,12 @@
       <style type="text/css">
         th.scListviewViewDetailsHeader
         {
-          display:none;
+        display:none;
         }
 
         #TargetAudiencesTree ul
         {
-          margin-left:-18px;
+        margin-left:-18px;
         }
       </style>
 
@@ -44,7 +44,7 @@
         <Border>
           <Label Header="Recipient Lists:" Style="display: block;" />
           <Space Height="4"/>
-          <Scrollbox Width="244" Style="height: 400px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+          <Scrollbox Width="244" Height="320" Background="white" Border="1px solid #ADADAD" Padding="0">
             <FilterableTreeView ID="TargetAudiencesTree" ChildrenOnly="true" Expanded="true" AllowMultiSelect="true"/>
           </Scrollbox>
         </Border>
@@ -63,7 +63,7 @@
             </Border>
           </Border>
 
-          <Scrollbox Width="244"  Style="height: 189px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+          <Scrollbox Width="244" Height="149" Background="white" Border="1px solid #ADADAD" Padding="0">
             <Listview ID="SubscribeTo" Height="100%" View="Details" MultiSelect="true" DblClick="SubscribeOut_Click" />
           </Scrollbox>
 
@@ -80,7 +80,7 @@
             </Border>
           </Border>
 
-          <Scrollbox Width="244" Style="height: 189px !important" Backgroud="white" Border="1px solid #ADADAD" Padding="0">
+          <Scrollbox Width="244" Height="149" Backgroud="white" Border="1px solid #ADADAD" Padding="0">
             <Listview ID="OptOutOf" Height="100%" View="Details" MultiSelect="true" DblClick="OptOutOut_Click" />
           </Scrollbox>
         </GridPanel>
@@ -88,9 +88,20 @@
 
       <Space Height="10" />
 
-      <Checkbox ID="SendConfirmationMail" Header="Send confirmation mail"/>
+      <Border>
+
+        <Label Header="Manager root:" />
+
+        <Combobox ID="ManagerRootId" Header="Manager root" />
+      </Border>
+
+      <Space Height="10" />
+
+      <Border>
+        <Checkbox ID="SendConfirmationMail" Header="Send confirmation mail"/>
+      </Border>
 
     </FormDialog>
-    
+
   </EmailCampaign.ChangeSubscriptions>
 </control>

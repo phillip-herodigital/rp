@@ -8,7 +8,7 @@
       <Script Src="/sitecore/shell/Controls/SitecoreSidebar.js"/>
       <Script Src="/sitecore/shell/Applications/WebEdit/webedit.js"/>
 
-      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.WebEditMenuPageForm,Sitecore.Client"/>
+      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.WebEditMenuPageForm,Sitecore.ExperienceEditor"/>
 
       <SidebarPortal PortalID="WebEditPortal" PortalDataSource="/sitecore/content/Applications/WebEdit/Portal"/>
  

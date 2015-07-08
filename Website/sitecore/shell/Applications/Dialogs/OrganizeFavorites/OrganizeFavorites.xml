@@ -4,7 +4,7 @@
     <FormDialog Icon="Applications/32x32/star_yellow.png" 
       Header="Organize Favorites" 
       Text="You can organize your favorites here. When done, click the Close button."
-      OKButton="Close" CancelButton="false">
+      OKButton="Close" OKButtonClass="scButton" CancelButton="false">
         
       <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.OrganizeFavorites.OrganizeFavoritesForm,Sitecore.Client"/>
       
@@ -12,29 +12,17 @@
 
       <GridPanel Columns="3" Width="100%" Height="100%">
       
-        <Scrollbox Height="100%" GridPanel.Width="100%" GridPanel.Height="100%" GridPanel.VAlign="top">
-          <FavoritesTreeviewEx ID="Treeview" DataContext="DataContext" ShowRoot="false"/>
+        <Scrollbox Height="100%" GridPanel.Width="100%" GridPanel.Height="100%" GridPanel.VAlign="top" Style="margin: 2px 15px 0 0; padding: 5px; border: 1px solid #e3e3e3">
+          <FavoritesTreeviewEx ID="Treeview" DataContext="DataContext" ShowRoot="false" />
         </Scrollbox>
 
-        <Space Width="8px" GridPanel.Width="8px"/>
-        
-        <Border GridPanel.VAlign="top">
-          <Border Padding="0px 0px 4px 0px">
-            <Button Header="New Folder" Click="item:newfolder"/>
-          </Border>
-          <Border Padding="0px 0px 4px 0px">
+        <Border GridPanel.VAlign="top" Class="dialogButtonsRight">
+            <Button Header="New folder" Click="NewFolder"/>
             <Button Header="Rename" Click="Rename"/>
-          </Border>
-          <Border Padding="0px 0px 8px 0px">
             <Button Header="Delete" Click="Delete"/>
-          </Border>
-
-          <Border Padding="0px 0px 4px 0px">
-            <Button Header="Move Up" Click="MoveUp"/>
-          </Border>
-          <Border Padding="0px 0px 4px 0px">
-            <Button Header="Move Down" Click="MoveDown"/>
-          </Border>
+            <Button Header="Move up" Click="MoveUp"/>
+            <Button Header="Move down" Click="MoveDown"/>
+            <Button Header="Refresh" Click="RefreshTree"/>
         </Border>
 
       </GridPanel>

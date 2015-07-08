@@ -1,0 +1,148 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using Sitecore.ContentSearch.ComputedFields
+@using Sitecore.Data.Fields
+@using Sitecore.Links
+@using Sitecore.Mvc
+@using StreamEnergy.MyStream.Utility
+@using System.Collections.Specialized
+@using XBlogHelper
+@using XBlogHelper.Models.Blog
+@using XBlogHelper.Search
+@using XBlogHelper.General
+@{
+    Func<string, bool> isLanguageSpanish = languageTag => languageTag.ToLowerInvariant() == "es" || languageTag.StartsWith("es-", StringComparison.InvariantCultureIgnoreCase);
+    var languageLinkUrlLanguage = isLanguageSpanish(Sitecore.Context.Language.Name) ? "en" : "es";
+    var languageLinkText = isLanguageSpanish(Sitecore.Context.Language.Name) ? "English" : "Español";
+    var languageLinkUrl = LinkManager.GetItemUrl(Sitecore.Context.Item, new UrlOptions()
+    {
+        Language = Sitecore.Globalization.Language.Parse(languageLinkUrlLanguage),
+    });
+
+    var selectedNode = SiteMap.CurrentNode;
+    int? selectedNodeLevel = null;
+    if (selectedNode == null)
+    {
+        var provider = SiteMap.Provider as NavigationSiteMapProvider;
+        if (provider != null)
+        {
+            selectedNode = Sitecore.Context.Item.GetAncestors().Select(provider.FindSiteMapNode).FirstOrDefault(node => node != null);
+        }
+    }
+
+    ItemSiteMapNode thirdLevelRootNode = null;
+    if (selectedNode != null)
+    {
+        selectedNodeLevel = selectedNode.Level();
+        thirdLevelRootNode = selectedNodeLevel.Value < 2 ? null : (selectedNodeLevel.Value == 2 ? selectedNode : selectedNode.GetAncestor(selectedNodeLevel.Value - 3)) as ItemSiteMapNode;
+    }
+
+    var topLevelNavigation = SiteMap.RootNode.ChildNodes.Cast<ItemSiteMapNode>().Select((n, i) => new { Value = n, Number = i + 1 }).ToArray();
+    var selectedNavItem = topLevelNavigation.Where(node => selectedNode != null && (node.Value.Key == selectedNode.Key || selectedNode.IsDescendantOf(node.Value))).Select(node => node.Number).FirstOrDefault();
+    
+    var blogDataSourceItem = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
+    var settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(blogDataSourceItem != null ? blogDataSourceItem : Sitecore.Context.Item);
+    string category = "";
+
+    var navItem1 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 1"]);
+    var navItem2 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 2"]);
+    var navItem3 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 3"]); 
+
+    if (Sitecore.Context.Item.TemplateName == "Blog Post") 
+    {
+        BlogPost blogPost = Sitecore.Context.Item.CreateAs<BlogPost>();
+        category = blogPost.Categories.Any() ? blogPost.Categories.FirstOrDefault().Name.ToLower() : "";
+    }
+
+    if (Sitecore.Context.Item.TemplateName == "Blog Category")
+    {
+        var categoryID = Sitecore.Context.Item.Fields["Category"].Value.ToString();
+        category = Sitecore.Context.Database.GetItem(categoryID).Name.ToLower();
+    }
+
+}
+<header class="site-header currents__header" ng-controller="CurrentsHeaderCtrl" main-nav="@selectedNavItem" data-fixed-fix>
+    <script id="mobileNav" type="text/ng-template">
+        <nav class="mobile-nav" mobile-nav="@selectedNavItem">
+            <ul>
+                <li>@Html.Sitecore().Field("Navigation Link 1", blogDataSourceItem)</li>
+                <li>@Html.Sitecore().Field("Navigation Link 2", blogDataSourceItem)</li>
+                <li>@Html.Sitecore().Field("Navigation Link 3", blogDataSourceItem)</li>
+                <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                <li ng-class="{ opened: subnav == 1 }">
+                    <span>
+                        <span class="arrow" ng-click="toggleSubnav(1)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 1, 'icon-nav-arrow-collapsed': subnav != 1}"></i></span>
+                        <a href="" ng-click="toggleSubnav(1)">@Html.Sitecore().Field("Rates Text", blogDataSourceItem)</a>
+                    </span>
+                    @Html.Sitecore().Field("Mobile Rates Dropdown", blogDataSourceItem)
+                </li>
+                <li>@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</li>
+            </ul>
+        </nav>
+    </script>
+
+    <div class="layout">
+        <a href="/" class="logo">Currents</a>
+        <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+        <nav class="main-nav currents-nav">
+            <ul class="wrapper">
+                <li class="nav-events" ng-class="{ current: '@category' == 'events' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem1.TargetItem)"><span class="color-block"></span>@navItem1.Text</a></li>
+                <li class="nav-promotions" ng-class="{ current: '@category' == 'promotions' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem2.TargetItem)"><span class="color-block"></span>@navItem2.Text</a></li>
+                <li class="nav-recognition" ng-class="{ current: '@category' == 'recognition' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem3.TargetItem)"><span class="color-block"></span>@navItem3.Text</a></li>
+            </ul>
+        </nav>
+        <div class="right-nav">
+            <ul>
+                <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                <li>
+                    <span class="dropdown" dropdown on-toggle="toggled(open)">
+                        <a href class="dropdown-toggle" dropdown-toggle>@Html.Sitecore().Field("Rates Text", blogDataSourceItem)</a>
+                        @Html.Sitecore().Field("Rates Dropdown", blogDataSourceItem)
+                    </span>
+                </li>
+                <li>@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</li>
+            </ul>
+            <div class="search">
+                <form ng-submit="searchCurrents()">
+                    <input type="search" class="typeahead" placeholder="@Html.Sitecore().Field("Search Text", blogDataSourceItem)" ng-model="searchTerm" ng-keyup="$event.keyCode == 13 && searchCurrents()" />
+                    <button type="submit"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+@{
+    var slides = new JArray();
+    for (var i = 1; i <= 4; i++)
+    {
+        if (blogDataSourceItem.Fields["Slide " + i + " Image"].HasValue)
+        {
+            slides.Add(new JObject {
+                { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField)blogDataSourceItem.Fields["Slide " + i + " Image"]).MediaItem) },
+                { "text", blogDataSourceItem.Fields["Slide " + i + " Text"].Value },
+                { "classes", blogDataSourceItem.Fields["Slide " + i + " CSS Classes"].Value }
+            });
+        }
+    }
+}
+
+@if (Sitecore.Context.Item.TemplateName == "Blog Home" || Sitecore.Context.Item.TemplateName == "Blog Category")
+{
+    <carousel class="currents__carousel" interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
+        <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
+            <div class="wrapper">
+                <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
+            </div>
+        </slide>
+    </carousel>
+
+    <div class="currents__tagline @category">
+        @Html.Sitecore().Field("Tagline Text", blogDataSourceItem)
+    </div>
+}
+else
+{
+    <div class="banner currents__banner @category" style="@Html.AsBackgroundStyle("Top Banner", Sitecore.Context.Item)"></div>
+}

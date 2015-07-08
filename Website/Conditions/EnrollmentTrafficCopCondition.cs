@@ -82,7 +82,7 @@ namespace StreamEnergy.MyStream.Conditions
                 {
                     dependencies.Context.Response.Redirect("/ga-upgrade-faq", false);
                 }
-                else if (dependencies.EnrollmentParameters.State != "TX")
+                else if (dependencies.EnrollmentParameters.State != "TX" && dependencies.EnrollmentParameters.ServiceType != "MOB")
                 {
                     dependencies.Context.Response.Redirect("/maintenance", false);
                 }

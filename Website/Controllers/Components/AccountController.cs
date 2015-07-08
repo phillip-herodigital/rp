@@ -50,7 +50,7 @@ namespace StreamEnergy.MyStream.Controllers.Components
 
         public ActionResult OneTimePaymentIndex()
         {
-            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
+            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")) && Request.QueryString["State"] == "GA")
             {
                 return Redirect("/ga-upgrade-faq");
             }

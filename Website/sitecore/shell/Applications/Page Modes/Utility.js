@@ -158,7 +158,7 @@ Sitecore.PageModes.Utility = new function() {
     var msg = commandClick;
     var commandParams = null;
     var idx1 = commandClick.indexOf("(");
-    var idx2 = commandClick.indexOf(")");
+    var idx2 = commandClick.lastIndexOf(")");
     if (idx1 >= 0 && idx2 > idx1) {
       msg = commandClick.substring(0, idx1);
       try {

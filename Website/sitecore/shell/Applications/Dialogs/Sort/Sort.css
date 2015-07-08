@@ -1,7 +1,7 @@
 ﻿.main-grid
 {
-  border-top: 1px solid #A0A0A0;
-  border-left: 1px solid #D5D5D5;
+  border: 1px solid #D5D5D5;
+  border-right: none;
   table-layout:fixed;
 }
 

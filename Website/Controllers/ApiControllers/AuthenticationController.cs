@@ -22,7 +22,6 @@ using StreamEnergy.Services.Clients;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
-using EmailFactory = Sitecore.Modules.EmailCampaign.Factory;
 using System.Collections.Specialized;
 using ResponsivePath.Logging;
 
@@ -107,14 +106,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public Task<HttpResponseMessage> Login(LoginRequest request)
         {
-            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
+            /*if (!string.IsNullOrEmpty(settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
             {
                 return Task.FromResult(Request.CreateResponse(new
                 {
                     Success = true,
                     ReturnURI = "/ga-upgrade-faq",
                 }));
-            }
+            }*/
             request.Domain = domain;
             ModelState.Clear();
             Validate(request, "request");

@@ -4,10 +4,10 @@
     
     <Section ID="ReminderSection" Header="Reminder" Icon="Applications/32x32/Document_Time.png" Class="scSection">
 
-      <Border Padding="0px 4px 0px 4px">
-        <GridPanel Columns="2" CellPadding="2">
+      <Border>
+        <GridPanel Columns="2" Class="scListControl">
 
-          <Literal GridPanel.Class="scKey" Text="Reminder Date:"/>
+          <Literal GridPanel.Class="scKey" Text="Reminder date:"/>
           <Literal GridPanel.Class="scValue" def:ID="Reminder" />
 
         </GridPanel>

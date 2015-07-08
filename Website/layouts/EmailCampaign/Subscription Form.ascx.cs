@@ -18,13 +18,15 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
   using System.Web.UI;
   using System.Web.UI.HtmlControls;
   using System.Web.UI.WebControls;
-
-  using Sitecore.Diagnostics;
+  using Sitecore.Analytics;
+  using Sitecore.Data;
   using Sitecore.Modules.EmailCampaign.Core;
   using Sitecore.Modules.EmailCampaign.Exceptions;
+  using Sitecore.Modules.EmailCampaign.Factories;
+  using Sitecore.Modules.EmailCampaign.Recipients;
+  using Sitecore.Modules.EmailCampaign.Xdb;
   using Sitecore.Resources;
   using Sitecore.StringExtensions;
-  using Sitecore.Web;
   using Sitecore.Web.UI.WebControls;
 
   public class SubscriptionForm : UserControl
@@ -45,81 +47,85 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
 
     protected bool confirmSubscription = true;
 
-    protected string sublayoutID = "{7266CF74-731A-4CE4-9E9F-2D9983F62F62}";
-
-    protected string rawTargetAudienceList;
-    protected bool requireAuthentication;
+    protected string rawIncludeRecipientLists;
     protected bool showList;
 
+    private RecipientRepository recipientRepository;
+
     private Contact contextContact;
-    private TargetAudienceInfo[] targetAudiencesInfo;
-    private string rootID;
+    private SubscriptionInfo[] subscriptionInfos;
+    private string rootId;
+    private ID[] excludeRecipientLists = { };
 
-    /// <summary> Gets the context contact. </summary>
-    /// <exception cref="EmailCampaignException"> <c>EmailCampaignException</c>. </exception>
-    protected virtual Contact ContextContact
+    protected virtual string RecipientEmail
     {
       get
       {
-        if (this.contextContact == null)
-        {
-          if (this.requireAuthentication)
-          {
-            this.contextContact = Factory.GetContactFromName(Sitecore.Context.User.Name);
-          }
-          else
-          {
-            if (!string.IsNullOrEmpty(this.RootID))
-            {
-              this.contextContact = this.GetContactFromEmail(this.RootID);
-            }
+        var recipient = this.recipientRepository.GetRecipientSpecific(this.RecipientId, typeof(Email));
 
-            if (this.contextContact == null)
-            {
-              throw new EmailCampaignException(Util.GetFrontEndText("cannot create anonymous"));
-            }
-          }
+        if (recipient == null)
+        {
+          return null;
         }
 
-        return this.contextContact;
+        var email = recipient.GetProperties<Email>().DefaultProperty;
+
+        if (email == null)
+        {
+          return null;
+        }
+
+        return email.EmailAddress;
       }
     }
 
-    protected virtual TargetAudienceInfo[] TargetAudiencesInfo
+    protected virtual RecipientId RecipientId
     {
       get
       {
-        if (this.targetAudiencesInfo == null)
-        {
-          string contactName = string.Empty;
-          if (this.requireAuthentication)
-          {
-            contactName = this.ContextContact.Name;
-          }
+        RecipientId recipientId = null;
 
-          this.targetAudiencesInfo = ClientApi.GetTargetAudiences(this.rawTargetAudienceList, contactName, out this.rootID);
+        ID contactId = this.ContactId;
+
+        if (contactId != (ID)null)
+        {
+          recipientId = new XdbContactId(contactId);
         }
 
-        return this.targetAudiencesInfo;
+        return recipientId;
       }
     }
 
-    protected virtual string RootID
+    protected virtual ID ContactId
     {
       get
       {
-        if (this.rootID == null)
+        if (this.Email.Visible && !string.IsNullOrEmpty(this.Email.Text))
         {
-          string contactName = string.Empty;
-          if (this.requireAuthentication)
-          {
-            contactName = this.ContextContact.Name;
-          }
+          var anonymousId = ClientApi.GetAnonymousIdFromEmail(this.Email.Text);
 
-          this.targetAudiencesInfo = ClientApi.GetTargetAudiences(this.rawTargetAudienceList, contactName, out this.rootID);
+          if (anonymousId.HasValue)
+          {
+            return new ID(anonymousId.Value);
+          }
         }
 
-        return this.rootID;
+        return new ID(Tracker.Current.Contact.ContactId);
+      }
+    }
+
+    protected virtual SubscriptionInfo[] SubscriptionInfos
+    {
+      get
+      {
+        if (this.subscriptionInfos == null && !string.IsNullOrEmpty(this.rawIncludeRecipientLists))
+        {
+          var listsIds = Data.ID.ParseArray(this.rawIncludeRecipientLists);
+
+          this.subscriptionInfos = ClientApi.GetSubscriptionInfo(this.RecipientId, listsIds.Select(l => l.ToString()).ToArray());
+        }
+
+        return this.subscriptionInfos;
       }
     }
 
@@ -127,25 +133,30 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
     {
       base.OnInit(e);
 
+      this.recipientRepository = EcmFactory.GetDefaultFactory().Bl.RecipientRepository;
+
       NameValueCollection parameters = this.GetSublayoutParams();
 
-      string val = parameters["Require Authentication"];
-      this.requireAuthentication = (val != null) ? val == "1" : false;
-
-      val = parameters["Show List"];
-      this.showList = (val != null) ? val == "1" : false;
+      var val = parameters["Show List"];
+      this.showList = (val != null) && val == "1";
 
       val = parameters["Recipient Lists"];
-      this.rawTargetAudienceList = val ?? string.Empty;
+      this.rawIncludeRecipientLists = val ?? string.Empty;
 
-      if (this.RootID != null && this.TargetAudiencesInfo != null && this.showList)
+      val = parameters["Exclude Lists"];
+      if (!string.IsNullOrEmpty(val))
       {
-        foreach (var info in this.TargetAudiencesInfo)
+        this.excludeRecipientLists = Data.ID.ParseArray(val);
+      }
+
+      val = parameters["Manager root"];
+      this.rootId = val ?? string.Empty;
+
+      if (this.SubscriptionInfos != null && this.showList)
+      {
+        foreach (var info in this.SubscriptionInfos)
         {
-          if (!string.IsNullOrEmpty(info.CustomData))
-          {
-            this.AddSrcComboBox(info);
-          }
+          this.AddSrcComboBox(info);
         }
       }
     }
@@ -158,54 +169,31 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
 
       if (!this.IsPostBack)
       {
-        if (!this.requireAuthentication || (Sitecore.Context.IsLoggedIn && this.ContextContact != null))
+
+        this.EmailLabel.Text = Util.GetFrontEndText("email address");
+        this.SubscribeBtn.Text = Util.GetFrontEndText("subscribe");
+        this.ListsHeader.InnerText = Util.GetFrontEndText("newsletters");
+
+        if (this.SubscriptionInfos != null && this.SubscriptionInfos.Any())
         {
-          this.EmailLabel.Text = Util.GetFrontEndText("email address");
-          this.SubscribeBtn.Text = Util.GetFrontEndText("subscribe");
-          this.ListsHeader.InnerText = Util.GetFrontEndText("newsletters");
+          this.Email.Text = this.RecipientEmail ?? string.Empty;
 
-          bool isMailSource = false;
+          this.InitializeTextBox(this.Email, "enter email");
 
-          if (this.RootID != null && this.TargetAudiencesInfo != null)
-          {
-            foreach (var info in this.TargetAudiencesInfo)
-            {
-              if (!string.IsNullOrEmpty(info.CustomData))
-              {
-                isMailSource = true;
-
-                if (!this.showList)
-                {
-                  this.ListsArea.Visible = false;
-                  this.EmailArea.Attributes["class"] = "area";
-                  this.EmailLabel.CssClass = "title";
-                  this.EmailLabel.Text = Util.GetFrontEndText("simple title");
-                  break;
-                }
-              }
-            }
-          }
-
-          if (isMailSource)
-          {
-            if (this.requireAuthentication)
-            {
-              this.Email.Text = this.ContextContact.Profile.Email;
-            }
-
-            this.InitializeTextBox(this.Email, "enter email");
-          }
-          else
+          if (!this.showList)
           {
             this.ListsArea.Visible = false;
-            this.Warning.InnerText = Util.GetFrontEndText("no newsletters");
+            this.EmailArea.Attributes["class"] = "area";
+            this.EmailLabel.CssClass = "title";
+            this.EmailLabel.Text = Util.GetFrontEndText("simple title");
           }
         }
         else
         {
           this.ListsArea.Visible = false;
-          this.Warning.InnerText = Util.GetFrontEndText("please login");
+          this.Warning.InnerText = Util.GetFrontEndText("no newsletters");
         }
+
 
         this.SubscribeImg.ImageUrl = Images.GetThemedImageSource(this.SubscribeImg.ImageUrl);
 
@@ -220,7 +208,7 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
       base.OnPreRender(e);
 
       string key = "emailcampaign_js";
-      ScriptManager.RegisterClientScriptInclude(this, typeof(Page), key, ResolveUrl("~") + "EmailCampaign.js");
+      ScriptManager.RegisterClientScriptInclude(this, typeof(Page), key, this.ResolveUrl("~") + "EmailCampaign.js");
 
       key = "emailcampaign_css";
       if (Sitecore.Context.Page.Page != null && Sitecore.Context.Page.Page.Header != null)
@@ -228,7 +216,7 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
         if (Sitecore.Context.Page.Page.Header.FindControl(key) == null)
         {
           HtmlGenericControl cssLink = new HtmlGenericControl("link") { ID = key };
-          cssLink.Attributes["href"] = ResolveUrl("~") + "emailcampaign.css";
+          cssLink.Attributes["href"] = this.ResolveUrl("~") + "emailcampaign.css";
           cssLink.Attributes["rel"] = "stylesheet";
           cssLink.Attributes["type"] = "text/css";
           Sitecore.Context.Page.Page.Header.Controls.Add(cssLink);
@@ -237,7 +225,7 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
       else
       {
         string script = "<link href='" + ResolveUrl("~") + "emailcampaign.css' rel='stylesheet' type='text/css' />";
-        if (ScriptManager.GetCurrent(Page) == null || !IsPostBack)
+        if (ScriptManager.GetCurrent(this.Page) == null || !this.IsPostBack)
         {
           ScriptManager.RegisterClientScriptBlock(this, typeof(Page), key, script, false);
         }
@@ -272,10 +260,9 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
       {
         string email = this.Email.Text;
 
-        if (this.Email.Visible && !email.Equals(this.ContextContact.Profile.Email, StringComparison.OrdinalIgnoreCase))
+        if (!string.IsNullOrEmpty(this.RecipientEmail) && !email.Equals(this.RecipientEmail, StringComparison.OrdinalIgnoreCase))
         {
-          this.ContextContact.Profile.Email = email;
-          this.ContextContact.Profile.Save();
+          this.UpdateEmailInXDB();
         }
 
         this.Subscribe_click(this.SubscribeBtn, new EventArgs());
@@ -284,9 +271,9 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
       {
         this.Warning.InnerText = e.LocalizedMessage;
       }
-      catch (ProviderException e)
+      catch (ProviderException)
       {
-        this.Warning.InnerText = Util.GetFrontEndText("email in use - " + e.Message);
+        this.Warning.InnerText = Util.GetFrontEndText("email in use");
       }
       catch (Exception e)
       {
@@ -319,12 +306,7 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
     {
       try
       {
-        if (this.RootID == null && this.ContextContact == null)
-        {
-          return;
-        }
-
-        if (this.requireAuthentication && (this.Email.Text != this.ContextContact.Profile.Email || string.IsNullOrEmpty(this.ContextContact.Profile.Email)))
+        if (!string.IsNullOrEmpty(this.RecipientEmail) && !this.Email.Text.Equals(this.RecipientEmail, StringComparison.OrdinalIgnoreCase))
         {
           if (!Util.IsValidEmail(this.Email.Text))
           {
@@ -336,42 +318,50 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
           return;
         }
 
-        TargetAudienceInfo[] infoArray;
+        if (string.IsNullOrEmpty(this.RecipientEmail))
+        {
+          this.UpdateEmailInXDB();
+        }
+
+        List<string> listsToSubscribe = new List<string>();
+        List<string> listsToUnsubscribe = new List<string>();
 
         if (this.showList)
         {
           List<CheckBox> items = this.GetSrcListItems();
 
-          infoArray = new TargetAudienceInfo[items.Count];
-          for (int i = 0; i < infoArray.Length; i++)
+          for (int i = 0; i < items.Count; i++)
           {
             CheckBox checkBox = items[i];
-            infoArray[i] = new TargetAudienceInfo
-              {
-                ID = checkBox.Attributes["value"],
-                CustomData = checkBox.Checked ? "1" : "0",
-                Name = string.Empty,
-                Description = string.Empty
-              };
+            Guid recipientListId;
+            if (!Guid.TryParse(checkBox.Attributes["value"], out recipientListId))
+            {
+              continue;
+            }
+
+            if (checkBox.Checked)
+            {
+              listsToSubscribe.Add(recipientListId.ToString());
+            }
+            else
+            {
+              listsToUnsubscribe.Add(this.excludeRecipientLists[i].Guid.ToString());
+            }
           }
         }
         else
         {
-          for (int i = 0; i < this.TargetAudiencesInfo.Length; i++)
+          for (int i = 0; i < this.SubscriptionInfos.Length; i++)
           {
-            this.TargetAudiencesInfo[i].CustomData = "1";
-            this.TargetAudiencesInfo[i].Name = string.Empty;
-            this.TargetAudiencesInfo[i].Description = string.Empty;
+            listsToSubscribe.Add(this.SubscriptionInfos[i].ContactListId);
           }
-
-          infoArray = this.TargetAudiencesInfo;
         }
 
-        string itemIDToRedirect = ClientApi.UpdateSubscriptions(this.ContextContact.Name, infoArray, this.confirmSubscription);
+        string itemIdToRedirect = ClientApi.UpdateSubscriptions(this.RecipientId, listsToSubscribe.ToArray(), listsToUnsubscribe.ToArray(), this.rootId, this.confirmSubscription);
 
-        if (!string.IsNullOrEmpty(itemIDToRedirect))
+        if (!string.IsNullOrEmpty(itemIdToRedirect))
         {
-          string url = ItemUtilExt.GetContentItemPageUrl(itemIDToRedirect);
+          string url = ItemUtilExt.GetContentItemPageUrl(itemIdToRedirect);
           if (!string.IsNullOrEmpty(url))
           {
             Response.Redirect(url, false);
@@ -390,74 +380,28 @@ namespace Sitecore.Modules.EmailCampaign.Layouts
       }
     }
 
-    /// <summary>Gets a contact from the email.</summary>
-    /// <exception cref="EmailCampaignException"><c>EmailCampaignException</c>.</exception>
-    protected Contact GetContactFromEmail(string managerRootID)
+    protected virtual void UpdateEmailInXDB()
     {
-      Assert.ArgumentNotNullOrEmpty(managerRootID, "managerRootID");
-
-      Contact contact = null;
-
-      if (this.Email.Visible)
-      {
-        string email = this.Email.Text;
-        if (string.IsNullOrEmpty(email) || !Util.IsValidEmail(email))
-        {
-          throw new EmailCampaignException(Util.GetFrontEndText("email not valid"));
-        }
-
-        string userName = ClientApi.GetAnonymousFromEmail(email, this.rootID);
-
-        if (!string.IsNullOrEmpty(userName))
-        {
-          contact = Factory.GetContactFromName(userName);
-
-          var settings = Factory.Instance.GetGlobalSettings();
-
-          if (!string.IsNullOrEmpty(settings.LanguageFieldName))
-          {
-            contact.Profile[settings.LanguageFieldName] = Sitecore.Context.Language.ToString();
-          }
-          else
-          {
-            contact.Profile.ContentLanguage = Sitecore.Context.Language.ToString();
-          }
-          contact.Profile.Save();
-        }
-      }
-
-      return contact;
+      this.recipientRepository.UpdateRecipientEmail(this.RecipientId, this.Email.Text);
     }
 
-    private void AddSrcComboBox(TargetAudienceInfo info)
+    private void AddSrcComboBox(SubscriptionInfo info)
     {
       var checkBox = new CheckBox();
-      checkBox.CheckedChanged += this.CheckBoxCheckedChanged;
 
-      checkBox.Attributes["value"] = info.ID;
+      checkBox.Attributes["value"] = info.ContactListId;
       checkBox.AutoPostBack = true;
       checkBox.CssClass = "msCheckBox";
-      if (this.requireAuthentication)
-      {
-        checkBox.Checked = info.CustomData == "1";
-      }
-      else
-      {
-        checkBox.Checked = true;
-      }
+      checkBox.Checked = info.UserSubscribed;
+
       checkBox.Text = info.Name;
 
       this.SrcList.Controls.Add(checkBox);
 
-      if (!string.IsNullOrEmpty(info.Description))
+      if (!String.IsNullOrEmpty(info.Description))
       {
         this.SrcList.Controls.Add(new Literal { Text = "<div class=\"msDescription\">" + info.Description + "</div>" });
       }
-    }
-
-    private void CheckBoxCheckedChanged(object sender, EventArgs args)
-    {
-      this.SubscribeBtn.Enabled = this.GetSrcListItems().Any(checkBox => checkBox.Checked);
     }
 
     private List<CheckBox> GetSrcListItems()

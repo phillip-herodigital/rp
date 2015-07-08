@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Routing;
+using System.Web.Http.Dispatcher;
+using Sitecore.Services.Core;
 
 namespace StreamEnergy.MyStream.Pipelines
 {
@@ -18,7 +20,7 @@ namespace StreamEnergy.MyStream.Pipelines
         {
             var routes = System.Web.Routing.RouteTable.Routes;
 
-            GlobalConfiguration.Configuration.MapHttpAttributeRoutes();
+            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector), new CustomHttpControllerSelector(GlobalConfiguration.Configuration, new NamespaceQualifiedUniqueNameGenerator()));
 
             routes.MapHttpRoute("DefaultApiWithAction", "Api/{controller}/{action}/{id}", new { id = RouteParameter.Optional })
                 .RouteHandler = new SessionRouteHandler();

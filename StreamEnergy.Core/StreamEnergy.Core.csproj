@@ -97,11 +97,27 @@
     <Reference Include="Sitecore.Analytics">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Analytics.Model">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ContentSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Kernel">
       <HintPath>..\Libraries\Sitecore\Sitecore.Kernel.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Mvc">
       <HintPath>..\Libraries\Sitecore\Sitecore.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Services.Core">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Services.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Services.Infrastructure">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Services.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Services.Infrastructure.Sitecore">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Services.Infrastructure.Sitecore.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis">
       <HintPath>..\packages\StackExchange.Redis.1.0.297\lib\net45\StackExchange.Redis.dll</HintPath>
@@ -188,6 +204,7 @@
     <Compile Include="Extensions\ModelStateExtensions.cs" />
     <Compile Include="Extensions\PaginationHelper.cs" />
     <Compile Include="Extensions\SettingsExtensions.cs" />
+    <Compile Include="IndexingStrategies\RebuildOnApplicationStartStrategy.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="ITypeIndicatorLookup.cs" />
@@ -206,6 +223,8 @@
     <Compile Include="Mvc\AspNetContainerSetup.cs" />
     <Compile Include="Mvc\ContextInterceptor.cs" />
     <Compile Include="Mvc\ControllerFactory.cs" />
+    <Compile Include="Mvc\CustomHttpControllerSelector.cs" />
+    <Compile Include="Mvc\CustomRouteMapper.cs" />
     <Compile Include="Mvc\WebApiExceptionLogging.cs" />
     <Compile Include="Mvc\ExecuteInterceptor.cs" />
     <Compile Include="Mvc\IgnoreBlanksModelBinder.cs" />
@@ -223,7 +242,9 @@
     <Compile Include="Mvc\Sitecore\SitecoreTranslatingModelValidatorProvider.cs" />
     <Compile Include="NullSettings.cs" />
     <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
+    <Compile Include="Pipelines\RebuildSearchIndex.cs" />
     <Compile Include="Pipelines\LogException.cs" />
+    <Compile Include="Providers\MediaProvider.cs" />
     <Compile Include="Providers\ItemProvider.cs" />
     <Compile Include="Pipelines\NoChangeOrderer.cs" />
     <Compile Include="Providers\StubItem.cs" />
@@ -250,7 +271,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="SitecoreSettings.cs" />
     <Compile Include="RequireValueAttribute.cs" />
-    <Compile Include="Tasks\ScheduledPublishing.cs" />
     <Compile Include="TypeIndicatorJsonConverter.cs" />
     <Compile Include="TypeIndicatorLookup.cs" />
     <Compile Include="Providers\GeoProvider.cs" />
@@ -264,7 +284,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Tasks\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

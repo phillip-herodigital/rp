@@ -14,6 +14,7 @@
     <div class="value" data-bind="style: { maxWidth: getValueMaxWidth($element) }">
       <pre class="hidden-raw-value" data-bind="
         text: filterType.controlType.name != 'check box' ? value : '',
+        style: { minWidth: filterType.controlType.name != 'check box' ? null : '5px' },
         visible: editing"></pre>
       <!-- ko template: { name: filterType.controlType.name, afterRender: onAfterRender} -->
       <!-- /ko -->
@@ -24,11 +25,11 @@
         css: { invalid: !isValid() },
         attr: { title: window.scTranslations.edit + ': ' + value() }">
       </div>
-    </div>
-    <div class="remove unselectable" data-bind="
+    </div><!--
+ --><div class="remove unselectable" data-bind="
       event: { mousedown: $parent.removeFilter },
       visible: !readOnly,
-      attr: { title: window.scTranslations.removeSearchFilter }">×</div>
+      attr: { title: window.scTranslations.removeSearchFilter }"></div>
   </div>
 </script>
   
@@ -90,8 +91,8 @@
 
 <div class="search-box">
   <div class="btn sb_down" data-bind="attr: { title: window.scTranslations.moreSearchOptions }"></div>
-  <div class="filters-container" data-bind="style: { backgroundImage: baseItemIconPath ? 'url(~/icon/' + baseItemIconPath + ')' : 'none' }">
-    <div class="filters" data-bind="template: { name: 'filterTemplate', foreach: filters }, click: function() { userRawInputHasFocus(true); }">
+  <div class="filters-container" data-bind="style: { backgroundImage: baseItemIconPath ? 'url(~/icon/' + baseItemIconPath + ')' : 'none' }, click: function () { userRawInputHasFocus(true); }">
+    <div class="filters" data-bind="template: { name: 'filterTemplate', foreach: filters }">
     </div>
     <input type="text" id="raw-user-input" class="raw-user-input scIgnoreModified" data-bind="value: userRawInput, hasFocus: userRawInputHasFocus, valueUpdate: 'afterkeydown',
       autocomplete: { source: allSearchFilterNames, select: onFilterSelect, autoFocus: true, minLength: 0, delay: 0 }, enterKey: performSearch" />

@@ -7,7 +7,7 @@
 
         <ThemedImage Src="$Icon" Width="32" Height="32" GridPanel.Style="padding:2px 0px 2px 2px"/>
 
-        <Border GridPanel.Width="100%" GridPanel.Style="padding:2px 2px 2px 0px">
+        <Border GridPanel.Width="100%" GridPanel.Style="padding:2px 2px 2px 10px">
           <b><Literal Text="$Header"/></b><br/>
           <Literal Text="$Placeholder"/>
         </Border>

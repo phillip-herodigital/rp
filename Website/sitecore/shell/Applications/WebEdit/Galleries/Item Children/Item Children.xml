@@ -8,7 +8,7 @@
       }
     </Stylesheet>
     <Gallery>
-      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Galleries.ItemChildren,Sitecore.Client"/>
+      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Galleries.ItemChildren,Sitecore.ExperienceEditor"/>
       <Scrollbox ID="ChildrenContainer" Class="scFixSize" Width="100%" Height="100%" Padding="0">
         <Menu ID="Children" Border="None"/>      
       <Border Style="white-space: nowrap; padding:4px; color:#080864; background-color:#fafafa" ID="NoChildrenTextContainer" Visible="false">

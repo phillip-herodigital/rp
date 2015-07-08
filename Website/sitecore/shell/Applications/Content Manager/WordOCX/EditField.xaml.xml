@@ -18,6 +18,7 @@
       <ContinuationManager runat="server" />
 
       <Script runat="server" type="text/javascript" language="javascript"  x:placeholder="Scripts" Src="/sitecore/shell/Applications/Content%20Manager/WordOCX/WordOCX.js" />
+      <Stylesheet runat="server" Src="Dialogs.css" DeviceDependant="true" x:placeholder="Stylesheets"/>
       <Stylesheet runat="server" Src="Content Manager.css" DeviceDependant="true" x:placeholder="Stylesheets" />
       <Stylesheet runat="server" Src="Ribbon.css" DeviceDependant="true" x:placeholder="Stylesheets" />
       <Stylesheet Key="EditHtml" runat="server">
@@ -33,32 +34,31 @@
 
       <label id="lblProperties" runat="server" />
 
-      <div class="scStretch " style="padding-bottom:30px;">
-        <div style="height:100%;">
-          <object classid="clsid:7342394C-7225-11E0-8FB2-28CB4724019B" id="word" width="100%" height="100%" codebase="/sitecore/shell/Applications/Content%20Manager/WordOCX/officeviewer.cab#5,4,518,1">
-            <param name="BorderColor" value="-2147483632" />
-            <param name="BackColor" value="-2147483643" />
-            <param name="ForeColor" value="-2147483640" />
-            <param name="TitlebarColor" value="-2147483635" />
-            <param name="TitlebarTextColor" value="-2147483634" />
-            <param name="Titlebar" value="0" />
-            <param name="Toolbars" value="1" />
-            <param name="Menubar" value="0" />
-            <param name="ActivationPolicy" value="0" />
-            <param name="FrameHookPolicy" value="0" />
-            <param name="MenuAccelerators" value="1" />
-          </object>
-        </div>
-
-      <SCRIPT FOR="word" EVENT= "OnFileCommand()">
-        document.word.fileMenuUsed = true;
-      </SCRIPT>
-      <SCRIPT FOR="word" EVENT= "OnDocumentOpened(Item, Cancel)">
-        if (document.word.fileMenuUsed){
-        document.word.fileWasOpened = true;
-        }
-      </SCRIPT>
-        <script language="javascript"> <![CDATA[
+      <div Class="scFlexColumnContainer scStretch">
+        <div class="scFlexContent">
+          <div class="scStretchAbsolute">
+            <object classid="clsid:7342394C-7225-11E0-8FB2-28CB4724019B" id="word" class="scStretch" codebase="/sitecore/shell/Applications/Content%20Manager/WordOCX/officeviewer.cab#5,4,518,1">
+              <param name="BorderColor" value="FFFFFF" />
+              <param name="BackColor" value="FFFFFF" />
+              <param name="ForeColor" value="FFFFFF" />
+              <param name="TitlebarColor" value="FFFFFF" />
+              <param name="TitlebarTextColor" value="FFFFFF" />
+              <param name="Titlebar" value="0" />
+              <param name="Toolbars" value="1" />
+              <param name="Menubar" value="0" />
+              <param name="ActivationPolicy" value="0" />
+              <param name="FrameHookPolicy" value="0" />
+              <param name="MenuAccelerators" value="1" />
+            </object>
+            <SCRIPT FOR="word" EVENT= "OnFileCommand()">
+              document.word.fileMenuUsed = true;
+            </SCRIPT>
+            <SCRIPT FOR="word" EVENT= "OnDocumentOpened(Item, Cancel)">
+              if (document.word.fileMenuUsed){
+              document.word.fileWasOpened = true;
+              }
+            </SCRIPT>
+            <script language="javascript"> <![CDATA[
        
   function InsertLink(link, defaultText) {
     WordOCX_InsertLink(document.word, link, defaultText);
@@ -120,36 +120,31 @@
   WordOCX_Initialize(document.word);
   setTimeout("InitWord()", 0);
           
-]]>        </script>
+]]> </script>
 
-        <div style="border-top:1px solid #666666; padding:4px; background:#e9e9e9;">
-          <GridPanel Columns="4" runat="server" width="100%">
-            <Border runat="server" GridPanel.Width="70%">
-              <Button runat="server" ID="InsertLink" Width="76px" Height="23px" KeyCode="27" Margin="0px 0px 0px 4px" FontName="Tahoma" FontSize="8pt" Click="InsertLink_Click">
-                <Literal runat="server" Text="Insert a link"/>
-              </Button>
-              <Button runat="server" ID="InsertMedia" Width="166px" Height="23px" KeyCode="27" Margin="0px 0px 0px 4px" FontName="Tahoma" FontSize="8pt" Click="InsertMedia_Click">
-                <Literal runat="server" Text="Insert Media"/>
-              </Button>
-            </Border>
-            <Border runat="server" GridPanel.Width="50%" GridPanel.Align="right">
-              <button class="scButton"
-                     onclick="return UploadDocument()"
-                     ID="btnAccept"
-                     style="margin: 0px 0px 0px 4px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 8pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">
-                <Literal runat="server" Text="Accept"/>
-              </button>
-
-              <Button runat="server" ID="Cancel" Width="76px" Height="23px" KeyCode="27" Margin="0px 0px 0px 4px" FontName="Tahoma" FontSize="8pt" Click="Cancel_Click" onclick="RestoreViewType" >
-                <Literal runat="server" Text="Reject"/>
-              </Button>
-            </Border>
-          </GridPanel>
-
+          </div>
         </div>
+
+        <div Class="scFormDialogFooter">
+          <div class="footerOkCancel">
+            <Button class="scButton scButtonPrimary" onclick="return UploadDocument()" ID="btnAccept">
+              <Literal runat="server" Text="Accept"/>
+            </Button>
+
+            <Button runat="server" ID="Cancel" Click="Cancel_Click" onclick="RestoreViewType" >
+              <Literal runat="server" Text="Reject"/>
+            </Button>
+          </div>
+          <Button runat="server" ID="InsertLink" Click="InsertLink_Click">
+            <Literal runat="server" Text="Insert a link"/>
+          </Button>
+          <Button runat="server" ID="InsertMedia" Click="InsertMedia_Click">
+            <Literal runat="server" Text="Insert media item"/>
+          </Button>
+        </div>
+
       </div>
     </Sitecore.Controls.HtmlPage>
   </Sitecore.Word.EditField>
 
 </xamlControls>
-

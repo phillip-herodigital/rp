@@ -3,75 +3,31 @@
   <Installer.BuildPackage>
     <WizardForm CodeBeside="Sitecore.Shell.Applications.Install.Dialogs.BuildPackage,Sitecore.Client">
 
-      <WizardFormFirstPage ID="FirstPage" Icon="People/32x32/Box_Software.png">
-        <Border Class="scWizardWelcomeTitle">
-          <Literal ID="Welcome" Text="Welcome to the Build Package Wizard."/>
-        </Border>
-        <Literal Text="This wizard helps you:"/>
-        <ul>
-          <li class="scWizardBullet">
-            <Literal Text="Enter a file name for the package."/>
-          </li>
-          <li class="scWizardBullet">
-            <Literal Text="Build the package."/>
-          </li>
-          <li class="scWizardBullet">
-            <Literal Text="Download the package file."/>
-          </li>
-        </ul>
-      </WizardFormFirstPage>
-
       <WizardFormPage ID="SetName" Header="Package Name" Text="Enter a name for the package. Click Next to continue." Icon="People/32x32/Box_Software.png">
         <WizardFormIndent>
-           <GridPanel Width="100%" Border="1px" Fixed="true">
-          <Border Padding="0 0 2 0">
-            <Literal Text="Package name:"/>
-          </Border>
-
-          <Border Padding="0 0 16 0">
-            <Edit ID="PackageFile" Width="100%" maxlength="200"/>
-          </Border>
-         </GridPanel>
+          <Literal class="scFieldLabel" Text="Package name:"/>
+          <Edit ID="PackageFile" Width="100%" maxlength="200"/>
         </WizardFormIndent>
       </WizardFormPage>
 
-      <WizardFormPage ID="Building" Header="Building" Text="This may take a few minutes." Icon="People/32x32/Box_Software.png">
-        <GridPanel Width="100%">
-          <Border Height="64"/>
-
-          <ThemedImage Src="People/48x48/Box_Software.png" Width="48" Height="48" GridPanel.Align="center"/>
-
-          <Space Height="16"/>
-
-          <Border Align="center">
-            <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
-          </Border>
-
-          <Space Height="16"/>
-
-          <Border ID="StatusText" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
-            <Literal Text="Generating..."/>
-          </Border>
-
-        </GridPanel>
+      <WizardFormProgressPage ID="Building" Header="Building" Text="This may take a few minutes." ActionText="Generating..." Icon="People/32x32/Box_Software.png">
         <TaskMonitor ID="Monitor" />
-      </WizardFormPage>
+      </WizardFormProgressPage>
 
-      <WizardFormLastPage ID="LastPage" Icon="People/32x32/Box_Software.png">
-        <Border ID="SuccessMessage">
-          <Literal Text="The package has been built successfully."/>
-          <br />
-          <Literal Text="Click Finish to close the wizard."/>
-          <Border Padding="64 0 0 0">
-            <Literal Text="Click this button to download the package:"/>
-            <Toolbutton Icon="Network/16x16/download.png" Tooltip="Download the package" Click="buildpackage:download"/>
+      <WizardFormPage ID="LastPage" Icon="People/32x32/Box_Software.png">
+        <WizardFormIndent>
+          <Border ID="SuccessMessage">
+            <Literal class="scFieldLabel sc-text-largevalue" Text="The package has been built successfully."/>
+            <Border class="scFieldLabel">
+              <Literal Text="Click this button to download the package:"/>
+              <Toolbutton Icon="Network/16x16/download.png" Tooltip="Download the package" Click="buildpackage:download"/>
+            </Border>
           </Border>
-        </Border>
 
-        <Border ID="FailureMessage" Style="color:red;font-weight:bold;display:none">
-        </Border>
-
-      </WizardFormLastPage>
+          <Border ID="FailureMessage" Style="color:#ca241c;display:none">
+          </Border>
+        </WizardFormIndent>
+      </WizardFormPage>
 
     </WizardForm>
   </Installer.BuildPackage>

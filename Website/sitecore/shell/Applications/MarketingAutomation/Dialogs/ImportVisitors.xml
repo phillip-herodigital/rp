@@ -23,7 +23,7 @@
 
       <WizardFormFirstPage ID="FirstPage" Icon="People/32x32/users_into.png">
         <Border Class="scWizardWelcomeTitle">
-          <Literal Text="Welcome to the Import Visitors Wizard" />
+          <Literal Text="Welcome to the Import Contacts Wizard" />
         </Border>
         <Literal Text="This wizard helps you:" />
         <ul>
@@ -129,7 +129,7 @@
         </WizardFormPadding>
       </WizardFormPage>
 
-      <WizardFormPage ID="Importing" Header="Importing Visitors" Text="Please wait while the wizard imports visitors." Icon="People/32x32/users_into.png">
+      <WizardFormPage ID="Importing" Header="Importing Contacts" Text="Please wait while the wizard imports visitors." Icon="People/32x32/users_into.png">
         <WizardFormPadding>
           <GridPanel Width="100%" VAlign="Top">
             <Space Height="64" />
@@ -184,7 +184,7 @@
 
               <Literal Text="Adding to state" Style="font-weight:bold" GridPanel.Colspan="2"/>
  
-              <Literal Text="Visitors added to state:" Style="padding-left: 14px;"/>
+              <Literal Text="Contacts added to state:" Style="padding-left: 14px;"/>
               <Literal ID="NumAddedToState" />
             </GridPanel>
           </Border>
