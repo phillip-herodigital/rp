@@ -295,7 +295,7 @@ $default-color: #333333;
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 9000;
+        z-index: 9200;
         border-bottom: 1px solid $dark-border-color;
         @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
         > .layout {
