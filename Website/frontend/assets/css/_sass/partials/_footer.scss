@@ -39,7 +39,8 @@ footer.site-footer {
     }
     div.logos {
         @extend .clearfix;
-        padding: 45px 0;
+        background: adjust-lightness(#2f9bce, -10);
+        padding: 25px 0;
         .logo {
             @include image-replace("bg/logo-footer.png", "bg2x/logo-footer.png");
             float: left;
@@ -53,26 +54,46 @@ footer.site-footer {
         }
     }
     div.site-footer-legal {
-        border-top: 1px solid #44a5d3;
+       // border-top: 1px solid #44a5d3;
+       background: #fff;
         padding: 20px 0;
         font-size: 10px;
+        color:#444;
         ul {
             @include inline-block-list();
             float: right;
         }
     }
     div.legal {
-		padding: .75em 0;
-		background: adjust-lightness(#2f9bce, -10);
+		padding: 2.75em 0;
+		background: #fff;
 		font-size: 80%;
 		text-align: center;
+        .accredit-icons{
+            position:relative;
+            text-align: justify; 
+           li{
+               position:absolute;
+               right:0;
+               &:nth-child(even){
+                  left:0;
+                }
+               a{
+                    b{
+                        @include image-replace("bg/bbb2x.png","bg2x/bbb2x.png");
+                    }
+               }
+           } 
+
+
+        }
 		ul {
             @include inline-block-list();
-			li {
+			li { 
 				border-left: 1px solid adjust-lightness(#44a5d3, -10);
 				padding: 0 1em;
 				a {
-					color: #fff;
+					color: #555;
 				}
 			}
 			li:first-child {
