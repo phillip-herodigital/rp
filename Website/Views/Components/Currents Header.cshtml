@@ -41,6 +41,7 @@
     var selectedNavItem = topLevelNavigation.Where(node => selectedNode != null && (node.Value.Key == selectedNode.Key || selectedNode.IsDescendantOf(node.Value))).Select(node => node.Number).FirstOrDefault();
     
     var blogDataSourceItem = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
+    var dataSourceItem = Sitecore.Context.Item;
     var settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(blogDataSourceItem != null ? blogDataSourceItem : Sitecore.Context.Item);
     string category = "";
 
@@ -63,6 +64,9 @@
         category = "calendar";
     }
 
+    var alternateLanguage = dataSourceItem.Languages.FirstOrDefault(l => l.Name == languageLinkUrlLanguage);
+    var alternateLanguageItem = Sitecore.Context.Database.GetItem(dataSourceItem.ID, alternateLanguage);
+
 }
 <header class="site-header currents__header" ng-controller="CurrentsHeaderCtrl" main-nav="@selectedNavItem" data-fixed-fix>
     <script id="mobileNav" type="text/ng-template">
@@ -71,7 +75,10 @@
                 <li>@Html.Sitecore().Field("Navigation Link 1", blogDataSourceItem)</li>
                 <li>@Html.Sitecore().Field("Navigation Link 2", blogDataSourceItem)</li>
                 <li>@Html.Sitecore().Field("Navigation Link 3", blogDataSourceItem)</li>
-                <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                @if (alternateLanguageItem != null && alternateLanguageItem.Versions.Count > 0)
+                {
+                    <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                }
                 <li ng-class="{ opened: subnav == 1 }">
                     <span>
                         <span class="arrow" ng-click="toggleSubnav(1)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 1, 'icon-nav-arrow-collapsed': subnav != 1}"></i></span>
@@ -96,7 +103,10 @@
         </nav>
         <div class="right-nav">
             <ul>
-                <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                @if (alternateLanguageItem != null && alternateLanguageItem.Versions.Count > 0)
+                {
+                    <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                }
                 <li>
                     <span class="dropdown" dropdown on-toggle="toggled(open)">
                         <a href class="dropdown-toggle" dropdown-toggle>@Html.Sitecore().Field("Rates Text", blogDataSourceItem)</a>
@@ -115,34 +125,36 @@
     </div>
 </header>
 
-
-@{
+@if (Sitecore.Context.Item.TemplateName == "Blog Home" || Sitecore.Context.Item.TemplateName == "Blog Category")
+{
     var slides = new JArray();
     for (var i = 1; i <= 4; i++)
     {
-        if (blogDataSourceItem.Fields["Slide " + i + " Image"].HasValue)
+        if (dataSourceItem.Fields["Slide " + i + " Image"].Value != "")
         {
             slides.Add(new JObject {
-                { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField)blogDataSourceItem.Fields["Slide " + i + " Image"]).MediaItem) },
-                { "text", blogDataSourceItem.Fields["Slide " + i + " Text"].Value },
-                { "classes", blogDataSourceItem.Fields["Slide " + i + " CSS Classes"].Value }
+                { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField)dataSourceItem.Fields["Slide " + i + " Image"]).MediaItem) },
+                { "text", dataSourceItem.Fields["Slide " + i + " Text"].Value },
+                { "classes", dataSourceItem.Fields["Slide " + i + " CSS Classes"].Value },
+                { "link", ((Sitecore.Data.Fields.LinkField)dataSourceItem.Fields["Slide " + i + " Link"]).GetFriendlyUrl() }
             });
         }
     }
-}
-
-@if (Sitecore.Context.Item.TemplateName == "Blog Home" || Sitecore.Context.Item.TemplateName == "Blog Category")
-{
     <carousel class="currents__carousel" interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
-        <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
-            <div class="wrapper">
-                <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
-            </div>
-        </slide>
+            <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
+                <a href="{{ slide.link }}" ng-if="slide.link != ''">
+                    <div class="wrapper">
+                        <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
+                    </div>
+                </a>
+                <div class="wrapper" ng-if="slide.link == ''">
+                    <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
+                </div>
+            </slide>
     </carousel>
 
     <div class="currents__tagline @category">
-        @Html.Sitecore().Field("Tagline Text", blogDataSourceItem)
+        @Html.Sitecore().Field("Tagline Text", dataSourceItem)
     </div>
 }
 else
