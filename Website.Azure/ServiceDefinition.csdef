@@ -37,7 +37,7 @@
     <LocalResources>
       <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />
       <LocalStorage name="TypeaheadStore" sizeInMB="10000" cleanOnRoleRecycle="false" />
-      <LocalStorage name="DataFolderStore" sizeInMB="1000" cleanOnRoleRecycle="false" />
+      <LocalStorage name="DataFolderStore" sizeInMB="10000" cleanOnRoleRecycle="false" />
     </LocalResources>
     <Certificates>
       <Certificate name="StreamCertificate" storeLocation="LocalMachine" storeName="My"/>
