@@ -820,7 +820,7 @@ $default-color: #d2d3d3;
     z-index: 9110;
     display: none;
     max-width: 890px;
-    min-height: 335px;
+    min-height: 375px;
     padding: 1px;
     text-align: left;
     background-color: $events-color;
@@ -831,6 +831,11 @@ $default-color: #d2d3d3;
     .popover-content {
         padding: 10px;
         color: #fff;
+        .event-info {
+            img {
+                max-width: 570px;
+            }
+        }
         .event-heading {
             font-size: 20px;
             font-weight: 500;
