@@ -454,11 +454,23 @@ $default-color: #d2d3d3;
         position: relative;
         height: 300px;
         margin-bottom: 10px;
-        color: #000;
+        color: #fff;
         border-bottom: 5px solid;
         border-color: $default-color;
         background-size: cover;
         background-color: $default-color;
+        &.events {
+            background-color: $events-color;
+            border-color: $events-color;
+        }
+        &.promotions {
+            background-color: $promotions-color;
+            border-color: $promotions-color;
+        }
+        &.recognition {
+            background-color: $recognition-color;
+            border-color: $recognition-color;
+        }
         .article-video {
             @include retina-background('video-currents.png', 'icon');
             background-position: top right;
@@ -493,7 +505,7 @@ $default-color: #d2d3d3;
                 margin: 5px 0;
                 line-height: 1;
                 a {
-                    color: #000;
+                    color: #fff;
                 }
             }
             .article-summary {
@@ -514,30 +526,6 @@ $default-color: #d2d3d3;
             .ellip-line {
                 position: relative;
                 overflow: hidden;
-            }
-        }
-        &.events {
-            background-color: $events-color;
-            border-color: $events-color;
-            color: #fff;
-            h2 > a {
-                color: #fff;
-            }
-        }
-        &.promotions {
-            background-color: $promotions-color;
-            border-color: $promotions-color;
-            color: #fff;
-            h2 > a {
-                color: #fff;
-            }
-        }
-        &.recognition {
-            background-color: $recognition-color;
-            border-color: $recognition-color;
-            color: #fff;
-            h2 > a {
-                color: #fff;
             }
         }
         &.grid-item--width2, &.grid-item--width3, &.grid-item--width4 {
