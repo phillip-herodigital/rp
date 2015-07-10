@@ -218,12 +218,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 DateTime startDate = Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
                 DateTime endDate = currentsEvent.Fields["End Date"].Value == "" ? startDate : Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["End Date"].Value);
-                string eventHtml = "<a href=\"\" popover-append-to-body=\"true\"  data-popover-html=\"" + "<div class='grid'><div class='col'>";
+                string eventHtml = "<a href=\"\" popover-append-to-body=\"true\"  data-popover-html=\"" + "<div class='grid'><div class='col event-info'>";
                 var imageField = (ImageField)currentsEvent.Fields["Event Image"];
-                var mapImageField = (ImageField)currentsEvent.Fields["Map Image"];
                 var registrationLink = (LinkField)currentsEvent.Fields["Registration Link"];
                 var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
-                var mapLink = (LinkField)currentsEvent.Fields["Map Link"];
+                var mapLocation = currentsEvent.Fields["Map Location"].Value.Replace(" ","+");
+                var mapButtonText = currentsEvent.Fields["Map Button Text"].Value;
                 var category = currentsEvent.Fields["Event Type"].Value.ToLower();
                 var stateField =  (Sitecore.Data.Fields.MultilistField) currentsEvent.Fields["Event State"];
                 var state = new List<string>();
@@ -251,18 +251,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                 eventHtml += "</div><div class='event-location'>" + currentsEvent.Fields["Event Location"].Value + "</div></div>" +
                 "<div class='event-summary'>" + currentsEvent.Fields["Event Summary"].Value + "</div>";
-                if (mapImageField.MediaItem != null)
+                if (!string.IsNullOrEmpty(mapLocation))
                 {
-                    eventHtml += "</div><div class='col map'><img src='" + MediaManager.GetMediaUrl(mapImageField.MediaItem) + "'></div></div>";
+                    eventHtml += "</div><div class='col map'><img src='http://maps.googleapis.com/maps/api/staticmap?center=" + mapLocation + "&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C" + mapLocation + "'></div></div>";
                 }
                 eventHtml += "<div class='event-links'>";
                 if (!string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()))
                 {
                     eventHtml += "<a href='" + registrationLink.GetFriendlyUrl() + "' class='register' target='_blank'>" + registrationLink.Text + "</a>";
                 }
-                if (!string.IsNullOrEmpty(mapLink.GetFriendlyUrl()))
+                if (!string.IsNullOrEmpty(mapButtonText))
                 {
-                    eventHtml += "<a href='" + infoLink.GetFriendlyUrl() + "' class='view-map' target='_blank'>" + mapLink.Text + "</a>";
+                    eventHtml += "<a href='https://www.google.com/maps/dir//" + mapLocation + "' class='view-map' target='_blank'>" + mapButtonText + "</a>";
                 }
                 if (!string.IsNullOrEmpty(infoLink.GetFriendlyUrl()))
                 {
@@ -271,7 +271,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 eventHtml += "</div>\"";
                 if (category != "")
                 {
-                    eventHtml += " class='" + category + "'";
+                    eventHtml += " class='" + category.Replace(" ", "-") + "'";
                 }
                 eventHtml += ">" + currentsEvent.Fields["Event Title"].Value + "</a>";
                 

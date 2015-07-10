@@ -8,7 +8,7 @@
         <select class="type-filter" ng-model="typeFilter" ng-options="eventType.name as eventType.display for eventType in eventTypes" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("Type Filter Text")</option>
         </select>
-        <select class="state-filter" ng-model="stateFilter" ng-options="state as state for state in eventStates" ng-change="searchCalendar()">
+        <select class="state-filter" ng-model="stateFilter" ng-options="state as state for state in eventStates | orderBy: state" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("State Filter Text")</option>
         </select>
         <div class="search">

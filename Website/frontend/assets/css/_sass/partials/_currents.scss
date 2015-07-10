@@ -5,6 +5,10 @@ $events-color: #00a3e0;
 $promotions-color: #97c93d;
 $recognition-color: #f99d25;
 $default-color: #d2d3d3;
+$corporate-events-color: #0071b9;
+$conference-calls-color: #033c5a;
+$webinars-color: #97c93d;
+$local-meeting-color: #00a8e1;
 
 .currents {
     position: relative;
@@ -820,7 +824,7 @@ $default-color: #d2d3d3;
     z-index: 9110;
     display: none;
     max-width: 890px;
-    min-height: 335px;
+    min-height: 375px;
     padding: 1px;
     text-align: left;
     background-color: $events-color;
@@ -831,6 +835,11 @@ $default-color: #d2d3d3;
     .popover-content {
         padding: 10px;
         color: #fff;
+        .event-info {
+            img {
+                max-width: 570px;
+            }
+        }
         .event-heading {
             font-size: 20px;
             font-weight: 500;
@@ -1152,14 +1161,17 @@ $default-color: #d2d3d3;
                         text-overflow: ellipsis;
                         max-width: 100%;
                         position: relative;
-                        &.events {
-                            color: $events-color;
+                        &.corporate-events {
+                            color: $corporate-events-color;
                         }
-                        &.promotions {
-                            color: $promotions-color;
+                        &.conference-calls {
+                            color: $conference-calls-color;
                         }
-                        &.recognition {
-                            color: $recognition-color;
+                        &.webinars {
+                            color: $webinars-color;
+                        }
+                        &.local-meeting---please-visit-power-center {
+                            color: $local-meeting-color;
                         }
                     }
                     a:before, span:before {
