@@ -1,5 +1,5 @@
 ﻿
-<div class="currents__calendar" ng-controller="CurrentsCalendarCtrl" ng-init="eventTypes = @(Html.Action("CurrentsCategories", "Data").ToHtmlString()); getEvents();">
+<div class="currents__calendar" ng-controller="CurrentsCalendarCtrl" ng-init="eventTypes = @(Html.Action("EventCategories", "Data").ToHtmlString()); getEvents();">
     <h1>@Html.Sitecore().Field("Calendar Title")</h1>
     <div class="calendar-links">
         @Html.Sitecore().Field("Nav Links")

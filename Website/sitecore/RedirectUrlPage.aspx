@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Sitecore.Modules.EmailCampaign.UI.RedirectUrlPage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="StreamEnergy.MyStream.sitecore.StreamRedirectUrlPage" %>
 
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Analytics" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
