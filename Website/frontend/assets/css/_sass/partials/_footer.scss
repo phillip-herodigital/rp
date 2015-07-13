@@ -40,6 +40,7 @@ footer.site-footer {
     div.logos {
         @extend .clearfix;
         background: adjust-lightness(#2f9bce, -10);
+        margin-top: 25px;
         padding: 25px 0;
         .logo {
             @include image-replace("bg/logo-footer.png", "bg2x/logo-footer.png");
@@ -48,6 +49,7 @@ footer.site-footer {
         ul {
             @include inline-block-list();
             float: right;
+            margin-top: 7px;
             li {
                 margin-left: 10px;
             }
@@ -56,7 +58,7 @@ footer.site-footer {
     div.site-footer-legal {
        // border-top: 1px solid #44a5d3;
        background: #fff;
-        padding: 20px 0;
+        padding: 0 0 40px;
         font-size: 10px;
         color:#444;
         ul {
@@ -65,30 +67,38 @@ footer.site-footer {
         }
     }
     div.legal {
-		padding: 2.75em 0;
+		padding: 2.75em 0 0;
 		background: #fff;
 		font-size: 80%;
 		text-align: center;
-        .accredit-icons{
-            position:relative;
-            text-align: justify; 
-           li{
-               position:absolute;
-               right:0;
-               &:nth-child(even){
-                  left:0;
+        .accredit-icons {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            li {
+                float: right;
+                &:nth-child(even){
+                    float: left;
+                    margin-left: 70px;
                 }
-               a{
-                    b{
+                a {
+                    b {
                         @include image-replace("bg/bbb2x.png","bg2x/bbb2x.png");
                     }
-               }
-           } 
-
-
+                }
+            }
+            @include breakpoint(small) {
+                margin-top: 10px;
+                li {
+                    margin: 0 !important;
+                    float: none !important;
+                    text-align: center;
+                }
+            }
         }
 		ul {
             @include inline-block-list();
+            margin-top: 20px;
 			li { 
 				border-left: 1px solid adjust-lightness(#44a5d3, -10);
 				padding: 0 1em;
