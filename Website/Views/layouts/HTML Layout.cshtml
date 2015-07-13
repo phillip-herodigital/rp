@@ -80,6 +80,10 @@
 
     @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle")
 
+    <script>
+        window.ASPNET_SessionId = "@Session.SessionID";
+    </script>
+
     @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
     {
         @Scripts.Render("~/frontend/assets/js/legacybundle");
