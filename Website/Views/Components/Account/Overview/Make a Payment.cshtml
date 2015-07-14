@@ -41,7 +41,12 @@
                                     @using (var account = Html.ClientRepeater(m => m.Accounts, "{{$index}}"))
                                     {
                                         <div class="notice error" ng-if="item.selectedPaymentMethod == 'disallowed' && item.systemOfRecord == 'CIS1'">
-                                            @Html.Sitecore().Field("CIS1 Disallowed Payment Methods")
+                                            <div ng-if="item.availablePaymentMethods.length > 0">
+                                                @Html.Sitecore().Field("CIS1 Disallowed Payment Methods")
+                                            </div>
+                                            <div ng-if="item.availablePaymentMethods.length == 0">
+                                                @Html.Sitecore().Field("CIS1 Disallowed Bank")
+                                            </div>
                                         </div>
                                         <div class="notice error" ng-if="item.selectedPaymentMethod == 'disallowed' && item.systemOfRecord == 'BeQuick'">
                                             @Html.Sitecore().Field("BeQuick Disallowed Payment Methods")
