@@ -1,4 +1,6 @@
-﻿using Sitecore;
+﻿using DDay.iCal;
+using DDay.iCal.Serialization;
+using Sitecore;
 using Sitecore.ContentSearch;
 using Sitecore.ContentSearch.Converters;
 using Sitecore.ContentSearch.Linq.Utilities;
@@ -14,8 +16,12 @@ using StreamEnergy.MyStream.Models.Currents;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 using XBlogHelper;
@@ -63,7 +69,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 					}
                     if (currentItem.TemplateName == "Blog Post") 
                     {
-                        DateTime publishDate = DateUtil.IsoDateToDateTime(currentItem.Fields["Publish Date"].Value);
+                        DateTime publishDate = Sitecore.DateUtil.IsoDateToDateTime(currentItem.Fields["Publish Date"].Value);
                         expression = expression.And((CurrentsSearchResultItem item) => item.PublishDate < publishDate);
                     }
                     
@@ -108,7 +114,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     }
                     if (currentItem.TemplateName == "Blog Post")
                     {
-                        DateTime publishDate = DateUtil.IsoDateToDateTime(currentItem.Fields["Publish Date"].Value);
+                        DateTime publishDate = Sitecore.DateUtil.IsoDateToDateTime(currentItem.Fields["Publish Date"].Value);
                         expression = expression.And((CurrentsSearchResultItem item) => item.PublishDate < publishDate);
                     }
                     return (
@@ -210,16 +216,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             foreach (Item currentsEvent in currentsEvents)
             {
-                DateTime startDate = DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
-                DateTime endDate = currentsEvent.Fields["End Date"].Value == "" ? startDate : DateUtil.IsoDateToDateTime(currentsEvent.Fields["End Date"].Value);
-                string eventHtml = "<a href=\"\" popover-append-to-body=\"true\"  data-popover-html=\"" + "<div class='grid'><div class='col'>";
+                DateTime startDate = Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
+                DateTime endDate = currentsEvent.Fields["End Date"].Value == "" ? startDate : Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["End Date"].Value);
+                string eventHtml = "<a href=\"\" popover-append-to-body=\"true\"  data-popover-html=\"" + "<div class='grid'><div class='col event-info'>";
                 var imageField = (ImageField)currentsEvent.Fields["Event Image"];
-                var mapImageField = (ImageField)currentsEvent.Fields["Map Image"];
                 var registrationLink = (LinkField)currentsEvent.Fields["Registration Link"];
                 var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
-                var mapLink = (LinkField)currentsEvent.Fields["Map Link"];
+                var mapLocation = currentsEvent.Fields["Map Location"].Value.Replace(" ","+");
+                var mapButtonText = currentsEvent.Fields["Map Button Text"].Value;
                 var category = currentsEvent.Fields["Event Type"].Value.ToLower();
-                var state = currentsEvent.Fields["Event State"].Value;
+                var stateField =  (Sitecore.Data.Fields.MultilistField) currentsEvent.Fields["Event State"];
+                var state = new List<string>();
+                foreach (Sitecore.Data.ID id in stateField.TargetIDs)
+                {
+                    state.Add(Sitecore.Context.Database.Items[id].Name);
+                } 
 
                 if (imageField.MediaItem != null)
                 {
@@ -240,27 +251,27 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                 eventHtml += "</div><div class='event-location'>" + currentsEvent.Fields["Event Location"].Value + "</div></div>" +
                 "<div class='event-summary'>" + currentsEvent.Fields["Event Summary"].Value + "</div>";
-                if (mapImageField.MediaItem != null)
+                if (!string.IsNullOrEmpty(mapLocation))
                 {
-                    eventHtml += "</div><div class='col map'><img src='" + MediaManager.GetMediaUrl(mapImageField.MediaItem) + "'></div></div>";
+                    eventHtml += "</div><div class='col map'><img src='http://maps.googleapis.com/maps/api/staticmap?center=" + mapLocation + "&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C" + mapLocation + "'></div></div>";
                 }
                 eventHtml += "<div class='event-links'>";
-                if (registrationLink.Url != null)
+                if (!string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()))
                 {
-                    eventHtml += "<a href='" + registrationLink.Url + "' class='register' target='_blank'>" + registrationLink.Text + "</a>";
+                    eventHtml += "<a href='" + registrationLink.GetFriendlyUrl() + "' class='register' target='_blank'>" + registrationLink.Text + "</a>";
                 }
-                if (mapLink.Url != null)
+                if (!string.IsNullOrEmpty(mapButtonText))
                 {
-                    eventHtml += "<a href='" + infoLink.Url + "' class='view-map' target='_blank'>" + mapLink.Text + "</a>";
+                    eventHtml += "<a href='https://www.google.com/maps/dir//" + mapLocation + "' class='view-map' target='_blank'>" + mapButtonText + "</a>";
                 }
-                if (infoLink.Url != null)
+                if (!string.IsNullOrEmpty(infoLink.GetFriendlyUrl()))
                 {
-                    eventHtml += "<a href='" + infoLink.Url + "' class='info' target='_blank'>" + infoLink.Text + "</a>";
+                    eventHtml += "<a href='" + infoLink.GetFriendlyUrl() + "' class='info' target='_blank'>" + infoLink.Text + "</a>";
                 }
                 eventHtml += "</div>\"";
                 if (category != "")
                 {
-                    eventHtml += " class='" + category + "'";
+                    eventHtml += " class='" + category.Replace(" ", "-") + "'";
                 }
                 eventHtml += ">" + currentsEvent.Fields["Event Title"].Value + "</a>";
                 
@@ -283,6 +294,56 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             return events;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage CalendarExport()
+        {
+            DDay.iCal.iCalendar iCal = new DDay.iCal.iCalendar();
+            //iCal.Name = "Stream Events";
+            iCal.AddLocalTimeZone();
+
+            // Create the event, and add it to the iCalendar
+            Event evt = iCal.Create<Event>();
+
+            // Add the events
+            var currentsEvents = Sitecore.Context.Database.GetItem("{13388824-92B0-4280-A48D-254F00A5A026}").Children;
+
+            foreach (Item currentsEvent in currentsEvents)
+            {
+                DateTime startDate = Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
+                DateTime endDate = currentsEvent.Fields["End Date"].Value == "" ? startDate : Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["End Date"].Value);
+
+                evt = iCal.Create<Event>();
+                evt.Start = new iCalDateTime(startDate);
+                evt.End = new iCalDateTime(endDate);
+                evt.IsAllDay = true;
+                evt.Description = currentsEvent.Fields["Event Summary"].Value;
+                evt.Location = currentsEvent.Fields["Event Location"].Value;
+                evt.Summary = currentsEvent.Fields["Event Title"].Value;
+            }
+
+            // Create a serialization context and serializer factory.
+            // These will be used to build the serializer for our object.
+            ISerializationContext ctx = new SerializationContext();
+            ISerializerFactory factory = new DDay.iCal.Serialization.iCalendar.SerializerFactory();
+            // Get a serializer for our object
+            IStringSerializer serializer = factory.Build(iCal.GetType(), ctx) as IStringSerializer;
+
+            string output = serializer.SerializeToString(iCal);
+            var bytes = Encoding.UTF8.GetBytes(output);
+
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new  MemoryStream(bytes);
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/calendar");
+            result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+            {
+                FileName = "StreamEvents.ics"
+            };
+         
+
+            return result;
         }
 
     }

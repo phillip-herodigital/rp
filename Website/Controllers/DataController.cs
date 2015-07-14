@@ -161,9 +161,9 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
-        public ActionResult CurrentsCategories()
+        public ActionResult EventCategories()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Currents/Categories");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Currents/Event Categories");
             var data = item.Children.Select(child => new { name = child.Name.ToLower(), display = child.Fields["Category Name"].Value });
 
             return this.Content(StreamEnergy.Json.Stringify(data));
