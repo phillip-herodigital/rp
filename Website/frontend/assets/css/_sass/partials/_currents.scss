@@ -496,9 +496,7 @@ $local-meeting-color: #00a8e1;
                 font-size: 20px;
                 margin: 5px 0;
                 line-height: 1;
-                a {
-                    color: #000;
-                }
+                color: #000;
             }
             .article-summary {
                 height: 50px;
@@ -524,7 +522,7 @@ $local-meeting-color: #00a8e1;
             background-color: $events-color;
             border-color: $events-color;
             color: #fff;
-            h2 > a {
+            h2 {
                 color: #fff;
             }
         }
@@ -532,7 +530,7 @@ $local-meeting-color: #00a8e1;
             background-color: $promotions-color;
             border-color: $promotions-color;
             color: #fff;
-            h2 > a {
+            h2 {
                 color: #fff;
             }
         }
@@ -540,7 +538,7 @@ $local-meeting-color: #00a8e1;
             background-color: $recognition-color;
             border-color: $recognition-color;
             color: #fff;
-            h2 > a {
+            h2 {
                 color: #fff;
             }
         }

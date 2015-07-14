@@ -146,7 +146,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 ImageField imageField = null;
                 string articleText = "";
                 string category = blogPost.blog.Categories.Any() ? blogPost.blog.Categories.FirstOrDefault().Name.ToLower() : "";
-                var gridClasses = "<div class=\"grid-item medium-large " + category;
+                var gridClasses = "<a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\"><div class=\"grid-item medium-large " + category;
                 if (blogPost.i == 0 || blogPost.i == 8) 
                 {
                     gridClasses += " grid-item--width4";
@@ -182,7 +182,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                 articleText += "<div class=\"article-overview\">" +
                     "<span class=\"article-date\">" + (blogPost.blog.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat)) + "</span>" +
-                    "<h2><a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\">" + blogPost.blog.Title + "</a></h2>" +
+                    "<h2>" + blogPost.blog.Title + "</h2>" +
                     "<div class=\"article-summary\" ellipsis>";
                 if (!String.IsNullOrEmpty(blogPost.blog.Summary))
                 {
@@ -201,7 +201,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 {
                     gridClasses += "\" style=\"background-image: url(\\\'" + MediaManager.GetMediaUrl(imageField.MediaItem) + "\\\')";
                 }
-                currentBlock += gridClasses + "\">" + articleText + "</div>";
+                currentBlock += gridClasses + "\">" + articleText + "</div></a>";
             }
 
             return new { html = currentBlock };
