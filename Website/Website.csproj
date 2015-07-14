@@ -237,6 +237,9 @@
     <Reference Include="Sitecore.Analytics.MongoDB">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.MongoDB.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Analytics.OmniChannel">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.OmniChannel.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Analytics.Outcome">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Outcome.dll</HintPath>
     </Reference>
