@@ -393,6 +393,11 @@ $default-color: #d2d3d3;
     @include breakpoint(small) {
         margin-top: 0;
     }
+    @include breakpoint-max(1385px) {
+        .wrapper {
+            height: 30vw;
+        }
+    }
 }
 
 .currents__banner {
