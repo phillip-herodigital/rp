@@ -1,7 +1,7 @@
 ﻿@{
     var planContent = new Dictionary<string, dynamic>();
     var cellCssClass = "odd";
-    foreach (var plan in new string[] { "Variable Price Plan", "Green and Clean Variable Price Plan", "Flex Choice Plan", "Flex Choice Plan - Green and Clean Plan" })
+    foreach (var plan in new string[] { "Variable Price Plan", "Green and Clean Variable Price Plan", "Flex Choice Plan", "Flex Choice Plan - Green and Clean Plan", "Flex Choice Intro Plan","Easy Choice Plan" })
     {
         var variablePricePlanItems = Html.Sitecore().CurrentItem.Children[plan].Children.OrderByDescending(C => C.Fields["Date"].Value);
         var variablePricePlanRows = new Dictionary<string, List<dynamic>>();
@@ -82,6 +82,7 @@
         planContent.Add(plan, new
         {
             IntroText = Html.Sitecore().Field(plan + " Text"),
+            IntroParagraph = Html.Sitecore().Field(plan + " Paragraph"),
             HeaderRow = headerRow,
             PlanItems = variablePricePlanRows,
         });
@@ -94,6 +95,7 @@
 
         @foreach (var plan in planContent)
         {
+            @plan.Value.IntroParagraph
             <h3>@plan.Value.IntroText</h3>
             <div class="historical-rates">
             <table>
