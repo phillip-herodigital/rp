@@ -1086,9 +1086,6 @@
     <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TextSearch.cshtml" />
     <Content Include="App_Config\Include\XBlog.Search.config" />
     <Content Include="App_Config\Include\XBlog.Settings.config" />
-    <Content Include="App_Config\ConnectionStrings.test-upgrade.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="App_Config\Include\Sitecore.ContentSearch.config" />
     <Content Include="App_Config\Custom\Currents.Index.master.config" />
     <Content Include="App_Config\Include\ListManager.EmailCampaign\Sitecore.ListManager.EmailCampaign.config" />
