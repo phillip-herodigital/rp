@@ -1,4 +1,5 @@
-﻿.sc-breadcrumb.ecm > ul > li a {
+﻿/*TODO: current css require re-factoring*/
+.sc-breadcrumb.ecm > ul > li a {
   color: white;
 }
 
@@ -84,7 +85,8 @@ div[data-sc-id="PageProgressIndicator"] {
 }
 /*Message Info block. BEGIN*/
 .sc-applicationContent-info .sc-MessageInfo,
-.sc-applicationContent-info .sc-MessageOverview {
+.sc-applicationContent-info .sc-MessageOverview,
+.sc-applicationContent-info .sc-MessagePreview {
   margin-right: 15px;
   margin-left: -15px;
   padding-top: 15px;
@@ -92,7 +94,8 @@ div[data-sc-id="PageProgressIndicator"] {
 }
 
   .sc-applicationContent-info .sc-MessageInfo h3,
-  .sc-applicationContent-info .sc-MessageOverview h3 {
+  .sc-applicationContent-info .sc-MessageOverview h3,
+  .sc-applicationContent-info .sc-MessagePreview h3 {
     text-transform: uppercase;
     font-family: Arial, sans-serif;
     font-size: 15px;
@@ -107,19 +110,29 @@ div[data-sc-id="PageProgressIndicator"] {
 .sc .sc-message-progress-table {
   width: 100%;
   background-color: white;
+  table-layout: fixed;
 }
 
-  .sc .sc-message-progress-table tr {
-    border-bottom: solid 2px rgb(240, 240, 240);
-  }
+.sc .sc-message-progress-table tr {
+  border-bottom: solid 2px rgb(240, 240, 240);
+}
 
-    .sc .sc-message-progress-table tr td {
-      padding: 7px 10px;
-    }
+.sc .sc-message-progress-table tr td {
+  padding: 7px 10px;
+}
 
-      .sc .sc-message-progress-table tr td:last-child {
-        font-weight: bold;
-      }
+.sc .sc-message-progress-table tr td:last-child {
+  font-weight: bold;
+}
+
+.sc .sc-message-progress-table tr td:last-child a {
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  -moz-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  display: block;
+}
 
 .sc .sc-message-progress-value {
   text-align: right;
@@ -176,15 +189,13 @@ div[data-sc-id="MainBorder"] > div[data-sc-id="UploaderRowPanel"] {
   margin-bottom: 30px;
 }
 
+.sc .sc-dropdownbutton-contentpanel .sc-advancedExpander {
+  margin-bottom: 0;
+}
+
 .sc-advancedExpander + button.btn.sc-button.btn-default {
   margin-top: -15px;
   margin-bottom: 15px;
-}
-
-.sc-textbox[data-sc-id="CampaignCategoryTextBox"] {
-  width: 514px;
-  margin-right: 13px !important;
-  display: inline-block;
 }
 
 .sc-textarea[data-sc-id="DescriptionArea"] {
@@ -202,6 +213,7 @@ span.sc-text[data-sc-id="HeaderTitle"] {
   display: block;
   overflow: hidden;
   padding-bottom: 2px;
+  min-height: 36px;
 }
 
 div.sc-advancedExpander-footer-more,
@@ -242,24 +254,10 @@ div.sc-border.sc-align-right.sc-show-padding[data-sc-id="BehaviorLinkBorder"] {
   padding: 0 20px 12px !important;
 }
 
-div[data-sc-id="AttachmentAccordion"] {
-  width: 500px;
+.sc div[data-sc-id="SaveAsSubscriptionDialog"] .row.sc-show-padding span {
+  font-weight: bold;
+  cursor: default;
 }
-
-div[data-sc-id="MessageVariantRepeater"] div.sc-advancedExpander-footer-more,
-div[data-sc-id="MessageVariantRepeater"] div.sc-advancedExpander-footer-less {
-  padding: 8px 5px;
-}
-
-.sc div[data-sc-id="MessageVariantRepeater"] .row.sc-show-padding {
-  padding: 5px 5px !important;
-}
-
-  .sc div[data-sc-id="MessageVariantRepeater"] .row.sc-show-padding span,
-  .sc div[data-sc-id="SaveAsSubscriptionDialog"] .row.sc-show-padding span {
-    font-weight: bold;
-    cursor: default;
-  }
 
 .sc div[data-sc-id="SaveAsSubscriptionDialog"] .row.sc-show-padding {
   padding: 8px 0 !important;
@@ -278,6 +276,11 @@ div.sc-border.sc-show-padding[data-sc-id="SenderAccordionBorder"] {
   padding-top: 4px;
 }
 
+img[data-sc-id="TemplateImage"], img[data-sc-id="TemplateThumbnailImage"] {
+  position: relative;
+  left: -10px;
+}
+
 .sc .sc-border.sc-show-padding[data-sc-id="MessagePerformanceBorder"],
 .sc div[data-sc-id="SaveAsSubscriptionDialog"] div[data-sc-id="DialogBorderContentBorder"] {
   padding: 0 !important;
@@ -287,7 +290,7 @@ div.sc-border.sc-show-padding[data-sc-id="SenderAccordionBorder"] {
 .sc .row-fluid.sc-show-padding[data-sc-id="BodyRowPanel"],
 .sc .row-fluid.sc-show-padding[data-sc-id="AlternativeRowPanel"] {
   padding: 5px;
-  moz-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
@@ -504,29 +507,14 @@ div[data-sc-id="AutomaticTimeValueColumnPanel"] {
   background: none;
 }
 
-
-
-/*confirmation dialog*/
-.sc-border[data-sc-id="ActivateMessageBorder"],
-.sc-border[data-sc-id="DispatchConfirmationMessageBorder"] {
-  margin: 0 80px;
-}
-
-.sc-border[data-sc-id="CancelSchedulingConfirmationMessageBorder"] {
-  margin: 0 180px;
-}
-
-.sc-border[data-sc-id="ManualWinnerMessageBorder"] {
-  margin: 0 50px;
-}
-
 .sc-border[data-sc-id="WinnerResumeMessageBorder"] {
   margin: 0 130px;
 }
 
-.sc-border[data-sc-id="TriggeredScheduleMessageBorder"],
+.sc-border[data-sc-id="ScheduleMessageBorder"],
 .sc-border[data-sc-id="DeactivateMessageBorder"] {
-  margin: 0 170px;
+  margin: auto;
+  display: table;
 }
 
 .sc-text[data-sc-id="WhouldYouLikeText"],
@@ -553,6 +541,7 @@ div[data-sc-id="AutomaticTimeValueColumnPanel"] {
 .sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateMessageBorder"] > div,
 .sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateListBorder"] > div {
   margin-bottom: 10px;
+  min-height: 81px;
 }
 .sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateMessageBorder"] > div:hover,
 .sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateListBorder"] > div:hover {
@@ -570,7 +559,10 @@ div[data-sc-id="AutomaticTimeValueColumnPanel"] {
   text-decoration: none;
 }
 
-
+/* Patch to align the mail icon to the top in Create panel*/
+.sc div[data-sc-id="OneTimeIconColumnPanel"] > img {
+  margin-top: -5px;  
+}
 /*create popover end*/
 
 /* white backgrounds in accordians and borders */
@@ -600,6 +592,11 @@ div.sc-advancedExpander-body, div.sc-border.sc-show-border {
   margin: auto;
 }
 
+.sc-smartpanel .sc-ecm-funnel {
+  margin-left: 65px;
+  margin-top: 10px;
+}
+
 #sc-scm-funnelFooter {
   margin: auto;
   text-align: left;
@@ -608,7 +605,7 @@ div.sc-advancedExpander-body, div.sc-border.sc-show-border {
 
 .sc-ecm-funnel div {
   padding: 9px 0;
-  display: inline-block;
+  display: block;
   height: 31px;
 }
 
@@ -627,34 +624,7 @@ div.sc-advancedExpander-body, div.sc-border.sc-show-border {
   font-weight: bold;
 }
 
-
 /* ReviewTab.css */
-.sc-dropdownbutton[data-sc-id='EmailPreviewReportsDropDown'] .sc-dropdownbutton-contentpanel,
-.sc-dropdownbutton[data-sc-id='SpamCheckReportsDropDown'] .sc-dropdownbutton-contentpanel {
-  left: -400px !important;
-  min-width: 500px;
-  width: 500px;
-}
-
-.sc-dropdownbutton[data-sc-id='EmailPreviewClientsDropDown'] .sc-dropdownbutton-contentpanel,
-.sc-dropdownbutton[data-sc-id='SpamCheckClientsDropDown'] .sc-dropdownbutton-contentpanel {
-  left: -600px !important;
-  min-width: 700px;
-  width: 700px;
-}
-
-.sc-dropdownbutton[data-sc-id='EmailPreviewClientsDropDown'] div.sc-dropdownbutton-content,
-.sc-dropdownbutton[data-sc-id='EmailPreviewReportsDropDown'] div.sc-dropdownbutton-content,
-.sc-dropdownbutton[data-sc-id='SpamCheckClientsDropDown'] div.sc-dropdownbutton-content,
-.sc-dropdownbutton[data-sc-id='SpamCheckReportsDropDown'] div.sc-dropdownbutton-content {
-  text-align: left;
-}
-
-.sc-dropdownbutton[data-sc-id='SpamCheckClientsDropDown'] div[data-sc-id='SpamCheckClientsHeaderRow'],
-.sc-dropdownbutton[data-sc-id='EmailPreviewClientsDropDown'] div[data-sc-id='EmailPreviewClientsHeaderRow'] {
-  padding: 3px;
-}
-
 .sc-border[data-sc-id="EmailPreviewSelectedVariantsBorder"],
 .sc-border[data-sc-id="SpamCheckSelectedVariantsBorder"] {
   margin-top: 15px;
@@ -664,6 +634,11 @@ div.sc-advancedExpander-body, div.sc-border.sc-show-border {
 .sc-border[data-sc-id="EmailPreviewVariantsTextBorder"],
 .sc-border[data-sc-id="SpamCheckVariantsTextBorder"] {
   margin-bottom: 15px;
+}
+
+div[data-sc-id="EmailPreviewReportListControl"] .sc-listcontrol-body table tr td,
+div[data-sc-id="SpamCheckReportListControl"] .sc-listcontrol-body table tr td {
+  cursor: pointer;
 }
 
 div.sc-variants-selector .variant-button button.btn.sc-togglebutton {
@@ -729,8 +704,38 @@ div[data-sc-id="SendQuickTestVariantsPresenter"] {
   font-size: 1.167em;
   color: #131313;
   line-height: 1.42857143;
-  margin-left: 71px !important;
-  display: block;
+}
+
+[data-sc-id="ConfirmText"]:hover,
+.sc-dialogWindow-header-title:hover,
+.sc-border[data-sc-id="DispatchConfirmationMessageBorder"]:hover,
+.sc-border[data-sc-id="ManualWinnerMessageBorder"]:hover,
+.sc-border[data-sc-id="ActivateMessageBorder"]:hover {
+  cursor: default;
+}
+
+img[data-sc-id="MessageIcon"] {
+  float: left;
+  margin: 3px 11px 0 0;
+}
+
+img[data-sc-id="MessageIconSmall"] {
+  margin: 23px 11px 0 0;
+}
+
+.sc-border[data-sc-id="DispatchConfirmationMessageBorder"],
+.sc-border[data-sc-id="ManualWinnerMessageBorder"],
+.sc-border[data-sc-id="ActivateMessageBorder"] {
+  margin-left: 75px;
+}
+
+[data-sc-id="ConfirmText"],
+[data-sc-id="DispatchConfirmationMessageBorder"],
+.sc-border[data-sc-id="ManualWinnerMessageBorder"],
+.sc-border[data-sc-id="ActivateMessageBorder"] {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 .sc-border[data-sc-id="CreateBorder"]{
@@ -749,4 +754,67 @@ div[data-sc-id="SendQuickTestVariantsPresenter"] {
 
 .sc-ChartComposites .sc-advancedExpander-bodywrapper {
   padding: 0 8%;
+}
+
+[data-sc-id=Search] .sc-search-searches [data-sc-id=ListsSearchBorder],
+[data-sc-id=Search] .sc-search-searches [data-sc-id=SearchTextBox] {
+  float: right;    
+}
+[data-sc-id=Search] .sc-search-searches [data-sc-id=SearchTextBox] {
+  margin-right: 10px;
+}
+
+/* Apply paddings according to #38201 */
+[data-sc-id=CreatePopover] .row.sc-show-padding {
+  padding: 8px 15px !important;
+}
+[data-sc-id=CreateMessageColumnPanel] .row.sc-show-padding div:last-child,
+[data-sc-id=CreateListColumnPanel] .row.sc-show-padding div:last-child {
+  padding-left: 10px !important;
+}
+[data-sc-id=CreatePopover] [data-sc-id=CreateMessageHeadingText],
+[data-sc-id=CreatePopover] [data-sc-id=CreateListHeadingText] {
+  display: block;
+  margin-bottom: 15px;
+}
+
+/*Save a subscription message template according to #35872*/
+[data-sc-id=SaveAsSubscriptionDialog] [data-sc-id=InfoText] {
+  margin-bottom: 30px;
+  display: block;
+}
+
+/*According to PBI 44565 - align search textbox with content*/
+[data-sc-id=RecipientsPreviewDialog] [data-sc-id=RecipientPreviewSearchBorder].sc-border.sc-show-padding {
+  padding: 15px 0;
+}
+
+.sc-applicationHeader-contextSwitcher [data-sc-id=EmailManagerRoot], 
+.sc-applicationHeader-contextSwitcher [data-sc-id=DefaultSettingsButton] {
+  float: right;
+}
+
+.sc-applicationHeader-contextSwitcher [data-sc-id=DefaultSettingsButton] {
+  margin-left: 10px;
+}
+
+/*
+ * #57371: No scroll applied to Create message dialog
+ * If border height is defined, then SPEAK set overflow:hidden, but in current situation it is needed to set overflow:auto
+ */
+[data-sc-id=OneTimeMessageDialog] [data-sc-id=DialogBorder],
+[data-sc-id=TriggeredMessageDialog] [data-sc-id=DialogBorder],
+[data-sc-id=SubscriptionMessageDialog] [data-sc-id=DialogBorder] {
+  overflow: auto !important;
+}
+
+[data-sc-id=OneTimeMessageDialog] div[data-sc-id=DialogBorder].sc-border {
+  padding: 0;
+}
+/* TODO: it's workaround, we need remove this after fixing of issue about Uploader control from LM */
+form.sc-listmanagementuploader {
+  border: 1px dashed #cccccc;
+  text-align: center;
+  margin: 0;
+  position: relative;
 }

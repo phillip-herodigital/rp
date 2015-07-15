@@ -2,7 +2,7 @@
   return {
     priority: 1,
     execute: function (context) {
-      postServerRequest("ecm.deletemessage.candelete", { value: context.currentContext.messageId }, function (response) {
+      postServerRequest("EXM/CanDeleteMessage", { value: context.currentContext.messageId }, function (response) {
         if (response.error) {
           sitecore.trigger("alertdialog", response.errorMessage);
           return;

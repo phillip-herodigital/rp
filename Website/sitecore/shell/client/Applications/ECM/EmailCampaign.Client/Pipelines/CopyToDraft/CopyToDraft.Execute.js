@@ -7,7 +7,7 @@ return {
         return;
       }
       
-      postServerRequest("ecm.copytodraft.execute", { sourceMessageId: context.messageId, messageName: context.messageName }, function(response) {
+      postServerRequest("EXM/CopyToDraft", { sourceMessageId: context.messageId, messageName: context.messageName.escapeAmpersand() }, function (response) {
         if (response.error) {
           sitecore.trigger("alertdialog", response.errorMessage);
           context.aborted = true;

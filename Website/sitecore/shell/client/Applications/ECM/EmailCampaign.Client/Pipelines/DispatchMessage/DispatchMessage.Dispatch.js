@@ -2,7 +2,7 @@
   return {
     priority: 1,
     execute: function (context) {
-      postServerRequest("ecm.dispatchmessage." + context.currentContext.actionName, context.currentContext.request, function (response) {
+      postServerRequest("EXM/" + context.currentContext.actionName, context.currentContext.request, function (response) {
         context.currentContext.messageBar.removeMessage(function (error) { return error.id === "error.ecm.dispatchmessage." + context.currentContext.actionName; });
         if (response.error) {
           if (response.errorMessage) {

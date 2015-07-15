@@ -73,9 +73,6 @@
     <Reference Include="EcmaScript.NET.modified">
       <HintPath>..\Libraries\Sitecore\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
-    <Reference Include="EmailCampaign.Controls">
-      <HintPath>..\Libraries\Sitecore\EmailCampaign.Controls.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
@@ -317,32 +314,18 @@
     <Reference Include="Sitecore.EmailCampaign.Analytics.Model">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Analytics.Model.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.App">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.App.dll</HintPath>
-    </Reference>
     <Reference Include="Sitecore.EmailCampaign.Application">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Application.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.EmailCampaign.Client">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Data">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Domain">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Domain.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Presentation">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Presentation.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Presentation.UI">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Presentation.UI.dll</HintPath>
+    <Reference Include="Sitecore.EmailCampaign.Controls, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.EmailCampaign.Server">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Server.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Speak.Server">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Speak.Server.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.EmailCampaign.Statistics">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Statistics.dll</HintPath>
@@ -1115,13 +1098,6 @@
     <Content Include="App_Config\Include\Sitecore.Analytics.Oracle.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.DefaultIndexConfiguration.config.example" />
     <Content Include="App_Config\Include\Sitecore.Diagnostics.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.Dedicated.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.Speak.Server.Requests.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.UI.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.Xtune.CD.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.Xtune.Processing.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.Index.Master.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.Index.Web.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.IndexConfiguration.config.disabled" />
@@ -1140,6 +1116,13 @@
     <Content Include="App_Config\Include\SwitchMasterToWeb.config.example" />
     <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config.disabled" />
     <Content Include="App_Config\Custom\Currents.Index.web.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.AnalyticsProcessing.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentDelivery.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentManagement.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentManagementPrimary.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Core.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Reporting.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.UI.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />

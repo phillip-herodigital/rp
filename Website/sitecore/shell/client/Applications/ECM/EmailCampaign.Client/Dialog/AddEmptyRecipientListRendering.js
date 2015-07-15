@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/listmanager/SelectFolder.js", "/-/speak/v1/listmanager/guidGenerator.js"], function (sitecore, selectFolder, guidGenerator, selectLists) {
+﻿define(["sitecore", "/-/speak/v1/listmanager/SelectFolder.js", "/-/speak/v1/ecm/guidGenerator.js"], function (sitecore, selectFolder, guidGenerator, selectLists) {
   var self;
   return sitecore.Definitions.App.extend({
     initialized: function () {
@@ -6,7 +6,7 @@
       var contextApp = this;
 
       contextApp.insertRendering("{64D170BF-507C-4D53-BB4F-8FC76F5F2BBC}", { $el: $("body") }, function (subApp) {
-        contextApp["selectFolderDialog"] = subApp;;
+        contextApp["selectFolderDialog"] = subApp;
         subApp.SelectFolderDialog.set("backdrop", "static");
       });
 
@@ -15,7 +15,7 @@
       sitecore.on("recipients:add:empty:list:dialog:show", contextApp.showAddListDialog, contextApp);
 
       contextApp.on("add:list:dialog:close", contextApp.hideAddListDialog, contextApp);
-      contextApp.on("add:list:dialog:ok", contextApp.addList, contextApp);  
+      contextApp.on("add:list:dialog:ok", contextApp.addList, contextApp);
 
       self.addListCallback = null;
       self.addListMessageId = null;
@@ -26,7 +26,7 @@
       self.AddListMessageBar.removeMessage(function (error) { return error.id === "listNameIsEmpty"; });
       self.ListDescriptionTextArea.set("text", "");
       self.ListNameTextBox.set("text", "");
-      self.ListDestinationTextBox.set("text", "/sitecore/system/List Manager/All Lists");
+      self.ListDestinationButtonTextBox.set("text", "/sitecore/system/List Manager/All Lists");
 
       self.addListCallback = callback;
       self.addListMessageId = messageId;
@@ -55,16 +55,22 @@
         return;
       }
 
-      var listDst = self.ListDestinationTextBox.get("text");
+      var listDst = self.ListDestinationButtonTextBox.get("text");
 
       var listDescrption = self.ListDescriptionTextArea.get("text");
       var listId = guidGenerator.getGuid();
       var data = { "Id": listId, "Name": listName, "Owner": "", "Description": listDescrption, "Destination": listDst, "Type": "Contact list", "Source": "{\"IncludedLists\":[],\"ExcludedLists\":[]}" };
       var url = "/sitecore/api/ssc/ListManagement/ContactList";
-
+      
       $.ajax({
         url: url,
         data: data,
+        error: function(args) {
+          if (args.status === 403) {
+            console.error("Not logged in, will reload page");
+            window.top.location.reload(true);
+          }
+        },
         success: function () {
           if (!self.addListCallback || !self.addListMessageId || !self.addListRecipientListType) {
             self.hideAddListDialog();
@@ -93,13 +99,13 @@
       self.AddListDialogWindow.hide();
       var callback = function (itemId, item) {
         if (typeof item != "undefined" && item != null) {
-          self.ListDestinationTextBox.set("text", (item.$path));
+          self.ListDestinationButtonTextBox.set("text", (item.$path));
         } else {
-          self.ListDestinationTextBox.set("text", "/sitecore/system/List Manager/All Lists");
+          self.ListDestinationButtonTextBox.set("text", "/sitecore/system/List Manager/All Lists");
         }
         self.AddListDialogWindow.show();
       };
-      selectFolder.SelectFolder(callback, "{BC799B34-8423-48AC-A2FE-D128E6300659}", self.ListDestinationTextBox.get("text"));
+      selectFolder.SelectFolder(callback, "{BC799B34-8423-48AC-A2FE-D128E6300659}", self.ListDestinationButtonTextBox.get("text"));
     },
 
   });

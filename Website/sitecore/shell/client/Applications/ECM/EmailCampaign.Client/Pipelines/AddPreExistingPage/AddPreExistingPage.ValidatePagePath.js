@@ -2,7 +2,7 @@
   return {
     priority: 1,
     execute: function (context) {
-      postServerRequest("ecm.addpreExistingPage.validatePagePath", { databaseName: context.currentContext.databaseName, existingMessagePath: context.currentContext.existingMessagePath }, function (response) {
+      postServerRequest("EXM/ValidatePagePath", { databaseName: context.currentContext.databaseName, existingMessagePath: context.currentContext.existingMessagePath }, function (response) {
         context.currentContext.messageBar.removeMessage(function (error) { return error === response.errorMessage; });
         if (response.error) {
           context.currentContext.messageBar.addMessage("error", response.errorMessage);

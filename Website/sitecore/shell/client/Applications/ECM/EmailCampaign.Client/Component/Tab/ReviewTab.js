@@ -65,6 +65,8 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
     contextApp.EmailPreviewClientsDropDown.viewModel.close();
     contextApp.EmailPreviewReportsDropDown.viewModel.close();
     contextApp.EmailPreviewBusyImage.viewModel.show();
+    contextApp.EmailPreviewVariantsRepeater.viewModel.reset();
+    contextApp.EmailPreviewReportListControl.set("hasSelectedItem", false);
 
     var selectedCheckboxIds = contextApp.EmailPreviewClientsCheckboxes.viewModel.getSelectedIds();
     var selectedVariantIds = [];
@@ -75,11 +77,11 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
     });
 
     // only one variant exists, select it
-    if (selectedVariantIds.length == 0 && variants.length == 1) {
+    if (selectedVariantIds.length === 0 && variants.length === 1) {
       selectedVariantIds.push(variants[0].id);
     }
       // else if multiple exists, but none are selected
-    else if (selectedVariantIds.length == 0 && variants.length > 1) {
+    else if (selectedVariantIds.length === 0 && variants.length > 1) {
       $.each(variants, function (k, v) {
         selectedVariantIds.push(v.id);
       });
@@ -96,12 +98,7 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
       };
       var context = clone(contextApp.currentContext);
       sitecore.Pipelines.StartEmailPreview.execute({ app: contextApp, currentContext: context });
-      if (context.errorCount > 0) {
-        contextApp.EmailPreviewRunEmailPreviewCheckButton.viewModel.enable();
-        contextApp.EmailPreviewBusyImage.viewModel.hide();
-      }
     }, 100);
-
   }, contextApp);
 
   contextApp.on("action:startspamcheck", function () {
@@ -109,6 +106,8 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
     contextApp.SpamCheckClientsDropDown.viewModel.close();
     contextApp.SpamCheckReportsDropDown.viewModel.close();
     contextApp.SpamCheckBusyImage.viewModel.show();
+    contextApp.SpamCheckVariantsRepeater.viewModel.reset();
+    contextApp.SpamCheckReportListControl.set("hasSelectedItem", false);
 
     var selectedCheckboxIds = contextApp.SpamCheckClientsCheckboxes.viewModel.getSelectedIds();
     var selectedVariantIds = [];
@@ -119,11 +118,11 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
     });
 
     // only one variant exists, select it
-    if (selectedVariantIds.length == 0 && variants.length == 1) {
+    if (selectedVariantIds.length === 0 && variants.length === 1) {
       selectedVariantIds.push(variants[0].id);
     }
       // else if multiple exists, but none are selected
-    else if (selectedVariantIds.length == 0 && variants.length > 1) {
+    else if (selectedVariantIds.length === 0 && variants.length > 1) {
       $.each(variants, function (k, v) {
         selectedVariantIds.push(v.id);
       });
@@ -140,15 +139,17 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
       };
       var context = clone(contextApp.currentContext);
       sitecore.Pipelines.StartSpamCheck.execute({ app: contextApp, currentContext: context });
-      if (context.errorCount > 0) {
-        contextApp.SpamCheckRunSpamCheckButton.viewModel.enable();
-        contextApp.SpamCheckBusyImage.viewModel.hide();
-      }
     }, 100);
-
   }, contextApp);
 
   contextApp.on("action:sendquicktest", function () {
+    var args = { Verified: false, Saved: false };
+    sitecore.trigger("message:save", args);
+    if (!args.Verified || !args.Saved) {
+      $('html, body').animate({ scrollTop: contextApp.MessageBar.viewModel.$el.position().top }, 300, "linear");
+      return;
+    }
+
     contextApp.SendQuickTestButton.viewModel.disable();
     contextApp.SendQuickTestBusyImage.viewModel.show();
 
@@ -159,7 +160,7 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
     });
 
     // only one variant exists, select it
-    if (selectedVariantIds.length == 0 && variants.length == 1) {
+    if (selectedVariantIds.length === 0 && variants.length === 1) {
       selectedVariantIds.push(variants[0].id);
     }
 
@@ -180,74 +181,117 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
 
   }, contextApp);
 
-  contextApp.EmailPreviewReportListControl.on("change:items", function (args) {
-    contextApp.EmailPreviewBusyImage.viewModel.show();
-    if (args.get("selectedItemId") == "") {
-      var results = contextApp.EmailPreviewReportDataSource.get("results");
-      if (results.length > 0) {
-        var report = results[results.length - 1];
-        contextApp.EmailPreviewReportListControl.set("selectedItemId", report.itemId);
+  function setSelectedVariants(report, variantSelector) {
+    if (!report) { return; }
+    var variants = contextApp.MessageContext.get("variants");
+    var selectedVariants = [];
+    for (var i = 0; i < variants.length; i++) {
+      for (var ii = 0; ii < report.variantIds.length; ii++) {
+        if (variants[i].id === report.variantIds[ii]) {
+          selectedVariants.push(i);
+        }
       }
     }
-    contextApp.EmailPreviewBusyImage.viewModel.hide();
+    if (variantSelector.viewModel.isDisabled) {
+      variantSelector.viewModel.enable();
+    }
+    variantSelector.viewModel.setSelectedVariants(selectedVariants, true);
+  }
+
+  function getEmailPreviews(report) {
+    contextApp.EmailPreviewRunEmailPreviewCheckButton.viewModel.disable();
+    contextApp.EmailPreviewBusyImage.viewModel.show();
+    initEmailPreviewMessageVariants(report, contextApp.EmailPreviewVariantsRepeater, messageContext, contextApp, sitecore);
+    setSelectedVariants(report, contextApp.EmailPreviewVariantsSelector);
+  }
+
+  function getSpamChecks(report) {
+    contextApp.SpamCheckRunSpamCheckButton.viewModel.disable();
+    contextApp.SpamCheckBusyImage.viewModel.show();
+    initSpamCheckMessageVariants(report, contextApp.SpamCheckVariantsRepeater, messageContext, contextApp, sitecore);
+    setSelectedVariants(report, contextApp.SpamCheckVariantsSelector);
+  }
+
+  contextApp.EmailPreviewReportListControl.on("change:items", function (args) {
+    if (args.get("selectedItemId") === "") {
+      var results = contextApp.EmailPreviewReportDataSource.get("results");
+      if (results.length > 0) {
+        getEmailPreviews(results[results.length - 1]);
+      }
+    }
   });
 
   contextApp.SpamCheckReportListControl.on("change:items", function (args) {
-    contextApp.SpamCheckBusyImage.viewModel.show();
-    if (args.get("selectedItemId") == "") {
+    if (args.get("selectedItemId") === "") {
       var results = contextApp.SpamCheckReportDataSource.get("results");
       if (results.length > 0) {
-        var report = results[results.length - 1];
-        contextApp.SpamCheckReportListControl.set("selectedItemId", report.itemId);
+        getSpamChecks(results[results.length - 1]);
       }
     }
-    contextApp.SpamCheckBusyImage.viewModel.hide();
   });
-
+  
   contextApp.EmailPreviewReportListControl.on("change:selectedItemId", function (args) {
+    var selectedItemId = args.get("selectedItemId");
+    if (!selectedItemId) { return; }
     var datasource = contextApp.EmailPreviewReportDataSource.get("results");
     var report = _.find(datasource, function (item) {
-      return item.itemId == args.get("selectedItemId");
+      return item.itemId === selectedItemId;
     });
-
-    contextApp.EmailPreviewBusyImage.viewModel.show();
-    initEmailPreviewMessageVariants(report, contextApp.EmailPreviewVariantsRepeater, messageContext, contextApp, sitecore);
-    contextApp.EmailPreviewBusyImage.viewModel.hide();
+    getEmailPreviews(report);
   });
 
   contextApp.SpamCheckReportListControl.on("change:selectedItemId", function (args) {
+    var selectedItemId = args.get("selectedItemId");
+    if (!selectedItemId) { return; }
     var datasource = contextApp.SpamCheckReportDataSource.get("results");
     var report = _.find(datasource, function (item) {
-      return item.itemId == args.get("selectedItemId");
+      return item.itemId === selectedItemId;
     });
-
-    contextApp.SpamCheckBusyImage.viewModel.show();
-    initSpamCheckMessageVariants(report, contextApp.SpamCheckVariantsRepeater, messageContext, contextApp, sitecore);
-    contextApp.SpamCheckBusyImage.viewModel.hide();
+    getSpamChecks(report);
   });
 
   contextApp.EmailPreviewVariantsRepeater.RenderedItems.on("add", function (arg) {
     // Clean out the temp item in the core database
     var item = contextApp.EmailPreviewVariantsRepeater.getItem(arg.get("app"));
-    postServerRequest("ecm.reportrepeateritem.delete", { value: item.itemId }, function (response) { }, true);
+    postServerRequest("EXM/RemoveReportRepeaterItem", { value: item.itemId }, function (response) { }, true);
   });
 
+  contextApp.EmailPreviewVariantsRepeater.on("change:isLoading", function () {
+    setEmailPreviewCheckButtonViewLogic(contextApp, this.get("isLoading"));
+  });
+  
   contextApp.SpamCheckVariantsRepeater.RenderedItems.on("add", function (arg) {
     // Clean out the temp item in the core database
     var item = contextApp.SpamCheckVariantsRepeater.getItem(arg.get("app"));
-    postServerRequest("ecm.reportrepeateritem.delete", { value: item.itemId }, function (response) { }, true);
+    postServerRequest("EXM/RemoveReportRepeaterItem", { value: item.itemId }, function (response) { }, true);
+  });
+
+  contextApp.SpamCheckVariantsRepeater.on("change:isLoading", function () {
+    setSpamCheckCheckButtonViewLogic(contextApp, this.get("isLoading"));
+  });
+
+  contextApp.EmailPreviewReportDataSource.on("change:isBusy", function () {
+    setEmailPreviewCheckButtonViewLogic(contextApp, this.get("isBusy"));
+  });
+
+  contextApp.SpamCheckReportDataSource.on("change:isBusy", function () {
+    setSpamCheckCheckButtonViewLogic(contextApp, this.get("isBusy"));
   });
 
   sitecore.on("change:messageContext", function () {
     // hide the variants if there is only one
+    var emailPreviewVariantsColumn = $("div[data-sc-id='EmailPreviewVariantsColumn']");
+    var spamCheckVariantsColumn = $("div[data-sc-id='SpamCheckVariantsColumn']");
+    var sendQuickTestVariantsColumn = $("div[data-sc-id='SendQuickTestVariantsColumn']");
+
     if (messageContext.get("variants").length < 2) {
-      $("div[data-sc-id='EmailPreviewVariantsColumn']").hide();
-      $("div[data-sc-id='SpamCheckVariantsColumn']").hide();
-      $("div[data-sc-id='SendQuickTestVariantsColumn']").hide();
+      emailPreviewVariantsColumn.hide();
+      spamCheckVariantsColumn.hide();
+      sendQuickTestVariantsColumn.hide();
     } else {
-      $("div[data-sc-id='EmailPreviewVariantsColumn']").show();
-      $("div[data-sc-id='SpamCheckVariantsColumn']").show();
-      $("div[data-sc-id='SendQuickTestVariantsColumn']").show();
+      emailPreviewVariantsColumn.show();
+      spamCheckVariantsColumn.show();
+      sendQuickTestVariantsColumn.show();
     }
 
     if (messageContext.get("isReadonly")) {
@@ -256,20 +300,48 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
       contextApp.SendQuickTestButton.viewModel.disable();
     }
 
-    if (!contextApp.EmailPreviewReportDataSource.get("hasResults")) {
+    var emailPreviewReportDataSource = contextApp.EmailPreviewReportDataSource;
+    if (emailPreviewReportDataSource.get("hasResults") || emailPreviewReportDataSource.get("results") !== undefined) {
       contextApp.EmailPreviewBusyImage.viewModel.hide();
     }
-    if (!contextApp.SpamCheckReportDataSource.get("hasResults")) {
+
+    var spamCheckReportDataSource = contextApp.SpamCheckReportDataSource;
+    if (spamCheckReportDataSource.get("hasResults") || spamCheckReportDataSource.get("results") !== undefined) {
       contextApp.SpamCheckBusyImage.viewModel.hide();
     }
   });
 
   sitecore.on("click:emailpreview", function (args) {
-    showPreviewDetailsDialog(args);
+    function insertAndShowDialog(dialogParameters) {
+      if (contextApp["showPreviewDetailsDialog"] === undefined) {
+        contextApp.insertRendering("{EBD54846-CB01-44D3-B3CF-E6129E8DF6F0}", { $el: $("body") }, function (subApp) {
+          contextApp["showPreviewDetailsDialog"] = subApp;
+          sitecore.trigger("emailpreview:details:dialog:show", dialogParameters);
+        });
+      }
+    }
+
+    if (contextApp["showPreviewDetailsDialog"] === undefined) {
+      insertAndShowDialog(args);
+    } else {
+      sitecore.trigger("emailpreview:details:dialog:show", args);
+    }
   });
 
   sitecore.on("click:spamcheck", function (args) {
-    showSpamCheckDetailsDialog(args);
+    function insertAndShowDialog(dialogParameters) {
+      if (contextApp["showSpamCheckDetailsDialog"] === undefined) {
+        contextApp.insertRendering("{3E4BC47F-75E7-48AB-9C0A-9D0B456FE0DF}", { $el: $("body") }, function (subApp) {
+          contextApp["showSpamCheckDetailsDialog"] = subApp;
+          sitecore.trigger("spamcheck:details:dialog:show", dialogParameters);
+        });
+      }
+    }
+    if (contextApp["showSpamCheckDetailsDialog"] === undefined) {
+      insertAndShowDialog(args);
+    } else {
+      sitecore.trigger("spamcheck:details:dialog:show", args);
+    }
   });
 
   contextApp.on("showemailpreviewreport", function (args) {
@@ -282,39 +354,7 @@ function initReviewTab(sitecore, contextApp, messageContext, messageBar) {
     contextApp.SpamCheckReportListControl.set("selectedItemId", args.id);
   });
 
-  function showPreviewDetailsDialog(parameters) {
-    if (contextApp["showPreviewDetailsDialog"] === undefined) {
-      insertAndShowDialog(parameters);
-    } else {
-      sitecore.trigger("emailpreview:details:dialog:show", parameters);
-    }
-
-    function insertAndShowDialog(dialogParameters) {
-      if (contextApp["showPreviewDetailsDialog"] === undefined) {
-        contextApp.insertRendering("{EBD54846-CB01-44D3-B3CF-E6129E8DF6F0}", { $el: $("body") }, function (subApp) {
-          contextApp["showPreviewDetailsDialog"] = subApp;
-          sitecore.trigger("emailpreview:details:dialog:show", dialogParameters);
-        });
-      }
-    };
-  };
-
-  function showSpamCheckDetailsDialog(parameters) {
-    if (contextApp["showSpamCheckDetailsDialog"] === undefined) {
-      insertAndShowDialog(parameters);
-    } else {
-      sitecore.trigger("spamcheck:details:dialog:show", parameters);
-    }
-
-    function insertAndShowDialog(dialogParameters) {
-      if (contextApp["showSpamCheckDetailsDialog"] === undefined) {
-        contextApp.insertRendering("{3E4BC47F-75E7-48AB-9C0A-9D0B456FE0DF}", { $el: $("body") }, function (subApp) {
-          contextApp["showSpamCheckDetailsDialog"] = subApp;
-          sitecore.trigger("spamcheck:details:dialog:show", dialogParameters);
-        });
-      }
-    };
-  };
+  initQuickTestEmail(contextApp);
 }
 
 function initVariantsSelectors(sitecore, contextApp) {
@@ -355,7 +395,6 @@ function initVariantsSelectors(sitecore, contextApp) {
 
 function initEmailPreviewMessageVariants(report, repeater, messageContext, contextApp, sitecore) {
   contextApp.EmailPreviewVariantsRepeater.viewModel.reset();
-
   if (!report) {
     console.log("error");
     return;
@@ -384,7 +423,7 @@ function addVariantToVariantRepeater(variant, report, focus, repeater, messageCo
   var letter = "";
 
   $.each(variants, function (k, v) {
-    if (v.id == variant) {
+    if (v.id === variant) {
       letter = String.fromCharCode(65 + k);
       return;
     }
@@ -400,7 +439,7 @@ function addVariantToVariantRepeater(variant, report, focus, repeater, messageCo
     type: type
   };
 
-  postServerRequest("ecm.reportrepeateritem.create", {
+  postServerRequest("EXM/CreateReportRepeaterItem", {
     variantId: context.variantId,
     variantName: context.variantName,
     dateAndTime: context.dateAndTime,
@@ -424,7 +463,6 @@ function addVariantToVariantRepeater(variant, report, focus, repeater, messageCo
     }
   }, false);
 
-
   if (context.errorCount > 0) {
     return;
   }
@@ -436,3 +474,43 @@ function addVariantToVariantRepeater(variant, report, focus, repeater, messageCo
   repeater.viewModel.add(item);
 }
 
+function initQuickTestEmail(contextApp) {
+  var emailTextBox = contextApp.SendQuickTestEmailTextBox,
+  button = contextApp.SendQuickTestButton;
+
+  button.set('isEnabled', !!$.trim(emailTextBox.get('text')));
+  emailTextBox.on('change:text', function () {
+    button.set('isEnabled', !!$.trim(emailTextBox.get('text')));
+  });
+
+  /*
+   * The correct way is to listen only on "change:text" event of SPEAK input component
+   *  but it appears only after input will loose a focus and this is not suitable for current situation
+   *  that is why on("cut input paste keydown") events is used here also
+   */
+  emailTextBox.viewModel.$el.on('cut input paste keydown', function () {
+    button.set('isEnabled', !!$.trim(emailTextBox.viewModel.$el.val()));
+  });
+
+  contextApp.TabControl.on('change:selectedTab', function () {
+    contextApp.SendQuickTestEmailTextBox.viewModel.focus();
+  });
+}
+
+function setEmailPreviewCheckButtonViewLogic(contextApp, isBusy) {
+  setCheckButtonViewLogic(contextApp.EmailPreviewRunEmailPreviewCheckButton, contextApp.EmailPreviewBusyImage, isBusy);
+}
+
+function setSpamCheckCheckButtonViewLogic(contextApp, isBusy) {
+  setCheckButtonViewLogic(contextApp.SpamCheckRunSpamCheckButton, contextApp.SpamCheckBusyImage, isBusy);
+}
+
+function setCheckButtonViewLogic(checkButton, busyImage, condition) {
+  if (condition) {
+    checkButton.viewModel.disable();
+    busyImage.viewModel.show();
+  } else {
+    checkButton.viewModel.enable();
+    busyImage.viewModel.hide();
+  }
+}

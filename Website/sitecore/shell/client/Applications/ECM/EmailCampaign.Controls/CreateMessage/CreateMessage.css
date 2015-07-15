@@ -1,34 +1,40 @@
 ﻿.sc-createmessage-section {
   display: inline-block;
 }
+.sc-createmessage-section h3 {
+  margin: 0;
+}
 .sc-createmessage-option {
-  width: 144px;
   display: block;
-  margin: 5px 5px 0 7px;
-  padding: 0;
+  padding: 0 8px;
   float: left;
   text-align: center;
   position: relative;
   cursor: pointer;
+  background-color: transparent;
+  z-index: 100;
+}
+.sc-createmessage-option:hover,  
+.sc-createmessage-option.active {
+  background-color: #D6D6D6;
 }
 .sc-createmessage-option .name {
-  margin-top: 0;
   white-space: nowrap;
-  width: 130px;
   overflow: hidden;
   -ms-text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+  text-align: center;
+  margin: -25px 0 25px 0;
 }
 .sc-createmessage-option .icon {
-  width: 128px;
+
+  display: inline-block;
+}
+.sc-createmessage-option .icon img {
   height: 128px;
 }
-.sc-createmessage-option .sc-createmessage-option:hover .name {
-  color: #d93c1c;
-  text-decoration: underline;
+.sc-createmessage-option .name,
+.sc-createmessage-option .icon img {
+  width: 128px;
 }
-.sc h3 {
-  line-height: 0;
-}
-/*# sourceMappingURL=CreateMessage.css.map */

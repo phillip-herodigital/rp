@@ -4,7 +4,6 @@
   }
 
   contextApp.MessageContext.on("change:isBusy", setActionControlsEnabled([
-    '145C7DD46EA24F4CBD048A290EB3AF24', // Add attachment
     '34BE63852A2C4AC6BB3A9F35C3280564' // Edit engagement plan
   ]));
 
@@ -18,7 +17,7 @@
 
         $.each(actionIds, function (actionIdIndex, actionId) {
           $.each(contextApp.ActionControl.get("actions"), function (actionIndex, action) {
-            if (action.id() == actionId) {
+            if (action.id() === actionId) {
               if (isReadOnly === false) {
                 action.enable();
               } else {

@@ -2,7 +2,7 @@
   return {
     priority: 1,
     execute: function (context) {
-      postServerRequest("ecm.spamcheck.checkforpurchase", {}, function (response) {
+      postServerRequest("EXM/IsSpamCheckServicePurchased", {}, function (response) {
         context.currentContext.messageBar.removeMessage(function (error) { return error.id === "error.ecm.spamcheck.checkforpurchase"; });
 
         if (response.error) {
@@ -20,6 +20,7 @@
           context.currentContext.messageBar.addMessage("error", messagetoAddError);
           context.currentContext.errorCount = 1;
           context.aborted = true;
+          setSpamCheckCheckButtonViewLogic(contextApp, false);
           return;
         }
       }, false);

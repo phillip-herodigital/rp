@@ -1,4 +1,4 @@
-﻿@using System.Configuration
+@using System.Configuration
 @using System.Globalization
 @using System.Web.Configuration
 @using Sitecore.Mvc
@@ -10,7 +10,7 @@
   var destination = userControl.GetString("DestinationUrl", "destinationUrl");
 
   userControl.Requires.Script("listmanager", "listmanagementuploader.js");
-  userControl.Class = "sc-uploader sc-listmanagementuploader row-fluid";
+  userControl.Class = "sc-listmanagementuploader row-fluid";
 
   var parametersResolver = new DatasourceBasedParametersResolver(Model.Rendering);
 

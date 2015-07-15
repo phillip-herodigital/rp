@@ -2,7 +2,7 @@
 return {
     priority: 3,
     execute: function (context) {
-      postServerRequest("ecm.emailpreview.execute", {
+      postServerRequest("EXM/ExecuteEmailPreview", {
         messageId: context.currentContext.messageId,
         language: context.currentContext.language,
         clients: context.currentContext.clientIds,
@@ -14,6 +14,7 @@ return {
           context.currentContext.messageBar.addMessage("error", response.errorMessage);
           context.currentContext.errorCount = 1;
           context.aborted = true;
+          setEmailPreviewCheckButtonViewLogic(contextApp, false);
           return;
         }
 
