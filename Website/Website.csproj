@@ -938,7 +938,9 @@
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="sitecore\StreamRedirectUrlPage.cs" />
+    <Compile Include="sitecore\StreamRedirectUrlPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Utility\HtmlHelperExtensions.cs" />
     <Compile Include="Utility\NavigationSiteMapProvider.cs" />
     <Compile Include="Utility\SitecoreItemExtensions.cs" />
