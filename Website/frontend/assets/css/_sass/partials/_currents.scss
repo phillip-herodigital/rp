@@ -56,7 +56,7 @@ $local-meeting-color: #00a8e1;
         z-index: 9100;
         padding-bottom: 100px;
     }
-    @include breakpoint(small) {
+    @include breakpoint(small-medium) {
         .blog-info {
             position: relative;
             width: auto;
@@ -397,10 +397,9 @@ $local-meeting-color: #00a8e1;
     @include breakpoint(small) {
         margin-top: 0;
     }
-    @include breakpoint-max(1385px) {
-        .wrapper {
-            height: 30vw;
-        }
+    .wrapper {
+        height: 30vw;
+        max-height: 420px;
     }
 }
 
@@ -408,7 +407,8 @@ $local-meeting-color: #00a8e1;
     margin-top: -180px;
     width: 100%;
     border-bottom: 5px solid;
-    height: 300px;
+    height: 20vw;
+    max-height: 300px;
     border-color: $default-color;
     &.events {
         border-color: $events-color;
