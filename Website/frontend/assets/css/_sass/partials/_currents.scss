@@ -510,9 +510,6 @@ $default-color: #d2d3d3;
                 font-size: 20px;
                 margin: 5px 0;
                 line-height: 1;
-                a {
-                    color: #fff;
-                }
             }
             .article-summary {
                 height: 50px;
@@ -532,6 +529,30 @@ $default-color: #d2d3d3;
             .ellip-line {
                 position: relative;
                 overflow: hidden;
+            }
+        }
+        &.events {
+            background-color: $events-color;
+            border-color: $events-color;
+            color: #fff;
+            h2 {
+                color: #fff;
+            }
+        }
+        &.promotions {
+            background-color: $promotions-color;
+            border-color: $promotions-color;
+            color: #fff;
+            h2 {
+                color: #fff;
+            }
+        }
+        &.recognition {
+            background-color: $recognition-color;
+            border-color: $recognition-color;
+            color: #fff;
+            h2 {
+                color: #fff;
             }
         }
         &.grid-item--width2, &.grid-item--width3, &.grid-item--width4 {
