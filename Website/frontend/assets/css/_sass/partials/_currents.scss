@@ -52,7 +52,7 @@ $default-color: #d2d3d3;
         z-index: 9100;
         padding-bottom: 100px;
     }
-    @include breakpoint(small) {
+    @include breakpoint(small-medium) {
         .blog-info {
             position: relative;
             width: auto;
@@ -394,13 +394,18 @@ $default-color: #d2d3d3;
     @include breakpoint(small) {
         margin-top: 0;
     }
+    .wrapper {
+        height: 30vw;
+        max-height: 420px;
+    }
 }
 
 .currents__banner {
     margin-top: -180px;
     width: 100%;
     border-bottom: 5px solid;
-    height: 300px;
+    height: 20vw;
+    max-height: 300px;
     border-color: $default-color;
     &.events {
         border-color: $events-color;
