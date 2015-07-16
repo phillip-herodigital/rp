@@ -673,8 +673,9 @@ $default-color: #d2d3d3;
     }
     .currents__carousel {
         margin: 40px 0 0;
-        .wrapper {
-            height: 856px;
+        img {
+            width: 100%;
+            vertical-align: bottom;
         }
         .carousel-indicators li { 
             visibility: hidden; 
