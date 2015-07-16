@@ -52,7 +52,7 @@ $default-color: #d2d3d3;
         z-index: 9100;
         padding-bottom: 100px;
     }
-    @include breakpoint(small) {
+    @include breakpoint(small-medium) {
         .blog-info {
             position: relative;
             width: auto;
@@ -332,6 +332,7 @@ $default-color: #d2d3d3;
         }
         .currents-nav {
             float: right !important;
+            margin-left: 0px !important;
             li {
                 height: 30px !important;
                 padding: 0 10px !important;
@@ -393,13 +394,18 @@ $default-color: #d2d3d3;
     @include breakpoint(small) {
         margin-top: 0;
     }
+    .wrapper {
+        height: 30vw;
+        max-height: 420px;
+    }
 }
 
 .currents__banner {
     margin-top: -180px;
     width: 100%;
     border-bottom: 5px solid;
-    height: 300px;
+    height: 20vw;
+    max-height: 300px;
     border-color: $default-color;
     &.events {
         border-color: $events-color;
@@ -462,14 +468,26 @@ $default-color: #d2d3d3;
         &.events {
             background-color: $events-color;
             border-color: $events-color;
+            color: #fff;
+            h2 {
+                color: #fff;
+            }
         }
         &.promotions {
             background-color: $promotions-color;
             border-color: $promotions-color;
+            color: #fff;
+            h2 {
+                color: #fff;
+            }
         }
         &.recognition {
             background-color: $recognition-color;
             border-color: $recognition-color;
+            color: #fff;
+            h2 {
+                color: #fff;
+            }
         }
         .article-video {
             @include retina-background('video-currents.png', 'icon');
@@ -504,9 +522,6 @@ $default-color: #d2d3d3;
                 font-size: 20px;
                 margin: 5px 0;
                 line-height: 1;
-                a {
-                    color: #fff;
-                }
             }
             .article-summary {
                 height: 50px;
