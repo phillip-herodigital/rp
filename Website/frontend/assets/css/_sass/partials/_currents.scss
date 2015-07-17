@@ -469,30 +469,6 @@ $local-meeting-color: #00a8e1;
         border-color: $default-color;
         background-size: cover;
         background-color: $default-color;
-        &.events {
-            background-color: $events-color;
-            border-color: $events-color;
-            color: #fff;
-            h2 {
-                color: #fff;
-            }
-        }
-        &.promotions {
-            background-color: $promotions-color;
-            border-color: $promotions-color;
-            color: #fff;
-            h2 {
-                color: #fff;
-            }
-        }
-        &.recognition {
-            background-color: $recognition-color;
-            border-color: $recognition-color;
-            color: #fff;
-            h2 {
-                color: #fff;
-            }
-        }
         .article-video {
             @include retina-background('video-currents.png', 'icon');
             background-position: top right;
