@@ -128,9 +128,9 @@ namespace StreamEnergy.Services.Clients
                         {
                             { "Name", item["Product Name"] },
                             { "Data", item["Data"] },
-                            { "Hours Music", (item["Data"] == "Unlimited" || item["Data"] == "Ilimitado")? "30+" : (Convert.ToInt32(item["Data"]) * 6).ToString() },
-                            { "Hours Movies", (item["Data"] == "Unlimited" || item["Data"] == "Ilimitado")? "10+" : (Convert.ToInt32(item["Data"]) * 2).ToString() },
-                            { "Web Pages", (item["Data"] == "Unlimited" || item["Data"] == "Ilimitado")? "1500+" : (Convert.ToInt32(item["Data"]) * 300).ToString() },
+                            { "Hours Music", item["Data"] == "Unlimited"? "30+" : (Convert.ToInt32(item["Data"]) * 6).ToString() },
+                            { "Hours Movies", item["Data"] == "Unlimited"? "10+" : (Convert.ToInt32(item["Data"]) * 2).ToString() },
+                            { "Web Pages", item["Data"] == "Unlimited"? "1500+" : (Convert.ToInt32(item["Data"]) * 300).ToString() },
                             { "Recommended", item["Recommended"] },
                             { "Special Offer", item["Special Offer"] },
                             { "Special Offer Text", item["Special Offer Text"] },
