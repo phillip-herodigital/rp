@@ -464,7 +464,7 @@ $local-meeting-color: #00a8e1;
         position: relative;
         height: 300px;
         margin-bottom: 10px;
-        color: #000;
+        color: #fff;
         border-bottom: 5px solid;
         border-color: $default-color;
         background-size: cover;
@@ -502,7 +502,7 @@ $local-meeting-color: #00a8e1;
                 font-size: 20px;
                 margin: 5px 0;
                 line-height: 1;
-                color: #000;
+                color: #fff;
             }
             .article-summary {
                 height: 50px;
@@ -527,26 +527,14 @@ $local-meeting-color: #00a8e1;
         &.events {
             background-color: $events-color;
             border-color: $events-color;
-            color: #fff;
-            h2 {
-                color: #fff;
-            }
         }
         &.promotions {
             background-color: $promotions-color;
             border-color: $promotions-color;
-            color: #fff;
-            h2 {
-                color: #fff;
-            }
         }
         &.recognition {
             background-color: $recognition-color;
             border-color: $recognition-color;
-            color: #fff;
-            h2 {
-                color: #fff;
-            }
         }
         &.grid-item--width2, &.grid-item--width3, &.grid-item--width4 {
             @include breakpoint(medium-large) {
@@ -560,8 +548,10 @@ $local-meeting-color: #00a8e1;
                 height: 240px;
                 top: 50px;
                 background: transparent;
+                color: #000;
                 h2 {
                     font-size: 36px;
+                    color: #000;
                 }
                 &:after{
                     @include opacity(1);
@@ -569,6 +559,14 @@ $local-meeting-color: #00a8e1;
                 }
                 .article-summary {
                     height: 70px;
+                }
+            }
+            &.events, &.promotions, &.recognition {
+                .article-overview {
+                    color: #fff;
+                    h2 {
+                        color: #fff;
+                    }
                 }
             }
             &.events .article-overview:after {
