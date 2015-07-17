@@ -31,6 +31,8 @@
 
     var topLevelNavigation = SiteMap.RootNode.ChildNodes.Cast<ItemSiteMapNode>().Select((n, i) => new { Value = n, Number = i + 1 }).ToArray();
     var selectedNavItem = topLevelNavigation.Where(node => selectedNode != null && (node.Value.Key == selectedNode.Key || selectedNode.IsDescendantOf(node.Value))).Select(node => node.Number).FirstOrDefault();
+    var accountDataSourceItem = Sitecore.Context.Database.GetItem("{E67AB785-3CBA-41DE-8060-DC389CA4F13A}");
+    var translationDataSourceItem = Sitecore.Context.Database.GetItem("{4B595296-479C-4FC6-A04D-F381FB004E1C}");
 
 }
 <header class="site-header" main-nav="@selectedNavItem" data-fixed-fix>
@@ -60,15 +62,18 @@
                 }
                 @if (!Sitecore.Context.IsLoggedIn)
                 {
-                    @*<li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>*@
-                    <li><a href="/auth/login">Manage My Account</a></li>
-                    <li><a href="/pay/">Pay my Bill</a></li>
+                    if (!string.IsNullOrEmpty(translationDataSourceItem.Fields["Enable Domain Translations"].Value))
+                    {
+                        <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                    }
+                    <li><a href="/auth/login">@Html.Sitecore().Field("Manage text", accountDataSourceItem)</a></li>
+                    <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
                 }
                 else
                 {
-                    <li><a href="/account">My Account</a></li>
-                    <li><a href="/account/profile">My Profile</a></li>
-                    <li><a href="/api/authentication/logout">Logout</a></li>
+                    <li><a href="/account">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
+                    <li><a href="/account/profile">@Html.Sitecore().Field("My Profile text", accountDataSourceItem)</a></li>
+                    <li><a href="/api/authentication/logout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
                 }
             </ul>
         </nav>
@@ -81,17 +86,20 @@
                 <text>Welcome,</text>
                 @Sitecore.Context.User.LocalName
                 <ul>
-                    <li><a href="/account">My Account</a></li>
-                    <li><a href="/account/profile">My Profile</a></li>
-                    <li><a href="/api/authentication/logout">Logout</a></li>
+                    <li><a href="/account">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
+                    <li><a href="/account/profile">@Html.Sitecore().Field("My Profile text", accountDataSourceItem)</a></li>
+                    <li><a href="/api/authentication/logout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
                 </ul>
             }
             else
             {
                 <ul>
-                    @*<li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>*@
-                    <li><a href="/auth/login">My Account</a></li>
-                    <li><a href="/pay/">Pay My Bill</a></li>
+                    @if (!string.IsNullOrEmpty(translationDataSourceItem.Fields["Enable Domain Translations"].Value))
+                    {
+                    <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
+                    }
+                    <li><a href="/auth/login">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
+                    <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
                 </ul>
             }
         </div>
