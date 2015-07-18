@@ -1,4 +1,31 @@
-﻿<article class="marketing state-tabs states-enroll" state-tabs="georgia">
+﻿@{
+    var visitor = Sitecore.Analytics.Tracker.Current;
+
+    var selectedTab = "";
+
+    switch (visitor.Interaction.GeoData.Region)
+    {
+        case "GA":
+            selectedTab = "georgia";
+            break;
+        case "PA":
+            selectedTab = "pennsylvania";
+            break;
+        case "MD":
+            selectedTab = "maryland";
+            break;
+        case "NJ":
+            selectedTab = "newjersey";
+            break;
+        case "NY":
+            selectedTab = "newyork";
+            break;
+        default:
+            selectedTab = "georgia";
+            break;
+    }
+}
+<article class="marketing state-tabs states-enroll" state-tabs="" ng-init="pane = '@selectedTab'">
     <ul class="tabs-nav">
         <li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
             <a href="">

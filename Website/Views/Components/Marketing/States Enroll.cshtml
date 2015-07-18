@@ -15,9 +15,14 @@
             { "rateURL", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentRendering.Item.Fields[state.ToString() + " Rates Link"]).TargetItem) }
         });
     }
+
+    var visitor = Sitecore.Analytics.Tracker.Current;
+
+    var selectedState = string.IsNullOrEmpty(visitor.Interaction.GeoData.Region) ? "TX" : visitor.Interaction.GeoData.Region;
+
 }
 
-<article class="marketing state-tabs states-enroll" state-selector="TX" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));'>
+<article class="marketing state-tabs states-enroll" state-selector="@selectedState" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));'>
     <div class="wrapper grid">
         <div class="col"><h3>@Html.Sitecore().Field("Header")</h3></div>
         <div class="col">
