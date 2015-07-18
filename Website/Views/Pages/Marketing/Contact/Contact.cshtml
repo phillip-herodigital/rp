@@ -2,10 +2,40 @@
 @using System.Linq.Expressions;
 @using StreamEnergy.Extensions;
 
-@*
+@{
+    var visitor = Sitecore.Analytics.Tracker.Current;
 
-*@
-<div state-tabs>
+    var selectedTab = "";
+
+    switch (visitor.Interaction.GeoData.Region)
+    {
+        case "TX":
+            selectedTab = "texas";
+            break;
+        case "GA":
+            selectedTab = "georgia";
+            break;
+        case "PA":
+            selectedTab = "pennsylvania";
+            break;
+        case "MD":
+            selectedTab = "maryland";
+            break;
+        case "NJ":
+            selectedTab = "newjersey";
+            break;
+        case "NY":
+            selectedTab = "newyork";
+            break;
+        case "DC":
+            selectedTab = "washingtondc";
+            break;
+        default:
+            selectedTab = "notDetected";
+            break;
+    }
+}
+<div state-tabs ng-init="pane = '@selectedTab'">
     <article class="marketing service-tabs contact">
         <div class="wrapper">
             <div class="grid border three">
