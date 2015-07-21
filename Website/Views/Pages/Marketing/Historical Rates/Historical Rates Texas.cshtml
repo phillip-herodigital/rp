@@ -5,7 +5,7 @@
     {
         var variablePricePlanItems = Html.Sitecore().CurrentItem.Children[plan].Children.OrderByDescending(C => C.Fields["Date"].Value);
         var variablePricePlanRows = new Dictionary<string, List<dynamic>>();
-        var tdus = new string[] { "Oncor", "Centerpoint", "AEP Central", "AEP North", "TNMP" };
+        var tdus = new string[] { "Oncor", "Centerpoint", "AEP Central", "AEP North", "TNMP", "Sharyland", "Sharyland McAllen" };
         var kwhPrices = new string[] { "500", "1000", "2000" };
         var headerRow = new List<dynamic>();
         headerRow.Add(new
