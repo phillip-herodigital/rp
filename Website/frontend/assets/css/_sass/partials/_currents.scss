@@ -423,7 +423,8 @@ $local-meeting-color: #00a8e1;
     &.calendar {
         background-color: $events-color;
         border-color: $events-color;
-        height: 400px
+        height: 400px;
+        max-height: none;
     }
     @include breakpoint(small) {
         margin-top: 0;
@@ -1060,7 +1061,7 @@ $local-meeting-color: #00a8e1;
     }
     .fc-calendar-container {
         position: relative;
-        height: 1125px;
+        height: 800px;
         width: 100%;
         background: #eee;
     }
@@ -1114,12 +1115,12 @@ $local-meeting-color: #00a8e1;
                 > span.fc-date {
                     position: absolute;
                     width: 48px;
-                    height: 48px;
-                    font-size: 48px;
-                    line-height: 48px;
+                    height: 36px;
+                    font-size: 36px;
+                    line-height: 36px;
                     font-weight: 500;
                     color: #aaa;
-                    top: 50%;
+                    top: 55%;
                     left: 50%;
                     text-align: center;
                     margin: -24px 0 0 -24px;
@@ -1186,8 +1187,8 @@ $local-meeting-color: #00a8e1;
                       left: 0;
                       top: 0;
                     }
-                    .fc-calendar-event:nth-child(4) {
-                        margin-top: 48px;
+                    .fc-calendar-event:nth-child(3) {
+                        margin-top: 34px;
                     }
                 }
             }
