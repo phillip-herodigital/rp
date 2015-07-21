@@ -9,11 +9,11 @@
             <param desc="name">$(id)</param>
             <param desc="folder">$(id)</param>
             <!-- This initializes index property store. Id has to be set to the index id -->
-            <param desc="propertyStore" ref="contentSearch/databasePropertyStore" param1="$(id)" />
+            <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
             <configuration ref="contentSearch/indexConfigurations/defaultLuceneIndexConfiguration" />
             <strategies hint="list:AddStrategy">
               <!-- NOTE: order of these is controls the execution order -->
-              <strategy ref="contentSearch/indexUpdateStrategies/intervalAsyncCore" />
+              <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/intervalAsyncCore" />
             </strategies>
             <locations hint="list:AddCrawler">
               <crawler type="Sitecore.ContentSearch.SitecoreItemCrawler, Sitecore.ContentSearch">
@@ -26,11 +26,11 @@
             <param desc="name">$(id)</param>
             <param desc="folder">$(id)</param>
             <!-- This initializes index property store. Id has to be set to the index id -->
-            <param desc="propertyStore" ref="contentSearch/databasePropertyStore" param1="$(id)" />
+            <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
             <configuration ref="contentSearch/indexConfigurations/defaultLuceneIndexConfiguration" />
             <strategies hint="list:AddStrategy">
               <!-- NOTE: order of these is controls the execution order -->
-              <strategy ref="contentSearch/indexUpdateStrategies/intervalAsyncCore" />
+              <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/intervalAsyncCore" />
             </strategies>
             <locations hint="list:AddCrawler">
               <crawler type="Sitecore.ContentSearch.SitecoreItemCrawler, Sitecore.ContentSearch">
@@ -43,11 +43,11 @@
             <param desc="name">$(id)</param>
             <param desc="folder">$(id)</param>
             <!-- This initializes index property store. Id has to be set to the index id -->
-            <param desc="propertyStore" ref="contentSearch/databasePropertyStore" param1="$(id)" />
+            <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
             <configuration ref="contentSearch/indexConfigurations/defaultLuceneIndexConfiguration" />
             <strategies hint="list:AddStrategy">
               <!-- NOTE: order of these is controls the execution order -->
-              <strategy ref="contentSearch/indexUpdateStrategies/intervalAsyncCore" />
+              <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/intervalAsyncCore" />
             </strategies>
             <locations hint="list:AddCrawler">
               <crawler type="Sitecore.ContentSearch.SitecoreItemCrawler, Sitecore.ContentSearch">
@@ -61,11 +61,11 @@
             <param desc="name">$(id)</param>
             <param desc="folder">$(id)</param>
             <!-- This initializes index property store. Id has to be set to the index id -->
-            <param desc="propertyStore" ref="contentSearch/databasePropertyStore" param1="$(id)" />
+            <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
             <configuration ref="contentSearch/indexConfigurations/defaultLuceneIndexConfiguration" />
             <strategies hint="list:AddStrategy">
               <!-- NOTE: order of these is controls the execution order -->
-              <strategy ref="contentSearch/indexUpdateStrategies/intervalAsyncCore" />
+              <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/intervalAsyncCore" />
             </strategies>
             <locations hint="list:AddCrawler">
               <crawler type="Sitecore.ContentSearch.SitecoreItemCrawler, Sitecore.ContentSearch">
@@ -78,35 +78,35 @@
             <param desc="name">$(id)</param>
             <param desc="folder">$(id)</param>
             <!-- This initializes index property store. Id has to be set to the index id -->
-            <param desc="propertyStore" ref="contentSearch/databasePropertyStore" param1="$(id)" />
+            <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
             <configuration ref="contentSearch/indexConfigurations/defaultLuceneIndexConfiguration" />
             <strategies hint="list:AddStrategy">
               <!-- NOTE: order of these is controls the execution order -->
-              <strategy ref="contentSearch/indexUpdateStrategies/intervalAsyncCore" />
+              <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/intervalAsyncCore" />
             </strategies>
             <locations hint="list:AddCrawler">
               <crawler type="Sitecore.ContentSearch.SitecoreItemCrawler, Sitecore.ContentSearch">
                 <Database>core</Database>
                 <Root>/sitecore/templates</Root>
               </crawler>
-            </locations>            
+            </locations>
           </index>
           <index id="sitecore_index_core" type="Sitecore.ContentSearch.LuceneProvider.LuceneIndex, Sitecore.ContentSearch.LuceneProvider">
             <param desc="name">$(id)</param>
             <param desc="folder">$(id)</param>
             <!-- This initializes index property store. Id has to be set to the index id -->
-            <param desc="propertyStore" ref="contentSearch/databasePropertyStore" param1="$(id)" />
+            <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
             <configuration ref="contentSearch/indexConfigurations/defaultLuceneIndexConfiguration" />
             <strategies hint="list:AddStrategy">
               <!-- NOTE: order of these is controls the execution order -->
-              <strategy ref="contentSearch/indexUpdateStrategies/intervalAsyncCore" />
+              <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/intervalAsyncCore" />
             </strategies>
             <locations hint="list:AddCrawler">
               <crawler type="Sitecore.ContentSearch.SitecoreItemCrawler, Sitecore.ContentSearch">
                 <Database>core</Database>
                 <Root>/sitecore</Root>
               </crawler>
-            </locations>            
+            </locations>
           </index>
         </indexes>
       </configuration>
