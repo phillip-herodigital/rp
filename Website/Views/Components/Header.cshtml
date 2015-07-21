@@ -32,7 +32,9 @@
     var topLevelNavigation = SiteMap.RootNode.ChildNodes.Cast<ItemSiteMapNode>().Select((n, i) => new { Value = n, Number = i + 1 }).ToArray();
     var selectedNavItem = topLevelNavigation.Where(node => selectedNode != null && (node.Value.Key == selectedNode.Key || selectedNode.IsDescendantOf(node.Value))).Select(node => node.Number).FirstOrDefault();
     var accountDataSourceItem = Sitecore.Context.Database.GetItem("{E67AB785-3CBA-41DE-8060-DC389CA4F13A}");
-    var translationDataSourceItem = Sitecore.Context.Database.GetItem("{4B595296-479C-4FC6-A04D-F381FB004E1C}");
+
+    var settings = StreamEnergy.Unity.Container.Instance.Resolve<StreamEnergy.ISettings>();
+    var enableLanguageLink = !string.IsNullOrEmpty(settings.GetSettingsField("Language Link", "Enable Language Link").Value);
 
 }
 <header class="site-header" main-nav="@selectedNavItem" data-fixed-fix>
@@ -62,7 +64,7 @@
                 }
                 @if (!Sitecore.Context.IsLoggedIn)
                 {
-                    if (!string.IsNullOrEmpty(translationDataSourceItem.Fields["Enable Domain Translations"].Value))
+                    if (enableLanguageLink)
                     {
                         <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
@@ -94,7 +96,7 @@
             else
             {
                 <ul>
-                    @if (!string.IsNullOrEmpty(translationDataSourceItem.Fields["Enable Domain Translations"].Value))
+                    @if (enableLanguageLink)
                     {
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
