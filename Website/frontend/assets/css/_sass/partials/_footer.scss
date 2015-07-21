@@ -39,7 +39,9 @@ footer.site-footer {
     }
     div.logos {
         @extend .clearfix;
-        padding: 45px 0;
+        background: adjust-lightness(#2f9bce, -10);
+        margin-top: 25px;
+        padding: 25px 0;
         .logo {
             @include image-replace("bg/logo-footer.png", "bg2x/logo-footer.png");
             float: left;
@@ -47,32 +49,61 @@ footer.site-footer {
         ul {
             @include inline-block-list();
             float: right;
+            margin-top: 7px;
             li {
                 margin-left: 10px;
             }
         }
     }
     div.site-footer-legal {
-        border-top: 1px solid #44a5d3;
-        padding: 20px 0;
+       // border-top: 1px solid #44a5d3;
+       background: #fff;
+        padding: 0 0 40px;
         font-size: 10px;
+        color:#444;
         ul {
             @include inline-block-list();
             float: right;
         }
     }
     div.legal {
-		padding: .75em 0;
-		background: adjust-lightness(#2f9bce, -10);
+		padding: 2.75em 0 0;
+		background: #fff;
 		font-size: 80%;
 		text-align: center;
+        .accredit-icons {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            li {
+                float: right;
+                &:nth-child(even){
+                    float: left;
+                    margin-left: 70px;
+                }
+                a {
+                    b {
+                        @include image-replace("bg/bbb2x.png","bg2x/bbb2x.png");
+                    }
+                }
+            }
+            @include breakpoint(small) {
+                margin-top: 10px;
+                li {
+                    margin: 0 !important;
+                    float: none !important;
+                    text-align: center;
+                }
+            }
+        }
 		ul {
             @include inline-block-list();
-			li {
+            margin-top: 20px;
+			li { 
 				border-left: 1px solid adjust-lightness(#44a5d3, -10);
 				padding: 0 1em;
 				a {
-					color: #fff;
+					color: #555;
 				}
 			}
 			li:first-child {

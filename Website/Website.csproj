@@ -66,6 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\ComponentArt.Web.UI.dll</HintPath>
     </Reference>
+    <Reference Include="DDay.iCal">
+      <HintPath>..\packages\DDay.iCal.1.0.2.575\lib\DDay.iCal.dll</HintPath>
+    </Reference>
     <Reference Include="dotless.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\dotless.Core.dll</HintPath>
@@ -236,6 +239,9 @@
     </Reference>
     <Reference Include="Sitecore.Analytics.MongoDB">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.MongoDB.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.OmniChannel">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.OmniChannel.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Analytics.Outcome">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Outcome.dll</HintPath>
@@ -932,6 +938,9 @@
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sitecore\StreamRedirectUrlPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Utility\HtmlHelperExtensions.cs" />
     <Compile Include="Utility\NavigationSiteMapProvider.cs" />
     <Compile Include="Utility\SitecoreItemExtensions.cs" />

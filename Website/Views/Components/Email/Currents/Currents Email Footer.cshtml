@@ -46,7 +46,7 @@
                                                             <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
                                                             <td width="25" height="25" align="center">
                                                                 <div class="imgpop">
-                                                                    <a target="_blank" href="@Html.Sitecore().Field("Facebook URL")">
+                                                                    <a target="_blank" href="@sc.CurrentItem.Fields["Facebook URL"].Value">
                                                                         <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(facebookIconField.MediaItem, mediaOptions)" alt="" border="0" width="@facebookIconField.Width" height="@facebookIconField.Height" style="@iconstyle">
                                                                     </a>
                                                                 </div>
@@ -54,7 +54,7 @@
                                                             <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
                                                             <td width="25" height="25" align="center">
                                                                 <div class="imgpop">
-                                                                    <a target="_blank" href="@Html.Sitecore().Field("Twitter URL")">
+                                                                    <a target="_blank" href="@sc.CurrentItem.Fields["Twitter URL"].Value">
                                                                         <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(twitterIconField.MediaItem, mediaOptions)" alt="" border="0" width="@twitterIconField.Width" height="@twitterIconField.Height" style="@iconstyle">
                                                                     </a>
                                                                 </div>
@@ -62,7 +62,7 @@
                                                             <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
                                                             <td width="25" height="25" align="center">
                                                                 <div class="imgpop">
-                                                                    <a target="_blank" href="@Html.Sitecore().Field("YouTube URL")">
+                                                                    <a target="_blank" href="@sc.CurrentItem.Fields["YouTube URL"].Value">
                                                                         <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(youtubeIconField.MediaItem, mediaOptions)" alt="" border="0" width="@youtubeIconField.Width" height="@youtubeIconField.Height" style="@iconstyle">
                                                                     </a>
                                                                 </div>
@@ -70,7 +70,7 @@
                                                             <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
                                                             <td width="25" height="25" align="center">
                                                                 <div class="imgpop">
-                                                                    <a target="_blank" href="@Html.Sitecore().Field("Pinterest URL")">
+                                                                    <a target="_blank" href="@sc.CurrentItem.Fields["Pinterest URL"].Value">
                                                                         <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(pinterestIconField.MediaItem, mediaOptions)" alt="" border="0" width="@pinterestIconField.Width" height="@pinterestIconField.Height" style="@iconstyle">
                                                                     </a>
                                                                 </div>

@@ -259,7 +259,16 @@ FSR.properties = {
 		google_remote : false
 	},
 
-    cpps : {},
+    cpps : {
+		ASP_SessionID: {
+		    source: 'variable',
+		    name: 'window.ASPNET_SessionId'
+		},
+				ASP_SessionID_cookie: {
+		    source: 'cookie',
+		    name: 'ASP.NET_SessionId'
+		}
+	},
 
     mode : 'hybrid'
 };

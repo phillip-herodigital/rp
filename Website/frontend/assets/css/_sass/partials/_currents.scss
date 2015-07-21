@@ -5,6 +5,10 @@ $events-color: #00a3e0;
 $promotions-color: #97c93d;
 $recognition-color: #f99d25;
 $default-color: #d2d3d3;
+$corporate-events-color: #0071b9;
+$conference-calls-color: #033c5a;
+$webinars-color: #97c93d;
+$local-meeting-color: #00a8e1;
 
 .currents {
     position: relative;
@@ -295,7 +299,7 @@ $default-color: #d2d3d3;
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 9000;
+        z-index: 9200;
         border-bottom: 1px solid $dark-border-color;
         @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
         > .layout {
@@ -465,30 +469,6 @@ $default-color: #d2d3d3;
         border-color: $default-color;
         background-size: cover;
         background-color: $default-color;
-        &.events {
-            background-color: $events-color;
-            border-color: $events-color;
-            color: #fff;
-            h2 {
-                color: #fff;
-            }
-        }
-        &.promotions {
-            background-color: $promotions-color;
-            border-color: $promotions-color;
-            color: #fff;
-            h2 {
-                color: #fff;
-            }
-        }
-        &.recognition {
-            background-color: $recognition-color;
-            border-color: $recognition-color;
-            color: #fff;
-            h2 {
-                color: #fff;
-            }
-        }
         .article-video {
             @include retina-background('video-currents.png', 'icon');
             background-position: top right;
@@ -522,6 +502,7 @@ $default-color: #d2d3d3;
                 font-size: 20px;
                 margin: 5px 0;
                 line-height: 1;
+                color: #fff;
             }
             .article-summary {
                 height: 50px;
@@ -543,6 +524,18 @@ $default-color: #d2d3d3;
                 overflow: hidden;
             }
         }
+        &.events {
+            background-color: $events-color;
+            border-color: $events-color;
+        }
+        &.promotions {
+            background-color: $promotions-color;
+            border-color: $promotions-color;
+        }
+        &.recognition {
+            background-color: $recognition-color;
+            border-color: $recognition-color;
+        }
         &.grid-item--width2, &.grid-item--width3, &.grid-item--width4 {
             @include breakpoint(medium-large) {
                 .article-summary {
@@ -555,8 +548,10 @@ $default-color: #d2d3d3;
                 height: 240px;
                 top: 50px;
                 background: transparent;
+                color: #000;
                 h2 {
                     font-size: 36px;
+                    color: #000;
                 }
                 &:after{
                     @include opacity(1);
@@ -564,6 +559,14 @@ $default-color: #d2d3d3;
                 }
                 .article-summary {
                     height: 70px;
+                }
+            }
+            &.events, &.promotions, &.recognition {
+                .article-overview {
+                    color: #fff;
+                    h2 {
+                        color: #fff;
+                    }
                 }
             }
             &.events .article-overview:after {
@@ -688,8 +691,9 @@ $default-color: #d2d3d3;
     }
     .currents__carousel {
         margin: 40px 0 0;
-        .wrapper {
-            height: 856px;
+        img {
+            width: 100%;
+            vertical-align: bottom;
         }
         .carousel-indicators li { 
             visibility: hidden; 
@@ -823,7 +827,7 @@ $default-color: #d2d3d3;
     z-index: 9110;
     display: none;
     max-width: 890px;
-    min-height: 335px;
+    min-height: 375px;
     padding: 1px;
     text-align: left;
     background-color: $events-color;
@@ -834,6 +838,11 @@ $default-color: #d2d3d3;
     .popover-content {
         padding: 10px;
         color: #fff;
+        .event-info {
+            img {
+                max-width: 570px;
+            }
+        }
         .event-heading {
             font-size: 20px;
             font-weight: 500;
@@ -1155,14 +1164,17 @@ $default-color: #d2d3d3;
                         text-overflow: ellipsis;
                         max-width: 100%;
                         position: relative;
-                        &.events {
-                            color: $events-color;
+                        &.corporate-events {
+                            color: $corporate-events-color;
                         }
-                        &.promotions {
-                            color: $promotions-color;
+                        &.conference-calls {
+                            color: $conference-calls-color;
                         }
-                        &.recognition {
-                            color: $recognition-color;
+                        &.webinars {
+                            color: $webinars-color;
+                        }
+                        &.local-meeting---please-visit-power-center {
+                            color: $local-meeting-color;
                         }
                     }
                     a:before, span:before {

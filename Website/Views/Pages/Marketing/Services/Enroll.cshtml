@@ -1,9 +1,9 @@
 ﻿@{ 
-    var visitor = Sitecore.Analytics.Tracker.CurrentVisit;
+    var visitor = Sitecore.Analytics.Tracker.Current;
 
     var selectedTab = "";
 
-    switch (visitor.GeoData.Region)
+    switch (visitor.Interaction.GeoData.Region)
     {
         case "TX":
             selectedTab = "texas";

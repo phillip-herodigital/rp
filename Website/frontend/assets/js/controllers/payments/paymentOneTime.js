@@ -34,6 +34,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
                     ctrl.errorMessage = true;
                 } else {
                     ctrl.account = data.account;
+                    ctrl.disallowedBank = !_.some(ctrl.account.availablePaymentMethods, { 'paymentMethodType': 'Checking' });
                     ctrl.paymentAmount = ctrl.account.amountDue;
                     ctrl.activeStep = 2;
                 }
