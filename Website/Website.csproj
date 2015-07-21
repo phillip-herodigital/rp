@@ -1295,6 +1295,8 @@
     <Content Include="sitecore\apps\js\sc.validate.debug.js" />
     <Content Include="sitecore\apps\js\sc.validate.release.js" />
     <Content Include="sitecore\RedirectUrlPage.aspx" />
+    <Content Include="sitecore\shell\Applications\Feeds\Layouts\FeedDeliveryLayout.aspx" />
+    <Content Include="sitecore\shell\Applications\Feeds\SetFeedPresentation\SetFeedPresentation.xaml.xml" />
     <Content Include="sitecore\Unsubscribe.aspx" />
     <Content Include="sitecore\UnsubscribeFromAll.aspx" />
     <Content Include="upload\readme.txt" />
