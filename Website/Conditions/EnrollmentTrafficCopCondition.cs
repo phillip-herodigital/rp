@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
+using StreamEnergy.Services.Helpers;
 
 namespace StreamEnergy.MyStream.Conditions
 {
