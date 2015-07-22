@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.IO;
 
-namespace StreamEnergy.MyStream.Conditions
+namespace StreamEnergy.Services.Helpers
 {
     public static class EnrollmentTrafficCopHelper
     {
