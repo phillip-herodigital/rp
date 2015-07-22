@@ -5,9 +5,17 @@
     {
         var variablePricePlanItems = Html.Sitecore().CurrentItem.Children[plan].Children.OrderByDescending(C => C.Fields["Date"].Value);
         var variablePricePlanRows = new Dictionary<string, List<dynamic>>();
-        var tdus = new string[] { "Oncor", "Centerpoint", "AEP Central", "AEP North", "TNMP", "Sharyland", "Sharyland McAllen" };
+        string[] tdus;
+        if (plan == "Variable Price Plan" || plan == "Green and Clean Variable Price Plan" || plan == "Flex Choice Plan - Green and Clean Plan")
+        {
+            tdus = new string[] { "Oncor", "Centerpoint", "AEP Central", "AEP North", "TNMP"};
+        } else {
+            tdus = new string[] { "Oncor", "Centerpoint", "AEP Central", "AEP North", "TNMP", "Sharyland", "Sharyland McAllen" };
+        }
+        
         var kwhPrices = new string[] { "500", "1000", "2000" };
         var headerRow = new List<dynamic>();
+  
         headerRow.Add(new
         {
             Text = "",
@@ -37,7 +45,7 @@
         foreach (var item in variablePricePlanItems)
         {
             cellCssClass = (cellCssClass == "even") ? "odd" : "even";
-            
+
             var showKwhPrice = new List<string>();
 
             foreach (var kwhPrice in kwhPrices)
@@ -46,6 +54,7 @@
                      select Html.Sitecore().Field(kwhPrice + " kWh " + tdu + " Price", item).ToHtmlString()).Any(s => !string.IsNullOrEmpty(s)))
                 {
                     showKwhPrice.Add(kwhPrice);
+                    
                 }
             }
 
