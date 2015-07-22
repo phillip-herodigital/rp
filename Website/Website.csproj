@@ -929,6 +929,7 @@
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\Temp\GenerateW9.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
+    <Compile Include="Pipelines\EcmRenderer.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1140,6 +1141,11 @@
     <Content Include="App_Config\Include\SwitchMasterToWeb.config.example" />
     <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config.disabled" />
     <Content Include="App_Config\Custom\Currents.Index.web.config" />
+    <Content Include="App_Config\Custom\Settings.local.config" />
+    <Content Include="App_Config\Custom\Settings.dev.config" />
+    <Content Include="App_Config\Custom\Settings.dev.sitecore.config" />
+    <Content Include="App_Config\Custom\Settings.production.config" />
+    <Content Include="App_Config\Custom\Settings.production.sitecore.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -1580,9 +1586,11 @@
     </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Azure-SitecoreUpgrade.config">
       <DependentUpon>Web.config</DependentUpon>
