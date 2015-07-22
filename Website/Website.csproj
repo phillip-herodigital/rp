@@ -1142,8 +1142,8 @@
     <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config.disabled" />
     <Content Include="App_Config\Custom\Currents.Index.web.config" />
     <Content Include="App_Config\Custom\Settings.local.config" />
-    <Content Include="App_Config\Custom\Settings.dev.config" />
-    <Content Include="App_Config\Custom\Settings.dev.sitecore.config" />
+    <Content Include="App_Config\Custom\Settings.test.config" />
+    <Content Include="App_Config\Custom\Settings.test.sitecore.config" />
     <Content Include="App_Config\Custom\Settings.production.config" />
     <Content Include="App_Config\Custom\Settings.production.sitecore.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
