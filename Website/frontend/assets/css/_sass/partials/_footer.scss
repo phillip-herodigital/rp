@@ -85,7 +85,7 @@ footer.site-footer {
                     b {
                         @include image-replace("bg/bbb2x.png","bg2x/bbb2x.png");
                     }
-                    i{
+                    i {
                         @include image-replace("bg/dsa.png","bg2x/dsa.png");
                         background-position:0; 
                     }
