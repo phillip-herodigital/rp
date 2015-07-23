@@ -35,25 +35,32 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.pdfGenerationService = pdfGenerationService;
         }
 
-        //[HttpPost]
-        //public dynamic GenerateW9([FromBody]GenerateW9 request)
-        //{
-        //    HttpContext.Current.Session["W9_Params"] = request;
-        //    return new {
-        //        url = "/api/temp/downloadW9"
-        //    };
-        //}
+        [HttpPost]
+        public dynamic GenerateW9([FromBody]GenerateW9 request)
+        {
+            HttpContext.Current.Session["W9_Params"] = request;
+            return new
+            {
+                url = "/api/temp/downloadW9"
+            };
+        }
 
-        //[HttpGet]
-        //public HttpResponseMessage DownloadW9()
-        //{
-        //    var request = (GenerateW9)HttpContext.Current.Session["W9_Params"];
-        //    var response = pdfGenerationService.GenerateW9(request.Name, request.BusinessName, request.BusinessClassification, request.BusinessTypeAdditional, request.IsExempt, request.Address, request.City, request.State, request.Zip, request.SocialSecurityNumber, request.EmployerIdentificationNumber, request.Signature, DateTime.Now);
-        //    HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-        //    var stream = new MemoryStream(response);
-        //    result.Content = new StreamContent(stream);
-        //    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-        //    return result;
-        //}
+        [HttpGet]
+        public HttpResponseMessage DownloadW9()
+        {
+            var request = (GenerateW9)HttpContext.Current.Session["W9_Params"];
+            var response = pdfGenerationService.GenerateW9(request.Name, request.BusinessName, request.BusinessClassification, request.BusinessTypeAdditional, "", "", new DomainModels.Address()
+            {
+                City = request.City,
+                Line1 = request.Address,
+                PostalCode5 = request.Zip,
+                StateAbbreviation = request.State
+            }, "", request.SocialSecurityNumber, request.EmployerIdentificationNumber, Convert.FromBase64String(request.Signature), DateTime.Now);
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new MemoryStream(response);
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            return result;
+        }
     }
 }
