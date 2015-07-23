@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StreamEnergy.Services.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             bool useRemoteEnrollment;
             NameValueCollection queryString;
-            StreamEnergy.MyStream.Conditions.EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out queryString);
+            EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out queryString);
             return this.Content((queryString["St"] ?? queryString["State"] ?? "").ToUpper() == "GA" ? "GA" : "TX");
         }
 

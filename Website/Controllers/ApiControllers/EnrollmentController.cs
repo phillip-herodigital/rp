@@ -21,6 +21,7 @@ using StreamEnergy.Processes;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Documents;
 using StreamEnergy.DomainModels.Activation;
+using StreamEnergy.Services.Helpers;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -72,7 +73,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 bool useRemoteEnrollment;
                 NameValueCollection enrollmentDpiParameters = null;
                 int Percentage = 0;
-                StreamEnergy.MyStream.Conditions.EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out enrollmentDpiParameters, Percentage);
+                EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out enrollmentDpiParameters, Percentage);
                 if (enrollmentDpiParameters != null)
                 {
                     if (!stateHelper.IsDefault && enrollmentDpiParameters["renewal"] != "true")

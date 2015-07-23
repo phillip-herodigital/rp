@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace StreamEnergy.MyStream.Conditions
+namespace StreamEnergy.Services.Helpers
 {
 
     static class Cryptography

@@ -9,7 +9,7 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$com
     $http.get('/api/currents/calendarEvents').success(function (data, status, headers, config) { 
         $scope.events = data; 
         $scope.eventsOriginal = angular.copy($scope.events);
-        $scope.eventStates = _($scope.events).filter().flatten().pluck('state').uniq().value();
+        $scope.eventStates = _($scope.events).filter().flatten().pluck('state').filter().flatten().uniq().value()
 
         $scope.cal = $('#calendar').calendario({
             weeks : $scope.weeks,
@@ -46,7 +46,9 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$com
                 filteredEvents[day] = _.filter(eventsArray, {category: $scope.typeFilter});
             }
             if ($scope.stateFilter != null) {
-                filteredEvents[day] = _.filter(eventsArray, {state: $scope.stateFilter});
+                filteredEvents[day] = _.filter(eventsArray, function(singleEvent) {
+                    return singleEvent.state.indexOf($scope.stateFilter) > -1
+                })
             }
             if ($scope.searchTerm != null) {
                 filteredEvents[day] = _.filter(eventsArray, function(singleEvent) {

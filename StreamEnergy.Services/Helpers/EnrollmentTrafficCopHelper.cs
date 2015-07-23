@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.IO;
 
-namespace StreamEnergy.MyStream.Conditions
+namespace StreamEnergy.Services.Helpers
 {
     public static class EnrollmentTrafficCopHelper
     {
@@ -65,7 +65,9 @@ namespace StreamEnergy.MyStream.Conditions
 
         private static void WriteCookie(NameValueCollection queryString, bool useRemoteEnrollment, HttpContextBase Context)
         {
-            var cookieRawValue = (useRemoteEnrollment ? "1" : "0") + queryString.ToString();
+            var httpQueryString = System.Web.HttpUtility.ParseQueryString(String.Empty);
+            httpQueryString.Add(queryString);
+            var cookieRawValue = (useRemoteEnrollment ? "1" : "0") + httpQueryString.ToString();
 
             Context.Response.AppendCookie(new HttpCookie(cookieName, Cryptography.Encrypt(cookieRawValue, cookieEncryptionPassword))
             {
