@@ -19,7 +19,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             if (offerSelection.payments && offerSelection.payments.requiredAmounts)
             {
                 _(offerSelection.payments.requiredAmounts).forEach(function (payment) {
-                    payment.isWaived = payment.isWaived !== undefined ? payment.isWaived : false;
+                    if (payment.systemOfRecord == 'CIS1') {
+                        payment.depositOption = payment.depositOption !== undefined ? payment.depositOption : 'ezPay';
+                    } else {
+                        payment.depositOption = payment.depositOption !== undefined ? payment.depositOption : 'full';
+                    }
                 });
             }
         });
@@ -425,7 +429,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
-                .pluck('payments').filter().pluck('requiredAmounts').flatten().filter({isWaived: false})
+                .pluck('payments').filter().pluck('requiredAmounts').flatten().filter(function(payment){ 
+                        if (payment.depositOption == 'full' || payment.depositOption == 'ezPay') 
+                            return payment;
+                    })
                 .pluck('dollarAmount').filter()
 		        .reduce(sum, 0);
         },

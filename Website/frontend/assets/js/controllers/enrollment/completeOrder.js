@@ -49,7 +49,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.completeStep = function () {
         var depositWaivers = _(enrollmentCartService.services).map(function (service) {
             return _(service.offerInformationByType).pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().map(function (selection) {
-                if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ isWaived: true }).some()) {
+                if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ depositOption: 'waived' }).some()) {
                     return {
                         location: service.location,
                         offerId: selection.offerId
