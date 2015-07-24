@@ -672,12 +672,21 @@ namespace StreamEnergy.Services.Clients
                                     {
                                         Location = saved.Location,
                                         Offer = saved.Offer,
-                                        Details = new PlaceOrderResult
-                                        {
-                                            ConfirmationNumber = response.EnrollmentReferenceNumber,
-                                            IsSuccess = response.Status == "Success",
-                                            PaymentConfirmation = ToPaymentResult(response.PaymentResponse),
-                                        }
+                                        Details =
+                                            saved.Offer.OfferType == "Mobile" ?
+                                                new PlaceMobileOrderResult
+                                                {
+                                                ConfirmationNumber = response.EnrollmentReferenceNumber,
+                                                IsSuccess = response.Status == "Success",
+                                                PaymentConfirmation = ToPaymentResult(response.PaymentResponse),
+                                                PhoneNumber = response.PhoneNumber
+                                            } :
+                                            new PlaceOrderResult
+                                            {
+                                                ConfirmationNumber = response.EnrollmentReferenceNumber,
+                                                IsSuccess = response.Status == "Success",
+                                                PaymentConfirmation = ToPaymentResult(response.PaymentResponse)
+                                            }
                                     }).ToArray();
             }
 

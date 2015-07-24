@@ -13,6 +13,7 @@ using Microsoft.Practices.Unity;
 using ResponsivePath.Validation;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.Extensions;
 using ResponsivePath.Logging;
 using StreamEnergy.MyStream.Models;
@@ -207,7 +208,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                     .Select(entry => entry.Details.IsSuccess).FirstOrDefault()
                                                                                     || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
-                                                                                    ?? renewalConfirmations.ConfirmationNumber
+                                                                                    ?? renewalConfirmations.ConfirmationNumber,
+                                                                               ConfirmationDetails = confirmations.Where(entry => entry.Details is PlaceMobileOrderResult).Select(entry => ((PlaceMobileOrderResult)entry.Details).PhoneNumber).FirstOrDefault()
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
                                                                    where entry.Key == offerType
@@ -541,10 +543,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await stateMachine.Process();
 
             var resultData = ClientData();
+            var s =
+                resultData.Cart.FirstOrDefault()
+                    .OfferInformationByType.FirstOrDefault()
+                    .Value.OfferSelections.FirstOrDefault()
+                    .ConfirmationDetails;
 
             await GenerateEndOfEnrollmentScreenshot(resultData);
 
-            return ClientData();
+            var result = ClientData();
+
+            var t =
+                resultData.Cart.FirstOrDefault()
+                    .OfferInformationByType.FirstOrDefault()
+                    .Value.OfferSelections.FirstOrDefault()
+                    .ConfirmationDetails;
+
+            return result;
         }
 
         private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)

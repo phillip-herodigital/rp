@@ -267,6 +267,12 @@
             <span ng-if="sprintByodTransfer">@Html.Sitecore().Field("Sprint BYOD Confirmation Transfer Text")</span>
         </div>
     </div>
+
+    <div ng-if="confirmationDetails.length > 0" ng-cloak>
+        @Html.Sitecore().Field("Congratulations New Mobile Number Text")
+        <span>{{ confirmationDetails }}</span>
+    </div>
+
     <dl class="clearfix">
         <dt>@Html.Sitecore().Field("Account Number")</dt>
         <dd>{{ offerInformation.value.offerSelections[0].confirmationNumber }}</dd>

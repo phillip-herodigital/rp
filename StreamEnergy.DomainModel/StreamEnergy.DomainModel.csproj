@@ -255,6 +255,7 @@
     <Compile Include="DomainModels\Enrollments\Service\EnrollmentSaveResult.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\PlaceMobileOrderResult.cs" />
     <Compile Include="DomainModels\Enrollments\SubmitIdentityState.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuote.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuoteOption.cs" />
