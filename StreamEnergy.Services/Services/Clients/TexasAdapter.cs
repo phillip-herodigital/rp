@@ -245,7 +245,8 @@ namespace StreamEnergy.Services.Clients
         OfferPayment ILocationAdapter.GetOfferPayment(dynamic entry, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option)
         {
             decimal deposit = 0;
-            if (assessDeposit && entry.Premise.Deposit != null)
+            // Load the deposit even if KIQ fails
+            if (entry.Premise.Deposit != null)
                 deposit = (decimal)entry.Premise.Deposit.Amount.Value;
             return new OfferPayment
                     {
