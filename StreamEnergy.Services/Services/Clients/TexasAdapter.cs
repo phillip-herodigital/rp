@@ -47,8 +47,8 @@ namespace StreamEnergy.Services.Clients
 
         string ILocationAdapter.GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities)
         {
-            var capability = capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
-            return capability.EsiId;
+            var capability = capabilities.OfType<TexasElectricity.ServiceCapability>();
+            return (capability.Count() > 1) ? null : capability.Single().EsiId;
         }
 
         string ILocationAdapter.GetSystemOfRecord()
