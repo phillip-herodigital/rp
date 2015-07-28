@@ -44,7 +44,7 @@ namespace StreamEnergy.MyStream.Pipelines
                 {
                     string token = "**HASHED_EMAIL**";
                     MD5 md5Hash = MD5.Create();
-                    string hash = GetMd5Hash(md5Hash, message.To);
+                    string hash = GetMd5Hash(md5Hash, message.To).ToUpper();
                     args.EcmMessage.Body = message.Body.Replace(token, hash);
                 }
             }
