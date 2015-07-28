@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.IO;
 using StreamEnergy.Services.Helpers;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.MyStream.Conditions
 {
@@ -34,6 +35,9 @@ namespace StreamEnergy.MyStream.Conditions
 
             [Dependency]
             public ISettings Settings { get; set; }
+
+            [Dependency]
+            public ILogger logger { get; set; }
         }
 
         public int Percentage { get; set; }
@@ -61,6 +65,14 @@ namespace StreamEnergy.MyStream.Conditions
             dependencies.EnrollmentParameters.Initialize(queryString);
 
             var targetDpiUrl = dependencies.EnrollmentParameters.GetTargetDpiUrlBuilder();
+
+            var referrer = System.Web.HttpContext.Current.Request.UrlReferrer;
+
+            dependencies.logger.Record("EnrollmentTrafficCopCondition.Execute", (referrer != null && referrer.Host != System.Web.HttpContext.Current.Request.Url.Host) ? Severity.Error : Severity.Debug, new Dictionary<string, object>
+            {
+                { "Referrer", referrer },
+                { "AssociateID", dependencies.EnrollmentParameters.AccountNumber },
+            });
 
             if (targetDpiUrl == null || queryString["renewal"] == "true")
                 return false;
