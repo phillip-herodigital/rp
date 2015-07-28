@@ -68,7 +68,7 @@ namespace StreamEnergy.MyStream.Conditions
 
             var referrer = System.Web.HttpContext.Current.Request.UrlReferrer;
 
-            dependencies.logger.Record("EnrollmentTrafficCopCondition.Execute", (referrer != null && referrer.Host != System.Web.HttpContext.Current.Request.Url.Host) ? Severity.Error : Severity.Debug, new Dictionary<string, object>
+            dependencies.logger.Record("EnrollmentTrafficCopCondition.Execute", (referrer != null && referrer.Host != System.Web.HttpContext.Current.Request.Url.Host && dependencies.EnrollmentParameters.AccountNumber == "A2") ? Severity.Error : Severity.Debug, new Dictionary<string, object>
             {
                 { "Referrer", referrer },
                 { "AssociateID", dependencies.EnrollmentParameters.AccountNumber },
