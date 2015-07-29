@@ -429,11 +429,18 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
-                .pluck('payments').filter().pluck('requiredAmounts').flatten().filter(function(payment){ 
-                        if (payment.depositOption == 'full' || payment.depositOption == 'ezPay') 
-                            return payment;
+                .pluck('payments').filter().pluck('requiredAmounts').flatten().map(function(payment){ 
+                        if (typeof payment.depositOption != 'undefined') {
+                            if (payment.depositOption == 'full') 
+                                return payment.dollarAmount;
+                            if (payment.depositOption == 'ezPay') 
+                                return payment.depositAlternativeAmount;
+                        } else {
+                            return payment.dollarAmount;
+                        }
+                        
                     })
-                .pluck('dollarAmount').filter()
+                .filter()
 		        .reduce(sum, 0);
         },
         cartHasTDU: function (tdu) {
