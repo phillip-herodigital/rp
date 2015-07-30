@@ -54,7 +54,7 @@
                             <td ng-show="showColumn('paymentDate')">{{ item.paymentDate | date:'MM/dd/yyyy' }}</td>
                             <td ng-if="hasPaymentStatus" ng-show="showColumn('status')">{{ item.status }}</td>
                             <td ng-show="showColumn('action')">
-                                <button class="secondary small" ng-click="expandInnerTable($index)">Details</button>
+                                <button class="secondary small" ng-click="expandInnerTable($index)">View</button>
                             </td>
                             <td style="width:30px;" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
                                 <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
