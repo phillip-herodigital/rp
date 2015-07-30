@@ -246,6 +246,7 @@
     <Compile Include="Pipelines\OverrideIpAddress.cs" />
     <Compile Include="Pipelines\RebuildSearchIndex.cs" />
     <Compile Include="Pipelines\LogException.cs" />
+    <Compile Include="Pipelines\CurrentsUrlRedirect.cs" />
     <Compile Include="Providers\MediaProvider.cs" />
     <Compile Include="Providers\ItemProvider.cs" />
     <Compile Include="Pipelines\NoChangeOrderer.cs" />
