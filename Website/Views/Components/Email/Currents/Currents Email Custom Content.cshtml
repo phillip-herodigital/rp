@@ -13,8 +13,34 @@
                 <table width="600" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" align="center">
                     <tbody>
                         <tr>
-                            <td width="600" style="margin: 25px 0;">
-                                @Html.Sitecore().Field("content")
+                            <td width="600">
+                                <!-- spacing -->
+                                <table bgcolor="#ffffff" width="10" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                    <tbody>
+                                        <tr>
+                                            <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- spacing -->
+                                <table width="570" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner">
+                                    <tbody>
+                                        <!-- content -->
+                                        <tr>
+                                            <td>
+                                                @Html.Sitecore().Field("content")
+                                            </td>
+                                        </tr>
+                                        <!-- end of content -->
+                                    </tbody>
+                                </table>
+                                <table bgcolor="#ffffff" width="10" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                    <tbody>
+                                        <tr>
+                                            <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                     </tbody>
