@@ -1,0 +1,25 @@
+@using Sitecore.Data
+@using Sitecore.Data.Fields
+@using Sitecore.Data.Items
+@{ 
+    var sc = Html.Sitecore();
+    var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
+}
+
+<table width="600" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="left-image" style="margin-bottom:20px;">
+    <tbody>
+        <tr>
+            <td width="600">
+                <table width="600" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" align="center">
+                    <tbody>
+                        <tr>
+                            <td width="600" style="margin: 25px 0;">
+                                @Html.Sitecore().Field("content")
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
