@@ -19,11 +19,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             if (offerSelection.payments && offerSelection.payments.requiredAmounts)
             {
                 _(offerSelection.payments.requiredAmounts).forEach(function (payment) {
-                    if (payment.systemOfRecord == 'CIS1') {
-                        payment.depositOption = payment.depositOption !== undefined ? payment.depositOption : 'ezPay';
-                    } else {
-                        payment.depositOption = payment.depositOption !== undefined ? payment.depositOption : 'full';
-                    }
+                    payment.depositOption = payment.depositOption !== undefined ? payment.depositOption : 'deposit';
                 });
             }
         });
@@ -426,20 +422,22 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 		 * @return {[type]} [description]
 		 */
         calculateCartTotal: function () {
+            var depositType = '';
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
-                .pluck('value').filter().pluck('offerSelections').flatten().filter()
-                .pluck('payments').filter().pluck('requiredAmounts').flatten().map(function(payment){ 
-                        if (typeof payment.depositOption != 'undefined') {
-                            if (payment.depositOption == 'full') 
-                                return payment.dollarAmount;
-                            if (payment.depositOption == 'ezPay') 
-                                return payment.depositAlternativeAmount;
-                        } else {
-                            return payment.dollarAmount;
-                        }
-                        
-                    })
+                .pluck('value').filter().pluck('offerSelections').flatten().filter(function(offerSelection){
+                    if (typeof offerSelection.depositType != 'undefined')
+                        depositType = offerSelection.depositType;
+                    if (typeof offerSelection.depositType != 'undefined' && offerSelection.depositType != 'DepositWaived')
+                        return offerSelection;
+                })
+                .pluck('payments').filter().pluck('requiredAmounts').flatten()
+                .map(function(payment){ 
+                    if (payment.depositOption == 'deposit' && depositType != 'DepositAlternative') 
+                        return payment.dollarAmount;
+                    if (payment.depositOption == 'depositAlternative' || depositType == 'DepositAlternative') 
+                        return payment.depositAlternativeAmount;
+                })
                 .filter()
 		        .reduce(sum, 0);
         },

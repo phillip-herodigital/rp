@@ -40,5 +40,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         public decimal ActivationFee { get; set; }
 
         public decimal PhoneCharge { get; set; }
+
+        public decimal DepositAlternativeAmount { get; set; }
     }
 }

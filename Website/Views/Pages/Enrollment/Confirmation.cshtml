@@ -203,7 +203,7 @@
                         </div>
                         <div class="rate">@Html.Sitecore().Field("GA Stream Connect Fee")</div>
                     </div>
-                    <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal && selectedOffer.depositType != 'DepositWaived'" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
                     <div class="plan-documents clearfix">
                         <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
                         <div class="docs">
@@ -332,8 +332,16 @@
 </script>
 
 <script type="text/ng-template" id="payments/Deposit">
-    <div class="description sub-charge">
-        <strong>@Html.Sitecore().Field("Deposit Header")</strong><br>
+    <div ng-if="selectedOffer.depositType == 'Deposit'">
+        <div class="description sub-charge">
+            <strong>@Html.Sitecore().Field("Deposit Header")</strong><br>
+        </div>
+        <div class="rate">{{ payment.dollarAmount | currency }}</div>
     </div>
-    <div class="rate">{{ payment.dollarAmount | currency }}</div>
+    <div ng-if="selectedOffer.depositType == 'DepositAlternative'">
+        <div class="description sub-charge">
+            <strong>@Html.Sitecore().Field("Deposit Alternative Header")</strong><br>
+        </div>
+        <div class="rate">{{ payment.depositAlternativeAmount | currency }}</div>
+    </div>
 </script>

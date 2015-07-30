@@ -10,5 +10,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         string SystemOfRecord { get; }
         string DepositAccount { get; }
+        decimal DepositAlternativeAmount { get; }
     }
 }

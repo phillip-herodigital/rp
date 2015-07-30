@@ -208,7 +208,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                     .Select(entry => entry.Details.IsSuccess).FirstOrDefault()
                                                                                     || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
-                                                                                    ?? renewalConfirmations.ConfirmationNumber
+                                                                                    ?? renewalConfirmations.ConfirmationNumber,
+                                                                               DepositType = GetDepositType(selectedOffer),
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
                                                                    where entry.Key == offerType
@@ -221,6 +222,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 SelectedIdentityAnswers = null,
                 IdentityQuestions = (stateMachine.InternalContext.IdentityCheck != null && stateMachine.InternalContext.IdentityCheck.IsCompleted) ? stateMachine.InternalContext.IdentityCheck.Data.IdentityQuestions : null,
             };
+        }
+
+        private string GetDepositType(SelectedOffer selectedOffer)
+        {
+            if (selectedOffer.DepositAlternative)
+            {
+                return "DepositAlternative";
+            }
+            if (selectedOffer.WaiveDeposit)
+            {
+                return "DepositWaived";
+            }
+            return "Deposit";
         }
 
         private Models.Enrollment.ExpectedState ExpectedState(out IEnumerable<ValidationResult> supplementalValidation)
@@ -525,6 +539,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 foreach (var offer in locationService.SelectedOffers)
                 {
                     offer.WaiveDeposit = false;
+                    offer.DepositAlternative = false;
                 }
             }
             foreach (var depositWaiver in request.DepositWaivers ?? Enumerable.Empty<DepositWaiver>())
@@ -534,6 +549,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 {
                     var target = locationService.SelectedOffers.FirstOrDefault(sel => sel.Offer.Id == depositWaiver.OfferId);
                     target.WaiveDeposit = true;
+                }
+            }
+            foreach (var depositAlternative in request.DepositAlternatives ?? Enumerable.Empty<DepositAlternative>())
+            {
+                var locationService = stateMachine.Context.Services.FirstOrDefault(svc => svc.Location == depositAlternative.Location);
+                if (locationService != null)
+                {
+                    var target = locationService.SelectedOffers.FirstOrDefault(sel => sel.Offer.Id == depositAlternative.OfferId);
+                    target.DepositAlternative = true;
                 }
             }
 

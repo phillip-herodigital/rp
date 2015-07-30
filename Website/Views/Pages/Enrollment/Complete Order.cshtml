@@ -717,7 +717,7 @@
 <script type="text/ng-template" id="paymentsDue/Deposit">
     <tr ng-if="payment.depositAlternativeEligible">
         <td class="sub-charge">
-            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.depositOption" value="ezPay" checked />
+            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.depositOption" value="depositAlternative" checked />
             <label>@Html.Sitecore().Field("EZ Pay")</label>
             @Html.Sitecore().Field("EZ Pay Explanation")
         </td>
@@ -728,7 +728,7 @@
     </tr>
     <tr>
         <td class="sub-charge">
-            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.depositOption" value="full" />
+            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.depositOption" value="deposit" />
             <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Due")</label>
             <p>
                 <span class="explanation">@Html.Sitecore().Field("Deposit Explanation")</span>
@@ -753,7 +753,7 @@
 <script type="text/ng-template" id="paymentsDueGA/Deposit">
     <tr>
         <td class="sub-charge">
-            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.depositOption" value="full" checked />
+            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.depositOption" value="deposit" checked />
             <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Due")</label>
             <p>
                 {{selectedOffer.offer.name}}<br />
