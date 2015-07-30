@@ -1580,6 +1580,7 @@
     <Content Include="Views\Components\Email\Currents\_BlogImage.cshtml" />
     <Content Include="Views\Components\Email\Currents\_BlogSummary.cshtml" />
     <Content Include="Views\Pages\Currents\Calendar.cshtml" />
+    <Content Include="Views\Components\Email\Currents\Currents Email Custom Content.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
