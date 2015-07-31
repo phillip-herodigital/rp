@@ -9,7 +9,6 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
     $scope.customerType = '';
     $scope.confirmationSuccess = false;
-    $scope.confirmationDetails = '';
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;  
@@ -85,14 +84,6 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
             // find out if we got a successful confirmation
             $scope.confirmationSuccess = $scope.getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationSuccess;
             $scope.confirmationNumber = $scope.getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber;
-            
-            if(typeof $scope.getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationDetails !== 'undefined') {
-                var tmp = $scope.getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationDetails;
-                if(tmp.length === 10) {
-                   tmp = '(' + tmp.substring(0,3) + ') ' + tmp.substring(3, 6) + ' - ' + tmp.substring(6, 10)
-                }
-                $scope.confirmationDetails = tmp;
-            }
 
             // if it's a commercial enrollment, and we don't get a success message, redirect to the error page
             if ($scope.customerType == 'commercial' && !$scope.confirmationSuccess) {

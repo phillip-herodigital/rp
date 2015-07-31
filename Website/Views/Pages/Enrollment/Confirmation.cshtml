@@ -253,6 +253,12 @@
     <div ng-if="confirmationSuccess && !sprintByod" ng-cloak>
         <div class="notice alert">
             @Html.Sitecore().Field("ATT BYOD Confirmation Text")
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div ng-if="selectedOffer.confirmationDetails.length > 0">
+                    @Html.Sitecore().Field("New Mobile Number Text")
+                    <span>{{ selectedOffer.confirmationDetails | phone }}</span>
+                </div>
+            </div>
         </div>
     </div>
     <div ng-if="!confirmationSuccess && sprintByod" ng-cloak>
@@ -263,14 +269,15 @@
     <div ng-if="confirmationSuccess && sprintByod" ng-cloak>
         <div class="notice alert">
             @Html.Sitecore().Field("Sprint BYOD Confirmation Text")
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div ng-if="selectedOffer.confirmationDetails.length > 0">
+                    @Html.Sitecore().Field("New Mobile Number Text")
+                    <span>{{ selectedOffer.confirmationDetails | phone }}</span>
+                </div>
+            </div>
             <span ng-if="sprintByodNew">@Html.Sitecore().Field("Sprint BYOD Confirmation New Text")</span>
             <span ng-if="sprintByodTransfer">@Html.Sitecore().Field("Sprint BYOD Confirmation Transfer Text")</span>
         </div>
-    </div>
-
-    <div ng-if="confirmationDetails.length > 0" ng-cloak>
-        @Html.Sitecore().Field("Congratulations New Mobile Number Text")
-        <span>{{ confirmationDetails }}</span>
     </div>
 
     <dl class="clearfix">

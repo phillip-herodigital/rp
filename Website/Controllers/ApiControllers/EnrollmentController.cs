@@ -568,23 +568,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await stateMachine.Process();
 
             var resultData = ClientData();
-            var s =
-                resultData.Cart.FirstOrDefault()
-                    .OfferInformationByType.FirstOrDefault()
-                    .Value.OfferSelections.FirstOrDefault()
-                    .ConfirmationDetails;
 
             await GenerateEndOfEnrollmentScreenshot(resultData);
 
-            var result = ClientData();
-
-            var t =
-                resultData.Cart.FirstOrDefault()
-                    .OfferInformationByType.FirstOrDefault()
-                    .Value.OfferSelections.FirstOrDefault()
-                    .ConfirmationDetails;
-
-            return result;
+            return resultData;
         }
 
         private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)
