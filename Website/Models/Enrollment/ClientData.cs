@@ -35,5 +35,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public Address PreviousAddress { get; set; }
 
         public string PreviousProvider { get; set; }
+
+        public string ProvisionedTelephoneNumber { get; set; }
     }
 }

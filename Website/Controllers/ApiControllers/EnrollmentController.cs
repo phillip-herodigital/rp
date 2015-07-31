@@ -13,6 +13,7 @@ using Microsoft.Practices.Unity;
 using ResponsivePath.Validation;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.Extensions;
 using ResponsivePath.Logging;
 using StreamEnergy.MyStream.Models;
@@ -210,6 +211,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
                                                                                     ?? renewalConfirmations.ConfirmationNumber,
                                                                                DepositType = GetDepositType(selectedOffer),
+                                                                               ConfirmationDetails = confirmations.Where(entry => entry.Details is PlaceMobileOrderResult).Select(entry => ((PlaceMobileOrderResult)entry.Details).PhoneNumber).FirstOrDefault()
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
                                                                    where entry.Key == offerType
@@ -569,7 +571,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await GenerateEndOfEnrollmentScreenshot(resultData);
 
-            return ClientData();
+            return resultData;
         }
 
         private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)
