@@ -47,8 +47,8 @@ namespace StreamEnergy.Services.Clients
 
         string ILocationAdapter.GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities)
         {
-            var capability = capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
-            return capability.EsiId;
+            var capability = capabilities.OfType<TexasElectricity.ServiceCapability>();
+            return (capability.Count() > 1) ? null : capability.Single().EsiId;
         }
 
         string ILocationAdapter.GetSystemOfRecord()
@@ -245,8 +245,17 @@ namespace StreamEnergy.Services.Clients
         OfferPayment ILocationAdapter.GetOfferPayment(dynamic entry, bool assessDeposit, IOfferOptionRules optionRules, IOfferOption option)
         {
             decimal deposit = 0;
-            if (assessDeposit && entry.Premise.Deposit != null)
+            decimal depositAlternative = 0;
+            bool depositAlternativeEligible = false;
+            // Load the deposit even if KIQ fails
+            if (entry.Premise.Deposit != null)
                 deposit = (decimal)entry.Premise.Deposit.Amount.Value;
+            if (entry.Premise.DepositAlternative != null)
+            {
+                depositAlternative = (decimal)entry.Premise.DepositAlternative.DepositAlternativeAmount.Value;
+                depositAlternativeEligible = (bool)entry.Premise.DepositAlternative.DepositAlternativeEligible.Value;
+            }
+                
             return new OfferPayment
                     {
                         EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
@@ -255,7 +264,7 @@ namespace StreamEnergy.Services.Clients
                         },
                         RequiredAmounts = new IOfferPaymentAmount[] 
                         {
-                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.Key.SystemOfRecord, DepositAccount = entry.Key.SystemOfRecordId }
+                            new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.Key.SystemOfRecord, DepositAccount = entry.Key.SystemOfRecordId, DepositAlternativeEligible = depositAlternativeEligible, DepositAlternativeAmount = depositAlternative }
                         },
                         PostBilledAmounts = optionRules.GetPostBilledPayments(option),
                         AvailablePaymentMethods = (from type in (IEnumerable<dynamic>)entry.AcceptedEnrollmentPaymentAccountTypes

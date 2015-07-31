@@ -79,11 +79,7 @@
         @if (imageGallery.HasValue)
         {
             <carousel class="currents__carousel" interval="-1" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
-                <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
-                    <div class="wrapper">
-                        <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
-                    </div>
-                </slide>
+                <slide ng-repeat="slide in slides" active="slide.active"><img ng-src="{{slide.image}}"></slide>
             </carousel>
             <div class="carousel-thumbnails">
                 <div class="thumbnail" ng-class="{ active : 'slide.active'}" ng-repeat=" slide in slides">

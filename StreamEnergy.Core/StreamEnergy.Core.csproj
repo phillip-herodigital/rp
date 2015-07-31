@@ -211,6 +211,7 @@
     <Compile Include="Json.cs" />
     <Compile Include="Logging\HttpDataAccumulator.cs" />
     <Compile Include="Logging\NewRelicNameAccumulator.cs" />
+    <Compile Include="Logging\ReadOnlyLogEntry.cs" />
     <Compile Include="Logging\SitecoreLogConfiguration.cs" />
     <Compile Include="Logging\ILogReader.cs" />
     <Compile Include="Logging\LogReader.cs" />
@@ -242,8 +243,10 @@
     <Compile Include="Mvc\Sitecore\SitecoreTranslatingModelValidatorProvider.cs" />
     <Compile Include="NullSettings.cs" />
     <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
+    <Compile Include="Pipelines\OverrideIpAddress.cs" />
     <Compile Include="Pipelines\RebuildSearchIndex.cs" />
     <Compile Include="Pipelines\LogException.cs" />
+    <Compile Include="Pipelines\CurrentsUrlRedirect.cs" />
     <Compile Include="Providers\MediaProvider.cs" />
     <Compile Include="Providers\ItemProvider.cs" />
     <Compile Include="Pipelines\NoChangeOrderer.cs" />

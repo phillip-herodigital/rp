@@ -24,15 +24,47 @@
         {"new-york", "New York Title"},
         {"washington-dc", "Washington DC Title"}
     };
+
+    var visitor = Sitecore.Analytics.Tracker.Current;
+
+    var selectedTab = "";
+
+    switch (visitor.Interaction.GeoData.Region)
+    {
+        case "TX":
+            selectedTab = "texas";
+            break;
+        case "GA":
+            selectedTab = "georgia";
+            break;
+        case "PA":
+            selectedTab = "pennsylvania";
+            break;
+        case "MD":
+            selectedTab = "maryland";
+            break;
+        case "NJ":
+            selectedTab = "new-jersey";
+            break;
+        case "NY":
+            selectedTab = "new-york";
+            break;
+        case "DC":
+            selectedTab = "washington-dc";
+            break;
+        default:
+            selectedTab = "texas";
+            break;
+    }
 }
-<div ng-controller="FaqsCtrl">
+<div ng-controller="FaqsCtrl" ng-init="pane = '@selectedTab'">
     <article class="marketing">
         <div class="wrapper">
             <p>@Html.Sitecore().Field("Dropdown Text")</p>
-            <select data-ng-model="pane">
+            <select ng-model="pane">
                 @foreach (var state in stateFaqs.Keys)
                 {
-                    <option value="@state" selected="@(state == "texas" ? "selected" : null)">@Html.Sitecore().Field(stateTitleFieldNames[state])</option>
+                    <option value="@state">@Html.Sitecore().Field(stateTitleFieldNames[state])</option>
                 }
             </select>
         </div>

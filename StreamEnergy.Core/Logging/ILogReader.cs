@@ -10,7 +10,7 @@ namespace StreamEnergy.Logging
 {
     public interface ILogReader
     {
-        Task<IEnumerable<LogEntry>> LoadLogs(DateTime minDate, NameValueCollection indexes);
+        Task<IEnumerable<ReadOnlyLogEntry>> LoadLogs(DateTime minDate, NameValueCollection indexes);
         Task<IEnumerable<string>> GetIndexedKeys();
         Task<IEnumerable<string>> SearchIndexedValues(string key, string valueStartsWith = null);
 
