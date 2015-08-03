@@ -87,6 +87,10 @@ namespace StreamEnergy.MyStream.Conditions
 
             redirect = redirect || (dependencies.EnrollmentParameters.AccountType == "C");
 
+            if (dependencies.Context.Request.QueryString["script"] == "true")
+            {
+                dependencies.Context.Response.End();
+            }
             if (!string.IsNullOrEmpty(dependencies.Settings.GetSettingsValue("Maintenance Mode", "Ista Maintenance Mode")))
             {
                 if (dependencies.EnrollmentParameters.State == "GA")
