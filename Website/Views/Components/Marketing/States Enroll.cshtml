@@ -20,6 +20,10 @@
 
     var selectedState = string.IsNullOrEmpty(visitor.Interaction.GeoData.Region) ? "TX" : visitor.Interaction.GeoData.Region;
 
+    if (!new string[] { "TX", "GA", "PA", "MD", "NJ", "NY", "DC" }.Contains(selectedState))
+    {
+        selectedState = "TX";
+    }
 }
 
 <article class="marketing state-tabs states-enroll" state-selector="@selectedState" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None));'>
