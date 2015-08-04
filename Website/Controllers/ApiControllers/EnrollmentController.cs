@@ -26,6 +26,7 @@ using StreamEnergy.DomainModels.Associate;
 using StreamEnergy.Interpreters;
 using System.IO;
 using System.Net.Http.Headers;
+using StreamEnergy.DomainModels.Emails;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -41,6 +42,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IActivationCodeLookup activationCodeLookup;
         private readonly IAssociateLookup associateLookup;
         private readonly IDpiEnrollmentParameters dpiEnrollmentParameters;
+        private readonly IEmailService emailService;
+        private readonly ISettings settings;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -57,7 +60,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -70,6 +73,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             //this.documentStore = documentStore;
             this.associateLookup = associateLookup;
             this.dpiEnrollmentParameters = dpiEnrollmentParameters;
+            this.emailService = emailService;
+            this.settings = settings;
         }
 
         public async Task Initialize()
@@ -502,6 +507,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var resultData = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
             await GenerateEndOfEnrollmentScreenshot(resultData);
+            await SendAssociateNameEmail(resultData);
             return resultData;
         }
 
@@ -560,6 +566,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var resultData = ClientData();
 
             await GenerateEndOfEnrollmentScreenshot(resultData);
+            await SendAssociateNameEmail(resultData);
 
             return ClientData();
         }
@@ -569,6 +576,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (redisDatabase != null && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
             {
                 await redisDatabase.ListRightPushAsync("EnrollmentScreenshots", StreamEnergy.Json.Stringify(resultData));
+            }
+        }
+
+        private async Task SendAssociateNameEmail(Models.Enrollment.ClientData resultData)
+        {
+            if (!string.IsNullOrEmpty(resultData.AssociateName) && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
+            {
+                var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");
+
+                await emailService.SendEmail(new Guid("{DA3290DF-BCC3-44DF-A099-AA9E74D800CC}"), to, new NameValueCollection() {
+                    {"associateName", resultData.AssociateName},
+                    {"sessionId", HttpContext.Current.Session.SessionID},
+                    {"accountNumbers", string.Join(",", (from product in resultData.Cart
+                                                         from offerInformation in product.OfferInformationByType
+                                                         from selectedOffer in offerInformation.Value.OfferSelections
+                                                         select selectedOffer.ConfirmationNumber).ToArray())},
+                });
             }
         }
 

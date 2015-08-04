@@ -23,6 +23,10 @@ namespace StreamEnergy.Data.Associate
 
         AssociateInformation IAssociateLookup.LookupAssociate(string associateId)
         {
+            if (string.IsNullOrEmpty(associateId) || associateId.ToLower() == "a2")
+            {
+                return null;
+            }
             try
             {
                 using (var connection = new SqlConnection(connectionString))
