@@ -8,6 +8,6 @@ namespace StreamEnergy.DomainModels.Associate
 {
     public interface IAssociateLookup
     {
-        Task<AssociateInformation> LookupAssociate(string associateId);
+        AssociateInformation LookupAssociate(string associateId);
     }
 }

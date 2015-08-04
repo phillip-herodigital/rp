@@ -95,7 +95,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (stateHelper.StateMachine.InternalContext.AssociateInformation == null)
             {
                 dpiEnrollmentParameters.Initialize(stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters);
-                stateHelper.StateMachine.InternalContext.AssociateInformation = await associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
+                stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
             }
 
             this.stateMachine = stateHelper.StateMachine;
@@ -601,7 +601,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
                         var stream = new MemoryStream(lnByte);
                         result.Content = new StreamContent(stream);
-                        result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                        result.Content.Headers.ContentType = new MediaTypeHeaderValue(response.ContentType);
                         return result;
                     }
                 }

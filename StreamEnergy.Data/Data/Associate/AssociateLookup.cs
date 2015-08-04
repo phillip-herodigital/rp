@@ -21,15 +21,15 @@ namespace StreamEnergy.Data.Associate
             this.connectionString = connectionString;
         }
 
-        async Task<AssociateInformation> IAssociateLookup.LookupAssociate(string associateId)
+        AssociateInformation IAssociateLookup.LookupAssociate(string associateId)
         {
             try
             {
                 using (var connection = new SqlConnection(connectionString))
                 {
-                    await connection.OpenAsync();
+                    connection.Open();
 
-                    return await LookupAssociate(associateId, connection);
+                    return LookupAssociate(associateId, connection);
                 }
             }
             catch
@@ -38,7 +38,7 @@ namespace StreamEnergy.Data.Associate
             }
         }
 
-        private static async Task<AssociateInformation> LookupAssociate(string associateId, SqlConnection connection)
+        private static AssociateInformation LookupAssociate(string associateId, SqlConnection connection)
         {
             using (var cmd = new SqlCommand(@"
 SELECT
@@ -52,9 +52,9 @@ WHERE h.[IA Number] = @associateId", connection)
                 Parameters = { new SqlParameter("@associateId", associateId) }
             })
             {
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    if (await reader.ReadAsync())
+                    if (reader.Read())
                     {
                         return new AssociateInformation()
                         {
