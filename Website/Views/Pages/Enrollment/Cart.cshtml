@@ -1,5 +1,8 @@
 ﻿<script type="text/ng-template" id="cart-template">
     <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
+        <article class="enrollment__box" ng-if="associateInformation">
+            {{ associateInformation }}
+        </article>
         <article class="enrollment__box" scroll-anchor="scrollFix">
             <header>
                 <div class="cart-items" ng-if="!isCartOpen()">

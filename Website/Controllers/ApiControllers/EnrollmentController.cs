@@ -22,6 +22,8 @@ using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Documents;
 using StreamEnergy.DomainModels.Activation;
 using StreamEnergy.Services.Helpers;
+using StreamEnergy.DomainModels.Associate;
+using StreamEnergy.Interpreters;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -35,6 +37,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly StackExchange.Redis.IDatabase redisDatabase;
         private readonly IEnrollmentService enrollmentService;
         private readonly IActivationCodeLookup activationCodeLookup;
+        private readonly IAssociateLookup associateLookup;
+        private readonly IDpiEnrollmentParameters dpiEnrollmentParameters;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -51,7 +55,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -62,6 +66,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.enrollmentService = enrollmentService;
             this.activationCodeLookup = activationCodeLookup;
             //this.documentStore = documentStore;
+            this.associateLookup = associateLookup;
+            this.dpiEnrollmentParameters = dpiEnrollmentParameters;
         }
 
         public async Task Initialize()
@@ -83,6 +89,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     }
                     stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
                 }
+            }
+            if (stateHelper.StateMachine.InternalContext.AssociateInformation == null)
+            {
+                dpiEnrollmentParameters.Initialize(stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters);
+                stateHelper.StateMachine.InternalContext.AssociateInformation = await associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
             }
 
             this.stateMachine = stateHelper.StateMachine;
@@ -178,6 +189,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 MailingAddress = stateMachine.Context.MailingAddress,
                 PreviousAddress = stateMachine.Context.PreviousAddress,
                 PreviousProvider = stateMachine.Context.PreviousProvider,
+                AssociateInformation = stateMachine.InternalContext.AssociateInformation,
+                AssociateName = stateMachine.Context.AssociateName,
                 Cart = from service in services
                        let locationOfferSet = offers.ContainsKey(service.Location) ? offers[service.Location] : new LocationOfferSet()
                        select new CartEntry
@@ -429,6 +442,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
             stateMachine.Context.PreviousProvider = request.PreviousProvider;
+            stateMachine.Context.AssociateName = request.AssociateName;
 
             await stateMachine.ContextUpdated();
 

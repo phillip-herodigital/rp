@@ -325,6 +325,18 @@
                             </div>
                         </div>
                     </article>
+                    <article class="form enrollment__box">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Contact Information Header")</h1>
+                        </header>
+                        <p>@Html.Sitecore().Field("Fill in Information")</p>
+
+                        <div class="item" @Html.Validation().ErrorClass(m => m.AssociateName)>
+                            <label for="@Html.IdFor(m => m.AssociateName)">@Html.Sitecore().Field("Email Address Label")</label>
+                            @Html.TextBoxFor(m => m.AssociateName, new { ng_model = "accountInformation.associateName" })
+                            @Html.ValidationMessageFor(model => model.AssociateName)
+                        </div>
+                    </article>
                     @* User Account Creation *@
                     <article class="form enrollment__box enrollment__box--account-creation" ng-if="!isRenewal && false">
                         <header>
