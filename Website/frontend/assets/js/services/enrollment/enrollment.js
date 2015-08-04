@@ -329,5 +329,21 @@
             });
     };
 
+    service.getAssociateImageClass = function() {
+        if(service.associateInformation && service.associateInformation.webAlias) {
+            return $http.get('/api/enrollment/proxyAssociateImage?webAlias=' + service.associateInformation.webAlias)
+                .then(
+                    function (response) {
+                        return '';
+                    },
+                    function (response) {
+                        return 'hide';
+                    }
+            );
+        } else {
+            return 'hide';
+        }
+    };
+
     return service;
 }]);

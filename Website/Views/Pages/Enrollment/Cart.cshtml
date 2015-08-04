@@ -1,7 +1,20 @@
-﻿<script type="text/ng-template" id="cart-template">
+﻿@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.Resources.Media
+@using Sitecore.Links
+
+<script type="text/ng-template" id="cart-template">
     <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
-        <article class="enrollment__box" ng-if="associateInformation">
-            {{ associateInformation }}
+        <article class="enrollment__box" ng-if="associateInformation && associateInformation.associateName.indexOf('Unassigned') !== 0">
+            <div class="ai-left">
+                <div class="associate-image {{ associateInformation.imageClass }}" 
+                    style="background-image: url(/api/enrollment/proxyAssociateImage?webAlias={{ associateInformation.webAlias }});" ></div>
+            </div>
+            <div class="ai-right">
+                <span class="referred-by">@Html.Sitecore().Field("Referred By")</span><br>
+                <span class="associate-name">{{ associateInformation.associateName }}</span><br>
+                <span class="associate-level">{{ associateInformation.associateLevel }}</span>
+            </div>
         </article>
         <article class="enrollment__box" scroll-anchor="scrollFix">
             <header>
