@@ -24,6 +24,8 @@ using StreamEnergy.DomainModels.Activation;
 using StreamEnergy.Services.Helpers;
 using StreamEnergy.DomainModels.Associate;
 using StreamEnergy.Interpreters;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -579,5 +581,35 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             //return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
         }
 
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 60, IsPublic = true)]
+        public HttpResponseMessage ProxyAssociateImage(string webAlias)
+        {
+            CookieContainer cookieContainer = new CookieContainer();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://" + webAlias + ".mystream.com/showimage.asp");
+            request.CookieContainer = cookieContainer;
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                if ((response.StatusCode == HttpStatusCode.OK ||
+                    response.StatusCode == HttpStatusCode.Moved ||
+                    response.StatusCode == HttpStatusCode.Redirect) &&
+                    response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+                {
+                    using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+                    {
+                        Byte[] lnByte = reader.ReadBytes((int)response.ContentLength);
+                        HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                        var stream = new MemoryStream(lnByte);
+                        result.Content = new StreamContent(stream);
+                        result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                        return result;
+                    }
+                }
+                else
+                {
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                }
+            }
+        }
     }
 }
