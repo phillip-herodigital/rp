@@ -342,7 +342,7 @@
                                 @Html.Sitecore().Field("Associate Referral Intro Text")
                                 <div class="item" @Html.Validation().ErrorClass(m => m.AssociateName)>
                                     <label for="@Html.IdFor(m => m.AssociateName)">@Html.Sitecore().Field("Associate Referral Textbox Label")</label>
-                                    @Html.TextBoxFor(m => m.AssociateName, new { ng_model = "accountInformation.associateName", data_val_if = "!accountInformation.hasAssociateReferral" })
+                                    @Html.TextBoxFor(m => m.AssociateName, new { ng_model = "accountInformation.associateName", data_val_if = "!accountInformation.hasAssociateReferral", data_val = "true", data_val_required = Html.Sitecore().Field("Associate Referral Textbox Invalid") })
                                     @Html.ValidationMessageFor(model => model.AssociateName)
                                 </div>
                             </div>
