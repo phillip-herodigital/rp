@@ -28,6 +28,7 @@ namespace StreamEnergy
             }));
 
             unityContainer.RegisterType<ISettings, SitecoreSettings>();
+            unityContainer.RegisterType<ISitecoreAccessor, SitecoreAccessor>();
 
             var typeIndicatorJsonConverter = new TypeIndicatorJsonConverter();
             unityContainer.RegisterInstance(typeIndicatorJsonConverter);

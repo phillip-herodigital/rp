@@ -23,6 +23,11 @@ using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Documents;
 using StreamEnergy.DomainModels.Activation;
 using StreamEnergy.Services.Helpers;
+using StreamEnergy.DomainModels.Associate;
+using StreamEnergy.Interpreters;
+using System.IO;
+using System.Net.Http.Headers;
+using StreamEnergy.DomainModels.Emails;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -36,6 +41,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly StackExchange.Redis.IDatabase redisDatabase;
         private readonly IEnrollmentService enrollmentService;
         private readonly IActivationCodeLookup activationCodeLookup;
+        private readonly IAssociateLookup associateLookup;
+        private readonly IDpiEnrollmentParameters dpiEnrollmentParameters;
+        private readonly IEmailService emailService;
+        private readonly ISettings settings;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -52,7 +61,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -63,6 +72,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.enrollmentService = enrollmentService;
             this.activationCodeLookup = activationCodeLookup;
             //this.documentStore = documentStore;
+            this.associateLookup = associateLookup;
+            this.dpiEnrollmentParameters = dpiEnrollmentParameters;
+            this.emailService = emailService;
+            this.settings = settings;
         }
 
         public async Task Initialize()
@@ -84,6 +97,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     }
                     stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
                 }
+            }
+            if (stateHelper.StateMachine.InternalContext.AssociateInformation == null)
+            {
+                dpiEnrollmentParameters.Initialize(stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters);
+                stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
             }
 
             this.stateMachine = stateHelper.StateMachine;
@@ -179,6 +197,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 MailingAddress = stateMachine.Context.MailingAddress,
                 PreviousAddress = stateMachine.Context.PreviousAddress,
                 PreviousProvider = stateMachine.Context.PreviousProvider,
+                AssociateInformation = stateMachine.InternalContext.AssociateInformation,
+                AssociateName = stateMachine.Context.AssociateName,
                 Cart = from service in services
                        let locationOfferSet = offers.ContainsKey(service.Location) ? offers[service.Location] : new LocationOfferSet()
                        select new CartEntry
@@ -445,6 +465,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
             stateMachine.Context.PreviousProvider = request.PreviousProvider;
+            stateMachine.Context.AssociateName = request.AssociateName;
 
             await stateMachine.ContextUpdated();
 
@@ -502,6 +523,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var resultData = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
             await GenerateEndOfEnrollmentScreenshot(resultData);
+            await SendAssociateNameEmail(resultData);
             return resultData;
         }
 
@@ -570,6 +592,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var resultData = ClientData();
 
             await GenerateEndOfEnrollmentScreenshot(resultData);
+            await SendAssociateNameEmail(resultData);
 
             return resultData;
         }
@@ -582,6 +605,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
+        private async Task SendAssociateNameEmail(Models.Enrollment.ClientData resultData)
+        {
+            if (!string.IsNullOrEmpty(resultData.AssociateName) && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
+            {
+                var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");
+
+                await emailService.SendEmail(new Guid("{DA3290DF-BCC3-44DF-A099-AA9E74D800CC}"), to, new NameValueCollection() {
+                    {"associateName", resultData.AssociateName},
+                    {"sessionId", HttpContext.Current.Session.SessionID},
+                    {"accountNumbers", string.Join(",", (from product in resultData.Cart
+                                                         from offerInformation in product.OfferInformationByType
+                                                         from selectedOffer in offerInformation.Value.OfferSelections
+                                                         select selectedOffer.ConfirmationNumber).ToArray())},
+                });
+            }
+        }
+
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<HttpResponseMessage> Download(string documentType)
@@ -591,5 +631,35 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             //return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
         }
 
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 60, IsPublic = true)]
+        public HttpResponseMessage ProxyAssociateImage(string webAlias)
+        {
+            CookieContainer cookieContainer = new CookieContainer();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://" + webAlias + ".mystream.com/showimage.asp");
+            request.CookieContainer = cookieContainer;
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                if ((response.StatusCode == HttpStatusCode.OK ||
+                    response.StatusCode == HttpStatusCode.Moved ||
+                    response.StatusCode == HttpStatusCode.Redirect) &&
+                    response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+                {
+                    using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+                    {
+                        Byte[] lnByte = reader.ReadBytes((int)response.ContentLength);
+                        HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                        var stream = new MemoryStream(lnByte);
+                        result.Content = new StreamContent(stream);
+                        result.Content.Headers.ContentType = new MediaTypeHeaderValue(response.ContentType);
+                        return result;
+                    }
+                }
+                else
+                {
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                }
+            }
+        }
     }
 }
