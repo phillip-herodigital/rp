@@ -250,11 +250,12 @@ namespace StreamEnergy.Services.Clients
             // Load the deposit even if KIQ fails
             if (entry.Premise.Deposit != null)
                 deposit = (decimal)entry.Premise.Deposit.Amount.Value;
-            if (entry.Premise.DepositAlternative != null)
-            {
-                depositAlternative = (decimal)entry.Premise.DepositAlternative.DepositAlternativeAmount.Value;
-                depositAlternativeEligible = (bool)entry.Premise.DepositAlternative.DepositAlternativeEligible.Value;
-            }
+            // Uncomment the below lines to turn Deposit Alternative back on
+            //if (entry.Premise.DepositAlternative != null)
+            //{
+            //    depositAlternative = (decimal)entry.Premise.DepositAlternative.DepositAlternativeAmount.Value;
+            //    depositAlternativeEligible = (bool)entry.Premise.DepositAlternative.DepositAlternativeEligible.Value;
+            //}
                 
             return new OfferPayment
                     {
