@@ -78,6 +78,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "Previous Address ")]
         public Address PreviousAddress { get; set; }
 
+        [Required(ErrorMessage = "Associate Referral Textbox Invalid")]
         public string AssociateName { get; set; }
 
         void ISanitizable.Sanitize()

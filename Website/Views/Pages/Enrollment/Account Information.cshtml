@@ -333,16 +333,16 @@
                             <div class="item">
                                 <ul class="checkbox-list">
                                     <li>
-                                        <input type="checkbox" name="associate-referral-checkbox-label" id="associate-referral-checkbox-label" ng-model="accountInformation.hasAssociateReferral" ng-checked="cartHasUtility()">
+                                        <input type="checkbox" name="associate-referral-checkbox-label" id="associate-referral-checkbox-label" ng-model="additionalInformation.hasAssociateReferral">
                                         <label for="associate-referral-checkbox-label">@Html.Sitecore().Field("Associate Referral Checkbox Label")</label>
                                     </li>
                                 </ul>
                             </div>
-                            <div ng-if="accountInformation.hasAssociateReferral">
+                            <div ng-if="additionalInformation.hasAssociateReferral">
                                 @Html.Sitecore().Field("Associate Referral Intro Text")
                                 <div class="item" @Html.Validation().ErrorClass(m => m.AssociateName)>
                                     <label for="@Html.IdFor(m => m.AssociateName)">@Html.Sitecore().Field("Associate Referral Textbox Label")</label>
-                                    @Html.TextBoxFor(m => m.AssociateName, new { ng_model = "accountInformation.associateName", ng_required = "", data_val_if = "accountInformation.hasAssociateReferral" })
+                                    @Html.TextBoxFor(m => m.AssociateName, new { ng_model = "accountInformation.associateName", data_val_if = "!accountInformation.hasAssociateReferral" })
                                     @Html.ValidationMessageFor(model => model.AssociateName)
                                 </div>
                             </div>

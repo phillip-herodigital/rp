@@ -606,14 +606,18 @@
         display: block;
         padding: 13px;
         .referred-by {
-
+            color: #999;
+            font-size: .85em;
+            font-weight: 400;
         }
         .associate-name {
-            font-family: proxima-nova-n3, proxima-nova, Helvetica, Arial, sans-serif;
-            font-weight: 600;
+            font-weight: bold;
+            color: #0965a5;
         }
         .associate-level {
-
+            color: #04283c;
+            font-weight: bold;
+            font-size: .85em;
         }
     }
 }

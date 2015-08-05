@@ -15,10 +15,12 @@ namespace StreamEnergy.Data.Associate
     {
         public const string SqlConnectionString = "Eagle.ConnectionString";
         private readonly string connectionString;
+        private readonly ISitecoreAccessor sitecoreAccessor;
 
-        public AssociateLookup([Dependency(SqlConnectionString)] string connectionString)
+        public AssociateLookup([Dependency(SqlConnectionString)] string connectionString, ISitecoreAccessor sitecoreAccessor)
         {
             this.connectionString = connectionString;
+            this.sitecoreAccessor = sitecoreAccessor;
         }
 
         AssociateInformation IAssociateLookup.LookupAssociate(string associateId)
@@ -33,7 +35,12 @@ namespace StreamEnergy.Data.Associate
                 {
                     connection.Open();
 
-                    return LookupAssociate(associateId, connection);
+                    var ret =  LookupAssociate(associateId, connection);
+                    if (ret != null)
+                    {
+                        ret.AssociateLevel = sitecoreAccessor.GetFieldValue("/sitecore/content/Data/Taxonomy/Associate Levels/" + ret.AssociateLevel, "Display Text", ret.AssociateLevel);
+                    }
+                    return ret;
                 }
             }
             catch

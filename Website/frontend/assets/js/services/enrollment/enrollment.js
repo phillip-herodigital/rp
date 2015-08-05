@@ -67,7 +67,7 @@
         service.accountInformation.mailingAddress = result.mailingAddress;
         service.accountInformation.previousAddress = result.previousAddress;
         service.accountInformation.previousProvider = result.previousProvider;
-        service.accountInformation.associateInformation = result.hasAssociateReferral ? result.associateInformation : "";
+        service.associateInformation = result.associateInformation;
 
         // Default these object to prevent errors
         service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];

@@ -134,7 +134,9 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-
+        if (!$scope.additionalInformation.hasAssociateReferral) {
+            $scope.accountInformation.associateName = null;
+        }
         var addresses = [$scope.accountInformation.mailingAddress];
         if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
             addresses.push($scope.accountInformation.previousAddress);
