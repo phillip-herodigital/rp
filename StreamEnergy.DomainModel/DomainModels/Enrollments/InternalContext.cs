@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StreamEnergy.DomainModels.Associate;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -35,6 +36,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         public StreamAsync<CreditCheckResult> CreditCheck { get; set; }
 
         public NameValueCollection EnrollmentDpiParameters { get; set; }
+
+        public AssociateInformation AssociateInformation { get; set; }
 
         public StreamAsync<RenewalResult> RenewalResult { get; set; }
 
