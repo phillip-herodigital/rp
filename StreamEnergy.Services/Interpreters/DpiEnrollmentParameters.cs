@@ -154,7 +154,6 @@ namespace StreamEnergy.Interpreters
                 {
                 }
             }
-            logger.Record(string.Format("TrafficCop.GetAccountNumber '{0}' '{1}'", p, ret), Severity.Debug);
             return ret;
         }
 
