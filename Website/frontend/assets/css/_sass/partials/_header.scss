@@ -82,7 +82,7 @@
                     background: image-url('marketing/redesign/nav-first-level-selected-indicator.png') bottom center no-repeat;
                     height: 48px;
                     a {
-                         text-decoration: underline;
+                       //  text-decoration: underline;
                     }
                 }
             }
@@ -109,7 +109,7 @@
 				&.selected {
 					a {
 						color: $nav-sub-hover-color;
-                         text-decoration: underline;
+                      //   text-decoration: underline;
 					}
 				}
 			}

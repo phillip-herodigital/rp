@@ -1,7 +1,7 @@
 /* Account Balances and Payments Controller
  *
  */
-ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http', '$modal', '$timeout', function ($scope, $rootScope, $http, $modal, $timeout) {
+ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http', '$modal', '$timeout', '$window', function ($scope, $rootScope, $http, $modal, $timeout, $window) {
 	
     $scope.accounts = null;
     $scope.paymentAccounts = null;
@@ -105,12 +105,29 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
                 $scope.selectedPaymentMethod = '';
             };
         }
+        else if ($scope.selectedPaymentMethod == 'creditCardRedirect') {
+            // open the add account modal
+            alert('in');
+            $scope.modalInstance = $modal.open({
+                scope: $scope,
+                templateUrl: 'AddCreditCardAccount'
+            });
+            
+            // reset the dropdown if the modal is dismissed
+            if ($scope.newAccount == '') {
+                $scope.selectedPaymentMethod = '';
+            };
+        }
     };
+    $scope.modalCreditCardPayment = function () {
+        $window.location = '/one-time-payment?state=TX&accountNumber=' + $scope.formData.accountNumber;
 
+    };
     $scope.getPaymentMethod = function (paymentId) {
-        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount') {
+        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount' && paymentId !== 'creditCardRedirect') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).displayName;
         }
+
     };
 
     $scope.getPaymentMethodType = function (paymentId) {

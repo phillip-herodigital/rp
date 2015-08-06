@@ -23,6 +23,13 @@
                     @Html.ValidationMessageFor(m => m.Username)
                 </div>
             </div>
+            <div class="group">
+                <div class="item group-col" @Html.Validation().ErrorClass(m => m.Email.Address) float-label>
+                    <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
+                    @Html.TextBoxFor(m => m.Email.Address, new { ng_model = "formData.email.address" })
+                    @Html.ValidationMessageFor(m => m.Email.Address)
+                </div>
+            </div>
             <div class="additional-fields group" data-additional-fields>
                 <div class="additional-field-action change-password">
                     <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Change Password Text")</a>
@@ -51,13 +58,7 @@
                     </div>
                 </div>
             </div>
-            <div class="group">
-                <div class="item group-col" @Html.Validation().ErrorClass(m => m.Email.Address) float-label>
-                    <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
-                    @Html.TextBoxFor(m => m.Email.Address, new { ng_model = "formData.email.address" })
-                    @Html.ValidationMessageFor(m => m.Email.Address)
-                </div>
-            </div>
+
             <hr class="content-divider" />
             @using (var securityQuestion = Html.ClientRepeater(m => m.Challenges, "0"))
             {
