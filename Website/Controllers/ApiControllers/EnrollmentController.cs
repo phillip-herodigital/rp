@@ -84,12 +84,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
 
+            bool useRemoteEnrollment;
+            NameValueCollection enrollmentDpiParameters = null;
+            int Percentage = 0;
+            EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out enrollmentDpiParameters, Percentage);
             if (stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters == null)
             {
-                bool useRemoteEnrollment;
-                NameValueCollection enrollmentDpiParameters = null;
-                int Percentage = 0;
-                EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out enrollmentDpiParameters, Percentage);
                 if (enrollmentDpiParameters != null)
                 {
                     if (!stateHelper.IsDefault && enrollmentDpiParameters["renewal"] != "true")
@@ -100,7 +100,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
                 }
             }
-            dpiEnrollmentParameters.Initialize(stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters);
+            dpiEnrollmentParameters.Initialize(enrollmentDpiParameters);
             if (stateHelper.StateMachine.InternalContext.AssociateInformation == null || stateHelper.StateMachine.InternalContext.AssociateInformation.AssociateId != dpiEnrollmentParameters.AccountNumber)
             {
                 stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
