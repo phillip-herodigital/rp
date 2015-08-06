@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CsvHelper;
 using Microsoft.Practices.Unity;
 using StreamEnergy.DomainModels.Associate;
+using System.Text.RegularExpressions;
 
 namespace StreamEnergy.Data.Associate
 {
@@ -70,7 +71,7 @@ WHERE h.[IA Number] = @associateId", connection)
                         return new AssociateInformation()
                         {
                             WebAlias = reader.GetFieldValue<string>(0),
-                            AssociateName = reader.GetFieldValue<string>(1),
+                            AssociateName = Regex.Replace(reader.GetFieldValue<string>(1), @"<(.|\n)*?>", ""),
                             AssociateLevel = reader.GetFieldValue<string>(2),
                             AssociateId = associateId,
                         };
