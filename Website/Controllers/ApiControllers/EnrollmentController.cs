@@ -45,6 +45,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IDpiEnrollmentParameters dpiEnrollmentParameters;
         private readonly IEmailService emailService;
         private readonly ISettings settings;
+        private readonly ILogger logger;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -61,7 +62,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -76,6 +77,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.dpiEnrollmentParameters = dpiEnrollmentParameters;
             this.emailService = emailService;
             this.settings = settings;
+            this.logger = logger;
         }
 
         public async Task Initialize()
@@ -607,18 +609,32 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private async Task SendAssociateNameEmail(Models.Enrollment.ClientData resultData)
         {
-            if (!string.IsNullOrEmpty(resultData.AssociateName) && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
+            if (resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
             {
-                var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");
+                var acctNumbers = (from product in resultData.Cart
+                                   from offerInformation in product.OfferInformationByType
+                                   from selectedOffer in offerInformation.Value.OfferSelections
+                                   select selectedOffer.ConfirmationNumber).ToArray();
+                if (!string.IsNullOrEmpty(resultData.AssociateName))
+                {
+                    var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");
 
-                await emailService.SendEmail(new Guid("{DA3290DF-BCC3-44DF-A099-AA9E74D800CC}"), to, new NameValueCollection() {
-                    {"associateName", resultData.AssociateName},
-                    {"sessionId", HttpContext.Current.Session.SessionID},
-                    {"accountNumbers", string.Join(",", (from product in resultData.Cart
-                                                         from offerInformation in product.OfferInformationByType
-                                                         from selectedOffer in offerInformation.Value.OfferSelections
-                                                         select selectedOffer.ConfirmationNumber).ToArray())},
-                });
+                    await emailService.SendEmail(new Guid("{DA3290DF-BCC3-44DF-A099-AA9E74D800CC}"), to, new NameValueCollection() {
+                        {"associateName", resultData.AssociateName},
+                        {"sessionId", HttpContext.Current.Session.SessionID},
+                        {"accountNumbers", string.Join(",", acctNumbers)},
+                    });
+                }
+                if (resultData.AssociateInformation == null)
+                {
+                    await logger.Record(new LogEntry()
+                    {
+                        Data = {
+                            { "AssociateName", resultData.AssociateName },
+                            { "AccountNumbers", acctNumbers },
+                        },
+                    });
+                }
             }
         }
 
