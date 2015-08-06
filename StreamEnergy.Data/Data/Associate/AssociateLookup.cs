@@ -72,6 +72,7 @@ WHERE h.[IA Number] = @associateId", connection)
                             WebAlias = reader.GetFieldValue<string>(0),
                             AssociateName = reader.GetFieldValue<string>(1),
                             AssociateLevel = reader.GetFieldValue<string>(2),
+                            AssociateId = associateId,
                         };
                     }
                 }

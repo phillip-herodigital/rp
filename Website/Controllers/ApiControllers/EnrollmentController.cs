@@ -100,9 +100,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
                 }
             }
-            if (stateHelper.StateMachine.InternalContext.AssociateInformation == null)
+            dpiEnrollmentParameters.Initialize(stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters);
+            if (stateHelper.StateMachine.InternalContext.AssociateInformation == null || stateHelper.StateMachine.InternalContext.AssociateInformation.AssociateId != dpiEnrollmentParameters.AccountNumber)
             {
-                dpiEnrollmentParameters.Initialize(stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters);
                 stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
             }
 
