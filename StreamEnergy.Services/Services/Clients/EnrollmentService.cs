@@ -592,9 +592,10 @@ namespace StreamEnergy.Services.Clients
                 var card = (DomainModels.Payments.TokenizedCard)context.PaymentInfo;
                 foreach (var deposit in from deposit in internalContext.Deposit
                                         let amt = deposit.Details.RequiredAmounts.OfType<IInitialPaymentAmount>().SingleOrDefault()
+                                        let depositAlternative = context.Services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).DepositAlternative
                                         where amt != null
                                         where !context.Services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit || !amt.CanBeWaived
-                                        group new { deposit.Location, deposit.Offer, amt.DollarAmount } by new { amt.SystemOfRecord, amt.DepositAccount })
+                                        group new { deposit.Location, deposit.Offer, DollarAmount = (depositAlternative ? amt.DepositAlternativeAmount : amt.DollarAmount) } by new { amt.SystemOfRecord, amt.DepositAccount, InvoiceType = (depositAlternative ? "DepositAlternative" : "Deposit") })
                 {
                     var depositAmount = deposit.Sum(d => d.DollarAmount);
                     if (depositAmount == 0)
@@ -605,7 +606,7 @@ namespace StreamEnergy.Services.Clients
                     initialPayments.Add(new
                     {
                         PaymentDate = DateTime.Today,
-                        InvoiceType = "Deposit",
+                        InvoiceType = deposit.Key.InvoiceType,
                         Amount = depositAmount,
                         StreamAccountNumber = deposit.Key.DepositAccount,
                         CustomerName = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
@@ -672,12 +673,21 @@ namespace StreamEnergy.Services.Clients
                                     {
                                         Location = saved.Location,
                                         Offer = saved.Offer,
-                                        Details = new PlaceOrderResult
-                                        {
-                                            ConfirmationNumber = response.EnrollmentReferenceNumber,
-                                            IsSuccess = response.Status == "Success",
-                                            PaymentConfirmation = ToPaymentResult(response.PaymentResponse),
-                                        }
+                                        Details =
+                                            saved.Offer.OfferType == "Mobile" ?
+                                                new PlaceMobileOrderResult
+                                                {
+                                                ConfirmationNumber = response.EnrollmentReferenceNumber,
+                                                IsSuccess = response.Status == "Success",
+                                                PaymentConfirmation = ToPaymentResult(response.PaymentResponse),
+                                                PhoneNumber = response.PhoneNumber
+                                            } :
+                                            new PlaceOrderResult
+                                            {
+                                                ConfirmationNumber = response.EnrollmentReferenceNumber,
+                                                IsSuccess = response.Status == "Success",
+                                                PaymentConfirmation = ToPaymentResult(response.PaymentResponse)
+                                            }
                                     }).ToArray();
             }
 

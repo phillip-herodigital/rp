@@ -27,8 +27,8 @@ ngApp.directive('dropdownSelect', [function () {
                 $scope.value = item.value;
             };
         }],
-        template: '<div class="btn-dropdown" dropdown is-open="status.isopen">' +
-            '<button type="button" class="btn btn-primary dropdown-toggle {{selectedItem.class}}" ng-disabled="disabled">' +
+        template: '<div class="btn-dropdown" dropdown on-toggle="toggled(open)" is-open="status.isopen">' +
+            '<button type="button" class="btn btn-primary dropdown-toggle {{selectedItem.class}}" ng-disabled="disabled" dropdown-toggle>' +
             '{{selectedItem.name}} <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span>' +
             '</button>' +
             '<ul class="dropdown-menu dropdown-menu-{{alignment}}" role="menu">' +

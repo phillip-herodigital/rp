@@ -7,13 +7,15 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
         showAdditionalPhoneNumber: $scope.accountInformation.contactInfo.phone.length > 1,
-        showSecondaryContact: (sci && sci.first != undefined && sci.first != "" && sci.last != undefined && sci.last != "")
+        showSecondaryContact: (sci && sci.first != undefined && sci.first != "" && sci.last != undefined && sci.last != ""),
+        hasAssociateReferral: true
     };
     $scope.validations = [];
     $scope.addressOptions = {};
     $scope.modal = {};
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
+    $scope.associateInformation = enrollmentService.associateInformation;
 
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
 
@@ -132,7 +134,9 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-
+        if (!$scope.additionalInformation.hasAssociateReferral) {
+            $scope.accountInformation.associateName = null;
+        }
         var addresses = [$scope.accountInformation.mailingAddress];
         if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
             addresses.push($scope.accountInformation.previousAddress);

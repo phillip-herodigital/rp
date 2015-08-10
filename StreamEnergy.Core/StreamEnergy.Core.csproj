@@ -207,10 +207,12 @@
     <Compile Include="IndexingStrategies\RebuildOnApplicationStartStrategy.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />
+    <Compile Include="ISitecoreAccessor.cs" />
     <Compile Include="ITypeIndicatorLookup.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="Logging\HttpDataAccumulator.cs" />
     <Compile Include="Logging\NewRelicNameAccumulator.cs" />
+    <Compile Include="Logging\ReadOnlyLogEntry.cs" />
     <Compile Include="Logging\SitecoreLogConfiguration.cs" />
     <Compile Include="Logging\ILogReader.cs" />
     <Compile Include="Logging\LogReader.cs" />
@@ -271,6 +273,7 @@
     <Compile Include="Pipelines\RegisterPlatformBundles.cs" />
     <Compile Include="Extensions\StreamEnergyHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="SitecoreAccessor.cs" />
     <Compile Include="SitecoreSettings.cs" />
     <Compile Include="RequireValueAttribute.cs" />
     <Compile Include="TypeIndicatorJsonConverter.cs" />

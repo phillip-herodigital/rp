@@ -56,6 +56,9 @@ div.tabbable {
 	// Fade for backdrop
 	//&.fade { @include opacity(0); }
 	//&.in { @include opacity(.5); }
+	&.modal-backdrop-absolute {
+		z-index: 1040;
+	}
 }
 
 // Kill the scroll on the body
@@ -85,6 +88,10 @@ div.tabbable {
 	// 	@include transform(0.3s ease-out);
 	// }
 	// &.in .modal-dialog { @include translate(0, 0) }
+	&.modal-absolute {
+		z-index: 1050; 
+		display: block;
+	}
 }
 .modal-open .modal {
 	overflow-x: hidden;

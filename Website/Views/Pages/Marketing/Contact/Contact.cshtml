@@ -2,18 +2,40 @@
 @using System.Linq.Expressions;
 @using StreamEnergy.Extensions;
 
-@*
+@{
+    var visitor = Sitecore.Analytics.Tracker.Current;
 
-*@
-<div state-tabs>
+    var selectedTab = "";
+
+    switch (visitor.Interaction.GeoData.Region)
+    {
+        case "TX":
+            selectedTab = "texas";
+            break;
+        case "GA":
+            selectedTab = "georgia";
+            break;
+        case "PA":
+            selectedTab = "pennsylvania";
+            break;
+        case "MD":
+            selectedTab = "maryland";
+            break;
+        case "NJ":
+            selectedTab = "newjersey";
+            break;
+        case "NY":
+            selectedTab = "newyork";
+            break;
+        case "DC":
+            selectedTab = "washingtondc";
+            break;
+    }
+}
+<div state-tabs ng-init="pane = '@selectedTab'">
     <article class="marketing service-tabs contact">
         <div class="wrapper">
             <div class="grid border three">
-                <div class="col mobile" ng-click="selectPane('mobile')">
-                    <a href="">
-                        <h2>@Html.Sitecore().Field("Mobile Text")</h2>
-                    </a>
-                </div>
                 <div class="col energy" dropdown is-open="status.isopen">
                     <a href="" class="dropdown-toggle" dropdown-toggle>
                         <h2>@Html.Sitecore().Field("Energy Text")</h2>
@@ -27,6 +49,11 @@
                         <li ng-click="selectPane('newyork')"><a href="">@Html.Sitecore().Field("New York State Text")</a></li>
                         <li ng-click="selectPane('washingtondc')"><a href="">@Html.Sitecore().Field("Washington DC State Text")</a></li>
                     </ul>
+                </div>
+                <div class="col mobile" ng-click="selectPane('mobile')">
+                    <a href="">
+                        <h2>@Html.Sitecore().Field("Mobile Text")</h2>
+                    </a>
                 </div>
                 <div class="col protect" ng-click="selectPane('protect')">
                     <a href="">

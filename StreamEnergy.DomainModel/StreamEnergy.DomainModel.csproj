@@ -178,6 +178,8 @@
     <Compile Include="DomainModels\Accounts\UserProfileLocator.cs" />
     <Compile Include="DomainModels\Accounts\UtilityPlan.cs" />
     <Compile Include="DomainModels\Activation\ActivateEsnRequest.cs" />
+    <Compile Include="DomainModels\Associate\AssociateInformation.cs" />
+    <Compile Include="DomainModels\Associate\IAssociateLookup.cs" />
     <Compile Include="DomainModels\Activation\IActivationCodeLookup.cs" />
     <Compile Include="DomainModels\Activation\LookupAccountByEsnRequest.cs" />
     <Compile Include="DomainModels\Activation\LookupAccountByEsnResponse.cs" />
@@ -255,6 +257,7 @@
     <Compile Include="DomainModels\Enrollments\Service\EnrollmentSaveResult.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\PlaceMobileOrderResult.cs" />
     <Compile Include="DomainModels\Enrollments\SubmitIdentityState.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuote.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricity\CommercialQuoteOption.cs" />
@@ -352,6 +355,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

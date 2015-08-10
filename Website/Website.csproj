@@ -913,6 +913,7 @@
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
     <Compile Include="Models\Enrollment\CartEntry.cs" />
+    <Compile Include="Models\Enrollment\DepositAlternative.cs" />
     <Compile Include="Models\Enrollment\DepositWaiver.cs" />
     <Compile Include="Models\Enrollment\ExpectedState.cs" />
     <Compile Include="Models\Enrollment\OfferInformation.cs" />
@@ -1580,6 +1581,7 @@
     <Content Include="Views\Components\Email\Currents\_BlogImage.cshtml" />
     <Content Include="Views\Components\Email\Currents\_BlogSummary.cshtml" />
     <Content Include="Views\Pages\Currents\Calendar.cshtml" />
+    <Content Include="Views\Components\Email\Currents\Currents Email Custom Content.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
