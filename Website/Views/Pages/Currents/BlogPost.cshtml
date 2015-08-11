@@ -19,7 +19,7 @@
 
     UrlOptions option = new UrlOptions();
     option.AlwaysIncludeServerUrl = true;
-    string currentUrl = HttpUtility.UrlEncode(LinkManager.GetItemUrl(blogPost.InnerItem, option));
+    string currentUrl = HttpUtility.UrlEncode(Uri.EscapeUriString(LinkManager.GetItemUrl(blogPost.InnerItem, option)));
     string title = HttpUtility.UrlEncode(blogPost.Title);
     string blogUrl = LinkManager.GetItemUrl(blogRoot, option);
     var allPosts = BlogManager.GetBlogPosts(blogRoot, "", "", "", "", 0, 100);
