@@ -107,7 +107,7 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
         }
         else if ($scope.selectedPaymentMethod == 'creditCardRedirect') {
             // open the add account modal
-            alert('in');
+           
             $scope.modalInstance = $modal.open({
                 scope: $scope,
                 templateUrl: 'AddCreditCardAccount'
