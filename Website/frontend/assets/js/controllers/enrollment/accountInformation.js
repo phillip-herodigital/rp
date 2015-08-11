@@ -137,7 +137,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         if (!$scope.additionalInformation.hasAssociateReferral) {
 
             //Google analytics - track for no associate name.
-            ga('set', 'dimension13', 'NO_ASSOCIATE_NAME');
+            analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
 
             $scope.accountInformation.associateName = null;
         }
