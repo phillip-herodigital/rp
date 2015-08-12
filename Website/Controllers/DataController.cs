@@ -161,11 +161,19 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
-        public ActionResult CurrentsCategories()
+        public ActionResult EventCategories()
         {
-            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Currents/Categories");
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Currents/Event Categories");
             var data = item.Children.Select(child => new { name = child.Name.ToLower(), display = child.Fields["Category Name"].Value });
 
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
+        public ActionResult AssociateLevels()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Associate Levels/Associate Levels");
+            var nameValues = ((Sitecore.Data.Fields.NameValueListField)item.Fields["Associate Levels"]).NameValues;
+            var data = nameValues.AllKeys.Select(key => new { abbreviation = key, display = nameValues[key] });
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 

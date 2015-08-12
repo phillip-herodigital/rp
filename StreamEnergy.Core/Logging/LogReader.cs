@@ -68,7 +68,7 @@ namespace StreamEnergy.Logging
     ///GO
     class LogReader : ILogReader
     {
-        async Task<IEnumerable<LogEntry>> ILogReader.LoadLogs(DateTime minDate, System.Collections.Specialized.NameValueCollection indexes)
+        async Task<IEnumerable<ReadOnlyLogEntry>> ILogReader.LoadLogs(DateTime minDate, System.Collections.Specialized.NameValueCollection indexes)
         {               
             using (SqlConnection connection = new SqlConnection(Sitecore.Configuration.Settings.GetConnectionString("log")))
             using (SqlCommand cmd = connection.CreateCommand())
@@ -91,16 +91,16 @@ ORDER BY e.EntryId ASC
 ";
                 await connection.OpenAsync();
 
-                var entries = new Dictionary<int, LogEntry>();
+                var entries = new Dictionary<int, ReadOnlyLogEntry>();
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
-                        var logEntry = new LogEntry()
+                        var logEntry = new ReadOnlyLogEntry()
                         {
                             Timestamp = Convert.ToDateTime(reader["Timestamp"]),
                             Message = Convert.ToString(reader["Message"]),
-                            Exception = reader["Exception"] is DBNull ? null : JsonConvert.DeserializeObject<Exception>(Convert.ToString(reader["Exception"])),
+                            Exception = reader["Exception"] is DBNull ? null : Newtonsoft.Json.Linq.JToken.Parse(Convert.ToString(reader["Exception"])),
                             Severity = (Severity)Enum.Parse(typeof(Severity), Convert.ToString(reader["Severity"]), true),
                         };
                         using (var sr = new System.IO.StringReader(Convert.ToString(reader["Data"])))

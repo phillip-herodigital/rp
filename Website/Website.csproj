@@ -66,6 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\ComponentArt.Web.UI.dll</HintPath>
     </Reference>
+    <Reference Include="DDay.iCal">
+      <HintPath>..\packages\DDay.iCal.1.0.2.575\lib\DDay.iCal.dll</HintPath>
+    </Reference>
     <Reference Include="dotless.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\dotless.Core.dll</HintPath>
@@ -233,6 +236,9 @@
     </Reference>
     <Reference Include="Sitecore.Analytics.MongoDB">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.MongoDB.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.OmniChannel">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.OmniChannel.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Analytics.Outcome">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Outcome.dll</HintPath>
@@ -763,9 +769,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Conditions\CookieCryptography.cs" />
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
-    <Compile Include="Conditions\EnrollmentTrafficCopHelper.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\CurrentsController.cs" />
@@ -892,6 +896,7 @@
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
     <Compile Include="Models\Enrollment\CartEntry.cs" />
+    <Compile Include="Models\Enrollment\DepositAlternative.cs" />
     <Compile Include="Models\Enrollment\DepositWaiver.cs" />
     <Compile Include="Models\Enrollment\ExpectedState.cs" />
     <Compile Include="Models\Enrollment\OfferInformation.cs" />
@@ -914,7 +919,11 @@
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
+    <Compile Include="Pipelines\PopulateUnsubscribeLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sitecore\StreamRedirectUrlPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Utility\HtmlHelperExtensions.cs" />
     <Compile Include="Utility\NavigationSiteMapProvider.cs" />
     <Compile Include="Utility\SitecoreItemExtensions.cs" />
@@ -1266,6 +1275,8 @@
     <Content Include="sitecore\apps\js\sc.validate.debug.js" />
     <Content Include="sitecore\apps\js\sc.validate.release.js" />
     <Content Include="sitecore\RedirectUrlPage.aspx" />
+    <Content Include="sitecore\shell\Applications\Feeds\Layouts\FeedDeliveryLayout.aspx" />
+    <Content Include="sitecore\shell\Applications\Feeds\SetFeedPresentation\SetFeedPresentation.xaml.xml" />
     <Content Include="sitecore\Unsubscribe.aspx" />
     <Content Include="sitecore\UnsubscribeFromAll.aspx" />
     <Content Include="upload\readme.txt" />
@@ -1550,6 +1561,7 @@
     <Content Include="Views\Components\Email\Currents\_BlogImage.cshtml" />
     <Content Include="Views\Components\Email\Currents\_BlogSummary.cshtml" />
     <Content Include="Views\Pages\Currents\Calendar.cshtml" />
+    <Content Include="Views\Components\Email\Currents\Currents Email Custom Content.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

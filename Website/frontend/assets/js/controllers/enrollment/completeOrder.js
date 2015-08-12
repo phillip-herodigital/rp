@@ -47,9 +47,20 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
+        var depositAlternatives = _(enrollmentCartService.services).map(function (service) {
+            return _(service.offerInformationByType).pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().map(function (selection) {
+                if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ depositOption: 'depositAlternative' }).some()) {
+                    return {
+                        location: service.location,
+                        offerId: selection.offerId
+                    };
+                }
+            }).value();
+        }).flatten().filter().value();
+
         var depositWaivers = _(enrollmentCartService.services).map(function (service) {
             return _(service.offerInformationByType).pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().map(function (selection) {
-                if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ isWaived: true }).some()) {
+                if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ depositOption: 'waived' }).some()) {
                     return {
                         location: service.location,
                         offerId: selection.offerId
@@ -63,6 +74,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
                 paymentInfo: paymentInfo,
+                depositAlternatives: depositAlternatives,
                 depositWaivers: depositWaivers,
                 w9BusinessData: _.keys($scope.w9BusinessData).length ? $scope.w9BusinessData : null
             });
