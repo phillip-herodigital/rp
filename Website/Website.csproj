@@ -2,7 +2,7 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Test - Sitecore</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>
     </ProductVersion>
@@ -26,7 +26,7 @@
     <IsCompassProject>True</IsCompassProject>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test - Sitecore|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -38,7 +38,7 @@
     <DeployIisAppPath>Default Web Site/MyStream</DeployIisAppPath>
     <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
@@ -934,6 +934,7 @@
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\Temp\GenerateW9.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
+    <Compile Include="Pipelines\EcmRenderer.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Pipelines\PopulateUnsubscribeLink.cs" />
@@ -1116,7 +1117,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Include\Sitecore.ContentSearch.config" />
-    <Content Include="App_Config\Custom\Currents.Index.master.config" />
+    <Content Include="App_Config\Custom\Index.master.config" />
     <Content Include="App_Config\Include\ListManager.EmailCampaign\Sitecore.ListManager.EmailCampaign.config" />
     <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.config.disabled" />
     <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.DefaultIndexConfiguration.config.disabled" />
@@ -1148,7 +1149,12 @@
     <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.MarketingAssets.config.disabled" />
     <Content Include="App_Config\Include\SwitchMasterToWeb.config.example" />
     <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config.disabled" />
-    <Content Include="App_Config\Custom\Currents.Index.web.config" />
+    <Content Include="App_Config\Custom\Index.web.config" />
+    <Content Include="App_Config\Custom\Settings.local.config" />
+    <Content Include="App_Config\Custom\Settings.test.config" />
+    <Content Include="App_Config\Custom\Settings.test.sitecore.config" />
+    <Content Include="App_Config\Custom\Settings.production.config" />
+    <Content Include="App_Config\Custom\Settings.production.sitecore.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -1590,14 +1596,12 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web.Debug.config">
+    <None Include="Web.Test - Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="Web.Release.config">
+    <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Azure-SitecoreUpgrade.config">
-      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup />
@@ -1626,18 +1630,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
     <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
-    <PublishDatabases>false</PublishDatabases>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-SitecoreUpgrade|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
     <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <ItemGroup>
