@@ -34,6 +34,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
                     ctrl.errorMessage = true;
                 } else {
                     ctrl.account = data.account;
+                    ctrl.disallowedBank = !_.some(ctrl.account.availablePaymentMethods, { 'paymentMethodType': 'Checking' });
                     ctrl.paymentAmount = ctrl.account.amountDue;
                     ctrl.activeStep = 2;
                 }
@@ -100,4 +101,15 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
         ctrl.accountNumber = null;
         ctrl.account = null;
     };
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec($location.absUrl());
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    ctrl.accountNumber = getParameterByName('accountNumber');
+    if (ctrl.accountNumber != "") {
+        this.lookupAccount();
+    }
 }]);

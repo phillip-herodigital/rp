@@ -106,6 +106,7 @@
 				&.selected {
 					a {
 						color: $nav-sub-hover-color;
+                      //   text-decoration: underline;
 					}
 				}
 			}

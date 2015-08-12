@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Associate;
 
 namespace StreamEnergy.MyStream.Models.Enrollment
 {
@@ -35,5 +36,11 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public Address PreviousAddress { get; set; }
 
         public string PreviousProvider { get; set; }
+
+        public string ProvisionedTelephoneNumber { get; set; }
+
+        public AssociateInformation AssociateInformation { get; set; }
+
+        public string AssociateName { get; set; }
     }
 }

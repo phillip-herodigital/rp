@@ -46,16 +46,28 @@ namespace StreamEnergy.Mvc
 
         public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, System.Net.Http.HttpContent content, System.Net.TransportContext transportContext)
         {
-            var task = Task.Factory.StartNew(() =>
+            if (System.Web.HttpContext.Current.Request.Path.StartsWith("/sitecore"))
             {
-                string json = JsonConvert.SerializeObject(value, settings);
+                return Task.Factory.StartNew(() =>
+                {
+                    string json = JsonConvert.SerializeObject(value);
 
-                byte[] buf = System.Text.Encoding.Default.GetBytes(json);
-                writeStream.Write(buf, 0, buf.Length);
-                writeStream.Flush();
-            });
+                    byte[] buf = System.Text.Encoding.Default.GetBytes(json);
+                    writeStream.Write(buf, 0, buf.Length);
+                    writeStream.Flush();
+                });
+            }
+            else
+            {
+                return Task.Factory.StartNew(() =>
+                    {
+                        string json = JsonConvert.SerializeObject(value, settings);
 
-            return task;
+                        byte[] buf = System.Text.Encoding.Default.GetBytes(json);
+                        writeStream.Write(buf, 0, buf.Length);
+                        writeStream.Flush();
+                    });
+            }
         }
     }
 }

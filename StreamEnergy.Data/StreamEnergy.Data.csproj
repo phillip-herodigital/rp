@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Associate\AssociateLookup.cs" />
     <Compile Include="Data\Activation\ActivationCodeLookup.cs" />
     <Compile Include="Data\DataContainerSetup.cs" />
     <Compile Include="Data\Documents\DocumentStore.cs" />

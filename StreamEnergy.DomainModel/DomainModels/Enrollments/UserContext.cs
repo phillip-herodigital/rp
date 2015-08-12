@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using ResponsivePath.Validation;
+using StreamEnergy.DomainModels.Associate;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -77,6 +78,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "Previous Address ")]
         public Address PreviousAddress { get; set; }
 
+        public string AssociateName { get; set; }
+
         void ISanitizable.Sanitize()
         {
             if (SocialSecurityNumber != null)
@@ -96,6 +99,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                 ((ISanitizable)MailingAddress).Sanitize();
             if (PreviousAddress != null)
                 ((ISanitizable)PreviousAddress).Sanitize();
+            if (AssociateName != null)
+                AssociateName = AssociateName.Trim();
 
         }
 

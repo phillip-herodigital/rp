@@ -41,7 +41,12 @@
                                     @using (var account = Html.ClientRepeater(m => m.Accounts, "{{$index}}"))
                                     {
                                         <div class="notice error" ng-if="item.selectedPaymentMethod == 'disallowed' && item.systemOfRecord == 'CIS1'">
-                                            @Html.Sitecore().Field("CIS1 Disallowed Payment Methods")
+                                            <div ng-if="item.availablePaymentMethods.length > 0">
+                                                @Html.Sitecore().Field("CIS1 Disallowed Payment Methods")
+                                            </div>
+                                            <div ng-if="item.availablePaymentMethods.length == 0">
+                                                @Html.Sitecore().Field("CIS1 Disallowed Bank")
+                                            </div>
                                         </div>
                                         <div class="notice error" ng-if="item.selectedPaymentMethod == 'disallowed' && item.systemOfRecord == 'BeQuick'">
                                             @Html.Sitecore().Field("BeQuick Disallowed Payment Methods")
@@ -60,6 +65,7 @@
                                                     <option value="" ng-selected="selected">@Html.Sitecore().Field("Select Payment Account Text")</option>
                                                     <option ng-repeat="option in paymentAccountsFor(item)" value="{{ option.id }}">{{ option.displayName }}</option>
                                                     <option value="addAccount">@Html.Sitecore().Field("Add Account Text")</option>
+                                                    <option ng-if="item.systemOfRecord == 'CIS1'" value="creditCardRedirect" >@Html.Sitecore().Field("Make Card Payment Text")</option>
                                                 </select>
                                                 @account.ValidationMessageFor(m => m.PaymentAccount)
                                             </div>
@@ -279,4 +285,23 @@
             <button type="submit" data-val-submit>@Html.Sitecore().Field("Submit Button Text")</button>
         </div>
     </form>
+</script>
+<script type="text/ng-template" id="AddCreditCardAccount">
+
+    <div class="modal-header ng-scope">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Credit Card Redirect Header") </h2>
+    </div>
+    <div class="modal-body scrollable">
+        <h4>@Html.Sitecore().Field("Credit Card Redirect Footer") </h4>
+    </div>
+    <div class="modal-footer">
+        <form data-val-bind-messages="validations" ng-submit="modalCreditCardPayment(selectedPaymentMethod.accountNumber)">
+      <!--      <input type="hidden" name="accountNumber" value="{{ selectedPaymentMethod.accountNumber }}" ng-model="selectedPaymentMethod.accountNumber">  -->
+            <button type="button" class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button Text")</button>
+            <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
+        </form>
+    </div>
+
+
 </script>

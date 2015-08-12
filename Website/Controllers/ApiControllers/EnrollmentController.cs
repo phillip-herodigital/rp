@@ -13,6 +13,7 @@ using Microsoft.Practices.Unity;
 using ResponsivePath.Validation;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.Extensions;
 using ResponsivePath.Logging;
 using StreamEnergy.MyStream.Models;
@@ -21,6 +22,12 @@ using StreamEnergy.Processes;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Documents;
 using StreamEnergy.DomainModels.Activation;
+using StreamEnergy.Services.Helpers;
+using StreamEnergy.DomainModels.Associate;
+using StreamEnergy.Interpreters;
+using System.IO;
+using System.Net.Http.Headers;
+using StreamEnergy.DomainModels.Emails;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -34,6 +41,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly StackExchange.Redis.IDatabase redisDatabase;
         private readonly IEnrollmentService enrollmentService;
         private readonly IActivationCodeLookup activationCodeLookup;
+        private readonly IAssociateLookup associateLookup;
+        private readonly IDpiEnrollmentParameters dpiEnrollmentParameters;
+        private readonly IEmailService emailService;
+        private readonly ISettings settings;
+        private readonly ILogger logger;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -50,7 +62,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -61,18 +73,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.enrollmentService = enrollmentService;
             this.activationCodeLookup = activationCodeLookup;
             //this.documentStore = documentStore;
+            this.associateLookup = associateLookup;
+            this.dpiEnrollmentParameters = dpiEnrollmentParameters;
+            this.emailService = emailService;
+            this.settings = settings;
+            this.logger = logger;
         }
 
         public async Task Initialize()
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
 
+            bool useRemoteEnrollment;
+            NameValueCollection enrollmentDpiParameters = null;
+            int Percentage = 0;
+            EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out enrollmentDpiParameters, Percentage);
             if (stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters == null)
             {
-                bool useRemoteEnrollment;
-                NameValueCollection enrollmentDpiParameters = null;
-                int Percentage = 0;
-                StreamEnergy.MyStream.Conditions.EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out enrollmentDpiParameters, Percentage);
                 if (enrollmentDpiParameters != null)
                 {
                     if (!stateHelper.IsDefault && enrollmentDpiParameters["renewal"] != "true")
@@ -82,6 +99,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     }
                     stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
                 }
+            }
+            dpiEnrollmentParameters.Initialize(enrollmentDpiParameters);
+            if (stateHelper.StateMachine.InternalContext.AssociateInformation == null || stateHelper.StateMachine.InternalContext.AssociateInformation.AssociateId != dpiEnrollmentParameters.AccountNumber)
+            {
+                stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
             }
 
             this.stateMachine = stateHelper.StateMachine;
@@ -177,6 +199,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 MailingAddress = stateMachine.Context.MailingAddress,
                 PreviousAddress = stateMachine.Context.PreviousAddress,
                 PreviousProvider = stateMachine.Context.PreviousProvider,
+                AssociateInformation = stateMachine.InternalContext.AssociateInformation,
+                AssociateName = stateMachine.Context.AssociateName,
                 Cart = from service in services
                        let locationOfferSet = offers.ContainsKey(service.Location) ? offers[service.Location] : new LocationOfferSet()
                        select new CartEntry
@@ -207,7 +231,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                     .Select(entry => entry.Details.IsSuccess).FirstOrDefault()
                                                                                     || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
-                                                                                    ?? renewalConfirmations.ConfirmationNumber
+                                                                                    ?? renewalConfirmations.ConfirmationNumber,
+                                                                               DepositType = GetDepositType(selectedOffer),
+                                                                               ConfirmationDetails = confirmations.Where(entry => entry.Details is PlaceMobileOrderResult).Select(entry => ((PlaceMobileOrderResult)entry.Details).PhoneNumber).FirstOrDefault()
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
                                                                    where entry.Key == offerType
@@ -222,6 +248,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             };
         }
 
+        private string GetDepositType(SelectedOffer selectedOffer)
+        {
+            if (selectedOffer.DepositAlternative)
+            {
+                return "DepositAlternative";
+            }
+            if (selectedOffer.WaiveDeposit)
+            {
+                return "DepositWaived";
+            }
+            return "Deposit";
+        }
+
         private Models.Enrollment.ExpectedState ExpectedState(out IEnumerable<ValidationResult> supplementalValidation)
         {
             if (stateMachine.State == typeof(IdentityCheckHardStopState))
@@ -231,6 +270,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             else if (stateMachine.State == typeof(EnrollmentErrorState))
             {
+                Reset();
                 supplementalValidation = Enumerable.Empty<ValidationResult>();
                 return Models.Enrollment.ExpectedState.ErrorHardStop;
             }
@@ -428,6 +468,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
             stateMachine.Context.PreviousProvider = request.PreviousProvider;
+            stateMachine.Context.AssociateName = request.AssociateName;
 
             await stateMachine.ContextUpdated();
 
@@ -485,6 +526,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var resultData = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
             await GenerateEndOfEnrollmentScreenshot(resultData);
+            await SendAssociateNameEmail(resultData);
             return resultData;
         }
 
@@ -524,6 +566,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 foreach (var offer in locationService.SelectedOffers)
                 {
                     offer.WaiveDeposit = false;
+                    offer.DepositAlternative = false;
                 }
             }
             foreach (var depositWaiver in request.DepositWaivers ?? Enumerable.Empty<DepositWaiver>())
@@ -535,6 +578,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     target.WaiveDeposit = true;
                 }
             }
+            foreach (var depositAlternative in request.DepositAlternatives ?? Enumerable.Empty<DepositAlternative>())
+            {
+                var locationService = stateMachine.Context.Services.FirstOrDefault(svc => svc.Location == depositAlternative.Location);
+                if (locationService != null)
+                {
+                    var target = locationService.SelectedOffers.FirstOrDefault(sel => sel.Offer.Id == depositAlternative.OfferId);
+                    target.DepositAlternative = true;
+                }
+            }
 
             await stateMachine.ContextUpdated();
 
@@ -543,8 +595,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var resultData = ClientData();
 
             await GenerateEndOfEnrollmentScreenshot(resultData);
+            await SendAssociateNameEmail(resultData);
 
-            return ClientData();
+            return resultData;
         }
 
         private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)
@@ -552,6 +605,37 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (redisDatabase != null && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
             {
                 await redisDatabase.ListRightPushAsync("EnrollmentScreenshots", StreamEnergy.Json.Stringify(resultData));
+            }
+        }
+
+        private async Task SendAssociateNameEmail(Models.Enrollment.ClientData resultData)
+        {
+            if (resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
+            {
+                var acctNumbers = (from product in resultData.Cart
+                                   from offerInformation in product.OfferInformationByType
+                                   from selectedOffer in offerInformation.Value.OfferSelections
+                                   select selectedOffer.ConfirmationNumber).ToArray();
+                if (!string.IsNullOrEmpty(resultData.AssociateName))
+                {
+                    var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");
+
+                    await emailService.SendEmail(new Guid("{DA3290DF-BCC3-44DF-A099-AA9E74D800CC}"), to, new NameValueCollection() {
+                        {"associateName", resultData.AssociateName},
+                        {"sessionId", HttpContext.Current.Session.SessionID},
+                        {"accountNumbers", string.Join(",", acctNumbers)},
+                    });
+                }
+                if (resultData.AssociateInformation == null)
+                {
+                    await logger.Record(new LogEntry()
+                    {
+                        Data = {
+                            { "AssociateName", resultData.AssociateName },
+                            { "AccountNumbers", acctNumbers },
+                        },
+                    });
+                }
             }
         }
 
@@ -564,5 +648,35 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             //return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
         }
 
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 60, IsPublic = true)]
+        public HttpResponseMessage ProxyAssociateImage(string webAlias)
+        {
+            CookieContainer cookieContainer = new CookieContainer();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://" + webAlias + ".mystream.com/showimage.asp");
+            request.CookieContainer = cookieContainer;
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                if ((response.StatusCode == HttpStatusCode.OK ||
+                    response.StatusCode == HttpStatusCode.Moved ||
+                    response.StatusCode == HttpStatusCode.Redirect) &&
+                    response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+                {
+                    using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+                    {
+                        Byte[] lnByte = reader.ReadBytes((int)response.ContentLength);
+                        HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                        var stream = new MemoryStream(lnByte);
+                        result.Content = new StreamContent(stream);
+                        result.Content.Headers.ContentType = new MediaTypeHeaderValue(response.ContentType);
+                        return result;
+                    }
+                }
+                else
+                {
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                }
+            }
+        }
     }
 }

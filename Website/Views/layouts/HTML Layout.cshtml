@@ -59,6 +59,8 @@
                 d.DecibelInsight = b; d[b] = d[b] || function () { (d[b].q = d[b].q || []).push(arguments); };
                 el = e.createElement(c), it = e.getElementsByTagName(c)[0]; el.async = 1; el.src = i; it.parentNode.insertBefore(el, it);
             })(window, document, 'script', '//cdn.decibelinsight.net/i/24782/di.js', 'decibelInsight');
+
+            decibelInsight('updateUserId', '@Session.SessionID');
             // ]]>
         </script>
     }
@@ -79,6 +81,10 @@
 
 
     @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle")
+
+    <script>
+        window.ASPNET_SessionId = "@Session.SessionID";
+    </script>
 
     @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
     {

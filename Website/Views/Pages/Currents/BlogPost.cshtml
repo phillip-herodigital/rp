@@ -19,7 +19,7 @@
 
     UrlOptions option = new UrlOptions();
     option.AlwaysIncludeServerUrl = true;
-    string currentUrl = HttpUtility.UrlEncode(LinkManager.GetItemUrl(blogPost.InnerItem, option));
+    string currentUrl = HttpUtility.UrlEncode(Uri.EscapeUriString(LinkManager.GetItemUrl(blogPost.InnerItem, option)));
     string title = HttpUtility.UrlEncode(blogPost.Title);
     string blogUrl = LinkManager.GetItemUrl(blogRoot, option);
     var allPosts = BlogManager.GetBlogPosts(blogRoot, "", "", "", "", 0, 100);
@@ -79,11 +79,7 @@
         @if (imageGallery.HasValue)
         {
             <carousel class="currents__carousel" interval="-1" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
-                <slide ng-repeat="slide in slides" active="slide.active" ng-style="{backgroundImage:'url(\''+slide.image+'\')'}">
-                    <div class="wrapper">
-                        <div class="content" ng-class="slide.classes" ng-bind-html="slide.text | html"></div>
-                    </div>
-                </slide>
+                <slide ng-repeat="slide in slides" active="slide.active"><img ng-src="{{slide.image}}"></slide>
             </carousel>
             <div class="carousel-thumbnails">
                 <div class="thumbnail" ng-class="{ active : 'slide.active'}" ng-repeat=" slide in slides">
@@ -148,7 +144,7 @@
                 {
                     <li class="googleplus">
                         <!-- Replace href with your meta and URL information.  -->
-                        <a href="https://plus.google.com/share?url=@Html.Raw(title) @Html.Raw(currentUrl)" class="popup">
+                        <a href="https://plus.google.com/share?url=@Html.Raw(currentUrl)" class="popup">
                             <span class="icon">
                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve">
                                 <g>
