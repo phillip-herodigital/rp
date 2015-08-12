@@ -46,8 +46,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                     {
                         if (placeOrderResult.Details.IsSuccess)
                         {
-                            if (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted ||
-                                context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit)
+                            if (context.Services.Any(s => s.SelectedOffers.Any(o => o.Offer.OfferType != "TexasElectricity")) && (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted ||
+                                context.Services.First(s => s.Location == placeOrderResult.Location).SelectedOffers.First(o => o.Offer.Id == placeOrderResult.Offer.Id).WaiveDeposit))
                             {
                                 placeOrderResult.Details.IsSuccess = false;
                             }
