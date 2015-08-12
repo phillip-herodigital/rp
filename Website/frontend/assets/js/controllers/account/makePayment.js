@@ -1,7 +1,7 @@
 /* Make a Payment Controller
  *
  */
-ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', '$q', '$timeout', function ($scope, $rootScope, $http, $modal, $q, $timeout) {
+ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', '$q', '$timeout', '$window', function ($scope, $rootScope, $http, $modal, $q, $timeout, $window) {
 
     $scope.paymentAccounts = null;
     $scope.selectedAccounts = [];
@@ -72,8 +72,20 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
                 item.selectedPaymentMethod = '';
             };
         }
-    };
+        else if (item.selectedPaymentMethod == 'creditCardRedirect') {
+            $scope.selectedPaymentMethod = item;
+            // open the add account modal
+            $scope.modalInstance = $modal.open({
+                scope: $scope,
+                templateUrl: 'AddCreditCardAccount'
+            });
 
+        }
+    };
+    $scope.modalCreditCardPayment = function (accountNumber) {
+           $window.location = '/one-time-payment?state=TX&accountNumber=' + accountNumber;
+
+    };
     $scope.$watch("paymentAccounts", function (newVal, oldVal) {
         if (newVal != oldVal){
             paymentAccountsForIndex = [];
@@ -97,13 +109,13 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     };
 
     $scope.getPaymentMethod = function (paymentId) {
-        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount') {
+        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount' && paymentId !== 'creditCardRedirect') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).displayName;
         }
     };
 
     $scope.getPaymentMethodType = function (paymentId) {
-        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount') {
+        if (paymentId && paymentId !== 'disallowed' && paymentId !== 'addAccount' && paymentId !== 'creditCardRedirect') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).underlyingPaymentType;
         }
     };

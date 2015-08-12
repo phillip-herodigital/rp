@@ -49,7 +49,7 @@
                             <td ng-show="showColumn('dueDate')">{{ item.dueDate | date:'MM/dd/yyyy' }}</td>
                             <td ng-show="showColumn('action')">
                                 <a class="button secondary small" ng-if="item.actions.viewPdf" ng-href="{{item.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a>
-                                <a class="button small" href="~/account/payments" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</a>
+                               @* <a class="button small" href="~/account/payments" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</a>*@
                                 <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
                             </td>
                             <td ng-if="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
@@ -61,18 +61,18 @@
                                 <p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
                                     <span ng-switch-when="action">
                                         <a class="button secondary" ng-if="item.actions.viewPdf" ng-href="{{item.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a>
-                                        <a class="button" href="~/account/payments" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</a>
-                                    </span>
-                                    <span ng-switch-default>
-                                        <strong>{{ column.displayName }}:</strong> {{ item[column.field] }}
-                                    </span>
-                                </p>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot grid-table-pagination></tfoot>
-                </table>
+                                        @*<a class="button" href="~/account/payments" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</a>*@
+                                        </span>
+                                        <span ng-switch-default>
+                                            <strong>{{ column.displayName }}:</strong> {{ item[column.field] }}
+                                        </span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot grid-table-pagination></tfoot>
+                    </table>
+                </div>
             </div>
-        </div>
-    </article>
-</section>
+        </article>
+    </section>
