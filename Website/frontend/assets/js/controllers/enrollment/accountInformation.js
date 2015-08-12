@@ -135,6 +135,10 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     */
     $scope.completeStep = function () {
         if (!$scope.additionalInformation.hasAssociateReferral) {
+
+            //Google analytics - track for no associate name.
+            analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
+
             $scope.accountInformation.associateName = null;
         }
         var addresses = [$scope.accountInformation.mailingAddress];

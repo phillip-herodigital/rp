@@ -270,6 +270,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             else if (stateMachine.State == typeof(EnrollmentErrorState))
             {
+                Reset();
                 supplementalValidation = Enumerable.Empty<ValidationResult>();
                 return Models.Enrollment.ExpectedState.ErrorHardStop;
             }
