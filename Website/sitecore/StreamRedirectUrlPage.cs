@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sitecore.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,11 +8,11 @@ namespace StreamEnergy.MyStream.sitecore
 {
     public class StreamRedirectUrlPage : Sitecore.Modules.EmailCampaign.UI.RedirectUrlPage
     {
-        protected override void HandleMessageEvent(System.Guid messageId, System.Guid contactId, string contactName)
+        protected override void HandleMessageEvent(ID messageId, ID contactId)
         {
             try
             {
-                base.HandleMessageEvent(messageId, contactId, contactName);
+                base.HandleMessageEvent(messageId, contactId);
             }
             catch
             {
