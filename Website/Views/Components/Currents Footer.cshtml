@@ -17,19 +17,7 @@
     <div class="footer-links">
         <div class="wrapper">
             <div class="links">
-                <ul>
-                    <li>@Html.Sitecore().Field("Footer Link 1", blogDataSourceItem)</li>
-                    <li>@Html.Sitecore().Field("Footer Link 2", blogDataSourceItem)</li>
-                    <li>@Html.Sitecore().Field("Footer Link 3", blogDataSourceItem)</li>
-                    @if (@Html.Sitecore().Field("Footer Link 4", blogDataSourceItem).ToString() != "") 
-                    {
-                        <li>@Html.Sitecore().Field("Footer Link 4", blogDataSourceItem)</li>
-                    }
-                    @if (@Html.Sitecore().Field("Footer Link 5", blogDataSourceItem).ToString() != "")
-                    {
-                        <li>@Html.Sitecore().Field("Footer Link 5", blogDataSourceItem)</li>
-                    }
-                </ul>
+                @Html.Sitecore().Field("Footer Links", blogDataSourceItem)
             </div>
             <div class="site-footer-legal">
                 @Html.Sitecore().Field("Copyright Content", blogDataSourceItem)
