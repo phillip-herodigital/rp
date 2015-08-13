@@ -22,8 +22,6 @@
                     <input type="text" id="Username" name="Username" ng-model="formData.username" data-val="true" data-val-required data-val-notequalto data-val-notequalto-other="@Html.NameFor(m => m.Password)">
                     @Html.ValidationMessageFor(m => m.Username)
                 </div>
-            </div>
-            <div class="group">
                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.Email.Address) float-label>
                     <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
                     @Html.TextBoxFor(m => m.Email.Address, new { ng_model = "formData.email.address" })

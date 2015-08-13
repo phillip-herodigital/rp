@@ -19,13 +19,15 @@ namespace StreamEnergy.Services.Clients
         private readonly ILogger logger;
         private readonly AccountFactory accountFactory;
         private readonly Func<System.Web.HttpSessionStateBase> sessionResolver;
+        private Sitecore.Data.Items.Item taxonomy;
 
-        public PaymentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, AccountFactory accountFactory, Func<System.Web.HttpSessionStateBase> sessionResolver)
+        public PaymentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, AccountFactory accountFactory, Func<System.Web.HttpSessionStateBase> sessionResolver, [Dependency("Taxonomy")] Sitecore.Data.Items.Item taxonomy)
         {
             this.streamConnectClient = client;
             this.logger = logger;
             this.accountFactory = accountFactory;
             this.sessionResolver = sessionResolver;
+            this.taxonomy = taxonomy;
         }
 
         async Task<IEnumerable<SavedPaymentRecord>> IPaymentService.GetSavedPaymentMethods(Guid globalCustomerId)
@@ -52,14 +54,16 @@ namespace StreamEnergy.Services.Clients
 
         private string ToPortalPaymentType(string streamConnectPaymentType)
         {
+            var bankPaymentMethod = taxonomy.Axes.GetItem("Payment Methods/TokenizedBank").Fields["Display Text"].Value;
+            var cardPaymentMethod = taxonomy.Axes.GetItem("Payment Methods/TokenizedCard").Fields["Display Text"].Value;
             switch (streamConnectPaymentType)
             {
                 case "Savings":
                 case "Checking":
-                    return TokenizedBank.Qualifier;
+                    return bankPaymentMethod;
                 default:
                 case "Unknown":
-                    return TokenizedCard.Qualifier;
+                    return cardPaymentMethod;
             }
         }
 
