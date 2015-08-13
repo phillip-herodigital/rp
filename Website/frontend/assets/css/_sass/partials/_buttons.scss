@@ -135,8 +135,3 @@ button, .button {
 		margin: -4px 5px 0 0;
 	}*/
 }
-    .verisign-logo {
-            @include image-replace("bg/verisign-logo.png", "bg2x/verisign-logo.png");
-            float: right;
-            margin-right:20px;
-    }
