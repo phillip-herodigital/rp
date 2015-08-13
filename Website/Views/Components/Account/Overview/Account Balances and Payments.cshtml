@@ -39,7 +39,12 @@
                     </div>
                     <div class="col payment" ng-show="selectedAccount.amountDue > 0">
                         <div class="notice error" ng-if="selectedPaymentMethod == 'disallowed' && selectedAccount.systemOfRecord == 'CIS1'">
-                            @Html.Sitecore().Field("CIS1 Disallowed Payment Methods")
+                            <div ng-if="selectedAccount.availablePaymentMethods.length > 0">
+                                @Html.Sitecore().Field("CIS1 Disallowed Payment Methods")
+                            </div>
+                            <div ng-if="selectedAccount.availablePaymentMethods.length == 0">
+                                @Html.Sitecore().Field("CIS1 Disallowed Bank")
+                            </div>
                         </div>
                         <div class="notice error" ng-if="selectedPaymentMethod == 'disallowed' && selectedAccount.systemOfRecord == 'BeQuick'">
                             @Html.Sitecore().Field("BeQuick Disallowed Payment Methods")

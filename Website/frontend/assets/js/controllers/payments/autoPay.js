@@ -163,7 +163,7 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
 
     $scope.setAutoPay = function () {
         var paymentMethod = _.find($scope.paymentAccounts, { 'id': $scope.account.autoPay.paymentMethodId });
-        if (!_.some($scope.account.availablePaymentMethods, { 'paymentMethodType': paymentMethod.underlyingType })) {
+        if ($scope.account.autoPay.isEnabled && !_.some($scope.account.availablePaymentMethods, { 'paymentMethodType': paymentMethod.underlyingType })) {
             $scope.validations = [{
                 "memberName": "AutoPay.PaymentMethodId",
                 "text": $scope.PaymentAccountError

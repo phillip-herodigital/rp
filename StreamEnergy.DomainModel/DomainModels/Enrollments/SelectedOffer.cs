@@ -16,6 +16,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         [Required(ErrorMessage = "Offer Option Required")]
         public IOfferOption OfferOption { get; set; }
 
+        public bool DepositAlternative { get; set; }
         public bool WaiveDeposit { get; set; }
 
         void ISanitizable.Sanitize()

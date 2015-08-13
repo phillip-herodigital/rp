@@ -503,9 +503,11 @@ article.service-links {
     }
 
     .grid .col {
-        background: right center no-repeat;
-        padding-right: 70px;
-
+        background: left center no-repeat;
+        padding-left: 70px;
+        &:first-child {
+            padding-left: 70px;
+        }
         h2 {
             margin: 0 0 5px 0;
             font-size: 24px;

@@ -5,6 +5,10 @@ $events-color: #00a3e0;
 $promotions-color: #97c93d;
 $recognition-color: #f99d25;
 $default-color: #d2d3d3;
+$corporate-events-color: #0071b9;
+$conference-calls-color: #033c5a;
+$webinars-color: #97c93d;
+$local-meeting-color: #00a8e1;
 
 .currents {
     position: relative;
@@ -52,7 +56,7 @@ $default-color: #d2d3d3;
         z-index: 9100;
         padding-bottom: 100px;
     }
-    @include breakpoint(small) {
+    @include breakpoint(small-medium) {
         .blog-info {
             position: relative;
             width: auto;
@@ -295,7 +299,7 @@ $default-color: #d2d3d3;
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 9000;
+        z-index: 9200;
         border-bottom: 1px solid $dark-border-color;
         @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
         > .layout {
@@ -332,6 +336,7 @@ $default-color: #d2d3d3;
         }
         .currents-nav {
             float: right !important;
+            margin-left: 0px !important;
             li {
                 height: 30px !important;
                 padding: 0 10px !important;
@@ -393,13 +398,18 @@ $default-color: #d2d3d3;
     @include breakpoint(small) {
         margin-top: 0;
     }
+    .wrapper {
+        height: 30vw;
+        max-height: 420px;
+    }
 }
 
 .currents__banner {
     margin-top: -180px;
     width: 100%;
     border-bottom: 5px solid;
-    height: 300px;
+    height: 20vw;
+    max-height: 300px;
     border-color: $default-color;
     &.events {
         border-color: $events-color;
@@ -413,7 +423,8 @@ $default-color: #d2d3d3;
     &.calendar {
         background-color: $events-color;
         border-color: $events-color;
-        height: 400px
+        height: 400px;
+        max-height: none;
     }
     @include breakpoint(small) {
         margin-top: 0;
@@ -459,18 +470,6 @@ $default-color: #d2d3d3;
         border-color: $default-color;
         background-size: cover;
         background-color: $default-color;
-        &.events {
-            background-color: $events-color;
-            border-color: $events-color;
-        }
-        &.promotions {
-            background-color: $promotions-color;
-            border-color: $promotions-color;
-        }
-        &.recognition {
-            background-color: $recognition-color;
-            border-color: $recognition-color;
-        }
         .article-video {
             @include retina-background('video-currents.png', 'icon');
             background-position: top right;
@@ -504,9 +503,7 @@ $default-color: #d2d3d3;
                 font-size: 20px;
                 margin: 5px 0;
                 line-height: 1;
-                a {
-                    color: #fff;
-                }
+                color: #fff;
             }
             .article-summary {
                 height: 50px;
@@ -528,6 +525,18 @@ $default-color: #d2d3d3;
                 overflow: hidden;
             }
         }
+        &.events {
+            background-color: $events-color;
+            border-color: $events-color;
+        }
+        &.promotions {
+            background-color: $promotions-color;
+            border-color: $promotions-color;
+        }
+        &.recognition {
+            background-color: $recognition-color;
+            border-color: $recognition-color;
+        }
         &.grid-item--width2, &.grid-item--width3, &.grid-item--width4 {
             @include breakpoint(medium-large) {
                 .article-summary {
@@ -540,8 +549,10 @@ $default-color: #d2d3d3;
                 height: 240px;
                 top: 50px;
                 background: transparent;
+                color: #000;
                 h2 {
                     font-size: 36px;
+                    color: #000;
                 }
                 &:after{
                     @include opacity(1);
@@ -549,6 +560,14 @@ $default-color: #d2d3d3;
                 }
                 .article-summary {
                     height: 70px;
+                }
+            }
+            &.events, &.promotions, &.recognition {
+                .article-overview {
+                    color: #fff;
+                    h2 {
+                        color: #fff;
+                    }
                 }
             }
             &.events .article-overview:after {
@@ -673,8 +692,9 @@ $default-color: #d2d3d3;
     }
     .currents__carousel {
         margin: 40px 0 0;
-        .wrapper {
-            height: 856px;
+        img {
+            width: 100%;
+            vertical-align: bottom;
         }
         .carousel-indicators li { 
             visibility: hidden; 
@@ -808,7 +828,7 @@ $default-color: #d2d3d3;
     z-index: 9110;
     display: none;
     max-width: 890px;
-    min-height: 335px;
+    min-height: 375px;
     padding: 1px;
     text-align: left;
     background-color: $events-color;
@@ -819,6 +839,11 @@ $default-color: #d2d3d3;
     .popover-content {
         padding: 10px;
         color: #fff;
+        .event-info {
+            img {
+                max-width: 570px;
+            }
+        }
         .event-heading {
             font-size: 20px;
             font-weight: 500;
@@ -1036,7 +1061,7 @@ $default-color: #d2d3d3;
     }
     .fc-calendar-container {
         position: relative;
-        height: 1125px;
+        height: 800px;
         width: 100%;
         background: #eee;
     }
@@ -1090,12 +1115,12 @@ $default-color: #d2d3d3;
                 > span.fc-date {
                     position: absolute;
                     width: 48px;
-                    height: 48px;
-                    font-size: 48px;
-                    line-height: 48px;
+                    height: 36px;
+                    font-size: 36px;
+                    line-height: 36px;
                     font-weight: 500;
                     color: #aaa;
-                    top: 50%;
+                    top: 55%;
                     left: 50%;
                     text-align: center;
                     margin: -24px 0 0 -24px;
@@ -1140,14 +1165,17 @@ $default-color: #d2d3d3;
                         text-overflow: ellipsis;
                         max-width: 100%;
                         position: relative;
-                        &.events {
-                            color: $events-color;
+                        &.corporate-events {
+                            color: $corporate-events-color;
                         }
-                        &.promotions {
-                            color: $promotions-color;
+                        &.conference-calls {
+                            color: $conference-calls-color;
                         }
-                        &.recognition {
-                            color: $recognition-color;
+                        &.webinars {
+                            color: $webinars-color;
+                        }
+                        &.local-meeting---please-visit-power-center {
+                            color: $local-meeting-color;
                         }
                     }
                     a:before, span:before {
@@ -1159,8 +1187,8 @@ $default-color: #d2d3d3;
                       left: 0;
                       top: 0;
                     }
-                    .fc-calendar-event:nth-child(4) {
-                        margin-top: 48px;
+                    .fc-calendar-event:nth-child(3) {
+                        margin-top: 34px;
                     }
                 }
             }

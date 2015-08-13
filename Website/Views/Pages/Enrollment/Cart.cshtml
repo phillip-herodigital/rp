@@ -1,5 +1,13 @@
 ﻿<script type="text/ng-template" id="cart-template">
     <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
+        <article class="enrollment__box" ng-if="associateInformation">
+            <img class="associate-image" ng-src="/api/enrollment/proxyAssociateImage?webAlias={{ associateInformation.webAlias }}" onerror="this.style.display = 'none';" />
+            <div class="ai-right">
+                <span class="referred-by">@Html.Sitecore().Field("Referred By")</span><br>
+                <span class="associate-name">{{ associateInformation.associateName }}</span><br>
+                <span class="associate-level">{{ associateInformation.associateLevel }}</span>
+            </div>
+        </article>
         <article class="enrollment__box" scroll-anchor="scrollFix">
             <header>
                 <div class="cart-items" ng-if="!isCartOpen()">

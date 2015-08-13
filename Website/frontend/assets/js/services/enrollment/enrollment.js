@@ -67,6 +67,7 @@
         service.accountInformation.mailingAddress = result.mailingAddress;
         service.accountInformation.previousAddress = result.previousAddress;
         service.accountInformation.previousProvider = result.previousProvider;
+        service.associateInformation = result.associateInformation;
 
         // Default these object to prevent errors
         service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];
@@ -263,7 +264,8 @@
             mailingAddress: service.accountInformation.mailingAddress,
             previousAddress: service.accountInformation.previousAddress,
             preferredSalesExecutive: service.accountInformation.preferredSalesExecutive,
-            previousProvider: service.accountInformation.previousProvider
+            previousProvider: service.accountInformation.previousProvider,
+            associateName: service.accountInformation.associateName
         });
         data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using StreamEnergy.StreamEnergyBilling.IstaTokenization;
 using ResponsivePath.Logging;
+using StreamEnergy.Services.Helpers;
+using System.Collections.Specialized;
 
 namespace StreamEnergy.Interpreters
 {
@@ -56,6 +58,15 @@ namespace StreamEnergy.Interpreters
 
         public Newtonsoft.Json.Linq.JObject ToStreamConnectSalesInfo()
         {
+            bool useRemoteEnrollment;
+            NameValueCollection cookieQueryString;
+
+            EnrollmentTrafficCopHelper.HandlePersistence(out useRemoteEnrollment, out cookieQueryString, 0);
+            if (cookieQueryString != null)
+            {
+                queryString = cookieQueryString;
+            }
+
             if (queryString == null)
                 return Newtonsoft.Json.Linq.JObject.FromObject(new
                 {
@@ -143,7 +154,6 @@ namespace StreamEnergy.Interpreters
                 {
                 }
             }
-            logger.Record(string.Format("TrafficCop.GetAccountNumber '{0}' '{1}'", p, ret), Severity.Debug);
             return ret;
         }
 

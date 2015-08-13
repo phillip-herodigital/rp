@@ -34,13 +34,16 @@ namespace StreamEnergy.Data
             var documentStorageConnectionString = ConfigurationManager.ConnectionStrings["documents"].ConnectionString;
             var azureStorageConnectionString = ConfigurationManager.ConnectionStrings["azureStorage"].ConnectionString;
             var activationCodeConnectionString = ConfigurationManager.ConnectionStrings["activationCodes"].ConnectionString;
+            var eagleConnectionString = ConfigurationManager.ConnectionStrings["eagle"].ConnectionString;
             var cloudStorageAccount = CloudStorageAccount.Parse(azureStorageConnectionString);
 
             unityContainer.RegisterInstance(cloudStorageAccount);
             unityContainer.RegisterInstance(Documents.DocumentStore.SqlConnectionString, documentStorageConnectionString);
             unityContainer.RegisterInstance(Documents.DocumentStore.CloudStorageContainerFormat, ConfigurationManager.AppSettings[Documents.DocumentStore.CloudStorageContainerFormat]);
             unityContainer.RegisterInstance(Activation.ActivationCodeLookup.SqlConnectionString, activationCodeConnectionString);
+            unityContainer.RegisterInstance("Eagle.ConnectionString", eagleConnectionString);
             unityContainer.RegisterType<DomainModels.Activation.IActivationCodeLookup, Activation.ActivationCodeLookup>();
+            unityContainer.RegisterType<DomainModels.Associate.IAssociateLookup, Associate.AssociateLookup>();
         }
 
         private void RegisterService<TInterface>(IUnityContainer unityContainer, TInterface soapClient)

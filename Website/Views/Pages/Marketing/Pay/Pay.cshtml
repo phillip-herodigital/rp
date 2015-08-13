@@ -1,5 +1,37 @@
-﻿
-<div ng-controller="LoginCtrl" ng-init="init('@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/Default.aspx', '@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergyGA/Default.aspx')" state-tabs>
+﻿@{
+    var visitor = Sitecore.Analytics.Tracker.Current;
+
+    var selectedTab = "";
+
+    switch (visitor.Interaction.GeoData.Region)
+    {
+        case "TX":
+            selectedTab = "texas";
+            break;
+        case "GA":
+            selectedTab = "georgia";
+            break;
+        case "PA":
+            selectedTab = "pennsylvania";
+            break;
+        case "MD":
+            selectedTab = "maryland";
+            break;
+        case "NJ":
+            selectedTab = "newjersey";
+            break;
+        case "NY":
+            selectedTab = "newyork";
+            break;
+        case "DC":
+            selectedTab = "washingtondc";
+            break;
+        default:
+            selectedTab = "";
+            break;
+    }
+}
+<div ng-controller="LoginCtrl" ng-init="init('@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/Default.aspx', '@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergyGA/Default.aspx'); pane = '@selectedTab'" state-tabs>
     <article class="marketing service-tabs pay">
         <div class="wrapper">
             <div class="grid border three">

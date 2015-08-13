@@ -72,7 +72,7 @@ namespace StreamEnergy.Extensions
             {
                 try
                 {
-                    text = Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, fieldName);
+                    text = HttpUtility.HtmlDecode(Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, fieldName));
                 }
                 catch
                 {
