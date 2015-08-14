@@ -632,7 +632,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 {
                     var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");
 
+                    var customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
+                    var customerPhone = "";
+
+                    foreach (var phone in resultData.ContactInfo.Phone)
+                    {
+                        customerPhone += customerPhone == "" ? "" : ", ";
+                        customerPhone += phone.Number;
+                    }
+                    customerPhone = customerPhone == "" ? "N/A" : customerPhone;
+
                     await emailService.SendEmail(new Guid("{DA3290DF-BCC3-44DF-A099-AA9E74D800CC}"), to, new NameValueCollection() {
+                        {"customerName", customerName},
+                        {"customerPhone", customerPhone},
                         {"associateName", resultData.AssociateName},
                         {"sessionId", HttpContext.Current.Session.SessionID},
                         {"accountNumbers", string.Join(",", acctNumbers)},
