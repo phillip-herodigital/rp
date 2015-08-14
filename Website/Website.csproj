@@ -1112,8 +1112,6 @@
     <Content Include="App_Config\Include\XBlog.Settings.config" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.config" />
     <Content Include="App_Config\Custom\Index.master.config" />
-    <Content Include="App_Config\Include\ListManager.EmailCampaign\Sitecore.ListManager.EmailCampaign.config" />
-    <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.config.disabled" />
     <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.DefaultIndexConfiguration.config.disabled" />
     <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.Index.Analytics.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Analytics.Oracle.config.disabled" />
@@ -1133,7 +1131,6 @@
     <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.MarketingAssets.config.disabled" />
     <Content Include="App_Config\Include\SwitchMasterToWeb.config.example" />
-    <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config.disabled" />
     <Content Include="App_Config\Custom\Index.web.config" />
     <Content Include="App_Config\Custom\Settings.local.config" />
     <Content Include="App_Config\Custom\Settings.test.config" />
@@ -1349,7 +1346,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Prefetch\Master.config" />
-    <Content Include="App_Config\Prefetch\Web.config" />
     <Content Include="App_Config\Prototypes.config" />
     <Content Include="App_Config\Security\Domains.config">
       <SubType>Designer</SubType>
