@@ -103,7 +103,7 @@
       for (var i = 0; i < recipients.length; i++) {
         recipients[i].url = "/sitecore/client/Applications/ExperienceProfile/contact?cid=" + recipients[i].itemId;
       }
-      if (this.get("pagingMode") == "appending" && this.get("lastRecipientListId")) {
+      if (this.get("pagingMode") === "appending" && this.get("lastRecipientListId") !== "") {
         this.set("recipients", this.get("recipients").concat(data.recipients));
       } else {
         this.set("recipients", data.recipients);
@@ -122,8 +122,10 @@
       }
     },
 
-    error: function () {
-      console.log("ERROR");
+    error: function (args) {
+      if (args && args.status === 403) {
+        window.top.location.reload(true);
+      }
 
       this.set("recipientLists", []);
       this.set("hasRecipientLists", false);
@@ -159,6 +161,7 @@
       this.set("lastRecipientListId", "");
       this.set("lastRecipientIndex", 0);
       this.set("hasMoreRecipients", false);
+      this.set("recipients", []);
 
       if (!recipientLists || recipientLists.length === 0) {
         this.recipientListsToBindRecipients = this.get("recipientLists");
@@ -170,6 +173,7 @@
       for (var i = 0; i < this.recipientListsToBindRecipients.length; i++) {
         recipientListIds.push(this.recipientListsToBindRecipients[i].itemId);
       }
+      
       if (this.get("messageId") !== undefined) { //workaround
         this.getRecipients(recipientListIds, "", 0);
       }
@@ -189,10 +193,12 @@
       if (!recipientLists) {
         return;
       }
-      var recipientListIds = [];
-      for (var i = 0; i < recipientLists.length; i++) {
-        recipientListIds.push(recipientLists[i].itemId);
-      }
+
+      var recipientListIds = [];     
+      _.each(recipientLists, function (recipientList) {
+        recipientListIds.push(recipientList.itemId);
+      });
+
       this.getRecipients(recipientListIds, this.get("lastRecipientListId"), this.get("lastRecipientIndex"));
     },
 
@@ -204,8 +210,8 @@
       var data = { messageId: this.get("messageId"), type: this.get("recipientListType"), pageIndex: pageIndex, pageSize: this.get("pageSize") };
       var options = {
         async: false,
-        url: "/-/speak/request/v1/" + this.get("request"),
-        data: "data=" + JSON.stringify(data),
+        url: "/sitecore/api/ssc/" + this.get("request"),
+        data: data,
         type: "POST",
         success: $.proxy(this.success, this),
         error: $.proxy(this.error, this)
@@ -218,11 +224,11 @@
     },
 
     getRecipients: function (recipientListIds, lastRecipientListId, lastRecipientIndex) {
-      if (!this.isReady || !this.get("loadRecipients")) {
+      if (!this.isReady || !this.get("loadRecipients") || (this.get("recipients").length !== 0 && !this.get("hasMoreRecipients"))) {
         return;
       }
 
-      if (!recipientListIds || recipientListIds.length == 0) {
+      if (!recipientListIds || recipientListIds.length === 0) {
         this.error();
         return;
       }
@@ -231,8 +237,8 @@
 
       var data = { messageId: this.get("messageId"), lastRequestGuid : this.lastRequestGuid, recipientListIds: recipientListIds, lastRecipientListId: lastRecipientListId, lastRecipientIndex: lastRecipientIndex, pageSize: this.get("recipientPageSize"), filter: this.get("search") };
       var options = {
-        url: "/-/speak/request/v1/" + this.get("recipientRequest"),
-        data: "data=" + JSON.stringify(data),
+        url: "/sitecore/api/ssc/" + this.get("recipientRequest"),
+        data: data,
         type: "POST",
         success: $.proxy(this.successRecipients, this),
         error: $.proxy(this.error, this)

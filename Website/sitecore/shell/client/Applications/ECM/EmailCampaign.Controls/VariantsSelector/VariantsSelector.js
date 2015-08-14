@@ -10,8 +10,8 @@
       this._super();
 
       var self = this;
-      this.$el.find('.sc-variants-selector-body').on('click', function () {
-        self.model.trigger('change:variants');
+      this.$el.find(".sc-variants-selector-body").on("click", function () {
+        self.model.trigger("change:variants");
       });
     },
 
@@ -20,23 +20,23 @@
         return;
       }
 
-      var selector = this.$el;
-      var elements = $('.variant-button', selector);
+      var selector = this.$el[0];
+      var elements = $(".variant-button", selector);
       elements.hide();
 
       $.each(data, function (index, value) {
-        $("[data-variants-selector-index=" + value + "]").show();
+        $("[data-variants-selector-index=" + value + "]", selector).show();
       });
     },
 
     getSelectedVariants: function () {
-      var selector = this.$el;
-      var elements = $('.variant-button', selector);
+      var selector = this.$el[0];
+      var elements = $(".variant-button", selector);
       var selectedVariants = [];
 
       $.each(elements, function (index, element) {
         var button = $(element).children("button.up");
-        var isToggled = button.length != 0;
+        var isToggled = button.length !== 0;
 
         if (isToggled) {
           var variantIndex = $(element).attr("data-variants-selector-index");
@@ -47,32 +47,39 @@
       return selectedVariants;
     },
 
-    setSelectedVariants: function (data) {
+    setSelectedVariants: function (data, isClick) {
       if (!data) {
         return;
       }
 
       var contextApp = this.app;
-      var selector = this.$el;
-      var elements = $('.variant-button button', selector);
-
-      $.each(elements, function (index, element) {
-        var id = element.attributes["data-sc-id"].value;
-        contextApp[id].viewModel.close();
-      });
+      var selector = this.$el[0];
+      var elements = $(".variant-button button", selector);
+     
+      $.each(elements, function () {
+        var $button = $(this);
+        if ($button.hasClass("up")) {
+          $button.click();
+        }
+      }); 
 
       $.each(data, function (index, value) {
-        var id = $("[data-variants-selector-index=" + value + "] button").attr("data-sc-id");
-        contextApp[id].viewModel.open();
+        var $button = $("[data-variants-selector-index=" + value + "] button", selector);
+        if (isClick) {
+          if (!$button.hasClass("up")) {
+            $button.click();
+          }
+        } else {
+          var id = $button.attr("data-sc-id");
+          contextApp[id].viewModel.open();
+        }
       });
     },
 
-
     enable: function () {
-
       var contextApp = this.app;
-      var selector = this.$el;
-      var elements = $('.variant-button button', selector);
+      var selector = this.$el[0];
+      var elements = $(".variant-button button", selector);
 
       $.each(elements, function (index, element) {
         var id = element.attributes["data-sc-id"].value;
@@ -82,10 +89,9 @@
     },
 
     disable: function () {
-
       var contextApp = this.app;
-      var selector = this.$el;
-      var elements = $('.variant-button button', selector);
+      var selector = this.$el[0];
+      var elements = $(".variant-button button", selector);
 
       $.each(elements, function (index, element) {
         var id = element.attributes["data-sc-id"].value;

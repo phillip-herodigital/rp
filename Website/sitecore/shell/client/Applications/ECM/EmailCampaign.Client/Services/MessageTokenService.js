@@ -1,0 +1,43 @@
+﻿define(["backbone", "/-/speak/v1/ecm/ServerRequest.js"], function (backbone) {
+
+  var messageTokenService = backbone.Model.extend({
+    initialize: function() {
+      this.set("tokens", null);
+      this.set("context", null);
+      // default value, can be changed
+      this.set("url", "EXM/PersonalizationTokensRequest");
+      this.set("selectedToken", null);
+      this.on("change:context", this.loadTokens, this);
+    },
+
+    loadTokens: function() {
+      postServerRequest(this.get("url"),
+        this.get("context"),
+        _.bind(this.onResponse, this),
+        false);
+    },
+
+    onResponse: function (response) {
+      if (response.error) {
+        alert(response.errorMessage);
+        return;
+      }
+      if (response.comboBoxList != null) {
+        this.set("tokens", [], {silent: true});
+        this.set("tokens", response.comboBoxList);
+      }
+    },
+
+    replaceToken: function (text) {
+      if (text) {
+        _.each(this.get("tokens"), function (item) {
+          var find = item.id.replace(/\$/g, '\\$');
+          text = text.replace(new RegExp(find, 'g'), item.name);
+        });
+      }
+      return text;
+    }
+  });
+
+  return new messageTokenService();
+});

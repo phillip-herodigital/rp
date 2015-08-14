@@ -4,7 +4,7 @@
     execute: function (context) {
       var currentContext = context.app.currentContext;
       currentContext.errorPopupResult = 0;
-      var reqestName = "ecm.saveassubscriptiontemplate.execute";
+      var reqestName = "EXM/SaveAsSubscriptionTemplate";
       var errorMessageId = "error." + reqestName;
       postServerRequest(reqestName, { sourceMessageId: currentContext.messageId, messageName: currentContext.messageName.escapeAmpersand() }, function (response) {
         currentContext.messageBarMain.removeMessage(function (error) { return error.id === errorMessageId; });

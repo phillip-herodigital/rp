@@ -12,19 +12,27 @@
         return;
       }
 
-      contextApp.NameTextBox.viewModel.focus();
+      var nameTextBoxViewModel = contextApp.NameTextBox.viewModel;
+      nameTextBoxViewModel.focus();
+      sessionStorage.removeItem("createMessageName");
 
       contextApp.on("upload-fileUploaded", contextApp.createNewMessage, contextApp);
       contextApp.on("upload-error", contextApp.handleUploadError, contextApp);
 
-      contextApp.NameTextBox.viewModel.$el.on("keyup", function() {
-        contextApp.NameTextBox.viewModel.$el.change();
-        var name = contextApp.NameTextBox.viewModel.$el.val();
+      nameTextBoxViewModel.$el.on("keyup", function (e) {
+        $(this).change();
         var html = contextApp.Uploader.viewModel.totalFiles();
-        if (!name) {
-          contextApp.CreateButton.viewModel.disable();
+        var createButtonViewModel = contextApp.CreateButton.viewModel;
+        var value = $(this).val();
+        if (!value) {
+          createButtonViewModel.disable();
         } else if (html > 0) {
-          contextApp.CreateButton.viewModel.enable();
+          createButtonViewModel.enable();
+          if (e.keyCode === 13) {
+            createButtonViewModel.disable();
+            if (messages_isCreateMessageAlreadyClicked(value)) { return; }
+            contextApp.trigger("createmessage:create");
+          }
         }
       });
 

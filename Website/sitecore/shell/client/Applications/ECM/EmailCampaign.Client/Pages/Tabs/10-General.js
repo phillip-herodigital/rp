@@ -7,10 +7,13 @@
       this.on("select:campaign:category:browse", this.showCampaignCategoryDialog, this);
       this.on("select:campaign:category:ok", this.hideCampaignCategoryDialog, this);
       this.on("select:campaign:category:cancel", this.cancelCampaignCategoryDialog, this);
-      
+      this.on("select:campaign:group:browse", this.showCampaignGroupDialog, this);
+      this.on("select:campaign:group:ok", this.hideCampaignGroupDialog, this);
+      this.on("select:campaign:group:cancel", this.cancelCampaignGroupDialog, this);
+     
       sitecore.on("change:messageContext", function() {
         contextApp.updateTextBoxes(contextApp);
-        resizeCampaignCategoryTextBox(contextApp);
+        contextApp.setFocus(contextApp);
       });
 
       initGeneralTab(sitecore, contextApp);
@@ -18,15 +21,26 @@
 
       sitecore.trigger("change:messageContext");
     },
-
+    setFocus: function (contextApp) {
+      contextApp.NameTextBox.viewModel.focus();
+    },
     showCampaignCategoryDialog: function () {
-      generalTab_ShowCampaignCategoryDialog(this);
+      getActiveTreeViewItem(this.MessageContext.get("campaignCategoryPath"), this.CampaignCategoryTreeView, this.CampaignCategoryDialogWindow);
     },
     hideCampaignCategoryDialog: function () {
       generalTab_HideCampaignCategoryDialog(this);
     },
     cancelCampaignCategoryDialog: function () {
-      generalTab_CancelCampaignCategoryDialog(this);
+      this.CampaignCategoryDialogWindow.hide();
+    },
+    showCampaignGroupDialog: function() {
+      getActiveTreeViewItem(this.MessageContext.get("campaignGroupPath"), this.CampaignGroupTreeView, this.CampaignGroupDialogWindow);
+    },
+    hideCampaignGroupDialog: function() {
+      window.generalTab_HideCampaignGroupDialog(this);
+    },
+    cancelCampaignGroupDialog: function () {
+      this.CampaignGroupDialogWindow.hide();
     },
     updateTextBoxes: function(contextApp) {
       var isReadOnly = contextApp.MessageContext.get("isReadonly");
@@ -44,11 +58,21 @@
       contextApp.ReplyToTextBox.set("isReadOnly", isSenderDetailsReadonly);
       contextApp.ReplyToTextBox.set("text", contextApp.MessageContext.get("replyTo"));
 
+      setReadOnlyToTextBox(contextApp.CampaignCategoryTextBox);
       contextApp.CampaignCategoryTextBox.set("text", contextApp.MessageContext.get("campaignCategoryPath"));
-      contextApp.CampaignCategoryOpenPopupBtn.set("isEnabled", !isReadOnly);
+      setReadOnlyToTextBox(contextApp.CampaignGroupTextBox);
+      contextApp.CampaignGroupTextBox.set("text", contextApp.MessageContext.get("campaignGroupPath"));
+      
+      contextApp.TargetDeviceComboBox.set("isEnabled", !isReadOnly);
 
       contextApp.TemplateNameValueLabel.set("text", contextApp.MessageContext.get("templateName"));
       contextApp.TemplateThumbnailImage.set("imageUrl", contextApp.MessageContext.get("thumbnail"));
+      
+      function setReadOnlyToTextBox(textbox) {
+        var textBtn = textbox.viewModel.$el;
+        textBtn.find('input').attr('disabled', 'true');
+        textBtn.find('button').attr('disabled', isReadOnly);
+      }
     }
   });
 
@@ -66,6 +90,11 @@ function initGeneralTab(sitecore, contextApp) {
     return;
   }
 
+  if (contextApp.AccountInformationExt.get("isECMUsers")) {
+    contextApp.GeneralMessageInfoAccordion.set("enableAdditional", false);
+    contextApp.SenderAccordion.set("enableAdditional", false);
+  }
+
   sitecore.on("message:switchtosubscriptionmessage", function() {
     contextApp.MessageContext.set("isSenderDetailsReadonly", true);
     sitecore.trigger("change:messageContext", this);
@@ -74,28 +103,52 @@ function initGeneralTab(sitecore, contextApp) {
   addModifiedListeners(contextApp, messageContext, messageBar);
 
   contextApp.NameTextBox.on("change:text", function () {
+    if (!langaugeVersionExist()) {
+      return;
+    }
+
     nameIsValid(this.get("text"), messageBar, sitecore);
     validation_checkIsModify(messageContext, messageBar);
     sitecore.trigger("change:messageContext", this);
   });
 
   contextApp.FromNameTextBox.on("change:text", function () {
+    if (!langaugeVersionExist()) {
+      return;
+    }
+
     fromNameIsValid(this.get("text"), contextApp.FromEmailTextBox.get("text"), messageBar, sitecore);
     validation_checkIsModify(messageContext, messageBar);
     sitecore.trigger("change:messageContext", this);
   });
 
   contextApp.FromEmailTextBox.on("change:text", function () {
+    if (!langaugeVersionExist()) {
+      return;
+    }
+
     fromEmailIsValid(this.get("text"), contextApp.FromNameTextBox.get("text"), messageBar, sitecore);
     validation_checkIsModify(messageContext, messageBar);
     sitecore.trigger("change:messageContext", this);
   });
 
   contextApp.ReplyToTextBox.on("change:text", function () {
+    if (!langaugeVersionExist()) {
+      return;
+    }
+
     replyToTextBoxIsValid(this.get("text"), messageBar, sitecore);
     validation_checkIsModify(messageContext, messageBar);
     sitecore.trigger("change:messageContext", this);
   });
+
+  function langaugeVersionExist() {
+    if (!messageContext || !contextApp.LanguageSwitcher) {
+      return false;
+    }
+
+    return _.contains(messageContext.get("languages"), contextApp.LanguageSwitcher.get("selectedLanguage"));
+  }
 }
 
 function addModifiedListeners(contextApp, messageContext, messageBar) {
@@ -110,31 +163,10 @@ function addModifiedListeners(contextApp, messageContext, messageBar) {
 
   //Listen to accordion changes
   listenToSenderAccordion(contextApp);
-  listenToResizeWindow(contextApp);
-}
-
-function resizeCampaignCategoryTextBox(contextApp) {
-  contextApp.CampaignCategoryTextBox.viewModel.$el.width(contextApp.NameTextBox.viewModel.$el.width() - 99);
-}
-
-function listenToResizeWindow(contextApp) {
-  $(window).resize(function () {
-    resizeCampaignCategoryTextBox(contextApp);
-  });
 }
 
 function listenToTargetDeviceComboBox(control, messageContext, messageBar, propertyName) {
   if (!control || !messageContext || !propertyName) { return; }
-  control.on("change", function () {
-    // prevent opening of items list if readonly state
-    if (messageContext.get("isReadonly")) {
-      this.viewModel.$el.on('focus mousedown', function (e) {
-        e.preventDefault();
-        this.blur();
-        window.focus();
-      });
-    }
-  });
 
   control.on("change:selectedItem", function (arguments1, arguments2, argument3) {
     var selectedItem = this.get("selectedItem");
@@ -147,7 +179,7 @@ function listenToTargetDeviceComboBox(control, messageContext, messageBar, prope
 function validateDevice(deviceId, messageId, messageBar, messageContext, propertyName) {
   var errMessageId = "targetDeviceIsNotValid";
   messageBar.removeMessage(function (error) { return error.id === errMessageId; });
-  postServerRequest("ecm.savemessage.validatedevice", { deviceId: deviceId, messageId: messageId }, function (response) {
+  postServerRequest("EXM/ValidateDevice", { deviceId: deviceId, messageId: messageId }, function (response) {
     if (response.error) {
       var messagetoAdd = createErrorMessage(errMessageId, response.errorMessage);
       messageBar.addMessage("error", messagetoAdd);
@@ -187,38 +219,46 @@ function generalTab_InitTargetDeviceCombobx(contextApp, messageBar) {
   listenToTargetDeviceComboBox(contextApp.TargetDeviceComboBox, messageContext, messageBar, "targetDevice");
 
   deviceCombo.set("selectedItem", selectedItem);
-
-  if (messageContext.get("isReadonly")) {
-    deviceCombo.viewModel.$el.attr("readonly", "true");
-  }
 }
 
-function generalTab_ShowCampaignCategoryDialog(contextApp) {
-  var arr = contextApp.MessageContext.get("campaignCategoryPath").split("/");
-  contextApp.CampaignCategoryTreeView.viewModel.$el.find("span.dynatree-expander").click();
-  var selectedLink = contextApp.CampaignCategoryTreeView.viewModel.$el.find("a.dynatree-title").filter(function () { return $(this).text() === arr[arr.length - 1]; });
+function getActiveTreeViewItem(campaignCategoryPath, treeView, dialogWindow) {
+  var arr = campaignCategoryPath.split("/");
+  treeView.viewModel.$el.find("span.dynatree-expander").click();
+  var selectedLink = treeView.viewModel.$el.find("a.dynatree-title").filter(function () { return $(this).text() === arr[arr.length - 1]; });
   if (selectedLink.length > 0) {
     selectedLink.click();
   } else {
     setTimeout(function () {
-      generalTab_ShowCampaignCategoryDialog(contextApp);
+      getActiveTreeViewItem(campaignCategoryPath, treeView, dialogWindow);
     }, 300);
     return;
   }
-  contextApp.CampaignCategoryDialogWindow.show();
+  dialogWindow.show();
 }
 
 function generalTab_HideCampaignCategoryDialog(contextApp) {
   var selectItem = contextApp.CampaignCategoryTreeView.viewModel.getActiveNode();
-  var campaignCategoryPath = selectItem.data.path.replace("/sitecore/system/Marketing Center/Campaigns", "");
+  
+  var campaignCategoryPath = selectItem.data.path.replace("/sitecore/system/Marketing Control Panel/Campaigns", "");
   contextApp.CampaignCategoryTextBox.set("text", campaignCategoryPath);
   contextApp.MessageContext.set("campaignCategoryPath", campaignCategoryPath);
   contextApp.MessageContext.set("campaignCategory", selectItem.data.key);
   contextApp.CampaignCategoryDialogWindow.hide();
 }
 
-function generalTab_CancelCampaignCategoryDialog(contextApp) {
-  contextApp.CampaignCategoryDialogWindow.hide();
+function generalTab_HideCampaignGroupDialog(contextApp) {
+  var selectItem = contextApp.CampaignGroupTreeView.viewModel.getActiveNode();
+  if (selectItem == null) {
+    alert("Please, select group");
+  } else if (selectItem.data.rawItem && selectItem.data.rawItem.$templateId == "{A87A00B1-E6DB-45AB-8B54-636FEC3B5523}") {
+    alert("Please, select group, not folder");
+  } else {
+    var campaignGroupPath = selectItem.data.path.replace("/sitecore/system/Marketing Control Panel/Taxonomies", "");
+    contextApp.CampaignGroupTextBox.set("text", campaignGroupPath);
+    contextApp.MessageContext.set("campaignGroupPath", campaignGroupPath);
+    contextApp.MessageContext.set("campaignGroup", selectItem.data.key);
+    contextApp.CampaignGroupDialogWindow.hide();
+  }
 }
 
 function listenToSenderAccordion(contextApp) {

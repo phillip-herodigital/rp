@@ -24,7 +24,7 @@
       }
 
       if (text) {
-        var message = { id: "ecm.recipientlist.removebouncedrecipients", text: text, actions: [], closable: true };
+        var message = { id: "EXM/RemoveBouncedContacts", text: text, actions: [], closable: true };
         context.messageBar.addMessage(type, message);
       }
     }

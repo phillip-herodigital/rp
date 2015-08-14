@@ -78,7 +78,7 @@ function emailIsValid(email, messagetoAdd, messageBar) {
 }
 function urlIsValid(textval, messagetoAdd, messageBar) {
   messageBar.removeMessage(function (error) { return error.id === messagetoAdd.id; });
-  var filter = /^(http|https){1}\:\/\/(([a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])\.)*([a-zA-Z0-9][A-Za-z0-9\-]{0,61}[A-Za-z0-9])$/;
+  var filter = /^(http|https){1}\:\/\/(([a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]?)\.)*([a-zA-Z0-9][A-Za-z0-9\-]{0,61}[A-Za-z0-9]?)(:\d{2,5})?(\/[a-zA-Z0-9][A-Za-z0-9\-]{0,61}[A-Za-z0-9]?)*(\/{1})?$/;
   if (filter.test(textval)) {
     return true;
   }
@@ -88,7 +88,7 @@ function urlIsValid(textval, messagetoAdd, messageBar) {
 function fromNameAndFromEmailLenghtIsValid(fromName, fromEmail, messageBar, sitecore) {
   var toLongMessage = createErrorMessage("toLongMessage", sitecore.Resources.Dictionary.translate("ECM.Pipeline.Validate.FromNamePlusFromAddressIsToLong"));
   messageBar.removeMessage(function (error) { return error.id === toLongMessage.id; });
-  if (fromName.length + fromEmail.length + 4 > 254) {
+  if (fromName.length + fromEmail.length > 254) {
     messageBar.addMessage("error", toLongMessage);
     return false;
   }

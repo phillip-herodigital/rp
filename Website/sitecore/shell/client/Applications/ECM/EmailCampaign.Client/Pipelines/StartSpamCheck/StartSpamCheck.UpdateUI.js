@@ -2,34 +2,43 @@
   return {
     priority: 4,
     execute: function (context) {
-
       context.app.ReportUpdateWatcher.viewModel.add(context.response.messageReview);
-
-      var id = context.response.messageReview.rawData;
-
       context.app.SpamCheckReportDataSource.viewModel.refresh();
-      var that = this;
+
       context.app.SpamCheckReportListControl.on("change:items", function () {
-        context.app.SpamCheckReportListControl.set("selectedItemId", id);
         context.app.SpamCheckReportListControl.off(null, null, this);
-        context.app.SpamCheckRunSpamCheckButton.viewModel.enable();
-
-        // initialize refresher
-        that.startTimer(context);
+        this.startTimer(context);
       }, this);
-
-      setTimeout(function () {
-        if (!context.app.SpamCheckRunSpamCheckButton.get("isEnabled")) {
-          context.app.SpamCheckRunSpamCheckButton.viewModel.enable();
-        }
-      }, 20000);
-
     },
 
     refresh: function (context) {
-      var id = context.response.messageReview.rawData;
+      function getIdForGetState(dsResults, reportListControl) {
+        var maxDate;
+        var result;
+        if (!reportListControl.get("hasSelectedItem")) {
+          _.each(dsResults, function (reportItem) {
+            if (!maxDate || maxDate < reportItem.date) {
+              maxDate = reportItem.date;
+              result = reportItem.itemId;
+            }
+          });
+        } else {
+          result = reportListControl.get("selectedItemId");
+        }
+        return result;
+      }
+
+      setSpamCheckCheckButtonViewLogic(context.app, true);
+      var datasource = context.app.SpamCheckReportDataSource.get("results");   
+      var id = getIdForGetState(datasource, context.app.SpamCheckReportListControl);
+      if (id === undefined || id !== context.response.messageReview.rawData) {
+        this.startTimer(context);
+        setSpamCheckCheckButtonViewLogic(context.app, false);
+        return;
+      }
+      var that = this;
       var state;
-      postServerRequest("ecm.spamcheckstate.get", {
+      postServerRequest("EXM/SpamCheckState", {
         messageId: context.currentContext.messageId,
         language: context.currentContext.language,
         reportId: id
@@ -38,31 +47,33 @@
           context.currentContext.messageBar.addMessage("error", response.errorMessage);
           context.currentContext.errorCount = 1;
           context.aborted = true;
+          setSpamCheckCheckButtonViewLogic(context.app, false);
           return;
         }
-
         state = response.state;
-      }, false);
-
-      var datasource = context.app.SpamCheckReportDataSource.get("results");
-      var report = _.find(datasource, function (reportItem) {
-        return reportItem.itemId == id;
-      });
-
-      if (report) {
-        initSpamCheckMessageVariants(report, context.app.SpamCheckVariantsRepeater, context.currentContext.messageContext, context.app, sitecore);
-        if (state == 1) {
-          this.startTimer(context);
-        } else {
-          context.app.SpamCheckBusyImage.viewModel.hide();
+        var report = _.find(datasource, function (reportItem) {
+          return reportItem.itemId === id;
+        });
+        if (report) {
+          initSpamCheckMessageVariants(report, context.app.SpamCheckVariantsRepeater, context.currentContext.messageContext, context.app, sitecore);
+          if (state === 1) {
+            that.startTimer(context);
+          }
         }
-      }
+        setSpamCheckCheckButtonViewLogic(context.app, false);
+      });
     },
     startTimer: function (context) {
       var that = this;
-      window.setTimeout(function () {
+      that.timer = window.setTimeout(function () {
         that.refresh(context);
       }, 15000);
+    },
+    timer: null,
+    stop: function () {
+      if (this.timer) {
+        window.clearTimeout(this.timer);
+      }
     }
   };
 });

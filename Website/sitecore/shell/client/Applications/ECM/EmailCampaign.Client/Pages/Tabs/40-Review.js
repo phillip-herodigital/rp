@@ -19,6 +19,16 @@
 
         contextApp.SpamCheckReportDataSource.set("language", language);
         contextApp.SpamCheckReportDataSource.set("messageId", messageId);
+
+        /*
+         * Fix for LoadOnDemendPanel with subtabs
+         *  even when LoadOnDemendPanel is loaded the subtabs still not render it's content and TabControl have no "rendered" event
+         *  that is why used setTimeout 0 to "pause" the JavaScript execution to let the rendering threads catch up
+         */
+        setTimeout(function () {
+          contextApp.SendQuickTestEmailTextBox.viewModel.focus();
+        }, 0);
+        
       });
 
       sitecore.trigger("change:messageContext");

@@ -1,0 +1,39 @@
+﻿@using EmailCampaign.Controls.MessagePreview
+@using Sitecore.Mvc
+@using EmailCampaign.Controls
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@using Bcl = EmailCampaign.Controls.Constants.Renderings.Bcl
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+  UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Requires.Script("ecm", "MessagePreview.js");
+  rendering.Requires.Css("ecm", "MessagePreview.css");
+  rendering.Class = "sc-MessagePreview";
+  rendering.SetAttribute("data-sc-imagetext", rendering.GetString("ImageText"));
+  rendering.SetAttribute("data-sc-imageurl", rendering.GetString("ImageUrl"));
+  var htmlAttributes = rendering.HtmlAttributes;
+}
+
+@RenderMessagePreview(rendering)
+
+@helper RenderMessagePreview(UserControl rendering)
+{
+  RenderingHelper helper = new RenderingHelper(this.Html, rendering.ControlId);
+
+  helper.CreateRenderingAt(
+   Bcl.Image,
+   "Image",
+   rendering.ControlId + "Border");
+  
+  helper.CreateRenderingAt(
+   Bcl.Text,
+   "ImageText",
+   rendering.ControlId + "Border");
+}
+
+<div @htmlAttributes data-sc-hasnested="true">
+  <h3>@(this.Html.Sitecore().Controls().Rendering(this.Html, Bcl.Text, rendering.ControlId + "Title", MessagePreviewDataSource.Title))</h3>
+  @(this.Html.Sitecore().Controls().Rendering(this.Html, Bcl.Border, rendering.ControlId + "Border", MessagePreviewDataSource.Border))
+</div>

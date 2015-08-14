@@ -7,7 +7,7 @@
 ], function (sitecore, _, selectLists, importWizard) {
   var contextApp;
   var self = this;
-  
+
   this.includedRecipientsAccordionChange = function () {
     if (!contextApp.IncludedRecipientDataSource) {
       return;
@@ -41,11 +41,10 @@
   };
 
   this.includedRecipientListSelectedItemChanged = function () {
-    this.toggleIncludedRecipientsControls();
-
     var recipientListType = contextApp.IncludedRecipientDataSource.get("recipientListType");
 
-    if (self.getRecipientListSelection(recipientListType) === "Selected") {
+    if (self.getRecipientListSelection(recipientListType) === "All") {
+      this.toggleIncludedRecipientsControls();
       self.showRecipientOnCheckedItemsChanged(recipientListType);
     }
   };
@@ -67,7 +66,7 @@
       contextApp.MessageBar.removeMessage(function (error) { return error.id === "error.ecm.savemessage.norecipientlist"; });
     }
 
-    if (contextApp.MessageContext.get("messageType") === "Trickle") {
+    if (contextApp.MessageContext.get("messageType") === "Triggered") {
       if (!contextApp.IncludeRecipientsExistingListButton || !contextApp.IncludeRecipientsCreateEmptyListButton) {
         return;
       }
@@ -143,23 +142,21 @@
       return;
     }
 
-    var recipientsAccordion, recipientListControl, recipientDataSource, recipientsListControl, showMoreRecipientsButton;
+    var recipientsAccordion, recipientListControl, recipientDataSource, recipientsListControl;
     if (recipientListType === "{AAD5DC30-CC86-4988-BAF1-98661B02B79B}") {
       recipientsAccordion = contextApp.IncludedRecipientsAccordion;
       recipientListControl = contextApp.IncludedRecipientListControl;
       recipientDataSource = contextApp.IncludedRecipientDataSource;
       recipientsListControl = contextApp.IncludedRecipientsListControl;
-      showMoreRecipientsButton = contextApp.IncludedShowMoreRecipientsButton;
     } else if (recipientListType === "{CCFBB206-497D-4528-9837-C3CDD8E06791}") {
       recipientsAccordion = contextApp.ExcludedRecipientsAccordion;
       recipientListControl = contextApp.ExcludedRecipientListControl;
       recipientDataSource = contextApp.ExcludedRecipientDataSource;
       recipientsListControl = contextApp.ExcludedRecipientsListControl;
-      showMoreRecipientsButton = contextApp.ExcludedShowMoreRecipientsButton;
     } else {
       return;
     }
-    if (!recipientsAccordion || !recipientListControl || !recipientDataSource || !recipientsListControl || !showMoreRecipientsButton) {
+    if (!recipientsAccordion || !recipientListControl || !recipientDataSource || !recipientsListControl) {
       return;
     }
     if (recipientsAccordion.get("isOpen")) {
@@ -168,8 +165,6 @@
       } else {
         recipientDataSource.viewModel.refreshRecipients(recipientListControl.get("items"));
       }
-    } else {
-      showMoreRecipientsButton.viewModel.disable();
     }
   };
 
@@ -197,7 +192,7 @@
       recipientDataSource.viewModel.refreshRecipients([recipientListControl.get("selectedItem").attributes]);
     } else if (selection === "Checked") {
       recipientDataSource.viewModel.refreshRecipients(recipientListControl.get("checkedItems"));
-    } else if(selection === "All") {
+    } else if (selection === "All") {
       recipientDataSource.viewModel.refreshRecipients(recipientListControl.get("items"));
     }
 
@@ -223,7 +218,7 @@
       return null;
     }
 
-    if (recipientListControl.get("checkedItems").length > 0)  {
+    if (recipientListControl.get("checkedItems").length > 0) {
       return "Checked";
     } else if (recipientListControl.get("selectedItem")) {
       return "Selected";
@@ -274,7 +269,7 @@
     }
 
     var recipientListsActionControl, recipientListControl, removeAction, editAction, setDefaultAction,
-      removeBouncedRecipientsAction, removeUnsbuscribedAction;
+      removeBouncedRecipientsAction, removeUnsbuscribedAction, removeComplainedRecipientsAction;
     if (recipientListType === "{AAD5DC30-CC86-4988-BAF1-98661B02B79B}") {
       recipientListsActionControl = contextApp.IncludedRecipientListsActionControl;
       recipientListControl = contextApp.IncludedRecipientListControl;
@@ -283,6 +278,7 @@
       setDefaultAction = "0D6763C2CFD743D1A3027E4585D9404E";
       removeBouncedRecipientsAction = "EB89819A9A39490E88483BA699040FBD";
       removeUnsbuscribedAction = "A782C29B652C4E5EA5FAA4CF27A8EC2A";
+      removeComplainedRecipientsAction = "36F893562F6344A8BD3192FA3C32FEDE";
     } else if (recipientListType === "{CCFBB206-497D-4528-9837-C3CDD8E06791}") {
       recipientListsActionControl = contextApp.ExcludedRecipientListsActionControl;
       recipientListControl = contextApp.ExcludedRecipientListControl;
@@ -291,6 +287,7 @@
       setDefaultAction = "5522F067CF40452AA1CEF98E8B0C21F6";
       removeBouncedRecipientsAction = null;
       removeUnsbuscribedAction = null;
+      removeComplainedRecipientsAction = null;
     } else {
       return;
     }
@@ -299,10 +296,10 @@
       recipientListSelectedItemId = recipientListSelectedItem ? recipientListSelectedItem.get("itemId") : "";
 
     var isReadOnly = contextApp.MessageContext.get("isReadonly"),
-        isNothingSelected = recipientListSelectedItemId === "",
+        isNothingSelected = recipientListSelectedItemId === "" && recipientListControl.get("checkedItems").length === 0,
         isSent = contextApp.MessageContext.get("messageState") === 3;
 
-    if ((recipientListSelectedItem && recipientListControl.get("checkedItems").length === 0)
+    if ((recipientListSelectedItem && recipientListSelectedItem !== "" && recipientListControl.get("checkedItems").length === 0)
       || recipientListControl.get("checkedItems").length === 1) {
 
       this.enableAction(recipientListsActionControl, editAction, !isReadOnly);
@@ -318,21 +315,24 @@
         isDefault = recipientList.get("default");
         type = recipientList.get("type");
       }
-      this.enableAction(recipientListsActionControl, setDefaultAction, type !== "Segmented list" && isDefault !== "Yes" && !isReadOnly);
+      this.enableAction(recipientListsActionControl, setDefaultAction, type !== "Segmented list" && isDefault !== contextApp.RecipientsStringDictionary.translate("ECM.Pages.Recipients.Yes") && !isReadOnly);
       this.enableAction(recipientListsActionControl, removeBouncedRecipientsAction, type !== "Segmented list" && !isNothingSelected);
       this.enableAction(recipientListsActionControl, removeUnsbuscribedAction, type !== "Segmented list" && isSent && !isNothingSelected);
+      this.enableAction(recipientListsActionControl, removeComplainedRecipientsAction, type !== "Segmented list" && isSent && !isNothingSelected);
     } else if (recipientListControl.get("checkedItems").length > 1) {
       this.enableAction(recipientListsActionControl, editAction, false);
       this.enableAction(recipientListsActionControl, removeAction, !isReadOnly);
       this.enableAction(recipientListsActionControl, setDefaultAction, false);
       this.enableAction(recipientListsActionControl, removeBouncedRecipientsAction, false);
       this.enableAction(recipientListsActionControl, removeUnsbuscribedAction, isSent && !isNothingSelected);
+      this.enableAction(recipientListsActionControl, removeComplainedRecipientsAction, isSent && !isNothingSelected);
     } else {
       this.enableAction(recipientListsActionControl, editAction, false);
       this.enableAction(recipientListsActionControl, removeAction, false);
       this.enableAction(recipientListsActionControl, setDefaultAction, false);
       this.enableAction(recipientListsActionControl, removeBouncedRecipientsAction, false);
       this.enableAction(recipientListsActionControl, removeUnsbuscribedAction, false);
+      this.enableAction(recipientListsActionControl, removeComplainedRecipientsAction, false);
     }
   };
 
@@ -357,71 +357,72 @@
 
   this.addListToListControl = function (messageId, recipientListId, recipientListType) {
     if (typeof recipientListId != "undefined" && recipientListId != null) {
-      postServerRequest("ecm.recipientlist.add", { messageId: messageId, recipientListId: recipientListId, type: recipientListType }, function (response) {
+        postServerRequest("EXM/AddRecipientList", { messageId: messageId, recipientListId: recipientListId, type: recipientListType }, function (response) {
         if (response.error) {
           return;
         }
         self.refreshListControls(messageId, recipientListId, recipientListType, response);
+        sitecore.trigger("recipientLists:added");
       }, false);
     }
   };
 
   this.refreshListControls = function (messageId, recipientListId, recipientListType, response) {
     if (typeof recipientListId != "undefined" && recipientListId != null) {
-        var recipientListControl, recipientDataSource;
-        if (recipientListType === "{AAD5DC30-CC86-4988-BAF1-98661B02B79B}") {
-          recipientListControl = contextApp.IncludedRecipientListControl;
-          recipientDataSource = contextApp.IncludedRecipientDataSource;
-        } else if (recipientListType === "{CCFBB206-497D-4528-9837-C3CDD8E06791}") {
-          recipientListControl = contextApp.ExcludedRecipientListControl;
-          recipientDataSource = contextApp.ExcludedRecipientDataSource;
-        } else {
-          return;
-        }
-        if (!recipientListControl || !recipientDataSource) {
-          return;
-        }
+      var recipientListControl, recipientDataSource;
+      if (recipientListType === "{AAD5DC30-CC86-4988-BAF1-98661B02B79B}") {
+        recipientListControl = contextApp.IncludedRecipientListControl;
+        recipientDataSource = contextApp.IncludedRecipientDataSource;
+      } else if (recipientListType === "{CCFBB206-497D-4528-9837-C3CDD8E06791}") {
+        recipientListControl = contextApp.ExcludedRecipientListControl;
+        recipientDataSource = contextApp.ExcludedRecipientDataSource;
+      } else {
+        return;
+      }
+      if (!recipientListControl || !recipientDataSource) {
+        return;
+      }
 
-        var newRecipientList = response.recipientLists[0];
+      var newRecipientList = response.recipientLists[0];
 
-        var totalRecipients = recipientDataSource.get("totalRecipients") + newRecipientList.recipients;
-        recipientDataSource.set("totalRecipients", totalRecipients);
+      var totalRecipients = recipientDataSource.get("totalRecipients") + newRecipientList.recipients;
+      recipientDataSource.set("totalRecipients", totalRecipients);
 
-        if (response.isUncommittedRead) {
-          sitecore.trigger("notify:recipientList:locked");
+      if (response.isUncommittedRead) {
+        sitecore.trigger("notify:recipientList:locked");
+      }
+
+      var currentItems = recipientListControl.get("items");
+      var newItems = [];
+      newItems.push(newRecipientList);
+      var items;
+      if (currentItems.length > 0) {
+        items = Array.prototype.concat.call(currentItems, newItems);
+      } else {
+        items = newItems;
+      }
+
+      var defaultListIndex = -1;
+      for (var index = 0; index < items.length; ++index) {
+        if (items[index].default == contextApp.RecipientsStringDictionary.translate("ECM.Pages.Recipients.Yes")) {
+          defaultListIndex = index;
+          break;
         }
+      }
 
-        var currentItems = recipientListControl.get("items");
-        var newItems = [];
-        newItems.push(newRecipientList);
-        var items;
-        if (currentItems.length > 0) {
-          items = Array.prototype.concat.call(currentItems, newItems);
-        } else {
-          items = newItems;
-        }
-
-        var defaultListIndex = -1;
-        for (var index = 0; index < items.length; ++index) {
-          if (items[index].default == "Yes") {
-            defaultListIndex = index;
-            break;
-          }
-        }
-
-        if (defaultListIndex > 0) {
-          var defaultList = items[defaultListIndex];
-          items.splice(defaultListIndex, 1);
-          items.splice(0, 0, defaultList);
-        }
-        recipientListControl.set("items", items);
+      if (defaultListIndex > 0) {
+        var defaultList = items[defaultListIndex];
+        items.splice(defaultListIndex, 1);
+        items.splice(0, 0, defaultList);
+      }
+      recipientListControl.set("items", items);
     }
   };
 
   this.addList = function (messageId, recipientListType, showDialogCallback) {
     var callback = function (itemId, item) {
       if (typeof itemId != "undefined" && itemId != null) {
-        if (item && contextApp.MessageContext.get("messageType") === "Trickle") {
+        if (item && contextApp.MessageContext.get("messageType") === "Triggered") {
           if (item.Type === "Segmented list") {
             var messagetoAdd = { id: "cannotAddSegmentedList", text: sitecore.Resources.Dictionary.translate("ECM.Recipients.TriggeredMessageCanNotHaveSegmentedList"), actions: [], closable: true };
             contextApp.MessageBar.addMessage("error", messagetoAdd);
@@ -435,8 +436,8 @@
 
     var includeItems = contextApp.IncludedRecipientListControl.get("items");
     var excludeItems = [];
-    if (contextApp.ExcludedSourcesListControl) {
-      excludeItems = contextApp.ExcludedSourcesListControl.get("items");
+    if (contextApp.ExcludedRecipientListControl) {
+      excludeItems = contextApp.ExcludedRecipientListControl.get("items");
     }
     var allExcludeItems = Array.prototype.concat.call(includeItems, excludeItems);
 
@@ -470,20 +471,21 @@
       itemIds.push(recipientListControl.get("selectedItemId"));
     }
 
-    postServerRequest("ecm.recipientlist.remove", { messageId: messageId, recipientListIds: itemIds, type: recipientListType }, function (response) {
+    postServerRequest("EXM/RemoveRecipientList", { messageId: messageId, recipientListIds: itemIds, type: recipientListType }, function (response) {
       if (response.error) {
         return;
       }
 
-      var oldItems;
       var newItems = [];
       var index;
-
-      oldItems = recipientListControl.get("items");
+      var isRemovedListWasDefault = false;
+      var oldItems = recipientListControl.get("items");
 
       for (index = 0; index < oldItems.length; ++index) {
         if (!_.contains(itemIds, oldItems[index].itemId)) {
           newItems.push(oldItems[index]);
+        } else {
+          isRemovedListWasDefault = oldItems[index].default === contextApp.RecipientsStringDictionary.translate("ECM.Pages.Recipients.Yes");
         }
       }
 
@@ -494,6 +496,7 @@
       recipientDataSource.set("totalRecipients", totalRecipients);
 
       var defaultListIndex = -1;
+      
       for (index = 0; index < newItems.length; ++index) {
         if (newItems[index].type !== "Segmented list") {
           defaultListIndex = index;
@@ -502,15 +505,18 @@
       }
       if (defaultListIndex > 0) {
         var defaultList = newItems[defaultListIndex];
-        defaultList.default = "Yes";
+        defaultList.default = contextApp.RecipientsStringDictionary.translate("ECM.Pages.Recipients.Yes");
         newItems.splice(defaultListIndex, 1);
         newItems.splice(0, 0, defaultList);
-      } else if (defaultListIndex == 0) {
-        newItems[defaultListIndex].default = "Yes";
+      } else if (defaultListIndex === 0) {
+        newItems[defaultListIndex].default = contextApp.RecipientsStringDictionary.translate("ECM.Pages.Recipients.Yes");
       }
 
       self.resetSelectedItems(recipientListControl);
       recipientListControl.set("items", newItems);
+
+      var triggerName = isRemovedListWasDefault ? "recipientLists:removeddefault" : "recipientLists:removed";
+      sitecore.trigger(triggerName);
     });
   };
 
@@ -523,7 +529,7 @@
     }
 
     if (!recipientListControl.get("selectedItemId")
-      || recipientListControl.get("checkedItemIds").length > 1) {
+      && recipientListControl.get("checkedItemIds").length !== 1) {
       return;
     }
     var recipientList, recipientListId;
@@ -539,7 +545,7 @@
       return;
     }
 
-    postServerRequest("ecm.recipientlist.setdefault", { messageId: messageId, recipientListId: recipientListId, type: recipientListType }, function (response) {
+    postServerRequest("EXM/SetDefaultRecipientList", { messageId: messageId, recipientListId: recipientListId, type: recipientListType }, function (response) {
       if (response.error) {
         return;
       }
@@ -557,7 +563,7 @@
 
       if (defaultListIndex > 0) {
         items[0].default = "";
-        items[defaultListIndex].default = "Yes";
+        items[defaultListIndex].default = contextApp.RecipientsStringDictionary.translate("ECM.Pages.Recipients.Yes");
         newItems.push(items[defaultListIndex]);
         items.splice(defaultListIndex, 1);
         for (index = 0; index < items.length; ++index) {
@@ -566,8 +572,8 @@
       }
 
       recipientListControl.set("items", newItems);
-
       self.resetSelectedItems(recipientListControl);
+      sitecore.trigger("recipientLists:changeddefault");
     });
   };
 
@@ -597,29 +603,6 @@
     return itemId.replace("{", "").replace("}", "").replace(/-/g, "");
   };
 
-  this.cancelSearch = function (recipientListType) {
-    var searchButton, cancelSearchButton, searchTextBox, recipientDataSource;
-    if (recipientListType === "{AAD5DC30-CC86-4988-BAF1-98661B02B79B}") {
-      searchButton = contextApp.IncludedRecipientsSearchButton;
-      cancelSearchButton = contextApp.IncludedRecipientsCancelSearchButton;
-      searchTextBox = contextApp.IncludedRecipientsSearchTextBox;
-      recipientDataSource = contextApp.IncludedRecipientDataSource;
-    } else {
-      searchButton = contextApp.ExcludedRecipientsSearchButton;
-      cancelSearchButton = contextApp.ExcludedRecipientsCancelSearchButton;
-      searchTextBox = contextApp.ExcludedRecipientsSearchTextBox;
-      recipientDataSource = contextApp.ExcludedRecipientDataSource;
-    }
-    if (!searchButton || !cancelSearchButton || !searchTextBox) {
-      return;
-    }
-    searchButton.set("isVisible", true);
-    cancelSearchButton.set("isVisible", false);
-
-    searchTextBox.viewModel.$el.val("");
-    recipientDataSource.set("search", "");
-  };
-
   this.searchRecipients = function (searchText, recipientListType) {
     if (!recipientListType) {
       return;
@@ -645,7 +628,26 @@
       this.toggleIncludedRecipientsControls();
       this.toggleExcludedRecipientsControls();
 
+      // Hide progress indicators when List controls is not visible yet.
+      contextApp.IncludedRecipientDataSource.on("change:IsRecipientsBusy", function () {
+        if (!contextApp.IncludedRecipientListControl.viewModel.$el.is(":visible")) {
+          contextApp.IncludedRecipientListsProgressIndicator.set("isBusy", false);
+          contextApp.IncludedRecipientsProgressIndicator.set("isBusy", false);
+        }
+      }, this);
+
+      // Triggered messages have no ExcludedRecipients list
+      if (contextApp.ExcludedRecipientDataSource) {
+        contextApp.ExcludedRecipientDataSource.on("change:IsRecipientsBusy", function () {
+          if (!contextApp.ExcludedRecipientListControl.viewModel.$el.is(":visible")) {
+            contextApp.ExcludedRecipientListsProgressIndicator.set("isBusy", false);
+            contextApp.ExcludedRecipientsProgressIndicator.set("isBusy", false);
+          }
+        }, this);
+      }
+      
       contextApp.MessageContext.on("change:isBusy", this.initRecipientsTab, this);
+      contextApp.MessageContext.on("change:isReadonly", this.initRecipientsTab, this);
 
       contextApp.on("add:included:from:existinglist", this.addIncludeList, this);
       contextApp.on("add:included:from:file", this.addIncludeFile, this);
@@ -665,25 +667,17 @@
       contextApp.on("add:included:empty:list", this.addEmptyIncludedList, this);
       sitecore.on("add:list", self.refreshListControls, self);
 
-      contextApp.on("action:included:recipients:search", function () {
-        if (contextApp.IncludedRecipientsSearchTextBox) {
-          contextApp.IncludedRecipientsSearchTextBox.viewModel.$el.focus();
-        }
+      sitecore.on("change:messageContext:currentState", contextApp.MessageContext.viewModel.refresh, this);
+
+      contextApp.on("action:Included:SearchItems", function () {
+        var text = contextApp.IncludedRecipientsSearchTextBox.viewModel.$el.find("input").val();
+        self.searchRecipients(text, contextApp.IncludedRecipientDataSource.get("recipientListType"));
       }, contextApp);
 
-      contextApp.on("action:excluded:recipients:search", function () {
-        if (contextApp.ExcludedRecipientsSearchTextBox) {
-          contextApp.ExcludedRecipientsSearchTextBox.viewModel.$el.focus();
-        }
+      contextApp.on("action:excluded:SearchItems", function () {
+        var text = contextApp.ExcludedRecipientsSearchTextBox.viewModel.$el.find("input").val();
+        self.searchRecipients(text, contextApp.ExcludedRecipientDataSource.get("recipientListType"));
       }, contextApp);
-
-      contextApp.on("action:included:recipients:cancel:search", function () {
-        self.cancelSearch(contextApp.IncludedRecipientDataSource.get("recipientListType"));
-      }, this);
-
-      contextApp.on("action:excluded:recipients:cancel:search", function () {
-        self.cancelSearch(contextApp.ExcludedRecipientDataSource.get("recipientListType"));
-      }, this);
 
       if (contextApp.IncludedRecipientListControl) {
         contextApp.IncludedRecipientListControl.on("change:selectedItem", self.includedRecipientListSelectedItemChanged, this);
@@ -704,19 +698,8 @@
       }
 
       if (contextApp.IncludedRecipientsSearchTextBox) {
-        contextApp.IncludedRecipientsSearchTextBox.viewModel.$el.on("input", function () {
-          var text = contextApp.IncludedRecipientsSearchTextBox.viewModel.$el.val();
-          if (text != "") {
-            contextApp.IncludedRecipientsSearchButton.set("isVisible", false);
-            contextApp.IncludedRecipientsCancelSearchButton.set("isVisible", true);
-          } else {
-            contextApp.IncludedRecipientsSearchButton.set("isVisible", true);
-            contextApp.IncludedRecipientsCancelSearchButton.set("isVisible", false);
-          }
-        });
-
         contextApp.IncludedRecipientsSearchTextBox.viewModel.$el.on("keypress", function (event) {
-          var text = contextApp.IncludedRecipientsSearchTextBox.viewModel.$el.val();
+          var text = contextApp.IncludedRecipientsSearchTextBox.viewModel.$el.find("input").val();
           if (event.which == '13'/*Enter*/) {
             self.searchRecipients(text, contextApp.IncludedRecipientDataSource.get("recipientListType"));
           }
@@ -730,19 +713,9 @@
       }
 
       if (contextApp.ExcludedRecipientsSearchTextBox) {
-        contextApp.ExcludedRecipientsSearchTextBox.viewModel.$el.on("input", function () {
-          var text = contextApp.ExcludedRecipientsSearchTextBox.viewModel.$el.val();
-          if (text != "") {
-            contextApp.ExcludedRecipientsSearchButton.set("isVisible", false);
-            contextApp.ExcludedRecipientsCancelSearchButton.set("isVisible", true);
-          } else {
-            contextApp.ExcludedRecipientsSearchButton.set("isVisible", true);
-            contextApp.ExcludedRecipientsCancelSearchButton.set("isVisible", false);
-          }
-        });
 
         contextApp.ExcludedRecipientsSearchTextBox.viewModel.$el.on("keypress", function (event) {
-          var text = contextApp.ExcludedRecipientsSearchTextBox.viewModel.$el.val();
+          var text = contextApp.ExcludedRecipientsSearchTextBox.viewModel.$el.find("input").val();
           if (event.which == '13'/*Enter*/) {
             self.searchRecipients(text, contextApp.ExcludedRecipientDataSource.get("recipientListType"));
           }
@@ -762,7 +735,7 @@
       if (!isBusy && isReadonly) {
         if (contextApp.IncludedRecipientListsActionControl) {
           contextApp.IncludeRecipientsExistingListButton.viewModel.disable();
-          if (contextApp.MessageContext.get("messageType") === "Trickle") {
+          if (contextApp.MessageContext.get("messageType") === "Triggered") {
             contextApp.IncludeRecipientsCreateEmptyListButton.viewModel.disable();
           } else {
             contextApp.IncludeRecipientsSelectFileButton.viewModel.disable();
@@ -782,7 +755,7 @@
       }
 
       if (!isBusy) {
-        if (contextApp.MessageContext.get("messageType") === "Trickle") {
+        if (contextApp.MessageContext.get("messageType") === "Triggered") {
           contextApp.insertRendering("{BDC2AB0C-9FC6-41F4-B821-214A8F156A91}", { $el: $("body") }, function (subApp) {
             contextApp["addEmptyRecipientListDialog"] = subApp;
           });

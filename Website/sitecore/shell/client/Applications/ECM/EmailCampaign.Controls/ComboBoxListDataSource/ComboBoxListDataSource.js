@@ -30,15 +30,20 @@
       }
     },
 
-    error: function () {
+    error: function (args) {
       console.log("ERROR comboBoxList");
       this.set("comboBoxList", null);
+
+      if (args && args.status === 403) {
+        console.error("Not logged in, will reload page");
+        window.top.location.reload(true);
+      }
     },
 
     refresh: function () {
       if (this.isReady) {
         var options = {
-          url: "/-/speak/request/v1/" + this.get("request"),
+          url: "/sitecore/api/ssc/" + this.get("request"),
           type: "POST",
           success: $.proxy(this.success, this),
           error: $.proxy(this.error, this)

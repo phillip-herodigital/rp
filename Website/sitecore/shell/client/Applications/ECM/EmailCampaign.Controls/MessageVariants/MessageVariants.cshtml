@@ -1,0 +1,24 @@
+﻿@using Sitecore
+@using Sitecore.Mvc
+@using EmailCampaign.Controls
+@using Sitecore.Mvc.Extensions
+@using Sitecore.Mvc.Presentation
+@using Sitecore.EmailCampaign.Server.Services
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@using Bcl = EmailCampaign.Controls.Constants.Renderings.Bcl
+@using DataSources = EmailCampaign.Controls.MessageVariants.DataSources;
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+  UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Requires.Script("ecm", "MessageVariants.js");
+  rendering.Requires.Css("ecm", "MessageVariants.css");
+  rendering.Class = "sc-MessageVariants";
+}
+
+<div @rendering.HtmlAttributes data-sc-hasnested="true">
+    @(this.Html.Sitecore().Controls().Rendering(this.Html, EmailCampaign.Controls.Constants.Renderings.Bcl.Tabs, rendering.ControlId + "Tabs", "", new { TabType = "SubTab" }))
+    @(this.Html.Sitecore().Controls().Rendering(this.Html, EmailCampaign.Controls.Constants.Renderings.Bcl.Button, rendering.ControlId + "AddButton", DataSources.ButtonAdd))
+    @(this.Html.Sitecore().Controls().Rendering(this.Html, EmailCampaign.Controls.Constants.Renderings.Exm.MessageVariant, rendering.ControlId + "MessageVariant", ""))
+</div>

@@ -25,9 +25,15 @@ function (sitecore, validation, comboBoxDataSource) {
       initSchedule();
       initNotification();
       initMultilanguage();
-      initEmulation();
       initMessageBar();
       initAbTesting();
+
+      // show/hide emulation checkbox depending on changes of showAbTest property
+      context.on("change:showAbTest", function () {
+        contextApp.EmulationSpacerBorder.set("isVisible", !context.get("showAbTest"));
+        contextApp.EmulationModeHeaderBorder.set("isVisible", !context.get("showAbTest"));
+        contextApp.EmulationModeBorder.set("isVisible", !context.get("showAbTest"));
+      }, this);
 
       var pageHasRecurring = contextApp.ScheduleRecurringRadioButton != undefined;
 
@@ -122,25 +128,34 @@ function (sitecore, validation, comboBoxDataSource) {
         }
 
         function recurringIntervalSelectedValueChanged(sender, selectedValue, x) {
+          var panel = contextApp.ScheduleRecurringDailyPanel;
           switch (selectedValue) {
             case daylyValue:
-              contextApp.ScheduleRecurringDailyPanel.set("itemId", daylyPanelId);
-              contextApp.ScheduleRecurringDailyPanel.refresh();
+              panel.set("itemId", daylyPanelId);
+              refreshPanel(panel);
               break;
             case weeklyValue:
-              contextApp.ScheduleRecurringDailyPanel.set("itemId", weeklyPanelId);
-              contextApp.ScheduleRecurringDailyPanel.refresh();
+              panel.set("itemId", weeklyPanelId);
+              refreshPanel(panel);
               break;
             case monthlyValue:
-              contextApp.ScheduleRecurringDailyPanel.set("itemId", monthlyPanelId);
-              contextApp.ScheduleRecurringDailyPanel.refresh();
+              panel.set("itemId", monthlyPanelId);
+              refreshPanel(panel);
               break;
             case yearlyValue:
-              contextApp.ScheduleRecurringDailyPanel.set("itemId", yearlyPanelId);
-              contextApp.ScheduleRecurringDailyPanel.refresh();
+              panel.set("itemId", yearlyPanelId);
+              refreshPanel(panel);
               break;
             default:
               break;
+          }
+        }
+
+        function refreshPanel(panel) {
+          if (panel.get("isLoaded")) {
+            panel.refresh();
+          } else {
+            panel.viewModel.$el.hide("fast").show("fast", function () { panel.refresh(); });
           }
         }
       }
@@ -269,17 +284,17 @@ function (sitecore, validation, comboBoxDataSource) {
             contextApp.ABVariantsSelector.viewModel.showVariants(variantToShow);
             if (!testStartedOrMessageReadonly()) {
               contextApp.ABVariantsSelector.viewModel.enable();
-              contextApp.ABVariantsSelector.viewModel.setSelectedVariants(variantToShow);
+              contextApp.ABVariantsSelector.viewModel.setSelectedVariants(variantToShow, false);
             } else {
               contextApp.ABVariantsSelector.viewModel.disable();
-              contextApp.ABVariantsSelector.viewModel.setSelectedVariants(context.get("selectedVariants"));
+              contextApp.ABVariantsSelector.viewModel.setSelectedVariants(context.get("selectedVariants"), false);
             }
           });
 
           context.on("change:isBusy", function () {
             if (testStartedOrMessageReadonly()) {
               contextApp.ABVariantsSelector.viewModel.disable();
-              contextApp.ABVariantsSelector.viewModel.setSelectedVariants(context.get("selectedVariants"));
+              contextApp.ABVariantsSelector.viewModel.setSelectedVariants(context.get("selectedVariants"), false);
             } else {
               contextApp.ABVariantsSelector.viewModel.enable();
             }
@@ -288,7 +303,7 @@ function (sitecore, validation, comboBoxDataSource) {
 
         function setupAbWinnerTabControl() {
           context.on("change:isBusy", function () {
-            if (context.get("showAbTest") && !context.get("selectWinnerAutomaticaly") && !context.get("isBusy") && testStartedOrMessageReadonly()) {
+            if (context.get("showAbTest") && !context.get("selectWinnerAutomatically") && !context.get("isBusy") && testStartedOrMessageReadonly()) {
               contextApp.ABWinnerTabControl.viewModel.selectedTab(contextApp.ABWinnerTabControl.viewModel.tabs()[1]);
             }
           });
@@ -305,53 +320,56 @@ function (sitecore, validation, comboBoxDataSource) {
             return;
           }
 
-          messageBar.removeMessage(function (message) { return message.id === "messagecontext.notification.statuschanged"; });
+          messageBar.removeMessage(function (message) { return message.id === "messagecontext.notification.statuschanged" && message.text === statusDescription; });
           var messageToAdd = { id: "messagecontext.notification.statuschanged", text: statusDescription, actions: [], closable: true };
           messageBar.addMessage("notification", messageToAdd);
+          context.viewModel.refresh();
+        });
+
+
+        function disableButtons() {
+          contextApp.StartTestButton.set("isEnabled", false);
+          contextApp.SendButton.set("isEnabled", false);
+          contextApp.ScheduleTestButton.set("isEnabled", false);
+          contextApp.ScheduleButton.set("isEnabled", false);
+          contextApp.ActivateMessageButton.set("isEnabled", false);
+          contextApp.ActivateTestButton.set("isEnabled", false);
+        }
+
+        sitecore.on("change:messageContext:currentState:error", function addErrorMessage(errorMessage) {
+          if (!errorMessage) {
+            return;
+          }
+
+          disableButtons();
+          messageBar.removeMessage(function (message) { return message.id === "messagecontext.error.statuschanged" && message.text === errorMessage; });
+          var messageToAdd = { id: "messagecontext.error.statuschanged", text: errorMessage, actions: [], closable: true };
+          messageBar.addMessage("error", messageToAdd);
           context.viewModel.refresh();
         });
       }
 
       function initButtons() {
-        if (!contextApp || !messageContext)
-          return;
+        if (!contextApp || !messageContext) { return; }
 
-        // Save message
-        contextApp.on("dispatch:send", function () { dispatch("dispatch", false); });
-        contextApp.on("dispatch:schedule", function () {
-          if (contextApp.MessageContext.get("messageType") == "Trickle") {
-            showTriggeredScheduleConfirmationDialog(function () { parametrizedAction("activate", getDispatchDetails()); });
-          } else {
-            dispatch("dispatch", true);
-          }
-        });
-        contextApp.on("dispatch:starttest", function () { dispatch("starttest", false); });
-        contextApp.on("dispatch:scheduletest", function () { dispatch("starttest", true); });
-
-        contextApp.on("dispatch:cancelscheduling", function () { showCancelSchedulingConfirmationDialog(function () { action("cancelscheduling"); }); });
-        contextApp.on("dispatch:pause", function () { action("pause"); });
-        contextApp.on("dispatch:resume", function () { action("resume"); });
-        sitecore.on("dispatch:selectvariant", function (variantid) {
-          var actionDetails = {
-            messageId: messageContext.get("messageId"),
-            variant: variantid
+        function parameterizedAction(actionName, requestParameters) {
+          contextApp.currentContext = {
+            errorCount: 0,
+            messageBar: messageBar,
+            request: requestParameters,
+            actionName: actionName
           };
 
-          showManualWinnerSelectionConfirmationDialog(function () { parametrizedAction("selectwinner", actionDetails); }, contextApp.MessageContext.get("messageType"));
-        });
-        sitecore.on("dispatch:pipeline:success:starttest", function () {
-          contextApp.VariantDataSource.viewModel.refresh();
-        });
+          var context = clone(contextApp.currentContext);
 
-        contextApp.on("dispatch:activate", function () { showActivateConfirmationDialog(function () { action("activate"); }); });
-        contextApp.on("dispatch:deactivate", function () { showDeactivateConfirmationDialog(function () { action("deactivate"); }); });
-        contextApp.on("dispatch:activatetest", function () { showActivateConfirmationDialog(function () { parametrizedAction("starttest", getDispatchDetails()); }); });
+          sitecore.Pipelines.DispatchMessage.execute({ app: contextApp, currentContext: context });
+        }
 
         function getDispatchDetails() {
           var scheduleObj = {
             hasSchedule: context.get("hasSchedule"),
             time: contextApp.ScheduledTimeComboBox.get("selectedItemId"),
-            timezone: contextApp.ScheduleTimezoneComboBox.get("selectedItemId"),
+            timezone: contextApp.ScheduleTimezoneComboBox.get("selectedItemId").replace("+", "_plus_"),
             date: contextApp.ScheduledDateDatePicker.get("date")
           };
 
@@ -366,7 +384,7 @@ function (sitecore, validation, comboBoxDataSource) {
           var usePreferredLanguage = contextApp.UsePreferredLanguageEnableCheckBox.get("isChecked");
           var useNotificationEmail = contextApp.NotificationEnableCheckBox.get("isChecked");
           var notificationEmail = contextApp.NotificationEmailValueTextBox.get("text");
-          var emultaionMode = contextApp.EmulationModeCheckBox.get("isChecked");
+          var emulationMode = contextApp.EmulationModeCheckBox.get("isChecked");
 
           var dispatchDetails = {
             messageId: messageContext.get("messageId"),
@@ -374,7 +392,7 @@ function (sitecore, validation, comboBoxDataSource) {
             usePreferredLanguage: usePreferredLanguage,
             useNotificationEmail: useNotificationEmail,
             notificationEmail: notificationEmail,
-            emultaionMode: emultaionMode
+            emulationMode: emulationMode
           };
 
           if (context.get("showAbTest")) {
@@ -382,7 +400,7 @@ function (sitecore, validation, comboBoxDataSource) {
             var abTest = {
               selectedVariants: contextApp.ABVariantsSelector.viewModel.getSelectedVariants(),
               testSize: contextApp.ABVariantsSizeComboBox.get("selectedValue"),
-              selectWinnerAutomaticaly: contextApp.ABWinnerTabControl.viewModel.selectedTabIndex() == 0,
+              selectWinnerAutomatically: contextApp.ABWinnerTabControl.viewModel.selectedTabIndex() == 0,
               bestValuePerVisit: contextApp.AutomationBestValueRadioButton.get("isChecked"),
               highestOpenRate: contextApp.AutomationOptionHighestRateRadioButton.get("isChecked"),
               automaticTimeMode: contextApp.AutomaticIntervalComboBox.get("selectedValue"),
@@ -398,15 +416,113 @@ function (sitecore, validation, comboBoxDataSource) {
           return dispatchDetails;
         }
 
-        sitecore.on("message:delivery:dispatch", function (actionName, isSchedule) {
-          doDispatch(actionName, isSchedule);
-        });
-
         function dispatch(actionName, isSchedule) {
+          var args = { Verified: false, Saved: false };
+          sitecore.trigger("message:save", args);
+          if (!args.Verified || !args.Saved) {
+            $('html, body').animate({ scrollTop: contextApp.MessageBar.viewModel.$el.position().top }, 300, "linear");
+            return;
+          }
           sitecore.trigger("message:delivery:verifyMessage", actionName, isSchedule);
         };
 
+        function showScheduleConfirmationDialog(callBack, message) {
+          function setAppropriateMessage(message) {
+            var dialogMessage;
+            switch (message) {
+              case "activate":
+                dialogMessage = sitecore.Resources.Dictionary.translate("ECM.MessagePage.DispatchDialog.ScheduledActivation");
+                break;
+              case "activatetest":
+                dialogMessage = sitecore.Resources.Dictionary.translate("ECM.MessagePage.DispatchDialog.ScheduledActivationTest");
+                break;
+              case "test":
+                dialogMessage = sitecore.Resources.Dictionary.translate("ECM.MessagePage.DispatchDialog.ScheduledTestStart");
+                break;
+              default:
+                dialogMessage = sitecore.Resources.Dictionary.translate("ECM.MessagePage.DispatchDialog.ScheduledDispatch");
+                break;
+            }
+            return dialogMessage;
+          }
+
+          function insertAndShowCancelSchedulingConfirmationDialog(methodName, callBackMethod, message) {
+            if (contextApp["showScheduleConfirmationDialog"] === undefined) {
+              contextApp.insertRendering("{C80C9537-1D83-4A14-ABC6-424C51B3913F}", { $el: $("body") }, function (subApp) {
+                var dialogMessage = setAppropriateMessage(message);
+                contextApp["showScheduleConfirmationDialog"] = subApp;
+                sitecore.trigger("dispatch:schedule:dialog:" + methodName, callBackMethod, dialogMessage);
+              });
+            }
+          };
+
+          if (contextApp["showScheduleConfirmationDialog"] === undefined) {
+            insertAndShowCancelSchedulingConfirmationDialog("show", callBack, message);
+          } else {
+            sitecore.trigger("dispatch:schedule:dialog:show", callBack, setAppropriateMessage(message));
+          }
+        }
+
+        function showActivateConfirmationDialog(callBack) {
+          function insertAndShowCancelSchedulingConfirmationDialog(methodName, callBackMethod) {
+            if (contextApp["showActivateConfirmationDialog"] === undefined) {
+              contextApp.insertRendering("{AF46BCDC-AAB7-49C0-91D8-FE48D7CDC94A}", { $el: $("body") }, function (subApp) {
+                contextApp["showActivateConfirmationDialog"] = subApp;
+                sitecore.trigger("dispatch:triggered:activate:dialog:" + methodName, callBackMethod, messageContext.get("languageName"), contextApp.UsePreferredLanguageEnableCheckBox.get("isChecked"));
+              });
+            }
+          };
+
+          if (contextApp["showActivateConfirmationDialog"] === undefined) {
+            insertAndShowCancelSchedulingConfirmationDialog("show", callBack);
+          } else {
+            sitecore.trigger("dispatch:triggered:activate:dialog:show", callBack, messageContext.get("languageName"), contextApp.UsePreferredLanguageEnableCheckBox.get("isChecked"));
+          }
+        }
+
+        function showDispatchConfirmationDialog(confirmationDialogParameters) {
+          function insertAndShowConfirmationDialog(methodName, dialogParameters) {
+            if (contextApp["showDispatchConfirmationDialog"] === undefined) {
+              contextApp.insertRendering("{0EAF272C-EF39-4155-A4E1-B8CF8FFF2F46}", { $el: $("body") }, function (subApp) {
+                contextApp["showDispatchConfirmationDialog"] = subApp;
+                sitecore.trigger("dispatch:confirmation:dialog:" + methodName, messageContext.get("languageName"), dialogParameters);
+              });
+            }
+          }
+
+          if (contextApp["showDispatchConfirmationDialog"] === undefined) {
+            insertAndShowConfirmationDialog("show", confirmationDialogParameters);
+          } else {
+            sitecore.trigger("dispatch:confirmation:dialog:show", messageContext.get("languageName"), confirmationDialogParameters);
+          };
+        }
+
+        function action(actionName) {
+          var actionDetails = getDispatchDetails();
+
+          contextApp.currentContext = {
+            errorCount: 0,
+            messageBar: messageBar,
+            request: actionDetails,
+            actionName: actionName
+          };
+
+          var context = clone(contextApp.currentContext);
+
+          sitecore.Pipelines.DispatchMessage.execute({ app: contextApp, currentContext: context });
+        }
+
         function doDispatch(actionName, isSchedule) {
+          if (actionName === "activate") {
+            showActivateConfirmationDialog(function () { action("activate"); });
+            return;
+          }
+
+          if (actionName === "activatetest") {
+            showActivateConfirmationDialog(function () { parameterizedAction("starttest", getDispatchDetails()); });
+            return;
+          }
+
           var dispatchDetails = getDispatchDetails();
 
           contextApp.currentContext = {
@@ -420,7 +536,11 @@ function (sitecore, validation, comboBoxDataSource) {
 
           var recurringSchedule = dispatchDetails.recurringSchedule;
           if (isSchedule) {
-            if (typeof recurringSchedule !== "undefined" && recurringSchedule !== null && recurringSchedule.hasRecurringSchedule === true) {
+            var isAbTest = currentContext.request.abTest && currentContext.request.abTest.selectedVariants.length > 1;
+            if (contextApp.MessageContext.get("messageType") === "Triggered") {
+              showScheduleConfirmationDialog(function () { parameterizedAction("activate", getDispatchDetails()) }, isAbTest ? "activatetest" : "activate");
+              return;
+            } else if (typeof recurringSchedule !== "undefined" && recurringSchedule !== null && recurringSchedule.hasRecurringSchedule === true) {
               if (typeof recurringSchedule.validation !== "undefined" && recurringSchedule.validation !== null && recurringSchedule.validation.isValid === false) {
                 Array.prototype.forEach.call(recurringSchedule.validation.errors, function (error) {
                   var errorText = sitecore.Resources.Dictionary.translate(error);
@@ -430,66 +550,14 @@ function (sitecore, validation, comboBoxDataSource) {
                 return;
               }
             }
-            sitecore.Pipelines.DispatchMessage.execute({ app: contextApp, currentContext: currentContext });
+            showScheduleConfirmationDialog(function () { parameterizedAction(isAbTest ? "starttest" : "dispatch", getDispatchDetails()) }, isAbTest ? "test" : "dispatch");
           } else {
             var confirmationDialogParameters = { app: contextApp, currentContext: currentContext, dispatchDetails: dispatchDetails };
             showDispatchConfirmationDialog(confirmationDialogParameters);
           }
         };
 
-
-        function action(actionName) {
-          var actionDetails = { messageId: messageContext.get("messageId") };
-
-          contextApp.currentContext = {
-            errorCount: 0,
-            messageBar: messageBar,
-            request: actionDetails,
-            actionName: actionName
-          };
-
-          var context = clone(contextApp.currentContext);
-
-          sitecore.Pipelines.DispatchMessage.execute({ app: contextApp, currentContext: context });
-        };
-
-        function parametrizedAction(actionName, requestParameters) {
-          contextApp.currentContext = {
-            errorCount: 0,
-            messageBar: messageBar,
-            request: requestParameters,
-            actionName: actionName
-          };
-
-          var context = clone(contextApp.currentContext);
-
-          sitecore.Pipelines.DispatchMessage.execute({ app: contextApp, currentContext: context });
-        };
-
-        function showDispatchConfirmationDialog(confirmationDialogParameters) {
-          if (contextApp["showDispatchConfirmationDialog"] === undefined) {
-            insertAndShowConfirmationDialog("show", confirmationDialogParameters);
-          } else {
-            sitecore.trigger("dispatch:confirmation:dialog:show", messageContext.get("languageName"), confirmationDialogParameters);
-          }
-
-          function insertAndShowConfirmationDialog(methodName, dialogParameters) {
-            if (contextApp["showDispatchConfirmationDialog"] === undefined) {
-              contextApp.insertRendering("{0EAF272C-EF39-4155-A4E1-B8CF8FFF2F46}", { $el: $("body") }, function (subApp) {
-                contextApp["showDispatchConfirmationDialog"] = subApp;
-                sitecore.trigger("dispatch:confirmation:dialog:" + methodName, messageContext.get("languageName"), dialogParameters);
-              });
-            }
-          };
-        };
-
         function showCancelSchedulingConfirmationDialog(callBack) {
-          if (contextApp["showCancelSchedulingConfirmationDialog"] === undefined) {
-            insertAndShowCancelSchedulingConfirmationDialog("show", callBack);
-          } else {
-            sitecore.trigger("dispatch:cancelscheduling:confirmation:dialog:show", callBack);
-          }
-
           function insertAndShowCancelSchedulingConfirmationDialog(methodName, callBackMethod) {
             if (contextApp["showCancelSchedulingConfirmationDialog"] === undefined) {
               contextApp.insertRendering("{D9AA3D3A-4986-465F-AC25-C00C6244403D}", { $el: $("body") }, function (subApp) {
@@ -497,16 +565,16 @@ function (sitecore, validation, comboBoxDataSource) {
                 sitecore.trigger("dispatch:cancelscheduling:confirmation:dialog:" + methodName, callBackMethod);
               });
             }
+          }
+
+          if (contextApp["showCancelSchedulingConfirmationDialog"] === undefined) {
+            insertAndShowCancelSchedulingConfirmationDialog("show", callBack);
+          } else {
+            sitecore.trigger("dispatch:cancelscheduling:confirmation:dialog:show", callBack);
           };
         };
 
         function showManualWinnerSelectionConfirmationDialog(callBack, messageType) {
-          if (contextApp["showManualWinnerSelectionConfirmationDialog"] === undefined) {
-            insertAndShowCancelSchedulingConfirmationDialog("show", callBack);
-          } else {
-            sitecore.trigger("dispatch:manualwinner:confirmation:dialog:show", callBack, messageType);
-          }
-
           function insertAndShowCancelSchedulingConfirmationDialog(methodName, callBackMethod) {
             if (contextApp["showManualWinnerSelectionConfirmationDialog"] === undefined) {
               contextApp.insertRendering("{125864A1-E4AF-4A6A-87D5-A3534894FE02}", { $el: $("body") }, function (subApp) {
@@ -514,33 +582,16 @@ function (sitecore, validation, comboBoxDataSource) {
                 sitecore.trigger("dispatch:manualwinner:confirmation:dialog:" + methodName, callBackMethod, messageType);
               });
             }
-          };
-        };
-
-        function showActivateConfirmationDialog(callBack) {
-          if (contextApp["showActivateConfirmationDialog"] === undefined) {
-            insertAndShowCancelSchedulingConfirmationDialog("show", callBack);
-          } else {
-            sitecore.trigger("dispatch:triggered:activate:dialog:show", callBack, messageContext.get("languageName"), contextApp.UsePreferredLanguageEnableCheckBox.get("isChecked"));
           }
 
-          function insertAndShowCancelSchedulingConfirmationDialog(methodName, callBackMethod) {
-            if (contextApp["showActivateConfirmationDialog"] === undefined) {
-              contextApp.insertRendering("{AF46BCDC-AAB7-49C0-91D8-FE48D7CDC94A}", { $el: $("body") }, function (subApp) {
-                contextApp["showActivateConfirmationDialog"] = subApp;
-                sitecore.trigger("dispatch:triggered:activate:dialog:" + methodName, callBackMethod, messageContext.get("languageName"), contextApp.UsePreferredLanguageEnableCheckBox.get("isChecked"));
-              });
-            }
+          if (contextApp["showManualWinnerSelectionConfirmationDialog"] === undefined) {
+            insertAndShowCancelSchedulingConfirmationDialog("show", callBack);
+          } else {
+            sitecore.trigger("dispatch:manualwinner:confirmation:dialog:show", callBack, messageType);
           };
         };
 
         function showDeactivateConfirmationDialog(callBack) {
-          if (contextApp["showDeactivateConfirmationDialog"] === undefined) {
-            insertAndShowCancelSchedulingConfirmationDialog("show", callBack);
-          } else {
-            sitecore.trigger("dispatch:triggered:deactivate:dialog:show", callBack);
-          }
-
           function insertAndShowCancelSchedulingConfirmationDialog(methodName, callBackMethod) {
             if (contextApp["showDeactivateConfirmationDialog"] === undefined) {
               contextApp.insertRendering("{A3654969-6B3D-4DDA-817E-38B7CA18D998}", { $el: $("body") }, function (subApp) {
@@ -548,45 +599,62 @@ function (sitecore, validation, comboBoxDataSource) {
                 sitecore.trigger("dispatch:triggered:deactivate:dialog:" + methodName, callBackMethod);
               });
             }
-          };
-        };
-
-        function showTriggeredScheduleConfirmationDialog(callBack) {
-          if (contextApp["showTriggeredScheduleConfirmationDialog"] === undefined) {
-            insertAndShowCancelSchedulingConfirmationDialog("show", callBack);
-          } else {
-            sitecore.trigger("dispatch:triggered:schedule:dialog:show", callBack);
           }
 
-          function insertAndShowCancelSchedulingConfirmationDialog(methodName, callBackMethod) {
-            if (contextApp["showTriggeredScheduleConfirmationDialog"] === undefined) {
-              contextApp.insertRendering("{C80C9537-1D83-4A14-ABC6-424C51B3913F}", { $el: $("body") }, function (subApp) {
-                contextApp["showTriggeredScheduleConfirmationDialog"] = subApp;
-                sitecore.trigger("dispatch:triggered:schedule:dialog:" + methodName, callBackMethod);
-              });
-            }
+          if (contextApp["showDeactivateConfirmationDialog"] === undefined) {
+            insertAndShowCancelSchedulingConfirmationDialog("show", callBack);
+          } else {
+            sitecore.trigger("dispatch:triggered:deactivate:dialog:show", callBack);
           };
         };
+
+        contextApp.on("dispatch:send", function () {
+          contextApp.SendButton.set("isEnabled", false);
+          dispatch("dispatch", false);
+        });
+        contextApp.on("dispatch:schedule", function () {
+          dispatch("dispatch", true);
+        });
+        contextApp.on("dispatch:starttest", function () { dispatch("starttest", false); });
+        contextApp.on("dispatch:scheduletest", function () { dispatch("starttest", true); });
+
+        contextApp.on("dispatch:cancelscheduling", function () { showCancelSchedulingConfirmationDialog(function () { action("cancelscheduling"); }); });
+        contextApp.on("dispatch:pause", function () { action("pause"); });
+        contextApp.on("dispatch:resume", function () { action("resume"); });
+
+        sitecore.on("dispatch:selectvariant", function (variantid) {
+          var actionDetails = {
+            messageId: messageContext.get("messageId"),
+            variant: variantid
+          };
+
+          showManualWinnerSelectionConfirmationDialog(function () { parameterizedAction("selectwinner", actionDetails); }, contextApp.MessageContext.get("messageType"));
+        });
+        sitecore.on("dispatch:pipeline:success:starttest", function () {
+          contextApp.VariantDataSource.viewModel.refresh();
+        });
+
+        contextApp.on("dispatch:activate", function () { dispatch("activate", false); });
+        contextApp.on("dispatch:deactivate", function () { showDeactivateConfirmationDialog(function () { action("deactivate"); }); });
+        contextApp.on("dispatch:activatetest", function () { dispatch("activatetest", false); });
+        sitecore.on("message:delivery:dispatch", function (actionName, isSchedule) { doDispatch(actionName, isSchedule); });
       }
 
       function initSchedule() {
-        if (!contextApp)
+        if (!contextApp) {
           return;
+        }
 
         resetScheduleDate();
 
         context.on("change:isBusy", function () {
           setupScheduleRadioButtons();
-        });
-
-        context.on("change:isBusy", function () {
+          schedule = context.get("schedule");
           if (context.get("isBusy") || !context.get("hasSchedule") || !schedule) {
             return;
           }
 
           contextApp.ScheduledDateDatePicker.set("date", schedule.date);
-
-          //TODO: It is not possible to set the selected item seeSPEAK error TFS 5404
           contextApp.ScheduledTimeComboBox.set("selectedValue", schedule.time);
           contextApp.ScheduleTimezoneComboBox.set("selectedValue", schedule.timeZone);
 
@@ -771,14 +839,14 @@ function (sitecore, validation, comboBoxDataSource) {
         } else {
           if (context.get("showAbTest")) {
             resetButtons();
-            if (contextApp.MessageContext.get("messageType") == "Trickle") {
+            if (messageContext.get("messageType") == "Triggered") {
               context.set("showActivateTestButton", true);
             } else {
               context.set("showStartAbTestButton", true);
             }
           } else {
             resetButtons();
-            if (contextApp.MessageContext.get("messageType") == "Trickle") {
+            if (messageContext.get("messageType") == "Triggered") {
               context.set("showActivateMessageButton", true);
             } else {
               context.set("showSendMessageButton", true);
@@ -833,14 +901,6 @@ function (sitecore, validation, comboBoxDataSource) {
         contextApp.UsePreferredLanguageEnableCheckBox.set("isEnabled", enabled);
       }
 
-      function initEmulation() {
-        contextApp.EmulationBorder.set("isVisible", contextApp.EmulationExpander.get("isExpanded"));
-
-        contextApp.EmulationExpander.on("change:isExpanded", function () {
-          contextApp.EmulationBorder.viewModel.$el.toggle(250);
-        }
-        );
-      }
     }
   };
 });

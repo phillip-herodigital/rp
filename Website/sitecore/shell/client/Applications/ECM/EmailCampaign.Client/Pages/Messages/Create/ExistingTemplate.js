@@ -11,20 +11,29 @@
       }
 
       var parameters = JSON.parse(sessionStorage.createMessageParameters);
-      contextApp.setHeaderTitle(parameters.messageTemplateId, contextApp);
+      contextApp.setHeaderTitle(parameters.messageTemplateId, parameters.messageTypeTemplateId, contextApp);
       contextApp.setBylineText(parameters.messageTypeTemplateId, contextApp);
-      contextApp.NameTextBox.viewModel.focus();
 
-      contextApp.NameTextBox.viewModel.$el.on("keyup", function () {
-        contextApp.NameTextBox.viewModel.$el.change();
-        var name = contextApp.NameTextBox.viewModel.$el.val();
-        if (!name) {
-          contextApp.CreateButton.viewModel.disable();
-        } else {
-          contextApp.CreateButton.viewModel.enable();
+      var nameTextBoxViewModel = contextApp.NameTextBox.viewModel;
+      nameTextBoxViewModel.focus();
+      sessionStorage.removeItem("createMessageName");
+
+      nameTextBoxViewModel.$el.on("keyup", function (e) {
+        $(this).change();
+        var createButtonViewModel = contextApp.CreateButton.viewModel;
+        var value = $(this).val(); 
+        if (!value) {
+          createButtonViewModel.disable();
+        } else {         
+          createButtonViewModel.enable();
+          if (e.keyCode === 13) {
+            createButtonViewModel.disable();
+            if (messages_isCreateMessageAlreadyClicked(value)) { return; }
+            contextApp.trigger("createmessage:create");
+          }
         }
       });
-
+      
       // back
       contextApp.on("createmessage:back", function() {
         history.back();
@@ -54,13 +63,12 @@
 
         createNewMessage(context, contextApp.MessageBar, null, contextApp, sitecore);
       });
-
       window.onbeforeunload = function() {
-        //sessionStorage.removeItem("createMessageParameters");
+        //sessionStorage.removeItem("createMessageParameters");       
       };
     },
 
-    setHeaderTitle: function(messageTemplateId, contextApp) {
+    setHeaderTitle: function (messageTemplateId, messageTypeTemplateId, contextApp) {
       switch (messageTemplateId) {
       case "{F112BDEF-8D86-4CEA-9B9A-8477A582926C}":
         contextApp.HeaderTitle.set("text", sitecore.Resources.Dictionary.translate("ECM.ExistingTemplatePage.NewsletterHeaderTitle"));
@@ -78,7 +86,11 @@
         contextApp.HeaderTitle.set("text", sitecore.Resources.Dictionary.translate("ECM.ExistingTemplatePage.PlainTextMessageHeaderTitle"));
         break;
       default:
-        contextApp.HeaderTitle.set("text", sitecore.Resources.Dictionary.translate("ECM.ExistingTemplatePage.DefaultHeaderTitle"));
+        if (messageTypeTemplateId === "{7BE25E20-281C-43DD-AACC-156102617D66}") {
+            contextApp.HeaderTitle.set("text", sitecore.Resources.Dictionary.translate("ECM.ExistingTemplatePage.SubscriptionMessageHeaderTitle"));
+        } else {
+            contextApp.HeaderTitle.set("text", sitecore.Resources.Dictionary.translate("ECM.ExistingTemplatePage.DefaultHeaderTitle"));
+        }
       }
     },
 

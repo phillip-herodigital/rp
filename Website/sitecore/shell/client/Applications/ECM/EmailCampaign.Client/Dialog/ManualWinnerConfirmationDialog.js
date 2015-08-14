@@ -16,7 +16,7 @@
         $(modalBodyElement).css('max-height', '140px');
       });
 
-      if (messageType == "Trickle") {
+      if (messageType == "Triggered") {
         this.WhenYouSelectAWinnerTextTriggered.set("isVisible", true);
       }
       else {

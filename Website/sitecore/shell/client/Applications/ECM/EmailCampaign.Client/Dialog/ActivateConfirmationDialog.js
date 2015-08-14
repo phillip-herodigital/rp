@@ -13,7 +13,7 @@
       var modalBodyArray = this.ActivateConfirmationDialog.viewModel.$el.find(".sc-dialogWindow-body");
       Array.prototype.filter.call(modalBodyArray, function (modalBodyElement) {
         $(modalBodyElement).css('overflow-y', 'auto');
-        $(modalBodyElement).css('max-height', '200px');
+        $(modalBodyElement).css('max-height', '160px');
       });
 
       this.ActivateMessageLanguageName.set("text", langaugeName);

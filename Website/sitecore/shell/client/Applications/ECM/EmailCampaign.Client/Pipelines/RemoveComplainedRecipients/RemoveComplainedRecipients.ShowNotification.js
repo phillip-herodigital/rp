@@ -24,7 +24,7 @@ return {
       }
 
       if (text) {
-        var message = { id: "ecm.recipientlist.removecomplainedrecipients", text: text, actions: [], closable: true, temporary: true };
+        var message = { id: "EXM/RemoveComplainedContacts", text: text, actions: [], closable: true, temporary: true };
         context.messageBar.addMessage(type, message);
       }
     }
