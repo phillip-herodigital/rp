@@ -558,11 +558,6 @@ article.account {
     .change-password-fields {
         padding: 15px 15px 0;
     }
-    .verisign-logo {
-            @include image-replace("bg/verisign-logo.png", "bg2x/verisign-logo.png");
-            float: right;
-            margin-right:20px;
-    }
 }
 
 div.banner + article.message {
@@ -827,6 +822,11 @@ article.utility-providers {
 }
 
 article.balances-payments {
+    .verisign-logo {
+            @include image-replace("bg/verisign-logo.png", "bg2x/verisign-logo.png");
+            float: right;
+            margin-right:20px;
+    }
 	.account-selector {
         background: #fbfbfb;
 		.group {
