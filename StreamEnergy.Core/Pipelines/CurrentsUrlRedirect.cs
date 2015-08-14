@@ -13,8 +13,9 @@ namespace StreamEnergy.Pipelines
         private static ISettings settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
         public override void Process(Sitecore.Pipelines.HttpRequest.HttpRequestArgs args)
         {
+            var host = HttpContext.Current.Request.Url.Host;
             var path = HttpContext.Current.Request.Url.AbsolutePath;
-            if (!path.StartsWith("/currents/") && path != "/currents")
+            if (!host.Contains("currents.igniteinc.com") && !path.StartsWith("/currents/") && path != "/currents")
             {
                 return;
             }
