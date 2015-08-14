@@ -822,6 +822,11 @@ article.utility-providers {
 }
 
 article.balances-payments {
+    .verisign-logo {
+            @include image-replace("bg/verisign-logo.png", "bg2x/verisign-logo.png");
+            float: right;
+            margin-right:20px;
+    }
 	.account-selector {
         background: #fbfbfb;
 		.group {
