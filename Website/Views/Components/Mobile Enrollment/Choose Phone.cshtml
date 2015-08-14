@@ -335,7 +335,7 @@
                                 </div>
                                 <hr />
                                 <div class="vertical">
-                                    <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+@*                                     <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
                                         <label>@Html.Sitecore().Field("Header - Select Device")</label>
                                         <div class="btn-group-options">
                                             <label>@Html.Sitecore().Field("Label - Select Device")</label>
@@ -363,7 +363,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr ng-if="false && mobileEnrollmentService.selectedNetwork.value != 'sprint'" />
+                                    <hr ng-if="false && mobileEnrollmentService.selectedNetwork.value != 'sprint'" /> *@
                                     <div class="item" data-val-error="imeiNumber">
                                         <label ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
                                             @Html.Sitecore().Field("Header - IMEI Number")
@@ -380,7 +380,7 @@
                                             <span ng-show="esnError" ng-bind-html="esnMessage"></span>
                                         </div>
                                     </div>
-                                    <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && phoneOptions.model.lte">
+                                    <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && phoneOptions.supportsLte == true">
                                         <label>
                                             @Html.Sitecore().Field("Header - ICCID Number")
                                             <span class="label-description">@Html.Sitecore().Field("Text - ICCID Number Note")</span>

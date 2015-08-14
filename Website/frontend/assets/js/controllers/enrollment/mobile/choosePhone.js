@@ -38,7 +38,8 @@
         size: undefined,
         //condition: undefined,
         //warranty: undefined,
-        transferInfo: undefined
+        transferInfo: undefined,
+        supportsLte: undefined 
     };
 
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
@@ -108,7 +109,7 @@
     }
 
     $scope.validateEsn = function() {
-        if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '' && $scope.mobileEnrollmentSettings.validateSprintEsn) {
+        //if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '' && $scope.mobileEnrollmentSettings.validateSprintEsn) {
             $scope.esnInvalid = true;
             $scope.esnError = false;
             var convertedImei = null;
@@ -119,29 +120,35 @@
 
             $http.post('/api/enrollment/validateEsn', convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
-                var esnResponse = JSON.parse(data);
-                if (esnResponse != 'success') {
+                //var esnResponse = JSON.parse(data);
+                if (data.verifyEsnResponseCode.toLowerCase() != 'success') {
                     $scope.addDevice.imeiNumber.$setValidity('required',false);
                     $scope.validations = [{
                         'memberName': 'imeiNumber'
                     }];
                     $scope.esnError = true;
-                    $scope.esnMessage = $sce.trustAsHtml(_.find($scope.esnValidationMessages, function (message) { 
-                            return message.code.toLowerCase() == esnResponse.toLowerCase();
-                        }).message);
+                    if(data.verifyEsnResponseCode) {
+                        $scope.esnMessage = $sce.trustAsHtml(_.find($scope.esnValidationMessages, function (message) { 
+                                return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
+                            }).message);
+                    }
                 } else {
                     $scope.esnError = false;
                     $scope.esnInvalid = false;
+                    $scope.phoneOptions.iccidNumber = data.iccid;
+                    if (data.deviceType) {
+                        $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
+                    }
                 }
             })
-        } else {
-            $scope.esnError = false;
-            $scope.esnInvalid = false;
-        }
+        //} else {
+        //    $scope.esnError = false;
+         //   $scope.esnInvalid = false;
+       // }
     }
 
     $scope.validateActivationCode = function () {
-        if (mobileEnrollmentService.selectedNetwork.value == 'att' && $scope.phoneOptions.activationCode) {
+        //if (mobileEnrollmentService.selectedNetwork.value == 'att' && $scope.phoneOptions.activationCode) {
             $scope.activationCodeInvalid = true;
 
             $http.post('/api/enrollment/validateActivationCode', $scope.phoneOptions.activationCode, { transformRequest: function (code) { return JSON.stringify(code); } })
@@ -159,11 +166,11 @@
                     $scope.phoneOptions.simNumber = activationCodeResponse;
                 }
             })
-        } else {
-            $scope.activationCodeInvalid = false;
-            $scope.addDevice.activationCode.$setValidity('required', true);
-            $scope.validations = [];
-        }
+        // } else {
+        //     $scope.activationCodeInvalid = false;
+        //     $scope.addDevice.activationCode.$setValidity('required', true);
+        //     $scope.validations = [];
+        // }
     }
 
     /** 
@@ -281,7 +288,7 @@
                 simNumber: $scope.phoneOptions.simNumber,
                 iccidNumber: $scope.phoneOptions.iccidNumber,
                 transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
-                lte: (typeof $scope.phoneOptions.model == 'undefined') ? null : $scope.phoneOptions.model.lte
+                lte: $scope.phoneOptions.supportsLte
             };
         }
 
