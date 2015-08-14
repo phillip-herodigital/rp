@@ -2,7 +2,7 @@
 return {
     priority: 2,
     execute: function (context) {
-      postServerRequest("ecm.createnewmessage.canCreate", { managerRootId: context.currentContext.managerRootId }, function (response) {
+        postServerRequest("EXM/CanCreateNewMessage", { managerRootId: context.currentContext.managerRootId }, function (response) {
         context.currentContext.messageBar.removeMessage(function (error) { return error === response.errorMessage; });
         if (response.error) {
           context.currentContext.messageBar.addMessage("error", response.errorMessage);

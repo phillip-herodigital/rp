@@ -13,6 +13,8 @@
         this.set("description", "");
         this.set("campaignCategory", "");
         this.set("campaignCategoryPath", "");
+        this.set("campaignGroup", "");
+        this.set("campaignGroupPath", "");
         this.set("targetDevice", "");
         this.set("messageType", "");
 
@@ -77,14 +79,20 @@
         this.on("change:messageName", this.modified, this);
         this.on("change:description", this.modified, this);
         this.on("change:campaignCategory", this.modified, this);
+        this.on("change:campaignGroup", this.modified, this);
         this.on("change:targetDevice", this.modified, this);
         this.on("change:fromName", this.modified, this);
         this.on("change:fromEmail", this.modified, this);
         this.on("change:replyTo", this.modified, this);
 
         this.on("change:messageId", this.refresh, this);
-        this.on("change:language", this.refresh, this);
-        this.on("change:selectedReportLanguage", this.refresh, this);
+
+        // In a lot of situations "language" and "selectedReportLanguage" properties changed simultaneously,
+        //   as result "refresh" will be executed several times it will lead to not correct event bindings on view model.
+        //   That is why it's better to use "debounce" here.
+        var debouncedRefresh = _.debounce(this.refresh, 50);
+        this.on("change:language", debouncedRefresh, this);
+        this.on("change:selectedReportLanguage", debouncedRefresh, this);
 
         this.isReady = false;
         
@@ -117,10 +125,16 @@
 
         var data = { messageId: messageId, language: language };
         var options = {
-          url: "/-/speak/request/v1/ecm.messagecontext.getmessage",
-          data: "data=" + JSON.stringify(data),
+          url: "/sitecore/api/ssc/EXM/Message",
+          data: data,
           type: "POST",
           success: $.proxy(this.success, this),
+          error: function(args) {
+            if (args.status === 403) {
+              console.error("Not logged in, will reload page");
+              window.top.location.reload(true);
+            }
+          }
         };
 
         this.set("isBusy", true);
@@ -139,6 +153,8 @@
         this.set("description", response.message.description);
         this.set("campaignCategory", response.message.campaignCategory);
         this.set("campaignCategoryPath", response.message.campaignCategoryPath);
+        this.set("campaignGroup", response.message.campaignGroup);
+        this.set("campaignGroupPath", response.message.campaignGroupPath);
         this.set("targetDevice", response.message.targetDevice);
         this.set("messageType", response.message.messageType);
 
@@ -163,6 +179,9 @@
 
         // variants
         this.set("isAbTesting", response.message.isAbTesting);
+
+        // Backbone doesn't listen to changes inside array. Need to reset array to trigger variants change event
+        this.set("variants", null, {silent: true});
         this.set("variants", response.message.variants);
         this.set("hasVariants", response.message.variants > 1);
 
@@ -190,11 +209,16 @@
       },
 
       getMessage: function () {
-        var variants = this.get("variants");
+        // Need to clone variants to avoid escaping of variants bodyUrl in "MessageVariants" component
+        var variants = _.map(this.get("variants"), function(variant) {
+          return _.clone(variant);
+        });
+
         for (var i = 0; i < variants.length; i++) {
-          //We don't need to get the bodyUrl. Otherwise, we need to endoce the bodyUrl.
-          variants[i].bodyUrl = "";
-          variants[i].urlToEdit = variants[i].urlToEdit.escapeAmpersand();
+          variants[i].bodyUrl = escape(variants[i].bodyUrl);
+          variants[i].urlToEdit = escape(variants[i].urlToEdit);
+          variants[i].plainText = variants[i].plainText.escapeAmpersand();
+          variants[i].subject = variants[i].subject.escapeAmpersand();
         }
 
         var message = {
@@ -202,6 +226,7 @@
           name: this.get("messageName").escapeAmpersand(),
           description: this.get("description").escapeAmpersand(),
           campaignCategory: this.get("campaignCategory"),
+          campaignGroup: this.get("campaignGroup"),
           targetDevice: this.get("targetDevice"),
           attachments: this.get("attachments"),
           variants: variants,
@@ -209,9 +234,9 @@
         };
 
         message.sender = {
-          name: this.get("fromName"),
-          email: this.get("fromEmail"),
-          replyTo: this.get("replyTo")
+          name: this.get("fromName").escapeAmpersand(),
+          email: this.get("fromEmail").escapeAmpersand(),
+          replyTo: this.get("replyTo").escapeAmpersand()
         };
 
         return message;
@@ -255,11 +280,15 @@
         });
 
         function stateRefreshPostback() {
-          var request = { messageId: messageContext.get("messageId") };
+          var request = { messageId: messageContext.get("messageId"), previousState: currentState };
 
-          postServerRequest("ecm.messagecontext.getcurrentstate", request, function (response) {
+          postServerRequest("EXM/CurrentState", request, function (response) {
             if (currentState != null && currentState != response.state) {
               sitecore.trigger("change:messageContext:currentState", response.state, response.stateDescription, this);
+            }
+
+            if (response.error) {
+              sitecore.trigger("change:messageContext:currentState:error", response.errorMessage, this);
             }
 
             currentState = response.state;

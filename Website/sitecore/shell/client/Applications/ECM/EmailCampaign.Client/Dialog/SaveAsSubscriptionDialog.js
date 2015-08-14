@@ -16,17 +16,13 @@
       this.NameTextBox.set("text", contextApp.messageInfo.messageContext.get("messageName"));
       this.TemplateImage.set("imageUrl", contextApp.messageInfo.messageContext.get("thumbnail"));
 
-      // be sure to handle a not yet loaded recipient 
-      if (!contextApp.messageInfo.contextApp.RecipientTabLoadOnDemandPanel.get("isLoaded")) {
-        contextApp.messageInfo.contextApp.RecipientTabLoadOnDemandPanel.refresh();
-        contextApp.messageInfo.contextApp.RecipientTabLoadOnDemandPanel.on("change:isLoaded", function () {
-          contextApp.RecipentsListListBox.set("items", contextApp.messageInfo.contextApp.MessageContext.get("includedRecipients"));
-          contextApp.SaveAsSubscriptionDialog.show();
-        });
-      } else {
-        this.RecipentsListListBox.set("items", contextApp.messageInfo.contextApp.MessageContext.get("includedRecipients"));
-        this.SaveAsSubscriptionDialog.show();
+      var messageId = contextApp.messageInfo.messageContext.get("messageId");
+      if (contextApp.IncludedRecipientDataSource) {
+        contextApp.IncludedRecipientDataSource.set("messageId", messageId);
+        contextApp.IncludedRecipientDataSource.viewModel.refresh();
       }
+
+      this.SaveAsSubscriptionDialog.show();
     },
     saveDialog: function () {
       var contextApp = this;

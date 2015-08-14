@@ -2,7 +2,7 @@
 return {
     priority: 3,
     execute: function (context) {
-      postServerRequest("ecm.addlanguage.onlyswitch", { messageId: context.currentContext.messageId, language: context.currentContext.language }, function (response) {
+        postServerRequest("EXM/SwitchLanguage", { messageId: context.currentContext.messageId, language: context.currentContext.language }, function (response) {
         if (response.error) {
           context.aborted = true;
           return;

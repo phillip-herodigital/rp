@@ -19,7 +19,7 @@
       this.set("hasSchedule", false);
       this.set("schedule", null);
       this.set("multiLanguageEnabled", false);
-      this.set("selectWinnerAutomaticaly", false);
+      this.set("selectWinnerAutomatically", false);
       this.set("abTestWaitingForWinner", false);
       this.set("selectedVariants", null);
       this.set("testSize", null);
@@ -33,30 +33,39 @@
       this.set("useNotificationEmail", false);
       this.set("notificationEmail", "");
       this.set("usePreferredLanguage", false);
-      this.set("emultaionMode", false);
+      this.set("emulationMode", false);
 
       //state
       this.set("isBusy", true);
       this.set("messageNotFound", true);
       this.on("change:messageId", this.refresh, this);
+
+      ////When currentState is changed back to Draft i.e. when emulation mode finishes
+      sitecore.on("change:messageContext:currentState", _.bind(function(status, statusDescription) {
+          if (status !== "Draft") {
+              return;
+          }
+
+          this.refresh();
+          sitecore.trigger("change:messageContext:nonReadonly");
+      }, this));
     },
 
     refresh: function () {
       this.getContextFromServer();
     },
 
-    getContextFromServer: function() {
+    getContextFromServer: function () {
       var messageId = this.get("messageId");
       if (!messageId) {
         return;
       }
-    
 
       var dispatchRequest = { messageId: messageId };
 
       var options = {
-        url: "/-/speak/request/v1/ecm.dispatchcontext.get",
-        data: "data=" + JSON.stringify(dispatchRequest),
+        url: "/sitecore/api/ssc/EXM/LoadDispatch",
+        data: dispatchRequest,
         type: "POST",
         success: $.proxy(this.success, this),
         error: $.proxy(this.error, this)
@@ -89,7 +98,7 @@
 
       if (dispatchContext.abTestContext) {
         this.set("showAbTest", dispatchContext.abTestContext.showAbTest);
-        this.set("selectWinnerAutomaticaly", dispatchContext.abTestContext.selectWinnerAutomaticaly);
+        this.set("selectWinnerAutomatically", dispatchContext.abTestContext.selectWinnerAutomatically);
         this.set("abTestWaitingForWinner", dispatchContext.abTestContext.abTestWaitingForWinner);
         this.set("selectedVariants", dispatchContext.abTestContext.selectedVariants);
         this.set("testSize", dispatchContext.abTestContext.testSize);
@@ -105,7 +114,7 @@
       this.set("useNotificationEmail", dispatchContext.useNotificationEmail);
       this.set("notificationEmail", dispatchContext.notificationEmail);
       this.set("usePreferredLanguage", dispatchContext.usePreferredLanguage);
-      this.set("emultaionMode", dispatchContext.emultaionMode);
+      this.set("emulationMode", dispatchContext.emulationMode);
 
       if (dispatchContext.buttonState) {
         this.set("showCancelSchedulingButton", dispatchContext.buttonState.showCancelScheduling);
@@ -116,7 +125,13 @@
         this.set("showSendMessageButton", dispatchContext.buttonState.showSend);
         this.set("showStartAbTestButton", dispatchContext.buttonState.showStartAbTest);
         this.set("showActivateTestButton", dispatchContext.buttonState.showActivateTest);
-        this.set("showActivateMessageButton", dispatchContext.buttonState.showActivateMessage);
+
+        var isShowActivateMessage = dispatchContext.buttonState.showActivateMessage;
+        this.set("showActivateMessageButton", isShowActivateMessage);
+        if (isShowActivateMessage) {
+          sitecore.trigger("change:messageContext:nonReadonly");
+        }
+
         this.set("showDeactivateButton", dispatchContext.buttonState.showDeactivate);
       }
 
@@ -152,7 +167,12 @@
 
       this.set("messageNotFound", true);
       this.set("isBusy", false);
+
+      if (response && response.status === 403) {
+        console.error("Not logged in, will reload page");
+        window.top.location.reload(true);
       }
+    }
 
   });
 

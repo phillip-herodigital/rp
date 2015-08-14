@@ -1,9 +1,9 @@
-﻿define(["jquery", "sitecore", "/-/speak/v1/ecm/Messages.js"], function($, sitecore) {
+﻿define(["jquery", "sitecore", "/-/speak/v1/ecm/Messages.js"], function ($, sitecore) {
   "use strict";
 
   var model = sitecore.Definitions.Models.ComponentModel.extend(
     {
-      initialize: function() {
+      initialize: function () {
         this._super();
 
         this.set("messages", null);
@@ -32,7 +32,7 @@
         this.on("change:managerRootId change:messageListType change:pageIndex change:pageSize change:request change:search change:sorting", this.refresh, this);
       },
 
-      success: function(data) {
+      success: function (data) {
         sitecore.debug(data);
 
         if (data.error) {
@@ -41,7 +41,9 @@
         }
 
         if (this.get("pagingMode") == "appending" && this.lastPage > 0 && !this.isRefreshLoaded) {
-          this.set("messages", this.get("messages").concat(data.messages));
+          this.set("messages", this.get("messages") ?
+            this.get("messages").concat(data.messages) :
+            data.messages);
         } else {
           this.set("messages", data.messages);
           this.isRefreshLoaded = false;
@@ -62,8 +64,13 @@
         }
       },
 
-      error: function() {
+      error: function (args) {
         console.log("ERROR");
+
+        if (args && args.status === 403) {
+          console.error("Not logged in, will reload page");
+          window.top.location.reload(true);
+        }
 
         this.set("messages", null);
         this.set("hasMessages", false);
@@ -76,7 +83,7 @@
         }
       },
 
-      refresh: function() {
+      refresh: function () {
         this.lastPage = 0;
         this.set("pageIndex", this.lastPage);
         if (this.get("managerRootId") !== undefined || this.get("messageId") !== undefined) { //workaround
@@ -89,13 +96,13 @@
         var pageSize = this.get("pageSize"),
           lastPage = this.lastPage,
           dataSize = pageSize * (lastPage + 1);
-        
+
         this.isRefreshLoaded = true;
 
         this.getMessages(0, dataSize);
       },
 
-      next: function() {
+      next: function () {
         this.lastPage++;
         if (this.get("pagingMode") == "paged") {
           this.set("pageIndex", this.lastPage);
@@ -104,7 +111,7 @@
         this.getMessages(this.lastPage);
       },
 
-      getMessages: function(pageIndex, pageSize) {
+      getMessages: function (pageIndex, pageSize) {
         if (!this.isReady) {
           return;
         }
@@ -122,8 +129,8 @@
           utcOffset: new Date().getTimezoneOffset()
         };
         var options = {
-          url: "/-/speak/request/v1/" + this.get("request"),
-          data: "data=" + JSON.stringify(data),
+            url: "/sitecore/api/ssc/" + this.get("request"),
+          data: data,
           type: "POST",
           success: $.proxy(this.success, this),
           error: $.proxy(this.error, this)
@@ -144,7 +151,7 @@
         "next:$this": "next"
       }),
 
-      initialize: function() {
+      initialize: function () {
         this._super();
 
         this.model.set("data", this.$el.attr("data-sc-data"));
@@ -160,16 +167,16 @@
         this.model.set("pagingMode", this.$el.attr("data-sc-pagingmode") || "appending");
       },
 
-      beforeRender: function() {
+      beforeRender: function () {
         this.model.isReady = true;
         this.refresh();
       },
 
-      refresh: function() {
+      refresh: function () {
         this.model.refresh();
       },
 
-      next: function() {
+      next: function () {
         this.model.next();
       }
     }

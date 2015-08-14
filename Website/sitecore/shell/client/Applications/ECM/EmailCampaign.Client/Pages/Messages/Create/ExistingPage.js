@@ -2,28 +2,37 @@
   return sitecore.Definitions.App.extend({
     initialized: function() {
       var contextApp = this;
-
-      //Set the notification text style to italic.
-      contextApp.NotificationText.viewModel.$el.css("font-style", "italic");
-      contextApp.NameTextBox.viewModel.focus();
-
+      
       if (!sessionStorage.createMessageParameters) {
         this.MessageBar.removeMessage(function (error) { return error.id === "absenceOfEnoughInfomation"; });
         var messagetoAdd = { id: "absenceOfEnoughInfomation", text: sitecore.Resources.Dictionary.translate("ECM.Pipeline.CreateMessage.AbsenceOfEnoughInfomation"), actions: [], closable: false };
         this.MessageBar.addMessage("error", messagetoAdd);
         return;
       }
+      
       var parameters = JSON.parse(sessionStorage.createMessageParameters);
       contextApp.setBylineText(parameters.messageTypeTemplateId, contextApp);
 
-      contextApp.NameTextBox.viewModel.$el.on("keyup", function () {
-        contextApp.NameTextBox.viewModel.$el.change();
-        var name = contextApp.NameTextBox.viewModel.$el.val();
+      //Set the notification text style to italic.
+      contextApp.NotificationText.viewModel.$el.css("font-style", "italic");
+      var nameTextBoxViewModel = contextApp.NameTextBox.viewModel;
+      nameTextBoxViewModel.focus();
+      sessionStorage.removeItem("createMessageName");
+
+      nameTextBoxViewModel.$el.on("keyup", function (e) {
+        $(this).change();
+        var createButtonViewModel = contextApp.CreateButton.viewModel;
+        var value = $(this).val();
         var selectedPagePath = contextApp.ExistingPagePathTextBox.get("text");
-        if (!name) {
-          contextApp.CreateButton.viewModel.disable();
+        if (!value) {
+          createButtonViewModel.disable();
         } else if (selectedPagePath) {
-          contextApp.CreateButton.viewModel.enable();
+          createButtonViewModel.enable();
+          if (e.keyCode === 13) {
+            createButtonViewModel.disable();
+            if (messages_isCreateMessageAlreadyClicked(value)) { return; }
+            contextApp.trigger("createmessage:create");
+          }
         }
       });
 

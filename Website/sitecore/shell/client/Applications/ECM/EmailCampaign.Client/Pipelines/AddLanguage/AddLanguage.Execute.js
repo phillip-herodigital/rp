@@ -2,7 +2,7 @@
   return {
     priority: 1,
     execute: function (context) {
-      var requestName = "ecm.addlanguage.add";
+      var requestName = "EXM/AddLanguage";
       postServerRequest(requestName, { messageId: context.currentContext.messageId, language: context.currentContext.language, newLanguage: context.currentContext.newLanguage },
         function (response) {
           context.currentContext.messageBar.removeMessage(function (error) { return error.id === "error." + requestName; });

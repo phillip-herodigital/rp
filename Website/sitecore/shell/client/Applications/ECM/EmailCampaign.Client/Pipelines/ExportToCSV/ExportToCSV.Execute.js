@@ -1,32 +1,28 @@
 ﻿define(["sitecore"], function (sitecore) {
   return {
-    priority: 2,
-    execute: function (c) {
-      var fileDownloadCheckTimer;
-      c.spinner.set("isBusy", true);
-      c.action.disable();
+      priority: 1,
+      execute: function (c) {
+          var fileDownloadCheckTimer;
+          c.spinner.set("isBusy", true);
+          c.action.disable();
+          
+          var element = '<iframe style="display:none;" src="/sitecore/api/ssc/EXM/ExportToCSV?' + $.param(c.currentContext) + '" width="0" height="0" />';
+          $('body').append(element);
 
-      if (c.currentContext.url) {
-        // use the current timestamp as the token value
+          var cookieName = 'fileDownloadToken' + c.currentContext.messageId + c.currentContext.language + c.currentContext.token;
 
-        var element = '<iframe style="display:none;" src="' + c.currentContext.url + '" width="0" height="0" />';
-        $('body').append(element);
+          fileDownloadCheckTimer = window.setInterval(function () {
+              var cookieValue = $.cookie(cookieName);
+              if (cookieValue == c.currentContext.token)
+                  finishDownload();
+          }, 300);
 
-        var cookieName = 'fileDownloadToken' + c.currentContext.messageId + c.currentContext.language + c.currentContext.token;
-
-        fileDownloadCheckTimer = window.setInterval(function () {
-          var cookieValue = $.cookie(cookieName);
-          if (cookieValue == c.currentContext.token)
-            finishDownload();
-        }, 300);
-
-        function finishDownload() {
-          window.clearInterval(fileDownloadCheckTimer);
-          $.removeCookie(cookieName);
-          c.spinner.set("isBusy", false);
-          c.action.enable();
-        }
+          function finishDownload() {
+              window.clearInterval(fileDownloadCheckTimer);
+              $.removeCookie(cookieName);
+              c.spinner.set("isBusy", false);
+              c.action.enable();
+          }
       }
-    }
   };
 });

@@ -38,7 +38,7 @@
 
       setup: function () {
         var self = this;
-        postServerRequest("ecm.initialactivereviews.get", { messageId: self.options.messageId, language: self.options.language }, function (response) {
+        postServerRequest("EXM/InitialActiveReviews", { messageId: self.options.messageId, language: self.options.language }, function (response) {
           if (!response.error) {
             self.options.activeReviews = response.results.activeReviews;
             self.start();
@@ -66,7 +66,7 @@
         var self = this;
 
         if ((self.options.activeReviews && (self.options.activeReviews.emailPreviews.length > 0 || self.options.activeReviews.spamChecks.length)) || (self.reviewsToAppend && self.reviewsToAppend.length > 0)) {
-          postServerRequest("ecm.activereviews.get", { messageId: self.options.messageId, language: self.options.language, messageReviews: self.options.activeReviews, reviewsToAppend: self.reviewsToAppend }, function (response) {
+            postServerRequest("EXM/ActiveReviews", { messageId: self.options.messageId, language: self.options.language, messageReviews: self.options.activeReviews, reviewsToAppend: self.reviewsToAppend }, function (response) {
             if (!response.error) {
               self.checked(response.results);
             }

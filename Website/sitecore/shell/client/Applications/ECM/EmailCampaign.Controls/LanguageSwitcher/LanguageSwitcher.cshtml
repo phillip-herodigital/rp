@@ -1,11 +1,12 @@
 ﻿@using System.Linq
 
 @using Sitecore
+@using Sitecore.Globalization
 @using Sitecore.Modules.EmailCampaign.Messages
 @using Sitecore.Mvc
 @using Sitecore.Mvc.Presentation
 @using Sitecore.Web
-@using Sitecore.Web.UI.Controls.Common.UserControls  
+@using Sitecore.Web.UI.Controls.Common.UserControls
 
 @model RenderingModel        
 @{
@@ -17,8 +18,18 @@
 
   var messageId = WebUtil.GetQueryString("id");
   var contentLanguage = WebUtil.GetQueryString(Sitecore.Modules.EmailCampaign.Core.Constants.SpeakContentLanguage);
+  var messageItem = Sitecore.Modules.EmailCampaign.Factory.GetMessage(messageId);
+  if (messageItem != null)
+  {
+    var mailMessageItem = messageItem as MailMessageItem;
+    var targetLanguage = mailMessageItem == null ? messageItem.InnerItem.Language : mailMessageItem.TargetLanguage;
 
-  var languageRepository = new LanguageRepository(); 
+    if (targetLanguage != null && targetLanguage.Name != contentLanguage)
+    {
+      contentLanguage = targetLanguage.Name;
+    }
+  }
+  var languageRepository = new LanguageRepository();
   var messageLanguages = languageRepository.GetLanguages(messageId, contentLanguage);
 
   var currentLanguageToolTip = string.Empty;
@@ -28,7 +39,37 @@
     currentLanguageToolTip = currentLanguage.DisplayName;
     userControl.Attributes.Add("data-sc-defaultLanguage", currentLanguage.IsoCode);
     userControl.Attributes.Add("data-sc-defaultLanguageToolTip", currentLanguageToolTip);
+
+    HttpCookie myCookie = new HttpCookie("messageLanguage", currentLanguage.IsoCode);
+    myCookie.Expires = DateTime.Now.AddDays(1);
+    Response.Cookies.Add(myCookie);
   }
+
+  var allLanguages = new Sitecore.Modules.EmailCampaign.Util().GetDb().Languages;
+
+  var formattedLanguages = allLanguages.Select(l =>
+  {
+    var messageLangauge = messageLanguages.FirstOrDefault(messageLang => messageLang.IsoCode == l.Name);
+
+    if (messageLangauge != null)
+    {
+      return new
+      {
+        HasVersion = messageLangauge.HasVersion,
+        IsDefault = messageLangauge.IsDefault,
+        IsoCode = messageLangauge.IsoCode,
+        DisplayName = messageLangauge.DisplayName
+      };
+    }
+
+    return new
+    {
+      HasVersion = false,
+      IsDefault = false,
+      IsoCode = l.Name,
+      DisplayName = l.CultureInfo.DisplayName
+    };
+  }).ToArray();
 
   var htmlAttributes = userControl.HtmlAttributes;
 }
@@ -37,10 +78,10 @@
   {
     <ul role="menu" class="nav">
       <li role="menuitem">
-        <div style="display:none" class="sc-actionpanel-popup data-sc-registered"></div>
+        <div style="display: none" class="sc-actionpanel-popup data-sc-registered"></div>
         <div class="dropdown">
-          <a class="btn btn-default language-switcher-btn js-language-switcher-btn" title="@currentLanguageToolTip">@currentLanguage.ShortDisplayName</a>  
-          <div role="menu" class="sc-foldout dropdown-menu open language-switcher-list js-language-switcher-list" style="display:none;">
+          <a class="btn btn-default language-switcher-btn js-language-switcher-btn" title="@currentLanguageToolTip">@currentLanguage.ShortDisplayName</a>
+          <div role="menu" class="sc-foldout dropdown-menu open language-switcher-list js-language-switcher-list" style="display: none;">
             <div class="sc-foldout-content">
               <ul>
                 <li class="nav-header">@ClientHost.Globalization.Translate("Message languages")</li>
@@ -49,7 +90,7 @@
                   <a class="language-item" data-isocode="sc-report-language-all" href="#" tabindex="-1">@ClientHost.Globalization.Translate("All languages")</a>
                 </li>
 
-                @foreach (var language in messageLanguages)
+                @foreach (var language in formattedLanguages)
                 {
                   <li class="sc-actionMenu-item@(language.HasVersion ? " selected" : "")">
                     <a class="language-item@(language.IsDefault ? " isdefault" : "")" data-isocode="@language.IsoCode" tabindex="-1" href="#">@language.DisplayName</a>

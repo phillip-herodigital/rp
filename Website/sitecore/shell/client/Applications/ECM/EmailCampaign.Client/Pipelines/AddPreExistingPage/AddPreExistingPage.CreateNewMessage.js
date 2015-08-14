@@ -2,7 +2,7 @@
 return {
     priority: 3,
     execute: function (context) {
-      postServerRequest("ecm.createnewmessage.create", { messageTemplateId: context.currentContext.messageTemplateId, managerRootId: context.currentContext.managerRootId, messageName: context.currentContext.messageName, language: context.currentContext.language, messageTypeTemplateId: context.currentContext.messageTypeTemplateId }, function (response) {
+        postServerRequest("EXM/CreateNewMessage", { messageTemplateId: context.currentContext.messageTemplateId, managerRootId: context.currentContext.managerRootId, messageName: context.currentContext.messageName, language: context.currentContext.language, messageTypeTemplateId: context.currentContext.messageTypeTemplateId }, function (response) {
         if (response.error) {
           context.currentContext.messageBar.addMessage("error", response.errorMessage);
           context.currentContext.errorCount = 1;

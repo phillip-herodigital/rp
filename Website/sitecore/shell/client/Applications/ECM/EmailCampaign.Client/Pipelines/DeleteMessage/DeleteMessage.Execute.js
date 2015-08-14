@@ -7,7 +7,7 @@
         return;
       }
 
-      postServerRequest("ecm.deletemessage.delete", { value: context.currentContext.messageId }, function (response) {
+      postServerRequest("EXM/DeleteMessage", { value: context.currentContext.messageId }, function (response) {
         context.aborted = true;
         if (response.error) {
           sitecore.trigger("alertdialog", response.errorMessage);

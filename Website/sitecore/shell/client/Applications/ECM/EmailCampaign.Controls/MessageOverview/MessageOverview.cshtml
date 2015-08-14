@@ -1,5 +1,5 @@
-﻿@using Sitecore.EmailCampaign.Server.Services
-@using Sitecore.EmailCampaign.Server.Utils
+﻿@using Sitecore.EmailCampaign.Server.Model
+@using Sitecore.EmailCampaign.Server.Services
 @using Sitecore.Modules.EmailCampaign
 @using Sitecore.Modules.EmailCampaign.Core
 @using Sitecore.Modules.EmailCampaign.Messages
@@ -16,17 +16,30 @@
   userControl.Class = "sc-MessageOverview";
   userControl.Attributes["data-bind"] = "visible: isVisible";
 
-  var htmlAttributes = userControl.HtmlAttributes;
+  string messageId = WebUtil.GetQueryString("id");
+  MessageStatisticsService messageStatisticsService = new MessageStatisticsService();
+  MessageStatistics messageStatistics = null;
+  MessageStateInfo messageStateInfo = null;
 
-  var messageId = WebUtil.GetQueryString("id");
-
-  var messageStatisticsService = new MessageStatisticsService();
-  var messageStatistics = messageStatisticsService.GetMessageStatistics(new Guid(messageId), null);
-  var messageStateInfo = Factory.Instance.GetMessageStateInfo(messageId);
+  var language = "en";
+  if (HttpContext.Current.Request.Cookies.AllKeys.Contains("messageLanguage"))
+  {
+      var httpCookie = HttpContext.Current.Request.Cookies["messageLanguage"];
+      if (httpCookie != null)
+      {
+          language = httpCookie.Value;
+      }
+  }
+  
+  if (!string.IsNullOrEmpty(messageId))
+  {
+    messageStatistics = messageStatisticsService.GetMessageStatistics(new Guid(messageId), null);
+    messageStateInfo = Factory.Instance.GetMessageStateInfo(messageId, language);
+  }
 }
 @if (messageStatistics != null && messageStateInfo != null && messageStateInfo.MessageState != MessageState.Drafts)
 {
-  <div @htmlAttributes>
+  <div @userControl.HtmlAttributes>
     <h3>
       @EcmTexts.Localize(EcmTexts.MessageOverview)
     </h3>
@@ -35,31 +48,31 @@
       <tbody>
         <tr>
           <td>@EcmTexts.Localize(EcmTexts.TotalRecipients)</td>
-          <td class="sc-message-progress-value">@MathUtil.AbbreviateNumber(messageStatistics.Sent)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Sent</td>
         </tr>
         <tr>
           <td>@EcmTexts.Localize(EcmTexts.ActualRecipients)</td>
-          <td class="sc-message-progress-value">@MathUtil.AbbreviateNumber(messageStatistics.ActualRecipients)</td>
+          <td class="sc-message-progress-value">@messageStatistics.ActualRecipients</td>
         </tr>
         <tr>
           <td>@EcmTexts.Localize(EcmTexts.Opened)</td>
-          <td class="sc-message-progress-value">@MathUtil.AbbreviateNumber(messageStatistics.Opened)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Opened</td>
         </tr>
         <tr>
           <td>@EcmTexts.Localize(EcmTexts.Clicked)</td>
-          <td class="sc-message-progress-value">@MathUtil.AbbreviateNumber(messageStatistics.Clicked)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Clicked</td>
         </tr>
         <tr>
           <td>@EcmTexts.Localize(EcmTexts.Browsed)</td>
-          <td class="sc-message-progress-value">@MathUtil.AbbreviateNumber(messageStatistics.Browsed)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Browsed</td>
         </tr>
         <tr>
           <td>@EcmTexts.Localize(EcmTexts.Productive)</td>
-          <td class="sc-message-progress-value">@MathUtil.AbbreviateNumber(messageStatistics.Productive)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Productive</td>
         </tr>
         <tr>
           <td>@EcmTexts.Localize(EcmTexts.ValuePerVisit)</td>
-          <td class="sc-message-progress-value">@Math.Round(messageStatistics.ValuePerVisit, 1).ToString("N1", Sitecore.Context.Culture)</td>
+          <td class="sc-message-progress-value">@Math.Round(messageStatistics.ValuePerVisit, 2).ToString(Sitecore.Context.Culture)</td>
         </tr>
         <tr>
           <td>@EcmTexts.Localize(EcmTexts.Value)</td>

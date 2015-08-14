@@ -24,20 +24,23 @@
         contextApp.on("language:copyattachmentfromlanguage", copyAttachmentFromLanguage, this);
 
         sitecore.on("change:messageContext", function () {
-          // disable the language switcher if there is only one language
-          if (contextApp.LanguageSwitcher.viewModel.getAvailableLanguagesList().length == 1) {
-            languageSwitcher.set("isEnabledMenu", false);
-            languageSwitcher.viewModel.$el.find('a.btn').addClass("disabled");
-          } else {
-            languageSwitcher.set("isEnabledMenu", true);
-            languageSwitcher.viewModel.$el.find('a.btn').removeClass("disabled");
-          }
+          languageSwitcher.viewModel.setSelectedLanguages(messageContext.get("languages"));
 
-          if (contextApp.MessageContext.get("messageState") != 0) {
+          if (contextApp.MessageContext.get("messageState") != 0 && contextApp.MessageContext.get("messageState") != 4) {
             // hide non-used languages
             contextApp.LanguageSwitcher.viewModel.$el.find(".sc-actionMenu-item").not(".language-all").not(".selected").hide();
 
-            if (contextApp.LanguageSwitcher.viewModel.$el.find(".sc-actionMenu-item").not(".language-all").not(".selected").length == 1) {
+            if (contextApp.LanguageSwitcher.viewModel.$el.find(".sc-actionMenu-item.selected").not(".language-all").length == 1) {
+              languageSwitcher.set("isEnabledMenu", false);
+              languageSwitcher.viewModel.$el.find('a.btn').addClass("disabled");
+            }
+          } else {
+            contextApp.LanguageSwitcher.viewModel.$el.find(".sc-actionMenu-item").not(".language-all").not(".selected").show();
+
+            if (contextApp.LanguageSwitcher.viewModel.$el.find(".sc-actionMenu-item").not(".language-all").length > 1) {
+              languageSwitcher.set("isEnabledMenu", true);
+              languageSwitcher.viewModel.$el.find('a.btn').removeClass("disabled");
+            } else {
               languageSwitcher.set("isEnabledMenu", false);
               languageSwitcher.viewModel.$el.find('a.btn').addClass("disabled");
             }
@@ -127,29 +130,32 @@
         }
 
         function switchLanguage(messageId, language) {
-          if (!contextApp || !messageId || !language) {
-            return false;
-          }
-
-          var context = {
-            messageId: messageId,
-            language: language,
-            languageSwitched: false
-          };
-
-          postServerRequest("ecm.addlanguage.onlyswitch", context, function (response) {
-            if (response.error) {
-              context.currentContext.messageBar.addMessage("error", response.errorMessage);
-              context.aborted = true;
-              return;
+            if (!contextApp || !messageId || !language) {
+                return false;
             }
 
-            if (response.value) {
-              context.languageSwitched = true;
-            }
-          }, false);
-          console.log(context.language + " : " + context.languageSwitched);
-          return context.languageSwitched;
+            var context = {
+                messageId: messageId,
+                language: language
+            };
+
+            var languageSwitched = false;
+
+            postServerRequest("EXM/SwitchLanguage", context, function (response) {
+                if (response.error) {
+                    var messagetoAddError = { id: "error.ecm.language.switch", text: response.errorMessage, actions: [], closable: true };
+                    contextApp.MessageBar.addMessage("error", messagetoAddError);
+                    messageContext.refresh();
+                    context.aborted = true;
+                    return;
+                }
+
+                if (response.value) {
+                    languageSwitched = true;
+                }
+            }, false);
+
+            return languageSwitched;
         }
 
         function languageExists(newLanguage) {

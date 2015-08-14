@@ -1,5 +1,4 @@
 ﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js",
-  "/-/speak/v1/ecm/InsertToken.js",
   "/-/speak/v1/ecm/Cookies.js"]);
 
 function openSelectedMessage(listControl) {
@@ -46,7 +45,7 @@ function deleteSelectedMessage(dataSource, selectedItem, app, sitecore) {
   };
 
   var ctx = clone(app.currentContext);
-  
+
   sitecore.Pipelines.DeleteMessage.execute({ app: app, currentContext: ctx });
 }
 
@@ -56,10 +55,14 @@ function verifyMessage(sitecore, contextApp, actionName, callback) {
     contextApp.IncludedRecipientDataSource.set("messageId", messageId);
     contextApp.IncludedRecipientDataSource.viewModel.refresh();
 
-    if (actionName === "send" && hasNoRecipient(contextApp.IncludedRecipientDataSource)) {
+    if (actionName === "send" && hasNoRecipient(contextApp.IncludedRecipientDataSource, contextApp.MessageContext.get("messageType"))) {
       sitecore.trigger("alertdialog", contextApp.StringDictionary.get("ECM.Pages.Message.ThereIsNoRecipient"));
       return false;
     }
+  }
+
+  if (contextApp.MessageContext.get("messageType") === "Triggered") {
+    return true;
   }
 
   if (contextApp.ExcludedRecipientDataSource) {
@@ -72,24 +75,24 @@ function verifyMessage(sitecore, contextApp, actionName, callback) {
   }
 
   if (contextApp.IncludedRecipientDataSource || contextApp.ExcludedRecipientDataSource) {
-    var includedListsMessage = contextApp.StringDictionary.get("ECM.Pages.Message.ThereIsNoDefaultListAssignedForOptIn");
+    var includedListsMessage = contextApp.StringDictionary.get("ECM.Pages.Message.DefaultListsHaveNotBeenSpecifiedForThisMessage");
     var excludedListsMessage = contextApp.StringDictionary.get("ECM.Pages.Message.ThereIsNoDefaultListAssignedForOptOut");
 
     var verifyIncluded = verifyLists(includedListsMessage, sitecore, contextApp, callback, contextApp.IncludedRecipientDataSource);
     if (verifyIncluded) {
       return verifyLists(excludedListsMessage, sitecore, contextApp, callback, contextApp.ExcludedRecipientDataSource);
     }
-  } 
+  }
   return false;
 }
 
 function verifyLists(notification, sitecore, contextApp, callback, dataSource) {
   var recipientLists = dataSource.get("recipientLists");
-  if ((recipientLists.length == 0) || (recipientLists[0].default !== "Yes")) {
-    sitecore.trigger("default:list:confirmation:dialog:show", notification, function() {
+  if ((recipientLists.length == 0) || (recipientLists[0].default !== contextApp.StringDictionary.translate("ECM.Pages.Recipients.Yes"))) {
+    sitecore.trigger("default:list:confirmation:dialog:show", notification, function () {
       var recipientListType = dataSource.get("recipientListType");
       var sourceMessageId = dataSource.get("messageId");
-      sitecore.trigger("recipients:add:empty:list:dialog:show", function(messageId, listId, listType) {
+      sitecore.trigger("recipients:add:empty:list:dialog:show", function (messageId, listId, listType) {
         callback(sitecore, contextApp, messageId, listId, listType);
       }, sourceMessageId, recipientListType);
     });
@@ -98,11 +101,16 @@ function verifyLists(notification, sitecore, contextApp, callback, dataSource) {
   return true;
 }
 
-function hasNoRecipient(includedRecipientDataSource) {
+function hasNoRecipient(includedRecipientDataSource, messageType) {
+  if (messageType === "Triggered") {
+    return false;
+  }
+
   if (!includedRecipientDataSource) {
     return true;
   }
   var recipientLists = includedRecipientDataSource.get("recipientLists");
+
   for (var i = 0; i < recipientLists.length; i++) {
     if (recipientLists[i].recipients > 0) {
       return false;
@@ -128,7 +136,7 @@ function hasNoRecipientList(includedRecipientDataSource, excludedRecipientDataSo
 }
 
 function addCreatedEmptyList(sitecore, contextApp, messageId, listId, listType) {
-  postServerRequest("ecm.recipientlist.add", { messageId: messageId, recipientListId: listId, type: listType }, function (response) {
+    postServerRequest("EXM/AddRecipientList", { messageId: messageId, recipientListId: listId, type: listType }, function (response) {
     if (response.error) {
       return;
     }
@@ -139,9 +147,6 @@ function addCreatedEmptyList(sitecore, contextApp, messageId, listId, listType) 
 function saveMessage(messageContext, messageBar, language, app, sitecore) {
   if (!messageContext || !messageBar || !app)
     return false;
-
-  if (messageContext.get("isModified") == false)
-    return true;
 
   if (app.IncludedRecipientDataSource) {
     app.IncludedRecipientDataSource.viewModel.refresh();
@@ -170,6 +175,11 @@ function saveMessage(messageContext, messageBar, language, app, sitecore) {
     return false;
   }
   sitecore.Pipelines.SaveMessage.execute({ app: app, currentContext: context });
+
+  if (context.refreshMessageContext) {
+    messageContext.refresh();
+  }
+
   if (context.errorCount > 0) {
     return false;
   }
@@ -383,10 +393,11 @@ function messages_InitializeDefaultSettingsDialog(contextApp, sitecore, managerR
   };
 }
 
+// TODO: Re-factor dialogs initialization because of a big amount of duplicated code
 function messages_InitializeAlertDialog(contextApp, sitecore) {
-  sitecore.on("alertdialog", function(text) {
+  sitecore.on("alertdialog", function (text) {
     if (contextApp["AlertDialog"] === undefined) {
-      contextApp.insertRendering("{6F26F209-5DF3-4BA2-BBEE-D4A76B1010B7}", { $el: $("body") }, function(subApp) {
+      contextApp.insertRendering("{6F26F209-5DF3-4BA2-BBEE-D4A76B1010B7}", { $el: $("body") }, function (subApp) {
         contextApp["AlertDialog"] = subApp;
         sitecore.trigger("alertdialog:show", { text: text });
       });
@@ -397,7 +408,7 @@ function messages_InitializeAlertDialog(contextApp, sitecore) {
 }
 
 function messages_InitializeConfirmDialog(contextApp, sitecore) {
-  sitecore.on("confirmdialog", function(info) {
+  sitecore.on("confirmdialog", function (info) {
     if (contextApp["ConfirmDialog"] === undefined) {
       contextApp.insertRendering("{620AC309-7AAD-4D7E-8AE2-F7163AB0A45F}", { $el: $("body") }, function (subApp) {
         contextApp["ConfirmDialog"] = subApp;
@@ -410,7 +421,7 @@ function messages_InitializeConfirmDialog(contextApp, sitecore) {
 }
 
 function messages_InitializePromptDialog(contextApp, sitecore) {
-  sitecore.on("promptdialog", function(info) {
+  sitecore.on("promptdialog", function (info) {
     if (contextApp["PromptDialog"] === undefined) {
       contextApp.insertRendering("{42245841-8BC6-4879-9E61-06C6DFB5FF43}", { $el: $("body") }, function (subApp) {
         contextApp["PromptDialog"] = subApp;
@@ -423,18 +434,18 @@ function messages_InitializePromptDialog(contextApp, sitecore) {
 }
 
 function messages_InitializeAddAttachmentDialog(contextApp, sitecore, messageContext) {
-  sitecore.on("action:addattachment", function () {
+  sitecore.on("action:addattachment", function (callback) {
     if (contextApp["showAddAttachmentDialog"] === undefined) {
       contextApp.insertRendering("{26D93861-13E8-4416-8319-0D03094A19CB}", { $el: $("body") }, function (subApp) {
         contextApp["showAddAttachmentDialog"] = subApp;
-        addAttachmentDialogShow();
+        addAttachmentDialogShow(callback);
       });
     } else {
-      addAttachmentDialogShow();
+      addAttachmentDialogShow(callback);
     }
   });
-  
-  contextApp.on("action:addattachment", function() {
+
+  contextApp.on("action:addattachment", function () {
     sitecore.trigger("action:addattachment");
   });
 
@@ -446,17 +457,21 @@ function messages_InitializeAddAttachmentDialog(contextApp, sitecore, messageCon
     contextApp.MessageContext.viewModel.refresh();
   });
 
-  function addAttachmentDialogShow() {
-    sitecore.trigger("add:attachment:dialog:show", { messageId: messageContext.get("messageId"), language: messageContext.get("language") });
+  function addAttachmentDialogShow(callback) {
+    sitecore.trigger("add:attachment:dialog:show", { messageId: messageContext.get("messageId"), language: messageContext.get("language") }, callback );
   }
 }
 
 function messages_InitializeSaveAsSubscriptionDialog(contextApp, sitecore, messageContext) {
+  sitecore.on("change:messageContext", function () {
+    var saveAsSubscriptionAction = $('li[data-sc-actionid="0661D49FE0204040A255705AA20F67FA"]');
+    if (messageContext.get("messageType") !== "OneTime") {
+      saveAsSubscriptionAction.hide();
+    } else {
+      saveAsSubscriptionAction.show();
+    }
+  }, this);
 
-  if (window.location.pathname != "/sitecore/client/Applications/ECM/Pages/Messages/OneTime") {
-    $('li[data-sc-actionid="0661D49FE0204040A255705AA20F67FA"]').hide(); //"Save as a Subscription message template"
-    return;
-  }
   contextApp.on("action:saveassubscription", function () {
     if (contextApp["showSaveAsSubscriptionDialog"] === undefined) {
       contextApp.insertRendering("{2CCFF6B5-3FFA-4B15-AE62-F3A70E9FB48C}", { $el: $("body") }, function (subApp) {
@@ -469,7 +484,7 @@ function messages_InitializeSaveAsSubscriptionDialog(contextApp, sitecore, messa
   }, contextApp);
 
   function saveAsSubscriptionDialogShow() {
-    postServerRequest("ecm.saveassubscriptiontemplate.cansave", null, function (response) {
+    postServerRequest("EXM/CanSaveSubscriptionTemplate", null, function (response) {
       var errorMessageId = "error.ecm.saveassubscriptiontemplate.execute";
       contextApp.MessageBar.removeMessage(function (error) { return error.id === errorMessageId; });
       if (response.error) {
@@ -481,6 +496,59 @@ function messages_InitializeSaveAsSubscriptionDialog(contextApp, sitecore, messa
         messageContext: messageContext
       });
     }, false);
+  }
+}
+
+function messages_InitializePreviewRecipientsDialog(contextApp, sitecore, messageContext,  listenOnGlobalContext) {
+  (listenOnGlobalContext ? sitecore : contextApp).on("action:previewrecipients", function () {
+    if (contextApp["previewRecipientsDialog"] === undefined) {
+      contextApp.insertRendering("{C17EAA2B-CEBC-4A9B-8DF4-400F5B2774D0}", { $el: $("body") }, function (subApp) {
+        contextApp["previewRecipientsDialog"] = subApp;
+        sitecore.trigger("preview:recipients:dialog:show", {
+          contextApp: contextApp,
+          messageContext: messageContext
+        });
+      });
+    } else {
+      sitecore.trigger("preview:recipients:dialog:show", {
+        contextApp: contextApp,
+        messageContext: messageContext
+      });
+    }
+  }, contextApp);
+}
+
+function messages_InitializeAttachmentsDialog(contextApp, sitecore, messageContext, listenOnGlobalContext) {
+  (listenOnGlobalContext ? sitecore : contextApp).on("action:showattachments", function () {
+    if (contextApp["attachmentDialog"] === undefined) {
+      contextApp.insertRendering("{A15BAF11-07C0-494A-B6E5-FFA92085A995}", { $el: $("body") }, function (subApp) {
+        contextApp["attachmentDialog"] = subApp;
+        sitecore.trigger("attachments:dialog:show", {
+          contextApp: contextApp,
+          messageContext: messageContext
+        });
+      });
+    } else {
+      sitecore.trigger("attachments:dialog:show", {
+        contextApp: contextApp,
+        messageContext: messageContext
+      });
+    }
+  }, contextApp);
+}
+
+function messages_InitializePersonalizationTokenDialog(sitecore, contextApp) {
+  if (contextApp["personalizationTokenDialog"] === undefined) {
+    contextApp.insertRendering("{E20CE5D9-3766-4711-BD25-B0F907E60F7C}", { $el: $("body") }, function (subApp) {
+      contextApp["personalizationTokenDialog"] = subApp;
+      personalizationTokenDialogShow();
+    });
+  } else {
+    personalizationTokenDialogShow();
+  }
+
+  function personalizationTokenDialogShow() {
+    sitecore.trigger("personalization:token:dialog:show");
   }
 }
 
@@ -521,13 +589,14 @@ function messages_SaveBackButtons(sitecore, contextApp) {
     contextApp["addEmptyList"] = dialog;
   });
 
-  sitecore.on("message:save", function() {
-    contextApp.trigger("message:save");
+  sitecore.on("message:save", function (args) {
+    contextApp.trigger("message:save", args);
   });
 
-  contextApp.on("message:save", function () {
-    verifyMessage(sitecore, contextApp, "save", self.addCreatedEmptyList);
-    saveMessage(messageContext, messageBar, messageContext.get("language"), contextApp, sitecore);
+  contextApp.on("message:save", function (args) {
+    var verified = verifyMessage(sitecore, contextApp, "save", self.addCreatedEmptyList);
+    args.Verified = verified;
+    args.Saved = saveMessage(messageContext, messageBar, messageContext.get("language"), contextApp, sitecore);
   });
 
   $(window).on("beforeunload", function () {
@@ -540,8 +609,8 @@ function messages_SaveBackButtons(sitecore, contextApp) {
     }
 
     if (((contextApp.IncludedRecipientDataSource && (contextApp.IncludedRecipientDataSource.get("recipientLists").length > 0)) || (contextApp.ExcludedRecipientDataSource && (contextApp.ExcludedRecipientDataSource.get("recipientLists").length > 0))) &&
-       ((contextApp.ExcludedRecipientDataSource && ((contextApp.ExcludedRecipientDataSource.get("recipientLists").length == 0) || (contextApp.ExcludedRecipientDataSource.get("recipientLists")[0].default !== "Yes"))) ||
-       (contextApp.IncludedRecipientDataSource && (contextApp.IncludedRecipientDataSource.get("recipientLists").length == 0) || (contextApp.IncludedRecipientDataSource.get("recipientLists")[0].default !== "Yes")))) {
+       ((contextApp.ExcludedRecipientDataSource && ((contextApp.ExcludedRecipientDataSource.get("recipientLists").length == 0) || (contextApp.ExcludedRecipientDataSource.get("recipientLists")[0].default !== contextApp.StringDictionary.translate("ECM.Pages.Recipients.Yes")))) ||
+       (contextApp.IncludedRecipientDataSource && (contextApp.IncludedRecipientDataSource.get("recipientLists").length == 0) || (contextApp.IncludedRecipientDataSource.get("recipientLists")[0].default !== contextApp.StringDictionary.translate("ECM.Pages.Recipients.Yes"))))) {
       return contextApp.StringDictionary.get("ECM.Pages.Message.YourChangesHaveNotBeenSaved");
     }
   });
@@ -591,7 +660,6 @@ function ActivatePanel(contextApp, sitecore, selectedTab) {
   sitecore.trigger("mainApp", contextApp);
 
   contextApp.MessageContext.set("currentTabId", currentTabId);
-  contextApp.LanguageSwitcher.viewModel.updateViewByTabId(currentTabId);
 
   return panel;
 }
@@ -607,14 +675,22 @@ function LoadOrActivatePanel(panel) {
 }
 
 function GetLoadOnDemandPanels(contextApp) {
-  return [
+    if (contextApp.MessageContext.get("messageType") === "Triggered") {
+        return [
+            contextApp.GeneralTabLoadOnDemandPanel,
+            contextApp.MessageTabLoadOnDemandPanel,
+            contextApp.ReviewTabLoadOnDemandPanel,
+            contextApp.DeliveryTabLoadOnDemandPanel
+        ];
+    }
+
+    return [
         contextApp.GeneralTabLoadOnDemandPanel,
         contextApp.RecipientTabLoadOnDemandPanel,
         contextApp.MessageTabLoadOnDemandPanel,
         contextApp.ReviewTabLoadOnDemandPanel,
-        contextApp.DeliveryTabLoadOnDemandPanel,
-        contextApp.ReportsTabLoadOnDemandPanel
-  ];
+        contextApp.DeliveryTabLoadOnDemandPanel
+    ];
 }
 
 function messages_SetPreselectedTab(contextApp, sitecore) {
@@ -622,7 +698,7 @@ function messages_SetPreselectedTab(contextApp, sitecore) {
 
   if (selectedTab) {
     window.setTimeout(function () {
-     var tab = contextApp.TabControl.viewModel.tabs()[selectedTab];
+      var tab = contextApp.TabControl.viewModel.tabs()[selectedTab];
       if (tab) {
         var foundTab = contextApp.TabControl.viewModel.$el.find('[data-tab-id="' + tab + '"]');
         if (foundTab) {
@@ -632,8 +708,7 @@ function messages_SetPreselectedTab(contextApp, sitecore) {
 
       if (contextApp.MessageContext.get("isBusy")) {
         contextApp.MessageContext.once("change:isBusy",
-          function ()
-          {
+          function () {
             ActivatePanel(contextApp, sitecore, selectedTab);
           }
         );
@@ -660,4 +735,16 @@ function messages_setTimezoneCookie() {
       $.cookie(timezoneCookie, new Date().getTimezoneOffset());
     }
   }
+}
+
+function messages_isCreateMessageAlreadyClicked(value) {
+  var result = false;
+  if (!sessionStorage.createMessageName) {
+    sessionStorage.createMessageName = value;
+  } else {
+    if (sessionStorage.createMessageName === value) {
+      result = true;
+    }
+  }
+  return result;
 }

@@ -3,7 +3,7 @@
     priority: 3,
     execute: function (context) {
       context.currentContext.messageBar.removeMessage(function (error) { return error.id === "error.ecm.sendquicktest.execute"; });
-      postServerRequest("ecm.sendquicktest.execute", {
+      postServerRequest("EXM/ExecuteSendQuickTest", {
         messageId: context.currentContext.messageId,
         language: context.currentContext.language,
         variantIds: context.currentContext.variantIds,

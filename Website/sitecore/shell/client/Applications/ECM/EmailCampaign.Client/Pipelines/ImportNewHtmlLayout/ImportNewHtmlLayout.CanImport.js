@@ -2,7 +2,7 @@
   return {
     priority: 1,
     execute: function (context) {
-      postServerRequest("ecm.importnewhtmllayout.canimport", { messageTemplateId: context.currentContext.messageTemplateId, managerRootId: context.currentContext.managerRootId, messageName: context.currentContext.messageName }, function (response) {
+      postServerRequest("EXM/CanImportHtml", { messageTemplateId: context.currentContext.messageTemplateId, managerRootId: context.currentContext.managerRootId, messageName: context.currentContext.messageName }, function (response) {
         if (response.error) {
           context.currentContext.messageBar.addMessage("error", response.errorMessage);
           context.currentContext.errorCount = 1;

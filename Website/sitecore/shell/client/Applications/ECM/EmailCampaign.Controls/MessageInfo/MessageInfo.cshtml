@@ -2,46 +2,85 @@
 @using Sitecore.Modules.EmailCampaign.Core
 @using Sitecore.Mvc
 @using Sitecore.Mvc.Presentation
+@using Sitecore.Web
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
 @model RenderingModel
 @{
-    UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
 
-    rendering.Class = "sc-MessageInfo";
-    rendering.Requires.Script("client", "MessageInfo.js");
-    rendering.Requires.Css("ecm", "MessageInfo.css");
-    rendering.GetString("MessageId", "messageId");
-    
-    HtmlString htmlAttributes = rendering.HtmlAttributes;
-    string messageId = new GetMessageIdFromUrlService().GetMessageIdFromUrl(HttpContext.Current.Request.Url.OriginalString);
-    
-    var utcOffset = 0;
-    if (HttpContext.Current.Request.Cookies.AllKeys.Contains("utcOffset"))
+  rendering.Class = "sc-MessageInfo";
+  rendering.Requires.Script("client", "MessageInfo.js");
+  rendering.Requires.Css("ecm", "MessageInfo.css");
+  rendering.GetString("MessageId", "messageId");
+
+  string messageId = new GetMessageIdFromUrlService().GetMessageIdFromUrl(HttpContext.Current.Request.Url.OriginalString);
+
+  var utcOffset = 0;
+  if (HttpContext.Current.Request.Cookies.AllKeys.Contains("utcOffset"))
+  {
+    var httpCookie = HttpContext.Current.Request.Cookies["utcOffset"];
+    if (httpCookie != null)
     {
-      var httpCookie = HttpContext.Current.Request.Cookies["utcOffset"];
-      if (httpCookie != null)
-      {
-        utcOffset = Convert.ToInt32(httpCookie.Value);
-      }
+      utcOffset = Convert.ToInt32(httpCookie.Value);
     }
+  }
 
-    List<KeyValuePair<string, string>> valuePairs = new MessageInfoService().Get(messageId, utcOffset);
+  var language = "en";
+  if (HttpContext.Current.Request.Cookies.AllKeys.Contains("messageLanguage"))
+  {
+    var httpCookie = HttpContext.Current.Request.Cookies["messageLanguage"];
+    if (httpCookie != null)
+    {
+      language = httpCookie.Value;
+    }
+  }
+
+  if (string.IsNullOrEmpty(messageId))
+  {
+    WebUtil.Redirect("/sitecore/client/Applications/ECM/Pages/StartPage");
+    return;
+  }
+
+  List<KeyValuePair<string, string>> valuePairs = new MessageInfoService().Get(messageId, utcOffset, language);
 }
-<div @htmlAttributes>
-    <h3>
-        @EcmTexts.Localize(EcmTexts.MessageInfo)
-    </h3>
+<div @rendering.HtmlAttributes>
+  <h3>
+    @EcmTexts.Localize(EcmTexts.MessageInfo)
+  </h3>
 
-    <table class="sc-message-progress-table">
-        <tbody>
-            @foreach (KeyValuePair<string, string> element in valuePairs)
-            {
-                <tr>
-                    <td>@element.Key</td>
-                    <td class="sc-message-progress-value">@Html.Raw(element.Value)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+  <table class="sc-message-progress-table">
+    <tbody>
+      @foreach (KeyValuePair<string, string> element in valuePairs)
+      {
+        if ((element.Key == EcmTexts.Attachments || element.Key == EcmTexts.PreviewedForRecipient) && !string.IsNullOrEmpty(element.Value))
+        {
+          var valList = element.Value.Split('|');         
+          const string DialogLink = "DialogLink";
+          if (element.Key == EcmTexts.PreviewedForRecipient && valList.Length == 4 && valList[3].Split('=')[1] == "False")
+          {
+             <tr>
+              <td>@valList[0]</td>
+              <td class='sc-message-progress-value'>@Html.Raw(valList[1])</td>
+            </tr>
+          }
+          else if (element.Key == EcmTexts.Attachments && valList.Length == 3)
+          {
+            <tr>
+              <td>@valList[0]</td>
+              <td class='sc-message-progress-value'><a id="@element.Key+@DialogLink" title="@valList[2]">@Html.Raw(valList[1])</a></td>
+            </tr>
+          }
+        }
+        else
+        {
+        <tr>
+          <td>@element.Key</td>
+          <td class="sc-message-progress-value">@Html.Raw(element.Value)</td>
+        </tr>
+        }
+      }
+    </tbody>
+  </table>
 </div>
+

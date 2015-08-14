@@ -8,7 +8,7 @@
         return;
       }
       
-      postServerRequest("ecm.recipientlist.removebouncedrecipients", { recipientListId: context.recipientList.itemId, messageId: context.messageId }, function (response) {
+      postServerRequest("EXM/RemoveBouncedContacts", { recipientListId: context.recipientList.itemId, messageId: context.messageId }, function (response) {
         if (response.error) {
           sitecore.trigger("alertdialog", response.errorMessage);
           context.aborted = true;
