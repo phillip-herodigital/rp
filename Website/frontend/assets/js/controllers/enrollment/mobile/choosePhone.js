@@ -109,7 +109,7 @@
     }
 
     $scope.validateEsn = function() {
-        //if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '' && $scope.mobileEnrollmentSettings.validateSprintEsn) {
+        if (mobileEnrollmentService.selectedNetwork.value == 'sprint' && $scope.phoneOptions.imeiNumber != '' && $scope.mobileEnrollmentSettings.validateSprintEsn) {
             $scope.esnInvalid = true;
             $scope.esnError = false;
             var convertedImei = null;
@@ -141,14 +141,14 @@
                     }
                 }
             })
-        //} else {
-        //    $scope.esnError = false;
-         //   $scope.esnInvalid = false;
-       // }
+        } else {
+            $scope.esnError = false;
+            $scope.esnInvalid = false;
+        }
     }
 
     $scope.validateActivationCode = function () {
-        //if (mobileEnrollmentService.selectedNetwork.value == 'att' && $scope.phoneOptions.activationCode) {
+        if (mobileEnrollmentService.selectedNetwork.value == 'att' && $scope.phoneOptions.activationCode) {
             $scope.activationCodeInvalid = true;
 
             $http.post('/api/enrollment/validateActivationCode', $scope.phoneOptions.activationCode, { transformRequest: function (code) { return JSON.stringify(code); } })
@@ -166,11 +166,11 @@
                     $scope.phoneOptions.simNumber = activationCodeResponse;
                 }
             })
-        // } else {
-        //     $scope.activationCodeInvalid = false;
-        //     $scope.addDevice.activationCode.$setValidity('required', true);
-        //     $scope.validations = [];
-        // }
+        } else {
+            $scope.activationCodeInvalid = false;
+            $scope.addDevice.activationCode.$setValidity('required', true);
+            $scope.validations = [];
+        }
     }
 
     /** 
