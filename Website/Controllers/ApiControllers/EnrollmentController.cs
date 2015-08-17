@@ -553,16 +553,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await Initialize();
             
-            stateMachine.Context.PaymentInfo = request.PaymentInfo;
-            if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard)
-            {
-                ((DomainModels.Payments.TokenizedCard)stateMachine.Context.PaymentInfo).Name = stateMachine.Context.ContactInfo.Name.First + " " + stateMachine.Context.ContactInfo.Name.Last;
-            }
-            stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
-            stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
-            stateMachine.Context.W9BusinessData = request.W9BusinessData;
-
-            if (stateMachine.Context.Services == null)
+            if (stateMachine.Context.Services == null || stateMachine.Context.ContactInfo == null)
             {
                 Reset();
                 var redirectURL = "/enrollment";
@@ -572,6 +563,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 });
                 return null;
             }
+
+            stateMachine.Context.PaymentInfo = request.PaymentInfo;
+            if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard)
+            {
+                ((DomainModels.Payments.TokenizedCard)stateMachine.Context.PaymentInfo).Name = stateMachine.Context.ContactInfo.Name.First + " " + stateMachine.Context.ContactInfo.Name.Last;
+            }
+            stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
+            stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+            stateMachine.Context.W9BusinessData = request.W9BusinessData;
 
             foreach (var locationService in stateMachine.Context.Services)
             {
