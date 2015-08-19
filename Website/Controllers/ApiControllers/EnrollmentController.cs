@@ -561,18 +561,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
             stateMachine.Context.W9BusinessData = request.W9BusinessData;
-
-            if (stateMachine.Context.Services == null)
-            {
-                Reset();
-                var redirectURL = "/enrollment";
-                Request.CreateResponse(new
-                {
-                    Redirect = redirectURL
-                });
-                return null;
-            }
-
             foreach (var locationService in stateMachine.Context.Services)
             {
                 foreach (var offer in locationService.SelectedOffers)
