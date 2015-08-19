@@ -75,6 +75,10 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (!internalContext.CreditCheck.IsCompleted)
             {
                 internalContext.CreditCheck = await enrollmentService.EndCreditCheck(internalContext.CreditCheck);
+                if (!internalContext.CreditCheck.IsCompleted)
+                {
+                    return this.GetType();
+                }
             }
             return await base.InternalProcess(context, internalContext);
         }
