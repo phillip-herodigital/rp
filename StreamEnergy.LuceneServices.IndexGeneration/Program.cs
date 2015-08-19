@@ -30,8 +30,9 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 
             var cacheDirectory = new Lucene.Net.Store.MMapDirectory(new System.IO.DirectoryInfo(ConfigurationManager.AppSettings["LuceneCacheDirectory"]));
             var cloudConnectionString = ConfigurationManager.AppSettings["LuceneBlobStorage"];
-            
-            using (var azureDirectory = new Lucene.Net.Store.Azure.AzureDirectory(Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(cloudConnectionString), options.Destination, cacheDirectory))
+
+            System.IO.Directory.CreateDirectory(options.Destination);
+            using (var azureDirectory = Lucene.Net.Store.FSDirectory.Open(options.Destination))
             using (var indexer = BuildIndexer(options.Region))
             using (var indexBuilder = new IndexBuilder(azureDirectory, options.ForceCreate))
             {
