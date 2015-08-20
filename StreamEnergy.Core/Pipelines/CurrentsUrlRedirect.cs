@@ -22,7 +22,7 @@ namespace StreamEnergy.Pipelines
             var item = settings.GetSettingsItem("Currents Redirect");
             if (item != null && !string.IsNullOrEmpty(item["Redirect Enabled"]) && !string.IsNullOrEmpty(item["Redirect Domain"]))
             {
-                path = path.Substring("/currents".Length);
+                path = path.StartsWith("/currents/") ? path.Substring("/currents".Length) : "";
                 HttpContext.Current.Response.StatusCode = 302;
                 HttpContext.Current.Response.Redirect(item["Redirect Domain"] + path, true);
             }
