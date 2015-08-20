@@ -47,12 +47,26 @@ namespace StreamEnergy.Services.Clients
                                 RedactedData = "********" + entry.PaymentAccountNumberLast4,
                                 DisplayName = entry.PaymentMethodNickname,
                                 UnderlyingPaymentType = ToPortalPaymentType(entry.PaymentAccountType.ToString()),
+                                UnderlyingPaymentDisplayName = ToPortalPaymentDisplayName(entry.PaymentAccountType.ToString()),
                                 UnderlyingType = entry.PaymentAccountType.ToString(),
                             }
                     }).ToArray();
         }
 
         private string ToPortalPaymentType(string streamConnectPaymentType)
+        {
+            switch (streamConnectPaymentType)
+            {
+                case "Savings":
+                case "Checking":
+                    return TokenizedBank.Qualifier;
+                default:
+                case "Unknown":
+                    return TokenizedCard.Qualifier;
+            }
+        }
+
+        private string ToPortalPaymentDisplayName(string streamConnectPaymentType)
         {
             var bankPaymentMethod = taxonomy.Axes.GetItem("Payment Methods/TokenizedBank").Fields["Display Text"].Value;
             var cardPaymentMethod = taxonomy.Axes.GetItem("Payment Methods/TokenizedCard").Fields["Display Text"].Value;
