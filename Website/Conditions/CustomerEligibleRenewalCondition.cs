@@ -6,10 +6,11 @@ using Microsoft.Practices.Unity;
 using Sitecore.Rules.Conditions;
 using System.Threading.Tasks;
 using StreamEnergy.DomainModels.Accounts;
+using StreamEnergy.DomainModels.Payments;
 
 namespace StreamEnergy.MyStream.Conditions
 {
-    public class CustomerPaperlessBillingCondition<T> : WhenCondition<T>
+    public class CustomerEligibleRenewalCondition<T> : WhenCondition<T>
         where T : Sitecore.Rules.RuleContext
     {
         private readonly Injection dependencies;
@@ -24,29 +25,33 @@ namespace StreamEnergy.MyStream.Conditions
 
             [Dependency]
             public IAccountService accountService { get; set; }
+
+            [Dependency]
+            public IPaymentService paymentService { get; set; }
         }
         
-        public CustomerPaperlessBillingCondition()
+        public CustomerEligibleRenewalCondition()
         {
             dependencies = StreamEnergy.Unity.Container.Instance.Unity.Resolve<Injection>();
         }
 
-        public CustomerPaperlessBillingCondition(Injection injectedValue)
+        public CustomerEligibleRenewalCondition(Injection injectedValue)
         {
             dependencies = injectedValue;
         }
 
         protected override bool Execute(T ruleContext)
         {
-            var result = AsyncHelper.RunSync<bool>(() => isPaperlessBilling());
+            var result = AsyncHelper.RunSync<bool>(() => isEligibleReweal());
 
             return result;
         }
 
-        public async Task<bool> isPaperlessBilling()
+        public async Task<bool> isEligibleReweal()
         {
             ICurrentUser currentUser = dependencies.currentUser;
             IAccountService accountService = dependencies.accountService;
+            IPaymentService paymentService = dependencies.paymentService;
 
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             if(currentUser.Accounts != null)
@@ -55,8 +60,8 @@ namespace StreamEnergy.MyStream.Conditions
                 {
                     var account = currentUser.Accounts.FirstOrDefault();
                     var accountDetails = await accountService.GetAccountDetails(account, false);
-                    bool isPaperless = account.Details.BillingDeliveryPreference == "Email";
-                    return isPaperless;
+                    bool renewal = account.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible));
+                    return renewal;
                 }
                 else
                 {
