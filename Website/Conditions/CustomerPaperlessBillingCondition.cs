@@ -47,11 +47,14 @@ namespace StreamEnergy.MyStream.Conditions
 
         protected override bool Execute(T ruleContext)
         {
+            /*
             Task<bool[]> results = Task.WhenAll(isPaperlessBilling());
             if (results.Result.Count() > 0) {
                 return results.Result[0];
             }
-            return false;
+            */
+            var result = AsyncHelper.RunSync<bool>(() => isPaperlessBilling());
+            return result;
         }
 
         #region junk
