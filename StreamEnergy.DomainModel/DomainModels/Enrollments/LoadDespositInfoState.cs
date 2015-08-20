@@ -69,5 +69,23 @@ namespace StreamEnergy.DomainModels.Enrollments
                 internalContext.Deposit = (await enrollmentService.LoadOfferPayments(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context.Services, internalContext)).ToArray();
             }
         }
+
+        protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
+        {
+            if (!internalContext.CreditCheck.IsCompleted)
+            {
+                internalContext.CreditCheck = await enrollmentService.EndCreditCheck(internalContext.CreditCheck);
+                if (!internalContext.CreditCheck.IsCompleted)
+                {
+                    return this.GetType();
+                }
+            }
+            return await base.InternalProcess(context, internalContext);
+        }
+
+        public override bool ForceBreak(UserContext context, InternalContext internalContext)
+        {
+            return !internalContext.CreditCheck.IsCompleted;
+        }
     }
 }
