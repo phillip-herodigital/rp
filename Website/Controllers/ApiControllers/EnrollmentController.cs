@@ -553,7 +553,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await Initialize();
             
-            if (stateMachine.Context.Services == null || stateMachine.Context.ContactInfo == null)
+            if (stateMachine.Context.Services == null || stateMachine.Context.ContactInfo == null || request == null)
             {
                 Reset();
                 var redirectURL = "/enrollment";
