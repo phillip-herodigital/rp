@@ -117,7 +117,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<VerifyEsnResponseCode> ValidateEsn([FromBody]string esn)
+        public async Task<VerifyEsnResponse> ValidateEsn([FromBody]string esn)
         {
             return await enrollmentService.IsEsnValid(esn);
         }
@@ -572,7 +572,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
             stateMachine.Context.W9BusinessData = request.W9BusinessData;
-
             foreach (var locationService in stateMachine.Context.Services)
             {
                 foreach (var offer in locationService.SelectedOffers)

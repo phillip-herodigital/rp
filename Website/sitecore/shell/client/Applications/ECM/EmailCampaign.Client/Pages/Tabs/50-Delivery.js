@@ -13,11 +13,15 @@
         contextApp.updateLanguageName(contextApp);
       });
 
+      sitecore.on("change:messageContext:nonReadonly", function () {
+        contextApp.MessageContext.set("isReadonly", false);
+        contextApp.updateReadonly(contextApp);
+      });
+
       sitecore.trigger("change:messageContext");
     },
 
     updateReadonly: function (contextApp) {
-
       var isReadonly = contextApp.MessageContext.get("isReadonly");
 
       contextApp.ABVariantsSizeComboBox.set("isEnabled", !isReadonly);
@@ -42,8 +46,6 @@
       contextApp.AutomaticIntervalComboBox.set("isEnabled", !isReadonly);
       contextApp.AutomationBestValueRadioButton.set("isEnabled", !isReadonly);
       contextApp.AutomationOptionHighestRateRadioButton.set("isEnabled", !isReadonly);
-
-
     },
 
     setMessageId: function (contextApp) {

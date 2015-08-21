@@ -1,2 +1,0 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="DispatchOptionsHeader.ascx.cs" Inherits="Sitecore.EmailCampaign.Presentation.UI.DispatchOptionsHeader" %>
-<asp:Label runat="server" ID="AccordionHeaderLabel" />

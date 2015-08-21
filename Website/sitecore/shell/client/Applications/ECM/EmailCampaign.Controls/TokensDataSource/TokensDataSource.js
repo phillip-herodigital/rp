@@ -10,8 +10,13 @@
     success: function (data) {    
       this.set("tokens", data.comboBoxList);
     },
-    error: function() {
+    error: function(args) {
       console.log("ERROR");
+
+      if (args && args.status === 403) {
+        console.error("Not logged in, will reload page");
+        window.top.location.reload(true);
+      }
     },
     refresh: function () {
         this.getTokens();
@@ -20,8 +25,8 @@
       if (!this.isReady) { return; }
       var data = { managerRootId: sessionStorage.managerRootId, isOnlyNames: true };
       var options = {
-        url: "/-/speak/request/v1/" + this.get("request"),
-        data: "data=" + JSON.stringify(data),
+        url: "/sitecore/api/ssc/" + this.get("request"),
+        data: data,
         type: "POST",
         success: $.proxy(this.success, this),
         error: $.proxy(this.error, this)

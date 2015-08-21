@@ -1,0 +1,21 @@
+﻿@using Sitecore
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Class = "sc-AccountInformationExt";
+  rendering.Requires.Script("client", "AccountInformationExt.js");
+
+  var user = ClientHost.Context.User;
+
+  rendering.SetAttribute("data-sc-isadministrator", user.IsAdministrator);
+  rendering.SetAttribute("data-sc-isecmadvancedusers", user.IsInRole(@"sitecore\ecm advanced users"));
+  rendering.SetAttribute("data-sc-isecmusers", user.IsInRole(@"sitecore\ecm users"));
+  
+  var htmlAttributes = rendering.HtmlAttributes;
+}      
+<div @htmlAttributes>
+
+</div>

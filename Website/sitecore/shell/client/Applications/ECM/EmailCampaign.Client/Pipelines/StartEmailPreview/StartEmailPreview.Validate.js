@@ -2,7 +2,7 @@
 return {
     priority: 2,
     execute: function (context) {
-      postServerRequest("ecm.emailpreview.validate", {
+      postServerRequest("EXM/ValidateSelectedClients", {
         messageId: context.currentContext.messageId,
         language: context.currentContext.language,
         clients: context.currentContext.clientIds,
@@ -20,6 +20,7 @@ return {
           context.currentContext.messageBar.addMessage("error", messagetoAddError);
           context.currentContext.errorCount = 1;
           context.aborted = true;
+          setEmailPreviewCheckButtonViewLogic(context.app, false);
           return;
         }
 

@@ -1,7 +1,7 @@
 /* 
     Payments - One Time Payment Controller
  */
-ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', '$location', function ($scope, $http, $timeout, $location) {
     var ctrl = this;
     this.activeStep = 1;
     ctrl.selectedDate = new Date();

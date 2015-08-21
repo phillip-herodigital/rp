@@ -6,7 +6,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
-    $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
+    $scope.getCartTotal = enrollmentCartService.calculateConfirmationTotal;  
     $scope.customerType = '';
     $scope.confirmationSuccess = false;
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;

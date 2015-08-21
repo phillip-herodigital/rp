@@ -2,7 +2,7 @@
   return {
     priority: 4,
     execute: function (context) {
-      postServerRequest("ecm.copytodraft.getmessageurl", { value: context.messageId }, function (response) {
+      postServerRequest("EXM/MessageUrl", { value: context.messageId }, function (response) {
         if (response.error) {
           sitecore.trigger("alertdialog", response.errorMessage);
           context.aborted = true;

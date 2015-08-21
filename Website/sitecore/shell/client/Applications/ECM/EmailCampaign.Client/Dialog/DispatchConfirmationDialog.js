@@ -12,7 +12,7 @@
       var modalBodyArray = this.DispatchConfirmationDialog.viewModel.$el.find(".sc-dialogWindow-body");
       Array.prototype.filter.call(modalBodyArray, function (modalBodyElement) {
         $(modalBodyElement).css('overflow-y', 'auto');
-        $(modalBodyElement).css('max-height', '200px');
+        $(modalBodyElement).css('max-height', '160px');
       });
 
       this.MessageLanguageName.set("text", languageName);

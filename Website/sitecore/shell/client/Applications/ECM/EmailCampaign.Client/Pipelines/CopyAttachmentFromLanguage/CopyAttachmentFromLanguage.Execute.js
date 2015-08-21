@@ -2,7 +2,7 @@
 return {
     priority: 1,
     execute: function (context) {
-      var requestName = "ecm.addlanguage.copyattachmentfromlanguage";
+      var requestName = "EXM/CopyAttachmentFromLanguage";
       postServerRequest(requestName, {
         messageId: context.currentContext.messageId,
         fromLanguage: context.currentContext.fromLanguage,

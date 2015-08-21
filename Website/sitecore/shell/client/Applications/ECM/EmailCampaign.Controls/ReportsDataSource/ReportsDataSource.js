@@ -61,8 +61,13 @@
         this.trigger("updated");
       },
 
-      error: function () {
+      error: function (args) {
         console.log("ERROR");
+
+        if (args && args.status === 403) {
+          console.error("Not logged in, will reload page");
+          window.top.location.reload(true);
+        }
 
         this.set("results ", null);
         this.set("hasResults", false);
@@ -108,8 +113,8 @@
         var data = { language: this.get("language"), messageId: this.get("messageId"), pageIndex: pageIndex, pageSize: this.get("pageSize"), reportType: this.get("reportType"), search: this.get("search"), sorting: this.get("sorting") };
 
         var options = {
-          url: "/-/speak/request/v1/ecm.datasource.getappcenterreports",
-          data: "data=" + JSON.stringify(data),
+          url: "/sitecore/api/ssc/EXM/Reports",
+          data: data,
           type: "POST",
           success: $.proxy(this.success, this),
           error: $.proxy(this.error, this)

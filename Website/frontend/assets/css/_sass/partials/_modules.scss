@@ -96,6 +96,11 @@ article {
 				}
 			}			
 		}
+        .verisign-logo {
+            @include image-replace("bg/verisign-logo.png", "bg2x/verisign-logo.png");
+            float: right;
+            margin-right:20px;
+        }
 	}
 
 	.content {
@@ -554,6 +559,7 @@ article.account {
 	}
     .change-password {
         margin-top: -5px;
+        text-transform: none;
     }
     .change-password-fields {
         padding: 15px 15px 0;
@@ -822,11 +828,6 @@ article.utility-providers {
 }
 
 article.balances-payments {
-    .verisign-logo {
-            @include image-replace("bg/verisign-logo.png", "bg2x/verisign-logo.png");
-            float: right;
-            margin-right:20px;
-    }
 	.account-selector {
         background: #fbfbfb;
 		.group {
@@ -1480,7 +1481,7 @@ article.auth {
 	}	
 }
 article.payments {
-    margin: 20px 0;
+    margin: 0 0;
 	header {
 		h2.payment-accounts-header {
 			float: left;

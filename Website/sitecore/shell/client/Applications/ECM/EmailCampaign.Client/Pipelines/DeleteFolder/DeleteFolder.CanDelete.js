@@ -2,7 +2,7 @@
   return {
     priority: 1,
     execute: function (context) {
-      postServerRequest("ecm.deletefolder.candelete", { value: context.currentContext.folderId }, function (response) {
+      postServerRequest("EXM/CanDeleteFolder", { value: context.currentContext.folderId }, function (response) {
         if (response.error) {
           sitecore.trigger("alertdialog", response.errorMessage);
           return;

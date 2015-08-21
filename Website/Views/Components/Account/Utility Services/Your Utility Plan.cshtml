@@ -1,6 +1,10 @@
 ﻿<div ng-controller="AcctYourUtilityPlanCtrl" ng-cloak>
+    <article class="plain renew-plan" ng-if="!renewal">
+        <div>
+            @Html.Sitecore().Field("Renew Ineligible Intro")
+        </div>
+    </article>
     <div stream-connect-errors="AcctYourUtilityPlanCtrl"></div>
-
     <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && renewal">
         <div class="notice alert" loading-indicator>
             <div class="grid two">

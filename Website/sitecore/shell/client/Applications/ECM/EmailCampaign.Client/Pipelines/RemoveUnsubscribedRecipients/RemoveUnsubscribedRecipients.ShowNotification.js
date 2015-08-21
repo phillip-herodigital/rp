@@ -12,7 +12,7 @@
 
         switch (context.response[key]) {
           case "ok":
-            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveUnsubscribedJobStarted").replaceAll("{0}", recipientList[0].name);;
+            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveUnsubscribedJobStarted").replaceAll("{0}", recipientList[0].name);
             break;
           case "remove-unsubscribed-recipients-job-already-active":
             text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveUnsubscribedJobAlreadyRunning").replaceAll("{0}", recipientList[0].name);
@@ -27,7 +27,7 @@
             break;
         }
         if (text) {
-          var message = { id: "ecm.recipientlist.removeUnsubscribedrecipients", text: text, actions: [], closable: true };
+          var message = { id: "EXM/RemoveUnsubscribedContacts", text: text, actions: [], closable: true };
           context.messageBar.addMessage(type, message);
         }
       }

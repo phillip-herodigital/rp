@@ -441,6 +441,23 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .filter()
 		        .reduce(sum, 0);
         },
+        calculateConfirmationTotal: function () {
+            var depositType = '';
+            return _(services)
+                .pluck('offerInformationByType').flatten().filter()
+                .pluck('value').filter().pluck('offerSelections').flatten().filter(function(offerSelection){
+                    if (typeof offerSelection.depositType != 'undefined' && offerSelection.depositType != 'DepositWaived')
+                        return offerSelection;
+                }).map(function(offerSelection){ 
+                    if (typeof offerSelection.depositType != 'undefined' && typeof offerSelection.payments != 'undefined') {
+                        if (offerSelection.depositType == 'Deposit') 
+                            return _(offerSelection.payments.requiredAmounts).pluck('dollarAmount').flatten().filter().reduce();
+                        if (offerSelection.depositType == 'DepositAlternative') 
+                            return _(offerSelection.payments.requiredAmounts).pluck('depositAlternativeAmount').flatten().filter().reduce();
+                    }
+                }).filter()
+                .reduce(sum,0);
+        },
         cartHasTDU: function (tdu) {
             return _(services)
                .map(function (l) {

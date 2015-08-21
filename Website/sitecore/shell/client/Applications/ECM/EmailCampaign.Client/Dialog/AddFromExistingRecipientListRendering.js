@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/listmanager/SelectFolder.js", "/-/speak/v1/listmanager/guidGenerator.js",
+﻿define(["sitecore", "/-/speak/v1/listmanager/SelectFolder.js", "/-/speak/v1/ecm/guidGenerator.js",
 "/-/speak/v1/listmanager/SelectLists.js"], function (sitecore, selectFolder, guidGenerator, selectLists) {
   var self;
   return sitecore.Definitions.App.extend({
@@ -30,8 +30,8 @@
 
       self.ListNameTextBox.set("text", "");
       self.ListDescriptionTextArea.set("text", "");
-      self.ListDestinationTextBox.set("text", "/sitecore/system/List Manager/All Lists");
-      self.ListSelectListTextBox.set("text", "");
+      self.ListDestinationButtonTextBox.set("text", "/sitecore/system/List Manager/All Lists");
+      self.ListSelectListButtonTextBox.set("text", "");
 
       self.OKButton.viewModel.enable();
       self.AddListDialogWindow.show();
@@ -48,8 +48,8 @@
         return;
       }
 
-      var listDst = self.ListDestinationTextBox.get("text");
-      var selectList = self.ListSelectListTextBox.get("text");
+      var listDst = self.ListDestinationButtonTextBox.get("text");
+      var selectList = self.ListSelectListButtonTextBox.get("text");
       if (!selectList) {
         self.AddListMessageBar.addMessage("error", { id: "existinglistIsEmpty", text: sitecore.Resources.Dictionary.translate("ECM.Recipients.NoExistingListSelected"), actions: [], closable: true });
         return;
@@ -63,6 +63,12 @@
       $.ajax({
         url: url,
         data: data,
+        error: function (args) {
+          if (args.status === 403) {
+            console.error("Not logged in, will reload page");
+            window.top.location.reload(true);
+          }
+        },
         success: function () {
           self.hideAddListDialog();
           self.notify();
@@ -86,13 +92,13 @@
       self.AddListDialogWindow.hide();
       var callback = function (itemId, item) {
         if (typeof item != "undefined" && item != null) {
-          self.ListDestinationTextBox.set("text", (item.$path));
+          self.ListDestinationButtonTextBox.set("text", (item.$path));
         } else {
-          self.ListDestinationTextBox.set("text", "/sitecore/system/List Manager/All Lists");
+          self.ListDestinationButtonTextBox.set("text", "/sitecore/system/List Manager/All Lists");
         }
         self.AddListDialogWindow.show();
       };
-      selectFolder.SelectFolder(callback, "{BC799B34-8423-48AC-A2FE-D128E6300659}", self.ListDestinationTextBox.get("text"));
+      selectFolder.SelectFolder(callback, "{BC799B34-8423-48AC-A2FE-D128E6300659}", self.ListDestinationButtonTextBox.get("text"));
     },
 
     showSelectListDialog: function () {
@@ -102,7 +108,7 @@
       self.AddListDialogWindow.hide();
       var callback = function (itemId, item) {
         if (typeof item != "undefined" && item != null) {
-          self.ListSelectListTextBox.set("text", (item.Name));
+          self.ListSelectListButtonTextBox.set("text", (item.Name));
           self.existingList = item;
         }
         self.AddListDialogWindow.show();

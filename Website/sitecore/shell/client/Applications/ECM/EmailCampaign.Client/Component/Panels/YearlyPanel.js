@@ -135,23 +135,23 @@
         if (this.isDayOfMonthMode) {
           this.YearlyOnDayTextBox.set("text", yearly.dayOfMonth);
 
-          this.YearlyMonthComboBox.on("change:items", function () {
-            this.setSelectedItem("YearlyMonthComboBox", yearly.month);
+          this.YearlyMonthComboBox.on("change:items", function (combobox) {
+            this.setSelectedItem(combobox, yearly.month);
           }, this);
 
           this.YearlyOnRadioButton.set("isChecked", true);
         } else {
 
-          this.YearlyCounterComboBox.on("change:items", function () {
-            this.setSelectedItem("YearlyCounterComboBox", yearly.weekOfMonth);
+          this.YearlyCounterComboBox.on("change:items", function (combobox) {
+            this.setSelectedItem(combobox, yearly.weekOfMonth);
           }, this);
 
-          this.YearlyDaysOfWeekComboBox.on("change:items", function () {
-            this.setSelectedItem("YearlyDaysOfWeekComboBox", yearly.days);
+          this.YearlyDaysOfWeekComboBox.on("change:items", function (combobox) {
+            this.setSelectedItem(combobox, yearly.days);
           }, this);
 
-          this.YearlyMonthComboBox2.on("change:items", function () {
-            this.setSelectedItem("YearlyMonthComboBox2", yearly.month);
+          this.YearlyMonthComboBox2.on("change:items", function (combobox) {
+            this.setSelectedItem(combobox, yearly.month);
           }, this);
 
           this.YearlyOnTheRadioButton.set("isChecked", true);
@@ -159,8 +159,7 @@
       }
     },
 
-    setSelectedItem: function (comboboxName, value) {
-      var combobox = this[comboboxName];
+    setSelectedItem: function (combobox, value) {
       var items = combobox.get("items");
       var item = items.filter(function (e) {
         return e.Value === value.toString();
