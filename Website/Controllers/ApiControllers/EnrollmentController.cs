@@ -553,6 +553,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await Initialize();
             
+            if (stateMachine.Context.Services == null || stateMachine.Context.ContactInfo == null || request == null)
+            {
+                Reset();
+                var redirectURL = "/enrollment";
+                Request.CreateResponse(new
+                {
+                    Redirect = redirectURL
+                });
+                return null;
+            }
+
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
             if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard)
             {
