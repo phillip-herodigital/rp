@@ -151,6 +151,23 @@ ul, ol {
 		}
 	}
 }
+.paperless-checkbox {
+
+    input {
+        float:left;
+    }
+    p {
+       span {
+           margin-left:5px;
+           margin-right:5px;
+       }
+            float:left;
+            width:95%;
+            text-transform: none;
+            margin-top:0;
+    }
+
+}
 
 @include breakpoint(small) {
 	.hide-small {

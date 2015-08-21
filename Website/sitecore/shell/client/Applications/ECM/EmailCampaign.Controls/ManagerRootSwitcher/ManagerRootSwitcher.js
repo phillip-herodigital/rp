@@ -19,7 +19,7 @@
       var select = "a.root-item[data-root-id=\'" + this.getManagerRootId() + "\']";
       var currentLink = this.$el.find(select).first();
       if (currentLink) {
-        this.$el.find(".js-managerroot-btn").find("span:first").text(currentLink.text().toUpperCase());
+        this.$el.find(".js-managerroot-btn").find("span:first").text(currentLink.text());
 
         $.each(this.$el.find("a.root-item"), function () {
           if ($(this).text() == currentLink.text()) {
@@ -67,7 +67,7 @@
       $(event.target).addClass("current");
       
       sessionStorage.managerRootId = rootId;
-      this.$el.find(".js-managerroot-btn").find("span:first").text($(event.target).text().toUpperCase());
+      this.$el.find(".js-managerroot-btn").find("span:first").text($(event.target).text());
       this.model.set("managerRootId", rootId);
       this.toggleContextMenu();
     }

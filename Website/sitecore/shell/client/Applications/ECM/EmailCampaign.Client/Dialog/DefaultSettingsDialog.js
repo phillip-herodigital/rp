@@ -20,6 +20,9 @@ define(dependencies, function (sitecore, selectLists) {
       this.BaseUrlTextBox.on("change:text", function () {
         dialog.OK.set("isEnabled", !!dialog.validate_BaseUrlIsValid(this.get("text"), dialog.MessageBar));
       });
+      this.PreviewBaseUrlTextBox.on("change:text", function () {
+        dialog.OK.set("isEnabled", !!dialog.validate_PreviewBaseUrlIsValid(this.get("text"), dialog.MessageBar));
+      });
       this.FromAddressTextBox.on("change:text", function () {
         dialog.OK.set("isEnabled", !!dialog.validate_FromAddressIsValid(this.get("text"), dialog.FromNameTextBox.get("text"), dialog.MessageBar));
       });
@@ -59,44 +62,52 @@ define(dependencies, function (sitecore, selectLists) {
       }
     },
     save: function () {
-      var dialog = this;
       if (!this.validate()) {
         return;
       }
       
+      var dialog = this;
       var result = true;
-      
+
       var defaultSettingsContext = {
         baseUrl: this.BaseUrlTextBox.get("text"),
+        previewBaseUrl: this.PreviewBaseUrlTextBox.get("text"),
         fromAddress: this.FromAddressTextBox.get("text"),
         fromName: this.FromNameTextBox.get("text").escapeAmpersand(),
         replyTo: this.ReplyToTextBox.get("text"),
         globalOptOutListId: dialog.globalOptOutListId,
         managerRootId: sessionStorage.managerRootId
       };
-      postServerRequest("ecm.defaultsettings.save", defaultSettingsContext, function (response) {
+      
+      postServerRequest("EXM/SaveDefaultSettings", defaultSettingsContext, function (response) {
         if (response.error) {
+          result = false;
           sitecore.trigger("alertdialog", response.errorMessage);
           return;
         }
+        
         if (!response.value) {
           result = false;
-           dialog.MessageBar.addMessage("error", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.NotSaved"));
+          dialog.MessageBar.addMessage("error", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.NotSaved"));
         }
       }, false);
-      dialog.MessageBar.set("isVisible", !result);
+      
       if (!result) {
+        dialog.MessageBar.set("isVisible", true);
         return;
       }
+      
       this.hideDialog();
     },
     validate: function () {
       var dialog = this;
       var result = true;
+      
       dialog.MessageBar.removeMessages();
-      // can we save the default settings
-      postServerRequest("ecm.defaultsettings.cansave", null, function (response) {
+      
+      postServerRequest("EXM/CanSaveDefaultSettings", null, function (response) {
         if (response.error) {
+          result = false;
           dialog.MessageBar.addMessage("error", response.errorMessage);
           return;
         }
@@ -106,42 +117,55 @@ define(dependencies, function (sitecore, selectLists) {
           dialog.MessageBar.addMessage("error", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.DoNotHavePermission"));
         }
       }, false);
+      
+      if (!result) {
+        dialog.MessageBar.set("isVisible", true);
+        return false;
+      }
 
       var defaultSettingsContext = {
         baseUrl: this.BaseUrlTextBox.get("text"),
+        previewBaseUrl: this.PreviewBaseUrlTextBox.get("text"),
         fromAddress: this.FromAddressTextBox.get("text"),
         replyTo: this.ReplyToTextBox.get("text")
       };
-      postServerRequest("ecm.defaultsettings.validate", defaultSettingsContext, function (response) {
+      
+      postServerRequest("EXM/ValidateDefaultSettings", defaultSettingsContext, function (response) {
         if (response.error) {
+          result = false;
           dialog.MessageBar.addMessage("error", response.errorMessage);
           return;
         }
+        
         if (!response.value) {
           result = false;
           dialog.MessageBar.removeMessage(function (error) { return error.id === "notSavedMessage"; });
           dialog.validate_BaseUrlIsValid(dialog.BaseUrlTextBox.get("text"), dialog.MessageBar);
+          dialog.validate_PreviewBaseUrlIsValid(dialog.PreviewBaseUrlTextBox.get("text"), dialog.MessageBar);
           dialog.validate_FromAddressIsValid(dialog.FromAddressTextBox.get("text"), null, dialog.MessageBar);
           dialog.validate_FromNameIsValid(dialog.FromNameTextBox.get("text"), dialog.FromAddressTextBox.get("text"), dialog.MessageBar);
           dialog.validate_ReplyToIsValid(dialog.ReplyToTextBox.get("text"), dialog.MessageBar);
-          if (dialog.MessageBar.get("errors").length < 1) {
+          if (dialog.MessageBar.get("errors").length === 0) {
             dialog.MessageBar.addMessage("error", createErrorMessage("notSavedMessage", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.NotSaved")));
           }
-          dialog.OK.set("isEnabled", result);
+          
+          dialog.OK.set("isEnabled", false);
         }
       }, false);
+      
       dialog.MessageBar.set("isVisible", !result);
       return result;
     },
     refresh: function () {
       var dialog = this;
       dialog.MessageBar.removeMessages();
-      postServerRequest("ecm.defaultsettings.get", { value: sessionStorage.managerRootId }, function (response) {
+      postServerRequest("EXM/LoadDefaultSettings", { value: sessionStorage.managerRootId }, function (response) {
         if (response.error) {
           dialog.MessageBar.addMessage("error", response.errorMessage);
           return;
         }
         dialog.BaseUrlTextBox.set("text", response.baseUrl);
+        dialog.PreviewBaseUrlTextBox.set("text", response.previewBaseUrl);
         dialog.FromAddressTextBox.set("text", response.fromAddress);
         dialog.FromNameTextBox.set("text", response.fromName);
         dialog.ReplyToTextBox.set("text", response.replyTo);
@@ -151,7 +175,7 @@ define(dependencies, function (sitecore, selectLists) {
     },
     firstrun: function () {
       // check if we should show the dialog or not...
-      postServerRequest("ecm.defaultsettings.firstusofecm", null, function (response) {
+      postServerRequest("EXM/FirstUsage", null, function (response) {
         if (response.error) {
           sitecore.trigger("alertdialog", response.errorMessage);
           return;
@@ -164,36 +188,110 @@ define(dependencies, function (sitecore, selectLists) {
       });  
     },
     validate_BaseUrlIsValid: function(url, messageBar) {
-      if (!messageBar) { return false; }
-      var baseUrlMessage = createErrorMessage("baseUrlMessage", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.BaseUrlRequired"));
+      if (!messageBar) {
+        return false;
+      }
+      
       messageBar.removeMessage(function (error) { return error.id === "notSavedMessage"; });
+      
+      var baseUrlMessage = createErrorMessage("baseUrlMessage", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.BaseUrlRequired"));
       var result = isRequired(url, baseUrlMessage, messageBar);
-      if (!result) { return result; }
-      return urlIsValid(url, baseUrlMessage, messageBar);
+      if (!result) {
+        messageBar.set("isVisible", true);
+        return false;
+      }
+      
+      baseUrlMessage = createErrorMessage("baseUrlMessage", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.BaseUrlNotValid"));
+      result = urlIsValid(url, baseUrlMessage, messageBar);
+      if (!result) {
+        messageBar.set("isVisible", true);
+      }
+
+      return result;
+    },
+    validate_PreviewBaseUrlIsValid: function (url, messageBar) {
+      if (!messageBar) {
+        return false;
+      }
+
+      messageBar.removeMessage(function (error) { return error.id === "notSavedMessage"; });
+
+      var baseUrlMessage = createErrorMessage("previewBaseUrlMessage", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.PreviewBaseUrlNotValid"));
+
+      var result = !url || urlIsValid(url, baseUrlMessage, messageBar);
+      if (!result) {
+        messageBar.set("isVisible", true);
+      } else {
+        messageBar.removeMessage(function (error) { return error.id === baseUrlMessage.id; });
+      }
+
+      return result;
     },
     validate_FromAddressIsValid: function(email, name, messageBar) {
-      if (!messageBar) { return false; }
-      var fromEmailMessage = createErrorMessage("fromEmailMessage", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.FromAddressRequired"));
+      if (!messageBar) {
+        return false;
+      }
+      
       messageBar.removeMessage(function (error) { return error.id === "notSavedMessage"; });
+      
+      var fromEmailMessage = createErrorMessage("fromEmailMessage", sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.FromAddressRequired"));
       var result = isRequired(email, fromEmailMessage, messageBar);
-      if (!result) { return result; }
+      if (!result) {
+        messageBar.set("isVisible", true);
+        return false;
+      }
+      
       result = emailIsValid(email, fromEmailMessage, messageBar);
-      if (!result || name==null) { return result; }
-      return fromNameIsValid(name, email, messageBar, sitecore);
+      if (!result) {
+        messageBar.set("isVisible", true);
+        return false;
+      }
+      
+      if (name == null) {
+        return true;
+      }
+      
+      result = fromNameIsValid(name, email, messageBar, sitecore);
+      if (!result) {
+        messageBar.set("isVisible", true);
+      }
+
+      return result;
     },
     validate_FromNameIsValid: function(name, email, messageBar) {
-      if (!messageBar) { return false; }
+      if (!messageBar) {
+        return false;
+      }
+      
       messageBar.removeMessage(function (error) { return error.id === "notSavedMessage"; });
-      return fromNameIsValid(name, email, messageBar, sitecore);
+      
+      var result = fromNameIsValid(name, email, messageBar, sitecore);
+      if (!result) {
+        messageBar.set("isVisible", true);
+      }
+
+      return result;
     },
     validate_ReplyToIsValid: function (email, messageBar) {
-      if (!messageBar) { return false; }
+      if (!messageBar) {
+        return false;
+      }
+      
       var messageErrorId = "replyToMessage";
       messageBar.removeMessage(function (error) { return error.id === messageErrorId; });
       messageBar.removeMessage(function (error) { return error.id === "notSavedMessage"; });
-      if (email == "") { return true; }
+
+      if (email == "") {
+        return true;
+      }
+      
       var replyToMessage = createErrorMessage(messageErrorId, sitecore.Resources.Dictionary.translate("ECM.DefaultSettings.ReplyToNotValid"));
-      return emailIsValid(email, replyToMessage, messageBar);
+      var result = emailIsValid(email, replyToMessage, messageBar);
+      if (!result) {
+        messageBar.set("isVisible", true);
+      }
+
+      return result;
     }
   });
 });

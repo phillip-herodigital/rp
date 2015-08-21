@@ -10,7 +10,7 @@
       for (var i = 0; i < context.recipientLists.length; i++) {
         itemIds[i] = context.recipientLists[i].itemId;
       }
-      postServerRequest("ecm.recipientlist.removeunsubscribedrecipients", { recipientListIds: itemIds, messageId: context.messageId }, function(response) {
+      postServerRequest("EXM/RemoveUnsubscribedContacts", { recipientListIds: itemIds, messageId: context.messageId }, function (response) {
         if (response.error) {
           sitecore.trigger("alertdialog", response.errorMessage);
           context.aborted = true;

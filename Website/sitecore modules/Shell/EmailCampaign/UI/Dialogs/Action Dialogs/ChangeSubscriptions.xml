@@ -8,18 +8,7 @@
                 Text="Select the recipients lists that the visitor should be subscribed to those that the visitor should be opted out of.">
 
       <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.ActionDialogs.ChangeSubscriptions,Sitecore.EmailCampaign"/>
-
-      <style type="text/css">
-        th.scListviewViewDetailsHeader
-        {
-        display:none;
-        }
-
-        #TargetAudiencesTree ul
-        {
-        margin-left:-18px;
-        }
-      </style>
+      <Stylesheet runat="server" Src="/sitecore modules/shell/EmailCampaign/UI/Dialogs/Action Dialogs/ChangeSubscriptions.css" Placeholder="Stylesheets" />
 
       <script type="text/javascript">
         document.observe("dom:loaded", function () {
@@ -40,53 +29,52 @@
         })
       </script>
 
-      <GridPanel Columns="2" Cellspacing="2">
-        <Border>
-          <Label Header="Recipient Lists:" Style="display: block;" />
-          <Space Height="4"/>
-          <Scrollbox Width="244" Height="320" Background="white" Border="1px solid #ADADAD" Padding="0">
+      <GridPanel Columns="2" Cellspacing="2" Class="MainGridPanel">
+        <Border Class="MainGridPanelBorder">
+          <Label Header="Recipient Lists:" Class="MainGridPanelLabel" />
+          <Scrollbox Class="ContactListScrollbox" >
             <FilterableTreeView ID="TargetAudiencesTree" ChildrenOnly="true" Expanded="true" AllowMultiSelect="true"/>
           </Scrollbox>
         </Border>
 
-        <GridPanel Columns="2" Cellspacing="2">
+        <GridPanel Columns="2" Cellspacing="2" Class="ContactListsGrid">
           <Literal />
-          <Label Header="Subscribe To:" />
+          <Label Header="Subscribe To:" Class="ContactListScrollboxLabel" />
 
-          <Border GridPanel.VAlign="Top" Style="padding: 3px 2px 0px 2px;">
+          <Border GridPanel.VAlign="Top" Class="ContactListSelectedBorder">
             <Border Click="SubscribeIn_Click">
-              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_right.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_right.png", ImageDimension.id16x16)}' Class="ContactListSelectionButton" Alt="" />
             </Border>
             <Space Height="4"/>
             <Border Click="SubscribeOut_Click">
-              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_left.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_left.png", ImageDimension.id16x16)}' Class="ContactListSelectionButton" Alt="" />
             </Border>
           </Border>
 
-          <Scrollbox Width="244" Height="149" Background="white" Border="1px solid #ADADAD" Padding="0">
-            <Listview ID="SubscribeTo" Height="100%" View="Details" MultiSelect="true" DblClick="SubscribeOut_Click" />
+          <Scrollbox Class="ContactListScrollboxSelected">
+            <Listview ID="SubscribeTo" Class="ContactListSelectedListView" View="Details" MultiSelect="true" DblClick="SubscribeOut_Click" />
           </Scrollbox>
 
           <Literal />
-          <Label Header="Opt-out Of:" />
+          <Label Header="Opt-out Of:" Class="ContactListScrollboxLabel" />
 
-          <Border GridPanel.VAlign="Top" Style="padding: 3px 2px 0px 2px;">
+          <Border GridPanel.VAlign="Top" Class="ContactListSelectedBorder">
             <Border Click="OptOutIn_Click">
-              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_right.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_right.png", ImageDimension.id16x16)}' Alt="" Class="ContactListSelectionButton"/>
             </Border>
             <Space Height="4"/>
             <Border Click="OptOutOut_Click">
-              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_left.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_left.png", ImageDimension.id16x16)}' Alt="" Class="ContactListSelectionButton" />
             </Border>
           </Border>
 
-          <Scrollbox Width="244" Height="149" Backgroud="white" Border="1px solid #ADADAD" Padding="0">
-            <Listview ID="OptOutOf" Height="100%" View="Details" MultiSelect="true" DblClick="OptOutOut_Click" />
+          <Scrollbox Class="ContactListScrollboxSelected">
+            <Listview ID="OptOutOf" Class="ContactListSelectedListView" View="Details" MultiSelect="true" DblClick="OptOutOut_Click" />
           </Scrollbox>
         </GridPanel>
       </GridPanel>
 
-      <Space Height="10" />
+      <Space Height="20" />
 
       <Border>
 

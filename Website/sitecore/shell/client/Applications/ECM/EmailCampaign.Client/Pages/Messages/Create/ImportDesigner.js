@@ -20,18 +20,26 @@
         return;
       }
 
-      contextApp.NameTextBox.viewModel.$el.on("keyup", function () {
-        contextApp.NameTextBox.viewModel.$el.change();
-        var name = contextApp.NameTextBox.viewModel.$el.val();
+      sessionStorage.removeItem("createMessageName");
+
+      contextApp.NameTextBox.viewModel.$el.on("keyup", function (e) {
+        $(this).change();
+        var createButtonViewModel = contextApp.CreateButton.viewModel;
         var designName = contextApp.DesignImporterItemTextBox.get("text");
-        if (!name) {
-          contextApp.CreateButton.viewModel.disable();
+        var value = $(this).val();
+        if (!value) {
+          createButtonViewModel.disable();
         } else if (designName) {
-          contextApp.CreateButton.viewModel.enable();
+          createButtonViewModel.enable();
+          if (e.keyCode === 13) {
+            createButtonViewModel.disable();
+            if (messages_isCreateMessageAlreadyClicked(value)) { return; }
+            contextApp.trigger("createmessage:create");
+          }
         }
       });
 
-      contextApp.DesignImporterItemTextBox.viewModel.$el.on("keyup", function () {
+      contextApp.DesignImporterItemTextBox.viewModel.$el.on("keyup", function (e) {
         contextApp.DesignImporterItemTextBox.viewModel.$el.change();
         var name = contextApp.NameTextBox.viewModel.$el.val();
         var designName = contextApp.DesignImporterItemTextBox.get("text");
@@ -39,6 +47,9 @@
           contextApp.CreateButton.viewModel.disable();
         } else if (name) {
           contextApp.CreateButton.viewModel.enable();
+          if (e.keyCode == 13) {
+            contextApp.trigger("createmessage:create");
+          }
         }
       });
 
@@ -90,7 +101,7 @@
         var parameters = JSON.parse(sessionStorage.createMessageParameters);
         var rootId = contextApp.EmailManagerRoot.get("managerRootId");
         var templateId = sessionStorage.newMessageTemplateId;
-        var messageTypeTemplateId = parameters.messageTypeTemplateId;;
+        var messageTypeTemplateId = parameters.messageTypeTemplateId;
 
         contextApp.currentContext = {
           messageTemplateId: templateId,

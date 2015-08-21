@@ -726,16 +726,6 @@
     <tr ng-if="payment.depositAlternativeEligible">
         <td colspan="2"><div class="seperator">@Html.Sitecore().Field("Or Text")</div></td>
     </tr>
-    <tr class="ez-pay">
-        <td class="sub-charge">
-            <label>@Html.Sitecore().Field("EZ Pay")</label>
-            @Html.Sitecore().Field("EZ Pay Explanation")
-        </td>
-        <td class="rate"><strong>@Html.Sitecore().Field("EZ Pay Price")</strong></td>
-    </tr>
-    <tr>
-        <td colspan="2"><div class="seperator">@Html.Sitecore().Field("Or Text")</div></td>
-    </tr>
     <tr>
         <td class="sub-charge">
             <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.depositOption" value="deposit" />

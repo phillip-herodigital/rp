@@ -489,7 +489,7 @@ $local-meeting-color: #00a8e1;
             padding: 20px 20px 0;
             overflow: hidden;
             background: #000;
-            @include opacity(.80);
+            @include opacity(.70);
             .article-date {
                 @include retina-background('calendar-small.png', 'icon');
                 background-position: top left;
@@ -797,7 +797,7 @@ $local-meeting-color: #00a8e1;
             ul {
                 @include inline-block-list();
                 li {
-                    margin: 0 25px;
+                    margin: 0 20px;
                     a {
                         font-size: 16px;
                         text-transform: uppercase;

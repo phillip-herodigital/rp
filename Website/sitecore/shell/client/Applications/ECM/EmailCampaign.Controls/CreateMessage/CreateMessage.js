@@ -13,16 +13,87 @@
       "click .sc-createmessage-item": "onClickCreateMessageItem",
       "click .sc-createmessage-folder": "onClickCreateMessageItemFolder",
       "click .sc-goback": "onClickGoBack",
+      "click .sc-createmessage-existingpage": "onClickExistingPage",
+      "click .sc-createmessage-existingtemplate": "onClickExistingTemplate",
+      "click .sc-createmessage-importhtml": "onClickimporthtml"
     },
 
     initialize: function() {
       this._super();
       this.model.on("change:dataSourceValue", this.onDataSourceChanged, this);
+      $("[data-sc-id=UploaderRowPanel]").hide();
+      $("[data-sc-id=UploaderSpaceBorder]").hide();
     },
-    onClickCreateMessageItem: function(event) {
+
+    setActiveOption: function(event) {
+      $(".sc-createmessage-option").removeClass("active");
+      if (!event.target) {
+        return;
+      }
+      $(event.target).closest(".sc-createmessage-option").addClass("active");
+    },
+
+    onClickCreateMessageItem: function (event) {
       var parameters = this.get(event.target, "sc-messageparameters");
       var url = this.get(event.target, "sc-messageurl");
-      sitecore.trigger("create:message:click", { parameters: parameters, url: url });
+      sitecore.trigger("create:message:click", { parameters: parameters, url: url, app: this.app });
+    },
+
+    onClickExistingPage: function (event) {
+      this.app.NameLabel.set("isVisible", false);
+      this.app.NameTextBox.set("isVisible", false);
+
+      this.app.ImportNameLabel.set("isVisible", true);
+      this.app.ImportNameTextBox.set("isVisible", true);
+
+      this.app.BrowseNameLabel.set("isVisible", true);
+      this.app.BrowseTextBox.set("isVisible", true);
+
+
+      this.app.UploaderInfo.set("isVisible", false);
+      this.app.Uploader.set("isVisible", false);
+
+      $("[data-sc-id=UploaderRowPanel]").hide();
+      $("[data-sc-id=UploaderSpaceBorder]").hide();
+      this.setActiveOption(event);
+    },
+
+    onClickExistingTemplate: function (event) {
+      this.app.NameLabel.set("isVisible", true);
+      this.app.NameTextBox.set("isVisible", true);
+
+      this.app.ImportNameLabel.set("isVisible", false);
+      this.app.ImportNameTextBox.set("isVisible", false);
+
+      this.app.BrowseNameLabel.set("isVisible", false);
+      this.app.BrowseTextBox.set("isVisible", false);
+      $("[data-sc-id=UploaderRowPanel]").hide();
+     
+      this.app.UploaderInfo.set("isVisible", false);
+      this.app.Uploader.set("isVisible", false);
+
+      var nameTextBoxViewModel = this.app.NameTextBox.viewModel;
+      nameTextBoxViewModel.focus();
+
+      $("[data-sc-id=UploaderRowPanel]").hide();
+      $("[data-sc-id=UploaderSpaceBorder]").hide();
+      this.setActiveOption(event);
+    },
+
+
+    onClickimporthtml: function (event) {
+      this.app.NameLabel.set("isVisible", false);
+      this.app.NameTextBox.set("isVisible", false);
+
+      this.app.ImportNameLabel.set("isVisible", true);
+      this.app.ImportNameTextBox.set("isVisible", true);
+
+      this.app.BrowseNameLabel.set("isVisible", false);
+      this.app.BrowseTextBox.set("isVisible", false);
+
+      $("[data-sc-id=UploaderRowPanel]").show();
+      $("[data-sc-id=UploaderSpaceBorder]").show();
+      this.setActiveOption(event);
     },
 
     onClickCreateMessageItemFolder: function (event) {
@@ -121,21 +192,10 @@
           var htmlToAppend = "<div class='sc-createmessage-section row-fluid  sc-show-padding " + sectionIndex + "'><h3>" + section.key.name + "</h3>";
           _.each(section.value, function (option) {
             if (option.visible === true) {
-              if (option.children) {
-                htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-folder sc-createmessage-option' data-sc-messageparameters='" + option.sectionIndex + "'>";
-                contextApp.renderCreateOptionsFolder(option, sectionIndex, rootDiv, contextApp);
-              } else {
-                htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
-              }
-
-              htmlToAppend += "<div class='icon ' style='width: 128px; height: 128px;'>";
-              htmlToAppend += "<img src='" + option.iconUrl + "' alt='" + option.name + "' style='width: 128px; height: 128px;'>";
-              htmlToAppend += "</div>";
-              htmlToAppend += "<div class='name'>" + option.name + "</div>";
-              htmlToAppend += "</div>";
+              htmlToAppend += contextApp.renderCreateOption(option, sectionIndex, rootDiv, contextApp);
             }
           }, contextApp);
-          htmlToAppend += "</div>";
+          htmlToAppend += "</div></br></br>";
 
           rootDiv.append(htmlToAppend);
         }, contextApp);
@@ -143,23 +203,47 @@
     },
 
     renderCreateOptionsFolder: function (option, parentSectionIndex, rootDiv, contextApp) {
-    	var htmlToAppend = "<div class='sc-createmessage-section row-fluid  sc-show-padding " + option.sectionIndex + "' style='display: none'><h3><span title='back' class='sc-goback' data-sc-messageparameters='" + parentSectionIndex + "'><img src='/~/media/A0C408E4BBBF42CFAD87683F4DB2E494.ashx?db=core' alt='Back' style='cursor: pointer'/></span> " + option.name + "</h3>";
+      var htmlToAppend = "<div class='sc-createmessage-section row-fluid  sc-show-padding " + option.sectionIndex + "' style='display: none'><h3><span title='back' class='sc-goback' data-sc-messageparameters='" + parentSectionIndex + "'><img src='/~/media/A0C408E4BBBF42CFAD87683F4DB2E494.ashx?sc_database=core' alt='Back' style='cursor: pointer'/></span> " + option.name + "</h3>";
 	    _.each(option.children, function(child) {
-		    if (child.children) {
-		    	htmlToAppend += "<div title='" + child.name + "' class='sc-createmessage-folder sc-createmessage-option' data-sc-messageparameters='" + child.sectionIndex + "'>";
-			    contextApp.renderCreateOptionsFolder(child, option.sectionIndex, rootDiv, contextApp);
-		    } else {
-		    	htmlToAppend += "<div title='" + child.name + "' class='sc-createmessage-item sc-createmessage-option' data-sc-messageparameters='" + child.parameters + "' data-sc-messageurl='" + child.url + "'>";
-		    }
-		    htmlToAppend += "<div class='icon ' style='width: 128px; height: 128px;'>";
-		    htmlToAppend += "<img src='" + child.iconUrl + "' alt='" + child.name + "' style='width: 128px; height: 128px;'>";
-		    htmlToAppend += "</div>";
-		    htmlToAppend += "<div class='name'>" + child.name + "</div>";
-
-		    htmlToAppend += "</div>";
+	        htmlToAppend += contextApp.renderCreateOption(child, parentSectionIndex, rootDiv, contextApp);
 	    });
 	    htmlToAppend += "</div>";
-	    rootDiv.append(htmlToAppend);
+        return htmlToAppend;
+    },
+
+    renderCreateOption: function (option, sectionIndex, rootDiv, contextApp) {
+        var htmlToAppend = "";
+
+        if (option.children) {
+            htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-folder sc-createmessage-option' data-sc-messageparameters='" + option.sectionIndex + "'>";
+            rootDiv.append(contextApp.renderCreateOptionsFolder(option, sectionIndex, rootDiv, contextApp));
+        } else {
+            switch (option.CreateType) {
+                case 1:
+                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option sc-createmessage-existingpage' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    break;
+                case 2:
+                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option sc-createmessage-existingtemplate' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    break;
+                case 3:
+                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option sc-createmessage-importdesigner' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    break;
+                case 4:
+                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option sc-createmessage-importhtml' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    break;
+                default:
+                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    break;
+            }
+        }
+
+        htmlToAppend += "<div class='icon'>";
+        htmlToAppend += "<img src='" + option.iconUrl.replace("bc=White", "bc=Transparent") + "' alt='" + option.name + "'>";
+        htmlToAppend += "</div>";
+        htmlToAppend += "<div class='name'>" + option.name + "</div>";
+        htmlToAppend += "</div>";
+
+        return htmlToAppend;
     }
   });
 });

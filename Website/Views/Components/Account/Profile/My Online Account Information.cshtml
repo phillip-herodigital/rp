@@ -22,10 +22,16 @@
                     <input type="text" id="Username" name="Username" ng-model="formData.username" data-val="true" data-val-required data-val-notequalto data-val-notequalto-other="@Html.NameFor(m => m.Password)">
                     @Html.ValidationMessageFor(m => m.Username)
                 </div>
+                <div class="item group-col" @Html.Validation().ErrorClass(m => m.Email.Address) float-label>
+                    <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
+                    @Html.TextBoxFor(m => m.Email.Address, new { ng_model = "formData.email.address" })
+                    @Html.ValidationMessageFor(m => m.Email.Address)
+                </div>
             </div>
             <div class="additional-fields group" data-additional-fields>
                 <div class="additional-field-action change-password">
-                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Change Password Text")</a>
+                    <span><input type="checkbox" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"></span>
+                    <a href="">@Html.Sitecore().Field("Change Password Text")</a>
                 </div>
                 <div class="group additional-field-group additional-fields change-password-fields">
                     <div class="group">
@@ -51,13 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="group">
-                <div class="item group-col" @Html.Validation().ErrorClass(m => m.Email.Address) float-label>
-                    <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
-                    @Html.TextBoxFor(m => m.Email.Address, new { ng_model = "formData.email.address" })
-                    @Html.ValidationMessageFor(m => m.Email.Address)
-                </div>
-            </div>
+
             <hr class="content-divider" />
             @using (var securityQuestion = Html.ClientRepeater(m => m.Challenges, "0"))
             {

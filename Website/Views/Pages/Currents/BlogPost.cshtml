@@ -19,7 +19,7 @@
 
     UrlOptions option = new UrlOptions();
     option.AlwaysIncludeServerUrl = true;
-    string currentUrl = HttpUtility.UrlEncode(LinkManager.GetItemUrl(blogPost.InnerItem, option));
+    string currentUrl = HttpUtility.UrlEncode(Uri.EscapeUriString(LinkManager.GetItemUrl(blogPost.InnerItem, option)));
     string title = HttpUtility.UrlEncode(blogPost.Title);
     string blogUrl = LinkManager.GetItemUrl(blogRoot, option);
     var allPosts = BlogManager.GetBlogPosts(blogRoot, "", "", "", "", 0, 100);
@@ -144,7 +144,7 @@
                 {
                     <li class="googleplus">
                         <!-- Replace href with your meta and URL information.  -->
-                        <a href="https://plus.google.com/share?url=@Html.Raw(title) @Html.Raw(currentUrl)" class="popup">
+                        <a href="https://plus.google.com/share?url=@Html.Raw(currentUrl)" class="popup">
                             <span class="icon">
                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve">
                                 <g>

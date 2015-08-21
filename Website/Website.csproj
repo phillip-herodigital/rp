@@ -2,7 +2,7 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Test - Sitecore</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>
     </ProductVersion>
@@ -26,7 +26,7 @@
     <IsCompassProject>True</IsCompassProject>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test - Sitecore|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -38,7 +38,7 @@
     <DeployIisAppPath>Default Web Site/MyStream</DeployIisAppPath>
     <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
@@ -75,9 +75,6 @@
     </Reference>
     <Reference Include="EcmaScript.NET.modified">
       <HintPath>..\Libraries\Sitecore\EcmaScript.NET.modified.dll</HintPath>
-    </Reference>
-    <Reference Include="EmailCampaign.Controls">
-      <HintPath>..\Libraries\Sitecore\EmailCampaign.Controls.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -323,32 +320,18 @@
     <Reference Include="Sitecore.EmailCampaign.Analytics.Model">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Analytics.Model.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.App">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.App.dll</HintPath>
-    </Reference>
     <Reference Include="Sitecore.EmailCampaign.Application">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Application.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.EmailCampaign.Client">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Data">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Domain">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Domain.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Presentation">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Presentation.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Presentation.UI">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Presentation.UI.dll</HintPath>
+    <Reference Include="Sitecore.EmailCampaign.Controls, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.EmailCampaign.Server">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Server.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Speak.Server">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Speak.Server.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.EmailCampaign.Statistics">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Statistics.dll</HintPath>
@@ -934,6 +917,7 @@
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\Temp\GenerateW9.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
+    <Compile Include="Pipelines\EcmRenderer.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Pipelines\PopulateUnsubscribeLink.cs" />
@@ -1026,8 +1010,12 @@
     <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.IndexConfiguration.config" />
     <Content Include="App_Config\Include\Sitecore.Media.RequestProtection.config" />
     <Content Include="App_Config\Include\Sitecore.ExperienceEditor.config" />
-    <Content Include="App_Config\Include\Sitecore.ExperienceEditor.Speak.Requests.config" />
-    <Content Include="App_Config\Include\Sitecore.ExperienceExplorer.config" />
+    <Content Include="App_Config\Include\Sitecore.ExperienceEditor.Speak.Requests.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.ExperienceExplorer.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\Sitecore.ExperienceExplorer.Speak.Requests.config" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Analytics.config" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.DefaultConfigurations.config" />
@@ -1043,10 +1031,14 @@
     <Content Include="App_Config\Include\Sitecore.Analytics.MongoDb.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.Automation.TimeoutProcessing.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.Compatibility.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Analytics.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Analytics.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Aggregation.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Database.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Database.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.RobotDetection.config" />
     <Content Include="App_Config\Include\Sitecore.Apps.TagInjection.config" />
     <Content Include="App_Config\Include\Channel\Sitecore.Analytics.Channel.config" />
@@ -1056,16 +1048,22 @@
     <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Mvc.config" />
     <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Processing.Aggregation.config" />
     <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Solr.IndexConfiguration.config.disabled" />
-    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Aggregation.config" />
+    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Aggregation.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Client.config" />
-    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Reduce.config" />
+    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Reduce.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.StorageProviders.config" />
     <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.WebAPI.config" />
     <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.Client.config" />
     <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.config" />
     <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.Reporting.config" />
     <Content Include="App_Config\Include\FXM\Sitecore.FXM.Bundle.config" />
-    <Content Include="App_Config\Include\FXM\Sitecore.FXM.config" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\FXM\Sitecore.FXM.Lucene.Index.DomainsSearch.config" />
     <Content Include="App_Config\Include\FXM\Sitecore.FXM.Solr.Index.DomainsSearch.config.disabled" />
     <Content Include="App_Config\Include\FXM\Sitecore.FXM.Speak.config" />
@@ -1112,25 +1110,13 @@
     <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TextSearch.cshtml" />
     <Content Include="App_Config\Include\XBlog.Search.config" />
     <Content Include="App_Config\Include\XBlog.Settings.config" />
-    <Content Include="App_Config\ConnectionStrings.test-upgrade.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="App_Config\Include\Sitecore.ContentSearch.config" />
-    <Content Include="App_Config\Custom\Currents.Index.master.config" />
-    <Content Include="App_Config\Include\ListManager.EmailCampaign\Sitecore.ListManager.EmailCampaign.config" />
-    <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.config.disabled" />
+    <Content Include="App_Config\Custom\Index.master.config" />
     <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.DefaultIndexConfiguration.config.disabled" />
     <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.Index.Analytics.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Analytics.Oracle.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.DefaultIndexConfiguration.config.example" />
     <Content Include="App_Config\Include\Sitecore.Diagnostics.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.Dedicated.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.Speak.Server.Requests.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.UI.config" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.Xtune.CD.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.EmailCampaign.Xtune.Processing.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.Index.Master.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.Index.Web.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.IndexConfiguration.config.disabled" />
@@ -1138,17 +1124,26 @@
     <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Services.RemoteServer.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.PathAnalyzer.StorageProviders.config" />
     <Content Include="App_Config\Include\Sitecore.Processing.config" />
-    <Content Include="App_Config\Include\Sitecore.SharedSource.GeoIpTester.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Speak.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Support.414299.config" />
     <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Client.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Client.MarketingAssets.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.MarketingAssets.config.disabled" />
     <Content Include="App_Config\Include\SwitchMasterToWeb.config.example" />
-    <Content Include="App_Config\Include\XBlog.Sitecore.Buckets.config.disabled" />
-    <Content Include="App_Config\Custom\Currents.Index.web.config" />
+    <Content Include="App_Config\Custom\Index.web.config" />
+    <Content Include="App_Config\Custom\Settings.local.config" />
+    <Content Include="App_Config\Custom\Settings.test.config" />
+    <Content Include="App_Config\Custom\Settings.test.sitecore.config" />
+    <Content Include="App_Config\Custom\Settings.production.config" />
+    <Content Include="App_Config\Custom\Settings.production.sitecore.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.AnalyticsProcessing.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentDelivery.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentManagement.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentManagementPrimary.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Core.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Reporting.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.UI.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -1308,7 +1303,9 @@
     <Content Include="App_Config\ConnectionStrings.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Config\ConnectionStringsOracle.config" />
+    <Content Include="App_Config\ConnectionStringsOracle.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\FieldTypes.config" />
     <Content Include="App_Config\Icons.config" />
     <Content Include="App_Config\Include\DataFolder.config.example" />
@@ -1319,7 +1316,6 @@
     <Content Include="App_Config\Include\ScalabilitySettings.config.example" />
     <Content Include="App_Config\Include\Sitecore.AntiCsrf.config" />
     <Content Include="App_Config\Include\Sitecore.Buckets.config" />
-    <Content Include="App_Config\Include\Sitecore.Buckets.Scaling.config.example" />
     <None Include="App_Config\Include\Sitecore.Buckets.WarmupQueries.config.example" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Core.config.example" />
@@ -1341,14 +1337,19 @@
     <Content Include="App_Config\Include\WebDeploy.config.example" />
     <Content Include="App_Config\Include\XslExtension.config.example" />
     <Content Include="App_Config\LanguageDefinitions.config" />
-    <Content Include="App_Config\MimeTypes.config" />
+    <Content Include="App_Config\MimeTypes.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Portraits.config" />
     <Content Include="App_Config\Prefetch\Common.config" />
-    <Content Include="App_Config\Prefetch\Core.config" />
+    <Content Include="App_Config\Prefetch\Core.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Prefetch\Master.config" />
-    <Content Include="App_Config\Prefetch\Web.config" />
     <Content Include="App_Config\Prototypes.config" />
-    <Content Include="App_Config\Security\Domains.config" />
+    <Content Include="App_Config\Security\Domains.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Security\GlobalRoles.config" />
     <Content Include="App_Config\XamlSharp.config" />
   </ItemGroup>
@@ -1367,14 +1368,15 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Include\Sitecore.Analytics.ExcludeRobots.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.RobotDetection.config" />
     <Content Include="App_Config\Include\Sitecore.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Publishing.DedicatedInstance.config.example" />
     <Content Include="App_Config\Include\Sitecore.Publishing.EventProvider.Async.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Publishing.Optimizations.config.example" />
     <Content Include="App_Config\Include\Sitecore.Publishing.Parallel.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.Publishing.Recovery.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1590,14 +1592,12 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web.Debug.config">
+    <None Include="Web.Test - Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="Web.Release.config">
+    <None Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Azure-SitecoreUpgrade.config">
-      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup />
@@ -1626,18 +1626,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
     <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
-    <PublishDatabases>false</PublishDatabases>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-SitecoreUpgrade|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
     <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <ItemGroup>

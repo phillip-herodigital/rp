@@ -122,7 +122,7 @@
                 <ul ng-style="{'margin-left': marginLeft}">
                     @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
                     {
-                        var selected = selectedNode != null && (childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode));
+                        var selected = selectedNode != null && (childNode.Url == selectedNode.Url || childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode));
                         <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
                     }
                     @if (!node.Value.HasChildNodes)

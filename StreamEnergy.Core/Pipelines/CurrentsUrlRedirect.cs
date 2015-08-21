@@ -13,15 +13,16 @@ namespace StreamEnergy.Pipelines
         private static ISettings settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
         public override void Process(Sitecore.Pipelines.HttpRequest.HttpRequestArgs args)
         {
+            var host = HttpContext.Current.Request.Url.Host;
             var path = HttpContext.Current.Request.Url.AbsolutePath;
-            if (!path.StartsWith("/currents/") && path != "/currents")
+            if (!host.Contains("currents.igniteinc.com") && !path.StartsWith("/currents/") && path != "/currents")
             {
                 return;
             }
             var item = settings.GetSettingsItem("Currents Redirect");
             if (item != null && !string.IsNullOrEmpty(item["Redirect Enabled"]) && !string.IsNullOrEmpty(item["Redirect Domain"]))
             {
-                path = path.Substring("/currents".Length);
+                path = path.StartsWith("/currents/") ? path.Substring("/currents".Length) : "";
                 HttpContext.Current.Response.StatusCode = 302;
                 HttpContext.Current.Response.Redirect(item["Redirect Domain"] + path, true);
             }

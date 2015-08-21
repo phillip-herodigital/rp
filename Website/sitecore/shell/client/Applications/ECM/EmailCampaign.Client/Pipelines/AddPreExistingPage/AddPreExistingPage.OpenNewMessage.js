@@ -2,8 +2,7 @@
   return {
     priority: 5,
     execute: function (context) {
-
-      postServerRequest("ecm.createnewmessage.getmessageurl", { value: context.currentContext.newMessageId }, function (response) {
+        postServerRequest("EXM/MessageUrl", { value: context.currentContext.newMessageId }, function (response) {
         if (response.error) {
           context.currentContext.messageBar.addMessage("error", response.errorMessage);
           context.currentContext.errorCount = 1;

@@ -2,7 +2,7 @@
 return {
     priority: 4,
     execute: function(context) {
-      postServerRequest("ecm.addpreExistingPage.add", { databaseName: context.currentContext.databaseName, newMessageId: context.currentContext.newMessageId, existingMessagePath: context.currentContext.existingMessagePath }, function(response) {
+      postServerRequest("EXM/AddPreExistingPage", { databaseName: context.currentContext.databaseName, newMessageId: context.currentContext.newMessageId, existingMessagePath: context.currentContext.existingMessagePath }, function (response) {
         if (response.error) {
           context.currentContext.messageBar.addMessage("error", response.errorMessage);
           context.currentContext.errorCount = 1;

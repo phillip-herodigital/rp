@@ -253,7 +253,7 @@
     <div ng-if="confirmationSuccess && !sprintByod" ng-cloak>
         <div class="notice alert">
             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-                <div ng-if="selectedOffer.confirmationDetails.length > 0">
+                <div ng-if="selectedOffer.confirmationDetails != undefined && selectedOffer.offerOption.transferInfo == undefined">
                     @Html.Sitecore().Field("New Mobile Number Text")
                     <span>{{ selectedOffer.confirmationDetails | phone }}</span>
                 </div>
@@ -269,7 +269,7 @@
     <div ng-if="confirmationSuccess && sprintByod" ng-cloak>
         <div class="notice alert">
             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-                <div ng-if="selectedOffer.confirmationDetails.length > 0">
+                <div ng-if="selectedOffer.confirmationDetails != undefined && selectedOffer.offerOption.transferInfo == undefined">
                     @Html.Sitecore().Field("New Mobile Number Text")
                     <span>{{ selectedOffer.confirmationDetails | phone }}</span>
                 </div>

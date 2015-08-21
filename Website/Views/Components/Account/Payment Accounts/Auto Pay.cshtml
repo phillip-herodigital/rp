@@ -23,15 +23,16 @@
             </div>
             <div class="notice message">
                 @Html.Sitecore().Field("Notice Text")
+                <p ng-show="account.autoPay.isEnabled">
+                    @Html.Sitecore().Field("Alert Text")
+                </p>
             </div>
             @Html.ValidationSummary()
             <div class="payment-selection additional-fields">
                 <input type="radio" id="autopay-on" name="payment-type" ng-model="account.autoPay.isEnabled" ng-value="true">
                 <label for="autopay-on">@Html.Sitecore().Field("AutoPay On Label")</label>
                 <div class="additional-field-group" ng-show="account.autoPay.isEnabled">
-                    <div class="group notice alert">
-                        @Html.Sitecore().Field("Alert Text")
-                    </div>
+
                     <div class="notice error" ng-if="account.autoPay.paymentMethodId == 'disallowed' && account.systemOfRecord == 'CIS1'">
                         <div ng-if="account.availablePaymentMethods.length > 0">
                             @Html.Sitecore().Field("CIS1 Disallowed Payment Methods")

@@ -2,7 +2,7 @@
 return {
     priority: 1,
     execute: function (context) {
-      var requestName = "ecm.addattachment.add";
+      var requestName = "EXM/AddAttachment";
       postServerRequest(requestName, {
         messageId: context.currentContext.messageId,
         attachmentId: context.currentContext.file.itemId,

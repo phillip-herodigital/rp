@@ -2,7 +2,7 @@
 return {
     priority: 1,
     execute: function (context) {
-      postServerRequest("ecm.emailpreview.checkforpurchase", {}, function (response) {
+      postServerRequest("EXM/IsPreviewServicePurchased", {}, function (response) {
         context.currentContext.messageBar.removeMessage(function (error) { return error.id === "error.ecm.emailpreview.checkforpurchase"; });
 
         if (response.error) {
@@ -20,6 +20,7 @@ return {
           context.currentContext.messageBar.addMessage("error", messagetoAddError);
           context.currentContext.errorCount = 1;
           context.aborted = true;
+          setEmailPreviewCheckButtonViewLogic(context.app, false);
           return;
         }
 

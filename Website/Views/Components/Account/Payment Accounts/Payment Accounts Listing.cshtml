@@ -15,7 +15,7 @@
                 <tr>
                     <th class="nickname">@Html.Sitecore().Field("Nickname Text")</th>
                     <th class="account-number">@Html.Sitecore().Field("Account Number Text")</th>
-                    <th class="type">@Html.Sitecore().Field("Type Text")</th>
+                    <th class="type">@Html.Sitecore().Field("Type Text")</th> 
                     <th class="action">@Html.Sitecore().Field("Action Text")</th>
                 </tr>
             </thead>
@@ -23,7 +23,7 @@
                 <tr ng-repeat="item in paymentAccounts">
                     <td data-title="@Html.Sitecore().Field("Nickname Text")">{{item.paymentMethod.displayName}}</td>
                     <td data-title="@Html.Sitecore().Field("Account Number Text")">{{item.paymentMethod.redactedData}}</td>
-                    <td data-title="@Html.Sitecore().Field("Type Text")">{{item.paymentMethod.underlyingPaymentType}}</td>
+                   <td data-title="@Html.Sitecore().Field("Type Text")">{{item.paymentMethod.underlyingPaymentDisplayName}}</td> 
                     <td class="row-actions" data-title="@Html.Sitecore().Field("Action Text")">
                         <button ng-click="deletePaymentAccount(item.paymentMethod)" ng-if="!item.usedInAutoPay">@Html.Sitecore().Field("Delete Button Text")</button>
                         <button ng-click="autoPayWarning()" ng-if="item.usedInAutoPay">@Html.Sitecore().Field("Delete Button Text")</button>

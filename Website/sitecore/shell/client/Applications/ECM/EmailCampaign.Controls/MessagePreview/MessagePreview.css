@@ -1,0 +1,12 @@
+﻿.sc-MessagePreview [data-sc-id*=Border] {
+  background: #ffffff;
+  text-align: center;
+}
+.sc-MessagePreview [data-sc-id*=ImageText] {
+  padding: 5px 0;
+  display: block;
+}
+.sc-MessagePreview img {
+  min-width: 128px;
+  min-height: 128px;
+}

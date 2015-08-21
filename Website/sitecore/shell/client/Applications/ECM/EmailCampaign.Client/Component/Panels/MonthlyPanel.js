@@ -139,21 +139,20 @@
         } else {
           this.MonthlyOfEveryTheAmountTextBox.set("text", monthly.every);
 
-          this.MonthlyCounterComboBox.on("change:items", function () {
-            this.setSelectedItem("MonthlyCounterComboBox", monthly.weekOfMonth);
+          this.MonthlyCounterComboBox.on("change:items", function (combobox) {
+            this.setSelectedItem(combobox, monthly.weekOfMonth);
           }, this);
 
-          this.MonthlyDaysOfWeekComboBox.on("change:items", function () {
-            this.setSelectedItem("MonthlyDaysOfWeekComboBox", monthly.days);
+          this.MonthlyDaysOfWeekComboBox.on("change:items", function (combobox) {
+            this.setSelectedItem(combobox, monthly.days);
           }, this);
 
           this.MonthlyTheRadioButton.set("isChecked", true);
         }
       }
     },
-
-    setSelectedItem: function (comboboxName, value) {
-      var combobox = this[comboboxName];
+   
+    setSelectedItem: function (combobox, value) {
       var items = combobox.get("items");
       var item = items.filter(function (e) {
         return e.Value === value.toString();

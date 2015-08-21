@@ -105,7 +105,7 @@ namespace StreamEnergy.Services.Clients
             return PremiseVerificationResult.GeneralError;
         }
 
-        async Task<VerifyEsnResponseCode> IEnrollmentService.IsEsnValid(string esn)
+        async Task<VerifyEsnResponse> IEnrollmentService.IsEsnValid(string esn)
         {
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/enrollments/verify-esn", new
             {
@@ -115,7 +115,12 @@ namespace StreamEnergy.Services.Clients
             response.EnsureSuccessStatusCode();
             dynamic result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
-            return result.VerifyEsnResponseCode;
+            return new VerifyEsnResponse()
+            {
+                VerifyEsnResponseCode = result.VerifyEsnResponseCode,
+                DeviceType = result.DeviceType,
+                ICCID = result.ICCID
+            };
         }
 
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location, IOffer offer)

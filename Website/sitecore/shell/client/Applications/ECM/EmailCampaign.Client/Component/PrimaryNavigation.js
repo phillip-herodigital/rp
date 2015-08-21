@@ -1,4 +1,4 @@
-﻿var dependencies = ["sitecore", "/-/speak/v1/listmanager/SelectLists.js", "/-/speak/v1/listmanager/storageMediator.js", "/-/speak/v1/listmanager/ImportWizard.js"];
+﻿var dependencies = ["sitecore", "/-/speak/v1/listmanager/SelectLists.js", "/-/speak/v1/listmanager/storageMediator.js", "/-/speak/v1/listmanager/ImportWizard.js", "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/deps/bootstrap/js/bootstrap.js"];
 
 define(dependencies, function (sitecore, selectLists, storageMediator, importWizard) {
   var contextApp, self;
@@ -56,16 +56,15 @@ define(dependencies, function (sitecore, selectLists, storageMediator, importWiz
     },
 
     primaryNavigation_addListDialog: function (eventName, dialogName, renderingId, triggerName) {
+      if (contextApp[dialogName] === undefined) {
+        contextApp.insertRendering(renderingId, { $el: $("body") }, function (dialog) {
+          contextApp[dialogName] = dialog;
+        });
+      }
+      
       contextApp.on(eventName, function () {
         self.clickCreateButton();
-        if (contextApp[dialogName] === undefined) {
-          contextApp.insertRendering(renderingId, { $el: $("body") }, function(dialog) {
-            contextApp[dialogName] = dialog;
-            sitecore.trigger(triggerName);
-          });
-        } else {
-          sitecore.trigger(triggerName);
-        }
+        sitecore.trigger(triggerName);
       }, contextApp);
     },
 

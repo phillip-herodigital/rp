@@ -15,6 +15,10 @@
     ],
     initialize: function () {
       this._super();
+      var activeLanguages = this.getActiveLanguages();
+      if (activeLanguages.length === 1) {
+        this.model.set("selectedReportLanguage", "0");
+      }
     },
     toggle: function () {
       if (this.model.get("isEnabledMenu")) {
@@ -61,6 +65,17 @@
       if (!link) { return; }
       link.parent().addClass("selected");
     },
+    setSelectedLanguages: function (languages) {
+      this.$el.find("a.language-item").parent().removeClass("selected");
+      _.each(languages, _.bind(function(language) {
+        if (!language) { return; }
+        var select = "a.language-item[data-isocode=\'" + language + "\']";
+        var link = this.$el.find(select).first();
+        if (!link) { return; }
+        link.parent().addClass("selected");
+      }, this));
+      
+    },
     setSelectedLanguage: function (language) {
       if (!language) {
         return;
@@ -94,45 +109,39 @@
 
       return langs;
     },
-    updateViewByTabId: function (currentTabId) {
-      // if we're in drafts, then don't do anything
-      if (this.app.MessageContext.get("messageState") == 0) {
-        return;
-      }
 
-      var activeLanguages = this.$el.find("div.language-switcher-list li.sc-actionMenu-item.selected");
-      if (activeLanguages.length === 1) {
-        this.model.set("selectedReportLanguage", "0");
-        return;
-      }
-
+    showAllLanguagesItem: function () {
       var btn = this.$el.find(".js-language-switcher-btn");
       var allLanguagesMenuItem = this.$el.find(".language-all");
 
-      // if current Tab is Reports
-      if (currentTabId == "{EDC344C1-AB9E-46DC-86DC-854D23FFAE3A}" || currentTabId == "{20285854-1840-43F8-89A8-1AA6C3681F31}" || currentTabId == "{1F4D7552-A64E-4456-A52F-2633DF4480CA}") {
+      allLanguagesMenuItem.removeClass("hidden");
+      if (this.model.get("selectedReportLanguage") == "" || this.model.get("selectedReportLanguage") == "0") {
+        btn
+          .text(_sc.Resources.Dictionary.translate("All").toUpperCase())
+          .attr("title", _sc.Resources.Dictionary.translate("All languages"));
+        this.model.set("selectedReportLanguage", "0");
 
-        allLanguagesMenuItem.removeClass("hidden");
-
-        if (this.model.get("selectedReportLanguage") == "" || this.model.get("selectedReportLanguage") == "0") {
-          btn.text(_sc.Resources.Dictionary.translate("All").toUpperCase());
-
-          btn.attr("title", _sc.Resources.Dictionary.translate("All languages"));
-          this.model.set("selectedReportLanguage", "0");
-
-          this.$el.find("a.language-item").removeClass("isdefault");
-          $("a", allLanguagesMenuItem).addClass("isdefault");
-        }
-      } else {
-        allLanguagesMenuItem.addClass("hidden");
-        this.setSelectedLanguage(this.model.get("selectedLanguage"));
-        
         this.$el.find("a.language-item").removeClass("isdefault");
-        var selectedLanguageElement = this.$el.find("a.language-item[data-isocode='" + this.model.get("selectedLanguage") + "']"); 
-        selectedLanguageElement.addClass("isdefault");
-        btn.attr("title", selectedLanguageElement.text());
-        this.model.trigger("change:selectedLanguage");
+        $("a", allLanguagesMenuItem).addClass("isdefault");
       }
+    },
+
+    hideAllLanguagesItem: function () {
+      var btn = this.$el.find(".js-language-switcher-btn");
+      var allLanguagesMenuItem = this.$el.find(".language-all");
+
+      allLanguagesMenuItem.addClass("hidden");
+      this.setSelectedLanguage(this.model.get("selectedLanguage"));
+
+      this.$el.find("a.language-item").removeClass("isdefault");
+      var selectedLanguageElement = this.$el.find("a.language-item[data-isocode='" + this.model.get("selectedLanguage") + "']");
+      selectedLanguageElement.addClass("isdefault");
+      btn.attr("title", selectedLanguageElement.text());
+      this.model.trigger("change:selectedLanguage");
+    },
+
+    getActiveLanguages: function () {
+      return this.$el.find(".language-switcher-list .sc-actionMenu-item.selected");
     }
   });
 });

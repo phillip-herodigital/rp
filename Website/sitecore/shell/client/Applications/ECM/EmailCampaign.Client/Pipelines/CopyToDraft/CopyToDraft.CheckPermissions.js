@@ -2,7 +2,7 @@
   return {
     priority: 1,
     execute: function (context) {
-      postServerRequest("ecm.copytodraft.checkpermissions", { value: context.messageId }, function (response) {
+      postServerRequest("EXM/CheckPermissions", { value: context.messageId }, function (response) {
         if (response.error) {
           sitecore.trigger("alertdialog", response.errorMessage);
           context.aborted = true;

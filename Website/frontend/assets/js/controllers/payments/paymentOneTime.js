@@ -1,7 +1,7 @@
 /* 
     Payments - One Time Payment Controller
  */
-ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', '$location', function ($scope, $http, $timeout, $location) {
     var ctrl = this;
     this.activeStep = 1;
     ctrl.selectedDate = new Date();
@@ -101,4 +101,15 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
         ctrl.accountNumber = null;
         ctrl.account = null;
     };
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec($location.absUrl());
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    ctrl.accountNumber = getParameterByName('accountNumber');
+    if (ctrl.accountNumber != "") {
+        this.lookupAccount();
+    }
 }]);
