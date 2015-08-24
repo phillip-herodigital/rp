@@ -24,7 +24,7 @@ namespace StreamEnergy.Pipelines
             SetupMvcValidations();
         }
 
-        public class WebApiResolver : System.Web.Http.Dependencies.IDependencyResolver, IDependencyScope, IDisposable
+        class WebApiResolver : System.Web.Http.Dependencies.IDependencyResolver, IDependencyScope, IDisposable
         {
             global::Unity.WebApi.UnityDependencyResolver unityDependencyResolver;
             Microsoft.Practices.Unity.IUnityContainer container;
