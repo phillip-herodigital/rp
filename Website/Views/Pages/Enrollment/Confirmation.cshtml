@@ -54,8 +54,7 @@
                             <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
                             <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
                             <div class="contact">
-                                {{ accountInformation.mailingAddress.line1 }} 
-                                <span ng-if="accountInformation.mailingAddress.line2">{{ accountInformation.mailingAddress.line2 }}</span><br>
+                                {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.unitNumber">, {{ accountInformation.mailingAddress.unitNumber }}</span><br>
     {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
 </div>
                         </div>
@@ -65,12 +64,11 @@
                             <div class="contact" ng-if="businessInformation.socialSecurityNumber">SSN: {{ businessInformation.socialSecurityNumber | maskNumber }}</div>
                             <div class="contact" ng-if="businessInformation.taxId">EIN: {{ businessInformation.taxId | maskNumber }}</div>
                             <div class="contact" ng-if="!businessInformation.businessAddressSame">
-                                {{ businessInformation.businessAddress.line1 }} 
-                                <span ng-if="businessInformation.businessAddress.line2">{{ businessInformation.businessAddress.line2 }}</span><br>
+                                {{ businessInformation.businessAddress.line1 }}<span ng-if="businessInformation.businessAddress.unitNumber">, {{ businessInformation.businessAddress.unitNumber }}</span><br>
                                     {{ businessInformation.businessAddress.city }}, {{ businessInformation.businessAddress.stateAbbreviation }} {{ businessInformation.businessAddress.postalCode5 }}
 </div>
                             <div class="contact" ng-if="businessInformation.businessAddressSame">
-                                {{ accountInformation.billingAddress.line1 }} {{ accountInformation.billingAddress.line2 }}<br>
+                                {{ accountInformation.billingAddress.line1 }}<span ng-if="accountInformation.businessAddress.unitNumber">, {{ accountInformation.businessAddress.unitNumber }}</span><br>
                                 {{ accountInformation.billingAddress.city }}, {{ accountInformation.billingAddress.stateAbbreviation }} {{ accountInformation.billingAddress.postalCode5 }}
                             </div>
                         </div>
