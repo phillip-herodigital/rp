@@ -655,8 +655,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         },
                     });
                 }
+                stateMachine.InternalContext.AssociateEmailSent = true;
             }
-            stateMachine.InternalContext.AssociateEmailSent = true;
         }
 
         [HttpGet]
