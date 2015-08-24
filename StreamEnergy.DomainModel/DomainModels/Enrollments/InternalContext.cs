@@ -44,7 +44,5 @@ namespace StreamEnergy.DomainModels.Enrollments
         public Guid W9StorageId { get; set; }
 
         public bool AssociateEmailSent { get; set; }
-
-        public bool EnrollmentScreenshotTaken { get; set; }
     }
 }

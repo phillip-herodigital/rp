@@ -108,8 +108,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateHelper.StateMachine.InternalContext.AssociateEmailSent = false;
 
-            stateHelper.StateMachine.InternalContext.EnrollmentScreenshotTaken = false;
-
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -206,7 +204,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 AssociateInformation = stateMachine.InternalContext.AssociateInformation,
                 AssociateName = stateMachine.Context.AssociateName,
                 AssociateEmailSent = stateMachine.InternalContext.AssociateEmailSent,
-                EnrollmentScreenshotTaken = stateMachine.InternalContext.EnrollmentScreenshotTaken,
                 Cart = from service in services
                        let locationOfferSet = offers.ContainsKey(service.Location) ? offers[service.Location] : new LocationOfferSet()
                        select new CartEntry
@@ -608,10 +605,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)
         {
-            if (redisDatabase != null && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.EnrollmentScreenshotTaken)
+            if (redisDatabase != null && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
             {
                 await redisDatabase.ListRightPushAsync("EnrollmentScreenshots", StreamEnergy.Json.Stringify(resultData));
-                stateMachine.InternalContext.EnrollmentScreenshotTaken = true;
             }
         }
 

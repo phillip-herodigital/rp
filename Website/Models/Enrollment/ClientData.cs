@@ -44,7 +44,5 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public string AssociateName { get; set; }
 
         public bool AssociateEmailSent { get; set; }
-
-        public bool EnrollmentScreenshotTaken { get; set; }
     }
 }
