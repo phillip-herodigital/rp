@@ -106,8 +106,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
             }
 
-            stateHelper.StateMachine.InternalContext.AssociateEmailSent = false;
-
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -203,7 +201,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 PreviousProvider = stateMachine.Context.PreviousProvider,
                 AssociateInformation = stateMachine.InternalContext.AssociateInformation,
                 AssociateName = stateMachine.Context.AssociateName,
-                AssociateEmailSent = stateMachine.InternalContext.AssociateEmailSent,
                 Cart = from service in services
                        let locationOfferSet = offers.ContainsKey(service.Location) ? offers[service.Location] : new LocationOfferSet()
                        select new CartEntry
@@ -613,7 +610,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private async Task SendAssociateNameEmail(Models.Enrollment.ClientData resultData)
         {
-            if (resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.AssociateEmailSent)
+            if (resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
             {
                 var acctNumbers = (from product in resultData.Cart
                                    from offerInformation in product.OfferInformationByType
@@ -651,7 +648,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         },
                     });
                 }
-                stateMachine.InternalContext.AssociateEmailSent = true;
             }
         }
 

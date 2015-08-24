@@ -42,7 +42,5 @@ namespace StreamEnergy.DomainModels.Enrollments
         public StreamAsync<RenewalResult> RenewalResult { get; set; }
 
         public Guid W9StorageId { get; set; }
-
-        public bool AssociateEmailSent { get; set; }
     }
 }
