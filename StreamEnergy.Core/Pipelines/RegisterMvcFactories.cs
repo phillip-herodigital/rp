@@ -11,8 +11,6 @@ using StreamEnergy.Mvc.Sitecore;
 using StreamEnergy.Mvc;
 using System.Web.Http.Dispatcher;
 using Sitecore.Services.Core;
-using Microsoft.Practices.Unity;
-using System.Web.Http.Controllers;
 using System.Web.Http.Dependencies;
 
 namespace StreamEnergy.Pipelines
