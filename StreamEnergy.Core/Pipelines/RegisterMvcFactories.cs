@@ -11,6 +11,9 @@ using StreamEnergy.Mvc.Sitecore;
 using StreamEnergy.Mvc;
 using System.Web.Http.Dispatcher;
 using Sitecore.Services.Core;
+using Microsoft.Practices.Unity;
+using System.Web.Http.Controllers;
+using System.Web.Http.Dependencies;
 
 namespace StreamEnergy.Pipelines
 {
@@ -23,13 +26,53 @@ namespace StreamEnergy.Pipelines
             SetupMvcValidations();
         }
 
+        public class WebApiResolver : System.Web.Http.Dependencies.IDependencyResolver, IDependencyScope, IDisposable
+        {
+            global::Unity.WebApi.UnityDependencyResolver unityDependencyResolver;
+            Microsoft.Practices.Unity.IUnityContainer container;
+            static readonly System.Web.Http.Dependencies.IDependencyResolver defaultDependencyResolver = GlobalConfiguration.Configuration.DependencyResolver;
+            public WebApiResolver(Microsoft.Practices.Unity.IUnityContainer container)
+            {
+                unityDependencyResolver = new global::Unity.WebApi.UnityDependencyResolver(container);
+                this.container = container;
+            }
+
+            public System.Web.Http.Dependencies.IDependencyScope BeginScope()
+            {
+                return new WebApiResolver(container.CreateChildContainer());
+            }
+
+            public object GetService(Type serviceType)
+            {
+                if (serviceType.Namespace.StartsWith("Sitecore."))
+                {
+                    return defaultDependencyResolver.GetService(serviceType);
+                }
+                return unityDependencyResolver.GetService(serviceType);
+            }
+
+            public IEnumerable<object> GetServices(Type serviceType)
+            {
+                if (serviceType.Namespace.StartsWith("Sitecore."))
+                {
+                    return defaultDependencyResolver.GetServices(serviceType);
+                }
+                return unityDependencyResolver.GetServices(serviceType);
+            }
+
+            public void Dispose()
+            {
+                ((IDisposable)unityDependencyResolver).Dispose();
+            }
+        }
+
         private static void SetupMvcInversionOfControl()
         {
             var container = StreamEnergy.Unity.Container.Instance.Unity;
 
             ControllerBuilder.Current.SetControllerFactory(new Mvc.ControllerFactory(ControllerBuilder.Current.GetControllerFactory(), container));
             DependencyResolver.SetResolver(new global::Unity.Mvc5.UnityDependencyResolver(container));
-            GlobalConfiguration.Configuration.DependencyResolver = new global::Unity.WebApi.UnityDependencyResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = new WebApiResolver(container);
 
             GlobalConfiguration.Configuration.Formatters.Insert(0, new Mvc.JsonNetFormatter());
 
