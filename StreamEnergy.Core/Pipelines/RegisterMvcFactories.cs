@@ -30,23 +30,24 @@ namespace StreamEnergy.Pipelines
         {
             global::Unity.WebApi.UnityDependencyResolver unityDependencyResolver;
             Microsoft.Practices.Unity.IUnityContainer container;
-            static readonly System.Web.Http.Dependencies.IDependencyResolver defaultDependencyResolver = GlobalConfiguration.Configuration.DependencyResolver;
-            public WebApiResolver(Microsoft.Practices.Unity.IUnityContainer container)
+            readonly System.Web.Http.Dependencies.IDependencyResolver sitecoreResolver;
+            public WebApiResolver(Microsoft.Practices.Unity.IUnityContainer container, System.Web.Http.Dependencies.IDependencyResolver sitecoreResolver)
             {
                 unityDependencyResolver = new global::Unity.WebApi.UnityDependencyResolver(container);
                 this.container = container;
+                this.sitecoreResolver = sitecoreResolver;
             }
 
             public System.Web.Http.Dependencies.IDependencyScope BeginScope()
             {
-                return new WebApiResolver(container.CreateChildContainer());
+                return new WebApiResolver(container.CreateChildContainer(), this.sitecoreResolver);
             }
 
             public object GetService(Type serviceType)
             {
                 if (serviceType.Namespace.StartsWith("Sitecore."))
                 {
-                    return defaultDependencyResolver.GetService(serviceType);
+                    return sitecoreResolver.GetService(serviceType);
                 }
                 return unityDependencyResolver.GetService(serviceType);
             }
@@ -55,7 +56,7 @@ namespace StreamEnergy.Pipelines
             {
                 if (serviceType.Namespace.StartsWith("Sitecore."))
                 {
-                    return defaultDependencyResolver.GetServices(serviceType);
+                    return sitecoreResolver.GetServices(serviceType);
                 }
                 return unityDependencyResolver.GetServices(serviceType);
             }
@@ -72,7 +73,7 @@ namespace StreamEnergy.Pipelines
 
             ControllerBuilder.Current.SetControllerFactory(new Mvc.ControllerFactory(ControllerBuilder.Current.GetControllerFactory(), container));
             DependencyResolver.SetResolver(new global::Unity.Mvc5.UnityDependencyResolver(container));
-            GlobalConfiguration.Configuration.DependencyResolver = new WebApiResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = new WebApiResolver(container, GlobalConfiguration.Configuration.DependencyResolver);
 
             GlobalConfiguration.Configuration.Formatters.Insert(0, new Mvc.JsonNetFormatter());
 
