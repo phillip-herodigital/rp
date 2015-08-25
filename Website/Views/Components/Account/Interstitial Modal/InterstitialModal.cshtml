@@ -1,10 +1,8 @@
 ﻿@{
      var link = ((Sitecore.Data.Fields.LinkField)Html.Sitecore().CurrentItem.Fields["Link"]);        
-}
- 
-@{
 
-        //<h2>@Model.Item.Name</h2>
+    if(HttpContext.Current.Session["interstitialmodal"] == null)
+    {
         <script type="text/ng-template" id="tmplInterstitialModal" data-ng-controller="ctrlInterstitialModal" data-ng-init="executeInterstitialModal('@Model.Item.Name')" data-modelname="@Model.Item.Name">
             <div class="interstitialmodal-div">
                 <div class="modal-header">
@@ -22,8 +20,6 @@
             </div>
         </script>
 
-    if(HttpContext.Current.Session["interstitialmodal"] == null)
-    {
         HttpContext.Current.Session["interstitialmodal"] = true;
     }
 }
