@@ -769,6 +769,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\CustomerPaperlessBillingCondition.cs" />
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
