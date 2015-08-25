@@ -769,6 +769,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\CustomerAutoPayCondition.cs" />
+    <Compile Include="Conditions\CustomerEligibleRenewalCondition.cs" />
     <Compile Include="Conditions\CustomerPaperlessBillingCondition.cs" />
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
