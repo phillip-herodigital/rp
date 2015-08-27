@@ -1168,6 +1168,37 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Exclude Interstitial
+
+        [HttpPost]
+        public ExcludeInterstitialModalResponse ExcludeInterstitialModal(ExcludeInterstitialModalRequest request)
+        {
+            bool isSuccess = false;
+
+            MembershipUser _user = Membership.GetUser();
+            Sitecore.Security.Accounts.User securityAccountUser = Sitecore.Security.Accounts.User.FromName(_user.UserName, true);
+            if (securityAccountUser != null)
+            {
+                string alreadyExcludedInterstitials = Sitecore.Context.User.Profile.GetCustomProperty("Excluded Interstitals");
+                string excludedInterstials = alreadyExcludedInterstitials;
+                if (!excludedInterstials.Contains(request.InterstitialId.ToString()))
+                {
+                    excludedInterstials = excludedInterstials != "" ? alreadyExcludedInterstitials + '|' + request.InterstitialId.ToString() : request.InterstitialId.ToString();
+                }
+                securityAccountUser.Profile.SetCustomProperty("Excluded Interstitals", excludedInterstials);
+                securityAccountUser.Profile.Save();
+                isSuccess = true;
+            }
+
+            return new ExcludeInterstitialModalResponse
+            {
+                IsSuccess = isSuccess
+            };
+
+        }
+
+        #endregion
+
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
             return item.Children[childItem];

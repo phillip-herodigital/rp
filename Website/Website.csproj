@@ -857,7 +857,9 @@
     <Compile Include="Models\Account\SendLetterResponse.cs" />
     <Compile Include="Models\Account\SetAutoPayRequest.cs" />
     <Compile Include="Models\Account\SetAutoPayResponse.cs" />
+    <Compile Include="Models\Account\ExcludeInterstitialModalRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalRequest.cs" />
+    <Compile Include="Models\Account\ExcludeInterstitialModalResponse.cs" />
     <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />

@@ -1,5 +1,7 @@
-﻿@{
+﻿@using Sitecore.Data.Items
+@{
     var link = ((Sitecore.Data.Fields.LinkField)Html.Sitecore().CurrentItem.Fields["Modal Link"]);
+    Item dataSourceItem = Sitecore.Context.Database.GetItem(Sitecore.Mvc.Presentation.RenderingContext.Current.Rendering.DataSource);
 
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
@@ -9,6 +11,7 @@
             @Html.Sitecore().Field("Modal Content")
         </div>
         <div class="modal-footer">
+            <button class="tertiary" ng-click="excludeInterstitialModal('@dataSourceItem.ID')">@Html.Sitecore().Field("No Show Button Text")</button>
             <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button Text")</button>
             <a class="button" href="@link.GetFriendlyUrl()"> @link.Text</a>
         </div>
