@@ -1,0 +1,9 @@
+﻿@using Sitecore.Data.Items
+@{
+    Item dataSourceItem = Sitecore.Context.Database.GetItem(Sitecore.Mvc.Presentation.RenderingContext.Current.Rendering.DataSource);
+    if (HttpContext.Current.Session["interstitialModal"] == null)
+    {
+        <div id="tmplInterstitialModal" data-ng-controller="ctrlInterstitialModal" data-ng-init="executeInterstitialModal('@dataSourceItem.Name')"></div>
+        HttpContext.Current.Session["interstitialModal"] = true;
+    }
+}

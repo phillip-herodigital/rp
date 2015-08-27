@@ -2,17 +2,16 @@
  *
  */
 
-ngApp.controller('ctrlInterstitialModal', ['$scope', '$modal', function ($scope, $modal) {
-    $scope.executeInterstitialModal = function ($modelname) {
-        var m = $('script[data-ng-controller]');
-        var n = m[m.length - 1].attributes['data-modelname'].value;
-        //alert($modelname + " :: " + n);
-        if($modelname == n)
-        {
-            $modal.open({
-                scope: $scope,
-                'templateUrl': 'tmplInterstitialModal'
-            })
-        }
+ngApp.controller('ctrlInterstitialModal', ['$scope', '$modal', '$http', function ($scope, $modal, $http) {
+    $scope.executeInterstitialModal = function (itemName) {
+        $http.get('/account/interstitials/' + itemName)
+        .success(function (data) {
+            if (data != '') {
+                $modal.open({
+                    scope: $scope,
+                    template: data,
+                });
+            }
+        })
     };
 }]);

@@ -1,26 +1,15 @@
 ﻿@{
-     var link = ((Sitecore.Data.Fields.LinkField)Html.Sitecore().CurrentItem.Fields["Link"]);        
+    var link = ((Sitecore.Data.Fields.LinkField)Html.Sitecore().CurrentItem.Fields["Modal Link"]);
 
-    if(HttpContext.Current.Session["interstitialmodal"] == null)
-    {
-        <script type="text/ng-template" id="tmplInterstitialModal" data-ng-controller="ctrlInterstitialModal" data-ng-init="executeInterstitialModal('@Model.Item.Name')" data-modelname="@Model.Item.Name">
-            <div class="interstitialmodal-div">
-                <div class="modal-header">
-                    <a href="" ng-click="$dismiss()">Close</a>
-                    <h2>@Html.Sitecore().Field("Header Text")</h2>
-                </div>
-                <div class="modal-body">
-                    @Html.Sitecore().Field("Content")
-                </div>
-                <div class="modal-footer">
-                    <button class="secondary" ng-click="$dismiss()">Cancel</button>
-                    &nbsp;
-                    <a class="button" href="@link.GetFriendlyUrl()"> @link.Text</a>
-                </div>
-            </div>
-        </script>
-
-        HttpContext.Current.Session["interstitialmodal"] = true;
-    }
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Modal Title")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Modal Content")
+        </div>
+        <div class="modal-footer">
+            <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button Text")</button>
+            <a class="button" href="@link.GetFriendlyUrl()"> @link.Text</a>
+        </div>
 }
-

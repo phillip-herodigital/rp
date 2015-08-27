@@ -42,37 +42,23 @@ namespace StreamEnergy.MyStream.Conditions
 
         protected override bool Execute(T ruleContext)
         {
-            var result = AsyncHelper.RunSync<bool>(() => isAutoPay());
+            var result = AsyncHelper.RunSync<bool>(() => isEligibleAutoPay());
 
             return result;
         }
 
-        public async Task<bool> isAutoPay()
+        public async Task<bool> isEligibleAutoPay()
         {
             ICurrentUser currentUser = dependencies.currentUser;
             IAccountService accountService = dependencies.accountService;
             IPaymentService paymentService = dependencies.paymentService;
 
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
-            if(currentUser.Accounts != null)
+            if (currentUser.Accounts != null && currentUser.Accounts.Count() == 1)
             {
-                if(currentUser.Accounts.Count() == 1)
-                {
-                    var account = currentUser.Accounts.FirstOrDefault();
-                    var autoPayStatus = await paymentService.GetAutoPayStatus(account);
-                    if (autoPayStatus.PaymentMethodId == Guid.Empty && !autoPayStatus.IsEnabled)
-                    {
-                        //Auto Pay diabled.
-                        return false;
-                    }
-                    //Auto Pay enabled.
-                    return true;
-                }
-                else
-                {
-                    //Bypass this condition if more than one account
-                    return false;
-                }
+                var account = currentUser.Accounts.FirstOrDefault();
+                var autoPayStatus = await paymentService.GetAutoPayStatus(account);
+                return (autoPayStatus.PaymentMethodId == Guid.Empty || !autoPayStatus.IsEnabled);
             }
             else
             { 
