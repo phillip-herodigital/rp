@@ -51,6 +51,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             return await Task.Run(() =>
             {
                 writer.Optimize();
+                writer.Dispose();             
                 return true;
             }).ConfigureAwait(false);
         }
