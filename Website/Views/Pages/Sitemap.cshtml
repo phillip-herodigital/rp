@@ -1,0 +1,76 @@
+﻿@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.Links
+@using System.Threading.Tasks
+@functions{
+    private bool HideFromSitemap(Item item)
+    {
+        if (!isPage(item) || item.Fields["Exclude From Sitemap"] == null)
+            return false; //This method only focuses on pages with the "Exclude From Sitemap" field.
+        
+        return !string.IsNullOrEmpty(item.Fields["Exclude From Sitemap"].Value);
+    }
+    private bool isPage(Item item)
+    {
+        string BasePageTemplateID = "{85E5D39C-51A1-40B7-B136-A5E07A5241F7}";
+        TemplateItem basePageTemplate = Sitecore.Context.Database.GetTemplate(BasePageTemplateID);
+        bool inheritsFromTemplate = false;
+
+        return containsParentTemplate(item.Template, basePageTemplate);
+       // return item.Template == basePageTemplate || item.Template.BaseTemplates.Contains(basePageTemplate);
+    }
+
+    private bool containsParentTemplate(TemplateItem template, TemplateItem parent)
+    {
+        return template !=null && (template.ID == parent.ID || template.BaseTemplates.Any(a => containsParentTemplate(a, parent)));
+    }
+    
+    protected List<Item> GetSitemapItems(Item item)
+    {
+        List<Item> sitemapItems = new List<Item>();
+        
+        if (HideFromSitemap(item))
+            return sitemapItems;
+        
+        if (isPage(item))
+        {
+            sitemapItems.Add(item); //Add yourself to the list
+        }
+
+        List<Item> children = item.Children.Where(a => !HideFromSitemap(a)).ToList();
+
+        if (children == null || children.Count == 0)
+            return sitemapItems;
+
+        
+        foreach (Item child in children)
+        {
+            sitemapItems.AddRange(GetSitemapItems(child));
+        }
+        
+        return sitemapItems;
+    }
+}
+@{
+    string homeNodeID = "{110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9}";
+    Item home = Sitecore.Context.Database.GetItem(homeNodeID);
+    List<Item> SitemapItems = GetSitemapItems(home);
+}
+
+<div class="PageListings">
+    @foreach (var item in SitemapItems)
+    {
+        string pageName = item.Name;
+        if(item.Fields["Title"] != null && !string.IsNullOrEmpty(item.Fields["Title"].Value)){
+            pageName = item.Fields["Title"].Value;
+        }
+        else if(item.Fields["Page Title"] != null && !string.IsNullOrEmpty(item.Fields["Page Title"].Value)){
+            pageName = item.Fields["Page Title"].Value;
+        }
+        
+        <div class="Page">
+            <a href="@Html.Raw(LinkManager.GetItemUrl(item))">@Html.Raw(pageName)</a>
+        </div>
+    }
+    
+</div>

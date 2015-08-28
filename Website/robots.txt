@@ -1,0 +1,3 @@
+﻿User-Agent: *
+Disallow: /auth/login
+SITEMAP: https://www.mystream.com/sitemap

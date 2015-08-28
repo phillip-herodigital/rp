@@ -1158,6 +1158,7 @@
     <Content Include="layouts\system\VisitorIdentificationCss.aspx" />
     <Content Include="layouts\system\VisitorIdentificationExtension.aspx" />
     <Content Include="layouts\xmlcontrol.aspx" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\angular.unobtrusive.validation.js" />
     <Content Include="Scripts\angular.unobtrusive.validation.min.js" />
     <Content Include="sitecore\apps\css\ab.testing.css" />
@@ -1584,6 +1585,7 @@
     <Content Include="Views\Components\Email\Currents\_BlogSummary.cshtml" />
     <Content Include="Views\Pages\Currents\Calendar.cshtml" />
     <Content Include="Views\Components\Email\Currents\Currents Email Custom Content.cshtml" />
+    <Content Include="Views\Pages\Sitemap.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
