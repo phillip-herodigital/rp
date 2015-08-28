@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.Zip;
@@ -23,8 +22,8 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
         const int ReportEvery = 2000;
         const int MaxTasks = 5000;
 
+        // this is hardcoded into the aglc indexer
         private const string MetersAtActivePremisesCsvFilename = "Meters at Active Premises.csv";
-        private const string ZipFileName = "typeahead.zip";
 
         private static void Main(string[] args)
         {
@@ -44,16 +43,75 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             }
         }
 
+        private static void DownloadAglcArchive()
+        {
+            Task.Run(async () =>
+            {
+                var aglcFiledownloader =
+                    new AglcFileDownloader(ConfigurationManager.AppSettings["AglcArchiveDownloadPath"] + "\\");
+                Log.Debug("Downloading AGLC SDA...");
+                await aglcFiledownloader.Fetch(); // overwrites any existing file
+                Log.Debug("Download complete.");
+
+                await Task.Delay(2000);
+                var aglcSdaFullPath = ConfigurationManager.AppSettings["AglcArchiveDownloadPath"] +
+                                      "\\custdata.txt.sda.exe";
+
+                if (!File.Exists(aglcSdaFullPath))
+                {
+                    throw new Exception("AGLC SDA archive not downloaded!");
+                }
+                /*
+                var startInfo = new ProcessStartInfo
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = true,
+                    FileName = ConfigurationManager.AppSettings["AglcDecrypter"],
+                    Arguments = aglcSdaFullPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+
+                Log.Debug("Starting decrypter...");
+                using (var decrypter = Process.Start(startInfo))
+                {
+                    if (decrypter == null) return;
+                    decrypter.WaitForExit(10*60*1000); // wait at most 10 minutes
+                    if (decrypter.ExitCode == 1)
+                    {
+                        throw new Exception("Decrypter failed to complete successfully!");
+                    }
+                    Log.Debug("AGLC SDA decryption complete.");
+                }
+
+                var algcDecryptPath = directoryInfo.FullName + "\\export\\home\\custdata\\cmadat\\";
+                if (!Directory.Exists(algcDecryptPath))
+                {
+                    throw new Exception("AGLC archive did not decrypt properly!");
+                }
+                File.Copy(ConfigurationManager.AppSettings["MetersAtActivePremisesCsv"],
+                    algcDecryptPath + MetersAtActivePremisesCsvFilename);
+
+                 var algcFullPath = algcDecryptPath + "custdata.txt";
+
+                if (!File.Exists(algcFullPath))
+                {
+                    throw new Exception("AGLC archive did not decrypt properly!");
+                }
+
+                options.Source = algcDecryptPath;
+                 */
+            }).Wait();
+        }
+
         private static void GenerateIndexZip()
         {
             try
             {
-                var options = new Options();
                 var directoryInfo = Directory.CreateDirectory(DateTime.Now.ToString("yyyyMMddhhmm"));
                 Log.Debug("Staring in " + directoryInfo.FullName);
                 var ercotDownloader = new ErcotFileDownloader(directoryInfo.FullName + "\\");
                 var typeaheadFolderPath = directoryInfo.FullName + "\\typeahead";
-                options = new Options {Destination = typeaheadFolderPath};
+                var options = new Options {Destination = typeaheadFolderPath};
 
                 // ercot process
                 Task.Run(async () =>
@@ -111,73 +169,16 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     {
                         zipFilePath = directoryInfo.FullName;
                     }
-                    fastZip.CreateZip(zipFilePath + "\\" + ZipFileName, typeaheadFolderPath, true, null);
+                    fastZip.CreateZip(zipFilePath + "\\" + ConfigurationManager.AppSettings["ZipFileName"], 
+                        typeaheadFolderPath, true, null);
+                    Directory.Delete(ConfigurationManager.AppSettings["AglcArchiveDownloadPath"] + "\\export", true);
                 }).Wait();
+
             }
             catch (Exception e)
             {
                 Log.Fatal(e);
             }
-        }
-
-        private static void DownloadAglcArchive()
-        {
-            Task.Run(async () =>
-            {
-                var aglcFiledownloader =
-                    new AglcFileDownloader(ConfigurationManager.AppSettings["AglcArchiveDownloadPath"] + "\\");
-                Log.Debug("Downloading AGLC SDA...");
-                await aglcFiledownloader.Fetch();
-                Log.Debug("Download complete.");
-
-                await Task.Delay(2000);
-                var aglcSdaFullPath = ConfigurationManager.AppSettings["AglcArchiveDownloadPath"] +
-                                      "\\custdata.txt.sda.exe";
-
-                if (!File.Exists(aglcSdaFullPath))
-                {
-                    throw new Exception("AGLC SDA archive not downloaded!");
-                }
-                /*
-                var startInfo = new ProcessStartInfo
-                {
-                    CreateNoWindow = true,
-                    UseShellExecute = true,
-                    FileName = ConfigurationManager.AppSettings["AglcDecrypter"],
-                    Arguments = aglcSdaFullPath,
-                    WindowStyle = ProcessWindowStyle.Hidden
-                };
-
-                Log.Debug("Starting decrypter...");
-                using (var decrypter = Process.Start(startInfo))
-                {
-                    if (decrypter == null) return;
-                    decrypter.WaitForExit(10*60*1000); // wait at most 10 minutes
-                    if (decrypter.ExitCode == 1)
-                    {
-                        throw new Exception("Decrypter failed to complete successfully!");
-                    }
-                    Log.Debug("AGLC SDA decryption complete.");
-                }
-
-                var algcDecryptPath = directoryInfo.FullName + "\\export\\home\\custdata\\cmadat\\";
-                if (!Directory.Exists(algcDecryptPath))
-                {
-                    throw new Exception("AGLC archive did not decrypt properly!");
-                }
-                File.Copy(ConfigurationManager.AppSettings["MetersAtActivePremisesCsv"],
-                    algcDecryptPath + MetersAtActivePremisesCsvFilename);
-
-                 var algcFullPath = algcDecryptPath + "custdata.txt";
-
-                if (!File.Exists(algcFullPath))
-                {
-                    throw new Exception("AGLC archive did not decrypt properly!");
-                }
-
-                options.Source = algcDecryptPath;
-                 */
-            }).Wait();
         }
 
         private static void RunIndexer(Options options)
