@@ -15,7 +15,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
-    $scope.isRenewal = enrollmentService.isRenewal;
+    $scope.NeedsRefresh = enrollmentService.NeedsRefresh;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
     $scope.getCartDevices = enrollmentCartService.getCartDevices;  
@@ -79,7 +79,6 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 w9BusinessData: _.keys($scope.w9BusinessData).length ? $scope.w9BusinessData : null
             });
         };
-
         if ($scope.getCartTotal() > 0) {
             var allPaymentMethods = _(enrollmentCartService.services)
             .pluck('offerInformationByType').flatten().filter()

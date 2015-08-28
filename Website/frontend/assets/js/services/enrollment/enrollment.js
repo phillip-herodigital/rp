@@ -5,6 +5,7 @@
 
     service.validations = [];
     service.isLoading = false;
+    service.NeedsRefresh = false;
 
     service.accountInformation = {
         contactTitle: '',
@@ -36,6 +37,11 @@
             $timeout(function () {
                 makeCall('resume', undefined);
             }, 250, false);
+        }
+
+        if (result.NeedsRefresh) {
+            window.location.href = "/enrollment";
+            return;
         }
 
         // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.
