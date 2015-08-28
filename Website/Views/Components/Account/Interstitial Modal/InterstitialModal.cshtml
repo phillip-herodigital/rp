@@ -11,7 +11,7 @@
             @Html.Sitecore().Field("Modal Content")
         </div>
         <div class="modal-footer">
-            <button class="tertiary" ng-click="excludeInterstitialModal('@dataSourceItem.ID')">@Html.Sitecore().Field("No Show Button Text")</button>
+            <button class="tertiary" ng-click="dismissInterstitialModal('@dataSourceItem.ID')">@Html.Sitecore().Field("No Show Button Text")</button>
             <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button Text")</button>
             <a class="button" href="@link.GetFriendlyUrl()"> @link.Text</a>
         </div>

@@ -769,6 +769,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\CustomerDismissedModalCondition.cs" />
     <Compile Include="Conditions\CustomerAutoPayCondition.cs" />
     <Compile Include="Conditions\CustomerEligibleRenewalCondition.cs" />
     <Compile Include="Conditions\CustomerPaperlessBillingCondition.cs" />
@@ -857,9 +858,9 @@
     <Compile Include="Models\Account\SendLetterResponse.cs" />
     <Compile Include="Models\Account\SetAutoPayRequest.cs" />
     <Compile Include="Models\Account\SetAutoPayResponse.cs" />
-    <Compile Include="Models\Account\ExcludeInterstitialModalRequest.cs" />
+    <Compile Include="Models\Account\DismissInterstitialModalRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalRequest.cs" />
-    <Compile Include="Models\Account\ExcludeInterstitialModalResponse.cs" />
+    <Compile Include="Models\Account\DismissInterstitialModalResponse.cs" />
     <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />

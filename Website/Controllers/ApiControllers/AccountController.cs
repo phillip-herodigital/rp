@@ -1168,10 +1168,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
-        #region Exclude Interstitial
+        #region Dismiss Interstitial
 
         [HttpPost]
-        public ExcludeInterstitialModalResponse ExcludeInterstitialModal(ExcludeInterstitialModalRequest request)
+        public DismissInterstitialModalResponse DismissInterstitialModal(DismissInterstitialModalRequest request)
         {
             bool isSuccess = false;
 
@@ -1179,18 +1179,25 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             Sitecore.Security.Accounts.User securityAccountUser = Sitecore.Security.Accounts.User.FromName(_user.UserName, true);
             if (securityAccountUser != null)
             {
-                string alreadyExcludedInterstitials = Sitecore.Context.User.Profile.GetCustomProperty("Excluded Interstitals");
-                string excludedInterstials = alreadyExcludedInterstitials;
-                if (!excludedInterstials.Contains(request.InterstitialId.ToString()))
+                string alreadyDismissedInterstitials = Sitecore.Context.User.Profile.GetCustomProperty("Dismissed Interstitals");
+                var data = StreamEnergy.Json.Read<List<dynamic>>(alreadyDismissedInterstitials);
+                var dismissedInterstials = data == null ? new List<dynamic>() : data;
+                if (!dismissedInterstials.Where(d => d.itemId == request.InterstitialId.ToString()).Any())
                 {
-                    excludedInterstials = excludedInterstials != "" ? alreadyExcludedInterstitials + '|' + request.InterstitialId.ToString() : request.InterstitialId.ToString();
+                    var excluded = new
+                    {
+                        itemId = request.InterstitialId,
+                        date = DateTime.Now
+                    };
+                    dismissedInterstials.Add(excluded);
                 }
-                securityAccountUser.Profile.SetCustomProperty("Excluded Interstitals", excludedInterstials);
+                string dismissedString = StreamEnergy.Json.Stringify(dismissedInterstials);
+                securityAccountUser.Profile.SetCustomProperty("Dismissed Interstitals", dismissedString);
                 securityAccountUser.Profile.Save();
                 isSuccess = true;
             }
 
-            return new ExcludeInterstitialModalResponse
+            return new DismissInterstitialModalResponse
             {
                 IsSuccess = isSuccess
             };

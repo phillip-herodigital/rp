@@ -5,7 +5,7 @@
 ngApp.controller('ctrlInterstitialModal', ['$scope', '$modal', '$http', function ($scope, $modal, $http) {
     
     $scope.modalInstance = {};
-    
+
     $scope.executeInterstitialModal = function (itemName) {
         $http.get('/account/interstitials/' + itemName)
         .success(function (data) {
@@ -18,11 +18,11 @@ ngApp.controller('ctrlInterstitialModal', ['$scope', '$modal', '$http', function
         })
     };
 
-    $scope.excludeInterstitialModal = function (itemId) {
+    $scope.dismissInterstitialModal = function (itemId) {
         var interstitialData = {
             interstitialId: itemId
         };
-        $http.post('/api/account/excludeInterstitialModal', interstitialData)
+        $http.post('/api/account/dismissInterstitialModal', interstitialData)
         .success(function (data) {
             $scope.modalInstance.close();
         })

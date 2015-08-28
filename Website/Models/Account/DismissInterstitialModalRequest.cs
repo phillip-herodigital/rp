@@ -5,7 +5,7 @@ using System.Web;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
-    public class ExcludeInterstitialModalRequest
+    public class DismissInterstitialModalRequest
     {
         public Guid InterstitialId { get; set; }
     }
