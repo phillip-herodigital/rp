@@ -183,13 +183,13 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                 }
                 else {
                     continueWith();
-                }
-                if (typeof $scope.accountInformation.associateName != 'undefined') {
-                    analytics.sendVariables(14, $scope.accountInformation.associateName);
-                } else {
-                    analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
-                }
+                }              
             });
+            if (typeof $scope.accountInformation.associateName != 'undefined') {
+                analytics.sendVariables(14, $scope.accountInformation.associateName);
+            } else {
+                analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
+            }
         } else {
             validation.showValidationSummary = true; 
             validation.cancelSuppress($scope);
