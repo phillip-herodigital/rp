@@ -48,20 +48,20 @@ namespace StreamEnergy.MyStream.Conditions
             {
                 Assert.ArgumentNotNull(ruleContext, "ruleContext");
                 string alreadyDismissedInterstitials = Sitecore.Context.User.Profile.GetCustomProperty("Dismissed Interstitals");
-                var data = StreamEnergy.Json.Read<List<dynamic>>(alreadyDismissedInterstitials);
-                var dismissedInterstials = data == null ? new List<dynamic>() : data;
+                var dismissedInterstials = StreamEnergy.Json.Read<List<dynamic>>(alreadyDismissedInterstitials);
+                string itemGuid = this.itemId.Guid.ToString();
                 string value = this.Value ?? string.Empty;
-                if (this.itemId == ID.Null)
+                if (this.itemId == ID.Null || dismissedInterstials == null)
                 {
                     return false;
                 }
                 if (string.IsNullOrEmpty(value))
                 {
-                    return (dismissedInterstials.SingleOrDefault(d => d.itemId == this.itemId.Guid.ToString()) != null);
+                    return dismissedInterstials.Any(d => d.itemId == itemGuid);
                 }
                 else
                 {
-                    var dismissedItem = dismissedInterstials.SingleOrDefault(d => d.itemId == this.itemId.Guid.ToString());
+                    var dismissedItem = dismissedInterstials.SingleOrDefault(d => d.itemId == itemGuid);
                     if (dismissedItem != null)
                     {
                         DateTime dismissedDate = Convert.ToDateTime(dismissedItem.date);
