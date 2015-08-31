@@ -28,6 +28,7 @@ using XBlogHelper;
 using XBlogHelper.General;
 using XBlogHelper.Helpers;
 using XBlogHelper.Models.Blog;
+using System.Web.Script.Serialization;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -298,6 +299,72 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             return events;
+        }
+
+        [HttpGet]
+        [Route("CalendarSearch/{search_keyword}")]
+        public HttpResponseMessage CalendarSearch(string search_keyword)
+        {
+            var currentsEvents = Sitecore.Context.Database.GetItem("{13388824-92B0-4280-A48D-254F00A5A026}").Children;
+            List<LoadCalendarEvent> listEvents = new List<LoadCalendarEvent>();
+
+            foreach (Item currentsEvent in currentsEvents)
+            {
+                DateTime startDate = Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
+                DateTime endDate = currentsEvent.Fields["End Date"].Value == "" ? startDate : Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["End Date"].Value);
+                var imageField = (ImageField)currentsEvent.Fields["Event Image"];
+                var registrationLink = (LinkField)currentsEvent.Fields["Registration Link"];
+                var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
+                var mapLocation = currentsEvent.Fields["Map Location"].Value.Replace(" ","+");
+                var mapButtonText = currentsEvent.Fields["Map Button Text"].Value;
+                var category = currentsEvent.Fields["Event Type"].Value.ToLower();
+                var stateField =  (Sitecore.Data.Fields.MultilistField) currentsEvent.Fields["Event State"];
+                var state = new List<string>();
+                foreach (Sitecore.Data.ID id in stateField.TargetIDs)
+                {
+                    state.Add(Sitecore.Context.Database.Items[id].Name);
+                }
+
+                LoadCalendarEvent e = new LoadCalendarEvent();
+                e.title = currentsEvent.Fields["Event Title"].Value;
+                e.startDate = startDate.ToString("MMMM d, yyyy");
+                e.endDate = endDate.ToString("MMMM d, yyyy");
+                e.imageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "";
+                e.location = currentsEvent.Fields["Event Location"].Value;
+                e.summary = currentsEvent.Fields["Event Summary"].Value;
+                e.maplocation = mapLocation;
+                e.category = category;
+                e.registrationText = !string.IsNullOrEmpty(registrationLink.Text) ? registrationLink.Text : "";
+                e.registrationURL = !string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()) ? registrationLink.GetFriendlyUrl() : "";
+                e.mapButtonText = !string.IsNullOrEmpty(mapButtonText) ? mapButtonText : "";
+                e.infoLinkText = !string.IsNullOrEmpty(infoLink.Text) ? infoLink.Text : "";
+                e.infoLinkURL = !string.IsNullOrEmpty(infoLink.GetFriendlyUrl()) ? infoLink.GetFriendlyUrl() : "";
+                e.state = string.Join(",", state);
+                listEvents.Add(e);
+               
+                /*
+                while (startDate <= endDate)
+                {
+                    string currentDateString = startDate.ToString(@"MM-dd-yyyy");
+                    if (events.ContainsKey(currentDateString)) 
+                    {
+                        events[currentDateString].Add(new { content = eventHtml, category = category, state = state });
+                    }
+                    else
+                    {
+                        var dailyEvents = new List<dynamic>();
+                        dailyEvents.Add(new { content = eventHtml, category = category, state = state });
+                        events.Add(currentDateString, dailyEvents);
+                    }
+                    startDate = startDate.AddDays(1);
+                }
+                */
+            }
+            var json = new JavaScriptSerializer().Serialize(listEvents);
+            return new HttpResponseMessage()
+                   {
+                       Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
+                   };
         }
 
         [HttpGet]

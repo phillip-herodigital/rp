@@ -1059,6 +1059,20 @@ $local-meeting-color: #00a8e1;
             }
         }
     }
+    .calendar-results {
+        background: #fff;
+        padding: 20px;
+        width: 100%;
+
+        .calendar-result {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 20px;
+
+            h3 {
+                border-bottom: 1px solid #00A3E0;
+            }
+        }
+    }
     .fc-calendar-container {
         position: relative;
         height: 800px;
