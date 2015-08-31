@@ -79,6 +79,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 w9BusinessData: _.keys($scope.w9BusinessData).length ? $scope.w9BusinessData : null
             });
         };
+
         if ($scope.getCartTotal() > 0) {
             var allPaymentMethods = _(enrollmentCartService.services)
             .pluck('offerInformationByType').flatten().filter()
