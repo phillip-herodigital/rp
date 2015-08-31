@@ -190,6 +190,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             bool isLoading = stateMachine.IsBreakForced();
 
+            bool isNeedsRefresh = stateMachine.Context.NeedsRefresh;
+            if (isNeedsRefresh)
+            {
+                Reset();
+            }
+
             return new ClientData
             {
                 IsTimeout = stateHelper.IsNewSession,
@@ -197,6 +203,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
+                NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
@@ -561,13 +568,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             
             if (stateMachine.Context.Services == null || stateMachine.Context.ContactInfo == null || request == null)
             {
-                Reset();
-                var redirectURL = "/enrollment";
-                Request.CreateResponse(new
-                {
-                    Redirect = redirectURL
-                });
-                return null;
+                //If session timed out before complete order, need to refresh the page and go back to step 1.
+                stateMachine.Context.NeedsRefresh = true;
+                return ClientData();
             }
 
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
