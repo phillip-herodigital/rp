@@ -1,14 +1,30 @@
 ﻿@using Sitecore.Data.Items
 @using Sitecore.Mvc
 @using Sitecore.Links
+@using Sitecore.Data.Fields
 @using System.Threading.Tasks
 @functions{
+    private List<Item> _excludeditems;
+    private List<Item> ExcludedItems
+    {
+        get {
+            if (_excludeditems != null)
+            {
+                return _excludeditems;
+            }
+            
+            MultilistField Tags = Sitecore.Context.Item.Fields["Excluded Pages"];
+            _excludeditems = Tags.GetItems().ToList();
+
+            return _excludeditems;
+        }
+    }
     private bool HideFromSitemap(Item item)
     {
-        if (!isPage(item) || item.Fields["Exclude From Sitemap"] == null)
+        if (!isPage(item))
             return false; //This method only focuses on pages with the "Exclude From Sitemap" field.
         
-        return !string.IsNullOrEmpty(item.Fields["Exclude From Sitemap"].Value);
+        return ExcludedItems.Any(a => a.ID == item.ID);
     }
     private bool isPage(Item item)
     {
@@ -17,7 +33,6 @@
         bool inheritsFromTemplate = false;
 
         return containsParentTemplate(item.Template, basePageTemplate);
-       // return item.Template == basePageTemplate || item.Template.BaseTemplates.Contains(basePageTemplate);
     }
 
     private bool containsParentTemplate(TemplateItem template, TemplateItem parent)
