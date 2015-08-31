@@ -203,7 +203,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Validations = validations,
                 ExpectedState = expectedState,
                 NeedsRefresh = isNeedsRefresh,
-                IsRenewal = stateMachine.Context.IsRenewal,
+                IsRenewal = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
