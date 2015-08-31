@@ -31,7 +31,7 @@ namespace StreamEnergy.Pipelines
 
         public override void Process(Sitecore.Pipelines.HttpRequest.HttpRequestArgs args)
         {
-            if (!dependencies.Context.Request.IsSecureConnection && dependencies.SSLEnabled)
+            if (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled)
             {
                 string url = dependencies.Context.Request.Url.ToString().StartsWith("http:") ? 
                     "https:" + dependencies.Context.Request.Url.ToString().Substring(5) : dependencies.Context.Request.Url.ToString();
