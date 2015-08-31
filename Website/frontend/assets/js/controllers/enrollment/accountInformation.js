@@ -140,25 +140,27 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
 
             $scope.accountInformation.associateName = null;
+        } else {
+            if (typeof $scope.accountInformation.associateName != 'undefined') {
+                analytics.sendVariables(14, $scope.accountInformation.associateName);
+            }
         }
         var addresses = [$scope.accountInformation.mailingAddress];
         if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
             addresses.push($scope.accountInformation.previousAddress);
         }
 
-
-        var continueWith = function () {
+        var continueWith = function () {           
             // update the cleansed address for mobile
             if ($scope.cartHasMobile() && typeof $scope.accountInformation.previousAddress == 'undefined') {
                 $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
             }
             enrollmentService.setAccountInformation().then(function (data) {
                 $scope.validations = data.validations;
-            });
-            
+            });            
         }
 
-        if ($scope.accountInfo.$valid && $scope.isFormValid()) {
+        if ($scope.accountInfo.$valid && $scope.isFormValid()) {          
             enrollmentService.cleanseAddresses(addresses).then(function (data) {
                 if ((data.length > 0 && data[0].length) || (data.length > 0 && typeof data[1] != 'undefined' && data[1].length)) {
                     var addressOptions = { };
@@ -191,7 +193,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                 else {
                     continueWith();
                 }
-            });
+            });               
         } else {
             validation.showValidationSummary = true; 
             validation.cancelSuppress($scope);
