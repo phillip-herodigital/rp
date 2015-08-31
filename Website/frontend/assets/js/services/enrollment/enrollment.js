@@ -5,7 +5,6 @@
 
     service.validations = [];
     service.isLoading = false;
-    service.needsRefresh = false;
 
     service.accountInformation = {
         contactTitle: '',
@@ -40,7 +39,7 @@
         }
 
         if (result.needsRefresh) {
-            window.location.href = "/enrollment";
+            window.location.href = window.location.href.substring(0, window.location.href.indexOf("#"));
             return;
         }
 
