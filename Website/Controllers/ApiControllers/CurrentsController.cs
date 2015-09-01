@@ -302,12 +302,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpGet]
-        [Route("CalendarSearch/{search_keyword}")]
-        public HttpResponseMessage CalendarSearch(string search_keyword)
+        [Route("CalendarSearch/{searchTerm}")]
+        public HttpResponseMessage CalendarSearch(string searchTerm)
         {
-            var currentsEvents = Sitecore.Context.Database.GetItem("{13388824-92B0-4280-A48D-254F00A5A026}").Children;
+            var query = string.Format("fast:/sitecore/content/Data/Currents/Calendar Events//*[@Event Title=\"%{0}%\" or @Event Summary=\"%{1}%\"  or @Event location=\"%{2}%\" ]", searchTerm, searchTerm, searchTerm);
+            var currentsEvents = Sitecore.Context.Database.SelectItems(query);
             List<LoadCalendarEvent> listEvents = new List<LoadCalendarEvent>();
-
             foreach (Item currentsEvent in currentsEvents)
             {
                 DateTime startDate = Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
@@ -320,10 +320,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var category = currentsEvent.Fields["Event Type"].Value.ToLower();
                 var stateField =  (Sitecore.Data.Fields.MultilistField) currentsEvent.Fields["Event State"];
 
-                var state = new List<string>();
+                var states = new List<string>();
                 foreach (Sitecore.Data.ID id in stateField.TargetIDs)
                 {
-                    state.Add(Sitecore.Context.Database.Items[id].Name);
+                    states.Add(Sitecore.Context.Database.Items[id].Name);
                 }
 
                 var eventDate = startDate.ToString("MMMM d");
@@ -353,7 +353,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 e.mapButtonText = !string.IsNullOrEmpty(mapButtonText) ? mapButtonText : "";
                 e.infoLinkText = !string.IsNullOrEmpty(infoLink.Text) ? infoLink.Text : "";
                 e.infoLinkURL = !string.IsNullOrEmpty(infoLink.GetFriendlyUrl()) ? infoLink.GetFriendlyUrl() : "";
-                e.state = string.Join(",", state);
+                e.states = states;
                 listEvents.Add(e);
                
                 /*

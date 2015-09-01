@@ -22,6 +22,6 @@ namespace StreamEnergy.MyStream.Models.Currents
         public string mapButtonText { get; set; }
         public string infoLinkURL { get; set; }
         public string infoLinkText { get; set; }
-        public string state { get; set; }
+        public List<string> states { get; set; }
     }
 }

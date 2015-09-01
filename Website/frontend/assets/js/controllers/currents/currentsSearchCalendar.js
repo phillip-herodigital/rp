@@ -2,22 +2,17 @@
  *
  */
 ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http', '$compile', function ($scope, $rootScope, $http, $compile) {
-    $scope.weeks = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
-    $scope.weekAbbrs = [ 'Sn', 'M', 'T', 'W', 'Th', 'F', 'St' ];
-    $scope.months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
-
 
     $scope.searchCalendar = function () {
         var filteredEvents = angular.copy($scope.eventsOriginal);
-        _.forEach(filteredEvents, function(eventsArray) {
-            if ($scope.typeFilter != null) {
-                filteredEvents = _.filter(eventsArray, {category: $scope.typeFilter});
-            }
-            if ($scope.stateFilter != null) {
-            }
-            if ($scope.searchTerm != null) {
-            }
-        });
+        if ($scope.typeFilter != null) {
+            filteredEvents = _.filter(filteredEvents, {category: $scope.typeFilter});
+        }
+        if ($scope.stateFilter != null) {
+            filteredEvents = _.filter(filteredEvents, function(singleEvent) {
+                return singleEvent.states.indexOf($scope.stateFilter) > -1
+            })
+        }
         $scope.events = filteredEvents;
     };
 
@@ -28,12 +23,7 @@ ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http',
             $http.get('/api/currents/CalendarSearch/' + $keyword).success(function (data, status, headers, config) {
                 $scope.events = data;
                 $scope.eventsOriginal = angular.copy($scope.events);
-
-                var states = _($scope.events).filter().flatten().pluck('state').flatten().uniq().value();
-                states = states.join(',');
-                states = states.split(',');
-                states = jQuery.unique(states);
-                $scope.eventStates = states;
+                $scope.eventStates =  _($scope.events).filter().flatten().pluck('states').flatten().uniq().value();
             });
         }
     }
