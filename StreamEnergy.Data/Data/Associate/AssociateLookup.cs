@@ -46,7 +46,10 @@ namespace StreamEnergy.Data.Associate
             }
             catch
             {
-                return null;
+                return new AssociateInformation()
+                {
+                    AssociateId = associateId,
+                };
             }
         }
 
