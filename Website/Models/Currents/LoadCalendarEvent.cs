@@ -11,6 +11,7 @@ namespace StreamEnergy.MyStream.Models.Currents
         public string title { get; set; }
         public string startDate { get; set; }
         public string endDate { get; set; }
+        public string eventDate { get; set; }
         public string imageURL { get; set; }
         public string location { get; set; }
         public string summary { get; set; }

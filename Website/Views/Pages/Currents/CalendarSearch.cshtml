@@ -24,32 +24,30 @@
             <h3>{{event.title}}</h3>
             <img ng-src="{{event.imageURL}}" ng-click="setImage(img)">
             <br />
-            startDate: {{event.startDate}}
-            <br />
-            endDate: {{event.endDate}}
+            Date: {{event.eventDate}}
             <br />
             location: {{event.location}}
             <br />
             summary: {{event.summary}}
             <br />
-            maplocation: {{event.maplocation}}
-            <br />
             category: {{event.category}}
             <br />
-            registrationURL: {{event.registrationURL}}
-            <br />
-            registrationText: {{event.registrationText}}
-            <br />
-            infoLinkURL: {{event.infoLinkURL}}
-            <br />
-            infoLinkText: {{event.infoLinkText}}
+            <div ng-if="event.registrationText != '' && event.registrationURL != ''">
+                <a href='{{event.registrationURL}}' class='register' target='_blank'>{{event.registrationText}}</a>
+            </div>
+            <div class="infolink" ng-if="event.infoLinkURL != '' && event.infoLinkText != ''">
+                <a href='{{event.infoLinkURL}}' class='info' target='_blank'>{{event.infoLinkText}}</a>
+            </div>
             <br />
             state: {{event.state}}
             <br />
-            <div ng-if="event.maplocation != ''">
+            <div class="maplocation" ng-if="event.maplocation != ''">
                 <a href='https://www.google.com/maps/dir//{{event.maplocation}}' target='_blank'>
-                <img src='http://maps.googleapis.com/maps/api/staticmap?center={{event.maplocation}}&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C{{event.maplocation}}'>
+                    <img src='http://maps.googleapis.com/maps/api/staticmap?center={{event.maplocation}}&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C{{event.maplocation}}'>
                 </a>
+            </div>
+            <div class="maplocation" ng-if="event.maplocation != '' && event.mapButtonText != ''">
+                <a href='https://www.google.com/maps/dir//{{event.maplocation}}' class='view-map' target='_blank'>{{event.mapButtonText}}</a>
             </div>
         </div>
     </div>

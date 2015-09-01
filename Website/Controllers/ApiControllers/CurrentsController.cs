@@ -319,16 +319,30 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var mapButtonText = currentsEvent.Fields["Map Button Text"].Value;
                 var category = currentsEvent.Fields["Event Type"].Value.ToLower();
                 var stateField =  (Sitecore.Data.Fields.MultilistField) currentsEvent.Fields["Event State"];
+
                 var state = new List<string>();
                 foreach (Sitecore.Data.ID id in stateField.TargetIDs)
                 {
                     state.Add(Sitecore.Context.Database.Items[id].Name);
                 }
 
+                var eventDate = startDate.ToString("MMMM d");
+                if (startDate != endDate)
+                {
+                    eventDate += " - ";
+                    eventDate += (startDate.Month == endDate.Month) ? endDate.Day.ToString() : endDate.ToString("MMMM d");
+                    eventDate += ", " + endDate.ToString("yyyy");
+                }
+                else 
+                {
+                    eventDate += ", " + startDate.ToString("yyyy");
+                }
+
                 LoadCalendarEvent e = new LoadCalendarEvent();
                 e.title = currentsEvent.Fields["Event Title"].Value;
                 e.startDate = startDate.ToString("MMMM d, yyyy");
                 e.endDate = endDate.ToString("MMMM d, yyyy");
+                e.eventDate = eventDate;
                 e.imageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "";
                 e.location = currentsEvent.Fields["Event Location"].Value;
                 e.summary = currentsEvent.Fields["Event Summary"].Value;

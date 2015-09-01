@@ -9,24 +9,16 @@ ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http',
 
     $scope.searchCalendar = function () {
         var filteredEvents = angular.copy($scope.eventsOriginal);
-        alert(filteredEvents.toSource())
-        _.forEach(filteredEvents, function(eventsArray, day) {
+        _.forEach(filteredEvents, function(eventsArray) {
             if ($scope.typeFilter != null) {
-                filteredEvents[day] = _.filter(eventsArray, {category: $scope.typeFilter});
+                filteredEvents = _.filter(eventsArray, {category: $scope.typeFilter});
             }
             if ($scope.stateFilter != null) {
-                filteredEvents[day] = _.filter(eventsArray, function(singleEvent) {
-                    return singleEvent.state.indexOf($scope.stateFilter) > -1
-                })
             }
             if ($scope.searchTerm != null) {
-                filteredEvents[day] = _.filter(eventsArray, function(singleEvent) {
-                    return singleEvent.content.toLowerCase().indexOf($scope.searchTerm.toLowerCase()) > -1
-                })
             }
         });
         $scope.events = filteredEvents;
-        $scope.cal.setData($scope.events, true);
     };
 
     $scope.searchCalendarKeyword = function () {
@@ -35,7 +27,13 @@ ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http',
 
             $http.get('/api/currents/CalendarSearch/' + $keyword).success(function (data, status, headers, config) {
                 $scope.events = data;
-                $scope.eventStates = _($scope.events).filter().flatten().pluck('state').filter().flatten().uniq().value()
+                $scope.eventsOriginal = angular.copy($scope.events);
+
+                var states = _($scope.events).filter().flatten().pluck('state').flatten().uniq().value();
+                states = states.join(',');
+                states = states.split(',');
+                states = jQuery.unique(states);
+                $scope.eventStates = states;
             });
         }
     }
