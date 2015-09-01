@@ -79,7 +79,10 @@ WHERE h.[IA Number] = @associateId", connection)
                         };
                     }
                 }
-                return null;
+                return new AssociateInformation()
+                {
+                    AssociateId = associateId,
+                };
             }
         }
     }
