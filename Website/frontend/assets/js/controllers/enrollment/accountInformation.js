@@ -134,6 +134,13 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
+        if (!$scope.additionalInformation.hasAssociateReferral) {
+
+            //Google analytics - track for no associate name.
+            analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
+
+            $scope.accountInformation.associateName = null;
+        }
         var addresses = [$scope.accountInformation.mailingAddress];
         if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
             addresses.push($scope.accountInformation.previousAddress);
@@ -183,11 +190,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                 }
                 else {
                     continueWith();
-                }
-                if (typeof $scope.accountInformation.associateName != 'undefined') {
-                    analytics.sendVariables(14, $scope.accountInformation.associateName);
-                } else {
-                    analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
                 }
             });
         } else {
