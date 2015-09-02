@@ -244,7 +244,6 @@
     <Compile Include="Mvc\Sitecore\SitecoreTranslatingModelValidatorProvider.cs" />
     <Compile Include="NullSettings.cs" />
     <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
-    <Compile Include="Pipelines\HTTPToHTTPSRedirect.cs" />
     <Compile Include="Pipelines\OverrideIpAddress.cs" />
     <Compile Include="Pipelines\RebuildSearchIndex.cs" />
     <Compile Include="Pipelines\LogException.cs" />
