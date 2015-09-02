@@ -104,7 +104,7 @@ namespace StreamEnergy.Services.Clients
                               EnrollmentType = serviceStatus.EnrollmentType,
 
                               Name = productData.Fields["Name"],
-                              Description = productData.Fields["Description"],
+                              Description = System.Web.HttpUtility.HtmlEncode(productData.Fields["Description"]),
 
                               Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value,
                               TermMonths = product.Term,
