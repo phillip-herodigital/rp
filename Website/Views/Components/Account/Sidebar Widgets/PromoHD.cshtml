@@ -1,12 +1,13 @@
-﻿<article class="promo @Html.Sitecore().Field("Custom CSS Class")">
+﻿<article class="promoHD @Html.Sitecore().Field("Custom CSS Class")">
+    <strong>@Html.Sitecore().Field("Promo Image")</strong>
     <header>
-        <h3>@Html.Sitecore().Field("Title")</h3>
+        @Html.Sitecore().Field("Promo Icon")
+        <h3>@Html.Sitecore().Field("Promo Title")</h3>
     </header>
     <div class="content">
-        @Html.Sitecore().Field("Image")
-        @Html.Sitecore().Field("Content")
+        @Html.Sitecore().Field("Promo Content")
         <div class="action">
-            @Html.Sitecore().Field("Link")
+            @Html.Sitecore().Field("Promo Link")
         </div>
     </div>
 </article>
