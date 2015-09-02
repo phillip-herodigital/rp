@@ -38,7 +38,7 @@ namespace StreamEnergy.MyStream.Conditions
 
         protected override bool Execute(T ruleContext)
         {
-            if (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled)
+            if (!dependencies.Context.Request.IsSecureConnection && dependencies.SSLEnabled)
             {
                 string url = dependencies.Context.Request.Url.ToString().StartsWith("http:") ?
                    "https:" + dependencies.Context.Request.Url.ToString().Substring(5) : dependencies.Context.Request.Url.ToString();
