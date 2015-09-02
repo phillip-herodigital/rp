@@ -120,6 +120,7 @@ namespace StreamEnergy.Services.Clients
                               TermMonths = product.Term,
                               RateType = ((IEnumerable<dynamic>)product.Rates).Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               TerminationFee = ((IEnumerable<dynamic>)product.Fees).Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
+                              IncludesThermostat = !string.IsNullOrEmpty(productData.Fields["Includes Thermostat"]),
 
                               Footnotes = productData.Footnotes,
 

@@ -36,6 +36,7 @@ namespace StreamEnergy.Services.Clients
                         {
                             Fields = new NameValueCollection
                             {
+                                { "Includes Thermostat", item["Includes Thermostat"]},
                                 { "Name", item["Product Name"] },
                                 { "Description", LoadProductDescription(providerName, item) },
                                 { "Minimum Usage Fee", item["Minimum Usage Fee"] },

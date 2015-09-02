@@ -186,6 +186,10 @@
                                 <li><a ng-href="{{plan.documents.termsOfService}}" target="_blank">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
                                 <li><a ng-href="{{plan.documents.yourRightsAsACustomer}}" target="_blank">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
                             </ul>
+                            
+                            <div ng-if="plan.includesThermostat" class="includes-thermostat">
+                                Includes thermostat container
+                            </div>
 
                             <dl class="plan-selection-fees">
                                 <dt>@Html.Sitecore().Field("Stream Energy Charge Label")</dt>
