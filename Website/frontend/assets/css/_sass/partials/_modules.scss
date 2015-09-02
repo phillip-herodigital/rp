@@ -2809,10 +2809,10 @@ aside {
                 height:100%;
                 @include breakpoint-min-max('500px', '767px') {
                     height:auto;
-                    }
+                }
                 @include breakpoint-min-max('100px','500px') {
                     height:100%;
-                    }
+                }
             }
         }
 		header {
