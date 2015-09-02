@@ -2796,7 +2796,56 @@ aside {
 			}
         }	
 	}
-	article.subnav {
+    article.promoHD { 
+        position:relative;
+        min-height:185px;
+        color:#fff;
+        overflow:hidden;
+        strong {
+            width:100%;
+            img {
+                position:absolute;
+                width:100%;
+                height:100%;
+                @include breakpoint-min-max('500px', '767px') {
+                    height:auto;
+                    }
+                @include breakpoint-min-max('100px','500px') {
+                    height:100%;
+                    }
+            }
+        }
+		header {
+            padding-bottom:0;
+            img {
+                position: relative;
+                margin: 1% 40% 0 35%;
+            }
+			h3 {
+				font-size: 16px;
+				text-transform: uppercase;
+                color: #fff;
+                position: relative;
+                text-align: center;
+			}
+		}
+		p {
+		    text-align: center;
+            margin-bottom:0; 
+		}
+        div.action {
+        	margin-top: 5px;
+            text-align: center;
+            a {
+                color:#fff;
+                font-weight: 600;
+            }
+        	button, .button {
+				width: 100%;
+			}
+        }	
+	}
+    article.subnav {
 		ul {
 			list-style-type: none;
 			margin: 0;
