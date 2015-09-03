@@ -54,7 +54,7 @@
                                         {
                                             @class = "typeahead state-select-typeahead",
                                             ng_model = "data.serviceLocation",
-                                            placeholder = @Html.Sitecore().Field("Address Placeholder"),
+                                            placeholder = Html.Sitecore().CurrentItem.Fields["Address Placeholder"].Value,
                                             typeahead = "location as location.address|address for location in getLocation(data.serviceState, $viewValue)",
                                             ng_disabled = "data.serviceState == ''",
                                             typeahead_loading = "loadingServiceAddress",

@@ -38,6 +38,11 @@
             }, 250, false);
         }
 
+        if (result.needsRefresh) {
+            window.location.href = window.location.href.substring(0, window.location.href.indexOf("#"));
+            return;
+        }
+
         // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.
         angular.copy(result.validations, service.validation);
 

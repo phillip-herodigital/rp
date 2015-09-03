@@ -106,6 +106,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
             }
 
+            stateHelper.StateMachine.InternalContext.AssociateEmailSent = false;
+
+            stateHelper.StateMachine.InternalContext.EnrollmentScreenshotTaken = false;
+
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -186,6 +190,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             bool isLoading = stateMachine.IsBreakForced();
 
+            bool isNeedsRefresh = stateMachine.Context.NeedsRefresh;
+            if (isNeedsRefresh)
+            {
+                Reset();
+            }
+
             return new ClientData
             {
                 IsTimeout = stateHelper.IsNewSession,
@@ -193,6 +203,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
+                NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
@@ -201,6 +212,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 PreviousProvider = stateMachine.Context.PreviousProvider,
                 AssociateInformation = stateMachine.InternalContext.AssociateInformation,
                 AssociateName = stateMachine.Context.AssociateName,
+                AssociateEmailSent = stateMachine.InternalContext.AssociateEmailSent,
+                EnrollmentScreenshotTaken = stateMachine.InternalContext.EnrollmentScreenshotTaken,
                 Cart = from service in services
                        let locationOfferSet = offers.ContainsKey(service.Location) ? offers[service.Location] : new LocationOfferSet()
                        select new CartEntry
@@ -553,6 +566,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await Initialize();
             
+            if (stateMachine.Context.Services == null || stateMachine.Context.ContactInfo == null || request == null)
+            {
+                //If session timed out before complete order, need to refresh the page and go back to step 1.
+                stateMachine.Context.NeedsRefresh = true;
+                return ClientData();
+            }
+
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
             if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard)
             {
@@ -602,15 +622,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)
         {
-            if (redisDatabase != null && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
+            if (redisDatabase != null && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.EnrollmentScreenshotTaken)
             {
                 await redisDatabase.ListRightPushAsync("EnrollmentScreenshots", StreamEnergy.Json.Stringify(resultData));
+                stateMachine.InternalContext.EnrollmentScreenshotTaken = true;
             }
         }
 
         private async Task SendAssociateNameEmail(Models.Enrollment.ClientData resultData)
         {
-            if (resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed)
+            if (resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.AssociateEmailSent)
             {
                 var acctNumbers = (from product in resultData.Cart
                                    from offerInformation in product.OfferInformationByType
@@ -648,6 +669,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         },
                     });
                 }
+                stateMachine.InternalContext.AssociateEmailSent = true;
             }
         }
 
@@ -658,37 +680,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             return null;
             //return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
-        }
-
-        [HttpGet]
-        [Caching.CacheControl(MaxAgeInMinutes = 60, IsPublic = true)]
-        public HttpResponseMessage ProxyAssociateImage(string webAlias)
-        {
-            CookieContainer cookieContainer = new CookieContainer();
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://" + webAlias + ".mystream.com/showimage.asp");
-            request.CookieContainer = cookieContainer;
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                if ((response.StatusCode == HttpStatusCode.OK ||
-                    response.StatusCode == HttpStatusCode.Moved ||
-                    response.StatusCode == HttpStatusCode.Redirect) &&
-                    response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
-                {
-                    using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-                    {
-                        Byte[] lnByte = reader.ReadBytes((int)response.ContentLength);
-                        HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-                        var stream = new MemoryStream(lnByte);
-                        result.Content = new StreamContent(stream);
-                        result.Content.Headers.ContentType = new MediaTypeHeaderValue(response.ContentType);
-                        return result;
-                    }
-                }
-                else
-                {
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                }
-            }
         }
     }
 }
