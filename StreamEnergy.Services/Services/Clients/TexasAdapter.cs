@@ -211,9 +211,19 @@ namespace StreamEnergy.Services.Clients
                 result.ProductName = productData.Fields["Name"] ?? details.Product.Name;
                 result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
                 result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
+
+                result.IncludesThermostat = IncludesThemostat(result.ProductName);
+                
                 result.CustomerType = (details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial;
             }
             return result;
+        }
+
+        private bool IncludesThemostat(string productName)
+        {
+            List<Sitecore.Data.Items.Item> products = Sitecore.Context.Database.GetItem("{59E32706-A8B5-4E47-9918-D3DE64E2C7F8}").Children.ToList(); // /sitecore/content/Data/Taxonomy/Products/Texas
+
+            return products.Any(a => a.Fields != null && !string.IsNullOrEmpty(a.Fields["Includes Thermostat"].Value));
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)

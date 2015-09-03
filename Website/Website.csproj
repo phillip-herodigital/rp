@@ -771,6 +771,7 @@
   <ItemGroup>
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
+    <Compile Include="Conditions\HasThermostatPlanCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\CurrentsController.cs" />
     <Compile Include="Controllers\ApiControllers\LogViewerController.cs" />
