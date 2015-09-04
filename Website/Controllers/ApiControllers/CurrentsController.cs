@@ -254,7 +254,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 "<div class='event-summary'>" + currentsEvent.Fields["Event Summary"].Value + "</div>";
                 if (!string.IsNullOrEmpty(mapLocation))
                 {
-                    eventHtml += "</div><div class='col map'><img src='http://maps.googleapis.com/maps/api/staticmap?center=" + mapLocation + "&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C" + mapLocation + "'></div></div>";
+                    eventHtml += "</div><div class='col map'><a href='https://www.google.com/maps/dir//" + mapLocation + "' class='view-map' target='_blank'><img src='http://maps.googleapis.com/maps/api/staticmap?center=" + mapLocation + "&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C" + mapLocation + "'></a></div></div>";
                 }
                 eventHtml += "<div class='event-links'>";
                 if (!string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()))
