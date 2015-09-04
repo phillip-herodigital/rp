@@ -894,6 +894,7 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\Currents\LoadCalendarEvent.cs" />
     <Compile Include="Models\Currents\LoadPostsRequest.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
