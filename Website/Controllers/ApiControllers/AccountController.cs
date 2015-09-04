@@ -83,21 +83,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private static Models.Account.AccountToPay CreateViewAccountBalances(Account account, DomainModels.Accounts.Invoice invoice)
         {
-            var result = new StreamEnergy.MyStream.Models.Account.AccountToPay
+            Models.Account.AccountToPay result = null;
+            try
             {
-                AccountNumber = account.AccountNumber,
-                AmountDue = account.Balance.Balance,
-                DueDate = account.Balance.DueDate,
-                AccountType = account.AccountType,
-                SystemOfRecord = account.SystemOfRecord,
-                UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
-                CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
-                AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
-            };
 
-            if (invoice != null && invoice.PdfAvailable)
-            {
-                result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
+                result = new StreamEnergy.MyStream.Models.Account.AccountToPay
+                {
+                    AccountNumber = account.AccountNumber,
+                    AmountDue = account.Balance.Balance,
+                    DueDate = account.Balance.DueDate,
+                    AccountType = account.AccountType,
+                    SystemOfRecord = account.SystemOfRecord,
+                    UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
+                    CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
+                    AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
+                };
+
+                if (invoice != null && invoice.PdfAvailable)
+                {
+                    result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
+                }
+            }
+            catch (Exception e) { 
             }
 
             return result;
