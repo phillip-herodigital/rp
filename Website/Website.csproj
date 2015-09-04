@@ -1589,7 +1589,7 @@
     <Content Include="Views\Pages\Currents\Calendar.cshtml" />
     <Content Include="Views\Components\Email\Currents\Currents Email Custom Content.cshtml" />
     <Content Include="Views\Pages\Sitemap.cshtml" />
-    <Content Include="Views\Components\Account\Sidebar Widgets\PromoHD.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Promo2.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
