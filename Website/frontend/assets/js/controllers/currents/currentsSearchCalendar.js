@@ -1,9 +1,26 @@
 /* Currents Calendar Controller
  *
  */
-ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http', '$compile', function ($scope, $rootScope, $http, $compile) {
+ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+
+    $scope.isLoading = false;
 
     $scope.searchCalendar = function () {
+        $scope.isLoading = true;
+        $http.post('/api/currents/calendarSearch/', {
+            categoryID: $scope.searchCategory,
+            state: $scope.searchState,
+            searchText: $scope.searchTerm,
+            language: $scope.language
+        }).success(function (data) {
+            $scope.isLoading = false;
+            $scope.events = data;
+            $scope.eventsOriginal = angular.copy($scope.events);
+            $scope.eventStates =  _($scope.events).filter().flatten().pluck('states').flatten().uniq().value();
+        });
+    };
+
+    $scope.filterEvents = function () {
         var filteredEvents = angular.copy($scope.eventsOriginal);
         if ($scope.typeFilter != null) {
             filteredEvents = _.filter(filteredEvents, {category: $scope.typeFilter});
@@ -15,17 +32,5 @@ ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http',
         }
         $scope.events = filteredEvents;
     };
-
-    $scope.searchCalendarKeyword = function () {
-        var $keyword = $scope.searchTerm;
-        if ($keyword != null) {
-
-            $http.get('/api/currents/CalendarSearch/' + $keyword).success(function (data, status, headers, config) {
-                $scope.events = data;
-                $scope.eventsOriginal = angular.copy($scope.events);
-                $scope.eventStates =  _($scope.events).filter().flatten().pluck('states').flatten().uniq().value();
-            });
-        }
-    }
 
 }]);
