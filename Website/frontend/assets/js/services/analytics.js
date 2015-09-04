@@ -21,12 +21,10 @@
                                 }
                                 tracker.send('event');
                                 count = 5;
-                            }
-                            
+                            }                            
                         }, 1000);
                         count++;
                     }
-
                 }
             } catch(e) {} //just eat any errors;
         }
