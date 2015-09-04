@@ -1043,7 +1043,7 @@ $local-meeting-color: #00a8e1;
             position: absolute;
             bottom: 25px;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 30px;
             font-weight: 400;
             &.prev-month {
                 left: 0;
@@ -1055,6 +1055,81 @@ $local-meeting-color: #00a8e1;
                 right: 0;
                 i {
                     margin: -8px 0 0 20px;
+                }
+            }
+        }
+    }
+    .calendar-results {
+        background: #fff;
+        padding: 20px;
+        width: 100%;
+
+        .calendar-result {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 20px;
+            &:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
+
+            h3 {
+                border-bottom: 1px solid #00A3E0;
+            }
+            .event-img {
+                width: 100%;
+                margin: 0 0 20px 0;
+                img {
+                    width: 100%;
+
+                }
+
+            }
+            .event-content{
+                display: block;
+                clear: both;
+
+                .event-left {
+                    float: left;
+                    width: 60%;
+                    padding-right: 10px;
+                    @include breakpoint(small-medium) {
+                        float: none;
+                        width: 100%;
+                    }
+                    &:after {
+                        content: '';
+                        left: 0;
+                        display: block;
+                    }
+                    .event-row {
+                        margin: 5px 0 10px 0;
+
+                        span {
+                            font-weight: bold;
+                        }
+
+                    }
+                }
+                .event-right {
+                    float: right;
+                    width: 40%;
+                    text-align: right;
+                    @include breakpoint(small-medium) {
+                        text-align: left;
+                        float: none;
+                        width: 100%;
+                    }
+                    &:after {
+                        content: '';
+                        display: block;
+                    }
+                }
+                &:after {
+                    content: '';
+                    overflow: hidden;
+                    display: block;
+                    margin: 0 0 0 20px;
                 }
             }
         }

@@ -28,6 +28,7 @@ using XBlogHelper;
 using XBlogHelper.General;
 using XBlogHelper.Helpers;
 using XBlogHelper.Models.Blog;
+using System.Web.Script.Serialization;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -253,11 +254,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 "<div class='event-summary'>" + currentsEvent.Fields["Event Summary"].Value + "</div>";
                 if (!string.IsNullOrEmpty(mapLocation))
                 {
-                    eventHtml += "</div><div class='col map'>";
-                    eventHtml += "<a href='https://www.google.com/maps/dir//" + mapLocation + "' target='_blank'>";
-                    eventHtml += "<img src='http://maps.googleapis.com/maps/api/staticmap?center=" + mapLocation + "&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C" + mapLocation + "'>";
-                    eventHtml += "</a>";
-                    eventHtml += "</div></div>";
+                    eventHtml += "</div><div class='col map'><img src='http://maps.googleapis.com/maps/api/staticmap?center=" + mapLocation + "&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C" + mapLocation + "'></div></div>";
                 }
                 eventHtml += "<div class='event-links'>";
                 if (!string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()))
@@ -298,6 +295,86 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             return events;
+        }
+
+        [HttpGet]
+        [Route("CalendarSearch/{searchTerm}")]
+        public HttpResponseMessage CalendarSearch(string searchTerm)
+        {
+            var query = string.Format("fast:/sitecore/content/Data/Currents/Calendar Events//*[@Event Title=\"%{0}%\" or @Event Summary=\"%{1}%\"  or @Event location=\"%{2}%\" ]", searchTerm, searchTerm, searchTerm);
+            var currentsEvents = Sitecore.Context.Database.SelectItems(query);
+            List<LoadCalendarEvent> listEvents = new List<LoadCalendarEvent>();
+            foreach (Item currentsEvent in currentsEvents)
+            {
+                DateTime startDate = Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
+                DateTime endDate = currentsEvent.Fields["End Date"].Value == "" ? startDate : Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["End Date"].Value);
+                var imageField = (ImageField)currentsEvent.Fields["Event Image"];
+                var registrationLink = (LinkField)currentsEvent.Fields["Registration Link"];
+                var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
+                var mapLocation = currentsEvent.Fields["Map Location"].Value.Replace(" ","+");
+                var mapButtonText = currentsEvent.Fields["Map Button Text"].Value;
+                var category = currentsEvent.Fields["Event Type"].Value.ToLower();
+                var stateField =  (Sitecore.Data.Fields.MultilistField) currentsEvent.Fields["Event State"];
+
+                var states = new List<string>();
+                foreach (Sitecore.Data.ID id in stateField.TargetIDs)
+                {
+                    states.Add(Sitecore.Context.Database.Items[id].Name);
+                }
+
+                var eventDate = startDate.ToString("MMMM d");
+                if (startDate != endDate)
+                {
+                    eventDate += " - ";
+                    eventDate += (startDate.Month == endDate.Month) ? endDate.Day.ToString() : endDate.ToString("MMMM d");
+                    eventDate += ", " + endDate.ToString("yyyy");
+                }
+                else 
+                {
+                    eventDate += ", " + startDate.ToString("yyyy");
+                }
+
+                LoadCalendarEvent e = new LoadCalendarEvent();
+                e.title = currentsEvent.Fields["Event Title"].Value;
+                e.startDate = startDate.ToString("MMMM d, yyyy");
+                e.endDate = endDate.ToString("MMMM d, yyyy");
+                e.eventDate = eventDate;
+                e.imageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "";
+                e.location = currentsEvent.Fields["Event Location"].Value;
+                e.summary = currentsEvent.Fields["Event Summary"].Value;
+                e.maplocation = mapLocation;
+                e.category = category;
+                e.registrationText = !string.IsNullOrEmpty(registrationLink.Text) ? registrationLink.Text : "";
+                e.registrationURL = !string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()) ? registrationLink.GetFriendlyUrl() : "";
+                e.mapButtonText = !string.IsNullOrEmpty(mapButtonText) ? mapButtonText : "";
+                e.infoLinkText = !string.IsNullOrEmpty(infoLink.Text) ? infoLink.Text : "";
+                e.infoLinkURL = !string.IsNullOrEmpty(infoLink.GetFriendlyUrl()) ? infoLink.GetFriendlyUrl() : "";
+                e.states = states;
+                listEvents.Add(e);
+               
+                /*
+                while (startDate <= endDate)
+                {
+                    string currentDateString = startDate.ToString(@"MM-dd-yyyy");
+                    if (events.ContainsKey(currentDateString)) 
+                    {
+                        events[currentDateString].Add(new { content = eventHtml, category = category, state = state });
+                    }
+                    else
+                    {
+                        var dailyEvents = new List<dynamic>();
+                        dailyEvents.Add(new { content = eventHtml, category = category, state = state });
+                        events.Add(currentDateString, dailyEvents);
+                    }
+                    startDate = startDate.AddDays(1);
+                }
+                */
+            }
+            var json = new JavaScriptSerializer().Serialize(listEvents);
+            return new HttpResponseMessage()
+                   {
+                       Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
+                   };
         }
 
         [HttpGet]

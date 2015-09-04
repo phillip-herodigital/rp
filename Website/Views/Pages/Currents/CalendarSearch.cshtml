@@ -1,0 +1,65 @@
+﻿
+<div class="currents__calendar" ng-controller="CurrentsSearchCalendarCtrl" ng-init="eventTypes = @(Html.Action("EventCategories", "Data").ToHtmlString()); searchTerm = '@(Request.QueryString["term"])'; searchCalendarKeyword();">
+    <h1>@Html.Sitecore().Field("Calendar Title")</h1>
+    <h1>This is the calendar search page.</h1>
+    <div class="calendar-links">
+        @Html.Sitecore().Field("Nav Links")
+    </div>
+    <div class="calendar-filters clearfix">
+        <select class="type-filter" ng-model="typeFilter" ng-options="eventType.name as eventType.display for eventType in eventTypes" ng-change="searchCalendar()">
+            <option value="">@Html.Sitecore().Field("Type Filter Text")</option>
+        </select>
+        <select class="state-filter" ng-model="stateFilter" ng-options="state as state for state in eventStates | orderBy: state" ng-change="searchCalendar()">
+            <option value="">@Html.Sitecore().Field("State Filter Text")</option>
+        </select>
+        <div class="search">
+            <form ng-submit="searchCalendarKeyword()">
+                <input type="search" class="typeahead" placeholder="@Html.Sitecore().Field("Search Text")" ng-model="searchTerm" ng-keyup="$event.keyCode == 13 && searchCalendarKeyword()" />
+                <button type="submit"></button>
+            </form>
+        </div>
+    </div>
+    <div class="calendar-results">
+        <p ng-hide="events.length">NO RESULTS</p>
+        <div class="calendar-result" ng-repeat="event in events">
+            <h3>{{event.title}}</h3>
+            <div class="event-img" ng-hide="{{event.imageURL}}">
+                <img ng-src="{{event.imageURL}}" ng-click="setImage(img)">
+            </div>
+            <div class="event-content">
+                <div class="event-left">
+                    <div class="event-row" ng-hide="{{event.eventDate}}">
+                        <span>Date:</span> {{event.eventDate}}
+                    </div>
+                    <div class="event-row" ng-hide="{{event.location}}">
+                        <span>Location:</span> {{event.location}}
+                    </div>
+                    <div class="event-row" ng-hide="{{event.category}}">
+                        <span>Category:</span> {{event.category}}
+                    </div>
+                    <div class="event-row" ng-hide="{{event.summary}}">
+                        {{event.summary}}
+                    </div>
+                </div>
+                <div class="event-right">
+                    <div class="maplocation" ng-if="event.maplocation != ''">
+                        <a href='https://www.google.com/maps/dir//{{event.maplocation}}' target='_blank'>
+                            <img src='http://maps.googleapis.com/maps/api/staticmap?center={{event.maplocation}}&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C{{event.maplocation}}'>
+                        </a>
+                    </div>
+                    <div class="maplocation" ng-if="event.maplocation != '' && event.mapButtonText != ''">
+                        <a href='https://www.google.com/maps/dir//{{event.maplocation}}' class='view-map' target='_blank'>{{event.mapButtonText}}</a>
+                    </div>
+                    <div ng-if="event.registrationText != '' && event.registrationURL != ''">
+                        <a href='{{event.registrationURL}}' class='register' target='_blank'>{{event.registrationText}}</a>
+                    </div>
+                    <div class="infolink" ng-if="event.infoLinkURL != '' && event.infoLinkText != ''">
+                        <a href='{{event.infoLinkURL}}' class='info' target='_blank'>{{event.infoLinkText}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
