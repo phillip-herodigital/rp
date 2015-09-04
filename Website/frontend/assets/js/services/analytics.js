@@ -11,7 +11,7 @@
                     }
                     tracker.send('event');
                 } else { 
-                    var maxLoop=5; var count=0;
+                    var count=0;
                     while (count <= 5) {
                         $timeout(function () {
                             if (window.ga && window.ga.getAll().length >= 1) {
