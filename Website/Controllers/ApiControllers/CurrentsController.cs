@@ -300,6 +300,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public IEnumerable<CalendarEvent> CalendarSearch (CalendarSearchRequest request)
         {
+            List<CalendarEvent> listEvents = new List<CalendarEvent>();
+            // Handle blank input
+            if (string.IsNullOrEmpty(request.CategoryID) && string.IsNullOrEmpty(request.State) && string.IsNullOrEmpty(request.SearchText))
+            {
+                return listEvents;
+            }   
+         
             var query = "fast:/sitecore/content/Data/Currents/Calendar Events//*[";
             if (!string.IsNullOrEmpty(request.SearchText)) 
             {
@@ -324,7 +331,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var currentsEvents = Sitecore.Context.Database.SelectItems(query);
 
-            List<CalendarEvent> listEvents = new List<CalendarEvent>();
             foreach (Item currentsEvent in currentsEvents)
             {
                 DateTime startDate = Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
