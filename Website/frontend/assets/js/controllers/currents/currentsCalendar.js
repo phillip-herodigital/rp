@@ -1,7 +1,7 @@
 /* Currents Calendar Controller
  *
  */
-ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$compile', function ($scope, $rootScope, $http, $compile) {
+ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$compile', '$window', function ($scope, $rootScope, $http, $compile, $window) {
     $scope.weeks = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
     $scope.weekAbbrs = [ 'Sn', 'M', 'T', 'W', 'Th', 'F', 'St' ];
     $scope.months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
@@ -40,6 +40,7 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$com
 
 
     $scope.searchCalendar = function () {
+        /*
         var filteredEvents = angular.copy($scope.eventsOriginal);
         _.forEach(filteredEvents, function(eventsArray, day) {
             if ($scope.typeFilter != null) {
@@ -58,6 +59,13 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$com
         });
         $scope.events = filteredEvents;
         $scope.cal.setData($scope.events, true);
+        */
+        var typeFilter = $scope.typeFilter != undefined ? ('&type=' + encodeURIComponent($scope.typeFilter)) : '';
+        var stateFilter = $scope.stateFilter != undefined ? ('&state=' + encodeURIComponent($scope.stateFilter)) : '';   
+        var searchTerm = $scope.searchTerm != undefined ? encodeURIComponent($scope.searchTerm) : '';
+        var url = window.location.host == 'currents.mystream.com' ? '/calendar-search' : '/currents/calendar-search';
+        $window.location.href = url + '?term=' +  searchTerm + typeFilter + stateFilter;
+        
     };
 
 }]);

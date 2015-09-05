@@ -894,7 +894,8 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
-    <Compile Include="Models\Currents\LoadCalendarEvent.cs" />
+    <Compile Include="Models\Currents\CalendarEvent.cs" />
+    <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
     <Compile Include="Models\Currents\LoadPostsRequest.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
@@ -1590,6 +1591,7 @@
     <Content Include="Views\Pages\Currents\Calendar.cshtml" />
     <Content Include="Views\Components\Email\Currents\Currents Email Custom Content.cshtml" />
     <Content Include="Views\Pages\Sitemap.cshtml" />
+    <Content Include="Views\Pages\Currents\CalendarSearch.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
