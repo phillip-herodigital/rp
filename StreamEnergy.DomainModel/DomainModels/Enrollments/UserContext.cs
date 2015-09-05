@@ -16,6 +16,8 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public bool IsRenewal { get; set; }
 
+        public bool NeedsRefresh { get; set; }
+
         [Required(ErrorMessage = "Contact Info Required")]
         [ValidateObject(ErrorMessagePrefix = "")]
         public CustomerContact ContactInfo { get; set; }

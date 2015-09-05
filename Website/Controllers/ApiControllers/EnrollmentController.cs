@@ -190,6 +190,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             bool isLoading = stateMachine.IsBreakForced();
 
+            bool isNeedsRefresh = stateMachine.Context.NeedsRefresh;
+            if (isNeedsRefresh)
+            {
+                Reset();
+            }
+
             return new ClientData
             {
                 IsTimeout = stateHelper.IsNewSession,
@@ -197,6 +203,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
+                NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
@@ -561,13 +568,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             
             if (stateMachine.Context.Services == null || stateMachine.Context.ContactInfo == null || request == null)
             {
-                Reset();
-                var redirectURL = "/enrollment";
-                Request.CreateResponse(new
-                {
-                    Redirect = redirectURL
-                });
-                return null;
+                //If session timed out before complete order, need to refresh the page and go back to step 1.
+                stateMachine.Context.NeedsRefresh = true;
+                return ClientData();
             }
 
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
@@ -677,37 +680,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             return null;
             //return await documentStore.DownloadByCustomerAsMessage(stateMachine.InternalContext.GlobalCustomerId, documentType);
-        }
-
-        [HttpGet]
-        [Caching.CacheControl(MaxAgeInMinutes = 60, IsPublic = true)]
-        public HttpResponseMessage ProxyAssociateImage(string webAlias)
-        {
-            CookieContainer cookieContainer = new CookieContainer();
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://" + webAlias + ".mystream.com/showimage.asp");
-            request.CookieContainer = cookieContainer;
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                if ((response.StatusCode == HttpStatusCode.OK ||
-                    response.StatusCode == HttpStatusCode.Moved ||
-                    response.StatusCode == HttpStatusCode.Redirect) &&
-                    response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
-                {
-                    using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-                    {
-                        Byte[] lnByte = reader.ReadBytes((int)response.ContentLength);
-                        HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-                        var stream = new MemoryStream(lnByte);
-                        result.Content = new StreamContent(stream);
-                        result.Content.Headers.ContentType = new MediaTypeHeaderValue(response.ContentType);
-                        return result;
-                    }
-                }
-                else
-                {
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                }
-            }
         }
     }
 }

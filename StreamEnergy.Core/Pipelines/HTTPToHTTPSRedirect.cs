@@ -1,23 +1,17 @@
-﻿using System;
+﻿using Sitecore.SecurityModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Sitecore.Rules.Conditions;
-using Microsoft.Practices.Unity;
-using StreamEnergy.StreamEnergyBilling.IstaTokenization;
-using System.Collections.Specialized;
-using System.Security.Cryptography;
 using System.Text;
-using System.IO;
+using System.Threading.Tasks;
+using System.Web;
+using Microsoft.Practices.Unity;
 using System.Text.RegularExpressions;
 
-namespace StreamEnergy.MyStream.Conditions
+namespace StreamEnergy.Pipelines
 {
-    public class EnforceSSLCondition<T> : WhenCondition<T>
-        where T : Sitecore.Rules.RuleContext
+    public class HTTPToHTTPSRedirect : Sitecore.Pipelines.HttpRequest.HttpRequestProcessor
     {
-        private Injection dependencies;
-
         public class Injection
         {
             [Dependency]
@@ -26,18 +20,17 @@ namespace StreamEnergy.MyStream.Conditions
             [Dependency("SSLEnabled")]
             public bool SSLEnabled { get; set; }
         }
-
-        public EnforceSSLCondition()
+        private Injection dependencies;
+        public HTTPToHTTPSRedirect()
         {
             dependencies = StreamEnergy.Unity.Container.Instance.Unity.Resolve<Injection>();
         }
-
-        public EnforceSSLCondition(Injection injectedValue)
+        public HTTPToHTTPSRedirect(Injection injectedValue)
         {
             dependencies = injectedValue;
         }
 
-        protected override bool Execute(T ruleContext)
+        public override void Process(Sitecore.Pipelines.HttpRequest.HttpRequestArgs args)
         {
             if (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled)
             {
@@ -50,8 +43,6 @@ namespace StreamEnergy.MyStream.Conditions
                     dependencies.Context.Response.Redirect(url);
                 }
             }
-
-            return false;
         }
     }
 }

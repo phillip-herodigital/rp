@@ -897,6 +897,7 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\Currents\LoadCalendarEvent.cs" />
     <Compile Include="Models\Currents\LoadPostsRequest.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
@@ -1164,6 +1165,7 @@
     <Content Include="layouts\system\VisitorIdentificationCss.aspx" />
     <Content Include="layouts\system\VisitorIdentificationExtension.aspx" />
     <Content Include="layouts\xmlcontrol.aspx" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\angular.unobtrusive.validation.js" />
     <Content Include="Scripts\angular.unobtrusive.validation.min.js" />
     <Content Include="sitecore\apps\css\ab.testing.css" />
@@ -1592,6 +1594,7 @@
     <Content Include="Views\Components\Email\Currents\Currents Email Custom Content.cshtml" />
     <Content Include="Views\Components\Account\Interstitial Modal\InterstitialContainer.cshtml" />
     <Content Include="Views\Components\Account\Interstitial Modal\InterstitialModal.cshtml" />
+    <Content Include="Views\Pages\Sitemap.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

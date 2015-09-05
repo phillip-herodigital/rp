@@ -12,5 +12,6 @@ namespace StreamEnergy.DomainModels.Associate
         public string AssociateName { get; set; }
         public string AssociateLevel { get; set; }
         public string AssociateId { get; set; }
+        public byte[] AssociateImage { get; set; }
     }
 }
