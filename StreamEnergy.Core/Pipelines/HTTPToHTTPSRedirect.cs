@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Practices.Unity;
-using System.Text.RegularExpressions;
 
 namespace StreamEnergy.Pipelines
 {
@@ -34,14 +33,9 @@ namespace StreamEnergy.Pipelines
         {
             if (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled)
             {
-                string url = dependencies.Context.Request.Url.ToString();
-                Regex reg = new Regex("http:");
-                url = reg.Replace(url, "https:", 1);
-
-                if (url != dependencies.Context.Request.Url.ToString()) //In case HTTPS url returns non-secure connection for whatever reason
-                {
-                    dependencies.Context.Response.Redirect(url);
-                }
+                string url = dependencies.Context.Request.Url.ToString().StartsWith("http:") ? 
+                    "https:" + dependencies.Context.Request.Url.ToString().Substring(5) : dependencies.Context.Request.Url.ToString();
+                dependencies.Context.Response.Redirect(url);
             }
         }
     }
