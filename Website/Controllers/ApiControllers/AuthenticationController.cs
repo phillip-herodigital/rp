@@ -97,7 +97,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             coaSessionHelper.Dispose();
             resetPasswordSessionHelper.Dispose();
-
+            HttpContext.Current.Session.Abandon();
             base.Dispose(disposing);
         }
 

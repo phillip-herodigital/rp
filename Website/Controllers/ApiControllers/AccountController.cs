@@ -1168,6 +1168,44 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Dismiss Interstitial
+
+        [HttpPost]
+        public DismissInterstitialModalResponse DismissInterstitialModal(DismissInterstitialModalRequest request)
+        {
+            bool isSuccess = false;
+
+            MembershipUser _user = Membership.GetUser();
+            Sitecore.Security.Accounts.User securityAccountUser = Sitecore.Security.Accounts.User.FromName(_user.UserName, true);
+            if (securityAccountUser != null)
+            {
+                string alreadyDismissedInterstitials = Sitecore.Context.User.Profile.GetCustomProperty("Dismissed Interstitals");
+                var data = StreamEnergy.Json.Read<List<dynamic>>(alreadyDismissedInterstitials);
+                var dismissedInterstials = data == null ? new List<dynamic>() : data;
+                if (!dismissedInterstials.Where(d => d.itemId == request.InterstitialId.ToString()).Any())
+                {
+                    var excluded = new
+                    {
+                        itemId = request.InterstitialId,
+                        date = DateTime.Now
+                    };
+                    dismissedInterstials.Add(excluded);
+                }
+                string dismissedString = StreamEnergy.Json.Stringify(dismissedInterstials);
+                securityAccountUser.Profile.SetCustomProperty("Dismissed Interstitals", dismissedString);
+                securityAccountUser.Profile.Save();
+                isSuccess = true;
+            }
+
+            return new DismissInterstitialModalResponse
+            {
+                IsSuccess = isSuccess
+            };
+
+        }
+
+        #endregion
+
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
             return item.Children[childItem];
