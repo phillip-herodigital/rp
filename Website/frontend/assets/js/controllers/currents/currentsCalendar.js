@@ -38,9 +38,7 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$com
         };
     });
 
-
-    $scope.searchCalendar = function () {
-        /*
+    $scope.filterEvents = function () {
         var filteredEvents = angular.copy($scope.eventsOriginal);
         _.forEach(filteredEvents, function(eventsArray, day) {
             if ($scope.typeFilter != null) {
@@ -59,7 +57,9 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$com
         });
         $scope.events = filteredEvents;
         $scope.cal.setData($scope.events, true);
-        */
+    };
+
+    $scope.searchCalendar = function () {
         var typeFilter = $scope.typeFilter != undefined ? ('&type=' + encodeURIComponent($scope.typeFilter)) : '';
         var stateFilter = $scope.stateFilter != undefined ? ('&state=' + encodeURIComponent($scope.stateFilter)) : '';   
         var searchTerm = $scope.searchTerm != undefined ? encodeURIComponent($scope.searchTerm) : '';
