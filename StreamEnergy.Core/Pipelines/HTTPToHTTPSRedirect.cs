@@ -53,7 +53,8 @@ namespace StreamEnergy.Pipelines
                 if (url != dependencies.Context.Request.Url.ToString()) //In case HTTPS url returns non-secure connection for whatever reason
                 {
                     dependencies.logger.Record(string.Format("Attempting redirect to: {0}", url), Severity.Debug);
-                    dependencies.Context.Response.Redirect(url);
+                    //dependencies.Context.Response.Redirect(url);
+                    HttpContext.Current.Response.Redirect(url);
                 }
             }
 
