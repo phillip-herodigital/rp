@@ -1,17 +1,18 @@
 /* Currents Calendar Controller
  *
  */
-ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http', '$location', function ($scope, $rootScope, $http, $location) {
 
     $scope.isLoading = false;
+    $scope.typeFilter = getParameterByName('type');
+    $scope.stateFilter = getParameterByName('state');
 
     $scope.searchCalendar = function () {
         $scope.isLoading = true;
         $http.post('/api/currents/calendarSearch/', {
-            categoryID: $scope.searchCategory,
-            state: $scope.searchState,
-            searchText: $scope.searchTerm,
-            language: $scope.language
+            categoryID: $scope.typeFilter,
+            state: $scope.stateFilter,
+            searchText: $scope.searchTerm
         }).success(function (data) {
             $scope.isLoading = false;
             $scope.events = data;
@@ -34,5 +35,12 @@ ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http',
         }
         $scope.events = filteredEvents;
     };
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec($location.absUrl());
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 
 }]);

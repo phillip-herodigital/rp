@@ -1,14 +1,14 @@
 ﻿
-<div class="currents__calendar" ng-controller="CurrentsSearchCalendarCtrl" ng-init="eventTypes = @(Html.Action("EventCategories", "Data").ToHtmlString()); searchTerm = '@(Request.QueryString["term"])'; searchState = '@(Request.QueryString["state"])'; searchCategory = '@(Request.QueryString["type"])'; searchCalendar(); language = '@Sitecore.Context.Language.ToString()';">
+<div class="currents__calendar" ng-controller="CurrentsSearchCalendarCtrl" ng-init="eventTypes = @(Html.Action("EventCategories", "Data").ToHtmlString()); searchCalendar();">
     <h1>@Html.Sitecore().Field("Calendar Title")</h1>
     <div class="calendar-links">
         @Html.Sitecore().Field("Nav Links")
     </div>
     <div class="calendar-filters clearfix">
-        <select class="type-filter" ng-model="typeFilter" ng-options="eventType.name as eventType.display for eventType in eventTypes" ng-change="filterEvents()">
+        <select class="type-filter" ng-model="typeFilter" ng-options="eventType.name as eventType.display for eventType in eventTypes" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("Type Filter Text")</option>
         </select>
-        <select class="state-filter" ng-model="stateFilter" ng-options="state as state for state in eventStates | orderBy: state" ng-change="filterEvents()">
+        <select class="state-filter" ng-model="stateFilter" ng-options="state as state for state in eventStates | orderBy: state" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("State Filter Text")</option>
         </select>
         <div class="search">
