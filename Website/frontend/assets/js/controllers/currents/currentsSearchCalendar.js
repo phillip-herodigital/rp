@@ -23,7 +23,9 @@ ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http',
     $scope.filterEvents = function () {
         var filteredEvents = angular.copy($scope.eventsOriginal);
         if ($scope.typeFilter != null) {
-            filteredEvents = _.filter(filteredEvents, {category: $scope.typeFilter});
+            filteredEvents = _.filter(filteredEvents, function(singleEvent) {
+                return singleEvent.category.toLowerCase() == $scope.typeFilter
+            });
         }
         if ($scope.stateFilter != null) {
             filteredEvents = _.filter(filteredEvents, function(singleEvent) {

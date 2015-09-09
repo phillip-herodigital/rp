@@ -340,7 +340,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
                 var mapLocation = currentsEvent.Fields["Map Location"].Value.Replace(" ", "+");
                 var mapButtonText = currentsEvent.Fields["Map Button Text"].Value;
-                var category = currentsEvent.Fields["Event Type"].Value.ToLower();
+                var category = currentsEvent.Fields["Event Type"].Value;
                 var stateField = (Sitecore.Data.Fields.MultilistField)currentsEvent.Fields["Event State"];
 
                 var states = new List<string>();
