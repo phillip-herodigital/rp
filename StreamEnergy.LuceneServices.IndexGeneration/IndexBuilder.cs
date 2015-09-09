@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
@@ -11,12 +12,15 @@ using Lucene.Net.Search;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.LuceneServices.Web.Models;
+using StreamEnergy.Services.Clients.SmartyStreets;
 using LuceneStore = Lucene.Net.Store;
 
 namespace StreamEnergy.LuceneServices.IndexGeneration
 {
     public class IndexBuilder : IDisposable
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(IndexBuilder));
+
         private readonly List<Action> onDispose = new List<Action>();
         private IndexWriter writer;
 
