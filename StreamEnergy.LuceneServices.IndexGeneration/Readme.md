@@ -26,18 +26,7 @@ If you want to test locally but don't want to read the entire document:
 Running only ERCOT files currently takes 5-10 minutes on a 4-processor VM with 8-GiB of RAM and a SSD. Both CPU and disk usage maxed out at various points in the process, but RAM usage did not go over 100 MB.
 
 ### ERCOT Reports
-You will need to download the [ERCOT Esi Id Reports](http://mis.ercot.com/misapp/GetReports.do?reportTypeId=203) for the dates for which you are wanting to update the index. 
-
-* \_DAILY.zip - a daily zip containing the changes for a TDU for that day only
-* \_FUL.zip - a monthly zip containing all addresses for a TDU at that time. This appears to be generated the first Monday of every month.
-
-If you just want to test out the address lookup locally, you only need one of the _FUL files - but you'll want one that's large enough for a demo. "Sharyland Utilities" is barely over 1 MB as of 5/5/2014, and should have enough for you to test out.
-
-If you need to build the index from scratch to a current state, you will need all "\_DAILY.zip" files up to the most recent "\_FUL.zip" files. It does not hurt to have additional files in the directory, as the index generator understands the "\_DAILY.zip" and "\_FUL.zip" files.  
-
-If you have a current index, you only need the "\_DAILY.zip" files since your last update.
-
-Eventually, there are plans to automate downloading the zips. 
+This version of the indexer will downlaod the _FUL ERCOT files. There is no support for the _DAILY files anymore.
 
 ### Other Reports
 
