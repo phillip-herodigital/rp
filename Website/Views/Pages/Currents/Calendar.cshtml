@@ -19,9 +19,9 @@
         </div>
     </div>
     <div class="calendar-header clearfix" ng-cloak>
-        <div class="calendar-nav prev-month" ng-click="cal.gotoPreviousMonth(); searchCalendar()"><i class="icon-previous-month"></i><span class="month-name">{{ previousMonth() }}</span></div>
+        <div class="calendar-nav prev-month" ng-click="cal.gotoPreviousMonth(); filterEvents()"><i class="icon-previous-month"></i><span class="month-name">{{ previousMonth() }}</span></div>
         <div class="current-month">{{ cal.getMonthName() }} {{ cal.getYear() }}</div>
-        <div class="calendar-nav next-month" ng-click="cal.gotoNextMonth(); searchCalendar()"><span class="month-name">{{ nextMonth() }}</span><i class="icon-next-month"></i></div>
+        <div class="calendar-nav next-month" ng-click="cal.gotoNextMonth(); filterEvents()"><span class="month-name">{{ nextMonth() }}</span><i class="icon-next-month"></i></div>
     </div>
     <div id="calendar" class="fc-calendar-container" ng-model="calContainer" dynamic="events"></div>
 </div>

@@ -28,6 +28,7 @@ using XBlogHelper;
 using XBlogHelper.General;
 using XBlogHelper.Helpers;
 using XBlogHelper.Models.Blog;
+using System.Web.Script.Serialization;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -253,7 +254,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 "<div class='event-summary'>" + currentsEvent.Fields["Event Summary"].Value + "</div>";
                 if (!string.IsNullOrEmpty(mapLocation))
                 {
-                    eventHtml += "</div><div class='col map'><img src='http://maps.googleapis.com/maps/api/staticmap?center=" + mapLocation + "&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C" + mapLocation + "'></div></div>";
+                    eventHtml += "</div><div class='col map'><a href='https://www.google.com/maps/dir//" + mapLocation + "' class='view-map' target='_blank'><img src='http://maps.googleapis.com/maps/api/staticmap?center=" + mapLocation + "&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C" + mapLocation + "'></a></div></div>";
                 }
                 eventHtml += "<div class='event-links'>";
                 if (!string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()))
@@ -294,6 +295,86 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             return events;
+        }
+
+        [HttpPost]
+        public IEnumerable<CalendarEvent> CalendarSearch (CalendarSearchRequest request)
+        {
+            List<CalendarEvent> listEvents = new List<CalendarEvent>();
+
+            var query = "fast:/sitecore/content/Data/Currents/Calendar Events//*[";
+            query += string.Format("(@#Event Title#=\"%{0}%\" or @#Event Summary#=\"%{1}%\"  or @#Event Location#=\"%{2}%\")", request.SearchText, request.SearchText, request.SearchText);
+            
+            if (!string.IsNullOrEmpty(request.CategoryID))
+            {
+                query += string.Format("and @#Event Type#=\"%{0}%\"", request.CategoryID);
+            }
+
+            if (!string.IsNullOrEmpty(request.State))
+            {
+                Item stateItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/States/" + request.State);
+
+                query += string.Format("and @#Event State#=\"%{0}%\"", stateItem.ID.ToString());
+            }
+
+            query += "]";
+
+            var currentsEvents = Sitecore.Context.Database.SelectItems(query);
+
+            foreach (Item currentsEvent in currentsEvents)
+            {
+                DateTime startDate = Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["Start Date"].Value);
+                DateTime endDate = currentsEvent.Fields["End Date"].Value == "" ? startDate : Sitecore.DateUtil.IsoDateToDateTime(currentsEvent.Fields["End Date"].Value);
+                var imageField = (ImageField)currentsEvent.Fields["Event Image"];
+                var registrationLink = (LinkField)currentsEvent.Fields["Registration Link"];
+                var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
+                var mapLocation = currentsEvent.Fields["Map Location"].Value.Replace(" ", "+");
+                var mapButtonText = currentsEvent.Fields["Map Button Text"].Value;
+                var category = currentsEvent.Fields["Event Type"].Value;
+                var stateField = (Sitecore.Data.Fields.MultilistField)currentsEvent.Fields["Event State"];
+
+                var states = new List<string>();
+                foreach (Sitecore.Data.ID id in stateField.TargetIDs)
+                {
+                    states.Add(Sitecore.Context.Database.Items[id].Name);
+                }
+
+                var eventDate = startDate.ToString("MMMM d");
+                if (startDate != endDate)
+                {
+                    eventDate += " - ";
+                    eventDate += (startDate.Month == endDate.Month) ? endDate.Day.ToString() : endDate.ToString("MMMM d");
+                    eventDate += ", " + endDate.ToString("yyyy");
+                }
+                else
+                {
+                    eventDate += ", " + startDate.ToString("yyyy");
+                }
+
+                CalendarEvent e = new CalendarEvent
+                {
+                    Title = currentsEvent.Fields["Event Title"].Value,
+                    StartDate = startDate.ToString("MMMM d, yyyy"),
+                    EndDate = endDate.ToString("MMMM d, yyyy"),
+                    EventDate = eventDate,
+                    ImageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "",
+                    Location = currentsEvent.Fields["Event Location"].Value,
+                    Summary = currentsEvent.Fields["Event Summary"].Value,
+                    MapLocation = mapLocation,
+                    Category = category,
+                    RegistrationText = !string.IsNullOrEmpty(registrationLink.Text) ? registrationLink.Text : "",
+                    RegistrationURL = !string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()) ? registrationLink.GetFriendlyUrl() : "",
+                    MapButtonText = !string.IsNullOrEmpty(mapButtonText) ? mapButtonText : "",
+                    InfoLinkText = !string.IsNullOrEmpty(infoLink.Text) ? infoLink.Text : "",
+                    InfoLinkURL = !string.IsNullOrEmpty(infoLink.GetFriendlyUrl()) ? infoLink.GetFriendlyUrl() : "",
+                    States = states,
+                };
+
+                listEvents.Add(e);
+
+            }
+            return listEvents;
+
         }
 
         [HttpGet]

@@ -9,7 +9,6 @@ using System.Collections.Specialized;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace StreamEnergy.MyStream.Conditions
 {
@@ -39,16 +38,9 @@ namespace StreamEnergy.MyStream.Conditions
 
         protected override bool Execute(T ruleContext)
         {
-            if (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled)
+            if (!dependencies.Context.Request.IsSecureConnection && dependencies.SSLEnabled)
             {
-                string url = dependencies.Context.Request.Url.ToString();
-                Regex reg = new Regex("http:");
-                url = reg.Replace(url, "https:", 1);
-
-                if (url != dependencies.Context.Request.Url.ToString()) //In case HTTPS url returns non-secure connection for whatever reason
-                {
-                    dependencies.Context.Response.Redirect(url);
-                }
+                dependencies.Context.Response.Redirect(dependencies.Context.Request.Url.ToString().Replace("http", "https"), false);
             }
 
             return false;

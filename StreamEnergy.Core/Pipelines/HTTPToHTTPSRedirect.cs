@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Practices.Unity;
 using System.Text.RegularExpressions;
+using ResponsivePath.Logging;
 
 namespace StreamEnergy.Pipelines
 {
@@ -14,9 +15,6 @@ namespace StreamEnergy.Pipelines
     {
         public class Injection
         {
-            [Dependency]
-            public HttpContextBase Context { get; set; }
-
             [Dependency("SSLEnabled")]
             public bool SSLEnabled { get; set; }
         }
@@ -27,21 +25,35 @@ namespace StreamEnergy.Pipelines
         }
         public HTTPToHTTPSRedirect(Injection injectedValue)
         {
-            dependencies = injectedValue;
+            try
+            {
+                dependencies = injectedValue;
+            }
+            catch (Exception)
+            {
+                // Eat errors
+            }
         }
 
         public override void Process(Sitecore.Pipelines.HttpRequest.HttpRequestArgs args)
         {
-            if (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled)
+            try
             {
-                string url = dependencies.Context.Request.Url.ToString();
-                Regex reg = new Regex("http:");
-                url = reg.Replace(url, "https:", 1);
-
-                if (url != dependencies.Context.Request.Url.ToString()) //In case HTTPS url returns non-secure connection for whatever reason
+                if (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled)
                 {
-                    dependencies.Context.Response.Redirect(url);
+                    string url = HttpContext.Current.Request.Url.ToString();
+                    Regex reg = new Regex("http:");
+                    url = reg.Replace(url, "https:", 1);
+
+                    if (url != HttpContext.Current.Request.Url.ToString()) //In case HTTPS url returns non-secure connection for whatever reason
+                    {
+                        HttpContext.Current.Response.Redirect(url);
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                // Eat errors
             }
         }
     }
