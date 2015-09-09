@@ -301,30 +301,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public IEnumerable<CalendarEvent> CalendarSearch (CalendarSearchRequest request)
         {
             List<CalendarEvent> listEvents = new List<CalendarEvent>();
-            // Handle blank input
-            if (string.IsNullOrEmpty(request.CategoryID) && string.IsNullOrEmpty(request.State) && string.IsNullOrEmpty(request.SearchText))
-            {
-                return listEvents;
-            }   
-         
+
             var query = "fast:/sitecore/content/Data/Currents/Calendar Events//*[";
-            if (!string.IsNullOrEmpty(request.SearchText)) 
-            {
-                query += string.Format("@#Event Title#=\"%{0}%\" or @#Event Summary#=\"%{1}%\"  or @#Event Location#=\"%{2}%\"", request.SearchText, request.SearchText, request.SearchText);
-            }
+            query += string.Format("(@#Event Title#=\"%{0}%\" or @#Event Summary#=\"%{1}%\"  or @#Event Location#=\"%{2}%\")", request.SearchText, request.SearchText, request.SearchText);
             
             if (!string.IsNullOrEmpty(request.CategoryID))
             {
-                query += !string.IsNullOrEmpty(request.SearchText) ? " and " : "";
-                query += string.Format("@#Event Type#=\"%{0}%\"", request.CategoryID);
+                query += string.Format("and @#Event Type#=\"%{0}%\"", request.CategoryID);
             }
 
             if (!string.IsNullOrEmpty(request.State))
             {
                 Item stateItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/States/" + request.State);
-                
-                query += !string.IsNullOrEmpty(request.SearchText) || !string.IsNullOrEmpty(request.CategoryID) ? " and " : "";
-                query += string.Format("@#Event State#=\"%{0}%\"", stateItem.ID.ToString());
+
+                query += string.Format("and @#Event State#=\"%{0}%\"", stateItem.ID.ToString());
             }
 
             query += "]";
@@ -340,7 +330,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
                 var mapLocation = currentsEvent.Fields["Map Location"].Value.Replace(" ", "+");
                 var mapButtonText = currentsEvent.Fields["Map Button Text"].Value;
-                var category = currentsEvent.Fields["Event Type"].Value.ToLower();
+                var category = currentsEvent.Fields["Event Type"].Value;
                 var stateField = (Sitecore.Data.Fields.MultilistField)currentsEvent.Fields["Event State"];
 
                 var states = new List<string>();
