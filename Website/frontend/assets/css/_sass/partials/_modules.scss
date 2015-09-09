@@ -2797,59 +2797,58 @@ aside {
         }
 	}
     article.promo2 {
-            position:relative;
-            min-height:185px;
-            color:#fff;
-            overflow:hidden;
-            border-radius: 9px;
-            .promobackground {
-                position: absolute;
-                top:0;
-                right:0;
-            }
-		    header {
-                padding-bottom:0;
-                border:none;
-                span {
-                    display:block;
-                    text-align: center;
-                    img {
-                        position: relative;
-                    }
-                }
-		    }
-            .content {
-                padding-top:5px;
+        position:relative;
+        min-height:185px;
+        color:#fff;
+        overflow:hidden;
+        border-radius: 9px;
+        .promobackground {
+            position: absolute;
+            top:0;
+            right:0;
+        }
+        header {
+            padding-bottom:0;
+            border:none;
+            span {
+                display:block;
                 text-align: center;
-                hr {
-                    border-top:1px solid #fff;
-                    margin: 20px 25px 20px 25px;
-                }
-                h2 {
-                    margin: 0;
-                    color: #fff;
-                    text-transform: uppercase;
-                    letter-spacing: 2px;
-
-                }
-                h3 {
-                    margin:2px 0 2px 0;
-				    font-size: 18px;
-				    text-transform: uppercase;
-                    color: #fff;
+                img {
                     position: relative;
-                    text-align: center;
-                    letter-spacing: 2px;
-			    }
-                a {
-                        color:#fff;
-                        font-weight:bold;
                 }
             }
-		    p {
-		        text-align: center;
-                margin-bottom:0; 
-		    }
+        }
+        .content {
+            padding-top:5px;
+            text-align: center;
+            hr {
+                border-top:1px solid #fff;
+                margin: 20px 25px 20px 25px;
+            }
+            h2 {
+                margin: 0;
+                color: #fff;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+            }
+            h3 {
+                margin:2px 0 2px 0;
+                font-size: 18px;
+                text-transform: uppercase;
+                color: #fff;
+                position: relative;
+                text-align: center;
+                letter-spacing: 2px;
+            }
+            a {
+                color:#fff;
+                font-weight:bold;
+            }
+        }
+        p {
+            text-align: center;
+            margin-bottom:0; 
+        }
     }
     article.subnav {
 		ul {
