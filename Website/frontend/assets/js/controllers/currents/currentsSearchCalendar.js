@@ -6,6 +6,7 @@ ngApp.controller('CurrentsSearchCalendarCtrl', ['$scope', '$rootScope', '$http',
     $scope.isLoading = false;
     $scope.typeFilter = getParameterByName('type');
     $scope.stateFilter = getParameterByName('state');
+    $scope.searchTerm = getParameterByName('term');
 
     $scope.searchCalendar = function () {
         $scope.isLoading = true;
