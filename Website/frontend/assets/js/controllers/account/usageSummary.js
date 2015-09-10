@@ -3,7 +3,7 @@
  */
 ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'jQuery', function ($scope, $rootScope, $http, breakpoint, $) {
 
-    var GIGA = 1000000000;
+    var GIGA = 1000000;
 
     $scope.deviceUsageStats = [];
     $scope.deviceTotal = {
@@ -45,7 +45,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         })
         .success(function (data, status, headers, config) {
             invoices = _.chain(data.invoices.values)
-                       .sortBy("accountNumber")
+                       .sortBy("invoiceDate")
                        .reverse();
             addInvoiceRanges();
         });
@@ -56,7 +56,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         var temp = invoices.value();
         for (var i = 0, invoice; invoice = temp[i]; i++) {
             var nextInvoice = temp[i + 1];
-            if (nextInvoice && invoice.invoiceDate && nextInvoice.invoiceDate) {
+            if (nextInvoice && invoice.invoiceDate && nextInvoice.invoiceDate && invoice.invoiceDate != nextInvoice.invoiceDate) {
                 $scope.dateRanges.push({
                     begin: new Date(nextInvoice.invoiceDate),
                     end: new Date(invoice.invoiceDate),

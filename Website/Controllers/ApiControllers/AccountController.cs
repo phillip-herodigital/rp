@@ -195,7 +195,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var startDate = request.StartDate.HasValue ? request.StartDate.Value : mobileAccountDetails.LastBillDate;
             var endDate = request.EndDate.HasValue ? request.EndDate.Value : mobileAccountDetails.NextBillDate;
 
-            await accountService.GetAccountUsageDetails(account, startDate, endDate, false);
+            await accountService.GetAccountUsageDetails(account, startDate, endDate, true);
 
             var response = new GetMobileUsageResponse()
             {

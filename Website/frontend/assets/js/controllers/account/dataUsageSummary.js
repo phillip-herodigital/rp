@@ -2,7 +2,7 @@
  *
  */
 ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'notificationService', function ($scope, $rootScope, $http, breakpoint, notificationService) {
-    var GIGA = 1000000000;
+    var GIGA = 1000000;
 
     $scope.data = {
         graphScale: {
@@ -103,7 +103,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         if (_.some(dataPoints, function (point) { return (point / maxBytes) > 0.9 })) {
             $scope.data.graphScale.high = Math.round($scope.data.graphScale.high * 1.2);
         }
-        $scope.data.graphScale.middle = Math.round($scope.data.graphScale.high / 2);
+        $scope.data.graphScale.middle = Math.round($scope.data.graphScale.high / 2 * 10) / 10;
 
         return $scope.data.graphScale;
     };
