@@ -47,7 +47,7 @@ namespace StreamEnergy.Pipelines
 
                     if (url != HttpContext.Current.Request.Url.ToString()) //In case HTTPS url returns non-secure connection for whatever reason
                     {
-                        HttpContext.Current.Response.Redirect(url);
+                        HttpContext.Current.Response.RedirectPermanent(url);
                     }
                 }
             }
