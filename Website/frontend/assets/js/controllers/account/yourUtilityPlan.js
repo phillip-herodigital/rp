@@ -6,6 +6,7 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
     $scope.isLoading = true;
     $scope.streamConnectError = false;
     $scope.showPlanSelector = false;
+    $scope.renewalRedirect = ($location.absUrl().toLowerCase().indexOf('renew') > 0);
 
     var hasSubmitted = false;
 
@@ -56,10 +57,19 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
         };
         $http.post('/api/account/setupRenewal', accountData)
         .success(function (data) {
-            $scope.showPlanSelector = true;
-            enrollmentService.setClientData(data);
-            $scope.isLoading = false;
+            if (data.isRenewal) {
+                $scope.showPlanSelector = true;
+                enrollmentService.setClientData(data);
+                $scope.isLoading = false;
+            } else {
+                // the account is no longer eligible, or something else went wrong
+                $scope.isLoading = false;
+            }
         })
+        .error(function () {
+            $scope.isLoading = false;
+            $scope.streamConnectError = true;
+        });
     };
 
     //We need this for the button select model in the ng-repeats
