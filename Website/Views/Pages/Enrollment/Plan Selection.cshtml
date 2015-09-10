@@ -180,7 +180,7 @@
                 <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
                     <td colspan="6">
                         <div slide-down-show="isOpen">
-                            <p>{{plan.description}}</p>
+                            <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
                                 <li><a ng-href="{{plan.documents.electricityFactsLabel}}" target="_blank">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
                                 <li><a ng-href="{{plan.documents.termsOfService}}" target="_blank">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
@@ -283,7 +283,7 @@
                 <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
                     <td colspan="6">
                         <div slide-down-show="isOpen">
-                            <p>{{plan.description}}</p>
+                            <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
                                 <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>

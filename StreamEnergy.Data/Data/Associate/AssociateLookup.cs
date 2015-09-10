@@ -36,7 +36,7 @@ namespace StreamEnergy.Data.Associate
                 {
                     connection.Open();
 
-                    var ret =  LookupAssociate(associateId, connection);
+                    var ret = LookupAssociate(associateId, connection);
                     if (ret != null)
                     {
                         ret.AssociateLevel = sitecoreAccessor.GetFieldValue("/sitecore/content/Data/Taxonomy/Associate Levels/" + ret.AssociateLevel, "Display Text", ret.AssociateLevel);
@@ -46,7 +46,10 @@ namespace StreamEnergy.Data.Associate
             }
             catch
             {
-                return null;
+                return new AssociateInformation()
+                {
+                    AssociateId = associateId,
+                };
             }
         }
 
@@ -56,6 +59,7 @@ namespace StreamEnergy.Data.Associate
 SELECT
   h.[WebAlias],
   h.[Site IA Name],
+  h.[Rep Image],
   ah.[IA Level]
 FROM [Eagle].[dbo].[tblHomesites] h
 LEFT JOIN [Eagle].[dbo].[tblAssociatesAndHomesites] ah ON ah.[IA Number] = h.[IA Number]
@@ -72,12 +76,16 @@ WHERE h.[IA Number] = @associateId", connection)
                         {
                             WebAlias = reader.GetFieldValue<string>(0),
                             AssociateName = Regex.Replace(reader.GetFieldValue<string>(1), @"<(.|\n)*?>", ""),
-                            AssociateLevel = reader.GetFieldValue<string>(2),
+                            AssociateImage = reader.IsDBNull(2) ? null : reader.GetFieldValue<byte[]>(2),
+                            AssociateLevel = reader.GetFieldValue<string>(3),
                             AssociateId = associateId,
                         };
                     }
                 }
-                return null;
+                return new AssociateInformation()
+                {
+                    AssociateId = associateId,
+                };
             }
         }
     }
