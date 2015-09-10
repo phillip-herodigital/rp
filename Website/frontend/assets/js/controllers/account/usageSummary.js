@@ -45,7 +45,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         })
         .success(function (data, status, headers, config) {
             invoices = _.chain(data.invoices.values)
-                       .sort("accountNumber")
+                       .sortBy("accountNumber")
                        .reverse();
             addInvoiceRanges();
         });
@@ -53,8 +53,9 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
 
     var addInvoiceRanges = function () {
         if ($scope.isLoading || !invoices) return;
-        for (var i = 0, invoice; invoice = invoices[i]; i++) {
-            var nextInvoice = invoices[i + 1];
+        var temp = invoices.value();
+        for (var i = 0, invoice; invoice = temp[i]; i++) {
+            var nextInvoice = temp[i + 1];
             if (nextInvoice && invoice.invoiceDate && nextInvoice.invoiceDate) {
                 $scope.dateRanges.push({
                     begin: new Date(nextInvoice.invoiceDate),
