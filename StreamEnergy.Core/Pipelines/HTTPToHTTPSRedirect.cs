@@ -39,15 +39,16 @@ namespace StreamEnergy.Pipelines
         {
             try
             {
-                if (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled)
+                string url = HttpContext.Current.Request.Url.ToString();
+                Regex reg = new Regex("http:");
+                Regex reg2 = new Regex("://www.");
+
+                if (reg2.IsMatch(url) || (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled))
                 {
-                    string url = HttpContext.Current.Request.Url.ToString();
-                    Regex reg = new Regex("http:");
-                    Regex reg2 = new Regex("://www.");
                     url = reg.Replace(url, "https:", 1);
                     url = reg2.Replace(url, "://", 1);
 
-                    if (url != HttpContext.Current.Request.Url.ToString()) //In case HTTPS url returns non-secure connection for whatever reason
+                    if (url != HttpContext.Current.Request.Url.ToString())
                     {
                         HttpContext.Current.Response.RedirectPermanent(url);
                     }
