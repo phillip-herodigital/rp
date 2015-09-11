@@ -30,8 +30,8 @@
             </div>
             <div class="additional-fields group" data-additional-fields>
                 <div class="additional-field-action change-password">
-                    <span><input type="checkbox" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"></span>
-                    <a href="">@Html.Sitecore().Field("Change Password Text")</a>
+                    <span><input type="checkbox" id="changePassword" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"></span>
+                    <label for="@Html.IdFor(m => m.changePassword)">@Html.Sitecore().Field("Change Password Text")</label>
                 </div>
                 <div class="group additional-field-group additional-fields change-password-fields">
                     <div class="group">
