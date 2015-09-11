@@ -41,7 +41,7 @@ namespace StreamEnergy.Pipelines
             {
                 string url = HttpContext.Current.Request.Url.ToString();
                 Regex reg = new Regex("http:");
-                Regex reg2 = new Regex("://www.");
+                Regex reg2 = new Regex("://www\\.", RegexOptions.IgnoreCase);
 
                 if (reg2.IsMatch(url) || (!HttpContext.Current.Request.IsSecureConnection && dependencies.SSLEnabled))
                 {
