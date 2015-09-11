@@ -43,7 +43,9 @@ namespace StreamEnergy.Pipelines
                 {
                     string url = HttpContext.Current.Request.Url.ToString();
                     Regex reg = new Regex("http:");
+                    Regex reg2 = new Regex("://www.");
                     url = reg.Replace(url, "https:", 1);
+                    url = reg2.Replace(url, "://", 1);
 
                     if (url != HttpContext.Current.Request.Url.ToString()) //In case HTTPS url returns non-secure connection for whatever reason
                     {
