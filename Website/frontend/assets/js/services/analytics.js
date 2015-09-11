@@ -12,21 +12,21 @@
                     tracker.send('event');
                 } else {
                     var tries = 0;
-                    var sendDimension = function(arguments) {
+                    var args = arguments;
+                    var cancel = $timeout(function() {
                         if (window.ga && window.ga.getAll().length >= 1) {
                             var tracker = ga.getAll()[0];
-                            for (var i = 0; i < arguments.length; i += 2) {
-                                tracker.set('dimension' + arguments[i], arguments[i + 1]);
+                            for (var i = 0; i < args.length; i += 2) {
+                                tracker.set('dimension' + args[i], args[i + 1]);
                             }
                             tracker.send('event');
-                            $timeout.cancel(sendDimension);
+                            $timeout.cancel(cancel);
                         }
                         if (tries > 100) {
-                            $timeout.cancel(sendDimension);
+                            $timeout.cancel(cancel);
                         }
                         tries++;
-                    };
-                    $timeout(sendDimension.bind(null, arguments), 2500); 
+                    }, 2500);
                 }
             } catch(e) {} //just eat any errors;
         }
