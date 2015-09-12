@@ -5,10 +5,10 @@
         @Html.Sitecore().Placeholder("noAccount")
     </div>
 
-    <section id="main-content">
+    <section id="main-content" ng-hide="selectedAccount.accountNumber === false" ng-cloak>
         @Html.Sitecore().Placeholder("mainColumn")
     </section>
-    <aside id="main-aside">
+    <aside id="main-aside" ng-hide="selectedAccount.accountNumber === false" ng-cloak>
         @Html.Sitecore().Placeholder("sidebar")
     </aside>
 </section>
