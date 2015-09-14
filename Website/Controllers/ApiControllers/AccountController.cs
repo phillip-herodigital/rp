@@ -104,7 +104,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
                 }
             }
-            catch (Exception e) { 
+            catch (Exception) { 
             }
 
             return result;
