@@ -137,7 +137,10 @@
                     <td class="plan-name hide-small">
                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</span>
                         <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</span>
-                        <div class="plan-title">{{plan.name}}</div>                        
+                        <div class="plan-title">{{plan.name}}</div>
+                        <div ng-if="plan.includesThermostat" class="includes-thermostat">
+                            @Html.Sitecore().Field("Thermostat Text")
+                        </div>
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
@@ -186,10 +189,6 @@
                                 <li><a ng-href="{{plan.documents.termsOfService}}" target="_blank">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
                                 <li><a ng-href="{{plan.documents.yourRightsAsACustomer}}" target="_blank">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
                             </ul>
-                            
-                            <div ng-if="plan.includesThermostat" class="includes-thermostat">
-                                Includes thermostat container
-                            </div>
 
                             <dl class="plan-selection-fees">
                                 <dt>@Html.Sitecore().Field("Stream Energy Charge Label")</dt>
