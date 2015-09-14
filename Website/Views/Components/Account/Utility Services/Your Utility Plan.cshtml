@@ -18,18 +18,20 @@
                         <p>@Html.Sitecore().Field("Renew Date Text")</p>
                     </div>
                     @*
-                        <div class="col">
-                            <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
-                        </div>
+                    <div class="col">
+                        <button class="primary" ng-click="setupRenewal()">@Html.Sitecore().Field("Renew Button Text")</button>
+                    </div>
                     *@
                 </div>
             </div>
         </article>
+
         <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && !renewal && renewalRedirect">
             <div class="notice message">
                 @Html.Sitecore().Field("Renew Ineligible Text")
             </div>
         </article>
+
         <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && renewal">
             <div class="notice alert" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
                 @Html.Sitecore().Field("Commercial Renew Eligible Text GA")
@@ -38,6 +40,7 @@
                 @Html.Sitecore().Field("Commercial Renew Eligible Text TX")
             </div>
         </article>
+
         <article class="plain renew-plan" ng-if="utilityPlan.customerType == 'commercial' && !renewal && renewalRedirect">
             <div class="notice message" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
                 @Html.Sitecore().Field("Commercial Renew Ineligible Text GA")
@@ -46,10 +49,12 @@
                 @Html.Sitecore().Field("Commercial Renew Ineligible Text TX")
             </div>
         </article>
+
         <article class="plan" ng-init="georgiaProducts = @(Html.Action("GeorgiaProducts", "Data").ToHtmlString());" ng-if="utilityPlan.subAccountType == 'GeorgiaGas'">
             <header>
                 <h2>@Html.Sitecore().Field("Your Gas Plan Text")</h2>
             </header>
+
             <table class="plan-table" loading-indicator>
                 <thead class="hide-small">
                     <tr>
@@ -83,11 +88,11 @@
                             <span class="plan-cost">${{ utilityPlan.rate | number:3 }}</span>
                             <p>@Html.Sitecore().Field("Per Therm Text")</p>
                             @*<p class="details">
-                                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
-                                        <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
-                                    </a>
-                                </p>
-                                <div class="details-arrow"></div>*@
+                                <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
+                                    <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
+                                </a>
+                            </p>
+                            <div class="details-arrow"></div>*@
                         </td>
                         <td class="term" ng-if="utilityPlan.termMonths != '1'">
                             @Html.Sitecore().Field("Gas Term Months").Format(new { Count = "{{utilityPlan.termMonths}}" })
@@ -99,8 +104,8 @@
                             {{ utiltiyPlan.cancellationFee }}<span>@Html.Sitecore().Field("Gas Early Termination Fee")</span>
                         </td>
                         @*<td ng-if="utilityPlan.customerType != 'commercial' && renewal">
-                                <button class="primary" ng-click="setupRenewal(utilityPlan.id)">@Html.Sitecore().Field("Renew Button Text")</button>
-                            </td>*@
+                            <button class="primary" ng-click="setupRenewal(utilityPlan.id)">@Html.Sitecore().Field("Renew Button Text")</button>
+                        </td>*@
                     </tr>
                     <tr class="hide-medium-large" ng-show="utilityPlan.description">
                         <td class="plan-actions" colspan="4">
@@ -110,6 +115,7 @@
                             </a>
                         </td>
                     </tr>
+
                     <tr class="details-row additional-fields ng-cloak">
                         <td colspan="4">
                             <div slide-down-show="isOpen">
@@ -120,19 +126,20 @@
                 </tbody>
             </table>
             @*
-                <footer class="renew-plan" ng-show="!renewal.isEligible">
-                    <div class="grid two">
-                        <div class="col">
-                            <h3>@Html.Sitecore().Field("Renew Plan Text")</h3>
-                            <p>@Html.Sitecore().Field("Renew Date Text") {{ renewal.renewalDate }}</p>
-                        </div>
-                        <div class="col">
-                            <button class="primary">@Html.Sitecore().Field("Renew Button Text")</button>
-                        </div>
+            <footer class="renew-plan" ng-show="!renewal.isEligible">
+                <div class="grid two">
+                    <div class="col">
+                        <h3>@Html.Sitecore().Field("Renew Plan Text")</h3>
+                        <p>@Html.Sitecore().Field("Renew Date Text") {{ renewal.renewalDate }}</p>
                     </div>
-                </footer>
+                    <div class="col">
+                        <button class="primary">@Html.Sitecore().Field("Renew Button Text")</button>
+                    </div>
+                </div>
+            </footer>
             *@
         </article>
+
         <article class="plan" ng-if="utilityPlan.subAccountType == 'TexasElectricity'">
             <header>
                 <h2>@Html.Sitecore().Field("Your Electricity Plan Text")</h2>
@@ -158,10 +165,10 @@
                         <td class="arrow plan-name">
                             <h5><strong>{{ utilityPlan.productName }}</strong></h5>
                             @*<p class="details">
-                                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
-                                        <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
-                                    </a>
-                                </p>*@
+                                <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
+                                    <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
+                                </a>
+                            </p>*@
                         </td>
                         <td>
                             <p>
@@ -173,11 +180,11 @@
                             <span class="plan-cost">{{ utilityPlan.rate * 100 | number:2 }}&#162;</span>
                             <p>@Html.Sitecore().Field("Per KwH Text")</p>
                             @*<p class="details">
-                                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
-                                        <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
-                                    </a>
-                                </p>
-                                <div class="details-arrow"></div>*@
+                                <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
+                                    <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
+                                </a>
+                            </p>
+                            <div class="details-arrow"></div>*@
                         </td>
                         <td class="term" ng-if="utilityPlan.termMonths != '1'">
                             @Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{utilityPlan.termMonths}}" })
@@ -188,8 +195,8 @@
                         </td>
                         <td class="center" ng-if="utilityPlan.fees"><span class="plan-cost">{{ utilityPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
                         @*<td ng-if="utilityPlan.customerType != 'commercial' && isEligible(utilityPlan.id)">
-                                <button class="primary" ng-click="setupRenewal(utilityPlan.id)">@Html.Sitecore().Field("Renew Button Text")</button>
-                            </td>*@
+                            <button class="primary" ng-click="setupRenewal(utilityPlan.id)">@Html.Sitecore().Field("Renew Button Text")</button>
+                        </td>*@
                     </tr>
                     <tr class="expand-details additional-fields">
                         <td colspan="5">
@@ -210,29 +217,22 @@
                 </tbody>
             </table>
             @*
-                <footer class="renew-plan" ng-show="utilityPlan.isRenewable">
-                    <div class="grid two">
-                        <div class="col">
-                            <h3>@Html.Sitecore().Field("Renew Plan Text")</h3>
-                            <p>@Html.Sitecore().Field("Renew Date Text") {{ utilityPlan.renewDate }}</p>
-                        </div>
-                        <div class="col">
-                            <button class="primary">@Html.Sitecore().Field("Renew Button Text")</button>
-                        </div>
+            <footer class="renew-plan" ng-show="utilityPlan.isRenewable">
+                <div class="grid two">
+                    <div class="col">
+                        <h3>@Html.Sitecore().Field("Renew Plan Text")</h3>
+                        <p>@Html.Sitecore().Field("Renew Date Text") {{ utilityPlan.renewDate }}</p>
                     </div>
-                </footer>
-            *@
-        </article>
-        <div ng-controller="EnrollmentMainCtrl" ng-if="showPlanSelector">
-            <div id="utilityFlowPlans" class="enrollment" ng-if="renewal && customerType == 'residential'" ng-init="setTimeRemaining('utilityFlowPlans', '@planSelectionItem["Remaining Minutes Number"]');" loading-indicator>
-                <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image", planSelectionItem)">
-                    <div class="wrapper clearfix">
-                        <h1>
-                            <span class="block">@planSelectionItem["Banner Header Text"]</span><br />
-                            <span class="block">@planSelectionItem["Banner Sub Header Text"]</span>
-                        </h1>
+                    <div class="col">
+                        <button class="primary">@Html.Sitecore().Field("Renew Button Text")</button>
                     </div>
                 </div>
+            </footer>
+            *@
+        </article>
+
+        <div ng-controller="EnrollmentMainCtrl" ng-if="showPlanSelector">
+            <div id="utilityFlowPlans" class="enrollment" ng-if="renewal && customerType == 'residential'" ng-init="setTimeRemaining('utilityFlowPlans', '@planSelectionItem["Remaining Minutes Number"]');" loading-indicator>
                 <div>
                     <div class="wrapper cols-2">
                         <section>
@@ -253,22 +253,10 @@
                                 <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
                                 <div class="buttons">
                                     <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
-                                        <span ng-if="!isRenewal">@planSelectionItem["Continue Button"]</span>
                                         <span ng-if="isRenewal">@planSelectionItem["Continue Renewal Button"]</span>
                                     </button>
-                                    <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@planSelectionItem["Add Address Button"]</button>
-                                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" ng-if="!isRenewal">@planSelectionItem["Cancel Enrollment Button"]</button>
-                                    <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal">@planSelectionItem["Cancel Renewal Button"]</button>
-                                </div>
-                                <div class="footnotes">
-                                    <div class="item warning" ng-if="isCartFull">
-                                        @planSelectionItem["Maximum Addresses Message Text"]
-                                    </div>
                                 </div>
                             </form>
-                            <div class="hide-medium-large time-remaining-mobile">
-                                <p class="time-remaining">@planSelectionItem["Time Remaining"]</p>
-                            </div>
                             <div>
                                 <p ng-repeat="footnote in activeFootnotes"><sup>{{$index + 1}}</sup> {{footnote.value}}</p>
                             </div>
@@ -276,58 +264,7 @@
                     </div>
                 </div>
             </div>
-            <div id="utilityFlowPlans" class="enrollment" ng-if="renewal && customerType == 'commercial'" ng-init="setTimeRemaining('utilityFlowPlans', '@planSelectionItem["Remaining Minutes Number"]');" loading-indicator>
-                <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image", planSelectionItem)">
-                    <div class="wrapper clearfix">
-                        <h1>
-                            <span class="small block">@planSelectionItem["Commercial Banner Header Text"]</span><br />
-                            <span class="block">@planSelectionItem["Commercial Banner Sub Header Text"]</span>
-                        </h1>
-                    </div>
-                </div>
-                <section class="layout">
-                    <div class="wrapper cols-2">
-                        <aside class="enrollment__nav">
-                            <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowPlans'"></div>
-                        </aside>
-                        <section>
-                            <form data-val-bind-messages="validations">
-                                <article class="form enrollment__box">
-                                    <header>
-                                        <h1>@planSelectionItem["Quote Header"]</h1>
-                                    </header>
-                                    <div class="content">
-                                        <p>@planSelectionItem["Quote Intro"]</p>
-                                        <div class="item item--no-input">
-                                            <label for="service-address">@planSelectionItem["Service Address Label"]</label>
-                                            <strong>{{ currentLocationInfo().location.address | address }}</strong>
-                                        </div>
-                                        <div>
-                                            @planSelectionItem["Quote Content"]
-                                        </div>
-                                    </div>
-                                </article>
-                                <div class="buttons">
-                                    <button type="submit" class="primary" ng-click="completeStep();" data-val-submit>@planSelectionItem["Continue Button"]</button>
-                                    <button type="submit" class="secondary" ng-click="completeStep(true);" ng-if="!isRenewal" data-val-submit>@planSelectionItem["Add Address Button"]</button>
-                                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">@planSelectionItem["Cancel Quote Button"]</button>
-                                </div>
-                            </form>
-                            <div class="hide-medium-large time-remaining-mobile">
-                                <p class="time-remaining">@planSelectionItem["Time Remaining"]</p>
-                            </div>
-                            <article ng-if="activeFootnotes">
-                                <div>
-                                    <p ng-repeat="footnote in activeFootnotes"><sup>{{$index}}</sup> {{footnote.value}}</p>
-                                </div>
-                            </article>
-                        </section>
-                        <aside>
-                            <div ng-include ng-if="true" src="'cart-template'"></div>
-                        </aside>
-                    </div>
-                </section>
-            </div>
+            
             <script type="text/ng-template" id="planList/TexasElectricity">
                 <header ng-init="footnotes['TexasElectricity'] = @Html.JsonStringifyFields(planSelectionItem, "Electricity Rate Footnote", "Electricity Term Footnote")">
                     <h1>@planSelectionItem["Electricity Header"]</h1>
@@ -429,6 +366,7 @@
                     </table>
                 </article>
             </script>
+
             <script type="text/ng-template" id="planList/GeorgiaGas">
                 <header ng-init="footnotes['GeorgiaGas'] = @Html.JsonStringifyFields(planSelectionItem, "Gas Rate Footnote", "Gas Term Footnote")">
                     <h1>@planSelectionItem["Gas Header"]</h1>
