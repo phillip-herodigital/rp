@@ -140,6 +140,10 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
 
             $scope.accountInformation.associateName = null;
+        } else {
+            if (typeof $scope.accountInformation.associateName != 'undefined') {
+                analytics.sendVariables(14, $scope.accountInformation.associateName);
+            }
         }
         var addresses = [$scope.accountInformation.mailingAddress];
         if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
