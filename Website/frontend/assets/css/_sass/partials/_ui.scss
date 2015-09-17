@@ -177,6 +177,9 @@ div.tabbable {
 		float: left;
 		margin: 0;
 	}
+	button.tertiary {
+		float: left;
+	}
 	@include breakpoint(small) {
 		button {
 			margin-bottom: 5px;

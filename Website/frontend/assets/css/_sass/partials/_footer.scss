@@ -1,7 +1,7 @@
 footer.site-footer {
     clear: both;
     padding-bottom: 8px;
-    background: #2f9bce image-url('marketing/redesign/footer-section-bottom-rule.png') center bottom repeat-x;
+    background: #00A8E1 image-url('marketing/redesign/footer-section-bottom-rule.png') center bottom repeat-x;
     color: #fff;
     border-top: 1px solid #f5f5f5;
     h4 {
@@ -39,7 +39,7 @@ footer.site-footer {
     }
     div.logos {
         @extend .clearfix;
-        background: adjust-lightness(#2f9bce, -10);
+        background: #0071B9;
         margin-top: 25px;
         padding: 25px 0;
         .logo {
