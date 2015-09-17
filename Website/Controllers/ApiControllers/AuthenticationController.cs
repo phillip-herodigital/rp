@@ -97,7 +97,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             coaSessionHelper.Dispose();
             resetPasswordSessionHelper.Dispose();
-            HttpContext.Current.Session.Remove("interstitialModal");
+
             base.Dispose(disposing);
         }
 
@@ -219,6 +219,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public HttpResponseMessage Logout()
         {
             Dispose(true);
+            HttpContext.Current.Session.Abandon();
             var response = Request.CreateResponse(HttpStatusCode.Found);
             response.Headers.Location = new Uri(Request.RequestUri, "/auth/login");
             return response;
