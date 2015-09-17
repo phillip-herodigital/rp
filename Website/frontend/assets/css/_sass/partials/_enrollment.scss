@@ -726,6 +726,15 @@
 /*
     Utility services plan section
  */
+.enrollment__utility-plans-header {
+    .service-address {
+        color: #828282;
+        font-size: 12px;
+        font-weight: 600;
+        text-align: right;
+    }
+}
+
 .enrollment__utility-plans {
     position: relative;
     border: none;

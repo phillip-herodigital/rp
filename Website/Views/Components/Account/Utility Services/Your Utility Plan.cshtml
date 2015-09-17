@@ -4,22 +4,12 @@
 @using (new Sitecore.Data.Items.ContextItemSwitcher(planSelectionItem))
 {
     <div ng-controller="AcctYourUtilityPlanCtrl" ng-cloak>
-        <article class="plain renew-plan" ng-if="!renewal">
+        <article class="plain renew-plan" ng-if="!isLoading && !renewal">
             <div>
                 @Html.Sitecore().Field("Renew Ineligible Intro")
             </div>
         </article>
         <div stream-connect-errors="AcctYourUtilityPlanCtrl"></div>
-        <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && renewal">
-            <div class="notice alert" loading-indicator>
-                <div class="grid two">
-                    <div class="col">
-                        <strong>@Html.Sitecore().Field("Renew Plan Text")</strong>
-                        <p>@Html.Sitecore().Field("Renew Date Text")</p>
-                    </div>
-                </div>
-            </div>
-        </article>
 
         <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && !renewal && renewalRedirect">
             <div class="notice message">
@@ -175,43 +165,57 @@
             </table>
         </article>
 
+        <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && renewal">
+            <div class="notice alert" loading-indicator>
+                <div class="grid two">
+                    <div class="col">
+                        <strong>@Html.Sitecore().Field("Renew Plan Text")</strong>
+                        <p>@*@Html.Sitecore().Field("Renew Date Text")*@
+                            Your service is due for renewal. Please select from the plans below to renew.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
         <div ng-controller="EnrollmentMainCtrl" ng-if="showPlanSelector">
             <div id="utilityFlowPlans" class="enrollment" ng-if="renewal && customerType == 'residential'" ng-init="setTimeRemaining('utilityFlowPlans', '@planSelectionItem["Remaining Minutes Number"]');" loading-indicator>
                 <div>
-                    <div class="wrapper cols-2">
-                        <section>
-                            <form name="selectPlan" data-val-bind-messages="validations">
-                                <article class="form enrollment__box" ng-if="false">
-                                    <header>
-                                        <h1 ng-if="!isRenewal">@planSelectionItem["Choose Header"]</h1>
-                                        <h1 ng-if="isRenewal"></h1>
-                                    </header>
-                                    <div class="content">
-                                        <p>@planSelectionItem["Choose Paragraph"]</p>
-                                        <div class="item item--no-input">
-                                            <label for="service-address">@planSelectionItem["Service Address Label"]</label>
-                                            <strong>{{ currentLocationInfo().location.address | address }}</strong>
-                                        </div>
+                    <section>
+                        <form name="selectPlan" data-val-bind-messages="validations">
+                            <article class="form enrollment__box" ng-if="false">
+                                <header>
+                                    <h1 ng-if="!isRenewal">@planSelectionItem["Choose Header"]</h1>
+                                    <h1 ng-if="isRenewal"></h1>
+                                </header>
+                                <div class="content">
+                                    <p>@planSelectionItem["Choose Paragraph"]</p>
+                                    <div class="item item--no-input">
+                                        <label for="service-address">@planSelectionItem["Service Address Label"]</label>
+                                        <strong>{{ currentLocationInfo().location.address | address }}</strong>
                                     </div>
-                                </article>
-                                <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
-                                <div class="buttons">
-                                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
-                                        <span ng-if="isRenewal">@planSelectionItem["Continue Renewal Button"]</span>
-                                    </button>
                                 </div>
-                            </form>
-                            <div>
-                                <p ng-repeat="footnote in activeFootnotes"><sup>{{$index + 1}}</sup> {{footnote.value}}</p>
+                            </article>
+                            <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
+                            <div class="buttons">
+                                <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
+                                    <span ng-if="isRenewal">@planSelectionItem["Continue Renewal Button"]</span>
+                                </button>
                             </div>
-                        </section>
-                    </div>
+                        </form>
+                        <div>
+                            <p ng-repeat="footnote in activeFootnotes"><sup>{{$index + 1}}</sup> {{footnote.value}}</p>
+                        </div>
+                    </section>
                 </div>
             </div>
             
             <script type="text/ng-template" id="planList/TexasElectricity">
-                <header ng-init="footnotes['TexasElectricity'] = @Html.JsonStringifyFields(planSelectionItem, "Electricity Rate Footnote", "Electricity Term Footnote")">
+                <header class="enrollment__utility-plans-header" ng-init="footnotes['TexasElectricity'] = @Html.JsonStringifyFields(planSelectionItem, "Electricity Rate Footnote", "Electricity Term Footnote")">
                     <h1>@planSelectionItem["Electricity Header"]</h1>
+                    <div class="service-address">
+                        {{ utilityPlan.serviceAddress.line1 }}<span ng-if="utilityplan.serviceaddress.line2"> {{ utilityPlan.serviceAddress.line2 }}</span><br>{{ utilityPlan.serviceAddress.city }}, {{ utilityPlan.serviceAddress.stateAbbreviation }} {{ utilityPlan.serviceAddress.postalCode5 }}
+                    </div>
                 </header>
                 <article class="enrollment__utility-plans">
                     <div ng-include src="'multiple-tdu-modal'" ng-if="typedOffers.value.errors[0] == 'MultipleTdu'"></div>
