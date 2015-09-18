@@ -217,7 +217,8 @@
 }
 
 .tertiary-nav {
-	background-color: #f1f1f1;
+	background-color: #2493d5;
+	color: #ffffff;
 	min-height: 50px;
 	border-top: 1px solid #e1e1e1;
 	ul {
@@ -234,6 +235,7 @@
 				display: inline-block;
 				color: $nav-tertiary-color;
 				padding: $nav-tertiary-padding;
+				color:#ffffff;
 				//font-weight: 600;
 			}
 			&.selected {
