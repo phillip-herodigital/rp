@@ -365,6 +365,9 @@
 	}
 	&.account-banner {
 		height: 34px;
+		background-size: auto;
+		background-repeat: repeat-x;
+		padding: 0px 20px;
 		.wrapper {
 			padding: 7px 0px 0px 0px;
 			h1 {
