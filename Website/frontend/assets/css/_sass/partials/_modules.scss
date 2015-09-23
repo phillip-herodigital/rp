@@ -1967,6 +1967,10 @@ article.mobile {
 	
 	.device-full {
 		display: block;
+
+        .device-details {
+            padding: 10px;
+        }
 	}
 	table tbody tr td, th, tfoot td {
 		text-align: center;

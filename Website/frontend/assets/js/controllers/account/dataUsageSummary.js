@@ -55,6 +55,10 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                     $scope.data.nextBillingDate = new Date($scope.data.nextBillingDate);
                 }
 
+                if ($scope.data.nextBillingDate < new Date()) {
+                    $scope.data.nextBillingDate = new Date();
+                }
+
                 $scope.billingDaysRemaining = Math.round(($scope.data.nextBillingDate - (new Date()).getTime()) / (24 * 60 * 60 * 1000));
                 $scope.currentBillingPeriodDate = $scope.data.lastBillingDate;
 
