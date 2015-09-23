@@ -38,30 +38,22 @@ namespace StreamEnergy.MyStream.Conditions
 
         protected override bool Execute(T ruleContext)
         {
-            var result = AsyncHelper.RunSync<bool>(() => isPaperlessBilling());
+            var result = AsyncHelper.RunSync<bool>(() => isEligiblePaperless());
 
             return result;
         }
 
-        public async Task<bool> isPaperlessBilling()
+        public async Task<bool> isEligiblePaperless()
         {
             ICurrentUser currentUser = dependencies.currentUser;
             IAccountService accountService = dependencies.accountService;
 
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
-            if(currentUser.Accounts != null)
+            if (currentUser.Accounts != null && currentUser.Accounts.Count() == 1)
             {
-                if(currentUser.Accounts.Count() == 1)
-                {
-                    var account = currentUser.Accounts.FirstOrDefault();
-                    var accountDetails = await accountService.GetAccountDetails(account, false);
-                    bool isPaperless = account.Details.BillingDeliveryPreference == "Email";
-                    return isPaperless;
-                }
-                else
-                {
-                    return false;
-                }
+                var account = currentUser.Accounts.FirstOrDefault();
+                var accountDetails = await accountService.GetAccountDetails(account, false);
+                return account.Details.BillingDeliveryPreference != "Email";
             }
             else
             { 
