@@ -3556,9 +3556,6 @@
     <Content Include="sitecore\Unsubscribe.aspx" />
     <Content Include="sitecore\UnsubscribeFromAll.aspx" />
     <Content Include="upload\readme.txt" />
-    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Header.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="webedit.css" />
     <Content Include="xsl\system\WebEdit\Hidden Rendering.xslt" />
   </ItemGroup>
@@ -3849,6 +3846,7 @@
     <Content Include="Views\Pages\Currents\Calendar.cshtml" />
     <Content Include="Views\Components\Email\Currents\Currents Email Custom Content.cshtml" />
     <Content Include="Views\Pages\Sitemap.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Header.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
