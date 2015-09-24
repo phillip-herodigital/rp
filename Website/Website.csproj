@@ -1720,8 +1720,6 @@
     <Content Include="frontend\assets\js\controllers\enrollment\mobile\mobileCart.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\mobile\mobileEnrollmentProgressBar.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\mobile\mobileOrderSummary.js" />
-    <Content Include="frontend\assets\js\controllers\enrollment\mobile\mobilePlansTable.js" />
-    <Content Include="frontend\assets\js\controllers\enrollment\mobile\verifyPhone.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\multipleTdu.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\OfferOptions-GeorgiaGasMoveIn.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\OfferOptions-TexasElectricityCommercialQuote.js" />
