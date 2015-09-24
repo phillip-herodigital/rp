@@ -107,7 +107,8 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
         {
             try
             {
-                var directoryInfo = Directory.CreateDirectory("C:\\Users\\Ken\\Projects\\MyStream.com\\StreamEnergy.LuceneServices.IndexGeneration\\bin\\Azure-Production\\201509080855"); //Directory.CreateDirectory(DateTime.Now.ToString("yyyyMMddhhmm"));
+                var ercotFullPath = ConfigurationManager.AppSettings["ErcotArchiveDownloadPath"] + "\\" + DateTime.Now.ToString("yyyyMMddhhmm");
+                var directoryInfo = Directory.CreateDirectory(ercotFullPath); // Directory.CreateDirectory("C:\\Users\\Ken\\Projects\\MyStream.com\\StreamEnergy.LuceneServices.IndexGeneration\\bin\\Azure-Production\\201509080855");
                 Log.Debug("Staring in " + directoryInfo.FullName);
                 var ercotDownloader = new ErcotFileDownloader(directoryInfo.FullName + "\\");
                 var typeaheadFolderPath = directoryInfo.FullName + "\\typeahead";
@@ -121,7 +122,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     options.ForceCreate = true;
                     options.Source = directoryInfo.FullName;
                     Log.Debug("Downloading Ercot files..");
-                    //  await ercotDownloader.Fetch();
+                    await ercotDownloader.Fetch();
                     Log.Debug("Download complete.");
                     Log.Debug("Indexing ercot data...");
                     RunIndexer(options);

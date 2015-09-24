@@ -58,7 +58,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                 {
                     continue;
                 }
-                var a = doc.Select("a[href]");
+                var a = tr.Select("a[href]");
                 filesToDownload.Add(label.Text, ErcotBaseUrl + a.Attr("href"));
             }
 
