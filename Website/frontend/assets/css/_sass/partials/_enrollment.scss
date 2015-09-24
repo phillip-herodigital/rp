@@ -2257,10 +2257,14 @@ h3.success-message{
 				margin-bottom:0;
 				float:right;
 
-				
+				article.enrollment_cart{
+					margin-bottom:0;
+					margin-top:15px;
+				}
 				header{
 					background:none;
 					border:none;
+					padding-top:0;
 				}
 				h1, .content, footer{
 					display:none;
@@ -2349,6 +2353,8 @@ h3.success-message{
 	.inner{
 		width:1040px;
 		margin:auto;
+		position: relative;
+
 		.step-description{
 			float:left;
 			margin-right:200px;
@@ -2396,8 +2402,8 @@ h3.success-message{
 			position:absolute;
 			top:-15px;
 			right:0;
-			padding:5px 15px;
-			background-color: darkblue;
+			padding:2px 15px;
+			background-color: #033d5b;
 			color:white;
 			border-radius: 0 0 10px 10px;
 		}

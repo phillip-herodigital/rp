@@ -7,5 +7,7 @@ namespace StreamEnergy.MyStream.Models.MobileEnrollment
 {
     public class ProgressBar
     {
+        public int StepNumber;
+        public string StepTextField;
     }
 }
