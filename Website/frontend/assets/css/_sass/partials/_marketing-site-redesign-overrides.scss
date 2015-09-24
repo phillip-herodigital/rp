@@ -96,7 +96,17 @@ article {
         border-radius: 0;
     }
 
-    &.marketingIntro {
+    &.marketingIntro {		
+
+		&.wrapper {		
+			text-align:left;
+
+			h1 {					
+				color: #3C535C;
+
+			}
+		}	
+
         p.intro {
             font-size: 20px;
             margin: 1em percentage(100/1040);
@@ -116,10 +126,6 @@ article {
                         }
                     }
                 }
-
-
-
-
 
                 h3 {
                     padding-top: 50px;
@@ -144,6 +150,17 @@ article {
                 }
             }
         }
+
+		&.plans-intro {
+
+			h1 {
+				text-align:left;
+			}
+
+			.wrapper {
+				 padding: 16px 0;
+			}
+		}
     }
 
     &.marketing {
@@ -1255,29 +1272,47 @@ article.mobile-plan-intro {
 }
 
 article.mobile-tools-switch {
+
+	> div.wrapper {
+        padding-top: 0;
+        background-image: none;
+		max-width: 1060px;
+		width: 100%;
+    }
+
+	h1 {
+		color: #3C535C;
+		padding-top: 20px;
+	}
+
+	.grid {
+		margin: 0;
+		width: calc(100% + 50px);
+	}
+
+	.col {
+		padding-right: 56px;
+	}
+
 	.mobile-tools {
-        width: 310px;
+        margin-bottom: 10px;
         height: 196px;
         background-color: #f1f1f1;
+		color: #3C535C;
     }	
-	.mobile-tools {
-				
-		//&:first-of-type {
-        //    margin-right: 40px;
-        //}
 
-        //&:last-of-type {
-        //    margin-left: 40px;
-        //}	
+	.mobile-tools {
 
 		p {
 			margin-top:0;
 			margin-bottom: 12px;
 			padding-right: 8px;
 		}
-
+		
 		h4 {
-			margin-bottom: 12px;
+			margin-bottom: 12px;			
+			color: #3C535C;
+			font-weight: 600;
 		}
 
 		.image {
@@ -1291,44 +1326,140 @@ article.mobile-tools-switch {
 		.text {
 			display: inline-block;
 			vertical-align: top;
-			width: 180px;
+			width: 60%;
 			text-align: left;
 		}
 	}
 }
 
+article.mobile-interested {
+	background: image-url('marketing/redesign/pattern_bg_2.png') repeat scroll center 0;
+	margin-bottom: -30px;
+}
+
+article.mobile-interested {
+
+	.wrapper {
+        padding: 0;
+        background-image: none;
+		max-width: 1060px;
+		width: 100%;
+    }
+
+	.col {
+
+		&:first-of-type {
+			width: 65%;
+        }
+
+		&:last-of-type {
+			padding-top: 50px
+		}
+	}
+
+	h1 {
+		text-align: left;
+		color: #3C535C;
+		padding: 40px 0 20px 0;
+		font-size: 36px;
+	}
+
+	span {
+		color: #2f9bce;
+		font-weight: 600;
+	}
+
+	a {
+		margin-left: 50px;
+		vertical-align: middle;
+	}
+
+	.button {
+		border-radius: 5px;
+		font-size: 22px;
+		padding: 12px 52px;
+	}
+}
+
 article.mobile-savings {
+	background: image-url('marketing/redesign/pattern_bg_1.png');	
+}
+
+article.mobile-savings {
+
+	@media only screen and (min-width: 768px) {
+		.grid {
+			width: calc(100% + 108px);
+			border-spacing: 54px;
+			margin: -54px;
+		}
+	}
+
+	> div.wrapper {
+        padding-top: 0;
+        background-image: none;
+		max-width: 1060px;
+		width: 100%;
+    }
+
+	h1 {
+		color: #3C535C;	
+		padding-top: 20px;	
+	}
+
 	.col {
 		padding: 0 44px 0 44px; 
 		text-align:left; 
 		width: 504px; 
 		height: 274px;
 	}
+
 	.col {
-		
+		padding-top: 10px;
 		h1 {
-			font-weight: bold;
-			text-align:left;
+			color: #ffffff;
+			margin-bottom: 10px;
+			margin-top: 0;
+			padding-top: 10px;
+			text-align: left;
 		}
 
-		&:first-of-type {
-            
+		h1 strong {			
+			font-weight: bold;
+		}
+
+		&.devices {
+			background-color: #ffffff;
+            -webkit-box-shadow: 1px 1px 10px #ccc;
+			-moz-box-shadow: 1px 1px 10px #ccc;
+			box-shadow: 1px 1px 10px #ccc;
+			margin-bottom: 50px;
         }
 
-        &:last-of-type {
-            background-color: #0071B9;
+        &.savings {
+            background: image-url('bg/savings-background.png') no-repeat;
 			color:#ffffff;
         }
+	}
+
+	.button {
+		background-image: linear-gradient(#185782, #002960);
+		border-radius: 5px;
+		padding: 7px 22px;
+		font-size: 16px;
 	}
 }
 
 article.mobile-plans-table {
+
     h3 {
         margin: 0;
     }
+
     .label {
         text-align: left;
     }
+
     table {
         margin-bottom: 10px;
         td {
@@ -1344,6 +1475,7 @@ article.mobile-plans-table {
             }
         }
     }
+
     .footnotes {
         text-align: left;
         font-size: 14px;
@@ -1351,7 +1483,74 @@ article.mobile-plans-table {
     }
 }
 
+article.mobile-plans-header {
+		
+	> div.wrapper {
+        padding: 16px 0;
+        background-image: none;
+		max-width: 1060px;
+		width: 100%;
+    }
+
+	.col {
+		text-align:left;
+		@media only screen and (min-width: 768px) {
+			&.title {
+				width: 75%;
+			}
+		}
+	}
+
+	h1 {
+		color: #3C535C;	
+		text-align: left;
+	}	
+
+	.associate {
+		width: 250px;
+		height: 100px;
+	}
+
+	.associate-image {
+        float: left;
+        margin: 13px;
+        display: inline-block;
+        height: 60px;
+        width: 60px;
+        border: 75px;
+        border-radius: 75px;
+		border: solid 1px #28a5de;
+    }
+
+    .ai-right {
+		line-height: 1.1;
+        float: left;
+        display: block;
+        padding: 13px 0 0 0;
+        .referred-by {
+            color: #000;
+            font-size: .85em;
+            font-weight: 400;
+        }
+        .associate-name {
+			display: block;
+            font-weight: bold;
+			font-size: 22px;
+            color: #000;
+        }
+        .associate-level {
+            color: #000;
+            font-weight: bold;
+            font-size: .65em;
+			text-transform: uppercase;
+			letter-spacing: .25em;
+        }
+    }
+}
+
 article.mobile-pricing-plans {
+	
+	background-color: #f3f6f7;
 
     // div.intro {
     //     margin: 1em 20px;
@@ -1549,13 +1748,12 @@ article.mobile-pricing-plans {
     }
 
     .button-plans {
-        background-color: #f1f1f1;
-        color: #4f4c4d;
+        background-color: #f3f6f7;
+        color: #3C535C;
         border: solid 1px #bababa;
         display: inline-block;
         font-size: 18px;
         line-height: 1.375;
-        padding: 7px 18px;
         text-align: center;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
         width: 190px;
@@ -1566,20 +1764,40 @@ article.mobile-pricing-plans {
     }
 
 	.button-plans {
+
 		&.selected {
 			color: #ffffff;
-			background-color: #3C535C;
+			background-color: #3c535c;
 		}
-
+				
 		&.left {
-			border-top-left-radius: 5px;
+			background-image: image-url("marketing/redesign/single_phone_dark.png");
+			background-position: 14px center;
+			background-repeat: no-repeat;
 			border-bottom-left-radius: 5px;
+			border-top-left-radius: 5px;
+			padding: 10px 0 0 10px;
 		}
 
 		&.right {
+			background-image: image-url("marketing/redesign/multi_phone_dark.png");
+			background-position: 14px center;
+			background-repeat: no-repeat;		
 			border-top-right-radius: 5px;
 			border-bottom-right-radius: 5px;
+			padding: 10px 0 0 40px;
 		}	
+
+		&.selected {
+			
+			&.right {
+				background-image: image-url("marketing/redesign/multi_phone_white.png");
+			}
+
+			&.left {
+				background-image: image-url("marketing/redesign/single_phone_white.png");
+			}
+		}
 	}
 
     .plan-description {
@@ -1593,7 +1811,8 @@ article.mobile-pricing-plans {
         vertical-align: top;
     }
 
-	.mobile-network-description {
+	.mobile-network-description {	
+		color: #3C535C;
 		width: 500px;
 	}
 
@@ -1605,7 +1824,23 @@ article.mobile-pricing-plans {
 
     .plan-left {
         padding-right: 30px;
+		margin-bottom: 30px;
     }
+
+	.plan-right {
+	}
+
+	@media only screen and (max-width: 768px) {
+
+	   .plan-left {
+			display: inline-table;
+		}
+
+		.plan-right {
+			display: inline-table;
+		}
+
+	}
 
     .plan-box {
         width: 124px;
@@ -1631,13 +1866,13 @@ article.mobile-pricing-plans {
         }
 
 		h2.cdma {
-            color: #e69511;
+            color: #eca001;
         }
 
 		h3 {
             margin-bottom: 10px;
             margin-top: 0px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
 		sup {
@@ -1658,7 +1893,7 @@ article.mobile-pricing-plans {
         }
 
 		p.perMonth.cdma {
-            color: #e69511;
+            color: #eca001;
         }
 
         p.speed {
@@ -1669,36 +1904,71 @@ article.mobile-pricing-plans {
 		p.speed .footnote {
             font-size: 12px;
         }
+
+		.button {
+			border-radius: 5px;
+			font-size: 16px;
+			padding: 7px 22px;
+		}
 		    
 		.special-promo {
-			height: 22px;
-			width: 124px;
-			color: #ffffff;
 			background-color: #257ab3;
-			background-image: linear-gradient(#75b7e2, #257ab3);
-			font-weight: 800;
-			font-size: 12px;
-			text-transform: uppercase;
-			padding-top: 3px;
+            background-image: linear-gradient(#0795d6, #007acb);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            height: 22px;
+            margin-bottom: 20px;
+            margin-top: -11px;
+            padding-top: 3px;
+            text-transform: uppercase;
+            width: 124px;
 		}
 
 		.special-promo {
 			
 			&.cdma {
-				background-color: #e69511;
-				background-image: linear-gradient(#f1aa01, #e69511);
+				background-color: #eca001;
+				background-image: linear-gradient(#efaf01, #eca001);
+			}			
+		
+			.cdma-line {
+				color: #eca001;
+				display: block;
+				padding-top: 5px;
+				text-decoration: line-through;
 			}
+
+			.gsm-line {
+				color: #257ab3;
+				display: block;
+				padding-top: 5px;
+				text-decoration: line-through;
+			}
+
+			.regular {
+				font-style: italic;
+				font-weight: bold;
+				font-size: 10px;
+				color: red;
+			}
+
+			.regular > sup {
+				font-size: 10px;
+				vertical-align: baseline;
+			}
+
 		}
 
 		.button {
 
 			&.cdma  {
 				background-color: #e69511;
-				background-image: linear-gradient(#f1aa01, #e69511);
+				background-image: linear-gradient(#efaf01, #eb9900);
 			}
 
 			&.cdma:hover {
-				background-image: linear-gradient(#f1aa01, #e69511);
+				background-image: linear-gradient(#efaf01, #eb9900);
 			}
 
 			&:hover {
@@ -1734,16 +2004,20 @@ article.mobile-pricing-plans {
 			background-color: #ffffff;
 			padding-left: 25px;
 			font-size: 15px;
-		}
 
-		.box ul {
-			width: 220px;
-			padding: 0 0 0 20px;
-		}
+			ul {
+				width: 220px;
+				padding: 0 0 0 20px;
+			}
 
-		.box ul li {
-            padding: 0 0 5px 0;
-        }
+			ul li {
+				padding: 0 0 5px 0;
+			}
+
+			h3 {
+				font-weight: 600;
+			}
+		}		
 
 		.seperator {
 			background-color: #e8e8e8;
@@ -1812,7 +2086,8 @@ article.mobile-pricing-plans {
 	}
 
 	.unlimited {
-		background-color: white;
+		background-color: white;		
+		color: #3C535C;
 		text-align:center; 
 		font-weight: 800; 
 		font-size: 18px; 

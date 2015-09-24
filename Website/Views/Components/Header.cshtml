@@ -159,9 +159,12 @@
     </div>
 }
 
+@{ 
+    var tertiaryNavCssClassField = Sitecore.Context.Item.Fields["Tertiary Nav CSS Class"];
+}
 @if (selectedNodeLevel > 2 || selectedNodeLevel == 2 && selectedNode.HasChildNodes)
 {
-    <nav class="tertiary-nav">
+    <nav class="tertiary-nav @(tertiaryNavCssClassField != null && !string.IsNullOrEmpty(tertiaryNavCssClassField.Value) ? bannerCssClassField.Value : "")">
         @if (thirdLevelRootNode != null)
         {
             <div class="wrapper">

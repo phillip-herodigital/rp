@@ -217,10 +217,9 @@
 }
 
 .tertiary-nav {
-	background-color: #2493d5;
-	color: #ffffff;
 	min-height: 50px;
 	border-top: 1px solid #e1e1e1;
+	background-color: #f1f1f1;
 	ul {
 		@include inline-block-list();
 		position: relative;
@@ -235,7 +234,6 @@
 				display: inline-block;
 				color: $nav-tertiary-color;
 				padding: $nav-tertiary-padding;
-				color:#ffffff;
 				//font-weight: 600;
 			}
 			&.selected {
@@ -288,6 +286,24 @@
 			overflow-x: scroll;
 			overflow-y: hidden;
 			-webkit-overflow-scrolling: touch;
+		}
+	}
+	&.mobile {		
+		background-color: #28a5de;
+		color: #ffffff;
+
+		li {
+			a {				
+				color:#ffffff;
+			}
+			&.selected {
+				background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
+				
+				a {
+					color: #ffffff;
+					font-weight: 600;
+				}
+			}
 		}
 	}
 }
@@ -348,6 +364,12 @@
 		.wrapper {
 			padding-top: 75px;
 			padding-bottom: 75px;
+		}
+	}
+	&.mobile {
+		h1 {
+			width: 38%;
+			color: #3c535c;
 		}
 	}
 	&.large {
