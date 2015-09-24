@@ -27,6 +27,7 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
                 $scope.accountId = data.accountId;
                 $scope.utilityPlan = data.subAccounts[0];
                 $scope.utilityPlans = data.subAccounts;
+                $scope.utilityPlansCount = data.subAccounts.length;
                 // get the plan description from sitecore if it exists
                 var product = _.find($scope.georgiaProducts, { 'code': $scope.utilityPlan.productCode });
                 $scope.utilityPlan.description = (product) ? product.description : null;
