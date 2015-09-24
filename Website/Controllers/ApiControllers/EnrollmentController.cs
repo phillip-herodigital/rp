@@ -635,7 +635,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var acctNumbers = (from product in resultData.Cart
                                    from offerInformation in product.OfferInformationByType
                                    from selectedOffer in offerInformation.Value.OfferSelections
-                                   select selectedOffer.ConfirmationNumber).ToArray();
+                                   select selectedOffer.ConfirmationNumber).Distinct().ToArray();
                 if (!string.IsNullOrEmpty(resultData.AssociateName))
                 {
                     var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");

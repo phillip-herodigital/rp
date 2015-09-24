@@ -769,6 +769,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\CustomerDismissedModalCondition.cs" />
     <Compile Include="Conditions\CustomerAutoPayCondition.cs" />
     <Compile Include="Conditions\CustomerEligibleRenewalCondition.cs" />
     <Compile Include="Conditions\CustomerPaperlessBillingCondition.cs" />
@@ -857,7 +858,9 @@
     <Compile Include="Models\Account\SendLetterResponse.cs" />
     <Compile Include="Models\Account\SetAutoPayRequest.cs" />
     <Compile Include="Models\Account\SetAutoPayResponse.cs" />
+    <Compile Include="Models\Account\DismissInterstitialModalRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalRequest.cs" />
+    <Compile Include="Models\Account\DismissInterstitialModalResponse.cs" />
     <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />
@@ -894,6 +897,8 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\Currents\CalendarEvent.cs" />
+    <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
     <Compile Include="Models\Currents\LoadPostsRequest.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
@@ -1588,7 +1593,11 @@
     <Content Include="Views\Components\Email\Currents\_BlogSummary.cshtml" />
     <Content Include="Views\Pages\Currents\Calendar.cshtml" />
     <Content Include="Views\Components\Email\Currents\Currents Email Custom Content.cshtml" />
+    <Content Include="Views\Components\Account\Interstitial Modal\InterstitialContainer.cshtml" />
+    <Content Include="Views\Components\Account\Interstitial Modal\InterstitialModal.cshtml" />
     <Content Include="Views\Pages\Sitemap.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Promo2.cshtml" />
+    <Content Include="Views\Pages\Currents\CalendarSearch.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
