@@ -137,6 +137,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aglc\AglcIndexSearchTest.cs" />
     <Compile Include="ContainerSetup.cs" />
     <Compile Include="Ercot\ErcotFileReaderTest.cs" />
     <Compile Include="Ercot\IndexSearcherErcotFileTest.cs" />
@@ -167,7 +168,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="Ercot\ext.00000203.0000000000000000.20140527.055928559.ONCOR_ELEC___DAILY.zip" />
     <None Include="packages.config" />
   </ItemGroup>

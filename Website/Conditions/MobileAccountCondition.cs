@@ -10,7 +10,7 @@ using StreamEnergy.DomainModels.Payments;
 
 namespace StreamEnergy.MyStream.Conditions
 {
-    public class CustomerAutoPayCondition<T> : WhenCondition<T>
+    public class MobileAccountCondition<T> : WhenCondition<T>
         where T : Sitecore.Rules.RuleContext
     {
         private readonly Injection dependencies;
@@ -25,44 +25,38 @@ namespace StreamEnergy.MyStream.Conditions
 
             [Dependency]
             public IAccountService accountService { get; set; }
-
-            [Dependency]
-            public IPaymentService paymentService { get; set; }
         }
         
-        public CustomerAutoPayCondition()
+        public MobileAccountCondition()
         {
             dependencies = StreamEnergy.Unity.Container.Instance.Unity.Resolve<Injection>();
         }
 
-        public CustomerAutoPayCondition(Injection injectedValue)
+        public MobileAccountCondition(Injection injectedValue)
         {
             dependencies = injectedValue;
         }
 
         protected override bool Execute(T ruleContext)
         {
-            var result = AsyncHelper.RunSync<bool>(() => isEligibleAutoPay());
+            var result = AsyncHelper.RunSync<bool>(() => hasMobileAccount());
 
             return result;
         }
 
-        public async Task<bool> isEligibleAutoPay()
+        public async Task<bool> hasMobileAccount()
         {
             ICurrentUser currentUser = dependencies.currentUser;
             IAccountService accountService = dependencies.accountService;
-            IPaymentService paymentService = dependencies.paymentService;
 
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
-            if (currentUser.Accounts != null && currentUser.Accounts.Count() == 1)
+            if (currentUser.Accounts != null)
             {
-                var account = currentUser.Accounts.FirstOrDefault();
-                var autoPayStatus = await paymentService.GetAutoPayStatus(account);
-                return (autoPayStatus.PaymentMethodId == Guid.Empty || !autoPayStatus.IsEnabled);
+                return currentUser.Accounts.Where(a => a.AccountType == "Mobile").Any();
             }
             else
             { 
-                return true;
+                return false;
             }
         }
     }
