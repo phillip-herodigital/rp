@@ -6,6 +6,7 @@
     $scope.formFields = {
         chosenPlanId: undefined
     };
+
     $scope.requestedPlanAvailable = false;
 
     $scope.filterDataPlans = function(plan){
@@ -161,6 +162,13 @@
 
     $scope.completeStep = function() {
         enrollmentService.setAccountInformation();
+    };
+
+    $scope.showModal = function (templateUrl) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl
+        })
     };
 
 }]);

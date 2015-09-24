@@ -150,6 +150,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpGet]
+        [Route("verifyDeviceNumber/{deviceNumber}")]
+        public async Task<String[]> VerifyDeviceNumber(string deviceNumber)
+        {
+            string[] deviceResult= new string[]{deviceNumber};
+
+            return deviceResult;
+        }
+
+        [HttpGet]
         [Route("importdata")]
         public void ImportData(string path)
         {

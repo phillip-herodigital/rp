@@ -51,6 +51,10 @@
         }
     }
 
+	.content{
+		background:#f8f8f8;
+	}
+
     .checkbox-list {
         li { 
             margin-bottom : 4px;
@@ -1541,6 +1545,44 @@
     }    
 }
 
+.shop-phones-overlay{
+	.section{
+		float:left;
+		width:50%;
+		text-align:center;
+
+		&:last-of-type{
+			padding-left:25px;
+		}
+
+		.carrier{
+			margin:auto;
+			margin-bottom:15px;
+		}
+		.phone-image{
+			img{
+				height: 100px;
+				width:75px;
+			}
+			float:left;
+			margin-right:15px;
+		}
+		p{
+			float:left;
+			width:150px;
+			text-align:left;
+		}
+		a.button{
+			float:right;
+			margin:15px 35px 0 0;
+		}
+
+		h6{
+			margin:0;
+		}
+	}
+}
+
 /*
     Enrollment shopping cart
  */
@@ -1639,6 +1681,17 @@
                 max-width: 80%;
             }
         }
+		.links{
+			text-align:center;
+			padding: 0 15px;
+			
+			a{
+				font-weight:bold;
+			}
+			.button{
+				margin-bottom:15px;
+			}
+		}
         .stream-store-content {
             img {
                 max-width: 33%;
@@ -1647,7 +1700,7 @@
             p {
                 max-width: 64%;     
                 display: inline-block;     
-                padding: 20px 0 0 20px;        
+                padding: 0 0 0 20px;        
                 margin-top: 0;     
                 vertical-align: top;
                 font-size: 16px;
@@ -2155,7 +2208,197 @@
         text-align: left;
     }
 }
+h3.success-message{
+		color:green;
+	}
 
+
+.enrollment_progress-bar{
+	color:white;
+	padding:15px 0;
+
+	.cart{
+		color: white;
+		float: right;
+		position: relative;
+		margin-top:25px;
+
+		span{
+			font-size: 14px;
+			font-weight: bold;
+			position: absolute;
+			left: 12px;
+			top: -2px;
+		}
+	}
+
+	&.step1{
+		background-color: $enrollment-progress-bar-step1-color;
+
+		.step{
+			background-color: $enrollment-progress-bar-step1-color;
+
+			&.step1{
+				background-color:white;
+			}
+		}
+	}
+	&.step2{
+		background-color: $enrollment-progress-bar-step2-color;
+		.step{
+			background-color: $enrollment-progress-bar-step2-color;
+
+			&.step1, &.step2{
+				background-color:white;
+			}
+		}
+	}
+
+	.inner{
+		width:1040px;
+		margin:auto;
+		.step-description{
+			float:left;
+			margin-right:200px;
+
+			.stepCount{
+				font-weight:bold;
+				font-size:32px;
+			}
+		}
+		
+		.progress{
+			float:left;
+			padding-top:35px;
+			position:relative;
+			margin-right:250px;
+
+			.bar{
+				width:200px;
+				height:1px;
+				background:white;
+			}
+			.step{
+				border: 2px solid white;
+				border-radius: 100px;
+				height: 25px;
+				position: absolute;
+				top: 23px;
+				width: 25px;
+
+				&.step2{
+					left:30%;
+				}
+				&.step3{
+					right:30%;
+				}
+				&.step4{
+					right:0;
+				}
+			}
+		}
+		.inner{
+			position:relative;
+		}
+		.need-help{
+			position:absolute;
+			top:-15px;
+			right:0;
+			padding:5px 15px;
+			background-color: darkblue;
+			color:white;
+			border-radius: 0 0 10px 10px;
+		}
+
+		.referredBy{
+			float:left;
+
+			.user{
+				border: 1px solid white;
+				border-radius: 100px;
+				float: left;
+				height: 60px;
+				margin: 2px 10px 0 0;
+				width: 60px;
+			}
+			.info{
+				float:left;
+				line-height:1.2;
+
+				.name{
+					font-size: 18px;
+					font-weight: bold;
+				}
+				.job-title{
+					font-weight:bolder;
+				}
+			}
+		}
+	}
+}
+.enrollment_verify-phone{
+	.float{
+		float:left;
+	}
+	.float-right{
+		float:right;
+	}
+
+	
+	.input-fields{
+		margin-top:10px;
+
+		input.full{
+			width:100%;
+			margin-top:5px;
+		}
+		a.button{
+			margin-left:10px;
+			margin-top:25px;
+		}
+	}
+	.content{
+		//padding: 10px $enrollment-module-horizontal-padding;
+
+		.phoneTypes
+		{
+			& > a{
+				border: 1px solid #e6e6e6;
+				border-radius: 3px;
+				background:white;
+				padding:5px 10px;
+			}
+		}
+
+		header{
+			padding: 0 0 10px;
+			margin-bottom:10px;
+		}
+
+		.seeWorks{
+			font-size:16px;
+			font-weight:bolder;
+			margin-bottom:5px;
+		}
+		.seperator{
+			border-top:1px solid #e6e6e6;
+			height:1px;
+			display:block;
+			margin:10px 0;
+		}
+		
+		.error-section{
+			background:yellow;
+			padding:15px 50px 15px 30px;
+			margin-bottom:10px;
+
+			span{
+				font-weight:bold;
+				color:red;
+			}
+		}
+	}
+}
 .enrollment__choose-network {
     .choose-location {
         font-size: 20px;
@@ -3150,16 +3393,85 @@
         margin-bottom: 30px;
         font-size: 18px;
     }
+	.plan-details {
+		background:white;
+		padding:15px;
+
+		.detail-section{
+			float:left;
+			width:50%;
+			
+			&:first-of-type{
+				border-right:1px solid #e6e6e6;
+			}
+			&:last-of-type{
+				padding-left:25px;
+			}
+		}
+
+		.footnotes{
+			font-size:12px;
+		}
+    }
+	.button.full{
+		width:100%;
+		padding: 10px !important;
+		background:white;
+		border-radius:2px;
+		box-shadow:1px 1px 1px 1px #e6e6e6;
+		cursor: pointer;
+	}
+
     .mobile-plans {
         text-align: center;
         width: 100%;
         @include experimental-value(width, calc(100% + 14px)); // Better alignment for everything except IE8 with this
+		margin-bottom:15px;
+
+		&.att{
+			.price{
+				color:$enrollment-plan-att-color;
+			}
+			a.button{
+				background:$enrollment-plan-att-color;
+			}
+			.button.active {
+				border-color:$enrollment-plan-att-color;
+			}
+		}
+		&.sprint{
+			.price{
+				color:$enrollment-plan-sprint-color;
+			}
+			a.button{
+				background:$enrollment-plan-sprint-color;
+			}
+			.button.active {
+				border-color:$enrollment-plan-sprint-color;
+			}
+		}
+
         p {
             font-size: 12px;
         }
+		.icon-circle-check{
+			display:none;
+		}
         .button {
             padding-top: 0;
             padding-bottom: 0;
+			box-shadow: 1px 1px 1px 1px #e6e6e6;
+			background:white;
+			border-radius: 0;
+
+			&.active{
+				a.button{
+					display:none;
+				}
+				.icon-circle-check{
+					display:inline-block;
+				}
+			}
         }
         .is-recommended,
         .is-special-offer {
@@ -3217,9 +3529,6 @@
                 display: block;
                 width: 100%;
             }
-            .price {
-                color: #3d8039;
-            }
             .limited-time-offer {
                 font-size: .85em;
                 display: block;
@@ -3232,7 +3541,23 @@
         .price {
             position: relative;
             font-size: 18px;
+			font-style: italic;
+
+			.cost{
+				font-size:28px;
+			}
         }
+
+		a.button
+		{
+			color:white;
+			display:inline-block;
+			padding:10px 25px;
+			border-radius:10px;
+			box-shadow:none;
+			margin-bottom:10px;
+		}
+
         .details {
             @include layout-list();
             text-align: left;
@@ -3373,9 +3698,6 @@
 }
 
 .enrollment__mobile-order-details {
-    .plan-details {
-
-    }
     .condition {
         color: #999;
         font-size: 12px;
@@ -3641,6 +3963,9 @@ article.phone-plan {
                 padding: 20px;
             }
         }
+		.button.full.hideDetails{
+			background:#e6e6e6;
+		}
         .plan-details {
             background-color: #f7f7f7;
             @include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
