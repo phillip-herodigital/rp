@@ -12,6 +12,15 @@
     [loading-indicator] {
         position: relative;
     }
+
+	/* 
+		Mobile Enrollment Cart Styling 
+	*/
+
+	& .enrollment_cart, & .documents, &.referred-by-section{
+		display:none;
+	}
+
     #state-select {
         button {
             border-color: #cfcfcf;
@@ -591,7 +600,7 @@
         display: inline-block;
         height: 75px;
         width: 75px;
-        border: 75px;
+        border: 2px sold white;
         border-radius: 75px;
     }
 
@@ -600,16 +609,16 @@
         display: block;
         padding: 13px;
         .referred-by {
-            color: #999;
+            color: white;
             font-size: .85em;
             font-weight: 400;
         }
         .associate-name {
             font-weight: bold;
-            color: #0965a5;
+            color: white;
         }
         .associate-level {
-            color: #04283c;
+            color: white;
             font-weight: bold;
             font-size: .85em;
         }
@@ -1986,15 +1995,19 @@
 .cart-overlay {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     height: auto;
-    background: url(../i/white-alpha-90.png) repeat;
-    background: rgba(255, 255, 255, 0.7);
     z-index: 9800;
     display: none;
     padding: 20px;
     min-height: 100%;
+
+	@include breakpoint(small-medium) {
+            left: 0;
+			background: url(../i/white-alpha-90.png) repeat;
+			background: rgba(255, 255, 255, 0.7);
+        }
+
     .cart {
         float: none;
         width: auto;
@@ -2019,7 +2032,7 @@
     &.open {
         display: block;
         @include breakpoint(medium-large) {
-            display: none;
+
         }
     }
 }
@@ -2216,6 +2229,85 @@ h3.success-message{
 .enrollment_progress-bar{
 	color:white;
 	padding:15px 0;
+
+	.progress-bar-cart{
+		position:relative;
+
+		article{
+			display:none;
+
+			&.enrollment_cart, &.referred-by-section{
+				display:block;
+				border:none;
+				background: none;
+			}
+
+			&.referred-by-section{
+			float:left;
+			}
+			&.enrollment_cart{
+				float:right;
+			}
+		}
+
+		.cart-wrapper{
+			cursor:pointer;
+
+			div.enrollment__cart{
+				margin-bottom:0;
+				float:right;
+
+				
+				header{
+					background:none;
+					border:none;
+				}
+				h1, .content, footer{
+					display:none;
+				}
+
+			}
+		}
+		.arrow{
+				height:25px;
+				width:25px;
+				position:absolute;
+				right:29px;
+				top: 50px;
+				transform:rotate(45deg);
+				background:white;
+				z-index:10000;
+			}
+
+		.cart-overlay{
+			padding: 0 15px;
+			background:white;
+
+			top:60px;
+			right:20px;
+
+			border:1px solid #e6e6e6;
+			border-radius:5px;
+
+			header{
+				background:white;
+				padding-left:0;
+			}
+
+			.cart-items{
+				display:none;
+			}
+
+			.content{
+				padding-left:0;
+				padding-right:0;
+			}
+			footer{
+				display:none;
+			}
+		}
+		
+	}
 
 	.cart{
 		color: white;

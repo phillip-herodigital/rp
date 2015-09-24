@@ -14,17 +14,26 @@
             <div class="step step4"></div>
         </div>
 
-        <div class="referredBy clearfix" style="float: left;">
+        @*<div class="referredBy clearfix" style="float: left;">
             <div class="user"></div>
             <div class="info">
                 <div class="desc">@Html.Sitecore().Field("Referred By")</div>
                 <div class="name">{{referral.Name}}</div>
                 <div class="job-title">{{referral.JobTitle}}</div>
             </div>
-        </div>
-        <div class="cart">
+        </div>*@
+        @*<div class="cart">
             <span>{{mobileEnrollmentService.cartItemCountText}}</span>
             <div class="icon-cart"></div>
+        </div>*@
+        
+        <div class="progress-bar-cart">
+            <div class="cart-wrapper" ng-click="openCartOverlay()">
+                <div ng-include ng-if="true" src="'cart-template'"></div>
+            </div>
+            <div class="arrow" ng-show="enrollmentCartService.getCartVisibility()"></div>
+            @Html.Sitecore().Placeholder("ProgressBarCart")
+            
         </div>
         <a class="need-help" ng-click="showModal('instructions/needHelp')">@Html.Sitecore().Field("Need Help Text")</a>
     </div>
