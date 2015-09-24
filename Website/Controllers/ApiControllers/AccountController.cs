@@ -1145,10 +1145,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Renewal
 
         [HttpPost]
-        public async Task<SetupRenewalResponse> SetupRenewal(SetupRenewalRequest request)
+        public async Task<Models.Enrollment.ClientData> SetupRenewal(SetupRenewalRequest request)
         {
-            bool isSuccess = false;
-
             if (currentUser.Accounts == null)
             {
                 currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
@@ -1162,15 +1160,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (isEligibile && subAccount.Capabilities.OfType<RenewalAccountCapability>().First().IsEligible)
             {
                 await enrollmentController.Initialize();
-                isSuccess = await enrollmentController.SetupRenewal(target, subAccount);
+                return await enrollmentController.SetupRenewal(target, subAccount);
             }
-
-            return new SetupRenewalResponse
+            else
             {
-                IsSuccess = isSuccess
-            };
-
-            
+                return null;
+            }
         }
 
         #endregion

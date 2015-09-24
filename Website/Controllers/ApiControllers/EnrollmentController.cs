@@ -141,13 +141,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [NonAction]
-        public async Task<bool> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
+        public async Task<ClientData> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
-            stateHelper.Reset();
-            await stateHelper.EnsureInitialized();
-
             stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
-            stateHelper.State = typeof(ServiceInformationState);
+            stateHelper.State = typeof(PlanSelectionState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;
             stateHelper.Context.MailingAddress = account.Details.BillingAddress;
@@ -163,8 +160,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             };
             await stateHelper.StateMachine.Process();
+            await stateHelper.StateMachine.ContextUpdated();
+            this.stateMachine = stateHelper.StateMachine;
 
-            return true;
+            return ClientData(typeof(DomainModels.Enrollments.PlanSelectionState));
         }
 
         /// <summary>
