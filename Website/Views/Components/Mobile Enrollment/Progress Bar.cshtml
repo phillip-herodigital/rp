@@ -1,10 +1,13 @@
 ﻿@model StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar
 
-<div ng-controller="MobileEnrollmentProgressBarCtrl" class="enrollment_progress-bar step{{mobileEnrollmentService.currentStepNumber}}">
+@{
+    Sitecore.Data.Items.Item item = Sitecore.Context.Database.GetItem("{881C1CD7-90B7-438C-B267-36B0A4167227}"); ///sitecore/content/Data/Components/Mobile Enrollment/Progress Bar
+}
+<div ng-controller="MobileEnrollmentProgressBarCtrl" class="enrollment_progress-bar @string.Format("step{0}", Model.StepNumber)">
     <div class="inner clearfix">
         <div class="step-description">
-            <div class="stepCount">@Html.Sitecore().Field("Step") {{ mobileEnrollmentService.currentStepNumber }}</div>
-            @Html.Sitecore().Field("Get Started")
+            <div class="stepCount">@item.Fields["Step"].Value @Model.StepNumber</div>
+            @item.Fields[Model.StepTextField].Value
         </div>
         <div class="progress">
             <div class="bar"></div>
@@ -13,30 +16,26 @@
             <div class="step step3"></div>
             <div class="step step4"></div>
         </div>
-
-        <div class="referredBy clearfix" style="float: left;">
-            <div class="user"></div>
-            <div class="info">
-                <div class="desc">@Html.Sitecore().Field("Referred By")</div>
-                <div class="name">{{referral.Name}}</div>
-                <div class="job-title">{{referral.JobTitle}}</div>
+        
+        <div class="progress-bar-cart">
+            <div class="cart-wrapper" ng-click="openCartOverlay()">
+                <div ng-include ng-if="true" src="'cart-template'"></div>
             </div>
+            <div class="arrow" ng-show="enrollmentCartService.getCartVisibility()"></div>
+            @Html.Sitecore().Placeholder("ProgressBarCart")
+            
         </div>
-        <div class="cart">
-            <span>{{mobileEnrollmentService.cartItemCountText}}</span>
-            <div class="icon-cart"></div>
-        </div>
-        <a class="need-help" ng-click="showModal('instructions/needHelp')">@Html.Sitecore().Field("Need Help Text")</a>
+        <a class="need-help" ng-click="showModal('instructions/needHelp')">@item.Fields["Need Help Text"].Value</a>
     </div>
 
     <script type="text/ng-template" id="instructions/needHelp">
         <div class="mobile-enrollment-modal">
             <div class="modal-header">
                 <a href="" ng-click="$dismiss()">Close</a>
-                    <h2>@Html.Sitecore().Field("Need Help Text")</h2>
+                    <h2>@item.Fields["Need Help Text"].Value</h2>
             </div>
             <div class="modal-body">
-                @Html.Sitecore().Field("Need Help Modal Text")
+                @item.Fields["Need Help Modal Text"].Value
             </div>
         </div>
     </script>
