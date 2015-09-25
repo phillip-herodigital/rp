@@ -27,6 +27,7 @@ using StreamEnergy.DomainModels.Associate;
 using StreamEnergy.Interpreters;
 using System.IO;
 using System.Net.Http.Headers;
+using Sitecore.Data.Items;
 using StreamEnergy.DomainModels.Emails;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
@@ -547,7 +548,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<ClientData> VerifyIdentity([FromBody]VerifyIdentity request)
         {
             await Initialize();
-            
+
+            Sitecore.Data.ID contextLanguageId = Sitecore.Data.Managers.LanguageManager.GetLanguageItemId(Sitecore.Context.Language, Sitecore.Context.Database);
+            var contextLanguage = Sitecore.Context.Database.GetItem(contextLanguageId);
+            stateMachine.Context.SitecoreLanguageIsoCode = contextLanguage["Iso"];
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
 

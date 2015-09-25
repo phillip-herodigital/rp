@@ -54,6 +54,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         /// </summary>
         public string Language { get; set; }
 
+        public string SitecoreLanguageIsoCode { get; set; }
+
         [Required(ErrorMessage = "Selected Identity Answers Required")]
         public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
 

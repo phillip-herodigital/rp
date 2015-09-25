@@ -359,7 +359,7 @@ namespace StreamEnergy.Services.Clients
                 LastName = name.Last,
                 SSN = ssn,
                 Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress),
-                Language = language
+                LanguageCode = language
             });
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
