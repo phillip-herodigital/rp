@@ -550,7 +550,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<ClientData> VerifyIdentity([FromBody]VerifyIdentity request)
         {
             await Initialize();
-
+            
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
 
