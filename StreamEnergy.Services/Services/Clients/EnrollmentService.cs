@@ -358,7 +358,8 @@ namespace StreamEnergy.Services.Clients
                 FirstName = name.First,
                 LastName = name.Last,
                 SSN = ssn,
-                Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress)
+                Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress),
+                Language = language
             });
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
