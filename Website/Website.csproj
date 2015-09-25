@@ -1386,6 +1386,7 @@
     <Content Include="frontend\assets\i\icon\byod.png" />
     <Content Include="frontend\assets\i\icon\calculator-circle.png" />
     <Content Include="frontend\assets\i\icon\calculator.png" />
+    <Content Include="frontend\assets\i\icon\calculator_small.png" />
     <Content Include="frontend\assets\i\icon\calendar-small.png" />
     <Content Include="frontend\assets\i\icon\calendar.png" />
     <Content Include="frontend\assets\i\icon\call.png" />
@@ -1431,6 +1432,7 @@
     <Content Include="frontend\assets\i\icon\gas-icon.png" />
     <Content Include="frontend\assets\i\icon\gas.png" />
     <Content Include="frontend\assets\i\icon\global.png" />
+    <Content Include="frontend\assets\i\icon\global_small.png" />
     <Content Include="frontend\assets\i\icon\gray-arrow-down.png" />
     <Content Include="frontend\assets\i\icon\gray-arrow-up.png" />
     <Content Include="frontend\assets\i\icon\gray-check.png" />
@@ -1506,6 +1508,7 @@
     <Content Include="frontend\assets\i\icon\streaming-music.png" />
     <Content Include="frontend\assets\i\icon\success.png" />
     <Content Include="frontend\assets\i\icon\swapit.png" />
+    <Content Include="frontend\assets\i\icon\swapit_small.png" />
     <Content Include="frontend\assets\i\icon\tablet.png" />
     <Content Include="frontend\assets\i\icon\talk.png" />
     <Content Include="frontend\assets\i\icon\tech-support.png" />

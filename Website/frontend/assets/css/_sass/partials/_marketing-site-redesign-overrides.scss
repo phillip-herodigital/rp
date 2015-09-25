@@ -1286,8 +1286,8 @@ article.mobile-tools-switch {
 	}
 
 	.grid {
-		margin: 0;
-		width: calc(100% + 70px);
+		margin: -10px;
+		width: calc(100% + 80px);
 	}
 
 	.col {
@@ -1297,6 +1297,7 @@ article.mobile-tools-switch {
 	.mobile-tools {
 		margin-bottom: 10px;
 		padding-bottom: 10px;
+		padding-top: 5px;
 		background-color: #f1f1f1;
 		color: #3C535C;
 	}	
@@ -1306,7 +1307,7 @@ article.mobile-tools-switch {
 		p {
 			margin-top:0;
 			margin-bottom: 12px;
-			padding-right: 15px;
+			padding-right: 20px;
 		}
 		
 		h4 {
@@ -1323,20 +1324,19 @@ article.mobile-tools-switch {
 			display: inline-block;
 			vertical-align: top;
 			width: 106px;
-			padding-top: 28px;
-			padding-left: 30px;
 			height: 100px;
 
 			&.calculator {
-				background: image-url("icon/calculator.png") no-repeat scroll 30px 30px;
+				background: image-url("icon/calculator_small.png") no-repeat scroll 30px 24px;
+				width: 90px;
 			}
 
 			&.swapit {
-				background: image-url("icon/swapit.png") no-repeat scroll 30px 30px;			
+				background: image-url("icon/swapit_small.png") no-repeat scroll 30px 24px;
 			}
 
 			&.global {
-				background: image-url("icon/global.png") no-repeat scroll 30px 30px;					
+				background: image-url("icon/global_small.png") no-repeat scroll 30px 24px;	
 			}
 		}
 
@@ -1345,6 +1345,10 @@ article.mobile-tools-switch {
 			vertical-align: top;
 			width: 60%;
 			text-align: left;
+
+			&.calculator {
+				width: 65%;
+			}
 		}
 	}
 }
@@ -2102,7 +2106,7 @@ article.mobile-pricing-plans {
 	}
 
 	.unlimited {
-		background-color: white;		
+		background-color: #ffffff;		
 		color: #3C535C;
 		text-align:center; 
 		font-weight: 800; 
