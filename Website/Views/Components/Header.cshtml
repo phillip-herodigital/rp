@@ -164,7 +164,7 @@
 }
 @if (selectedNodeLevel > 2 || selectedNodeLevel == 2 && selectedNode.HasChildNodes)
 {
-    <nav class="tertiary-nav @(tertiaryNavCssClassField != null && !string.IsNullOrEmpty(tertiaryNavCssClassField.Value) ? bannerCssClassField.Value : "")">
+    <nav class="tertiary-nav @(tertiaryNavCssClassField != null && !string.IsNullOrEmpty(tertiaryNavCssClassField.Value) ? tertiaryNavCssClassField.Value : "")">
         @if (thirdLevelRootNode != null)
         {
             <div class="wrapper">
