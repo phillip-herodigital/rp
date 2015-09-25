@@ -1,4 +1,4 @@
-﻿<article class="marketing marketingIntro mobile mobile-pricing-plans" ng-controller="MobilePlansDetailsCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString()));" >
+﻿<article class="marketing marketingIntro mobile mobile-pricing-plans" ng-controller="MobilePlansDetailsCtrl">
     <div class="wrapper">
         <div class="plan-chooser" ng-init="isIndSelected = true">
             <a class="button-plans left selected" id="button-left" ng-click="isIndSelected = true; isGroupSelected = false" ng-class="{'selected': isIndSelected}" href="#">
