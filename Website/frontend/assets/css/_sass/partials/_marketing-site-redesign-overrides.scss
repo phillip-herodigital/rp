@@ -1278,7 +1278,7 @@ article.mobile-tools-switch {
         background-image: none;
 		max-width: 1060px;
 		width: 100%;
-    }
+	}
 
 	h1 {
 		color: #3C535C;
@@ -1295,11 +1295,11 @@ article.mobile-tools-switch {
 	}
 
 	.mobile-tools {
-        margin-bottom: 10px;
-        height: 196px;
-        background-color: #f1f1f1;
+		margin-bottom: 10px;
+		height: 196px;
+		background-color: #f1f1f1;
 		color: #3C535C;
-    }	
+	}	
 
 	.mobile-tools {
 
@@ -1340,17 +1340,17 @@ article.mobile-interested {
 article.mobile-interested {
 
 	.wrapper {
-        padding: 0;
-        background-image: none;
+		padding: 0;
+		background-image: none;
 		max-width: 1060px;
 		width: 100%;
-    }
+	}
 
 	.col {
 
 		&:first-of-type {
 			width: 65%;
-        }
+		}
 
 		&:last-of-type {
 			padding-top: 50px
@@ -1396,11 +1396,11 @@ article.mobile-savings {
 	}
 
 	> div.wrapper {
-        padding-top: 0;
-        background-image: none;
+		padding-top: 0;
+		background-image: none;
 		max-width: 1060px;
 		width: 100%;
-    }
+	}
 
 	h1 {
 		color: #3C535C;	
@@ -1430,16 +1430,16 @@ article.mobile-savings {
 
 		&.devices {
 			background-color: #ffffff;
-            -webkit-box-shadow: 1px 1px 10px #ccc;
+			-webkit-box-shadow: 1px 1px 10px #ccc;
 			-moz-box-shadow: 1px 1px 10px #ccc;
 			box-shadow: 1px 1px 10px #ccc;
 			margin-bottom: 50px;
-        }
+		}
 
-        &.savings {
-            background: image-url('bg/savings-background.png') no-repeat;
+		&.savings {
+			background: image-url('bg/savings-background.png') no-repeat;
 			color:#ffffff;
-        }
+		}
 	}
 
 	.button {
@@ -1486,11 +1486,11 @@ article.mobile-plans-table {
 article.mobile-plans-header {
 		
 	> div.wrapper {
-        padding: 16px 0;
-        background-image: none;
+		padding: 16px 0;
+		background-image: none;
 		max-width: 1060px;
 		width: 100%;
-    }
+	}
 
 	.col {
 		text-align:left;
@@ -1512,21 +1512,21 @@ article.mobile-plans-header {
 	}
 
 	.associate-image {
-        float: left;
-        margin: 13px;
-        display: inline-block;
-        height: 60px;
-        width: 60px;
-        border: 75px;
-        border-radius: 75px;
+		float: left;
+		margin: 13px;
+		display: inline-block;
+		height: 60px;
+		width: 60px;
+		border: 75px;
+		border-radius: 75px;
 		border: solid 1px #28a5de;
     }
 
     .ai-right {
 		line-height: 1.1;
-        float: left;
-        display: block;
-        padding: 13px 0 0 0;
+		float: left;
+		display: block;
+		padding: 13px 0 0 0;
         .referred-by {
             color: #000;
             font-size: .85em;
@@ -1534,14 +1534,14 @@ article.mobile-plans-header {
         }
         .associate-name {
 			display: block;
-            font-weight: bold;
+			font-weight: bold;
 			font-size: 22px;
-            color: #000;
+			color: #000;
         }
         .associate-level {
-            color: #000;
-            font-weight: bold;
-            font-size: .65em;
+			color: #000;
+			font-weight: bold;
+			font-size: .65em;
 			text-transform: uppercase;
 			letter-spacing: .25em;
         }
@@ -1560,8 +1560,8 @@ article.mobile-pricing-plans {
     // }
 
     > div.wrapper {
-        padding-top: 0;
-        background-image: none;
+		padding-top: 0;
+		background-image: none;
 		max-width: 1060px;
 		width: 100%;
     }
@@ -1748,18 +1748,18 @@ article.mobile-pricing-plans {
     }
 
     .button-plans {
-        background-color: #f3f6f7;
-        color: #3C535C;
-        border: solid 1px #bababa;
-        display: inline-block;
-        font-size: 18px;
-        line-height: 1.375;
-        text-align: center;
-        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-        width: 190px;
-        vertical-align: middle;
-        height: 46px;
-        margin-right: -5px;
+		background-color: #f3f6f7;
+		color: #3C535C;
+		border: solid 1px #bababa;
+		display: inline-block;
+		font-size: 18px;
+		line-height: 1.375;
+		text-align: center;
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+		width: 190px;
+		vertical-align: middle;
+		height: 46px;
+		margin-right: -5px;
 		font-weight: 600;
     }
 
@@ -1823,7 +1823,7 @@ article.mobile-pricing-plans {
     }
 
     .plan-left {
-        padding-right: 30px;
+		padding-right: 30px;
 		margin-bottom: 30px;
     }
 
@@ -1832,14 +1832,13 @@ article.mobile-pricing-plans {
 
 	@media only screen and (max-width: 768px) {
 
-	   .plan-left {
+		.plan-left {
 			display: inline-table;
 		}
 
 		.plan-right {
 			display: inline-table;
 		}
-
 	}
 
     .plan-box {
@@ -1857,13 +1856,13 @@ article.mobile-pricing-plans {
 
     .plan-box {
 		h2 {
-            font-weight: 800;
-            font-style: italic;
-            margin-bottom: 0px;
-            margin-top: 8px;
-            color: #257ab3;
-            font-size: 40px;
-        }
+			font-weight: 800;
+			font-style: italic;
+			margin-bottom: 0px;
+			margin-top: 8px;
+			color: #257ab3;
+			font-size: 40px;
+		}
 
 		h2.cdma {
             color: #eca001;
@@ -1913,16 +1912,16 @@ article.mobile-pricing-plans {
 		    
 		.special-promo {
 			background-color: #257ab3;
-            background-image: linear-gradient(#0795d6, #007acb);
-            color: #ffffff;
-            font-size: 12px;
-            font-weight: 800;
-            height: 22px;
-            margin-bottom: 20px;
-            margin-top: -11px;
-            padding-top: 3px;
-            text-transform: uppercase;
-            width: 124px;
+			background-image: linear-gradient(#0795d6, #007acb);
+			color: #ffffff;
+			font-size: 12px;
+			font-weight: 800;
+			height: 22px;
+			margin-bottom: 20px;
+			margin-top: -11px;
+			padding-top: 3px;
+			text-transform: uppercase;
+			width: 124px;
 		}
 
 		.special-promo {
@@ -1985,7 +1984,7 @@ article.mobile-pricing-plans {
 
 	.phone-plan-details {
 
-	    .opener {
+		.opener {
 			width: 512px;
 			height: 55px;
 			background-color: #fafafa;
@@ -2038,16 +2037,16 @@ article.mobile-pricing-plans {
 		}
 
 		.open .footnote {
-            font-size: 13px;
-            font-weight: normal;
-            padding: 0 0 0 20px;
-            margin-top: 0;
-        }
+			font-size: 13px;
+			font-weight: normal;
+			padding: 0 0 0 20px;
+			margin-top: 0;
+		}
 
 		.open ul li {
-            list-style-image: url("../i/marketing/redesign/check.png");
-            padding-left: -3px;
-        }
+			list-style-image: url("../i/marketing/redesign/check.png");
+			padding-left: -3px;
+		}
 		
 		.open .footnotes {
 			color: #bcbcbc;
