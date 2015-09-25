@@ -12,13 +12,10 @@
     <div stream-connect-errors="AcctYourUtilityPlanCtrl"></div>
 
     <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && renewal">
-            <div class="notice2 message" loading-indicator>
+            <div class="notice2 plain" loading-indicator>
             <div class="grid two">
                 <div class="col">
-                        <h2>@Html.Sitecore().Field("Renew Plan Text")</h2>
-                        <p>
-                            @Html.Sitecore().Field("Renew Date Text")
-                        </p>
+                    @Html.Sitecore().Field("Renew Plan Text")
                 </div>
                 </div>
             </div>

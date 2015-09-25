@@ -413,6 +413,21 @@ article, .modal-body {
             background-color: #74bc4b;
             @include retina-background("success.png", "icon");
         }
+        &.plain {
+            padding: 10px 15px;
+            color: #6b6b77;
+            font-size: 22px;
+            h2 {
+                color: #6b6b77;
+                font-size: 38px;
+                font-weight: 500;
+                strong {
+                    text-transform: uppercase;
+                    color: #32aede;
+                    font-weight: 500;
+                }
+            }
+        }
     }
     #validation-summary {
         ul {
