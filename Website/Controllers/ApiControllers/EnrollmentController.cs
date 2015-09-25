@@ -27,6 +27,7 @@ using StreamEnergy.DomainModels.Associate;
 using StreamEnergy.Interpreters;
 using System.IO;
 using System.Net.Http.Headers;
+using Sitecore.Data.Items;
 using StreamEnergy.DomainModels.Emails;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
@@ -109,6 +110,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.StateMachine.InternalContext.AssociateEmailSent = false;
 
             stateHelper.StateMachine.InternalContext.EnrollmentScreenshotTaken = false;
+
+            stateHelper.StateMachine.Context.SitecoreLanguageIsoCode = Sitecore.Context.Language.CultureInfo.TwoLetterISOLanguageName;
 
             this.stateMachine = stateHelper.StateMachine;
         }
