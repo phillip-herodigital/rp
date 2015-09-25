@@ -111,6 +111,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateHelper.StateMachine.InternalContext.EnrollmentScreenshotTaken = false;
 
+            stateHelper.StateMachine.Context.SitecoreLanguageIsoCode = Sitecore.Context.Language.CultureInfo.TwoLetterISOLanguageName;
+
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -549,9 +551,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await Initialize();
 
-            Sitecore.Data.ID contextLanguageId = Sitecore.Data.Managers.LanguageManager.GetLanguageItemId(Sitecore.Context.Language, Sitecore.Context.Database);
-            var contextLanguage = Sitecore.Context.Database.GetItem(contextLanguageId);
-            stateMachine.Context.SitecoreLanguageIsoCode = contextLanguage["Iso"];
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
 
