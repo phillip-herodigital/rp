@@ -106,7 +106,7 @@ $mobile-nav-margin: 15px;
 	@extend .clearfix;
 	@include box-shadow(-7px 0 7px -7px rgba( 112, 112, 112, .15 ), 7px 0 7px -7px rgba( 112, 112, 112, .15 ));
     margin: 0 auto;
-    //max-width: 1280px;
+    max-width: 1280px;
     padding-bottom: 35px;
     background-color: white;
 	> aside {
