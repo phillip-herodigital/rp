@@ -298,7 +298,7 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             //Delay needs to be set to allow angular code to open section.
             if(service.isStepVisible(id)) {
                 $timeout(function() {
-                    scrollService.scrollTo(id, jQuery('header.site-header').height() * -1, time == 0 ? 0 : '750',  callback || angular.noop);
+                    scrollService.scrollTo(id, 0, time == 0 ? 0 : '750',  callback || angular.noop);
                 }, 10, false);
             }
         },
