@@ -2,7 +2,58 @@
     Cleaning this up to keep from having to nest everything and repeat styles.
     Changing it to more of a SMACSS/BEM styling.
  ***/
+ .coverage-map-fade{
+	background:black;
+	opacity:.5;
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+ }
+ .coverage-map-container{
+	position:fixed;
+	top:0;
+	right:0;
+	left:0;
+	bottom:0;
+	z-index:1000;
+	width:600px;
+	margin:auto;
+	margin-top:85px;
+	background:white;
+		
+		.modal-header{
+			padding:5px 15px;
+		}
+		&.hidden-map{
+			height:1px;
+			width:1px;
+			overflow:hidden;
 
+			& + .coverage-map-fade{
+				display:none;
+			}
+		}
+
+		.inner{
+			width:600px;
+			.wrapper{
+				width:100%;
+
+				.angular-google-map{
+					height:300px;
+					width:550px;
+					margin:auto;
+
+					.angular-google-map-container{
+						height:100%;
+						margin:0;
+					}
+				}
+			}
+		}
+	}
 
 /*
     Generic styling for enrollment pages
@@ -20,6 +71,7 @@
 	& .enrollment_cart, & .documents, &.referred-by-section{
 		display:none;
 	}
+	
 
     #state-select {
         button {
@@ -412,7 +464,7 @@
     }
 }
 
-.enrollment__loadingMessage {
+.enrollment__loadingMessage, .overlay_container {
     position: fixed;
     top: 0;
     left: 0;
@@ -421,7 +473,8 @@
     background: url(../i/white-alpha-90.png) repeat;
     background: rgba(255, 255, 255, 0.9);
     z-index: 11000;
-    span {
+
+    .inner {
         $height: 140px;
         $width: 250px;
         position: absolute;
@@ -439,7 +492,7 @@
         border: 1px solid $enrollment-dark-border-color;
         background-color: #fefefe;
         text-align: center;
-        img {
+        img.loading {
             margin: 10px 0;
             vertical-align: middle;
         }
@@ -3491,6 +3544,27 @@ h3.success-message{
         margin-bottom: 30px;
         font-size: 18px;
     }
+
+	.location-section {
+		.location-container{
+			display:inline-block;
+			margin-bottom:15px;
+		}
+		a.view-coverage{
+			float:right;
+			margin-top:5px;
+		}
+		.float{
+			float:left;
+		}
+		a.button, input{
+			margin-left:15px;
+		}
+		input{
+			width:100px;
+		}
+	}
+
 	.plan-details {
 		background:white;
 		padding:15px;

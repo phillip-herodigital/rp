@@ -1,3 +1,11 @@
+@{
+    var mobileSettings = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
+    var showSprint = !String.IsNullOrEmpty(mobileSettings.Fields["Sprint Buy Phone"].Value) || !String.IsNullOrEmpty(mobileSettings.Fields["Sprint BYOD"].Value);
+    var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Shared/Coverage Map");
+
+}
+
+
 <div id="phoneFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('phoneFlowPlans')" ng-controller="MobileEnrollmentConfigureDataCtrl" ng-init="setTimeRemaining('phoneFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
     @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 2, StepTextField = "Step 2 Description Text" })
     @* Two-column layout for Configure Data *@
@@ -15,10 +23,21 @@
                     <div class="content">
                         @*<h3 class="mobile-plans-header">@Html.Sitecore().Field("Header - Choose Data Amount")</h3>*@
                         
-                        @*<div class="location-section">
-                            <a class="float-right" ng-click="showModal('instructions/CoverageMap')">View Coverage</a>
-                        </div>*@
-                        
+                        <div class="location-section clearfix">
+                            <div class="clearfix">
+                                <div class="location-container">
+                                    <div class="location-text" ng-show="!showChangeLocation">
+                                        @Html.Sitecore().Field("It looks like youre in") {{ $scope.data.serviceLocation.address.city}} {{ $scope.data.serviceLocation.address.state}}, {{ $scope.data.serviceLocation.address.postalCode5}} <a class="button primary" ng-click="showChangeLocation = true">@Html.Sitecore().Field("Change Text")</a>
+                                    </div>
+                                    <div class="location-input" ng-show="showChangeLocation">
+                                        <span>@Html.Sitecore().Field("Enter Zip Code Message")</span>
+                                        <input type="text" data-val-regex-pattern="^[0-9]{5}$" data-val-regex="" data-val-required="" data-val="true" class="zip-code" ng-model="postalCode5">
+                                        <a class="button primary" ng-click="lookupZip(postalCode5);">@Html.Sitecore().Field("Go Text")</a>
+                                    </div>
+                                </div>
+                                <a class="view-coverage" ng-click="showCoverageMapOverlay()">View Coverage</a>
+                            </div>
+                        </div>
                         <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'dataPlanList/' + typedOffers.key"></div>
                         
                         <div class="button full" ng-show="!showPlanDetails" ng-click="showPlanDetails = true">
@@ -73,6 +92,61 @@
     </div>
 </div>
 
+
+<div class="coverage-map-container hidden-map">
+    <div class="inner">
+        <div class="modal-header">
+            <a class="close" onclick="$('.coverage-map-container').addClass('hidden-map')">X</a>
+            <h2>&nbsp;</h2>
+        </div>
+
+        <script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+        <div class="wrapper">
+            <article class="coverage-map" ng-controller="MobileEnrollmentConfigureDataCtrl">
+                <div class="form">
+
+                    <ul class="network-toggle">
+                        <li ng-class="{active:selectedNetwork == 'att'}"><a href="" ng-model="selectedNetwork" btn-radio="'att'">@item.Fields["GSM Network"].Value</a></li>
+                        @if (showSprint)
+                        {
+                            <li ng-class="{active:selectedNetwork == 'sprint'}"><a href="" ng-model="selectedNetwork" btn-radio="'sprint'">@item.Fields["CDMA Network"].Value</a></li>
+                        }
+                    </ul>
+                    <div class="item">
+                        <label for="gmap-search-input">@item.Fields["Enter Zip Code"].Value</label>
+                        <div id="gmap-search"></div>
+                    </div>
+                </div>
+                <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events" control="map.control">
+                    <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
+                </ui-gmap-google-map>
+                <ul class="layer-toggle" ng-show="selectedNetwork == 'att'">
+                    <li>
+                        <input type="checkbox" id="att_voice" ng-model="layers.att.att_voice_roam" /> <label for="att_voice">@item.Fields["Voice"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="att_data" ng-model="layers.att.att_data_roam" /> <label for="att_data">@item.Fields["Data"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="att_lte" ng-model="layers.att.att_lte" /> <label for="att_lte">@item.Fields["LTE"].Value</label>
+                    </li>
+                </ul>
+                <ul class="layer-toggle" ng-show="selectedNetwork == 'sprint'">
+                    <li>
+                        <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@item.Fields["Voice"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data_roam" /> <label for="sprint_data">@item.Fields["Data"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="sprint_lte" ng-model="layers.sprint.sprint_lte" /> <label for="sprint_lte">@item.Fields["LTE"].Value</label>
+                    </li>
+                </ul>
+            </article>
+        </div>
+    </div>
+</div>
+<div class="coverage-map-fade"></div>
 <script type="text/ng-template" id="dataPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans {{mobileEnrollmentService.selectedNetwork.value}}">
         <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterDataPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
@@ -121,17 +195,6 @@
 
 <script type="text/ng-template" id="dataPlanList/GeorgiaGas">
 </script>
-
-<script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
-
-<script type="text/ng-template" id="instructions/CoverageMap">
-    <div class="mobile-enrollment-modal">
-        <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("Header - SIM Number Instructions")</h2>
-        </div>
-        <div class="modal-body">
-            @Html.Sitecore().Placeholder("CoverageMap")
-        </div>
-    </div>
+<script type="text/ng-template" id="searchbox.tpl.html">
+    <input type="text" id="gmap-search-input" placeholder="" />
 </script>
