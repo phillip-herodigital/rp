@@ -4,7 +4,21 @@
     $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
     $scope.data = { serviceState: 'TX' };
     $scope.data.serviceLocation = {};
-    
+
+    $scope.showChangeLocation = true;
+    $scope.$watch('city', function () {
+        if (!$scope.city)
+            return;
+        $scope.data.serviceLocation.address = {
+            line1: 'Line1',
+            city: $scope.city,
+            stateAbbreviation: $scope.state, //data[0], 
+            postalCode5: $scope.postalCode5
+        };
+
+        $scope.showChangeLocation = false;
+    });
+
     var coverageMap = $(jQuery.find(".coverage-map-container"));
 
     $scope.formFields = {
@@ -193,9 +207,9 @@
         $http.get('/api/addresses/lookupZip/' + $scope.postalCode5)
         .success(function (data) {
             enrollmentService.isLoading = false;
-            showChangeLocation = false;
+            $scope.showChangeLocation = false;
             if (data.length != 0) {
-                mobileEnrollmentService.state = data[0];
+                mobileEnrollmentService.stateAbbreviation = data[0];
                 mobileEnrollmentService.postalCode5 = $scope.postalCode5;
 
                 $scope.data.serviceLocation.address = {
