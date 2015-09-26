@@ -408,4 +408,27 @@ ul, ol {
         li {
         }
     }
+	&.input-group-btn {
+		min-width: 215px;
+		ul {
+			text-align: left;
+			border-top: 0px;
+			@include border-radius(0 0 10px 10px);
+			padding-top: 5px;
+			li {
+				a {
+					color: #555555;
+				}
+				&:last-child {
+					padding-bottom: 10px;
+				}
+			}
+		}
+	}
+	&.open {
+		button {
+			border-bottom: none;
+			@include border-radius(10px 10px 0 0);
+		}
+	}
 }

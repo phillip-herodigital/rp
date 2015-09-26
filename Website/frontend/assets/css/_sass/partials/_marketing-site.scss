@@ -1745,6 +1745,16 @@ article.homelife-services {
 article.states-enroll {
     div.wrapper {
         text-align: center;
+		.btn {
+			width: 100%;
+			outline: none;
+			&.open {
+				border-bottom: 0px;
+			}
+		}
+		#state-select {
+			position: relative;
+		}
     }
 }
 
