@@ -37,6 +37,6 @@
             <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="stateEnrollData" value="selectedStateKey" data-alignment="right"></div>
             <a class="button" ng-href="{{ selectedState.enrollmentURL }}">@Html.Sitecore().Field("Get Started")</a>
         </div>
-        <div class="col"><a data-ng-href="{{ selectedState.rateURL }}">@Html.Sitecore().Field("View Rates")</a></div>
+        <div class="col"><a data-ng-href="{{ selectedState.rateURL }}" target="_blank">@Html.Sitecore().Field("View Rates")</a></div>
     </div>
 </article>
