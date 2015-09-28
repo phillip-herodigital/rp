@@ -168,16 +168,15 @@
                 <div class="duration">@Html.Sitecore().Field("Per Month Text")</div>
             </div>
 
-            <p ng-if="plan.data != 0">
-
+            <div ng-if="plan.data != 0" class="size-speed">
                 <div class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
                 <div class="speed">@Html.Sitecore().Field("At Speeds Up To")</div>
                 @*<span ng-if="!plan.isParentOffer">@Html.Sitecore().Field("Individual Data Description")</span>
             <span ng-if="plan.isParentOffer">@Html.Sitecore().Field("Group Data Description")</span>*@
-            </p>
-            <p ng-if="plan.data == 0">
+            </div>
+            <div ng-if="plan.data == 0" class="size-speed">
                 <span class="size">@Html.Raw(Html.Sitecore().Field("Talk and Text Only Text"))</span>
-            </p>
+            </div>
             <a class="button">@Html.Sitecore().Field("Select Text")</a>
             <div class="icon-circle-check"></div>
             @*<ul class="details" ng-if="plan.data != 0">

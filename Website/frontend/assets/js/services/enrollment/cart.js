@@ -34,7 +34,6 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         toggleCart: function() {
             cart.isCartOpen = !cart.isCartOpen;
-            scrollService.toggleScrolling(cart.isCartOpen);
         },
 
         getCartVisibility: function() {

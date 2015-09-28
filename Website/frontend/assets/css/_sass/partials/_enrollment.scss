@@ -113,7 +113,7 @@
     }
 
 	.content{
-        background:#fafbfc;
+        background:#fcfcfc;
 	}
 
     .checkbox-list {
@@ -3580,10 +3580,6 @@ h3.success-message{
         margin-bottom: 30px;
         font-size: 18px;
     }
-	.icon-circle-check{
-		@include retina-background('checkmark.png');
-		background-position:0;
-	}
 	.location-section {
 		.location-container{
 			display:inline-block;
@@ -3669,8 +3665,8 @@ h3.success-message{
 			display:none;
 		}
         .button {
-            padding-top: 0;
-            padding-bottom: 0;
+            padding-top: 25px;
+            padding-bottom: 25px;
 			box-shadow: 1px 1px 1px 1px #e6e6e6;
 			background:white;
 			border-radius: 0;
@@ -3680,7 +3676,11 @@ h3.success-message{
 					display:none;
 				}
 				.icon-circle-check{
+					@include retina-background('checkmark.png');
+					background-position:0;
 					display:inline-block;
+					height:33px;
+					width:35px;
 				}
 			}
         }
@@ -3745,10 +3745,19 @@ h3.success-message{
                 display: block;
             }
         }
-        .size {
-            font-size: 20px;
-            font-weight: 600;
-        }
+
+		.size-speed{
+			margin:15px 0;
+
+			.size {
+				font-size: 20px;
+				font-weight: 600;
+			}
+			.speed{
+				color:#b2b2b2
+			}
+		}
+        
         .price {
             position: relative;
             font-size: 18px;
