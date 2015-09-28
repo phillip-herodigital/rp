@@ -13,10 +13,12 @@
         position: relative;
     }
     #state-select {
+        min-width: 145px;
         button {
             border-color: #cfcfcf;
             text-transform: uppercase;
             @include box-shadow(none);
+            width: 145px;
         }
         .icon {
             background-position: 10px center;
@@ -46,6 +48,9 @@
             @include retina-background('dc-icon.png');
         }
         .dropdown-menu {
+            width: 145px;
+            min-width: 145px;
+            left: 5px;
             li {
             }
         }

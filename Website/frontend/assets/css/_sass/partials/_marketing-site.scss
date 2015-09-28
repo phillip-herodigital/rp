@@ -1742,19 +1742,22 @@ article.homelife-services {
     }
 }
 
-article.states-enroll {
+article.states-enroll,
+article.state-tabs {
     div.wrapper {
         text-align: center;
 		.btn {
 			width: 100%;
 			outline: none;
-			&.open {
-				border-bottom: 0px;
-			}
 		}
 		#state-select {
 			position: relative;
 		}
+    }
+}
+article.state-tabs {
+    div.wrapper {
+        text-align: left;
     }
 }
 

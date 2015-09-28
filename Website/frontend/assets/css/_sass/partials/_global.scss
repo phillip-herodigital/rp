@@ -384,25 +384,45 @@ ul, ol {
     }
     .texas {
         @include retina-background('texas-icon.png');
-        
+    }
+    a.texas:hover {
+        @include retina-background('texas-white-icon.png');
     }
     .georgia {
         @include retina-background('georgia-icon.png');
     }
+    a.georgia:hover {
+        @include retina-background('georgia-white-icon.png');
+    }
     .pennsylvania {
         @include retina-background('pennsylvania-icon.png');
+    }
+    a.pennsylvania:hover {
+        @include retina-background('pennsylvania-white-icon.png');
     }
     .maryland {
         @include retina-background('maryland-icon.png');
     }
+    a.maryland:hover {
+        @include retina-background('maryland-white-icon.png');
+    }
     .new-jersey {
         @include retina-background('newjersey-icon.png');
+    }
+    a.new-jersey:hover {
+        @include retina-background('newjersey-white-icon.png');
     }
     .new-york {
         @include retina-background('newyork-icon.png');
     }
+    a.new-york:hover {
+        @include retina-background('newyork-white-icon.png');
+    }
     .washington-dc {
         @include retina-background('dc-icon.png');
+    }
+    a.washington-dc:hover {
+        @include retina-background('dc-white-icon.png');
     }
     .dropdown-menu {
         li {
@@ -415,9 +435,14 @@ ul, ol {
 			border-top: 0px;
 			@include border-radius(0 0 10px 10px);
 			padding-top: 5px;
+            margin-top: -1px;
 			li {
 				a {
 					color: #555555;
+                    &:hover {
+                        background-color: #2080b4;
+                        color: #fff;
+                    }
 				}
 				&:last-child {
 					padding-bottom: 10px;
@@ -427,7 +452,6 @@ ul, ol {
 	}
 	&.open {
 		button {
-			border-bottom: none;
 			@include border-radius(10px 10px 0 0);
 		}
 	}

@@ -23,9 +23,9 @@
 
     var selectedState = string.IsNullOrEmpty(visitor.Interaction.GeoData.Region) ? "TX" : visitor.Interaction.GeoData.Region;
 
-    if (!new string[] { "TX", "GA", "PA", "MD", "NJ", "NY", "DC" }.Contains(selectedState))
+    if (!states.AllKeys.Contains(selectedState))
     {
-        selectedState = "TX";
+        selectedState = states.AllKeys.First();
     }
 }
 
