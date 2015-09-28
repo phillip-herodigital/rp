@@ -99,7 +99,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 var firstCheck = enrollmentService.LoadIdentityQuestions(gcid,
                     name: TestData.IdentityCheckName(),
                     ssn: TestData.IdentityCheckSsn,
-                    mailingAddress: TestData.IdentityCheckMailingAddress()).Result;
+                    mailingAddress: TestData.IdentityCheckMailingAddress(),
+                    language: null).Result;
 
                 // Assert
                 Assert.IsNotNull(firstCheck);
