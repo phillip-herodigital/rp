@@ -13,13 +13,13 @@
         position: relative;
     }
 
-	/* 
-		Mobile Enrollment Cart Styling 
-	*/
+    /* 
+        Mobile Enrollment Cart Styling 
+    */
 
-	& .enrollment_cart, & .documents, &.referred-by-section{
-		display:none;
-	}
+    & .enrollment_cart, & .documents, &.referred-by-section{
+        display:none;
+    }
 
     #state-select {
         button {
@@ -60,9 +60,9 @@
         }
     }
 
-	.content{
+    .content{
         background:#fafbfc;
-	}
+    }
 
     .checkbox-list {
         li { 
@@ -1387,26 +1387,26 @@
             display: inline-block;
             width: 32%;
             vertical-align: top;
-			@include breakpoint(small) {
-				display: block;
-				width: 100%;
-				margin-top: 10px;
-			}
+            @include breakpoint(small) {
+                display: block;
+                width: 100%;
+                margin-top: 10px;
+            }
             .step-number {
                 display: table-cell;
                 font-size: 40px;
                 line-height: 1.1;
-				&.number-one {
-					padding-right: 11px;
-				}
+                &.number-one {
+                    padding-right: 11px;
+                }
             }
             .step-description {
                 display: table-cell;
                 vertical-align: top;
                 padding-left: 10px;
-				@include breakpoint(small) {
-					vertical-align: middle;
-				}
+                @include breakpoint(small) {
+                    vertical-align: middle;
+                }
             }
         }
     }
@@ -1588,41 +1588,41 @@
 }
 
 .shop-phones-overlay{
-	.section{
-		float:left;
-		width:50%;
-		text-align:center;
+    .section{
+        float:left;
+        width:50%;
+        text-align:center;
 
-		&:last-of-type{
-			padding-left:25px;
-		}
+        &:last-of-type{
+            padding-left:25px;
+        }
 
-		.carrier{
-			margin:auto;
-			margin-bottom:15px;
-		}
-		.phone-image{
-			img{
-				height: 100px;
-				width:75px;
-			}
-			float:left;
-			margin-right:15px;
-		}
-		p{
-			float:left;
-			width:150px;
-			text-align:left;
-		}
-		a.button{
-			float:right;
-			margin:15px 35px 0 0;
-		}
+        .carrier{
+            margin:auto;
+            margin-bottom:15px;
+        }
+        .phone-image{
+            img{
+                height: 100px;
+                width:75px;
+            }
+            float:left;
+            margin-right:15px;
+        }
+        p{
+            float:left;
+            width:150px;
+            text-align:left;
+        }
+        a.button{
+            float:right;
+            margin:15px 35px 0 0;
+        }
 
-		h6{
-			margin:0;
-		}
-	}
+        h6{
+            margin:0;
+        }
+    }
 }
 
 /*
@@ -1723,17 +1723,17 @@
                 max-width: 80%;
             }
         }
-		.links{
-			text-align:center;
-			padding: 0 15px;
-			
-			a{
-				font-weight:bold;
-			}
-			.button{
-				margin-bottom:15px;
-			}
-		}
+        .links{
+            text-align:center;
+            padding: 0 15px;
+            
+            a{
+                font-weight:bold;
+            }
+            .button{
+                margin-bottom:15px;
+            }
+        }
         .stream-store-content {
             img {
                 max-width: 33%;
@@ -1978,12 +1978,12 @@
         }
     }
     .content .marketing-empty-cart {
-    	padding: 15px 0 30px;
-    	text-transform: uppercase;
-    	text-align: center;
-    	color: #ccc;
-    	font-weight: 600;
-    	font-size: $font-size-base;
+        padding: 15px 0 30px;
+        text-transform: uppercase;
+        text-align: center;
+        color: #ccc;
+        font-weight: 600;
+        font-size: $font-size-base;
     }
     .billed-title {
         color: #848484;
@@ -2035,10 +2035,10 @@
     padding: 20px;
     min-height: 100%;
 
-	@include breakpoint(small-medium) {
+    @include breakpoint(small-medium) {
             left: 0;
-			background: url(../i/white-alpha-90.png) repeat;
-			background: rgba(255, 255, 255, 0.7);
+            background: url(../i/white-alpha-90.png) repeat;
+            background: rgba(255, 255, 255, 0.7);
         }
 
     .cart {
@@ -2124,9 +2124,9 @@
  *
  */
 .banner.phone {
-	height: 228px;
-	background-position: 50%;
-	background-size: cover;
+    height: 228px;
+    background-position: 50%;
+    background-size: cover;
 }
 
 /* Mobile Enrollment */
@@ -2255,217 +2255,217 @@
     }
 }
 h3.success-message{
-		color:green;
-	}
+        color:green;
+    }
 
 
 .enrollment_progress-bar{
-	color:white;
-	padding:15px 0;
+    color:white;
+    padding:15px 0;
 
-	.progress-bar-cart{
-		position:relative;
+    .progress-bar-cart{
+        position:relative;
 
-		article{
-			display:none;
+        article{
+            display:none;
 
-			&.enrollment_cart, &.referred-by-section{
-				display:block;
-				border:none;
-				background: none;
-			}
+            &.enrollment_cart, &.referred-by-section{
+                display:block;
+                border:none;
+                background: none;
+            }
 
-			&.referred-by-section{
-			float:left;
-			}
-			&.enrollment_cart{
-				float:right;
-			}
-		}
+            &.referred-by-section{
+            float:left;
+            }
+            &.enrollment_cart{
+                float:right;
+            }
+        }
 
-		.cart-wrapper{
-			cursor:pointer;
+        .cart-wrapper{
+            cursor:pointer;
 
-			div.enrollment__cart{
-				margin-bottom:0;
-				float:right;
+            div.enrollment__cart{
+                margin-bottom:0;
+                float:right;
 
-				article.enrollment_cart{
-					margin-bottom:0;
-					margin-top:15px;
-				}
-				header{
-					background:none;
-					border:none;
-					padding-top:0;
-				}
-				h1, .content, footer{
-					display:none;
-				}
+                article.enrollment_cart{
+                    margin-bottom:0;
+                    margin-top:15px;
+                }
+                header{
+                    background:none;
+                    border:none;
+                    padding-top:0;
+                }
+                h1, .content, footer{
+                    display:none;
+                }
 
-			}
-		}
-		.arrow{
-				height:25px;
-				width:25px;
-				position:absolute;
-				right:29px;
-				top: 50px;
-				transform:rotate(45deg);
-				background:white;
-				z-index:10000;
-			}
+            }
+        }
+        .arrow{
+                height:25px;
+                width:25px;
+                position:absolute;
+                right:29px;
+                top: 50px;
+                transform:rotate(45deg);
+                background:white;
+                z-index:10000;
+            }
 
-		.cart-overlay{
-			padding: 0 15px;
-			background:white;
+        .cart-overlay{
+            padding: 0 15px;
+            background:white;
 
-			top:60px;
-			right:20px;
+            top:60px;
+            right:20px;
 
-			border:1px solid #e6e6e6;
-			border-radius:5px;
+            border:1px solid #e6e6e6;
+            border-radius:5px;
 
-			header{
-				background:white;
-				padding-left:0;
-			}
+            header{
+                background:white;
+                padding-left:0;
+            }
 
-			.cart-items{
-				display:none;
-			}
+            .cart-items{
+                display:none;
+            }
 
-			.content{
-				padding-left:0;
-				padding-right:0;
-			}
-			footer{
-				display:none;
-			}
-		}
-		
-	}
+            .content{
+                padding-left:0;
+                padding-right:0;
+            }
+            footer{
+                display:none;
+            }
+        }
+        
+    }
 
-	.cart{
-		color: white;
-		float: right;
-		position: relative;
-		margin-top:25px;
+    .cart{
+        color: white;
+        float: right;
+        position: relative;
+        margin-top:25px;
 
-		span{
-			font-size: 14px;
-			font-weight: bold;
-			position: absolute;
-			left: 12px;
-			top: -2px;
-		}
-	}
+        span{
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            left: 12px;
+            top: -2px;
+        }
+    }
 
-	&.step1{
-		background-color: $enrollment-progress-bar-step1-color;
+    &.step1{
+        background-color: $enrollment-progress-bar-step1-color;
 
-		.step{
-			background-color: $enrollment-progress-bar-step1-color;
+        .step{
+            background-color: $enrollment-progress-bar-step1-color;
 
-			&.step1{
-				background-color:white;
-			}
-		}
-	}
-	&.step2{
-		background-color: $enrollment-progress-bar-step2-color;
-		.step{
-			background-color: $enrollment-progress-bar-step2-color;
+            &.step1{
+                background-color:white;
+            }
+        }
+    }
+    &.step2{
+        background-color: $enrollment-progress-bar-step2-color;
+        .step{
+            background-color: $enrollment-progress-bar-step2-color;
 
-			&.step1, &.step2{
-				background-color:white;
-			}
-		}
-	}
+            &.step1, &.step2{
+                background-color:white;
+            }
+        }
+    }
 
-	.inner{
-		width:1040px;
-		margin:auto;
-		position: relative;
+    .inner{
+        width:1040px;
+        margin:auto;
+        position: relative;
 
-		.step-description{
-			float:left;
-			margin-right:200px;
+        .step-description{
+            float:left;
+            margin-right:200px;
 
-			.stepCount{
-				font-weight:bold;
-				font-size:32px;
-			}
-		}
-		
-		.progress{
-			float:left;
-			padding-top:35px;
-			position:relative;
-			margin-right:250px;
+            .stepCount{
+                font-weight:bold;
+                font-size:32px;
+            }
+        }
+        
+        .progress{
+            float:left;
+            padding-top:35px;
+            position:relative;
+            margin-right:250px;
 
-			.bar{
-				width:200px;
-				height:1px;
-				background:white;
-			}
-			.step{
-				border: 2px solid white;
-				border-radius: 100px;
-				height: 25px;
-				position: absolute;
-				top: 23px;
-				width: 25px;
+            .bar{
+                width:200px;
+                height:1px;
+                background:white;
+            }
+            .step{
+                border: 2px solid white;
+                border-radius: 100px;
+                height: 25px;
+                position: absolute;
+                top: 23px;
+                width: 25px;
 
-				&.step2{
-					left:30%;
-				}
-				&.step3{
-					right:30%;
-				}
-				&.step4{
-					right:0;
-				}
-			}
-		}
-		.inner{
-			position:relative;
-		}
-		.need-help{
-			position:absolute;
-			top:-15px;
-			right:0;
-			padding:2px 15px;
-			background-color: #033d5b;
-			color:white;
-			border-radius: 0 0 10px 10px;
-		}
+                &.step2{
+                    left:30%;
+                }
+                &.step3{
+                    right:30%;
+                }
+                &.step4{
+                    right:0;
+                }
+            }
+        }
+        .inner{
+            position:relative;
+        }
+        .need-help{
+            position:absolute;
+            top:-15px;
+            right:0;
+            padding:2px 15px;
+            background-color: #033d5b;
+            color:white;
+            border-radius: 0 0 10px 10px;
+        }
 
-		.referredBy{
-			float:left;
+        .referredBy{
+            float:left;
 
-			.user{
-				border: 1px solid white;
-				border-radius: 100px;
-				float: left;
-				height: 60px;
-				margin: 2px 10px 0 0;
-				width: 60px;
-			}
-			.info{
-				float:left;
-				line-height:1.2;
+            .user{
+                border: 1px solid white;
+                border-radius: 100px;
+                float: left;
+                height: 60px;
+                margin: 2px 10px 0 0;
+                width: 60px;
+            }
+            .info{
+                float:left;
+                line-height:1.2;
 
-				.name{
-					font-size: 18px;
-					font-weight: bold;
-				}
-				.job-title{
-					font-weight:bolder;
-				}
-			}
-		}
-	}
+                .name{
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+                .job-title{
+                    font-weight:bolder;
+                }
+            }
+        }
+    }
 }
 .enrollment_verify-phone {
     .item {
@@ -2476,55 +2476,49 @@ h3.success-message{
         input.full {
             width: 100%;
             margin-top: 10px;
-	}
+    }
         label a {
             float: right;
-	}
+    }
         .button {
             margin-top: 32px;
-		}
-		}
+        }
+        }
     .gsm-device {
         color: #565657;
-	}
+    }
     .content {
         @include border-radius(0 0 5px 5px);
         .phoneTypes {
             & > a {
-				border: 1px solid #e6e6e6;
-				border-radius: 3px;
+                border: 1px solid #e6e6e6;
+                border-radius: 3px;
                 background: #fff;
                 padding: 5px 10px;
-			}
-		}
+            }
+        }
         header {
-			padding: 0 0 10px;
+            padding: 0 0 10px;
             margin-bottom: 10px;
-		}
-
-        .seeWorks {
-			font-size:16px;
-			font-weight:bolder;
-			margin-bottom:5px;
-		}
-		.seperator{
-			border-top:1px solid #e6e6e6;
-			height:1px;
-			display:block;
-			margin:10px 0;
-		}
-		
-		.error-section{
-			background:yellow;
-			padding:15px 50px 15px 30px;
-			margin-bottom:10px;
-
-			span{
-				font-weight:bold;
-				color:red;
-			}
-		}
-	}
+        }
+        .device-error {
+            background-color: #fff6c6;
+            border-top: 1px solid #ffe973;
+            border-bottom: 1px solid #ffe973;
+            margin: 20px -20px;
+            padding: 30px 20px;
+            line-height: 1.2;
+            color: #013c5b;
+            font-size: 20px;
+            a {
+                font-size: 20px;
+            }
+            span.red {
+                font-weight: 600;
+                color: #f20000;
+            }
+        }
+    }
 }
 .enrollment__choose-network {
     .choose-location {
@@ -3517,85 +3511,85 @@ h3.success-message{
         margin-bottom: 30px;
         font-size: 18px;
     }
-	.plan-details {
-		background:white;
-		padding:15px;
+    .plan-details {
+        background:white;
+        padding:15px;
 
-		.detail-section{
-			float:left;
-			width:50%;
-			
-			&:first-of-type{
-				border-right:1px solid #e6e6e6;
-			}
-			&:last-of-type{
-				padding-left:25px;
-			}
-		}
+        .detail-section{
+            float:left;
+            width:50%;
+            
+            &:first-of-type{
+                border-right:1px solid #e6e6e6;
+            }
+            &:last-of-type{
+                padding-left:25px;
+            }
+        }
 
-		.footnotes{
-			font-size:12px;
-		}
+        .footnotes{
+            font-size:12px;
+        }
     }
-	.button.full{
-		width:100%;
-		padding: 10px !important;
-		background:white;
-		border-radius:2px;
-		box-shadow:1px 1px 1px 1px #e6e6e6;
-		cursor: pointer;
-	}
+    .button.full{
+        width:100%;
+        padding: 10px !important;
+        background:white;
+        border-radius:2px;
+        box-shadow:1px 1px 1px 1px #e6e6e6;
+        cursor: pointer;
+    }
 
     .mobile-plans {
         text-align: center;
         width: 100%;
         @include experimental-value(width, calc(100% + 14px)); // Better alignment for everything except IE8 with this
-		margin-bottom:15px;
+        margin-bottom:15px;
 
-		&.att{
-			.price{
-				color:$enrollment-plan-att-color;
-			}
-			a.button{
-				background:$enrollment-plan-att-color;
-			}
-			.button.active {
-				border-color:$enrollment-plan-att-color;
-			}
-		}
-		&.sprint{
-			.price{
-				color:$enrollment-plan-sprint-color;
-			}
-			a.button{
-				background:$enrollment-plan-sprint-color;
-			}
-			.button.active {
-				border-color:$enrollment-plan-sprint-color;
-			}
-		}
+        &.att{
+            .price{
+                color:$enrollment-plan-att-color;
+            }
+            a.button{
+                background:$enrollment-plan-att-color;
+            }
+            .button.active {
+                border-color:$enrollment-plan-att-color;
+            }
+        }
+        &.sprint{
+            .price{
+                color:$enrollment-plan-sprint-color;
+            }
+            a.button{
+                background:$enrollment-plan-sprint-color;
+            }
+            .button.active {
+                border-color:$enrollment-plan-sprint-color;
+            }
+        }
 
         p {
             font-size: 12px;
         }
-		.icon-circle-check{
-			display:none;
-		}
+        .icon-circle-check{
+            display:none;
+        }
         .button {
             padding-top: 0;
             padding-bottom: 0;
-			box-shadow: 1px 1px 1px 1px #e6e6e6;
-			background:white;
-			border-radius: 0;
+            box-shadow: 1px 1px 1px 1px #e6e6e6;
+            background:white;
+            border-radius: 0;
 
-			&.active{
-				a.button{
-					display:none;
-				}
-				.icon-circle-check{
-					display:inline-block;
-				}
-			}
+            &.active{
+                a.button{
+                    display:none;
+                }
+                .icon-circle-check{
+                    display:inline-block;
+                }
+            }
         }
         .is-recommended,
         .is-special-offer {
@@ -3665,22 +3659,22 @@ h3.success-message{
         .price {
             position: relative;
             font-size: 18px;
-			font-style: italic;
+            font-style: italic;
 
-			.cost{
-				font-size:28px;
-			}
+            .cost{
+                font-size:28px;
+            }
         }
 
-		a.button
-		{
-			color:white;
-			display:inline-block;
-			padding:10px 25px;
-			border-radius:10px;
-			box-shadow:none;
-			margin-bottom:10px;
-		}
+        a.button
+        {
+            color:white;
+            display:inline-block;
+            padding:10px 25px;
+            border-radius:10px;
+            box-shadow:none;
+            margin-bottom:10px;
+        }
 
         .details {
             @include layout-list();
@@ -4087,9 +4081,9 @@ article.phone-plan {
                 padding: 20px;
             }
         }
-		.button.full.hideDetails{
-			background:#e6e6e6;
-		}
+        .button.full.hideDetails{
+            background:#e6e6e6;
+        }
         .plan-details {
             background-color: #f7f7f7;
             @include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
@@ -4234,12 +4228,12 @@ article.services-box {
 }
 
 .phone-plan.footnotes {
-	border-top: 1px solid #e7e7e7;
-	padding-top: 25px;
-	p {
-		font-size: 12px;
-		margin: 0 0 10px 0;
-	}
+    border-top: 1px solid #e7e7e7;
+    padding-top: 25px;
+    p {
+        font-size: 12px;
+        margin: 0 0 10px 0;
+    }
 }
 
 .modal.depositWaiver {

@@ -35,7 +35,7 @@
                         <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                             <div class="content" ng-show="!phoneVerified">
                                 <div class="item full">
-                                    <h3 class="seeWorks">@Html.Sitecore().Field("See If Phone Works")</h3>
+                                    <h3>@Html.Sitecore().Field("See If Phone Works")</h3>
                                     <div class="input-group">
                                         <div class="input-group-control">
                                             <label>
@@ -49,10 +49,16 @@
                                     </div>
                                     </div><!-- /input-group -->
                                 </div>
-                                <div ng-show="hasError" class="error-section">
-                                    <span>@Html.Sitecore().Field("Error Message Heading")</span>
-                                    @Html.Sitecore().Field("Error Message")
-                                    @Html.Sitecore().Field("Error Link")
+                                <div ng-show="true || hasError" class="device-error">
+                                    <div ng-show="true || device-ineligible">
+                                        @Html.Sitecore().Field("Ineligible Error Message")
+                                    </div>
+                                    <div ng-show="true || gsm-ineligible">
+                                        @Html.Sitecore().Field("GSM Error Message")
+                                    </div>
+                                    <div ng-show="true || cdma-ineligible">
+                                        @Html.Sitecore().Field("CDMA Error Message")
+                                    </div>
                                 </div>
                                 <div>
                                     <a href="" ng-click="showModal('instructions/compatileDevices');">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
