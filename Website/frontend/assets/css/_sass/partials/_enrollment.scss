@@ -2315,6 +2315,9 @@ h3.success-message{
 .enrollment_progress-bar{
 	color:white;
 	padding:15px 0;
+	@include retina-background('diamond-background.png');
+	background-position:right;
+	background-repeat:no-repeat;
 
 	.progress-bar-cart{
 		position:relative;
@@ -2339,6 +2342,13 @@ h3.success-message{
 		.cart-wrapper{
 			cursor:pointer;
 
+			.cart-items{
+				color:white;
+				.icon-cart{
+					@include retina-background('cart-white.png');
+					background-position:0;
+				}
+			}
 			div.enrollment__cart{
 				margin-bottom:0;
 				float:right;
@@ -3570,7 +3580,10 @@ h3.success-message{
         margin-bottom: 30px;
         font-size: 18px;
     }
-
+	.icon-circle-check{
+		@include retina-background('checkmark.png');
+		background-position:0;
+	}
 	.location-section {
 		.location-container{
 			display:inline-block;
