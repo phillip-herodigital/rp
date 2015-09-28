@@ -379,7 +379,7 @@ namespace StreamEnergy.Services.Clients
                                         select new IdentityQuestion
                                         {
                                             QuestionId = question.Index.ToString(),
-                                            QuestionText = question.QuestionText,
+                                            QuestionText = System.Web.HttpUtility.HtmlEncode(question.QuestionText),
                                             Answers = (from answer in question.Answers
                                                     select new IdentityAnswer
                                                     {
