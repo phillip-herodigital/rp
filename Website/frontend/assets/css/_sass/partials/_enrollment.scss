@@ -2353,7 +2353,12 @@ h3.success-message{
 			float:left;
 			}
 			&.enrollment_cart{
+				margin-top:25px;
 				float:right;
+
+				header{
+					padding:0;
+				}
 			}
 		}
 
@@ -2373,7 +2378,7 @@ h3.success-message{
 
 				article.enrollment_cart{
 					margin-bottom:0;
-					margin-top:15px;
+					margin-top:25px;
 				}
 				header{
 					background:none;
@@ -2472,10 +2477,11 @@ h3.success-message{
 		.step-description{
 			float:left;
 			margin-right:200px;
-
+			font-weight:26px;
 			.stepCount{
 				font-weight:bold;
-				font-size:32px;
+				font-size:36px;
+				line-height:1;
 			}
 		}
 		
@@ -2520,6 +2526,7 @@ h3.success-message{
 			background-color: #033d5b;
 			color:white;
 			border-radius: 0 0 10px 10px;
+			font-size:15px;
 		}
 
 		.referredBy{
@@ -3727,6 +3734,9 @@ h3.success-message{
             float: right;
         }
     }
+	hr{
+		
+	}
     .mobile-plans-header {
         margin-bottom: 30px;
         font-size: 18px;
@@ -3750,7 +3760,20 @@ h3.success-message{
 			width:100px;
 		}
 	}
+	.networkSection{
+		margin-bottom:15px;
 
+		i{
+			float:left;
+			margin-top:15px;
+		}
+		.message{
+			float:right;
+			font-size:22px;
+			text-align:right;
+			width:400px;
+		}
+	}
 	.plan-details {
 		background:white;
 		padding:15px;
@@ -3901,11 +3924,12 @@ h3.success-message{
 			margin:15px 0;
 
         .size {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
         }
 			.speed{
-				color:#b2b2b2
+				color:#666;
+				font-size:16px;
 			}
 		}
         
@@ -3915,7 +3939,11 @@ h3.success-message{
 			font-style: italic;
 
 			.cost{
-				font-size:28px;
+				font-size:38px;
+				font-style:italic;
+			}
+			.duration{
+				font-size:22px;
 			}
         }
 
@@ -3966,12 +3994,8 @@ h3.success-message{
         font-weight: 600;
     }
     hr {
-        margin: 10px 0;
-        border: none;
-        @include retina-background('data-plan-bg.png', 'enrollment');
-        background-position: center top;
-        background-repeat: no-repeat;
-        height: 5px;
+        height:1px
+		background:#ececec;
     }
     footer {
         @include background-image(linear-gradient(to top, #fff 0%, #f7f7f7 100%));

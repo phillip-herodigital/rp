@@ -5,10 +5,13 @@
     $scope.data = { serviceState: 'TX' };
     $scope.data.serviceLocation = {};
 
+    $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';
+
     $scope.showChangeLocation = true;
     $scope.$watch('city', function () {
         if (!$scope.city)
             return;
+
         $scope.data.serviceLocation.address = {
             line1: 'Line1',
             city: $scope.city,

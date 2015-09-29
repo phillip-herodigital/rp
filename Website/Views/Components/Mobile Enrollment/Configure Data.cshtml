@@ -48,6 +48,16 @@
                                 <a class="view-coverage" ng-click="showCoverageMapOverlay()">View Coverage</a>
                             </div>
                         </div>
+
+                        <hr />
+
+                        <div class="networkSection clearfix">
+                            <i ng-class="{'icon-gsm': mobileEnrollmentService.selectedNetwork.value == 'att', 'icon-cdma':mobileEnrollmentService.selectedNetwork.value != 'att'}"></i>
+                            <div class="message">
+                                <span>@Html.Sitecore().Field("Great Coverage Great Value")</span>
+                            </div>
+                        </div>
+
                         <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'dataPlanList/' + typedOffers.key"></div>
 
                         <div class="button full" ng-show="!showPlanDetails" ng-click="showPlanDetails = true">
