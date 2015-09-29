@@ -3,6 +3,9 @@
     var maxMobileItems = 10;
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
+    $scope.getCartDevices = enrollmentCartService.getCartDevices;
+    $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
+    $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
     $scope.activationCodeInvalid = false;
     $scope.esnInvalid = false;
     $scope.esnError = false;
@@ -10,7 +13,6 @@
     $scope.missingActivationCode = false;
     
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
-    $scope.DeviceNumber = '';
 
     $scope.data = { serviceState: $scope.serviceState };
     $scope.data.serviceLocation = {};
@@ -18,13 +20,12 @@
     $scope.mobileEnrollmentService.currentStepNumber = 1;
     //clearPhoneSelection()
 
-    $scope.verifyPhone = function (data) {
-        $scope.DeviceNumber = data;
+    $scope.verifyPhone = function () {
         //$scope.hasError = true;
         $scope.phoneVerified = false;
         if (!$scope.hasError) {
             enrollmentService.isLoading = true;
-            $http.get('/api/MobileEnrollment/verifyDeviceNumber/' + $scope.DeviceNumber)
+            $http.get('/api/MobileEnrollment/verifyDeviceNumber/' + $scope.phoneOptions.imeiNumber)
             .success(function (data) {
 
                 $scope.phoneVerified = true;
@@ -32,7 +33,7 @@
                 //$scope.networkType = 'gsm';
                 //$scope.networkType = 'cdma';
 
-                mobileEnrollmentService.selectedNetwork.value = 'att'
+                mobileEnrollmentService.selectedNetwork.value = 'att';
                 //mobileEnrollmentService.selectedNetwork.value = 'sprint'
 
                 
@@ -360,7 +361,7 @@
 
             item = {
                 id: 7,
-                buyingOption: "BYOD",
+                buyingOption: 'BYOD',
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 make: $scope.phoneOptions.make,
                 model: $scope.phoneOptions.model,
@@ -368,7 +369,7 @@
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
                 iccidNumber: $scope.phoneOptions.iccidNumber,
-                transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
+                transferInfo: ($scope.phoneOptions.transferInfo.type == 'new') ? null : $scope.phoneOptions.transferInfo,
                 lte: $scope.phoneOptions.supportsLte
             };
         }

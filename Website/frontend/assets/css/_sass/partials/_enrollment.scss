@@ -104,7 +104,9 @@
         }
         &.tertiary {
             background-color: $enrollment-tertiary-button-background;
+            background-image: none;
             color: $enrollment-tertiary-button-color;
+            border-color: #e6e6e6;
             text-shadow: none;
             text-transform: none;
             float: left;
@@ -582,6 +584,17 @@
         font-size: 18px;
         border-radius: 5px;
         box-shadow: none;
+    }
+    .item select {
+        height: 46px;
+        padding: 10px;
+        font-size: 18px;
+        border-radius: 5px;
+        box-shadow: none;
+    }
+    .item input[type="checkbox"] {
+        height: auto;
+        vertical-align: middle;
     }
     &.form label, form label {
         text-transform: none !important;
@@ -2468,6 +2481,12 @@ h3.success-message{
     }
 }
 .enrollment_verify-phone {
+    header {
+        .success-message {
+            color: #71b243;
+            font-weight: 500;
+        }
+    }
     .item {
         margin-bottom: 15px;
     }
@@ -2476,19 +2495,36 @@ h3.success-message{
         input.full {
             width: 100%;
             margin-top: 10px;
-    }
+        }
         label a {
             float: right;
-    }
+        }
         .button {
             margin-top: 32px;
         }
-        }
+    }
     .gsm-device {
         color: #565657;
     }
     .content {
         @include border-radius(0 0 5px 5px);
+        .phone-line {
+            dl {
+                margin-bottom: 10px;
+                dt {
+                    float: left;
+                    clear: both;
+                    font-weight: 700;
+                }
+                dd {
+                    float: left;
+                    margin-left: 5px;
+                }
+            }
+            a {
+                margin-right: 20px;
+            }
+        }
         .phoneTypes {
             & > a {
                 border: 1px solid #e6e6e6;
@@ -2516,6 +2552,122 @@ h3.success-message{
             span.red {
                 font-weight: 600;
                 color: #f20000;
+            }
+        }
+        .vertical {
+            label {
+                color: #013c5b;
+                font-size: 20px;
+                padding-top: 10px;
+                .label-description{
+                    display: block;
+                    line-height: 1.2;
+                    font-size: 16px;
+                    color: #80888c;
+                    padding-right: 30px;
+                    &.disabled {
+                        opacity: 0.3;
+                    }
+                }
+            }
+            .btn-group-options {
+                font-size: 16px;
+                font-weight: 500;
+                color: #636363;
+                .heading {
+                    font-weight: 700;
+                }
+                .btn-phone-type {
+                    background-image: none;
+                    background-color: #ffffff;
+                    height: 50px;
+                    width: 138px;
+                    color: #585858;
+                    &:after, &:before {
+                        bottom: -25px;
+                    }
+                    i {
+                        margin-right: 4px;
+                        margin-bottom: 2px;
+                    }
+                }
+                .btn-phone-number {
+                    background-image: none;
+                    background-color: #ffffff;
+                    padding: 10px 18px;
+                    color: #737373;
+                }
+                &.iccid {
+                    width: 66%;
+                    input {
+                        width: 100%;
+                    }
+                    a {
+                        float: right;
+                    }
+                }
+                &.activation {
+                    width: 66%;
+                    input {
+                        width: 100%;
+                    }
+                }
+                &.phone-number {
+                    margin-top: 25px;
+                }
+                .disabled {
+                    opacity: 0.3;
+                }
+            }
+            .missing-activation, .missing-iccid {
+                padding: 10px 0;
+                color: #365c73;
+                font-weight: 700;
+                font-style: italic;
+            }
+            .device-error {
+                margin-bottom: 0;
+                font-size: 16px;
+                a {
+                    font-size: 16px;
+                }
+            }
+            .disabled {
+                opacity: 0.3;
+            }
+        }
+        .transfer-header {
+            h4 {
+                margin: 0;
+            }
+            p {
+                margin: 10px 0 0;
+            }
+        }
+        .help-text {
+            font-style: italic;
+        }
+        .street-number {
+            width: 16%
+        }
+        .street-name {
+            width: 34%;
+        }
+        .street-line-2 {
+            width: 32%;
+        }
+        .transfer-number-message {
+            @extend .clearfix;
+            @include border-radius(0 0 5px 5px);
+            margin: 0 -20px -20px -20px;
+            background: #ecf9f8;
+            padding: 10px 18px 10px 65px;
+            border-top: 1px solid #ddd;
+            line-height: 1.375;
+            text-align: left;
+            [class*="icon-"] {
+                float: left;
+                margin-left: -50px;
             }
         }
     }
