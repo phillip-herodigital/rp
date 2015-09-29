@@ -21,7 +21,7 @@
                     <span class="bar used" ng-style="{width:getPercentage(data.totalUsage, data.graphScale.low, data.graphScale.high)+'%'}">
                         <span class="picket"></span>
                         <span class="label" ng-mouseover="showBreakdown = true" ng-mouseleave="showBreakdown = false">
-                            Usage: {{ data.totalUsage | gigabyte }} GB of {{ data.dataUsageLimit | gigabyte }} GB
+                            Usage: {{ data.totalUsage | gigabyte }} GB of {{ data.dataUsageLimit <= 0 ? 'Unlimited' : (data.dataUsageLimit | gigabyte) + ' GB' }}
                             <div class="breakdown" ng-show="showBreakdown">
                                 <table>
                                     <thead>
@@ -37,9 +37,9 @@
                             </div>
                         </span>
                     </span>
-                    <span class="bar total" ng-style="{width:getPercentage(data.dataUsageLimit, data.graphScale.low, data.graphScale.high)+'%'}">
+                    <span class="bar total" ng-style="{width:getPercentage(data.dataUsageLimit <= 0 ? data.graphScale.high*1000000 : data.dataUsageLimit, data.graphScale.low, data.graphScale.high)+'%'}">
                         <span class="picket"></span>
-                        <span class="label">{{ data.dataUsageLimit | gigabyte }} GB <br />@Html.Sitecore().Field("Data Plan")</span>
+                        <span class="label">{{ data.dataUsageLimit <= 0 ? 'Unlimited' : (data.dataUsageLimit | gigabyte) + ' GB' }} <br />@Html.Sitecore().Field("Data Plan")</span>
                     </span>
                 </div>
                 <div class="scale">
