@@ -191,6 +191,7 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult ProgressBar()
         {
             return View("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new ProgressBar{
+                StepNumber = 1
             });
         }
 

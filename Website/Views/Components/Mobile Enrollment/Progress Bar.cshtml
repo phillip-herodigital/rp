@@ -35,7 +35,7 @@
                     <h2>@item.Fields["Need Help Text"].Value</h2>
             </div>
             <div class="modal-body">
-                @item.Fields["Need Help Modal Text"].Value
+               @Html.Raw(@item.Fields["Need Help Modal Text"].Value)
             </div>
         </div>
     </script>
