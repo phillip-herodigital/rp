@@ -13,7 +13,7 @@
         <div class="content">
             <p>@Html.Sitecore().Field("Current Usage Text")</p>
             <div class="current-usage" ng-show="data.deviceUsage.length">
-                <div class="usage-meter clearfix" ng-class="{overage: data.totalUsage > data.dataUsageLimit}">
+                <div class="usage-meter clearfix" ng-class="{overage: data.dataUsageLimit > 0 && data.totalUsage > data.dataUsageLimit}">
                     <span class="bar estimated" ng-style="{width: getPercentage(data.estimatedUsage, data.graphScale.low, data.graphScale.high)+'%'}">
                         <span class="picket"></span>
                         <span class="label">Estimated: {{ data.estimatedUsage | gigabyte }} GB</span>
