@@ -209,6 +209,7 @@
 </script>
 
 <script type="text/ng-template" id="cart/Mobile">
+    <div class="icon-byod"></div>
     <div ng-repeat="selectedOffer in getCartDataPlan()">
         <div class="description" ng-if="getDevicesCount() == 1">
             @Html.Sitecore().Field("Individual Plan")
