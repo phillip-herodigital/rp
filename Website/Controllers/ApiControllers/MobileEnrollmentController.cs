@@ -13,6 +13,7 @@ using Sitecore.Data.Fields;
 using StreamEnergy.DomainModels.Emails;
 using StreamEnergy.DomainModels.MobileEnrollment;
 using Microsoft.VisualBasic.FileIO;
+using StreamEnergy.MyStream.Models.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -151,11 +152,56 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Route("verifyDeviceNumber/{deviceNumber}")]
-        public async Task<String[]> VerifyDeviceNumber(string deviceNumber)
+        public VerifyDeviceNumberResponse VerifyDeviceNumber(string deviceNumber)
         {
-            string[] deviceResult= new string[]{deviceNumber};
+            if (deviceNumber == "111") {
+                return new VerifyDeviceNumberResponse
+                {
+                    IsEligible = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    NetworkType = "GSM",
+                    Manufacturer = "Samsung"
+                };
+            }
+            if (deviceNumber == "222")
+            {
+                return new VerifyDeviceNumberResponse
+                {
+                    IsEligible = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    NetworkType = "GSM",
+                    Manufacturer = "Apple"
+                };
+            }
+            if (deviceNumber == "333")
+            {
+                return new VerifyDeviceNumberResponse
+                {
+                    IsEligible = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    NetworkType = "CDMA",
+                    Manufacturer = "Samsung"
+                };
+            }
+            if (deviceNumber == "444")
+            {
+                return new VerifyDeviceNumberResponse
+                {
+                    IsEligible = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    NetworkType = "CDMA",
+                    Manufacturer = "Apple"
+                };
+            }
+            else
+            {
+                return new VerifyDeviceNumberResponse
+                {
+                    IsEligible = false,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.UnknownError,
+                };
+            }
 
-            return deviceResult;
         }
 
         [HttpGet]

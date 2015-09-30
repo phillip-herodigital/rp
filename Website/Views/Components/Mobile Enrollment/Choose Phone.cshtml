@@ -27,13 +27,15 @@
                                 @Html.Sitecore().Field("Verify Phone Details")
                             </div>
                             <div ng-show="phoneVerified">
-                                <h1 class="success-message">@Html.Sitecore().Field("Congratulations")</h1>
-                                @Html.Sitecore().Field("Eligible Device Message")
+                                <div ng-show="phoneManufacturer == 'Apple' && networkType == 'GSM'" class="device-error">
+                                    @Html.Sitecore().Field("Apple GSM Message")
+                                </div>
+                                <div ng-show="phoneManufacturer != 'Apple' || networkType != 'GSM'">
+                                    <h1 class="success-message">@Html.Sitecore().Field("Congratulations")</h1>
+                                    @Html.Sitecore().Field("Eligible Device Message")
+                                </div>
                             </div>
                         </header>
-
-
-                        
                         <div class="content" ng-show="!phoneVerified">
                             <div class="phone-line clearfix" ng-repeat="item in getCartDevices()">
                                 <h3>@Html.Sitecore().Field("Phone Line Header")</h3>
@@ -46,32 +48,31 @@
                                     <dd ng-if="item.transferInfo == null">@Html.Sitecore().Field("Assigning New Number Text")</dd>
                                     <dd ng-if="item.transferInfo == null">{{ item.transferInfo.phoneNumber }}</dd>
                                 </dl>
-                                <a href="" ng-click="editdevicenumber()">@Html.Sitecore().Field("Edit")</a><a href="" ng-click="editdevicenumber()">@Html.Sitecore().Field("Remove Line Link Text")</a>
+                                <a href="" ng-click="editMobileDevice(location, item)">@Html.Sitecore().Field("Edit")</a><a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove Line Link Text")</a>
                             </div>
                             <hr ng-if="getDevicesCount() > 0" />
                             <div class="item full">
                                 <h3>@Html.Sitecore().Field("See If Phone Works")</h3>
                                 <div class="input-group">
-                                    <div class="input-group-control">
+                                    <div class="input-group-control item" data-val-error="imeiNumber">
                                         <label>
                                             @Html.Sitecore().Field("Enter Number")
                                             <a href="" ng-click="showModal('instructions/imei');">@Html.Sitecore().Field("What Is This")</a>
                                         </label>
-                                        <input class="full" type="text" ng-model="phoneOptions.imeiNumber" ng-blur="validateEsn()" placeholder="@Html.Sitecore().Field("Enter Number")" />
+                                        <input class="full" name="imeiNumber" type="text" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
                                     </div>
                                     <div class="input-group-btn">
-                                        <a href="" class="button" ng-click="verifyPhone(DeviceNumber);">@Html.Sitecore().Field("Check Text")</a>
-                                </div>
+                                        <button type="button" ng-click="verifyPhone(DeviceNumber);" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Check Text")</button>
+                                    </div>
                                 </div><!-- /input-group -->
                             </div>
-                            <div ng-show="true || hasError" class="device-error">
-                                <div ng-show="true || device-ineligible">
-                                    @Html.Sitecore().Field("Ineligible Error Message")
+                            <div ng-show="hasError" class="device-error">
+                                <div ng-show="deviceIneligible" ng-bind-html="deviceIneligibleMessage">
                                 </div>
-                                <div ng-show="true || gsm-ineligible">
+                                <div ng-show="gsmIneligible">
                                     @Html.Sitecore().Field("GSM Error Message")
                                 </div>
-                                <div ng-show="true || cdma-ineligible">
+                                <div ng-show="cdmaIneligible">
                                     @Html.Sitecore().Field("CDMA Error Message")
                                 </div>
                             </div>
@@ -93,7 +94,7 @@
                                             <span class="heading">@Html.Sitecore().Field("MEID IMEI Number")</span> <span id="DeviceID">{{ phoneOptions.imeiNumber }}</span>
                                         </div>
                                         <div>
-                                            <a href="" ng-click="editDeviceNumber()">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="editDeviceNumber(DeviceNumber)">@Html.Sitecore().Field("Remove")</a>
+                                            <a href="" ng-click="editDeviceNumber(location, item)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove")</a>
                                         </div>
                                     </div>
 
@@ -108,7 +109,7 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <div class="item">
+                                    <div class="item" ng-if="networkType == 'CDMA'">
                                         <label>
                                             @Html.Sitecore().Field("Select Phone Type")
                                         </label>
@@ -126,43 +127,40 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div ng-show="phoneType == 'Apple' && networkType == 'GSM'" class="device-error">
-                                        @Html.Sitecore().Field("Apple GSM Message")
-                                    </div>
-                                    <hr />
-                                    <div class="item" data-val-error="ICCID" ng-if="networkType == 'CDMA'">
+                                    <hr ng-if="networkType == 'CDMA'" />
+                                    <div class="item" data-val-error="ICCID" ng-show="networkType == 'CDMA'">
                                         <label>
                                             @Html.Sitecore().Field("Header - ICCID Number")
                                             <span class="label-description" ng-class="{ disabled : missingIccid }">@Html.Sitecore().Field("Text - ICCID Number Note")</span>
                                         </label>
                                         <div class="btn-group-options iccid">
                                             <div ng-class="{ disabled : missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
-                                            <input type="text" name="iccid" ng-disabled="missingIccid" ng-model="phoneOptions.iccidNumber" />
+                                            <input type="text" name="iccid" ng-disabled="missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && !missingIccid" />
                                         </div>
                                         <div class="clearfix"></div>
                                         <div>
                                             <input type="checkbox" ng-click="missingIccid = !missingIccid" /> @Html.Sitecore().Field("I dont have ICCID")
-                                            <div ng-show="true" class="device-error">
+                                            <div class="device-error" ng-show="missingIccid && phoneOptions.phoneOS != 'Apple'">
                                                 @Html.Sitecore().Field("ICC Error Message")
                                             </div>
-                                            <div class="missing-iccid" ng-show="missingIccid">
+                                            <div class="missing-iccid" ng-show="missingIccid  && phoneOptions.phoneOS == 'Apple'">
                                                 @Html.Sitecore().Field("ICC Activation Message")
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="item" ng-if="networkType == 'GSM'" ng-class="{ disabled : phoneType == null || phoneType == 'Apple'  }">
+                                    <div class="item" ng-if="networkType == 'GSM'">
                                         <label>
                                             @Html.Sitecore().Field("Header - Activation Number")
                                             <span class="label-description" ng-class="{ disabled : missingActivationCode }">@Html.Sitecore().Field("Text - Activation Number Note")</span>
                                         </label>
                                         <div class="btn-group-options activation">
                                             <div ng-class="{ disabled : missingActivationCode }">@Html.Sitecore().Field("Label - Activation Number")</div>
-                                            <input type="text" name="activationCode" ng-disabled="missingActivationCode || phoneType == null || phoneType == 'Apple'" ng-model="phoneOptions.activationCode" ng-blur="validateActivationCode()" />
+                                            <input type="text" name="activationCode" ng-disabled="missingActivationCode || phoneManufacturer == 'Apple'" ng-model="phoneOptions.activationCode" ng-blur="validateActivationCode()" data-val="true" data-val-required data-val-if="networkType == 'GSM' && !missingActivationCode" />
                                         </div>
                                         <div class="clearfix"></div>
                                         <div>
-                                            <input type="checkbox" ng-click="missingActivationCode = !missingActivationCode" ng-disabled="phoneType == null || phoneType == 'Apple'" /> @Html.Sitecore().Field("I dont have one")
+                                            <input type="checkbox" ng-click="missingActivationCode = !missingActivationCode" /> @Html.Sitecore().Field("I dont have one")
                                             <div class="missing-activation" ng-show="missingActivationCode">
                                                 @Html.Sitecore().Field("Missing Activation Code Message")
                                             </div>
@@ -170,14 +168,14 @@
                                     </div>
                                         
                                     <hr />
-                                    <div class="item" ng-class="{ disabled : phoneType == null }">
+                                    <div class="item" ng-class="{ disabled : networkType == 'CDMA' && (phoneOptions.phoneOS == null || (missingIccid && phoneOptions.phoneOS != 'Apple')) }">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
                                             <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
                                         </label>
                                         <div class="btn-group btn-group-options phone-number">
                                             <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'new'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Assign New Number")</a>
-                                            <a href="" class="button btn-phone-number btn-group-arrow" ng-model="phoneOptions.transferInfo.type" btn-radio="'existing'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Transfer My Number")</a>
+                                            <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'existing'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Transfer My Number")</a>
                                         </div>
                                         <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.transferInfo.type == 'new' && false">
                                             <div class="button button-type-border">
@@ -282,10 +280,10 @@
                                 </div>
                             </div>
                         </div>
-                        <footer class="enrollment__choose-device" ng-show="phoneVerified">
+                        <footer class="enrollment__choose-device" ng-show="getDevicesCount() > 0 || phoneVerified">
                             <div class="buttons">
-                                <a href="" class="button primary" ng-disabled="addDevice.$invalid || isCartFull() || esnInvalid || activationCodeInvalid" ng-click="completeStep()">@Html.Sitecore().Field("Continue Button")</a>
-                                <a href="" class="button tertiary" ng-click="addDeviceToCart('existing'); phoneVerified = false;" ng-disabled="addDevice.$invalid || esnInvalid || activationCodeInvalid">@Html.Sitecore().Field("Bring A Device Link")</a>
+                                <button type="submit" class="button primary" ng-disabled="phoneVerified && addDevice.$invalid || isCartFull()">@Html.Sitecore().Field("Continue Button")</button>
+                                <button class="tertiary" ng-show="phoneVerified && !isLastItem()" ng-click="addDeviceToCart('existing'); phoneVerified = false;" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Bring A Device Link")</button>
                             </div>
                         </footer>
                     </article>

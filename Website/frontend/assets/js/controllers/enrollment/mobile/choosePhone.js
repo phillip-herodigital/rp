@@ -11,6 +11,8 @@
     $scope.esnError = false;
     $scope.cartLte = null;
     $scope.missingActivationCode = false;
+    $scope.missingIccid = false;
+    $scope.networkType = null;
     
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
 
@@ -21,52 +23,64 @@
     //clearPhoneSelection()
 
     $scope.verifyPhone = function () {
-        //$scope.hasError = true;
+        $scope.hasError = false;
+        $scope.deviceIneligible = false;
+        $scope.gsmIneligible = false;
+        $scope.cdmaIneligible = false;
         $scope.phoneVerified = false;
         if (!$scope.hasError) {
             enrollmentService.isLoading = true;
             $http.get('/api/MobileEnrollment/verifyDeviceNumber/' + $scope.phoneOptions.imeiNumber)
             .success(function (data) {
+                if (!data.isEligible) {
+                    $scope.hasError = true;
+                    $scope.deviceIneligible = true;
+                    $scope.addDevice.imeiNumber.$setValidity('required',false);
+                    $scope.validations = [{
+                        'memberName': 'imeiNumber'
+                    }];
+                    if(data.verifyEsnResponseCode) {
+                        $scope.deviceIneligibleMessage = $sce.trustAsHtml(_.find($scope.esnValidationMessages, function (message) { 
+                                return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
+                            }).message);
+                    }
+                } else if ($scope.getDevicesCount() > 0 && $scope.networkType != data.networkType) {
+                    $scope.hasError = true;
+                    if ($scope.networkType == 'GSM') {
+                        $scope.cdmaIneligible = true;
+                    } else if ($scope.networkType == 'CDMA') {
+                        $scope.gsmIneligible = true;
+                    }
+                } else {
+                    $scope.phoneVerified = true;
+                    $scope.networkType = data.networkType;
+                    $scope.phoneManufacturer = data.manufacturer;
 
-                $scope.phoneVerified = true;
+                    mobileEnrollmentService.selectedNetwork.value = $scope.networkType == 'GSM' ? 'att' : 'sprint';
+                    $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
 
-                //$scope.networkType = 'gsm';
-                //$scope.networkType = 'cdma';
+                    var activeService = enrollmentCartService.getActiveService();
+                    if (activeService) {
+                        activeService.location = $scope.data.serviceLocation;
+                        enrollmentService.setSelectedOffers(true);
+                    }
+                    else {
 
-                mobileEnrollmentService.selectedNetwork.value = 'att';
-                //mobileEnrollmentService.selectedNetwork.value = 'sprint'
+                        $scope.data.serviceLocation.address = {
+                            line1: 'Line1',
+                            city: $scope.city,
+                            stateAbbreviation: $scope.state, 
+                            postalCode5: $scope.postalCode5
+                        };
 
-                
-                $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing')
-                $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';
+                        $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
+                        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential" });
+                        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
 
-                if (mobileEnrollmentService.selectedNetwork.value == 'sprint') {
-                    $scope.phoneOptions.imeiNumber = $scope.DeviceNumber;
-                }
-
-                var activeService = enrollmentCartService.getActiveService();
-                if (activeService) {
-                    activeService.location = $scope.data.serviceLocation;
-                    enrollmentService.setSelectedOffers(true);
-                }
-                else {
-
-                    $scope.data.serviceLocation.address = {
-                        line1: 'Line1',
-                        city: $scope.city,
-                        stateAbbreviation: $scope.state, //data[0], 
-                        postalCode5: $scope.postalCode5
-                    };
-
-                    var testZip = $scope.millicanZip;
-
-                    $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
-                    $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential" });
-                    $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
-
-                    enrollmentCartService.addService({ location: $scope.data.serviceLocation });
-                    enrollmentService.setServiceInformation(true);
-                    activeService = enrollmentCartService.getActiveService();
+                        enrollmentCartService.addService({ location: $scope.data.serviceLocation });
+                        enrollmentService.setServiceInformation(true);
+                        activeService = enrollmentCartService.getActiveService();
+                    }
                 }
 
                 enrollmentService.isLoading = false;
@@ -82,14 +96,62 @@
         //enrollmentStepsService.setStep('phoneFlowDevices');
     };
 
-    $scope.editDeviceNumber = function (data) {
-        if (data) {
-            $scope.DeviceNumber = null;
+    $scope.editMobileDevice = function (service, item) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
         }
+        //update the editedDevice object so the Choose Phone page can get its state
+        mobileEnrollmentService.editedDevice = item;
+        //remove the device from the cart items array
+        enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
+    };
 
+    $scope.editDeviceNumber = function (service, item) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        //update the editedDevice object so the Choose Phone page can get its state
+        mobileEnrollmentService.editedDevice = item;
+        //remove the device from the cart items array
+        enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
-        mobileEnrollmentService.selectedNetwork.value = '';
-    }
+        scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
+    };
+
+    $scope.deleteMobileDevice = function (service, item) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        //remove the device from the cart items array
+        enrollmentCartService.removeDeviceFromCart(item);
+        //if there is 1 device left in the cart, go to data plan selection,
+        //if 0, go to device selection, otherwise stay at the same step
+        var devicesCount = enrollmentCartService.getDevicesCount();
+        var activeService = enrollmentCartService.getActiveService();
+        var serviceType = 'Mobile';
+        if (devicesCount == 0 && serviceType == 'Mobile') {
+            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+            $scope.phoneVerified = false;
+            $scope.phoneOptions.imeiNumber = '';
+            scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
+        } else if (devicesCount == 1) {
+            enrollmentCartService.setActiveService(service);
+            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
+        } else if (devicesCount > 1) {
+            //make a server call to update the cart with the correct devices
+            $timeout(function() { 
+                enrollmentService.setAccountInformation(); 
+            }, 50);
+        }
+    };
+    
     $scope.isCartFull = function () {
         if (enrollmentCartService.getDevicesCount() == maxMobileItems) {
             return true;
@@ -264,7 +326,7 @@
         $scope.selectedPhone = item;
         $scope.phoneOptions.color = mobileEnrollmentService.getPhoneColors(id)[0].color;
         $scope.phoneOptions.size = mobileEnrollmentService.getPhoneSizes(id)[0].size;
-        scrollService.scrollTo('chooseDevice', jQuery('header.site-header').height() * -1, 0, angular.noop);
+        scrollService.scrollTo('chooseDevice', 0, 0, angular.noop);
     };
 
     $scope.getPhoneCount = function(id) {
@@ -375,6 +437,8 @@
         }
 
         enrollmentCartService.addDeviceToCart(item);
+        $scope.addDevice.imeiNumber.$setValidity('required', true);
+        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
         if (phoneType) {
             $scope.mobileEnrollment.phoneTypeTab = phoneType; 
             $scope.clearPhoneSelection();
@@ -447,7 +511,10 @@
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {  
-        $scope.addDeviceToCart();
+        if ($scope.phoneVerified) {
+            $scope.addDeviceToCart();
+        }
+        
         var activeService = enrollmentCartService.getActiveService();
         var dataPlan = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
         
