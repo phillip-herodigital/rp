@@ -23,7 +23,7 @@
             { "name", state.Value },
             { "value", state.Key.ToString() },
             { "class", "icon " + stateClass },
-            { "enrollmentURL", item.Fields[state.Value.ToString() + " Renew Link"].ToString() }
+            { "enrollmentURL", Html.TranslateDomain(item.Fields[state.Value.ToString() + " Renew Link"].ToString()) }
         });
     }
 
