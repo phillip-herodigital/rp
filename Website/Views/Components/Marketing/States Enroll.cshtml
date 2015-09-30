@@ -23,7 +23,7 @@
 
     var selectedState = string.IsNullOrEmpty(visitor.Interaction.GeoData.Region) ? "TX" : visitor.Interaction.GeoData.Region;
 
-    if (!states.AllKeys.Contains(selectedState))
+    if (!states.AllKeys.Contains(selectedState) && states.AllKeys.Any())
     {
         selectedState = states.AllKeys.First();
     }
