@@ -53,22 +53,19 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
-    * Show ICCID Instructions Modal
-    */
-    $scope.showIccidExample = function () {
-        $modal.open({
-            'scope': $scope,
-            'templateUrl': 'instructions/iccid'
-        })
-    };
-
-    /**
     * Show Bill Account Example Modal
     */
     $scope.showBillAccountExample = function () {
         $modal.open({
             'scope': $scope,
             'templateUrl': 'showBillAccountModal'
+        })
+    };
+
+    $scope.showModal = function (templateUrl) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl
         })
     };
 
@@ -200,7 +197,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         enrollmentCartService.removeService(service);
         // if this was the last service in the cart, go to the start
         if (!$scope.cartHasUtility()) {
-            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowNetwork');
+            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowVerifyPhone');
         } else {
             enrollmentCartService.setActiveServiceIndex(0);
             enrollmentService.setAccountInformation();

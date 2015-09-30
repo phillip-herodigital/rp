@@ -1,6 +1,6 @@
 ﻿<script type="text/ng-template" id="cart-template">
     <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
-        <article class="enrollment__box" ng-if="associateInformation && associateInformation.associateName">
+        <article class="enrollment__box  referred-by-section" ng-if="associateInformation && associateInformation.associateName">
             <img class="associate-image" ng-src="data:image/JPEG;base64,{{associateInformation.associateImage}}" onerror="this.style.display = 'none';" />
             <div class="ai-right">
                 <span class="referred-by">@Html.Sitecore().Field("Referred By")</span><br>
@@ -8,19 +8,19 @@
                 <span class="associate-level">{{ associateInformation.associateLevel }}</span>
             </div>
         </article>
-        <article class="enrollment__box" ng-if="associateInformation && !associateInformation.associateName">
+        <article class="enrollment__box referred-by-section" ng-if="associateInformation && !associateInformation.associateName">
             <div class="ai-right">
                 <span class="referred-by">@Html.Sitecore().Field("Referred By")</span>
                 <span class="associate-name">{{ associateInformation.associateId }}</span>
             </div>
         </article>
-        <article class="enrollment__box" scroll-anchor="scrollFix">
+        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix">
             <header>
-                <div class="cart-items" ng-if="!isCartOpen()">
+                <div class="cart-items">
                     <i class="icon-cart"></i>
                     <div class="item-num" ng-show="getCartCount()">{{ getCartCount() }}</div>
                 </div>
-                <i class="icon-close" ng-click="toggleCart();" ng-if="isCartOpen()"></i>
+                @*<i class="icon-close" ng-click="toggleCart();" ng-if="isCartOpen()"></i>*@
                 <h1>@Html.Sitecore().Field("Cart Header")</h1>
             </header>
             <div class="content">
@@ -111,21 +111,59 @@
                 <li ng-if="cartHasTDU('Sharyland')">@Html.Sitecore().Field("Sharyland Utilities Outage")</li>
             </ul>
         </article>
-        <article class="enrollment__box stream-store" ng-if="cartHasMobile() && (mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhoneWsa)">
+        @*<article class="enrollment__box stream-store" ng-if="cartHasMobile() && (mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhoneWsa)">*@
+        <article class="enrollment__box stream-store">
             <header>
                 @Html.Sitecore().Field("Stream Store Header")
             </header>
-            <div class="content stream-store-content" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
+            <div class="content stream-store-content">
+                @Html.Sitecore().Field("Stream Store Content General")
+            </div>
+            
+            @*<div class="content stream-store-content" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
                 @Html.Sitecore().Field("Stream Store Content GSM")
             </div>
             <div class="content stream-store-content" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
                 @Html.Sitecore().Field("Stream Store Content CDMA")
+            </div>*@
+            <div class="links">
+                <a class="button primary" ng-click="showModal('cart/shopPhones')">@Html.Sitecore().Field("Shop Phones")</a>
+                <a ng-click="showModal('cart/howItWorks')">@Html.Sitecore().Field("How it works")</a>
             </div>
         </article>
     </div>
 </script>
 
+<script type="text/ng-template" id="cart/shopPhones">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            @Html.Sitecore().Field("Header - Shop Phones Modal")
+        </div>
+        <div class="modal-body">
+            <div class="shop-phones-overlay clearfix">
+                <div class="section">
+                    @Html.Sitecore().Field("Stream Store Content GSM")
+                </div>
+                <div class="section">
+                    @Html.Sitecore().Field("Stream Store Content CDMA")
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 
+<script type="text/ng-template" id="cart/howItWorks">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("How it works")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("How It Works Modal Content")
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="cart/TexasElectricity">
     <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
@@ -171,6 +209,7 @@
 </script>
 
 <script type="text/ng-template" id="cart/Mobile">
+    <div class="icon-byod"></div>
     <div ng-repeat="selectedOffer in getCartDataPlan()">
         <div class="description" ng-if="getDevicesCount() == 1">
             @Html.Sitecore().Field("Individual Plan")

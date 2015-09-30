@@ -35,25 +35,32 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             'previous': []
         },
         {
-            'id': 'phoneFlowNetwork',
+            'id': 'phoneFlowVerifyPhone',
             'isFlowSpecific': true,
             'isActive': false,
             'isVisible': false,
             'previous': []
         },
         {
+            'id': 'phoneFlowNetwork',
+            'isFlowSpecific': true,
+            'isActive': false,
+            'isVisible': false,
+            'previous': ['phoneFlowVerifyPhone']
+        },
+        {
             'id': 'phoneFlowDevices',
             'isFlowSpecific': true,
             'isActive': false,
             'isVisible': false,
-            'previous': ['phoneFlowNetwork']
+            'previous': ['phoneFlowVerifyPhone','phoneFlowNetwork']
         },
         {
             'id': 'phoneFlowPlans',
             'isFlowSpecific': true,
             'isActive': false,
             'isVisible': false,
-            'previous': ['phoneFlowNetwork','phoneFlowDevices']
+            'previous': ['phoneFlowVerifyPhone','phoneFlowNetwork','phoneFlowDevices']
         },
         {
             'id': 'accountInformation',
@@ -102,21 +109,30 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             },
         'phone':
             {
+                /*'verifyDevice': {
+                    name: 'phoneFlowVerifyPhone',
+                    previous: []
+                },*/
                 'serviceInformation': {
-                    name: 'phoneFlowNetwork',
+                    //name: 'phoneFlowVerifyPhone',
+                    //name: 'phoneFlowNetwork',
+                    name: 'phoneFlowDevices',
                     previous: []
                 },
                 'deviceSelection': {
                     name: 'phoneFlowDevices',
-                    previous: ['phoneFlowNetwork']
+                    //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork']
+                    previous: []
                 },
                 'planSelection': {
                     name: 'phoneFlowPlans',
-                    previous: ['phoneFlowNetwork', 'phoneFlowDevices']
+                    //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork', 'phoneFlowDevices']
+                    previous: [ 'phoneFlowDevices']
                 },
                 'planSettings': {
                     name: 'accountInformation',
-                    previous: ['phoneFlowNetwork', 'phoneFlowDevices', 'phoneFlowPlans']
+                    //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork', 'phoneFlowDevices', 'phoneFlowPlans']
+                    previous: [ 'phoneFlowDevices', 'phoneFlowPlans']
                 }
              }
     }
@@ -282,7 +298,7 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             //Delay needs to be set to allow angular code to open section.
             if(service.isStepVisible(id)) {
                 $timeout(function() {
-                    scrollService.scrollTo(id, jQuery('header.site-header').height() * -1, time == 0 ? 0 : '750',  callback || angular.noop);
+                    scrollService.scrollTo(id, 0, time == 0 ? 0 : '750',  callback || angular.noop);
                 }, 10, false);
             }
         },
