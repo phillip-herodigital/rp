@@ -93,12 +93,13 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
 
                 if (result[0].CityStates != null)
                 {
-                    var statesArray = (from entry in result
-                                       where entry.InputIndex == 0
-                                       select (from cityState in entry.CityStates
-                                               select cityState.StateAbbreviation).Distinct()).First().ToArray();
+                    List<string> locationPieces = new List<string>();
+                    var l = result.Where(a => a.InputIndex == 0).Select(entry => entry.CityStates).Distinct().First().First();
 
-                    return statesArray;
+                    locationPieces.Add(l.City);
+                    locationPieces.Add(l.StateAbbreviation);
+
+                    return locationPieces.ToArray();
                 }
                 else
                 {

@@ -37,12 +37,12 @@
                             <div class="clearfix">
                                 <div class="location-container">
                                     <div class="location-text" ng-show="!showChangeLocation">
-                                        @Html.Sitecore().Field("It looks like youre in") {{ data.serviceLocation.address.city}} {{ data.serviceLocation.address.stateAbbreviation}}, {{ data.serviceLocation.address.postalCode5}} <a class="button primary" ng-click="showChangeLocation = true">@Html.Sitecore().Field("Change Text")</a>
+                                        @Html.Sitecore().Field("It looks like youre in") {{ data.serviceLocation.address.city}} {{ data.serviceLocation.address.stateAbbreviation}}, {{ data.serviceLocation.address.postalCode5}} <a ng-click="showChangeLocation = true">@Html.Sitecore().Field("Change Text")</a>
                                     </div>
                                     <div class="location-input" ng-show="showChangeLocation">
                                         <span>@Html.Sitecore().Field("Enter Zip Code Message")</span>
                                         <input type="text" data-val-regex-pattern="^[0-9]{5}$" data-val-regex="" data-val-required="" data-val="true" class="zip-code" ng-model="postalCode5">
-                                        <a class="button primary" ng-click="lookupZip(postalCode5);">@Html.Sitecore().Field("Go Text")</a>
+                                        <a ng-click="lookupZip(postalCode5);">@Html.Sitecore().Field("Go Text")</a>
                                     </div>
                                 </div>
                                 <a class="view-coverage" ng-click="showCoverageMapOverlay()">View Coverage</a>
@@ -170,8 +170,12 @@
 <script type="text/ng-template" id="dataPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans {{mobileEnrollmentService.selectedNetwork.value}}">
         <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterDataPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
-            @*<span class="recommended" ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
-            <span class="special-offer" ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>*@
+           
+
+            <div class="extra-info">
+                <span ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
+                <span ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
+            </div>
 
             <div class="price">
                 <div class="cost">{{ totalPlanPrice(plan, typedOffers.value.availableOffers) | currency }}</div>

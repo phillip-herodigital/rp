@@ -3746,6 +3746,12 @@ h3.success-message{
 		.location-container{
 			display:inline-block;
 			margin-bottom:15px;
+
+			.location-text{
+				a{
+					margin-left:5px;
+				}
+			}
 		}
 		a.view-coverage{
 			float:right;
@@ -3770,9 +3776,9 @@ h3.success-message{
 		}
 		.message{
 			float:right;
-			font-size:22px;
+			font-size:20px;
 			text-align:right;
-			width:400px;
+			width:375px;
 		}
 	}
 	.plan-details {
@@ -3809,16 +3815,22 @@ h3.success-message{
         width: 100%;
         @include experimental-value(width, calc(100% + 14px)); // Better alignment for everything except IE8 with this
 		margin-bottom:15px;
+		line-height:1.1;
 
 		&.att{
 			.price{
 				color:$enrollment-plan-att-color;
 			}
 			a.button{
-				background:$enrollment-plan-att-color;
+				/*background:$enrollment-plan-att-color;*/
+				@include background-image(linear-gradient(to top, $enrollemnt-plan-att-gradient-color-bottom 0%, $enrollemnt-plan-att-gradient-color-top 100%));
 			}
 			.button.active {
 				border-color:$enrollment-plan-att-color;
+			}
+
+			.extra-info{
+				background:$enrollment-plan-att-color;
 			}
 		}
 		&.sprint{
@@ -3826,16 +3838,29 @@ h3.success-message{
 				color:$enrollment-plan-sprint-color;
 			}
 			a.button{
-				background:$enrollment-plan-sprint-color;
+				/*background:$enrollment-plan-sprint-color;*/
+				@include background-image(linear-gradient(to top, $enrollemnt-plan-sprint-gradient-color-bottom 0%, $enrollemnt-plan-sprint-gradient-color-top 100%));
 			}
 			.button.active {
 				border-color:$enrollment-plan-sprint-color;
+			}
+			.extra-info{
+				background:$enrollment-plan-sprint-color;
 			}
 		}
 
         p {
             font-size: 12px;
         }
+
+		.extra-info{
+			color: white;
+			left: -2px;
+			position: absolute;
+			right: -2px;
+			top: -14px;
+		}
+
 		.icon-circle-check{
 			display:none;
 		}
@@ -3927,10 +3952,12 @@ h3.success-message{
         .size {
             font-size: 22px;
             font-weight: 600;
+			color:black;
         }
 			.speed{
 				color:#666;
 				font-size:16px;
+				margin-top:10px;
 			}
 		}
         
@@ -3938,6 +3965,7 @@ h3.success-message{
             position: relative;
             font-size: 18px;
 			font-style: italic;
+			line-height:1.1;
 
 			.cost{
 				font-size:38px;

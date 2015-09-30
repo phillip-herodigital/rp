@@ -212,13 +212,13 @@
             enrollmentService.isLoading = false;
             $scope.showChangeLocation = false;
             if (data.length != 0) {
-                mobileEnrollmentService.stateAbbreviation = data[0];
+                mobileEnrollmentService.stateAbbreviation = data[1];
                 mobileEnrollmentService.postalCode5 = $scope.postalCode5;
 
                 $scope.data.serviceLocation.address = {
                     line1: 'Line1',
-                    city: 'City',
-                    stateAbbreviation: data[0],
+                    city: data[0],
+                    stateAbbreviation: data[1],
                     postalCode5: $scope.postalCode5
                 };
                 $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
@@ -243,7 +243,7 @@
                 }
 
                 // if the state is in the excluded list, show the "no plans available" dialog
-                if (_($scope.mobileEnrollmentSettings.excludedStates).contains(data[0])) {
+                if (_($scope.mobileEnrollmentSettings.excludedStates).contains(data[1])) {
                     $scope.showNetworks = false;
                 }
                 else {
