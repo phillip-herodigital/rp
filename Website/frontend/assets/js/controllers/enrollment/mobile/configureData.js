@@ -2,11 +2,21 @@
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
+    $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
     $scope.data = { serviceState: 'TX' };
     $scope.data.serviceLocation = {};
+    $scope.showChangeLocation = false;
 
     $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';
-
+    
+    $scope.$watch('getDevicesCount()', function () {
+        if ($scope.getDevicesCount() >= 2) {
+            $scope.isIndSelected = false; 
+            $scope.isGroupSelected = true;
+        }
+            
+    });
+    /*
     $scope.showChangeLocation = true;
     $scope.$watch('city', function () {
         if (!$scope.city)
@@ -21,6 +31,7 @@
 
         $scope.showChangeLocation = false;
     });
+    */
 
     var coverageMap = $(jQuery.find(".coverage-map-container"));
 
@@ -30,14 +41,14 @@
 
     $scope.requestedPlanAvailable = false;
 
-    $scope.filterDataPlans = function(plan){
+    $scope.filterIndPlans = function(plan){
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
             var provider = mobileEnrollmentService.selectedNetwork.value,
                 devicesCount = enrollmentCartService.getDevicesCount();
                 firstDevice = enrollmentCartService.getCartDevices()[0];
             if (devicesCount == 0) {
                 return null;
-            } else if (devicesCount == 1) {
+            } else {
                 if (provider == "sprint" && !firstDevice.lte) {
                     return plan.provider.toLowerCase() == provider 
                     && !plan.isParentOffer 
@@ -49,6 +60,19 @@
                     && !plan.isChildOffer
                     && !plan.nonLtePlan;
                 }
+            } 
+        } else {
+            return null;
+        }
+    };
+
+    $scope.filterGroupPlans = function(plan){
+        if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
+            var provider = mobileEnrollmentService.selectedNetwork.value,
+                devicesCount = enrollmentCartService.getDevicesCount();
+                firstDevice = enrollmentCartService.getCartDevices()[0];
+            if (devicesCount == 0) {
+                return null;
             } else {
                 if (provider == "sprint" && !firstDevice.lte) {
                     return plan.provider.toLowerCase() == provider 
