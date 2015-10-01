@@ -113,7 +113,7 @@
     }
 
 	.content{
-        background:#fafbfc;
+        background:#fafafa;
 	}
 
     .checkbox-list {
@@ -3742,6 +3742,61 @@ h3.success-message{
         margin-bottom: 30px;
         font-size: 18px;
     }
+	.plan-chooser{
+		text-align: center;
+		margin-bottom:35px;
+
+		.button-plans {
+			background-color: #f3f6f7;
+			color: #3C535C;
+			border: solid 1px #bababa;
+			display: inline-block;
+			font-size: 18px;
+			line-height: 1.375;
+			text-align: center;
+			text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+			width: 190px;
+			vertical-align: middle;
+			height: 46px;
+			margin-right: -5px;
+			font-weight: 600;
+
+			&.selected {
+				color: #ffffff;
+				background-color: #3c535c;
+			}
+				
+			&.left {
+				background-image: image-url("marketing/redesign/single_phone_dark.png");
+				background-position: 14px center;
+				background-repeat: no-repeat;
+				border-bottom-left-radius: 5px;
+				border-top-left-radius: 5px;
+				padding: 10px 0 0 10px;
+			}
+
+			&.right {
+				background-image: image-url("marketing/redesign/multi_phone_dark.png");
+				background-position: 14px center;
+				background-repeat: no-repeat;		
+				border-top-right-radius: 5px;
+				border-bottom-right-radius: 5px;
+				padding: 10px 0 0 40px;
+			}	
+
+			&.selected {
+			
+				&.right {
+					background-image: image-url("marketing/redesign/multi_phone_white.png");
+				}
+
+				&.left {
+					background-image: image-url("marketing/redesign/single_phone_white.png");
+				}
+			}
+		}
+	}
+	
 	.location-section {
 		.location-container{
 			display:inline-block;
@@ -3768,7 +3823,7 @@ h3.success-message{
 		}
 	}
 	.networkSection{
-		margin-bottom:15px;
+		margin-bottom:25px;
 
 		i{
 			float:left;
@@ -3779,6 +3834,7 @@ h3.success-message{
 			font-size:20px;
 			text-align:right;
 			width:375px;
+			line-height:1;
 		}
 	}
 	.plan-details {
@@ -3794,6 +3850,19 @@ h3.success-message{
 			}
 			&:last-of-type{
 				padding-left:25px;
+			}
+
+			.list{
+				list-style:none;
+				margin-top:10px;
+				padding:0;
+
+				li{
+					@include retina-background('gray-check.png', 'icon'); 
+					padding-left:15px;
+					background-repeat:no-repeat;
+					background-position:0 7px;
+				}
 			}
 		}
 
@@ -3831,6 +3900,7 @@ h3.success-message{
 
 			.extra-info{
 				background:$enrollment-plan-att-color;
+				line-height:1;
 			}
 		}
 		&.sprint{
@@ -3867,7 +3937,7 @@ h3.success-message{
         .button {
             padding-top: 25px;
             padding-bottom: 25px;
-			box-shadow: 1px 1px 1px 1px #e6e6e6;
+			box-shadow: 1px 1px 10px #ccc;
 			background:white;
 			border-radius: 0;
 
@@ -3947,7 +4017,7 @@ h3.success-message{
         }
 
 		.size-speed{
-			margin:15px 0;
+			margin:10px 0;
 
         .size {
             font-size: 22px;
@@ -3957,7 +4027,8 @@ h3.success-message{
 			.speed{
 				color:#666;
 				font-size:16px;
-				margin-top:10px;
+				margin-top:5px;
+				line-height:1;
 			}
 		}
         
@@ -3968,8 +4039,15 @@ h3.success-message{
 			line-height:1.1;
 
 			.cost{
-				font-size:38px;
+				font-size:40px;
 				font-style:italic;
+				font-weight:800;
+
+				sup {
+					font-size: 20px;
+					top: 0;
+					vertical-align: super;
+				}
 			}
 			.duration{
 				font-size:22px;
@@ -3980,7 +4058,7 @@ h3.success-message{
 		{
 			color:white;
 			display:inline-block;
-			padding:10px 25px;
+			padding:7px 22px;
 			border-radius:10px;
 			box-shadow:none;
 			margin-bottom:10px;
@@ -4020,7 +4098,8 @@ h3.success-message{
         }
     }
     h3 {
-        font-weight: 600;
+        font-weight: 300;
+		font-size:32px;
     }
     hr {
         height:1px;

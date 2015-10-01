@@ -297,6 +297,20 @@
             sprint_lte: true
         }
     };
+    $scope.superCents = function (planCost) {
+        var array = planCost.toString().split('.');
+        var planCostFinal = "";
+        if (array.length > 1 && array[1] != "00") {
+            if (array[1].length == 1) {
+                array[1] = array[1] + "0";
+            }
+
+            planCostFinal = '$' + array[0] + "<sup>." + array[1] + "</sup>";
+        } else {
+            planCostFinal = '$' + array[0];
+        }
+        return planCostFinal;
+    }
 
     $scope.map = {
         center: { latitude: 38.850033, longitude: -98.6500523 },

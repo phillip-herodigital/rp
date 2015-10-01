@@ -52,13 +52,28 @@
                         <hr />
 
                         <div class="networkSection clearfix">
-                            <i ng-class="{'icon-gsm': mobileEnrollmentService.selectedNetwork.value == 'att', 'icon-cdma':mobileEnrollmentService.selectedNetwork.value != 'att'}"></i>
+                            <i ng-class="{'icon-gsm_plans': mobileEnrollmentService.selectedNetwork.value == 'att', 'icon-cdma_plans':mobileEnrollmentService.selectedNetwork.value != 'att'}"></i>
                             <div class="message">
-                                <span>@Html.Sitecore().Field("Great Coverage Great Value")</span>
+                                <strong>@Html.Sitecore().Field("Great Coverage Great Value")</strong>
                             </div>
                         </div>
 
-                        <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'dataPlanList/' + typedOffers.key"></div>
+                        <div class="plan-chooser" ng-init="isIndSelected = true">
+                            <a class="button-plans left selected" id="button-left" ng-click="isIndSelected = true; isGroupSelected = false" ng-class="{'selected': isIndSelected}">
+                                @Html.Sitecore().Field("Individual Plans")
+                            </a>
+                            <a class="button-plans right" id="button-right" ng-click="isIndSelected = false; isGroupSelected = true" ng-class="{'selected': isGroupSelected}">
+                                @Html.Sitecore().Field("Group Plans")
+                            </a>
+                        </div>
+
+                        <div ng-show="isIndSelected">
+                            <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'dataPlanList/' + typedOffers.key"></div>
+                        </div>
+                        <div ng-show="isGroupSelected">
+                            <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'dataPlanList/' + typedOffers.key"></div>
+                        </div>
+                        
 
                         <div class="button full" ng-show="!showPlanDetails" ng-click="showPlanDetails = true">
                             <a>@Html.Sitecore().Field("Show Plan Details")</a>
@@ -178,7 +193,7 @@
             </div>
 
             <div class="price">
-                <div class="cost">{{ totalPlanPrice(plan, typedOffers.value.availableOffers) | currency }}</div>
+                <div class="cost" ng-bind-html="superCents(totalPlanPrice(plan, typedOffers.value.availableOffers)) | unsafe"></div>
                 <div class="duration">@Html.Sitecore().Field("Per Month Text")</div>
             </div>
 
