@@ -1,7 +1,7 @@
 ﻿/* Mobile Plans Details Controller
  *
  */
-ngApp.controller('MobilePlansDetailsCtrl', ['$scope', function ($scope) {
+ngApp.controller('MobilePlansDetailsCtrl', ['$scope', '$window', function ($scope, $window) {
    
     $scope.numLines = 2;
 
@@ -20,4 +20,6 @@ ngApp.controller('MobilePlansDetailsCtrl', ['$scope', function ($scope) {
         }
         return planCostFinal;
     }
+
+    $scope.enrollmentLink = '/enrollment?ServiceType=Mob&MobilePlanId=';
 }]);
