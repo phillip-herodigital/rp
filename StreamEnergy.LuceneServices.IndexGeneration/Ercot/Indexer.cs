@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
 using StreamEnergy.DomainModels.Enrollments.TexasElectricity;
 using SmartyStreets = StreamEnergy.Services.Clients.SmartyStreets;
 
@@ -10,6 +11,8 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
 {
     class Indexer : IIndexer
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Aglc.Indexer));
+
         private readonly List<Action> onDispose = new List<Action>();
         private int reportEvery;
         private int maxTasks;
@@ -34,7 +37,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
 
                 var tasks = allTasks.ToArray();
                 await Task.WhenAll(tasks);
-                Console.WriteLine("Zips completed - adding zip codes");
+                Log.Debug("Zips completed - adding zip codes");
                 var zipTasks = (from task in tasks
                                 from zip in task.Result
                                 group zip.Value by zip.Key into zipCapabilities
@@ -87,19 +90,19 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
                             }
                             counter++;
                             if (counter % reportEvery == 0)
-                                Console.WriteLine(tdu.Key.PadRight(20) + " " + counter.ToString().PadLeft(11));
+                                Log.Debug(tdu.Key.PadRight(20) + " " + counter.ToString().PadLeft(11));
                         }
                     }
                     while (taskQueue.Any())
                         await taskQueue.Dequeue().ConfigureAwait(false);
                     isFresh = false;
                 }
-                Console.WriteLine(tdu.Key.PadRight(20) + " " + counter.ToString().PadLeft(11) + " finished!");
+                Log.Debug(tdu.Key.PadRight(20) + " " + counter.ToString().PadLeft(11) + " finished!");
                 return zipCodes;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Log.Debug(ex);
                 throw;
             }
         }

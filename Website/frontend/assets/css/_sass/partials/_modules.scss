@@ -375,6 +375,60 @@ article, .modal-body {
             @include retina-background("success.png", "icon");
         }
     }
+    .notice2 {
+        margin-bottom: 15px;
+        padding: 20px 30px;
+        background-repeat: no-repeat;
+        background-position: 15px 24px;
+        position: relative;
+        color: #fff;
+        font-size: 16px;
+        h2 {
+            margin: 0;
+            color: #fff;
+            font-size: 22px;
+        }
+        p {
+            margin: 0px;
+        }
+        .icon-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        &.alert {
+            background-color: #ffe3a1;
+            color: #3c4950;
+            h2 {
+                color: #3c4950;
+            }
+        }
+        &.message {
+            background-color: #1795d1;
+        }
+        &.error {
+            background-color: #ee6348;
+        }
+        &.success {
+            background-color: #74bc4b;
+            @include retina-background("success.png", "icon");
+        }
+        &.plain {
+            padding: 10px 15px;
+            color: #6b6b77;
+            font-size: 22px;
+            h2 {
+                color: #6b6b77;
+                font-size: 38px;
+                font-weight: 500;
+                strong {
+                    text-transform: uppercase;
+                    color: #32aede;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
     #validation-summary {
         ul {
             margin: 0;
@@ -585,6 +639,7 @@ article.message {
 }
 
 article.renew-plan {
+    margin-bottom: 5px;
     button.primary {
         float: right;
         margin-top: 20px;
@@ -610,6 +665,7 @@ article.plan {
                 background: #f6f6f6;
                 color: #646464;
                 text-transform: uppercase;
+                font-size: 13px;
                 font-weight: 600;
                 text-align: center;
                 padding: 10px 15px;
@@ -620,17 +676,14 @@ article.plan {
                     }
                 &.plan-header {
                     text-align: left;
-                    padding-left: 32px;
+                    padding-left: 20px;
                 }
-                &.empty {
-                    padding: 0;
-                    min-width: 0;
                 }
             }
-        }
         td, th {
             text-align: center;
             border-bottom: none;
+            vertical-align: text-top;
             > span, > a {
                 color: #828282;
                 font-size: 13px;
@@ -671,23 +724,26 @@ article.plan {
                 }
                     }
                 }           
-        .vertical {
-            padding: 0;
-            height: 120px;
-            width: 20px;
-                position: relative;
-            border-left: none;
-            border-right: none;
+        button {
+            white-space: nowrap;
+            background-image: none;
+            width: 100%;
+            margin-right: 0 !important;
+            &.secondary {
+                color: #5cab0d;
+                border: none;
+                outline: none;
+            }
+        }
+        .plan-name {
             .fixed, .variable {
-                position: absolute;
-                top: 40px;
-                left: -40px;
                 text-transform: uppercase;
                 color: #fff;
-                height: 20px;
-                width: 100px;
-                margin: 10px 0;
-                @include rotate(-90deg);
+                font-size: 10px;
+                font-weight: 600;
+                padding: 4px 4px 2px;
+                margin: 5px 0;
+                display: inline-block;
                 }
             .fixed {
                 background: #75bbe7;
@@ -695,12 +751,15 @@ article.plan {
             .variable {
                 background: #5b95a2;
                 }
+            .plan-title {
+                clear: both;
                     }
-        .plan-name {
-            position: relative;
             font-size: 18px;
+            font-weight: 600;
                             text-align: left;
             border-left: none;
+            padding-left: 20px;
+            vertical-align: top;
             @include breakpoint(small) {
                 padding-right: 45px;
                         }
@@ -710,26 +769,18 @@ article.plan {
             font-weight: normal;
             margin-top: 15px;
             font-size: 12px;}
-        .term {
+        .rate, .term, .fees, .address {
             font-size: 18px;
             font-style: italic;
             font-weight: 600;
+            padding: 33px 15px;
             span {
                 font-size: 12px;
-                text-transform: none;
-                font-weight: normal;
-                }
+                font-weight: 600;
                     }
-        .fees {
-            width: 140px;
-            font-size: 18px;
-            font-style: italic;
-            font-weight: 600;
-            span {
-                font-size: 12px;
-                text-transform: none;
-                font-weight: normal;
                         }
+        .rate, .term, .fees {
+            width: 120px;
                     }
         .details {
             td {
@@ -766,17 +817,6 @@ article.plan {
         .spacer {
             height: 20px;
         }
-        @include breakpoint(small-medium) {
-            th, td {
-                padding-left: 8px;
-                padding-right: 8px;
-        }
-        }
-        @include breakpoint(small) {
-            .plan-name, .fees, .plan-actions {
-                border-right: none;
-        }
-    }
     }
     footer.renew-plan {
         background-color: #d8edfe;
@@ -1967,6 +2007,10 @@ article.mobile {
     
     .device-full {
         display: block;
+        
+        .device-details {
+            padding: 10px;
+        }
     }
     table tbody tr td, th, tfoot td {
         text-align: center;
@@ -2139,7 +2183,7 @@ article.usage-summary {
                     color: #fff;
                     bottom: auto;
                     top: 100%;
-                    margin-top: 35px;
+                    margin-top: 40px;
                 }
             }
         }
@@ -2848,7 +2892,7 @@ aside {
         p {
             text-align: center;
             margin-bottom:0; 
-        }
+        }   
     }
     article.subnav {
         ul {
