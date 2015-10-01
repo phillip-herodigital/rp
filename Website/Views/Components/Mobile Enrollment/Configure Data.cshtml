@@ -7,9 +7,9 @@
 
 @{
     var visitor = Sitecore.Analytics.Tracker.Current;
-    var serviceCity = visitor.Interaction.GeoData.City;
-    var serviceState = visitor.Interaction.GeoData.Region;
-    var zip = visitor.Interaction.GeoData.PostalCode;
+    var serviceCity = "Dallas";//visitor.Interaction.GeoData.City;
+    var serviceState = "TX"; //visitor.Interaction.GeoData.Region;
+    var zip = "74001"; //visitor.Interaction.GeoData.PostalCode;
 
     if (string.IsNullOrEmpty(serviceState))
     {
@@ -37,15 +37,15 @@
                             <div class="clearfix">
                                 <div class="location-container">
                                     <div class="location-text" ng-show="!showChangeLocation">
-                                        @Html.Sitecore().Field("It looks like youre in") {{ data.serviceLocation.address.city}} {{ data.serviceLocation.address.stateAbbreviation}}, {{ data.serviceLocation.address.postalCode5}} <a ng-click="showChangeLocation = true">@Html.Sitecore().Field("Change Text")</a>
+                                        @Html.Sitecore().Field("It looks like youre in") {{ city}}, {{ state }} {{ postalCode5 }} <a href="" ng-click="showChangeLocation = true">@Html.Sitecore().Field("Change Text")</a>
                                     </div>
                                     <div class="location-input" ng-show="showChangeLocation">
                                         <span>@Html.Sitecore().Field("Enter Zip Code Message")</span>
                                         <input type="text" data-val-regex-pattern="^[0-9]{5}$" data-val-regex="" data-val-required="" data-val="true" class="zip-code" ng-model="postalCode5">
-                                        <a ng-click="lookupZip(postalCode5);">@Html.Sitecore().Field("Go Text")</a>
+                                        <a href="" ng-click="lookupZip(postalCode5);">@Html.Sitecore().Field("Go Text")</a>
                                     </div>
                                 </div>
-                                <a class="view-coverage" ng-click="showCoverageMapOverlay()">View Coverage</a>
+                                <a href="" class="view-coverage" ng-click="showCoverageMapOverlay()">View Coverage</a>
                             </div>
                         </div>
 
@@ -58,20 +58,20 @@
                             </div>
                         </div>
 
-                        <div class="plan-chooser" ng-init="isIndSelected = true">
-                            <a class="button-plans left selected" id="button-left" ng-click="isIndSelected = true; isGroupSelected = false" ng-class="{'selected': isIndSelected}">
+                        <div class="plan-chooser" ng-show="getDevicesCount() < 2" ng-init="isIndSelected = true">
+                            <a href="" class="button-plans left selected" id="button-left" ng-click="isIndSelected = true; isGroupSelected = false" ng-class="{'selected': isIndSelected}">
                                 @Html.Sitecore().Field("Individual Plans")
                             </a>
-                            <a class="button-plans right" id="button-right" ng-click="isIndSelected = false; isGroupSelected = true" ng-class="{'selected': isGroupSelected}">
+                            <a href="" class="button-plans right" id="button-right" ng-click="isIndSelected = false; isGroupSelected = true" ng-class="{'selected': isGroupSelected}">
                                 @Html.Sitecore().Field("Group Plans")
                             </a>
                         </div>
 
                         <div ng-show="isIndSelected">
-                            <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'dataPlanList/' + typedOffers.key"></div>
+                            <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'indPlanList/' + typedOffers.key"></div>
                         </div>
                         <div ng-show="isGroupSelected">
-                            <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'dataPlanList/' + typedOffers.key"></div>
+                            <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'groupPlanList/' + typedOffers.key"></div>
                         </div>
                         
 
@@ -182,9 +182,10 @@
     </div>
 </div>
 <div class="coverage-map-fade"></div>
-<script type="text/ng-template" id="dataPlanList/Mobile">
+
+<script type="text/ng-template" id="indPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans {{mobileEnrollmentService.selectedNetwork.value}}">
-        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterDataPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
+        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterIndPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
            
 
             <div class="extra-info">
@@ -225,6 +226,50 @@
                 </span>
                 <span class="limited-time-offer" ng-if="plan.specialOffer">@Html.Sitecore().Field("Limited Time Offer")</span>
             </p>*@
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="groupPlanList/Mobile">
+    <div class="btn-group btn-group-options mobile-plans {{mobileEnrollmentService.selectedNetwork.value}}">
+        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterGroupPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
+
+            <div class="extra-info">
+                <span ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
+                <span ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
+            </div>
+            <div class="price">
+                <div class="cost" ng-bind-html="superCents(totalPlanPrice(plan, typedOffers.value.availableOffers)) | unsafe"></div>
+                <div class="duration">@Html.Sitecore().Field("Per Month Text")</div>
+            </div>
+            <div ng-if="plan.data != 0" class="size-speed">
+                <div class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
+                <div class="speed">@Html.Sitecore().Field("At Speeds Up To")</div>
+                @*<span ng-if="!plan.isParentOffer">@Html.Sitecore().Field("Individual Data Description")</span>
+                    <span ng-if="plan.isParentOffer">@Html.Sitecore().Field("Group Data Description")</span>*@
+            </div>
+            <div ng-if="plan.data == 0" class="size-speed">
+                <span class="size">@Html.Raw(Html.Sitecore().Field("Talk and Text Only Text"))</span>
+            </div>
+            <a class="button">@Html.Sitecore().Field("Select Text")</a>
+            <div class="icon-circle-check"></div>
+            @*<ul class="details" ng-if="plan.data != 0">
+                    <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("Streaming Music Text")<br /><span class="time">{{ plan.hoursMusic }} @Html.Sitecore().Field("Hours Text")</span></span></li>
+                    <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("Streaming Movies Text")<br /><span class="time">{{ plan.hoursMovies }} @Html.Sitecore().Field("Hours Text")</span></span></li>
+                    <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("Web Browsing Text")<br /><span class="time">{{ plan.webPages }} @Html.Sitecore().Field("Web Pages Text")</span></span></li>
+                </ul>
+                <ul class="details" ng-if="plan.data == 0">
+                    <li><i class="icon-talk"></i><span>@Html.Sitecore().Field("Talk Text")<br /><span class="time">@Html.Sitecore().Field("Unlimited Text")</span></span></li>
+                    <li><i class="icon-text"></i><span>@Html.Sitecore().Field("Text Text")<br /><span class="time">@Html.Sitecore().Field("Unlimited Text")</span></span></li>
+                    <li><i class="icon-data"></i><span>@Html.Sitecore().Field("Data Use Text")<br /><span class="time">@Html.Sitecore().Field("Price per MB Text")</span></span></li>
+                </ul>*@
+            @*<p>
+                    <span class="price">
+                        <span class="original-price" ng-if="plan.specialOffer">{{ plan.specialOfferOriginalPrice | currency }}@Html.Sitecore().Field("Per Month Text")</span>
+                        {{ totalPlanPrice(plan, typedOffers.value.availableOffers) | currency }}@Html.Sitecore().Field("Per Month Text")
+                    </span>
+                    <span class="limited-time-offer" ng-if="plan.specialOffer">@Html.Sitecore().Field("Limited Time Offer")</span>
+                </p>*@
         </div>
     </div>
 </script>
