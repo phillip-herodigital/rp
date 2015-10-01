@@ -22,9 +22,88 @@
         }
 
         .leaderboard .director {
-            border: solid 1px black;
+            background-color: #eeeeee;
             padding: 25px;
         }
+
+        .regional .director h2 {
+            color: #005cb8;
+        }
+
+        .managing .director h2 {
+            color: #007852;
+        }
+
+        .senior .director h2 {
+            color: #5c2b85;
+        }
+
+        .executive .director h2 {
+            color : #5e5e5e;
+        }
+
+    .director h2 {
+        font-size: 48px;
+        line-height: 0.9;
+        margin: 0;
+    }
+
+        .director h3 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .director p {
+            font-size: 18px;
+        }
+
+        .regional .director-list {
+
+        }
+
+    .director-list span {
+        display: block;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 0.14em;
+    }
+
+            .director-list ul {
+                padding: 0;
+                margin-top: 5px;
+            } 
+            
+             .director-list ul li {
+                padding: 10px 0 10px 20px;
+                font-size: 24px;
+            }
+            .regional .director-list ul li {
+                background-color: #005cb8;
+                background-image: linear-gradient(#005cb8, #0089db);
+                list-style-type: none;
+                color: #ffffff;
+            }
+
+            .managing .director-list ul li {
+                background-color: #007852;
+                background-image: linear-gradient(#007852, #00b376);
+                list-style-type: none;
+                color: #ffffff;
+            }
+
+    .senior .director-list ul li {
+        background-color: #5c2b85;
+        background-image: linear-gradient(#5c2b85, #8940c0);
+        list-style-type: none;
+        color: #ffffff;
+    }
+
+    .executive .director-list ul li {
+        background-color: #5e5e5e;
+        background-image: linear-gradient(#5e5e5e, #8c8c8c);
+        list-style-type: none;
+        color: #ffffff;
+    }
 </style>
 <div class="leaderboard">
     <div class="leaderboard-header">
@@ -39,20 +118,27 @@
                 <p>@Html.Sitecore().Field("Regional Director Description")</p>
             </div>
             <div class="director-list">
-                <ol>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                </ol>
+                <ul>
+                    <li>1 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li>2 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li>3 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li>4 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li>5 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li>6 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li>7 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li>8 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li>9 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li>10 Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
+                    
+                </ul>
 
             </div>
         </div>
@@ -63,20 +149,26 @@
                 <p>@Html.Sitecore().Field("Managing Director Description")</p>
             </div>
             <div class="director-list">
-                <ol>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                </ol>
+                <ul>
+                    <li>1 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li>2 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li>3 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li>4 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li>5 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li>6 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li>7 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li>8 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li>9 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li>10 Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
+                </ul>
 
             </div>
         </div>
@@ -87,20 +179,26 @@
                 <p>@Html.Sitecore().Field("Senior Director Description")</p>
             </div>
             <div class="director-list">
-                <ol>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                </ol>
+                <ul>
+                    <li>1 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li>2 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li>3 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li>4 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li>5 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li>6 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li>7 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li>8 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li>9 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li>10 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
+                </ul>
 
             </div>
         </div>
@@ -111,20 +209,26 @@
                 <p>@Html.Sitecore().Field("Executive Director Description")</p>
             </div>
             <div class="director-list">
-                <ol>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                    <li> Firstname Lastname REGIONAL DIRECTOR, TEXAS</li>
-                </ol>
+                <ul>
+                    <li>1 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li>2 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li>3 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li>4 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li>5 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li>6 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li>7 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li>8 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li>9 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li>10 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
+                </ul>
 
             </div>
         </div>
