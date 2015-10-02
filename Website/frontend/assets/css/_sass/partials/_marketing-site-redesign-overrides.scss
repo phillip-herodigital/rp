@@ -1849,18 +1849,7 @@ article.mobile-pricing-plans {
 	}
 
 	.plan-right {
-	}
-
-	@media only screen and (max-width: 768px) {
-
-		.plan-left {
-			display: inline-table;
-		}
-
-		.plan-right {
-			display: inline-table;
-		}
-	}
+	}	
 
 	.plan-box {
 		width: 124px;
@@ -1923,6 +1912,7 @@ article.mobile-pricing-plans {
 
 		p.speed .footnote {
 			font-size: 12px;
+			display:block;
 		}
 
 		.button {
@@ -2018,7 +2008,7 @@ article.mobile-pricing-plans {
 		}
 
 		.box {
-			width: 250px;
+			width: 49%;
 			display: inline-block;
 			vertical-align: top;
 			background-color: #ffffff;
@@ -2116,6 +2106,66 @@ article.mobile-pricing-plans {
 		-webkit-box-shadow: 1px 1px 10px #ccc;
 		-moz-box-shadow: 1px 1px 10px #ccc;
 		box-shadow: 1px 1px 10px #ccc;
+	}
+
+	@media only screen and (max-width: 768px) {
+
+		.plan-description {
+			height: auto;
+			margin-bottom: 20px;
+
+			.mobile-network {
+				width: 100%;
+				margin-bottom: 10px;
+			}
+
+			.mobile-network-description {
+				width: 100%;
+				text-align: left;
+			}
+		}
+
+		.plan-left {
+			padding-right: 0;
+		}
+
+		.plan-container {
+			width: 100%;
+			margin-left: 0;
+		}
+
+		.plan-box {
+			width: 100%;
+			margin-bottom: 10px;
+
+			.special-promo {
+				width: 100%;
+			}
+
+			.button {
+				width: 90%;
+			}
+
+			&.hasPromo {
+				margin-top: 10px;
+			}
+		}
+
+		.phone-plan-details {
+			width: 100%;
+
+			.opener {
+				width: 100%;
+			}
+
+			.open {
+				width: 100%;
+			}
+		}
+
+		.device-criteria {
+			width: 100%;
+		}
 	}
     
 }

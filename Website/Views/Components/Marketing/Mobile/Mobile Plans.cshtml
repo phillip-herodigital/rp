@@ -22,8 +22,8 @@
                             </div>
                         </div>
                         <div class="plan-container" ng-show="isIndSelected">
-                            <div class="plan-box">
-                                <div class="special-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' != ''">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' !='']">
+                                <div class=" special-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' != ''">
                                     @Html.Sitecore().Field("Special Promo")
                                     <span class="gsm-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' != ''">
                                         <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Individual Plans - Plan 1 Cost ATT")</span>
@@ -45,7 +45,7 @@
                                     </a>
                                 </p>
                             </div>
-                            <div class="plan-box">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")' !='']">
                                 <div class="special-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")' != ''">
                                     @Html.Sitecore().Field("Special Promo")
                                     <span class="gsm-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")' != ''">
@@ -69,7 +69,7 @@
                                     </a>
                                 </p>
                             </div>
-                            <div class="plan-box">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")' !='']">
                                 <div class="special-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")' != ''">
                                     @Html.Sitecore().Field("Special Promo")
                                     <span class="gsm-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")' != ''">
@@ -95,7 +95,7 @@
                                     </a>
                                 </p>
                             </div>
-                            <div class="plan-box">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")' !='']">
                                 <div class="special-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")' != ''">
                                     @Html.Sitecore().Field("Special Promo")
                                     <span class="gsm-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")' != ''">
@@ -121,7 +121,7 @@
                             </div>
                         </div>
                         <div class="plan-container" ng-show="isGroupSelected">
-                            <div class="plan-box">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT")' !='']">
                                 <div class="special-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT")' != ''">
                                     @Html.Sitecore().Field("Special Promo")
                                     <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT")' != ''">
@@ -145,7 +145,7 @@
                                     </a>
                                 </p>
                             </div>
-                            <div class="plan-box">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT")' !='']">
                                 <div class="special-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT")' != ''">
                                     @Html.Sitecore().Field("Special Promo")
                                     <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT")' != ''">
@@ -169,7 +169,7 @@
                                     </a>
                                 </p>
                             </div>
-                            <div class="plan-box">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT")' !='']">
                                 <div class="special-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT")' != ''">
                                     @Html.Sitecore().Field("Special Promo")
                                     <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT")' != ''">
@@ -193,7 +193,7 @@
                                     </a>
                                 </p>
                             </div>
-                            <div class="plan-box">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT")' !='']">
                                 <div class="special-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT")' != ''">
                                     @Html.Sitecore().Field("Special Promo")
                                     <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT")' != ''">
@@ -263,7 +263,7 @@
                         </div>
                     </div>
                     <div class="plan-container" ng-show="isIndSelected">
-                        <div class="plan-box cdma">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' !='']">
                             <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' != ''">
                                 @Html.Sitecore().Field("Special Promo")
                                 <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' != ''">
@@ -272,7 +272,6 @@
                             </div>
                             <div class="no-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' == ''">
                             </div>
-
                             <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' == ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 1 Cost Sprint")') | unsafe"></h2>
                             <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' != ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")') | unsafe"></h2>
                             <p class="perMonth cdma"> @Html.Sitecore().Field("Per Month")</p>
@@ -288,7 +287,7 @@
                                 </a>
                             </p>
                         </div>
-                        <div class="plan-box cdma">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")' !='']">
                             <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")' != ''">
                                 @Html.Sitecore().Field("Special Promo")
                                 <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")' != ''">
@@ -312,7 +311,7 @@
                                 </a>
                             </p>
                         </div>
-                        <div class="plan-box cdma">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")' !='']">
                             <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")' != ''">
                                 @Html.Sitecore().Field("Special Promo")
                                 <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")' != ''">
@@ -336,7 +335,7 @@
                                 </a>
                             </p>
                         </div>
-                        <div class="plan-box cdma">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")' !='']">
                             <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")' != ''">
                                 @Html.Sitecore().Field("Special Promo")
                                 <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")' != ''">
@@ -362,7 +361,7 @@
                         </div>
                     </div>
                     <div class="plan-container" ng-show="isGroupSelected">
-                        <div class="plan-box cdma">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint")' !='']">
                             <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint")' != ''">
                                 @Html.Sitecore().Field("Special Promo")
                                 <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint")' != ''">
@@ -386,7 +385,7 @@
                                 </a>
                             </p>
                         </div>
-                        <div class="plan-box cdma">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint")' !='']">
                             <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint")' != ''">
                                 @Html.Sitecore().Field("Special Promo")
                                 <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint")' != ''">
@@ -410,7 +409,7 @@
                                 </a>
                             </p>
                         </div>
-                        <div class="plan-box cdma">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint")' !='']">
                             <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint")' != ''">
                                 @Html.Sitecore().Field("Special Promo")
                                 <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint")' != ''">
@@ -434,7 +433,7 @@
                                 </a>
                             </p>
                         </div>
-                        <div class="plan-box cdma">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint")' !='']">
                             <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint")' != ''">
                                 @Html.Sitecore().Field("Special Promo")
                                 <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint")' != ''">
