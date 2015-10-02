@@ -2512,6 +2512,27 @@ h3.success-message{
 			}
 		}
 	}
+	&.step3{
+		background-color: $enrollment-progress-bar-step3-color;
+		.step{
+			background-color: $enrollment-progress-bar-step3-color;
+
+			&.step1, &.step2, &.step3{
+				background-color:white;
+			}
+		}
+	}
+	
+	&.step4{
+		background-color: $enrollment-progress-bar-step4-color;
+		.step{
+			background-color: $enrollment-progress-bar-step4-color;
+
+			&.step1, &.step2, &.step3, &.step4{
+				background-color:white;
+			}
+		}
+	}
 
 	.inner{
 		width:1040px;
@@ -2547,6 +2568,7 @@ h3.success-message{
 				position: absolute;
 				top: 23px;
 				width: 25px;
+				cursor:pointer;
 
 				&.step2{
 					left:30%;
