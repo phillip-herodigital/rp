@@ -83,21 +83,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private static Models.Account.AccountToPay CreateViewAccountBalances(Account account, DomainModels.Accounts.Invoice invoice)
         {
-            var result = new StreamEnergy.MyStream.Models.Account.AccountToPay
+            Models.Account.AccountToPay result = null;
+            try
             {
-                AccountNumber = account.AccountNumber,
-                AmountDue = account.Balance.Balance,
-                DueDate = account.Balance.DueDate,
-                AccountType = account.AccountType,
-                SystemOfRecord = account.SystemOfRecord,
-                UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
-                CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
-                AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
-            };
 
-            if (invoice != null && invoice.PdfAvailable)
-            {
-                result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
+                result = new StreamEnergy.MyStream.Models.Account.AccountToPay
+                {
+                    AccountNumber = account.AccountNumber,
+                    AmountDue = account.Balance.Balance,
+                    DueDate = account.Balance.DueDate,
+                    AccountType = account.AccountType,
+                    SystemOfRecord = account.SystemOfRecord,
+                    UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
+                    CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
+                    AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
+                };
+
+                if (invoice != null && invoice.PdfAvailable)
+                {
+                    result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
+                }
+            }
+            catch (Exception) { 
             }
 
             return result;
@@ -195,7 +202,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var startDate = request.StartDate.HasValue ? request.StartDate.Value : mobileAccountDetails.LastBillDate;
             var endDate = request.EndDate.HasValue ? request.EndDate.Value : mobileAccountDetails.NextBillDate;
 
-            await accountService.GetAccountUsageDetails(account, startDate, endDate, false);
+            await accountService.GetAccountUsageDetails(account, startDate, endDate, true);
 
             var response = new GetMobileUsageResponse()
             {
@@ -1138,10 +1145,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Renewal
 
         [HttpPost]
-        public async Task<SetupRenewalResponse> SetupRenewal(SetupRenewalRequest request)
+        public async Task<Models.Enrollment.ClientData> SetupRenewal(SetupRenewalRequest request)
         {
-            bool isSuccess = false;
-
             if (currentUser.Accounts == null)
             {
                 currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
@@ -1155,15 +1160,50 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (isEligibile && subAccount.Capabilities.OfType<RenewalAccountCapability>().First().IsEligible)
             {
                 await enrollmentController.Initialize();
-                isSuccess = await enrollmentController.SetupRenewal(target, subAccount);
+                return await enrollmentController.SetupRenewal(target, subAccount);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region Dismiss Interstitial
+
+        [HttpPost]
+        public DismissInterstitialModalResponse DismissInterstitialModal(DismissInterstitialModalRequest request)
+        {
+            bool isSuccess = false;
+
+            MembershipUser _user = Membership.GetUser();
+            Sitecore.Security.Accounts.User securityAccountUser = Sitecore.Security.Accounts.User.FromName(_user.UserName, true);
+            if (securityAccountUser != null)
+            {
+                string alreadyDismissedInterstitials = Sitecore.Context.User.Profile.GetCustomProperty("Dismissed Interstitals");
+                var data = StreamEnergy.Json.Read<List<dynamic>>(alreadyDismissedInterstitials);
+                var dismissedInterstials = data == null ? new List<dynamic>() : data;
+                if (!dismissedInterstials.Where(d => d.itemId == request.InterstitialId.ToString()).Any())
+                {
+                    var excluded = new
+                    {
+                        itemId = request.InterstitialId,
+                        date = DateTime.Now
+                    };
+                    dismissedInterstials.Add(excluded);
+                }
+                string dismissedString = StreamEnergy.Json.Stringify(dismissedInterstials);
+                securityAccountUser.Profile.SetCustomProperty("Dismissed Interstitals", dismissedString);
+                securityAccountUser.Profile.Save();
+                isSuccess = true;
             }
 
-            return new SetupRenewalResponse
+            return new DismissInterstitialModalResponse
             {
                 IsSuccess = isSuccess
             };
 
-            
         }
 
         #endregion

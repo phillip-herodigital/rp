@@ -27,6 +27,7 @@ using StreamEnergy.DomainModels.Associate;
 using StreamEnergy.Interpreters;
 using System.IO;
 using System.Net.Http.Headers;
+using Sitecore.Data.Items;
 using StreamEnergy.DomainModels.Emails;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
@@ -110,6 +111,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateHelper.StateMachine.InternalContext.EnrollmentScreenshotTaken = false;
 
+            stateHelper.StateMachine.Context.SitecoreLanguageIsoCode = Sitecore.Context.Language.CultureInfo.TwoLetterISOLanguageName;
+
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -141,13 +144,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [NonAction]
-        public async Task<bool> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
+        public async Task<ClientData> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
-            stateHelper.Reset();
-            await stateHelper.EnsureInitialized();
-
             stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
-            stateHelper.State = typeof(ServiceInformationState);
+            stateHelper.State = typeof(PlanSelectionState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;
             stateHelper.Context.MailingAddress = account.Details.BillingAddress;
@@ -163,8 +163,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             };
             await stateHelper.StateMachine.Process();
+            await stateHelper.StateMachine.ContextUpdated();
+            this.stateMachine = stateHelper.StateMachine;
 
-            return true;
+            return ClientData(typeof(DomainModels.Enrollments.PlanSelectionState));
         }
 
         /// <summary>
@@ -636,7 +638,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var acctNumbers = (from product in resultData.Cart
                                    from offerInformation in product.OfferInformationByType
                                    from selectedOffer in offerInformation.Value.OfferSelections
-                                   select selectedOffer.ConfirmationNumber).ToArray();
+                                   select selectedOffer.ConfirmationNumber).Distinct().ToArray();
                 if (!string.IsNullOrEmpty(resultData.AssociateName))
                 {
                     var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");

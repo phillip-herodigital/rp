@@ -9,20 +9,26 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 {
     class Options
     {
-        [Option('r', "region", Required=true, HelpText="The region to run the index for. Examples: ercot, aglc.")]
+        //[Option('r', "region", Required=true, HelpText="The region to run the index for. Examples: ercot, aglc.")]
         public string Region { get; set; }
 
-        [Option('d', "dest", Required=true, HelpText="The destination blob storage container.")]
+        //[Option('d', "dest", Required=true, HelpText="The destination blob storage container.")]
         public string Destination { get; set; }
 
-        [Option('s', "source", Required = true, HelpText = "The source folder for the data files.")]
+        //[Option('s', "source", Required = true, HelpText = "The source folder for the data files.")]
         public string Source { get; set; }
 
-        [Option("mindate", HelpText = "The earliest date to process updates for - should be the last date that updates were provided.")]
+        //[Option("mindate", HelpText = "The earliest date to process updates for - should be the last date that updates were provided.")]
         public DateTime StartDate { get; set; }
 
-        [Option('f', "force-create", HelpText = "Forces a fresh index")]
+        //[Option('f', "force-create", HelpText = "Forces a fresh index")]
         public bool ForceCreate { get; set; }
+
+        [Option('d', "download-aglc", HelpText = "Downloads the AGLC Self Decrypting Archive.  Destination set in configuration.")]
+        public bool DownloadAglc { get; set; }
+
+        [Option('g', "generate-index", HelpText = "Generate the combined ercot and aglc index from existing and remote sources.")]
+        public bool GenerateIndex { get; set; }
 
         [HelpOption]
         public string GetUsage()

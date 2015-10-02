@@ -11,7 +11,8 @@ ngApp.directive('stateSelector', ['breakpoint', '$filter', function (breakpoint,
 			}
 
 			scope.$watch('selectedStateKey', function(newVal, oldVal) {
-				scope.selectedState = $filter('filter')(scope.stateEnrollData, {'key': newVal})[0];
+			    scope.selectedState = $filter('filter')(scope.stateEnrollData, { 'value': newVal })[0];
+			    scope.$parent.selectedState = scope.selectedState;
 			});
 
 		}

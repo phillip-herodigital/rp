@@ -679,6 +679,7 @@ namespace StreamEnergy.Services.Clients
             }
 
             account.Usage = (from usage in (IEnumerable<dynamic>)data.UsageDetail
+                             where usage.StartDate != DateTime.MinValue && usage.EndDate != DateTime.MinValue
                              select new KeyValuePair<ISubAccount, AccountUsage>(CreateSubAccount(account, usage.Device), new MobileAccountUsage()
                              {
                                  StartDate = (DateTime)usage.StartDate,

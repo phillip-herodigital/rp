@@ -27,6 +27,7 @@ ngApp.controller('AcctAddNewAccountCtrl', ['$scope', '$rootScope', '$http', func
 				} else {
 					// if successful, clear the fields 
 					$scope.formData = {};
+					$scope.validations = [];
 					$scope.errorMessage = false;
 					$scope.successMessage = true;
 					$scope.newAccountAdded.added = true;

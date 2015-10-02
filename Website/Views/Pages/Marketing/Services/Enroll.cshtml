@@ -32,58 +32,7 @@
     }
 }
 <article class="marketing state-tabs states-enroll" state-tabs="" ng-init="pane = '@selectedTab'">
-    <ul class="tabs-nav">
-        <li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
-            <a href="">
-                <span><i class="icon-state-texas"></i></span>
-                @Html.Sitecore().Field("Texas State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
-            <a href="">
-                <span><i class="icon-state-georgia"></i></span>
-                @Html.Sitecore().Field("Georgia State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('pennsylvania')" ng-class="{ active: pane == 'pennsylvania' }">
-            <a href="">
-                <span><i class="icon-state-pennsylvania"></i></span>
-                @Html.Sitecore().Field("Pennsylvania State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('maryland')" ng-class="{ active: pane == 'maryland' }">
-            <a href="">
-                <span><i class="icon-state-maryland"></i></span>
-                @Html.Sitecore().Field("Maryland State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('newjersey')" ng-class="{ active: pane == 'newjersey' }">
-            <a href="">
-                <span><i class="icon-state-newjersey"></i></span>
-                @Html.Sitecore().Field("New Jersey State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('newyork')" ng-class="{ active: pane == 'newyork' }">
-            <a href="">
-                <span><i class="icon-state-newyork"></i></span>
-                @Html.Sitecore().Field("New York State Text")
-            </a>
-        </li>
-        <li ng-click="selectPane('washingtondc')" ng-class="{ active: pane == 'washingtondc' }">
-            <a href="">
-                <span><i class="icon-state-washingtondc"></i></span>
-                @Html.Sitecore().Field("Washington DC State Text")
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("Texas Links")
-                </p>
-            </div>
-        </div>
+    <div class="tab-content" ng-class="{ hidden : selectedState.value != 'TX' }">
         <article class="marketing wrapper enroll">
             <div class="text">
                 <h1>@Html.Sitecore().Field("Texas State Text")</h1>
@@ -92,14 +41,7 @@
         </article>
         <div class="tab-footer"></div>
     </div>
-    <div class="tab" ng-class="{ hidden : pane != 'georgia' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("Georgia Links")
-                </p>
-            </div>
-        </div>
+    <div class="tab" ng-class="{ hidden : selectedState.value != 'GA' }">
         <article class="marketing wrapper enroll">
             <div class="text">
                 <h1>@Html.Sitecore().Field("Georgia State Text")</h1>
@@ -108,14 +50,7 @@
         </article>
         <div class="tab-footer"></div>
     </div>
-    <div class="tab" ng-class="{ hidden : pane != 'pennsylvania' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("Pennsylvania Links")
-                </p>
-            </div>
-        </div>
+    <div class="tab" ng-class="{ hidden : selectedState.value != 'PA' }">
         <article class="marketing wrapper enroll">
             <div class="text">
                 <h1>@Html.Sitecore().Field("Pennsylvania State Text")</h1>
@@ -124,14 +59,7 @@
         </article>
         <div class="tab-footer"></div>
     </div>
-    <div class="tab" ng-class="{ hidden : pane != 'maryland' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("Maryland Links")
-                </p>
-            </div>
-        </div>
+    <div class="tab" ng-class="{ hidden : selectedState.value != 'MD' }">
         <article class="marketing wrapper enroll">
             <div class="text">
                 <h1>@Html.Sitecore().Field("Maryland State Text")</h1>
@@ -140,14 +68,7 @@
         </article>
         <div class="tab-footer"></div>
     </div>
-    <div class="tab" ng-class="{ hidden : pane != 'newjersey' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("New Jersey Links")
-                </p>
-            </div>
-        </div>
+    <div class="tab" ng-class="{ hidden : selectedState.value != 'NJ' }">
         <article class="marketing wrapper enroll">
             <div class="text">
                 <h1>@Html.Sitecore().Field("New Jersey State Text")</h1>
@@ -156,14 +77,7 @@
         </article>
         <div class="tab-footer"></div>
     </div>
-    <div class="tab" ng-class="{ hidden : pane != 'newyork' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("New York Links")
-                </p>
-            </div>
-        </div>
+    <div class="tab" ng-class="{ hidden : selectedState.value != 'NY' }">
         <article class="marketing wrapper enroll">
             <div class="text">
                 <h1>@Html.Sitecore().Field("New York State Text")</h1>
@@ -172,14 +86,7 @@
         </article>
         <div class="tab-footer"></div>
     </div>
-    <div class="tab" ng-class="{ hidden : pane != 'washingtondc' }">
-        <div class="tab-header">
-            <div class="wrapper">
-                <p>
-                    @Html.Sitecore().Field("Washington DC Links")
-                </p>
-            </div>
-        </div>
+    <div class="tab" ng-class="{ hidden : selectedState.value != 'DC' }">
         <article class="marketing wrapper enroll">
             <div class="text">
                 <h1>@Html.Sitecore().Field("Washington DC State Text")</h1>
