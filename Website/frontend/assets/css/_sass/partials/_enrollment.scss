@@ -2381,6 +2381,14 @@ h3.success-message{
 	@include retina-background('diamond-background.png');
 	background-position:right;
 	background-repeat:no-repeat;
+	
+	@include breakpoint (small) {
+		padding-left:25px;
+
+		.progress, .progress-bar-cart, .need-help{
+			display:none;
+		}
+	}
 
 	.progress-bar-cart{
 		position:relative;

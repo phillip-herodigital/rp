@@ -17,14 +17,18 @@
             <a class="step step4"></a>
         </div>
         
-        <div class="progress-bar-cart">
-            <div class="cart-wrapper" ng-click="openCartOverlay()">
-                <div ng-include ng-if="true" src="'cart-template'"></div>
-            </div>
-            <div class="arrow" ng-show="enrollmentCartService.getCartVisibility()"></div>
-            @Html.Sitecore().Placeholder("ProgressBarCart")
+        @if (!Model.HideCart)
+        {
+            <div class="progress-bar-cart">
+                <div class="cart-wrapper" ng-click="openCartOverlay()">
+                    <div ng-include ng-if="true" src="'cart-template'"></div>
+                </div>
+                <div class="arrow" ng-show="enrollmentCartService.getCartVisibility()"></div>
+                @Html.Sitecore().Placeholder("ProgressBarCart")
             
-        </div>
+            </div>
+        }
+        
         <a class="need-help" ng-click="showModal('instructions/needHelp')">@item.Fields["Need Help Text"].Value</a>
     </div>
 

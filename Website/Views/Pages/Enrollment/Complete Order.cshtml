@@ -2,8 +2,8 @@
 
 @using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
 {
-<div id="reviewOrder" class="enrollment" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl" ng-init="setTimeRemaining('reviewOrder', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text" })
+<div id="reviewOrder" class="enrollment showCart" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl" ng-init="setTimeRemaining('reviewOrder', '@Html.Sitecore().Field("Remaining Minutes Number")');">
+    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text", HideCart = true })
 
     <div class="layout">
         <div class="wrapper cols-2 enrollment__review-order">
