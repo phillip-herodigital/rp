@@ -2,6 +2,8 @@
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.mobileEnrollmentService.cartItemCountText = '';
     $scope.enrollmentCartService = enrollmentCartService;
+    $scope.enrollmentStepsService = enrollmentStepsService;
+
     $scope.showModal = function (templateUrl) {
         $modal.open({
             'scope': $scope,
@@ -11,5 +13,11 @@
 
     $scope.openCartOverlay = function () {
         enrollmentCartService.toggleCart()
+    }
+
+    $scope.jumpToStep = function (step, currentStep, stepThreshold) {
+        if (currentStep > stepThreshold) {
+            $scope.enrollmentStepsService.scrollToStep(step);
+        }
     }
 }]);
