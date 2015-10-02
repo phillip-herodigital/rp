@@ -2537,8 +2537,10 @@ h3.success-message{
 	}
 
 	&.step3, &.step4{
-		.need-help{
-			background-color:#0a96d7;
+		.inner{
+			.need-help{
+				background-color:#0a96d7;
+			}
 		}
 	}
 
