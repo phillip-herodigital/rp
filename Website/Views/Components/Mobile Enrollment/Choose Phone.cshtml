@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div>
-                                <a href="" ng-click="showModal('instructions/compatileDevices');">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
+                                <a href="" ng-click="showLightbox('compatible-devices')">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
                             </div>
                             <hr />
                             <div class="gsm-device">
@@ -390,14 +390,14 @@
 </script>
 
 
-<script type="text/ng-template" id="instructions/whyatt">
+<script type="text/ng-template" id="instructions/whyUnlocked">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("Header - Why ATT Instructions")</h2>
+            <h2>@Html.Sitecore().Field("Header - Why Unlocked Instructions")</h2>
         </div>
         <div class="modal-body">
-            @Html.Sitecore().Field("Content - Why ATT Instructions")
+            @Html.Sitecore().Field("Content - Why Unlocked Instructions")
         </div>
         </div>
     </div>
