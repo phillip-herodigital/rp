@@ -8,7 +8,7 @@
                 @Html.Sitecore().Field("Group Plans")
             </a>
         </div>
-        <div class="grid">
+        <div class="grid" ng-cloak>
             @if (Html.Sitecore().HasValue("Show ATT Individual Plans") || Html.Sitecore().HasValue("Show ATT Group Plans"))
             {
                 <div class="col plan-left">
@@ -40,7 +40,7 @@
                                     <span class="footnote">@Html.Sitecore().Field("WIFI Footnote")</span>
                                 </p>
                                 <p>
-                                    <a class="button" href="@Html.Sitecore().Field("Individual Plans - Plan 1 ID ATT")">
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 1 ID ATT")">
                                         @Html.Sitecore().Field("Select")
                                     </a>
                                 </p>
@@ -64,7 +64,7 @@
                                     @Html.Sitecore().Field("4G Speed")
                                 </p>
                                 <p>
-                                    <a class="button" href="@Html.Sitecore().Field("Individual Plans - Plan 2 ID ATT")">
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 2 ID ATT")">
                                         @Html.Sitecore().Field("Select")
                                     </a>
                                 </p>
@@ -90,7 +90,7 @@
                                     @Html.Sitecore().Field("4G Speed")
                                 </p>
                                 <p>
-                                    <a class="button" href="@Html.Sitecore().Field("Individual Plans - Plan 3 ID ATT")">
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 3 ID ATT")">
                                         @Html.Sitecore().Field("Select")
                                     </a>
                                 </p>
@@ -114,7 +114,7 @@
                                     @Html.Sitecore().Field("4G Speed")
                                 </p>
                                 <p>
-                                    <a class="button" href="@Html.Sitecore().Field("Individual Plans - Plan 4 ID ATT")">
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 4 ID ATT")">
                                         @Html.Sitecore().Field("Select")
                                     </a>
                                 </p>
@@ -140,7 +140,7 @@
                                     @Html.Sitecore().Field("4G Speed")
                                 </p>
                                 <p>
-                                    <a class="button" href="@Html.Sitecore().Field("Group Plans - Plan 1 ID ATT")">
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 1 ID ATT")">
                                         @Html.Sitecore().Field("Select")
                                     </a>
                                 </p>
@@ -164,7 +164,7 @@
                                     @Html.Sitecore().Field("4G Speed")
                                 </p>
                                 <p>
-                                    <a class="button" href="@Html.Sitecore().Field("Group Plans - Plan 2 ID ATT")">
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 2 ID ATT")">
                                         @Html.Sitecore().Field("Select")
                                     </a>
                                 </p>
@@ -188,7 +188,7 @@
                                     @Html.Sitecore().Field("4G Speed")
                                 </p>
                                 <p>
-                                    <a class="button" href="@Html.Sitecore().Field("Group Plans - Plan 3 ID ATT")">
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 3 ID ATT")">
                                         @Html.Sitecore().Field("Select")
                                     </a>
                                 </p>
@@ -212,7 +212,7 @@
                                     @Html.Sitecore().Field("4G Speed")
                                 </p>
                                 <p>
-                                    <a class="button" href="@Html.Sitecore().Field("Group Plans - Plan 4 ID ATT")">
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 4 ID ATT")">
                                         @Html.Sitecore().Field("Select")
                                     </a>
                                 </p>
@@ -282,7 +282,7 @@
                                 @Html.Sitecore().Field("4G Speed")
                             </p>
                             <p>
-                                <a class="button cdma" href="@Html.Sitecore().Field("Individual Plans - Plan 1 ID Sprint")">
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 1 ID Sprint")">
                                     @Html.Sitecore().Field("Select")
                                 </a>
                             </p>
@@ -306,7 +306,7 @@
                                 @Html.Sitecore().Field("4G Speed")
                             </p>
                             <p>
-                                <a class="button cdma" href="@Html.Sitecore().Field("Individual Plans - Plan 2 ID Sprint")">
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 2 ID Sprint")">
                                     @Html.Sitecore().Field("Select")
                                 </a>
                             </p>
@@ -330,7 +330,7 @@
                                 @Html.Sitecore().Field("4G Speed")
                             </p>
                             <p>
-                                <a class="button cdma" href="@Html.Sitecore().Field("Individual Plans - Plan 3 ID Sprint")">
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 3 ID Sprint")">
                                     @Html.Sitecore().Field("Select")
                                 </a>
                             </p>
@@ -354,7 +354,7 @@
                                 @Html.Sitecore().Field("4G Speed")
                             </p>
                             <p>
-                                <a class="button cdma" href="@Html.Sitecore().Field("Individual Plans - Plan 4 ID Sprint")">
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 4 ID Sprint")">
                                     @Html.Sitecore().Field("Select")
                                 </a>
                             </p>
@@ -380,7 +380,7 @@
                                 @Html.Sitecore().Field("4G Speed")
                             </p>
                             <p>
-                                <a class="button cdma" href="@Html.Sitecore().Field("Group Plans - Plan 1 ID Sprint")">
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 1 ID Sprint")">
                                     @Html.Sitecore().Field("Select")
                                 </a>
                             </p>
@@ -404,7 +404,7 @@
                                 @Html.Sitecore().Field("4G Speed")
                             </p>
                             <p>
-                                <a class="button cdma" href="@Html.Sitecore().Field("Group Plans - Plan 2 ID Sprint")">
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 2 ID Sprint")">
                                     @Html.Sitecore().Field("Select")
                                 </a>
                             </p>
@@ -428,7 +428,7 @@
                                 @Html.Sitecore().Field("4G Speed")
                             </p>
                             <p>
-                                <a class="button cdma" href="@Html.Sitecore().Field("Group Plans - Plan 3 ID Sprint")">
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 3 ID Sprint")">
                                     @Html.Sitecore().Field("Select")
                                 </a>
                             </p>
@@ -452,7 +452,7 @@
                                 @Html.Sitecore().Field("4G Speed")
                             </p>
                             <p>
-                                <a class="button cdma" href="@Html.Sitecore().Field("Group Plans - Plan 4 ID Sprint")">
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 4 ID Sprint")">
                                     @Html.Sitecore().Field("Select")
                                 </a>
                             </p>
