@@ -18,18 +18,26 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
         nickname: '',
         paymentAccount: {}
     };
-
+    $scope.showError = function () {
+        $scope.isLoading = false;
+        $scope.streamConnectError = true;
+    };
     // get the current data
-	$http.get('/api/account/getAccountBalances').success(function (data, status, headers, config) {
-		$scope.accounts = data.accounts; 
-		$scope.selectedAccount = $scope.accounts[0];
-		$scope.paymentAmount = $scope.selectedAccount.amountDue;
-        $scope.accountsCount = $scope.accounts.length;
-        $scope.isLoading = false;
-        $scope.streamConnectError = false;
+    $http.get('/api/account/getAccountBalances').success(function (data, status, headers, config) {
+        try {
+            $scope.accounts = data.accounts;
+            $scope.selectedAccount = $scope.accounts[0];
+            $scope.paymentAmount = $scope.selectedAccount.amountDue;
+            $scope.accountsCount = $scope.accounts.length;
+            $scope.isLoading = false;
+            $scope.streamConnectError = false;
+        }
+        catch (e) {
+            $scope.showError();
+        }
+		
 	}).error(function () { 
-        $scope.isLoading = false;
-        $scope.streamConnectError = true; 
+	    $scope.showError();
     });
 	$http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) { 
 		$scope.paymentAccounts = data; 

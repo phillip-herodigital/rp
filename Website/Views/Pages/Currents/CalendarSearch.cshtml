@@ -1,0 +1,61 @@
+﻿
+<div class="currents__calendar" ng-controller="CurrentsSearchCalendarCtrl" ng-init="eventTypes = @(Html.Action("EventCategories", "Data").ToHtmlString()); searchCalendar();">
+    <h1>@Html.Sitecore().Field("Calendar Title")</h1>
+    <div class="calendar-links">
+        @Html.Sitecore().Field("Nav Links")
+    </div>
+    <div class="calendar-filters clearfix">
+        <select class="type-filter" ng-model="typeFilter" ng-options="eventType.name as eventType.display for eventType in eventTypes" ng-change="searchCalendar()">
+            <option value="">@Html.Sitecore().Field("Type Filter Text")</option>
+        </select>
+        <select class="state-filter" ng-model="stateFilter" ng-options="state as state for state in eventStates | orderBy: state" ng-change="searchCalendar()">
+            <option value="">@Html.Sitecore().Field("State Filter Text")</option>
+        </select>
+        <div class="search">
+            <form ng-submit="searchCalendarKeyword()">
+                <input type="search" class="typeahead" placeholder="@Html.Sitecore().Field("Search Text")" ng-model="searchTerm" ng-keyup="$event.keyCode == 13 && searchCalendar()" />
+                <button type="submit"></button>
+            </form>
+        </div>
+    </div>
+    <div class="calendar-results" loading-indicator>
+        <p ng-hide="events.length">@Html.Sitecore().Field("No Results Text")</p>
+        <div class="calendar-result" ng-repeat="event in events">
+            <h3>{{event.title}}</h3>
+            <div class="event-content">
+                <div class="event-left">
+                    <div class="event-img" ng-if="event.imageURL">
+                        <img ng-src="{{event.imageURL}}">
+                    </div>
+                    <div class="event-row" ng-if="event.eventDate">
+                        <span>@Html.Sitecore().Field("Date Text")</span> {{event.eventDate}}
+                    </div>
+                    <div class="event-row" ng-if="event.location">
+                        <span>@Html.Sitecore().Field("Location Text")</span> {{event.location}}
+                    </div>
+                    <div class="event-row" ng-if="event.category">
+                        <span>@Html.Sitecore().Field("Category Text")</span> {{event.category}}
+                    </div>
+                    <div class="event-row" ng-if="event.summary" ng-bind-html="event.summary | html"></div>
+                </div>
+                <div class="event-right">
+                    <div class="mapLocation" ng-if="event.mapLocation != ''">
+                        <a href='https://www.google.com/maps/dir//{{event.mapLocation}}' target='_blank'>
+                            <img src='http://maps.googleapis.com/maps/api/staticmap?center={{event.mapLocation}}&zoom=15&scale=false&size=250x250&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C{{event.mapLocation}}'>
+                        </a>
+                    </div>
+                    <div class="mapLocation" ng-if="event.mapLocation != '' && event.mapButtonText != ''">
+                        <a href='https://www.google.com/maps/dir//{{event.mapLocation}}' class='view-map' target='_blank'>{{event.mapButtonText}}</a>
+                    </div>
+                    <div ng-if="event.registrationText != '' && event.registrationURL != ''">
+                        <a href='{{event.registrationURL}}' class='register' target='_blank'>{{event.registrationText}}</a>
+                    </div>
+                    <div class="infolink" ng-if="event.infoLinkURL != '' && event.infoLinkText != ''">
+                        <a href='{{event.infoLinkURL}}' class='info' target='_blank'>{{event.infoLinkText}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

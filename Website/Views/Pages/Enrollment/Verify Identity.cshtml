@@ -23,7 +23,7 @@
                                 @using (var idQuestion = Html.ClientRepeater(m => m.SelectedIdentityAnswers, "{{$index}}"))
                                 {
                                     <div class="item" ng-repeat="question in getIdentityQuestions()" @idQuestion.Validation().ErrorClass(m => m.Value)>
-                                        <label class="security-question">{{question.questionText}}</label>
+                                        <label class="security-question" ng-bind-html="question.questionText | unsafe"></label>
                                         <ul class="checkbox-list">
                                             @using (var idAnswer = Html.ClientRepeater(m => m.SelectedIdentityAnswers, "{{$parent.$index}}"))
                                             {
