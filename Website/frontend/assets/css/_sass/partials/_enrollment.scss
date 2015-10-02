@@ -2333,7 +2333,7 @@ h3.success-message{
 
 .enrollment_progress-bar{
 	color:white;
-	padding:15px 0;
+	padding:35px 0;
 	@include retina-background('diamond-background.png');
 	background-position:right;
 	background-repeat:no-repeat;
@@ -2379,7 +2379,7 @@ h3.success-message{
 
 				article.enrollment_cart{
 					margin-bottom:0;
-					margin-top:25px;
+					margin-top:15px;
 				}
 				header{
 					background:none;
@@ -2491,6 +2491,12 @@ h3.success-message{
 		}
 	}
 
+	&.step3, &.step4{
+		.need-help{
+			background-color:#0a96d7;
+		}
+	}
+
 	.inner{
 		width:1040px;
 		margin:auto;
@@ -2499,9 +2505,11 @@ h3.success-message{
 		.step-description{
 			float:left;
 			margin-right:200px;
-			font-weight:26px;
+			font-weight:200;
+			font-size:26px;
+
 			.stepCount{
-				font-weight:bold;
+				font-weight:800;
 				font-size:36px;
 				line-height:1;
 			}
@@ -2543,14 +2551,17 @@ h3.success-message{
 		}
 		.need-help{
 			position:absolute;
-			top:-15px;
+			top:-35px;
 			right:0;
-			padding:2px 15px;
+			padding:5px 15px;
 			background-color: #033d5b;
 			color:white;
-			border-radius: 0 0 10px 10px;
+			border-radius: 0 0 5px 5px;
 			font-size:15px;
+			font-weight:600;
 		}
+
+
 
 		.referredBy{
 			float:left;
@@ -3853,6 +3864,8 @@ h3.success-message{
 
 			.extra-info{
 				background:$enrollment-plan-att-color;
+
+				
 			}
 		}
 		&.sprint{
@@ -3881,17 +3894,24 @@ h3.success-message{
 			position: absolute;
 			right: -2px;
 			top: -14px;
+			font-size:12px;
+			font-weight:800;
+
+			span{
+					padding:5px 0;
+				}
 		}
 
 		.icon-circle-check{
 			display:none;
 		}
         .button {
-            padding-top: 25px;
-            padding-bottom: 25px;
+            padding-top: 30px;
+            padding-bottom: 30px;
 			box-shadow: 1px 1px 1px 1px #e6e6e6;
 			background:white;
 			border-radius: 0;
+			line-height: 1;
 
 			&.active{
 				a.button{
