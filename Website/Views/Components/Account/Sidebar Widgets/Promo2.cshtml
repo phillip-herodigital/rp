@@ -1,0 +1,19 @@
+﻿@using Sitecore.Data.Fields
+@using Sitecore.Resources.Media
+
+@{
+    var tophex = @Html.Sitecore().Field("Top Hex Color");
+    var bottomhex = @Html.Sitecore().Field("Bottom Hex Color");
+    var imageField = (ImageField)Html.Sitecore().CurrentItem.Fields["Promo Image"];
+    var imageWidth = imageField.Width + "px";
+    var imageHeight = imageField.Height + "px";
+}
+<article class="promo2 @Html.Sitecore().Field("Custom CSS Class")" style="background-image: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, @tophex ), color-stop(100%, @bottomhex ));background-image: -moz-linear-gradient(bottom, @bottomhex 0%, @tophex 100%);background-image: -webkit-linear-gradient(bottom, @bottomhex 0%, @tophex 100%);background-image: linear-gradient(to top, @bottomhex 0%, @tophex 100%);">
+    <span class="promobackground" style="background:url('@MediaManager.GetMediaUrl(imageField.MediaItem)'); width:@imageWidth; height:@imageHeight;"></span>
+    <header>
+        <span>@Html.Sitecore().Field("Promo Icon")</span>
+    </header>
+    <div class="content">
+        @Html.Sitecore().Field("Promo Content")
+    </div>
+</article>
