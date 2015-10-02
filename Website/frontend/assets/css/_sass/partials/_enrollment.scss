@@ -68,10 +68,12 @@
 		Mobile Enrollment Cart Styling 
 	*/
 
-	& .enrollment_cart, & .documents, &.referred-by-section{
+	& .enrollment_cart, & .documents, & .referred-by-section{
 		display:none;
 	}
-
+	&.showCart .layout .enrollment_cart, &.showCart .layout .documents, &.showCart .layout .referred-by-section{
+		display:block;
+	}
 
     #state-select {
         button {
