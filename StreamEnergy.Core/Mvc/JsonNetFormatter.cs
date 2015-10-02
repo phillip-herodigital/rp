@@ -3,6 +3,7 @@ using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
+using log4net;
 using Newtonsoft.Json.Converters;
 
 namespace StreamEnergy.Mvc
@@ -46,7 +47,7 @@ namespace StreamEnergy.Mvc
 
         public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, System.Net.Http.HttpContent content, System.Net.TransportContext transportContext)
         {
-            if (System.Web.HttpContext.Current.Request.Path.StartsWith("/sitecore"))
+            if (System.Web.HttpContext.Current != null && System.Web.HttpContext.Current.Request.Path.StartsWith("/sitecore"))
             {
                 return Task.Factory.StartNew(() =>
                 {

@@ -1,48 +1,49 @@
-﻿
-<article class="marketing state-tabs states-renew">
-    <ul class="tabs-nav">
-        <li>
-            <a href="@Html.Sitecore().Field("Texas Renew Link")" target="_blank">
-                <span><i class="icon-state-texas"></i></span>
-                @Html.Sitecore().Field("Texas State Text")
-            </a>
-        </li>
-        <li>
-            <a href="@Html.Sitecore().Field("Georgia Renew Link")" target="_blank">
-                <span><i class="icon-state-georgia"></i></span>
-                @Html.Sitecore().Field("Georgia State Text")
-            </a>
-        </li>
-        <li>
-            <a href="@Html.Sitecore().Field("Pennsylvania Renew Link")" target="_blank">
-                <span><i class="icon-state-pennsylvania"></i></span>
-                @Html.Sitecore().Field("Pennsylvania State Text")
-            </a>
-        </li>
-        <li>
-            <a href="@Html.Sitecore().Field("Maryland Renew Link")" target="_blank">
-                <span><i class="icon-state-maryland"></i></span>
-                @Html.Sitecore().Field("Maryland State Text")
-            </a>
-        </li>
-        <li>
-            <a href="@Html.Sitecore().Field("New Jersey Renew Link")" target="_blank">
-                <span><i class="icon-state-newjersey"></i></span>
-                @Html.Sitecore().Field("New Jersey State Text")
-            </a>
-        </li>
-        <li>
-            <a href="@Html.Sitecore().Field("New York Renew Link")" target="_blank">
-                <span><i class="icon-state-newyork"></i></span>
-                @Html.Sitecore().Field("New York State Text")
-            </a>
-        </li>
-        <li>
-            <a href="@Html.Sitecore().Field("Washington DC Renew Link")" target="_blank">
-                <span><i class="icon-state-washingtondc"></i></span>
-                @Html.Sitecore().Field("Washington DC State Text")
-            </a>
-        </li>
-    </ul>
-</article>
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using Sitecore.Data.Fields
+@{
+    var item = Html.Sitecore().CurrentRendering.Item;
+    var stateEnrollData = new JArray();
 
+    var states = new Dictionary<string, string>()
+    {
+        {"TX", "Texas"},
+        {"GA", "Georgia"},
+        {"PA", "Pennsylvania"},
+        {"MD", "Maryland"},
+        {"NJ", "New Jersey"},
+        {"NY", "New York"},
+        {"DC", "Washington DC"},
+    };
+    
+    foreach (var state in states)
+    {
+        var stateClass = state.Value.ToLower().Replace(",", "").Replace(".", "").Replace(" ", "-");
+        stateEnrollData.Add(new JObject {
+            { "name", state.Value },
+            { "value", state.Key.ToString() },
+            { "class", "icon " + stateClass },
+            { "enrollmentURL", Html.TranslateDomain(item.Fields[state.Value.ToString() + " Renew Link"].ToString()) }
+        });
+    }
+
+    var visitor = Sitecore.Analytics.Tracker.Current;
+    
+    var selectedState = string.IsNullOrEmpty(visitor.Interaction.GeoData.Region) ? "TX" : visitor.Interaction.GeoData.Region;
+
+    if (!new string[] { "TX", "GA", "PA", "MD", "NJ", "NY", "DC" }.Contains(selectedState))
+    {
+        selectedState = "TX";
+    }
+}
+
+<article class="marketing state-tabs states-enroll" state-selector="@selectedState" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None)); selectedStateKey = "@selectedState";'>
+    <div class="wrapper grid">
+        <div class="col"><h3>@Html.Sitecore().Field("Header")</h3></div>
+        <div class="col">
+            @Html.Sitecore().Field("Location")
+            <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="stateEnrollData" value="selectedStateKey" data-alignment="right"></div>
+            <a class="button" target="_blank" ng-href="{{ selectedState.enrollmentURL }}">@Html.Sitecore().Field("Get Started")</a>
+        </div>
+    </div>
+</article>

@@ -59,7 +59,7 @@
         var categoryID = Sitecore.Context.Item.Fields["Category"].Value.ToString();
         category = Sitecore.Context.Database.GetItem(categoryID).Name.ToLower();
     }
-    else if (Sitecore.Context.Item.TemplateName == "Calendar")
+    else if (Sitecore.Context.Item.TemplateName == "Calendar" || Sitecore.Context.Item.TemplateName == "Calendar Search")
     {
         category = "calendar";
     }
