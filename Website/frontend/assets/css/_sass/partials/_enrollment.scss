@@ -68,12 +68,10 @@
 		Mobile Enrollment Cart Styling 
 	*/
 
-	& .enrollment_cart, & .documents, & .referred-by-section{
+	& .enrollment_cart, & .documents, &.referred-by-section{
 		display:none;
 	}
-	&.showCart .layout .enrollment_cart, &.showCart .layout .documents, &.showCart .layout .referred-by-section{
-		display:block;
-	}
+
 
     #state-select {
         button {
@@ -1797,6 +1795,7 @@
 			padding: 0 15px;
 			
 			a{
+				font-weight:bold;
 			}
 			.button{
 				margin-bottom:15px;
@@ -1888,9 +1887,9 @@
         }
     }
     .cart-product {
-        margin: 25px 0;
-        padding-top: 25px;
-        border-top: 1px solid #e7e7e7;
+        margin: 10px 0;
+        padding-top: 10px;
+        border-top: 1px solid #eaeaea;
         &:last-child {
             margin-bottom: 0;
         }
@@ -1967,26 +1966,6 @@
         width: 70%;
         font-size: 14px;
         font-weight: 400;
-		color:#013c5b;
-
-		&.plan-description{
-			width:225px;
-
-			.options{
-				font-size:16px;
-			}
-		}
-		.plan-section{
-			.rate{
-				float:right;
-				margin:0;
-			}
-			.rate, span{
-				width:auto;
-				font-size:16px;
-				font-weight:600;
-			}
-		}
         .icon-electricity, .icon-gas-icon {
             position: absolute;
             top: 4px;
@@ -1996,37 +1975,19 @@
             clear: both;
         }
         a {
-            font-size: 15px;
+            font-size: 13px;
         }
-
-		.links{
-			margin-top:2px;
-
-			a{
-				border-right:1px solid;
-				padding-right:5px;
-				margin-right:5px;
-
-				&:last-of-type{
-					border-right:0;
-					padding-right:0;
-					margin-right:0;
-				}
-			}
-		}
-
         .options {
             clear: both;
             font-size: 13px;
-            color: #013c5b;
+            color: #666;
         }
     }
     .condition {
-        color: #013c5b;
-        font-size: 12px;
-        font-weight: 600;
+        color: #949494;
+        font-size: 10px;
+        font-weight: 400;
         text-transform: uppercase;
-		margin-bottom:5px;
     }
     .fees {
         float: left;
@@ -2172,11 +2133,6 @@
     }
     .enrollment__cart {
         display: block;
-
-		h1{
-			margin:0;
-			color:#333333;
-		}
     }
     &.open {
         display: block;
@@ -2377,7 +2333,7 @@ h3.success-message{
 
 .enrollment_progress-bar{
 	color:white;
-	padding:35px 0;
+	padding:15px 0;
 	@include retina-background('diamond-background.png');
 	background-position:right;
 	background-repeat:no-repeat;
@@ -2431,7 +2387,7 @@ h3.success-message{
 
 				article.enrollment_cart{
 					margin-bottom:0;
-					margin-top:15px;
+					margin-top:25px;
 				}
 				header{
 					background:none;
@@ -2448,8 +2404,8 @@ h3.success-message{
 				height:25px;
 				width:25px;
 				position:absolute;
-				right:12px;
-				top: 60px;
+				right:29px;
+				top: 50px;
 				transform:rotate(45deg);
 				background:white;
 				z-index:10000;
@@ -2459,12 +2415,11 @@ h3.success-message{
 			padding: 0 15px;
 			background:white;
 
-			top:70px;
-			right:0;
+			top:60px;
+			right:20px;
 
-			border:1px solid #d9d9d9;
+			border:1px solid #e6e6e6;
 			border-radius:5px;
-			box-shadow:0px 0px 1px 1px #d9d9d9;
 
 			header{
 				background:white;
@@ -2522,35 +2477,6 @@ h3.success-message{
 			}
 		}
 	}
-	&.step3{
-		background-color: $enrollment-progress-bar-step3-color;
-		.step{
-			background-color: $enrollment-progress-bar-step3-color;
-
-			&.step1, &.step2, &.step3{
-				background-color:white;
-			}
-		}
-	}
-	
-	&.step4{
-		background-color: $enrollment-progress-bar-step4-color;
-		.step{
-			background-color: $enrollment-progress-bar-step4-color;
-
-			&.step1, &.step2, &.step3, &.step4{
-				background-color:white;
-			}
-		}
-	}
-
-	&.step3, &.step4{
-		.inner{
-			.need-help{
-				background-color:#0a96d7;
-			}
-		}
-	}
 
 	.inner{
 		width:1040px;
@@ -2560,11 +2486,9 @@ h3.success-message{
 		.step-description{
 			float:left;
 			margin-right:200px;
-			font-weight:200;
-			font-size:26px;
-
+			font-weight:26px;
 			.stepCount{
-				font-weight:800;
+				font-weight:bold;
 				font-size:36px;
 				line-height:1;
 			}
@@ -2588,7 +2512,6 @@ h3.success-message{
 				position: absolute;
 				top: 23px;
 				width: 25px;
-				cursor:pointer;
 
 				&.step2{
 					left:30%;
@@ -2606,17 +2529,14 @@ h3.success-message{
 		}
 		.need-help{
 			position:absolute;
-			top:-35px;
+			top:-15px;
 			right:0;
-			padding:5px 15px;
+			padding:2px 15px;
 			background-color: #033d5b;
 			color:white;
-			border-radius: 0 0 5px 5px;
+			border-radius: 0 0 10px 10px;
 			font-size:15px;
-			font-weight:600;
 		}
-
-
 
 		.referredBy{
 			float:left;
@@ -3830,61 +3750,6 @@ h3.success-message{
         margin-bottom: 30px;
         font-size: 18px;
     }
-	.plan-chooser{
-		text-align: center;
-		margin-bottom:35px;
-
-		.button-plans {
-			background-color: #e3e3e3;
-			color: #4c6670;
-			border: solid 1px #eaeaea;
-			display: inline-block;
-			font-size: 18px;
-			line-height: 1.375;
-			text-align: center;
-			text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-			width: 190px;
-			vertical-align: middle;
-			height: 46px;
-			margin-right: -5px;
-			font-weight: 600;
-
-			&.selected {
-				color: #4d6771;
-				background-color: #ffffff;
-			}
-				
-			&.left {
-				background-image: image-url("marketing/redesign/single_phone.png");
-				background-position: 14px center;
-				background-repeat: no-repeat;
-				border-bottom-left-radius: 5px;
-				border-top-left-radius: 5px;
-				padding: 10px 0 0 10px;
-			}
-
-			&.right {
-				background-image: image-url("marketing/redesign/multi_phone.png");
-				background-position: 14px center;
-				background-repeat: no-repeat;		
-				border-top-right-radius: 5px;
-				border-bottom-right-radius: 5px;
-				padding: 10px 0 0 40px;
-			}	
-
-			&.selected {
-			
-				&.right {
-					background-image: image-url("marketing/redesign/multi_phone.png");
-				}
-
-				&.left {
-					background-image: image-url("marketing/redesign/single_phone.png");
-				}
-			}
-		}
-	}
-	
 	.location-section {
 		.location-container{
 			display:inline-block;
@@ -3911,7 +3776,7 @@ h3.success-message{
 		}
 	}
 	.networkSection{
-		margin-bottom:25px;
+		margin-bottom:15px;
 
 		i{
 			float:left;
@@ -3922,7 +3787,6 @@ h3.success-message{
 			font-size:20px;
 			text-align:right;
 			width:375px;
-			line-height:1;
 		}
 	}
 	.plan-details {
@@ -3938,26 +3802,6 @@ h3.success-message{
 			}
 			&:last-of-type{
 				padding-left:25px;
-			}
-
-			.title{
-				font-weight:600;
-				font-size:23px;
-			}
-
-			.list{
-				list-style:none;
-				margin-top:10px;
-				padding:0;
-
-				li{
-					@include retina-background('gray-check.png', 'icon'); 
-					padding-left:15px;
-					background-repeat:no-repeat;
-					background-position:0 7px;
-					font-size:15px;
-					color:#666666;
-				}
 			}
 		}
 
@@ -3995,9 +3839,6 @@ h3.success-message{
 
 			.extra-info{
 				background:$enrollment-plan-att-color;
-				line-height:1;
-
-				
 			}
 		}
 		&.sprint{
@@ -4026,24 +3867,17 @@ h3.success-message{
 			position: absolute;
 			right: -2px;
 			top: -14px;
-			font-size:12px;
-			font-weight:800;
-
-			span{
-					padding:5px 0;
-				}
 		}
 
 		.icon-circle-check{
 			display:none;
 		}
         .button {
-            padding-top: 30px;
-            padding-bottom: 30px;
-			box-shadow: 1px 1px 10px #ccc;
+            padding-top: 25px;
+            padding-bottom: 25px;
+			box-shadow: 1px 1px 1px 1px #e6e6e6;
 			background:white;
 			border-radius: 0;
-			line-height: 1;
 
 			&.active{
 				a.button{
@@ -4121,17 +3955,17 @@ h3.success-message{
         }
 
 		.size-speed{
-			margin:10px 0;
+			margin:15px 0;
 
         .size {
-            font-size: 23px;
+            font-size: 22px;
+            font-weight: 600;
 			color:black;
         }
 			.speed{
 				color:#666;
-				font-size:15px;
-				margin-top:5px;
-				line-height:1;
+				font-size:16px;
+				margin-top:10px;
 			}
 		}
         
@@ -4142,15 +3976,8 @@ h3.success-message{
 			line-height:1.1;
 
 			.cost{
-				font-size:40px;
+				font-size:38px;
 				font-style:italic;
-				font-weight:800;
-
-				sup {
-					font-size: 20px;
-					top: 0;
-					vertical-align: super;
-				}
 			}
 			.duration{
 				font-size:22px;
@@ -4161,7 +3988,7 @@ h3.success-message{
 		{
 			color:white;
 			display:inline-block;
-			padding:7px 22px;
+			padding:10px 25px;
 			border-radius:10px;
 			box-shadow:none;
 			margin-bottom:10px;
@@ -4201,8 +4028,7 @@ h3.success-message{
         }
     }
     h3 {
-        font-weight: 300;
-		font-size:32px;
+        font-weight: 600;
     }
     hr {
         height:1px;
