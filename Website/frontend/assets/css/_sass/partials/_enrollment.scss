@@ -3806,9 +3806,9 @@ h3.success-message{
 		margin-bottom:35px;
 
 		.button-plans {
-			background-color: #f3f6f7;
-			color: #3C535C;
-			border: solid 1px #bababa;
+			background-color: #e3e3e3;
+			color: #4c6670;
+			border: solid 1px #eaeaea;
 			display: inline-block;
 			font-size: 18px;
 			line-height: 1.375;
@@ -3821,12 +3821,12 @@ h3.success-message{
 			font-weight: 600;
 
 			&.selected {
-				color: #ffffff;
-				background-color: #3c535c;
+				color: #4d6771;
+				background-color: #ffffff;
 			}
 				
 			&.left {
-				background-image: image-url("marketing/redesign/single_phone_dark.png");
+				background-image: image-url("marketing/redesign/single_phone_plans.png");
 				background-position: 14px center;
 				background-repeat: no-repeat;
 				border-bottom-left-radius: 5px;
@@ -3835,7 +3835,7 @@ h3.success-message{
 			}
 
 			&.right {
-				background-image: image-url("marketing/redesign/multi_phone_dark.png");
+				background-image: image-url("marketing/redesign/multi_phone_plans.png");
 				background-position: 14px center;
 				background-repeat: no-repeat;		
 				border-top-right-radius: 5px;
@@ -3846,11 +3846,11 @@ h3.success-message{
 			&.selected {
 			
 				&.right {
-					background-image: image-url("marketing/redesign/multi_phone_white.png");
+					background-image: image-url("marketing/redesign/multi_phone_plans.png");
 				}
 
 				&.left {
-					background-image: image-url("marketing/redesign/single_phone_white.png");
+					background-image: image-url("marketing/redesign/single_phone_plans.png");
 				}
 			}
 		}
@@ -3921,6 +3921,8 @@ h3.success-message{
 					padding-left:15px;
 					background-repeat:no-repeat;
 					background-position:0 7px;
+					font-size:15px;
+					color: #666666;
 				}
 			}
 		}
@@ -4086,13 +4088,12 @@ h3.success-message{
 			margin:10px 0;
 
         .size {
-            font-size: 22px;
-            font-weight: 600;
+            font-size: 23px;
 			color:black;
         }
 			.speed{
 				color:#666;
-				font-size:16px;
+				font-size:15px;
 				margin-top:5px;
 				line-height:1;
 			}

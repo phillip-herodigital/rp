@@ -27,9 +27,9 @@
         $scope.phoneVerified = false;
         if (!$scope.hasError) {
             enrollmentService.isLoading = true;
-            $http.get('/api/MobileEnrollment/verifyDeviceNumber/' + $scope.phoneOptions.imeiNumber)
+            $http.post('/api/enrollment/verifyImei', $scope.phoneOptions.imeiNumber, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
-                if (!data.isEligible) {
+                if (!data.isValidImei) {
                     $scope.hasError = true;
                     $scope.deviceIneligible = true;
                     $scope.addDevice.imeiNumber.$setValidity('required',false);
@@ -41,19 +41,19 @@
                                 return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
                             }).message);
                     }
-                } else if ($scope.getDevicesCount() > 0 && $scope.networkType != data.networkType) {
+                } else if ($scope.getDevicesCount() > 0 && $scope.networkType != data.provider) {
                     $scope.hasError = true;
-                    if ($scope.networkType == 'GSM') {
+                    if ($scope.networkType == 'att') {
                         $scope.cdmaIneligible = true;
-                    } else if ($scope.networkType == 'CDMA') {
+                    } else if ($scope.networkType == 'sprint') {
                         $scope.gsmIneligible = true;
                     }
                 } else {
                     $scope.phoneVerified = true;
-                    $scope.networkType = data.networkType;
+                    $scope.networkType = data.provider;
                     $scope.phoneManufacturer = data.manufacturer;
 
-                    mobileEnrollmentService.selectedNetwork.value = $scope.networkType == 'GSM' ? 'att' : 'sprint';
+                    mobileEnrollmentService.selectedNetwork.value = $scope.networkType == 'att' ? 'att' : 'sprint';
                     $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
                 }
 
