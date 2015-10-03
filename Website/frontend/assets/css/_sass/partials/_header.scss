@@ -203,13 +203,17 @@
 				@include breakpoint(small) {
 					background: #fff;
 				}
-			}
+                .wrapper-logo {
+                    position: relative;
+                    width: 1040px;
+                    margin: 0 auto;
 			.logo {
 				position: absolute;
-				left: 50%;
+                        left: 0;
 				top: 10px;
 				margin-top: 0;
-				margin-left: (image-width("bg/logo-desktop.png") / 2) * -1;
+                    }
+                }
 				}
 			.nav-toggle {
 				margin-top: 22px;
@@ -219,9 +223,9 @@
 }
 
 .tertiary-nav {
-	background-color: #f1f1f1;
 	min-height: 50px;
 	border-top: 1px solid #e1e1e1;
+	background-color: #f1f1f1;
 	ul {
 		@include inline-block-list();
 		position: relative;
@@ -290,6 +294,24 @@
 			-webkit-overflow-scrolling: touch;
 		}
 	}
+	&.mobile {		
+		background-color: #28a5de;
+		color: #ffffff;
+
+		li {
+			a {				
+				color:#ffffff;
+			}
+			&.selected {
+				background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
+				
+				a {
+					color: #ffffff;
+					font-weight: 600;
+				}
+			}
+		}
+	}
 }
 
 .profile-nav {	
@@ -348,6 +370,12 @@
 		.wrapper {
 			padding-top: 75px;
 			padding-bottom: 75px;
+		}
+	}
+	&.mobile {
+		h1 {
+			width: 38%;
+			color: #3c535c;
 		}
 	}
 	&.large {

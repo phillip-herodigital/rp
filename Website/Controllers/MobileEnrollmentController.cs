@@ -188,6 +188,13 @@ namespace StreamEnergy.MyStream.Controllers
             return data;
         }
 
+        public ActionResult ProgressBar()
+        {
+            return View("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new ProgressBar{
+                StepNumber = 1
+            });
+        }
+
         public ActionResult ChooseNetwork()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Networks");

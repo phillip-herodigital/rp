@@ -34,7 +34,6 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         toggleCart: function() {
             cart.isCartOpen = !cart.isCartOpen;
-            scrollService.toggleScrolling(cart.isCartOpen);
         },
 
         getCartVisibility: function() {
@@ -163,7 +162,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 return null;
             } else if (devicesCount == 1) {
                 return plan.rates[0].rateAmount;
-            } else {
+            } else if (typeof childPlan.rates != 'undefined') {
                 return plan.rates[0].rateAmount + (devicesCount - 1) * childPlan.rates[0].rateAmount;
             }
         },

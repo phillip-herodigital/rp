@@ -2,16 +2,9 @@
 
 @using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
 {
-<div id="reviewOrder" class="enrollment" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl" ng-init="setTimeRemaining('reviewOrder', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
-        <div class="wrapper clearfix">
-            <h1>
-                <span class="block">@Html.Sitecore().Field("Banner Header Text")</span><br />
-                <span class="block" ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Banner Sub Header Text")</span>
-                <span class="block" ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Quote Banner Sub Header Text")</span>
-            </h1>
-        </div>
-    </div>
+<div id="reviewOrder" class="enrollment showCart" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl" ng-init="setTimeRemaining('reviewOrder', '@Html.Sitecore().Field("Remaining Minutes Number")');">
+    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text", HideCart = true })
+
     <div class="layout">
         <div class="wrapper cols-2 enrollment__review-order">
             <section>

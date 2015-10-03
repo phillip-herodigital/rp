@@ -29,6 +29,7 @@ using System.IO;
 using System.Net.Http.Headers;
 using Sitecore.Data.Items;
 using StreamEnergy.DomainModels.Emails;
+using StreamEnergy.MyStream.Models.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -127,6 +128,54 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<VerifyEsnResponse> ValidateEsn([FromBody]string esn)
         {
             return await enrollmentService.IsEsnValid(esn);
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<VerifyImeiResponse> VerifyImei([FromBody]string imei)
+        {
+            if (imei == "111")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
+                    Manufacturer = "Samsung"
+                };
+            }
+            if (imei == "222")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
+                    Manufacturer = "Apple"
+                };
+            }
+            if (imei == "333")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                    Manufacturer = "Samsung"
+                };
+            }
+            if (imei == "444")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                    Manufacturer = "Apple"
+                };
+            }
+            
+            return await enrollmentService.VerifyImei(imei);
         }
 
         [HttpPost]

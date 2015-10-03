@@ -159,16 +159,32 @@ $enrollment-primary-button-color: #fff;
 $enrollment-secondary-button-color: #257ab3;
 
 $enrollment-tertiary-button-background: #fff;
-$enrollment-tertiary-button-color: #257ab3;
+$enrollment-tertiary-button-color: #178fcd;
 
 $enrollment-dark-border-color: #cecece;
 $enrollment-light-border-color: #e6e6e6;
 
-$enrollment-module-h1-size: 26px;
-$enrollment-module-h1-color: #333;
+$enrollment-module-h1-size: 32px;
+$enrollment-module-h1-color: #013c5b;
+$enrollment-module-h2-size: 26px;
+$enrollment-module-h2-color: #013c5b;
+$enrollment-module-h3-size: 20px;
+$enrollment-module-h3-color: #013c5b;
 $enrollment-module-horizontal-padding: 20px;
 $enrollment-module-vertical-padding: 20px;
 
+$enrollment-progress-bar-step1-color: #00a8e1;
+$enrollment-progress-bar-step2-color: #71b243;
+$enrollment-progress-bar-step3-color: #033c5a;
+$enrollment-progress-bar-step4-color: #033c5a;
+
+$enrollment-plan-att-color: #257ab3;
+$enrollment-plan-sprint-color:#eda700;
+
+$enrollemnt-plan-att-gradient-color-top:#0c80c2;
+$enrollemnt-plan-att-gradient-color-bottom:#0c80c2;
+$enrollemnt-plan-sprint-gradient-color-top:#efae00;
+$enrollemnt-plan-sprint-gradient-color-bottom:#eb9a00;
 
 /* Don't edit below here unless you really, really need to */
 $inputs-list: 'input[type="text"]',

@@ -1,0 +1,46 @@
+﻿@model StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar
+
+@{
+    Sitecore.Data.Items.Item item = Sitecore.Context.Database.GetItem("{881C1CD7-90B7-438C-B267-36B0A4167227}"); ///sitecore/content/Data/Components/Mobile Enrollment/Progress Bar
+}
+<div ng-controller="MobileEnrollmentProgressBarCtrl" class="enrollment_progress-bar @string.Format("step{0}", Model.StepNumber)" ng-init="stepNumber = @Model.StepNumber">
+    <div class="inner clearfix">
+        <div class="step-description">
+            <div class="stepCount">@item.Fields["Step"].Value @Model.StepNumber</div>
+            @item.Fields[Model.StepTextField].Value
+        </div>
+        <div class="progress">
+            <div class="bar"></div>
+            <a class="step step1" ng-click="jumpToStep('phoneFlowDevices', stepNumber, 1);"></a>
+            <a class="step step2" ng-click="jumpToStep('phoneFlowPlans', stepNumber, 2);"></a>
+            <a class="step step3" ng-click="jumpToStep('accountInformation', stepNumber, 3);"></a>
+            <a class="step step4"></a>
+        </div>
+        
+        @if (!Model.HideCart)
+        {
+            <div class="progress-bar-cart">
+                <div class="cart-wrapper" ng-click="openCartOverlay()">
+                    <div ng-include ng-if="true" src="'cart-template'"></div>
+                </div>
+                <div class="arrow" ng-show="enrollmentCartService.getCartVisibility()"></div>
+                @Html.Sitecore().Placeholder("ProgressBarCart")
+            
+            </div>
+        }
+        
+        <a class="need-help" ng-click="showModal('instructions/needHelp')">@item.Fields["Need Help Text"].Value</a>
+    </div>
+
+    <script type="text/ng-template" id="instructions/needHelp">
+        <div class="mobile-enrollment-modal">
+            <div class="modal-header">
+                <a href="" ng-click="$dismiss()">Close</a>
+                    <h2>@item.Fields["Need Help Text"].Value</h2>
+            </div>
+            <div class="modal-body">
+               @Html.Raw(@item.Fields["Need Help Modal Text"].Value)
+            </div>
+        </div>
+    </script>
+</div>
