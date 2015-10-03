@@ -3,43 +3,13 @@
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
-    $scope.data = { serviceState: 'TX' };
-    $scope.data.serviceLocation = {};
-    $scope.showChangeLocation = false;
-
-    $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';
-    
-    $scope.$watch('getDevicesCount()', function () {
-        if ($scope.getDevicesCount() >= 2) {
-            $scope.isIndSelected = false; 
-            $scope.isGroupSelected = true;
-        }
-            
-    });
-    /*
-    $scope.showChangeLocation = true;
-    $scope.$watch('city', function () {
-        if (!$scope.city)
-            return;
-
-        $scope.data.serviceLocation.address = {
-            line1: 'Line1',
-            city: $scope.city,
-            stateAbbreviation: $scope.state, //data[0], 
-            postalCode5: $scope.postalCode5
-        };
-
-        $scope.showChangeLocation = false;
-    });
-    */
-
-    var coverageMap = $(jQuery.find(".coverage-map-container"));
-
     $scope.formFields = {
         chosenPlanId: undefined
     };
-
     $scope.requestedPlanAvailable = false;
+    $scope.showChangeLocation = $scope.geoLocation.postalCode5 == '';
+
+    var coverageMap = $(jQuery.find(".coverage-map-container"));
 
     $scope.filterIndPlans = function(plan){
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
@@ -109,6 +79,10 @@
     // clear the plan selection when any device is added to the cart
     $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
         if (newVal != oldVal) {
+            if (newVal >= 2) {
+                $scope.isIndSelected = false; 
+                $scope.isGroupSelected = true;
+            }
             // if 0 or 1 phone, reset the the selected offers. otherwise, trigger a plan selection
             if (newVal < 2 || typeof $scope.planSelection.selectedOffers.Mobile == 'undefined') {
                 $scope.planSelection = { selectedOffers: {} };
@@ -217,17 +191,12 @@
     };
 
     $scope.showCoverageMapOverlay = function () {
-        coverageMap.removeClass("hidden-map");
-
-        var test = $scope.mapInstance;
-        var test2 = enrollmentService.mapInstance;
-        var test3 = $scope.$parent.mapInstance;
-
+        coverageMap.removeClass('hidden-map');
         var center = $scope.mapInstance.getCenter();
         google.maps.event.trigger($scope.mapInstance, 'resize');
-        $scope.mapInstance.setCenter(center);
-        
+        $scope.mapInstance.setCenter(center); 
     }
+
     $scope.lookupZip = function () {
         enrollmentService.isLoading = true;
         analytics.sendVariables(1, $scope.postalCode5);
@@ -238,6 +207,11 @@
             if (data.length != 0) {
                 mobileEnrollmentService.stateAbbreviation = data[1];
                 mobileEnrollmentService.postalCode5 = $scope.postalCode5;
+                $scope.geoLocation = {
+                    city: data[0],
+                    state: data[1],
+                    postalCode5: $scope.postalCode5
+                };
 
                 $scope.data.serviceLocation.address = {
                     line1: 'Line1',

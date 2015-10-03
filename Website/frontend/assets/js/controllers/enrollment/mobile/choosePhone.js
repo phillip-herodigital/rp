@@ -16,9 +16,6 @@
     
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
 
-    $scope.data = { serviceState: $scope.serviceState };
-    $scope.data.serviceLocation = {};
-
     $scope.mobileEnrollmentService.currentStepNumber = 1;
     //clearPhoneSelection()
 
@@ -58,29 +55,6 @@
 
                     mobileEnrollmentService.selectedNetwork.value = $scope.networkType == 'GSM' ? 'att' : 'sprint';
                     $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
-
-                    var activeService = enrollmentCartService.getActiveService();
-                    if (activeService) {
-                        activeService.location = $scope.data.serviceLocation;
-                        enrollmentService.setSelectedOffers(true);
-                    }
-                    else {
-
-                        $scope.data.serviceLocation.address = {
-                            line1: 'Line1',
-                            city: $scope.city,
-                            stateAbbreviation: $scope.state, 
-                            postalCode5: $scope.postalCode5
-                        };
-
-                        $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
-                        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential" });
-                        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
-
-                        enrollmentCartService.addService({ location: $scope.data.serviceLocation });
-                        enrollmentService.setServiceInformation(true);
-                        activeService = enrollmentCartService.getActiveService();
-                    }
                 }
 
                 enrollmentService.isLoading = false;
@@ -523,6 +497,7 @@
             enrollmentCartService.removeMobileOffers(activeService);
         }
         $scope.clearPhoneSelection();
+        $scope.phoneVerified = false;
         enrollmentStepsService.setStep('phoneFlowPlans');
 
         $scope.mobileEnrollmentService.currentStepNumber = 2;

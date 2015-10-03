@@ -136,4 +136,40 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
+    $scope.getMobilePlans = function (geoLocation) {
+        $scope.geoLocation = JSON.parse(geoLocation);
+        var excludedStates = $scope.mobileEnrollmentSettings.excludedStates;
+        if (typeof $scope.geoLocation.state != 'undefined' && !_(excludedStates).contains($scope.geoLocation.state) && $location.absUrl().toLowerCase().indexOf('servicetype=mob') > 0) {
+            mobileEnrollmentService.state = $scope.geoLocation.state;
+            mobileEnrollmentService.postalCode5 = $scope.geoLocation.postalCode5;
+            $scope.data = { serviceState: $scope.serviceState };
+            $scope.data.serviceLocation = {};
+
+            $scope.data.serviceLocation.address = {
+                line1: 'Line1',
+                city: $scope.geoLocation.city,
+                stateAbbreviation: $scope.geoLocation.state, 
+                postalCode5: $scope.geoLocation.postalCode5
+            };
+
+            $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
+            $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential" });
+            $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
+
+            $scope.customerType = (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential";
+
+            var activeService = enrollmentCartService.getActiveService();
+            if (activeService) {
+                activeService.location = $scope.data.serviceLocation;
+                enrollmentService.setSelectedOffers(true);
+            }
+            else {
+                enrollmentCartService.addService({ location: $scope.data.serviceLocation });
+                enrollmentService.setServiceInformation(true);
+                activeService = enrollmentCartService.getActiveService();
+            }
+
+        }
+    };
+
 }]);
