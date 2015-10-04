@@ -43,17 +43,17 @@
                     }
                 } else if ($scope.getDevicesCount() > 0 && $scope.networkType != data.provider) {
                     $scope.hasError = true;
-                    if ($scope.networkType == 'att') {
+                    if ($scope.networkType == 'GSM') {
                         $scope.cdmaIneligible = true;
-                    } else if ($scope.networkType == 'sprint') {
+                    } else if ($scope.networkType == 'CDMA') {
                         $scope.gsmIneligible = true;
                     }
                 } else {
                     $scope.phoneVerified = true;
-                    $scope.networkType = data.provider;
+                    $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
                     $scope.phoneManufacturer = data.manufacturer;
 
-                    mobileEnrollmentService.selectedNetwork.value = $scope.networkType == 'att' ? 'att' : 'sprint';
+                    mobileEnrollmentService.selectedNetwork.value = $scope.networkType == 'GSM' ? 'att' : 'sprint';
                     $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
                 }
 
