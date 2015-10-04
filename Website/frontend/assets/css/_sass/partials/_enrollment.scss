@@ -653,7 +653,8 @@
         border-radius: 5px;
         box-shadow: none;
     }
-    .item input[type="checkbox"] {
+    .item input[type="checkbox"],
+    .item input[type="radio"] {
         height: auto;
         vertical-align: middle;
     }
@@ -1450,6 +1451,15 @@
             font-size: 16px;
         }
     }
+    .mobile-services {
+        .line-item {
+            margin-left: 15px;
+
+            &:first-child {
+                margin-left: -15px;
+            }
+        }
+    }
 }
 
 /*
@@ -1658,6 +1668,15 @@
         p {
             margin: 0 0 5px;
             font-size: 16px;
+        }
+    }
+    .mobile-services {
+        .line-item {
+            margin-left: 15px;
+
+            &:first-child {
+                margin-left: -15px;
+            }
         }
     }
     @include breakpoint(small) {
