@@ -296,6 +296,7 @@
         }
     };
     $scope.superCents = function (planCost) {
+        if (planCost == null) return null;
         var array = planCost.toString().split('.');
         var planCostFinal = "";
         if (array.length > 1 && array[1] != "00") {
