@@ -9,6 +9,10 @@
  .shopPhones {
 	line-height:1;
 
+	.modal-header{
+		border-bottom:0;
+	}
+
 	.inner{
 		background: #fafbfc;
 		padding:30px 0 40px 75px;
@@ -17,7 +21,6 @@
 
 	h2{
 		font-size:36px;
-		font-weight:400;
 		color: #013c5b;
 		line-height:1;
 	}
@@ -25,8 +28,7 @@
 	.message{
 		font-size:20px;
 		color:#999999;
-		font-weight:400;
-		margin-top:15px;
+		margin-top:10px;
 	}
  }
  .coverage-map-fade{
@@ -1732,21 +1734,29 @@
 		}
 		.phone-image{
 			img{
-				height: 100px;
-				width:75px;
+				height: 112px;
+				width:100px;
 			}
 			float:left;
 			margin-right:15px;
 		}
-		p{
+
+		.side-content{
 			float:left;
-			width:150px;
-			text-align:left;
+			margin-top:10px;
+			width:250px;
+
+			p{
+				float:left;
+				text-align:left;
+				font-size:24px;
+				font-weight:400;
+			}
+			a.button{
+				float:left;
+			}
 		}
-		a.button{
-			float:right;
-			margin:15px 35px 0 0;
-		}
+		
 
 		h6{
 			margin:0;
