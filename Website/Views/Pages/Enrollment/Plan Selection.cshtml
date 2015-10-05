@@ -1,6 +1,6 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 <div id="utilityFlowPlans" class="enrollment" ng-if="customerType == 'residential'" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl" ng-init="setTimeRemaining('utilityFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 2, StepTextField = "Step 2 Description Text" })
+    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 2, StepTextField = "Step 2 Description Text", HideCart = true })
     <div class="layout">
         <div class="wrapper cols-2">
             <section>
