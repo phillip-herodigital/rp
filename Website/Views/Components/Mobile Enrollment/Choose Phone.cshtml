@@ -48,7 +48,7 @@
                                         <input class="full" name="imeiNumber" type="text" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
                                     </div>
                                     <div class="input-group-btn">
-                                        <button type="button" ng-click="verifyPhone(DeviceNumber);" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Check Text")</button>
+                                        <button type="button" ng-click="verifyPhone()" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Check Text")</button>
                                     </div>
                                 </div><!-- /input-group -->
                             </div>
@@ -75,7 +75,7 @@
                             <div class="vertical" ng-show="phoneVerified">
                                 <div class="item">
                                     <label>@Html.Sitecore().Field("My Device")</label>
-                                    <div class="btn-group-options">
+                                    <div class="btn-group-options my-device">
                                         <div>
                                             <span class="heading">@Html.Sitecore().Field("MEID IMEI Number")</span> <span id="DeviceID">{{ phoneOptions.imeiNumber }}</span>
                                         </div>

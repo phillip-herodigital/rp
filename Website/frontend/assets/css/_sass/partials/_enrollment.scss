@@ -2706,20 +2706,25 @@ h3.success-message{
         input.full {
             width: 100%;
             margin-top: 10px;
-	}
+        }
         label a {
             float: right;
-	}
+        }
         button {
             margin-top: 40px;
-		}
-		}
+            @include breakpoint(small) {
+                margin-top: 0;
+                width: 100%
+            }
+        }
+    }
     .gsm-device {
         color: #565657;
-	}
+    }
     .content {
         @include border-radius(0 0 5px 5px);
         .phone-line {
+            margin-bottom: 20px;
             dl {
                 margin-bottom: 10px;
                 dt {
@@ -2763,11 +2768,31 @@ h3.success-message{
                         opacity: 0.3;
                     }
                 }
+                @include breakpoint(small) {
+                    width: 100%;
+                    margin-left: 0;
+                }
             }
+
             .btn-group-options {
                 font-size: 16px;
                 font-weight: 500;
                 color: #636363;
+                width: 64%;
+                float: left;
+                margin-left: 4%;
+                @include breakpoint(small) {
+                    width: 100%;
+                    margin-left: 0;
+                    .button {
+                        width: 100%;
+                        display: block;
+                        margin-bottom: 6px;
+                        &:after, &:before {
+                            display: none !important;
+                        }
+                    }
+                }
                 .heading {
                     font-weight: 700;
                 }
@@ -2791,8 +2816,10 @@ h3.success-message{
                     padding: 10px 18px;
                     color: #737373;
                 }
+                &.my-device {
+                    margin-bottom: 20px;
+                }
                 &.iccid {
-                    width: 66%;
                     input {
                         width: 100%;
                     }
@@ -2801,7 +2828,6 @@ h3.success-message{
                     }
                 }
                 &.activation {
-                    width: 66%;
                     input {
                         width: 100%;
                     }
