@@ -104,9 +104,12 @@
         min-width: 145px;
         button {
             border-color: #cfcfcf;
-            text-transform: uppercase;
+            //text-transform: uppercase;
             @include box-shadow(none);
             width: 145px;
+            background-color: #fff;
+            background-size: auto;
+            color: #555;
         }
         .icon {
             background-position: 10px center;
@@ -168,12 +171,17 @@
     }
 
     .buttons .button, .buttons button, .enrollment-btn {
-        background-color: $enrollment-primary-button-background;
-        color: $enrollment-primary-button-color;
         display: inline-block;
         float: right;
         text-transform: none;
-        font-weight: 400;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        background-color: #2aa4dc;
+        border: 1px solid #229acd;
+        padding: 10px 40px;
+        @include border-radius(5px);
+        @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
         &.secondary {
             background-color: $enrollment-secondary-button-background;
             color: $enrollment-secondary-button-color;
@@ -1226,6 +1234,9 @@
         font-size: 18px;
         font-weight: 400
     }
+    .content {
+        @include border-radius(0 0 5px 5px);
+    }
 }
 
 .cleanse-address {
@@ -1500,6 +1511,9 @@
         }
     }
     .next-steps {
+        .content {
+            @include border-radius(0 0 5px 5px);
+        }
         .step {
             display: inline-block;
             width: 32%;
@@ -1560,6 +1574,9 @@
         }
     }
     .confirm-personal-info {
+        .content {
+            @include border-radius(5px);
+        }
         .contact {
             float: left;
             width: 100%;
@@ -2573,6 +2590,13 @@ h3.success-message{
             &.step1, &.step2, &.step3, &.step4{
                 background-color:white;
             }
+        }
+    }
+
+    &.step5 {
+        background-color: $enrollment-progress-bar-step5-color;
+        .progress, .progress-bar-cart, .need-help{
+            display:none;
         }
     }
 

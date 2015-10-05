@@ -78,28 +78,13 @@
                                     </li>
                                 </ul>
                             </div>
-                            @*
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Premises Label")</label>
-                                <ul class="checkbox-list">
-                                    <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
-                                    <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="5-or-more"><label for="5-or-more">5 or more</label></li>
-                                </ul>
-                            </div>
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Monthly Spending Label")</label>
-                                <ul class="checkbox-list">
-                                    <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
-                                    <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
-                                </ul>
-                            </div>
-                            *@
-
                         </div>
+                        <footer>
+                            <div class="buttons">
+                                <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
+                            </div>
+                        </footer>
                     </article>
-                    <div class="buttons">
-                        <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
-                    </div>
                 </form>
                 <div class="hide-medium-large time-remaining-mobile">
                     <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
