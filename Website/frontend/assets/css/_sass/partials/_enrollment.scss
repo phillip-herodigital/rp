@@ -2432,13 +2432,18 @@ h3.success-message{
     background-position:right;
     background-repeat:no-repeat;
     
-    @include breakpoint (small) {
+    @include breakpoint (small-medium) {
         padding-left:25px;
 
-        .progress, .progress-bar-cart, .need-help{
+        .progress{
             display:none;
         }
     }
+	@include breakpoint (small) {
+		.progress, .progress-bar-cart, .need-help{
+            display:none;
+        }
+	}
 
     .progress-bar-cart{
         position:relative;
@@ -2515,6 +2520,9 @@ h3.success-message{
             border:1px solid #e6e6e6;
             border-radius:5px;
 
+			 @include breakpoint (small-medium) {
+				left:auto;
+			 }
             header{
                 background:white;
                 padding-left:0;
@@ -2613,6 +2621,9 @@ h3.success-message{
         margin:auto;
         position: relative;
 
+		 @include breakpoint (small-medium) {
+			width:100%;
+		 }
         .step-description{
             float:left;
             margin-right:200px;
@@ -4005,6 +4016,14 @@ h3.success-message{
             color: #013c5b;
             font-weight: 500
         }
+
+		@include breakpoint(small) {
+			.message{
+				width:100%;
+				margin-top:10px;
+				text-align:center;
+			}	
+		}
     }
     .plan-details {
         background: white;
@@ -4032,6 +4051,18 @@ h3.success-message{
                 }
             }
         }
+
+		@include breakpoint(small) {
+			.detail-section {
+				width:100%;
+				float:none;
+				border:none;
+
+				&:last-of-type{
+					padding-left:0;
+				}
+			}
+		}
         .footnotes {
             font-size: 12px;
         }
@@ -4110,6 +4141,8 @@ h3.success-message{
             background:white;
             border-radius: 0;
             line-height: 1;
+			text-align:center;
+
             &.active{
                 a.button {
                     display:none;
@@ -4227,6 +4260,7 @@ h3.success-message{
             margin: 5px 0 10px;
             @include border-radius(5px);
             @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
+			float:none;
         }
 
         .details {
