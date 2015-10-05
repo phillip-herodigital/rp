@@ -53,7 +53,7 @@
                     $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
                     $scope.phoneManufacturer = data.manufacturer;
 
-                    mobileEnrollmentService.selectedNetwork.value = $scope.networkType == 'GSM' ? 'att' : 'sprint';
+                    mobileEnrollmentService.selectedNetwork.value = data.provider;
                     $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
                 }
 
