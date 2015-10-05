@@ -174,6 +174,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Manufacturer = "Apple"
                 };
             }
+            if (imei == "555")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                    Manufacturer = "Apple",
+                    ICCID = "1234567890"
+                };
+            }
             
             return await enrollmentService.VerifyImei(imei);
         }
