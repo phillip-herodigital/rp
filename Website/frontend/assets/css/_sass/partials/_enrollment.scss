@@ -1944,6 +1944,7 @@
             .plan-type {
                 font-size: 14px;
                 font-weight: 600;
+				color:black;
             }
 
 			.icon-byod{
@@ -2032,12 +2033,17 @@
             font-size: 10px;
         }
     }
+	.cart-product{
+		min-width:245px;
+	}
     .description {
         position: relative;
         float: left;
         width: 70%;
         font-size: 14px;
         font-weight: 400;
+		width:auto;
+
         .icon-electricity, .icon-gas-icon {
             position: absolute;
             top: 4px;
@@ -2048,10 +2054,17 @@
         }
         a {
             font-size: 13px;
+			padding-right:5px;
+			margin-right:5px;
+			border-right:1px solid;
+
+			&:last-of-type{
+				border:0;
+			}
         }
         .options {
             clear: both;
-            font-size: 13px;
+            font-size: 15px;
             color: #666;
         }
     }
@@ -2476,7 +2489,7 @@ h3.success-message{
 				height:25px;
 				width:25px;
 				position:absolute;
-				right:29px;
+				right:12px;
 				top: 50px;
 				transform:rotate(45deg);
 				background:white;
@@ -2488,7 +2501,7 @@ h3.success-message{
 			background:white;
 
 			top:60px;
-			right:20px;
+			right:0;
 
 			border:1px solid #e6e6e6;
 			border-radius:5px;
