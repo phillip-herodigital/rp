@@ -27,10 +27,13 @@
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
                 <div class="cart-item" ng-repeat="(id, location) in getMobileAddresses()" ng-if="cartHasMobile()">
                     <div class="mobile-plan">
-                        <h2 ng-if="$first">@Html.Sitecore().Field("Mobile Services")</h2>
-                        <div class="plan-type" ng-show="getCartDataPlan().length == 0 || getDevicesCount() == 0">
-                            {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
+                        <div class="mobile-services-section" ng-show="mobileEnrollmentService.selectedNetwork.name || mobileEnrollmentService.planType">
+                            <h2 ng-if="$first">@Html.Sitecore().Field("Mobile Services")</h2>
+                            <div class="plan-type" ng-show="getCartDataPlan().length == 0 || getDevicesCount() == 0">
+                                {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
+                            </div>
                         </div>
+                        
                         <div class="notice error" ng-show="addDeviceError && (!addDevice.$valid || isCartFull() || esnInvalid)">
                             @Html.Sitecore().Field("Add Device Text")
                             <div class="links">
