@@ -29,6 +29,7 @@
             enrollmentService.isLoading = true;
             $http.post('/api/enrollment/verifyImei', $scope.phoneOptions.imeiNumber, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
+                analytics.sendVariables(2, data.provider);
                 if (!data.isValidImei) {
                     $scope.hasError = true;
                     $scope.deviceIneligible = true;
@@ -36,6 +37,7 @@
                     $scope.validations = [{
                         'memberName': 'imeiNumber'
                     }];
+                    analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
                     if(data.verifyEsnResponseCode) {
                         $scope.deviceIneligibleMessage = $sce.trustAsHtml(_.find($scope.esnValidationMessages, function (message) { 
                                 return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
@@ -52,6 +54,7 @@
                     $scope.phoneVerified = true;
                     $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
                     $scope.phoneManufacturer = data.manufacturer;
+                    analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
 
                     mobileEnrollmentService.selectedNetwork.value = data.provider;
                     $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
@@ -365,6 +368,8 @@
         selectedModel;
 
         analytics.sendVariables(5, ($scope.phoneOptions.transferInfo.type == "new") ? "New Number" : "Transfer")
+        analytics.sendVariables(18, $scope.phoneOptions.phoneOS);
+        analytics.sendVariables(19, $scope.phoneOptions.iccidNumber);
 
         if ($scope.mobileEnrollment.phoneTypeTab == "new") { 
             device = $scope.selectedPhone;
