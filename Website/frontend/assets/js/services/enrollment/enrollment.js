@@ -88,7 +88,10 @@
     };
 
     function makeCall(urlSuffix, data, mode, overrideServerStep) {
-        service.isLoading = true;
+        var isMobile =  enrollmentStepsService.getCurrentFlow() == 'phone';
+        if (urlSuffix != 'serviceInformation' || !isMobile ) {
+            service.isLoading = true;
+        }
         var deferred = $q.defer(),
         start = new Date().getTime();
         mode = mode || 'post';

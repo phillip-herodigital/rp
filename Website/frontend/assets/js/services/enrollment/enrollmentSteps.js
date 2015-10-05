@@ -164,6 +164,10 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             currentFlow = flow;
         },
 
+        getCurrentFlow: function () {
+            return currentFlow;
+        },
+
         setFlow: function (flow, isNewFlow) {
             if (flows[currentFlow]) {
                 // hide the steps from the old flow, since they won't really be occuring in that order and we don't want to scroll up to them

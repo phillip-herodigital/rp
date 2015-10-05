@@ -1,20 +1,6 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChoosePhone
-@{
-    var visitor = Sitecore.Analytics.Tracker.Current;
-    var serviceCity = visitor.Interaction.GeoData.City;
-    var serviceState = visitor.Interaction.GeoData.Region;
-    var zip = visitor.Interaction.GeoData.PostalCode;
 
-    
-    //TEST CODE TO BE REMOVED
-    if (string.IsNullOrEmpty(serviceState))
-    {
-        serviceCity = "Dallas";
-        serviceState = "TX";
-        zip = "74001";
-    }
-}
-<div id="phoneFlowDevices" class="enrollment" ng-show="stepsService.isStepVisible('phoneFlowDevices')" ng-controller="MobileEnrollmentChoosePhoneCtrl" ng-init="bringYourOwnDevices = @(Html.Action("BringYourOwnDevices", "MobileEnrollment").ToHtmlString()); bringYourOwnCdmaDevices = @(Html.Action("bringYourOwnCdmaDevices", "MobileEnrollment").ToHtmlString()); esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString()); setTimeRemaining('phoneFlowDevices', '@Html.Sitecore().Field("Remaining Minutes Number")'); activationFee = '@Html.Sitecore().Field("Activation Fee")'; previousServiceProviders = @(Html.Action("PreviousServiceProviders", "MobileEnrollment").ToHtmlString()); usStates = @(Html.Action("States", "Data").ToHtmlString()); postalCode5 = '@zip'; city = '@serviceCity'; state = '@serviceState';">
+<div id="phoneFlowDevices" class="enrollment" ng-show="stepsService.isStepVisible('phoneFlowDevices')" ng-controller="MobileEnrollmentChoosePhoneCtrl" ng-init="bringYourOwnDevices = @(Html.Action("BringYourOwnDevices", "MobileEnrollment").ToHtmlString()); bringYourOwnCdmaDevices = @(Html.Action("bringYourOwnCdmaDevices", "MobileEnrollment").ToHtmlString()); esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString()); setTimeRemaining('phoneFlowDevices', '@Html.Sitecore().Field("Remaining Minutes Number")'); activationFee = '@Html.Sitecore().Field("Activation Fee")'; previousServiceProviders = @(Html.Action("PreviousServiceProviders", "MobileEnrollment").ToHtmlString()); usStates = @(Html.Action("States", "Data").ToHtmlString());">
     @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text" })
     <div class="layout">
         <div class="wrapper cols-2" id="chooseDevice">
