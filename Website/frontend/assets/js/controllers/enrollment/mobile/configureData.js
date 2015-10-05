@@ -8,6 +8,7 @@
     };
     $scope.requestedPlanAvailable = false;
     $scope.showChangeLocation = $scope.geoLocation.postalCode5 == '';
+    $scope.excludedStates = false;
 
     var coverageMap = $(jQuery.find(".coverage-map-container"));
 
@@ -233,7 +234,8 @@
                 $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
 
                 var activeService = enrollmentCartService.getActiveService();
-                if (activeService) {
+                $scope.excludedStates  = _($scope.mobileEnrollmentSettings.excludedStates).contains(data[1]);
+                if (activeService && !$scope.excludedState) {
                     activeService.location = $scope.data.serviceLocation;
                     enrollmentService.setSelectedOffers(true);
                 }
@@ -241,14 +243,6 @@
                     enrollmentCartService.addService({ location: $scope.data.serviceLocation });
                     enrollmentService.setServiceInformation(true);
                     activeService = enrollmentCartService.getActiveService();
-                }
-
-                // if the state is in the excluded list, show the "no plans available" dialog
-                if (_($scope.mobileEnrollmentSettings.excludedStates).contains(data[1])) {
-                    $scope.showNetworks = false;
-                }
-                else {
-                    $scope.showNetworks = true;
                 }
             }
             else {

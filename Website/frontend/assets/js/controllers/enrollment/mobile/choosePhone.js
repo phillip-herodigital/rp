@@ -95,7 +95,7 @@
         mobileEnrollmentService.editedDevice = item;
         //remove the device from the cart items array
         enrollmentCartService.removeDeviceFromCart(item);
-        enrollmentCartService.setActiveService(service);
+        //enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
         scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
