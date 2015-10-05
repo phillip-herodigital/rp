@@ -1,13 +1,6 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
 <div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl" ng-init="setTimeRemaining('utilityFlowService', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
-        <div class="wrapper clearfix">
-            <h1>
-                <span class="block">@Html.Sitecore().Field("Banner Header Text")</span><br />
-                <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
-            </h1>
-        </div>
-    </div>
+    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text" })
     <div class="layout">
         <div class="wrapper cols-2">
             <section>
