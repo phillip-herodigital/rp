@@ -127,7 +127,7 @@
                 @Html.Sitecore().Field("Stream Store Content CDMA")
             </div>*@
             <div class="links">
-                <a href="" class="button primary" ng-click="showModal('cart/shopPhones')">@Html.Sitecore().Field("Shop Phones")</a>
+                <a href="" class="button primary" ng-click="showModal('cart/shopPhones', 'lg')">@Html.Sitecore().Field("Shop Phones")</a>
                 <a href="" ng-click="showModal('cart/howItWorks')">@Html.Sitecore().Field("How it works")</a>
             </div>
         </article>
@@ -135,7 +135,7 @@
 </script>
 
 <script type="text/ng-template" id="cart/shopPhones">
-    <div class="mobile-enrollment-modal">
+    <div class="mobile-enrollment-modal shopPhones">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
             @Html.Sitecore().Field("Header - Shop Phones Modal")
@@ -143,10 +143,14 @@
         <div class="modal-body">
             <div class="shop-phones-overlay clearfix">
                 <div class="section">
-                    @Html.Sitecore().Field("Stream Store Content GSM")
+                    <div class="inner clearfix">
+                        @Html.Sitecore().Field("Stream Store Content GSM")
+                    </div>
                 </div>
                 <div class="section">
-                    @Html.Sitecore().Field("Stream Store Content CDMA")
+                    <div class="inner clearfix">
+                        @Html.Sitecore().Field("Stream Store Content CDMA") 
+                    </div>
                 </div>
             </div>
         </div>
