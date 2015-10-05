@@ -66,11 +66,14 @@
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         if (address && address.offerInformationByType) {
+            var devicesCount = enrollmentCartService.getDevicesCount();
             angular.forEach(address.offerInformationByType, function (entry) {
                 if (entry.value && _(entry.key).contains('Mobile') && entry.value.offerSelections.length) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.offerSelections[0].offerId;
                 } else if (entry.value && _(entry.key).contains('Mobile') && entry.value.availableOffers.length == 1) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;
+                } else if (entry.value && _(entry.key).contains('Mobile')) {
+                    $scope.selectRequestedPlan(devicesCount);
                 }
             });
         }
@@ -92,23 +95,7 @@
             }
             
             // see if the requested plan is available, and if so, select it
-            if ($scope.mobileEnrollment.requestedPlanId != '' && newVal > 0) {
-                var activeService = enrollmentCartService.getActiveService();
-                var provider = mobileEnrollmentService.selectedNetwork.value
-                var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
-                $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
-                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
-                        && offer.provider.toLowerCase() == provider 
-                        && !offer.isChildOffer
-                        && ((newVal == 1 && !offer.isParentOffer) || (newVal > 1 && offer.isParentOffer)) 
-                }).some();
-                if ($scope.requestedPlanAvailable) {
-                    var requestedOffer = { 'Mobile': $scope.mobileEnrollment.requestedPlanId };
-                    $scope.planSelection.selectedOffers = requestedOffer;
-                    selectOffers(requestedOffer);
-                }
-
-            }
+            $scope.selectRequestedPlan(newVal);
         }
     });
 
@@ -195,7 +182,28 @@
         var center = $scope.mapInstance.getCenter();
         google.maps.event.trigger($scope.mapInstance, 'resize');
         $scope.mapInstance.setCenter(center); 
-    }
+    };
+
+    $scope.selectRequestedPlan = function (devicesCount) {
+        if ($scope.mobileEnrollment.requestedPlanId != '' && devicesCount > 0) {
+            var activeService = enrollmentCartService.getActiveService();
+            var provider = mobileEnrollmentService.selectedNetwork.value
+            var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
+            if (typeof offerInformationForType != 'undefined') {
+                    $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
+                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                        && offer.provider.toLowerCase() == provider 
+                        && !offer.isChildOffer
+                        && (devicesCount == 1 || (devicesCount > 1 && offer.isParentOffer)) 
+                }).some();
+                if ($scope.requestedPlanAvailable) {
+                    var requestedOffer = { 'Mobile': $scope.mobileEnrollment.requestedPlanId };
+                    $scope.planSelection.selectedOffers = requestedOffer;
+                    selectOffers(requestedOffer);
+                }
+            }
+        }
+    };
 
     $scope.lookupZip = function () {
         enrollmentService.isLoading = true;
@@ -222,12 +230,6 @@
                 $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
                 $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential" });
                 $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
-
-                /*
-               
-
-                $scope.$parent.customerType = (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential";
-                */
 
                 var activeService = enrollmentCartService.getActiveService();
                 if (activeService) {
