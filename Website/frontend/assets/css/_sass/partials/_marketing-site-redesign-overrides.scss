@@ -1356,9 +1356,6 @@ article.mobile-tools-switch {
 article.mobile-interested {
 	background: image-url('marketing/redesign/pattern_bg_2.png') repeat scroll center 0;
 	margin-bottom: -30px;
-}
-
-article.mobile-interested {
 
 	.wrapper {
 		padding: 0;
@@ -1393,6 +1390,9 @@ article.mobile-interested {
 	a {
 		margin-left: 50px;
 		vertical-align: middle;
+		@include breakpoint(small) {
+			margin-top: 10px;
+		}
 	}
 
 	.button {
@@ -1400,15 +1400,12 @@ article.mobile-interested {
 		font-size: 22px;
 		padding: 12px 52px;
 	}
+
 }
 
 article.mobile-savings {
-	background: image-url('marketing/redesign/pattern_bg_1.png');	
-}
-
-article.mobile-savings {
-
-	@media only screen and (min-width: 768px) {
+	background: image-url('marketing/redesign/pattern_bg_1.png');
+	@include breakpoint(medium-large) {
 		.grid {
 			width: calc(100% + 108px);
 			border-spacing: 54px;
@@ -1429,14 +1426,10 @@ article.mobile-savings {
 	}
 
 	.col {
-		padding: 0 44px 0 44px; 
+		padding: 10px 44px; 
 		text-align:left; 
 		width: 504px; 
 		height: 274px;
-	}
-
-	.col {
-		padding-top: 10px;
 		h1 {
 			color: #ffffff;
 			margin-bottom: 10px;
@@ -1451,15 +1444,21 @@ article.mobile-savings {
 
 		&.devices {
 			background-color: #ffffff;
-			-webkit-box-shadow: 1px 1px 10px #ccc;
-			-moz-box-shadow: 1px 1px 10px #ccc;
-			box-shadow: 1px 1px 10px #ccc;
+			@include box-shadow(1px 1px 10px #ccc);
 			margin-bottom: 50px;
 		}
 
 		&.savings {
-			background: image-url('bg/savings-background.png') no-repeat;
+			background: image-url('bg/savings-background.png');
 			color:#ffffff;
+		}
+		@include breakpoint(small) {
+			max-width: 100%;
+			height: auto;
+			&.savings {
+				background-image: none;
+				background-color: #00A8E1;
+			}
 		}
 	}
 

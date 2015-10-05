@@ -27,10 +27,13 @@
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
                 <div class="cart-item" ng-repeat="(id, location) in getMobileAddresses()" ng-if="cartHasMobile()">
                     <div class="mobile-plan">
-                        <h2 ng-if="$first">@Html.Sitecore().Field("Mobile Services")</h2>
-                        <div class="plan-type" ng-show="getCartDataPlan().length == 0 || getDevicesCount() == 0">
-                            {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
+                        <div class="mobile-services-section" ng-show="mobileEnrollmentService.selectedNetwork.name || mobileEnrollmentService.planType">
+                            <h2 ng-if="$first">@Html.Sitecore().Field("Mobile Services")</h2>
+                            <div class="plan-type" ng-show="getCartDataPlan().length == 0 || getDevicesCount() == 0">
+                                {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
+                            </div>
                         </div>
+                        
                         <div class="notice error" ng-show="addDeviceError && (!addDevice.$valid || isCartFull() || esnInvalid)">
                             @Html.Sitecore().Field("Add Device Text")
                             <div class="links">
@@ -127,7 +130,7 @@
                 @Html.Sitecore().Field("Stream Store Content CDMA")
             </div>*@
             <div class="links">
-                <a href="" class="button primary" ng-click="showModal('cart/shopPhones')">@Html.Sitecore().Field("Shop Phones")</a>
+                <a href="" class="button primary" ng-click="showModal('cart/shopPhones', 'lg')">@Html.Sitecore().Field("Shop Phones")</a>
                 <a href="" ng-click="showModal('cart/howItWorks')">@Html.Sitecore().Field("How it works")</a>
             </div>
         </article>
@@ -135,7 +138,7 @@
 </script>
 
 <script type="text/ng-template" id="cart/shopPhones">
-    <div class="mobile-enrollment-modal">
+    <div class="mobile-enrollment-modal shopPhones">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
             @Html.Sitecore().Field("Header - Shop Phones Modal")
@@ -143,10 +146,14 @@
         <div class="modal-body">
             <div class="shop-phones-overlay clearfix">
                 <div class="section">
-                    @Html.Sitecore().Field("Stream Store Content GSM")
+                    <div class="inner clearfix">
+                        @Html.Sitecore().Field("Stream Store Content GSM")
+                    </div>
                 </div>
                 <div class="section">
-                    @Html.Sitecore().Field("Stream Store Content CDMA")
+                    <div class="inner clearfix">
+                        @Html.Sitecore().Field("Stream Store Content CDMA") 
+                    </div>
                 </div>
             </div>
         </div>
