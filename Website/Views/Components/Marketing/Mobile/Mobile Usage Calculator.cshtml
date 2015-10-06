@@ -636,7 +636,7 @@
                 </div>
                 <div class="grid" ng-show="isModal">
                     <div class="col right addToCart">
-                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Modal Button Text")</a>
+                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
                     </div>
                 </div>
                 <div class="stretch" ng-show="!isModal">

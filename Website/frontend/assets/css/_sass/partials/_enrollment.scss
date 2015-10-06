@@ -44,7 +44,7 @@
     right: 0;
     left: 0;
     bottom: 0;
-    z-index: 1000;
+    z-index: 1200;
 	width: 800px;
     height: 400px;
     margin: auto;
@@ -60,10 +60,18 @@
 	.modal-body.scrollable{
 		height:300px;
 		overflow-y:auto;
+		padding:10px;
 	}
 	&.hidden{
 		& + .data-calculator-fade{
 			display:none;
+		}
+	}
+	.wrapper{
+		padding-bottom:0 !important;
+
+		.tab-wrapper{
+			border:0 !important;
 		}
 	}
  }

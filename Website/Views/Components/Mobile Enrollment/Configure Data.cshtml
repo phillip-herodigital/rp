@@ -83,9 +83,9 @@
                             <div class="button full hideDetails" ng-click="showPlanDetails = false" ng-show="showPlanDetails">
                                 <a>@Html.Sitecore().Field("Hide Plan Details")</a>
                             </div>
-                            <div>
-                                <a ng-click="showCalculator()">Data Calculator</a>
-                            </div>
+                            <p>
+                               @Html.Sitecore().Field("Dont know right plan") <a ng-click="showCalculator()">@Html.Sitecore().Field("Data Calculator")</a>
+                            </p>
                         </div>
                     </div>
                     <footer>
