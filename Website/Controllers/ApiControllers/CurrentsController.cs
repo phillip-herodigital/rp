@@ -461,6 +461,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         StartDate = startDate.ToString("MMMM d, yyyy"),
                         EndDate = endDate.ToString("MMMM d, yyyy"),
                         EventDate = eventDate,
+                        SortDate = startDate,
                         ImageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "",
                         Location = currentsEvent.Fields["Event Location"].Value,
                         Summary = currentsEvent.Fields["Event Summary"].Value,
@@ -488,6 +489,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                            StartDate = currentDate.ToString("MMMM d, yyyy"),
                            EndDate = currentDate.ToString("MMMM d, yyyy"),
                            EventDate = currentDate.ToString("MMMM d, yyyy"),
+                           SortDate = currentDate,
                            ImageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "",
                            Location = currentsEvent.Fields["Event Location"].Value,
                            Summary = currentsEvent.Fields["Event Summary"].Value,
@@ -557,7 +559,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                }
             }
-            return listEvents;
+            return listEvents.Where(e => e.SortDate >= DateTime.Today).OrderBy(e => e.SortDate);
 
         }
 
