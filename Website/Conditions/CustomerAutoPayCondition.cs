@@ -62,7 +62,7 @@ namespace StreamEnergy.MyStream.Conditions
             }
             else
             { 
-                return false;
+                return true;
             }
         }
     }

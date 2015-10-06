@@ -15,8 +15,8 @@
         float: right;
 		height: 50px;
         padding: 15px 10px;
-        color: #4f4c4d;
-        font-size: $font-size-xsmall;
+        color: #97c93d;
+        font-size: 18px;
 		font-weight: 300;
         letter-spacing: 0;
         a {
@@ -27,6 +27,8 @@
             display: inline;
 			li {
 				border-left: 1px solid #4f4c4d;
+				color: #4f4c4d;
+				font-size: $font-size-xsmall;
 				padding: 0 1em;
 			}
 			li:first-child {
@@ -359,6 +361,18 @@
 		}
 		h1, p {
 			color: $brand-primary-color;
+		}
+	}
+	&.account-banner {
+		height: 34px;
+		background-size: auto;
+		background-repeat: repeat-x;
+		padding: 0px 20px;
+		.wrapper {
+			padding: 7px 0px 0px 0px;
+			h1 {
+				font-size: 18px;
+			}
 		}
 	}
 	@include breakpoint(medium) {		

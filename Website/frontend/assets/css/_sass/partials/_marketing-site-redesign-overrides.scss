@@ -590,6 +590,33 @@ article.service-tabs {
                     background-color: #e6e7e8;
                 }
             }
+            &.icon a {
+                background-position: 70px center;
+                background-repeat: no-repeat;
+                padding-left: 110px;
+                padding-right: 72px;
+            }
+            &.texas a {
+                @include retina-background('texas-icon.png');
+            }
+            &.georgia a {
+                @include retina-background('georgia-icon.png');
+            }
+            &.pennsylvania a {
+                @include retina-background('pennsylvania-icon.png');
+            }
+            &.maryland a {
+                @include retina-background('maryland-icon.png');
+            }
+            &.new-jersey a {
+                @include retina-background('newjersey-icon.png');
+            }
+            &.new-york a {
+                @include retina-background('newyork-icon.png');
+            }
+            &.washington-dc a {
+                @include retina-background('dc-icon.png');
+            }
         }
         @include breakpoint(small) {
             // display: block;

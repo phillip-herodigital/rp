@@ -1,4 +1,7 @@
-﻿@using Sitecore.Form.Web.UI.Controls
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using Sitecore.Data.Fields
+@using Sitecore.Form.Web.UI.Controls
 @{
     var stateFaqs = new Dictionary<string, List<Sitecore.Data.Items.Item>>();
     foreach (Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
@@ -56,24 +59,29 @@
             selectedTab = "texas";
             break;
     }
+    var stateEnrollData = new JArray();
+    foreach (var state in stateTitleFieldNames)
+    {
+        var stateClass = state.Value.ToLower().Replace(",", "").Replace(".", "").Replace(" ", "-");
+        stateEnrollData.Add(new JObject {
+            { "name", Html.Sitecore().Field(stateTitleFieldNames[state.Key.ToString()]).ToHtmlString() },
+            { "value", state.Key },
+            { "class", "icon " + state.Key },
+        });
+    }
 }
-<div ng-controller="FaqsCtrl" ng-init="pane = '@selectedTab'">
-    <article class="marketing">
+<div ng-controller="FaqsCtrl" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None)); selectedStateKey = "@selectedTab";'>
+    <article class="marketing state-tabs" state-selector="@selectedTab" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None)); selectedStateKey = "@selectedTab";'>
         <div class="wrapper">
             <p>@Html.Sitecore().Field("Dropdown Text")</p>
-            <select ng-model="pane">
-                @foreach (var state in stateFaqs.Keys)
-                {
-                    <option value="@state">@Html.Sitecore().Field(stateTitleFieldNames[state])</option>
-                }
-            </select>
+            <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="stateEnrollData" value="selectedStateKey" data-alignment="right"></div>
         </div>
     </article>
     <article class="marketing faq">
         <div class="wrapper">
             @foreach (var state in stateFaqs.Keys)
             {
-                <div data-ng-show="pane == @state.ToJson()">
+                <div data-ng-show="selectedState.value == @state.ToJson()">
                     <h1>@Html.Sitecore().Field(stateTitleFieldNames[state]) FAQ’s</h1>
                     <dl class="faq">
                         @foreach (var item in stateFaqs[state])
