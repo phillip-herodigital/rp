@@ -1335,6 +1335,10 @@ article.mobile-tools-switch {
 				background: image-url("icon/swapit_small.png") no-repeat scroll 30px 24px;
 			}
 
+			&.trade {
+				background: image-url("icon/trade.png") no-repeat scroll 30px 24px;
+			}
+
 			&.global {
 				background: image-url("icon/global_small.png") no-repeat scroll 30px 24px;	
 			}
@@ -1446,6 +1450,20 @@ article.mobile-savings {
 			background-color: #ffffff;
 			@include box-shadow(1px 1px 10px #ccc);
 			margin-bottom: 50px;
+			.devices-text {
+				width: 46%;
+				display: inline-block;
+				h1 {
+					color: #3C535C;
+				}
+				@include breakpoint(small) {
+					width: 100%;
+					margin-bottom: 20px;
+				}
+			}
+			.devices-image {
+				display: inline-block;
+			}
 		}
 
 		&.savings {
