@@ -1283,6 +1283,136 @@ article.mobile-plans-table {
     }
 }
 
+.marketing.compare-network {
+	margin: 20px 0px;
+	.wrapper {
+		background: none;
+		padding: 0px 0px 30px 0px;
+	}
+	p {
+		font-size: 18px;
+		font-weight: 500;
+		color: #3c535c;
+	}
+	.or-text {
+		font-size: 14px;
+		text-transform: uppercase;
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		line-height: 40px;
+		background-color: #f2f2f2;
+		text-align: center;
+		color: #4f4c4d;
+		letter-spacing: 0;
+		display: inline-block;
+		@include breakpoint(small) {
+			display: none;
+		}
+	}
+	.icons {
+		.icon-gsm {
+			margin: 0px 10px 10px 20px;
+		}
+		.icon-cdma {
+			margin: 0px 20px 10px 10px;
+		}
+		@include breakpoint(small) {
+			display: block;
+			margin: 20px;
+		}
+	}
+	.compare {
+		border: 1px solid #d2d2d2;
+		border-radius: 5px;
+		padding: 7px 15px 7px 15px;
+		color: #257ab3;
+	}
+}
+
+article.mobile.mobile-savings {
+	background-image: image-url('marketing/redesign/Modules/savings-background.jpg');
+	color: #fff;
+	height: 188px;
+	.wrapper {
+		background: none;
+		padding: 0px;
+	}
+	h1 {
+		font-size: 48px;
+		margin-bottom: 20px;
+		strong {
+			color: #70d1fe;
+			font-weight: 700;
+			font-size: 60px;
+		}
+		span {
+			font-weight: 600;
+			font-size: 54px;
+		}
+		@include breakpoint(small) {
+			margin: 0px;
+		}
+	}
+	p {
+		font-size: 20px;
+		i {
+			text-decoration: underline;
+		}
+		@include breakpoint(small) {
+			margin: 0px;
+			font-size: 15px;
+		}
+	}
+}
+
+article.switch-today {
+	margin-top: 20px;
+	background-image: image-url('marketing/redesign/Modules/switch-today-background.jpg');
+	.interested {
+		color: #1a92d3;
+	}
+	.button {
+		margin-left: 20px;
+	}
+}
+
+article.phone-options {
+	.grid .col {
+		div {
+			background-repeat: no-repeat;
+			background-position: 7% 50%;
+			padding: 50px 25px 50px 215px;
+			background-color: #f8fafa;
+			box-shadow: 0px 3px 5px #efefef;
+			width: 95%;
+			margin: auto;
+			p {
+				font-size: 24px;
+				font-weight: 500;
+				margin: 10px 0;
+				line-height: 24px;
+				color: #000;
+			}
+			&.gsm {
+				background-image: image-url('marketing/redesign/modules/gsm-mobile.png');
+				@include breakpoint(small) {
+					margin-bottom: 20px;
+				}
+			}
+			&.cdma {
+				background-image: image-url('marketing/redesign/modules/cdma-mobile.png');
+			}
+			@include breakpoint(small) {
+				background-position: 50% 7%;
+				padding: 180px 25px 30px 30px;
+			}
+		}
+		
+	}
+}
+
+
 article.mobile-pricing-plans {
 
     // div.intro {
@@ -1493,6 +1623,14 @@ article.mobile-pricing-plans {
             padding-top: 100px;
             //margin: 0 30px;
             background: center top no-repeat;
+			h3 {
+				color: #3c535c;
+				font-weight: 600;
+			}
+			a {
+				color: #178fcd;
+				font-weight: 600;
+			}
         }
 
         &.phone {
@@ -1676,10 +1814,19 @@ article.mobile-pricing-plans {
 }
 
 .mobile-additional-services {
+	background-color: #f3f6f7;
     .col {
         .inner {
-            padding-top: 60px;
-            background: center top no-repeat;
+            padding: 0px 30px 0px 100px;
+            background: left top no-repeat;
+			h3 {
+				color: #3c535c;
+				font-weight: 600;
+			}
+			a {
+				color: #178fcd;
+				font-weight: 600;
+			}
         }
         &.trade {
             .inner {
@@ -1688,7 +1835,7 @@ article.mobile-pricing-plans {
         }
         &.device-assistant {
             .inner {
-                @include retina-background("device-assistant.png", "icon");
+                @include retina-background("swapit.png", "icon");
             }
         }
         &.global {
