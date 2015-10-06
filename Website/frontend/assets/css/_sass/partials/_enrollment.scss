@@ -27,7 +27,7 @@
     }
  }
  
- .coverage-map-fade{
+ .coverage-map-fade, .data-calculator-fade{
     background: #000;
     opacity: .5;
     position: fixed;
@@ -35,6 +35,36 @@
     left: 0;
     right: 0;
     bottom: 0;
+ }
+
+ .data-calculator-container{
+	position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+	width: 800px;
+    height: 400px;
+    margin: auto;
+    margin-top: 135px;
+    background: #fff;
+
+	.close{
+		position:absolute;
+		top:5px;
+		right:5px;
+	}
+
+	.modal-body.scrollable{
+		height:300px;
+		overflow-y:auto;
+	}
+	&.hidden{
+		& + .data-calculator-fade{
+			display:none;
+		}
+	}
  }
 
  .coverage-map-container {

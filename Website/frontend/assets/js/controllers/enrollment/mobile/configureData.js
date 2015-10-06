@@ -11,6 +11,7 @@
     $scope.excludedStates = false;
 
     var coverageMap = $(jQuery.find(".coverage-map-container"));
+    var dataCalculator = $(jQuery.find(".data-calculator-container"));
 
     $scope.filterIndPlans = function(plan){
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
@@ -185,6 +186,9 @@
         google.maps.event.trigger($scope.mapInstance, 'resize');
         $scope.mapInstance.setCenter(center); 
     };
+    $scope.showCalculator = function () {
+        dataCalculator.removeClass('hidden');
+    }
 
     $scope.selectRequestedPlan = function (devicesCount) {
         if ($scope.mobileEnrollment.requestedPlanId != '' && devicesCount > 0) {
