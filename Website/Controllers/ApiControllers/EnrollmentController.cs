@@ -661,7 +661,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         {"accountNumbers", string.Join(",", acctNumbers)},
                     });
                 }
-                if (resultData.AssociateInformation == null)
+                if (resultData.AssociateInformation == null && !resultData.IsRenewal)
                 {
                     await logger.Record(new LogEntry()
                     {
