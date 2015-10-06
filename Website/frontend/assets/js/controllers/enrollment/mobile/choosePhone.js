@@ -12,6 +12,7 @@
     $scope.cartLte = null;
     $scope.missingActivationCode = false;
     $scope.missingIccid = false;
+    $scope.showIccid = true;
     $scope.networkType = null;
     
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
@@ -54,6 +55,11 @@
                     $scope.phoneVerified = true;
                     $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
                     $scope.phoneManufacturer = data.manufacturer;
+                    $scope.phoneOptions.iccidNumber = data.iccid;
+                    if (data.deviceType) {
+                        $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
+                    }
+                    $scope.showIccid = (data.iccid == undefined || data.iccid == '');
                     analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
 
                     mobileEnrollmentService.selectedNetwork.value = data.provider;

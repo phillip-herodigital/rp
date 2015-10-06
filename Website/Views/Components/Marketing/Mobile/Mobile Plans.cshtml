@@ -1,4 +1,11 @@
-﻿<article class="marketing marketingIntro mobile mobile-pricing-plans" ng-controller="MobilePlansDetailsCtrl">
+﻿@{
+    var mobileSettings = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
+    var showSprint = !String.IsNullOrEmpty(mobileSettings.Fields["Sprint Buy Phone"].Value) || !String.IsNullOrEmpty(mobileSettings.Fields["Sprint BYOD"].Value);
+    var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Shared/Coverage Map");
+
+}
+
+<article class="marketing marketingIntro mobile mobile-pricing-plans" ng-controller="MobilePlansDetailsCtrl">
     <div class="wrapper">
         <div class="plan-chooser" ng-init="isIndSelected = true">
             <a class="button-plans left selected" id="button-left" ng-click="isIndSelected = true; isGroupSelected = false" ng-class="{'selected': isIndSelected}" href="#">
@@ -246,7 +253,7 @@
                             </div>
                         </div>
                         <div class="device-criteria">
-                            <a href="@Html.Sitecore().Field("Check Coverage Link ATT")">@Html.Sitecore().Field("Check Coverage")</a> | <a ng-click="showLightbox('compatible-devices')" href="" data-di-id="di-id-5fc7eb4d-63d76a3d">@Html.Sitecore().Field("Check Eligibility")</a>
+                            <a href="" ng-click="showCoverageMapOverlay('att')">@Html.Sitecore().Field("Check Coverage")</a> | <a ng-click="showLightbox('compatible-devices')" href="" data-di-id="di-id-5fc7eb4d-63d76a3d">@Html.Sitecore().Field("Check Eligibility")</a>
                         </div>
                     </div>
                 </div>
@@ -486,7 +493,7 @@
                         </div>
                     </div>
                     <div class="device-criteria">
-                        <a href="@Html.Sitecore().Field("Check Coverage Link Sprint")">@Html.Sitecore().Field("Check Coverage")</a> | <a ng-click="showLightbox('compatible-devices')" href="" data-di-id="di-id-5fc7eb4d-63d76a3d">@Html.Sitecore().Field("Check Eligibility")</a>
+                        <a href="" ng-click="showCoverageMapOverlay('sprint')">@Html.Sitecore().Field("Check Coverage")</a> | <a ng-click="showLightbox('compatible-devices')" href="" data-di-id="di-id-5fc7eb4d-63d76a3d">@Html.Sitecore().Field("Check Eligibility")</a>
                     </div>
                 </div>
             }
@@ -504,3 +511,60 @@
         </div>
     </div>
 </article>
+
+<div class="coverage-map-container hidden-map">
+    <div class="inner">
+        <div class="modal-header">
+            <a class="close" onclick="$('.coverage-map-container').addClass('hidden-map')">X</a>
+            <h2>&nbsp;</h2>
+        </div>
+        <script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+        <div class="wrapper">
+            <article class="coverage-map" ng-controller="MobilePlansDetailsCtrl">
+                <div class="form">
+                    <ul class="network-toggle">
+                        <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'att'}" ng-model="selectedNetwork" btn-radio="'att'">@item.Fields["GSM Network"].Value</a></li>
+                        @if (showSprint)
+                        {
+                            <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'sprint'}" ng-model="selectedNetwork" btn-radio="'sprint'">@item.Fields["CDMA Network"].Value</a></li>
+                        }
+                    </ul>
+                    <div class="item">
+                        <label for="gmap-search-input">@item.Fields["Enter Zip Code"].Value</label>
+                        <div id="gmap-search"></div>
+                    </div>
+                </div>
+                <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events" control="map.control">
+                    <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
+                </ui-gmap-google-map>
+                <ul class="layer-toggle" ng-show="selectedNetwork == 'att'">
+                    <li>
+                        <input type="checkbox" id="att_voice" ng-model="layers.att.att_voice_roam" /> <label for="att_voice">@item.Fields["Voice"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="att_data" ng-model="layers.att.att_data_roam" /> <label for="att_data">@item.Fields["Data"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="att_lte" ng-model="layers.att.att_lte" /> <label for="att_lte">@item.Fields["LTE"].Value</label>
+                    </li>
+                </ul>
+                <ul class="layer-toggle" ng-show="selectedNetwork == 'sprint'">
+                    <li>
+                        <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@item.Fields["Voice"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data_roam" /> <label for="sprint_data">@item.Fields["Data"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="sprint_lte" ng-model="layers.sprint.sprint_lte" /> <label for="sprint_lte">@item.Fields["LTE"].Value</label>
+                    </li>
+                </ul>
+            </article>
+        </div>
+    </div>
+</div>
+<div class="coverage-map-fade"></div>
+
+<script type="text/ng-template" id="searchbox.tpl.html">
+    <input type="text" id="gmap-search-input" placeholder="" />
+</script>

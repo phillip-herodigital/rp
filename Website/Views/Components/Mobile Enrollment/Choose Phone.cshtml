@@ -95,26 +95,26 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <div class="item" ng-if="networkType == 'CDMA'">
+                                    <div class="item" ng-show="networkType == 'CDMA' && showIccid">
                                         <label>
                                             @Html.Sitecore().Field("Select Phone Type")
                                         </label>
                                         <div class="btn-group btn-group-options">
-                                            <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Apple'" btn-radio="'Apple'" data-val="true" data-val-required>
+                                            <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Apple'" btn-radio="'Apple'" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && showIccid">
                                                 <i class="icon-apple"></i>
                                                 @Html.Sitecore().Field("Apple")
                                             </a>
-                                            <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Android'" btn-radio="'Android'" data-val="true" data-val-required>
+                                            <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Android'" btn-radio="'Android'" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && showIccid">
                                                 <i class="icon-android"></i>
                                                 @Html.Sitecore().Field("Android")
                                             </a>
-                                            <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Other'" btn-radio="'Other'" data-val="true" data-val-required>
+                                            <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Other'" btn-radio="'Other'" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && showIccid">
                                                 @Html.Sitecore().Field("Other")
                                             </a>
                                         </div>
                                     </div>
-                                    <hr ng-if="networkType == 'CDMA'" />
-                                    <div class="item" data-val-error="ICCID" ng-show="networkType == 'CDMA'">
+                                    <hr />
+                                    <div class="item" data-val-error="ICCID" ng-show="networkType == 'CDMA' && showIccid">
                                         <label>
                                             @Html.Sitecore().Field("Header - ICCID Number")
                                             <span class="label-description" ng-class="{ disabled : missingIccid }">@Html.Sitecore().Field("Text - ICCID Number Note")</span>
@@ -154,7 +154,7 @@
                                     </div>
                                         
                                     <hr />
-                                    <div class="item" ng-class="{ disabled : networkType == 'CDMA' && (phoneOptions.phoneOS == null || (missingIccid && phoneOptions.phoneOS != 'Apple')) }">
+                                    <div class="item" ng-class="{ disabled : networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || (missingIccid && phoneOptions.phoneOS != 'Apple')) }">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
                                             <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>

@@ -1,7 +1,7 @@
 <div ng-controller="EnrollmentConfirmationCtrl" ng-init="setServerData(@((Request.QueryString["phantomjs"] != null ? Html.Raw("'deferred'") : Html.Action("ClientData", "Enrollment")).ToHtmlString())); mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString()));">
     <div class="enrollment enrollment__order-confirmation">
         <section>
-            <article class="commercial-next-steps enrollment__box">
+            <article class="next-steps enrollment__box">
                 <header>
                     <h1 ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Order Confirmation")</h1>
                     <h1 ng-if="customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Order Submitted")</h1>

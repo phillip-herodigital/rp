@@ -35,6 +35,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 1040;
  }
 
  .data-calculator-container{
@@ -73,7 +74,7 @@
     right: 0;
     left: 0;
     bottom: 0;
-    z-index: 1000;
+    z-index: 1050;
     width: 600px;
     height: 500px;
     margin: auto;
@@ -119,24 +120,24 @@
         position: relative;
     }
 
-    /* 
-        Mobile Enrollment Cart Styling 
-    */
-
-    & .enrollment_cart, & .documents, & .referred-by-section{
-        display:none;
-    }
     &.showCart .layout .enrollment_cart, &.showCart .layout .documents, &.showCart .layout .referred-by-section{
         display:block;
+    }
+
+    .enrollment_cart_mobile {
+        display: none;
     }
 
     #state-select {
         min-width: 145px;
         button {
             border-color: #cfcfcf;
-            text-transform: uppercase;
+            //text-transform: uppercase;
             @include box-shadow(none);
             width: 145px;
+            background-color: #fff;
+            background-size: auto;
+            color: #555;
         }
         .icon {
             background-position: 10px center;
@@ -198,12 +199,17 @@
     }
 
     .buttons .button, .buttons button, .enrollment-btn {
-        background-color: $enrollment-primary-button-background;
-        color: $enrollment-primary-button-color;
         display: inline-block;
         float: right;
         text-transform: none;
-        font-weight: 400;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        background-color: #2aa4dc;
+        border: 1px solid #229acd;
+        padding: 10px 40px;
+        @include border-radius(5px);
+        @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
         &.secondary {
             background-color: $enrollment-secondary-button-background;
             color: $enrollment-secondary-button-color;
@@ -1256,6 +1262,9 @@
         font-size: 18px;
         font-weight: 400
     }
+    .content {
+        @include border-radius(0 0 5px 5px);
+    }
 }
 
 .cleanse-address {
@@ -1530,6 +1539,9 @@
         }
     }
     .next-steps {
+        .content {
+            @include border-radius(0 0 5px 5px);
+        }
         .step {
             display: inline-block;
             width: 32%;
@@ -1590,6 +1602,9 @@
         }
     }
     .confirm-personal-info {
+        .content {
+            @include border-radius(5px);
+        }
         .contact {
             float: left;
             width: 100%;
@@ -1805,6 +1820,7 @@
     .content {
         background-color: #fff;
         padding: 15px 17px;
+        @include border-radius(0 0 5px 5px);
         .notice.error {
             padding: 10px;
             margin: 15px -5px;
@@ -1844,6 +1860,7 @@
     }
     h1 {
         font-size: 24px;
+        width: auto;
     }
     p {
         font-size: 14px;
@@ -2458,29 +2475,25 @@ h3.success-message{
         }
 	}
 
-    .progress-bar-cart{
-        position:relative;
-
+    .progress-bar-cart {
+        position: relative;
         article{
-            display:none;
-
-            &.enrollment_cart, &.referred-by-section{
-                display:block;
-                border:none;
+            display: none;
+            &.enrollment_cart_mobile, &.referred-by-section {
+                display: block;
+                border: none;
                 background: none;
             }
-
-            &.referred-by-section{
-            float:left;
+            &.referred-by-section {
+                float: left;
             }
-            &.enrollment_cart{
-                margin-top:25px;
-                float:right;
-
-                header{
+            &.enrollment_cart {
+                margin-top: 25px;
+                float: right;
+                header {
                     padding:0;
+                }
             }
-        }
         }
 
         .cart-wrapper{
@@ -2611,6 +2624,13 @@ h3.success-message{
             &.step1, &.step2, &.step3, &.step4{
                 background-color:white;
             }
+        }
+    }
+
+    &.step5 {
+        background-color: $enrollment-progress-bar-step5-color;
+        .progress, .progress-bar-cart, .need-help{
+            display:none;
         }
     }
 
