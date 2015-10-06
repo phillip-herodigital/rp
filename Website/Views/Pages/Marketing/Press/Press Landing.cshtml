@@ -1,5 +1,5 @@
 ﻿@{
-    var paginationHelper = Html.GetPaginationHelper(Html.Sitecore().CurrentItem.Children);
+    var paginationHelper = Html.GetPaginationHelper(Html.Sitecore().CurrentItem.Children.Where(c => c.Fields["Title"].HasValue));
 }
 <article class="marketing wrapper press">
     <div class="press-intro">
