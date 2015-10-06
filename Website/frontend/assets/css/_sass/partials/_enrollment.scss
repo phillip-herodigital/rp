@@ -2478,7 +2478,7 @@ h3.success-message{
         }
     }
 	@include breakpoint (small) {
-		.progress, .progress-bar-cart, .need-help{
+		.progress, .need-help{
             display:none;
         }
 	}
@@ -2503,7 +2503,18 @@ h3.success-message{
                 }
             }
         }
-
+		.icon-close{
+			display:none;
+		}
+		@include breakpoint (small-medium) {
+			.cart-overlay.open + .icon-close{
+				display:block;
+				position:fixed;
+				top:15px;
+				right:15px;
+				z-index:10001;
+			}
+		}
         .cart-wrapper{
             cursor:pointer;
 
@@ -2514,6 +2525,7 @@ h3.success-message{
                     background-position:0;
                 }
             }
+			
             div.enrollment__cart{
                 margin-bottom:0;
                 float:right;
@@ -2554,8 +2566,21 @@ h3.success-message{
             border:1px solid #e6e6e6;
             border-radius:5px;
 
+			
+
 			 @include breakpoint (small-medium) {
 				left:auto;
+				position:fixed;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				background:white;
+				z-index:10000;
+
+				article{
+					float:none;
+				}
 			 }
             header{
                 background:white;

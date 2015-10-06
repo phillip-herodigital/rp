@@ -25,7 +25,7 @@
                 </div>
                 <div class="arrow" ng-show="enrollmentCartService.getCartVisibility()"></div>
                 @Html.Sitecore().Placeholder("ProgressBarCart")
-            
+                <i class="icon-close" ng-click="enrollmentCartService.toggleCart()"></i>
             </div>
         }
         
