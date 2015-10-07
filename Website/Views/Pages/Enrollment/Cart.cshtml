@@ -83,7 +83,7 @@
                 </div>*@
             </footer>
         </article>
-        <article class="enrollment__box documents" ng-if="customerType != 'commercial' && !isRenewal && getCartLocationsCount() > 0 && cartHasUtility()">
+        <article class="enrollment__box documents" ng-if="false && customerType != 'commercial' && !isRenewal && getCartLocationsCount() > 0 && cartHasUtility()">
             <header>
                 @Html.Sitecore().Field("Documents Description")
             </header>
@@ -114,7 +114,7 @@
             </ul>
         </article>
         @*<article class="enrollment__box stream-store" ng-if="cartHasMobile() && (mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhoneWsa)">*@
-        <article class="enrollment__box stream-store" ng-if="cartHasMobile()">
+        <article class="enrollment__box stream-store" ng-if="cartHasMobile() && getCurrentStep().id != 'accountInformation' && getCurrentStep().id != 'verifyIdentity'">
             <header>
                 @Html.Sitecore().Field("Stream Store Header")
             </header>

@@ -9,6 +9,7 @@
  .shopPhones {
     line-height: 1;
     .modal-header {
+        text-align: center;
         border-bottom: 0;
     }
     .inner{
@@ -1996,6 +1997,7 @@
                 font-size: 12px;
                 font-weight: 300;
                 margin: 3px 0;
+                clear: left;
             }
         }
         .rate {
@@ -2281,7 +2283,14 @@
     }
  }
 
-
+.banner.enrollment-confirmation-banner {
+    color: #fff;
+    font-size: 26px;
+    h1 {
+        font-size: 36px;
+        font-weight: 600;
+    }
+}
 
 /*
  *
@@ -4022,56 +4031,84 @@ h3.success-message{
 		}
     }
     .plan-details {
-        background: white;
-        padding: 15px;
-        .detail-section {
-            float: left;
-            width: 50%;
-            &:first-of-type {
-                border-right: 1px solid #e6e6e6;
+        .box {
+            width: 49%;
+            display: inline-block;
+            vertical-align: top;
+            background-color: #ffffff;
+            padding-left: 25px;
+            font-size: 15px;
+            ul {
+                width: 185px;
+                padding: 0 0 0 20px;
             }
-            &:last-of-type {
-                padding-left: 25px;
+            ul li {
+                padding: 0 0 5px 0;
             }
-            .list {
-                list-style: none;
-                margin-top: 10px;
-                padding: 0;
-                li {
-                    @include retina-background('gray-check.png', 'icon'); 
-                    padding-left: 15px;
-                    background-repeat: no-repeat;
-                    background-position: 0 7px;
-                    font-size: 15px;
-                    color: #666666;
-                }
+            h3 {
+                font-weight: 400;
+                color: #000;
+                font-size: 23px;
             }
+        }       
+
+        .seperator {
+            background-color: #e8e8e8;
+            display: inline-block;
+            height: 320px;
+            margin-top: 20px;
+            width: 1px;
         }
 
-		@include breakpoint(small) {
-			.detail-section {
-				width:100%;
-				float:none;
-				border:none;
+        .open {
+            background-color: #ffffff;
+            padding-top: 15px;
+            text-align: left;
+            border: 1px solid #ececec;
+        }
 
-				&:last-of-type{
-					padding-left:0;
-				}
-			}
-		}
-        .footnotes {
-            font-size: 12px;
+        .open .footnote {
+            font-size: 13px;
+            font-weight: normal;
+            padding: 0 20px;
+            margin: 0;
+        }
+
+        .open ul li {
+            list-style-image: url("../i/marketing/redesign/check.png");
+            padding-left: -3px;
+        }
+        
+        .open .footnotes {
+            color: #bcbcbc;
+            padding-bottom: 25px;
+        }
+
+        
+        @include breakpoint(small) {
+            width: 100%;
+
+            .opener {
+                width: 100%;
+            }
+
+            .open {
+                width: 100%;
+            }
         }
     }
     .button.full {
         width: 100%;
         padding: 10px !important;
-        background: white;
-        border-radius: 2px;
-        box-shadow: 1px 1px 1px 1px #e6e6e6;
+        background: #fff;
+        @include border-radius (2px);
+        border: 1px solid #ececec;
         cursor: pointer;
         color: #178fcd;
-        border: none;
+        &.hideDetails {
+            background-color: #f7f9fa;
+            border-top: none;
+        }
     }
     .mobile-plans {
         text-align: center;
@@ -4657,8 +4694,9 @@ article.phone-plan {
                 padding: 20px;
             }
         }
-        .button.full.hideDetails{
-            background:#e6e6e6;
+        .hideDetails {
+            background-color: #f7f9fa;
+            border-top: none;
         }
         .plan-details {
             background-color: #f7f7f7;

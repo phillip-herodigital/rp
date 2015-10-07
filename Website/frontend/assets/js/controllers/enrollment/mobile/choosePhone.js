@@ -461,10 +461,11 @@
             'templateUrl': 'networkUnlocking/' + mobileEnrollmentService.selectedNetwork.value
         })
     };
-    $scope.showModal = function (templateUrl) {
+    $scope.showModal = function (templateUrl, size) {
         $modal.open({
             'scope': $scope,
-            'templateUrl': templateUrl
+            'templateUrl': templateUrl,
+            'size': size ? size : ''
         })
     };
 
