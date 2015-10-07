@@ -14,7 +14,7 @@
                 <span class="associate-name">{{ associateInformation.associateId }}</span>
             </div>
         </article>
-        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix" ng-class="{enrollment_cart_mobile : cartHasMobile()}">
+        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix" ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
             <header>
                 <div class="cart-items">
                     <i class="icon-cart"></i>
