@@ -2496,13 +2496,10 @@ h3.success-message{
         position: relative;
         article{
             display: none;
-            &.enrollment_cart_mobile, &.referred-by-section {
+            &.enrollment_cart_mobile {
                 display: block;
                 border: none;
                 background: none;
-            }
-            &.referred-by-section {
-                float: left;
             }
             &.enrollment_cart {
                 margin-top: 25px;
@@ -2693,88 +2690,105 @@ h3.success-message{
 			width:100%;
 		 }
         .step-description{
-            float:left;
-            margin-right:200px;
-            font-weight:200;
-            font-size:26px;
-
+            float: left;
+            width: 325px;
+            font-weight: 200;
+            font-size: 26px;
             .stepCount{
-                font-weight:800;
-                font-size:36px;
-                line-height:1;
+                font-weight: 800;
+                font-size: 36px;
+                line-height: 1;
+            }
+            @include breakpoint(small) {
+                width: 100%;
             }
         }
         
-        .progress{
-            float:left;
-            padding-top:35px;
-            position:relative;
-            margin-right:250px;
-
-            .bar{
-                width:200px;
-                height:1px;
-                background:white;
+        .progress {
+            float: left;
+            padding-top: 35px;
+            position: relative;
+            margin-right: 180px;
+            .bar {
+                width: 200px;
+                height: 1px;
+                background: #fff;
             }
-            .step{
+            .step {
                 border: 2px solid white;
                 border-radius: 100px;
                 height: 25px;
                 position: absolute;
                 top: 23px;
                 width: 25px;
-                cursor:pointer;
+                cursor :pointer;
 
-                &.step2{
-                    left:30%;
+                &.step2 {
+                    left: 30%;
                 }
-                &.step3{
-                    right:30%;
+                &.step3 {
+                    right: 30%;
                 }
-                &.step4{
-                    right:0;
+                &.step4 {
+                    right: 0;
                 }
             }
         }
-        .inner{
-            position:relative;
+        .inner {
+            position: relative;
         }
-        .need-help{
-            position:absolute;
-            top:-35px;
-            right:0;
-            padding:5px 15px;
+        .need-help {
+            position: absolute;
+            top: -35px;
+            right: 0;
+            padding: 5px 15px;
             background-color: #033d5b;
-            color:white;
+            color: #fff;
             border-radius: 0 0 5px 5px;
-            font-size:15px;
-            font-weight:600;
+            font-size: 15px;
+            font-weight: 600;
         }
-
-
-
-        .referredBy{
-            float:left;
-
-            .user{
-                border: 1px solid white;
-                border-radius: 100px;
+        .referred-by-section {
+            float: left;
+            .associate-image {
                 float: left;
-                height: 60px;
-                margin: 2px 10px 0 0;
-                width: 60px;
+                display: inline-block;
+                height: 75px;
+                width: 75px;
+                border: 2px solid #fff;
+                @include border-radius(75px);
+                margin-right: 10px;
             }
-            .info{
-                float:left;
-                line-height:1.2;
 
-                .name{
+            .ai-right {
+                float: left;
+                display: block;
+                padding-top: 13px;
+                line-height: 1.2;
+                .referred-by {
+                    display: block;
+                    color: #fff;
+                    font-size: 12px;
+                    font-weight: 400;
+                }
+                .associate-name {
+                    display: block;
+                    color: #fff;
                     font-size: 18px;
-                    font-weight: bold;
+                    font-weight: 600;
+                    padding-bottom: 4px;
                 }
-                .job-title{
-                    font-weight:bolder;
+                .associate-level {
+                    display: block;
+                    color: #fff;
+                    font-weight: 600;
+                    font-size: 8px;
+                    text-transform: uppercase;
+                    letter-spacing: 3px;
                 }
+            }
+            @include breakpoint(small) {
+                margin-top: 10px;
             }
         }
     }
