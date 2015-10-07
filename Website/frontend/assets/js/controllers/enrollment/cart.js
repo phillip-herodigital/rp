@@ -31,6 +31,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.addDeviceError = false;
     $scope.addDataPlanError = false;
     $scope.addUtilityPlanError = false;
+    $scope.getCurrentStep = enrollmentStepsService.getCurrentStep;
 
     /**
     * Show IMEI Instructions Modal

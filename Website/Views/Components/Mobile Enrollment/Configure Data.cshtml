@@ -2,7 +2,7 @@
     var mobileSettings = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
     var showSprint = !String.IsNullOrEmpty(mobileSettings.Fields["Sprint Buy Phone"].Value) || !String.IsNullOrEmpty(mobileSettings.Fields["Sprint BYOD"].Value);
     var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Shared/Coverage Map");
-
+    var dataCalculator = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Marketing/Mobile/Mobile Usage Calculator");
 }
 
 <div id="phoneFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('phoneFlowPlans')" ng-controller="MobileEnrollmentConfigureDataCtrl" ng-init="setTimeRemaining('phoneFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
@@ -16,11 +16,10 @@
                         <h1>@Html.Sitecore().Field("Check Coverage And Choose")</h1>
                     </header>
                     <div class="content">
-                        <div class="plan-error" ng-show="mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && currentMobileLocationInfo().offerInformationByType">
-                            @Html.Sitecore().Field("Requested Plan Unavailable")
-                        </div>
-                        <div class="plan-error" ng-show="excludedStates">
-                            @Html.Sitecore().Field("Location Unavailable")
+                        <div class="plan-error" ng-show="mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && currentMobileLocationInfo().offerInformationByType || excludedStates">
+                            <span ng-show="requestedPlanNetwork == networkType && !excludedStates">@Html.Sitecore().Field("Requested Plan Unavailable")</span>
+                            <span ng-show="requestedPlanNetwork != networkType && !excludedStates">@Html.Sitecore().Field("Requested Network Unavailable")</span>
+                            <span ng-show="excludedStates">@Html.Sitecore().Field("Location Unavailable")</span>
                         </div>
                         <div class="location-section clearfix">
                             <div class="clearfix">
@@ -38,7 +37,7 @@
                             </div>
                         </div>
                         
-                        <div ng-show="currentMobileLocationInfo().offerInformationByType">
+                        <div ng-show="currentMobileLocationInfo().offerInformationByType.length > 0 && !excludedStates">
                             <hr />
                             <div class="networkSection clearfix">
                                 <i ng-class="{'icon-gsm_plans': mobileEnrollmentService.selectedNetwork.value == 'att', 'icon-cdma_plans':mobileEnrollmentService.selectedNetwork.value != 'att'}"></i>
@@ -71,24 +70,59 @@
                             </div>
 
                             <div class="plan-details" ng-show="showPlanDetails">
-                                <div class="clearfix">
-                                    <div class="detail-section">@Html.Raw(@Html.Sitecore().Field("Data Plans")) </div>
-                                    <div class="detail-section">@Html.Raw(@Html.Sitecore().Field("Unlimited Plans"))</div>
+                                <div ng-show="mobileEnrollmentService.selectedNetwork.value == 'sprint'" class="open collapsed">
+                                    <div class="box">
+                                        <h3>
+                                            @Html.Sitecore().Field("Data Plans Header")
+                                        </h3>
+                                        <ul>
+                                            @Html.Sitecore().Field("Individual Plans Details Sprint")
+                                        </ul>
+                                    </div>
+                                    <div class="seperator" ng-show="isGroupSelected"></div>
+                                    <div class="box" ng-show="isGroupSelected">
+                                        <ul>
+                                            @Html.Sitecore().Field("Group Plans Details Sprint")
+                                        </ul>
+                                    </div>
+                                    <div class="footnotes">
+                                        @Html.Sitecore().Field("Footnotes Sprint")
+                                    </div>
                                 </div>
-                                <div class="footnotes">
-                                    <div>@Html.Sitecore().Field("Unlimited Disclosure")</div>
-                                    <div>@Html.Sitecore().Field("Requires Device Disclosure")</div>
+
+                                <div ng-show="mobileEnrollmentService.selectedNetwork.value == 'att'" class="open collapsed">
+                                    <div class="box">
+                                        <h3>
+                                            @Html.Sitecore().Field("Data Plans Header")
+                                        </h3>
+                                        <ul>
+                                            @Html.Sitecore().Field("Individual Plans Details ATT")
+                                        </ul>
+                                    </div>
+                                    <div class="seperator" ng-show="isGroupSelected"></div>
+                                    <div class="box" ng-show="isGroupSelected">
+                                        <ul>
+                                            @Html.Sitecore().Field("Group Plans Details ATT")
+                                        </ul>
+                                    </div>
+                                    <div class="footnotes">
+                                        @Html.Sitecore().Field("Footnotes ATT")
+                                    </div>
                                 </div>
+
                             </div>
                             <div class="button full hideDetails" ng-click="showPlanDetails = false" ng-show="showPlanDetails">
                                 <a>@Html.Sitecore().Field("Hide Plan Details")</a>
                             </div>
+                            <p>
+                               @Html.Sitecore().Field("Dont know right plan") <a ng-click="showCalculator()">@Html.Sitecore().Field("Data Calculator")</a>
+                            </p>
                         </div>
                     </div>
                     <footer>
                         <div class="buttons">
-                            <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!planSelection.selectedOffers['Mobile'].length">@Html.Sitecore().Field("Button - Next")</button>
-                            <button type="button" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
+                            <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="excludedStates || !planSelection.selectedOffers['Mobile'].length">@Html.Sitecore().Field("Button - Next")</button>
+                            <button type="button" class="tertiary" ng-click="enrollmentStepsService.scrollToStep('phoneFlowDevices')">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
                         </div>
                     </footer>
                 </article>
@@ -127,12 +161,11 @@
         <div class="wrapper">
             <article class="coverage-map" ng-controller="MobileEnrollmentConfigureDataCtrl">
                 <div class="form">
-
                     <ul class="network-toggle">
-                        <li ng-class="{active:selectedNetwork == 'att'}"><a href="" ng-model="selectedNetwork" btn-radio="'att'">@item.Fields["GSM Network"].Value</a></li>
+                        <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'att'}" ng-model="selectedNetwork" btn-radio="'att'">@item.Fields["GSM Network"].Value</a></li>
                         @if (showSprint)
                         {
-                            <li ng-class="{active:selectedNetwork == 'sprint'}"><a href="" ng-model="selectedNetwork" btn-radio="'sprint'">@item.Fields["CDMA Network"].Value</a></li>
+                            <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'sprint'}" ng-model="selectedNetwork" btn-radio="'sprint'">@item.Fields["CDMA Network"].Value</a></li>
                         }
                     </ul>
                     <div class="item">
@@ -170,6 +203,15 @@
     </div>
 </div>
 <div class="coverage-map-fade"></div>
+
+<div class="data-calculator-container hidden">
+    <a class="close" onclick="$('.data-calculator-container').addClass('hidden')">X</a>
+    <div class="inner">
+        @Html.Partial("~/Views/Components/Marketing/Mobile/Mobile Usage Calculator.cshtml", new StreamEnergy.MyStream.Models.Marketing.UsageCalculator { IsModal = true, ShowManualCalculator = true })
+    </div>
+    
+</div>
+<div class="data-calculator-fade"></div>
 
 <script type="text/ng-template" id="indPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans {{mobileEnrollmentService.selectedNetwork.value}}">

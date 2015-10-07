@@ -9,8 +9,10 @@
     $scope.requestedPlanAvailable = false;
     $scope.showChangeLocation = $scope.geoLocation.postalCode5 == '';
     $scope.excludedStates = false;
+    $scope.enrollmentStepsService = enrollmentStepsService;
 
     var coverageMap = $(jQuery.find(".coverage-map-container"));
+    var dataCalculator = $(jQuery.find(".data-calculator-container"));
 
     $scope.filterIndPlans = function(plan){
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
@@ -172,10 +174,11 @@
         enrollmentService.setAccountInformation();
     };
 
-    $scope.showModal = function (templateUrl) {
+    $scope.showModal = function (templateUrl, size) {
         $modal.open({
             'scope': $scope,
-            'templateUrl': templateUrl
+            'templateUrl': templateUrl,
+            'size': size ? size : ''
         })
     };
 
@@ -184,20 +187,33 @@
         var center = $scope.mapInstance.getCenter();
         google.maps.event.trigger($scope.mapInstance, 'resize');
         $scope.mapInstance.setCenter(center); 
+        $scope.selectedNetwork = mobileEnrollmentService.selectedNetwork.value;
+        $scope.mapInstance.selectedNetwork = mobileEnrollmentService.selectedNetwork.value;
     };
+    $scope.showCalculator = function () {
+        dataCalculator.removeClass('hidden');
+    }
 
     $scope.selectRequestedPlan = function (devicesCount) {
         if ($scope.mobileEnrollment.requestedPlanId != '' && devicesCount > 0) {
+            $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';
             var activeService = enrollmentCartService.getActiveService();
             var provider = mobileEnrollmentService.selectedNetwork.value
             var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
             if (typeof offerInformationForType != 'undefined') {
-                    $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
+                $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
                     return offer.id == $scope.mobileEnrollment.requestedPlanId 
                         && offer.provider.toLowerCase() == provider 
                         && !offer.isChildOffer
                         && (devicesCount == 1 || (devicesCount > 1 && offer.isParentOffer)) 
                 }).some();
+                
+                $scope.requestedPlanProvider = _(offerInformationForType.value.availableOffers).filter(function (offer){
+                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                }).flatten().pluck('provider').first();
+                
+                $scope.requestedPlanNetwork = $scope.requestedPlanProvider == 'ATT' ? 'GSM' : 'CDMA';
+
                 if ($scope.requestedPlanAvailable) {
                     var requestedOffer = { 'Mobile': $scope.mobileEnrollment.requestedPlanId };
                     $scope.planSelection.selectedOffers = requestedOffer;
@@ -278,7 +294,7 @@
         }
     };
 
-    $scope.selectedNetwork = $location.search().carrier || 'att';
+    //$scope.selectedNetwork = $location.search().carrier || 'att';
 
     $scope.layers = {
         att: {
@@ -337,7 +353,7 @@
 
     $scope.$watch('selectedNetwork', function (newVal, oldVal) {
         $scope.updateMapLayers();
-    }, true);
+    });
 
     $scope.$watch('layers', function (newVal, oldVal) {
         $scope.updateMapLayers();
