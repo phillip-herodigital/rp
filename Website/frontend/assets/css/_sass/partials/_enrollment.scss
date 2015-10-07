@@ -133,7 +133,7 @@
         display:block;
     }
 
-    .enrollment_cart_mobile {
+    .hide-sidebar-cart {
         display: none;
     }
 
@@ -220,8 +220,9 @@
         @include border-radius(5px);
         @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
         &.secondary {
-            background-color: $enrollment-secondary-button-background;
+            @include background-image(linear-gradient(to-top, #ffffff 0%, #f3f3f3 100%));
             color: $enrollment-secondary-button-color;
+            border: 1px solid rgb(199, 199, 199);
             margin-right: 10px;
             text-shadow: none;
             @include breakpoint(small-medium){
@@ -2494,14 +2495,13 @@ h3.success-message{
 
     .progress-bar-cart {
         position: relative;
+        color: #333;
         article{
             display: none;
-            &.enrollment_cart_mobile {
+            &.enrollment_cart, &.hide-sidebar-cart {
                 display: block;
                 border: none;
                 background: none;
-            }
-            &.enrollment_cart {
                 margin-top: 25px;
                 float: right;
                 header {
@@ -2606,6 +2606,11 @@ h3.success-message{
             }
         }
         
+        &.hide-cart {
+            .cart-items {
+                display: none;
+            }
+        }
     }
 
     .cart{
