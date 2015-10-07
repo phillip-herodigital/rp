@@ -28,7 +28,12 @@
         $scope.phoneVerified = false;
         if (!$scope.hasError) {
             enrollmentService.isLoading = true;
-            $http.post('/api/enrollment/verifyImei', $scope.phoneOptions.imeiNumber, { transformRequest: function (code) { return JSON.stringify(code); } })
+            var convertedImei = null;
+            // do the hex conversion for CDMA MEID/ESN-DEC
+            if ($scope.phoneOptions.imeiNumber.length == 14) {
+                convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber);
+            }
+            $http.post('/api/enrollment/verifyImei', convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
                 analytics.sendVariables(2, data.provider);
                 if (!data.isValidImei) {
