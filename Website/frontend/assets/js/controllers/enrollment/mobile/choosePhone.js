@@ -25,7 +25,13 @@
         $scope.deviceIneligible = false;
         $scope.gsmIneligible = false;
         $scope.cdmaIneligible = false;
+        $scope.duplicateDevice = false;
         $scope.phoneVerified = false;
+        var cartDevices = $scope.getCartDevices();
+        if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
+            $scope.hasError = true;
+            $scope.duplicateDevice = true;
+        }
         if (!$scope.hasError) {
             enrollmentService.isLoading = true;
             var convertedImei = null;

@@ -61,6 +61,9 @@
                                 <div ng-show="cdmaIneligible">
                                     @Html.Sitecore().Field("CDMA Error Message")
                                 </div>
+                                <div ng-show="duplicateDevice">
+                                    @Html.Sitecore().Field("Duplicate Device Error Message")
+                                </div>
                             </div>
                             <div>
                                 <a href="" ng-click="showLightbox('compatible-devices')">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
