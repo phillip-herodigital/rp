@@ -106,14 +106,14 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <div class="item" data-val-error="ICCID" ng-show="networkType == 'CDMA' && showIccid" ng-class="{ disabled : networkType == 'CDMA' && showIccid && phoneOptions.phoneOS == null }">
+                                    <div class="item" ng-show="networkType == 'CDMA' && showIccid" ng-class="{ disabled : networkType == 'CDMA' && showIccid && phoneOptions.phoneOS == null }">
                                         <label>
                                             @Html.Sitecore().Field("Header - ICCID Number")
                                             <span class="label-description" ng-class="{ disabled : missingIccid }">@Html.Sitecore().Field("Text - ICCID Number Note")</span>
                                         </label>
-                                        <div class="btn-group-options iccid">
+                                        <div class="btn-group-options iccid" data-val-error="iccid">
                                             <div ng-class="{ disabled : missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
-                                            <input type="text" name="iccid" ng-disabled="missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && !missingIccid" />
+                                            <input type="text" name="iccid" ng-disabled="missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="networkType == 'CDMA' && !missingIccid" />
                                         </div>
                                         <div class="clearfix"></div>
                                         <div>
