@@ -405,10 +405,10 @@
                                         <span class="currentPlan">@GetFieldValue("Current Plan")</span>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
+                                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getValidasRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
+                                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getValidasRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
                                     </div>
                                 </div>
                             </div>
@@ -636,7 +636,7 @@
                 </div>
                 <div class="grid" ng-show="isModal">
                     <div class="col right addToCart">
-                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
+                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
                     </div>
                 </div>
                 <div class="stretch" ng-show="!isModal">
@@ -735,10 +735,10 @@
                                 @GetFieldValue("Plan Selection")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
                             </div>
                         </div>
                     </div>
