@@ -3,6 +3,7 @@
     $scope.mobileEnrollmentService.cartItemCountText = '';
     $scope.enrollmentCartService = enrollmentCartService;
     $scope.enrollmentStepsService = enrollmentStepsService;
+    $scope.associateInformation = enrollmentService.associateInformation;
 
     $scope.showModal = function (templateUrl) {
         $modal.open({
