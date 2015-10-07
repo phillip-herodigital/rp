@@ -28,7 +28,7 @@
     }
  }
  
- .coverage-map-fade{
+ .coverage-map-fade, .data-calculator-fade{
     background: #000;
     opacity: .5;
     position: fixed;
@@ -37,6 +37,44 @@
     right: 0;
     bottom: 0;
     z-index: 1040;
+ }
+
+ .data-calculator-container{
+	position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1200;
+	width: 800px;
+    height: 400px;
+    margin: auto;
+    margin-top: 135px;
+    background: #fff;
+
+	.close{
+		position:absolute;
+		top:5px;
+		right:5px;
+	}
+
+	.modal-body.scrollable{
+		height:300px;
+		overflow-y:auto;
+		padding:10px;
+	}
+	&.hidden{
+		& + .data-calculator-fade{
+			display:none;
+		}
+	}
+	.wrapper{
+		padding-bottom:0 !important;
+
+		.tab-wrapper{
+			border:0 !important;
+		}
+	}
  }
 
  .coverage-map-container {
@@ -2449,7 +2487,7 @@ h3.success-message{
         }
     }
 	@include breakpoint (small) {
-		.progress, .progress-bar-cart, .need-help{
+		.progress, .need-help{
             display:none;
         }
 	}
@@ -2474,7 +2512,18 @@ h3.success-message{
                 }
             }
         }
-
+		.icon-close{
+			display:none;
+		}
+		@include breakpoint (small-medium) {
+			.cart-overlay.open + .icon-close{
+				display:block;
+				position:fixed;
+				top:15px;
+				right:15px;
+				z-index:10001;
+			}
+		}
         .cart-wrapper{
             cursor:pointer;
 
@@ -2485,6 +2534,7 @@ h3.success-message{
                     background-position:0;
                 }
             }
+			
             div.enrollment__cart{
                 margin-bottom:0;
                 float:right;
@@ -2525,8 +2575,21 @@ h3.success-message{
             border:1px solid #e6e6e6;
             border-radius:5px;
 
+			
+
 			 @include breakpoint (small-medium) {
 				left:auto;
+				position:fixed;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				background:white;
+				z-index:10000;
+
+				article{
+					float:none;
+				}
 			 }
             header{
                 background:white;
