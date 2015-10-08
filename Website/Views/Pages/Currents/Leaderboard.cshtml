@@ -1,267 +1,188 @@
-﻿<style>
-    .leaderboard-header {
-        padding-left: 140px;
-        padding-right: 240px;
-        padding-bottom: 60px;
-    }
-    .leaderboard-header h1 {
-        font-size: 48px;
-        margin-top: 0px;
-        margin-bottom: 20px;
-    }
-    .leaderboard-header h4 {
-        margin-bottom: 0px;
-        font-weight: 600;
-    }
-        .leaderboard-header h1, h4 {
-            color: #06a7e2;
-        }
+﻿@using StreamEnergy.MyStream.Controllers.ApiControllers;
+@using StreamEnergy.MyStream.Models.Currents;
+@{
+    string liClass = "";
+    string filterValue = "";
+    string month = DateTime.Now.ToString("MMMM");
+    string year = DateTime.Now.Year.ToString();
+    filterValue = month + " " + year;
 
-        .leaderboard-header p {
-            font-size: 18px;
-        }
-
-        .leaderboard .director {
-            background-color: #eeeeee;
-            padding: 25px;
-        }
-
-        .regional .director h2 {
-            color: #005cb8;
-        }
-
-        .managing .director h2 {
-            color: #007852;
-        }
-
-        .senior .director h2 {
-            color: #5c2b85;
-        }
-
-        .executive .director h2 {
-            color : #5e5e5e;
-        }
-
-    .director h2 {
-        font-size: 48px;
-        line-height: 0.9;
-        margin: 0;
+    if (!String.IsNullOrEmpty(Request.QueryString["month"]))
+    {
+        filterValue = Request.QueryString["month"];
     }
 
-        .director h3 {
-            font-size: 24px;
-            margin: 0;
-        }
+    Sitecore.Data.Items.Item dataSourceItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Currents/Leaderboard Lists");
 
-        .director p {
-            font-size: 18px;
-        }
+    LeaderList leaderList = CurrentsController.GetLeaderList(dataSourceItem, filterValue);
+    List<string> previousMonths = CurrentsController.GetPreviousLeaderListMonths(dataSourceItem, leaderList);
+}
 
-        .regional .director-list {
+<article class="currents currents__box leaderboard">
+    <div class="wrapper">
+        <div class="leaderboard-header">
+            <h4>@leaderList.ListDateText</h4>
+            @Html.Sitecore().Field("Header Text")
+        </div>
+        @if (previousMonths.Count > 0)
+            {
+            <div class="pastWinners" slide-toggle>
+                <h1>Past Winners</h1>
+                <div class="opener winners" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
+                <div class="opener winners" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
 
-        }
+                <div class="month-chooser slide-toggle">
+                    @foreach (string monthLink in previousMonths)
+                    {
+                        <div class="month">
+                            <a href="leaderboard?month=@monthLink">@monthLink</a>
+                        </div>
+                    }
+                </div>
 
-    .director .opener {
-        height: 23px;
-        width: 23px;
-        color: #ffffff;
-        text-align:center;
-        font-size: 18px;
-        vertical-align: middle;
-        font-weight: bold;
-    }
-
-        .director .opener.regional {
-            background-color: #005cb8;
-        }
-
-        .director .opener.managing {
-            background-color: #007852;
-        }
-
-        .director .opener.senior {
-            background-color: #5c2b85;
-        }
-
-        .director .opener.executive {
-            background-color: #5e5e5e;
-        }
-
-    .director-list span {
-        display: block;
-        font-size: 12px;
-        font-weight: bold;
-        letter-spacing: 0.14em;
-    }
-
-            .director-list ul {
-                padding: 0;
-                margin-top: 5px;
-            } 
-            
-             .director-list ul li {
-                padding: 10px 0 10px 20px;
-                font-size: 24px;
+            </div>
             }
-            .regional .director-list ul li {
-                background-color: #005cb8;
-                background-image: linear-gradient(#005cb8, #0089db);
-                list-style-type: none;
-                color: #ffffff;
-            }
-
-            .managing .director-list ul li {
-                background-color: #007852;
-                background-image: linear-gradient(#007852, #00b376);
-                list-style-type: none;
-                color: #ffffff;
-            }
-
-    .senior .director-list ul li {
-        background-color: #5c2b85;
-        background-image: linear-gradient(#5c2b85, #8940c0);
-        list-style-type: none;
-        color: #ffffff;
-    }
-
-    .executive .director-list ul li {
-        background-color: #5e5e5e;
-        background-image: linear-gradient(#5e5e5e, #8c8c8c);
-        list-style-type: none;
-        color: #ffffff;
-    }
-</style>
-<div class="leaderboard">
-    <div class="leaderboard-header">
-        @Html.Sitecore().Field("Header Text")
     </div>
-
-    <div class="grid four">
-        <div class="col regional">
-            <div class="director">
-                <h3>@Html.Sitecore().Field("Open Line")</h3>
-                <h2>@Html.Sitecore().Field("Regional Director")</h2>
-                <div class="opener regional">+</div>
-                <p>@Html.Sitecore().Field("Regional Director Description")</p>
-               
+</article>
+<div class="grid four">
+    <div class="col regional">
+        <div class="director" slide-toggle>
+            <div class="ribbon-wrapper">
+                <div class="ribbon">
+                    @Html.Sitecore().Field("Top 25")
+                </div>
             </div>
-            <div class="director-list">
-                <ul>
-                    <li>Firstname Lastname <span>@Html.Sitecore().Field("Regional Director"), TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>REGIONAL DIRECTOR, TEXAS</span></li>
-                    
-                </ul>
-
-            </div>
+            <h3>@Html.Sitecore().Field("Open Line")</h3>
+            <h2>@Html.Sitecore().Field("Regional Director")</h2>
+            <div class="opener regional" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
+            <div class="opener regional" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
+            <p class="slide-toggle">@Html.Sitecore().Field("Regional Director Description")</p>
         </div>
-        <div class="col managing">
-            <div class="director">
-                <h3>@Html.Sitecore().Field("Open Line")</h3>
-                <h2>@Html.Sitecore().Field("Managing Director")</h2>
-                <div class="opener managing">+</div>
-                <p>@Html.Sitecore().Field("Managing Director Description")</p>
-            </div>
-            <div class="director-list">
-                <ul>
-                    <li>Firstname Lastname <span>@Html.Sitecore().Field("Managing Director"), TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                    <li>Firstname Lastname <span>MANAGING DIRECTOR, TEXAS</span></li>
-                </ul>
+        <div class="director-list">
+            <ul>
+                @{
+                for (int i = 0; i < leaderList.RegionalDirectors.Keys.Count; i++)
+                {
+                    liClass = "";
+                    string index = leaderList.RegionalDirectors.Keys[i];
+                    string value = leaderList.RegionalDirectors.GetValues(i).First();
+                    value = value.Replace("%20", " ");
+                    value = value.Replace("%2C", ",");
+                    string[] nameState = value.Split(',');
+                    if (i > 9)
+                    {
+                        liClass = "top25";
+                    }
+                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Regional Director"), @nameState[1]</span></div></li>
 
-            </div>
+                }
+                }
+            </ul>
         </div>
-        <div class="col senior">
-            <div class="director">
-                <h3>@Html.Sitecore().Field("Open Line")</h3>
-                <h2>@Html.Sitecore().Field("Senior Director")</h2>
-                <div class="opener senior">+</div>
-                <p>@Html.Sitecore().Field("Senior Director Description")</p>
+    </div>
+    <div class="col managing">
+        <div class="director" slide-toggle>
+            <div class="ribbon-wrapper">
+                <div class="ribbon">
+                    @Html.Sitecore().Field("Top 25")
+                </div>
             </div>
-            <div class="director-list">
-                <ul>
-                    <li>1 Firstname Lastname <span>@Html.Sitecore().Field("Senior Director"), TEXAS</span></li>
-                    <li>2 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li>3 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li>4 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li>5 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li>6 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li>7 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li>8 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li>9 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li>10 Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>SENIOR DIRECTOR, TEXAS</span></li>
-                </ul>
-
-            </div>
+            <h3>@Html.Sitecore().Field("Open Line")</h3>
+            <h2>@Html.Sitecore().Field("Managing Director")</h2>
+            <div class="opener managing" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
+            <div class="opener managing" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
+            <p class="slide-toggle">@Html.Sitecore().Field("Managing Director Description")</p>
         </div>
-        <div class="col executive">
-            <div class="director">
-                <h3>@Html.Sitecore().Field("Open Line")</h3>
-                <h2>@Html.Sitecore().Field("Executive Director")</h2>
-                <div class="opener executive">+</div>
-                <p>@Html.Sitecore().Field("Executive Director Description")</p>
-            </div>
-            <div class="director-list">
-                <ul>
-                    <li>1 Firstname Lastname <span>@Html.Sitecore().Field("Executive Director"), TEXAS</span></li>
-                    <li>2 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li>3 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li>4 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li>5 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li>6 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li>7 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li>8 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li>9 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li>10 Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                    <li> Firstname Lastname <span>EXECUTIVE DIRECTOR, TEXAS</span></li>
-                </ul>
+        <div class="director-list">
+            <ul>
+                @{
+                for (int i = 0; i < leaderList.ManagingDirectors.Keys.Count; i++)
+                {
+                    liClass = "";
+                    string index = leaderList.ManagingDirectors.Keys[i];
+                    string value = leaderList.ManagingDirectors.GetValues(i).First();
+                    value = value.Replace("%20", " ");
+                    value = value.Replace("%2C", ",");
+                    string[] nameState = value.Split(',');
+                    if (i > 9)
+                    {
+                        liClass = "top25";
+                    }
+                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Managing Director"), @nameState[1]</span></div></li>
 
+                }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col senior">
+        <div class="director" slide-toggle>
+            <div class="ribbon-wrapper">
+                <div class="ribbon">
+                    @Html.Sitecore().Field("Top 25")
+                </div>
             </div>
+            <h3>@Html.Sitecore().Field("Open Line")</h3>
+            <h2>@Html.Sitecore().Field("Senior Director")</h2>
+            <div class="opener senior" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
+            <div class="opener senior" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
+            <p class="slide-toggle">@Html.Sitecore().Field("Senior Director Description")</p>
+        </div>
+        <div class="director-list">
+            <ul>
+                @{
+                for (int i = 0; i < leaderList.SeniorDirectors.Keys.Count; i++)
+                {
+                    liClass = "";
+                    string index = leaderList.SeniorDirectors.Keys[i];
+                    string value = leaderList.SeniorDirectors.GetValues(i).First();
+                    value = value.Replace("%20", " ");
+                    value = value.Replace("%2C", ",");
+                    string[] nameState = value.Split(',');
+                    if (i > 9)
+                    {
+                        liClass = "top25";
+                    }
+                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Senior Director"), @nameState[1]</span></div></li>
+
+                }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col executive" slide-toggle>
+        <div class="director">
+            <div class="ribbon-wrapper">
+                <div class="ribbon">
+                    @Html.Sitecore().Field("Top 25")
+                </div>
+            </div>
+            <h3>@Html.Sitecore().Field("Open Line")</h3>
+            <h2>@Html.Sitecore().Field("Executive Director")</h2>
+            <div class="opener executive" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
+            <div class="opener executive" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
+            <p class="slide-toggle">@Html.Sitecore().Field("Executive Director Description")</p>
+        </div>
+        <div class="director-list">
+            <ul>
+                @{
+                for (int i = 0; i < leaderList.ExecutiveDirectors.Keys.Count; i++)
+                {
+                    liClass = "";
+                    string index = leaderList.ExecutiveDirectors.Keys[i];
+                    string value = leaderList.ExecutiveDirectors.GetValues(i).First();
+                    value = value.Replace("%20", " ");
+                    value = value.Replace("%2C", ",");
+                    string[] nameState = value.Split(',');
+                    if (i > 9)
+                    {
+                        liClass = "top25";
+                    }
+                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Executive Director"), @nameState[1]</span></div></li>
+
+                }
+                }
+            </ul>
         </div>
     </div>
 </div>
