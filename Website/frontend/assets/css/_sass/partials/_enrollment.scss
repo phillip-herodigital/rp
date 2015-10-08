@@ -51,6 +51,12 @@
     margin: auto;
     margin-top: 135px;
     background: #fff;
+	
+	@include breakpoint(small-medium){
+		width:auto;
+		left:0;
+		right:0;
+	}
 
 	.close{
 		position:absolute;
@@ -58,6 +64,11 @@
 		right:5px;
 	}
 
+	.modal-header{
+		color: #257ab3;
+		font-size:24px;
+		font-weight:300;
+	}
 	.modal-body.scrollable{
 		height:300px;
 		overflow-y:auto;
@@ -2983,13 +2994,21 @@ h3.success-message{
                 opacity: 0.3;
             }
         }
+        .transfer-number {
+            .alert {
+                background-image: none;
+                p {
+                    margin: 1em 0;
+                }
+            }
+        }
         .transfer-header {
             h4 {
                 margin: 0;
             }
             p {
                 margin: 10px 0 0;
-        }
+            }
         }
         .help-text {
             font-style: italic;
