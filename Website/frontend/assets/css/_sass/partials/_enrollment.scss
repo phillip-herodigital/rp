@@ -4222,7 +4222,7 @@ h3.success-message{
                 color: $enrollment-plan-att-color;
             }
             a.button {
-                /*background:$enrollment-plan-att-color;*/
+                background-color:$enrollment-plan-att-color;
                 @include background-image(linear-gradient(to top, $enrollemnt-plan-att-gradient-color-bottom 0%, $enrollemnt-plan-att-gradient-color-top 100%));
                 border: 1px solid #229acd;
             }
@@ -4239,7 +4239,7 @@ h3.success-message{
                 color: $enrollment-plan-sprint-color;
             }
             a.button {
-                /*background:$enrollment-plan-sprint-color;*/
+                background-color:$enrollment-plan-sprint-color;
                 @include background-image(linear-gradient(to top, $enrollemnt-plan-sprint-gradient-color-bottom 0%, $enrollemnt-plan-sprint-gradient-color-top 100%));
                 border: 1px solid #eca001;
             }
