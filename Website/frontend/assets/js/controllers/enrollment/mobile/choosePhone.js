@@ -494,7 +494,7 @@
             var dataPlan = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
             
             // reset the dataplan if one is selected
-            if (typeof dataPlan != 'undefined' && dataPlan.value.offerSelections.length > 0){
+            if (typeof dataPlan != 'undefined' && dataPlan.value.offerSelections.length > 0 && !$scope.duplicateDevice){
                 enrollmentCartService.removeMobileOffers(activeService);
             }
             $scope.clearPhoneSelection();
