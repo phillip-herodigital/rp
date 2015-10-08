@@ -25,10 +25,21 @@
         $scope.deviceIneligible = false;
         $scope.gsmIneligible = false;
         $scope.cdmaIneligible = false;
+        $scope.duplicateDevice = false;
         $scope.phoneVerified = false;
+        var cartDevices = $scope.getCartDevices();
+        if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
+            $scope.hasError = true;
+            $scope.duplicateDevice = true;
+        }
         if (!$scope.hasError) {
             enrollmentService.isLoading = true;
-            $http.post('/api/enrollment/verifyImei', $scope.phoneOptions.imeiNumber, { transformRequest: function (code) { return JSON.stringify(code); } })
+            var convertedImei = null;
+            // do the hex conversion for CDMA MEID/ESN-DEC
+            if ($scope.phoneOptions.imeiNumber.length == 14) {
+                convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber);
+            }
+            $http.post('/api/enrollment/verifyImei', convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
                 analytics.sendVariables(2, data.provider);
                 if (!data.isValidImei) {
@@ -40,9 +51,9 @@
                     }];
                     analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
                     if(data.verifyEsnResponseCode) {
-                        $scope.deviceIneligibleMessage = $sce.trustAsHtml(_.find($scope.esnValidationMessages, function (message) { 
+                        $scope.deviceIneligibleMessage = _.find($scope.esnValidationMessages, function (message) { 
                                 return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
-                            }).message);
+                            }).message;
                     }
                 } else if ($scope.getDevicesCount() > 0 && mobileEnrollmentService.selectedNetwork.value != data.provider) {
                     $scope.hasError = true;
@@ -461,10 +472,11 @@
             'templateUrl': 'networkUnlocking/' + mobileEnrollmentService.selectedNetwork.value
         })
     };
-    $scope.showModal = function (templateUrl) {
+    $scope.showModal = function (templateUrl, size) {
         $modal.open({
             'scope': $scope,
-            'templateUrl': templateUrl
+            'templateUrl': templateUrl,
+            'size': size ? size : ''
         })
     };
 

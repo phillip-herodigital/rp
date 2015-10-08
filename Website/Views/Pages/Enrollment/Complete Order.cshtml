@@ -8,38 +8,39 @@
     <div class="layout">
         <div class="wrapper cols-2 enrollment__review-order">
             <section>
-                <article class="form enrollment__box" ng-if="!isRenewal">
-                    <header>
-                        <h1 ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Complete Order")</h1>
-                        <h1 ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Complete Quote")</h1>
-                    </header>
-                    <div class="content">
+                <form data-val-bind-messages="validations" ng-submit="completeStep()">
+                    <article class="form enrollment__box" ng-if="!isRenewal">
+                        <header>
+                            <h1 ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Complete Order")</h1>
+                            <h1 ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Complete Quote")</h1>
+                        </header>
+                        <div class="content">
 
-                        <p ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Almost Done")</p>
+                            <p ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Almost Done")</p>
 
-                        <div ng-repeat="(id, location) in getCartItems()">
-                            <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                                <div ng-include src="'completeOrder/' + offerInformation.key"></div>
+                            <div ng-repeat="(id, location) in getCartItems()">
+                                <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                                    <div ng-include src="'completeOrder/' + offerInformation.key"></div>
+                                </div>
+                                <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                             </div>
-                            <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
-                        </div>
 
-                    </div>
-                    <footer ng-if="getCartTotal() > 0">
-                        <div class="total">
-                            @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
                         </div>
-                    </footer>
-                </article>
-                <article class="enrollment__box" ng-if="isRenewal">
-                    <header>
-                        <h1>@Html.Sitecore().Field("Complete Renewal")</h1>
-                    </header>
-                    <div class="content">
-                        @Html.Sitecore().Field("Complete Renewal Content")
-                    </div>
-                </article>
-                @*
+                        <footer ng-if="getCartTotal() > 0">
+                            <div class="total">
+                                @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                            </div>
+                        </footer>
+                    </article>
+                    <article class="enrollment__box" ng-if="isRenewal">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Complete Renewal")</h1>
+                        </header>
+                        <div class="content">
+                            @Html.Sitecore().Field("Complete Renewal Content")
+                        </div>
+                    </article>
+                    @*
                     <p>@Html.Sitecore().Field("Set Up Card")</p>
                     <h2>@Html.Sitecore().Field("Homelife Services")</h2>
                     <table>
@@ -60,8 +61,7 @@
                             </tr>
                         </tbody>
                     </table>
-                *@
-                <form data-val-bind-messages="validations" ng-submit="completeStep();">
+                    *@
                     @Html.ValidationSummary()
                     <article class="enrollment__box card-details" ng-if="getCartTotal() > 0">
                         <header>
@@ -302,7 +302,7 @@
                             <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="customerType != 'commercial' || cartHasMobile()">
                                 <ul class="checkbox-list">
                                     <li>
-                                        @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms" })
+                                        @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms", data_val = "true", data_val_required = "" })
                                         <label for="@Html.IdFor(m => m.AgreeToTerms)">
                                             @Html.Sitecore().Field("Terms and Conditions Text")
                                         </label>
@@ -655,7 +655,7 @@
                     <div class="rate device-price" ng-if="selectedOffer.payments.requiredAmounts[0].phoneCharge > 0">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}@*<span ng-if="item.buyingOption != 'New'">@Html.Sitecore().Field("Per Month Text")</span>*@</div>
                     <div class="description">
                         <h2>@Html.Sitecore().Field("Bring Your Own Device")</h2>
-                        <div class="details"><strong>@Html.Sitecore().Field("IMEI Label"):</strong> {{item.imeiNumber}}</div>
+                        <div class="details"><strong>@Html.Sitecore().Field("IMEI Label")</strong> {{item.imeiNumber}}</div>
                     </div>
                 </div>
                 <div class="line-item clearfix" ng-if="selectedOffer.payments.requiredAmounts[0].activationFee > 0">
@@ -672,10 +672,16 @@
                     </div>
                     <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].taxTotal | currency }}</div>
                 </div>
-                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'ATT' && item.simNumber == null) || (dataPlan.provider == 'Sprint' && item.esnNumber == null)">
+                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'ATT' && item.simNumber == null)">
                     <div>
                         <h3>@Html.Sitecore().Field("SIM Card Text")</h3>
                         <p class="note">@Html.Sitecore().Field("SIM Card Description")</p>
+                    </div>
+                </div>
+                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && item.iccidNumber == null)">
+                    <div>
+                        <h3>@Html.Sitecore().Field("ICCID Card Text")</h3>
+                        <p class="note">@Html.Sitecore().Field("ICCID Card Description")</p>
                     </div>
                 </div>
             </div>

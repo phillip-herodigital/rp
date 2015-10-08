@@ -14,7 +14,7 @@
                 <span class="associate-name">{{ associateInformation.associateId }}</span>
             </div>
         </article>
-        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix" ng-class="{enrollment_cart_mobile : cartHasMobile()}">
+        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix" ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
             <header>
                 <div class="cart-items">
                     <i class="icon-cart"></i>
@@ -83,7 +83,7 @@
                 </div>*@
             </footer>
         </article>
-        <article class="enrollment__box documents" ng-if="customerType != 'commercial' && !isRenewal && getCartLocationsCount() > 0 && cartHasUtility()">
+        <article class="enrollment__box documents" ng-if="false && customerType != 'commercial' && !isRenewal && getCartLocationsCount() > 0 && cartHasUtility()">
             <header>
                 @Html.Sitecore().Field("Documents Description")
             </header>
@@ -114,7 +114,7 @@
             </ul>
         </article>
         @*<article class="enrollment__box stream-store" ng-if="cartHasMobile() && (mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhoneWsa)">*@
-        <article class="enrollment__box stream-store" ng-if="cartHasMobile()">
+        <article class="enrollment__box stream-store" ng-if="getCurrentStep().id == 'phoneFlowDevices'">
             <header>
                 @Html.Sitecore().Field("Stream Store Header")
             </header>

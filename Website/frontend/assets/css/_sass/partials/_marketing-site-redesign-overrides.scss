@@ -2198,6 +2198,19 @@ article.mobile-pricing-plans {
 			box-shadow: 1px 1px 10px #ccc;
 		}
 
+		.wifi {
+			width: 98%;
+			display: block;
+			vertical-align: top;
+			background-color: #ffffff;
+			padding: 0 25px;
+			font-size: 15px;
+
+			h3 {
+				font-weight: 600;
+			}
+		}	
+
 		.box {
 			width: 49%;
 			display: inline-block;

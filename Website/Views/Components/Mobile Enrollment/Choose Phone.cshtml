@@ -53,13 +53,16 @@
                                 </div><!-- /input-group -->
                             </div>
                             <div ng-show="hasError" class="device-error">
-                                <div ng-show="deviceIneligible" ng-bind-html="deviceIneligibleMessage">
+                                <div compile="deviceIneligibleMessage">
                                 </div>
                                 <div ng-show="gsmIneligible">
                                     @Html.Sitecore().Field("GSM Error Message")
                                 </div>
                                 <div ng-show="cdmaIneligible">
                                     @Html.Sitecore().Field("CDMA Error Message")
+                                </div>
+                                <div ng-show="duplicateDevice">
+                                    @Html.Sitecore().Field("Duplicate Device Error Message")
                                 </div>
                             </div>
                             <div>
@@ -83,17 +86,6 @@
                                             <a href="" ng-click="editDeviceNumber(location, item)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove")</a>
                                         </div>
                                     </div>
-
-                                    <div class="item" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && phoneOptions.supportsLte == true">
-                                        <label>
-                                            @Html.Sitecore().Field("Header - ICCID Number")
-                                            <span class="label-description">@Html.Sitecore().Field("Text - ICCID Number Note")</span>
-                                        </label>
-                                        <div class="btn-group-options">
-                                            <label>@Html.Sitecore().Field("Label - ICCID Number")</label>
-                                            <input type="text" class="byo-input" name="iccidNumber" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && phoneOptions.model.lte" />
-                                        </div>
-                                    </div>
                                     <hr />
                                     <div class="item" ng-show="networkType == 'CDMA' && showIccid">
                                         <label>
@@ -114,14 +106,14 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <div class="item" data-val-error="ICCID" ng-show="networkType == 'CDMA' && showIccid">
+                                    <div class="item" ng-show="networkType == 'CDMA' && showIccid" ng-class="{ disabled : networkType == 'CDMA' && showIccid && phoneOptions.phoneOS == null }">
                                         <label>
                                             @Html.Sitecore().Field("Header - ICCID Number")
                                             <span class="label-description" ng-class="{ disabled : missingIccid }">@Html.Sitecore().Field("Text - ICCID Number Note")</span>
                                         </label>
-                                        <div class="btn-group-options iccid">
+                                        <div class="btn-group-options iccid" data-val-error="iccid">
                                             <div ng-class="{ disabled : missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
-                                            <input type="text" name="iccid" ng-disabled="missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && !missingIccid" />
+                                            <input type="text" name="iccid" ng-disabled="missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="networkType == 'CDMA' && !missingIccid" />
                                         </div>
                                         <div class="clearfix"></div>
                                         <div>
@@ -154,7 +146,7 @@
                                     </div>
                                         
                                     <hr />
-                                    <div class="item" ng-class="{ disabled : networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || (missingIccid && phoneOptions.phoneOS != 'Apple')) }">
+                                    <div class="item" ng-class="{ disabled : networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || addDevice.iccid.$invalid || (missingIccid && phoneOptions.phoneOS != 'Apple')) }">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
                                             <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
@@ -258,11 +250,6 @@
                                         <label>@Html.Sitecore().Field("Label - Zip")</label>
                                         <input name="TransferInfo.BillingAddressZip" class="small" type="text" ng-model="phoneOptions.transferInfo.billingAddressZip" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{5}$" data-val-if="mobileEnrollment.phoneTypeTab == 'existing' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
                                     </div>
-                                </div>
-                                <div class="transfer-number-message">
-                                    <i class="icon-warning"></i>
-                                    <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">@Html.Sitecore().Field("Transfer Number Text")</div>
-                                    <div ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">@Html.Sitecore().Field("CDMA Transfer Number Text")</div>
                                 </div>
                             </div>
                         </div>

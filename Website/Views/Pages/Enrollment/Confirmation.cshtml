@@ -54,7 +54,7 @@
                             <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
                             <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
                             <div class="contact">
-                                {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.unitNumber">, {{ accountInformation.mailingAddress.unitNumber }}</span><br>
+                                {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br>
     {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
 </div>
                         </div>
@@ -245,6 +245,7 @@
             {{ getDevicesCount() }} @Html.Sitecore().Field("Group Plan Text")
         </div>
     </div>
+    @*
     <div ng-if="!confirmationSuccess && !sprintByod" ng-cloak>
         <div class="notice alert">
             @Html.Sitecore().Field("Confirmation Error Mobile")
@@ -279,7 +280,7 @@
             <span ng-if="sprintByodTransfer">@Html.Sitecore().Field("Sprint BYOD Confirmation Transfer Text")</span>
         </div>
     </div>
-
+    *@
     <dl class="clearfix">
         <dt>@Html.Sitecore().Field("Account Number")</dt>
         <dd>{{ offerInformation.value.offerSelections[0].confirmationNumber }}</dd>
@@ -310,14 +311,29 @@
                     </div>
                     <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].taxTotal | currency }}</div>
                 </div>
-                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'ATT' && item.simNumber == null) || (dataPlan.provider == 'Sprint' && item.esnNumber == null)">
+                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber == null)">
                     <div>
                         <h3>@Html.Sitecore().Field("SIM Card Text")</h3>
                         <p class="note">@Html.Sitecore().Field("SIM Card Description")</p>
                     </div>
                 </div>
+                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber == null)">
+                    <div>
+                        <h3>@Html.Sitecore().Field("ICCID Card Text")</h3>
+                        <p class="note">@Html.Sitecore().Field("ICCID Card Description")</p>
+                    </div>
+                </div>
                 <div class="line-item clearfix">
                     @Html.Sitecore().Field("Mobile Next Steps")
+                    <div ng-if="(dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber == null)">
+                        @Html.Sitecore().Field("SIM Card Activation")
+                    </div>
+                    <div ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber == null)">
+                        @Html.Sitecore().Field("ICCID Card Activation")
+                    </div>
+                    <div ng-if="((dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber != null) || (dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber != null))">
+                        @Html.Sitecore().Field("Activation Instructions")
+                    </div>
                 </div>
             </div>
             <div class="plan-summary">
