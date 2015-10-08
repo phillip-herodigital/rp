@@ -194,6 +194,13 @@
         dataCalculator.removeClass('hidden');
     }
 
+    $scope.$on('MobilePlanId-set', function (event, args) {
+        var planID = args.MobilePlanID;
+        $scope.mobileEnrollment.requestedPlanId = planID;
+        $scope.selectRequestedPlan($scope.getDevicesCount());
+        dataCalculator.addClass('hidden');
+    });
+
     $scope.selectRequestedPlan = function (devicesCount) {
         if ($scope.mobileEnrollment.requestedPlanId != '' && devicesCount > 0) {
             $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';

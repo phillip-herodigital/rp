@@ -636,7 +636,12 @@
                 </div>
                 <div class="grid" ng-show="isModal">
                     <div class="col right addToCart">
+                        @if (!Model.IsJavascriptSubmit) {
                         <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
+                        }
+                        else{
+                        <a ng-href="" ng-click="setMobilePlanID()" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
+                        }
                     </div>
                 </div>
                 <div class="stretch" ng-show="!isModal">
