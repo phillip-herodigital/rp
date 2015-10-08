@@ -2994,13 +2994,21 @@ h3.success-message{
                 opacity: 0.3;
             }
         }
+        .transfer-number {
+            .alert {
+                background-image: none;
+                p {
+                    margin: 1em 0;
+                }
+            }
+        }
         .transfer-header {
             h4 {
                 margin: 0;
             }
             p {
                 margin: 10px 0 0;
-        }
+            }
         }
         .help-text {
             font-style: italic;

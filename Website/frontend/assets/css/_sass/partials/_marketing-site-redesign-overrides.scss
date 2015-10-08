@@ -1384,6 +1384,9 @@ article.mobile-interested {
 		color: #3C535C;
 		padding: 40px 0 20px 0;
 		font-size: 36px;
+		@include breakpoint(small) {
+			padding-top: 0px;
+		}
 	}
 
 	span {
@@ -1394,8 +1397,9 @@ article.mobile-interested {
 	a {
 		margin-left: 50px;
 		vertical-align: middle;
-		@include breakpoint(small) {
+		@include breakpoint(small-medium) {
 			margin-top: 10px;
+			margin-left: 0px;
 		}
 	}
 
@@ -1545,33 +1549,44 @@ article.mobile-plans-table {
 		letter-spacing: 0;
 		display: inline-block;
 		@include breakpoint(small) {
-			display: none;
+			display: block;
+			margin: 10px auto;
 		}
 	}
 	.icons {
 		.icon-gsm {
 			margin: 0px 10px 10px 20px;
+			@include breakpoint(small) {
+				display: block;
+				margin: 10px auto;
+			}
 		}
 		.icon-cdma {
 			margin: 0px 20px 10px 10px;
-		}
-		@include breakpoint(small) {
-			display: block;
-			margin: 20px;
+			@include breakpoint(small) {
+				display: block;
+				margin: 10px auto;
+			}
 		}
 	}
 	.compare {
 		border: 1px solid #d2d2d2;
-		border-radius: 5px;
+		@include border-radius(5px);
 		padding: 7px 15px 7px 15px;
 		color: #257ab3;
+		@include breakpoint(small-medium) {
+			display: inline-block;
+			margin-top: 15px;
+		}
 	}
 }
 
 article.mobile.mobile-savings {
 	background-image: image-url('marketing/redesign/Modules/savings-background.jpg');
+	background-color: #197ebe;
+	background-position: bottom;
+	background-repeat: no-repeat;
 	color: #fff;
-	height: 188px;
 	.wrapper {
 		background: none;
 		padding: 0px;
@@ -1579,6 +1594,7 @@ article.mobile.mobile-savings {
 	h1 {
 		font-size: 48px;
 		margin-bottom: 20px;
+		color: #fff;
 		strong {
 			color: #70d1fe;
 			font-weight: 700;
@@ -1588,43 +1604,31 @@ article.mobile.mobile-savings {
 			font-weight: 600;
 			font-size: 54px;
 		}
-		@include breakpoint(small) {
-			margin: 0px;
-		}
 	}
 	p {
 		font-size: 20px;
+		padding-bottom: 20px;
 		i {
 			text-decoration: underline;
 		}
-		@include breakpoint(small) {
-			margin: 0px;
-			font-size: 15px;
-		}
-	}
-}
-
-article.switch-today {
-	margin-top: 20px;
-	background-image: image-url('marketing/redesign/Modules/switch-today-background.jpg');
-	.interested {
-		color: #1a92d3;
-	}
-	.button {
-		margin-left: 20px;
 	}
 }
 
 article.phone-options {
 	.grid .col {
+			background-color: #f8fafa;
+			-webkit-box-shadow: 0px 3px 5px #efefef;
+			-moz-box-shadow: 0px 3px 5px #efefef;
+			box-shadow: 0px 3px 5px #efefef;
+			margin: auto;
 		div {
 			background-repeat: no-repeat;
 			background-position: 7% 50%;
 			padding: 50px 25px 50px 215px;
-			background-color: #f8fafa;
-			box-shadow: 0px 3px 5px #efefef;
-			width: 95%;
-			margin: auto;
+			@include breakpoint(medium) {
+				padding: 30px 20px 30px 175px;
+				background-position: 4% 50%;
+			}
 			p {
 				font-size: 24px;
 				font-weight: 500;
@@ -2194,6 +2198,19 @@ article.mobile-pricing-plans {
 			box-shadow: 1px 1px 10px #ccc;
 		}
 
+		.wifi {
+			width: 98%;
+			display: block;
+			vertical-align: top;
+			background-color: #ffffff;
+			padding: 0 25px;
+			font-size: 15px;
+
+			h3 {
+				font-weight: 600;
+			}
+		}	
+
 		.box {
 			width: 49%;
 			display: inline-block;
@@ -2312,6 +2329,11 @@ article.mobile-pricing-plans {
 		box-shadow: 1px 1px 10px #ccc;
 	}
     
+}
+
+.mobile-overview .mobile-pricing-plans {
+	background-color: #fff;
+	margin-top: 50px;
 }
 
 .mobile-manage-links {
