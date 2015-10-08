@@ -51,9 +51,9 @@
                     }];
                     analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
                     if(data.verifyEsnResponseCode) {
-                        $scope.deviceIneligibleMessage = $sce.trustAsHtml(_.find($scope.esnValidationMessages, function (message) { 
+                        $scope.deviceIneligibleMessage = _.find($scope.esnValidationMessages, function (message) { 
                                 return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
-                            }).message);
+                            }).message;
                     }
                 } else if ($scope.getDevicesCount() > 0 && mobileEnrollmentService.selectedNetwork.value != data.provider) {
                     $scope.hasError = true;

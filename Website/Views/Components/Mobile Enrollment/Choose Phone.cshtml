@@ -53,7 +53,7 @@
                                 </div><!-- /input-group -->
                             </div>
                             <div ng-show="hasError" class="device-error">
-                                <div ng-show="deviceIneligible" ng-bind-html="deviceIneligibleMessage">
+                                <div compile="deviceIneligibleMessage">
                                 </div>
                                 <div ng-show="gsmIneligible">
                                     @Html.Sitecore().Field("GSM Error Message")
@@ -146,7 +146,7 @@
                                     </div>
                                         
                                     <hr />
-                                    <div class="item" ng-class="{ disabled : networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || (missingIccid && phoneOptions.phoneOS != 'Apple')) }">
+                                    <div class="item" ng-class="{ disabled : networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || addDevice.iccid.$invalid || (missingIccid && phoneOptions.phoneOS != 'Apple')) }">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
                                             <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
