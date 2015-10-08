@@ -613,11 +613,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         public static LeaderList GetLeaderList(Item currentItem, string filterValue)
         {
-            Item currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()).SingleOrDefault();
-            if (currentMonthItem == null)
+            Item currentMonthItem;
+            if (currentItem.Children.InnerChildren.Exists(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()))
             {
-                // get the most recent month if item not created for current month
-                currentMonthItem = currentMonthItem.Children.InnerChildren.OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).First();
+               currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()).SingleOrDefault();
+            }
+            else
+            {
+                // get the most recent item
+                currentMonthItem = currentItem.Children.InnerChildren.OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).First();
             }
 
             var regionalDirectorsField = (Sitecore.Data.Fields.NameValueListField)currentMonthItem.Fields["Regional Directors List"];

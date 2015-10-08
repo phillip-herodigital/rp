@@ -27,9 +27,9 @@
         @if (previousMonths.Count > 0)
             {
             <div class="pastWinners" slide-toggle>
-                <h1>Past Winners</h1>
-                <div class="opener winners" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
-                <div class="opener winners" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
+                <h1>@Html.Sitecore().Field("Past Winners")</h1>
+                <div class="opener winners" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true">+</div>
+                <div class="opener winners" ng-if="isOpen" ng-click="toggleSlide()">-</div>
 
                 <div class="month-chooser slide-toggle">
                     @foreach (string monthLink in previousMonths)
@@ -54,8 +54,8 @@
             </div>
             <h3>@Html.Sitecore().Field("Open Line")</h3>
             <h2>@Html.Sitecore().Field("Regional Director")</h2>
-            <div class="opener regional" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
-            <div class="opener regional" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
+            <div class="opener regional" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true">+</div>
+            <div class="opener regional" ng-if="isOpen" ng-click="toggleSlide()">-</div>
             <p class="slide-toggle">@Html.Sitecore().Field("Regional Director Description")</p>
         </div>
         <div class="director-list">
@@ -65,16 +65,14 @@
                 {
                     liClass = "";
                     string index = leaderList.RegionalDirectors.Keys[i];
-                    string value = leaderList.RegionalDirectors.GetValues(i).First();
-                    value = value.Replace("%20", " ");
-                    value = value.Replace("%2C", ",");
+                    string value = Server.UrlDecode(leaderList.RegionalDirectors.GetValues(i).First());
                     string[] nameState = value.Split(',');
                     if (i > 9)
                     {
                         liClass = "top25";
                     }
                     <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Regional Director"), @nameState[1]</span></div></li>
-
+                   
                 }
                 }
             </ul>
@@ -89,8 +87,8 @@
             </div>
             <h3>@Html.Sitecore().Field("Open Line")</h3>
             <h2>@Html.Sitecore().Field("Managing Director")</h2>
-            <div class="opener managing" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
-            <div class="opener managing" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
+            <div class="opener managing" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true">+</div>
+            <div class="opener managing" ng-if="isOpen" ng-click="toggleSlide()">-</div>
             <p class="slide-toggle">@Html.Sitecore().Field("Managing Director Description")</p>
         </div>
         <div class="director-list">
@@ -100,9 +98,7 @@
                 {
                     liClass = "";
                     string index = leaderList.ManagingDirectors.Keys[i];
-                    string value = leaderList.ManagingDirectors.GetValues(i).First();
-                    value = value.Replace("%20", " ");
-                    value = value.Replace("%2C", ",");
+                    string value = Server.UrlDecode(leaderList.ManagingDirectors.GetValues(i).First());
                     string[] nameState = value.Split(',');
                     if (i > 9)
                     {
@@ -124,8 +120,8 @@
             </div>
             <h3>@Html.Sitecore().Field("Open Line")</h3>
             <h2>@Html.Sitecore().Field("Senior Director")</h2>
-            <div class="opener senior" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
-            <div class="opener senior" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
+            <div class="opener senior" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true">+</div>
+            <div class="opener senior" ng-if="isOpen" ng-click="toggleSlide()">-</div>
             <p class="slide-toggle">@Html.Sitecore().Field("Senior Director Description")</p>
         </div>
         <div class="director-list">
@@ -135,9 +131,7 @@
                 {
                     liClass = "";
                     string index = leaderList.SeniorDirectors.Keys[i];
-                    string value = leaderList.SeniorDirectors.GetValues(i).First();
-                    value = value.Replace("%20", " ");
-                    value = value.Replace("%2C", ",");
+                    string value = Server.UrlDecode(leaderList.SeniorDirectors.GetValues(i).First());
                     string[] nameState = value.Split(',');
                     if (i > 9)
                     {
@@ -159,8 +153,8 @@
             </div>
             <h3>@Html.Sitecore().Field("Open Line")</h3>
             <h2>@Html.Sitecore().Field("Executive Director")</h2>
-            <div class="opener executive" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true" ng-class="{'collapsed': isOpen}">+</div>
-            <div class="opener executive" ng-if="isOpen" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}">-</div>
+            <div class="opener executive" ng-if="!isOpen" ng-click="toggleSlide(); isOpen = true">+</div>
+            <div class="opener executive" ng-if="isOpen" ng-click="toggleSlide()">-</div>
             <p class="slide-toggle">@Html.Sitecore().Field("Executive Director Description")</p>
         </div>
         <div class="director-list">
@@ -170,9 +164,7 @@
                 {
                     liClass = "";
                     string index = leaderList.ExecutiveDirectors.Keys[i];
-                    string value = leaderList.ExecutiveDirectors.GetValues(i).First();
-                    value = value.Replace("%20", " ");
-                    value = value.Replace("%2C", ",");
+                    string value = Server.UrlDecode(leaderList.ExecutiveDirectors.GetValues(i).First());
                     string[] nameState = value.Split(',');
                     if (i > 9)
                     {

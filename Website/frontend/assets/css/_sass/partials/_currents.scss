@@ -1403,6 +1403,7 @@ $local-meeting-color: #00a8e1;
 			color: #5e5e5e;
 			display: inline-block;
 			width: 82%;
+			padding-left: 20px;
 		}
 		
 		.month-chooser {
@@ -1411,9 +1412,9 @@ $local-meeting-color: #00a8e1;
 
 		.month {
 			background-color: #989898;
-			background: image-url('icon/calendar-white.png') 20px center no-repeat, linear-gradient(#989898, #cacaca);;
+			background: image-url('icon/calendar-white.png') 30px center no-repeat, linear-gradient(#989898, #cacaca);;
 			
-			padding: 10px;
+			padding: 10px 10px 10px 30px;
 			width: 350px;
 
 			h1 {
