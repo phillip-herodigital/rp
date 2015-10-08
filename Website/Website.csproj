@@ -899,6 +899,7 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />
     <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
+    <Compile Include="Models\Currents\LeaderList.cs" />
     <Compile Include="Models\Currents\LoadPostsRequest.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
