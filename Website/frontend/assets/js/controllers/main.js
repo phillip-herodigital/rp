@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the overall page, such as the mobile navigation sidebar.
  */
-ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', '$timeout', '$window', '$modal', 'enrollmentCartService', 'scrollService', 'analytics', '$sce', function ($scope, $rootScope, $http, $templateCache, $timeout, $window, $modal, enrollmentCartService, scrollService, analytics) {
+ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', '$timeout', '$window', '$modal', 'enrollmentCartService', 'scrollService', 'analytics', '$sce', function ($scope, $rootScope, $http, $templateCache, $timeout, $window, $modal, enrollmentCartService, scrollService, analytics, $sce) {
 
     // Private Methods
     var buildNavLinks = function() {
