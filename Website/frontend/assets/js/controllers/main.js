@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the overall page, such as the mobile navigation sidebar.
  */
-ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', '$timeout', '$window', '$modal', 'enrollmentCartService', 'scrollService', 'analytics', function ($scope, $rootScope, $http, $templateCache, $timeout, $window, $modal, enrollmentCartService, scrollService, analytics) {
+ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', '$timeout', '$window', '$modal', 'enrollmentCartService', 'scrollService', 'analytics', '$sce', function ($scope, $rootScope, $http, $templateCache, $timeout, $window, $modal, enrollmentCartService, scrollService, analytics) {
 
     // Private Methods
     var buildNavLinks = function() {
@@ -66,6 +66,37 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
             });
         })
     };
+    //header login
+    $scope.formData = {};
+    $scope.isLoading = false;
+    // process the form
+    $scope.login = function () {
+        $scope.formData.rememberMe = !!$scope.formData.rememberMe;
+        $scope.isLoading = true;
+        // add the URL to the login submission object
+        $scope.formData.uri = document.URL;
+        $http({
+            method: 'POST',
+            url: '/api/authentication/login',
+            data: $scope.formData,
+            headers: { 'Content-Type': 'application/JSON' }
+        })
+			.success(function (data, status, headers, config) {
+			    if (!data.success) {
+			        if (data.redirect) {
+			            $window.location.href = data.redirect;
+			        }
+			        $scope.isLoading = false;
+			        // if not successful, bind errors to error variables
+			        $window.location.href = '/auth/login?error=true&code=' + encodeURIComponent($sce.trustAsHtml(data.validations[0].text));
+
+			    } else {
+			        // if successful, send the user to the return URL
+			        $window.location.href = data.returnURI;
+			    }
+			});
+    };
+
     analytics.sendVariables(15, window.ASPNET_SessionId);
 
 }]);

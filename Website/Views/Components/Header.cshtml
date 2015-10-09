@@ -100,7 +100,40 @@
                     {
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
-                    <li><a href="/auth/login">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
+                    <li class="dropdown">
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $(".dropdown-toggle").click(function () {
+                                    $(".dropdown-menu").toggle(function () {
+                                        $(".dropdown").toggleClass('active');
+                                    });
+                                });
+                            });
+                        </script>
+                        <a class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>@Html.Sitecore().Field("Account text", accountDataSourceItem)</a>
+                        <div class="login dropdown-menu" role="menu">
+                            <h4>Login to MyStream Account</h4>
+                            <div>
+                                <input data-val="true" data-val-required="" id="Username" name="Username" ng-model="formData.username" type="text" value="" class="ng-dirty ng-valid ng-valid-required">
+                            </div>
+                            <div>
+                                <input class="maskField ng-dirty ng-valid ng-valid-required" data-val="true" data-val-required="" id="Password" name="Password" ng-model="formData.password" type="password">
+                            </div>
+                            <div class="cta button">
+                                <a>Login</a>
+                            </div>
+                            <div>
+                                <span>
+                                    Forgot <a>Username</a> or <a>Password</a>
+                                </span>
+                            </div>
+                            <div>
+                                <span>
+                                    New User? <a>Create an Account</a>
+                                </span>
+                            </div>
+                        </div>
+                    </li>
                     <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
                 </ul>
             }

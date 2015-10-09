@@ -24,11 +24,59 @@
         ul {
             @include inline-block-list();
             display: inline;
+            .active {
+                @include box-shadow(#aaa 0px 0px 10px);
+                padding: 10px 20px;
+                border: none;
+            }
+            .dropdown {
+                    position: relative;
+             }
             li {
                 border-left: 1px solid #4f4c4d;
                 color: #4f4c4d;
                 font-size: $font-size-xsmall;
                 padding: 0 1em;
+                .dropdown-menu {
+                    h4 {
+                        margin: 0 0 15px 0;
+                    }
+                    position: absolute;
+                    @include box-shadow(#aaa 2px 2px 10px);
+                    padding: 20px;
+                    width:285px;
+                    right: 0px;
+                    display: none;
+                    float: left;
+                    margin: 2px 0px 0px;
+                    min-width: 0;
+                    background-color: #FFFFFF;
+                    @include border-radius(0);
+                    div {
+                        margin: 10px 0;
+                        display: block;
+                        border: none;
+                        padding: 0;
+                        font-size: 16px;
+                        input {
+                            width: 100%;
+                            padding: 10px;
+                            height: 44px;
+                        }
+                        a {
+                            color: #333;
+                        }
+                    }
+                    .cta {
+                        padding:11px;
+                        a {
+                            color:#fff;
+                        }
+                    }
+                }
+                .open > .dropdown-menu {
+                    display: block;
+                } 
             }
             li:first-child {
                 border: none;
@@ -50,6 +98,7 @@
                 margin: 0 5px;
             }
         }
+        
     }
     nav.main-nav {
         float: right;
