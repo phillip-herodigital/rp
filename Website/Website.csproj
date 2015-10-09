@@ -1611,6 +1611,8 @@
     <Content Include="Views\Pages\Currents\CalendarSearch.cshtml" />
     <Content Include="Views\Components\Mobile Enrollment\Progress Bar.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Header.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Compare Networks.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Savings Banner.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

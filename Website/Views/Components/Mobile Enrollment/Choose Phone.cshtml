@@ -113,13 +113,16 @@
                                         </label>
                                         <div class="btn-group-options iccid" data-val-error="iccid">
                                             <div ng-class="{ disabled : missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
-                                            <input type="text" name="iccid" ng-disabled="missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="networkType == 'CDMA' && !missingIccid" />
+                                            <input type="text" name="iccid" ng-disabled="missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" ng-blur="validateIccid()" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="networkType == 'CDMA' && showIccid && !missingIccid" />
                                         </div>
                                         <div class="clearfix"></div>
                                         <div>
                                             <input type="checkbox" ng-click="missingIccid = !missingIccid" /> @Html.Sitecore().Field("I dont have ICCID")
                                             <div class="device-error" ng-show="missingIccid && phoneOptions.phoneOS != 'Apple'">
                                                 @Html.Sitecore().Field("ICC Error Message")
+                                            </div>
+                                            <div class="device-error" ng-show="iccidInvalid && phoneOptions.phoneOS != 'Apple'">
+                                                @Html.Sitecore().Field("ICC Invalid Message")
                                             </div>
                                             <div class="missing-iccid" ng-show="missingIccid  && phoneOptions.phoneOS == 'Apple'">
                                                 @Html.Sitecore().Field("ICC Activation Message")
@@ -132,7 +135,7 @@
                                             @Html.Sitecore().Field("Header - Activation Number")
                                             <span class="label-description" ng-class="{ disabled : missingActivationCode }">@Html.Sitecore().Field("Text - Activation Number Note")</span>
                                         </label>
-                                        <div class="btn-group-options activation">
+                                        <div class="btn-group-options activation" data-val-error="activationCode">
                                             <div ng-class="{ disabled : missingActivationCode }">@Html.Sitecore().Field("Label - Activation Number")</div>
                                             <input type="text" name="activationCode" ng-disabled="missingActivationCode || phoneManufacturer == 'Apple'" ng-model="phoneOptions.activationCode" ng-blur="validateActivationCode()" data-val="true" data-val-required data-val-if="networkType == 'GSM' && !missingActivationCode" />
                                         </div>
@@ -146,7 +149,7 @@
                                     </div>
                                         
                                     <hr />
-                                    <div class="item" ng-class="{ disabled : networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || addDevice.iccid.$invalid || (missingIccid && phoneOptions.phoneOS != 'Apple')) }">
+                                    <div class="item" ng-class="{ disabled : ((networkType == 'GSM' && (missingActivationCode || (!missingActivationCode && addDevice.activationCode.$invalid))) || (networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || (addDevice.iccid.$invalid && phoneOptions.phoneOS != 'Apple')  || (missingIccid && phoneOptions.phoneOS != 'Apple')))) }">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
                                             <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
