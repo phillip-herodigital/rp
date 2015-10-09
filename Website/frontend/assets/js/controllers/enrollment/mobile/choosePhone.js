@@ -110,9 +110,6 @@
         }
         //update the editedDevice object so the Choose Phone page can get its state
         mobileEnrollmentService.editedDevice = item;
-        //remove the device from the cart items array
-        enrollmentCartService.removeDeviceFromCart(item);
-        //enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
         scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
@@ -124,7 +121,9 @@
             enrollmentCartService.toggleCart();
         }
         //remove the device from the cart items array
-        enrollmentCartService.removeDeviceFromCart(item);
+        if (!$scope.phoneVerified) {
+            enrollmentCartService.removeDeviceFromCart(item);
+        }
         enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
         $scope.phoneOptions.imeiNumber = '';
@@ -472,12 +471,17 @@
             'templateUrl': 'networkUnlocking/' + mobileEnrollmentService.selectedNetwork.value
         })
     };
+
     $scope.showModal = function (templateUrl, size) {
         $modal.open({
             'scope': $scope,
             'templateUrl': templateUrl,
             'size': size ? size : ''
         })
+    };
+
+    $scope.validateIccid = function () {
+        $scope.iccidInvalid = $scope.addDevice.iccid.$invalid;
     };
 
     /**

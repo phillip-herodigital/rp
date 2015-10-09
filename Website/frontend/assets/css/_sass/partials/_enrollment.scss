@@ -1622,6 +1622,11 @@
             }
         }
     }
+    .monthly-cost {
+        .content {
+            @include border-radius(0 0 5px 5px);
+        }
+    }
     .confirm-personal-info {
         .content {
             @include border-radius(5px);
@@ -1763,7 +1768,9 @@
     .mobile-services {
         .line-item {
             margin-left: 15px;
-
+            .next-steps {
+                margin-left: -30px;
+            }
             &:first-child {
                 margin-left: -15px;
             }
