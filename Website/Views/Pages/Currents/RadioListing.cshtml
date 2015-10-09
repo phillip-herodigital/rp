@@ -1,0 +1,118 @@
+﻿
+@using Sitecore.Data.Items
+@using Sitecore.Data.Fields
+@using Sitecore.Mvc
+@using Sitecore.Links
+@using Sitecore.Resources.Media
+@using Sitecore.Resources
+@using StreamEnergy.MyStream.Controllers.ApiControllers
+@using StreamEnergy.MyStream.Models.Currents;
+@inherits System.Web.Mvc.WebViewPage
+
+@{  
+    //Get search results
+    int currentPage = 1;
+    int maximumRows = 16;
+    int startRowIndex = 1;
+
+    string currentBlock = "";
+
+    startRowIndex = (currentPage - 1) * maximumRows;
+    IEnumerable<RadioItem> radioItems = CurrentsController.GetCurrentsRadioItems();
+    //int totalRows = CurrentsController.GetCurrentsRadioCount(Sitecore.Context.Item, Sitecore.Context.Language.ToString());
+    //int totalPages = (int)Math.Ceiling((double)totalRows / (double)maximumRows);
+    //string currentBlock = "";
+    radioItems = radioItems.OrderByDescending(e => e.ItemDate).ToList();
+    
+}
+
+<style>
+
+    .radio-header {
+        padding-bottom: 60px;
+    }
+        .radio-header h3 {
+            font-weight: bold;
+        }
+
+        .radio-header h4 {
+            margin-bottom: 0px;
+            font-weight: 600;
+            color: #06a7e2;
+        }
+
+        .radio-header p {
+            font-size: 18px;
+        }
+
+        .radio-header a {
+            text-decoration:underline;
+            font-weight: bold;
+        }
+
+</style>
+<div class="currents__blocks radio">
+    <article class="currents currents__box radio">
+        <div class="wrapper">
+            <div class="radio-header">
+                @Html.Sitecore().Field("Header Text")
+            </div>
+        </div>
+    </article>
+    @{
+        if (radioItems == null || !radioItems.Any())
+        {
+            //@Html.Raw("Sorry no matching results were found.");
+        }
+        else
+        {
+            <div class="currents-grid clearfix">
+                <div class="grid-sizer"></div>
+                <div class="gutter-sizer"></div>
+                @foreach (var r in radioItems.Select((radioItem, i) => new {i, radioItem})) //blogs.Select((blog, i) => new { i, blog }))
+                {               
+                    string articleText = "";
+                    
+                    var gridClasses = "<div class=\"grid-item medium-large ";
+                    if (r.i == 0 || r.i == 8)
+                    {
+                        gridClasses += " grid-item--width4";
+                    }
+                    else if (r.i == 3 || r.i == 9)
+                    {
+                        gridClasses += " grid-item--width2 grid-item--height2";
+                    }
+                    else if (r.i == 6 || r.i == 15)
+                    {
+                        gridClasses += " grid-item--width3";
+                    }
+
+                    gridClasses += "\">";
+                    
+                    articleText += "<span class=\"article-date\">" + r.radioItem.ItemDate.ToString("MMMM d, yyyy") + "</span>" +
+                         "<h2>" + r.radioItem.Title + "</h2>" +
+                         "<div class=\"article-summary\" ellipsis>";
+                    
+                        articleText += r.radioItem.Description;
+
+                        articleText += "</div>";
+                        articleText += r.radioItem.Iframe;  
+                    currentBlock += gridClasses + articleText + "</div>";
+                    // create the block for mobile styles
+                   
+                    gridClasses = "<div class=\"grid-item small ";
+                    
+                    currentBlock += gridClasses + "\">" + articleText + "</div>";
+                }
+                @Html.Raw(currentBlock)
+                
+            </div>
+        }
+    }
+
+    @*<div class="load-more radio" ng-show="currentPage < totalPages">
+        <a href="#" ng-click="loadMore()" ng-show="!isLoading">@Html.Sitecore().Field("Load More Text", blogRoot) <i class="icon-load-more"></i></a>
+        <div class="loading" ng-show="isLoading"></div>
+    </div>*@
+
+</div>

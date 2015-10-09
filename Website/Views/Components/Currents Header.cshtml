@@ -160,4 +160,11 @@
 else
 {
     <div class="banner currents__banner @category" style="@Html.AsBackgroundStyle("Top Banner", Sitecore.Context.Item)"></div>
+    
+    if (Sitecore.Context.Item.TemplateName == "Radio")
+    {
+        <div class="currents__tagline radio">
+            @Html.Sitecore().Field("Tag Line Text", dataSourceItem)
+        </div>
+    }
 }
