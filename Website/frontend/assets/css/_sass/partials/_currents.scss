@@ -1376,3 +1376,44 @@ $local-meeting-color: #00a8e1;
         }
     }
 }
+
+ .local-meeting-fade {
+    background-color: #000;
+    @include opacity(.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9040;
+ }
+
+ .local-meeting-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 9050;
+    margin: auto;
+    margin-top: 135px;
+    width: 600px;
+    @include breakpoint(small) {
+        width: 100%;
+    }
+    .close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+    .modal-header {
+        color: #257ab3;
+        font-size: 24px;
+        font-weight: 300;
+    }
+    &.hidden {
+        & + .local-meeting-fade {
+            display:none;
+        }
+    }
+ }

@@ -1,10 +1,12 @@
 /* Currents Calendar Controller
  *
  */
-ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$compile', '$window', function ($scope, $rootScope, $http, $compile, $window) {
+ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$compile', '$window', 'jQuery', function ($scope, $rootScope, $http, $compile, $window, jQuery) {
     $scope.weeks = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
     $scope.weekAbbrs = [ 'Sn', 'M', 'T', 'W', 'Th', 'F', 'St' ];
     $scope.months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
+
+    var localMeeting = $(jQuery.find('.local-meeting-container'));
 
     $http.get('/api/currents/calendarEvents').success(function (data, status, headers, config) { 
         $scope.events = data; 
@@ -60,12 +62,15 @@ ngApp.controller('CurrentsCalendarCtrl', ['$scope', '$rootScope', '$http', '$com
     };
 
     $scope.searchCalendar = function () {
-        var typeFilter = $scope.typeFilter != undefined ? ('&type=' + encodeURIComponent($scope.typeFilter)) : '';
-        var stateFilter = $scope.stateFilter != undefined ? ('&state=' + encodeURIComponent($scope.stateFilter)) : '';   
-        var searchTerm = $scope.searchTerm != undefined ? encodeURIComponent($scope.searchTerm) : '';
-        var url = window.location.host == 'currents.mystream.com' ? '/calendar-search' : '/currents/calendar-search';
-        $window.location.href = url + '?term=' +  searchTerm + typeFilter + stateFilter;
-        
+        if ($scope.typeFilter == 'local') {
+            localMeeting.removeClass('hidden');
+        } else {
+            var typeFilter = $scope.typeFilter != undefined ? ('&type=' + encodeURIComponent($scope.typeFilter)) : '';
+            var stateFilter = $scope.stateFilter != undefined ? ('&state=' + encodeURIComponent($scope.stateFilter)) : '';   
+            var searchTerm = $scope.searchTerm != undefined ? encodeURIComponent($scope.searchTerm) : '';
+            var url = window.location.host == 'currents.mystream.com' ? '/calendar-search' : '/currents/calendar-search';
+            $window.location.href = url + '?term=' +  searchTerm + typeFilter + stateFilter;
+        }
     };
 
 }]);
