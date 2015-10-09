@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.DomainModels.Enrollments.GeorgiaGas;
@@ -13,6 +14,8 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
 {
     class Indexer : IIndexer
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Indexer));
+
         private readonly List<Action> onDispose = new List<Action>();
         private int reportEvery;
         private int maxTasks;
@@ -88,7 +91,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
                     resultLocation.AdditionalExactMatches.Concat(meters));
                 counter++;
                 if (counter % reportEvery == 0)
-                    Console.WriteLine(counter.ToString().PadLeft(11));
+                    Log.Debug(counter.ToString().PadLeft(11));
             }
         }
 

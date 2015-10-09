@@ -29,8 +29,10 @@
                 <tr>
                     <th><div>@Html.Sitecore().Field("Member Header")</div></th>
                     <th>@Html.Sitecore().Field("Data Header")</th>
-                    <th>@Html.Sitecore().Field("Text Header")</th>
-                    <th>@Html.Sitecore().Field("Talk Header")</th>
+                    <th>@Html.Sitecore().Field("Text Header")<br />
+                    @Html.Sitecore().Field("Unlimited")</th>
+                    <th>@Html.Sitecore().Field("Talk Header")<br />
+                    @Html.Sitecore().Field("Unlimited")</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,12 +60,7 @@
                     </td>
                     <td>
                         <div class="device-full">
-                            <div class="top">
-                                <strong>{{ device.messagesUsage | number }}</strong>
-                                @Html.Sitecore().Field("Of")
-                                <em>unlimited</em>
-                            </div>
-                            <p>@Html.Sitecore().Field("Messages Used")</p>
+                            <strong>{{ device.messagesUsage | number }} @Html.Sitecore().Field("Used")</strong>
                         </div>
                         <div class="device-short">
                             <strong>{{ device.messagesUsage | number }}</strong>
@@ -71,12 +68,7 @@
                     </td>
                     <td>
                         <div class="device-full">
-                            <div class="top">
-                                <strong>{{ device.minutesUsage | number }}</strong>
-                                @Html.Sitecore().Field("Of")
-                                <em>unlimited</em>
-                            </div>
-                            <p>@Html.Sitecore().Field("Minutes Used")</p>
+                            <strong>{{ device.minutesUsage | number }} @Html.Sitecore().Field("Used")</strong>
                         </div>
                         <div class="device-short">
                             <strong>{{ device.minutesUsage | number }}</strong>
@@ -92,7 +84,7 @@
                             @Html.Sitecore().Field("Data Total")<br />
                             <strong>{{ deviceTotal.data.usage | gigabyte }} GB</strong>
                             @Html.Sitecore().Field("Of")
-                            <strong>{{ deviceTotal.data.limit < 0 ? 'unlimited' : (deviceTotal.data.limit | gigabyte) }} GB</strong>
+                            <strong>{{ deviceTotal.data.limit <= 0 ? 'Unlimited' : (deviceTotal.data.limit | gigabyte) + ' GB' }}</strong>
                         </div>
                         <div class="device-short">
                             <strong>{{ deviceTotal.data.usage | gigabyte:1 }} GB</strong>

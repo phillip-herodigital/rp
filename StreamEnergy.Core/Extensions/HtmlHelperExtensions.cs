@@ -142,6 +142,13 @@ namespace StreamEnergy.Extensions
             {
                 return domains[domain];
             }
+            else if (!Sitecore.Context.PageMode.IsPageEditor && !string.IsNullOrEmpty(domain))
+            {
+                foreach (var domainTranslation in Settings.GetDomainTranslations())
+                {
+                    domain = domain.Replace(domainTranslation.Key, domainTranslation.Value);
+                }
+            }
             return domain;
         }
         public static PaginationHelper<T> GetPaginationHelper<T>(this HtmlHelper htmlHelper, IEnumerable<T> items)

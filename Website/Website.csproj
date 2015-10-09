@@ -98,6 +98,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\ITHit.WebDAV.Server.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Lucene.Net.dll</HintPath>
@@ -668,6 +671,9 @@
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Net.FtpClient">
+      <HintPath>..\packages\System.Net.FtpClient.1.0.5281.14359\lib\net40\System.Net.FtpClient.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Extensions.dll</HintPath>
@@ -769,6 +775,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\MobileAccountCondition.cs" />
     <Compile Include="Conditions\CustomerDismissedModalCondition.cs" />
     <Compile Include="Conditions\CustomerAutoPayCondition.cs" />
     <Compile Include="Conditions\CustomerEligibleRenewalCondition.cs" />
@@ -922,6 +929,8 @@
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\MobileEnrollment\ChoosePhone.cs" />
     <Compile Include="Models\MobileEnrollment\ChooseNetwork.cs" />
+    <Compile Include="Models\MobileEnrollment\ProgressBar.cs" />
+    <Compile Include="Models\MobileEnrollment\VerifyDeviceNumberResponse.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\Temp\GenerateW9.cs" />
@@ -1299,7 +1308,9 @@
     <Content Include="sitecore\apps\js\sc.tree.release.js" />
     <Content Include="sitecore\apps\js\sc.validate.debug.js" />
     <Content Include="sitecore\apps\js\sc.validate.release.js" />
+    <Content Include="sitecore\ConfirmSubscription.aspx" />
     <Content Include="sitecore\RedirectUrlPage.aspx" />
+    <Content Include="sitecore\RegisterEmailOpened.aspx" />
     <Content Include="sitecore\shell\Applications\Feeds\Layouts\FeedDeliveryLayout.aspx" />
     <Content Include="sitecore\shell\Applications\Feeds\SetFeedPresentation\SetFeedPresentation.xaml.xml" />
     <Content Include="sitecore\Unsubscribe.aspx" />
@@ -1599,6 +1610,10 @@
     <Content Include="Views\Pages\Sitemap.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Promo2.cshtml" />
     <Content Include="Views\Pages\Currents\CalendarSearch.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Progress Bar.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Header.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Compare Networks.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Savings Banner.cshtml" />
     <Content Include="Views\Pages\Currents\Leaderboard.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -27,7 +27,9 @@ using StreamEnergy.DomainModels.Associate;
 using StreamEnergy.Interpreters;
 using System.IO;
 using System.Net.Http.Headers;
+using Sitecore.Data.Items;
 using StreamEnergy.DomainModels.Emails;
+using StreamEnergy.MyStream.Models.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -110,6 +112,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateHelper.StateMachine.InternalContext.EnrollmentScreenshotTaken = false;
 
+            stateHelper.StateMachine.Context.SitecoreLanguageIsoCode = Sitecore.Context.Language.CultureInfo.TwoLetterISOLanguageName;
+
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -128,6 +132,65 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<VerifyImeiResponse> VerifyImei([FromBody]string imei)
+        {
+            if (imei == "111")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
+                    Manufacturer = "Samsung"
+                };
+            }
+            if (imei == "222")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
+                    Manufacturer = "Apple"
+                };
+            }
+            if (imei == "333")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                    Manufacturer = "Samsung"
+                };
+            }
+            if (imei == "444")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                    Manufacturer = "Apple"
+                };
+            }
+            if (imei == "555")
+            {
+                return new VerifyImeiResponse
+                {
+                    IsValidImei = true,
+                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                    Manufacturer = "Apple",
+                    ICCID = "1234567890"
+                };
+            }
+            
+            return await enrollmentService.VerifyImei(imei);
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<string> ValidateActivationCode([FromBody]string activationCode)
         {
             return await activationCodeLookup.LookupEsn(activationCode);
@@ -141,13 +204,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [NonAction]
-        public async Task<bool> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
+        public async Task<ClientData> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
         {
-            stateHelper.Reset();
-            await stateHelper.EnsureInitialized();
-
             stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
-            stateHelper.State = typeof(ServiceInformationState);
+            stateHelper.State = typeof(PlanSelectionState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;
             stateHelper.Context.MailingAddress = account.Details.BillingAddress;
@@ -163,8 +223,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             };
             await stateHelper.StateMachine.Process();
+            await stateHelper.StateMachine.ContextUpdated();
+            this.stateMachine = stateHelper.StateMachine;
 
-            return true;
+            return ClientData(typeof(DomainModels.Enrollments.PlanSelectionState));
         }
 
         /// <summary>
@@ -659,7 +721,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         {"accountNumbers", string.Join(",", acctNumbers)},
                     });
                 }
-                if (resultData.AssociateInformation == null)
+                if (resultData.AssociateInformation == null && !resultData.IsRenewal)
                 {
                     await logger.Record(new LogEntry()
                     {

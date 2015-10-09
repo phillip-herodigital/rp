@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 
@@ -11,6 +12,8 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
 {
     public class SmartyStreetService : StreamEnergy.Services.Clients.SmartyStreets.ISmartyStreetService
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(SmartyStreetService));
+
         private readonly string authId;
         private readonly string authToken;
         private readonly IUnityContainer container;
@@ -49,8 +52,9 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
                     return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("Error calling SmartyStreets!", ex);
                 return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
             }
         }
@@ -93,12 +97,13 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
 
                 if (result[0].CityStates != null)
                 {
-                    var statesArray = (from entry in result
-                                       where entry.InputIndex == 0
-                                       select (from cityState in entry.CityStates
-                                               select cityState.StateAbbreviation).Distinct()).First().ToArray();
+                    List<string> locationPieces = new List<string>();
+                    var l = result.Where(a => a.InputIndex == 0).Select(entry => entry.CityStates).Distinct().First().First();
 
-                    return statesArray;
+                    locationPieces.Add(l.City);
+                    locationPieces.Add(l.StateAbbreviation);
+
+                    return locationPieces.ToArray();
                 }
                 else
                 {
@@ -115,13 +120,13 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
         public DomainModels.Address[][] ParseJsonResponse(string text, int count)
         {
             var result = JsonConvert.DeserializeObject<SmartyResponse[]>(text, settings);
-
+            
             return (from index in Enumerable.Range(0, count)
                     select (from entry in result
                             where entry.InputIndex == index
                             select Sanitize(new StreamEnergy.DomainModels.Address
                             {
-                                Line1 = string.Join(" ", new string[] { entry.Components.PrimaryNumber, entry.Components.StreetName, entry.Components.StreetSuffix }.Where(e => !string.IsNullOrEmpty(e))),
+                                Line1 = string.Join(" ", new string[] { entry.Components.PrimaryNumber, entry.Components.StreetPredirection, entry.Components.StreetName, entry.Components.StreetSuffix, entry.Components.StreetPostdirection }.Where(e => !string.IsNullOrEmpty(e))),
                                 UnitNumber = string.Join(" ", new string[] { entry.Components.SecondaryDesignator, entry.Components.SecondaryNumber }.Where(e => !string.IsNullOrEmpty(e))),
                                 City = entry.Components.CityName,
                                 StateAbbreviation = entry.Components.StateAbbreviation,

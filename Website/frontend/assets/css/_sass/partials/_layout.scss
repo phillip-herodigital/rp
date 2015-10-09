@@ -153,6 +153,10 @@ $mobile-nav-margin: 15px;
 	margin: 0 auto;
 }
 
+.mobile .wrapper {
+	max-width: 1060px;
+}
+
 @include breakpoint(small) {
 	.wrapper {
 		width: auto;

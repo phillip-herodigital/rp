@@ -38,54 +38,54 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [IndexField("publish_date")]
         public DateTime PublishDate { get; set; }
     }
-
+    
     [RoutePrefix("api/currents")]
     public class CurrentsController : ApiController
     {
         public static IEnumerable<BlogPost> GetCurrentsPosts(Item currentItem, string categoryID, string authorID, string tagID, string searchText, int startRowIndex, int maximumRows, string language)
-        {
-            try
-            {
-                Item repositorySearchItem = XBlogHelper.General.DataManager.GetBlogHomeItem(currentItem);
-                ISearchIndex index = ContentSearchManager.GetIndex(new SitecoreIndexableItem(repositorySearchItem));
-                using (IProviderSearchContext providerSearchContext = index.CreateSearchContext(SearchSecurityOptions.EnableSecurityCheck))
-                {
+		{
+			try
+			{
+				Item repositorySearchItem = XBlogHelper.General.DataManager.GetBlogHomeItem(currentItem);
+				ISearchIndex index = ContentSearchManager.GetIndex(new SitecoreIndexableItem(repositorySearchItem));
+				using (IProviderSearchContext providerSearchContext = index.CreateSearchContext(SearchSecurityOptions.EnableSecurityCheck))
+				{
                     Expression<Func<CurrentsSearchResultItem, bool>> expression = PredicateBuilder.True<CurrentsSearchResultItem>();
                     expression = expression.And((CurrentsSearchResultItem item) => item.TemplateName == "Blog Post" && item.Language == language && item.Paths.Contains(repositorySearchItem.ID));
-                    if (!string.IsNullOrEmpty(categoryID))
-                    {
+					if (!string.IsNullOrEmpty(categoryID))
+					{
                         expression = expression.And((CurrentsSearchResultItem c) => c["Category"].Contains(categoryID));
-                    }
-                    if (!string.IsNullOrEmpty(authorID))
-                    {
+					}
+					if (!string.IsNullOrEmpty(authorID))
+					{
                         expression = expression.And((CurrentsSearchResultItem a) => a["Author"].Contains(authorID));
-                    }
-                    if (!string.IsNullOrEmpty(tagID))
-                    {
+					}
+					if (!string.IsNullOrEmpty(tagID))
+					{
                         expression = expression.And((CurrentsSearchResultItem t) => t["Tags"].Contains(tagID));
-                    }
-                    if (!string.IsNullOrEmpty(searchText))
-                    {
+					}
+					if (!string.IsNullOrEmpty(searchText))
+					{
                         expression = expression.And((CurrentsSearchResultItem t) => t["_content"].Contains(searchText));
-                    }
-                    if (currentItem.TemplateName == "Blog Post")
+					}
+                    if (currentItem.TemplateName == "Blog Post") 
                     {
                         DateTime publishDate = Sitecore.DateUtil.IsoDateToDateTime(currentItem.Fields["Publish Date"].Value);
                         expression = expression.And((CurrentsSearchResultItem item) => item.PublishDate < publishDate);
                     }
-
-                    return (
+                    
+					return (
                         from t in providerSearchContext.GetQueryable<CurrentsSearchResultItem>().Where(expression)
-                        orderby t[XBSettings.XBSearchPublishDate] descending
-                        select t).Slice(startRowIndex, maximumRows).CreateAs<BlogPost>().ToList<BlogPost>();
-                }
-            }
-            catch (Exception exception)
-            {
+						orderby t[XBSettings.XBSearchPublishDate] descending
+						select t).Slice(startRowIndex, maximumRows).CreateAs<BlogPost>().ToList<BlogPost>();
+				}
+			}
+			catch (Exception exception)
+			{
                 Log.Error("Currents GetCurrentsPosts error", exception, new object());
-            }
-            return null;
-        }
+			}
+			return null;
+		}
 
         public static int GetCurrentsCount(Item currentItem, string categoryID, string authorID, string tagID, string searchText, string language)
         {
@@ -143,25 +143,25 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             foreach (var blogPost in blogs.Select((blog, i) => new { blog, i }))
             {
-
+            
                 ImageField imageField = null;
                 string articleText = "";
                 string category = blogPost.blog.Categories.Any() ? blogPost.blog.Categories.FirstOrDefault().Name.ToLower() : "";
                 var gridClasses = "<a href=\"" + HttpUtility.HtmlEncode(LinkManager.GetItemUrl(blogPost.blog.InnerItem)) + "\"><div class=\"grid-item medium-large " + category;
-                if (blogPost.i == 0 || blogPost.i == 8)
+                if (blogPost.i == 0 || blogPost.i == 8) 
                 {
                     gridClasses += " grid-item--width4";
-                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Large Rectangle"];
+                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Large Rectangle"]; 
                 }
-                else if (blogPost.i == 3 || blogPost.i == 9)
+                else if (blogPost.i == 3 || blogPost.i == 9) 
                 {
                     gridClasses += " grid-item--width2 grid-item--height2";
-                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"];
+                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Square"]; 
                 }
-                else if (blogPost.i == 6 || blogPost.i == 15)
+                else if (blogPost.i == 6 || blogPost.i == 15) 
                 {
                     gridClasses += " grid-item--width3";
-                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Small Rectangle"];
+                    imageField = (ImageField)blogPost.blog.InnerItem.Fields["Small Rectangle"]; 
                 }
                 else
                 {
@@ -212,12 +212,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public dynamic CalendarEvents()
         {
             Dictionary<string, List<dynamic>> events = new Dictionary<string, List<dynamic>>();
-
+           
             var currentsEvents = Sitecore.Context.Database.GetItem("{13388824-92B0-4280-A48D-254F00A5A026}").Children;
             var today = DateTime.Now;
 
-            foreach (Item currentsEvent in currentsEvents.Where(e =>
-                        Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Start Date"].Value) > today.AddYears(-5)
+            foreach (Item currentsEvent in currentsEvents.Where(e => 
+                        Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Start Date"].Value) > today.AddYears(-5) 
                         && Sitecore.DateUtil.IsoDateToDateTime(e.Fields["End Date"].Value) < today.AddYears(5)
                     ))
             {
@@ -245,7 +245,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 foreach (Sitecore.Data.ID id in stateField.TargetIDs)
                 {
                     state.Add(Sitecore.Context.Database.Items[id].Name);
-                }
+                } 
 
                 if (imageField.MediaItem != null)
                 {
@@ -253,7 +253,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                 eventHtml += "<div class='event-heading'><div class='event-title'>" + currentsEvent.Fields["Event Title"].Value + "</div>" +
                 "<div class='event-date'>{0}";
-
+                
                 eventHtml += "</div><div class='event-location'>" + currentsEvent.Fields["Event Location"].Value + "</div></div>" +
                 "<div class='event-summary'>" + currentsEvent.Fields["Event Summary"].Value + "</div>";
                 if (!string.IsNullOrEmpty(mapLocation))
@@ -279,93 +279,93 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     eventHtml += " class='" + category.Replace(" ", "-") + "'";
                 }
                 eventHtml += ">" + currentsEvent.Fields["Event Title"].Value + "</a>";
+                
+               if (!recurringEvent)
+               {
+                   while (startDate <= endDate)
+                   {
+                       string currentDateString = startDate.ToString(@"MM-dd-yyyy");
+                       var htmlDate = startDate.ToString("MMMM d");
+                       if (startDate != endDate)
+                       {
+                           htmlDate += " - ";
+                           htmlDate += (startDate.Month == endDate.Month) ? endDate.Day.ToString() : endDate.ToString("MMMM d");
+                           htmlDate += ", " + endDate.ToString("yyyy");
+                       }
+                       else
+                       {
+                           htmlDate += ", " + startDate.ToString("yyyy");
+                       }
+                       eventHtml = string.Format(eventHtml, htmlDate);
+                       events = AddEvent(events, currentDateString, eventHtml, category, state);
+                       startDate = startDate.AddDays(1);
+                   }
+               }
+               else if (repeatWeeks > 0)
+               {
+                   var currentDate = startDate;
+                   var startDayOfWeek = startDate.DayOfWeek;
+                   var eventHtmlOrig = eventHtml;
+                   while (currentDate <= endDate)
+                   {
+                       string currentDateString = currentDate.ToString(@"MM-dd-yyyy");
+                       string htmlDate = currentDate.ToString("MMMM d, yyyy");
+                       eventHtml = string.Format(eventHtmlOrig, htmlDate);
+                       switch (currentDate.DayOfWeek)
+                       {
+                           case DayOfWeek.Sunday:
+                               if (repeatSunday)
+                               {
+                                   events = AddEvent(events, currentDateString, eventHtml, category, state);
+                               }
+                               break;
+                           case DayOfWeek.Monday:
+                               if (repeatMonday)
+                               {
+                                   events = AddEvent(events, currentDateString, eventHtml, category, state);
+                               }
+                               break;
+                           case DayOfWeek.Tuesday:
+                               if (repeatTuesday)
+                               {
+                                   events = AddEvent(events, currentDateString, eventHtml, category, state);
+                               }
+                               break;
+                           case DayOfWeek.Wednesday:
+                               if (repeatWednesday)
+                               {
+                                   events = AddEvent(events, currentDateString, eventHtml, category, state);
+                               }
+                               break;
+                           case DayOfWeek.Thursday:
+                               if (repeatThursday)
+                               {
+                                   events = AddEvent(events, currentDateString, eventHtml, category, state);
+                               }
+                               break;
+                           case DayOfWeek.Friday:
+                               if (repeatFriday)
+                               {
+                                   events = AddEvent(events, currentDateString, eventHtml, category, state);
+                               }
+                               break;
+                           case DayOfWeek.Saturday:
+                               if (repeatSaturday)
+                               {
+                                   events = AddEvent(events, currentDateString, eventHtml, category, state);
+                               }
+                               break;
+                       }
 
-                if (!recurringEvent)
-                {
-                    while (startDate <= endDate)
-                    {
-                        string currentDateString = startDate.ToString(@"MM-dd-yyyy");
-                        var htmlDate = startDate.ToString("MMMM d");
-                        if (startDate != endDate)
-                        {
-                            htmlDate += " - ";
-                            htmlDate += (startDate.Month == endDate.Month) ? endDate.Day.ToString() : endDate.ToString("MMMM d");
-                            htmlDate += ", " + endDate.ToString("yyyy");
-                        }
-                        else
-                        {
-                            htmlDate += ", " + startDate.ToString("yyyy");
-                        }
-                        eventHtml = string.Format(eventHtml, htmlDate);
-                        events = AddEvent(events, currentDateString, eventHtml, category, state);
-                        startDate = startDate.AddDays(1);
-                    }
-                }
-                else if (repeatWeeks > 0)
-                {
-                    var currentDate = startDate;
-                    var startDayOfWeek = startDate.DayOfWeek;
-                    var eventHtmlOrig = eventHtml;
-                    while (currentDate <= endDate)
-                    {
-                        string currentDateString = currentDate.ToString(@"MM-dd-yyyy");
-                        string htmlDate = currentDate.ToString("MMMM d, yyyy");
-                        eventHtml = string.Format(eventHtmlOrig, htmlDate);
-                        switch (currentDate.DayOfWeek)
-                        {
-                            case DayOfWeek.Sunday:
-                                if (repeatSunday)
-                                {
-                                    events = AddEvent(events, currentDateString, eventHtml, category, state);
-                                }
-                                break;
-                            case DayOfWeek.Monday:
-                                if (repeatMonday)
-                                {
-                                    events = AddEvent(events, currentDateString, eventHtml, category, state);
-                                }
-                                break;
-                            case DayOfWeek.Tuesday:
-                                if (repeatTuesday)
-                                {
-                                    events = AddEvent(events, currentDateString, eventHtml, category, state);
-                                }
-                                break;
-                            case DayOfWeek.Wednesday:
-                                if (repeatWednesday)
-                                {
-                                    events = AddEvent(events, currentDateString, eventHtml, category, state);
-                                }
-                                break;
-                            case DayOfWeek.Thursday:
-                                if (repeatThursday)
-                                {
-                                    events = AddEvent(events, currentDateString, eventHtml, category, state);
-                                }
-                                break;
-                            case DayOfWeek.Friday:
-                                if (repeatFriday)
-                                {
-                                    events = AddEvent(events, currentDateString, eventHtml, category, state);
-                                }
-                                break;
-                            case DayOfWeek.Saturday:
-                                if (repeatSaturday)
-                                {
-                                    events = AddEvent(events, currentDateString, eventHtml, category, state);
-                                }
-                                break;
-                        }
+                       currentDate = currentDate.AddDays(1);
 
-                        currentDate = currentDate.AddDays(1);
+                       if (currentDate.DayOfWeek == startDayOfWeek && repeatWeeks > 1)
+                       {
+                           currentDate = currentDate.AddDays(7 * (repeatWeeks - 1));
+                       }
+                   }
 
-                        if (currentDate.DayOfWeek == startDayOfWeek && repeatWeeks > 1)
-                        {
-                            currentDate = currentDate.AddDays(7 * (repeatWeeks - 1));
-                        }
-                    }
-
-                }
+               }
             }
 
             return events;
@@ -393,7 +393,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var query = "fast:/sitecore/content/Data/Currents/Calendar Events//*[";
             query += string.Format("(@#Event Title#=\"%{0}%\" or @#Event Summary#=\"%{1}%\"  or @#Event Location#=\"%{2}%\")", request.SearchText, request.SearchText, request.SearchText);
-
+            
             if (!string.IsNullOrEmpty(request.CategoryID))
             {
                 query += string.Format("and @#Event Type#=\"%{0}%\"", request.CategoryID);
@@ -461,6 +461,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         StartDate = startDate.ToString("MMMM d, yyyy"),
                         EndDate = endDate.ToString("MMMM d, yyyy"),
                         EventDate = eventDate,
+                        SortDate = startDate,
                         ImageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "",
                         Location = currentsEvent.Fields["Event Location"].Value,
                         Summary = currentsEvent.Fields["Event Summary"].Value,
@@ -478,86 +479,87 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                 else if (repeatWeeks > 0)
                 {
-                    var currentDate = startDate;
-                    var startDayOfWeek = startDate.DayOfWeek;
-                    while (currentDate <= endDate)
-                    {
-                        CalendarEvent e = new CalendarEvent
-                        {
-                            Title = currentsEvent.Fields["Event Title"].Value,
-                            StartDate = currentDate.ToString("MMMM d, yyyy"),
-                            EndDate = currentDate.ToString("MMMM d, yyyy"),
-                            EventDate = currentDate.ToString("MMMM d, yyyy"),
-                            ImageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "",
-                            Location = currentsEvent.Fields["Event Location"].Value,
-                            Summary = currentsEvent.Fields["Event Summary"].Value,
-                            MapLocation = mapLocation,
-                            Category = category,
-                            RegistrationText = !string.IsNullOrEmpty(registrationLink.Text) ? registrationLink.Text : "",
-                            RegistrationURL = !string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()) ? registrationLink.GetFriendlyUrl() : "",
-                            MapButtonText = !string.IsNullOrEmpty(mapButtonText) ? mapButtonText : "",
-                            InfoLinkText = !string.IsNullOrEmpty(infoLink.Text) ? infoLink.Text : "",
-                            InfoLinkURL = !string.IsNullOrEmpty(infoLink.GetFriendlyUrl()) ? infoLink.GetFriendlyUrl() : "",
-                            States = states,
-                        };
+                   var currentDate = startDate;
+                   var startDayOfWeek = startDate.DayOfWeek;
+                   while (currentDate <= endDate)
+                   {
+                       CalendarEvent e = new CalendarEvent
+                       {
+                           Title = currentsEvent.Fields["Event Title"].Value,
+                           StartDate = currentDate.ToString("MMMM d, yyyy"),
+                           EndDate = currentDate.ToString("MMMM d, yyyy"),
+                           EventDate = currentDate.ToString("MMMM d, yyyy"),
+                           SortDate = currentDate,
+                           ImageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "",
+                           Location = currentsEvent.Fields["Event Location"].Value,
+                           Summary = currentsEvent.Fields["Event Summary"].Value,
+                           MapLocation = mapLocation,
+                           Category = category,
+                           RegistrationText = !string.IsNullOrEmpty(registrationLink.Text) ? registrationLink.Text : "",
+                           RegistrationURL = !string.IsNullOrEmpty(registrationLink.GetFriendlyUrl()) ? registrationLink.GetFriendlyUrl() : "",
+                           MapButtonText = !string.IsNullOrEmpty(mapButtonText) ? mapButtonText : "",
+                           InfoLinkText = !string.IsNullOrEmpty(infoLink.Text) ? infoLink.Text : "",
+                           InfoLinkURL = !string.IsNullOrEmpty(infoLink.GetFriendlyUrl()) ? infoLink.GetFriendlyUrl() : "",
+                           States = states,
+                       };
 
-                        switch (currentDate.DayOfWeek)
-                        {
-                            case DayOfWeek.Sunday:
-                                if (repeatSunday)
-                                {
-                                    listEvents.Add(e);
-                                }
-                                break;
-                            case DayOfWeek.Monday:
-                                if (repeatMonday)
-                                {
-                                    listEvents.Add(e);
-                                }
-                                break;
-                            case DayOfWeek.Tuesday:
-                                if (repeatTuesday)
-                                {
-                                    listEvents.Add(e);
-                                }
-                                break;
-                            case DayOfWeek.Wednesday:
-                                if (repeatWednesday)
-                                {
-                                    listEvents.Add(e);
-                                }
-                                break;
-                            case DayOfWeek.Thursday:
-                                if (repeatThursday)
-                                {
-                                    listEvents.Add(e);
-                                }
-                                break;
-                            case DayOfWeek.Friday:
-                                if (repeatFriday)
-                                {
-                                    listEvents.Add(e);
-                                }
-                                break;
-                            case DayOfWeek.Saturday:
-                                if (repeatSaturday)
-                                {
-                                    listEvents.Add(e);
-                                }
-                                break;
-                        }
+                       switch (currentDate.DayOfWeek)
+                       {
+                           case DayOfWeek.Sunday:
+                               if (repeatSunday)
+                               {
+                                   listEvents.Add(e);
+                               }
+                               break;
+                           case DayOfWeek.Monday:
+                               if (repeatMonday)
+                               {
+                                   listEvents.Add(e);
+                               }
+                               break;
+                           case DayOfWeek.Tuesday:
+                               if (repeatTuesday)
+                               {
+                                   listEvents.Add(e);
+                               }
+                               break;
+                           case DayOfWeek.Wednesday:
+                               if (repeatWednesday)
+                               {
+                                   listEvents.Add(e);
+                               }
+                               break;
+                           case DayOfWeek.Thursday:
+                               if (repeatThursday)
+                               {
+                                   listEvents.Add(e);
+                               }
+                               break;
+                           case DayOfWeek.Friday:
+                               if (repeatFriday)
+                               {
+                                   listEvents.Add(e);
+                               }
+                               break;
+                           case DayOfWeek.Saturday:
+                               if (repeatSaturday)
+                               {
+                                   listEvents.Add(e);
+                               }
+                               break;
+                       }
 
-                        currentDate = currentDate.AddDays(1);
+                       currentDate = currentDate.AddDays(1);
 
-                        if (currentDate.DayOfWeek == startDayOfWeek && repeatWeeks > 1)
-                        {
-                            currentDate = currentDate.AddDays(7 * (repeatWeeks - 1));
-                        }
-                    }
+                       if (currentDate.DayOfWeek == startDayOfWeek && repeatWeeks > 1)
+                       {
+                           currentDate = currentDate.AddDays(7 * (repeatWeeks - 1));
+                       }
+                   }
 
-                }
+               }
             }
-            return listEvents;
+            return listEvents.Where(e => e.SortDate >= DateTime.Today).OrderBy(e => e.SortDate);
 
         }
 
@@ -606,7 +608,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 FileName = "StreamEvents.ics"
             };
-
+         
 
             return result;
         }

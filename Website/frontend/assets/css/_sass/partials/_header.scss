@@ -1,23 +1,22 @@
 .site-header {
-	background: #fff image-url("marketing/redesign/header_background_gloabl.png") repeat-x;;
-	@include transition(left linear .2s); 
-	.wrapper {
-		position: relative;
-	}
-	.logo {
-		@include image-replace("bg/logo-desktop.png", "bg2x/logo-desktop.png");
-		//@include image-replace("marketing/redesign/Logo.png");
-		float: left;
-		margin-top: 30px;
+    background: #fff image-url("marketing/redesign/header_background_gloabl.png") repeat-x;
+    @include transition(left linear .2s); 
+    .wrapper {
+        position: relative;
+    }
+    .logo {
+        @include image-replace("bg/logo-desktop.png", "bg2x/logo-desktop.png");
+        float: left;
+        margin-top: 30px;
         margin-bottom: 28px;
-	}
-	.utility {
+    }
+    .utility {
         float: right;
-		height: 50px;
+        height: 50px;
         padding: 15px 10px;
-        color: #4f4c4d;
-        font-size: $font-size-xsmall;
-		font-weight: 300;
+        color: #97c93d;
+        font-size: 18px;
+        font-weight: 300;
         letter-spacing: 0;
         a {
             color: inherit;
@@ -25,58 +24,60 @@
         ul {
             @include inline-block-list();
             display: inline;
-			li {
-				border-left: 1px solid #4f4c4d;
-				padding: 0 1em;
-			}
-			li:first-child {
-				border: none;
-			}
-		}
-		.account-link {
-			@include border-radius(0 0 5px 5px);
-			@include box-shadow(0 1px 1px rgba(0, 0, 0, .25));
-			background-color: #f1f1f1;
-			color: $text-primary-color;
-		}
-		.welcome {
-			text-transform: none;
-			.username {
-				margin-right: 10px;
-			}
-			a {
-				text-transform: none;
-				margin: 0 5px;
-			}
-		}
-	}
-	nav.main-nav {
-		float: right;
-		clear: right;
-		text-align: right;
-		margin: 10px 0 -1px 10px;
+            li {
+                border-left: 1px solid #4f4c4d;
+                color: #4f4c4d;
+                font-size: $font-size-xsmall;
+                padding: 0 1em;
+            }
+            li:first-child {
+                border: none;
+            }
+        }
+        .account-link {
+            @include border-radius(0 0 5px 5px);
+            @include box-shadow(0 1px 1px rgba(0, 0, 0, .25));
+            background-color: #f1f1f1;
+            color: $text-primary-color;
+        }
+        .welcome {
+            text-transform: none;
+            .username {
+                margin-right: 10px;
+            }
+            a {
+                text-transform: none;
+                margin: 0 5px;
+            }
+        }
+    }
+    nav.main-nav {
+        float: right;
+        clear: right;
+        text-align: right;
+        margin: 10px 0 -1px 10px;
         //position: relative;
-		> ul {
-			@include inline-block-list();
-			margin: 0 auto;
-			width: 100%;
-			font-size: 0; /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
-			text-transform: uppercase;
-			white-space: nowrap;
+        > ul {
+            @include inline-block-list();
+            margin: 0 auto;
+            width: 100%;
+            font-size: 0; /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
+            text-transform: uppercase;
+            white-space: nowrap;
             &.wrapper {
                 overflow:visible;
             }
-			li {
+            li {
                 height: 48px;
-				font-size: 15px;
-				line-height: 1.4; /* This fixes the partial-pixel height on IE */
-		        a {
-			        padding: 6px 10px 4px;	
-			        float: left;
-			        display: block;	
+                font-size: 15px;
+                line-height: 1.4; /* This fixes the partial-pixel height on IE */
+                a {
+                    padding: 6px 10px 4px;  
+                    float: left;
+                    display: block; 
                     color: inherit;
-                    font-size: 18px;	
-		        }
+                    font-size: 18px;    
+                }
                 &.selected {
                     color: #1991cf !important;
                     background: image-url('marketing/redesign/nav-first-level-selected-indicator.png') bottom center no-repeat;
@@ -87,296 +88,335 @@
             li.nav-opportunity {
                margin-left: 50px;
             }
-	    }
+        }
     }
     nav.sub-nav {
-		background-color: #f1f1f1;
-		min-height: 50px;
-		ul {
-			@include inline-block-list();
-	        display: inline;
-	        margin: 0 auto;
-			font-size: $font-size-small;
-			li {
-				a {
-					display: inline-block;
-					color: $nav-sub-color;
-					padding: $nav-sub-padding;
-				}
-				&.selected {
-					a {
-						color: $nav-sub-hover-color;
+        background-color: #f1f1f1;
+        min-height: 50px;
+        ul {
+            @include inline-block-list();
+            display: inline;
+            margin: 0 auto;
+            font-size: $font-size-small;
+            li {
+                a {
+                    display: inline-block;
+                    color: $nav-sub-color;
+                    padding: $nav-sub-padding;
+                }
+                &.selected {
+                    a {
+                        color: $nav-sub-hover-color;
                       //   text-decoration: underline;
-					}
-				}
-			}
-		}
-	    @include breakpoint(medium) {
-	        .wrapper {
-	            padding: 0 10px;
-	            ul li a {
-	                padding-left: 5px;
-	                padding-right: 5px;
-	            }
-	        }
-	    }
-	}
-	@include breakpoint(small) {
-		height: 57px;
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		z-index: 9000;
-		border-bottom: 1px solid $dark-border-color;
-		@include box-shadow(0 0 3px rgba(0, 0, 0, .1));
-		
-		> .wrapper {
-			background-color: #fff;
-			background-repeat: repeat-x;
-			z-index: 2;
-			height: 57px;
-		}
-		.logo {
-			@include image-replace("bg/logo-mobile.png", "bg2x/logo-mobile.png");
-			position: absolute;
-			left: 50%;
-			top: 18px;
-			margin-top: 0;
-			margin-left: image-width("bg/logo-mobile.png") / 2 * -1;
-		}
-		.utility {
-			display: none;
-		}
-		.nav-toggle{
-			margin-top: 22px;
-		}
-		.cart-toggle {
-			float: right;
-			margin-top: 18px;
-			@include opacity(0.40);
-			position: relative;
-			span {
-				position: absolute;
-				top: -6px;
-				left: 10px;
-				text-indent: 0;
-				color: #000;
-				font-weight: bold;
-			}
-		}
-		&.fixed-fix {
-			position: absolute;
-		}
-		nav {
-			display: none;
-		}
-	}
-	@include breakpoint(medium-large) {
-		.nav-toggle {
-			display: none;
-		}
-		.cart-toggle {
-			display: none;
-		}
-		.shadow-wrapper {
-			@include box-shadow(0 0 3px rgba(0, 0, 0, .2));
-			position: relative;
-		}
-		&.fixed {
-			background: #fff;
-			height: 75px;
-			> .wrapper {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				background-color: #fff;
-				background-repeat: repeat-x;
-				z-index: 9000;
-				height: 75px;
-				border-bottom: 1px solid $dark-border-color;
-				@include box-shadow(0 0 3px rgba(0, 0, 0, .1));
+                    }
+                }
+            }
+        }
+        @include breakpoint(medium) {
+            .wrapper {
+                padding: 0 10px;
+                ul li a {
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+            }
+        }
+    }
+    @include breakpoint(small) {
+        height: 57px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9000;
+        border-bottom: 1px solid $dark-border-color;
+        @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
+        
+        > .wrapper {
+            background-color: #fff;
+            background-repeat: repeat-x;
+            z-index: 2;
+            height: 57px;
+        }
+        .logo {
+            @include image-replace("bg/logo-mobile.png", "bg2x/logo-mobile.png");
+            position: absolute;
+            left: 50%;
+            top: 18px;
+            margin-top: 0;
+            margin-left: image-width("bg/logo-mobile.png") / 2 * -1;
+        }
+        .utility {
+            display: none;
+        }
+        .nav-toggle{
+            margin-top: 22px;
+        }
+        .cart-toggle {
+            float: right;
+            margin-top: 18px;
+            @include opacity(0.40);
+            position: relative;
+            span {
+                position: absolute;
+                top: -6px;
+                left: 10px;
+                text-indent: 0;
+                color: #000;
+                font-weight: bold;
+            }
+        }
+        &.fixed-fix {
+            position: absolute;
+        }
+        nav {
+            display: none;
+        }
+    }
+    @include breakpoint(medium-large) {
+        .nav-toggle {
+            display: none;
+        }
+        .cart-toggle {
+            display: none;
+        }
+        .shadow-wrapper {
+            @include box-shadow(0 0 3px rgba(0, 0, 0, .2));
+            position: relative;
+        }
+        &.fixed {
+            background: #fff;
+            height: 110px;
+            > .wrapper {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background: #fff image-url("marketing/redesign/header_background_gloabl.png") repeat-x;
+                z-index: 9000;
+                height: 110px;
+                border-bottom: 1px solid $dark-border-color;
+                @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
 
-				@include breakpoint(small) {
-					background: #fff;
-				}
-			}
-			.logo {
-				position: absolute;
-				left: 50%;
-				top: 10px;
-				margin-top: 0;
-				margin-left: (image-width("bg/logo-desktop.png") / 2) * -1;
-				}
-			.nav-toggle {
-				margin-top: 22px;
-			}
-		}
-	}
+                @include breakpoint(small) {
+                    background: #fff;
+                }
+                .wrapper-logo {
+                    position: relative;
+                    width: 1040px;
+                    margin: 0 auto;
+                    .logo {
+                        position: absolute;
+                        left: 0;
+                        top: 30px;
+                        margin-top: 0;
+                    }
+                }
+            }
+            .nav-toggle {
+                margin-top: 22px;
+            }
+        }
+    }
 }
 
 .tertiary-nav {
-	background-color: #f1f1f1;
-	min-height: 50px;
-	border-top: 1px solid #e1e1e1;
-	ul {
-		@include inline-block-list();
-		position: relative;
+    min-height: 50px;
+    border-top: 1px solid #e1e1e1;
+    background-color: #f1f1f1;
+    ul {
+        @include inline-block-list();
+        position: relative;
         display: inline;
-		font-size: $nav-font-size;
-		left: 0;
+        font-size: $nav-font-size;
+        left: 0;
 
-		li {
-			position: relative;
-			overflow: hidden;
-			a {
-				display: inline-block;
-				color: $nav-tertiary-color;
-				padding: $nav-tertiary-padding;
-				//font-weight: 600;
-			}
-			&.selected {
-				background: image-url('marketing/redesign/nav-second-level-selected-indicator.png') bottom center no-repeat;
-				.triangle {
-					display: block;
-				}
-				a {
-					color: $brand-primary-color;
-				}
-			}
-		}
-	}
-	.triangle {
-		display: none;
-		position: absolute;
-		bottom: 0;
-		left: 50%;
-		margin-left: -21px;
-		width: 0;
-		height: 0;
-		border-style: solid;
-		border-width: 0 10px 12px 10px;
-		border-color: transparent transparent #fff transparent;
+        li {
+            position: relative;
+            overflow: hidden;
+            a {
+                display: inline-block;
+                color: $nav-tertiary-color;
+                padding: $nav-tertiary-padding;
+                //font-weight: 600;
+            }
+            &.selected {
+                background: image-url('marketing/redesign/nav-second-level-selected-indicator.png') bottom center no-repeat;
+                .triangle {
+                    display: block;
+                }
+                a {
+                    color: $brand-primary-color;
+                }
+            }
+        }
+    }
+    .triangle {
+        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-left: -21px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 12px 10px;
+        border-color: transparent transparent #fff transparent;
 
-		&:after {
-			content: "";
-			position: absolute;
-			width: 16px;
-			height: 16px;
-			@include rotate(45deg);
-			box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
-			background: #fff;
-			left: 50%;
-			margin-left: -8px;
-			margin-top: 4px;
-		}
-	}
-	.wrapper {
-		overflow: hidden;
-	}
+        &:after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            @include rotate(45deg);
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+            background: #fff;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: 4px;
+        }
+    }
+    .wrapper {
+        overflow: hidden;
+    }
 
-	.swipe-nav-wrapper {
-		width: 1000px;
-	}
+    .swipe-nav-wrapper {
+        width: 1000px;
+    }
 
-	@include breakpoint(small-medium, true) {
-		.wrapper {
-			white-space: nowrap;
-			overflow-x: scroll;
-			overflow-y: hidden;
-			-webkit-overflow-scrolling: touch;
-		}
-	}
+    @include breakpoint(small-medium, true) {
+        .wrapper {
+            white-space: nowrap;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+    &.mobile {      
+        background-color: #28a5de;
+        color: #ffffff;
+        border-top: none;
+        li {
+            a {             
+                color:#ffffff;
+            }
+            &.selected {
+                background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
+                
+                a {
+                    color: #ffffff;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
 }
 
-.profile-nav {	
-	background-color: #1d75b5;
-	ul {
-		@include navigation-list();
-		font-size: $font-size-xxsmall;
-		float: right;
-		li {
-			padding: 7px 0;
-			color: #fff;
-			a {
-				display: inline-block;
-				color: #fff;
-				padding: $nav-profile-padding;
-				margin-left: 12px;
-				line-height: 1;
-				border-left: 1px solid #fff;
-			}
-			&:first-child {
-				a {
-					border-left: none;
-				}
-			}
-			&.selected a {
+.profile-nav {  
+    background-color: #1d75b5;
+    ul {
+        @include navigation-list();
+        font-size: $font-size-xxsmall;
+        float: right;
+        li {
+            padding: 7px 0;
+            color: #fff;
+            a {
+                display: inline-block;
+                color: #fff;
+                padding: $nav-profile-padding;
+                margin-left: 12px;
+                line-height: 1;
+                border-left: 1px solid #fff;
+            }
+            &:first-child {
+                a {
+                    border-left: none;
+                }
+            }
+            &.selected a {
 
-			}
-		}
-	}
+            }
+        }
+    }
 }
 
 /*
-	Page banners
+    Page banners
  */
-.banner {	
-	overflow: hidden;
-	background-size: cover;
-	background-position: 50%;
-	background-repeat: no-repeat;
-	.wrapper {
-		padding-top: 36px;
-		padding-bottom: 36px;
-	}
-	h1 {
-		font-size: 48px;
-		font-weight: 300;
-	}
-	h1, p {
-		margin: 0;
-		color: #fff;
-	}
-	p {
-		font-size: 32px;
-	}
-	&.marketing {
-		.wrapper {
-			padding-top: 75px;
-			padding-bottom: 75px;
-		}
-	}
-	&.large {
-		.wrapper {
-			height: 325px;
-			padding-top: 150px;
-			@include breakpoint(small) {
-				height: 200px;
-				padding-top: 100px;
-			}
-		}
-		h1, p {
-			color: $brand-primary-color;
-		}
-	}
-	@include breakpoint(medium) {		
-		.wrapper {
-			padding-top: 60px;
-			padding-bottom: 60px;
-		}
-		h1 {
-			font-size: 50px;
-		}	
-	}
-	@include breakpoint(small) {		
-		.wrapper {
-			padding-top: 40px;
-			padding-bottom: 40px;
-		}
-		h1 {
-			font-size: 27px;
-		}	
-	}		
+.banner {   
+    overflow: hidden;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    .wrapper {
+        padding-top: 36px;
+        padding-bottom: 36px;
+    }
+    h1 {
+        font-size: 48px;
+        font-weight: 300;
+    }
+    h1, p {
+        margin: 0;
+        color: #fff;
+    }
+    p {
+        font-size: 32px;
+    }
+    &.marketing {
+        .wrapper {
+            padding-top: 75px;
+            padding-bottom: 75px;
+        }
+    }
+    &.mobile {
+        h1 {
+            width: 38%;
+            color: #3c535c;
+        }
+    }
+    &.large {
+        .wrapper {
+            height: 325px;
+            padding-top: 150px;
+            @include breakpoint(small) {
+                height: 200px;
+                padding-top: 100px;
+            }
+        }
+        h1, p {
+            color: $brand-primary-color;
+        }
+    }
+    &.account-banner {
+        height: 34px;
+        background-size: auto;
+        background-repeat: repeat-x;
+        padding: 0px 20px;
+        .wrapper {
+            padding: 7px 0px 0px 0px;
+            h1 {
+                font-size: 18px;
+            }
+        }
+    }
+    @include breakpoint(medium) {       
+        .wrapper {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+        h1 {
+            font-size: 50px;
+        }   
+    }
+    @include breakpoint(small) {        
+        .wrapper {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        h1 {
+            font-size: 27px;
+        }   
+    }       
 }
