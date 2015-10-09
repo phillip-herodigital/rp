@@ -1,0 +1,21 @@
+﻿<article class="marketing marketingIntro mobile mobile-plans-header" ng-controller="MobilePlansHeaderCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString()));">
+    <div class="wrapper">
+        <div class="grid">
+            <div class="col title">
+                <h1>
+                    @Html.Sitecore().Field("Header")
+                </h1>
+            </div>
+            <div class="col">
+                <div ng-if="associateInformation && associateInformation.associateName" class="associate">
+                    <img class="associate-image" ng-src="data:image/JPEG;base64,{{associateInformation.associateImage}}" onerror="this.style.display = 'none';" />
+                    <div class="ai-right">
+                        <span class="referred-by">@Html.Sitecore().Field("Referred By"):</span>
+                        <span class="associate-name">{{ associateInformation.associateName }}</span>
+                        <span class="associate-level">{{ associateInformation.associateLevel }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

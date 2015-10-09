@@ -132,7 +132,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public dynamic LoadPosts (LoadPostsRequest request)
+        public dynamic LoadPosts(LoadPostsRequest request)
         {
             string currentBlock = "";
 
@@ -227,12 +227,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var imageField = (ImageField)currentsEvent.Fields["Event Image"];
                 var registrationLink = (LinkField)currentsEvent.Fields["Registration Link"];
                 var infoLink = (LinkField)currentsEvent.Fields["Info Link"];
-                var mapLocation = currentsEvent.Fields["Map Location"].Value.Replace(" ","+");
+                var mapLocation = currentsEvent.Fields["Map Location"].Value.Replace(" ", "+");
                 var mapButtonText = currentsEvent.Fields["Map Button Text"].Value;
                 var category = currentsEvent.Fields["Event Type"].Value.ToLower();
-                var stateField =  (Sitecore.Data.Fields.MultilistField) currentsEvent.Fields["Event State"];
+                var stateField = (Sitecore.Data.Fields.MultilistField)currentsEvent.Fields["Event State"];
                 bool recurringEvent = !string.IsNullOrEmpty(currentsEvent.Fields["Recurring Event"].Value);
-                int repeatWeeks =  currentsEvent.Fields["Repeat Every X Weeks"].Value.ToInt();
+                int repeatWeeks = currentsEvent.Fields["Repeat Every X Weeks"].Value.ToInt();
                 bool repeatSunday = !string.IsNullOrEmpty(currentsEvent.Fields["Sunday"].Value);
                 bool repeatMonday = !string.IsNullOrEmpty(currentsEvent.Fields["Monday"].Value);
                 bool repeatTuesday = !string.IsNullOrEmpty(currentsEvent.Fields["Tuesday"].Value);
@@ -249,7 +249,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 if (imageField.MediaItem != null)
                 {
-                    eventHtml += "<img src='" + MediaManager.GetMediaUrl(imageField.MediaItem) + "'>" ;
+                    eventHtml += "<img src='" + MediaManager.GetMediaUrl(imageField.MediaItem) + "'>";
                 }
                 eventHtml += "<div class='event-heading'><div class='event-title'>" + currentsEvent.Fields["Event Title"].Value + "</div>" +
                 "<div class='event-date'>{0}";
@@ -387,7 +387,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public IEnumerable<CalendarEvent> CalendarSearch (CalendarSearchRequest request)
+        public IEnumerable<CalendarEvent> CalendarSearch(CalendarSearchRequest request)
         {
             List<CalendarEvent> listEvents = new List<CalendarEvent>();
 
@@ -461,6 +461,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         StartDate = startDate.ToString("MMMM d, yyyy"),
                         EndDate = endDate.ToString("MMMM d, yyyy"),
                         EventDate = eventDate,
+                        SortDate = startDate,
                         ImageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "",
                         Location = currentsEvent.Fields["Event Location"].Value,
                         Summary = currentsEvent.Fields["Event Summary"].Value,
@@ -488,6 +489,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                            StartDate = currentDate.ToString("MMMM d, yyyy"),
                            EndDate = currentDate.ToString("MMMM d, yyyy"),
                            EventDate = currentDate.ToString("MMMM d, yyyy"),
+                           SortDate = currentDate,
                            ImageURL = imageField.MediaItem != null ? MediaManager.GetMediaUrl(imageField.MediaItem) : "",
                            Location = currentsEvent.Fields["Event Location"].Value,
                            Summary = currentsEvent.Fields["Event Summary"].Value,
@@ -557,7 +559,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                }
             }
-            return listEvents;
+            return listEvents.Where(e => e.SortDate >= DateTime.Today).OrderBy(e => e.SortDate);
 
         }
 
@@ -599,7 +601,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var bytes = Encoding.UTF8.GetBytes(output);
 
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            var stream = new  MemoryStream(bytes);
+            var stream = new MemoryStream(bytes);
             result.Content = new StreamContent(stream);
             result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/calendar");
             result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
@@ -611,5 +613,49 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return result;
         }
 
+        public static LeaderList GetLeaderList(Item currentItem, string filterValue)
+        {
+            Item currentMonthItem;
+            if (currentItem.Children.InnerChildren.Exists(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()))
+            {
+               currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()).SingleOrDefault();
+            }
+            else
+            {
+                // get the most recent item
+                currentMonthItem = currentItem.Children.InnerChildren.OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).First();
+            }
+
+            var regionalDirectorsField = (Sitecore.Data.Fields.NameValueListField)currentMonthItem.Fields["Regional Directors List"];
+            var managingDirectorsField = (Sitecore.Data.Fields.NameValueListField)currentMonthItem.Fields["Managing Directors List"];
+            var seniorDirectorsField = (Sitecore.Data.Fields.NameValueListField)currentMonthItem.Fields["Senior Directors List"];
+            var executiveDirectorsField = (Sitecore.Data.Fields.NameValueListField)currentMonthItem.Fields["Executive Directors List"];
+
+            return new LeaderList
+            {
+                RegionalDirectors = regionalDirectorsField.NameValues,
+                ManagingDirectors = managingDirectorsField.NameValues,
+                SeniorDirectors = seniorDirectorsField.NameValues,
+                ExecutiveDirectors = executiveDirectorsField.NameValues,
+                ListDate = Sitecore.DateUtil.IsoDateToDateTime(currentMonthItem.Fields["List Date"].Value).ToShortDateString(),
+                ListDateText = currentMonthItem.Fields["List Date Text"].Value,
+            };
+        }
+
+        public static List<string> GetPreviousLeaderListMonths(Item currentItem, LeaderList leaderList)
+        {
+            List<string> months = new List<string>();
+
+            Item currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == leaderList.ListDateText.ToLower()).SingleOrDefault();
+            DateTime currentItemDate = Sitecore.DateUtil.IsoDateToDateTime(currentMonthItem.Fields["List Date"].Value);
+
+            List<Item> items = currentItem.Children.InnerChildren.Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value) < currentItemDate)
+                .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).ToList();
+            foreach (Item item in items)
+            {
+                months.Add(item.Fields["List Date Text"].Value);
+            }
+            return months;
+        }
     }
 }

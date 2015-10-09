@@ -3,6 +3,133 @@
     Changing it to more of a SMACSS/BEM styling.
  ***/
 
+ .modal-lg {
+    width: 1000px;
+ }
+ .shopPhones {
+    line-height: 1;
+    .modal-header {
+        text-align: center;
+        border-bottom: 0;
+    }
+    .inner{
+        background: #fafbfc;
+        padding: 30px 0 40px 75px;
+    }
+    h2 {
+        font-size: 36px;
+        color: #013c5b;
+        line-height: 1;
+    }
+    .message{
+        font-size: 20px;
+        color: #999999;
+        margin-top: 10px;
+    }
+ }
+ 
+ .coverage-map-fade, .data-calculator-fade{
+    background: #000;
+    opacity: .5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1040;
+ }
+
+ .data-calculator-container{
+	position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1200;
+	width: 800px;
+    height: 400px;
+    margin: auto;
+    margin-top: 135px;
+    background: #fff;
+	
+	@include breakpoint(small-medium){
+		width:auto;
+		left:0;
+		right:0;
+	}
+
+	.close{
+		position:absolute;
+		top:5px;
+		right:5px;
+	}
+
+	.modal-header{
+		color: #257ab3;
+		font-size:24px;
+		font-weight:300;
+	}
+	.modal-body.scrollable{
+		height:300px;
+		overflow-y:auto;
+		padding:10px;
+	}
+	&.hidden{
+		& + .data-calculator-fade{
+			display:none;
+		}
+	}
+	.wrapper{
+		padding-bottom:0 !important;
+
+		.tab-wrapper{
+			border:0 !important;
+		}
+	}
+ }
+
+ .coverage-map-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1050;
+    width: 600px;
+    height: 500px;
+    margin: auto;
+    margin-top: 135px;
+    background: #fff;
+    .modal-header {
+        padding: 5px 15px;
+    }
+    &.hidden-map {
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        & + .coverage-map-fade {
+            display: none;
+        }
+    }
+    .inner {
+        width: 600px;
+        .wrapper {
+            width: 100%;
+            .angular-google-map{
+                height: 300px;
+                width: 550px;
+                margin: auto;
+                .angular-google-map-container{
+                    height: 100%;
+                    margin: 0;
+                }
+            }
+            .coverage-map {
+                border: none;
+            }
+        }
+    }
+}
 
 /*
     Generic styling for enrollment pages
@@ -12,13 +139,25 @@
     [loading-indicator] {
         position: relative;
     }
+
+    &.showCart .layout .enrollment_cart, &.showCart .layout .documents, &.showCart .layout .referred-by-section{
+        display:block;
+    }
+
+    .hide-sidebar-cart {
+        display: none;
+    }
+
     #state-select {
         min-width: 145px;
         button {
             border-color: #cfcfcf;
-            text-transform: uppercase;
+            //text-transform: uppercase;
             @include box-shadow(none);
             width: 145px;
+            background-color: #fff;
+            background-size: auto;
+            color: #555;
         }
         .icon {
             background-position: 10px center;
@@ -56,6 +195,10 @@
         }
     }
 
+    .content{
+        background:#fafafa;
+    }
+
     .checkbox-list {
         li { 
             margin-bottom : 4px;
@@ -76,15 +219,21 @@
     }
 
     .buttons .button, .buttons button, .enrollment-btn {
-        background-color: $enrollment-primary-button-background;
-        color: $enrollment-primary-button-color;
         display: inline-block;
         float: right;
         text-transform: none;
-        font-weight: 400;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        background-color: #2aa4dc;
+        border: 1px solid #229acd;
+        padding: 10px 40px;
+        @include border-radius(5px);
+        @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
         &.secondary {
-            background-color: $enrollment-secondary-button-background;
+            @include background-image(linear-gradient(to-top, #ffffff 0%, #f3f3f3 100%));
             color: $enrollment-secondary-button-color;
+            border: 1px solid rgb(199, 199, 199);
             margin-right: 10px;
             text-shadow: none;
             @include breakpoint(small-medium){
@@ -96,15 +245,16 @@
         }
         &.tertiary {
             background-color: $enrollment-tertiary-button-background;
+            background-image: none;
             color: $enrollment-tertiary-button-color;
+            border-color: #e6e6e6;
             text-shadow: none;
             text-transform: none;
             float: left;
             font-weight: 300;
+            padding: 10px 0;
+            border: none;
             @include box-shadow(none);
-            @include breakpoint(medium-large) {
-                margin-left: -11px;
-            }
         }
     }
 
@@ -125,10 +275,11 @@
         }
     }
 
-    .error {
-        color: #c84545;
-        input, select {
-            border-color: #c84545;
+    form .item.error, .error {
+        color: #f20000;
+        input[type="text"], input[type="password"], select {
+            border-color: #f20000;
+            color: #f20000;
         }
     }
 
@@ -404,7 +555,7 @@
     }
 }
 
-.enrollment__loadingMessage {
+.enrollment__loadingMessage, .overlay_container {
     position: fixed;
     top: 0;
     left: 0;
@@ -413,7 +564,8 @@
     background: url(../i/white-alpha-90.png) repeat;
     background: rgba(255, 255, 255, 0.9);
     z-index: 11000;
-    span {
+
+    .inner {
         $height: 140px;
         $width: 250px;
         position: absolute;
@@ -431,7 +583,7 @@
         border: 1px solid $enrollment-dark-border-color;
         background-color: #fefefe;
         text-align: center;
-        img {
+        img.loading {
             margin: 10px 0;
             vertical-align: middle;
         }
@@ -531,22 +683,67 @@
         background-color: #fff;
         background-image: none;
         border-bottom: 1px solid $enrollment-light-border-color;
+        font-size: 18px;
+        color: #47545b;
     }
     h1 {
         font-size: $enrollment-module-h1-size;
         color: $enrollment-module-h1-color;
         text-transform: none;
-        margin: 0;
+        margin: 5px 0;
+        width: 100%;
+    }
+    h3 {
+        font-size: $enrollment-module-h3-size;
+        color: $enrollment-module-h3-color;
+        text-transform: none;
+        font-weight: 500;
+        margin: 5px 0;
+        width: 100%;
     }
     header, .content, footer {
         padding-left: $enrollment-module-horizontal-padding;
         padding-right: $enrollment-module-horizontal-padding;
     }
+    a {
+        color: #178fcd;
+        font-size: 16px;
+        font-weight: 500;
+    }
+    button, .button {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        background-color: #2aa4dc;
+        border: 1px solid #229acd;
+        padding: 10px 40px;
+        @include border-radius(5px);
+        @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
+    }
+    .item input {
+        height: 46px;
+        padding: 10px;
+        font-size: 18px;
+        border-radius: 5px;
+        box-shadow: none;
+    }
+    .item select {
+        height: 46px;
+        padding: 10px;
+        font-size: 18px;
+        border-radius: 5px;
+        box-shadow: none;
+    }
+    .item input[type="checkbox"],
+    .item input[type="radio"] {
+        height: auto;
+        vertical-align: middle;
+    }
     &.form label, form label {
         text-transform: none !important;
         font-weight: 500;
-        font-size: 14px;
-        color: #000;
+        font-size: 16px;
+        color: #636363;
         margin-bottom: 8px;
     }
     hr {
@@ -592,7 +789,7 @@
         display: inline-block;
         height: 75px;
         width: 75px;
-        border: 75px;
+        border: 2px sold white;
         border-radius: 75px;
     }
 
@@ -601,16 +798,16 @@
         display: block;
         padding: 13px;
         .referred-by {
-            color: #999;
+            color: white;
             font-size: .85em;
             font-weight: 400;
         }
         .associate-name {
             font-weight: bold;
-            color: #0965a5;
+            color: white;
         }
         .associate-level {
-            color: #04283c;
+            color: white;
             font-weight: bold;
             font-size: .85em;
         }
@@ -1086,6 +1283,9 @@
         font-size: 18px;
         font-weight: 400
     }
+    .content {
+        @include border-radius(0 0 5px 5px);
+    }
 }
 
 .cleanse-address {
@@ -1335,6 +1535,15 @@
             font-size: 16px;
         }
     }
+    .mobile-services {
+        .line-item {
+            margin-left: 15px;
+
+            &:first-child {
+                margin-left: -15px;
+            }
+        }
+    }
 }
 
 /*
@@ -1351,30 +1560,33 @@
         }
     }
     .next-steps {
+        .content {
+            @include border-radius(0 0 5px 5px);
+        }
         .step {
             display: inline-block;
             width: 32%;
             vertical-align: top;
-			@include breakpoint(small) {
-				display: block;
-				width: 100%;
-				margin-top: 10px;
-			}
+            @include breakpoint(small) {
+                display: block;
+                width: 100%;
+                margin-top: 10px;
+            }
             .step-number {
                 display: table-cell;
                 font-size: 40px;
                 line-height: 1.1;
-				&.number-one {
-					padding-right: 11px;
-				}
+                &.number-one {
+                    padding-right: 11px;
+                }
             }
             .step-description {
                 display: table-cell;
                 vertical-align: top;
                 padding-left: 10px;
-				@include breakpoint(small) {
-					vertical-align: middle;
-				}
+                @include breakpoint(small) {
+                    vertical-align: middle;
+                }
             }
         }
     }
@@ -1410,7 +1622,15 @@
             }
         }
     }
+    .monthly-cost {
+        .content {
+            @include border-radius(0 0 5px 5px);
+        }
+    }
     .confirm-personal-info {
+        .content {
+            @include border-radius(5px);
+        }
         .contact {
             float: left;
             width: 100%;
@@ -1545,6 +1765,17 @@
             font-size: 16px;
         }
     }
+    .mobile-services {
+        .line-item {
+            margin-left: 15px;
+            .next-steps {
+                margin-left: -30px;
+            }
+            &:first-child {
+                margin-left: -15px;
+            }
+        }
+    }
     @include breakpoint(small) {
         dl {
             dt, dd {
@@ -1553,6 +1784,52 @@
             }
         }
     }    
+}
+
+.shop-phones-overlay{
+    .section{
+        float:left;
+        width:50%;
+        text-align:center;
+
+        &:last-of-type{
+            padding-left:25px;
+        }
+
+        .carrier{
+            margin:auto;
+            margin-bottom:15px;
+        }
+        .phone-image{
+            img{
+                height: 112px;
+                width:100px;
+            }
+            float:left;
+            margin-right:15px;
+        }
+
+        .side-content{
+            float:left;
+            margin-top:10px;
+            width:250px;
+
+            p{
+                float:left;
+                text-align:left;
+                font-size:24px;
+                font-weight:400;
+            }
+            a.button{
+                float:left;
+            }
+        }
+        
+
+        h6{
+            margin:0;
+        }
+    }
 }
 
 /*
@@ -1571,6 +1848,7 @@
     .content {
         background-color: #fff;
         padding: 15px 17px;
+        @include border-radius(0 0 5px 5px);
         .notice.error {
             padding: 10px;
             margin: 15px -5px;
@@ -1610,6 +1888,7 @@
     }
     h1 {
         font-size: 24px;
+        width: auto;
     }
     p {
         font-size: 14px;
@@ -1653,6 +1932,14 @@
                 max-width: 80%;
             }
         }
+        .links {
+            text-align: center;
+            padding: 0 15px;
+            margin-bottom: 10px;
+            .button {
+                margin-bottom: 15px;
+            }
+        }
         .stream-store-content {
             img {
                 max-width: 33%;
@@ -1661,7 +1948,7 @@
             p {
                 max-width: 64%;     
                 display: inline-block;     
-                padding: 20px 0 0 20px;        
+                padding: 0 0 0 20px;        
                 margin-top: 0;     
                 vertical-align: top;
                 font-size: 16px;
@@ -1724,6 +2011,12 @@
             .plan-type {
                 font-size: 14px;
                 font-weight: 600;
+                color:black;
+            }
+
+            .icon-byod{
+                float:left;
+                margin:5px 15px 0 0;
             }
         }
         .utiltiy-plan {
@@ -1761,6 +2054,7 @@
                 font-size: 12px;
                 font-weight: 300;
                 margin: 3px 0;
+                clear: left;
             }
         }
         .rate {
@@ -1807,12 +2101,17 @@
             font-size: 10px;
         }
     }
+    .cart-product{
+        min-width:245px;
+    }
     .description {
         position: relative;
         float: left;
         width: 70%;
         font-size: 14px;
         font-weight: 400;
+        width:auto;
+
         .icon-electricity, .icon-gas-icon {
             position: absolute;
             top: 4px;
@@ -1823,10 +2122,17 @@
         }
         a {
             font-size: 13px;
+            padding-right:5px;
+            margin-right:5px;
+            border-right:1px solid;
+
+            &:last-of-type{
+                border:0;
+            }
         }
         .options {
             clear: both;
-            font-size: 13px;
+            font-size: 15px;
             color: #666;
         }
     }
@@ -1897,12 +2203,12 @@
         }
     }
     .content .marketing-empty-cart {
-    	padding: 15px 0 30px;
-    	text-transform: uppercase;
-    	text-align: center;
-    	color: #ccc;
-    	font-weight: 600;
-    	font-size: $font-size-base;
+        padding: 15px 0 30px;
+        text-transform: uppercase;
+        text-align: center;
+        color: #ccc;
+        font-weight: 600;
+        font-size: $font-size-base;
     }
     .billed-title {
         color: #848484;
@@ -1947,15 +2253,19 @@
 .cart-overlay {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     height: auto;
-    background: url(../i/white-alpha-90.png) repeat;
-    background: rgba(255, 255, 255, 0.7);
     z-index: 9800;
     display: none;
     padding: 20px;
     min-height: 100%;
+
+    @include breakpoint(small-medium) {
+            left: 0;
+            background: url(../i/white-alpha-90.png) repeat;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
     .cart {
         float: none;
         width: auto;
@@ -1980,7 +2290,7 @@
     &.open {
         display: block;
         @include breakpoint(medium-large) {
-            display: none;
+
         }
     }
 }
@@ -2030,7 +2340,14 @@
     }
  }
 
-
+.banner.enrollment-confirmation-banner {
+    color: #fff;
+    font-size: 26px;
+    h1 {
+        font-size: 36px;
+        font-weight: 600;
+    }
+}
 
 /*
  *
@@ -2039,9 +2356,9 @@
  *
  */
 .banner.phone {
-	height: 228px;
-	background-position: 50%;
-	background-size: cover;
+    height: 228px;
+    background-position: 50%;
+    background-size: cover;
 }
 
 /* Mobile Enrollment */
@@ -2169,7 +2486,565 @@
         text-align: left;
     }
 }
+h3.success-message{
+        color:green;
+    }
 
+
+.enrollment_progress-bar{
+    color:white;
+    padding:35px 0;
+    @include retina-background('diamond-background.png');
+    background-position:right;
+    background-repeat:no-repeat;
+    
+    @include breakpoint (small-medium) {
+        padding-left:25px;
+
+        .progress{
+            display:none;
+        }
+    }
+	@include breakpoint (small) {
+		.progress, .need-help{
+            display:none;
+        }
+	}
+
+    .progress-bar-cart {
+        position: relative;
+        color: #333;
+        article{
+            display: none;
+            &.enrollment_cart, &.hide-sidebar-cart {
+                display: block;
+                border: none;
+                background: none;
+                margin-top: 25px;
+                float: right;
+                header {
+                    padding:0;
+                }
+            }
+        }
+		.icon-close{
+			display:none;
+		}
+		@include breakpoint (small-medium) {
+			.cart-overlay.open + .icon-close{
+				display:block;
+				position:fixed;
+				top:15px;
+				right:15px;
+				z-index:10001;
+			}
+		}
+        .cart-wrapper{
+            cursor:pointer;
+
+            .cart-items{
+                color:white;
+                .icon-cart{
+                    @include retina-background('cart-white.png');
+                    background-position:0;
+                }
+            }
+			
+            div.enrollment__cart{
+                margin-bottom:0;
+                float:right;
+
+                article.enrollment_cart{
+                    margin-bottom:0;
+                    margin-top:15px;
+                }
+                header{
+                    background:none;
+                    border:none;
+                    padding-top:0;
+                }
+                h1, .content, footer{
+                    display:none;
+                }
+
+            }
+        }
+        .arrow{
+                height:25px;
+                width:25px;
+                position:absolute;
+                right:12px;
+                top: 50px;
+                transform:rotate(45deg);
+                background:white;
+                z-index:10000;
+            }
+
+        .cart-overlay{
+            padding: 0 15px;
+            background:white;
+
+            top:60px;
+            right:0;
+
+            border:1px solid #e6e6e6;
+            border-radius:5px;
+
+			
+
+			 @include breakpoint (small-medium) {
+				left:auto;
+				position:fixed;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				background:white;
+				z-index:10000;
+
+				article{
+					float:none;
+				}
+			 }
+            header{
+                background:white;
+                padding-left:0;
+            }
+
+            .cart-items{
+                display:none;
+            }
+
+            .content{
+                padding-left:0;
+                padding-right:0;
+            }
+            footer{
+                display:none;
+            }
+        }
+        
+        &.hide-cart {
+            .cart-items {
+                display: none;
+            }
+        }
+    }
+
+    .cart{
+        color: white;
+        float: right;
+        position: relative;
+        margin-top:25px;
+
+        span{
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            left: 12px;
+            top: -2px;
+        }
+    }
+
+    &.step1{
+        background-color: $enrollment-progress-bar-step1-color;
+
+        .step{
+            background-color: $enrollment-progress-bar-step1-color;
+
+            &.step1{
+                background-color:white;
+            }
+        }
+    }
+    &.step2{
+        background-color: $enrollment-progress-bar-step2-color;
+        .step{
+            background-color: $enrollment-progress-bar-step2-color;
+
+            &.step1, &.step2{
+                background-color:white;
+            }
+        }
+    }
+    &.step3{
+        background-color: $enrollment-progress-bar-step3-color;
+        .step{
+            background-color: $enrollment-progress-bar-step3-color;
+
+            &.step1, &.step2, &.step3{
+                background-color:white;
+            }
+        }
+    }
+    
+    &.step4{
+        background-color: $enrollment-progress-bar-step4-color;
+        .step{
+            background-color: $enrollment-progress-bar-step4-color;
+
+            &.step1, &.step2, &.step3, &.step4{
+                background-color:white;
+            }
+        }
+    }
+
+    &.step5 {
+        background-color: $enrollment-progress-bar-step5-color;
+        .progress, .progress-bar-cart, .need-help{
+            display:none;
+        }
+    }
+
+    &.step3, &.step4{
+        .inner{
+            .need-help{
+                background-color:#0a96d7;
+            }
+        }
+    }
+
+    .inner{
+        width:1040px;
+        margin:auto;
+        position: relative;
+
+		 @include breakpoint (small-medium) {
+			width:100%;
+		 }
+        .step-description{
+            float: left;
+            width: 325px;
+            font-weight: 200;
+            font-size: 26px;
+            .stepCount{
+                font-weight: 800;
+                font-size: 36px;
+                line-height: 1;
+            }
+            @include breakpoint(small) {
+                width: 100%;
+            }
+        }
+        
+        .progress {
+            float: left;
+            padding-top: 35px;
+            position: relative;
+            margin-right: 180px;
+            .bar {
+                width: 200px;
+                height: 1px;
+                background: #fff;
+            }
+            .step {
+                border: 2px solid white;
+                border-radius: 100px;
+                height: 25px;
+                position: absolute;
+                top: 23px;
+                width: 25px;
+                cursor :pointer;
+
+                &.step2 {
+                    left: 30%;
+                }
+                &.step3 {
+                    right: 30%;
+                }
+                &.step4 {
+                    right: 0;
+                }
+            }
+        }
+        .inner {
+            position: relative;
+        }
+        .need-help {
+            position: absolute;
+            top: -35px;
+            right: 0;
+            padding: 5px 15px;
+            background-color: #033d5b;
+            color: #fff;
+            border-radius: 0 0 5px 5px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .referred-by-section {
+            float: left;
+            .associate-image {
+                float: left;
+                display: inline-block;
+                height: 75px;
+                width: 75px;
+                border: 2px solid #fff;
+                @include border-radius(75px);
+                margin-right: 10px;
+            }
+
+            .ai-right {
+                float: left;
+                display: block;
+                padding-top: 13px;
+                line-height: 1.2;
+                .referred-by {
+                    display: block;
+                    color: #fff;
+                    font-size: 12px;
+                    font-weight: 400;
+                }
+                .associate-name {
+                    display: block;
+                    color: #fff;
+                    font-size: 18px;
+                    font-weight: 600;
+                    padding-bottom: 4px;
+                }
+                .associate-level {
+                    display: block;
+                    color: #fff;
+                    font-weight: 600;
+                    font-size: 8px;
+                    text-transform: uppercase;
+                    letter-spacing: 3px;
+                }
+            }
+            @include breakpoint(small) {
+                margin-top: 10px;
+            }
+        }
+    }
+}
+.enrollment_verify-phone {
+    .device-error {
+        background-color: #fff6c6;
+        border-top: 1px solid #ffe973;
+        border-bottom: 1px solid #ffe973;
+        margin: 20px -20px;
+        padding: 30px 20px;
+        line-height: 1.2;
+        color: #013c5b;
+        font-size: 20px;
+        a {
+            font-size: 20px;
+        }
+        span.red {
+            font-weight: 600;
+            color: #f20000;
+        }
+    }
+    header {
+        .success-message {
+            color: #71b243;
+            font-weight: 500;
+        }
+        .device-error {
+            margin: -10px -20px;
+        }
+    }
+    .item {
+        margin-bottom: 15px;
+    }
+    .input-group {
+        margin-top: 10px;
+        input.full {
+            width: 100%;
+            margin-top: 10px;
+        }
+        label a {
+            float: right;
+        }
+        button {
+            margin-top: 40px;
+            @include breakpoint(small) {
+                margin-top: 0;
+                width: 100%
+            }
+        }
+    }
+    .gsm-device {
+        color: #565657;
+    }
+    .content {
+        @include border-radius(0 0 5px 5px);
+        .phone-line {
+            margin-bottom: 20px;
+            dl {
+                margin-bottom: 10px;
+                dt {
+                    float: left;
+                    clear: both;
+                    font-weight: 700;
+                }
+                dd {
+                    float: left;
+                    margin-left: 5px;
+                }
+            }
+            a {
+                margin-right: 20px;
+            }
+        }
+        .phoneTypes {
+            & > a {
+                border: 1px solid #e6e6e6;
+                border-radius: 3px;
+                background: #fff;
+                padding: 5px 10px;
+            }
+        }
+        header {
+            padding: 0 0 10px;
+            margin-bottom: 10px;
+        }
+        .vertical {
+            label {
+                color: #013c5b;
+                font-size: 20px;
+                padding-top: 10px;
+                .label-description{
+                    display: block;
+                    line-height: 1.2;
+                    font-size: 16px;
+                    color: #80888c;
+                    padding-right: 30px;
+                    &.disabled {
+                        opacity: 0.3;
+                    }
+                }
+                @include breakpoint(small) {
+                    width: 100%;
+                    margin-left: 0;
+                }
+            }
+
+            .btn-group-options {
+                font-size: 16px;
+                font-weight: 500;
+                color: #636363;
+                width: 64%;
+                float: left;
+                margin-left: 4%;
+                @include breakpoint(small) {
+                    width: 100%;
+                    margin-left: 0;
+                    .button {
+                        width: 100%;
+                        display: block;
+                        margin-bottom: 6px;
+                        &:after, &:before {
+                            display: none !important;
+                        }
+                    }
+                }
+                .heading {
+                    font-weight: 700;
+                }
+                .btn-phone-type {
+                    background-image: none;
+                    background-color: #ffffff;
+                    height: 50px;
+                    width: 138px;
+                    color: #585858;
+                    &:after, &:before {
+                        bottom: -25px;
+                    }
+                    i {
+                        margin-right: 4px;
+                        margin-bottom: 2px;
+                    }
+                }
+                .btn-phone-number {
+                    background-image: none;
+                    background-color: #ffffff;
+                    padding: 10px 18px;
+                    color: #737373;
+                }
+                &.my-device {
+                    margin-bottom: 20px;
+                }
+                &.iccid {
+                    input {
+                        width: 100%;
+                    }
+                    a {
+                        float: right;
+                    }
+                }
+                &.activation {
+                    input {
+                        width: 100%;
+                    }
+                }
+                &.phone-number {
+                    margin-top: 25px;
+                }
+                .disabled {
+                    opacity: 0.3;
+                }
+            }
+            .missing-activation, .missing-iccid {
+                padding: 10px 0;
+                color: #365c73;
+                font-weight: 700;
+                font-style: italic;
+            }
+            .device-error {
+                margin-bottom: 0;
+                font-size: 16px;
+                a {
+                    font-size: 16px;
+                }
+            }
+            .disabled {
+                opacity: 0.3;
+            }
+        }
+        .transfer-number {
+            .alert {
+                background-image: none;
+                p {
+                    margin: 1em 0;
+                }
+            }
+        }
+        .transfer-header {
+            h4 {
+                margin: 0;
+            }
+            p {
+                margin: 10px 0 0;
+            }
+        }
+        .help-text {
+            font-style: italic;
+        }
+        .street-number {
+            width: 16%
+        }
+        .street-name {
+            width: 34%;
+        }
+        .street-line-2 {
+            width: 32%;
+        }
+        .transfer-number-message {
+            @extend .clearfix;
+            @include border-radius(0 0 5px 5px);
+            margin: 0 -20px -20px -20px;
+            background: #ecf9f8;
+            padding: 10px 18px 10px 65px;
+            border-top: 1px solid #ddd;
+            line-height: 1.375;
+            text-align: left;
+            [class*="icon-"] {
+                float: left;
+                margin-left: -50px;
+            }
+        }
+    }
+}
 .enrollment__choose-network {
     .choose-location {
         font-size: 20px;
@@ -3052,9 +3927,6 @@
             }
         }
     }
-    h3 {
-        margin: 0;
-    }
     .additional-device {
         padding: 0 20px;
         display: table;
@@ -3150,30 +4022,280 @@
 }
 
 .enrollment__configure-data {
-    header {
-        border-bottom: none;
-        padding-bottom: 0;
-        h1 {
-            font-size: 24px;
-        }
-        span.account {
-            float: right;
-        }
-    }
     .mobile-plans-header {
         margin-bottom: 30px;
         font-size: 18px;
+    }
+    .plan-error {
+        background-color: #fff6c6;
+        border-top: 1px solid #ffe973;
+        border-bottom: 1px solid #ffe973;
+        margin: -20px -20px 20px -20px !important;
+        padding: 30px 20px;
+        line-height: 1.2;
+        color: #013c5b;
+        font-size: 20px;
+        a {
+            font-size: 20px;
+        }
+        span.red {
+            font-weight: 600;
+            color: #f20000;
+        }
+    }
+    .plan-chooser{
+        text-align: center;
+        margin-bottom: 35px;
+        .button-plans {
+            background-color: #e3e3e3;
+            color: #4c6670;
+            border: solid 1px #eaeaea;
+            display: inline-block;
+            font-size: 18px;
+            line-height: 1.375;
+            text-align: center;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+            width: 190px;
+            vertical-align: middle;
+            height: 46px;
+            margin-right: -5px;
+            font-weight: 600;
+            &.selected {
+                color: #4d6771;
+                background-color: #ffffff;
+            }
+            &.left {
+                background-image: image-url("marketing/redesign/single_phone_plans.png");
+                background-position: 14px center;
+                background-repeat: no-repeat;
+                border-bottom-left-radius: 5px;
+                border-top-left-radius: 5px;
+                padding: 10px 0 0 10px;
+            }
+            &.right {
+                background-image: image-url("marketing/redesign/multi_phone_plans.png");
+                background-position: 14px center;
+                background-repeat: no-repeat;       
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+                padding: 10px 0 0 40px;
+            }
+            &.selected {
+                &.right {
+                    background-image: image-url("marketing/redesign/multi_phone_plans.png");
+                }
+                &.left {
+                    background-image: image-url("marketing/redesign/single_phone_plans.png");
+                }
+            }
+        }
+    }
+    
+    .location-section {
+        .location-container {
+            display: inline-block;
+            margin-bottom: 15px;
+            .location-text {
+                a {
+                    margin-left:5px;
+                }
+            }
+        }
+        a.view-coverage {
+            float: right;
+            margin-top: 5px;
+        }
+        .float {
+            float: left;
+        }
+        a {
+            margin-left: 5px;
+        }
+        input {
+            width: 100px;
+        }
+    }
+    .networkSection {
+        margin-bottom: 35px;
+        i {
+            float: left;
+        }
+        .message {
+            float: right;
+            font-size: 20px;
+            text-align: right;
+            width: 50%;
+            line-height: 1;
+            color: #013c5b;
+            font-weight: 500
+        }
+
+		@include breakpoint(small) {
+			.message{
+				width:100%;
+				margin-top:10px;
+				text-align:center;
+			}	
+		}
+    }
+    .plan-details {
+        .box {
+            width: 49%;
+            display: inline-block;
+            vertical-align: top;
+            background-color: #ffffff;
+            padding-left: 25px;
+            font-size: 15px;
+            ul {
+                width: 185px;
+                padding: 0 0 0 20px;
+            }
+            ul li {
+                padding: 0 0 5px 0;
+            }
+            h3 {
+                font-weight: 400;
+                color: #000;
+                font-size: 23px;
+            }
+        }       
+
+        .seperator {
+            background-color: #e8e8e8;
+            display: inline-block;
+            height: 320px;
+            margin-top: 20px;
+            width: 1px;
+        }
+
+        .open {
+            background-color: #ffffff;
+            padding-top: 15px;
+            text-align: left;
+            border: 1px solid #ececec;
+        }
+
+        .open .footnote {
+            font-size: 13px;
+            font-weight: normal;
+            padding: 0 20px;
+            margin: 0;
+        }
+
+        .open ul li {
+            list-style-image: url("../i/marketing/redesign/check.png");
+            padding-left: -3px;
+        }
+        
+        .open .footnotes {
+            color: #bcbcbc;
+            padding-bottom: 25px;
+        }
+
+        
+        @include breakpoint(small) {
+            width: 100%;
+
+            .opener {
+                width: 100%;
+            }
+
+            .open {
+                width: 100%;
+            }
+        }
+    }
+    .button.full {
+        width: 100%;
+        padding: 10px !important;
+        background: #fff;
+        @include border-radius (2px);
+        border: 1px solid #ececec;
+        cursor: pointer;
+        color: #178fcd;
+        &.hideDetails {
+            background-color: #f7f9fa;
+            border-top: none;
+        }
     }
     .mobile-plans {
         text-align: center;
         width: 100%;
         @include experimental-value(width, calc(100% + 14px)); // Better alignment for everything except IE8 with this
+        margin-bottom: 15px;
+        line-height: 1.1;
+        &.att {
+            .price{
+                color: $enrollment-plan-att-color;
+            }
+            a.button {
+                background-color:$enrollment-plan-att-color;
+                @include background-image(linear-gradient(to top, $enrollemnt-plan-att-gradient-color-bottom 0%, $enrollemnt-plan-att-gradient-color-top 100%));
+                border: 1px solid #229acd;
+            }
+            .button.active {
+                border-color: #229acd;
+            }
+            .extra-info {
+                background: $enrollment-plan-att-color;
+                line-height: 1;
+            }
+        }
+        &.sprint {
+            .price {
+                color: $enrollment-plan-sprint-color;
+            }
+            a.button {
+                background-color:$enrollment-plan-sprint-color;
+                @include background-image(linear-gradient(to top, $enrollemnt-plan-sprint-gradient-color-bottom 0%, $enrollemnt-plan-sprint-gradient-color-top 100%));
+                border: 1px solid #eca001;
+            }
+            .button.active {
+                border-color: #eca001;
+            }
+            .extra-info {
+                background: $enrollment-plan-sprint-color;
+            }
+        }
         p {
             font-size: 12px;
         }
+        .extra-info {
+            color: white;
+            left: -2px;
+            position: absolute;
+            right: -2px;
+            top: -14px;
+            font-size: 12px;
+            font-weight: 800;
+            span {
+                padding:5px 0;
+            }
+        }
+        .icon-circle-check {
+            display: none;
+        }
         .button {
-            padding-top: 0;
-            padding-bottom: 0;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            box-shadow: 1px 1px 10px #ccc;
+            background:white;
+            border-radius: 0;
+            line-height: 1;
+			text-align:center;
+
+            &.active{
+                a.button {
+                    display:none;
+                }
+                .icon-circle-check {
+                    @include retina-background('checkmark.png');
+                    background-position: 0;
+                    display: inline-block;
+                    height: 33px;
+                    width: 35px;
+                }
+            }
         }
         .is-recommended,
         .is-special-offer {
@@ -3231,22 +4353,57 @@
                 display: block;
                 width: 100%;
             }
-            .price {
-                color: #3d8039;
-            }
             .limited-time-offer {
                 font-size: .85em;
                 display: block;
             }
         }
-        .size {
-            font-size: 20px;
-            font-weight: 600;
+
+        .size-speed{
+            margin:10px 0;
+            .size {
+                font-size: 23px;
+                color:black;
+            }
+            .speed{
+                color:#666;
+                font-size:15px;
+                margin-top:5px;
+                line-height:1;
+            }
         }
+        
         .price {
             position: relative;
             font-size: 18px;
+            font-style: italic;
+            line-height:1.1;
+            .cost{
+                font-size:40px;
+                font-style:italic;
+                font-weight:800;
+
+                sup {
+                    font-size: 20px;
+                    top: 0;
+                    vertical-align: super;
+                }
+            }
+            .duration {
+                font-size: 22px;
+            }
         }
+
+        a.button {
+            color: #fff;
+            display: inline-block;
+            padding: 10px 22px;
+            margin: 5px 0 10px;
+            @include border-radius(5px);
+            @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
+			float:none;
+        }
+
         .details {
             @include layout-list();
             text-align: left;
@@ -3280,19 +4437,12 @@
             }
         }
     }
-    h3 {
-        font-weight: 600;
-    }
     hr {
-        margin: 10px 0;
-        border: none;
-        @include retina-background('data-plan-bg.png', 'enrollment');
-        background-position: center top;
-        background-repeat: no-repeat;
-        height: 5px;
+        height: 1px;
+        background: #ececec;
+        margin-top: 5px;
     }
     footer {
-        @include background-image(linear-gradient(to top, #fff 0%, #f7f7f7 100%));
         h3 {
             font-size: 18px;
             margin: 0;
@@ -3387,9 +4537,6 @@
 }
 
 .enrollment__mobile-order-details {
-    .plan-details {
-
-    }
     .condition {
         color: #999;
         font-size: 12px;
@@ -3655,6 +4802,10 @@ article.phone-plan {
                 padding: 20px;
             }
         }
+        .hideDetails {
+            background-color: #f7f9fa;
+            border-top: none;
+        }
         .plan-details {
             background-color: #f7f7f7;
             @include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
@@ -3799,12 +4950,12 @@ article.services-box {
 }
 
 .phone-plan.footnotes {
-	border-top: 1px solid #e7e7e7;
-	padding-top: 25px;
-	p {
-		font-size: 12px;
-		margin: 0 0 10px 0;
-	}
+    border-top: 1px solid #e7e7e7;
+    padding-top: 25px;
+    p {
+        font-size: 12px;
+        margin: 0 0 10px 0;
+    }
 }
 
 .modal.depositWaiver {

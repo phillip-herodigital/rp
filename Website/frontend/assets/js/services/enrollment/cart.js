@@ -34,7 +34,6 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         toggleCart: function() {
             cart.isCartOpen = !cart.isCartOpen;
-            scrollService.toggleScrolling(cart.isCartOpen);
         },
 
         getCartVisibility: function() {
@@ -163,7 +162,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 return null;
             } else if (devicesCount == 1) {
                 return plan.rates[0].rateAmount;
-            } else {
+            } else if (childPlan != null && typeof childPlan.rates != 'undefined') {
                 return plan.rates[0].rateAmount + (devicesCount - 1) * childPlan.rates[0].rateAmount;
             }
         },
@@ -262,8 +261,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .reduce(sum, 0);
         },
 
-        getDeviceDetails: function (deviceId) {
-            return _.find(cart.items, { id: deviceId });
+        getDeviceDetails: function (device) {
+            return _.find(cart.items, { id: parseInt(device.inventoryItemId, 10), imeiNumber: device.imeiNumber });
         },
 
         getProratedCost: function() {

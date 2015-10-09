@@ -1,13 +1,6 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 <div id="utilityFlowPlans" class="enrollment" ng-if="customerType == 'residential'" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl" ng-init="setTimeRemaining('utilityFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
-        <div class="wrapper clearfix">
-            <h1>
-                <span class="block">@Html.Sitecore().Field("Banner Header Text")</span><br />
-                <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
-            </h1>
-        </div>
-    </div>
+    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 2, StepTextField = "Step 2 Description Text", HideCart = true })
     <div class="layout">
         <div class="wrapper cols-2">
             <section>
@@ -26,15 +19,6 @@
                         </div>
                     </article>
                     <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
-                    <div class="buttons">
-                        <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
-                            <span ng-if="!isRenewal">@Html.Sitecore().Field("Continue Button")</span>
-                            <span ng-if="isRenewal">@Html.Sitecore().Field("Continue Renewal Button")</span>
-                        </button>
-                        <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
-                        <button type="submit" class="tertiary" ng-click="resetEnrollment();" ng-if="!isRenewal">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
-                        <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal">@Html.Sitecore().Field("Cancel Renewal Button")</button>
-                    </div>
                     <div class="footnotes">
                         <div class="item warning" ng-if="isCartFull">
                             @Html.Sitecore().Field("Maximum Addresses Message Text")
@@ -209,6 +193,17 @@
                 </tr>
             </tbody>
         </table>
+        <footer>
+            <div class="buttons">
+                <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
+                    <span ng-if="!isRenewal">@Html.Sitecore().Field("Continue Button")</span>
+                    <span ng-if="isRenewal">@Html.Sitecore().Field("Continue Renewal Button")</span>
+                </button>
+                <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
+                <button type="submit" class="tertiary" ng-click="resetEnrollment();" ng-if="!isRenewal">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
+                <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+            </div>
+        </footer>
     </article>
 </script>
 
@@ -298,6 +293,17 @@
                 </tr>
             </tbody>
         </table>
+        <footer>
+            <div class="buttons">
+                <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
+                    <span ng-if="!isRenewal">@Html.Sitecore().Field("Continue Button")</span>
+                    <span ng-if="isRenewal">@Html.Sitecore().Field("Continue Renewal Button")</span>
+                </button>
+                <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
+                <button type="submit" class="tertiary" ng-click="resetEnrollment();" ng-if="!isRenewal">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
+                <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+            </div>
+        </footer>
     </article>
 </script>
 

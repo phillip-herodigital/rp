@@ -1,10 +1,17 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.UsageCalculator
 @using Sitecore.Mvc.Extensions
+@functions{
+    Sitecore.Data.Items.Item dataCalculator = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Marketing/Mobile/Mobile Usage Calculator");
 
+    string GetFieldValue(string key)
+    {
+        return dataCalculator.Fields[key] != null ? dataCalculator.Fields[key].Value : "";
+    }
+}
 @if(Model.IsModal)
 {
     <div class="modal-header">
-        @Html.Sitecore().Field("Modal Header")
+        @GetFieldValue("Modal Header")
     </div>
     @Html.Raw("<div class=\"modal-body scrollable\">")
 }
@@ -15,11 +22,11 @@
         var UsageCalculator = {
             tabs: [
                 {
-                    title: '@Html.Sitecore().Field("Connect Account Tab")',
+                    title: '@GetFieldValue("Connect Account Tab")',
                     url: 'connect.tpl.html'
                 }@if (Model.ShowManualCalculator) {@:,
                 @:{
-                    @:title: '@Html.Sitecore().Field("Manually Enter Tab")',
+                    @:title: '@GetFieldValue("Manually Enter Tab")',
                     @:url: 'manual.tpl.html'
                 @:}
                 }
@@ -30,7 +37,7 @@
     </script>
 
     <div class="wrapper">
-        <h1 ng-show="!isModal">@Html.Sitecore().Field("Header")</h1>
+        <h1 ng-show="!isModal">@GetFieldValue("Header")</h1>
         <div class="tab-wrapper">
             @if (Model.ShowBillScrape)
             {
@@ -48,11 +55,11 @@
         </div>
         <script type="text/ng-template" id="connect.tpl.html">
             <div class="login" ng-show="!connected">
-                @Html.Sitecore().Field("Connect Account Intro Text")
+                @GetFieldValue("Connect Account Intro Text")
                 <div class="select-carrier clearfix">
-                    <h2>@Html.Sitecore().Field("Connect Account Header")</h2>
+                    <h2>@GetFieldValue("Connect Account Header")</h2>
                     <div class="selectCarrierText col pull-left">
-                        <h4>@Html.Sitecore().Field("Select Current Carrier")</h4>
+                        <h4>@GetFieldValue("Select Current Carrier")</h4>
                     </div>
                     <div class="col pull-left">
                         <ul class="network-toggle">
@@ -66,10 +73,10 @@
                     </div>
                 </div>
                 @*<div class="selectCarrier clearfix">
-                    @Html.Sitecore().Field("Bill Analysis Text")
+                    @GetFieldValue("Bill Analysis Text")
                 </div>*@
                 <div class="stretch coming-soon" ng-if="connect.carrier && !getCarrier(connect.carrier).showLogin">
-                    @Html.Sitecore().Field("Carrier Coming Soon")
+                    @GetFieldValue("Carrier Coming Soon")
                 </div>
                 <form ng-if="connect.carrier && getCarrier(connect.carrier).showLogin" ng-submit="callValidas()" data-val-bind-messages="validations">
                     {{validations}}
@@ -81,38 +88,38 @@
                             @Html.ValidationSummary()
                             <div @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
                                 <p class="terms">
-                                    @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "connect.acceptTermsCheckbox" }) <label for="@Html.IdFor(m => m.AgreeToTerms)">@Html.Sitecore().Field("Agree text")</label>
+                                    @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "connect.acceptTermsCheckbox" }) <label for="@Html.IdFor(m => m.AgreeToTerms)">@GetFieldValue("Agree text")</label>
                                 </p>
                             </div>
-                            @Html.Sitecore().Field("Log In Text")
+                            @GetFieldValue("Log In Text")
                             <div class="item" @Html.Validation().ErrorClass(model => model.Username)>
-                                <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username")</label>
+                                <label for="@Html.IdFor(m => m.Username)">@GetFieldValue("Username")</label>
                                 @Html.TextBoxFor(m => m.Username, new { ng_model = "connect.username" })
                             </div>
                             <div class="item" @Html.Validation().ErrorClass(model => model.Password)>
-                                <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password")</label>
+                                <label for="@Html.IdFor(m => m.Password)">@GetFieldValue("Password")</label>
                                 @Html.PasswordFor(m => m.Password, new { ng_model = "connect.password" })
                             </div>
                             <div class="item" ng-if="connect.carrier == 'vzw'" @Html.Validation().ErrorClass(model => model.SecurityQuestionAnswer)>
-                                <label for="@Html.IdFor(m => m.SecurityQuestionAnswer)">@Html.Sitecore().Field("Security Question")</label>
+                                <label for="@Html.IdFor(m => m.SecurityQuestionAnswer)">@GetFieldValue("Security Question")</label>
                                 @Html.PasswordFor(m => m.SecurityQuestionAnswer, new { ng_model = "connect.securityAnswer" })
                             </div>
-                            <span class="note forgot-username-password" ng-if="connect.carrier == 'att'">@Html.Sitecore().Field("ATT Forgot Username or Password")</span>
-                            <span class="note forgot-username-password" ng-if="connect.carrier == 'sprint'">@Html.Sitecore().Field("Sprint Forgot Username or Password")</span>
-                            <span class="note forgot-username-password" ng-if="connect.carrier == 'vzw'">@Html.Sitecore().Field("Verizon Forgot Username or Password")</span>
-                            <span class="note forgot-username-password" ng-if="connect.carrier == 'tmo'">@Html.Sitecore().Field("TMobile Forgot Username or Password")</span>
+                            <span class="note forgot-username-password" ng-if="connect.carrier == 'att'">@GetFieldValue("ATT Forgot Username or Password")</span>
+                            <span class="note forgot-username-password" ng-if="connect.carrier == 'sprint'">@GetFieldValue("Sprint Forgot Username or Password")</span>
+                            <span class="note forgot-username-password" ng-if="connect.carrier == 'vzw'">@GetFieldValue("Verizon Forgot Username or Password")</span>
+                            <span class="note forgot-username-password" ng-if="connect.carrier == 'tmo'">@GetFieldValue("TMobile Forgot Username or Password")</span>
                         </div>
                         <div class="col one-third">
                             <div class="note-text">
-                                @Html.Sitecore().Field("Note Text")
+                                @GetFieldValue("Note Text")
                             </div>
                             <div class="item disallowed-account">
-                                @Html.Sitecore().Field("Disallowed Account Text")
+                                @GetFieldValue("Disallowed Account Text")
                             </div>
                         </div>
                     </div>
                     <div class="buttons">
-                        <button type="submit" data-val-submit>@Html.Sitecore().Field("Calculate Savings")</button>
+                        <button type="submit" data-val-submit>@GetFieldValue("Calculate Savings")</button>
                     </div>
                 </form>
             </div>
@@ -121,28 +128,28 @@
                 <div class="grid message-table">
                     <div class="table-row">
                         <div class="table-cell">
-                            @Html.Sitecore().Field("Success Message")
+                            @GetFieldValue("Success Message")
                         </div>
                     </div>
                     <div class="table-row">
                         <div class="table-cell">
-                            @Html.Sitecore().Field("Were Showing")
+                            @GetFieldValue("Were Showing")
                             <strong>
                                 <span ng-bind="connect.validas.phoneLines"></span>
-                                <span ng-show="connect.validas.phoneLines == 1">@Html.Sitecore().Field("Line")</span>
-                                <span ng-show="connect.validas.phoneLines > 1">@Html.Sitecore().Field("Lines")</span>
+                                <span ng-show="connect.validas.phoneLines == 1">@GetFieldValue("Line")</span>
+                                <span ng-show="connect.validas.phoneLines > 1">@GetFieldValue("Lines")</span>
                             </strong>
-                            @Html.Sitecore().Field("Averaged")
-                            <strong><span ng-bind="(connect.validas.averageMonthlyData / 1000) | trimNumber:2"></span>GB</strong>@Html.Sitecore().Field("Per Month")
-                            @Html.Sitecore().Field("At A Price Of")
-                            <strong><span ng-bind="connect.validas.averageMonthlyCost | currency"></span></strong>@Html.Sitecore().Field("Per Month").
-                            <a href='#' ng-click="resetConnect()">@Html.Sitecore().Field("Login With A Different Account")</a>
+                            @GetFieldValue("Averaged")
+                            <strong><span ng-bind="(connect.validas.averageMonthlyData / 1000) | trimNumber:2"></span>GB</strong>@GetFieldValue("Per Month")
+                            @GetFieldValue("At A Price Of")
+                            <strong><span ng-bind="connect.validas.averageMonthlyCost | currency"></span></strong>@GetFieldValue("Per Month").
+                            <a href='#' ng-click="resetConnect()">@GetFieldValue("Login With A Different Account")</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="grid savingsAnalysis">
-                    <h3>@Html.Sitecore().Field("Savings Analysis")</h3>
+                    <h3>@GetFieldValue("Savings Analysis")</h3>
                 </div>
                 <div class="stretch">
                      <div class="plans-table-wrapper">
@@ -150,7 +157,7 @@
                             <div class="plan-table">
                                 <div class="table-row">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Network Provider")
+                                        @GetFieldValue("Network Provider")
                                     </div>
                                     <div class="table-cell current-plan">
                                         <i ng-class="{'icon-att': connect.validas.network == 'att','icon-sprint': connect.validas.network == 'sprint','icon-verizon': connect.validas.network == 'vzw','icon-tmobile': connect.validas.network == 'tmo'}"></i>
@@ -158,49 +165,49 @@
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                         <div class="mobile-network">
                                             <i class="icon-cdma"></i>
-                                            <h2>@Html.Sitecore().Field("Network")</h2>
+                                            <h2>@GetFieldValue("Network")</h2>
                                         </div>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
                                         <div class="mobile-network">
                                             <i class="icon-gsm"></i>
-                                            <h2>@Html.Sitecore().Field("Network")</h2>
+                                            <h2>@GetFieldValue("Network")</h2>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="table-row">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Coverage Map")
+                                        @GetFieldValue("Coverage Map")
                                     </div>
                                     <div class="table-cell current-plan">
-                                        @Html.Sitecore().Field("NA")
+                                        @GetFieldValue("NA")
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        @Html.Sitecore().Field("Nationwide CDMA Network")
-                                        <a href="/services/mobile/coverage-map#?carrier=sprint">@Html.Sitecore().Field("Launch Coverage Map")</a>
+                                        @GetFieldValue("Nationwide CDMA Network")
+                                        <a href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        @Html.Sitecore().Field("Nationwide GSM Network")
-                                        <a href="/services/mobile/coverage-map#?carrier=att">@Html.Sitecore().Field("Launch Coverage Map")</a>
+                                        @GetFieldValue("Nationwide GSM Network")
+                                        <a href="/services/mobile/coverage-map#?carrier=att">@GetFieldValue("Launch Coverage Map")</a>
                                     </div>
                                 </div>
                                 <div class="table-row">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Phone Lines")
+                                        @GetFieldValue("Phone Lines")
                                     </div>
                                     <div class="table-cell current-plan">
-                                        <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines")
+                                        <span ng-bind="connect.validas.phoneLines"></span> @GetFieldValue("Lines")
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines")
+                                        <span ng-bind="connect.validas.phoneLines"></span> @GetFieldValue("Lines")
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines")
+                                        <span ng-bind="connect.validas.phoneLines"></span> @GetFieldValue("Lines")
                                     </div>
                                 </div>
                                 <div class="table-row">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Monthly Data")
+                                        @GetFieldValue("Monthly Data")
                                     </div>
                                     <div class="table-cell current-plan">
                                         <span ng-bind="(connect.validas.averageMonthlyData / 1000) | trimNumber:2"></span> GB
@@ -214,21 +221,21 @@
                                 </div>
                                 <div class="table-row">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Text And Talk")
+                                        @GetFieldValue("Text And Talk")
                                     </div>
                                     <div class="table-cell current-plan">
-                                        @Html.Sitecore().Field("NA")
+                                        @GetFieldValue("NA")
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        @Html.Sitecore().Field("Unlimited")
+                                        @GetFieldValue("Unlimited")
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        @Html.Sitecore().Field("Unlimited")
+                                        @GetFieldValue("Unlimited")
                                     </div>
                                 </div>
                                 <div class="table-row">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Monthly Cost")
+                                        @GetFieldValue("Monthly Cost")
                                     </div>
                                     <div class="table-cell current-plan">
                                         <span ng-bind="connect.validas.averageMonthlyCost | currency"></span>
@@ -242,40 +249,40 @@
                                 </div>
                                 <div class="table-row">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Total Cost over")
+                                        @GetFieldValue("Total Cost over")
                                         <select ng-model="formData.selectedTimeframe" ng-options="item.months as item.label for item in timeframe"></select><br />
                                         @*<a href="" class="hideBreakdown" ng-click="showBreakdown = !showBreakdown">
-                                            <span ng-if="showBreakdown">@Html.Sitecore().Field("hide breakdown")</span>
-                                            <span ng-if="!showBreakdown">@Html.Sitecore().Field("show breakdown")</span>
+                                            <span ng-if="showBreakdown">@GetFieldValue("hide breakdown")</span>
+                                            <span ng-if="!showBreakdown">@GetFieldValue("show breakdown")</span>
                                         </a>*@
                                     </div>
                                     <div class="table-cell current-plan">
                                         {{ connect.validas.averageMonthlyCost * formData.selectedTimeframe | currency }}
-                                        <span class="note">({{ connect.validas.averageMonthlyCost | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
+                                        <span class="note">({{ connect.validas.averageMonthlyCost | currency }} x {{ formData.selectedTimeframe }} @GetFieldValue("Months"))</span>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                         {{ getMonthlyTotal(getValidasRecommendation('sprint').planId) * formData.selectedTimeframe | currency }}
-                                        <span class="note">({{ getMonthlyTotal(getValidasRecommendation('sprint').planId) | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
+                                        <span class="note">({{ getMonthlyTotal(getValidasRecommendation('sprint').planId) | currency }} x {{ formData.selectedTimeframe }} @GetFieldValue("Months"))</span>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
                                         {{ getMonthlyTotal(getValidasRecommendation('att').planId) * formData.selectedTimeframe | currency }}
-                                        <span class="note">({{ getMonthlyTotal(getValidasRecommendation('att').planId) | currency }} x {{ formData.selectedTimeframe }} @Html.Sitecore().Field("Months"))</span>
+                                        <span class="note">({{ getMonthlyTotal(getValidasRecommendation('att').planId) | currency }} x {{ formData.selectedTimeframe }} @GetFieldValue("Months"))</span>
                                     </div>
                                     @*<div class="table-cell tco current-plan">
                                         <span class="bar" ng-style="{'height': getTCOHeight('currentPlan') }" ng-bind="calculateTCO('currentPlan') | currency"></span>
                                     </div>
                                     <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('sprint')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('sprint') | currency"></span> @Html.Sitecore().Field("Savings")</span><br />
+                                        <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('sprint')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('sprint') | currency"></span> @GetFieldValue("Savings")</span><br />
                                         <span class="bar" ng-style="{'height': getTCOHeight('sprint') }" ng-bind="calculateTCO('sprint') | currency"></span>
                                     </div>
                                     <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')">
-                                        <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('att')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('att') | currency"></span> @Html.Sitecore().Field("Savings")</span><br />
+                                        <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('att')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('att') | currency"></span> @GetFieldValue("Savings")</span><br />
                                         <span class="bar" ng-style="{'height': getTCOHeight('att') }" ng-bind="calculateTCO('att') | currency"></span>
                                     </div>*@
                                 </div>
                                 <div class="table-row">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Savings Over 2 Years")
+                                        @GetFieldValue("Savings Over 2 Years")
                                     </div>
                                     <div class="table-cell tco current-plan"></div>
                                     <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')" ng-class="{savings:(getTotalSavings('sprint') > 0),cost:!(getTotalSavings('sprint') > 0)}">
@@ -289,60 +296,60 @@
                             <div class="plan-table">
                                 <div class="table-row single-cell">
                                     <div class="full-row">
-                                        <strong>@Html.Sitecore().Field("Fees To Switch")</strong>
+                                        <strong>@GetFieldValue("Fees To Switch")</strong>
                                     </div>
                                 </div>
                                 <div class="table-row" ng-show="showBreakdown">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Early Termination Fee")
+                                        @GetFieldValue("Early Termination Fee")
                                     </div>
                                     <div class="table-cell current-plan">
                                         <span ng-bind="connect.validas.totalEtf | currency"></span>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        @Html.Sitecore().Field("NA")   
+                                        @GetFieldValue("NA")   
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        @Html.Sitecore().Field("NA")
+                                        @GetFieldValue("NA")
                                     </div>
                                 </div>
                                 <div class="table-row" ng-show="showBreakdown">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Leased Device Payoff Fee")
+                                        @GetFieldValue("Leased Device Payoff Fee")
                                     </div>
                                     <div class="table-cell current-plan">
                                         <span ng-bind="connect.validas.leasedPayoffFee | currency"></span>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        @Html.Sitecore().Field("NA")
+                                        @GetFieldValue("NA")
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        @Html.Sitecore().Field("NA")
+                                        @GetFieldValue("NA")
                                     </div>
                                 </div>
                                 <div class="table-row" ng-show="showBreakdown">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Activation Fee")
+                                        @GetFieldValue("Activation Fee")
                                     </div>
                                     <div class="table-cell current-plan">
-                                        @Html.Sitecore().Field("NA")
+                                        @GetFieldValue("NA")
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                         <div class="activationFee">
                                             <span ng-bind="(connect.validas.phoneLines * getCarrier('sprint').fees.activationFee) | currency"></span>
-                                            <span ng-show="connect.validas.phoneLines > 1">( <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines") )</span>
+                                            <span ng-show="connect.validas.phoneLines > 1">( <span ng-bind="connect.validas.phoneLines"></span> @GetFieldValue("Lines") )</span>
                                         </div>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
                                         <div class="activationFee">
                                             <span ng-bind="(connect.validas.phoneLines * getCarrier('att').fees.activationFee) | currency"></span>
-                                            <span ng-show="connect.validas.phoneLines > 1">( <span ng-bind="connect.validas.phoneLines"></span> @Html.Sitecore().Field("Lines") )</span>
+                                            <span ng-show="connect.validas.phoneLines > 1">( <span ng-bind="connect.validas.phoneLines"></span> @GetFieldValue("Lines") )</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="table-row" ng-show="showBreakdown">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Total Fees")
+                                        @GetFieldValue("Total Fees")
                                     </div>
                                     <div class="table-cell current-plan">
                                         <span ng-bind="connect.validas.leasedPayoffFee + connect.validas.totalEtf | currency"></span>
@@ -365,10 +372,10 @@
                                 </div>
                                 <div class="table-row" ng-show="showBreakdown">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Trade Value")
+                                        @GetFieldValue("Trade Value")
                                     </div>
                                     <div class="table-cell current-plan">
-                                        @Html.Sitecore().Field("NA")
+                                        @GetFieldValue("NA")
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                         <span ng-bind="connect.validas.tradeInValue | currency"></span>
@@ -379,7 +386,7 @@
                                 </div>                        
                                 <div class="table-row net-savings" ng-show="showBreakdown && (totalSavingsForCarrier('sprint') || totalSavingsForCarrier('att'))">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Net Savings Cost")
+                                        @GetFieldValue("Net Savings Cost")
                                     </div>
                                     <div class="table-cell current-plan">
                                     </div>
@@ -392,29 +399,29 @@
                                 </div> 
                                 <div class="table-row">
                                     <div class="table-cell label">
-                                        @Html.Sitecore().Field("Plan Selection")
+                                        @GetFieldValue("Plan Selection")
                                     </div>
                                     <div class="table-cell current-plan">
-                                        <span class="currentPlan">@Html.Sitecore().Field("Current Plan")</span>
+                                        <span class="currentPlan">@GetFieldValue("Current Plan")</span>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
+                                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getValidasRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getValidasRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
+                                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getValidasRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="plan-table">
                                 <div class="table-row single-cell table-footnote">
                                     <div class="full-row">
-                                        @Html.Sitecore().Field("Trade In Note")
+                                        @GetFieldValue("Trade In Note")
                                     </div>
                                 </div>
                             </div>
                         </div>
                          <div class="plans-table-one-third" ng-if="!hasRecommendationForCarrier('att') && !hasRecommendationForCarrier('sprint')">
-                             @Html.Sitecore().Field("Usage Exceeded Text")
+                             @GetFieldValue("Usage Exceeded Text")
                          </div>
                     </div>
                 </div>
@@ -425,14 +432,14 @@
             @if (Model.ShowManualCalculator)
             {
             <div class="manual-calculator">
-                <h4>@Html.Sitecore().Field("Use Calculator Text")</h4>      
+                <h4>@GetFieldValue("Use Calculator Text")</h4>      
                 <div class="grid">
                     <div class="col left clearfix">
                         <div class="icon pull-left">
                             <i class="icon-device"></i>
                         </div>
                         <div class="pull-left">
-                            @Html.Sitecore().Field("Number of Phone Lines")
+                            @GetFieldValue("Number of Phone Lines")
                         </div>
                     </div>
                     <div class="col right numLines">
@@ -460,8 +467,8 @@
                             <i class="icon-email-small"></i>
                         </div>
                         <div class="pull-left data-description">
-                            @Html.Sitecore().Field("Emails Sent Received")<br />
-                            @Html.Sitecore().Field("No Attachments Text")
+                            @GetFieldValue("Emails Sent Received")<br />
+                            @GetFieldValue("No Attachments Text")
                         </div>
                     </div>
                     <div class="col right">
@@ -471,9 +478,9 @@
                             <div class="slider-tick slider-tick-75"></div>
                         </div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("Email None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Email Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("Email A Lot Text")</span>
+                            <span class="none">@GetFieldValue("Email None Text")</span>
+                            <span class="some">@GetFieldValue("Email Some Text")</span>
+                            <span class="alot">@GetFieldValue("Email A Lot Text")</span>
                         </div>
                     </div>
                 </div>
@@ -489,8 +496,8 @@
                             <i class="icon-picture"></i>
                         </div>
                         <div class="pull-left data-description">
-                            @Html.Sitecore().Field("Uploaded Pictures")<br />
-                            @Html.Sitecore().Field("Posting Pictures Text")
+                            @GetFieldValue("Uploaded Pictures")<br />
+                            @GetFieldValue("Posting Pictures Text")
                         </div>
                     </div>
                     <div class="col right">
@@ -500,9 +507,9 @@
                             <div class="slider-tick slider-tick-75"></div>
                         </div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("Pictures None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Pictures Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("Pictures A Lot Text")</span>
+                            <span class="none">@GetFieldValue("Pictures None Text")</span>
+                            <span class="some">@GetFieldValue("Pictures Some Text")</span>
+                            <span class="alot">@GetFieldValue("Pictures A Lot Text")</span>
                         </div>
                     </div>
                 </div>
@@ -518,8 +525,8 @@
                             <i class="icon-music"></i>
                         </div>
                         <div class="pull-left data-description">
-                            @Html.Sitecore().Field("Streaming Music")<br />
-                            @Html.Sitecore().Field("Music Services Text")
+                            @GetFieldValue("Streaming Music")<br />
+                            @GetFieldValue("Music Services Text")
                         </div>
                     </div>
                     <div class="col right">
@@ -529,9 +536,9 @@
                             <div class="slider-tick slider-tick-75"></div>
                         </div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("Music None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Music Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("Music A Lot Text")</span>
+                            <span class="none">@GetFieldValue("Music None Text")</span>
+                            <span class="some">@GetFieldValue("Music Some Text")</span>
+                            <span class="alot">@GetFieldValue("Music A Lot Text")</span>
                         </div>
                     </div>
                 </div>
@@ -547,8 +554,8 @@
                             <i class="icon-video"></i>
                         </div>
                         <div class="pull-left data-description">
-                            @Html.Sitecore().Field("Stream Video")<br />
-                            @Html.Sitecore().Field("Stream Services Text")
+                            @GetFieldValue("Stream Video")<br />
+                            @GetFieldValue("Stream Services Text")
                         </div>
                     </div>
                     <div class="col right">
@@ -558,9 +565,9 @@
                             <div class="slider-tick slider-tick-75"></div>
                         </div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("Video None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Video Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("Video A Lot Text")</span>
+                            <span class="none">@GetFieldValue("Video None Text")</span>
+                            <span class="some">@GetFieldValue("Video Some Text")</span>
+                            <span class="alot">@GetFieldValue("Video A Lot Text")</span>
                         </div>
                     </div>
                 </div>
@@ -576,8 +583,8 @@
                             <i class="icon-web"></i>
                         </div>
                         <div class="pull-left data-description">
-                            @Html.Sitecore().Field("Web Surfing")<br />
-                            @Html.Sitecore().Field("Web Pages Text")
+                            @GetFieldValue("Web Surfing")<br />
+                            @GetFieldValue("Web Pages Text")
                         </div>
                     </div>
                     <div class="col right">
@@ -587,22 +594,22 @@
                             <div class="slider-tick slider-tick-75"></div>
                         </div>
                         <div class="sliderLabels">
-                            <span class="none">@Html.Sitecore().Field("Web Surfing None Text")</span>
-                            <span class="some">@Html.Sitecore().Field("Web Surfing Some Text")</span>
-                            <span class="alot">@Html.Sitecore().Field("Web Surfing A Lot Text")</span>
+                            <span class="none">@GetFieldValue("Web Surfing None Text")</span>
+                            <span class="some">@GetFieldValue("Web Surfing Some Text")</span>
+                            <span class="alot">@GetFieldValue("Web Surfing A Lot Text")</span>
                         </div>
                     </div>
                 </div>
                 <div class="suggestion row" ng-class="{grid: isModal}">
-                    <span class="suggestionText">@Html.Sitecore().Field("Based on your estimated usage")</span>
+                    <span class="suggestionText">@GetFieldValue("Based on your estimated usage")</span>
                     <div class="estimatedData">
                         <div class="frame">
                             <div class="recommended" ng-style="{width: calculatorRecommendationInPct() + '%'}" ng-show="calculatorTotalInGB(10) > 0">
-                                <span class="label">@Html.Sitecore().Field("Recommended Data")</span>
+                                <span class="label">@GetFieldValue("Recommended Data")</span>
                             </div>
                             <div class="estimate" ng-style="{width: calculatorTotalInPct() + '%'}"></div>
                             <div class="estimatedDataLabel" ng-style="{left: estimateLabelLeft() + 'px'}">
-                                @Html.Sitecore().Field("Estimated Usage"): <span ng-bind="calculatorTotalInGB()"></span>GB
+                                @GetFieldValue("Estimated Usage"): <span ng-bind="calculatorTotalInGB()"></span>GB
                             </div>
                         </div>
                         <div class="dataLabels">
@@ -621,7 +628,7 @@
                             <div class="dataLabel">
                                 8GB
                                 <span class="pull-right">
-                                    @Html.Sitecore().Field("Unlimited")
+                                    @GetFieldValue("Unlimited")
                                 </span>
                             </div>
                         </div>
@@ -629,49 +636,54 @@
                 </div>
                 <div class="grid" ng-show="isModal">
                     <div class="col right addToCart">
-                        <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Modal Button Text")</a>
+                        @if (!Model.IsJavascriptSubmit) {
+                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
+                        }
+                        else{
+                        <a href="" ng-click="setMobilePlanID()" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
+                        }
                     </div>
                 </div>
                 <div class="stretch" ng-show="!isModal">
                     <div ng-show="!hasRecommendationForCarrier('sprint') && !hasRecommendationForCarrier('att')">
                         <div class="content">
-                            @Html.Sitecore().Field("No Plans Available")
+                            @GetFieldValue("No Plans Available")
                         </div>
                     </div>
                     <div class="plan-table" ng-show="hasRecommendationForCarrier('sprint') || hasRecommendationForCarrier('att')">
                         <div class="table-row">
                             <div class="table-cell label">
-                                @Html.Sitecore().Field("Network Provider")
+                                @GetFieldValue("Network Provider")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 <div class="mobile-network">
                                     <i class="icon-cdma"></i>
-                                    <h2>@Html.Sitecore().Field("Network")</h2>
+                                    <h2>@GetFieldValue("Network")</h2>
                                 </div>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
                                 <div class="mobile-network">
                                     <i class="icon-gsm"></i>
-                                    <h2>@Html.Sitecore().Field("Network")</h2>
+                                    <h2>@GetFieldValue("Network")</h2>
                                 </div>
                             </div>
                         </div>
                         <div class="table-row">
                             <div class="table-cell label">
-                                @Html.Sitecore().Field("Coverage Map")
+                                @GetFieldValue("Coverage Map")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                @Html.Sitecore().Field("Nationwide CDMA Network")
-                                <a href="/services/mobile/coverage-map#?carrier=sprint">@Html.Sitecore().Field("Launch Coverage Map")</a>
+                                @GetFieldValue("Nationwide CDMA Network")
+                                <a href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                @Html.Sitecore().Field("Nationwide GSM Network")
-                                <a href="/services/mobile/coverage-map#?carrier=att">@Html.Sitecore().Field("Launch Coverage Map")</a>
+                                @GetFieldValue("Nationwide GSM Network")
+                                <a href="/services/mobile/coverage-map#?carrier=att">@GetFieldValue("Launch Coverage Map")</a>
                             </div>
                         </div>
                         <div class="table-row">
                             <div class="table-cell label">
-                                @Html.Sitecore().Field("Phone Lines")
+                                @GetFieldValue("Phone Lines")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 <span ng-bind="manualCalculator.lines"></span>
@@ -682,14 +694,14 @@
                         </div>
                         <div class="table-row">
                             <div class="table-cell label">
-                                @Html.Sitecore().Field("Monthly Data")
+                                @GetFieldValue("Monthly Data")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 <div ng-show="getManualRecommendation('sprint').data < 1000000">
                                     <span ng-bind="getManualRecommendation('sprint').data"></span> GB
                                 </div>
                                 <div ng-show="getManualRecommendation('sprint').data == 1000000">
-                                    @Html.Sitecore().Field("Unlimited")
+                                    @GetFieldValue("Unlimited")
                                 </div>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
@@ -697,24 +709,24 @@
                                     <span ng-bind="getManualRecommendation('att').data"></span> GB
                                 </div>
                                 <div ng-show="getManualRecommendation('att').data == 1000000">
-                                    @Html.Sitecore().Field("Unlimited")
+                                    @GetFieldValue("Unlimited")
                                 </div>
                             </div>
                         </div>
                         <div class="table-row">
                             <div class="table-cell label">
-                                @Html.Sitecore().Field("Text And Talk")
+                                @GetFieldValue("Text And Talk")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                @Html.Sitecore().Field("Unlimited")
+                                @GetFieldValue("Unlimited")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                @Html.Sitecore().Field("Unlimited")
+                                @GetFieldValue("Unlimited")
                             </div>
                         </div>
                         <div class="table-row">
                             <div class="table-cell label">
-                                @Html.Sitecore().Field("Monthly Cost")
+                                @GetFieldValue("Monthly Cost")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
                                 <span ng-bind="getMonthlyTotal(getManualRecommendation('sprint').planId) | currency"></span>
@@ -725,13 +737,13 @@
                         </div>
                         <div class="table-row">
                             <div class="table-cell label">
-                                @Html.Sitecore().Field("Plan Selection")
+                                @GetFieldValue("Plan Selection")
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Select Sprint Plan")</a>
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
                             </div>
                             <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;mobilePlanId={{getManualRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Sitecore().Field("Select ATT Plan")</a>
+                                <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
                             </div>
                         </div>
                     </div>
@@ -740,7 +752,7 @@
             }
             else
             {
-                @Html.Sitecore().Field("Manual Calculator Disabled")
+                @GetFieldValue("Manual Calculator Disabled")
             }
         </script>
     </div>

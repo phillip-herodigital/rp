@@ -105,7 +105,7 @@ div.tabbable {
 	margin: 10px;
 }
 .fixed-header .modal-dialog {
-	margin-top: 100px;
+	margin-top: 135px;
 }
 
 // Actual modal
@@ -390,7 +390,7 @@ div.tabbable {
 .typeahead {
 	&.loading {
 		@include retina-background('loading.gif');
-		background-position: 98% 8px;
+		background-position: 98% 14px;
 		background-repeat: no-repeat;
 	}
 }

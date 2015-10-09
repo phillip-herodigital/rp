@@ -1,4 +1,4 @@
-ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', '$timeout', function ($scope, $http, $location, $timeout) {
+ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$rootScope', '$http', '$location', 'mobileEnrollmentService','enrollmentCartService', '$timeout', function ($scope, $rootScope, $$http, $location, mobileEnrollmentService,enrollmentCartService, $timeout) {
 
     // Main Functionality
     // --------------------------------------------------
@@ -9,6 +9,9 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', '
             results = regex.exec($location.absUrl());
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
+
+    $scope.mobileEnrollmentService = mobileEnrollmentService;
+    $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
 
     $scope.SPID = getParameterByName("SPID");
     $scope.BC_ID = getParameterByName("BC_ID");
@@ -251,6 +254,16 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', '
         $scope.calculatorTotal = subtotal * $scope.manualCalculator.lines;
     }, true);
 
+
+    var getBestPlanFromData = function (coll){
+        var bestPlan;
+
+        bestPlan = _.find(coll, function (plan) {
+            return plan.data > $scope.calculatorTotalInGB(); // no ceiling, use the real value
+        });
+
+        return bestPlan ? bestPlan : _.max(coll, function(plan){ return plan.data });
+    }
     var findBestPlanFromCarrier = function(carrier) {
         var bestPlan, coll = null;
 
@@ -270,6 +283,79 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', '
 
         return bestPlan ? bestPlan : _.max(coll, function(plan){ return plan.data });
     };
+
+    var findBestActivePlanFromCarrier = function (carrier) {
+        var offers = $scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers;
+        offers = _.sortBy(offers, function (offer) {
+            return offer.data;
+        });
+        var comparisonData;
+        var network = $scope.mobileEnrollmentService.selectedNetwork.value;
+
+
+        offers = _.where(offers, function (offer) {
+            return offer.provider.toLowerCase() == network;
+        })
+
+        if ($scope.manualCalculator.lines == 1) {
+            offers = _.where(offers, $scope.filterIndPlans);
+        } else {
+            offers = _.where(offers, $scope.filterGroupPlans);
+        }
+
+        return getBestPlanFromData(offers);
+    }
+
+    $scope.filterIndPlans = function (plan) {
+        if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
+            var provider = mobileEnrollmentService.selectedNetwork.value,
+                devicesCount = enrollmentCartService.getDevicesCount();
+            firstDevice = enrollmentCartService.getCartDevices()[0];
+            if (devicesCount == 0) {
+                return null;
+            } else {
+                if (provider == "sprint" && !firstDevice.lte) {
+                    return plan.provider.toLowerCase() == provider
+                    && !plan.isParentOffer
+                    && !plan.isChildOffer
+                    && plan.nonLtePlan;
+                } else {
+                    return plan.provider.toLowerCase() == provider
+                    && !plan.isParentOffer
+                    && !plan.isChildOffer
+                    && !plan.nonLtePlan;
+                }
+            }
+        } else {
+            return null;
+        }
+    };
+
+    $scope.filterGroupPlans = function (plan) {
+        if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
+            var provider = mobileEnrollmentService.selectedNetwork.value,
+                devicesCount = enrollmentCartService.getDevicesCount();
+            firstDevice = enrollmentCartService.getCartDevices()[0];
+            if (devicesCount == 0) {
+                return null;
+            } else {
+                if (provider == "sprint" && !firstDevice.lte) {
+                    return plan.provider.toLowerCase() == provider
+                    && plan.isParentOffer
+                    && !plan.isChildOffer
+                    && plan.nonLtePlan;
+                } else {
+                    return plan.provider.toLowerCase() == provider
+                    && plan.isParentOffer
+                    && !plan.isChildOffer
+                    && !plan.nonLtePlan;;
+                }
+            }
+        } else {
+            return null;
+        }
+    };
+
 
     var cleanAndSortManualPlanCollection = function(coll) {
         _(coll).map(function(plan) {
@@ -382,6 +468,11 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$http', '$location', '
                 }
             }, 1);
         }, true);
+        
+        $scope.setMobilePlanID = function(){
+            var planID = findBestActivePlanFromCarrier($scope.mobileEnrollmentService.selectedNetwork.value).id;
+            $rootScope.$broadcast('MobilePlanId-set', { MobilePlanID: planID });
+        }
 
         $scope.showBreakdown = true;
         $scope.formData = {
