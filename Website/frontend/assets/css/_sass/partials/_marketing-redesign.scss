@@ -1086,3 +1086,54 @@ article.intro-promo-mobile {
         }
     }
 }
+
+article.mobile-devices{
+	h2{
+		margin-bottom:0;
+	}
+
+	p.intro{
+		margin:20px 0 50px;
+		font-weight:400;
+		line-height:1;
+	}
+
+	.device-networks{
+		.col{
+			background-color:#fbfbfb;
+			text-align:center;
+			padding:25px 0;
+			box-shadow:0px 5px 3px 0px #f2f2f2;
+
+			div.title{
+				max-width:315px;
+				margin:auto;
+				span{
+					display:block;
+					font-size:24px;
+					font-weight:600;
+					text-align:center;
+					margin:25px 0;
+					line-height:1.2;
+				}
+
+				ul{
+					list-style:none;
+					padding:0 15px;
+
+					li{
+						@include retina-background("blue-check.png", "icon");
+						background-position: left 5px;
+						background-repeat:no-repeat;
+						padding-left: 20px;
+						margin-bottom:20px;
+						text-align:left;
+					}
+			
+				}
+			}
+		
+		}
+	}
+}
+
