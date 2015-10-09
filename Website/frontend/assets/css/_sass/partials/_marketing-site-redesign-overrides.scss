@@ -1610,7 +1610,9 @@ article.mobile.mobile-savings {
 		padding-bottom: 20px;
 		i {
 			text-decoration: underline;
-			color: #fff;
+			a {
+				color: #fff;
+			}
 		}
 	}
 }
