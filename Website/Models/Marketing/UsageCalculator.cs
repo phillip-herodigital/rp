@@ -16,6 +16,8 @@ namespace StreamEnergy.MyStream.Models.Marketing
 
         public bool IsModal { get; set; }
 
+        public bool IsJavascriptSubmit { get; set; }
+
         [Required(ErrorMessage = "Username Required")]
         public string Username { get; set; }
 
