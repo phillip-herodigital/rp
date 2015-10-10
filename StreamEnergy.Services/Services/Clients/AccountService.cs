@@ -692,6 +692,35 @@ namespace StreamEnergy.Services.Clients
             return true;
         }
 
+        async Task<MobileAccountUsage[]> IAccountService.GetAccountUsageDetailsByInvoiceIds(Account account, string[] invoiceIds)
+        {
+            var response = await streamConnectClient.GetAsync(string.Format("api/v1/customers/{0}/accounts/{1}/usage?invoiceIds={2}", account.StreamConnectCustomerId.ToString(), account.StreamConnectAccountId.ToString(), string.Join("invoiceIds=", invoiceIds)));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            if (data.Status != "Success")
+            {
+                return null;
+            }
+
+            return (from usage in (IEnumerable<dynamic>)data.UsageDetail
+                    where usage.StartDate != DateTime.MinValue && usage.EndDate != DateTime.MinValue
+                    select new MobileAccountUsage()
+                    {
+                        StartDate = (DateTime)usage.StartDate,
+                        EndDate = (DateTime)usage.EndDate,
+                        DataUsage = (decimal)usage.DataUsage,
+                        MessagesUsage = (decimal)usage.MessagesUsage,
+                        MinutesUsage = (decimal)usage.MinutesUsage,
+                        InvoiceNumber = usage.InvoiceNumber,
+                        PhoneNumber = usage.Device.PhoneNumber,
+                    }).ToArray();
+        }
+
         async Task<bool> IAccountService.ChangePlan(Account account, string oldPlanId, string newPlanId, string newChildPlanId)
         {
             var response = await streamConnectClient.PostAsJsonAsync(string.Format("/api/v1/customers/{0}/accounts/{1}/changePlan", account.StreamConnectCustomerId.ToString(), account.StreamConnectAccountId.ToString()),

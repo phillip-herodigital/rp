@@ -1,7 +1,7 @@
 ﻿/* Account Usage Summary Controller
  *
  */
-ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'jQuery', function ($scope, $rootScope, $http, breakpoint, $) {
+ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'jQuery', 'mobileUsageService', function ($scope, $rootScope, $http, breakpoint, $, mobileUsageService) {
 
     var GIGA = 1000000;
 
@@ -31,8 +31,24 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             $scope.hideComponent = false;
             acct = newVal;
             firstLoad = true;
-            $scope.getUsageStats();
-            loadInvoices();
+            mobileUsageService.loadCurrentMobileUsage(newVal).then(function (data) {
+                $scope.data = data;
+                $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit * GIGA;
+
+                $scope.data.lastBillingDate = new Date($scope.data.billFromDate);
+                $scope.data.nextBillingDate = new Date($scope.data.billToDate);
+            
+                if ($scope.data.nextBillingDate < new Date()) {
+                    $scope.data.nextBillingDate = new Date();
+                }
+
+                updateDeviceTotals();
+
+                $scope.isLoading = $scope.streamConnectError = false;
+            }, function () {
+                $scope.isLoading = false;
+                $scope.streamConnectError = true;
+            });
         }
     });
 
@@ -65,7 +81,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             }
         }
     };
-    
+
     var firstLoad = true;
 
     $scope.getUsageStats = function(){
@@ -79,7 +95,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             data: {
                 accountNumber: acct,
                 startDate: dateRange != null ? dateRange.begin : null,
-                endDate: dateRange != null ? dateRange.end : null,
+                endDate: dateRange != null ? dateRange.end : null
             },
             headers: { 'Content-Type': 'application/JSON' }
         })

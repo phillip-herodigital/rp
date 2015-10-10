@@ -193,24 +193,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return null;
             }
 
-            var mobileAccountDetails = account.Details as MobileAccountDetails;
-            if (mobileAccountDetails == null)
-            {
-                return null;
-            }
-
-            var startDate = request.StartDate.HasValue ? request.StartDate.Value : mobileAccountDetails.LastBillDate;
-            var endDate = request.EndDate.HasValue ? request.EndDate.Value : mobileAccountDetails.NextBillDate;
-
-            await accountService.GetAccountUsageDetails(account, startDate, endDate, true);
+            await accountService.GetAccountUsageDetails(account, request.StartDate, request.EndDate, true);
 
             var response = new GetMobileUsageResponse()
             {
-                NextBillingDate = mobileAccountDetails.NextBillDate,
-                LastBillingDate = mobileAccountDetails.LastBillDate,
+                BillToDate = account.Usage.First().Value.EndDate,
+                BillFromDate = account.Usage.First().Value.StartDate,
                 DataUsageLimit = account.SubAccounts.Cast<MobileAccount>().Max(p => p.PlanDataAvailable.HasValue ? p.PlanDataAvailable.Value : 0),
                 DeviceUsage = from device in account.SubAccounts.Cast<MobileAccount>()
-                              let usage = (MobileAccountUsage)(account.Usage != null ? account.Usage.FirstOrDefault(u => ((MobileAccount)u.Key).EquipmentId == device.EquipmentId).Value : null)
+                              let usage = (MobileAccountUsage)(account.Usage != null ? account.Usage.FirstOrDefault(u => ((MobileAccount)u.Key).PhoneNumber.Trim() == device.PhoneNumber.Trim()).Value : null)
                               select new MobileUsage()
                               {
                                   Name = device.EquipmentId,
@@ -225,6 +216,51 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return response;
         }
+        [HttpPost]
+        public async Task<GetMobileUsageResponse[]> getMobileUsageByInvoiceNumbers(GetMobileUsageByInvoiceIdsRequest request)
+        {
+            var accountNumber = request.AccountNumber;
+
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            }
+
+            var account = currentUser.Accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
+
+            if (account == null)
+            {
+                return null;
+            }
+            if (account.Details == null && !await accountService.GetAccountDetails(account, true))
+            {
+                return null;
+            }
+            var usageData = await accountService.GetAccountUsageDetailsByInvoiceIds(account, request.InvoiceIds);
+
+            var dataUsageLimit = account.SubAccounts.Cast<MobileAccount>().Max(p => p.PlanDataAvailable.HasValue ? p.PlanDataAvailable.Value : 0);
+
+            var response = (from usage in usageData
+                            group usage by usage.InvoiceNumber into g
+                            select new GetMobileUsageResponse()
+                            {
+                                BillFromDate = g.Min(u => u.StartDate),
+                                BillToDate = g.Max(u => u.EndDate),
+                                DataUsageLimit = dataUsageLimit,
+                                InvoiceId = g.Key,
+                                DeviceUsage = (from device in g
+                                               select new MobileUsage()
+                                               {
+                                                   Number = device.PhoneNumber,
+                                                   DataUsage = device.DataUsage,
+                                                   MessagesUsage = device.MessagesUsage,
+                                                   MinutesUsage = device.MinutesUsage,
+                                               }).ToArray(),
+                            }).ToArray();
+
+            return response;
+        }
+        
         #endregion
 
         #region Mobile Change Plan
