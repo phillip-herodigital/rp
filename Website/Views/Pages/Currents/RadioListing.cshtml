@@ -15,104 +15,74 @@
     int maximumRows = 16;
     int startRowIndex = 1;
 
-    string currentBlock = "";
-
     startRowIndex = (currentPage - 1) * maximumRows;
-    IEnumerable<RadioItem> radioItems = CurrentsController.GetCurrentsRadioItems();
-    //int totalRows = CurrentsController.GetCurrentsRadioCount(Sitecore.Context.Item, Sitecore.Context.Language.ToString());
-    //int totalPages = (int)Math.Ceiling((double)totalRows / (double)maximumRows);
-    //string currentBlock = "";
-    radioItems = radioItems.OrderByDescending(e => e.ItemDate).ToList();
-    
+    IEnumerable<RadioItem> radioItems = CurrentsController.GetCurrentsRadioItems(startRowIndex, maximumRows);
+    int totalRows = CurrentsController.GetCurrentsRadioCount();
+    int totalPages = (int)Math.Ceiling((double)totalRows / (double)maximumRows);
+    string currentBlock = "";   
 }
 
-<style>
-
-    .radio-header {
-        padding-bottom: 60px;
-    }
-        .radio-header h3 {
-            font-weight: bold;
-        }
-
-        .radio-header h4 {
-            margin-bottom: 0px;
-            font-weight: 600;
-            color: #06a7e2;
-        }
-
-        .radio-header p {
-            font-size: 18px;
-        }
-
-        .radio-header a {
-            text-decoration:underline;
-            font-weight: bold;
-        }
-
-</style>
-<div class="currents__blocks radio">
+<div class="currents__blocks radio" ng-controller="CurrentsRadioCtrl" ng-init="totalPages = '@totalPages';">
     <article class="currents currents__box radio">
         <div class="wrapper">
             <div class="radio-header">
                 @Html.Sitecore().Field("Header Text")
             </div>
+            <div class="input-group">
+            <div class="input-group-btn btn-dropdown month-select" id="month-select" is-open="status.isopen" on-toggle="toggled(open)" dropdown="" data-alignment="right" dropdown-items="months">
+               
+                <button dropdown-toggle="" ng-disabled="disabled" class="btn btn-primary dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">@Html.Sitecore().Field("Month Drop Initial Text")<span class="caret"><i class="icon-nav-arrow-collapsed"></i></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="month in months" class="ng-scope">
+                        <a ng-click="selectMonth(month);" href="">{{ month }}</a>
+                    </li>
+                </ul>
+                    </div>
+            </div>
+
         </div>
     </article>
     @{
         if (radioItems == null || !radioItems.Any())
         {
-            //@Html.Raw("Sorry no matching results were found.");
+            @Html.Raw("Sorry no matching results were found.");
         }
         else
         {
             <div class="currents-grid clearfix">
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
-                @foreach (var r in radioItems.Select((radioItem, i) => new {i, radioItem})) //blogs.Select((blog, i) => new { i, blog }))
-                {               
-                    string articleText = "";
-                    
-                    var gridClasses = "<div class=\"grid-item medium-large ";
-                    if (r.i == 0 || r.i == 8)
+                <div class="radio-grid">
+                    @foreach (var r in radioItems.Select((radioItem, i) => new { i, radioItem }))
                     {
-                        gridClasses += " grid-item--width4";
-                    }
-                    else if (r.i == 3 || r.i == 9)
-                    {
-                        gridClasses += " grid-item--width2 grid-item--height2";
-                    }
-                    else if (r.i == 6 || r.i == 15)
-                    {
-                        gridClasses += " grid-item--width3";
-                    }
+                        string articleText = "";
 
-                    gridClasses += "\">";
-                    
-                    articleText += "<span class=\"article-date\">" + r.radioItem.ItemDate.ToString("MMMM d, yyyy") + "</span>" +
-                         "<h2>" + r.radioItem.Title + "</h2>" +
-                         "<div class=\"article-summary\" ellipsis>";
-                    
+                        var gridClasses = "<div class=\"grid-item medium-large  grid-item--width4";
+                       
+                        gridClasses += "\">";
+
+                        articleText += "<span class=\"article-date\">" + r.radioItem.ItemDate.ToString("MMMM d, yyyy") + "</span>" +
+                             "<h2>" + r.radioItem.Title + "</h2>" +
+                             "<div class=\"article-summary\" ellipsis>";
+
                         articleText += r.radioItem.Description;
 
                         articleText += "</div>";
-                        articleText += r.radioItem.Iframe;  
-                    currentBlock += gridClasses + articleText + "</div>";
-                    // create the block for mobile styles
-                   
-                    gridClasses = "<div class=\"grid-item small ";
-                    
-                    currentBlock += gridClasses + "\">" + articleText + "</div>";
-                }
-                @Html.Raw(currentBlock)
-                
+                        articleText += r.radioItem.Iframe;
+                        currentBlock += gridClasses + articleText + "</div>";
+                        // create the block for mobile styles
+
+                        gridClasses = "<div class=\"grid-item small ";
+
+                        currentBlock += gridClasses + "\">" + articleText + "</div>";
+                    }
+                    @Html.Raw(currentBlock)
+                </div>
             </div>
         }
     }
-
-    @*<div class="load-more radio" ng-show="currentPage < totalPages">
-        <a href="#" ng-click="loadMore()" ng-show="!isLoading">@Html.Sitecore().Field("Load More Text", blogRoot) <i class="icon-load-more"></i></a>
+    <div class="load-more radio" ng-show="currentPage < totalPages">
+        <a href="#" ng-click="loadMore()" ng-show="!isLoading">@Html.Sitecore().Field("Load More Text") <i class="icon-load-more"></i></a>
         <div class="loading" ng-show="isLoading"></div>
-    </div>*@
-
+    </div>
 </div>

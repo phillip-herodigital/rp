@@ -113,7 +113,7 @@
                         @Html.Sitecore().Field("Rates Dropdown", blogDataSourceItem)
                     </span>
                 </li>
-                <li>@Html.Sitecore().Field("Back to MyStream", blogDataSourceItem)</li>
+                @Html.Sitecore().Field("Header Links", blogDataSourceItem)
             </ul>
             <div class="search">
                 <form ng-submit="searchCurrents()">

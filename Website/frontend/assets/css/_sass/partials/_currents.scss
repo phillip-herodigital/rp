@@ -1388,21 +1388,76 @@ $local-meeting-color: #00a8e1;
 */
 
 .currents__blocks.radio {
+   
     .currents-grid {
         margin-top: 10px;
     }
+	
+	.radio-header {
+	 
+		h3 {
+			font-weight: bold;
+		}
+
+		h4 {
+			margin-bottom: 0px;
+			font-weight: 600;
+			color: #06a7e2;
+		}	
+
+		p {
+			font-size: 18px;
+		}
+
+		a {
+			text-decoration:underline;
+			font-weight: bold;
+		}	
+	}
+
+	.input-group {
+		margin: 0px auto;
+	}
+
+	.month-select {
+		width: 100%;
+		text-align: center;
+
+		.dropdown-menu {
+
+			width: 400px;
+			border-radius: 0px;			
+
+			li a {
+				color: #333333;
+				background-color: #ffffff;
+				text-align: left;
+			}
+
+			li a:hover {
+				text-decoration: underline;
+			}
+		}
+
+		button{
+			width: 400px;
+		}
+
+	}
+
     .grid-item,
     .grid-sizer { width: 24%; }
     .gutter-sizer { width: 1%; }
     .grid-item {
         float: left;
         position: relative;
-        height: 300px;
+        height: 250px;
         margin-bottom: 10px;
         color: #000;
 		background-color: #ffffff;
 		padding: 20px;
-		border-bottom: 2px solid #d2d3d3;
+		border-top: 2px solid #d2d3d3;
+		border-bottom: none;
 
         .article-date {
             @include retina-background('calendar-small-dark.png', 'icon');
@@ -1416,6 +1471,7 @@ $local-meeting-color: #00a8e1;
         }
         h2 {
             font-size: 20px;
+			font-weight: 600;
             margin: 5px 0;
             line-height: 1;
             color: #333333;
@@ -1424,13 +1480,13 @@ $local-meeting-color: #00a8e1;
             height: 50px;
         }
 
-        &.grid-item--width2, &.grid-item--width3, &.grid-item--width4 {
-            @include breakpoint(medium-large) {
-                .article-summary {
-                    height: 70px;
-                }
-            }
-        }
+		&.small {
+			height: 250px;
+		}
+
+		&.medium-large {
+			height: 250px;
+		}
         
         @include breakpoint(medium-large) {
             &.small {
@@ -1449,7 +1505,7 @@ $local-meeting-color: #00a8e1;
     .grid-item--height2 { height: 610px; }
 
     .load-more {
-        width: 99%;   
+        width: 100%;   
         text-align: center;
         vertical-align: middle;
         padding: 5px 0;
@@ -1464,6 +1520,7 @@ $local-meeting-color: #00a8e1;
         }
 		&.radio {
 			background-color: $radio-color;
+			margin-top: 40px;
 		}
         a {
             color: #fff;
