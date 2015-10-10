@@ -6,7 +6,7 @@
     $scope.getCartDevices = enrollmentCartService.getCartDevices;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
-    $scope.activationCodeInvalid = false;
+    $scope.activationCodeInvalid = true;
     $scope.esnInvalid = false;
     $scope.esnError = false;
     $scope.cartLte = null;
@@ -292,7 +292,7 @@
                 }
             })
         } else {
-            $scope.activationCodeInvalid = false;
+            $scope.activationCodeInvalid = true;
             $scope.addDevice.activationCode.$setValidity('required', true);
             $scope.validations = [];
         }

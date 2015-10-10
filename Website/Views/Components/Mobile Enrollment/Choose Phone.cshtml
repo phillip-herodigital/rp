@@ -139,26 +139,26 @@
                                     <div class="item" ng-if="networkType == 'GSM'">
                                         <label>
                                             @Html.Sitecore().Field("Header - Activation Number")
-                                            <span class="label-description" ng-class="{ disabled : missingActivationCode }">@Html.Sitecore().Field("Text - Activation Number Note")</span>
+                                            <span class="label-description" ng-class="{ disabled : phoneOptions.missingActivationCode }">@Html.Sitecore().Field("Text - Activation Number Note")</span>
                                         </label>
                                         <div class="btn-group-options activation" data-val-error="activationCode">
-                                            <div ng-class="{ disabled : missingActivationCode }">
+                                            <div ng-class="{ disabled : phoneOptions.missingActivationCode }">
                                                 @Html.Sitecore().Field("Label - Activation Number")
                                                 <a href="" ng-click="showModal('instructions/activationCode');">@Html.Sitecore().Field("What Is This")</a>
                                             </div>
-                                            <input type="text" name="activationCode" ng-disabled="missingActivationCode || phoneManufacturer == 'Apple'" ng-model="phoneOptions.activationCode" ng-blur="validateActivationCode()" data-val="true" data-val-required data-val-if="networkType == 'GSM' && !missingActivationCode" />
+                                            <input type="text" name="activationCode" ng-disabled="phoneOptions.missingActivationCode || phoneManufacturer == 'Apple'" ng-model="phoneOptions.activationCode" ng-blur="validateActivationCode()" data-val="true" data-val-required data-val-if="networkType == 'GSM' && !phoneOptions.missingActivationCode" />
                                         </div>
                                         <div class="clearfix"></div>
                                         <div>
-                                            <input type="checkbox" ng-click="missingActivationCode = !missingActivationCode" /> @Html.Sitecore().Field("I dont have one")
-                                            <div class="missing-activation" ng-show="missingActivationCode">
+                                            <input type="checkbox" ng-model="phoneOptions.missingActivationCode" /> @Html.Sitecore().Field("I dont have one")
+                                            <div class="missing-activation" ng-show="phoneOptions.missingActivationCode">
                                                 @Html.Sitecore().Field("Missing Activation Code Message")
                                             </div>
                                         </div>
                                     </div>
                                         
                                     <hr />
-                                    <div class="item" ng-class="{ disabled : ((networkType == 'GSM' && (missingActivationCode || (!missingActivationCode && (addDevice.activationCode.$invalid || addDevice.activationCode == null)))) || (networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || (addDevice.iccid.$invalid && phoneOptions.phoneOS != 'Apple')))) }">
+                                    <div class="item" ng-class="{ disabled : ((networkType == 'GSM' && (!phoneOptions.missingActivationCode && activationCodeInvalid)) || (networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || (addDevice.iccid.$invalid && phoneOptions.phoneOS != 'Apple')))) }">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
                                             <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
