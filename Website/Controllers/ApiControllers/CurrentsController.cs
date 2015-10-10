@@ -672,39 +672,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value))
                 .Slice(request.startRowIndex, request.maximumRows).ToList();
 
-            string currentBlock = "";
-            foreach (var r in radioItems.Select((radioItem, i) => new { i, radioItem }))
-            {
-                RadioItem radioItem = new RadioItem
-                {
-                    Title = r.radioItem.Fields["Radio Title"].Value,
-                    Description = r.radioItem.Fields["Radio Description"].Value,
-                    ItemDate = Sitecore.DateUtil.IsoDateToDateTime(r.radioItem.Fields["Publish Date"].Value),
-                    Iframe = r.radioItem.Fields["Spreaker Iframe"].Value,
-                };
-                string articleText = "";
-
-
-                var gridClasses = "<div class=\"grid-item medium-large grid-item--width4";
-
-                gridClasses += "\">";
-
-                articleText += "<span class=\"article-date\">" + radioItem.ItemDate.ToString("MMMM d, yyyy") + "</span>" +
-                     "<h2>" + radioItem.Title + "</h2>" +
-                     "<div class=\"article-summary\" ellipsis>";
-
-                articleText += radioItem.Description;
-
-                articleText += "</div>";
-                articleText += radioItem.Iframe;
-                currentBlock += gridClasses + articleText + "</div>";
-                // create the block for mobile styles
-
-                gridClasses = "<div class=\"grid-item small ";
-
-                currentBlock += gridClasses + "\">" + articleText + "</div>";
-            }
-
+            string currentBlock = BuildRadioHtml(radioItems);
             return new { html = currentBlock };
         }
 
@@ -719,6 +687,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) >= startDate && Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) < endDate)
                 .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value)).ToList();
 
+            string currentBlock = BuildRadioHtml(radioItems);
+            return new { html = currentBlock };
+        }
+
+        private string BuildRadioHtml(List<Item> radioItems)
+        {
             string currentBlock = "";
             foreach (var r in radioItems.Select((radioItem, i) => new { i, radioItem }))
             {
@@ -731,14 +705,39 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
                 string articleText = "";
 
-                var gridClasses = "<div class=\"grid-item medium-large grid-item--width4";  
+                var gridClasses = "<div class=\"grid-item medium-large ";
+                if (radioItems.Count() > 3)
+                {
+                    if (r.i == 2)
+                    {
+                        gridClasses += " grid-item--width2";
+                    }
+                    else if (r.i == 3)
+                    {
+                        gridClasses += " grid-item--width4";
+                    }
+                }
+
+                if (radioItems.Count() > 6)
+                {
+                    if (r.i == 5)
+                    {
+                        gridClasses += " grid-item--width2";
+                    }
+                }
+                else
+                {
+                    gridClasses += " grid-item--width4";
+                }
 
                 gridClasses += "\">";
 
                 articleText += "<span class=\"article-date\">" + radioItem.ItemDate.ToString("MMMM d, yyyy") + "</span>" +
                      "<h2>" + radioItem.Title + "</h2>" +
                      "<div class=\"article-summary\" ellipsis>";
+
                 articleText += radioItem.Description;
+
                 articleText += "</div>";
                 articleText += radioItem.Iframe;
                 currentBlock += gridClasses + articleText + "</div>";
@@ -748,7 +747,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 currentBlock += gridClasses + "\">" + articleText + "</div>";
             }
-            return new { html = currentBlock };
+            return currentBlock;
         }
+        
     }
 }

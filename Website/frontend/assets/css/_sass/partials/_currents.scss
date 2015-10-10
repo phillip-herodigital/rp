@@ -1452,10 +1452,10 @@ $local-meeting-color: #00a8e1;
         float: left;
         position: relative;
         height: 250px;
-        margin-bottom: 10px;
+        margin-bottom: 0;
         color: #000;
 		background-color: #ffffff;
-		padding: 20px;
+		padding: 20px 20px 0 10px;
 		border-top: 2px solid #d2d3d3;
 		border-bottom: none;
 
@@ -1499,10 +1499,9 @@ $local-meeting-color: #00a8e1;
             }
         }
     }
-    .grid-item--width2 { width: 49%; }
-    .grid-item--width3 { width: 74%; }
-    .grid-item--width4 { width: 99%; }
-    .grid-item--height2 { height: 610px; }
+    .grid-item--width2 { width: 50%; }
+    .grid-item--width3 { width: 75%; }
+    .grid-item--width4 { width: 100%; }
 
     .load-more {
         width: 100%;   

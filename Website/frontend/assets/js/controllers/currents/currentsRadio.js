@@ -5,7 +5,7 @@ ngApp.controller('CurrentsRadioCtrl', ['$scope', '$window', '$http', function ($
     $scope.months = "";
     $scope.currentPage = 1;
     var startRow = 1;
-    var maxRows = 16;
+    var maxRows = 7;
 
     $http.get('/api/currents/GetCurrentsRadioMonths')
         .success(function (data) {
@@ -19,6 +19,7 @@ ngApp.controller('CurrentsRadioCtrl', ['$scope', '$window', '$http', function ($
             var $item = $(data.html);
             $('.radio-grid').empty();
             $('.radio-grid').append($item).isotope('appended', $item);
+            $('.article-summary').dotdotdot();
         });
     };
 
@@ -33,6 +34,7 @@ ngApp.controller('CurrentsRadioCtrl', ['$scope', '$window', '$http', function ($
             $scope.currentPage += 1;
             var $item = $(data.html);
             $('.radio-grid').append($item).isotope('appended', $item);
+            $('.article-summary').dotdotdot();
         });
     };
 }]);
