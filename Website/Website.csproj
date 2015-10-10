@@ -909,6 +909,9 @@
     <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
     <Compile Include="Models\Currents\LeaderList.cs" />
     <Compile Include="Models\Currents\LoadPostsRequest.cs" />
+    <Compile Include="Models\Currents\RadioFilterRequest.cs" />
+    <Compile Include="Models\Currents\RadioItem.cs" />
+    <Compile Include="Models\Currents\RadioRequest.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
@@ -1616,6 +1619,7 @@
     <Content Include="Views\Components\Marketing\Mobile\Mobile Compare Networks.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Savings Banner.cshtml" />
     <Content Include="Views\Pages\Currents\Leaderboard.cshtml" />
+    <Content Include="Views\Pages\Currents\RadioListing.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
