@@ -142,6 +142,8 @@
                     imeiNumber: device.imeiNumber,
                     iccidNumber: device.iccidNumber,
                     inventoryItemId: device.id,
+                    activationCode: device.activationCode,
+                    activeDevice: device.activeDevice,
                     transferInfo: device.transferInfo,
                     useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'Reconditioned' || device.buyingOption == 'BYOD') ? false : true,
                 };

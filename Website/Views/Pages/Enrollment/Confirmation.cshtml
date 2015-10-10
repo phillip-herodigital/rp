@@ -356,14 +356,22 @@
                 </div>
                 <div class="line-item clearfix">
                     @Html.Sitecore().Field("Mobile Next Steps")
-                    <div ng-if="(dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber == null)">
+                    <div class="next-steps-content" ng-if="(dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber == null)">
                         @Html.Sitecore().Field("SIM Card Activation")
                     </div>
-                    <div ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber == null)">
+                    <div class="next-steps-content" ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber == null)">
                         @Html.Sitecore().Field("ICCID Card Activation")
                     </div>
-                    <div ng-if="((dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber != null) || (dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber != null))">
-                        @Html.Sitecore().Field("Activation Instructions")
+                    <div class="next-steps-content" ng-if="((dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber != null) || (dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber != null))">
+                        <div ng-if="!selectedOffer.offerOption.activeDevice && selectedOffer.offerOption.transferInfo == null">
+                            @Html.Sitecore().Field("Activation Instructions New")
+                        </div>
+                        <div ng-if="!selectedOffer.offerOption.activeDevice && selectedOffer.offerOption.transferInfo != null">
+                            @Html.Sitecore().Field("Activation Instructions Transfer")
+                        </div>
+                        <div ng-if="selectedOffer.offerOption.activeDevice">
+                            @Html.Sitecore().Field("Activation Instructions Active")
+                        </div>
                     </div>
                 </div>
             </div>

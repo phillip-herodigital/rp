@@ -14,6 +14,7 @@
     $scope.missingIccid = false;
     $scope.showIccid = true;
     $scope.networkType = null;
+    $scope.cdmaActive = false;
     
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
 
@@ -27,6 +28,7 @@
         $scope.cdmaIneligible = false;
         $scope.duplicateDevice = false;
         $scope.phoneVerified = false;
+        $scope.cdmaActive = false;
         var cartDevices = $scope.getCartDevices();
         if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
             $scope.hasError = true;
@@ -71,6 +73,7 @@
                         $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
                     }
                     $scope.showIccid = (data.iccid == undefined || data.iccid == '');
+                    $scope.cdmaActive = (data.iccid != undefined & data.iccid != '');
                     analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
 
                     mobileEnrollmentService.selectedNetwork.value = data.provider;
@@ -410,8 +413,9 @@
                 activationFee: $scope.activationFee,
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
-                iccidNumber: $scope.phoneOptions.iccidNumber,
+                iccidNumber: $scope.iccidInvalid ? undefined : $scope.phoneOptions.iccidNumber,
                 activationCode: $scope.phoneOptions.activationCode,
+                activeDevice: $scope.cdmaActive,
                 phoneOs: $scope.phoneOptions.phoneOs,
                 transferInfo: ($scope.phoneOptions.transferInfo.type == 'new') ? null : $scope.phoneOptions.transferInfo,
                 lte: $scope.phoneOptions.supportsLte

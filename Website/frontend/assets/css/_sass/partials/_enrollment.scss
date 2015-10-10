@@ -1771,6 +1771,17 @@
             .next-steps {
                 margin-left: -30px;
             }
+            .next-steps-content {
+                background-color: #fff6c6;
+                border-top: 1px solid #ffe973;
+                border-bottom: 1px solid #ffe973;
+                margin: 20px -20px 20px -135px;
+                padding: 30px 20px 30px 105px;
+                @include breakpoint(small) {
+                    margin: 10px -20px 10px -35px;
+                    padding: 10px;
+                }
+            }
             &:first-child {
                 margin-left: -15px;
             }
@@ -2714,7 +2725,7 @@ h3.success-message{
 		 }
         .step-description{
             float: left;
-            width: 325px;
+            width: 373px;
             font-weight: 200;
             font-size: 26px;
             .stepCount{
@@ -2976,6 +2987,9 @@ h3.success-message{
                     input {
                         width: 100%;
                     }
+                    a {
+                        float: right;
+                    }
                 }
                 &.phone-number {
                     margin-top: 25px;
@@ -2995,6 +3009,9 @@ h3.success-message{
                 font-size: 16px;
                 a {
                     font-size: 16px;
+                }
+                &.non-att {
+                    margin: -20px -20px 20px;
                 }
             }
             .disabled {

@@ -210,6 +210,7 @@ namespace StreamEnergy.Services.Clients
                 InventoryItemTypeId = selectedInventory.TypeId,
                 Transfer = ToStreamConnect(offerOption.TransferInfo),
                 UseInstallmentPlan = offerOption.UseInstallmentPlan,
+                ActiveDevice = offerOption.ActiveDevice,
                 InventoryInstallmentPlanByCredit = offerOption.UseInstallmentPlan
                     ? new { A = selectedInventory.InstallmentPlan.ByCreditRating.A, B = selectedInventory.InstallmentPlan.ByCreditRating.B, C = selectedInventory.InstallmentPlan.ByCreditRating.C }
                     : null,
