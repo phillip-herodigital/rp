@@ -615,7 +615,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             List<RadioItem> allRadioItems = new List<RadioItem>();
             var today = DateTime.Now;
-            var radioItems = Sitecore.Context.Database.GetItem("{F297E70A-BB59-4B5A-8E66-5F571D65DB0D}").Children
+            var radioItems = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
                 .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) < today)
                 .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value))
                 .Slice(startRowIndex, maximumRows).ToList();
@@ -637,7 +637,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public static int GetCurrentsRadioCount()
         {
             var today = DateTime.Now;
-            int radioItemsCount = Sitecore.Context.Database.GetItem("{F297E70A-BB59-4B5A-8E66-5F571D65DB0D}").Children
+            int radioItemsCount = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
                 .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) <= today).Count();
             return radioItemsCount;
         }
@@ -646,7 +646,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public IEnumerable<string> GetCurrentsRadioMonths()
         {
             var today = DateTime.Now;
-            var radioItems = Sitecore.Context.Database.GetItem("{F297E70A-BB59-4B5A-8E66-5F571D65DB0D}").Children
+            var radioItems = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
                 .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) <= today)
                 .OrderBy(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value)).ToList();
 
@@ -667,7 +667,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public dynamic LoadRadio(RadioRequest request)
         {
             var today = DateTime.Now;
-            var radioItems = Sitecore.Context.Database.GetItem("{F297E70A-BB59-4B5A-8E66-5F571D65DB0D}").Children
+            var radioItems = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
                 .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) <= today)
                 .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value))
                 .Slice(request.startRowIndex, request.maximumRows).ToList();
@@ -715,7 +715,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             string [] monthYear = request.filter.Split(' ');
             var startDate = DateTime.Parse(monthYear[0] + ", 1," + monthYear[1]);
             var endDate = startDate.AddMonths(1);
-            var radioItems = Sitecore.Context.Database.GetItem("{F297E70A-BB59-4B5A-8E66-5F571D65DB0D}").Children
+            var radioItems = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
                 .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) >= startDate && Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) < endDate)
                 .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value)).ToList();
 
