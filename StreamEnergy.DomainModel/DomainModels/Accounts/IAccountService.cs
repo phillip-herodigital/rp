@@ -42,6 +42,7 @@ namespace StreamEnergy.DomainModels.Accounts
         Task<bool> CheckRenewalEligibility(Account account, ISubAccount subAccount, bool forceRefresh = false);
 
         Task<bool> GetAccountUsageDetails(Account account, DateTime startDate, DateTime endDate, bool forceRefresh);
+        Task<MobileAccountUsage[]> GetAccountUsageDetailsByInvoiceIds(Account account, string[] invoiceNumbers);
 
         Task<bool> ChangePlan(Account account, string oldPlanId, string newPlanId, string newChildPlanId);
 

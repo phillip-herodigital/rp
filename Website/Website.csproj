@@ -834,6 +834,7 @@
     <Compile Include="Models\Account\GetMobilePlanOptionsRequest.cs" />
     <Compile Include="Models\Account\ChangePlanResponse.cs" />
     <Compile Include="Models\Account\GetMobilePlanOptionsResponse.cs" />
+    <Compile Include="Models\Account\GetMobileUsageByInvoiceNumbersRequest.cs" />
     <Compile Include="Models\Account\GetMobileUsageResponse.cs" />
     <Compile Include="Models\Account\GetMobileUsageRequest.cs" />
     <Compile Include="Models\Account\GetEnergyUsageRequest.cs" />
@@ -906,6 +907,7 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />
     <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
+    <Compile Include="Models\Currents\LeaderList.cs" />
     <Compile Include="Models\Currents\LoadPostsRequest.cs" />
     <Compile Include="Models\Currents\RadioFilterRequest.cs" />
     <Compile Include="Models\Currents\RadioItem.cs" />
@@ -931,6 +933,8 @@
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\MobileEnrollment\ChoosePhone.cs" />
     <Compile Include="Models\MobileEnrollment\ChooseNetwork.cs" />
+    <Compile Include="Models\MobileEnrollment\ProgressBar.cs" />
+    <Compile Include="Models\MobileEnrollment\VerifyDeviceNumberResponse.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\Temp\GenerateW9.cs" />
@@ -1610,6 +1614,11 @@
     <Content Include="Views\Pages\Sitemap.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Promo2.cshtml" />
     <Content Include="Views\Pages\Currents\CalendarSearch.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Progress Bar.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Header.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Compare Networks.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Savings Banner.cshtml" />
+    <Content Include="Views\Pages\Currents\Leaderboard.cshtml" />
     <Content Include="Views\Pages\Currents\RadioListing.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>

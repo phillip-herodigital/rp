@@ -7,8 +7,9 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class GetMobileUsageResponse
     {
-        public DateTime LastBillingDate { get; set; }
-        public DateTime NextBillingDate { get; set; }
+        public DateTime BillFromDate { get; set; }
+        public DateTime BillToDate { get; set; }
+        public string InvoiceId { get; set; }
 
         public double DataUsageLimit { get; set; }
         public IEnumerable<MobileUsage> DeviceUsage { get; set; }

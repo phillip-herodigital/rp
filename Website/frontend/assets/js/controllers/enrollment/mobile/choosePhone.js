@@ -1,12 +1,137 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', 'analytics', function ($scope, $filter, $modal, $http, $sce, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService, analytics) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', 'analytics', function ($scope, $filter, $modal, $http, $sce, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService, analytics) {
 
     var maxMobileItems = 10;
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
-    $scope.activationCodeInvalid = false;
+    $scope.getCartDevices = enrollmentCartService.getCartDevices;
+    $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
+    $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
+    $scope.activationCodeInvalid = true;
     $scope.esnInvalid = false;
     $scope.esnError = false;
     $scope.cartLte = null;
+    $scope.missingActivationCode = false;
+    $scope.missingIccid = false;
+    $scope.showIccid = true;
+    $scope.networkType = null;
+    $scope.cdmaActive = false;
+    
+    $scope.mobileEnrollment.phoneTypeTab = 'existing';
+
+    $scope.mobileEnrollmentService.currentStepNumber = 1;
+    //clearPhoneSelection()
+
+    $scope.verifyPhone = function () {
+        $scope.hasError = false;
+        $scope.deviceIneligible = false;
+        $scope.gsmIneligible = false;
+        $scope.cdmaIneligible = false;
+        $scope.duplicateDevice = false;
+        $scope.phoneVerified = false;
+        $scope.cdmaActive = false;
+        var cartDevices = $scope.getCartDevices();
+        if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
+            $scope.hasError = true;
+            $scope.duplicateDevice = true;
+        }
+        if (!$scope.hasError) {
+            enrollmentService.isLoading = true;
+            var convertedImei = null;
+            // do the hex conversion for CDMA MEID/ESN-DEC
+            if ($scope.phoneOptions.imeiNumber.length == 14) {
+                convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber);
+            }
+            $http.post('/api/enrollment/verifyImei', convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei, { transformRequest: function (code) { return JSON.stringify(code); } })
+            .success(function (data) {
+                analytics.sendVariables(2, data.provider);
+                if (!data.isValidImei) {
+                    $scope.hasError = true;
+                    $scope.deviceIneligible = true;
+                    $scope.addDevice.imeiNumber.$setValidity('required',false);
+                    $scope.validations = [{
+                        'memberName': 'imeiNumber'
+                    }];
+                    analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
+                    if(data.verifyEsnResponseCode) {
+                        $scope.deviceIneligibleMessage = _.find($scope.esnValidationMessages, function (message) { 
+                                return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
+                            }).message;
+                    }
+                } else if ($scope.getDevicesCount() > 0 && mobileEnrollmentService.selectedNetwork.value != data.provider) {
+                    $scope.hasError = true;
+                    if ($scope.networkType == 'GSM') {
+                        $scope.cdmaIneligible = true;
+                    } else if ($scope.networkType == 'CDMA') {
+                        $scope.gsmIneligible = true;
+                    }
+                } else {
+                    $scope.phoneVerified = true;
+                    $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
+                    $scope.phoneManufacturer = data.manufacturer;
+                    $scope.phoneOptions.iccidNumber = data.iccid;
+                    if (data.deviceType) {
+                        $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
+                    }
+                    $scope.showIccid = (data.iccid == undefined || data.iccid == '');
+                    $scope.cdmaActive = (data.iccid != undefined & data.iccid != '');
+                    analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
+
+                    mobileEnrollmentService.selectedNetwork.value = data.provider;
+                    $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
+                }
+
+                enrollmentService.isLoading = false;
+            });
+        }
+    };
+
+    $scope.chooseNetwork = function (network, phoneType) {
+        analytics.sendVariables(2, network);
+        $scope.mobileEnrollment.phoneTypeTab = phoneType;
+        mobileEnrollmentService.selectedNetwork = _.where($scope.mobileEnrollmentService.availableNetworks, { value: network })[0];
+
+        //enrollmentStepsService.setStep('phoneFlowDevices');
+    };
+
+    $scope.editMobileDevice = function (service, item) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        //update the editedDevice object so the Choose Phone page can get its state
+        mobileEnrollmentService.editedDevice = item;
+        //remove the device from the cart items array
+        enrollmentCartService.removeDeviceFromCart(item);
+        $scope.phoneOptions = item;
+        $scope.phoneVerified = true;
+    };
+
+    $scope.editDeviceNumber = function (service, item) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        //update the editedDevice object so the Choose Phone page can get its state
+        mobileEnrollmentService.editedDevice = item;
+        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
+        $scope.phoneVerified = false;
+        scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
+    };
+
+    $scope.deleteMobileDevice = function (service, item) {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        //remove the device from the cart items array
+        if (!$scope.phoneVerified) {
+            enrollmentCartService.removeDeviceFromCart(item);
+        }
+        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+        $scope.phoneVerified = false;
+        $scope.phoneOptions.imeiNumber = '';
+        scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
+    };
     
     $scope.isCartFull = function () {
         if (enrollmentCartService.getDevicesCount() == maxMobileItems) {
@@ -167,7 +292,7 @@
                 }
             })
         } else {
-            $scope.activationCodeInvalid = false;
+            $scope.activationCodeInvalid = true;
             $scope.addDevice.activationCode.$setValidity('required', true);
             $scope.validations = [];
         }
@@ -182,7 +307,7 @@
         $scope.selectedPhone = item;
         $scope.phoneOptions.color = mobileEnrollmentService.getPhoneColors(id)[0].color;
         $scope.phoneOptions.size = mobileEnrollmentService.getPhoneSizes(id)[0].size;
-        scrollService.scrollTo('chooseDevice', jQuery('header.site-header').height() * -1, 0, angular.noop);
+        scrollService.scrollTo('chooseDevice', 0, 0, angular.noop);
     };
 
     $scope.getPhoneCount = function(id) {
@@ -247,6 +372,8 @@
         selectedModel;
 
         analytics.sendVariables(5, ($scope.phoneOptions.transferInfo.type == "new") ? "New Number" : "Transfer")
+        analytics.sendVariables(18, $scope.phoneOptions.phoneOS);
+        analytics.sendVariables(19, $scope.phoneOptions.iccidNumber);
 
         if ($scope.mobileEnrollment.phoneTypeTab == "new") { 
             device = $scope.selectedPhone;
@@ -279,20 +406,25 @@
 
             item = {
                 id: 7,
-                buyingOption: "BYOD",
+                buyingOption: 'BYOD',
                 type: $scope.mobileEnrollment.phoneTypeTab,
                 make: $scope.phoneOptions.make,
                 model: $scope.phoneOptions.model,
                 activationFee: $scope.activationFee,
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 simNumber: $scope.phoneOptions.simNumber,
-                iccidNumber: $scope.phoneOptions.iccidNumber,
-                transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
+                iccidNumber: $scope.iccidInvalid ? undefined : $scope.phoneOptions.iccidNumber,
+                activationCode: $scope.phoneOptions.activationCode,
+                activeDevice: $scope.cdmaActive,
+                phoneOs: $scope.phoneOptions.phoneOs,
+                transferInfo: ($scope.phoneOptions.transferInfo.type == 'new') ? null : $scope.phoneOptions.transferInfo,
                 lte: $scope.phoneOptions.supportsLte
             };
         }
 
         enrollmentCartService.addDeviceToCart(item);
+        $scope.addDevice.imeiNumber.$setValidity('required', true);
+        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
         if (phoneType) {
             $scope.mobileEnrollment.phoneTypeTab = phoneType; 
             $scope.clearPhoneSelection();
@@ -344,38 +476,43 @@
         })
     };
 
-    $scope.showModal = function (templateUrl) {
+    $scope.showModal = function (templateUrl, size) {
         $modal.open({
             'scope': $scope,
-            'templateUrl': templateUrl
+            'templateUrl': templateUrl,
+            'size': size ? size : ''
         })
     };
 
-    $scope.$watch(mobileEnrollmentService.getEditedDevice, function (device) {
-        if (device.id != null) {
-            if (device.id == '7') {
-                $scope.mobileEnrollment.phoneTypeTab = 'existing';
-            } else {
-                $scope.setSelectedPhone(device.device.id);
-            }
-        }
-    });
+    $scope.validateIccid = function () {
+        $scope.iccidInvalid = $scope.addDevice.iccid.$invalid;
+    };
 
     /**
      * Complete the Choose Network Step
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {  
-        $scope.addDeviceToCart();
-        var activeService = enrollmentCartService.getActiveService();
-        var dataPlan = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
-        
-        // reset the dataplan if one is selected
-        if (typeof dataPlan != 'undefined' && dataPlan.value.offerSelections.length > 0){
-            enrollmentCartService.removeMobileOffers(activeService);
+        if ($scope.getDevicesCount() > 0 || $scope.phoneVerified) {
+            if ($scope.phoneVerified) {
+                $scope.addDeviceToCart();
+            }
+            
+            var activeService = enrollmentCartService.getActiveService();
+            var dataPlan = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
+            
+            // reset the dataplan if one is selected
+            if (typeof dataPlan != 'undefined' && dataPlan.value.offerSelections.length > 0 && !$scope.duplicateDevice){
+                enrollmentCartService.removeMobileOffers(activeService);
+            }
+            $scope.clearPhoneSelection();
+            $scope.phoneVerified = false;
+            enrollmentStepsService.setStep('phoneFlowPlans');
+
+            $scope.mobileEnrollmentService.currentStepNumber = 2;
+        } else if ($scope.phoneOptions.imeiNumber != '') {
+            $scope.verifyPhone()
         }
-        $scope.clearPhoneSelection();
-        enrollmentStepsService.setStep('phoneFlowPlans');
     };
 
 }]);

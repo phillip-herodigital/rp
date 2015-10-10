@@ -47,5 +47,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
 
         Task<VerifyEsnResponse> IsEsnValid(string esn);
+
+        Task<VerifyImeiResponse> VerifyImei(string imei);
     }
 }

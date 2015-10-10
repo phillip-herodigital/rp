@@ -28,6 +28,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
         public string IccidNumber { get; set; }
         public string InventoryItemId { get; set; }
         public bool UseInstallmentPlan { get; set; }
+        public bool ActiveDevice { get; set; }
         
         [ValidateObject]
         public TransferInfo TransferInfo { get; set; }
