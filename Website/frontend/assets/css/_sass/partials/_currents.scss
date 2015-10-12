@@ -68,7 +68,7 @@ $local-meeting-color: #00a8e1;
     }
 
 	@include breakpoint(medium) {
-		article.currents.leaderboard + .grid
+		& + .grid
 		{
 			padding:0 15px;
 
