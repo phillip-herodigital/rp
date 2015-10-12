@@ -222,8 +222,8 @@
 
 .tertiary-nav {
     min-height: 50px;
-    border-top: 1px solid #e1e1e1;
-    background-color: #f1f1f1;
+    background-color: #28a5de;
+    color: #ffffff;
     ul {
         @include inline-block-list();
         position: relative;
@@ -241,12 +241,13 @@
                 //font-weight: 600;
             }
             &.selected {
-                background: image-url('marketing/redesign/nav-second-level-selected-indicator.png') bottom center no-repeat;
+                background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
                 .triangle {
                     display: block;
                 }
                 a {
-                    color: $brand-primary-color;
+                    color: #fff;
+                    font-weight: 600;
                 }
             }
         }
