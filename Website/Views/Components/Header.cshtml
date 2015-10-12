@@ -101,39 +101,23 @@
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
                     <li class="dropdown">
-                        <script type="text/javascript">
-                            $(document).ready(function () {
-                                $(".dropdown-toggle").click(function () {
-                                    $(".dropdown-menu").toggle(function () {
-                                        $(".dropdown").toggleClass('active');
-                                        $(".dropdown-toggle").toggleClass('active-block');
-                                    });
-                                });
-                            });
-                        </script>
-                        <a class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>@Html.Sitecore().Field("Account text", accountDataSourceItem)</a>
+                                       @*
+            <script type="text/javascript">
+            $(document).ready(function () {
+                $(".dropdown-toggle").click(function () {
+                    $(".dropdown-menu").toggle(function () {
+                        $(".dropdown").toggleClass('active');
+                        $(".dropdown-toggle").toggleClass('active-block');
+                    });
+                });
+            });
+        </script>
+                                    *@
+                        <a class="dropdown-toggle" ng-click="loginNavToggle()">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a>
                         <div class="login dropdown-menu" role="menu">
-                            <h4>Login to MyStream Account</h4>
+                            <h4>@Html.Sitecore().Field("Login Dropwdown Header", accountDataSourceItem)</h4>
                             <form ng-submit="login()">
-                                <div>
-                                    <input data-val="true" data-val-required="" id="Username" name="Username" ng-model="formData.username" type="text" value="" class="ng-dirty ng-valid ng-valid-required">
-                                </div>
-                                <div>
-                                    <input class="maskField ng-dirty ng-valid ng-valid-required" data-val="true" data-val-required="" id="Password" name="Password" ng-model="formData.password" type="password">
-                                </div>
-                                <div class="cta button">
-                                    <button type="submit" data-val-submit>Login</button>
-                                </div>
-                                <div>
-                                    <span>
-                                        Forgot <a href="/auth/recover-username">Username</a> or <a href="/auth/reset-password">Password</a>
-                                    </span>
-                                </div>
-                                <div>
-                                    <span>
-                                        New User? <a href="/auth/create-account">Create an Account</a>
-                                    </span>
-                                </div>
+                                @Html.Sitecore().Field("Login Dropwdown Content", accountDataSourceItem)
                             </form>
                        </div>
                     </li>

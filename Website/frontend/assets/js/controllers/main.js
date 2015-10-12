@@ -66,6 +66,13 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
             });
         })
     };
+    // Login Nav Dorpdown
+    $scope.loginNavToggle = function () {
+        $(".dropdown-menu").toggle(function () {
+            $(".dropdown").toggleClass('active');
+            $(".dropdown-toggle").toggleClass('active-block');
+        });
+    }
     //header login
     $scope.formData = {};
     $scope.isLoading = false;
