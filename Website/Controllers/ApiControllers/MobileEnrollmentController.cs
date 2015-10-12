@@ -317,7 +317,63 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
         }
+        
+        [HttpGet]
+        [Route("importfaqdata")]        
+        public void ImportFAQData(string path)
+        {
+            Item FAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/mobile/faqs");
+            TemplateItem FAQGroupTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Marketing/FAQ Group");
+            TemplateItem FAQTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Marketing/FAQ");
+            Item FAQGroupItem;
+            Item FAQItem;
+
+            using (new Sitecore.SecurityModel.SecurityDisabler())
+            {
+                foreach (Item child in FAQFolder.Children)
+                {
+                    child.Delete();
+                }
+
+                TextFieldParser parser = new TextFieldParser(path);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
+
+                while (!parser.EndOfData)
+                {
+                    string[] fields = parser.ReadFields();
+                    string pattern = @"[^\w\s\-\$]"; // only allow \w, \s, -, and $ for Sitecore Item names
+                    Regex rgx = new Regex(pattern);
+                    string faqGroup = fields[0];
+                    string faqGroupItemName = rgx.Replace(faqGroup, "");
+
+                    FAQGroupItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/mobile/faqs/" + faqGroupItemName);
+                    if (FAQGroupItem == null)
+                    {
+                        FAQGroupItem = FAQFolder.Add(faqGroupItemName, FAQGroupTemplate);
+                        FAQGroupItem.Editing.BeginEdit();
+                        FAQGroupItem.Fields["Name"].Value = faqGroup;
+                        FAQGroupItem.Editing.EndEdit();
+                    }
+
+                    int sortOrder = Convert.ToInt16(fields[1]);
+                    string faqQuestion = fields[2];
+                    string faqAnswer = fields[3];
+                    string faqQuestionItemName = rgx.Replace(faqQuestion, "");
+
+                    FAQItem = Sitecore.Context.Database.GetItem("/sitecore/content/home/services/mobile/faqs/" + faqGroupItemName + "/" + faqQuestionItemName);
+                    if (FAQItem == null)
+                    {
+                        FAQItem = FAQGroupItem.Add(faqQuestionItemName, FAQTemplate);                        
+                        FAQItem.Editing.BeginEdit();
+                        FAQItem.Fields["FAQ Question"].Value = faqQuestion;
+                        FAQItem.Fields["FAQ Answer"].Value = faqAnswer;
+                        FAQItem.Appearance.Sortorder = sortOrder;
+                        FAQItem.Editing.EndEdit();
+                    }
+                }
+                parser.Close();
+            }
+        }
     }
-
-
 }
