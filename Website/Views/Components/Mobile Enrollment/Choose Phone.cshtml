@@ -158,14 +158,14 @@
                                     </div>
                                         
                                     <hr />
-                                    <div class="item" ng-class="{ disabled : ((networkType == 'GSM' && (!phoneOptions.missingActivationCode && activationCodeInvalid)) || (networkType == 'CDMA' && showIccid && (phoneOptions.phoneOS == null || (addDevice.iccid.$invalid && phoneOptions.phoneOS != 'Apple')))) }">
+                                    <div class="item" ng-class="{ disabled : phoneNumberDisabled() }">
                                         <label>
                                             @Html.Sitecore().Field("Phone Number")<br />
                                             <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
                                         </label>
                                         <div class="btn-group btn-group-options phone-number">
-                                            <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'new'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Assign New Number")</a>
-                                            <a href="" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" btn-radio="'existing'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Transfer My Number")</a>
+                                            <button type="button" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" ng-disabled="phoneNumberDisabled()" btn-radio="'new'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Assign New Number")</button>
+                                            <button type="button" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" ng-disabled="phoneNumberDisabled()" btn-radio="'existing'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Transfer My Number")</button>
                                         </div>
                                         <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.transferInfo.type == 'new' && false">
                                             <div class="button button-type-border">

@@ -515,4 +515,14 @@
         }
     };
 
+    $scope.phoneNumberDisabled = function() {
+        if ($scope.networkType == 'GSM') {
+            return (!$scope.phoneOptions.missingActivationCode && $scope.activationCodeInvalid);
+        } else if ($scope.networkType == 'CDMA') {
+            return $scope.showIccid && ($scope.phoneOptions.phoneOS == null || ($scope.addDevice.iccid.$invalid && $scope.phoneOptions.phoneOS != 'Apple'));
+        } else {
+            return false;
+        }
+    };
+
 }]);
