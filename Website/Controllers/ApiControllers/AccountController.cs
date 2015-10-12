@@ -197,8 +197,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var response = new GetMobileUsageResponse()
             {
-                BillToDate = account.Usage.First().Value.EndDate,
-                BillFromDate = account.Usage.First().Value.StartDate,
+                BillToDate = account.Usage.Any() ? account.Usage.First().Value.EndDate : (DateTime?)null,
+                BillFromDate = account.Usage.Any() ? account.Usage.First().Value.StartDate : (DateTime?)null,
                 DataUsageLimit = account.SubAccounts.Cast<MobileAccount>().Max(p => p.PlanDataAvailable.HasValue ? p.PlanDataAvailable.Value : 0),
                 DeviceUsage = from device in account.SubAccounts.Cast<MobileAccount>()
                               let usage = (MobileAccountUsage)(account.Usage != null ? account.Usage.FirstOrDefault(u => ((MobileAccount)u.Key).PhoneNumber.Trim() == device.PhoneNumber.Trim()).Value : null)

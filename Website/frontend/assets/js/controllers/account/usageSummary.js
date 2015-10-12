@@ -32,7 +32,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             acct = newVal;
             firstLoad = true;
             mobileUsageService.loadCurrentMobileUsage(newVal).then(function (data) {
-                $scope.data = data;
+                $scope.data = angular.copy(data);
                 $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit * GIGA;
 
                 $scope.data.lastBillingDate = new Date($scope.data.billFromDate);
@@ -141,7 +141,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             if (multiplier)
             for (var i = 0, device; device = $scope.data.deviceUsage[i]; i++) {
                 var rand = [423, 536, 834, 424, 532, 321, 546, 875, 535, 123][i] * multiplier;
-                device.dataUsage = 1000000 * rand;
+                device.dataUsage = 1000 * rand;
                 device.minutesUsage = Math.round(rand * .5);
                 device.messagesUsage = Math.round(rand * .75);
             }
