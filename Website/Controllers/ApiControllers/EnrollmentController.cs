@@ -151,7 +151,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     IsValidImei = true,
                     VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
                     Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
-                    Manufacturer = "Apple"
+                    Manufacturer = "Apple Inc"
                 };
             }
             if (imei == "333")

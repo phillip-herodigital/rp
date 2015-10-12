@@ -2018,6 +2018,7 @@ article.mobile-pricing-plans {
 	}
 
 	.plan-right {
+
 	}	
 
 	.plan-box {
@@ -2322,6 +2323,24 @@ article.mobile-pricing-plans {
 		-moz-box-shadow: 1px 1px 10px #ccc;
 		box-shadow: 1px 1px 10px #ccc;
 	}
+
+    @include breakpoint(medium) {
+        .plan-left, .plan-right {
+            width: 100%;
+            padding-right: 0;
+            display: block;
+            .plan-description {
+                width: 520px;
+                margin: 0 auto;
+            }
+            .plan-container, .phone-plan-details, .opener {
+                margin: 0 auto;
+            }
+            .device-criteria {
+                margin: 20px auto;
+            }
+        }
+    }
     
 }
 

@@ -98,7 +98,7 @@
             }
             
             // see if the requested plan is available, and if so, select it
-            $scope.selectRequestedPlan(newVal);
+            //$scope.selectRequestedPlan(newVal);
         }
     });
 

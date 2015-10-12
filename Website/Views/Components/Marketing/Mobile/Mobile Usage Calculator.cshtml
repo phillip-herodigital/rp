@@ -37,7 +37,7 @@
     </script>
 
     <div class="wrapper">
-        <h1 ng-show="!isModal">@GetFieldValue("Header")</h1>
+        <h1 ng-show="!isModal">@Html.Raw(GetFieldValue("Header"))</h1>
         <div class="tab-wrapper">
             @if (Model.ShowBillScrape)
             {
