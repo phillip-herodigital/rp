@@ -2121,10 +2121,10 @@
     .description {
         position: relative;
         float: left;
-        width: 70%;
+        width:auto;
+        max-width: 70%;
         font-size: 14px;
         font-weight: 400;
-        width:auto;
 
         .icon-electricity, .icon-gas-icon {
             position: absolute;
