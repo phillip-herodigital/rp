@@ -105,6 +105,27 @@ namespace StreamEnergy.Services.Clients
             return PremiseVerificationResult.GeneralError;
         }
 
+        async Task<VerifyImeiResponse> IEnrollmentService.VerifyImei(string imei)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/enrollments/verify-imei", new
+            {
+                Imei = imei
+            });
+
+            response.EnsureSuccessStatusCode();
+            dynamic result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return new VerifyImeiResponse()
+            {
+                VerifyEsnResponseCode = result.VerifyEsnResponseCode,
+                DeviceType = result.DeviceType,
+                ICCID = result.ICCID,
+                IsValidImei = result.IsValidImei,
+                Provider = result.Network == "ATT" ? DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT : DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                Manufacturer = result.Manufacturer,
+            };
+        }
+
         async Task<VerifyEsnResponse> IEnrollmentService.IsEsnValid(string esn)
         {
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/enrollments/verify-esn", new

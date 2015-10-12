@@ -31,6 +31,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.addDeviceError = false;
     $scope.addDataPlanError = false;
     $scope.addUtilityPlanError = false;
+    $scope.getCurrentStep = enrollmentStepsService.getCurrentStep;
 
     /**
     * Show IMEI Instructions Modal
@@ -53,22 +54,20 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
-    * Show ICCID Instructions Modal
-    */
-    $scope.showIccidExample = function () {
-        $modal.open({
-            'scope': $scope,
-            'templateUrl': 'instructions/iccid'
-        })
-    };
-
-    /**
     * Show Bill Account Example Modal
     */
     $scope.showBillAccountExample = function () {
         $modal.open({
             'scope': $scope,
             'templateUrl': 'showBillAccountModal'
+        })
+    };
+
+    $scope.showModal = function (templateUrl, size) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl,
+            'size': size ? size : ''
         })
     };
 
@@ -200,7 +199,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         enrollmentCartService.removeService(service);
         // if this was the last service in the cart, go to the start
         if (!$scope.cartHasUtility()) {
-            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowNetwork');
+            enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowVerifyPhone');
         } else {
             enrollmentCartService.setActiveServiceIndex(0);
             enrollmentService.setAccountInformation();

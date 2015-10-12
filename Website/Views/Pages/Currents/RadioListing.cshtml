@@ -1,0 +1,111 @@
+﻿
+@using Sitecore.Data.Items
+@using Sitecore.Data.Fields
+@using Sitecore.Mvc
+@using Sitecore.Links
+@using Sitecore.Resources.Media
+@using Sitecore.Resources
+@using StreamEnergy.MyStream.Controllers.ApiControllers
+@using StreamEnergy.MyStream.Models.Currents;
+@inherits System.Web.Mvc.WebViewPage
+
+@{  
+    //Get search results
+    int currentPage = 1;
+    int maximumRows = 7;
+    int startRowIndex = 1;
+
+    startRowIndex = (currentPage - 1) * maximumRows;
+    IEnumerable<RadioItem> radioItems = CurrentsController.GetCurrentsRadioItems(startRowIndex, maximumRows);
+    int totalRows = CurrentsController.GetCurrentsRadioCount();
+    int totalPages = (int)Math.Ceiling((double)totalRows / (double)maximumRows);
+    string currentBlock = "";   
+}
+
+<div class="currents__blocks radio" ng-controller="CurrentsRadioCtrl" ng-init="totalPages = '@totalPages';">
+    <article class="currents currents__box radio">
+        <div class="wrapper">
+            <div class="radio-header">
+                @Html.Sitecore().Field("Header Text")
+            </div>
+            <div class="input-group">
+            <div class="input-group-btn btn-dropdown month-select" id="month-select" is-open="status.isopen" on-toggle="toggled(open)" dropdown="" data-alignment="right" dropdown-items="months">
+               
+                <button dropdown-toggle="" ng-disabled="disabled" class="btn btn-primary dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">@Html.Sitecore().Field("Month Drop Initial Text")<span class="caret"><i class="icon-nav-arrow-collapsed"></i></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="month in months" class="ng-scope">
+                        <a ng-click="selectMonth(month);" href="">{{ month }}</a>
+                    </li>
+                </ul>
+                    </div>
+            </div>
+
+        </div>
+    </article>
+    @{
+        if (radioItems == null || !radioItems.Any())
+        {
+            @Html.Raw("Sorry no matching results were found.");
+        }
+        else
+        {
+            <div class="currents-grid clearfix">
+                <div class="grid-sizer"></div>
+                <div class="gutter-sizer"></div>
+                <div class="radio-grid">
+                    @foreach (var r in radioItems.Select((radioItem, i) => new { i, radioItem }))
+                    {
+                        string articleText = "";
+
+                        var gridClasses = "<div class=\"grid-item medium-large ";
+                        if (radioItems.Count() > 3)
+                        {
+                            if (r.i == 2)
+                            {
+                                gridClasses += " grid-item--width2";
+                            }                           
+                            else if (r.i == 3)
+                            {
+                                gridClasses += " grid-item--width4";
+                            }
+                        } 
+                        
+                        if (radioItems.Count() > 6)
+                        {                        
+                            if (r.i == 5)
+                            {
+                                gridClasses += " grid-item--width2";
+                            }
+                        }
+                        else
+                        {
+                            gridClasses += " grid-item--width4";
+                        }
+
+                        gridClasses += "\">";
+
+                        articleText += "<span class=\"article-date\">" + r.radioItem.ItemDate.ToString("MMMM d, yyyy") + "</span>" +
+                             "<h2>" + r.radioItem.Title + "</h2>" +
+                             "<div class=\"article-summary\" ellipsis>";
+
+                        articleText += r.radioItem.Description;
+
+                        articleText += "</div>";
+                        articleText += r.radioItem.Iframe;
+                        currentBlock += gridClasses + articleText + "</div>";
+                        // create the block for mobile styles
+
+                        gridClasses = "<div class=\"grid-item small ";
+
+                        currentBlock += gridClasses + "\">" + articleText + "</div>";
+                    }
+                    @Html.Raw(currentBlock)
+                </div>
+            </div>
+        }
+    }
+    <div class="load-more radio" ng-show="currentPage < totalPages">
+        <a href="#" ng-click="loadMore()" ng-show="!isLoading">@Html.Sitecore().Field("Load More Text") <i class="icon-load-more"></i></a>
+        <div class="loading" ng-show="isLoading"></div>
+    </div>
+</div>

@@ -9,6 +9,7 @@ namespace StreamEnergy.MyStream.Models.Currents
     public class CalendarEvent
     {
         public string Title { get; set; }
+        public DateTime SortDate { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string EventDate { get; set; }

@@ -1,7 +1,7 @@
 ﻿/* Data Usage Summary Controller
  *
  */
-ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'notificationService', function ($scope, $rootScope, $http, breakpoint, notificationService) {
+ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'notificationService', 'mobileUsageService', function ($scope, $rootScope, $http, breakpoint, notificationService, mobileUsageService) {
     var GIGA = 1000000;
 
     $scope.data = {
@@ -24,15 +24,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
         if (newVal) {
             $scope.hideComponent = false;
             $scope.isLoading = true;
-            $http({
-                method: 'POST',
-                url: '/api/account/getMobileUsage',
-                data: {
-                    accountNumber: newVal,
-                },
-                headers: { 'Content-Type': 'application/JSON' }
-            })
-			.success(function (data, status, headers, config) {
+            mobileUsageService.loadCurrentMobileUsage(newVal).then(function (data) {
                 $scope.data = angular.extend($scope.data, data);
                 
                 if (_.every($scope.data.deviceUsage, function (d) { return (d.dataUsage == null); })) {
@@ -41,7 +33,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                     var multiplier = parseInt($scope.data.dataUsageLimit) / parseInt($scope.data.deviceUsage.length);
                     for (var i = 0, device; device = $scope.data.deviceUsage[i]; i++) {
                         var rand = [423, 536, 834, 424, 532, 321, 546, 875, 535, 123][i] * multiplier;
-                        device.dataUsage = 1000000 * rand;
+                        device.dataUsage = 1000 * rand;
                         device.minutesUsage = Math.round(rand * .5);
                         device.messagesUsage = Math.round(rand * .75);
                     }
@@ -51,8 +43,8 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                     date.setDate(date.getDate() + 30);
                     $scope.data.nextBillingDate = new Date(date);
                 } else {
-                    $scope.data.lastBillingDate = new Date($scope.data.lastBillingDate);
-                    $scope.data.nextBillingDate = new Date($scope.data.nextBillingDate);
+                    $scope.data.lastBillingDate = new Date($scope.data.billFromDate);
+                    $scope.data.nextBillingDate = new Date($scope.data.billToDate);
                 }
 
                 if ($scope.data.nextBillingDate < new Date()) {
@@ -60,7 +52,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 }
 
                 $scope.billingDaysRemaining = Math.round(($scope.data.nextBillingDate - (new Date()).getTime()) / (24 * 60 * 60 * 1000));
-                $scope.currentBillingPeriodDate = $scope.data.lastBillingDate;
+                $scope.currentBillingPeriodDate = new Date();
 
                 $scope.data.dataUsageLimit = $scope.data.dataUsageLimit * GIGA;
                 $scope.data.totalUsage = getTotalUsage();
@@ -68,8 +60,7 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
                 $scope.data.graphScale = calculateGraphScale();
                 $scope.isLoading = false;
                 $scope.streamConnectError = false;
-			})
-            .error(function() {
+			}, function() {
                 $scope.isLoading = false;
                 $scope.streamConnectError = true; 
             });

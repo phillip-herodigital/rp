@@ -5,11 +5,12 @@
             <form>
                 <div class="group">
                     <div class="item usage-period" ng-show="!noUsage">
-                        <select ng-change="getUsageStats()" ng-model="currentRangeId">
+                        @Html.Sitecore().Field("Bill Usage") {{ data.lastBillingDate | date : format : longDate }} - {{ data.nextBillingDate | date : format : longDate }}
+                        @*<select ng-change="getUsageStats()" ng-model="currentRangeId">
                             <option ng-repeat="range in dateRanges" value="{{ range.id }}">
                                 @Html.Sitecore().Field("Bill Usage") {{ range.begin | date : format : longDate }} - {{ range.end | date : format : longDate }}
                             </option>
-                        </select>
+                        </select>*@
                     </div>
                 </div>
             </form>

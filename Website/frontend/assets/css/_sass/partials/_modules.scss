@@ -1368,6 +1368,7 @@ article.card-details {
         @include breakpoint(medium-large) {
             h1 {
                 float: left;
+                width: auto;
             }
             span.icons {
                 float: right;
@@ -1379,6 +1380,9 @@ article.card-details {
                 margin-bottom: 5px;
             }
         }
+    }
+    .content {
+        @include border-radius(0 0 5px 5px);
     }
 }
 article.payment-history {
