@@ -264,8 +264,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         
         [HttpGet]
-        [Route("importfaqdata")]
-        
+        [Route("importfaqdata")]        
         public void ImportFAQData(string path)
         {
             Item FAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/mobile/faqs");
