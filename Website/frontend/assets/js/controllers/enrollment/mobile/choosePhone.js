@@ -517,7 +517,7 @@
 
     $scope.phoneNumberDisabled = function() {
         if ($scope.networkType == 'GSM') {
-            return ($scope.phoneManufacturer == 'Apple' || !$scope.phoneOptions.missingActivationCode && $scope.activationCodeInvalid);
+            return ($scope.phoneManufacturer == 'Apple Inc' || !$scope.phoneOptions.missingActivationCode && $scope.activationCodeInvalid);
         } else if ($scope.networkType == 'CDMA') {
             return $scope.phoneOptions.showIccid && 
                 ($scope.phoneOptions.phoneOS == null || 

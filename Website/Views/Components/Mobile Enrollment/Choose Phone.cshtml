@@ -13,10 +13,10 @@
                                 @Html.Sitecore().Field("Verify Phone Details")
                             </div>
                             <div ng-show="phoneVerified">
-                                <div ng-show="phoneManufacturer == 'Apple' && networkType == 'GSM'" class="device-error">
+                                <div ng-show="phoneManufacturer == 'Apple Inc' && networkType == 'GSM'" class="device-error">
                                     @Html.Sitecore().Field("Apple GSM Message")
                                 </div>
-                                <div ng-show="phoneManufacturer != 'Apple' || networkType != 'GSM'">
+                                <div ng-show="phoneManufacturer != 'Apple Inc' || networkType != 'GSM'">
                                     <h1 class="success-message">@Html.Sitecore().Field("Congratulations")</h1>
                                     @Html.Sitecore().Field("Eligible Device Message")
                                 </div>
@@ -76,7 +76,7 @@
 
                         <div class="content bring-your-own" ng-if="phoneVerified">
                             <div class="vertical" ng-show="phoneVerified">
-                                <div ng-show="phoneManufacturer != 'Apple' && networkType == 'GSM'" class="device-error non-att">
+                                <div ng-show="phoneManufacturer != 'Apple Inc' && networkType == 'GSM'" class="device-error non-att">
                                     <strong>@Html.Sitecore().Field("Non ATT GSM Heading")</strong> @Html.Sitecore().Field("Non ATT GSM Message")
                                 </div>
                                 <div class="item">
@@ -146,7 +146,7 @@
                                                 @Html.Sitecore().Field("Label - Activation Number")
                                                 <a href="" ng-click="showModal('instructions/activationCode');">@Html.Sitecore().Field("What Is This")</a>
                                             </div>
-                                            <input type="text" name="activationCode" ng-disabled="phoneOptions.missingActivationCode || phoneManufacturer == 'Apple'" ng-model="phoneOptions.activationCode" ng-blur="validateActivationCode()" data-val="true" data-val-required data-val-if="networkType == 'GSM' && !phoneOptions.missingActivationCode" />
+                                            <input type="text" name="activationCode" ng-disabled="phoneOptions.missingActivationCode || phoneManufacturer == 'Apple Inc'" ng-model="phoneOptions.activationCode" ng-blur="validateActivationCode()" data-val="true" data-val-required data-val-if="networkType == 'GSM' && !phoneOptions.missingActivationCode" />
                                         </div>
                                         <div class="clearfix"></div>
                                         <div>
