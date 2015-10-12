@@ -13,6 +13,7 @@ using Sitecore.ListManagement.Configuration;
 using Sitecore.ListManagement.ContentSearch;
 using Sitecore.ListManagement.ContentSearch.Model;
 using Sitecore.ListManagement.ContentSearch.Pipelines;
+using Sitecore.SecurityModel;
 using StackExchange.Redis;
 using StreamEnergy.Caching;
 using System;
@@ -121,7 +122,16 @@ GROUP BY
                                         PreferredEmail = databaseContact.Email,
                                     }).ToList();
 
-                    RedisCacheExtensions.CacheSet(dependencies.redis, key, contactDatas);
+                    using (new SecurityDisabler())
+                    {
+                        var database = Sitecore.Data.Database.GetDatabase("master");
+                        var listItem = database.GetItem(new ID(args.ContactList.Id));
+                        listItem.Editing.BeginEdit();
+                        listItem.Fields["Recipients"].Value = contactDatas.Count.ToString();
+                        listItem.Editing.EndEdit();
+                    }
+
+                    RedisCacheExtensions.CacheSet(dependencies.redis, key, contactDatas, TimeSpan.FromDays(1));
                 }
                 args.Contacts = contactDatas.AsQueryable();
 
