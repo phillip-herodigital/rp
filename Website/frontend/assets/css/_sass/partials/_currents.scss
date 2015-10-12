@@ -15,6 +15,7 @@ $local-meeting-color: #00a8e1;
     position: relative;
     background-color: transparent;
     @include box-shadow(none);
+	
     .blog-info {
         position: absolute;
         background-color: #fff;
@@ -65,6 +66,24 @@ $local-meeting-color: #00a8e1;
             left: 0;
         }
     }
+
+	@include breakpoint(medium) {
+		& + .grid
+		{
+			padding:0 15px;
+
+			.col
+			{
+				float:left;
+				width:48%;
+
+				&:nth-child(2n){
+					float:right;
+				}
+			}
+		} 
+
+	}
 }
 
 /*
