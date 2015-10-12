@@ -101,7 +101,7 @@ GROUP BY
             try
             {
                 var key = "ContactList-" + args.ContactList.Id;
-                var contactDatas = RedisCacheExtensions.CacheGet<IEnumerable<Sitecore.ListManagement.ContentSearch.Model.ContactData>>(dependencies.redis, key);
+                var contactDatas = RedisCacheExtensions.CacheGet<List<Sitecore.ListManagement.ContentSearch.Model.ContactData>>(dependencies.redis, key);
                 if (contactDatas == null)
                 {
                     var contacts = GetAllContacts();
@@ -119,7 +119,7 @@ GROUP BY
                                         ContactId = contact.ContactId,
                                         Identifier = contact.Identifiers.Identifier,
                                         PreferredEmail = databaseContact.Email,
-                                    }).ToArray();
+                                    }).ToList();
 
                     RedisCacheExtensions.CacheSet(dependencies.redis, key, contactDatas);
                 }

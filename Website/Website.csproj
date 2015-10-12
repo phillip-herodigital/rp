@@ -1097,7 +1097,9 @@
     <Content Include="App_Config\Include\FXM\Sitecore.FXM.Speak.config" />
     <Content Include="App_Config\Include\FXM\Sitecore.Services.Client.FXM.Enabler.config.disabled" />
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Client.config" />
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.config" />
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.Index.List.config" />
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.IndexConfiguration.config" />
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Services.config" />
