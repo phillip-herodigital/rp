@@ -72,7 +72,7 @@
                     if (data.deviceType) {
                         $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
                     }
-                    $scope.showIccid = (data.iccid == undefined || data.iccid == '');
+                    $scope.phoneOptions.showIccid = (data.iccid == undefined || data.iccid == '');
                     $scope.cdmaActive = (data.iccid != undefined & data.iccid != '');
                     analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
 
@@ -517,9 +517,13 @@
 
     $scope.phoneNumberDisabled = function() {
         if ($scope.networkType == 'GSM') {
-            return (!$scope.phoneOptions.missingActivationCode && $scope.activationCodeInvalid);
+            return ($scope.phoneManufacturer == 'Apple' || !$scope.phoneOptions.missingActivationCode && $scope.activationCodeInvalid);
         } else if ($scope.networkType == 'CDMA') {
-            return $scope.showIccid && ($scope.phoneOptions.phoneOS == null || ($scope.addDevice.iccid.$invalid && $scope.phoneOptions.phoneOS != 'Apple'));
+            return $scope.phoneOptions.showIccid && 
+                ($scope.phoneOptions.phoneOS == null || 
+                    (($scope.addDevice.iccid.$invalid || $scope.phoneOptions.missingIccid) && $scope.phoneOptions.phoneOS != 'Apple') ||
+                    (($scope.addDevice.iccid.$invalid && !$scope.phoneOptions.missingIccid) && $scope.phoneOptions.phoneOS == 'Apple')
+                );
         } else {
             return false;
         }
