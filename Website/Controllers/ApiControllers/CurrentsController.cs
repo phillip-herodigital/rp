@@ -618,7 +618,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             Item currentMonthItem;
             if (currentItem.Children.InnerChildren.Exists(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()))
             {
-               currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()).SingleOrDefault();
+               currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()).FirstOrDefault();
             }
             else
             {
@@ -646,10 +646,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             List<string> months = new List<string>();
 
-            Item currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == leaderList.ListDateText.ToLower()).SingleOrDefault();
+            Item currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == leaderList.ListDateText.ToLower()).FirstOrDefault();
             DateTime currentItemDate = Sitecore.DateUtil.IsoDateToDateTime(currentMonthItem.Fields["List Date"].Value);
 
-            List<Item> items = currentItem.Children.InnerChildren.Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value) < currentItemDate)
+            List<Item> items = currentItem.Children.InnerChildren.Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value) < currentItemDate && e.TemplateName == "Leader List")
                 .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).ToList();
             foreach (Item item in items)
             {
@@ -662,7 +662,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             List<RadioItem> allRadioItems = new List<RadioItem>();
             var today = DateTime.Now;
             var radioItems = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
-                .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) < today)
+                .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) < today && e.TemplateName == "Radio Item")
                 .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value))
                 .Slice(startRowIndex, maximumRows).ToList();
 
@@ -673,7 +673,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Title = item.Fields["Radio Title"].Value,
                     Description = item.Fields["Radio Description"].Value,
                     ItemDate = Sitecore.DateUtil.IsoDateToDateTime(item.Fields["Publish Date"].Value),
-                    Iframe = item.Fields["Spreaker Iframe"].Value,
+                    Iframe = item.Fields["Speaker Iframe"].Value,
                 };
                 allRadioItems.Add(radioItem);
             }
