@@ -98,7 +98,7 @@
             }
             
             // see if the requested plan is available, and if so, select it
-            //$scope.selectRequestedPlan(newVal);
+            $scope.selectRequestedPlan(newVal);
         }
     });
 
@@ -209,7 +209,7 @@
             var activeService = enrollmentCartService.getActiveService();
             var provider = mobileEnrollmentService.selectedNetwork.value
             var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
-            if (typeof offerInformationForType != 'undefined') {
+            if (typeof offerInformationForType != 'undefined' && !offerInformationForType.value.offerSelections.length) {
                 $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
                     return offer.id == $scope.mobileEnrollment.requestedPlanId 
                         && offer.provider.toLowerCase() == provider 
