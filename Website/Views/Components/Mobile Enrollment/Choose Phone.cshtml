@@ -267,8 +267,8 @@
                         </div>
                         <footer class="enrollment__choose-device" ng-show="getDevicesCount() > 0 || phoneVerified">
                             <div class="buttons">
-                                <button type="submit" class="button primary" ng-disabled="phoneVerified && addDevice.$invalid || isCartFull()">@Html.Sitecore().Field("Continue Button")</button>
-                                <button type="button" class="tertiary" ng-show="phoneVerified && !isLastItem()" ng-click="addDeviceToCart('existing'); phoneVerified = false;" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Bring A Device Link")</button>
+                                <button type="submit" class="button primary" ng-disabled="phoneVerified && addDevice.$invalid || isCartFull() || phoneNumberDisabled()">@Html.Sitecore().Field("Continue Button")</button>
+                                <button type="button" class="tertiary" ng-show="phoneVerified && !isLastItem()" ng-click="addDeviceToCart('existing'); phoneVerified = false;" ng-disabled="addDevice.$invalid  || phoneNumberDisabled()">@Html.Sitecore().Field("Bring A Device Link")</button>
                             </div>
                         </footer>
                     </article>
