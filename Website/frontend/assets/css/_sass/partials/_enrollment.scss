@@ -2117,16 +2117,40 @@
     }
     .cart-product{
         min-width:245px;
+		.description{
+			max-width:70%;
+		}
+		@include breakpoint(small-medium) {
+			min-width:0;
+
+			.description{
+				float:none;
+				width:100%;
+			}
+			.rate{
+				float:none;
+				width:100%;
+
+			}
+		}
     }
     .description {
         position: relative;
         float: left;
-        width:auto;
-        max-width: 70%;
+        width:calc(100% - 65px);
         font-size: 14px;
         font-weight: 400;
+		
+		@include breakpoint(small-medium) {
+			max-width:65%;
 
-        .icon-electricity, .icon-gas-icon {
+			.rate{
+				float:none;
+				text-align:left;
+			}
+		}
+        
+		.icon-electricity, .icon-gas-icon {
             position: absolute;
             top: 4px;
             left: 0;
