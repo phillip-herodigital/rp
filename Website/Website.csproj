@@ -237,6 +237,14 @@
     <Reference Include="Sitecore.Analytics.Automation.MongoDB">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Automation.MongoDB.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Analytics.DataAccess, Version=8.0.5138.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.Model, Version=8.0.5138.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Model.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Analytics.MongoDB">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.MongoDB.dll</HintPath>
     </Reference>
@@ -286,6 +294,10 @@
     <Reference Include="Sitecore.ContentSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ContentSearch.Analytics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ContentSearch.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -940,6 +952,7 @@
     <Compile Include="Models\Temp\GenerateW9.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\EcmRenderer.cs" />
+    <Compile Include="Pipelines\GetListContacts.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Pipelines\PopulateUnsubscribeLink.cs" />
@@ -1091,7 +1104,9 @@
     <Content Include="App_Config\Include\FXM\Sitecore.FXM.Speak.config" />
     <Content Include="App_Config\Include\FXM\Sitecore.Services.Client.FXM.Enabler.config.disabled" />
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Client.config" />
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.config" />
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.Index.List.config" />
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.IndexConfiguration.config" />
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Services.config" />
@@ -1166,6 +1181,9 @@
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Core.config" />
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Reporting.config" />
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.UI.config" />
+    <Content Include="App_Config\Include\Z\StreamEnergy.overrides.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
