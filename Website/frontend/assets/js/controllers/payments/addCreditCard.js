@@ -1,4 +1,4 @@
-﻿ngApp.controller('AddCreditCardCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+﻿ngApp.controller('AddCreditCardCtrl', ['$scope', '$http', '$window', 'logger', function ($scope, $http, $window, logger) {
     //Currently set autoPay status to false, will eventually set according to the account
     $scope.formData = {
         nickname: '',

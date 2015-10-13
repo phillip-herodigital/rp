@@ -1,13 +1,14 @@
-﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', function ($http, $q, $parse, $window) {
+﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', 'logger', function ($http, $q, $parse, $window, logger) {
+    var logger = logger;
     return {
         require: 'ngModel',
         link: function ($scope, element, attrs, ctrl) {
-            var attributes = $scope.$eval(attrs.tokenizeField)
-            ctrl.$parsers.push(function (inputValue) {
+            var attributes = $scope.$eval(attrs.tokenizeField);
+            ctrl.$parsers.push(function (inputValue, $scope) {
+            //ctrl.$parsers.unshift(function (inputValue, $scope) {
                 var rawField = inputValue.replace(/[^\d]/g, "");
                 var result = function (opts) {
                     var deferred = $q.defer();
-                    
                     // The tokenizer does not provide a way to customize the callback, so we have no option but to declare a global variable
                     $window.processToken = function (data) {
                         if (data.action == "CE") {
@@ -24,7 +25,10 @@
                     }
                     $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + data + "&type=json")
                     .error(function (data, status, headers, config) {
+                        element.injector().get('logger').log('Failed to tokenize credit card', 'Error', null);
                         deferred.reject();
+                        ctrl.$setValidity('tokenizeField', false);
+                        return;
                     });
 
                     return deferred.promise;
