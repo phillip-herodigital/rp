@@ -58,28 +58,17 @@
                         string articleText = "";
 
                         var gridClasses = "<div class=\"grid-item medium-large ";
-                        if (radioItems.Count() > 3)
+                        if (r.i == 0 || r.i == 1 || r.i == 4 || r.i == 6)
                         {
-                            if (r.i == 2)
-                            {
-                                gridClasses += " grid-item--width2";
-                            }                           
-                            else if (r.i == 3)
-                            {
-                                gridClasses += " grid-item--width4";
-                            }
-                        } 
-                        
-                        if (radioItems.Count() > 6)
-                        {                        
-                            if (r.i == 5)
-                            {
-                                gridClasses += " grid-item--width2";
-                            }
+                            gridClasses += " grid-item--width2";
                         }
-                        else
+                        else if (r.i == 3)
                         {
                             gridClasses += " grid-item--width4";
+                        }
+                        else if (r.i == 2 || r.i == 5)
+                        {
+                            gridClasses += " grid-item--width3";
                         }
 
                         gridClasses += "\">";

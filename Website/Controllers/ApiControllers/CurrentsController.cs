@@ -738,7 +738,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         private string BuildRadioHtml(List<Item> radioItems)
-        {
+        {   
             string currentBlock = "";
             foreach (var r in radioItems.Select((radioItem, i) => new { i, radioItem }))
             {
@@ -747,33 +747,22 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Title = r.radioItem.Fields["Radio Title"].Value,
                     Description = r.radioItem.Fields["Radio Description"].Value,
                     ItemDate = Sitecore.DateUtil.IsoDateToDateTime(r.radioItem.Fields["Publish Date"].Value),
-                    Iframe = r.radioItem.Fields["Spreaker Iframe"].Value,
+                    Iframe = r.radioItem.Fields["Speaker Iframe"].Value,
                 };
                 string articleText = "";
 
                 var gridClasses = "<div class=\"grid-item medium-large ";
-                if (radioItems.Count() > 3)
+                if (r.i == 0 || r.i == 1 || r.i == 4 || r.i == 6)
                 {
-                    if (r.i == 2)
-                    {
-                        gridClasses += " grid-item--width2";
-                    }
-                    else if (r.i == 3)
-                    {
-                        gridClasses += " grid-item--width4";
-                    }
+                    gridClasses += " grid-item--width2";
                 }
-
-                if (radioItems.Count() > 6)
-                {
-                    if (r.i == 5)
-                    {
-                        gridClasses += " grid-item--width2";
-                    }
-                }
-                else
+                else if (r.i == 3)
                 {
                     gridClasses += " grid-item--width4";
+                }
+                else if (r.i == 2 || r.i == 5)
+                {
+                    gridClasses += " grid-item--width3";
                 }
 
                 gridClasses += "\">";
