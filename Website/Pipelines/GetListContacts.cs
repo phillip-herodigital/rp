@@ -142,7 +142,13 @@ GROUP BY
             try
             {
                 var key = "ContactList-" + args.ContactList.Id;
-                var contactDatas = RedisCacheExtensions.CacheGet<List<Sitecore.ListManagement.ContentSearch.Model.ContactData>>(dependencies.redis, key);
+                List<Sitecore.ListManagement.ContentSearch.Model.ContactData> contactDatas = null;
+                try
+                {
+                    contactDatas = RedisCacheExtensions.CacheGet<List<Sitecore.ListManagement.ContentSearch.Model.ContactData>>(dependencies.redis, key);
+                }
+                catch (Exception) { };
+
                 if (contactDatas == null)
                 {
                     var contacts = GetAllContacts(listItem.Fields["Use Test List"] != null && !string.IsNullOrEmpty(listItem.Fields["Use Test List"].Value));
