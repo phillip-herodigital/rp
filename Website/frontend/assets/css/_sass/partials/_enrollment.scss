@@ -2117,6 +2117,20 @@
     }
     .cart-product{
         min-width:245px;
+
+		@include breakpoint(small-medium) {
+			min-width:0;
+
+			.description{
+				float:none;
+				width:100%;
+			}
+			.rate{
+				float:none;
+				width:100%;
+
+			}
+		}
     }
     .description {
         position: relative;
