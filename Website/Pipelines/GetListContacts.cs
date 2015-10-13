@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace StreamEnergy.MyStream.Pipelines
 {
-	public class GetListContacts
+    public class GetListContacts : Sitecore.ListManagement.ContentSearch.Pipelines.GetAssociatedContacts.GetContactAssociations
 	{
         private readonly Injection dependencies;
 
@@ -37,6 +37,7 @@ namespace StreamEnergy.MyStream.Pipelines
             public string connectionString { get; set; }
         }
         public GetListContacts()
+            : base()
 		{
             dependencies = StreamEnergy.Unity.Container.Instance.Unity.Resolve<Injection>();
 		}
@@ -50,9 +51,41 @@ namespace StreamEnergy.MyStream.Pipelines
             public string IA_Level { get; set; }
             public string LanguagePreference { get; set; }
         }
-        private IEnumerable<DatabaseContact> GetAllContacts()
+        private IEnumerable<DatabaseContact> GetAllContacts(bool useTestList)
         {
             var contacts = new List<DatabaseContact>();
+            if (useTestList)
+            {
+                contacts.Add(new DatabaseContact()
+                    {
+                        FirstName = "Adam",
+                        LastName = "Brill",
+                        Email = "adam@responsivepath.com",
+                        State = "CA",
+                        IA_Level = "A",
+                        LanguagePreference = "English",
+                    });
+                contacts.Add(new DatabaseContact()
+                {
+                    FirstName = "Adam",
+                    LastName = "Brill",
+                    Email = "adam@rpath.us",
+                    State = "CA",
+                    IA_Level = "A",
+                    LanguagePreference = "English",
+                });
+                contacts.Add(new DatabaseContact()
+                {
+                    FirstName = "Adam",
+                    LastName = "Brill",
+                    Email = "adambrill@gmail.com",
+                    State = "CA",
+                    IA_Level = "A",
+                    LanguagePreference = "English",
+                });
+                return contacts;
+            }
+
             using (var connection = new SqlConnection(dependencies.connectionString))
             {
                 connection.Open();
@@ -99,13 +132,20 @@ GROUP BY
 
 		public virtual void Process(GetAssociatedContactsArgs args)
 		{
+            var database = Sitecore.Data.Database.GetDatabase("master");
+            var listItem = database.GetItem(new ID(args.ContactList.Id));
+            if (listItem.Fields["Use Currents List"] == null || string.IsNullOrEmpty(listItem.Fields["Use Currents List"].Value))
+            {
+                base.Process(args);
+                return;
+            }
             try
             {
                 var key = "ContactList-" + args.ContactList.Id;
                 var contactDatas = RedisCacheExtensions.CacheGet<List<Sitecore.ListManagement.ContentSearch.Model.ContactData>>(dependencies.redis, key);
                 if (contactDatas == null)
                 {
-                    var contacts = GetAllContacts();
+                    var contacts = GetAllContacts(listItem.Fields["Use Test List"] != null && !string.IsNullOrEmpty(listItem.Fields["Use Test List"].Value));
 
                     contactDatas = (from databaseContact in contacts
                                     let contact = GetOrCreateContact(databaseContact.Email)
@@ -124,14 +164,12 @@ GROUP BY
 
                     using (new SecurityDisabler())
                     {
-                        var database = Sitecore.Data.Database.GetDatabase("master");
-                        var listItem = database.GetItem(new ID(args.ContactList.Id));
                         listItem.Editing.BeginEdit();
                         listItem.Fields["Recipients"].Value = contactDatas.Count.ToString();
                         listItem.Editing.EndEdit();
                     }
 
-                    RedisCacheExtensions.CacheSet(dependencies.redis, key, contactDatas, TimeSpan.FromDays(1));
+                    RedisCacheExtensions.CacheSet(dependencies.redis, key, contactDatas, TimeSpan.FromDays(3));
                 }
                 args.Contacts = contactDatas.AsQueryable();
 
