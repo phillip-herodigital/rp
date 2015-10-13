@@ -231,7 +231,7 @@
         @include border-radius(5px);
         @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
         &.secondary {
-            @include background-image(linear-gradient(to-top, #ffffff 0%, #f3f3f3 100%));
+            @include background-image(linear-gradient(to top, #ffffff 0%, #f3f3f3 100%));
             color: $enrollment-secondary-button-color;
             border: 1px solid rgb(199, 199, 199);
             margin-right: 10px;
