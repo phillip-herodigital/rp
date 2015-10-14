@@ -237,6 +237,14 @@
     <Reference Include="Sitecore.Analytics.Automation.MongoDB">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Automation.MongoDB.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Analytics.DataAccess, Version=8.0.5138.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.Model, Version=8.0.5138.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Model.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Analytics.MongoDB">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.MongoDB.dll</HintPath>
     </Reference>
@@ -286,6 +294,10 @@
     <Reference Include="Sitecore.ContentSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ContentSearch.Analytics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ContentSearch.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -834,6 +846,7 @@
     <Compile Include="Models\Account\GetMobilePlanOptionsRequest.cs" />
     <Compile Include="Models\Account\ChangePlanResponse.cs" />
     <Compile Include="Models\Account\GetMobilePlanOptionsResponse.cs" />
+    <Compile Include="Models\Account\GetMobileUsageByInvoiceNumbersRequest.cs" />
     <Compile Include="Models\Account\GetMobileUsageResponse.cs" />
     <Compile Include="Models\Account\GetMobileUsageRequest.cs" />
     <Compile Include="Models\Account\GetEnergyUsageRequest.cs" />
@@ -906,7 +919,11 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />
     <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
+    <Compile Include="Models\Currents\LeaderList.cs" />
     <Compile Include="Models\Currents\LoadPostsRequest.cs" />
+    <Compile Include="Models\Currents\RadioFilterRequest.cs" />
+    <Compile Include="Models\Currents\RadioItem.cs" />
+    <Compile Include="Models\Currents\RadioRequest.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
@@ -928,11 +945,14 @@
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\MobileEnrollment\ChoosePhone.cs" />
     <Compile Include="Models\MobileEnrollment\ChooseNetwork.cs" />
+    <Compile Include="Models\MobileEnrollment\ProgressBar.cs" />
+    <Compile Include="Models\MobileEnrollment\VerifyDeviceNumberResponse.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\Temp\GenerateW9.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\EcmRenderer.cs" />
+    <Compile Include="Pipelines\GetListContacts.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Pipelines\PopulateUnsubscribeLink.cs" />
@@ -1084,7 +1104,9 @@
     <Content Include="App_Config\Include\FXM\Sitecore.FXM.Speak.config" />
     <Content Include="App_Config\Include\FXM\Sitecore.Services.Client.FXM.Enabler.config.disabled" />
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Client.config" />
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.config" />
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.Index.List.config" />
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.IndexConfiguration.config" />
     <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Services.config" />
@@ -1159,6 +1181,9 @@
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Core.config" />
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Reporting.config" />
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.UI.config" />
+    <Content Include="App_Config\Include\Z\StreamEnergy.overrides.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -1378,7 +1403,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Data\webdav.lic" />
-    <Content Include="temp\dictionary.dat" />
+    <Content Include="temp\readme.txt" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1607,6 +1632,12 @@
     <Content Include="Views\Pages\Sitemap.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Promo2.cshtml" />
     <Content Include="Views\Pages\Currents\CalendarSearch.cshtml" />
+    <Content Include="Views\Components\Mobile Enrollment\Progress Bar.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Header.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Compare Networks.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Savings Banner.cshtml" />
+    <Content Include="Views\Pages\Currents\Leaderboard.cshtml" />
+    <Content Include="Views\Pages\Currents\RadioListing.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

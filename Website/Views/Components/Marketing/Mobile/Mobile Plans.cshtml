@@ -1,121 +1,573 @@
-﻿<article class="marketing marketingIntro mobile mobile-pricing-plans">
+﻿@{
+    var mobileSettings = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
+    var showSprint = !String.IsNullOrEmpty(mobileSettings.Fields["Sprint Buy Phone"].Value) || !String.IsNullOrEmpty(mobileSettings.Fields["Sprint BYOD"].Value);
+    var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Shared/Coverage Map");
+
+}
+
+<article class="marketing marketingIntro mobile mobile-pricing-plans" ng-controller="MobilePlansDetailsCtrl">
     <div class="wrapper">
-        <div class="overview grid">
+        <div class="plan-chooser" ng-init="isIndSelected = true">
+            <a class="button-plans left selected" id="button-left" ng-click="isIndSelected = true; isGroupSelected = false" ng-class="{'selected': isIndSelected}" href="#">
+                @Html.Sitecore().Field("Individual Plans")
+            </a>
+            <a class="button-plans right" id="button-right" ng-click="isIndSelected = false; isGroupSelected = true" ng-class="{'selected': isGroupSelected}" href="#">
+                @Html.Sitecore().Field("Group Plans")
+            </a>
+        </div>
+        <div class="grid" ng-cloak>
             @if (Html.Sitecore().HasValue("Show ATT Individual Plans") || Html.Sitecore().HasValue("Show ATT Group Plans"))
             {
-            <div class="col">
-                <div class="mobile-network">
-                    <i class="icon-gsm"></i>
-                    <h2>@Html.Sitecore().Field("Network")</h2>
-                </div>
-                <div class="grid">
-                    @if (Html.Sitecore().HasValue("Show ATT Individual Plans"))
-                    {
-                    <div class="indvidualPlans col">
-                        <h3>@Html.Sitecore().Field("Individual Plans")</h3>
-                        @Html.Sitecore().Field("ATT Individual Plan Description")
-                        <p>
-                            <a class="button" href="@Html.Sitecore().Field("Button - Get Started Link")">@Html.Sitecore().Field("Button - Get Started")</a>
-                        </p>
-                        @Html.Sitecore().Field("ATT Individual More Details")
+                <div class="col plan-left">
+                    <div>
+                        <div class="plan-description">
+                            <div class="mobile-network">
+                                <i class="icon-gsm_plans"></i>
+                            </div>
+                            <div class="mobile-network-description">
+                                <strong>@Html.Sitecore().Field("ATT Plan Description")</strong>
+                            </div>
+                        </div>
+                        <div class="plan-container" ng-show="isIndSelected">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' !='']">
+                                <div class="special-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' != ''">
+                                    @Html.Sitecore().Field("Special Promo")
+                                    <span class="gsm-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' != ''">
+                                        <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Individual Plans - Plan 1 Cost ATT")</span>
+                                    </span>
+                                </div>
+                                <div class="no-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' == ''">
+                                </div>
+                                <h2 ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' == ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 1 Cost ATT")') | unsafe"></h2>
+                                <h2 ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")' != ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost ATT")') | unsafe"></h2>
+                                <p class="perMonth"> @Html.Sitecore().Field("Per Month")</p>
+                                <h3> WI-FI</h3>
+                                <p class="speed">
+                                    @Html.Sitecore().Field("WIFI Speed")
+                                    <span class="footnote">@Html.Sitecore().Field("WIFI Footnote")</span>
+                                </p>
+                                <p>
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 1 ID ATT")">
+                                        @Html.Sitecore().Field("Select")
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")' !='']">
+                                <div class="special-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")' != ''">
+                                    @Html.Sitecore().Field("Special Promo")
+                                    <span class="gsm-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")' != ''">
+                                        <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Individual Plans - Plan 2 Cost ATT")</span>
+                                    </span>
+                                </div>
+                                <div class="no-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")' == ''">
+                                </div>
+                                <h2 ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")' == ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 2 Cost ATT")') | unsafe"></h2>
+                                <h2 ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")' != ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost ATT")') | unsafe"></h2>
+                                <p class="perMonth"> @Html.Sitecore().Field("Per Month")</p>
+                                <h3>
+                                    @Html.Sitecore().Field("Individual Plans - Plan 2 Data ATT")
+                                </h3>
+                                <p class="speed">
+                                    @Html.Sitecore().Field("4G Speed")
+                                </p>
+                                <p>
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 2 ID ATT")">
+                                        @Html.Sitecore().Field("Select")
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")' !='']">
+                                <div class="special-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")' != ''">
+                                    @Html.Sitecore().Field("Special Promo")
+                                    <span class="gsm-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")' != ''">
+                                        <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Individual Plans - Plan 3 Cost ATT")</span>
+                                    </span>
+                                </div>
+                                <div class="no-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")' == ''">
+                                </div>
+                                <h2 ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")' == ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 3 Cost ATT")') | unsafe"></h2>
+                                <h2 ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")' != ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")') | unsafe">
+                                    $@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost ATT")') }}
+                                </h2>
+                                <p class="perMonth"> @Html.Sitecore().Field("Per Month")</p>
+                                <h3>
+                                    @Html.Sitecore().Field("Individual Plans - Plan 3 Data ATT")
+                                </h3>
+                                <p class="speed">
+                                    @Html.Sitecore().Field("4G Speed")
+                                </p>
+                                <p>
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 3 ID ATT")">
+                                        @Html.Sitecore().Field("Select")
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")' !='']">
+                                <div class="special-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")' != ''">
+                                    @Html.Sitecore().Field("Special Promo")
+                                    <span class="gsm-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")' != ''">
+                                        <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Individual Plans - Plan 4 Cost ATT")</span>
+                                    </span>
+                                </div>
+                                <div class="no-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")' == ''">
+                                </div>
+                                <h2 ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")' == ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 4 Cost ATT")') | unsafe"></h2>
+                                <h2 ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")' != ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost ATT")') | unsafe"></h2>
+                                <p class="perMonth"> @Html.Sitecore().Field("Per Month")</p>
+                                <h3>
+                                    @Html.Sitecore().Field("Individual Plans - Plan 4 Data ATT")
+                                </h3>
+                                <p class="speed">
+                                    @Html.Sitecore().Field("4G Speed")
+                                </p>
+                                <p>
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 4 ID ATT")">
+                                        @Html.Sitecore().Field("Select")
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="plan-container" ng-show="isGroupSelected">
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT")' !='']">
+                                <div class="special-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT")' != ''">
+                                    @Html.Sitecore().Field("Special Promo")
+                                    <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT")' != ''">
+                                        <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Group Plans - Plan 1 Cost ATT")</span>
+                                    </span>
+                                </div>
+                                <div class="no-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT")' == ''">
+                                </div>
+                                <h2 ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT")' == ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 1 Cost ATT"), @Html.Sitecore().Field("Group Plans - Extra Line Cost ATT")) | unsafe"></h2>
+                                <h2 ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT")' != ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost ATT"), @Html.Sitecore().Field("Group Plans - Extra Line Cost ATT")) | unsafe"></h2>
+                                <p class="perMonth"> @Html.Sitecore().Field("Per Month")</p>
+                                <h3>
+                                    @Html.Sitecore().Field("Group Plans - Plan 1 Data ATT")
+                                </h3>
+                                <p class="speed">
+                                    @Html.Sitecore().Field("4G Speed")
+                                </p>
+                                <p>
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 1 ID ATT")">
+                                        @Html.Sitecore().Field("Select")
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT")' !='']">
+                                <div class="special-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT")' != ''">
+                                    @Html.Sitecore().Field("Special Promo")
+                                    <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT")' != ''">
+                                        <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Group Plans - Plan 2 Cost ATT")</span>
+                                    </span>
+                                </div>
+                                <div class="no-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT")' == ''">
+                                </div>
+                                <h2 ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT")' == ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 2 Cost ATT"), @Html.Sitecore().Field("Group Plans - Extra Line Cost ATT")) | unsafe"></h2>
+                                <h2 ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT")' != ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost ATT"), @Html.Sitecore().Field("Group Plans - Extra Line Cost ATT")) | unsafe"></h2>
+                                <p class="perMonth"> @Html.Sitecore().Field("Per Month")</p>
+                                <h3>
+                                    @Html.Sitecore().Field("Group Plans - Plan 2 Data ATT")
+                                </h3>
+                                <p class="speed">
+                                    @Html.Sitecore().Field("4G Speed")
+                                </p>
+                                <p>
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 2 ID ATT")">
+                                        @Html.Sitecore().Field("Select")
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT")' !='']">
+                                <div class="special-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT")' != ''">
+                                    @Html.Sitecore().Field("Special Promo")
+                                    <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT")' != ''">
+                                        <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Group Plans - Plan 3 Cost ATT")</span>
+                                    </span>
+                                </div>
+                                <div class="no-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT")' == ''">
+                                </div>
+                                <h2 ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT")' == ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 3 Cost ATT"), @Html.Sitecore().Field("Group Plans - Extra Line Cost ATT")) | unsafe"></h2>
+                                <h2 ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT")' != ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost ATT"), @Html.Sitecore().Field("Group Plans - Extra Line Cost ATT")) | unsafe"></h2>
+                                <p class="perMonth"> @Html.Sitecore().Field("Per Month")</p>
+                                <h3>
+                                    @Html.Sitecore().Field("Group Plans - Plan 3 Data ATT")
+                                </h3>
+                                <p class="speed">
+                                    @Html.Sitecore().Field("4G Speed")
+                                </p>
+                                <p>
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 3 ID ATT")">
+                                        @Html.Sitecore().Field("Select")
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="plan-box" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT")' !='']">
+                                <div class="special-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT")' != ''">
+                                    @Html.Sitecore().Field("Special Promo")
+                                    <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT")' != ''">
+                                        <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Group Plans - Plan 4 Cost ATT")</span>
+                                    </span>
+                                </div>
+                                <div class="no-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT")' == ''">
+                                </div>
+                                <h2 ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT")' == ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 4 Cost ATT"), @Html.Sitecore().Field("Group Plans - Extra Line Cost ATT")) | unsafe"></h2>
+                                <h2 ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT")' != ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost ATT"), @Html.Sitecore().Field("Group Plans - Extra Line Cost ATT")) | unsafe"></h2>
+                                <p class="perMonth"> @Html.Sitecore().Field("Per Month")</p>
+                                <h3>
+                                    @Html.Sitecore().Field("Group Plans - Plan 4 Data ATT")
+                                </h3>
+                                <p class="speed">
+                                    @Html.Sitecore().Field("4G Speed")
+                                </p>
+                                <p>
+                                    <a class="button" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 4 ID ATT")">
+                                        @Html.Sitecore().Field("Select")
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="phone-plan-details">
+                            <div ng-show="isOpen" class="open collapsed">
+                                <div class="wifi">
+                                    @Html.Sitecore().Field("WiFi Plan Details ATT")
+                                </div>
+                                <div class="box">
+                                    <h3>
+                                        @Html.Sitecore().Field("Data Plans")
+                                    </h3>
+                                    <ul>
+                                        @Html.Sitecore().Field("Individual Plans - Data Plans Details ATT")
+                                    </ul>
+                                </div>
+                                <div class="seperator" ng-show="isGroupSelected"></div>
+                                <div class="box" ng-show="isGroupSelected">
+                                    <h3> @Html.Sitecore().Field("Unlimited Plans")</h3>
+                                    <ul>
+                                        @Html.Sitecore().Field("Individual Plans - Unlimited Plans Details ATT")
+                                    </ul>
+                                </div>
+                                <div class="footnotes">
+                                    @Html.Sitecore().Field("Individual Plans - Footnotes ATT")
+                                </div>
+                            </div>
+                            <div class="opener">
+                                <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
+                                    <span ng-if="!isOpen"> + @Html.Sitecore().Field("Show Plan Details")</span> <span ng-if="isOpen"> @Html.Sitecore().Field("Hide Plan Details")</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="device-criteria">
+                            <a href="" ng-click="showCoverageMapOverlay('att')">@Html.Sitecore().Field("Check Coverage")</a> | <a ng-click="showLightbox('compatible-devices')" href="" data-di-id="di-id-5fc7eb4d-63d76a3d">@Html.Sitecore().Field("Check Eligibility")</a>
+                        </div>
                     </div>
-                    }
-                    @if (Html.Sitecore().HasValue("Show ATT Group Plans"))
-                    {
-                    <div class="groupPlans col">
-                        <h3>@Html.Sitecore().Field("Group Plans")</h3>
-                        @Html.Sitecore().Field("ATT Group Plan Description")
-                        <p>
-                            <a class="button" href="@Html.Sitecore().Field("Button - Get Started Link")">@Html.Sitecore().Field("Button - Get Started")</a>
-                        </p>
-                        @Html.Sitecore().Field("ATT Group More Details")
-                    </div>
-                    }
                 </div>
-            </div>
             }
             @if (Html.Sitecore().HasValue("Show Sprint Individual Plans") || Html.Sitecore().HasValue("Show Sprint Group Plans"))
             {
-            <div class="col">
-                <div class="mobile-network">
-                    <i class="icon-cdma"></i>
-                    <h2>@Html.Sitecore().Field("Network")</h2>
-                </div>
-                <div class="grid">
-                    @if (Html.Sitecore().HasValue("Show Sprint Individual Plans"))
-                    {
-                    <div class="indvidualPlans col">
-                        <h3>@Html.Sitecore().Field("Individual Plans")</h3>
-                        @Html.Sitecore().Field("Sprint Individual Plan Description")
-                        <p>
-                            <a class="button" href="@Html.Sitecore().Field("Button - Sprint Get Started Link")">@Html.Sitecore().Field("Button - Get Started")</a>
-                        </p>
-                        @Html.Sitecore().Field("Sprint Individual More Details")
+                <div class="col plan-right">
+                    <div class="plan-description">
+                        <div class="mobile-network">
+                            <i class="icon-cdma_plans"></i>
+                        </div>
+                        <div class="mobile-network-description">
+                            <strong>@Html.Sitecore().Field("Sprint Plan Description")</strong>
+                        </div>
                     </div>
-                    }
-                    @if (Html.Sitecore().HasValue("Show Sprint Group Plans"))
-                    {
-                    <div class="groupPlans col">
-                        <h3>@Html.Sitecore().Field("Group Plans")</h3>
-                        @Html.Sitecore().Field("Sprint Group Plan Description")
-                        <p>
-                            <a class="button" href="@Html.Sitecore().Field("Button - Sprint Get Started Link")">@Html.Sitecore().Field("Button - Get Started")</a>
-                        </p>
-                        @Html.Sitecore().Field("Sprint Group More Details")
+                    <div class="plan-container" ng-show="isIndSelected">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' !='']">
+                            <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' != ''">
+                                @Html.Sitecore().Field("Special Promo")
+                                <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' != ''">
+                                    <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Individual Plans - Plan 1 Cost Sprint")</span>
+                                </span>
+                            </div>
+                            <div class="no-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' == ''">
+                            </div>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' == ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 1 Cost Sprint")') | unsafe"></h2>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")' != ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 1 Promo Cost Sprint")') | unsafe"></h2>
+                            <p class="perMonth cdma"> @Html.Sitecore().Field("Per Month")</p>
+                            <h3>
+                                @Html.Sitecore().Field("Individual Plans - Plan 1 Data Sprint")
+                            </h3>
+                            <p class="speed">
+                                @Html.Sitecore().Field("4G Speed")
+                            </p>
+                            <p>
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 1 ID Sprint")">
+                                    @Html.Sitecore().Field("Select")
+                                </a>
+                            </p>
+                        </div>
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")' !='']">
+                            <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")' != ''">
+                                @Html.Sitecore().Field("Special Promo")
+                                <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")' != ''">
+                                    <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Individual Plans - Plan 2 Cost Sprint")</span>
+                                </span>
+                            </div>
+                            <div class="no-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")' == ''">
+                            </div>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")' == ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 2 Cost Sprint")') | unsafe"></h2>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")' != ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 2 Promo Cost Sprint")') | unsafe"></h2>
+                            <p class="perMonth cdma"> @Html.Sitecore().Field("Per Month")</p>
+                            <h3>
+                                @Html.Sitecore().Field("Individual Plans - Plan 2 Data Sprint")
+                            </h3>
+                            <p class="speed">
+                                @Html.Sitecore().Field("4G Speed")
+                            </p>
+                            <p>
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 2 ID Sprint")">
+                                    @Html.Sitecore().Field("Select")
+                                </a>
+                            </p>
+                        </div>
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")' !='']">
+                            <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")' != ''">
+                                @Html.Sitecore().Field("Special Promo")
+                                <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")' != ''">
+                                    <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Individual Plans - Plan 3 Cost Sprint")</span>
+                                </span>
+                            </div>
+                            <div class="no-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")' == ''">
+                            </div>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")' == ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 3 Cost Sprint")') | unsafe"></h2>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")' != ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 3 Promo Cost Sprint")') | unsafe"></h2>
+                            <p class="perMonth cdma"> @Html.Sitecore().Field("Per Month")</p>
+                            <h3>
+                                @Html.Sitecore().Field("Individual Plans - Plan 3 Data Sprint")
+                            </h3>
+                            <p class="speed">
+                                @Html.Sitecore().Field("4G Speed")
+                            </p>
+                            <p>
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 3 ID Sprint")">
+                                    @Html.Sitecore().Field("Select")
+                                </a>
+                            </p>
+                        </div>
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")' !='']">
+                            <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")' != ''">
+                                @Html.Sitecore().Field("Special Promo")
+                                <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")' != ''">
+                                    <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Individual Plans - Plan 4 Cost Sprint")</span>
+                                </span>
+                            </div>
+                            <div class="no-promo" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")' == ''">
+                            </div>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")' == ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 4 Cost Sprint")') | unsafe"></h2>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")' != ''" ng-bind-html="superCents('@Html.Sitecore().Field("Individual Plans - Plan 4 Promo Cost Sprint")') | unsafe"></h2>
+                            <p class="perMonth cdma"> @Html.Sitecore().Field("Per Month")</p>
+                            <h3>
+                                @Html.Sitecore().Field("Individual Plans - Plan 4 Data Sprint")
+                            </h3>
+                            <p class="speed">
+                                @Html.Sitecore().Field("4G Speed")
+                            </p>
+                            <p>
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Individual Plans - Plan 4 ID Sprint")">
+                                    @Html.Sitecore().Field("Select")
+                                </a>
+                            </p>
+                        </div>
                     </div>
-                    }
+                    <div class="plan-container" ng-show="isGroupSelected">
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint")' !='']">
+                            <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint")' != ''">
+                                @Html.Sitecore().Field("Special Promo")
+                                <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint")' != ''">
+                                    <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Group Plans - Plan 1 Cost Sprint")</span>
+                                </span>
+                            </div>
+                            <div class="no-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint")' == ''">
+                            </div>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint")' == ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 1 Cost Sprint"), @Html.Sitecore().Field("Group Plans - Extra Line Cost Sprint")) | unsafe"></h2>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint")' != ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 1 Promo Cost Sprint"), @Html.Sitecore().Field("Group Plans - Extra Line Cost Sprint")) | unsafe"></h2>
+                            <p class="perMonth cdma"> @Html.Sitecore().Field("Per Month")</p>
+                            <h3>
+                                @Html.Sitecore().Field("Group Plans - Plan 1 Data Sprint")
+                            </h3>
+                            <p class="speed">
+                                @Html.Sitecore().Field("4G Speed")
+                            </p>
+                            <p>
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 1 ID Sprint")">
+                                    @Html.Sitecore().Field("Select")
+                                </a>
+                            </p>
+                        </div>
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint")' !='']">
+                            <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint")' != ''">
+                                @Html.Sitecore().Field("Special Promo")
+                                <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint")' != ''">
+                                    <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Group Plans - Plan 2 Cost Sprint")</span>
+                                </span>
+                            </div>
+                            <div class="no-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint")' == ''">
+                            </div>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint")' == ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 2 Cost Sprint"), @Html.Sitecore().Field("Group Plans - Extra Line Cost Sprint")) | unsafe"></h2>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint")' != ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 2 Promo Cost Sprint"), @Html.Sitecore().Field("Group Plans - Extra Line Cost Sprint")) | unsafe"></h2>
+                            <p class="perMonth cdma"> @Html.Sitecore().Field("Per Month")</p>
+                            <h3>
+                                @Html.Sitecore().Field("Group Plans - Plan 2 Data Sprint")
+                            </h3>
+                            <p class="speed">
+                                @Html.Sitecore().Field("4G Speed")
+                            </p>
+                            <p>
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 2 ID Sprint")">
+                                    @Html.Sitecore().Field("Select")
+                                </a>
+                            </p>
+                        </div>
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint")' !='']">
+                            <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint")' != ''">
+                                @Html.Sitecore().Field("Special Promo")
+                                <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint")' != ''">
+                                    <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Group Plans - Plan 3 Cost Sprint")</span>
+                                </span>
+                            </div>
+                            <div class="no-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint")' == ''">
+                            </div>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint")' == ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 3 Cost Sprint"), @Html.Sitecore().Field("Group Plans - Extra Line Cost Sprint")) | unsafe"></h2>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint")' != ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 3 Promo Cost Sprint"), @Html.Sitecore().Field("Group Plans - Extra Line Cost Sprint")) | unsafe"></h2>
+                            <p class="perMonth cdma"> @Html.Sitecore().Field("Per Month")</p>
+                            <h3>
+                                @Html.Sitecore().Field("Group Plans - Plan 3 Data Sprint")
+                            </h3>
+                            <p class="speed">
+                                @Html.Sitecore().Field("4G Speed")
+                            </p>
+                            <p>
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 3 ID Sprint")">
+                                    @Html.Sitecore().Field("Select")
+                                </a>
+                            </p>
+                        </div>
+                        <div class="plan-box cdma" ng-class="{true: 'hasPromo', false: ''}['@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint")' !='']">
+                            <div class="special-promo cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint")' != ''">
+                                @Html.Sitecore().Field("Special Promo")
+                                <span class="cdma-line" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint")' != ''">
+                                    <span class="regular">@Html.Sitecore().Field("Regular Price") $@Html.Sitecore().Field("Group Plans - Plan 4 Cost Sprint")</span>
+                                </span>
+                            </div>
+                            <div class="no-promo" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint")' == ''">
+                            </div>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint")' == ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 4 Cost Sprint"), @Html.Sitecore().Field("Group Plans - Extra Line Cost Sprint")) | unsafe"></h2>
+                            <h2 class="cdma" ng-if="'@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint")' != ''" ng-bind-html="groupPlanCost(@Html.Sitecore().Field("Group Plans - Plan 4 Promo Cost Sprint"), @Html.Sitecore().Field("Group Plans - Extra Line Cost Sprint")) | unsafe"></h2>
+                            <p class="perMonth cdma"> @Html.Sitecore().Field("Per Month")</p>
+                            <h3>
+                                @Html.Sitecore().Field("Group Plans - Plan 4 Data Sprint")
+                            </h3>
+                            <p class="speed">
+                                @Html.Sitecore().Field("4G Speed")
+                            </p>
+                            <p>
+                                <a class="button cdma" href="{{ enrollmentLink }}@Html.Sitecore().Field("Group Plans - Plan 4 ID Sprint")">
+                                    @Html.Sitecore().Field("Select")
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="phone-plan-details">
+                        <div ng-show="isOpenCDMA" class="open collapsed">
+                            <div class="box">
+                                <h3>
+                                    @Html.Sitecore().Field("Data Plans")
+                                </h3>
+                                <ul>
+                                    @Html.Sitecore().Field("Individual Plans - Data Plans Details Sprint")
+                                </ul>
+                            </div>
+                            <div class="seperator" ng-show="isGroupSelected"></div>
+                            <div class="box" ng-show="isGroupSelected">
+                                <h3> @Html.Sitecore().Field("Unlimited Plans")</h3>
+                                <ul>
+                                    @Html.Sitecore().Field("Individual Plans - Unlimited Plans Details Sprint")
+                                </ul>
+                            </div>
+                            <div class="footnotes">
+                                @Html.Sitecore().Field("Individual Plans - Footnotes Sprint")
+                            </div>
+                        </div>
+                        <div class="opener">
+                            <a class="view-details" href="" ng-click="isOpenCDMA = !isOpenCDMA" ng-class="{'collapsed': !isOpenCDMA}">
+                                <span ng-if="!isOpenCDMA"> + @Html.Sitecore().Field("Show Plan Details")</span> <span ng-if="isOpenCDMA"> @Html.Sitecore().Field("Hide Plan Details")</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="device-criteria">
+                        <a href="" ng-click="showCoverageMapOverlay('sprint')">@Html.Sitecore().Field("Check Coverage")</a> | <a ng-click="showLightbox('compatible-devices')" href="" data-di-id="di-id-5fc7eb4d-63d76a3d">@Html.Sitecore().Field("Check Eligibility")</a>
+                    </div>
                 </div>
-            </div>
             }
         </div>
-        @*
-        <div class="detail grid">
-            <div class="col">
-                <h2>@Html.Sitecore().Field("Plan Pricing Header")</h2>
-                @Html.Sitecore().Field("Plan Pricing Content")
-            </div>
-            <div class="col">
-                <table class="mobile-plans-pricing-table">
-                    <thead>
-                        <tr>
-                            <th>@Html.Sitecore().Field("Data")</th>
-                            <th>1 GB</th>
-                            <th>2 GB</th>
-                            <th>3 GB</th>
-                            <th>5 GB</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>@Html.Sitecore().Field("Monthly Cost")</th>
-                            <td>$35/mo</td>
-                            <td>$45/mo</td>
-                            <td>$55/mo</td>
-                            <td>$70/mo</td>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <tr>
-                            <th>@Html.Sitecore().Field("Nationwide Calling")</th>
-                            <td>@Html.Sitecore().Field("Unlimited")</td>
-                            <td>@Html.Sitecore().Field("Unlimited")</td>
-                            <td>@Html.Sitecore().Field("Unlimited")</td>
-                            <td>@Html.Sitecore().Field("Unlimited")</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.Sitecore().Field("Nationwide Calling")</th>
-                            <td>@Html.Sitecore().Field("Unlimited")</td>
-                            <td>@Html.Sitecore().Field("Unlimited")</td>
-                            <td>@Html.Sitecore().Field("Unlimited")</td>
-                            <td>@Html.Sitecore().Field("Unlimited")</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="notes">
-                    @Html.Sitecore().Field("Plan Pricing Footer")
-                </div>
-            </div>
+        <div class="col unlimited">
+            @Html.Sitecore().Field("Unlimited Calling")
         </div>
-        *@
+        <div class="activation-footnote">
+            <p class="activation">
+                @Html.Sitecore().Field("Activation Footnote")
+            </p>
+            <p class="activation">
+                @Html.Sitecore().Field("Additional Lines Footnote")
+            </p>
+        </div>
     </div>
 </article>
+
+<div class="coverage-map-container hidden-map">
+    <div class="inner">
+        <div class="modal-header">
+            <a class="close" onclick="$('.coverage-map-container').addClass('hidden-map')">X</a>
+            <h2>&nbsp;</h2>
+        </div>
+        <script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+        <div class="wrapper">
+            <article class="coverage-map" ng-controller="MobilePlansDetailsCtrl">
+                <div class="form">
+                    <ul class="network-toggle">
+                        <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'att'}" ng-model="selectedNetwork" btn-radio="'att'">@item.Fields["GSM Network"].Value</a></li>
+                        @if (showSprint)
+                        {
+                            <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'sprint'}" ng-model="selectedNetwork" btn-radio="'sprint'">@item.Fields["CDMA Network"].Value</a></li>
+                        }
+                    </ul>
+                    <div class="item">
+                        <label for="gmap-search-input">@item.Fields["Enter Zip Code"].Value</label>
+                        <div id="gmap-search"></div>
+                    </div>
+                </div>
+                <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events" control="map.control">
+                    <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
+                </ui-gmap-google-map>
+                <ul class="layer-toggle" ng-show="selectedNetwork == 'att'">
+                    <li>
+                        <input type="checkbox" id="att_voice" ng-model="layers.att.att_voice_roam" /> <label for="att_voice">@item.Fields["Voice"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="att_data" ng-model="layers.att.att_data_roam" /> <label for="att_data">@item.Fields["Data"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="att_lte" ng-model="layers.att.att_lte" /> <label for="att_lte">@item.Fields["LTE"].Value</label>
+                    </li>
+                </ul>
+                <ul class="layer-toggle" ng-show="selectedNetwork == 'sprint'">
+                    <li>
+                        <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@item.Fields["Voice"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data_roam" /> <label for="sprint_data">@item.Fields["Data"].Value</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="sprint_lte" ng-model="layers.sprint.sprint_lte" /> <label for="sprint_lte">@item.Fields["LTE"].Value</label>
+                    </li>
+                </ul>
+            </article>
+        </div>
+    </div>
+</div>
+<div class="coverage-map-fade"></div>
+
+<script type="text/ng-template" id="searchbox.tpl.html">
+    <input type="text" id="gmap-search-input" placeholder="" />
+</script>

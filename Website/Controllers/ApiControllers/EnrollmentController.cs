@@ -29,6 +29,7 @@ using System.IO;
 using System.Net.Http.Headers;
 using Sitecore.Data.Items;
 using StreamEnergy.DomainModels.Emails;
+using StreamEnergy.MyStream.Models.MobileEnrollment;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -127,6 +128,82 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<VerifyEsnResponse> ValidateEsn([FromBody]string esn)
         {
             return await enrollmentService.IsEsnValid(esn);
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<VerifyImeiResponse> VerifyImei([FromBody]string imei)
+        {
+            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
+            {
+                if (imei == "111")
+                {
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
+                        Manufacturer = "Samsung"
+                    };
+                }
+                if (imei == "222")
+                {
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
+                        Manufacturer = "Apple Inc"
+                    };
+                }
+                if (imei == "333")
+                {
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Samsung",
+                        DeviceType = "U",
+                    };
+                }
+                if (imei == "444")
+                {
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Apple",
+                        DeviceType = "U",
+                    };
+                }
+                if (imei == "555")
+                {
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Apple",
+                        ICCID = "1234567890",
+                        DeviceType = "U",
+                    };
+                }
+                if (imei == "666")
+                {
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Samsung",
+                        DeviceType = "E",
+                    };
+                }
+            }
+            
+            return await enrollmentService.VerifyImei(imei);
         }
 
         [HttpPost]
@@ -661,7 +738,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         {"accountNumbers", string.Join(",", acctNumbers)},
                     });
                 }
-                if (resultData.AssociateInformation == null)
+                if (resultData.AssociateInformation == null && !resultData.IsRenewal)
                 {
                     await logger.Record(new LogEntry()
                     {

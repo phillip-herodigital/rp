@@ -5,8 +5,10 @@
         @Html.Sitecore().Field("Nav Links")
     </div>
     <div class="calendar-filters clearfix">
-        <select class="type-filter" ng-model="typeFilter" ng-options="eventType.name as eventType.display for eventType in eventTypes" ng-change="searchCalendar()">
+        <select class="type-filter" ng-model="typeFilter" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("Type Filter Text")</option>
+            <option ng-repeat="eventType in eventTypes">{{ eventType.display }}</option>
+            <option value="local">@Html.Sitecore().Field("Local Meeting Text")</option>
         </select>
         <select class="state-filter" ng-model="stateFilter" ng-options="state as state for state in eventStates | orderBy: state" ng-change="searchCalendar()">
             <option value="">@Html.Sitecore().Field("State Filter Text")</option>
@@ -25,3 +27,16 @@
     </div>
     <div id="calendar" class="fc-calendar-container" ng-model="calContainer" dynamic="events"></div>
 </div>
+
+
+<div class="local-meeting-container hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <a class="close" onclick="$('.local-meeting-container').addClass('hidden')">X</a>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Local Meeting Link")
+        </div>
+    </div>
+</div>
+<div class="local-meeting-fade"></div>
