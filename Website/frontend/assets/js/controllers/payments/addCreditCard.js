@@ -23,6 +23,9 @@
                     $window.location.href = response.redirectUri;
                 }
             });
+        }, function(error){
+            $scope.isLoading = false;
+            $scope.streamConnectError = true; 
         });
     };
 }]);

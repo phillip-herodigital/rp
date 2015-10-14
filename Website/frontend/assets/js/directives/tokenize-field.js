@@ -1,5 +1,4 @@
-﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', 'logger', function ($http, $q, $parse, $window, logger) {
-    var logger = logger;
+﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', function ($http, $q, $parse, $window) {
     return {
         require: 'ngModel',
         link: function ($scope, element, attrs, ctrl) {
@@ -12,8 +11,9 @@
                     // The tokenizer does not provide a way to customize the callback, so we have no option but to declare a global variable
                     $window.processToken = function (data) {
                         if (data.action == "CE") {
-                            deferred.resolve(data.data);
-                        } else {
+                        //     deferred.resolve(data.data);
+                        // } else {
+                        //     element.injector().get('logger').log('Failed to tokenize credit card', 'Error', null);
                             deferred.reject();
                         }
                     };
@@ -24,13 +24,15 @@
                         data = opts.routingNumber + "/" + data;
                     }
                     $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + data + "&type=json")
-                    .error(function (data, status, headers, config) {
-                        element.injector().get('logger').log('Failed to tokenize credit card', 'Error', null);
-                        deferred.reject();
-                        ctrl.$setValidity('tokenizeField', false);
-                        return;
+                    .then(function(response) {
+                            // noop
+                        }, function(response) {
+                            if(response.status !== 404) {
+                                element.injector().get('logger').log('Failed to tokenize credit card', 'Error', null);
+                                ctrl.$setValidity('tokenizeField', false);
+                                deferred.reject();
+                            }
                     });
-
                     return deferred.promise;
                 };
                 result.redacted = "************" + rawField.slice(-4)
