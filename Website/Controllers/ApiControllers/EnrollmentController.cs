@@ -134,6 +134,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<VerifyImeiResponse> VerifyImei([FromBody]string imei)
         {
+            /*
             if (imei == "111")
             {
                 return new VerifyImeiResponse
@@ -185,6 +186,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     ICCID = "1234567890"
                 };
             }
+            */
             
             return await enrollmentService.VerifyImei(imei);
         }
