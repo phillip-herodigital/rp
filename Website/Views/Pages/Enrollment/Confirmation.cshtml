@@ -362,7 +362,7 @@
                     <div ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber == null)">
                         @Html.Sitecore().Field("ICCID Card Activation")
                     </div>
-                    <div ng-if="((dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber != null) || (dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber != null))">
+                    <div ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber != null)">
                         <div ng-if="!selectedOffer.offerOption.activeDevice && selectedOffer.offerOption.transferInfo == null">
                             @Html.Sitecore().Field("Activation Instructions New")
                         </div>
@@ -371,6 +371,14 @@
                         </div>
                         <div ng-if="selectedOffer.offerOption.activeDevice">
                             @Html.Sitecore().Field("Activation Instructions Active")
+                        </div>
+                    </div>
+                    <div ng-if="(dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber != null)">
+                        <div ng-if="selectedOffer.offerOption.transferInfo == null">
+                            @Html.Sitecore().Field("Activation Instructions New - GSM")
+                        </div>
+                        <div ng-if="selectedOffer.offerOption.transferInfo != null">
+                            @Html.Sitecore().Field("Activation Instructions Transfer - GSM")
                         </div>
                     </div>
                 </div>
