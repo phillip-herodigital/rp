@@ -163,7 +163,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         IsValidImei = true,
                         VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
                         Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
-                        Manufacturer = "Samsung"
+                        Manufacturer = "Samsung",
+                        DeviceType = "U",
                     };
                 }
                 if (imei == "444")
@@ -173,7 +174,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         IsValidImei = true,
                         VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
                         Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
-                        Manufacturer = "Apple"
+                        Manufacturer = "Apple",
+                        DeviceType = "U",
                     };
                 }
                 if (imei == "555")
@@ -184,7 +186,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
                         Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
                         Manufacturer = "Apple",
-                        ICCID = "1234567890"
+                        ICCID = "1234567890",
+                        DeviceType = "U",
                     };
                 }
                 if (imei == "666")
