@@ -187,6 +187,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         ICCID = "1234567890"
                     };
                 }
+                if (imei == "666")
+                {
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Samsung",
+                        DeviceType = "E",
+                    };
+                }
             }
             
             return await enrollmentService.VerifyImei(imei);
