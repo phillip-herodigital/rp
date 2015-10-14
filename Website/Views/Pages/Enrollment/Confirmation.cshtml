@@ -348,7 +348,7 @@
                         <p class="note">@Html.Sitecore().Field("SIM Card Description")</p>
                     </div>
                 </div>
-                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber == null)">
+                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && !dataPlan.nonLtePlan && selectedOffer.offerOption.iccidNumber == null)">
                     <div>
                         <h3>@Html.Sitecore().Field("ICCID Card Text")</h3>
                         <p class="note">@Html.Sitecore().Field("ICCID Card Description")</p>
@@ -359,10 +359,10 @@
                     <div ng-if="(dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber == null)">
                         @Html.Sitecore().Field("SIM Card Activation")
                     </div>
-                    <div ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber == null)">
+                    <div ng-if="(dataPlan.provider == 'Sprint' && !dataPlan.nonLtePlan && selectedOffer.offerOption.iccidNumber == null)">
                         @Html.Sitecore().Field("ICCID Card Activation")
                     </div>
-                    <div ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber != null)">
+                    <div ng-if="(dataPlan.provider == 'Sprint' && (dataPlan.nonLtePlan || selectedOffer.offerOption.iccidNumber != null))">
                         <div ng-if="!selectedOffer.offerOption.activeDevice && selectedOffer.offerOption.transferInfo == null">
                             @Html.Sitecore().Field("Activation Instructions New")
                         </div>
