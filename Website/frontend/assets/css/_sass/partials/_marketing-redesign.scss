@@ -1086,3 +1086,188 @@ article.intro-promo-mobile {
         }
     }
 }
+
+.lyric-page{
+	.disclaimer{
+		color: #c0c0c0;
+		font-size: 14px;
+		font-weight: 200;
+		line-height: 1.1;
+		margin-top: 15px;
+	}
+	.lyric-intro{
+		.body{
+			margin:0 100px 0 0;
+		}
+		.text{
+			float:left;
+			font-size:36px;
+			color: #013c5b;
+		}
+		hr{
+			display:none;
+		}
+		p{
+			float:right;
+			margin-top:5px;
+		}
+	}
+
+	.comfort-savings{
+		.image{
+			float:left;
+			margin:0 45px;
+
+			img{
+				width:387px;
+			}
+		}
+		.info{
+			float:left;
+			width:410px;
+
+			.heading{
+				color:#f98e00;
+				font-size:36px;
+				font-weight:300;
+				margin-bottom:15px;
+			}
+			.description{
+				font-size:20px;
+				color:#6c6c6c;
+			}
+		}
+	}
+
+	.plan-information{
+		.wrapper{
+			background:none;
+		}
+
+		.heading{
+			color: #f99623;
+			font-size: 36px;
+			font-weight: 400;
+
+			sup{
+				font-size:20px; /* this varies from mock */
+				font-style:italic;
+				color:#013c5b;
+			}
+		}
+		.info{
+			font-size:20px;
+		}
+		ul{
+			list-style:none;
+			font-size:22px;
+			margin-top:65px;
+			margin-left:80px;
+
+			li{
+				@include retina-background('checkmark.png');
+				background-position:left 50%;
+				background-repeat:no-repeat;
+				padding-left: 30px;
+				background-size:17px;
+			}
+		}
+	}
+
+	.thermostat-comparison.table{
+		display:table;
+		width:100%;
+		.row{
+			display:table-row;
+			&:last-of-type{
+				.data{
+					border-bottom: 1px solid #d3d3d3;;
+				}
+			}
+
+			&.head{
+				.data{
+					text-align:center;
+					line-height:1;
+					border-top:0;
+					padding-top:0;
+					vertical-align:top;
+
+					&:first-of-type{
+						text-align:left;
+					}
+					
+					&.heading{
+						width:48%;
+						padding:0;
+
+						span{
+							font-size:36px;
+							line-height:1;
+							color:#f98e00;
+							width:75%;
+							display:block;
+							text-align:left;
+							font-size:36px;
+						}
+					}
+
+					img{
+						width:80px;
+					}
+
+					.make{
+						font-size:19px;
+						font-weight:bold;
+					}
+					span{
+						font-size:14px;
+					}
+				}
+			}
+
+			.data{
+				display:table-cell;
+				padding:15px 50px;
+				font-size:20px;
+				border-top:1px solid #d3d3d3;
+				border-right: 1px solid #d3d3d3;
+
+				&.check{
+					@include retina-background('checkmark.png');
+					background-position:50%;
+					background-repeat:no-repeat;
+					background-size:17px;
+				}
+				&.info{
+					padding-left:0;
+				}
+			}
+		}
+	}
+
+	.lyric-enroll-now{
+		img{
+			float:left;
+			width:264px;
+		}
+
+		.description{
+			width:350px;
+			float:left;
+			margin-top:25px;
+			font-size:32px;
+			line-height:1.3;
+			color:#013c5b;
+
+			span{
+				color:#f99623;
+			}
+		}
+		.button{
+			float:left;
+			display:block;
+			margin:75px 0 0 120px;
+		}
+	}
+}
