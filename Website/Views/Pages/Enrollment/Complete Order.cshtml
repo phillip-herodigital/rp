@@ -678,7 +678,7 @@
                         <p class="note">@Html.Sitecore().Field("SIM Card Description")</p>
                     </div>
                 </div>
-                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && item.iccidNumber == null)">
+                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && !dataPlan.nonLtePlan && item.iccidNumber == null)">
                     <div>
                         <h3>@Html.Sitecore().Field("ICCID Card Text")</h3>
                         <p class="note">@Html.Sitecore().Field("ICCID Card Description")</p>
