@@ -25,7 +25,7 @@
             });
         }, function(error){
             $scope.isLoading = false;
-            $scope.streamConnectError = true; 
+            $scope.ccTokenizerError = true;
         });
     };
 }]);

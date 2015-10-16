@@ -13,7 +13,7 @@
                         if (data.action == "CE") {
                         //     deferred.resolve(data.data);
                         // } else {
-                        //     element.injector().get('logger').log('Failed to tokenize credit card', 'Error', null);
+                            element.injector().get('logger').log('Failed to tokenize credit card', 'Error', null);
                             deferred.reject();
                         }
                     };
