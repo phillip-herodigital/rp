@@ -95,7 +95,7 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
 			        }
 			        $scope.isLoading = false;
 			        // if not successful, bind errors to error variables
-			        $window.location.href = '/auth/login?error=true&code=' + encodeURIComponent($sce.trustAsHtml(data.validations[0].text));
+			        $window.location.href = '/auth/login?error=true&code=' + encodeURIComponent(data.validations[0].text);
 
 			    } else {
 			        // if successful, send the user to the return URL
