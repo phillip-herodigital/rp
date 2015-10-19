@@ -564,12 +564,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #endregion
 
         #region Utility Services
-        public class Injection
-        {
-            //[Dependency]
-            public ICurrentUser currentUser { get; set; }
-        }
-        private Injection dependencies;
+
         [HttpPost]
         public async Task<GetUtilityPlanResponse> GetUtilityPlan(GetUtiltiyPlansRequest request)
         {
@@ -578,7 +573,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var accountDetails = await accountService.GetAccountDetails(account, false);
-            
+
             return new GetUtilityPlanResponse
             {
                 AccountId = account.StreamConnectAccountId,
@@ -586,6 +581,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 HasRenewalEligibiltiy = account.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible))
             };
         }
+
         #endregion
 
         #region Online Account Information
