@@ -1,4 +1,5 @@
-﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', function ($http, $q, $parse, $window) {
+﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', 'logger', function ($http, $q, $parse, $window, logger) {
+    var _logger = logger;
     return {
         require: 'ngModel',
         link: function ($scope, element, attrs, ctrl) {
@@ -12,7 +13,7 @@
                         if (data.action == "CE") {
                             deferred.resolve(data.data);
                         } else {
-                            element.injector().get('logger').log('Failed to tokenize credit card', 'Error', null);
+                            _logger.log('Failed to tokenize credit card', 'Error', null);
                             deferred.reject();
                         }
                     };
@@ -27,7 +28,7 @@
                             // noop
                         }, function(response) {
                             if(response.status !== 404) {
-                                element.injector().get('logger').log('Failed to tokenize credit card', 'Error', null);
+                                _logger.log('Failed to tokenize credit card', 'Error', null);
                                 ctrl.$setValidity('tokenizeField', false);
                                 deferred.reject();
                             }
