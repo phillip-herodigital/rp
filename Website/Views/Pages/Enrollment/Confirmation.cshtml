@@ -166,6 +166,9 @@
                         </div>
                         <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
                     </div>
+                    <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
+                        @Html.Sitecore().Field("Thermostat Text")
+                    </div>
                     <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
                     <div class="plan-documents clearfix">
                         <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>

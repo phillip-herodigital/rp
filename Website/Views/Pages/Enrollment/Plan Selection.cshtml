@@ -121,7 +121,10 @@
                     <td class="plan-name hide-small">
                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</span>
                         <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</span>
-                        <div class="plan-title">{{plan.name}}</div>                        
+                        <div class="plan-title">{{plan.name}}</div>
+                        <div ng-if="plan.includesThermostat" class="includes-thermostat">
+                            @Html.Sitecore().Field("Thermostat Text")
+                        </div>
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>

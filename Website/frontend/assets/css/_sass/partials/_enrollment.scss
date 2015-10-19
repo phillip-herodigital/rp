@@ -1226,6 +1226,20 @@
             }
         }
     }
+    .includes-thermostat {
+        background:#F4F8F9;
+        margin: 5px -12px 0 -19px;
+        padding: 10px 5px;
+        img {
+            float:left;
+        }
+        span {
+            width:100px;
+            display: inline-block;
+            font-size: 12px;
+            margin-left: 12px;
+        }
+    }
 }
 
 .lt-ie9 .enrollment__utility-plans {

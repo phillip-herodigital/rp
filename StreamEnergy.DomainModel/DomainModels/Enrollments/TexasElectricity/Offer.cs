@@ -48,6 +48,7 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
         public decimal StreamEnergyCharge { get; set; }
         public string MinimumUsageFee { get; set; }
         public string TduCharges { get; set; }
+        public bool IncludesThermostat { get; set; }
         public decimal TerminationFee { get; set; }
         public int TermMonths { get; set; }
 
