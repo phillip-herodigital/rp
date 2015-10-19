@@ -1,7 +1,6 @@
 ﻿ngApp.controller('CreditCardPaymentCtrl', ['$scope', function ($scope) {
     var ctrl = this;
     this.tokenizedCard = function () {
-        var token = ctrl.cardToken();
         return {
             paymentType: 'TokenizedCard',
             cardToken: ctrl.cardToken(),

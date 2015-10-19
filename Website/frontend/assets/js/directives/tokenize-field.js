@@ -3,8 +3,7 @@
         require: 'ngModel',
         link: function ($scope, element, attrs, ctrl) {
             var attributes = $scope.$eval(attrs.tokenizeField);
-            ctrl.$parsers.push(function (inputValue, $scope) {
-            //ctrl.$parsers.unshift(function (inputValue, $scope) {
+            ctrl.$parsers.push(function (inputValue) {
                 var rawField = inputValue.replace(/[^\d]/g, "");
                 var result = function (opts) {
                     var deferred = $q.defer();
