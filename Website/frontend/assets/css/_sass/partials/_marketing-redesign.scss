@@ -1130,17 +1130,29 @@ article.mobile-devices {
     }
 }
 
-article.lyric-page {
+.lyric-page {
+    .button {
+        padding: 8px 30px;
+        background-color: #f98e00;
+        @include border-radius(5px);
+        @include background-image(linear-gradient(to top, #f76f00 0%, #f98e00 100%));
+        font-size: 18px;
+        font-weight: 400;
+    }
     .disclaimer {
         color: #c0c0c0;
         font-size: 14px;
         font-weight: 200;
         line-height: 1.1;
-        margin-top: 15px;
+        padding-top: 15px;
+        clear: both;
     }
     .lyric-intro {
         .body {
             margin: 0 100px 0 0;
+            @include breakpoint(small) {
+                margin: 0;
+            }
         }
         .text {
             float: left;
@@ -1153,6 +1165,9 @@ article.lyric-page {
         p {
             float: right;
             margin-top: 5px;
+            @include breakpoint(small) {
+                float: none;
+            }
         }
     }
     .comfort-savings {
@@ -1166,15 +1181,93 @@ article.lyric-page {
         .info {
             float: left;
             width: 410px;
+            padding-top: 30px;
             .heading {
                 color: #f98e00;
                 font-size: 36px;
                 font-weight: 300;
                 margin-bottom: 15px;
+                line-height: 1;
             }
             .description {
                 font-size: 20px;
                 color: #6c6c6c;
+            }
+            @include breakpoint(small) {
+                padding-top: 0;
+                width: 100%;
+            }
+        }
+    }
+    .lyric-video {
+        .wrapper {
+            padding-bottom: 0;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            padding-top: 35px;
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 20px;
+            iframe {
+                position: absolute;
+                top:0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .faqs-heading {
+        .wrapper {
+            padding-bottom: 0;
+        }
+        .heading {
+            color: #f99623;
+            font-size: 36px;
+            font-weight: 300;
+        }
+
+    }
+    .lyric-faqs {
+        dl.faq {
+            color: #6c6c6c;
+            font-size: 20px;
+            width: 100%;
+            border-bottom: 1px solid #d3d3d3;
+            > dt {
+                font-size: 20px;
+                font-weight: 300;
+                padding: 14px 40px 14px 0;
+                border-top: 1px solid #d3d3d3;
+                &:before {
+                    content: image-url('icon/faq-hide.png');
+                    vertical-align: top;
+                    position: absolute;
+                    left: inherit;
+                    right: 15px;
+                }
+
+                &[data-collasped] {
+                    &:before {
+                        content: image-url('icon/faq-show.png');
+                    }
+
+                    + dd {
+                        height: 0;
+                        display: none;
+                        margin-top: 0;
+                    }
+                }
+            }
+
+            > dd {
+                line-height: 1.2;
+                font-size: 14px;
+                margin: 16px 0 50px 26px;
+                color: #6c6c6c;
+                display: block;
             }
         }
     }
@@ -1185,11 +1278,13 @@ article.lyric-page {
         .heading {
             color: #f99623;
             font-size: 36px;
-            font-weight: 400;
+            font-weight: 300;
             sup {
-                font-size: 20px; /* this varies from mock */
+                font-size: 16px;
                 font-style: italic;
                 color: #013c5b;
+                font-weight: 600;
+                top: -1em;
             }
         }
         .info {
@@ -1200,13 +1295,15 @@ article.lyric-page {
             font-size: 22px;
             margin-top: 65px;
             margin-left: 80px;
-
             li {
                 @include retina-background('checkmark.png');
                 background-position:left 50%;
                 background-repeat: no-repeat;
                 padding-left: 30px;
                 background-size: 17px;
+            }
+            @include breakpoint(small) {
+                margin-left: 0;
             }
         }
     }
@@ -1240,7 +1337,9 @@ article.lyric-page {
                             width: 75%;
                             display: block;
                             text-align: left;
-                            font-size: 36px;
+                            @include breakpoint(small) {
+                                font-size: 20px;
+                            }
                         }
                     }
                     img {
@@ -1271,6 +1370,9 @@ article.lyric-page {
                 &.info {
                     padding-left: 0;
                 }
+                @include breakpoint(small) {
+                    padding: 15px;
+                }
             }
         }
     }
@@ -1288,12 +1390,16 @@ article.lyric-page {
             color: #013c5b;
             span {
                 color: #f99623;
+                font-weight: 600;
             }
         }
         .button {
             float: left;
             display: block;
             margin: 75px 0 0 120px;
+            @include breakpoint(small) {
+                margin: 20px auto;
+            }
         }
     }
 }

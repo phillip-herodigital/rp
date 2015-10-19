@@ -1639,6 +1639,7 @@
     <Content Include="Views\Components\Marketing\Mobile\Mobile Savings Banner.cshtml" />
     <Content Include="Views\Pages\Currents\Leaderboard.cshtml" />
     <Content Include="Views\Pages\Currents\RadioListing.cshtml" />
+    <Content Include="Views\Components\Marketing\Lyric FAQs.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
