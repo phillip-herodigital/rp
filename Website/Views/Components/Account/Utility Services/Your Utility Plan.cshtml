@@ -180,7 +180,7 @@
         </table>
         </article>
 
-    <article class="plain" ng-if="showPlanSelector && customerType == 'residential'">
+    <article class="plain" ng-if="showPlanSelector && utilityPlan.customerType != 'commercial'">
         <div loading-indicator>
             <div ng-controller="EnrollmentMainCtrl">
                 <div id="utilityFlowPlans" class="enrollment" ng-if="renewal && customerType == 'residential'" ng-init="setTimeRemaining('utilityFlowPlans', '@planSelectionItem["Remaining Minutes Number"]');">
