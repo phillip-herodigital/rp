@@ -69,7 +69,7 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
     // Login Nav Dorpdown
     $scope.dropdownmenu = true;
     $scope.loginNavToggle = function () {
-        $scope.dropdownmenu = $scope.dropdownmenu === false ? true : false;
+        $scope.dropdownmenu = !$scope.dropdownmenu;
             $(".dropdown").toggleClass('active');
             $(".dropdown-toggle").toggleClass('active-block');
     }
