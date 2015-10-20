@@ -160,14 +160,14 @@
                         </div>
                         <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
                     </div>
+                    <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
+                        @Html.Sitecore().Field("Thermostat Text")
+                    </div>
                     <div class="line-item clearfix" ng-if="!isRenewal">
                         <div class="description sub-charge">
                             <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
                         </div>
                         <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
-                    </div>
-                    <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
-                        @Html.Sitecore().Field("Thermostat Text")
                     </div>
                     <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
                     <div class="plan-documents clearfix">
