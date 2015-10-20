@@ -216,6 +216,11 @@
                         && !offer.isChildOffer
                         && (devicesCount == 1 || (devicesCount > 1 && offer.isParentOffer)) 
                 }).some();
+
+                var isGroupPlan = _(offerInformationForType.value.availableOffers).filter(function (offer){
+                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                        && offer.isParentOffer
+                }).some();
                 
                 $scope.requestedPlanProvider = _(offerInformationForType.value.availableOffers).filter(function (offer){
                     return offer.id == $scope.mobileEnrollment.requestedPlanId 
@@ -227,6 +232,11 @@
                     var requestedOffer = { 'Mobile': $scope.mobileEnrollment.requestedPlanId };
                     $scope.planSelection.selectedOffers = requestedOffer;
                     selectOffers(requestedOffer);
+                    // select the shared plans tab if it's a group paln
+                    if (isGroupPlan) {
+                        $scope.isIndSelected = false; 
+                        $scope.isGroupSelected = true;
+                    } 
                 }
             }
         }
