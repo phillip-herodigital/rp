@@ -53,11 +53,10 @@
                     @include box-shadow(#E2DCDC 2px 2px 10px);
                     padding: 20px;
                     width:285px;
-                    display: none;
                     right: -2px;
                     margin: 2px 0px 0px;
                     min-width: 0;
-                    background-color: #FFFFFF;
+                    background-color: #FFFFFF; 
                     @include border-radius(0);
                     div {
                         margin: 10px 0;

@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the overall page, such as the mobile navigation sidebar.
  */
-ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', '$timeout', '$window', '$modal', 'enrollmentCartService', 'scrollService', 'analytics', '$sce', function ($scope, $rootScope, $http, $templateCache, $timeout, $window, $modal, enrollmentCartService, scrollService, analytics, $sce) {
+ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', '$timeout', '$window', '$modal', 'enrollmentCartService', 'scrollService', 'analytics', function ($scope, $rootScope, $http, $templateCache, $timeout, $window, $modal, enrollmentCartService, scrollService, analytics) {
 
     // Private Methods
     var buildNavLinks = function() {
@@ -67,11 +67,11 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
         })
     };
     // Login Nav Dorpdown
+    $scope.dropdownmenu = true;
     $scope.loginNavToggle = function () {
-        $(".dropdown-menu").toggle(function () {
+        $scope.dropdownmenu = $scope.dropdownmenu === false ? true : false;
             $(".dropdown").toggleClass('active');
             $(".dropdown-toggle").toggleClass('active-block');
-        });
     }
     //header login
     $scope.formData = {};

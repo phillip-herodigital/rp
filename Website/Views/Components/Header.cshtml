@@ -102,12 +102,12 @@
                     }
                     <li class="dropdown">
                         <a class="dropdown-toggle" ng-click="loginNavToggle()">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a>
-                        <div class="login dropdown-menu" role="menu">
+                        <div class="login dropdown-menu" ng-hide="dropdownmenu">
                             <h4>@Html.Sitecore().Field("Login Dropwdown Header", accountDataSourceItem)</h4>
                             <form ng-submit="login()">
                                 @Html.Sitecore().Field("Login Dropwdown Content", accountDataSourceItem)
                             </form>
-                       </div>
+                        </div>
                     </li>
                     <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
                 </ul>
