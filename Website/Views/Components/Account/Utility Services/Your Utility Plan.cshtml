@@ -180,237 +180,236 @@
         </table>
         </article>
 
-        <article class="plain" ng-if="showPlanSelector">
-            <div loading-indicator>
-                <div ng-controller="EnrollmentMainCtrl">
-                    <div id="utilityFlowPlans" class="enrollment" ng-if="renewal && customerType == 'residential'" ng-init="setTimeRemaining('utilityFlowPlans', '@planSelectionItem["Remaining Minutes Number"]');">
-                        <div>
-                            <section>
-                                <form name="selectPlan" data-val-bind-messages="validations">
-                                    <article class="form enrollment__box" ng-if="false">
-                                        <header>
-                                            <h1 ng-if="!isRenewal">@planSelectionItem["Choose Header"]</h1>
-                                            <h1 ng-if="isRenewal"></h1>
-                                        </header>
-                                        <div class="content">
-                                            <p>@planSelectionItem["Choose Paragraph"]</p>
-                                            <div class="item item--no-input">
-                                                <label for="service-address">@planSelectionItem["Service Address Label"]</label>
-                                                <strong>{{ currentLocationInfo().location.address | address }}</strong>
-                                            </div>
+    <article class="plain" ng-if="showPlanSelector && utilityPlan.customerType != 'commercial'">
+        <div loading-indicator>
+            <div ng-controller="EnrollmentMainCtrl">
+                <div id="utilityFlowPlans" class="enrollment" ng-if="renewal && customerType == 'residential'" ng-init="setTimeRemaining('utilityFlowPlans', '@planSelectionItem["Remaining Minutes Number"]');">
+                    <div>
+                        <section>
+                            <form name="selectPlan" data-val-bind-messages="validations">
+                                <article class="form enrollment__box" ng-if="false">
+                                    <header>
+                                        <h1 ng-if="!isRenewal">@planSelectionItem["Choose Header"]</h1>
+                                        <h1 ng-if="isRenewal"></h1>
+                                    </header>
+                                    <div class="content">
+                                        <p>@planSelectionItem["Choose Paragraph"]</p>
+                                        <div class="item item--no-input">
+                                            <label for="service-address">@planSelectionItem["Service Address Label"]</label>
+                                            <strong>{{ currentLocationInfo().location.address | address }}</strong>
                                         </div>
-                                    </article>
-                                    <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
-                                    <div class="buttons">
-                                        <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
-                                            <span ng-if="isRenewal">@planSelectionItem["Continue Renewal Button"]</span>
-                                        </button>
                                     </div>
-                                </form>
-                                <div>
-                                    <p ng-repeat="footnote in activeFootnotes"><sup>{{$index + 1}}</sup> {{footnote.value}}</p>
+                                </article>
+                                <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
+                                <div class="buttons">
+                                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>
+                                        <span ng-if="isRenewal">@planSelectionItem["Continue Renewal Button"]</span>
+                                    </button>
                                 </div>
-                            </section>
-                        </div>
+                            </form>
+                            <div>
+                                <p ng-repeat="footnote in activeFootnotes"><sup>{{$index + 1}}</sup> {{footnote.value}}</p>
+                            </div>
+                        </section>
                     </div>
-
-                    <script type="text/ng-template" id="planList/TexasElectricity">
-                        <header class="enrollment__utility-plans-header" ng-init="footnotes['TexasElectricity'] = @Html.JsonStringifyFields(planSelectionItem, "Electricity Rate Footnote", "Electricity Term Footnote")">
-                            <h1>@planSelectionItem["Electricity Header"]</h1>
-                            <div class="service-address">
-                                {{ utilityPlan.serviceAddress.line1 }}<span ng-if="utilityplan.serviceaddress.line2"> {{ utilityPlan.serviceAddress.line2 }}</span><br>{{ utilityPlan.serviceAddress.city }}, {{ utilityPlan.serviceAddress.stateAbbreviation }} {{ utilityPlan.serviceAddress.postalCode5 }}
-                            </div>
-                        </header>
-                        <article class="enrollment__utility-plans">
-                            <div ng-include src="'multiple-tdu-modal'" ng-if="typedOffers.value.errors[0] == 'MultipleTdu'"></div>
-                            <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
-                                <thead class="hide-small">
-                                    <tr>
-                                        <th class="plan-header">@planSelectionItem["Electricity Plan Name"]</th>
-                                        <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Electricity Rate"]<sup>{{footnoteIndices['TexasElectricity']['Electricity Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                                        <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Electricity Term"]<sup>{{footnoteIndices['TexasElectricity']['Electricity Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                                        <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Electricity Fees"] <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                                        <th>@planSelectionItem["Electricity Select Plan"]</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
-                                        <td class="plan-name" colspan="5">
-                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
-                                                <i class="icon-check"></i>
-                                            </span>
-                                            {{plan.name}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="plan-name hide-small">
-                                            <span ng-show="plan.rateType == 'fixed'" class="fixed">@planSelectionItem["Electricity Fixed"]</span>
-                                            <span class="variable" ng-show="plan.rateType == 'variable'">@planSelectionItem["Electricity Variable"]</span>
-                                            <div class="plan-title">{{plan.name}}</div>
-                                            <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
-                                                <span ng-if="!isOpen">@planSelectionItem["Electricity View Details"] <i class="icon-blue-arrow-down"></i></span>
-                                                <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
-                                            </a>
-                                        </td>
-                                        <td class="rate">
-                                            {{ plan.rate | number:1 }}&cent;<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@planSelectionItem["Electricity Per kWh"]</span>
-                                        </td>
-                                        <td class="term" ng-if="plan.termMonths != '1'">
-                                            @Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{plan.termMonths}}", Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })<sup>{{plan.calculatedFootnotes.indices['Term Footnote']}}</sup>
-                                        </td>
-                                        <td class="term" ng-if="plan.termMonths == '1'">
-                                            @Html.Sitecore().Field("Electricity Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })<sup>{{plan.calculatedFootnotes.indices['Term Footnote']}}</sup>
-                                        </td>
-                                        <td class="fees">
-                                            ${{ plan.terminationFee }}<span>@planSelectionItem["Electricity Early Termination Fee"]<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
-                                        </td>
-                                        <td class="select-plan hide-small">
-                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
-                                                <i class="icon-check"></i>
-                                            </span>
-                                            <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
-                                                <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@planSelectionItem["Selected Button"]</span>
-                                                <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@planSelectionItem["Electricity Button"]</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="hide-medium-large">
-                                        <td class="plan-actions" colspan="5">
-                                            <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
-                                                <span ng-if="!isOpen">@planSelectionItem["Electricity View Details"] <i class="icon-blue-arrow-down"></i></span>
-                                                <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
-                                            </a>
-                                            <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
-                                                <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@planSelectionItem["Selected Button"]</span>
-                                                <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@planSelectionItem["Electricity Button"]</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
-                                        <td colspan="6">
-                                            <div slide-down-show="isOpen">
-                                                <p>{{plan.description}}</p>
-                                                <ul class="plan-selection-list clearfix">
-                                                    <li><a ng-href="{{plan.documents.electricityFactsLabel}}" target="_blank">@planSelectionItem["Electricity Facts Label Document"]</a></li>
-                                                    <li><a ng-href="{{plan.documents.termsOfService}}" target="_blank">@planSelectionItem["Terms Of Service Document"]</a></li>
-                                                    <li><a ng-href="{{plan.documents.yourRightsAsACustomer}}" target="_blank">@planSelectionItem["Your Rights As A Customer Document"]</a></li>
-                                                </ul>
-                                                <dl class="plan-selection-fees">
-                                                    <dt>@planSelectionItem["Stream Energy Charge Label"]</dt>
-                                                    <dd>{{ plan.streamEnergyCharge | number:1 }}&cent;</dd>
-                                                    <dt>@planSelectionItem["TDU Charges Label"]</dt>
-                                                    <dd ng-if="plan.tduCharges != ''">{{ plan.tduCharges }}</dd>
-                                                    <dd ng-if="plan.tduCharges == '' && plan.tdu == 'AEP Central Texas'">@planSelectionItem["Aep Central TDU Charges"]</dd>
-                                                    <dd ng-if="plan.tduCharges == '' && plan.tdu == 'AEP North Texas'">@planSelectionItem["Aep North TDU Charges"]</dd>
-                                                    <dd ng-if="plan.tduCharges == '' && plan.tdu == 'TNMP'">@planSelectionItem["Tnmp TDU Charges"]</dd>
-                                                    <dd ng-if="plan.tduCharges == '' && plan.tdu == 'ONCOR'">@planSelectionItem["Oncor TDU Charges"]</dd>
-                                                    <dd ng-if="plan.tduCharges == '' && plan.tdu == 'Centerpoint'">@planSelectionItem["Centerpoint TDU Charges"]</dd>
-                                                    <dd ng-if="plan.tduCharges == '' && plan.tdu == 'Sharyland McAllen'">@planSelectionItem["Sharyland Mcallen TDU Charges"]</dd>
-                                                    <dd ng-if="plan.tduCharges == '' && plan.tdu == 'Sharyland'">@planSelectionItem["Sharyland Utilities TDU Charges"]</dd>
-                                                    <dt>@planSelectionItem["Minimum Usage Fee Label"]</dt>
-                                                    <dd ng-bind-html="plan.minimumUsageFee | unsafe"></dd>
-                                                </dl>
-                                                <p ng-repeat="footnote in plan.calculatedFootnotes.active"><sup>{{footnoteDisplay[$index]}}</sup> {{footnote.value}}</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </article>
-                    </script>
-                    <script type="text/ng-template" id="planList/GeorgiaGas">
-                        <header class="enrollment__utility-plans-header" ng-init="footnotes['GeorgiaGas'] = @Html.JsonStringifyFields(planSelectionItem, "Gas Rate Footnote", "Gas Term Footnote")">
-                            <h1>@planSelectionItem["Gas Header"]</h1>
-                            <div class="service-address">
-                                {{ utilityPlan.serviceAddress.line1 }}<span ng-if="utilityplan.serviceaddress.line2"> {{ utilityPlan.serviceAddress.line2 }}</span><br>{{ utilityPlan.serviceAddress.city }}, {{ utilityPlan.serviceAddress.stateAbbreviation }} {{ utilityPlan.serviceAddress.postalCode5 }}
-                            </div>
-                        </header>
-                        <article class="enrollment__utility-plans">
-                            <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
-                                <thead class="hide-small">
-                                    <tr>
-                                        <th class="plan-header">@planSelectionItem["Gas Plan Name"]</th>
-                                        <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Gas Rate"]<sup>{{footnoteIndices['GeorgiaGas']['Gas Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                                        <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Gas Term"]<sup>{{footnoteIndices['GeorgiaGas']['Gas Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                                        <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Gas Fees"] <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                                        <th>@planSelectionItem["Gas Select Plan"]</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
-                                        <td class="plan-name" colspan="5">
-                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
-                                                <i class="icon-check"></i>
-                                            </span>
-                                            {{plan.name}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="plan-name hide-small">
-                                            <span ng-show="plan.rateType == 'fixed'" class="fixed">@planSelectionItem["Gas Fixed"]</span>
-                                            <span class="variable" ng-show="plan.rateType == 'variable'">@planSelectionItem["Gas Variable"]</span>
-                                            <div class="plan-title">{{plan.name}}</div>
-                                            <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
-                                                <span ng-if="!isOpen">@planSelectionItem["Gas View Details"] <i class="icon-blue-arrow-down"></i></span>
-                                                <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
-                                            </a>
-                                        </td>
-                                        <td class="rate">
-                                            ${{ plan.rate | number:3 }}<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@planSelectionItem["Gas Per Therm"]</span>
-                                        </td>
-                                        <td class="term" ng-if="plan.termMonths != '1'">
-                                            @Html.Sitecore().Field("Gas Term Months").Format(new { Count = "{{plan.termMonths}}", Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
-                                        </td>
-                                        <td class="term" ng-if="plan.termMonths == '1'">
-                                            @Html.Sitecore().Field("Gas Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
-                                        </td>
-                                        <td class="fees">
-                                            {{ plan.cancellationFee }}<span>@planSelectionItem["Gas Early Termination Fee"]<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
-                                        </td>
-                                        <td class="select-plan hide-small">
-                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
-                                                <i class="icon-check"></i>
-                                            </span>
-                                            <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
-                                                <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@planSelectionItem["Selected Button"]</span>
-                                                <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@planSelectionItem["Gas Button"]</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="hide-medium-large">
-                                        <td class="plan-actions" colspan="5">
-                                            <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
-                                                <span ng-if="!isOpen">@planSelectionItem["Gas View Details"] <i class="icon-blue-arrow-down"></i></span>
-                                                <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
-                                            </a>
-                                            <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
-                                                <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@planSelectionItem["Selected Button"]</span>
-                                                <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@planSelectionItem["Gas Button"]</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
-                                        <td colspan="6">
-                                            <div slide-down-show="isOpen">
-                                                <p>{{plan.description}}</p>
-                                                <ul class="plan-selection-list clearfix">
-                                                    <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@planSelectionItem["Letter of Agency Document"]</a></li>
-                                                    <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@planSelectionItem["Terms and Disclosures Document"]</a></li>
-                                                </ul>
-                                                <dl class="plan-selection-fees ga-plan-selection-fees">
-                                                    <dt>@planSelectionItem["Monthly Service Charge Label"]</dt>
-                                                    <dd>{{ plan.monthlyServiceCharge }}</dd>
-                                                </dl>
-                                                <p ng-repeat="footnote in plan.calculatedFootnotes.active" class="plan-footnote"><sup>{{footnoteDisplay[$index]}}</sup> {{footnote.value}}</p>
                 </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </article>
-                    </script>
-                </div>
+                <script type="text/ng-template" id="planList/TexasElectricity">
+                    <header class="enrollment__utility-plans-header" ng-init="footnotes['TexasElectricity'] = @Html.JsonStringifyFields(planSelectionItem, "Electricity Rate Footnote", "Electricity Term Footnote")">
+                        <h1>@planSelectionItem["Electricity Header"]</h1>
+                        <div class="service-address">
+                            {{ utilityPlan.serviceAddress.line1 }}<span ng-if="utilityplan.serviceaddress.line2"> {{ utilityPlan.serviceAddress.line2 }}</span><br>{{ utilityPlan.serviceAddress.city }}, {{ utilityPlan.serviceAddress.stateAbbreviation }} {{ utilityPlan.serviceAddress.postalCode5 }}
+                        </div>
+                    </header>
+                    <article class="enrollment__utility-plans">
+                        <div ng-include src="'multiple-tdu-modal'" ng-if="typedOffers.value.errors[0] == 'MultipleTdu'"></div>
+                        <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
+                            <thead class="hide-small">
+                                <tr>
+                                    <th class="plan-header">@planSelectionItem["Electricity Plan Name"]</th>
+                                    <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Electricity Rate"]<sup>{{footnoteIndices['TexasElectricity']['Electricity Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                                    <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Electricity Term"]<sup>{{footnoteIndices['TexasElectricity']['Electricity Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                                    <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Electricity Fees"] <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                                    <th>@planSelectionItem["Electricity Select Plan"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
+                                    <td class="plan-name" colspan="5">
+                                        <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
+                                            <i class="icon-check"></i>
+                                        </span>
+                                        {{plan.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="plan-name hide-small">
+                                        <span ng-show="plan.rateType == 'fixed'" class="fixed">@planSelectionItem["Electricity Fixed"]</span>
+                                        <span class="variable" ng-show="plan.rateType == 'variable'">@planSelectionItem["Electricity Variable"]</span>
+                                        <div class="plan-title">{{plan.name}}</div>
+                                        <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
+                                            <span ng-if="!isOpen">@planSelectionItem["Electricity View Details"] <i class="icon-blue-arrow-down"></i></span>
+                                            <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
+                                        </a>
+                                    </td>
+                                    <td class="rate">
+                                        {{ plan.rate | number:1 }}&cent;<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@planSelectionItem["Electricity Per kWh"]</span>
+                                    </td>
+                                    <td class="term" ng-if="plan.termMonths != '1'">
+                                        @Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{plan.termMonths}}", Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })<sup>{{plan.calculatedFootnotes.indices['Term Footnote']}}</sup>
+                                    </td>
+                                    <td class="term" ng-if="plan.termMonths == '1'">
+                                        @Html.Sitecore().Field("Electricity Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })<sup>{{plan.calculatedFootnotes.indices['Term Footnote']}}</sup>
+                                    </td>
+                                    <td class="fees">
+                                        ${{ plan.terminationFee }}<span>@planSelectionItem["Electricity Early Termination Fee"]<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
+                                    </td>
+                                    <td class="select-plan hide-small">
+                                        <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
+                                            <i class="icon-check"></i>
+                                        </span>
+                                        <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
+                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@planSelectionItem["Selected Button"]</span>
+                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@planSelectionItem["Electricity Button"]</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hide-medium-large">
+                                    <td class="plan-actions" colspan="5">
+                                        <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
+                                            <span ng-if="!isOpen">@planSelectionItem["Electricity View Details"] <i class="icon-blue-arrow-down"></i></span>
+                                            <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
+                                        </a>
+                                        <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
+                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@planSelectionItem["Selected Button"]</span>
+                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@planSelectionItem["Electricity Button"]</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
+                                    <td colspan="6">
+                                        <div slide-down-show="isOpen">
+                                            <p>{{plan.description}}</p>
+                                            <ul class="plan-selection-list clearfix">
+                                                <li><a ng-href="{{plan.documents.electricityFactsLabel}}" target="_blank">@planSelectionItem["Electricity Facts Label Document"]</a></li>
+                                                <li><a ng-href="{{plan.documents.termsOfService}}" target="_blank">@planSelectionItem["Terms Of Service Document"]</a></li>
+                                                <li><a ng-href="{{plan.documents.yourRightsAsACustomer}}" target="_blank">@planSelectionItem["Your Rights As A Customer Document"]</a></li>
+                                            </ul>
+                                            <dl class="plan-selection-fees">
+                                                <dt>@planSelectionItem["Stream Energy Charge Label"]</dt>
+                                                <dd>{{ plan.streamEnergyCharge | number:1 }}&cent;</dd>
+                                                <dt>@planSelectionItem["TDU Charges Label"]</dt>
+                                                <dd ng-if="plan.tduCharges != ''">{{ plan.tduCharges }}</dd>
+                                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'AEP Central Texas'">@planSelectionItem["Aep Central TDU Charges"]</dd>
+                                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'AEP North Texas'">@planSelectionItem["Aep North TDU Charges"]</dd>
+                                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'TNMP'">@planSelectionItem["Tnmp TDU Charges"]</dd>
+                                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'ONCOR'">@planSelectionItem["Oncor TDU Charges"]</dd>
+                                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'Centerpoint'">@planSelectionItem["Centerpoint TDU Charges"]</dd>
+                                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'Sharyland McAllen'">@planSelectionItem["Sharyland Mcallen TDU Charges"]</dd>
+                                                <dd ng-if="plan.tduCharges == '' && plan.tdu == 'Sharyland'">@planSelectionItem["Sharyland Utilities TDU Charges"]</dd>
+                                                <dt>@planSelectionItem["Minimum Usage Fee Label"]</dt>
+                                                <dd ng-bind-html="plan.minimumUsageFee | unsafe"></dd>
+                                            </dl>
+                                            <p ng-repeat="footnote in plan.calculatedFootnotes.active"><sup>{{footnoteDisplay[$index]}}</sup> {{footnote.value}}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </article>
+                </script>
+                <script type="text/ng-template" id="planList/GeorgiaGas">
+                    <header class="enrollment__utility-plans-header" ng-init="footnotes['GeorgiaGas'] = @Html.JsonStringifyFields(planSelectionItem, "Gas Rate Footnote", "Gas Term Footnote")">
+                        <h1>@planSelectionItem["Gas Header"]</h1>
+                        <div class="service-address">
+                            {{ utilityPlan.serviceAddress.line1 }}<span ng-if="utilityplan.serviceaddress.line2"> {{ utilityPlan.serviceAddress.line2 }}</span><br>{{ utilityPlan.serviceAddress.city }}, {{ utilityPlan.serviceAddress.stateAbbreviation }} {{ utilityPlan.serviceAddress.postalCode5 }}
+                        </div>
+                    </header>
+                    <article class="enrollment__utility-plans">
+                        <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
+                            <thead class="hide-small">
+                                <tr>
+                                    <th class="plan-header">@planSelectionItem["Gas Plan Name"]</th>
+                                    <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Gas Rate"]<sup>{{footnoteIndices['GeorgiaGas']['Gas Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                                    <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Gas Term"]<sup>{{footnoteIndices['GeorgiaGas']['Gas Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                                    <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@planSelectionItem["Gas Fees"] <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                                    <th>@planSelectionItem["Gas Select Plan"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
+                                    <td class="plan-name" colspan="5">
+                                        <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
+                                            <i class="icon-check"></i>
+                                        </span>
+                                        {{plan.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="plan-name hide-small">
+                                        <span ng-show="plan.rateType == 'fixed'" class="fixed">@planSelectionItem["Gas Fixed"]</span>
+                                        <span class="variable" ng-show="plan.rateType == 'variable'">@planSelectionItem["Gas Variable"]</span>
+                                        <div class="plan-title">{{plan.name}}</div>
+                                        <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
+                                            <span ng-if="!isOpen">@planSelectionItem["Gas View Details"] <i class="icon-blue-arrow-down"></i></span>
+                                            <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
+                                        </a>
+                                    </td>
+                                    <td class="rate">
+                                        ${{ plan.rate | number:3 }}<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@planSelectionItem["Gas Per Therm"]</span>
+                                    </td>
+                                    <td class="term" ng-if="plan.termMonths != '1'">
+                                        @Html.Sitecore().Field("Gas Term Months").Format(new { Count = "{{plan.termMonths}}", Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
+                                    </td>
+                                    <td class="term" ng-if="plan.termMonths == '1'">
+                                        @Html.Sitecore().Field("Gas Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
+                                    </td>
+                                    <td class="fees">
+                                        {{ plan.cancellationFee }}<span>@planSelectionItem["Gas Early Termination Fee"]<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
+                                    </td>
+                                    <td class="select-plan hide-small">
+                                        <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
+                                            <i class="icon-check"></i>
+                                        </span>
+                                        <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
+                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@planSelectionItem["Selected Button"]</span>
+                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@planSelectionItem["Gas Button"]</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hide-medium-large">
+                                    <td class="plan-actions" colspan="5">
+                                        <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
+                                            <span ng-if="!isOpen">@planSelectionItem["Gas View Details"] <i class="icon-blue-arrow-down"></i></span>
+                                            <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
+                                        </a>
+                                        <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
+                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@planSelectionItem["Selected Button"]</span>
+                                            <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@planSelectionItem["Gas Button"]</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
+                                    <td colspan="6">
+                                        <div slide-down-show="isOpen">
+                                            <p>{{plan.description}}</p>
+                                            <ul class="plan-selection-list clearfix">
+                                                <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@planSelectionItem["Letter of Agency Document"]</a></li>
+                                                <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@planSelectionItem["Terms and Disclosures Document"]</a></li>
+                                            </ul>
+                                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                                                <dt>@planSelectionItem["Monthly Service Charge Label"]</dt>
+                                                <dd>{{ plan.monthlyServiceCharge }}</dd>
+                                            </dl>
+                                            <p ng-repeat="footnote in plan.calculatedFootnotes.active" class="plan-footnote"><sup>{{footnoteDisplay[$index]}}</sup> {{footnote.value}}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </article>
+                </script>
             </div>
+        </div>
     </article>
 </div>
 }
