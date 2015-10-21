@@ -72,6 +72,9 @@
                             <div class="gsm-device">
                                 <strong>@Html.Sitecore().Field("Non ATT GSM Heading")</strong> @Html.Sitecore().Field("Non ATT GSM Message")
                             </div>
+                            <div class="gsm-device">
+                                @Html.Sitecore().Field("Same Technology Message")
+                            </div>
                         </div>
 
                         <div class="content bring-your-own" ng-if="phoneVerified">
@@ -396,6 +399,19 @@
         </div>
         <div class="modal-body">
             @Html.Sitecore().Field("Content - Activation Code Instructions")
+        </div>
+    </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="instructions/sametechnology">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - Same Technology")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - Same Technology")
         </div>
     </div>
     </div>
