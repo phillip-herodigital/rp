@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'uiGmapGoogleMapApi','uiGmapIsReady', '$location', 'jQuery', '$http', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'analytics', function ($scope, $filter, $modal, uiGmapGoogleMapApi,uiGmapIsReady, $location, jQuery, $http, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, analytics) {
+﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$modal', 'uiGmapGoogleMapApi','uiGmapIsReady', '$http', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'analytics', function ($scope, $modal, uiGmapGoogleMapApi, uiGmapIsReady, $http, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, analytics) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
@@ -11,8 +11,8 @@
     $scope.excludedStates = false;
     $scope.enrollmentStepsService = enrollmentStepsService;
 
-    var coverageMap = $(jQuery.find(".coverage-map-container"));
-    var dataCalculator = $(jQuery.find(".data-calculator-container"));
+    var coverageMap = angular.element(document.getElementsByClassName('coverage-map-container'));
+    var dataCalculator = angular.element(document.getElementsByClassName('data-calculator-container'));
 
     $scope.filterIndPlans = function(plan){
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
@@ -319,8 +319,6 @@
             }
         }
     };
-
-    //$scope.selectedNetwork = $location.search().carrier || 'att';
 
     $scope.layers = {
         att: {
