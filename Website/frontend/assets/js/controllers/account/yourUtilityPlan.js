@@ -14,9 +14,68 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
     $scope.activeFootnotes = [];
     $scope.footnoteIndices = {};
 
+    $http.get('/api/account/getAccounts').success(function (data, status, headers, config) {
+        $scope.accounts = _.filter(data, function (acct) {
+            return !$scope.filterAccountType || acct.accountType.toLowerCase() == $scope.filterAccountType.toLowerCase();
+        });
+
+        if ($scope.accounts.length == 0) {
+            $scope.updateSelectedAccount(false, false, false);
+        } else if ($scope.accounts.length == 2) {
+            // if 2 accounts, check if either is eligible to renew, and if so, default to that account
+            $scope.isLoading = true;
+            $http({
+                method: 'POST',
+                url: '/api/account/getUtilityPlan',
+                data: { 'accountNumber': $scope.accounts[1].accountNumber },
+                headers: { 'Content-Type': 'application/JSON' }
+            }).success(function (data, status, headers, config) {
+                $scope.accountId = data.accountId;
+                $scope.utilityPlan = data.subAccounts[0];
+                $scope.utilityPlans = data.subAccounts;
+                $scope.utilityPlansCount = data.subAccounts.length;
+                // get the plan description from sitecore if it exists
+                if (typeof $scope.utilityPlan != 'undefined') {
+                    var product = _.find($scope.georgiaProducts, { 'code': $scope.utilityPlan.productCode });
+                    $scope.utilityPlan.description = (product) ? product.description : null;
+                }
+                $scope.renewal = data.hasRenewalEligibiltiy;
+                $scope.streamConnectError = false;
+                if ($scope.renewal) {
+                    $scope.setupRenewal($scope.utilityPlan.id);
+                    $scope.currentAccount = $scope.accounts[1];
+                } else {
+                    $scope.isLoading = false;
+                    $scope.currentAccount = $scope.accounts[0];
+                }
+                $scope.accountsCount = $scope.accounts.length;
+                $scope.updateSelectedAccount($scope.currentAccount.accountNumber, $scope.currentAccount.subAccountLabel, $scope.currentSubAccount);
+            }).error(function () {
+                $scope.isLoading = false;
+                $scope.streamConnectError = true;
+            });
+        } else {
+            $scope.accountsCount = $scope.accounts.length;
+            $scope.currentAccount = $scope.accounts[0];
+            $scope.updateSelectedAccount($scope.currentAccount.accountNumber, $scope.currentAccount.subAccountLabel, $scope.currentSubAccount);
+        }
+        $scope.isLoading = false;
+        $scope.streamConnectError = false;
+
+    }).error(function () { 
+        $scope.isLoading = false;
+        $scope.streamConnectError = true; 
+    });
+
+    $scope.updateSelectedAccount = function(accountNumber, subAccountLabel, subaccount) {
+        $scope.selectedAccount.accountNumber = accountNumber;
+        $scope.selectedAccount.subAccountLabel = subAccountLabel;
+        $scope.selectedAccount.subaccount = subaccount;
+    };
+
     // when the account selector changes, reload the data
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
-        if (newVal) {
+        if (newVal && !$scope.isLoading) {
             $scope.isLoading = true;
             $http({
                 method: 'POST',
@@ -29,8 +88,10 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
                 $scope.utilityPlans = data.subAccounts;
                 $scope.utilityPlansCount = data.subAccounts.length;
                 // get the plan description from sitecore if it exists
-                var product = _.find($scope.georgiaProducts, { 'code': $scope.utilityPlan.productCode });
-                $scope.utilityPlan.description = (product) ? product.description : null;
+                if (typeof $scope.utilityPlan != 'undefined') {
+                    var product = _.find($scope.georgiaProducts, { 'code': $scope.utilityPlan.productCode });
+                    $scope.utilityPlan.description = (product) ? product.description : null;
+                }
                 $scope.renewal = data.hasRenewalEligibiltiy;
                 $scope.streamConnectError = false;
                 if ($scope.renewal) {
