@@ -13,7 +13,7 @@ angular.module('recordLog', []).provider('logger', function() {
 					data: {
 						Message: message,
 						Severity: severity,
-						Data: data
+						Data: JSON.stringify(data)
 					}
 				}).then(function successCallback(response) {
 					// TODO: implement

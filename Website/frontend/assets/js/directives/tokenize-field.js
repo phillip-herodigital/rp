@@ -13,7 +13,7 @@
                         if (data.action == "CE") {
                             deferred.resolve(data.data);
                         } else {
-                            _logger.log('Failed to tokenize credit card', 'Error', null);
+                            _logger.log('Failed to tokenize credit card', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4)});
                             deferred.reject();
                         }
                     };
@@ -28,7 +28,7 @@
                             // noop
                         }, function(response) {
                             if(response.status !== 404) {
-                                _logger.log('Failed to tokenize credit card', 'Error', null);
+                                _logger.log('Failed to tokenize credit card', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4)});
                                 ctrl.$setValidity('tokenizeField', false);
                                 deferred.reject();
                             }
