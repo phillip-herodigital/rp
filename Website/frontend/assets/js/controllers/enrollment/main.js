@@ -15,6 +15,9 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
         requestedPlanId: getParameterByName('MobilePlanId'),
         requestedNetwork: getParameterByName('network'),
     };
+    $scope.utilityEnrollment = {
+        requestedPlanId: getParameterByName('UtilityPlanId'),
+    };
 
     $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
         $scope.isLoading = newValue;

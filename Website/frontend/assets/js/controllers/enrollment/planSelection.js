@@ -44,6 +44,16 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;
                 }
             });
+            if ($scope.utilityEnrollment.requestedPlanId != '') {
+                var i = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
+                    return _(o.id).contains($scope.utilityEnrollment.requestedPlanId);
+                }),
+                plan = $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[i],
+                key = $scope.currentLocationInfo().offerInformationByType[0].key;
+                if (typeof plan != 'undefined') {
+                    $scope.planSelection.selectedOffers[key] = plan.id;
+                }
+            }
         }
 
         updateFootnotes();

@@ -132,7 +132,7 @@
             var devices = enrollmentCartService.getCartDevices();
 
             analytics.sendVariables(3, selectedOffer.data, 4, devices.length);
-            analytics.sendVariables(8, selectedOffer.id);
+            analytics.sendVariables(9, selectedOffer.id);
 
             // Add plan for each device, and add to the selected offers array
             for (var i = 0, len = devices.length; i < len; i++) {
