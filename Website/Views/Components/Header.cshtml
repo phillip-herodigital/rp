@@ -100,8 +100,10 @@
                     {
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" ng-click="loginNavToggle()">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a>
+                    <li class="dropdown" ng-class="{ active: !dropdownmenu}">
+                        <a class=" dropdown-toggle" ng-click="loginNavToggle()" ng-class="{ activeblock: !dropdownmenu }">
+                            @Html.Sitecore().Field("Account text", accountDataSourceItem)
+                        </a>
                         <div class="login dropdown-menu" ng-hide="dropdownmenu">
                             <h4>@Html.Sitecore().Field("Login Dropwdown Header", accountDataSourceItem)</h4>
                             <form ng-submit="login()">

@@ -70,8 +70,6 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
     $scope.dropdownmenu = true;
     $scope.loginNavToggle = function () {
         $scope.dropdownmenu = !$scope.dropdownmenu;
-            $(".dropdown").toggleClass('active');
-            $(".dropdown-toggle").toggleClass('active-block');
     }
     //header login
     $scope.formData = {};
