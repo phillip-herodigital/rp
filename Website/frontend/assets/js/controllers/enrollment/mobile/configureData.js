@@ -214,29 +214,40 @@
         if ($scope.mobileEnrollment.requestedPlanId != '' && devicesCount > 0) {
             $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';
             var activeService = enrollmentCartService.getActiveService();
-            var provider = mobileEnrollmentService.selectedNetwork.value
+            var provider = mobileEnrollmentService.selectedNetwork.value;
+            var firstDevice = enrollmentCartService.getCartDevices()[0];
             var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
             if (typeof offerInformationForType != 'undefined' && !offerInformationForType.value.offerSelections.length) {
+                var plansArray = $scope.mobileEnrollment.requestedPlanId.split('|');
+                var requestedPlan = _(offerInformationForType.value.availableOffers).find(function (offer){
+                    if (provider == 'sprint' && !firstDevice.lte) {
+                        return _(plansArray).contains(offer.id)
+                        && offer.nonLtePlan;
+                    } else {
+                        return _(plansArray).contains(offer.id)
+                        && !offer.nonLtePlan;
+                    }
+                });
                 $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
-                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                    return offer.id == requestedPlan.id 
                         && offer.provider.toLowerCase() == provider 
                         && !offer.isChildOffer
                         && (devicesCount == 1 || (devicesCount > 1 && offer.isParentOffer)) 
                 }).some();
 
                 var isGroupPlan = _(offerInformationForType.value.availableOffers).filter(function (offer){
-                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                    return offer.id == requestedPlan.id 
                         && offer.isParentOffer
                 }).some();
                 
                 $scope.requestedPlanProvider = _(offerInformationForType.value.availableOffers).filter(function (offer){
-                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                    return offer.id == requestedPlan.id
                 }).flatten().pluck('provider').first();
                 
                 $scope.requestedPlanNetwork = $scope.requestedPlanProvider == 'ATT' ? 'GSM' : 'CDMA';
 
                 if ($scope.requestedPlanAvailable) {
-                    var requestedOffer = { 'Mobile': $scope.mobileEnrollment.requestedPlanId };
+                    var requestedOffer = { 'Mobile': requestedPlan.id };
                     $scope.planSelection.selectedOffers = requestedOffer;
                     selectOffers(requestedOffer);
                     // select the shared plans tab if it's a group paln
