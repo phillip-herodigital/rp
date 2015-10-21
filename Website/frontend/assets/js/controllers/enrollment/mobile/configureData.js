@@ -89,12 +89,19 @@
                 $scope.isIndSelected = false; 
                 $scope.isGroupSelected = true;
             }
-            // if 0 or 1 phone, reset the the selected offers. otherwise, trigger a plan selection
-            if (newVal < 2 || typeof $scope.planSelection.selectedOffers.Mobile == 'undefined') {
+            if (typeof $scope.planSelection.selectedOffers.Mobile == 'undefined') {
                 $scope.planSelection = { selectedOffers: {} };
             } else {
-                // trigger a plan selection
-                selectOffers($scope.planSelection.selectedOffers);
+                var activeService = enrollmentCartService.getActiveService();
+                var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
+                var selectedOffer = _(offerInformationForType.value.availableOffers).find({ 'id': $scope.planSelection.selectedOffers.Mobile });
+                // clear the plan selection if more than 1 device but individual plan selected
+                if (newVal >= 2 && !selectedOffer.isParentOffer) {
+                    $scope.planSelection = { selectedOffers: {} };
+                } else {
+                     // trigger a plan selection
+                    selectOffers($scope.planSelection.selectedOffers);
+                }
             }
             
             // see if the requested plan is available, and if so, select it
@@ -216,6 +223,11 @@
                         && !offer.isChildOffer
                         && (devicesCount == 1 || (devicesCount > 1 && offer.isParentOffer)) 
                 }).some();
+
+                var isGroupPlan = _(offerInformationForType.value.availableOffers).filter(function (offer){
+                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                        && offer.isParentOffer
+                }).some();
                 
                 $scope.requestedPlanProvider = _(offerInformationForType.value.availableOffers).filter(function (offer){
                     return offer.id == $scope.mobileEnrollment.requestedPlanId 
@@ -227,6 +239,11 @@
                     var requestedOffer = { 'Mobile': $scope.mobileEnrollment.requestedPlanId };
                     $scope.planSelection.selectedOffers = requestedOffer;
                     selectOffers(requestedOffer);
+                    // select the shared plans tab if it's a group paln
+                    if (isGroupPlan) {
+                        $scope.isIndSelected = false; 
+                        $scope.isGroupSelected = true;
+                    } 
                 }
             }
         }
