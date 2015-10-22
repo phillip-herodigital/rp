@@ -66,12 +66,9 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
             });
         })
     };
-    // Login Nav Dorpdown
-    $scope.dropdownmenu = true;
-    $scope.loginNavToggle = function () {
-        $scope.dropdownmenu = !$scope.dropdownmenu;
-    }
-    //header login
+    // login nav dropdown
+    $scope.dropdownMenu = false;
+    // header login
     $scope.formData = {};
     $scope.isLoading = false;
     // process the form
@@ -86,20 +83,20 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
             data: $scope.formData,
             headers: { 'Content-Type': 'application/JSON' }
         })
-			.success(function (data, status, headers, config) {
-			    if (!data.success) {
-			        if (data.redirect) {
-			            $window.location.href = data.redirect;
-			        }
-			        $scope.isLoading = false;
-			        // if not successful, bind errors to error variables
-			        $window.location.href = '/auth/login?error=true&code=' + encodeURIComponent(data.validations[0].text);
+            .success(function (data, status, headers, config) {
+                if (!data.success) {
+                    if (data.redirect) {
+                        $window.location.href = data.redirect;
+                    }
+                    $scope.isLoading = false;
+                    // if not successful, bind errors to error variables
+                    $window.location.href = '/auth/login?error=true';
 
-			    } else {
-			        // if successful, send the user to the return URL
-			        $window.location.href = data.returnURI;
-			    }
-			});
+                } else {
+                    // if successful, send the user to the return URL
+                    $window.location.href = data.returnURI;
+                }
+            });
     };
 
     analytics.sendVariables(15, window.ASPNET_SessionId);
