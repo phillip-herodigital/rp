@@ -38,10 +38,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             else
             {
                 var dataDict = new Dictionary<string, object>();
-                if (!string.IsNullOrEmpty(request.Data))
-                {
-                   dataDict.Add("data", request.Data); 
-                }
+                dataDict.Add("logData", request.Data); 
                 await logger.Record(request.Message, request.Severity, dataDict);
                 return true;
             }

@@ -8,30 +8,32 @@
                 var rawField = inputValue.replace(/[^\d]/g, "");
                 var result = function (opts) {
                     var deferred = $q.defer();
-                    // The tokenizer does not provide a way to customize the callback, so we have no option but to declare a global variable
-                    $window.processToken = function (data) {
-                        if (data.action == "CE") {
-                            deferred.resolve(data.data);
-                        } else {
-                            _logger.log('Failed to tokenize credit card', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4)});
-                            deferred.reject();
-                        }
-                    };
                     var action = "CE";
                     var data = rawField;
                     if (opts && opts.routingNumber)
                     {
                         data = opts.routingNumber + "/" + data;
                     }
-                    $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + data + "&type=json")
+                    $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + data + "&type=json", {"callback":"processToken"})
                     .then(function(response) {
-                            // noop
-                        }, function(response) {
-                            if(response.status !== 404) {
-                                _logger.log('Failed to tokenize credit card', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4)});
-                                ctrl.$setValidity('tokenizeField', false);
+                            if (data.action == "CE") {
+                                deferred.resolve(data.data);
+                            } else {
+                                if (attributes.type == "bank") {
+                                    _logger.log('Failed to tokenize bank account', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4), 'tokenizerError': 'bankAccount'});
+                                } else {
+                                    _logger.log('Failed to tokenize credit card', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4), 'tokenizerError': 'creditCard'});
+                                }
                                 deferred.reject();
                             }
+                        }, function(response) {
+                            if (attributes.type == "bank") {
+                                _logger.log('Failed to tokenize bank account', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4), 'tokenizerError': 'bankAccount'});
+                            } else {
+                                _logger.log('Failed to tokenize credit card', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4), 'tokenizerError': 'creditCard'});
+                            }
+                            ctrl.$setValidity('tokenizeField', false);
+                            deferred.reject();
                     });
                     return deferred.promise;
                 };
