@@ -794,6 +794,7 @@
     <Compile Include="Conditions\CustomerPaperlessBillingCondition.cs" />
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
+    <Compile Include="Conditions\HasThermostatPlanCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\CurrentsController.cs" />
     <Compile Include="Controllers\ApiControllers\LogViewerController.cs" />
@@ -1638,6 +1639,7 @@
     <Content Include="Views\Components\Marketing\Mobile\Mobile Savings Banner.cshtml" />
     <Content Include="Views\Pages\Currents\Leaderboard.cshtml" />
     <Content Include="Views\Pages\Currents\RadioListing.cshtml" />
+    <Content Include="Views\Components\Marketing\Lyric FAQs.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

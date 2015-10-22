@@ -117,7 +117,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         mobileEnrollmentService.editedDevice = item;
         //remove the device from the cart items array
         enrollmentCartService.removeDeviceFromCart(item);
-        enrollmentCartService.setActiveService(service);
+        //enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
     };
 
@@ -139,7 +139,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         if (devicesCount == 0 && serviceType == 'Mobile') {
             enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
         } else if (devicesCount == 1) {
-            enrollmentCartService.setActiveService(service);
+            //enrollmentCartService.setActiveService(service);
             enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
         } else if (devicesCount > 1) {
             //make a server call to update the cart with the correct devices
