@@ -1591,6 +1591,16 @@
             margin-top: -3px;
         }
     }
+    .notice.alert {
+        background-image: none;
+        @include border-radius(0);
+        border-top: 1px solid #ffe973;
+        border-bottom: 1px solid #ffe973;
+        border-left: none;
+        border-right: none;
+        padding: 20px;
+        margin: 0 -20px 15px;
+    }
     .next-steps {
         .content {
             @include border-radius(0 0 5px 5px);
