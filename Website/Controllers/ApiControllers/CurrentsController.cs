@@ -618,7 +618,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             Item currentMonthItem;
             if (currentItem.Children.InnerChildren.Exists(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()))
             {
-               currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()).SingleOrDefault();
+               currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()).FirstOrDefault();
             }
             else
             {
@@ -646,10 +646,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             List<string> months = new List<string>();
 
-            Item currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == leaderList.ListDateText.ToLower()).SingleOrDefault();
+            Item currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == leaderList.ListDateText.ToLower()).FirstOrDefault();
             DateTime currentItemDate = Sitecore.DateUtil.IsoDateToDateTime(currentMonthItem.Fields["List Date"].Value);
 
-            List<Item> items = currentItem.Children.InnerChildren.Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value) < currentItemDate)
+            List<Item> items = currentItem.Children.InnerChildren.Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value) < currentItemDate && e.TemplateName == "Leader List")
                 .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).ToList();
             foreach (Item item in items)
             {
@@ -657,5 +657,133 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             return months;
         }
+        public static IEnumerable<RadioItem> GetCurrentsRadioItems(int startRowIndex, int maximumRows)
+        {
+            List<RadioItem> allRadioItems = new List<RadioItem>();
+            var today = DateTime.Now;
+            var radioItems = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
+                .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) < today && e.TemplateName == "Radio Item")
+                .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value))
+                .Slice(startRowIndex, maximumRows).ToList();
+
+            foreach (Item item in radioItems)
+            {
+                RadioItem radioItem = new RadioItem
+                {
+                    Title = item.Fields["Radio Title"].Value,
+                    Description = item.Fields["Radio Description"].Value,
+                    ItemDate = Sitecore.DateUtil.IsoDateToDateTime(item.Fields["Publish Date"].Value),
+                    Iframe = item.Fields["Speaker Iframe"].Value,
+                };
+                allRadioItems.Add(radioItem);
+            }
+            return allRadioItems;
+        }
+
+        public static int GetCurrentsRadioCount()
+        {
+            var today = DateTime.Now;
+            int radioItemsCount = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
+                .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) <= today).Count();
+            return radioItemsCount;
+        }
+
+        [HttpGet]
+        public IEnumerable<string> GetCurrentsRadioMonths()
+        {
+            var today = DateTime.Now;
+            var radioItems = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
+                .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) <= today)
+                .OrderBy(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value)).ToList();
+
+            DateTime firstItemDate = Sitecore.DateUtil.IsoDateToDateTime(radioItems.First().Fields["Publish Date"].Value);
+            DateTime lastItemDate = Sitecore.DateUtil.IsoDateToDateTime(radioItems.Last().Fields["Publish Date"].Value);
+            DateTime iterator = new DateTime(firstItemDate.Year, firstItemDate.Month, 1);
+
+            List<string> months = new List<string>();
+            while (iterator <= lastItemDate)
+            {
+                months.Add(iterator.ToString("MMMM") + " " + iterator.Year.ToString());               
+                iterator = iterator.AddMonths(1);
+            }
+            return months;
+        }
+
+        [HttpPost]
+        public dynamic LoadRadio(RadioRequest request)
+        {
+            var today = DateTime.Now;
+            var radioItems = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
+                .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) <= today)
+                .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value))
+                .Slice(request.startRowIndex, request.maximumRows).ToList();
+
+            string currentBlock = BuildRadioHtml(radioItems);
+            return new { html = currentBlock };
+        }
+
+        [HttpPost]
+        public dynamic GetCurrentsRadioFromFilter(RadioFilterRequest request)
+        {
+            List<RadioItem> allRadioItems = new List<RadioItem>();
+            string [] monthYear = request.filter.Split(' ');
+            var startDate = DateTime.Parse(monthYear[0] + ", 1," + monthYear[1]);
+            var endDate = startDate.AddMonths(1);
+            var radioItems = Sitecore.Context.Database.GetItem("{88E41B9A-DC8C-4A9E-8B60-BDB2A60681FB}").Children
+                .Where(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) >= startDate && Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value) < endDate)
+                .OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["Publish Date"].Value)).ToList();
+
+            string currentBlock = BuildRadioHtml(radioItems);
+            return new { html = currentBlock };
+        }
+
+        private string BuildRadioHtml(List<Item> radioItems)
+        {   
+            string currentBlock = "";
+            foreach (var r in radioItems.Select((radioItem, i) => new { i, radioItem }))
+            {
+                RadioItem radioItem = new RadioItem
+                {
+                    Title = r.radioItem.Fields["Radio Title"].Value,
+                    Description = r.radioItem.Fields["Radio Description"].Value,
+                    ItemDate = Sitecore.DateUtil.IsoDateToDateTime(r.radioItem.Fields["Publish Date"].Value),
+                    Iframe = r.radioItem.Fields["Speaker Iframe"].Value,
+                };
+                string articleText = "";
+
+                var gridClasses = "<div class=\"grid-item medium-large ";
+                if (r.i == 0 || r.i == 1 || r.i == 4 || r.i == 6)
+                {
+                    gridClasses += " grid-item--width2";
+                }
+                else if (r.i == 3)
+                {
+                    gridClasses += " grid-item--width4";
+                }
+                else if (r.i == 2 || r.i == 5)
+                {
+                    gridClasses += " grid-item--width3";
+                }
+
+                gridClasses += "\">";
+
+                articleText += "<span class=\"article-date\">" + radioItem.ItemDate.ToString("MMMM d, yyyy") + "</span>" +
+                     "<h2>" + radioItem.Title + "</h2>" +
+                     "<div class=\"article-summary\" ellipsis>";
+
+                articleText += radioItem.Description;
+
+                articleText += "</div>";
+                articleText += radioItem.Iframe;
+                currentBlock += gridClasses + articleText + "</div>";
+                // create the block for mobile styles
+
+                gridClasses = "<div class=\"grid-item small ";
+
+                currentBlock += gridClasses + "\">" + articleText + "</div>";
+            }
+            return currentBlock;
+        }
+        
     }
 }

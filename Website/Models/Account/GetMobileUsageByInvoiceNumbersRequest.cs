@@ -5,12 +5,10 @@ using System.Web;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
-    public class GetMobileUsageRequest
+    public class GetMobileUsageByInvoiceIdsRequest
     {
         public string AccountNumber { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
+        public string[] InvoiceIds { get; set; }
     }
 }

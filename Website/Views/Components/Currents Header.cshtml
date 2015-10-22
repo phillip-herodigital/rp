@@ -86,7 +86,7 @@
                     </span>
                     @Html.Sitecore().Field("Mobile Rates Dropdown", blogDataSourceItem)
                 </li>
-                <li>@Html.Sitecore().Field("Leaderboard", blogDataSourceItem)</li>
+                @Html.Sitecore().Field("Header Links", blogDataSourceItem)
             </ul>
         </nav>
     </script>
@@ -113,7 +113,7 @@
                         @Html.Sitecore().Field("Rates Dropdown", blogDataSourceItem)
                     </span>
                 </li>
-                <li>@Html.Sitecore().Field("Leaderboard", blogDataSourceItem)</li>
+                @Html.Sitecore().Field("Header Links", blogDataSourceItem)
             </ul>
             <div class="search">
                 <form ng-submit="searchCurrents()">
@@ -160,4 +160,11 @@
 else
 {
     <div class="banner currents__banner @category" style="@Html.AsBackgroundStyle("Top Banner", Sitecore.Context.Item)"></div>
+    
+    if (Sitecore.Context.Item.TemplateName == "Radio")
+    {
+        <div class="currents__tagline radio">
+            @Html.Sitecore().Field("Tag Line Text", dataSourceItem)
+        </div>
+    }
 }

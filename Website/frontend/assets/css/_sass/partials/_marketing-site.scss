@@ -3653,10 +3653,17 @@ div.mobile.sim-activation {
     }
     footer {
         button.tertiary {
+            background-color: $enrollment-tertiary-button-background;
+            background-image: none;
+            color: $enrollment-tertiary-button-color;
+            border-color: #e6e6e6;
+            text-shadow: none;
+            text-transform: none;
             float: left;
-            padding-left: 0;
             font-weight: 300;
-            color: $mobile-gsm-color;
+            padding: 10px 0;
+            border: none;
+            @include box-shadow(none);
         }
     }
     .data-intro {

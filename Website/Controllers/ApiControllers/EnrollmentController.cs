@@ -134,56 +134,73 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<VerifyImeiResponse> VerifyImei([FromBody]string imei)
         {
-            if (imei == "111")
+            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
             {
-                return new VerifyImeiResponse
+                if (imei == "111")
                 {
-                    IsValidImei = true,
-                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
-                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
-                    Manufacturer = "Samsung"
-                };
-            }
-            if (imei == "222")
-            {
-                return new VerifyImeiResponse
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
+                        Manufacturer = "Samsung"
+                    };
+                }
+                if (imei == "222")
                 {
-                    IsValidImei = true,
-                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
-                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
-                    Manufacturer = "Apple"
-                };
-            }
-            if (imei == "333")
-            {
-                return new VerifyImeiResponse
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.ATT,
+                        Manufacturer = "Apple Inc"
+                    };
+                }
+                if (imei == "333")
                 {
-                    IsValidImei = true,
-                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
-                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
-                    Manufacturer = "Samsung"
-                };
-            }
-            if (imei == "444")
-            {
-                return new VerifyImeiResponse
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Samsung",
+                        DeviceType = "U",
+                    };
+                }
+                if (imei == "444")
                 {
-                    IsValidImei = true,
-                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
-                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
-                    Manufacturer = "Apple"
-                };
-            }
-            if (imei == "555")
-            {
-                return new VerifyImeiResponse
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Apple",
+                        DeviceType = "U",
+                    };
+                }
+                if (imei == "555")
                 {
-                    IsValidImei = true,
-                    VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
-                    Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
-                    Manufacturer = "Apple",
-                    ICCID = "1234567890"
-                };
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Apple",
+                        ICCID = "1234567890",
+                        DeviceType = "U",
+                    };
+                }
+                if (imei == "666")
+                {
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.Success,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Samsung",
+                        DeviceType = "E",
+                    };
+                }
             }
             
             return await enrollmentService.VerifyImei(imei);

@@ -160,6 +160,9 @@
                         </div>
                         <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
                     </div>
+                    <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
+                        @Html.Sitecore().Field("Thermostat Text")
+                    </div>
                     <div class="line-item clearfix" ng-if="!isRenewal">
                         <div class="description sub-charge">
                             <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
@@ -276,6 +279,11 @@
             {{ getDevicesCount() }} @Html.Sitecore().Field("Group Plan Text")
         </div>
     </div>
+    <div ng-if="!confirmationSuccess" ng-cloak>
+        <div class="notice alert">
+            @Html.Sitecore().Field("Confirmation Error Mobile")
+        </div>
+    </div>
     @*
     <div ng-if="!confirmationSuccess && !sprintByod" ng-cloak>
         <div class="notice alert">
@@ -348,22 +356,38 @@
                         <p class="note">@Html.Sitecore().Field("SIM Card Description")</p>
                     </div>
                 </div>
-                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber == null)">
+                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && !dataPlan.nonLtePlan && selectedOffer.offerOption.iccidNumber == null)">
                     <div>
                         <h3>@Html.Sitecore().Field("ICCID Card Text")</h3>
                         <p class="note">@Html.Sitecore().Field("ICCID Card Description")</p>
                     </div>
                 </div>
-                <div class="line-item clearfix">
+                <div class="line-item clearfix next-steps-content">
                     @Html.Sitecore().Field("Mobile Next Steps")
                     <div ng-if="(dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber == null)">
                         @Html.Sitecore().Field("SIM Card Activation")
                     </div>
-                    <div ng-if="(dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber == null)">
+                    <div ng-if="(dataPlan.provider == 'Sprint' && !dataPlan.nonLtePlan && selectedOffer.offerOption.iccidNumber == null)">
                         @Html.Sitecore().Field("ICCID Card Activation")
                     </div>
-                    <div ng-if="((dataPlan.provider == 'Sprint' && selectedOffer.offerOption.iccidNumber != null) || (dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber != null))">
-                        @Html.Sitecore().Field("Activation Instructions")
+                    <div ng-if="(dataPlan.provider == 'Sprint' && (dataPlan.nonLtePlan || selectedOffer.offerOption.iccidNumber != null))">
+                        <div ng-if="!selectedOffer.offerOption.activeDevice && selectedOffer.offerOption.transferInfo == null">
+                            @Html.Sitecore().Field("Activation Instructions New")
+                        </div>
+                        <div ng-if="!selectedOffer.offerOption.activeDevice && selectedOffer.offerOption.transferInfo != null">
+                            @Html.Sitecore().Field("Activation Instructions Transfer")
+                        </div>
+                        <div ng-if="selectedOffer.offerOption.activeDevice">
+                            @Html.Sitecore().Field("Activation Instructions Active")
+                        </div>
+                    </div>
+                    <div ng-if="(dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber != null)">
+                        <div ng-if="selectedOffer.offerOption.transferInfo == null">
+                            @Html.Sitecore().Field("Activation Instructions New - GSM")
+                        </div>
+                        <div ng-if="selectedOffer.offerOption.transferInfo != null">
+                            @Html.Sitecore().Field("Activation Instructions Transfer - GSM")
+                        </div>
                     </div>
                 </div>
             </div>

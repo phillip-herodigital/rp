@@ -2,6 +2,7 @@
 @using StreamEnergy.MyStream.Models.Currents;
 @{
     string liClass = "";
+    string spanClass = "";
     string filterValue = "";
     string month = DateTime.Now.ToString("MMMM");
     string year = DateTime.Now.Year.ToString();
@@ -64,6 +65,7 @@
                 for (int i = 0; i < leaderList.RegionalDirectors.Keys.Count; i++)
                 {
                     liClass = "";
+                    spanClass = "";
                     string index = leaderList.RegionalDirectors.Keys[i];
                     string value = Server.UrlDecode(leaderList.RegionalDirectors.GetValues(i).First());
                     string[] nameState = value.Split(',');
@@ -71,7 +73,15 @@
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Regional Director"), @nameState[1]</span></div></li>
+                    if (nameState[0].Length > 20)
+                    {
+                        spanClass = "smallText";
+                    }
+                    if (nameState[0].Length > 30)
+                    {
+                        spanClass = "smallerText";
+                    }
+                    <li class="@liClass"><div class="index">@index</div><div><span class="directorName @spanClass">@nameState[0]</span><span class="directorState">@Html.Sitecore().Field("Regional Director"), @nameState[1]</span></div></li>
                    
                 }
                 }
@@ -97,6 +107,7 @@
                 for (int i = 0; i < leaderList.ManagingDirectors.Keys.Count; i++)
                 {
                     liClass = "";
+                    spanClass = "";
                     string index = leaderList.ManagingDirectors.Keys[i];
                     string value = Server.UrlDecode(leaderList.ManagingDirectors.GetValues(i).First());
                     string[] nameState = value.Split(',');
@@ -104,7 +115,15 @@
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Managing Director"), @nameState[1]</span></div></li>
+                    if (nameState[0].Length > 20)
+                    {
+                        spanClass = "smallText";
+                    }
+                    if (nameState[0].Length > 30)
+                    {
+                        spanClass = "smallerText";
+                    }
+                    <li class="@liClass"><div class="index">@index</div><div><span class="directorName @spanClass">@nameState[0]</span><span class="directorState">@Html.Sitecore().Field("Managing Director"), @nameState[1]</span></div></li>
 
                 }
                 }
@@ -137,7 +156,15 @@
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Senior Director"), @nameState[1]</span></div></li>
+                    if (nameState[0].Length > 20)
+                    {
+                        spanClass = "smallText";
+                    }
+                    if (nameState[0].Length > 30)
+                    {
+                        spanClass = "smallerText";
+                    }
+                    <li class="@liClass"><div class="index">@index</div><div><span class="directorName @spanClass">@nameState[0]</span><span class="directorState">@Html.Sitecore().Field("Senior Director"), @nameState[1]</span></div></li>
 
                 }
                 }
@@ -170,7 +197,15 @@
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Executive Director"), @nameState[1]</span></div></li>
+                    if (nameState[0].Length > 20)
+                    {
+                        spanClass = "smallText";
+                    }
+                    if (nameState[0].Length > 30)
+                    {
+                        spanClass = "smallerText";
+                    }
+                    <li class="@liClass"><div class="index">@index</div><div><span class="directorName @spanClass">@nameState[0]</span><span class="directorState">@Html.Sitecore().Field("Executive Director"), @nameState[1]</span></div></li>
 
                 }
                 }
