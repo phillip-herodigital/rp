@@ -105,7 +105,7 @@
                             @Html.Sitecore().Field("Account text", accountDataSourceItem)
                         </a>
                         <div class="login dropdown-menu" ng-hide="dropdownmenu">
-                            <h4>@Html.Sitecore().Field("Login Dropwdown Header", accountDataSourceItem)</h4>
+                            <h4>@Html.Sitecore().Field("Login Dropdown Header", accountDataSourceItem)</h4>
                             <form ng-submit="login()">
                                 <div>
                                     <input data-val="true" id="Username" name="Username" ng-model="formData.username" type="text" value="">
@@ -114,16 +114,16 @@
                                     <input data-val="true" id="Password" name="Password" ng-model="formData.password" type="password">
                                 </div>
                                 <div class="cta button">
-                                    <button type="submit" data-val-submit="">@Html.Sitecore().Field("Login Dropwdown Button Text", accountDataSourceItem)</button>
+                                    <button type="submit" data-val-submit="">@Html.Sitecore().Field("Login Dropdown Button Text", accountDataSourceItem)</button>
                                 </div>
                                 <div>
                                     <span>
-                                        @Html.Sitecore().Field("Login Dropwdown Forgot Credentials", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Forgot Credentials", accountDataSourceItem)
                                     </span>
                                 </div>
                                 <div>
                                     <span>
-                                        @Html.Sitecore().Field("Login Dropwdown Signup Content", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Signup Content", accountDataSourceItem)
                                     </span>
                                 </div>
                             </form>
