@@ -100,7 +100,39 @@
                     {
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
-                    <li><a href="/auth/login">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
+                    <li class="dropdown" ng-class="{ active: !dropdownmenu}">
+                        <a class=" dropdown-toggle" ng-click="loginNavToggle()" ng-class="{ activeblock: !dropdownmenu }">
+                            @Html.Sitecore().Field("Account text", accountDataSourceItem)
+                        </a>
+                        <div class="login dropdown-menu" ng-hide="dropdownmenu">
+                            <h4>@Html.Sitecore().Field("Login Dropdown Header", accountDataSourceItem)</h4>
+                            <form ng-submit="login()">
+                                <div>
+                                    <input data-val="true" id="Username" name="Username" ng-model="formData.username" type="text" value="">
+                                </div>
+                                <div>
+                                    <input data-val="true" id="Password" name="Password" ng-model="formData.password" type="password">
+                                </div>
+                                <div class="cta button">
+                                    <button type="submit" data-val-submit="">@Html.Sitecore().Field("Login Dropdown Button Text", accountDataSourceItem)</button>
+                                </div>
+                                <div>
+                                    <span>
+                                        @Html.Sitecore().Field("Login Dropdown Forgot Credentials", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Forgot Username", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Forgot Credentials Divider", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Forgot Password", accountDataSourceItem)
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        @Html.Sitecore().Field("Login Dropdown Signup Content", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Signup Link", accountDataSourceItem)
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
                     <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
                 </ul>
             }
