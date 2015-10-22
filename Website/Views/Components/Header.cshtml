@@ -68,8 +68,8 @@
                     {
                         <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
-                    <li><a href="/auth/login">@Html.Sitecore().Field("Manage text", accountDataSourceItem)</a></li>
                     <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
+                    <li><a href="/auth/login">@Html.Sitecore().Field("Manage text", accountDataSourceItem)</a></li>
                 }
                 else
                 {
@@ -100,6 +100,7 @@
                     {
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
+                    <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
                     <li class="dropdown" ng-class="{ active: !dropdownmenu}">
                         <a class=" dropdown-toggle" ng-click="loginNavToggle()" ng-class="{ activeblock: !dropdownmenu }">
                             @Html.Sitecore().Field("Account text", accountDataSourceItem)
@@ -133,7 +134,6 @@
                             </form>
                         </div>
                     </li>
-                    <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
                 </ul>
             }
         </div>

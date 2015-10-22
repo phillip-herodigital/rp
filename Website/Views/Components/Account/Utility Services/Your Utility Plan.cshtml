@@ -1,14 +1,10 @@
 ﻿@{
     Sitecore.Data.Items.Item planSelectionItem = Sitecore.Context.Database.GetItem("{D8AEA06C-0280-4AED-B7D0-3C2A9EBE4FD6}");
+    Sitecore.Data.Items.Item accountSelectorItem = Sitecore.Context.Database.GetItem("{251ADC7E-2488-4D2C-90CB-6C5E4D8F0027}");
 }
 @using (new Sitecore.Data.Items.ContextItemSwitcher(planSelectionItem))
 {
 <div ng-controller="AcctYourUtilityPlanCtrl" ng-cloak>
-    <article class="plain renew-plan" ng-if="!isLoading && !renewal">
-        <div>
-            @Html.Sitecore().Field("Renew Ineligible Intro")
-        </div>
-    </article>
     <div stream-connect-errors="AcctYourUtilityPlanCtrl"></div>
 
     <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && renewal">
@@ -20,7 +16,40 @@
                 </div>
             </div>
     </article>
+    
+    <article class="service-identification" ng-hide="accountsCount == 0 || !accountsCount" ng-init="allowSubAccount = @(!string.IsNullOrEmpty(accountSelectorItem["Allow ID Selection"]) ? "true" : "false"); filterAccountType = '@accountSelectorItem["Filter Account Type"]'">
+        <div class="content">
+            <div class="account-selector stretch">
+                <form>
+                    <div class="group">
+                        <div class="item">
+                            <label for="AccountNumber">@accountSelectorItem["Account Number Text"]</label>
+                            <select ng-if="accountsCount > 1" name="AccountNumber" id="AccountNumber" ng-model="currentAccount" ng-options="account.accountNumber for account in accounts track by account.accountNumber" ng-change="currentSubAccount = currentAccount.subAccounts[0]; updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                            <span ng-if="accountsCount == 1">{{ currentAccount.accountNumber }}</span>
+                        </div>
+                        <div class="item" ng-if="allowSubAccount && currentAccount.subAccounts">
+                            <label for="SubAccount">{{ currentAccount.subAccountLabel }}</label>
+                            <select class="input--small" name="SubAccount" id="SubAccount" ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            @*base this on subAccount Key - Utility, Homelife, Mobile, etc*@
+            <div ng-if="allowSubAccount && currentAccount.subAccounts" ng-include src="'subAccountKey/' + currentSubAccount.key"></div>
+        </div>
+    </article>
+    <script type="text/ng-template" id="subAccountKey/Utility">
+        <div class="service-address">
+            <p>@accountSelectorItem["Service Address Text"] {{ currentSubAccount.serviceAddress.line1 }}, {{ currentSubAccount.serviceAddress.city }}, {{ currentSubAccount.serviceAddress.stateAbbreviation }} {{ currentSubAccount.serviceAddress.postalCode5 }}</p>
+        </div>
+    </script>
 
+    <article class="plain renew-plan" ng-if="!isLoading && !renewal" ng-hide="accountsCount == 0 || !accountsCount">
+        <div>
+            @Html.Sitecore().Field("Renew Ineligible Intro")
+        </div>
+    </article>
+    
     <article class="plain renew-plan" ng-if="utilityPlan.customerType != 'commercial' && !renewal && renewalRedirect">
         <div class="notice message">
             @Html.Sitecore().Field("Renew Ineligible Text")
