@@ -107,7 +107,25 @@
                         <div class="login dropdown-menu" ng-hide="dropdownmenu">
                             <h4>@Html.Sitecore().Field("Login Dropwdown Header", accountDataSourceItem)</h4>
                             <form ng-submit="login()">
-                                @Html.Sitecore().Field("Login Dropwdown Content", accountDataSourceItem)
+                                <div>
+                                    <input data-val="true" id="Username" name="Username" ng-model="formData.username" type="text" value="">
+                                </div>
+                                <div>
+                                    <input data-val="true" id="Password" name="Password" ng-model="formData.password" type="password">
+                                </div>
+                                <div class="cta button">
+                                    <button type="submit" data-val-submit="">@Html.Sitecore().Field("Login Dropwdown Button Text", accountDataSourceItem)</button>
+                                </div>
+                                <div>
+                                    <span>
+                                        @Html.Sitecore().Field("Login Dropwdown Forgot Credentials", accountDataSourceItem)
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        @Html.Sitecore().Field("Login Dropwdown Signup Content", accountDataSourceItem)
+                                    </span>
+                                </div>
                             </form>
                         </div>
                     </li>
