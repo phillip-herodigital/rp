@@ -28,6 +28,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ClientData()
         {
+            inner.Reset();
             inner.Initialize().Wait();
             return this.Content(StreamEnergy.Json.Stringify(inner.ClientData()));
         }
