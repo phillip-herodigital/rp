@@ -3355,18 +3355,115 @@ article.mobile.mobile-plans-usage-calculator {
     }
 }
 article.marketing.validate-esn {
-    p {
-        margin-bottom: 1em;
+    h1 {
+        margin: 1.5em 0;
     }
-    label {
-        span {
-            display: block;
-            font-size: 13px;
+    .device-error, .device-success {
+        background-color: #ee6348;
+        margin: 20px 40px;
+        padding: 30px 20px;
+        line-height: 1.2;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 400;
+        a {
+            font-size: 20px;
+            font-weight: 500;
+            color: #fff;
+        }
+        .button {
+            display: inline-block;
+            text-transform: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            background-color: #2aa4dc;
+            border: 1px solid #229acd;
+            padding: 10px 40px;
+            @include border-radius(5px);
+            @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
+            margin-left: 20px;
+            @include breakpoint(small-medium) {
+                margin-left: 0;
+                margin-top: 10px;
+            }
         }
     }
-    .btn-group-options {
-        label {
+    .device-success {
+        background-color: #74bc4b;
+    }
+    .item {
+        margin-bottom: 15px;
+        display: inline-block;
+        width: 70%;
+        border-right: 1px solid #d9dadb;
+        padding: 0 40px;
+        input {
+            height: 46px;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            box-shadow: none;
+            width: 100%;
+            margin-top: 10px;
+        }
+        h3 {
+            font-size: 24px;
+            font-weight: 400;
+            margin: 0;
+        }
+    }
+    .side-content {
+        display: inline-block;
+        width: 26%;
+        padding: 0 40px;
+        vertical-align: top;
+    }
+    @include breakpoint(small-medium) {
+        .item {
+            width: 100%;
+            border-right: none;
+        }
+        .side-content {
             display: block;
+            width: 100%;
+        }
+    }
+    @include breakpoint(small) {
+        .item, .side-content {
+            padding: 0;
+        }
+        .device-error, .device-success {
+            margin: 20px 0;
+        }
+    }
+    .input-group {
+        margin: 10px 0;
+        z-index: 1;
+        label {
+            font-size: 16px;
+            font-weight: 400;
+        }
+        label a {
+            float: right;
+        }
+        button {
+            display: inline-block;
+            float: right;
+            text-transform: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            background-color: #2aa4dc;
+            border: 1px solid #229acd;
+            padding: 10px 40px;
+            @include border-radius(5px);
+            @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
+            margin-top: 32px;
+            @include breakpoint(small) {
+                margin-top: 10px;
+                width: 100%;
+            }
         }
     }
 }
