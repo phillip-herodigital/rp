@@ -1,5 +1,13 @@
 ﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', 'logger', function ($http, $q, $parse, $window, logger) {
     var _logger = logger;
+    var writeLog = function (attributes, rawField, response) {
+        response.config.url = response.config.url.replace(/data=[\d\\]*&/, "data=XXXX&");
+        if (attributes.type == "bank") {
+            _logger.log('Failed to tokenize bank account', 'Error', { 'first2': rawField.substring(0, 2), 'last4': rawField.substr(rawField.length - 4), 'tokenizerError': 'bankAccount', response: response });
+        } else {
+            _logger.log('Failed to tokenize credit card', 'Error', { 'first2': rawField.substring(0, 2), 'last4': rawField.substr(rawField.length - 4), 'tokenizerError': 'creditCard', response: response });
+        }
+    };
     return {
         require: 'ngModel',
         link: function ($scope, element, attrs, ctrl) {
@@ -14,27 +22,24 @@
                     {
                         data = opts.routingNumber + "/" + data;
                     }
+                    $window.processToken = function (data) {
+                        $window.angular.callbacks[funcName](data);
+                    };
                     $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + data + "&type=json", {"callback":"processToken"})
-                    .then(function(response) {
-                            if (data.action == "CE") {
-                                deferred.resolve(data.data);
-                            } else {
-                                if (attributes.type == "bank") {
-                                    _logger.log('Failed to tokenize bank account', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4), 'tokenizerError': 'bankAccount'});
-                                } else {
-                                    _logger.log('Failed to tokenize credit card', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4), 'tokenizerError': 'creditCard'});
-                                }
-                                deferred.reject();
-                            }
-                        }, function(response) {
-                            if (attributes.type == "bank") {
-                                _logger.log('Failed to tokenize bank account', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4), 'tokenizerError': 'bankAccount'});
-                            } else {
-                                _logger.log('Failed to tokenize credit card', 'Error', {'first2': rawField.substring(0,2), 'last4': rawField.substr(rawField.length -4), 'tokenizerError': 'creditCard'});
-                            }
-                            ctrl.$setValidity('tokenizeField', false);
+                    .then(function (response) {
+                        if (response.data.action == "CE") {
+                            deferred.resolve(response.data.data);
+                        } else {
+                            writeLog(attributes, rawField, response);
                             deferred.reject();
+                        }
+                    }, function(response) {
+                        writeLog(attributes, rawField, response);
+                        ctrl.$setValidity('tokenizeField', false);
+                        deferred.reject();
                     });
+
+                    var funcName = '_' + $window.angular.callbacks.counter.toString(36);
                     return deferred.promise;
                 };
                 result.redacted = "************" + rawField.slice(-4)
