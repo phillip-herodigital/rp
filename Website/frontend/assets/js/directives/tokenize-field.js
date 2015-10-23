@@ -1,32 +1,45 @@
-﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', function ($http, $q, $parse, $window) {
+﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', 'logger', function ($http, $q, $parse, $window, logger) {
+    var _logger = logger;
+    var writeLog = function (attributes, rawField, response) {
+        response.config.url = response.config.url.replace(/data=[\d\\]*&/, "data=XXXX&");
+        if (attributes.type == "bank") {
+            _logger.log('Failed to tokenize bank account', 'Error', { 'first2': rawField.substring(0, 2), 'last4': rawField.substr(rawField.length - 4), 'tokenizerError': 'bankAccount', response: response });
+        } else {
+            _logger.log('Failed to tokenize credit card', 'Error', { 'first2': rawField.substring(0, 2), 'last4': rawField.substr(rawField.length - 4), 'tokenizerError': 'creditCard', response: response });
+        }
+    };
     return {
         require: 'ngModel',
         link: function ($scope, element, attrs, ctrl) {
-            var attributes = $scope.$eval(attrs.tokenizeField)
+            var attributes = $scope.$eval(attrs.tokenizeField);
             ctrl.$parsers.push(function (inputValue) {
                 var rawField = inputValue.replace(/[^\d]/g, "");
                 var result = function (opts) {
                     var deferred = $q.defer();
-                    
-                    // The tokenizer does not provide a way to customize the callback, so we have no option but to declare a global variable
-                    $window.processToken = function (data) {
-                        if (data.action == "CE") {
-                            deferred.resolve(data.data);
-                        } else {
-                            deferred.reject();
-                        }
-                    };
                     var action = "CE";
                     var data = rawField;
                     if (opts && opts.routingNumber)
                     {
                         data = opts.routingNumber + "/" + data;
                     }
-                    $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + data + "&type=json")
-                    .error(function (data, status, headers, config) {
+                    $window.processToken = function (data) {
+                        $window.angular.callbacks[funcName](data);
+                    };
+                    $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + data + "&type=json", {"callback":"processToken"})
+                    .then(function (response) {
+                        if (response.data.action == "CE") {
+                            deferred.resolve(response.data.data);
+                        } else {
+                            writeLog(attributes, rawField, response);
+                            deferred.reject();
+                        }
+                    }, function(response) {
+                        writeLog(attributes, rawField, response);
+                        ctrl.$setValidity('tokenizeField', false);
                         deferred.reject();
                     });
 
+                    var funcName = '_' + $window.angular.callbacks.counter.toString(36);
                     return deferred.promise;
                 };
                 result.redacted = "************" + rawField.slice(-4)

@@ -1,5 +1,6 @@
 ﻿@model StreamEnergy.DomainModels.Payments.TokenizedBank
 <div ng-init="bankTypes = @(Html.Action("BankCategories", "Data").ToHtmlString());">
+    <div stream-connect-errors="AddCreditCardCtrl"></div>
     <div class="item" @Html.Validation().ErrorClass(m => m.Category)>
         <label for="@Html.IdFor(m => m.Category)">@Html.Sitecore().Field("Account Type Label")</label>
         @Html.DropDownListFor(m => m.Category, new [] { new SelectListItem { Value = Html.Sitecore().Field("Please Choose").ToString() } }, new { ng_model = "bankCtrl.category", data_val_if="bankCtrl.validate", ng_options = "bankType.name as bankType.display for bankType in bankTypes" })
