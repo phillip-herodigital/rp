@@ -265,7 +265,9 @@
                         scope.$digest();
                         var offset = angular.element(document.querySelector('header.site-header'))[0].offsetHeight;
                         var summary = angular.element(document.getElementById('validation-summary'));
-                        $document.scrollToElement(summary, offset);
+                        if (summary.is(":visible")) {
+                            $document.scrollToElement(summary, offset);
+                        }
                     }
                 });
                 /*
