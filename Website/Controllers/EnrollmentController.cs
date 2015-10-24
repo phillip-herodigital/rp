@@ -28,9 +28,14 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ClientData()
         {
-            inner.Reset();
             inner.Initialize().Wait();
             return this.Content(StreamEnergy.Json.Stringify(inner.ClientData()));
+        }
+
+        public ActionResult ResetEnrollment()
+        {
+            inner.Reset();
+            return new EmptyResult();
         }
 
         public ActionResult EnrollmentSupportedUtilityStates()
