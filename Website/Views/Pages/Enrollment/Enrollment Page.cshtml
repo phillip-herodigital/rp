@@ -6,6 +6,7 @@
         state = (!string.IsNullOrEmpty(visitor.Interaction.GeoData.Region) && visitor.Interaction.GeoData.Region != "N/A") ? visitor.Interaction.GeoData.Region : "",
         postalCode5 = (!string.IsNullOrEmpty(visitor.Interaction.GeoData.PostalCode) && visitor.Interaction.GeoData.PostalCode != "N/A") ? visitor.Interaction.GeoData.PostalCode : "",
     };
+    Html.Action("ResetEnrollment", "Enrollment");
 }
 
 <div ng-controller="EnrollmentMainCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString())); assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString())); assignSupportedUtilityStates(@(Html.Action("EnrollmentSupportedUtilityStates", "Enrollment").ToHtmlString())); mobileEnrollmentService.setNetworks(@(Html.Action("MobileNetworks", "MobileEnrollment").ToHtmlString())); mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString()); getMobilePlans('@Json.Encode(geoLocation)');">
