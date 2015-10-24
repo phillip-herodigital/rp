@@ -1,7 +1,7 @@
 angular.module('recordLog', []).provider('logger', function() {
 	var validSeverities = ['Debug', 'Notice', 'Warning', 'Error', 'FatalError'];
 
-	this.$get =  function($http) {
+	this.$get =  ['$http', function($http) {
 		return {
 			log: function(message, severity, data) {
 				if (validSeverities.indexOf(severity) < 0) {
@@ -22,6 +22,6 @@ angular.module('recordLog', []).provider('logger', function() {
 				});
 			}
 		}
-	}
+	}]
 });
 		
