@@ -15,11 +15,17 @@
     $scope.showIccid = true;
     $scope.networkType = null;
     $scope.cdmaActive = false;
+    $scope.phoneOptions = {
+        color: undefined,
+        size: undefined,
+        imeiNumber : undefined,
+        transferInfo: undefined,
+        supportsLte: undefined 
+    };
     
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
 
     $scope.mobileEnrollmentService.currentStepNumber = 1;
-    //clearPhoneSelection()
 
     $scope.verifyPhone = function () {
         $scope.hasError = false;
@@ -84,6 +90,12 @@
             });
         }
     };
+
+    // if IMEI comes in from a query string, try to verify it
+    if ($scope.mobileEnrollment.requestedImei != '') {
+        $scope.phoneOptions.imeiNumber = $scope.mobileEnrollment.requestedImei;
+        $scope.verifyPhone();
+    }
 
     $scope.chooseNetwork = function (network, phoneType) {
         analytics.sendVariables(2, network);
@@ -158,14 +170,6 @@
     };
 
     $scope.selectedPhone = undefined;
-    $scope.phoneOptions = {
-        color: undefined,
-        size: undefined,
-        //condition: undefined,
-        //warranty: undefined,
-        transferInfo: undefined,
-        supportsLte: undefined 
-    };
 
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
     $scope.displayFilters = false; // Display the extra phone filters

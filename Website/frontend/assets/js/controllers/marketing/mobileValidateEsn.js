@@ -27,6 +27,7 @@ ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 
                     }
                 } else {
                     $scope.esnValid = true;
+                    $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
                 }
                 $scope.isLoading = false;
             });
