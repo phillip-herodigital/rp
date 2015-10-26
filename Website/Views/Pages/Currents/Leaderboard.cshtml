@@ -149,7 +149,6 @@
                 for (int i = 0; i < leaderList.SeniorDirectors.Keys.Count; i++)
                 {
                     liClass = "";
-                    spanClass = "";
                     string index = leaderList.SeniorDirectors.Keys[i];
                     string value = Server.UrlDecode(leaderList.SeniorDirectors.GetValues(i).First());
                     string[] nameState = value.Split(',');
@@ -191,7 +190,6 @@
                 for (int i = 0; i < leaderList.ExecutiveDirectors.Keys.Count; i++)
                 {
                     liClass = "";
-                    spanClass = "";
                     string index = leaderList.ExecutiveDirectors.Keys[i];
                     string value = Server.UrlDecode(leaderList.ExecutiveDirectors.GetValues(i).First());
                     string[] nameState = value.Split(',');
