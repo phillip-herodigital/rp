@@ -2784,6 +2784,31 @@ article.coverage-map {
     }
 }
 
+article.account-interstitial {
+	border: 0px;
+	margin-top: 20px;
+	h1 {
+		color: #013c5b;
+	}
+	p.link {
+		float: left;
+		margin-top: 7px;
+		a {
+			color: #008fd4;
+			font-weight: 600;
+		}
+	}
+	span {
+		float: right;
+		button {
+			@include border-radius(5px);
+			background-image: linear-gradient(#2aa4dc, #008bd2);
+			a {
+				color: #fff;
+			}
+		}
+	}
+}
 
 
 /*.notice {
