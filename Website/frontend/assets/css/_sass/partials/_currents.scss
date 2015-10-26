@@ -1730,32 +1730,11 @@ $local-meeting-color: #00a8e1;
     .director-list {
 
         span {
-
-			&.directorName {
-				
-				&.smallText {
-					font-size: 20px;
-
-					@include breakpoint(small) {
-						font-size: 24px;
-					}
-				}
-
-				&.smallerText {
-					font-size: 17px;
-
-					@include breakpoint(small) {
-						font-size: 20px;
-					}
-				}
-			}
-			&.directorState {
-				display: block;
-				font-size: 12px;
-				font-weight: bold;
-				letter-spacing: 0.14em;
-				text-transform: uppercase;
-			}
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
         }
 
         ul {
@@ -1766,7 +1745,6 @@ $local-meeting-color: #00a8e1;
         li {
             padding-left: 0;
             font-size: 24px;
-			min-height: 70px;
 
             @include breakpoint(small) {
                 padding: 10px;
@@ -1781,10 +1759,10 @@ $local-meeting-color: #00a8e1;
             font-weight:bold;
             vertical-align: middle;
             text-align: center;
-            width: 30px;
+            width: 12%;
 
             @include breakpoint(small){
-                width: 50px;
+                width: 20%;
             }
         }   
     }
@@ -1798,7 +1776,7 @@ $local-meeting-color: #00a8e1;
             color: #ffffff;
         }
 
-        .director-list ul li.top25 span.directorState {
+        .director-list ul li.top25 span {
             color: #005cb8;
         }
 
@@ -1816,7 +1794,7 @@ $local-meeting-color: #00a8e1;
             color: #ffffff;
         }
 
-        .director-list ul li.top25 span.directorState {
+        .director-list ul li.top25 span {
             color: #007852;
         }
 
@@ -1834,7 +1812,7 @@ $local-meeting-color: #00a8e1;
             color: #ffffff;
         }
 
-        .director-list ul li.top25 span.directorState {
+        .director-list ul li.top25 span {
             color: #5c2b85;
         }
 
@@ -1852,7 +1830,7 @@ $local-meeting-color: #00a8e1;
             color: #ffffff;
         }
 
-        .director-list ul li.top25 span.directorState {
+        .director-list ul li.top25 span {
             color: #5e5e5e;
         }
 
@@ -1875,10 +1853,10 @@ $local-meeting-color: #00a8e1;
                 font-weight: normal;
                 vertical-align: middle;
                 text-align: center;
-                width: 30px;
+                width: 12%;
                         
                 @include breakpoint(small){
-                    width: 50px;
+                    width: 20%;
         }
     }
 
