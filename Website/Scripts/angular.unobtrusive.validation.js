@@ -264,7 +264,7 @@
                         validation.cancelSuppress(scope);
                         scope.$digest();
                         var offset = angular.element(document.querySelector('header.site-header'))[0].offsetHeight;
-                        var summary = $('#validation-summary').filter(':visible');
+                        var summary = $(jQuery.find('#validation-summary:visible'));
                         if (summary.is(":visible")) {
                             $document.scrollToElement(summary, offset);
                         }
