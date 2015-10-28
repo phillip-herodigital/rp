@@ -135,8 +135,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<VerifyImeiResponse> VerifyImei([FromBody]string imei)
         {
-            //if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
-            //{
+            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
+            {
                 if (imei == "111")  
                 {
                     return new VerifyImeiResponse
@@ -202,7 +202,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         DeviceType = "E",
                     };
                 }
-            //}
+            }
             
             return await enrollmentService.VerifyImei(imei);
         }
