@@ -359,7 +359,7 @@
                         <p class="note">@Html.Sitecore().Field("ICCID Card Description")</p>
                     </div>
                 </div>
-                <div class="line-item clearfix next-steps-content">
+                <div class="line-item clearfix next-steps-content" ng-if="confirmationSuccess">
                     @Html.Sitecore().Field("Mobile Next Steps")
                     <div ng-if="(dataPlan.provider == 'ATT' && selectedOffer.offerOption.simNumber == null)">
                         @Html.Sitecore().Field("SIM Card Activation")
