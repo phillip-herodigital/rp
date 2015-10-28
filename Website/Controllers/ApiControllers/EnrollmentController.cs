@@ -48,6 +48,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IEmailService emailService;
         private readonly ISettings settings;
         private readonly ILogger logger;
+        private const string redisPrefix = "AttemptCount_";
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -134,9 +135,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<VerifyImeiResponse> VerifyImei([FromBody]string imei)
         {
-            if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
-            {
-                if (imei == "111")
+            //if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
+            //{
+                if (imei == "111")  
                 {
                     return new VerifyImeiResponse
                     {
@@ -201,7 +202,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         DeviceType = "E",
                     };
                 }
-            }
+            //}
             
             return await enrollmentService.VerifyImei(imei);
         }
@@ -211,6 +212,32 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<string> ValidateActivationCode([FromBody]string activationCode)
         {
             return await activationCodeLookup.LookupEsn(activationCode);
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<bool> ShowCaptcha([FromBody]string ipAddress)
+        {
+            // show Captcha after max tries exceeded
+            bool showCaptcha = false;
+            if (string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Disable Max ESN Check")))
+            {
+                var value = (int?)await redisDatabase.StringGetAsync(redisPrefix + ipAddress);
+                if (value != null)
+                {
+                    await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                    if (value > int.Parse(settings.GetSettingsValue("Mobile Enrollment Options", "Max ESN Checks Per Hour")))
+                    {
+                        showCaptcha = true;
+                    }
+                }
+                else
+                {
+                    await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                    await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
+                }
+            }
+            return showCaptcha;
         }
 
         [HttpGet]

@@ -15,6 +15,7 @@
     $scope.showIccid = true;
     $scope.networkType = null;
     $scope.cdmaActive = false;
+    $scope.showCaptcha = false;
     
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
 
@@ -28,7 +29,7 @@
         $scope.cdmaIneligible = false;
         $scope.duplicateDevice = false;
         $scope.phoneVerified = false;
-        $scope.cdmaActive = false;
+        $scope.cdmaActive = false;        
         var cartDevices = $scope.getCartDevices();
         if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
             $scope.hasError = true;
@@ -51,6 +52,7 @@
                     $scope.validations = [{
                         'memberName': 'imeiNumber'
                     }];
+                    $scope.isAttemptsExceeded();
                     analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
                     if(data.verifyEsnResponseCode) {
                         $scope.deviceIneligibleMessage = _.find($scope.esnValidationMessages, function (message) { 
@@ -361,6 +363,21 @@
         return (leftPad(baseConvert(input.substr(0,8),16,10),10,0) + 
             leftPad(baseConvert(input.substr(8),16,10),8,0)).toUpperCase();
     };
+
+    $scope.isAttemptsExceeded = function() {
+        var ipAddress = "142.147.118.122";  //  add function to get ip
+        var ipData = {
+            ipAddress: ipAddress
+        };
+        $http.post('/api/enrollment/ShowCaptcha', ipAddress, { transformRequest: function (code) { return JSON.stringify(code); } })
+            .success(function (data) {
+                if (data == 'true') {
+                    $scope.showCaptcha = true;
+                } else {
+                    $scope.showCaptcha = false;
+                }
+            });
+    }
 
     /**
      * Adds the currently selected phone to the cart
