@@ -1296,10 +1296,10 @@ article.mobile-devices {
             margin-left: 80px;
             li {
                 @include retina-background('checkmark.png');
-                background-position:left 50%;
+                background-position: left 50%;
                 background-repeat: no-repeat;
                 padding-left: 30px;
-                background-size: 17px;
+                background-size: 17px !important;
             }
             @include breakpoint(small) {
                 margin-left: 0;
