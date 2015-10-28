@@ -112,6 +112,9 @@
     <None Include="App.Development.config" />
     <None Include="App.Production.config" />
     <None Include="packages.config" />
+    <Content Include="StreamEnergy.RenderingService.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
