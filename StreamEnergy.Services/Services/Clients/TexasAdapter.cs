@@ -120,6 +120,8 @@ namespace StreamEnergy.Services.Clients
                               TermMonths = product.Term,
                               RateType = ((IEnumerable<dynamic>)product.Rates).Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               TerminationFee = ((IEnumerable<dynamic>)product.Fees).Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
+                              IncludesThermostat = !string.IsNullOrEmpty(productData.Fields["Includes Thermostat"]),
+                              ThermostatDescription = productData.Fields["Thermostat Description"],
 
                               Footnotes = productData.Footnotes,
 
@@ -210,9 +212,22 @@ namespace StreamEnergy.Services.Clients
                 result.ProductName = productData.Fields["Name"] ?? details.Product.Name;
                 result.ProductDescription = productData.Fields["Description"] ?? details.Product.Description;
                 result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
+
+                result.IncludesThermostat = IncludesThemostat(result.ProductId);
+                
                 result.CustomerType = (details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial;
             }
             return result;
+        }
+
+        private bool IncludesThemostat(string productId)
+        {
+            List<Sitecore.Data.Items.Item> products = Sitecore.Context.Database.GetItem("{59E32706-A8B5-4E47-9918-D3DE64E2C7F8}").Children.ToList(); // /sitecore/content/Data/Taxonomy/Products/Texas
+            Sitecore.Data.Items.Item product = products.FirstOrDefault(a => a.Name == productId);
+
+            return product != null ? !string.IsNullOrEmpty(product.Fields["Includes Thermostat"].Value) : false;
+
+            //return products.Any(a => a.Fields != null && a.Name == productName && !string.IsNullOrEmpty(a.Fields["Includes Thermostat"].Value));
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)

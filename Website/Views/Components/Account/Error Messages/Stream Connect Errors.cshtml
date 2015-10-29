@@ -12,5 +12,8 @@
     <div class="notice error" ng-show="streamConnectError && selectedAccount.systemOfRecord == 'BeQuick'">
         @Html.Sitecore().Field("Mobile Error")
     </div>
+    <div class="notice error" ng-show="ccTokenizerError">
+        @Html.Sitecore().Field("CC Tokenizer Error")
+    </div>
 </div>
 

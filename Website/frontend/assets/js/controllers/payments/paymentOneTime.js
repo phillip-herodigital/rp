@@ -59,7 +59,10 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', '$locatio
                 $scope.validations = [{
                     "memberName": "PaymentAccount.CreditCardNumber"
                 }];
-            }
+            } 
+        }, function(error){
+            $scope.isLoading = false;
+            $scope.ccTokenizerError = true;
         });
     };
 

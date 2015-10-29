@@ -16,7 +16,7 @@
                         <h1>@Html.Sitecore().Field("Check Coverage And Choose")</h1>
                     </header>
                     <div class="content">
-                        <div class="plan-error" ng-show="mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && currentMobileLocationInfo().offerInformationByType || excludedStates">
+                        <div class="plan-error" ng-show="mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && !planSelection.selectedOffers.Mobile && currentMobileLocationInfo().offerInformationByType || excludedStates">
                             <span ng-show="requestedPlanNetwork == networkType && !excludedStates">@Html.Sitecore().Field("Requested Plan Unavailable")</span>
                             <span ng-show="requestedPlanNetwork != networkType && !excludedStates">@Html.Sitecore().Field("Requested Network Unavailable")</span>
                             <span ng-show="excludedStates">@Html.Sitecore().Field("Location Unavailable")</span>
