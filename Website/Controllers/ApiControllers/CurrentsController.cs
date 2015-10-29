@@ -626,17 +626,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 currentMonthItem = currentItem.Children.InnerChildren.OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).First();
             }
 
-            var regionalDirectorsField = (Sitecore.Data.Fields.NameValueListField)currentMonthItem.Fields["Regional Directors List"];
-            var managingDirectorsField = (Sitecore.Data.Fields.NameValueListField)currentMonthItem.Fields["Managing Directors List"];
-            var seniorDirectorsField = (Sitecore.Data.Fields.NameValueListField)currentMonthItem.Fields["Senior Directors List"];
-            var executiveDirectorsField = (Sitecore.Data.Fields.NameValueListField)currentMonthItem.Fields["Executive Directors List"];
+            var regionalDirectorsField = (Sitecore.Data.Fields.DatasourceField)currentMonthItem.Fields["Regional Directors List"];
+            var managingDirectorsField = (Sitecore.Data.Fields.DatasourceField)currentMonthItem.Fields["Managing Directors List"];
+            var seniorDirectorsField = (Sitecore.Data.Fields.DatasourceField)currentMonthItem.Fields["Senior Directors List"];
+            var executiveDirectorsField = (Sitecore.Data.Fields.DatasourceField)currentMonthItem.Fields["Executive Directors List"];
 
             return new LeaderList
             {
-                RegionalDirectors = regionalDirectorsField.NameValues,
-                ManagingDirectors = managingDirectorsField.NameValues,
-                SeniorDirectors = seniorDirectorsField.NameValues,
-                ExecutiveDirectors = executiveDirectorsField.NameValues,
+                RegionalDirectors = regionalDirectorsField,
+                ManagingDirectors = managingDirectorsField,
+                SeniorDirectors = seniorDirectorsField,
+                ExecutiveDirectors = executiveDirectorsField,
                 ListDate = Sitecore.DateUtil.IsoDateToDateTime(currentMonthItem.Fields["List Date"].Value).ToShortDateString(),
                 ListDateText = currentMonthItem.Fields["List Date Text"].Value,
             };

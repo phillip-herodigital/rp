@@ -60,20 +60,19 @@
         </div>
         <div class="director-list">
             <ul>
-                @{
-                for (int i = 0; i < leaderList.RegionalDirectors.Keys.Count; i++)
+                @foreach (var personItem in leaderList.RegionalDirectors.TargetItem.Children.Select((person, i) => new { i, person}))
                 {
                     liClass = "";
-                    string index = leaderList.RegionalDirectors.Keys[i];
-                    string value = Server.UrlDecode(leaderList.RegionalDirectors.GetValues(i).First());
-                    string[] nameState = value.Split(',');
-                    if (i > 9)
+                    string rank = personItem.person.Fields["List Rank"].Value;
+                    string name = personItem.person.Fields["Associate Name"].Value;
+                    string position = personItem.person.Fields["Associate Position"].Value;
+                    string location = personItem.person.Fields["Associate Location"].Value;
+                    if (personItem.i > 9)
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Regional Director"), @nameState[1]</span></div></li>
+                    <li class="@liClass"><div class="index">@rank</div><div>@name<span>@position, @location</span></div></li>
                    
-                }
                 }
             </ul>
         </div>
@@ -93,20 +92,19 @@
         </div>
         <div class="director-list">
             <ul>
-                @{
-                for (int i = 0; i < leaderList.ManagingDirectors.Keys.Count; i++)
+                @foreach (var personItem in leaderList.ManagingDirectors.TargetItem.Children.Select((person, i) => new { i, person }))
                 {
                     liClass = "";
-                    string index = leaderList.ManagingDirectors.Keys[i];
-                    string value = Server.UrlDecode(leaderList.ManagingDirectors.GetValues(i).First());
-                    string[] nameState = value.Split(',');
-                    if (i > 9)
+                    string rank = personItem.person.Fields["List Rank"].Value;
+                    string name = personItem.person.Fields["Associate Name"].Value;
+                    string position = personItem.person.Fields["Associate Position"].Value;
+                    string location = personItem.person.Fields["Associate Location"].Value;
+                    if (personItem.i > 9)
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Managing Director"), @nameState[1]</span></div></li>
+                    <li class="@liClass"><div class="index">@rank</div><div>@name<span>@position, @location</span></div></li>
 
-                }
                 }
             </ul>
         </div>
@@ -126,20 +124,19 @@
         </div>
         <div class="director-list">
             <ul>
-                @{
-                for (int i = 0; i < leaderList.SeniorDirectors.Keys.Count; i++)
+                @foreach (var personItem in leaderList.SeniorDirectors.TargetItem.Children.Select((person, i) => new { i, person }))
                 {
                     liClass = "";
-                    string index = leaderList.SeniorDirectors.Keys[i];
-                    string value = Server.UrlDecode(leaderList.SeniorDirectors.GetValues(i).First());
-                    string[] nameState = value.Split(',');
-                    if (i > 9)
+                    string rank = personItem.person.Fields["List Rank"].Value;
+                    string name = personItem.person.Fields["Associate Name"].Value;
+                    string position = personItem.person.Fields["Associate Position"].Value;
+                    string location = personItem.person.Fields["Associate Location"].Value;
+                    if (personItem.i > 9)
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Senior Director"), @nameState[1]</span></div></li>
+                    <li class="@liClass"><div class="index">@rank</div><div>@name<span>@position, @location</span></div></li>
 
-                }
                 }
             </ul>
         </div>
@@ -159,20 +156,19 @@
         </div>
         <div class="director-list">
             <ul>
-                @{
-                for (int i = 0; i < leaderList.ExecutiveDirectors.Keys.Count; i++)
+                @foreach (var personItem in leaderList.ExecutiveDirectors.TargetItem.Children.Select((person, i) => new { i, person }))
                 {
                     liClass = "";
-                    string index = leaderList.ExecutiveDirectors.Keys[i];
-                    string value = Server.UrlDecode(leaderList.ExecutiveDirectors.GetValues(i).First());
-                    string[] nameState = value.Split(',');
-                    if (i > 9)
+                    string rank = personItem.person.Fields["List Rank"].Value;
+                    string name = personItem.person.Fields["Associate Name"].Value;
+                    string position = personItem.person.Fields["Associate Position"].Value;
+                    string location = personItem.person.Fields["Associate Location"].Value;
+                    if (personItem.i > 9)
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@index</div><div>@nameState[0]<span>@Html.Sitecore().Field("Executive Director"), @nameState[1]</span></div></li>
+                    <li class="@liClass"><div class="index">@rank</div><div>@name<span>@position, @location</span></div></li>
 
-                }
                 }
             </ul>
         </div>

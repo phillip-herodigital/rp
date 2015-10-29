@@ -8,10 +8,10 @@ namespace StreamEnergy.MyStream.Models.Currents
 {
     public class LeaderList
     {
-        public NameValueCollection RegionalDirectors { get; set; }
-        public NameValueCollection ManagingDirectors { get; set; }
-        public NameValueCollection SeniorDirectors { get; set; }
-        public NameValueCollection ExecutiveDirectors { get; set; }
+        public Sitecore.Data.Fields.DatasourceField RegionalDirectors { get; set; }
+        public Sitecore.Data.Fields.DatasourceField ManagingDirectors { get; set; }
+        public Sitecore.Data.Fields.DatasourceField SeniorDirectors { get; set; }
+        public Sitecore.Data.Fields.DatasourceField ExecutiveDirectors { get; set; }
         public string ListDate { get; set; }
         public string ListDateText { get; set; }
     }
