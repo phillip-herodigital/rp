@@ -84,6 +84,10 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string AssociateName { get; set; }
 
+        public string TrustEvCaseId { get; set; }
+
+        public Guid TrustEvSessionId { get; set; }
+
         void ISanitizable.Sanitize()
         {
             if (SocialSecurityNumber != null)

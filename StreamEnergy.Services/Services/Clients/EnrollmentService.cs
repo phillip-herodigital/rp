@@ -262,6 +262,8 @@ namespace StreamEnergy.Services.Clients
                                        Offer = offer.Offer
                                    }).ToArray()
                     };
+
+                context.TrustEvCaseId = (string)responseObject["TrustEvCaseId"];
             }
             else
             {
@@ -349,7 +351,9 @@ namespace StreamEnergy.Services.Clients
                                CurrentProvider = context.PreviousProvider,
                                EmailAddress = context.ContactInfo.Email.Address,
                                Accounts = from account in systemOfRecordSet
-                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account)
+                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account),
+                               TrustEvCaseId = context.TrustEvCaseId,
+                               TrustEvSessionId = context.TrustEvSessionId,
                            }).ToArray();
             var response = await streamConnectClient.PutAsJsonAsync("/api/v1-1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
             response.EnsureSuccessStatusCode();
@@ -421,7 +425,8 @@ namespace StreamEnergy.Services.Clients
                                 {
                                     Index = int.Parse(question.Key),
                                     SelectedAnswerIndex = int.Parse(question.Value)
-                                }).ToArray()
+                                }).ToArray(),
+
             });
             response.EnsureSuccessStatusCode();
                 
@@ -668,7 +673,8 @@ namespace StreamEnergy.Services.Clients
                                          DepositPaymentMade = hasDeposit && !offer.WaiveDeposit
                                      },
                 InitialPayments = initialPayments,
-                RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted
+                RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted,
+                TrustEvCaseId = context.TrustEvCaseId,
             });
 
             var asyncUrl = response.Headers.Location;
