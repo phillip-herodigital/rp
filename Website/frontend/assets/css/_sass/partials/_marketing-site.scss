@@ -3360,7 +3360,7 @@ article.marketing.validate-esn {
         margin: 1.5em 0;
     }
     .device-error, .device-success {
-        background-color: #ee6348;
+        background-color: #74bc4b;
         margin: 20px 40px;
         padding: 30px 20px;
         line-height: 1.2;
@@ -3370,7 +3370,6 @@ article.marketing.validate-esn {
         a {
             font-size: 20px;
             font-weight: 500;
-            color: #fff;
         }
         .button {
             display: inline-block;
@@ -3390,8 +3389,9 @@ article.marketing.validate-esn {
             }
         }
     }
-    .device-success {
-        background-color: #74bc4b;
+    .device-error {
+        background-color: #fff6c6;
+        color: #013c5b;
     }
     .item {
         margin-bottom: 15px;
