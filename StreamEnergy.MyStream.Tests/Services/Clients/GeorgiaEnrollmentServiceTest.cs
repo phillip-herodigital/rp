@@ -164,7 +164,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     name: TestData.IdentityCheckName(),
                     ssn: TestData.IdentityCheckSsn,
                     mailingAddress: TestData.IdentityCheckMailingAddress(),
-                    language: null).Result;
+                    language: null,
+                    trustEvCaseId: null).Result;
 
                 // Assert
                 Assert.IsNotNull(firstCheck);
@@ -762,7 +763,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 name: TestData.IdentityCheckName(),
                 ssn: TestData.IdentityCheckSsn,
                 mailingAddress: TestData.IdentityCheckMailingAddress(),
-                language: null).Result;
+                language: null,
+                trustEvCaseId: null).Result;
 
             var secondCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
                 name: TestData.IdentityCheckName(),

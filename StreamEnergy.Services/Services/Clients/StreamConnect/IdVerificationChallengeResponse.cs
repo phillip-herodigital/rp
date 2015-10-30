@@ -10,5 +10,6 @@ namespace StreamEnergy.Services.Clients.StreamConnect
     {
         public string Status { get; set; }
         public IdVerificationChallenge IdVerificationChallenge { get; set; }
+        public bool IdentityVerified { get; set; }
     }
 }

@@ -562,6 +562,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.PreviousProvider = request.PreviousProvider;
             stateMachine.Context.AssociateName = request.AssociateName;
 
+            stateMachine.Context.TrustEvSessionId = request.TrustEvSessionId;
+
             await stateMachine.ContextUpdated();
 
             MapCartToServices(request);
