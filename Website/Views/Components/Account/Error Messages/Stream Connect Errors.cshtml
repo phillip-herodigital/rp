@@ -12,5 +12,9 @@
     <div class="notice error" ng-show="streamConnectError && selectedAccount.systemOfRecord == 'BeQuick'">
         @Html.Sitecore().Field("Mobile Error")
     </div>
+    <div class="notice error" ng-show="paperlessBillingError">
+        @Html.Sitecore().Field("Paperless Billing Error")
+    </div>
+
 </div>
 
