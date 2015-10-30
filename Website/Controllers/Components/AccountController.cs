@@ -86,5 +86,10 @@ namespace StreamEnergy.MyStream.Controllers.Components
         {
             return View("~/Views/Components/Account/Profile/Enrolled Accounts.cshtml");
         }
+
+        public ActionResult OverviewRedirectIndex()
+        {
+            return Redirect("/account");
+        }
     }
 }
