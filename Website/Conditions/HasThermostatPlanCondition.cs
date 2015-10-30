@@ -57,7 +57,7 @@ namespace StreamEnergy.MyStream.Conditions
                     return false;
                 return ((TexasElectricityAccount)account).IncludesThermostat;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -85,7 +85,7 @@ namespace StreamEnergy.MyStream.Conditions
                     }
                     return false;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return false;
                 }
