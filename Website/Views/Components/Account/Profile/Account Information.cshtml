@@ -138,19 +138,6 @@
                     </div>
                 </div>
             </div>
-            <hr class="content-divider" ng-if="formData.customerType != 'Mobile'" />
-            <div class="edit-preferences" ng-if="formData.customerType != 'Mobile'">
-                <div class="item">
-                    <ul class="checkbox-list">
-                        <li>
-                            <div class="paperless-checkbox">
-                                <input type="checkbox" id="disablePrintedInvoices" ng-model="formData.disablePrintedInvoices" />
-                                <p for="disablePrintedInvoices">@Html.Sitecore().Field("Printed Invoices Text")</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>
         <footer>
             <div class="buttons">
