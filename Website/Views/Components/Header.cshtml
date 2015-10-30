@@ -68,8 +68,8 @@
                     {
                         <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
-                    <li><a href="/auth/login">@Html.Sitecore().Field("Manage text", accountDataSourceItem)</a></li>
                     <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
+                    <li><a href="/auth/login">@Html.Sitecore().Field("Manage text", accountDataSourceItem)</a></li>
                 }
                 else
                 {
@@ -100,8 +100,36 @@
                     {
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
-                    <li><a href="/auth/login">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
                     <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
+                    <li class="dropdown" ng-class="{ active: dropdownMenu }">
+                        <a href="" class="dropdown-toggle" ng-click="dropdownMenu = !dropdownMenu;" ng-class="{ activeblock: dropdownMenu }">
+                            @Html.Sitecore().Field("Account text", accountDataSourceItem)
+                        </a>
+                        <div class="login dropdown-menu" ng-hide="!dropdownMenu" loading-indicator ng-cloak>
+                            <h4>@Html.Sitecore().Field("Login Dropdown Header", accountDataSourceItem)</h4>
+                            <form ng-submit="login()">
+                                <div class="item" data-val-error="Username">
+                                    <input data-val="true" data-val-required id="Username" name="Username" ng-model="formData.username" type="text" value="" placeholder="@Html.Sitecore().Field("Login Dropdown Username Label", accountDataSourceItem)">
+                                </div>
+                                <div class="item" data-val-error="Password">
+                                    <input data-val="true" data-val-required id="Password" name="Password" ng-model="formData.password" type="password" placeholder="@Html.Sitecore().Field("Login Dropdown Password Label", accountDataSourceItem)">
+                                </div>
+                                <div class="button">
+                                    <button type="submit" data-val-submit="">@Html.Sitecore().Field("Login Dropdown Button Text", accountDataSourceItem)</button>
+                                </div>
+                                <div class="forgot">
+                                        @Html.Sitecore().Field("Login Dropdown Forgot Credentials", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Forgot Username", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Forgot Credentials Divider", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Forgot Password", accountDataSourceItem)
+                                </div>
+                                <div class="create-account">
+                                        @Html.Sitecore().Field("Login Dropdown Signup Content", accountDataSourceItem)
+                                        @Html.Sitecore().Field("Login Dropdown Signup Link", accountDataSourceItem)
+                                </div>
+                            </form>
+                        </div>
+                    </li>
                 </ul>
             }
         </div>

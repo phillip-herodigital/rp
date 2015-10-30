@@ -88,16 +88,22 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
             var availablePaymentMethods = _.intersectionObjects.apply(_, allPaymentMethods);
 
-            $scope.completeOrder.creditCard().then(function (paymentMethod) {
-                var paymentMethodType = paymentMethod.type;
-                if (_.some(availablePaymentMethods, { 'paymentMethodType': paymentMethodType })) {
-                    setConfirmOrder(paymentMethod);
-                } else {
-                    $scope.validations = [{
-                        "memberName": "PaymentAccount.CreditCardNumber"
-                    }];
+            $scope.completeOrder.creditCard().then(
+                function (paymentMethod) {
+                    var paymentMethodType = paymentMethod.type;
+                    if (_.some(availablePaymentMethods, { 'paymentMethodType': paymentMethodType })) {
+                        setConfirmOrder(paymentMethod);
+                    } else {
+                        $scope.validations = [{
+                            "memberName": "PaymentAccount.CreditCardNumber"
+                        }];
+                    }
+                },
+                function() {
+                    $scope.isLoading = false;
+                    $scope.streamConnectError = true;                     
                 }
-            });
+            );
         } else {
             setConfirmOrder(null);
         }

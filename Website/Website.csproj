@@ -794,8 +794,10 @@
     <Compile Include="Conditions\CustomerPaperlessBillingCondition.cs" />
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
+    <Compile Include="Conditions\HasThermostatPlanCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\CurrentsController.cs" />
+    <Compile Include="Controllers\ApiControllers\LogRecorderController.cs" />
     <Compile Include="Controllers\ApiControllers\LogViewerController.cs" />
     <Compile Include="Controllers\ApiControllers\MarketingController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileActivationController.cs" />
@@ -937,6 +939,7 @@
     <Compile Include="Models\Enrollment\SelectedOfferSet.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
+    <Compile Include="Models\Logger\LogRecorderRequest.cs" />
     <Compile Include="Models\Marketing\ModalContent.cs" />
     <Compile Include="Models\Marketing\SimActivation.cs" />
     <Compile Include="Models\Marketing\ValidasRequest.cs" />
@@ -1638,6 +1641,7 @@
     <Content Include="Views\Components\Marketing\Mobile\Mobile Savings Banner.cshtml" />
     <Content Include="Views\Pages\Currents\Leaderboard.cshtml" />
     <Content Include="Views\Pages\Currents\RadioListing.cshtml" />
+    <Content Include="Views\Components\Marketing\Lyric FAQs.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -1654,7 +1658,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\LogRecorder\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -36,6 +36,8 @@ namespace StreamEnergy.Services.Clients
                         {
                             Fields = new NameValueCollection
                             {
+                                { "Includes Thermostat", item["Includes Thermostat"]},
+                                { "Thermostat Description", item["Thermostat Description"]},
                                 { "Name", item["Product Name"] },
                                 { "Description", LoadProductDescription(providerName, item) },
                                 { "Minimum Usage Fee", item["Minimum Usage Fee"] },
@@ -137,6 +139,7 @@ namespace StreamEnergy.Services.Clients
                             { "Special Offer Original Price", item["Special Offer Original Price"] },
                             { "Hide Plan", item["Hide Plan"] },
                             { "non-LTE Plan", item["non-LTE Plan"] },
+                            { "Sort Order", item["Sort Order"] },
                         },
                         Footnotes = new KeyValuePair<string, string>[0]
                     };

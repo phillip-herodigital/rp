@@ -39,7 +39,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public string ProductDescription { get; set; }
 
         public string EarlyTerminationFee { get; set; }
-
+        public bool IncludesThermostat { get; set; }
         void ISanitizable.Sanitize()
         {
             if (ServiceAddress != null)
