@@ -184,7 +184,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (string.IsNullOrEmpty(returnUri) || !helper.IsLocalUrl(returnUri))
             {
-                returnUri = "/account";
+                returnUri = "/account/interstitial";
             }
 
             var response = Request.CreateResponse(new LoginResponse()

@@ -32,6 +32,12 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(inner.ClientData()));
         }
 
+        public ActionResult ResetEnrollment()
+        {
+            inner.Reset();
+            return new EmptyResult();
+        }
+
         public ActionResult EnrollmentSupportedUtilityStates()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Enrollment Supported Utility States");

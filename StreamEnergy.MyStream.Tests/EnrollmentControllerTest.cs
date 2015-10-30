@@ -270,7 +270,7 @@ namespace StreamEnergy.MyStream.Tests
                 IsCompleted = true
             }));
 
-            mockEnrollmentService.Setup(m => m.LoadIdentityQuestions(It.IsAny<Guid>(), It.IsAny<Name>(), "333224444", It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.Enrollments.Service.IdentityCheckResult
+            mockEnrollmentService.Setup(m => m.LoadIdentityQuestions(It.IsAny<Guid>(), It.IsAny<Name>(), "333224444", It.IsAny<Address>(), null, null)).Returns(Task.FromResult(new DomainModels.Enrollments.Service.IdentityCheckResult
             {
                 IdentityAccepted = false,
                 HardStop = null,
@@ -290,7 +290,7 @@ namespace StreamEnergy.MyStream.Tests
                     IsCompleted = true
                 }));
 
-            mockEnrollmentService.Setup(m => m.LoadIdentityQuestions(It.IsAny<Guid>(), It.IsAny<Name>(), It.Is<string>(s => s != "333224444"), It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.Enrollments.Service.IdentityCheckResult
+            mockEnrollmentService.Setup(m => m.LoadIdentityQuestions(It.IsAny<Guid>(), It.IsAny<Name>(), It.Is<string>(s => s != "333224444"), It.IsAny<Address>(), null, null)).Returns(Task.FromResult(new DomainModels.Enrollments.Service.IdentityCheckResult
             {
                 IdentityAccepted = false,
                 HardStop = null,

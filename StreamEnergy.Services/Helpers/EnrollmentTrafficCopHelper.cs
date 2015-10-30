@@ -93,6 +93,10 @@ namespace StreamEnergy.Services.Helpers
             queryString = new NameValueCollection()
             {
                 { "SPID", tempQueryString["SPID"] },
+                { "GID", tempQueryString["GID"] },
+                { "RefSite", tempQueryString["RefSite"] },
+                { "RefSiteID", tempQueryString["RefSiteID"] },
+                { "CO_LA", tempQueryString["CO_LA"] },
             };
             return true;
         }
