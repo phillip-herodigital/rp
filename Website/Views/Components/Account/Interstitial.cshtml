@@ -1,0 +1,129 @@
+﻿@using Sitecore.Data.Items
+@{
+    var noShow = Html.Sitecore().CurrentItem.Fields["No Show Text"].Value;
+    Item dataSourceItem = Sitecore.Context.Database.GetItem(Sitecore.Mvc.Presentation.RenderingContext.Current.Rendering.DataSource);
+    var bannerImage = Html.Sitecore().CurrentItem.Fields["Banner Image"];
+    var bannerText = Html.Sitecore().CurrentItem.Fields["Banner Text"];
+    var pageTitle = "";
+    var pageTitleField = Html.Sitecore().CurrentItem.Fields["Page Title"];
+    if (pageTitleField != null)
+    {
+        pageTitle = Html.Sitecore().CurrentItem.Fields["Page Title"].Value;
+
+        if (!string.IsNullOrEmpty(pageTitle))
+        {
+            pageTitle += " | ";
+        }
+    }
+
+    pageTitle += "Stream";
+    var settings = StreamEnergy.Unity.Container.Instance.Resolve<StreamEnergy.ISettings>();
+    var enableDecibelInsight = !string.IsNullOrEmpty(settings.GetSettingsField("Decibel Insight", "Enable Decibel Insight").Value);
+}
+<!DOCTYPE html>
+<!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html ng-app="ngApp" class="no-js">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>@pageTitle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @Html.Sitecore().Placeholder("meta")
+    <link rel="shortcut icon" type="image/ico" href="/frontend/assets/i/favicon.ico" />
+    @if (enableDecibelInsight)
+    {
+        <!-- Decibel Insight - mystream.com -->
+        <script type="text/javascript">
+            // <![CDATA[
+            (function (d, e, c, i, b, el, it) {
+                d._da_ = d._da_ || []; _da_.oldErr = d.onerror; _da_.err = [];
+                d.onerror = function () { _da_.err.push(arguments); _da_.oldErr && _da_.oldErr.apply(d, Array.prototype.slice.call(arguments)); };
+                d.DecibelInsight = b; d[b] = d[b] || function () { (d[b].q = d[b].q || []).push(arguments); };
+                el = e.createElement(c), it = e.getElementsByTagName(c)[0]; el.async = 1; el.src = i; it.parentNode.insertBefore(el, it);
+            })(window, document, 'script', '//cdn.decibelinsight.net/i/24782/di.js', 'decibelInsight');
+
+            decibelInsight('updateUserId', '@Session.SessionID');
+            // ]]>
+        </script>
+    }
+    <!--[if lte IE 8]> @* from https://docs.angularjs.org/guide/ie *@
+        <script>
+          document.createElement('ng-include');
+          document.createElement('ng-pluralize');
+          document.createElement('ng-view');
+        </script>
+    <![endif]-->
+    @Styles.Render("~/frontend/assets/css/bundle")
+    <!--[if lte IE 9]>
+        <link href="/frontend/assets/css/global_2.css" rel="stylesheet">
+        <link href="/frontend/assets/css/global_3.css" rel="stylesheet">
+    <![endif]-->
+    @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle")
+    <script>
+        window.ASPNET_SessionId = "@Session.SessionID";
+    </script>
+    @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
+    {
+        @Scripts.Render("~/frontend/assets/js/legacybundle");
+    }
+    else
+    {
+        @Scripts.Render("~/frontend/assets/js/bundle")
+    }
+    <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
+    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
+</head>
+<body class="interstitial" ng-class="{'fixed-header':isFixedHeader}" ng-controller="MainCtrl" id="top">
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-NMT3GS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f); })(window, document, 'script', 'dataLayer', 'GTM-NMT3GS');</script>
+    <!-- End Google Tag Manager -->
+    <div class="page-wrapper" ng-class="{open:sidebarOpen}">
+        <div ng-if="hasMobileNav" ng-include="'mobileNav'" mobile-nav="0"></div>
+        <div class="page-content">
+            <header class="site-header" data-fixed-fix>
+                <div class="wrapper">
+                    <a href="/" class="logo">Stream</a>
+                </div>
+            </header>
+            @if (bannerImage != null && !string.IsNullOrEmpty(bannerImage.ToString()))
+            {
+                <div class="banner marketing" style="@Html.AsBackgroundStyle("Banner Image", dataSourceItem)">
+                    <div class="inner">
+                        <div class="wrapper">
+                            @if (bannerText != null && !string.IsNullOrEmpty(bannerText.Value))
+                            {
+                                <h1>@Html.Raw(bannerText.Value)</h1>
+                            }
+                            else if (pageTitle != null && !string.IsNullOrEmpty(pageTitle))
+                            {
+                                <h1>@pageTitle</h1>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            <section>
+                <article class="wrapper account-interstitial" ng-controller="AcctInterstitialCtrl">
+                    <h1>@Html.Sitecore().Field("Header")</h1>
+                    @Html.Sitecore().Field("Content")
+                    <hr />
+                    <div class="buttons clearfix">
+                        @Html.Sitecore().Field("Action Link")
+                        @Html.Sitecore().Field("Cancel Link")
+                        @if (noShow != "")
+                        {
+                            <button class="tertiary" ng-click="dismissInterstitial('@dataSourceItem.ID')">@Html.Sitecore().Field("No Show Text")</button>
+                        }
+                    </div>
+                </article>
+            </section>
+        </div>
+    </div>
+    <script type="text/javascript" src="/frontend/utilities/foresee/foresee-trigger.js"></script>
+</body>
+</html>
