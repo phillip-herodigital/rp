@@ -26,7 +26,7 @@ namespace StreamEnergy.RenderingService
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 FileName = phantomJsPath,
-                Arguments = EscapeCommandLineArguments(new[] { jsFile }.Concat(args))
+                Arguments = "--ssl-protocol=tlsv1 " + (EscapeCommandLineArguments(new[] { jsFile }.Concat(args)))
             };
 
             process.StartInfo = startInfo;
