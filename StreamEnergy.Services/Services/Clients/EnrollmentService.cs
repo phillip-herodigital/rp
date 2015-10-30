@@ -374,8 +374,8 @@ namespace StreamEnergy.Services.Clients
 
             return ((string)responseObject.Status) == "Success";
         }
-        
-        async Task<IdentityCheckResult> IEnrollmentService.LoadIdentityQuestions(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, string language)
+
+        async Task<IdentityCheckResult> IEnrollmentService.LoadIdentityQuestions(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, string language, string trustEvCaseId)
         {
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
@@ -384,7 +384,8 @@ namespace StreamEnergy.Services.Clients
                 LastName = name.Last,
                 SSN = ssn,
                 Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress),
-                LanguageCode = language
+                LanguageCode = language,
+                TrustEvCaseId = trustEvCaseId
             });
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
@@ -393,6 +394,11 @@ namespace StreamEnergy.Services.Clients
             if (result.Status != "Success")
             {
                 return new IdentityCheckResult { IdentityAccepted = false, IdentityQuestions = new IdentityQuestion[0], HardStop = null };
+            }
+
+            if (result.IdentityVerified)
+            {
+                return new IdentityCheckResult { IdentityAccepted = true, IdentityQuestions = new IdentityQuestion[0], HardStop = null };
             }
 
             return new IdentityCheckResult
