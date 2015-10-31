@@ -130,7 +130,7 @@ GROUP BY
             return contacts;
         }
 
-        public override virtual void Process(GetAssociatedContactsArgs args)
+        public override void Process(GetAssociatedContactsArgs args)
 		{
             var database = Sitecore.Data.Database.GetDatabase("master");
             var listItem = database.GetItem(new ID(args.ContactList.Id));
