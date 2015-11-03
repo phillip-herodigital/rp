@@ -29,7 +29,8 @@
         $scope.cdmaIneligible = false;
         $scope.duplicateDevice = false;
         $scope.phoneVerified = false;
-        $scope.cdmaActive = false;        
+        $scope.cdmaActive = false;
+        isAttemptsExceeded(true);
         var cartDevices = $scope.getCartDevices();
         if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
             $scope.hasError = true;
@@ -52,7 +53,6 @@
                     $scope.validations = [{
                         'memberName': 'imeiNumber'
                     }];
-                    $scope.isAttemptsExceeded();
                     analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
                     if(data.verifyEsnResponseCode) {
                         $scope.deviceIneligibleMessage = _.find($scope.esnValidationMessages, function (message) { 
@@ -364,20 +364,16 @@
             leftPad(baseConvert(input.substr(8),16,10),8,0)).toUpperCase();
     };
 
-    $scope.isAttemptsExceeded = function() {
-        var ipAddress = "142.147.118.122";  //  add function to get ip
-        var ipData = {
-            ipAddress: ipAddress
-        };
-        $http.post('/api/enrollment/ShowCaptcha', ipAddress, { transformRequest: function (code) { return JSON.stringify(code); } })
-            .success(function (data) {
-                if (data == 'true') {
-                    $scope.showCaptcha = true;
-                } else {
-                    $scope.showCaptcha = false;
-                }
-            });
-    }
+    function isAttemptsExceeded (incrementCount) {
+        $http.post('/api/enrollment/ShowCaptcha', incrementCount, { transformRequest: function (code) { return JSON.stringify(code); } 
+        }).success(function (data, status, headers, config) {
+            $scope.showCaptcha = data == 'true' ? true : false;
+        }).error(function () { 
+            $scope.streamConnectError = true; 
+        });
+    };
+
+    isAttemptsExceeded(false);
 
     /**
      * Adds the currently selected phone to the cart

@@ -40,16 +40,19 @@
                             <div class="item full">
                                 <h3>@Html.Sitecore().Field("See If Phone Works")</h3>
                                 <div class="input-group">
-                                    <div class="input-group-control item" data-val-error="imeiNumber" ng-if="!showCaptcha">
+                                    <div class="input-group-control item" data-val-error="imeiNumber">
                                         <label>
                                             @Html.Sitecore().Field("Enter Number")
                                             <a href="" ng-click="showModal('instructions/imei');">@Html.Sitecore().Field("What Is This")</a>
                                         </label>
                                         <input class="full" name="imeiNumber" type="text" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
                                     </div>
-                                    <div class="input-group-btn" ng-if="!showCaptcha">
+                                    <div class="input-group-btn">
                                         <button type="button" ng-click="verifyPhone()" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Check Text")</button>
                                     </div>
+                                </div><!-- /input-group -->
+                                <div class="input-group" ng-show="showCaptcha">
+                                    <div class="g-recaptcha" data-sitekey="6Lf0KRATAAAAAOdLjEjQ78IOxth-xkHCuXuuZ1Cr"></div>
                                 </div><!-- /input-group -->
                             </div>
                             <div ng-show="hasError" class="device-error">

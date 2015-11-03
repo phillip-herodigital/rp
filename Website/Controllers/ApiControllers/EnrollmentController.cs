@@ -216,27 +216,34 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<bool> ShowCaptcha([FromBody]string ipAddress)
+        public async Task<bool> ShowCaptcha([FromBody]bool incrementCount)
         {
             // show Captcha after max tries exceeded
             bool showCaptcha = false;
-            if (string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Disable Max ESN Check")))
+            string ipAddress = HttpContext.Current.Request.UserHostAddress;
+            bool captchaEnabled = string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Disable Max ESN Check"));
+            int maxLookups = int.Parse(settings.GetSettingsValue("Mobile Enrollment Options", "Max ESN Checks Per Hour"));
+
+            if (captchaEnabled)
             {
-                var value = (int?)await redisDatabase.StringGetAsync(redisPrefix + ipAddress);
-                if (value != null)
+                if (incrementCount)
                 {
                     await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
-                    if (value > int.Parse(settings.GetSettingsValue("Mobile Enrollment Options", "Max ESN Checks Per Hour")))
+                }
+                var lookupCount = (int?)await redisDatabase.StringGetAsync(redisPrefix + ipAddress);
+                if (lookupCount != null)
+                {
+                    if (lookupCount > maxLookups)
                     {
                         showCaptcha = true;
                     }
                 }
                 else
                 {
-                    await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
                     await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
                 }
             }
+
             return showCaptcha;
         }
 
