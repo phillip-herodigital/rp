@@ -51,8 +51,8 @@
                                         <button type="button" ng-click="verifyPhone()" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Check Text")</button>
                                     </div>
                                 </div><!-- /input-group -->
-                                <div class="input-group" ng-show="showCaptcha">
-                                    <div class="g-recaptcha" data-sitekey="6Lf0KRATAAAAAOdLjEjQ78IOxth-xkHCuXuuZ1Cr"></div>
+                                <div class="input-group" ng-if="showCaptcha">
+                                    <div re-captcha ng-model="phoneOptions.captcha"></div>
                                 </div><!-- /input-group -->
                             </div>
                             <div ng-show="hasError" class="device-error">

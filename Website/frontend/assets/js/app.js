@@ -5,7 +5,8 @@ ngApp = angular.module("ngApp", ['ui.bootstrap',
                                  'duScroll',
                                  'n3-line-chart',
                                  'uiGmapgoogle-maps',
-                                 'popover-html']);
+                                 'popover-html',
+                                 'reCAPTCHA']);
 
 // Init Application
 ngApp.value("appName", "ngApp");
