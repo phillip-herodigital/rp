@@ -27,10 +27,13 @@
                 @Html.Sitecore().Field("Non ATT GSM Message")
             </div>
 
-            <div ng-show="esnError" class="device-error" ng-cloak>
+            <div ng-show="esnError || (phoneManufacturer == 'Apple Inc' && networkType == 'GSM')" class="device-error" ng-cloak>
                 <div compile="esnMessage"></div>
+                <div ng-if="phoneManufacturer == 'Apple Inc' && networkType == 'GSM'">
+                    @Html.Sitecore().Field("Apple GSM Message")
+                </div>
             </div>
-            <div ng-show="esnValid" class="device-success" ng-cloak>
+            <div ng-show="esnValid && (phoneManufacturer != 'Apple Inc' || networkType != 'GSM')" class="device-success" ng-cloak>
                 @Html.Sitecore().Field("ESN Valid Message")
             </div>
         </div>
