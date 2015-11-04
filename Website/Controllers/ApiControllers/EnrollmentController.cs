@@ -133,8 +133,34 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<VerifyImeiResponse> VerifyImei([FromBody]string imei)
+        public async Task<VerifyImeiResponse> VerifyImei([FromBody]VerifyDeviceNumberRequest request)
         {
+            string imei = request.Imei;
+            string ipAddress = HttpContext.Current.Request.UserHostAddress;
+            bool captchaEnabled = string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Disable Max ESN Check"));
+            int maxLookups = int.Parse(settings.GetSettingsValue("Mobile Enrollment Options", "Max ESN Checks Per Hour"));
+
+            if (captchaEnabled)
+            {
+                var lookupCount = (int?)await redisDatabase.StringGetAsync(redisPrefix + ipAddress);
+                if (lookupCount != null && lookupCount > maxLookups)
+                {
+                    // make sure the reCaptcha input is valid
+                    var client = new System.Net.WebClient();
+                    string privateKey = "6Lf0KRATAAAAAB0QD85ZvpQCtfrlmikO8NSXushh";
+                    var googleReply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", privateKey, request.Captcha));
+                    var captchaResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CaptchaResponse>(googleReply);
+                    if (!captchaResponse.Success)
+                    {
+                        return new VerifyImeiResponse
+                        {
+                            IsValidImei = false,
+                            VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.UnknownError
+                        };
+                    }
+                }
+            }
+
             if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
             {
                 if (imei == "111")  

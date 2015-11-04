@@ -949,6 +949,8 @@
     <Compile Include="Models\MobileEnrollment\ChoosePhone.cs" />
     <Compile Include="Models\MobileEnrollment\ChooseNetwork.cs" />
     <Compile Include="Models\MobileEnrollment\ProgressBar.cs" />
+    <Compile Include="Models\MobileEnrollment\VerifyDeviceNumberRequest.cs" />
+    <Compile Include="Models\MobileEnrollment\CaptchaResponse.cs" />
     <Compile Include="Models\MobileEnrollment\VerifyDeviceNumberResponse.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
