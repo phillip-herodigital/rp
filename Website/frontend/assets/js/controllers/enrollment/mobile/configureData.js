@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$filter', '$modal', 'uiGmapGoogleMapApi','uiGmapIsReady', '$location', 'jQuery', '$http', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'analytics', function ($scope, $filter, $modal, uiGmapGoogleMapApi,uiGmapIsReady, $location, jQuery, $http, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, analytics) {
+﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$modal', 'uiGmapGoogleMapApi','uiGmapIsReady', '$http', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'analytics', function ($scope, $modal, uiGmapGoogleMapApi, uiGmapIsReady, $http, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, analytics) {
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
@@ -11,8 +11,8 @@
     $scope.excludedStates = false;
     $scope.enrollmentStepsService = enrollmentStepsService;
 
-    var coverageMap = $(jQuery.find(".coverage-map-container"));
-    var dataCalculator = $(jQuery.find(".data-calculator-container"));
+    var coverageMap = angular.element(document.getElementsByClassName('coverage-map-container'));
+    var dataCalculator = angular.element(document.getElementsByClassName('data-calculator-container'));
 
     $scope.filterIndPlans = function(plan){
         if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
@@ -89,12 +89,19 @@
                 $scope.isIndSelected = false; 
                 $scope.isGroupSelected = true;
             }
-            // if 0 or 1 phone, reset the the selected offers. otherwise, trigger a plan selection
-            if (newVal < 2 || typeof $scope.planSelection.selectedOffers.Mobile == 'undefined') {
+            if (typeof $scope.planSelection.selectedOffers.Mobile == 'undefined') {
                 $scope.planSelection = { selectedOffers: {} };
             } else {
-                // trigger a plan selection
-                selectOffers($scope.planSelection.selectedOffers);
+                var activeService = enrollmentCartService.getActiveService();
+                var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
+                var selectedOffer = _(offerInformationForType.value.availableOffers).find({ 'id': $scope.planSelection.selectedOffers.Mobile });
+                // clear the plan selection if more than 1 device but individual plan selected
+                if (newVal >= 2 && !selectedOffer.isParentOffer) {
+                    $scope.planSelection = { selectedOffers: {} };
+                } else {
+                     // trigger a plan selection
+                    selectOffers($scope.planSelection.selectedOffers);
+                }
             }
             
             // see if the requested plan is available, and if so, select it
@@ -125,7 +132,7 @@
             var devices = enrollmentCartService.getCartDevices();
 
             analytics.sendVariables(3, selectedOffer.data, 4, devices.length);
-            analytics.sendVariables(8, selectedOffer.id);
+            analytics.sendVariables(9, selectedOffer.id);
 
             // Add plan for each device, and add to the selected offers array
             for (var i = 0, len = devices.length; i < len; i++) {
@@ -207,26 +214,47 @@
         if ($scope.mobileEnrollment.requestedPlanId != '' && devicesCount > 0) {
             $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';
             var activeService = enrollmentCartService.getActiveService();
-            var provider = mobileEnrollmentService.selectedNetwork.value
+            var provider = mobileEnrollmentService.selectedNetwork.value;
+            var firstDevice = enrollmentCartService.getCartDevices()[0];
             var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
             if (typeof offerInformationForType != 'undefined' && !offerInformationForType.value.offerSelections.length) {
+                var plansArray = $scope.mobileEnrollment.requestedPlanId.split('|');
+                var requestedPlan = _(offerInformationForType.value.availableOffers).find(function (offer){
+                    if (provider == 'sprint' && !firstDevice.lte) {
+                        return _(plansArray).contains(offer.id)
+                        && offer.nonLtePlan;
+                    } else {
+                        return _(plansArray).contains(offer.id)
+                        && !offer.nonLtePlan;
+                    }
+                });
                 $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
-                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                    return offer.id == requestedPlan.id 
                         && offer.provider.toLowerCase() == provider 
                         && !offer.isChildOffer
                         && (devicesCount == 1 || (devicesCount > 1 && offer.isParentOffer)) 
                 }).some();
+
+                var isGroupPlan = _(offerInformationForType.value.availableOffers).filter(function (offer){
+                    return offer.id == requestedPlan.id 
+                        && offer.isParentOffer
+                }).some();
                 
                 $scope.requestedPlanProvider = _(offerInformationForType.value.availableOffers).filter(function (offer){
-                    return offer.id == $scope.mobileEnrollment.requestedPlanId 
+                    return offer.id == requestedPlan.id
                 }).flatten().pluck('provider').first();
                 
                 $scope.requestedPlanNetwork = $scope.requestedPlanProvider == 'ATT' ? 'GSM' : 'CDMA';
 
                 if ($scope.requestedPlanAvailable) {
-                    var requestedOffer = { 'Mobile': $scope.mobileEnrollment.requestedPlanId };
+                    var requestedOffer = { 'Mobile': requestedPlan.id };
                     $scope.planSelection.selectedOffers = requestedOffer;
                     selectOffers(requestedOffer);
+                    // select the shared plans tab if it's a group paln
+                    if (isGroupPlan) {
+                        $scope.isIndSelected = false; 
+                        $scope.isGroupSelected = true;
+                    } 
                 }
             }
         }
@@ -302,8 +330,6 @@
             }
         }
     };
-
-    //$scope.selectedNetwork = $location.search().carrier || 'att';
 
     $scope.layers = {
         att: {

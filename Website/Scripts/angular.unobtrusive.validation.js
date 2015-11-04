@@ -251,7 +251,7 @@
         };
     }])
 
-    .directive('valSubmit', ['validation', '$document', function (validation, $document) {
+    .directive('valSubmit', ['validation', '$document', 'jQuery', function (validation, $document, jQuery) {
         return {
             restrict: 'A',
             require: '^?form',
@@ -264,8 +264,10 @@
                         validation.cancelSuppress(scope);
                         scope.$digest();
                         var offset = angular.element(document.querySelector('header.site-header'))[0].offsetHeight;
-                        var summary = angular.element(document.getElementById('validation-summary'));
-                        $document.scrollToElement(summary, offset);
+                        var summary = $(jQuery.find('#validation-summary:visible'));
+                        if (summary.is(":visible")) {
+                            $document.scrollToElement(summary, offset);
+                        }
                     }
                 });
                 /*

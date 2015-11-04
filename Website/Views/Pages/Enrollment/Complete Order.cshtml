@@ -62,7 +62,7 @@
                         </tbody>
                     </table>
                     *@
-                    @Html.ValidationSummary()
+                    <div id="validation-summary"></div>
                     <article class="enrollment__box card-details" ng-if="getCartTotal() > 0">
                         <header>
                             <h1>@Html.Sitecore().Field("Card Details")</h1>
@@ -338,7 +338,7 @@
                         
                     </div>
                     <div class="buttons">
-                        <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                        <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Button")</button>
                         <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                         <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                         <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
@@ -678,7 +678,7 @@
                         <p class="note">@Html.Sitecore().Field("SIM Card Description")</p>
                     </div>
                 </div>
-                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && item.iccidNumber == null)">
+                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && !dataPlan.nonLtePlan && item.iccidNumber == null)">
                     <div>
                         <h3>@Html.Sitecore().Field("ICCID Card Text")</h3>
                         <p class="note">@Html.Sitecore().Field("ICCID Card Description")</p>

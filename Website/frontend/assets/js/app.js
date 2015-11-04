@@ -6,6 +6,7 @@ ngApp = angular.module("ngApp", ['ui.bootstrap',
                                  'n3-line-chart',
                                  'uiGmapgoogle-maps',
                                  'popover-html',
+                                 'recordLog',
                                  'reCAPTCHA']);
 
 // Init Application
