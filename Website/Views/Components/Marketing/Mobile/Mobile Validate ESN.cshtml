@@ -16,6 +16,9 @@
                         <button type="submit">@Html.Sitecore().Field("Check Text")</button>
                     </div>
                 </div><!-- /input-group -->
+                <div class="input-group" ng-if="showCaptcha">
+                    <div re-captcha ng-model="form.captcha"></div>
+                </div><!-- /input-group -->
                 <div>
                     <a href="" ng-click="showLightbox('compatible-devices')">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
                 </div>
