@@ -127,10 +127,18 @@ namespace StreamEnergy.MyStream.Fields
 		/// </summary>
 		private void BuildControl()
 		{
-            var store = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(this.Value);
+            var store = new List<KeyValuePair<string, string>>();
+            try
+            {
+                store = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(this.Value);
+            }
+            catch(Exception)
+            {
+                //do nothing
+            }
 			foreach (var keyValuePair in store)
 			{
-                if (!string.IsNullOrEmpty(keyValuePair.Key) && !string.IsNullOrEmpty(keyValuePair.Value))
+                if (!string.IsNullOrEmpty(keyValuePair.Key))
                 {
                     this.Controls.Add(new LiteralControl(this.BuildParameterKeyValue(keyValuePair.Key, keyValuePair.Value)));
                 }
@@ -173,7 +181,7 @@ namespace StreamEnergy.MyStream.Fields
 				this.NameStyle
 			});
 			string valueHtmlControl = this.GetValueHtmlControl(uniqueID, StringUtil.EscapeQuote(HttpUtility.UrlDecode(value)));
-            return string.Format("<table width=\"100%\" class='scAdditionalParameters'><tr><td><a class=\"up\" href=\"javascript:void(0);\" onclick=\"(function(ele) {{var tab = $(ele).closest('table'); tab.up().insertBefore(tab, tab.previous())}})(this)\">Move&nbsp;Up</a><br /><a class=\"down\" href=\"javascript:void(0);\" onclick=\"(function(ele) {{var tab = $(ele).closest('table'); tab.up().insertBefore(tab, tab.next().next())}})(this)\">Move&nbsp;Down</a></td><td>{0}</td>{2}<td width=\"100%\">{1}</td></tr></table>", arg2, valueHtmlControl, arg);
+            return string.Format("<table width=\"100%\" class='scAdditionalParameters'><tr><td><a class=\"up\" href=\"javascript:void(0);\" onclick=\"(function(ele) {{var tab = $(ele).up('table'); tab.up().insertBefore(tab, tab.previous())}})(this)\">Move&nbsp;Up</a><br /><a class=\"down\" href=\"javascript:void(0);\" onclick=\"(function(ele) {{var tab = $(ele).up('table'); tab.up().insertBefore(tab, tab.next().next())}})(this)\">Move&nbsp;Down</a></td><td>{0}</td>{2}<td width=\"100%\">{1}</td></tr></table>", arg2, valueHtmlControl, arg);
 		}
 
 		/// <summary>
@@ -201,7 +209,10 @@ namespace StreamEnergy.MyStream.Fields
 			{
 				if (!string.IsNullOrEmpty(text) && text.StartsWith(this.ID + "_Param", System.StringComparison.InvariantCulture) && !text.EndsWith("_value", System.StringComparison.InvariantCulture))
 				{
-                    store.Add(new KeyValuePair<string, string>(nameValueCollection[text], nameValueCollection[text + "_value"]));
+                    if (!string.IsNullOrEmpty(nameValueCollection[text]))
+                    {
+                        store.Add(new KeyValuePair<string, string>(nameValueCollection[text], nameValueCollection[text + "_value"]));
+                    }
 				}
 			}
             string text2 = JsonConvert.SerializeObject(store);
