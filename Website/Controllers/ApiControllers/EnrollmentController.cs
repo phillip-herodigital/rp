@@ -157,7 +157,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         return new VerifyImeiResponse
                         {
                             IsValidImei = false,
-                            VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.UnknownError
+                            VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.ReCaptchaError,
                         };
                     }
                 }
