@@ -2662,3 +2662,65 @@ article.mobile-pricing-plans {
         }
     }
 }
+
+
+.free-mobile {
+    font-size: 20px;
+    margin-left: 50px;
+    margin-right: 20px;
+}
+
+.free-mobile-links {
+    p.mobile-links {
+            margin-left: 40px;
+            margin-right: 40px;
+    }
+    .col {
+
+        .inner {
+            padding-top: 100px;
+            background: center top no-repeat;
+            text-align: center;
+            letter-spacing: (17/1000);
+            font-size: 16px;
+
+            h3 {
+                color: #3c535c;
+                font-weight: 600;
+                font-size: 20px;
+            }
+        }
+
+        &.enroll {
+            .inner {
+                background-image: image-url("marketing/redesign/Modules/enroll.png");
+            }
+        }
+
+        &.share {
+            .inner {
+                background-image: image-url("marketing/redesign/Modules/share.png");
+            }
+        }
+
+        &.earn {
+            .inner {
+                background-image: image-url("marketing/redesign/Modules/earn.png");
+            }
+        }
+    }
+}
+
+.banner.free-mobile-banner h1{
+    color: #033c5a;
+}
+
+.free-everything {
+    font-size: 20px;
+    text-align: center;
+    
+    a {
+        color: #0071b9; 
+        font-weight: bolder;
+    }
+}
