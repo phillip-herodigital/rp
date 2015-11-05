@@ -49,6 +49,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly ISettings settings;
         private readonly ILogger logger;
         private const string redisPrefix = "AttemptCount_";
+        private readonly HttpClient httpClient;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -65,7 +66,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger, HttpClient httpClient)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -81,6 +82,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.emailService = emailService;
             this.settings = settings;
             this.logger = logger;
+            this.httpClient = httpClient;
         }
 
         public async Task Initialize()
@@ -147,19 +149,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 if (lookupCount != null && lookupCount > maxLookups)
                 {
                     // make sure the reCaptcha input is valid
-                    using (var client = StreamEnergy.Unity.Container.Instance.Resolve<HttpClient>())
+                    var googleReply = await httpClient.PostAsync(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", privateKey, request.Captcha), null);
+                    var captchaResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CaptchaResponse>(googleReply.Content.ReadAsStringAsync().Result);
+                    if (!captchaResponse.Success)
                     {
-                        var googleReply = await client.PostAsync(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", privateKey, request.Captcha), null);
-                        var captchaResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CaptchaResponse>(googleReply.Content.ReadAsStringAsync().Result);
-                        if (!captchaResponse.Success)
+                        await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                        return new VerifyImeiResponse
                         {
-                            await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
-                            return new VerifyImeiResponse
-                            {
-                                IsValidImei = false,
-                                VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.UnknownError
-                            };
-                        }
+                            IsValidImei = false,
+                            VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.UnknownError
+                        };
                     }
                 }
                 if (lookupCount == null)
