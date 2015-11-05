@@ -1,4 +1,4 @@
-﻿<article class="marketing wrapper validate-esn" ng-controller="MobileValidateEsnCtrl" ng-init="esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString());">
+﻿<article class="marketing wrapper validate-esn" ng-controller="MobileValidateEsnCtrl" ng-init="esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString())">
     @Html.Sitecore().Field("Intro Text")
     <form ng-submit="validateESN()">
         <div loading-indicator>
@@ -17,7 +17,7 @@
                     </div>
                 </div><!-- /input-group -->
                 <div class="input-group" ng-if="showCaptcha">
-                    <div re-captcha ng-model="form.captcha"></div>
+                    <div re-captcha ng-model="form.captcha" key="mobileEnrollmentSettings.reCaptchaPublicKey"></div>
                 </div><!-- /input-group -->
                 <div>
                     <a href="" ng-click="showLightbox('compatible-devices')">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
@@ -26,7 +26,6 @@
             <div class="side-content">
                 @Html.Sitecore().Field("Non ATT GSM Message")
             </div>
-
             <div ng-show="esnError || (phoneManufacturer == 'Apple Inc' && networkType == 'GSM')" class="device-error" ng-cloak>
                 <div compile="esnMessage"></div>
                 <div ng-if="phoneManufacturer == 'Apple Inc' && networkType == 'GSM'">

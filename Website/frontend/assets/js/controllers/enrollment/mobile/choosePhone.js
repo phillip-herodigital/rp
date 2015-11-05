@@ -36,7 +36,6 @@
         $scope.duplicateDevice = false;
         $scope.phoneVerified = false;
         $scope.cdmaActive = false;
-        isAttemptsExceeded(true);
         var cartDevices = $scope.getCartDevices();
         if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
             $scope.hasError = true;
@@ -91,7 +90,7 @@
                     mobileEnrollmentService.selectedNetwork.value = data.provider;
                     $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
                 }
-
+                isAttemptsExceeded();
                 enrollmentService.isLoading = false;
             });
         }
@@ -372,16 +371,16 @@
             leftPad(baseConvert(input.substr(8),16,10),8,0)).toUpperCase();
     };
 
-    function isAttemptsExceeded (incrementCount) {
-        $http.post('/api/enrollment/ShowCaptcha', incrementCount, { transformRequest: function (code) { return JSON.stringify(code); } 
-        }).success(function (data, status, headers, config) {
+    function isAttemptsExceeded () {
+        $http.get('/api/enrollment/ShowCaptcha')
+        .success(function (data, status, headers, config) {
             $scope.showCaptcha = data == 'true' ? true : false;
         }).error(function () { 
             $scope.streamConnectError = true; 
         });
     };
 
-    isAttemptsExceeded(false);
+    isAttemptsExceeded();
 
     /**
      * Adds the currently selected phone to the cart

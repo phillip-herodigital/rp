@@ -3,8 +3,6 @@
 angular.module('reCAPTCHA', []).service('reCAPTCHA', ['$window', '$q', function ($window, $q) {
     var deferred = $q.defer(), promise = deferred.promise, recaptcha;
 
-    var publicKey = '6Lf0KRATAAAAAOdLjEjQ78IOxth-xkHCuXuuZ1Cr';
-
     $window.reCaptchaApiLoaded = function () {
         recaptcha = $window.grecaptcha;
 
@@ -41,9 +39,9 @@ angular.module('reCAPTCHA', []).service('reCAPTCHA', ['$window', '$q', function 
          * @param fn   a callback function to call when the captcha is resolved
          * @param conf the captcha object configuration
          */
-        create: function (elm, fn, conf) {
+        create: function (elm, key, fn, conf) {
             conf.callback = fn;
-            conf.sitekey = publicKey;
+            conf.sitekey = key;
 
             return getRecaptcha().then(function (recaptcha) {
                 return recaptcha.render(elm, conf);

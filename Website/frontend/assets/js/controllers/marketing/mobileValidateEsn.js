@@ -12,7 +12,6 @@ ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 
     $scope.validateESN = function () {
         $scope.isLoading = true;
         $scope.esnError = $scope.esnValid = false;
-        isAttemptsExceeded(true);
         var convertedImei = null;
         // do the hex conversion for CDMA MEID/ESN-DEC
         if ($scope.form.esn.length == 14) {
@@ -37,6 +36,7 @@ ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 
                     $scope.phoneManufacturer = data.manufacturer;
                 }
                 $scope.isLoading = false;
+                isAttemptsExceeded();
             });
     };
 
@@ -59,16 +59,16 @@ ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 
             leftPad(baseConvert(input.substr(8),16,10),8,0)).toUpperCase();
     };
 
-    function isAttemptsExceeded (incrementCount) {
-        $http.post('/api/enrollment/ShowCaptcha', incrementCount, { transformRequest: function (code) { return JSON.stringify(code); } 
-        }).success(function (data, status, headers, config) {
+    function isAttemptsExceeded () {
+        $http.get('/api/enrollment/ShowCaptcha')
+        .success(function (data, status, headers, config) {
             $scope.showCaptcha = data == 'true' ? true : false;
         }).error(function () { 
             $scope.streamConnectError = true; 
         });
     };
 
-    isAttemptsExceeded(false);
+    isAttemptsExceeded();
 
     $scope.showModal = function (templateUrl, size) {
         $modal.open({

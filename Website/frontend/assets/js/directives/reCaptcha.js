@@ -14,10 +14,24 @@ ngApp.directive('reCaptcha', ['$document', '$timeout', 'reCAPTCHA', function ($d
             onExpire: '&'
         },
         link: function (scope, elm, attrs, ctrl) {
+            function throwNoKeyException() {
+                throw new Error('You need to set the "key" attribute to your public reCaptcha key. If you don\'t have a key, please get one from https://www.google.com/recaptcha/admin/create');
+            }
+            
+            if (!attrs.hasOwnProperty('key')) {
+                throwNoKeyException();
+            }
             scope.widgetId = null;
 
             var sessionTimeout;
             var removeCreationListener = scope.$watch('key', function (key) {
+                if (!key) {
+                    return;
+                }
+
+                if (key.length !== 40) {
+                    throwNoKeyException();
+                }
 
                 var callback = function (gRecaptchaResponse) {
                     // Safe $apply
@@ -41,7 +55,7 @@ ngApp.directive('reCaptcha', ['$document', '$timeout', 'reCAPTCHA', function ($d
                     }, 2 * 60 * 1000);
                 };
 
-                reCAPTCHA.create(elm[0], callback, {
+                reCAPTCHA.create(elm[0], key, callback, {
 
                     theme: scope.theme || attrs.theme || null,
                     tabindex: scope.tabindex || attrs.tabindex || null,

@@ -139,6 +139,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             string ipAddress = HttpContext.Current.Request.UserHostAddress;
             bool captchaEnabled = string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Disable Max ESN Check"));
             int maxLookups = int.Parse(settings.GetSettingsValue("Mobile Enrollment Options", "Max ESN Checks Per Hour"));
+            string privateKey = settings.GetSettingsValue("Mobile Enrollment Options", "reCaptcha Private Key");
 
             if (captchaEnabled)
             {
@@ -146,24 +147,31 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 if (lookupCount != null && lookupCount > maxLookups)
                 {
                     // make sure the reCaptcha input is valid
-                    var client = new System.Net.WebClient();
-                    string privateKey = "6Lf0KRATAAAAAB0QD85ZvpQCtfrlmikO8NSXushh";
-                    var googleReply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", privateKey, request.Captcha));
-                    var captchaResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CaptchaResponse>(googleReply);
-                    if (!captchaResponse.Success)
+                    using (var client = StreamEnergy.Unity.Container.Instance.Resolve<HttpClient>())
                     {
-                        return new VerifyImeiResponse
+                        var googleReply = await client.PostAsync(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", privateKey, request.Captcha), null);
+                        var captchaResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CaptchaResponse>(googleReply.Content.ReadAsStringAsync().Result);
+                        if (!captchaResponse.Success)
                         {
-                            IsValidImei = false,
-                            VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.UnknownError
-                        };
+                            await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                            return new VerifyImeiResponse
+                            {
+                                IsValidImei = false,
+                                VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.UnknownError
+                            };
+                        }
                     }
                 }
+                if (lookupCount == null)
+                {
+                    await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
+                }
+                await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
             }
 
             if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
             {
-                if (imei == "111")  
+                if (imei == "111")
                 {
                     return new VerifyImeiResponse
                     {
@@ -240,9 +248,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return await activationCodeLookup.LookupEsn(activationCode);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<bool> ShowCaptcha([FromBody]bool incrementCount)
+        public async Task<bool> ShowCaptcha()
         {
             // show Captcha after max tries exceeded
             bool showCaptcha = false;
@@ -252,22 +260,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (captchaEnabled)
             {
-                if (incrementCount)
-                {
-                    await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
-                }
                 var lookupCount = (int?)await redisDatabase.StringGetAsync(redisPrefix + ipAddress);
-                if (lookupCount != null)
-                {
-                    if (lookupCount > maxLookups)
-                    {
-                        showCaptcha = true;
-                    }
-                }
-                else
-                {
-                    await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
-                }
+                showCaptcha = (lookupCount != null && lookupCount > maxLookups);
             }
 
             return showCaptcha;
