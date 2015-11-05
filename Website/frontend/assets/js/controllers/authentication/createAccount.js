@@ -97,8 +97,8 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 					$scope.createLoginError = $sce.trustAsHtml(data.validations[0].text);
 
 				} else {
-					// if successful, send the user to the /account page
-					$window.location.href = '/account';
+					// if successful, send the user to the interstitial page
+					$window.location.href = '/account/interstitial';
 				}
 			});
 	};
