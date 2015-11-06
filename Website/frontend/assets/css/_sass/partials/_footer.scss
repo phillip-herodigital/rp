@@ -45,6 +45,9 @@ footer.site-footer {
         .logo {
             @include image-replace("bg/logo-footer.png", "bg2x/logo-footer.png");
             float: left;
+			@include breakpoint(small) {
+				display: none;
+			}
         }
         ul {
             @include inline-block-list();
@@ -53,6 +56,10 @@ footer.site-footer {
             li {
                 margin-left: 10px;
             }
+			@include breakpoint(small) {
+				float: none;
+				text-align: center;
+			}
         }
     }
     div.site-footer-legal {
