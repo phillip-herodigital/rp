@@ -2672,9 +2672,10 @@ article.mobile-pricing-plans {
 
 .free-mobile-links {
     p.mobile-links {
-            margin-left: 40px;
-            margin-right: 40px;
+        margin-left: 40px;
+        margin-right: 40px;
     }
+
     .col {
 
         .inner {
@@ -2709,6 +2710,10 @@ article.mobile-pricing-plans {
             }
         }
     }
+
+    .stream-associate-link {
+        color: #28ade0;
+    }
 }
 
 .banner.free-mobile-banner h1{
@@ -2724,3 +2729,6 @@ article.mobile-pricing-plans {
         font-weight: 500;
     }
 }
+
+
+
