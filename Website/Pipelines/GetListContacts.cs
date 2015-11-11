@@ -51,9 +51,27 @@ namespace StreamEnergy.MyStream.Pipelines
             public string IA_Level { get; set; }
             public string LanguagePreference { get; set; }
         }
-        private IEnumerable<DatabaseContact> GetAllContacts(bool useTestList)
+        private IEnumerable<DatabaseContact> GetAllContacts(bool useTestList, string rank, string homesite, string assosiates, string langPref)
         {
             var contacts = new List<DatabaseContact>();
+            var cmd_start = "@SELECT COALESCE(NULLIF(MAX(am.[Name_First]), ''), '_'), MAX(am.[Name_Last]), am.[Primary Email], MAX(am.[Billing State]), MAX(am.[IA Level]), MAX(am.[LangPref]) FROM [Eagle].[dbo].[tblAssociatesAndHomesites] am WHERE am.[Email Address Status] = 'V'";
+            var cmd_end = " AND am.[DStatusDesc] = 'Active' GROUP BY am.[Primary Email]";
+            if (!string.IsNullOrEmpty(rank))
+                {
+                cmd_start += " AND am.[IA_Level] = " + rank;
+            }
+            if (!string.IsNullOrEmpty(homesite))
+            {
+                cmd_start += " AND am.[Homesite] = " + homesite;
+            }
+            if (!string.IsNullOrEmpty(assosiates))
+            {
+                cmd_start += " AND am.[Type] = " + assosiates;
+            }
+            if (!string.IsNullOrEmpty(langPref))
+            {
+                cmd_start += " AND am.[LangPref] = " + langPref;
+            }
             if (useTestList)
             {
                 contacts.Add(new DatabaseContact()
@@ -86,26 +104,13 @@ namespace StreamEnergy.MyStream.Pipelines
                 return contacts;
             }
 
+
             using (var connection = new SqlConnection(dependencies.connectionString))
             {
                 connection.Open();
 
-                using (var cmd = new SqlCommand(@"
-SELECT
-	COALESCE(NULLIF(MAX(am.[Name_First]),''), '_'),
-	MAX(am.[Name_Last]),
-	am.[Primary Email],
-	MAX(am.[Billing State]),
-	MAX(am.[IA Level]),
-	MAX(am.[LangPref])
-FROM
-	[Eagle].[dbo].[tblAssociatesAndHomesites] am
-WHERE
-	am.[Email Address Status] = 'V' AND
-	am.[Type] = 'D' AND
-	am.[DStatusDesc] = 'Active'
-GROUP BY
-	am.[Primary Email]", connection))
+                using (
+                    var cmd = new SqlCommand(cmd_start+cmd_end, connection))
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -151,7 +156,11 @@ GROUP BY
 
                 if (contactDatas == null)
                 {
-                    var contacts = GetAllContacts(listItem.Fields["Use Test List"] != null && !string.IsNullOrEmpty(listItem.Fields["Use Test List"].Value));
+                    var rank = listItem.Fields["IA_Level"].Value;
+                    var homesite = listItem.Fields["Homesite"].Value;
+                    var assosiates = listItem.Fields["Type"].Value;
+                    var langPref = listItem.Fields["LangPref"].Value;
+                    var contacts = GetAllContacts(listItem.Fields["Use Test List"] != null && !string.IsNullOrEmpty(listItem.Fields["Use Test List"].Value), rank, homesite, assosiates, langPref);
 
                     contactDatas = (from databaseContact in contacts
                                     let contact = GetOrCreateContact(databaseContact.Email)
