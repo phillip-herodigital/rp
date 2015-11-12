@@ -51,27 +51,9 @@ namespace StreamEnergy.MyStream.Pipelines
             public string IA_Level { get; set; }
             public string LanguagePreference { get; set; }
         }
-        private IEnumerable<DatabaseContact> GetAllContacts(bool useTestList, string rank, string homesite, string assosiates, string langPref)
+        private IEnumerable<DatabaseContact> GetAllContacts(bool useTestList, string rank, string homesite, string associates, string langPref)
         {
             var contacts = new List<DatabaseContact>();
-            var cmd_start = "@SELECT COALESCE(NULLIF(MAX(am.[Name_First]), ''), '_'), MAX(am.[Name_Last]), am.[Primary Email], MAX(am.[Billing State]), MAX(am.[IA Level]), MAX(am.[LangPref]) FROM [Eagle].[dbo].[tblAssociatesAndHomesites] am WHERE am.[Email Address Status] = 'V'";
-            var cmd_end = " AND am.[DStatusDesc] = 'Active' GROUP BY am.[Primary Email]";
-            if (!string.IsNullOrEmpty(rank))
-                {
-                cmd_start += " AND am.[IA_Level] = " + rank;
-            }
-            if (!string.IsNullOrEmpty(homesite))
-            {
-                cmd_start += " AND am.[Homesite] = " + homesite;
-            }
-            if (!string.IsNullOrEmpty(assosiates))
-            {
-                cmd_start += " AND am.[Type] = " + assosiates;
-            }
-            if (!string.IsNullOrEmpty(langPref))
-            {
-                cmd_start += " AND am.[LangPref] = " + langPref;
-            }
             if (useTestList)
             {
                 contacts.Add(new DatabaseContact()
@@ -104,15 +86,53 @@ namespace StreamEnergy.MyStream.Pipelines
                 return contacts;
             }
 
+            var cmd = string.Format(@"
+SELECT 
+    COALESCE(NULLIF(MAX(am.[Name_First]), ''), '_'), 
+    MAX(am.[Name_Last]), 
+    am.[Primary Email], 
+    MAX(am.[Billing State]), 
+    MAX(am.[IA Level]), 
+    MAX(am.[LangPref]) 
+FROM
+    [Eagle].[dbo].[tblAssociatesAndHomesites] am 
+WHERE
+    am.[Email Address Status] = 'V' AND
+    am.[DStatusDesc] = 'Active' AND
+    {0} AND
+    {1} AND
+    {2} AND
+    {3}
+GROUP BY
+    am.[Primary Email]",
+    string.IsNullOrEmpty(rank) ? "true" : "am.[IA_Level] = @Rank",
+    string.IsNullOrEmpty(homesite) ? "true" : "am.[Homesite] = @Homesite",
+    string.IsNullOrEmpty(associates) ? "true" : "am.[Type] = @Associates",
+    string.IsNullOrEmpty(langPref) ? "true" : "am.[LangPref] = @LangPref"
+    );
 
             using (var connection = new SqlConnection(dependencies.connectionString))
             {
                 connection.Open();
-
-                using (
-                    var cmd = new SqlCommand(cmd_start+cmd_end, connection))
+                using (var sql_cmd = new SqlCommand(cmd, connection))
                 {
-                    using (var reader = cmd.ExecuteReader())
+                    if (!string.IsNullOrEmpty(rank))
+                    {
+                        sql_cmd.Parameters.Add(new SqlParameter("Rank", rank));
+                    }
+                    if (!string.IsNullOrEmpty(homesite))
+                    {
+                        sql_cmd.Parameters.Add(new SqlParameter("Homesite", homesite));
+                    }
+                    if (!string.IsNullOrEmpty(associates))
+                    {
+                        sql_cmd.Parameters.Add(new SqlParameter("Associates", associates));
+                    }
+                    if (!string.IsNullOrEmpty(langPref))
+                    {
+                        sql_cmd.Parameters.Add(new SqlParameter("LangPref", langPref));
+                    }
+                    using (var reader = sql_cmd.ExecuteReader())
                     {
                         if (reader.HasRows)
                         {
@@ -158,9 +178,9 @@ namespace StreamEnergy.MyStream.Pipelines
                 {
                     var rank = listItem.Fields["IA_Level"].Value;
                     var homesite = listItem.Fields["Homesite"].Value;
-                    var assosiates = listItem.Fields["Type"].Value;
+                    var associates = listItem.Fields["Type"].Value;
                     var langPref = listItem.Fields["LangPref"].Value;
-                    var contacts = GetAllContacts(listItem.Fields["Use Test List"] != null && !string.IsNullOrEmpty(listItem.Fields["Use Test List"].Value), rank, homesite, assosiates, langPref);
+                    var contacts = GetAllContacts(listItem.Fields["Use Test List"] != null && !string.IsNullOrEmpty(listItem.Fields["Use Test List"].Value), rank, homesite, associates, langPref);
 
                     contactDatas = (from databaseContact in contacts
                                     let contact = GetOrCreateContact(databaseContact.Email)
