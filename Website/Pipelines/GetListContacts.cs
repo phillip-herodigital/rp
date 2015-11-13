@@ -85,7 +85,6 @@ namespace StreamEnergy.MyStream.Pipelines
                 });
                 return contacts;
             }
-
             var cmd = string.Format(@"
 SELECT 
     COALESCE(NULLIF(MAX(am.[Name_First]), ''), '_'), 
