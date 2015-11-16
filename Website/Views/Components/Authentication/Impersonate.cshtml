@@ -1,22 +1,38 @@
-﻿<div ng-controller="ImpersonateUserCtrl">
-    <article class="grey-box auth">
+﻿@model StreamEnergy.MyStream.Models.Authentication.Impersonate
+<div ng-controller="ImpersonateUserCtrl">
+    <article class="grey-box auth form" loading-indicator>
         <header>
             <h2>@Html.Sitecore().Field("Header Text")</h2>
         </header>
-
-        <div class="content">
-            <div class="item">
-                @Html.Sitecore().Field("Body Text")
+        <form data-val-bind-messages="validations" ng-submit="getAccount()">
+            <div class="content" loading-indicator>
+                <div stream-connect-errors="ImpersonateUserCtrl"></div>
+                <div ng-show="errorMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Error Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
+                <div class="item">
+                    @Html.Sitecore().Field("Body Text")
+                </div>
+                <div class="item">
+                    <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label"):</label>
+                    @Html.TextBoxFor(m => m.AccountNumber, new { ng_model = "accountNumber" })
+                </div>
+                <div class="item">
+                    <ul>
+                        <li ng-repeat="username in usernames track by $index">
+                            <a href="#" ng-click="select(username)">{{ username }}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="item">
-                <ul>
-                    <li ng-repeat="username in usernames track by $index">
-                        <a href="#" ng-click="select(username)">{{ username }}</a>
-                    </li>
-                </ul>
-            </div>
-            
-        </div>
+            <footer>
+                <div class="buttons">
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
+                </div>
+            </footer>
+        </form>
     </article>
 </div>
-

@@ -908,6 +908,7 @@
     <Compile Include="Models\Authentication\FindAccountResponse.cs" />
     <Compile Include="Models\Authentication\GetUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\GetUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\Authentication\Impersonate.cs" />
     <Compile Include="Models\Authentication\LoginRequest.cs" />
     <Compile Include="Models\Authentication\LoginResponse.cs" />
     <Compile Include="Models\Authentication\RecoverUsernameRequest.cs" />

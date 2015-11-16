@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Specialized;
+using System.Text;
 using ResponsivePath.Logging;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
@@ -648,6 +649,24 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         Secure = cookie.Secure 
                     }
                 });
+        }
+
+        [HttpGet]
+        public Impersonate ImpersonateParams(string accountNumber)
+        {
+            var sharedSecret = settings.GetSettingsValue("Impersonation Key", "Impersonation Shared Secret");
+            var expiry = System.Xml.XmlConvert.ToString(DateTime.Now.AddMinutes(30), System.Xml.XmlDateTimeSerializationMode.Local);
+            var unencryptedToken = string.Format("{0}{1}{2}", accountNumber, expiry, sharedSecret);
+            var token = Convert.ToBase64String(System.Security.Cryptography.MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(unencryptedToken)));
+
+
+            return new Impersonate
+            {
+                AccountNumber = accountNumber,
+                Expiry = expiry,
+                Token = token
+            };
+
         }
 
     }
