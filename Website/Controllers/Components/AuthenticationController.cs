@@ -103,5 +103,11 @@ namespace StreamEnergy.MyStream.Controllers.Components
         {
             return View("~/Views/Components/Authentication/Impersonate.cshtml");
         }
+
+        public ActionResult ImpersonateMobileIndex()
+        {
+            return View("~/Views/Components/Authentication/Impersonate-Mobile.cshtml");
+        }
+
     }
 }
