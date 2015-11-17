@@ -1,0 +1,42 @@
+﻿@using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
+{ 
+<article class="grey-box account account-holder-information" ng-controller="PaperlessBillingCtrl">
+    <form ng-submit="updateAccountInformation()" data-val-bind-messages="validations">
+        <div class="content" loading-indicator>
+            <div stream-connect-errors="PaperlessBillingCtrl"></div>
+            <div id="successMessage">
+                <div class="notice success" ng-show="successMessage && !paperlessBillingError">
+                    @Html.Sitecore().Field("Success Message Text")
+                </div>
+                <hr class="content-divider" ng-show="successMessage" />
+            </div>
+            <div ng-show="errorMessage">
+                <div class="notice error">
+                    @Html.Sitecore().Field("Error Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
+            @Html.ValidationSummary()
+            <div ng-if="!paperlessBillingError">
+                <div class="edit-preferences">
+                    <div class="item">
+                        <ul class="checkbox-list">
+                            <li>
+                                <div class="paperless-checkbox">
+                                    <input type="checkbox" id="disablePrintedInvoices" ng-model="formData.disablePrintedInvoices" />
+                                    <p for="disablePrintedInvoices">@Html.Sitecore().Field("Printed Invoices Text")</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer ng-if="!paperlessBillingError">
+            <div class="buttons">
+                <button type="submit" data-val-submit>@Html.Sitecore().Field("Save Button Text")</button>
+            </div>
+        </footer>
+    </form>
+</article>
+}

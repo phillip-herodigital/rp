@@ -1185,7 +1185,7 @@ $local-meeting-color: #00a8e1;
                 float: left;
                 height: 100%;
                 width:  14.28%;
-                @include calc(width, '100%/7');
+                @include calc(width, '100%/7.01');
                 position: relative;
                 text-align: center;
                 &:last-child {

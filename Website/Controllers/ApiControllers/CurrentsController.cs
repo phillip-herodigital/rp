@@ -29,6 +29,7 @@ using XBlogHelper.General;
 using XBlogHelper.Helpers;
 using XBlogHelper.Models.Blog;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -626,10 +627,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 currentMonthItem = currentItem.Children.InnerChildren.OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).First();
             }
 
-            var regionalDirectorsField = (Sitecore.Data.Fields.DatasourceField)currentMonthItem.Fields["Regional Directors List"];
-            var managingDirectorsField = (Sitecore.Data.Fields.DatasourceField)currentMonthItem.Fields["Managing Directors List"];
-            var seniorDirectorsField = (Sitecore.Data.Fields.DatasourceField)currentMonthItem.Fields["Senior Directors List"];
-            var executiveDirectorsField = (Sitecore.Data.Fields.DatasourceField)currentMonthItem.Fields["Executive Directors List"];
+            var regionalDirectorsField = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(currentMonthItem.Fields["Regional Directors List"].Value);
+            var managingDirectorsField = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(currentMonthItem.Fields["Managing Directors List"].Value);
+            var seniorDirectorsField = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(currentMonthItem.Fields["Senior Directors List"].Value);
+            var executiveDirectorsField = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(currentMonthItem.Fields["Executive Directors List"].Value);
 
             return new LeaderList
             {

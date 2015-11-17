@@ -60,18 +60,15 @@
         </div>
         <div class="director-list">
             <ul>
-                @foreach (var personItem in leaderList.RegionalDirectors.TargetItem.Children.Select((person, i) => new { i, person}))
+                @for (var i=0; i<leaderList.RegionalDirectors.Count; i++)
                 {
+                    var person = leaderList.RegionalDirectors[i];
                     liClass = "";
-                    string rank = personItem.person.Fields["List Rank"].Value;
-                    string name = personItem.person.Fields["Associate Name"].Value;
-                    string position = personItem.person.Fields["Associate Position"].Value;
-                    string location = personItem.person.Fields["Associate Location"].Value;
-                    if (personItem.i > 9)
+                    if (i > 9)
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@rank</div><div>@name<span>@position, @location</span></div></li>
+                    <li class="@liClass"><div class="index">@(i + 1)</div><div>@person.Key<span>@person.Value</span></div></li>
                    
                 }
             </ul>
@@ -92,18 +89,15 @@
         </div>
         <div class="director-list">
             <ul>
-                @foreach (var personItem in leaderList.ManagingDirectors.TargetItem.Children.Select((person, i) => new { i, person }))
+                @for (var i = 0; i < leaderList.ManagingDirectors.Count; i++)
                 {
+                    var person = leaderList.ManagingDirectors[i];
                     liClass = "";
-                    string rank = personItem.person.Fields["List Rank"].Value;
-                    string name = personItem.person.Fields["Associate Name"].Value;
-                    string position = personItem.person.Fields["Associate Position"].Value;
-                    string location = personItem.person.Fields["Associate Location"].Value;
-                    if (personItem.i > 9)
+                    if (i > 9)
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@rank</div><div>@name<span>@position, @location</span></div></li>
+                    <li class="@liClass"><div class="index">@(i + 1)</div><div>@person.Key<span>@person.Value</span></div></li>
 
                 }
             </ul>
@@ -124,18 +118,15 @@
         </div>
         <div class="director-list">
             <ul>
-                @foreach (var personItem in leaderList.SeniorDirectors.TargetItem.Children.Select((person, i) => new { i, person }))
+                @for (var i = 0; i < leaderList.SeniorDirectors.Count; i++)
                 {
+                    var person = leaderList.SeniorDirectors[i];
                     liClass = "";
-                    string rank = personItem.person.Fields["List Rank"].Value;
-                    string name = personItem.person.Fields["Associate Name"].Value;
-                    string position = personItem.person.Fields["Associate Position"].Value;
-                    string location = personItem.person.Fields["Associate Location"].Value;
-                    if (personItem.i > 9)
+                    if (i > 9)
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@rank</div><div>@name<span>@position, @location</span></div></li>
+                    <li class="@liClass"><div class="index">@(i + 1)</div><div>@person.Key<span>@person.Value</span></div></li>
 
                 }
             </ul>
@@ -156,18 +147,15 @@
         </div>
         <div class="director-list">
             <ul>
-                @foreach (var personItem in leaderList.ExecutiveDirectors.TargetItem.Children.Select((person, i) => new { i, person }))
+                @for (var i = 0; i < leaderList.ExecutiveDirectors.Count; i++)
                 {
+                    var person = leaderList.ExecutiveDirectors[i];
                     liClass = "";
-                    string rank = personItem.person.Fields["List Rank"].Value;
-                    string name = personItem.person.Fields["Associate Name"].Value;
-                    string position = personItem.person.Fields["Associate Position"].Value;
-                    string location = personItem.person.Fields["Associate Location"].Value;
-                    if (personItem.i > 9)
+                    if (i > 9)
                     {
                         liClass = "top25";
                     }
-                    <li class="@liClass"><div class="index">@rank</div><div>@name<span>@position, @location</span></div></li>
+                    <li class="@liClass"><div class="index">@(i + 1)</div><div>@person.Key<span>@person.Value</span></div></li>
 
                 }
             </ul>
