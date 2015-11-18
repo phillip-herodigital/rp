@@ -787,6 +787,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
     <Compile Include="Conditions\MobileAccountCondition.cs" />
     <Compile Include="Conditions\CustomerDismissedModalCondition.cs" />
     <Compile Include="Conditions\CustomerAutoPayCondition.cs" />
