@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', 'analytics', function ($scope, $filter, $modal, $http, $sce, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService, analytics) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', 'analytics', 'reCAPTCHA', function ($scope, $filter, $modal, $http, $sce, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService, analytics, reCAPTCHA) {
 
     var maxMobileItems = 10;
 
@@ -110,6 +110,10 @@
         //enrollmentStepsService.setStep('phoneFlowDevices');
     };
 
+    $scope.setWidgetId = function (widgetId) {
+        $scope.widgetId = widgetId;
+    };
+
     $scope.editMobileDevice = function (service, item) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
@@ -132,6 +136,7 @@
         mobileEnrollmentService.editedDevice = item;
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
+        reCAPTCHA.reload($scope.widgetId);
         scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
     };
 
@@ -147,6 +152,7 @@
         enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
         $scope.phoneOptions.imeiNumber = '';
+        reCAPTCHA.reload($scope.widgetId);
         scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
     };
     
@@ -448,6 +454,7 @@
         if (phoneType) {
             $scope.mobileEnrollment.phoneTypeTab = phoneType; 
             $scope.clearPhoneSelection();
+            reCAPTCHA.reload($scope.widgetId);
             enrollmentStepsService.scrollToStep('phoneFlowDevices');
         }
     };
