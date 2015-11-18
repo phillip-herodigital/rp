@@ -24,6 +24,9 @@
                 @Html.TextBoxFor(m => m.SsnLastFour, new { ng_model = "formData.ssnLastFour" })
                 @Html.ValidationMessageFor(model => model.SsnLastFour)
             </div>
+            <div class="item">
+                <a href="/auth/login">@Html.Sitecore().Field("Already have a My Stream Account? Login.")</a>
+            </div>
         </div>
         <footer>
             <div class="buttons">
