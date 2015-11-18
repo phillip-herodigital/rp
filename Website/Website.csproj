@@ -787,6 +787,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\CustomerFirstLoginCondition.cs" />
     <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
     <Compile Include="Conditions\MobileAccountCondition.cs" />
     <Compile Include="Conditions\CustomerDismissedModalCondition.cs" />
@@ -818,6 +819,7 @@
     <Compile Include="Controllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
+    <Compile Include="Fields\ReorderableListField.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -881,9 +883,9 @@
     <Compile Include="Models\Account\SendLetterResponse.cs" />
     <Compile Include="Models\Account\SetAutoPayRequest.cs" />
     <Compile Include="Models\Account\SetAutoPayResponse.cs" />
-    <Compile Include="Models\Account\DismissInterstitialModalRequest.cs" />
+    <Compile Include="Models\Account\DismissInterstitialRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalRequest.cs" />
-    <Compile Include="Models\Account\DismissInterstitialModalResponse.cs" />
+    <Compile Include="Models\Account\DismissInterstitialResponse.cs" />
     <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />
@@ -950,6 +952,8 @@
     <Compile Include="Models\MobileEnrollment\ChoosePhone.cs" />
     <Compile Include="Models\MobileEnrollment\ChooseNetwork.cs" />
     <Compile Include="Models\MobileEnrollment\ProgressBar.cs" />
+    <Compile Include="Models\MobileEnrollment\VerifyDeviceNumberRequest.cs" />
+    <Compile Include="Models\MobileEnrollment\CaptchaResponse.cs" />
     <Compile Include="Models\MobileEnrollment\VerifyDeviceNumberResponse.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
@@ -1643,6 +1647,8 @@
     <Content Include="Views\Pages\Currents\Leaderboard.cshtml" />
     <Content Include="Views\Pages\Currents\RadioListing.cshtml" />
     <Content Include="Views\Components\Marketing\Lyric FAQs.cshtml" />
+    <Content Include="Views\Components\Account\Interstitial.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Paperless Billing.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

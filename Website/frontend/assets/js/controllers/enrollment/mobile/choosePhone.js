@@ -15,6 +15,7 @@
     $scope.showIccid = true;
     $scope.networkType = null;
     $scope.cdmaActive = false;
+    $scope.showCaptcha = false;
     $scope.phoneOptions = {
         color: undefined,
         size: undefined,
@@ -47,7 +48,11 @@
             if ($scope.phoneOptions.imeiNumber.length == 14) {
                 convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber);
             }
-            $http.post('/api/enrollment/verifyImei', convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei, { transformRequest: function (code) { return JSON.stringify(code); } })
+            var formData = {
+                imei: convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei,
+                captcha: $scope.phoneOptions.captcha,
+            };
+            $http.post('/api/enrollment/verifyImei', formData, { transformRequest: function (code) { return JSON.stringify(code); } })
             .success(function (data) {
                 analytics.sendVariables(2, data.provider);
                 if (!data.isValidImei) {
@@ -85,7 +90,7 @@
                     mobileEnrollmentService.selectedNetwork.value = data.provider;
                     $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
                 }
-
+                isAttemptsExceeded();
                 enrollmentService.isLoading = false;
             });
         }
@@ -365,6 +370,17 @@
         return (leftPad(baseConvert(input.substr(0,8),16,10),10,0) + 
             leftPad(baseConvert(input.substr(8),16,10),8,0)).toUpperCase();
     };
+
+    function isAttemptsExceeded () {
+        $http.get('/api/enrollment/ShowCaptcha')
+        .success(function (data, status, headers, config) {
+            $scope.showCaptcha = data == 'true' ? true : false;
+        }).error(function () { 
+            $scope.streamConnectError = true; 
+        });
+    };
+
+    isAttemptsExceeded();
 
     /**
      * Adds the currently selected phone to the cart
