@@ -51,6 +51,9 @@
                                         <button type="button" ng-click="verifyPhone()" ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Check Text")</button>
                                     </div>
                                 </div><!-- /input-group -->
+                                <div class="input-group" ng-if="showCaptcha">
+                                    <div re-captcha ng-model="phoneOptions.captcha" key="mobileEnrollmentSettings.reCaptchaPublicKey"></div>
+                                </div><!-- /input-group -->
                             </div>
                             <div ng-show="hasError" class="device-error">
                                 <div compile="deviceIneligibleMessage">
@@ -76,7 +79,6 @@
                                 @Html.Sitecore().Field("Same Technology Message")
                             </div>
                         </div>
-
                         <div class="content bring-your-own" ng-if="phoneVerified">
                             <div class="vertical" ng-show="phoneVerified">
                                 <div ng-show="phoneManufacturer != 'Apple Inc' && networkType == 'GSM'" class="device-error non-att">
@@ -138,7 +140,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="item" ng-if="networkType == 'GSM'">
                                         <label>
                                             @Html.Sitecore().Field("Header - Activation Number")
@@ -159,7 +160,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                        
+
                                     <hr />
                                     <div class="item" ng-class="{ disabled : phoneNumberDisabled() }">
                                         <label>
@@ -283,7 +284,6 @@
         </div>
     </div>
 </div>
-
 <script type="text/ng-template" id="networkUnlocking/att">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
@@ -294,13 +294,12 @@
             @Html.Sitecore().Field("Content - Unlock ATT")
         </div>
         @*
-        <div class="modal-footer">
-            @Html.Sitecore().Field("Footer - Unlock ATT")
-        </div>
+            <div class="modal-footer">
+                @Html.Sitecore().Field("Footer - Unlock ATT")
+            </div>
         *@
     </div>
 </script>
-
 <script type="text/ng-template" id="networkUnlocking/sprint">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
@@ -311,13 +310,12 @@
             @Html.Sitecore().Field("Content - Unlock Sprint")
         </div>
         @*
-        <div class="modal-footer">
-            @Html.Sitecore().Field("Footer - Unlock Sprint")
-        </div>
+            <div class="modal-footer">
+                @Html.Sitecore().Field("Footer - Unlock Sprint")
+            </div>
         *@
     </div>
 </script>
-
 <script type="text/ng-template" id="instructions/compatileDevices">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
@@ -340,7 +338,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="instructions/esn">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
@@ -352,7 +349,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="instructions/iccid">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
@@ -364,7 +360,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="instructions/sim">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
@@ -377,7 +372,6 @@
     </div>
 </script>
 
-
 <script type="text/ng-template" id="instructions/whyUnlocked">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
@@ -387,10 +381,9 @@
         <div class="modal-body">
             @Html.Sitecore().Field("Content - Why Unlocked Instructions")
         </div>
-        </div>
+    </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="instructions/activationCode">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">

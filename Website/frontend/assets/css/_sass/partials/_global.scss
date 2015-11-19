@@ -8,6 +8,9 @@ body {
 	line-height: $line-height;
 	color: $text-primary-color;
 	background: $body-bg image-url('marketing/redesign/pattern_bg.png') center;
+	&.interstitial {
+		background-image: none;
+	}
 }
 
 html,
