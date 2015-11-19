@@ -24,5 +24,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         InvalidDeviceType,
         DeviceLocked,
         BadFinancialStanding,
+        ReCaptchaError,
     }
 }

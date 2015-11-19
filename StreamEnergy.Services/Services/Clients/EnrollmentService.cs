@@ -262,6 +262,8 @@ namespace StreamEnergy.Services.Clients
                                        Offer = offer.Offer
                                    }).ToArray()
                     };
+
+                context.TrustEvCaseId = (string)responseObject["TrustEvCaseId"];
             }
             else
             {
@@ -349,7 +351,9 @@ namespace StreamEnergy.Services.Clients
                                CurrentProvider = context.PreviousProvider,
                                EmailAddress = context.ContactInfo.Email.Address,
                                Accounts = from account in systemOfRecordSet
-                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account)
+                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account),
+                               TrustEvCaseId = context.TrustEvCaseId,
+                               TrustEvSessionId = context.TrustEvSessionId,
                            }).ToArray();
             var response = await streamConnectClient.PutAsJsonAsync("/api/v1-1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
             response.EnsureSuccessStatusCode();
@@ -370,8 +374,8 @@ namespace StreamEnergy.Services.Clients
 
             return ((string)responseObject.Status) == "Success";
         }
-        
-        async Task<IdentityCheckResult> IEnrollmentService.LoadIdentityQuestions(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, string language)
+
+        async Task<IdentityCheckResult> IEnrollmentService.LoadIdentityQuestions(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, string language, string trustEvCaseId)
         {
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/verifications/id-questions", new
@@ -380,7 +384,8 @@ namespace StreamEnergy.Services.Clients
                 LastName = name.Last,
                 SSN = ssn,
                 Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress),
-                LanguageCode = language
+                LanguageCode = language,
+                TrustEvCaseId = trustEvCaseId
             });
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
@@ -389,6 +394,11 @@ namespace StreamEnergy.Services.Clients
             if (result.Status != "Success")
             {
                 return new IdentityCheckResult { IdentityAccepted = false, IdentityQuestions = new IdentityQuestion[0], HardStop = null };
+            }
+
+            if (result.IdentityVerified)
+            {
+                return new IdentityCheckResult { IdentityAccepted = true, IdentityQuestions = new IdentityQuestion[0], HardStop = null };
             }
 
             return new IdentityCheckResult
@@ -421,7 +431,8 @@ namespace StreamEnergy.Services.Clients
                                 {
                                     Index = int.Parse(question.Key),
                                     SelectedAnswerIndex = int.Parse(question.Value)
-                                }).ToArray()
+                                }).ToArray(),
+
             });
             response.EnsureSuccessStatusCode();
                 
@@ -668,7 +679,8 @@ namespace StreamEnergy.Services.Clients
                                          DepositPaymentMade = hasDeposit && !offer.WaiveDeposit
                                      },
                 InitialPayments = initialPayments,
-                RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted
+                RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted,
+                TrustEvCaseId = context.TrustEvCaseId,
             });
 
             var asyncUrl = response.Headers.Location;

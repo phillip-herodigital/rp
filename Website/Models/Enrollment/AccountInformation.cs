@@ -40,5 +40,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public string PreviousProvider { get; set; }
 
         public string AssociateName { get; set; }
+
+        public Guid TrustEvSessionId { get; set; }
     }
 }

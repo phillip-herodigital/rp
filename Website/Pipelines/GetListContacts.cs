@@ -131,17 +131,17 @@ namespace StreamEnergy.MyStream.Pipelines
             }
 
             var cmd = string.Format(@"
-SELECT 
+SELECT
     COALESCE(NULLIF(MAX(am.[Name_First]), ''), '_'), 
-    MAX(am.[Name_Last]), 
-    am.[Primary Email], 
-    MAX(am.[Billing State]), 
-    MAX(am.[IA Level]), 
-    MAX(am.[LangPref]) 
+	MAX(am.[Name_Last]),
+	am.[Primary Email],
+	MAX(am.[Billing State]),
+	MAX(am.[IA Level]),
+	MAX(am.[LangPref])
 FROM
-    [Eagle].[dbo].[tblAssociatesAndHomesites] am 
+	[Eagle].[dbo].[tblAssociatesAndHomesites] am
 WHERE
-    am.[Email Address Status] = 'V' AND
+	am.[Email Address Status] = 'V' AND
     am.[DStatusDesc] = 'Active' AND
     {0}
 GROUP BY
@@ -209,7 +209,7 @@ GROUP BY
                 if (contactDatas == null)
                 {
                     var contacts = GetAllContacts(listItem.Fields["Use Test List"] != null && !string.IsNullOrEmpty(listItem.Fields["Use Test List"].Value), ranks, homesites, associates, langPrefs);
-                    
+
                     contactDatas = (from databaseContact in contacts
                                     let contact = GetOrCreateContact(databaseContact.Email)
                                     select new Sitecore.ListManagement.ContentSearch.Model.ContactData()

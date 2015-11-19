@@ -198,7 +198,7 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
         return result;
     }
 
-    $scope.footnoteDisplay = ['*', '†', '‡'];
+    $scope.footnoteDisplay = ['*', 'â€ ', 'â€¡'];
 
     //Once a non-mobile plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {

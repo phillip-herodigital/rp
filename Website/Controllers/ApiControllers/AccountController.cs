@@ -1209,7 +1209,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Dismiss Interstitial
 
         [HttpPost]
-        public DismissInterstitialModalResponse DismissInterstitialModal(DismissInterstitialModalRequest request)
+        public DismissInterstitialResponse DismissInterstitial(DismissInterstitialRequest request)
         {
             bool isSuccess = false;
 
@@ -1235,7 +1235,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 isSuccess = true;
             }
 
-            return new DismissInterstitialModalResponse
+            return new DismissInterstitialResponse
             {
                 IsSuccess = isSuccess
             };

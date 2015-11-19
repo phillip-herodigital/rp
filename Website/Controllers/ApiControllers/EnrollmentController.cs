@@ -48,6 +48,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IEmailService emailService;
         private readonly ISettings settings;
         private readonly ILogger logger;
+        private const string redisPrefix = "AttemptCount_";
+        private readonly HttpClient httpClient;
         //private readonly IDocumentStore documentStore;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -64,7 +66,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger, HttpClient httpClient)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -80,6 +82,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.emailService = emailService;
             this.settings = settings;
             this.logger = logger;
+            this.httpClient = httpClient;
         }
 
         public async Task Initialize()
@@ -132,8 +135,39 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<VerifyImeiResponse> VerifyImei([FromBody]string imei)
+        public async Task<VerifyImeiResponse> VerifyImei([FromBody]VerifyDeviceNumberRequest request)
         {
+            string imei = request.Imei;
+            string ipAddress = HttpContext.Current.Request.UserHostAddress;
+            bool captchaEnabled = string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Disable Max ESN Check"));
+            int maxLookups = int.Parse(settings.GetSettingsValue("Mobile Enrollment Options", "Max ESN Checks Per Hour"));
+            string privateKey = settings.GetSettingsValue("Mobile Enrollment Options", "reCaptcha Private Key");
+
+            if (captchaEnabled)
+            {
+                var lookupCount = (int?)await redisDatabase.StringGetAsync(redisPrefix + ipAddress);
+                if (lookupCount != null && lookupCount > maxLookups)
+                {
+                    // make sure the reCaptcha input is valid
+                    var googleReply = await httpClient.PostAsync(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", privateKey, request.Captcha), null);
+                    var captchaResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CaptchaResponse>(googleReply.Content.ReadAsStringAsync().Result);
+                    if (!captchaResponse.Success)
+                    {
+                        await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                        return new VerifyImeiResponse
+                        {
+                            IsValidImei = false,
+                            VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.ReCaptchaError,
+                        };
+                    }
+                }
+                if (lookupCount == null)
+                {
+                    await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
+                }
+                await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+            }
+
             if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
             {
                 if (imei == "111")
@@ -211,6 +245,25 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<string> ValidateActivationCode([FromBody]string activationCode)
         {
             return await activationCodeLookup.LookupEsn(activationCode);
+        }
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<bool> ShowCaptcha()
+        {
+            // show Captcha after max tries exceeded
+            bool showCaptcha = false;
+            string ipAddress = HttpContext.Current.Request.UserHostAddress;
+            bool captchaEnabled = string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Disable Max ESN Check"));
+            int maxLookups = int.Parse(settings.GetSettingsValue("Mobile Enrollment Options", "Max ESN Checks Per Hour"));
+
+            if (captchaEnabled)
+            {
+                var lookupCount = (int?)await redisDatabase.StringGetAsync(redisPrefix + ipAddress);
+                showCaptcha = (lookupCount != null && lookupCount > maxLookups);
+            }
+
+            return showCaptcha;
         }
 
         [HttpGet]
@@ -561,6 +614,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
             stateMachine.Context.PreviousProvider = request.PreviousProvider;
             stateMachine.Context.AssociateName = request.AssociateName;
+
+            stateMachine.Context.TrustEvSessionId = request.TrustEvSessionId;
 
             await stateMachine.ContextUpdated();
 
