@@ -512,7 +512,7 @@ $local-meeting-color: #00a8e1;
             padding: 20px 20px 0;
             overflow: hidden;
             background: #000;
-            @include opacity(.70);
+            background: rgba(0, 0, 0, 0.7);
             .article-date {
                 @include retina-background('calendar-small.png', 'icon');
                 background-position: top left;
@@ -1743,7 +1743,7 @@ $local-meeting-color: #00a8e1;
         }
 
         li {
-            padding-left: 0;
+            padding: 10px 0;
             font-size: 24px;
 
             @include breakpoint(small) {
@@ -1752,15 +1752,16 @@ $local-meeting-color: #00a8e1;
         } 
 
         ul li div {
-            display: table-cell;
+            display: inline-block;
+            width: 80%
         }
 
         ul li div.index {
-            font-weight:bold;
-            vertical-align: middle;
+            font-weight: bold;
+            vertical-align: top;
             text-align: center;
-            width: 12%;
-
+            width: 15%;
+            padding-top: 10px;
             @include breakpoint(small){
                 width: 20%;
             }
@@ -1851,14 +1852,7 @@ $local-meeting-color: #00a8e1;
 
             ul li.top25 div.index {
                 font-weight: normal;
-                vertical-align: middle;
-                text-align: center;
-                width: 12%;
-                        
-                @include breakpoint(small){
-                    width: 20%;
-        }
-    }
+            }
 
             ul li.top25 span {
 
