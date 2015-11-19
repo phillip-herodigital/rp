@@ -526,6 +526,9 @@ article.leaders {
                 margin-top: 0;
                 text-transform: uppercase;
             }
+            img {
+                border-radius: 100%;
+            }
             @include breakpoint(medium) {
                 width: 50%;
             }
