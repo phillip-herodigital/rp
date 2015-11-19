@@ -136,7 +136,9 @@
         mobileEnrollmentService.editedDevice = item;
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
-        reCAPTCHA.reload($scope.widgetId);
+        if ($scope.showCaptcha) {
+            reCAPTCHA.reload($scope.widgetId);
+        }
         scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
     };
 
@@ -152,7 +154,9 @@
         enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
         $scope.phoneOptions.imeiNumber = '';
-        reCAPTCHA.reload($scope.widgetId);
+        if ($scope.showCaptcha) {
+            reCAPTCHA.reload($scope.widgetId);
+        }
         scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
     };
     
@@ -454,7 +458,9 @@
         if (phoneType) {
             $scope.mobileEnrollment.phoneTypeTab = phoneType; 
             $scope.clearPhoneSelection();
-            reCAPTCHA.reload($scope.widgetId);
+            if ($scope.showCaptcha) {
+                reCAPTCHA.reload($scope.widgetId);
+            }
             enrollmentStepsService.scrollToStep('phoneFlowDevices');
         }
     };
