@@ -51,7 +51,7 @@ namespace StreamEnergy.MyStream.Pipelines
             public string IA_Level { get; set; }
             public string LanguagePreference { get; set; }
         }
-        private IEnumerable<DatabaseContact> GetAllContacts(bool useTestList, string rank, string homesite, string associates, string langPref)
+        private IEnumerable<DatabaseContact> GetAllContacts(bool useTestList, string[] ranks, string[] homesites, string[] associates, string[] langPrefs)
         {
             var contacts = new List<DatabaseContact>();
             if (useTestList)
@@ -85,6 +85,51 @@ namespace StreamEnergy.MyStream.Pipelines
                 });
                 return contacts;
             }
+
+            var whereList = new List<string>();
+            var parametersList = new List<SqlParameter>();
+            whereList.Add("1=1");
+            if (ranks.Any())
+            {
+                var values = new List<string>();
+                for (var i=0; i<ranks.Length; i++)
+                {
+                    parametersList.Add(new SqlParameter("Rank" + i, ranks[i]));
+                    values.Add("@Rank" + i);
+                }
+                whereList.Add("am.[IA Level] IN (" + string.Join(",", values) + ")");
+            }
+            if (homesites.Any())
+            {
+                var values = new List<string>();
+                for (var i = 0; i < homesites.Length; i++)
+                {
+                    parametersList.Add(new SqlParameter("Homesite" + i, homesites[i]));
+                    values.Add("@Homesite" + i);
+                }
+                whereList.Add("am.[HomeSite] IN (" + string.Join(",", values) + ")");
+            }
+            if (associates.Any())
+            {
+                var values = new List<string>();
+                for (var i = 0; i < associates.Length; i++)
+                {
+                    parametersList.Add(new SqlParameter("Associates" + i, associates[i]));
+                    values.Add("@Associates" + i);
+                }
+                whereList.Add("am.[Type] IN (" + string.Join(",", values) + ")");
+            }
+            if (langPrefs.Any())
+            {
+                var values = new List<string>();
+                for (var i = 0; i < langPrefs.Length; i++)
+                {
+                    parametersList.Add(new SqlParameter("LangPref" + i, langPrefs[i]));
+                    values.Add("@LangPref" + i);
+                }
+                whereList.Add("am.[LangPref] IN (" + string.Join(",", values) + ")");
+            }
+
             var cmd = string.Format(@"
 SELECT 
     COALESCE(NULLIF(MAX(am.[Name_First]), ''), '_'), 
@@ -98,16 +143,10 @@ FROM
 WHERE
     am.[Email Address Status] = 'V' AND
     am.[DStatusDesc] = 'Active' AND
-    {0} AND
-    {1} AND
-    {2} AND
-    {3}
+    {0}
 GROUP BY
     am.[Primary Email]",
-    string.IsNullOrEmpty(rank) ? "true" : "am.[IA_Level] = @Rank",
-    string.IsNullOrEmpty(homesite) ? "true" : "am.[Homesite] = @Homesite",
-    string.IsNullOrEmpty(associates) ? "true" : "am.[Type] = @Associates",
-    string.IsNullOrEmpty(langPref) ? "true" : "am.[LangPref] = @LangPref"
+    string.Join(" AND ", whereList)
     );
 
             using (var connection = new SqlConnection(dependencies.connectionString))
@@ -115,22 +154,8 @@ GROUP BY
                 connection.Open();
                 using (var sql_cmd = new SqlCommand(cmd, connection))
                 {
-                    if (!string.IsNullOrEmpty(rank))
-                    {
-                        sql_cmd.Parameters.Add(new SqlParameter("Rank", rank));
-                    }
-                    if (!string.IsNullOrEmpty(homesite))
-                    {
-                        sql_cmd.Parameters.Add(new SqlParameter("Homesite", homesite));
-                    }
-                    if (!string.IsNullOrEmpty(associates))
-                    {
-                        sql_cmd.Parameters.Add(new SqlParameter("Associates", associates));
-                    }
-                    if (!string.IsNullOrEmpty(langPref))
-                    {
-                        sql_cmd.Parameters.Add(new SqlParameter("LangPref", langPref));
-                    }
+                    sql_cmd.Parameters.AddRange(parametersList.ToArray());
+                    
                     using (var reader = sql_cmd.ExecuteReader())
                     {
                         if (reader.HasRows)
@@ -154,7 +179,7 @@ GROUP BY
             return contacts;
         }
 
-		public virtual void Process(GetAssociatedContactsArgs args)
+		public new  virtual void Process(GetAssociatedContactsArgs args)
 		{
             var database = Sitecore.Data.Database.GetDatabase("master");
             var listItem = database.GetItem(new ID(args.ContactList.Id));
@@ -165,7 +190,15 @@ GROUP BY
             }
             try
             {
-                var key = "ContactList-" + args.ContactList.Id;
+                var ranks = (from level in ((Sitecore.Data.Fields.MultilistField)listItem.Fields["IA Level"]).GetItems()
+                             select level.Fields["Database Value"].Value).ToArray();
+                var homesites = (from level in ((Sitecore.Data.Fields.MultilistField)listItem.Fields["Has Homesite"]).GetItems()
+                                 select level.Fields["Database Value"].Value).ToArray();
+                var associates = (from level in ((Sitecore.Data.Fields.MultilistField)listItem.Fields["Associate Type"]).GetItems()
+                                  select level.Fields["Database Value"].Value).ToArray();
+                var langPrefs = (from level in ((Sitecore.Data.Fields.MultilistField)listItem.Fields["Language Preference"]).GetItems()
+                                 select level.Fields["Database Value"].Value).ToArray();
+                var key = "ContactList-" + args.ContactList.Id + string.Join("-", ranks) + string.Join("-", homesites) + string.Join("-",associates) + string.Join("-", langPrefs);
                 List<Sitecore.ListManagement.ContentSearch.Model.ContactData> contactDatas = null;
                 try
                 {
@@ -175,12 +208,8 @@ GROUP BY
 
                 if (contactDatas == null)
                 {
-                    var rank = listItem.Fields["IA_Level"].Value;
-                    var homesite = listItem.Fields["Homesite"].Value;
-                    var associates = listItem.Fields["Type"].Value;
-                    var langPref = listItem.Fields["LangPref"].Value;
-                    var contacts = GetAllContacts(listItem.Fields["Use Test List"] != null && !string.IsNullOrEmpty(listItem.Fields["Use Test List"].Value), rank, homesite, associates, langPref);
-
+                    var contacts = GetAllContacts(listItem.Fields["Use Test List"] != null && !string.IsNullOrEmpty(listItem.Fields["Use Test List"].Value), ranks, homesites, associates, langPrefs);
+                    
                     contactDatas = (from databaseContact in contacts
                                     let contact = GetOrCreateContact(databaseContact.Email)
                                     select new Sitecore.ListManagement.ContentSearch.Model.ContactData()
@@ -206,7 +235,6 @@ GROUP BY
                     RedisCacheExtensions.CacheSet(dependencies.redis, key, contactDatas, TimeSpan.FromDays(3));
                 }
                 args.Contacts = contactDatas.AsQueryable();
-
             } catch (Exception ex)
             {
                 var message = ex.Message;
