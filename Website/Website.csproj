@@ -789,6 +789,8 @@
   <ItemGroup>
     <Compile Include="Conditions\CustomerFirstLoginCondition.cs" />
     <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
+    <Compile Include="Conditions\HasUtilityEnrollmentCondition.cs" />
+    <Compile Include="Conditions\HasMobileEnrollmentCondition.cs" />
     <Compile Include="Conditions\MobileAccountCondition.cs" />
     <Compile Include="Conditions\CustomerDismissedModalCondition.cs" />
     <Compile Include="Conditions\CustomerAutoPayCondition.cs" />
