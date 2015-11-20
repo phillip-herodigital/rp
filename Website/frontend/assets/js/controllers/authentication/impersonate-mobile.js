@@ -1,33 +1,48 @@
-﻿ngApp.controller('ImpersonateMobileCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+﻿ngApp.controller('ImpersonateMobileCtrl', [
+    '$scope', '$http', '$window', function($scope, $http, $window) {
+        var ctrl = this;
+        this.activeStep = 1;
 
-    $scope.getAccount = function () {
-        $scope.isLoading = true;
+        this.back = function() {
+            if (this.activeStep > 0) {
+                this.activeStep--;
+            }
+        };
+
+        $scope.isLoading = false;
         $scope.errorMessage = false;
-        var expiry = null;
-        var token = null;
 
-        $http.get("/api/authentication/impersonateParams?accountNumber=" + $scope.accountNumber).success(function (data) {
-            $scope.accountNumber = data.accountNumber;
-            expiry = data.expiry;
-            token = data.token;
-            $http.get("/api/authentication/impersonateUserList?accountNumber=" + $scope.accountNumber + "&expiry=" + expiry + "&token=" + token).success(function (usernames) {
-                $scope.isLoading = false;
-                $scope.errorMessage = false;
-                $scope.usernames = usernames;
-            }).error(function () {
-                $scope.isLoading = false;
-                $scope.errorMessage = true;
-            });
-        })
-            .error(function () {
-                $scope.isLoading = false;
-                $scope.errorMessage = true;
-            });
+        //Step 1
+        this.findAccount = function() {
+            $scope.isLoading = true;
+            $scope.errorMessage = false;
+            $http.get("/api/authentication/lookUpAccount?accountNumber=" + ctrl.accountNumber).success(function(data) {
+                    $scope.isLoading = false;
+                    if (!data.isAdmin) {
+                        ctrl.adminError = true;
+                        ctrl.acactiveStep = 1;
+                    }
+                    else if (data.isError) {
+                        ctrl.adminError = false;
+                        ctrl.errorMessage = true;
+                        ctrl.activeStep = 1;
+                    } else {
+                        ctrl.adminError = false;
+                        ctrl.errorMessage = false;
+                        $scope.formData = data;
+                        ctrl.activeStep = 2;
+                    }
+                })
+                .error(function() {
+                    $scope.isLoading = false;
+                    $scope.errorMessage = true;
+                });
+          }
 
-        $scope.select = function (username) {
-            $window.open("/api/authentication/impersonate?accountNumber=" + $scope.accountNumber + "&expiry=" + expiry + "&token=" + token + "&username=" + username);
-        }
+        //Step 2
+        this.imperonsate = function () {
+            $window.location.href = $scope.formData.impersonateUrl;
 
+        };
     }
-}
 ]);

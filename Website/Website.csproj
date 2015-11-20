@@ -908,7 +908,7 @@
     <Compile Include="Models\Authentication\FindAccountResponse.cs" />
     <Compile Include="Models\Authentication\GetUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\GetUserChallengeQuestionsResponse.cs" />
-    <Compile Include="Models\Authentication\Impersonate.cs" />
+    <Compile Include="Models\Authentication\FindAccountForImpersonation.cs" />
     <Compile Include="Models\Authentication\LoginRequest.cs" />
     <Compile Include="Models\Authentication\LoginResponse.cs" />
     <Compile Include="Models\Authentication\RecoverUsernameRequest.cs" />
@@ -1681,7 +1681,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

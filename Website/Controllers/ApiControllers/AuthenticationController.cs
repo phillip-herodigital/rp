@@ -652,21 +652,42 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpGet]
-        public Impersonate ImpersonateParams(string accountNumber)
+        public async Task<FindAccountForImpersonation> LookUpAccount(string accountNumber)
         {
-            var sharedSecret = settings.GetSettingsValue("Impersonation Key", "Impersonation Shared Secret");
-            var expiry = System.Xml.XmlConvert.ToString(DateTime.Now.AddMinutes(30), System.Xml.XmlDateTimeSerializationMode.Local);
-            var unencryptedToken = string.Format("{0}{1}{2}", accountNumber, expiry, sharedSecret);
-            var token = Convert.ToBase64String(System.Security.Cryptography.MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(unencryptedToken)));
+            var impAccount = new FindAccountForImpersonation();
 
-
-            return new Impersonate
+            if (!Sitecore.Context.User.IsAdministrator)
+                impAccount.IsAdmin = false;
+            else
             {
-                AccountNumber = accountNumber,
-                Expiry = expiry,
-                Token = token
-            };
+                impAccount.IsAdmin = true;
+                var account = await accountService.GetAccountDetails(accountNumber);
+                if (account == null)
+                {
+                    impAccount.IsError = true;
+                    return impAccount;
+                }
 
+
+                var sharedSecret = settings.GetSettingsValue("Impersonation Key", "Impersonation Shared Secret");
+                var host = settings.GetSettingsValue("Impersonation Key", "Domain");
+                var expiry = System.Xml.XmlConvert.ToString(DateTime.Now.AddMinutes(30), System.Xml.XmlDateTimeSerializationMode.Local);
+                var unencryptedToken = string.Format("{0}{1}{2}", accountNumber, expiry, sharedSecret);
+                var token = Convert.ToBase64String(System.Security.Cryptography.MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(unencryptedToken)));
+
+                impAccount.CustomerName = account.Details.ContactInfo.Name;
+                impAccount.Phone = account.Details.ContactInfo.Phone;
+                impAccount.Email = account.Details.ContactInfo.Email;
+                impAccount.BillingAddress = account.Details.BillingAddress;
+                impAccount.CustomerType = account.AccountType;
+                impAccount.AccountNumber = account.AccountNumber;
+                impAccount.Balance = account.Balance.Balance;
+                impAccount.Ssn = account.Details.SsnLastFour;
+                impAccount.IsError = false;
+                impAccount.ImpersonateUrl = host + string.Format("/api/authentication/impersonate?accountNumber={0}&expiry={1}&token={2}", accountNumber, HttpUtility.UrlEncode(expiry), HttpUtility.UrlEncode(token));
+            }
+
+            return impAccount;
         }
 
     }
