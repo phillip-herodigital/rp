@@ -4158,7 +4158,6 @@ h3.success-message{
             line-height: 1.375;
             text-align: center;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-            width: 190px;
             vertical-align: middle;
             height: 46px;
             margin-right: -5px;
@@ -4173,7 +4172,7 @@ h3.success-message{
                 background-repeat: no-repeat;
                 border-bottom-left-radius: 5px;
                 border-top-left-radius: 5px;
-                padding: 10px 0 0 10px;
+                padding: 10px 25px 10px 40px;
             }
             &.right {
                 background-image: image-url("marketing/redesign/multi_phone_plans.png");
@@ -4181,7 +4180,7 @@ h3.success-message{
                 background-repeat: no-repeat;       
                 border-top-right-radius: 5px;
                 border-bottom-right-radius: 5px;
-                padding: 10px 0 0 40px;
+                padding: 10px 25px 10px 62px;
             }
             &.selected {
                 &.right {
@@ -4190,6 +4189,10 @@ h3.success-message{
                 &.left {
                     background-image: image-url("marketing/redesign/single_phone_plans.png");
                 }
+            }
+            @include breakpoint(small) {
+                height: auto;
+                @include border-radius(5px);
             }
         }
     }
@@ -4335,6 +4338,8 @@ h3.success-message{
                 background-color:$enrollment-plan-att-color;
                 @include background-image(linear-gradient(to top, $enrollemnt-plan-att-gradient-color-bottom 0%, $enrollemnt-plan-att-gradient-color-top 100%));
                 border: 1px solid #229acd;
+                width: 123px;
+                padding: 10px 0;
             }
             .button.active {
                 border-color: #229acd;
@@ -4352,6 +4357,8 @@ h3.success-message{
                 background-color:$enrollment-plan-sprint-color;
                 @include background-image(linear-gradient(to top, $enrollemnt-plan-sprint-gradient-color-bottom 0%, $enrollemnt-plan-sprint-gradient-color-top 100%));
                 border: 1px solid #eca001;
+                width: 123px;
+                padding: 10px 0;
             }
             .button.active {
                 border-color: #eca001;

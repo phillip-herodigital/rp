@@ -273,7 +273,8 @@
             previousAddress: service.accountInformation.previousAddress,
             preferredSalesExecutive: service.accountInformation.preferredSalesExecutive,
             previousProvider: service.accountInformation.previousProvider,
-            associateName: service.accountInformation.associateName
+            associateName: service.accountInformation.associateName,
+            TrustEvSessionId: window.TrustevV2 ? TrustevV2.SessionId : null
         });
         data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {
