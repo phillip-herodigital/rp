@@ -1,0 +1,33 @@
+﻿@{}
+<div ng-controller="OneTimeRenewalCtrl as ctrl"
+<article class="grey-box payments form" loading-indicator>
+    <header>
+        <h2>@Html.Sitecore().Field("Header")</h2>
+    </header>
+    <form data-val-bind-messages="validations">
+        <div class="content">
+            <div stream-connect-errors="ctrl"></div>
+            <div ng-show="ctrl.errorMessage">
+                <div class="notice error">
+                    @Html.Sitecore().Field("Error Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
+            @Html.Sitecore().Field("Intro Text")
+
+            <div class="item" data-val-error="AccountNumber">
+                <label for="AccountNumber">@Html.Sitecore().Field("Account Number Label"):</label>
+                <input data-val="true" data-val-required="" id="AccountNumber" name="AccountNumber" ng-model="ctrl.accountNumber" type="text" value="" />
+            </div>
+            <div class="item" data-val-error="Last4SSN">
+                <label for="AccountNumber">@Html.Sitecore().Field("Last 4 of SSN Label"):</label>
+                <input data-val="true" data-val-required="" id="Last4SSN" name="Last4SSN" ng-model="ctrl.last4SSN" type="text" value="" />
+            </div>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
+            </div>
+        </footer>
+    </form>
+</article>

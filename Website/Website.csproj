@@ -1657,6 +1657,7 @@
     <Content Include="Views\Components\Marketing\Lyric FAQs.cshtml" />
     <Content Include="Views\Components\Account\Interstitial.cshtml" />
     <Content Include="Views\Components\Account\Overview\Paperless Billing.cshtml" />
+    <Content Include="Views\Components\Marketing\One-Time Renewal.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
