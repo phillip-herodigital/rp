@@ -11,6 +11,7 @@
 
         $scope.isLoading = false;
         $scope.errorMessage = false;
+        $scope.accessError = false;
 
         //Step 1
         this.findAccount = function() {
@@ -18,16 +19,15 @@
             $scope.errorMessage = false;
             $http.get("/api/authentication/lookUpAccount?accountNumber=" + ctrl.accountNumber).success(function(data) {
                     $scope.isLoading = false;
-                    if (!data.isAdmin) {
-                        ctrl.adminError = true;
+                    if (!data.hasAccess) {
+                        ctrl.accessError = true;
                         ctrl.acactiveStep = 1;
-                    }
-                    else if (data.isError) {
-                        ctrl.adminError = false;
+                    } else if (data.isError) {
+                        ctrl.accessError = false;
                         ctrl.errorMessage = true;
                         ctrl.activeStep = 1;
                     } else {
-                        ctrl.adminError = false;
+                        ctrl.accessError = false;
                         ctrl.errorMessage = false;
                         $scope.formData = data;
                         ctrl.activeStep = 2;
@@ -37,12 +37,6 @@
                     $scope.isLoading = false;
                     $scope.errorMessage = true;
                 });
-          }
-
-        //Step 2
-        this.imperonsate = function () {
-            $window.location.href = $scope.formData.impersonateUrl;
-
-        };
+        }
     }
 ]);

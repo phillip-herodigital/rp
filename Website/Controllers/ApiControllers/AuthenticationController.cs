@@ -657,10 +657,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var impAccount = new FindAccountForImpersonation();
 
             if (!Sitecore.Context.User.IsAdministrator)
-                impAccount.IsAdmin = false;
+                impAccount.HasAccess = false;
             else
             {
-                impAccount.IsAdmin = true;
+                impAccount.HasAccess = true;
                 var account = await accountService.GetAccountDetails(accountNumber);
                 if (account == null)
                 {

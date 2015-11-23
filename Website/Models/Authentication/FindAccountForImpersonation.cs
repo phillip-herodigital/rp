@@ -19,7 +19,7 @@ namespace StreamEnergy.MyStream.Models.Authentication
         public decimal Balance { get; set; }
         public string Ssn { get; set; }
         public bool IsError { get; set; }
-        public bool IsAdmin { get; set; }
+        public bool HasAccess { get; set; }
         public string ImpersonateUrl { get; set; }
     }
 }

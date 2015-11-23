@@ -1,6 +1,5 @@
 ﻿@model StreamEnergy.MyStream.Models.Authentication.FindAccountForImpersonation
-
-<article class="grey-box auth form" ng-controller="ImpersonateMobileCtrl as ctrl">
+<article class="grey-box auth form account-details" ng-controller="ImpersonateMobileCtrl as ctrl">
     <header ng-if="ctrl.activeStep == 1">
         <h2>@Html.Sitecore().Field("Look Up Account Header Text")</h2>
     </header>
@@ -13,9 +12,9 @@
                 </div>
                 <hr class="content-divider" />
             </div>
-            <div ng-show="ctrl.adminError">
+            <div ng-show="ctrl.accessError">
                 <div class="notice error">
-                    @Html.Sitecore().Field("Is Admin Error")
+                    @Html.Sitecore().Field("Access Error")
                 </div>
                 <hr class="content-divider" />
             </div>
@@ -36,74 +35,38 @@
     <header ng-if="ctrl.activeStep == 2">
         <h2>@Html.Sitecore().Field("Account Header Text")</h2>
     </header>
-    <form data-val-bind-messages="validations" ng-if="ctrl.activeStep == 2">
-        <div class="content">
-            <div class="group">
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Account Number Label"):</label>
-                    {{ formData.accountNumber }}
+        <div class="content" ng-if="ctrl.activeStep == 2">
+            <div class="grid border">
+                <div class="col">
+                    <dl class="clearfix">
+                        <dt>Account Number:</dt>
+                        <dd>{{ formData.accountNumber }}</dd>
+                        <dt>Balance:</dt>
+                        <dd>{{ formData.balance | currency }}</dd>
+                        <dt>Account Holder Name:</dt>
+                        <dd>{{ formData.customerName.first }} {{ formData.customerName.last }}</dd>
+                        <dt>Last 4 of Social/TIN:</dt>
+                        <dd>{{ formData.ssn }}</dd>
+                    </dl>
                 </div>
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Balance Label"):</label>
-                    {{ formData.balance | currency }}
+                <div class="col">
+                    <dl class="clearfix">
+                        <dt>Primary Phone:</dt>
+                        <dd>{{ formData.phone[0].number | phone}}</dd>
+                        <dt>Phone Type:</dt>
+                        <dd>{{ formData.phone[0].category }}</dd>
+                        <dt>Email:</dt>
+                        <dd>{{ formData.email.address }}</dd>
+                        <dt>Billing Address:</dt>
+                        <dd>{{ formData.billingAddress | address }} </dd>
+                    </dl>
                 </div>
-            </div>
-            <div class="group">
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Account Holder Name Label"):</label>
-                    {{ formData.customerName.first }} {{ formData.customerName.last }}
-                </div>
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Account Holder Ssn Label"):</label>
-                    {{ formData.ssn }}
-                </div>
-            </div>
-            <div class="group">
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Account Holder Phone Label"):</label>
-                    {{ formData.phone[0].number }}
-                </div>
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Account Holder Phone Type Label"):</label>
-                    {{ formData.phone[0].category }}
-                </div>
-            </div>
-            <div class="item">
-                <label>@Html.Sitecore().Field("Account Holder Email Label"):</label>
-                {{ formData.email.address }}
-            </div>
-            <hr class="content-divider" />
-            <h3>@Html.Sitecore().Field("Billing Address Title")</h3>
-            <div class="group">
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Address Line 1 Label"):</label>
-                    {{ formData.billingAddress.line1 }}
-                </div>
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Address Line 2 Label"):</label>
-                    {{ formData.billingAddress.line2 }}
-                </div>
-            </div>
-            <div class="group">
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Address City Label"):</label>
-                    {{ formData.billingAddress.city }}
-                </div>
-                <div class="item group-col">
-                    <label>@Html.Sitecore().Field("Address State Label"):</label>
-                    {{ formData.billingAddress.stateAbbreviation }}
-                </div>
-            </div>
-            <div class="item">
-                <label>@Html.Sitecore().Field("Address Zip Label"):</label>
-                {{ formData.billingAddress.postalCode5 }}
             </div>
             <footer>
                 <div class="buttons">
-                    <button type="button" ng-click="ctrl.imperonsate()" data-val-submit>@Html.Sitecore().Field("Impersonate Button Text")</button>
+                    <a class="button" target="_blank" ng-href="{{ formData.impersonateUrl }}">@Html.Sitecore().Field("Impersonate Button Text")</a>
                     <button type="button" class="secondary" ng-click="ctrl.back()">@Html.Sitecore().Field("Back Button Text")</button>
                 </div>
             </footer>
         </div>
-    </form>
 </article>
