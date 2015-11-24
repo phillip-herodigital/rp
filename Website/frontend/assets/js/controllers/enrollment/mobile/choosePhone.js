@@ -83,6 +83,10 @@
                     if (data.deviceType) {
                         $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
                     }
+                    var responseMessage = _.find($scope.esnValidationMessages, function (message) { 
+                            return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
+                        });
+                    $scope.deviceResponseMessage = (responseMessage == undefined) ? null : responseMessage.message;
                     $scope.phoneOptions.showIccid = (data.iccid == undefined || data.iccid == '') && $scope.phoneOptions.supportsLte;
                     $scope.cdmaActive = (data.iccid != undefined & data.iccid != '');
                     analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
