@@ -9,7 +9,6 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public bool Success { get; set; }
         public bool AvailableForRenewal { get; set; }
-        public Guid AccountID { get; set; }
         public string SubaccountID { get; set; }
     }
 }

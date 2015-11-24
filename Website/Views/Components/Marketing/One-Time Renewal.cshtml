@@ -4,7 +4,7 @@
         <header>
             <h2>@Html.Sitecore().Field("Header")</h2>
         </header>
-        <form data-val-bind-messages="validations" ng-if="ctrl.activeStep == 1" ng-submit="ctrl.lookupAccount()">
+        <form data-val-bind-messages="validations" ng-submit="ctrl.lookupAccount()">
             <div class="content">
                 <div stream-connect-errors="ctrl"></div>
                 <div ng-show="ctrl.accountErrorMessage">

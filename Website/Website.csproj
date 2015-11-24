@@ -888,6 +888,7 @@
     <Compile Include="Models\Account\SetAutoPayRequest.cs" />
     <Compile Include="Models\Account\SetAutoPayResponse.cs" />
     <Compile Include="Models\Account\DismissInterstitialRequest.cs" />
+    <Compile Include="Models\Account\SetupAnonymousRenewalRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalRequest.cs" />
     <Compile Include="Models\Account\DismissInterstitialResponse.cs" />
     <Compile Include="Models\Account\SetupRenewalResponse.cs" />
