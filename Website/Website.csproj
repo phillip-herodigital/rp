@@ -25,6 +25,7 @@
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <IsCompassProject>True</IsCompassProject>
     <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test - Sitecore|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,7 +41,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -838,6 +839,7 @@
     </Compile>
     <Compile Include="Models\Account\AccountPayment.cs" />
     <Compile Include="Models\Account\AccountToPay.cs" />
+    <Compile Include="Models\Account\AccountToRenew.cs" />
     <Compile Include="Models\Account\AddPaymentAccountRequest.cs" />
     <Compile Include="Models\Account\AddPaymentAccountResponse.cs" />
     <Compile Include="Models\Account\AddNewAccountRequest.cs" />
@@ -882,6 +884,7 @@
     <Compile Include="Models\Account\MakeMultiplePaymentsResponse.cs" />
     <Compile Include="Models\Account\MakeOneTimePaymentRequest.cs" />
     <Compile Include="Models\Account\MakeOneTimePaymentResponse.cs" />
+    <Compile Include="Models\Account\MakeOneTimeRenewalRequest.cs" />
     <Compile Include="Models\Account\NotificationSetting.cs" />
     <Compile Include="Models\Account\Payment.cs" />
     <Compile Include="Models\Account\PaymentConfirmation.cs" />
