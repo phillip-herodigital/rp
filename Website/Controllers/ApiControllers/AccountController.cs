@@ -979,6 +979,30 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region One-time Renewal
+
+        [HttpPost]
+        public async Task<AccountForOneTimeRenewalResponse> FindAccountForOneTimeRenewal(AccountForOneTimeRenewalRequest request)
+        {
+            var acct = await accountService.GetAccountDetails(request.AccountNumber, request.Last4);
+            if (acct == null)
+            {
+                return new AccountForOneTimeRenewalResponse
+                {
+                    Success = false
+                };
+            }
+            return new AccountForOneTimeRenewalResponse
+            {
+                Success = true,
+                AccountID = acct.StreamConnectAccountId,
+                SubaccountID = acct.SubAccounts.First(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)).Id,
+                AvailableForRenewal = acct.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)),
+            };
+        }
+
+        #endregion
+
         #region One-time Payment
 
         [HttpPost]
