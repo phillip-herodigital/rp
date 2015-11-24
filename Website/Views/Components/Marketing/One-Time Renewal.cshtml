@@ -1,33 +1,40 @@
-﻿@{}
-<div ng-controller="OneTimeRenewalCtrl as ctrl"
-<article class="grey-box payments form" loading-indicator>
-    <header>
-        <h2>@Html.Sitecore().Field("Header")</h2>
-    </header>
-    <form data-val-bind-messages="validations">
-        <div class="content">
-            <div stream-connect-errors="ctrl"></div>
-            <div ng-show="ctrl.errorMessage">
-                <div class="notice error">
-                    @Html.Sitecore().Field("Error Message Text")
+﻿@model StreamEnergy.MyStream.Models.Account.MakeOneTimeRenewalRequest
+<div ng-controller="OneTimeRenewalCtrl as ctrl">
+    <article class="grey-box payments form" loading-indicator>
+        <header>
+            <h2>@Html.Sitecore().Field("Header")</h2>
+        </header>
+        <form data-val-bind-messages="validations" ng-if="ctrl.activeStep == 1" ng-submit="ctrl.lookupAccount()">
+            <div class="content">
+                <div stream-connect-errors="ctrl"></div>
+                <div ng-show="ctrl.accountErrorMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Account Error Message Text")
+                    </div>
+                    <hr class="content-divider" />
                 </div>
-                <hr class="content-divider" />
+                <div ng-show="ctrl.renewErrorMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Renewal Error Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
+                @Html.Sitecore().Field("Intro Text")
+                <br />
+                <div class="item" @Html.Validation().ErrorClass(m => m.AccountNumber)>
+                    <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label"):</label>
+                    @Html.TextBoxFor(m => m.AccountNumber, new { ng_model = "ctrl.accountNumber" })
+                </div>
+                <div class="item" @Html.Validation().ErrorClass(m => m.Last4OfSocial)>
+                    <label for="@Html.IdFor(m => m.Last4OfSocial)">@Html.Sitecore().Field("Last 4 of SSN Label"):</label>
+                    @Html.TextBoxFor(m => m.Last4OfSocial, new { ng_model = "ctrl.last4SSN" })
+                </div>
             </div>
-            @Html.Sitecore().Field("Intro Text")
-
-            <div class="item" data-val-error="AccountNumber">
-                <label for="AccountNumber">@Html.Sitecore().Field("Account Number Label"):</label>
-                <input data-val="true" data-val-required="" id="AccountNumber" name="AccountNumber" ng-model="ctrl.accountNumber" type="text" value="" />
-            </div>
-            <div class="item" data-val-error="Last4SSN">
-                <label for="AccountNumber">@Html.Sitecore().Field("Last 4 of SSN Label"):</label>
-                <input data-val="true" data-val-required="" id="Last4SSN" name="Last4SSN" ng-model="ctrl.last4SSN" type="text" value="" />
-            </div>
-        </div>
-        <footer>
-            <div class="buttons">
-                <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
-            </div>
-        </footer>
-    </form>
-</article>
+            <footer>
+                <div class="buttons">
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
+                </div>
+            </footer>
+        </form>
+    </article>
+</div>
