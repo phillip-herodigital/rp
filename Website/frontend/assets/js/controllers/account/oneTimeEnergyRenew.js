@@ -3,53 +3,40 @@
 */
 ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$location', function ($scope, $http, $timeout, $location) {
     var ctrl = this;
-    this.activeStep = 1;
     ctrl.overrideWarnings = [];
 
     $scope.isLoading = false;
     $scope.streamConnectError = false;
 
+
     ctrl.lookupAccount = function () {
+        ctrl.renewErrorMessage = false;
+        ctrl.accountErrorMessage = false;
+        var accountData = {
+            'AccountNumber': ctrl.accountNumber,
+            'Last4': ctrl.last4SSN
+        };
         $scope.isLoading = true;
-        $http({
-            method: 'POST',
-            url: '/api/account/FindAccountForOneTimeRenewal',
-            data: { 'AccountNumber': ctrl.accountNumber, 'Last4': ctrl.last4SSN },
-            headers: { 'Content-Type': 'application/JSON' }
-        })
-        .success(function (data, status, headers, config) {
-            $scope.isLoading = false;
-            $scope.streamConnectError = false;
-            if (data.success)
-            {
-                if (data.availableForRenewal) {
-                    var accountData = {
-                        'AccountId': data.accountID,
-                        'SubAccountId': data.subaccountID
-                    };
-                    $scope.isLoading = true;
-                    $http.post('/api/account/setupRenewal', accountData)
-                            .success(function () {
-                                $scope.isLoading = false;
-                                window.location.href('/enrollment?renewal=true');
-                            })
-                            .error(function () {
-                                $scope.isLoading = false;
-                                $scope.streamConnectError = true;
-                            });
-                }
-                else {
-                    ctrl.renewErrorMessage = true;
-                } 
-            }
-            else
-            {
-                ctrl.accountErrorMessage = true;
-            }
-        })
-        .error(function () {
-            $scope.isLoading = false;
-            $scope.streamConnectError = true;
-        })
-    };
+        $http.post('/api/account/setupAnonymousRenewal', accountData)
+                .success(function (data) {
+                    if (data.success) {
+                        if (data.availableForRenewal) {
+                            window.location.assign('/enrollment?renewal=true');
+                        }
+                        else
+                        {
+                            $scope.isLoading = false;
+                            ctrl.renewErrorMessage = true;
+                        }
+                    }
+                    else {
+                        $scope.isLoading = false;
+                        ctrl.accountErrorMessage = true;
+                    }
+                })
+                .error(function (error) {
+                    $scope.isLoading = false;
+                    $scope.streamConnectError = true;
+                });
+    }
 }]);

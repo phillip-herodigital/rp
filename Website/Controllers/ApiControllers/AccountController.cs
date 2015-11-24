@@ -982,7 +982,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region One-time Renewal
 
         [HttpPost]
-        public async Task<AccountForOneTimeRenewalResponse> FindAccountForOneTimeRenewal(AccountForOneTimeRenewalRequest request)
+        public async Task<AccountForOneTimeRenewalResponse> SetupAnonymousRenewal(AccountForOneTimeRenewalRequest request)
         {
             var acct = await accountService.GetAccountDetails(request.AccountNumber, request.Last4);
             if (acct == null)
@@ -992,13 +992,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Success = false
                 };
             }
-            return new AccountForOneTimeRenewalResponse
+            else
             {
-                Success = true,
-                AccountID = acct.StreamConnectAccountId,
-                SubaccountID = acct.SubAccounts.First(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)).Id,
-                AvailableForRenewal = acct.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)),
-            };
+                if (!acct.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)))
+                {
+                    return new AccountForOneTimeRenewalResponse
+                    {
+                        Success = true,
+                        AvailableForRenewal = false
+                    };
+                }
+                else
+                {
+                    await enrollmentController.Initialize();
+                    var subAccount = acct.SubAccounts.First(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible));
+                    await enrollmentController.SetupRenewal(acct, subAccount);
+                    return new AccountForOneTimeRenewalResponse
+                    {
+                        Success = true,
+                        AvailableForRenewal = true
+                    };
+                }
+            }
         }
 
         #endregion
