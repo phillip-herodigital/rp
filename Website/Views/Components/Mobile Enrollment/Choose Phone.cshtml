@@ -13,12 +13,16 @@
                                 @Html.Sitecore().Field("Verify Phone Details")
                             </div>
                             <div ng-show="phoneVerified">
-                                <div ng-show="phoneManufacturer == 'Apple Inc' && networkType == 'GSM'" class="device-error">
+                                <div ng-show="!deviceResponseMessage && phoneManufacturer == 'Apple Inc' && networkType == 'GSM'" class="device-error">
                                     @Html.Sitecore().Field("Apple GSM Message")
                                 </div>
-                                <div ng-show="phoneManufacturer != 'Apple Inc' || networkType != 'GSM'">
+                                <div ng-show="!deviceResponseMessage && (phoneManufacturer != 'Apple Inc' || networkType != 'GSM')">
                                     <h1 class="success-message">@Html.Sitecore().Field("Congratulations")</h1>
                                     @Html.Sitecore().Field("Eligible Device Message")
+                                </div>
+                                <div ng-show="deviceResponseMessage">
+                                    <h1 class="success-message">@Html.Sitecore().Field("Congratulations")</h1>
+                                    <div compile="deviceResponseMessage"></div>
                                 </div>
                             </div>
                         </header>
