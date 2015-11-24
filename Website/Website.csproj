@@ -839,7 +839,6 @@
     </Compile>
     <Compile Include="Models\Account\AccountPayment.cs" />
     <Compile Include="Models\Account\AccountToPay.cs" />
-    <Compile Include="Models\Account\AccountToRenew.cs" />
     <Compile Include="Models\Account\AddPaymentAccountRequest.cs" />
     <Compile Include="Models\Account\AddPaymentAccountResponse.cs" />
     <Compile Include="Models\Account\AddNewAccountRequest.cs" />
@@ -895,10 +894,7 @@
     <Compile Include="Models\Account\SetAutoPayRequest.cs" />
     <Compile Include="Models\Account\SetAutoPayResponse.cs" />
     <Compile Include="Models\Account\DismissInterstitialRequest.cs" />
-    <Compile Include="Models\Account\SetupAnonymousRenewalRequest.cs" />
-    <Compile Include="Models\Account\SetupRenewalRequest.cs" />
     <Compile Include="Models\Account\DismissInterstitialResponse.cs" />
-    <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />
     <Compile Include="Models\Account\UpdateNotificationRequest.cs" />
