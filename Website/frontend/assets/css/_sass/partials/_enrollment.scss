@@ -148,6 +148,14 @@
         display: none;
     }
 
+     .noticeRenewalAlert {
+        border: 2px solid darken($brand-alert, 15%);
+        background-color: $brand-alert;
+        padding: 15px;
+        border-radius:0px;
+        margin-bottom: 30px;
+    }
+
     #state-select {
         min-width: 145px;
         button {
