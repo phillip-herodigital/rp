@@ -58,15 +58,19 @@
                 if (!data.isValidImei) {
                     $scope.hasError = true;
                     $scope.deviceIneligible = true;
-                    $scope.addDevice.imeiNumber.$setValidity('required',false);
-                    $scope.validations = [{
-                        'memberName': 'imeiNumber'
-                    }];
                     analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
                     if(data.verifyEsnResponseCode) {
                         $scope.deviceIneligibleMessage = _.find($scope.esnValidationMessages, function (message) { 
                                 return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
                             }).message;
+                        if (data.verifyEsnResponseCode == 'reCaptchaError') {
+                            reCAPTCHA.reload($scope.widgetId);
+                        } else {
+                            $scope.addDevice.imeiNumber.$setValidity('required',false);
+                            $scope.validations = [{
+                                'memberName': 'imeiNumber'
+                            }];
+                        }
                     }
                 } else if ($scope.getDevicesCount() > 0 && mobileEnrollmentService.selectedNetwork.value != data.provider) {
                     $scope.hasError = true;
