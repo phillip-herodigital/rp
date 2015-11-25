@@ -263,6 +263,12 @@ ul, ol {
 		@include retina-background("alert.png", "icon");
 		background-position: 20px 23px;
 	}
+    &.renewalAlert{
+        border: 2px solid darken($brand-alert, 15%);
+        background-color: $brand-alert;
+        padding: 15px;
+        border-radius:0px;
+    }
 	&.message {
 		border: 1px solid darken($brand-message, 15%);
 		background-color: $brand-message;
