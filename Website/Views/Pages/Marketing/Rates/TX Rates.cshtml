@@ -20,6 +20,11 @@
     <table>
         @foreach (dynamic plan in plans)
         {
+            var defaultLanguageItem = plan;
+            if (defaultLanguageItem.Language != Sitecore.Data.Managers.LanguageManager.DefaultLanguage)
+            {
+                defaultLanguageItem = Sitecore.Context.Database.GetItem(plan.ID, Sitecore.Data.Managers.LanguageManager.DefaultLanguage);
+            }
             <tbody>
                 <tr>
                     <th colspan="5" scope="rowgroup">@Html.Sitecore().Field("Pricing For Text") @Html.Sitecore().Field("Plan Title", plan)</th>
@@ -33,12 +38,13 @@
                 </tr>
                 @foreach (dynamic utility in utilities)
                 {
+
                     <tr>
                         <td>@Html.Sitecore().Field(utility + " Service Area Text")</td>
-                        <td>@Html.Sitecore().Field("Stream Energy Charge " + utility, plan)&cent;</td>
-                        <td>@Html.Sitecore().Field("1000 kWh " + utility + " Price", plan)&cent;</td>
-                        <td>@Html.AsMoney((string)("Minimum Usage Fee " + utility), (Sitecore.Data.Items.Item)plan)</td>
-                        <td>@Html.AsMoney((string)("Termination Fee " + utility), (Sitecore.Data.Items.Item)plan)</td>
+                        <td>@Html.Sitecore().Field("Stream Energy Charge " + utility, defaultLanguageItem)&cent;</td>
+                        <td>@Html.Sitecore().Field("1000 kWh " + utility + " Price", defaultLanguageItem)&cent;</td>
+                        <td>@Html.AsMoney((string)("Minimum Usage Fee " + utility), (Sitecore.Data.Items.Item)defaultLanguageItem)</td>
+                        <td>@Html.AsMoney((string)("Termination Fee " + utility), (Sitecore.Data.Items.Item)defaultLanguageItem)</td>
                     </tr>
                 }
             </tbody>
