@@ -145,8 +145,8 @@ article {
         &.plans-intro {
 
             h1 {
-                text-align:left;
-    }
+                text-align: left;
+            }
 
             .wrapper {
                 padding: 16px 0;
@@ -161,6 +161,37 @@ article {
                     > .wrapper {
                         background-image: none;
                     }
+                }
+            }
+        }
+
+        .security, .voice {
+            h1 {
+                text-align: left;
+            }
+            p {
+                text-align: left;
+            }
+        }
+
+        &.home-services-3 {
+            background-color: #8e4b9d;
+                        
+            h2 {
+                margin: 0;
+                p {
+                    margin-top: 16px;
+                    font-size: 16px;
+                }
+            }
+
+            p {
+                color: white;
+                font-size: 32px;
+                line-height: 36px;
+                margin: 0;
+                strong, b {
+                    text-transform: uppercase;
                 }
             }
         }
@@ -185,6 +216,14 @@ article {
             h1 {
                 strong, b {
                     color: #51b35a;
+                }
+            }
+        }
+
+        &.home {
+            h1 {
+                strong, b {
+                    color: #8e4b9d;
                 }
             }
         }
@@ -404,7 +443,6 @@ article {
 
         blockquote {
             //margin: 0 percentage(298/1280) 0 percentage(225/1280);
-
             p {
                 padding-left: 0;
 

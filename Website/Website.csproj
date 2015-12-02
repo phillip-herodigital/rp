@@ -25,6 +25,7 @@
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <IsCompassProject>True</IsCompassProject>
     <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test - Sitecore|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1648,6 +1649,10 @@
     <Content Include="Views\Components\Marketing\Lyric FAQs.cshtml" />
     <Content Include="Views\Components\Account\Interstitial.cshtml" />
     <Content Include="Views\Components\Account\Overview\Paperless Billing.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Hub Features.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Setup.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\On The Go.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Get More.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

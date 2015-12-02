@@ -13,6 +13,7 @@ $themes:
     (name: "palered", primaryColor: #b48789, accentColor: #fff, textColor: #fff),
     (name: "white", primaryColor: #fff, accentColor: $brand-primary-color, textColor: #6b6b6b),
     (name: "grey", primaryColor: #e8e8e8, accentColor: $brand-primary-color, textColor: #6b6b6b),
+    (name: "purple", primaryColor: #8e4b9d, accentColor: $brand-primary-color, textColor: #6b6b6b),
     (name: "darkgrey", primaryColor: #6b6b6b, accentColor: #fff, textColor: #fff);
 
 @each $theme in $themes {
@@ -203,6 +204,15 @@ article.marketingIntro {
         color: #007dc3;
         font-style: normal;
     }
+
+    &.voice-intro {
+        hr {
+            display: none;
+        }
+        b, strong {
+            color: #8e4b9d;
+        }
+    }
     p.intro {
         margin: 1em 20px;
         font-size: 22px;
@@ -260,6 +270,115 @@ article.marketingIntro {
     @each $theme in $themes {
         & span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
             color: map-get($theme, primaryColor);
+        }
+    }
+}
+
+article.marketing {
+    &.voice-main {
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    &.voice-photoLockup {
+        h1 {
+            text-align: left;
+            margin-bottom: 0px;
+
+            b, strong {
+                color: #8e4b9d;
+            }
+        }
+
+        h4 {
+            margin-top: 0px;
+        }
+
+        .button {
+            background-image: none;
+            background-color: #8e4b9d;
+            position: relative;
+            right: 150px;
+        }
+
+        h3 {
+            display: inline-block;
+            position: static;
+        }
+
+        p {
+            display: inline-block;
+            position: static;
+            float: right;
+        }
+    }
+
+    &.voice-grid {
+        background-color: #f3f6f7;
+
+        b, strong {
+            color: #8e4b9d;
+        }
+
+        p {
+            text-align: center;
+        }
+    }
+
+    .voice-hub-features {
+        hr {
+            margin: 0px;
+        }
+
+        p.drop-down {
+            margin: 6px 24px;
+            text-align: center;
+            color: #8e4b9d;
+            text-transform: uppercase;
+        }
+
+        img {
+            vertical-align: text-bottom;
+            left: calc(50% - 128px);
+            position: absolute;
+            top: 12px;
+        }
+    }
+
+    .voice-setup {
+        p.intro {
+            text-align: center;
+            color: black;
+            border: 34px 0px;
+        }
+
+        p.outro {
+            text-align: center;
+            color: black;
+            border: 34px 0px;
+        }
+
+        .grid {
+            margin: 0 auto;
+            width: 50%;
+        }
+
+        .grid-item {
+            img {
+
+            }
+
+            p, img {
+                text-align: center;
+            }
+
+            margin: 0 auto;
+            float: left;
+            height: 100%;
+            width: 20%;
         }
     }
 }

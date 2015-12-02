@@ -1,0 +1,18 @@
+﻿<article class="marketing" ng-controller="voiceCtrl">
+    <div class="voice-hub-features">
+        <hr />
+        <div ng-hide="showHubFeatures" ng-click="showHubFeatures = true">
+            @Html.Sitecore().Field("Drop Down Image1")
+            <p class="drop-down">@Html.Sitecore().Field("Drop Down Text1")</p>
+        </div>
+        <div ng-show="showHubFeatures">
+            <div ng-click="showHubFeatures = false">
+                @Html.Sitecore().Field("Drop Down Image2")
+                <p class="drop-down">@Html.Sitecore().Field("Drop Down Text2")</p>
+            </div>
+            <p>@Html.Sitecore().Field("Features Text")</p>
+        </div>
+        <hr />
+    </div>
+
+</article>
