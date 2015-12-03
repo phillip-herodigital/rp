@@ -352,7 +352,8 @@ article.marketing {
         p.intro {
             text-align: center;
             color: black;
-            border: 34px 0px;
+            margin-top:24px;
+            font-weight: bold;
         }
 
         p.outro {
@@ -367,18 +368,54 @@ article.marketing {
         }
 
         .grid-item {
-            img {
-
-            }
-
-            p, img {
-                text-align: center;
-            }
-
             margin: 0 auto;
             float: left;
-            height: 100%;
             width: 20%;
+            position: relative;
+            height: 120px;
+
+            &.separator {
+                img {
+                    top: calc(50% + 6.5px);
+                }
+            }
+
+            img {
+                display: block;
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            p {
+                text-align: center;
+                margin-top: 4px;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+            }
+        }
+
+        @include breakpoint(medium) {
+            .grid {
+                width: 75%;
+            }
+        }
+
+        @include breakpoint(small) {
+            .grid {
+                width: 100%;
+            }
+            .grid-item {
+                float: initial;
+                width: 100%;
+
+                &.separator {
+                    height: 60px;
+                }
+            }
         }
     }
 }
