@@ -1,17 +1,73 @@
-﻿@{
-    Layout = null;
-}
+﻿<article class="marketing">
+    <div class="voice-get-more">
+        <div class="heading">
+            <h2>@Html.Sitecore().Field("Heading Line 1")</h2>
+            <p>@Html.Sitecore().Field("Heading Line 2")</p>
+        </div>
+        <div class="wrapper">
+            <div class="left">
+                <div class="image-text-wrapper-wrapper">
+                    <div class="image-text-wrapper">
+                        @Html.Sitecore().Field("Air Image")
+                        <h3>@Html.Sitecore().Field("Left Image Text 1")</h3>
+                    </div>
+                </div>
+                <p class="image-text-2">@Html.Sitecore().Field("Left Image Text 2")</p>
+                <p class="section1">@Html.Sitecore().Field("Left Paragraph")</p>
+                <p class="section2">@Html.Sitecore().Field("Left Paragraph 2")</p>
+                <div class="just-buy-now">
+                    <p class="price">@Html.Sitecore().Field("Air Price")</p>
+                    <p class="button">@Html.Sitecore().Field("Left Button Text")</p>
+                </div>
+            </div>
+            <div class="right">
+                <div class="image-text-wrapper">
+                    @Html.Sitecore().Field("Bridge Image")
+                    <h3>@Html.Sitecore().Field("Right Image Text 1")</h3>
+                </div>
+                <p class="image-text-2">@Html.Sitecore().Field("Right Image Text 2")</p>
+                <p class="section1">@Html.Sitecore().Field("Right Paragraph")</p>
+                <p class="section2">@Html.Sitecore().Field("Right Paragraph 2")</p>
+                <div class="just-buy-now">
+                    <p class="price">@Html.Sitecore().Field("Bridge Price")</p>
+                    <p class="button">@Html.Sitecore().Field("Right Button Text")</p>
+                </div>
+            </div>
+            <div class="bundle">
+                <h2>@Html.Sitecore().Field("Bundle Line 1")</h2>
+                <p>@Html.Sitecore().Field("Bundle Line 2")</p>
+                <div class="air-or-bridge">
+                    <div class="left">
+                        <div class="air-or-bridge-item text">
+                            <input type="radio" />
+                            <text>@Html.Sitecore().Field("Bundle Text Air")</text>
+                        </div>
+                        <div class="air-or-bridge-item plus">
+                            @Html.Sitecore().Field("Bundle Plus Image")
+                        </div>
+                        <div class="air-or-bridge-item">
+                            @Html.Sitecore().Field("Bundle Hub Image")
+                        </div>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
+                    </div>
+                    <div class="middle">
+                        <div class="or-box-left">
+                        </div>
+                        <div class="or-circle">
+                            @Html.Sitecore().Field("Bundle Or")
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="air-or-bridge-item">
+                                <input type="radio" />
+                            <text>@Html.Sitecore().Field("Bundle Text Bridge")</text>
+                        </div>
+                        <div class="air-or-bridge-item">
+                            <p class="button">@Html.Sitecore().Field("Bundle Button Text")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</article>

@@ -329,6 +329,9 @@ article.marketing {
     }
 
     .voice-hub-features {
+        width: 90%;
+        margin: 0 auto;
+
         hr {
             margin: 0px;
         }
@@ -338,21 +341,23 @@ article.marketing {
             text-align: center;
             color: #8e4b9d;
             text-transform: uppercase;
-        }
+            background-image: url(../i/marketing/redesign/Modules/Services/drop_down_image.png);
+            background-repeat: no-repeat;
+            background-position: calc(50% - 128px) center;
 
-        img {
-            vertical-align: text-bottom;
-            left: calc(50% - 128px);
-            position: absolute;
-            top: 12px;
+            &.dropped-down {
+                background-image: url(../i/marketing/redesign/Modules/Services/drop_down_image2.png);
+            }
         }
     }
 
     .voice-setup {
+        margin-bottom: 32px;
+
         p.intro {
             text-align: center;
             color: black;
-            margin-top:24px;
+            margin-top: 24px;
             font-weight: bold;
         }
 
@@ -408,6 +413,7 @@ article.marketing {
             .grid {
                 width: 100%;
             }
+
             .grid-item {
                 float: initial;
                 width: 100%;
@@ -418,7 +424,391 @@ article.marketing {
             }
         }
     }
+
+    .voice-on-the-go {
+        padding-bottom: 36px;
+        margin: 0 auto;
+
+        .heading {
+            background: linear-gradient(top, #f0f0f0, white);
+            height: 36px;
+        }
+
+        h2 {
+            text-align: center;
+            letter-spacing: 1.5pt;
+
+            b, strong {
+                color: #8e4b9d;
+                text-transform: uppercase;
+                font-weight: initial;
+            }
+        }
+
+        .section1 {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .section1 p {
+            line-height: 8px;
+        }
+
+        .section2 {
+            padding-top: 16px;
+            padding-bottom: 16px;
+            margin: 0 auto;
+            display: table;
+        }
+
+        .section2 p {
+            line-height: 16px;
+            font-weight: bold;
+        }
+
+        .app-links {
+            margin: 0 auto;
+            position: relative;
+
+            .google-play, .app-store {
+                display: block;
+                padding: 0px 6px;
+                position: absolute;
+                left: 50%;
+            }
+
+            .google-play {
+                transform: translate(-100%, 0);
+            }
+        }
+
+        @include breakpoint(medium) {
+            width: 75%;
+        }
+
+        @include breakpoint(small) {
+            width: 100%;
+        }
+    }
+
+    .voice-get-more {
+        background-color: #9f66ac;
+        background-image: url(../i/marketing/redesign/Modules/Services/section-rule_energy-overview.png);
+        background-repeat: no-repeat;
+        border-top: 32px;
+        padding-top: 32px;
+        margin-top: 32px;
+        color: white;
+
+        .heading {
+            text-align: center;
+
+            h2 {
+                color: white;
+
+                b, strong {
+                    text-transform: uppercase;
+                    font-weight: normal;
+                }
+            }
+        }
+
+        .button {
+            color: #9f66ac;
+            background-color: white;
+            background-image: none;
+        }
+
+        .wrapper {
+            width: 85%;
+        }
+
+        .image-text-wrapper {
+            width: auto;
+            display: inline-block;
+
+            img {
+                position: relative;
+                left: 50%;
+                transform: translate(-50%, 0);
+            }
+
+            h3 {
+                margin: 8px 2px 2px;
+
+                b, strong {
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        .right, .left {
+            width: 50%;
+            float: left;
+            display: block;
+
+            h3 {
+                color: inherit;
+            }
+
+            p.image-text-2 {
+                margin: 2px;
+            }
+
+            p.section1 {
+                margin: 20px 0;
+                font-size: smaller;
+            }
+
+            p.section2 {
+                max-width: 350px;
+            }
+
+            .just-buy-now {
+                width: 100%;
+                margin: 24px 0px;
+
+                .price {
+                    font-size: larger;
+                    float: left;
+                }
+
+                .button {
+                    left: 25%;
+                    position: relative;
+                }
+            }
+        }
+
+        .left {
+            border-right: 1px solid #c5a3cd;
+            padding-right: 12px;
+        }
+
+        .right {
+            border-left: 1px solid #c5a3cd;
+            padding-left: 12px;
+            transform: translateX(-1px);
+        }
+
+        .bundle {
+            background-color: #8e4b9d;
+            margin: 12px 0px;
+            padding: 24px;
+            float: left;
+            width: 100%;
+            border-radius: 5px;
+
+            h2 {
+                color: inherit;
+                font-weight: bold;
+                text-align: center;
+                margin: 2px;
+            }
+
+            p {
+                margin-top: 2px;
+                text-align: center;
+            }
+
+            .air-or-bridge {
+                height: 85px;
+                margin: 20px auto 0px;
+
+                .left, .right {
+                    border: none;
+                    padding: 0px;
+                    height: inherit;
+                }
+
+                .left {
+                    width: 50%;
+                    min-width: 440px;
+
+                    .air-or-bridge-item {
+                        float: right;
+                    }
+                }
+
+                .right {
+                    width: calc(50% - 40px);
+                    min-width: 400px;
+
+                    .air-or-bridge-item {
+                        float: left;
+                    }
+                }
+
+                .middle {
+                    width: 40px;
+                    height: 100%;
+                    position: relative;
+                    float: left;
+                    font-weight: 500;
+                    font-style: italic;
+                    font-size: large;
+
+                    .or-box-left {
+                        width: 50%;
+                        height: 100%;
+                        position: absolute;
+                        top: 0;
+                        left: 1px;
+                        border-right: 1px solid #3b3b3b;
+                    }
+
+                    .or-circle {
+                        height: 40px;
+                        width: 40px;
+                        background-color: #b081bb;
+                        color: #3b3b3b;
+                        font-size: larger;
+                        font-style: italic;
+                        border-radius: 20px;
+                        text-align: center;
+                        line-height: 40px;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+
+                .air-or-bridge-item {
+                    padding: 0px 8px;
+                    height: 100%;
+                    font-size: x-large;
+
+                    b, strong {
+                        text-transform: uppercase;
+                    }
+
+                    &.plus {
+                        padding: 0px 24px;
+
+                        img {
+                            top: 50%;
+                            transform: translate(0, -50%);
+                            position: relative;
+                            float: initial;
+                        }
+                    }
+
+                    p.button, input, text {
+                        top: 50%;
+                        transform: translate(0, -50%);
+                        position: relative;
+                    }
+
+                    input {
+                        height: 18px;
+                        width: 18px;
+                    }
+
+                    p.button {
+                        margin: 0px;
+                    }
+
+                    text {
+                        display: inline-block;
+                    }
+                }
+
+                @media only screen and (max-width: 1180px) {
+                    height: 255px;
+
+                    .right, .left, .middle {
+                        float: initial;
+                        height: 85px;
+                        margin: 0px auto;
+                    }
+
+                    .right {
+                        display: block;
+                    }
+                }
+            }
+        }
+
+        @include breakpoint(small-medium) {
+            .right, .left {
+                width: initial;
+                float: none;
+            }
+
+            .right {
+                padding-top: 18px;
+                border-left: none;
+                border-top: 1px solid #c5a3cd;
+            }
+
+            .left {
+                border-right: none;
+            }
+        }
+    }
+
+    .voice-easy-setup {
+        width: 90%;
+        margin: 0 auto;
+
+        .intro {
+            width: 100%;
+
+            h2 {
+                text-align: center;
+
+                strong, b {
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        .left, .right {
+            float: left;
+            width: 50%;
+            box-sizing: border-box;
+            padding: 0px 24px;
+
+            h3 {
+                strong, b {
+                    text-transform: uppercase;
+                }
+            }
+
+            p.step {
+                font-weight: bold;
+            }
+
+            p.left-step-1, p.right-step-2 {
+                color: purple;
+            }
+
+            p.left-step-2, p.right-step-1 {
+                color: lightblue;
+            }
+        }
+
+        .left {
+            border-right: 1px solid black;
+
+            p.left-step-3 {
+                color: blue;
+            }
+        }
+
+        .right {
+            transform: translateX(-1px);
+            border-left: 1px solid black;
+
+            p.right-step-3 {
+                color: green;
+            }
+        }
+    }
 }
+
+
 
 article.loginHorizontal {
     background-color: $brand-primary-color;

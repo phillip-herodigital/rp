@@ -1,17 +1,20 @@
-﻿@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
+﻿<article class="marketing">
+    <div class="voice-on-the-go">
+        <div class="heading"></div>
+        @Html.Sitecore().Field("Intro")
+        <div class="section1">
+            @Html.Sitecore().Field("Paragraph 1")
+        </div>
+        <div class="section2">
+            @Html.Sitecore().Field("Paragraph 2")
+        </div>
+        <div class="app-links">
+            <div class="google-play">
+                @Html.Sitecore().Field("Google Play Link")
+            </div>
+            <div class="app-store">
+                @Html.Sitecore().Field("App Store Link")
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</article>
