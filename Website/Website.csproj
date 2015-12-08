@@ -83,7 +83,7 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-	<Reference Include="HedgehogDevelopment.Razl.Service, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="HedgehogDevelopment.Razl.Service, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Razl\HedgehogDevelopment.Razl.Service.dll</HintPath>
     </Reference>
@@ -792,7 +792,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conditions\CustomerFirstLoginCondition.cs" />
-	<Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
+    <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
     <Compile Include="Conditions\HasUtilityEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasMobileEnrollmentCondition.cs" />
     <Compile Include="Conditions\MobileAccountCondition.cs" />
@@ -1198,7 +1198,7 @@
     <Content Include="App_Config\Include\Z\StreamEnergy.overrides.config">
       <SubType>Designer</SubType>
     </Content>
-	<Content Include="_CMP\RazlService.asmx" />
+    <Content Include="_CMP\RazlService.asmx" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -1355,7 +1355,7 @@
     <Content Include="upload\readme.txt" />
     <Content Include="webedit.css" />
     <Content Include="xsl\system\WebEdit\Hidden Rendering.xslt" />
-	<Content Include="_CMP\web.config" />
+    <Content Include="_CMP\web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Config\Commands.config" />
