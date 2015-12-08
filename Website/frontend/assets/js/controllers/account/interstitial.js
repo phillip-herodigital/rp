@@ -4,6 +4,10 @@
 
 ngApp.controller('AcctInterstitialCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     
+    $scope.pageHash = function (pageName) {
+    	$window.location.hash = '##' + encodeURIComponent(pageName);
+    };
+
     $scope.dismissInterstitial = function (itemId) {
         var interstitialData = {
             interstitialId: itemId

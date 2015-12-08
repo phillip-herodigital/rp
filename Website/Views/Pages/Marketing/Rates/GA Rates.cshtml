@@ -35,12 +35,17 @@
     };
     foreach(Sitecore.Data.Items.Item plan in plans)
     {
+        var defaultLanguageItem = plan;
+        if (defaultLanguageItem.Language != Sitecore.Data.Managers.LanguageManager.DefaultLanguage)
+        {
+            defaultLanguageItem = Sitecore.Context.Database.GetItem(plan.ID, Sitecore.Data.Managers.LanguageManager.DefaultLanguage);
+        }
         headerRow.Add(Html.Sitecore().Field("Plan Title", plan));
-        rows[0].Add(Html.AsMoney("Current Price per Therm", plan, 3));
+        rows[0].Add(Html.AsMoney("Current Price per Therm", defaultLanguageItem, 3));
         rows[1].Add(Html.Sitecore().Field("Therm Range per Billing Cycle", plan));
-        rows[2].Add(Html.AsMoney("Monthly Service Charge", plan));
+        rows[2].Add(Html.AsMoney("Monthly Service Charge", defaultLanguageItem));
         rows[3].Add(Html.Sitecore().Field("Terms", plan));
-        rows[4].Add(Html.AsMoney("Early Termination Fee", plan));
+        rows[4].Add(Html.AsMoney("Early Termination Fee", defaultLanguageItem));
     }
 }
 <article class="marketing wrapper rates georgia">
