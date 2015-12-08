@@ -108,7 +108,7 @@
                 </div>
             }
             <section>
-                <article class="wrapper account-interstitial" ng-controller="AcctInterstitialCtrl">
+                <article class="wrapper account-interstitial" ng-controller="AcctInterstitialCtrl" ng-init="pageHash('@Html.Sitecore().Field("URL Hash")');">
                     <h1>@Html.Sitecore().Field("Header")</h1>
                     @Html.Sitecore().Field("Content")
                     <hr />
