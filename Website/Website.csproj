@@ -5451,6 +5451,7 @@
     <Content Include="Views\Components\Marketing\Voice\On The Go.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Get More.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Easy Setup.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Lets Be Clear.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

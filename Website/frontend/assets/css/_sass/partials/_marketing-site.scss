@@ -216,10 +216,6 @@ article.marketingIntro {
                 color: #8e4b9d;
             }
         }
-
-        .body {
-            color: #8e4b9d;
-        }
     }
 
     p.intro {
@@ -304,9 +300,7 @@ article.marketing {
             margin-right: auto;
         }
 
-
-
-        @include breakpoint(small-medium){
+        @include breakpoint(small-medium) {
             text-align: center;
         }
     }
@@ -343,22 +337,56 @@ article.marketing {
             float: right;
         }
 
-        @include breakpoint(small-medium) {
-            .button {
-                right: initial;
+        @media only screen and (max-width: 1024px) {
+
+            .wrapper > img + .content {
+                text-align: center;
+                float: none;
+                width: 80%;
+                margin: 0 auto;
+
+                .button {
+                    right: initial;
+                }
+
+                h1 {
+                    text-align: center;
+                }
+
+                p {
+                    float: none;
+                }
+
+                h3, a.button {
+                    float: none;
+                    margin: 0 12px 0;
+                }
+            }
+
+            .wrapper > img {
+                float: none;
+                margin: 0 auto;
+                display: inherit;
             }
         }
     }
 
-    &.voice-grid {
+    .voice-lets-be-clear {
         background-color: #f3f6f7;
+        text-align: center;
+        padding: 24px;
 
         b, strong {
             color: #8e4b9d;
         }
 
+        img {
+            margin: 24px auto 0;
+        }
+
         p {
-            text-align: center;
+            width: 80%;
+            margin: 0 auto;
         }
     }
 
@@ -961,7 +989,7 @@ article.marketing {
             }
         }
 
-        @include breakpoint (small-medium){
+        @include breakpoint (small-medium) {
             .left, .right {
                 float: initial;
                 width: auto;
