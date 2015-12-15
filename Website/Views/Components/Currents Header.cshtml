@@ -6,7 +6,6 @@
 @using Sitecore.Mvc
 @using StreamEnergy.MyStream.Utility
 @using System.Collections.Specialized
-@using Sitecore.Data.Items
 @using XBlogHelper
 @using XBlogHelper.Models.Blog
 @using XBlogHelper.Search
@@ -133,17 +132,12 @@
     {
         if (dataSourceItem.Fields["Slide " + i + " Image"].Value != "")
         {
-            MediaItem item = ((Sitecore.Data.Fields.FileField)dataSourceItem.Fields["Slide " + i + " Image"]).MediaItem;
-            if (item != null)
-            {
-                slides.Add(new JObject
-                {
-                    {"image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField) dataSourceItem.Fields["Slide " + i + " Image"]).MediaItem)},
-                    {"text", dataSourceItem.Fields["Slide " + i + " Text"].Value},
-                    {"classes", dataSourceItem.Fields["Slide " + i + " CSS Classes"].Value},
-                    {"link", ((Sitecore.Data.Fields.LinkField) dataSourceItem.Fields["Slide " + i + " Link"]).GetFriendlyUrl()}
-                });
-            }
+            slides.Add(new JObject {
+                { "image", Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.FileField)dataSourceItem.Fields["Slide " + i + " Image"]).MediaItem) },
+                { "text", dataSourceItem.Fields["Slide " + i + " Text"].Value },
+                { "classes", dataSourceItem.Fields["Slide " + i + " CSS Classes"].Value },
+                { "link", ((Sitecore.Data.Fields.LinkField)dataSourceItem.Fields["Slide " + i + " Link"]).GetFriendlyUrl() }
+            });
         }
     }
     <carousel class="currents__carousel" interval="5000" ng-init='slides = @Html.Raw(slides.ToString(Formatting.None).Replace("'", "&#39;"));'>
