@@ -18,7 +18,7 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
             case 'seidcr01':
             case 'seidit01':
             case 'seidcrit01':
-                $scope.productCode = 'SE4531';
+                $scope.productCode = 'SE4535';
                 break;
             case 'seid02':
             case 'seidcr02':
