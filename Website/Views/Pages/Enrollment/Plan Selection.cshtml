@@ -5,6 +5,9 @@
         <div class="wrapper cols-2">
             <section>
                 <form name="selectPlan" data-val-bind-messages="validations">
+                    <div class="noticeRenewalAlert" ng-if="isRenewal">
+                        @Html.Sitecore().Field("Eligible For Renewal Message")
+                    </div>
                     <article class="form enrollment__box" ng-if="false">
                         <header>
                             <h1 ng-if="!isRenewal">@Html.Sitecore().Field("Choose Header")</h1>
