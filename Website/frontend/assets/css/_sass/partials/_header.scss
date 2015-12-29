@@ -296,7 +296,7 @@
 
 .tertiary-nav {
     min-height: 50px;
-    background-color: #f98e00;
+    background-color: #28a5de;
     color: #ffffff;
     ul {
         @include inline-block-list();
@@ -316,7 +316,6 @@
             }
             &.selected {
                 background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
-                background-position-y: 40px;
                 .triangle {
                     display: block;
                 }
@@ -337,7 +336,7 @@
         height: 0;
         border-style: solid;
         border-width: 0 10px 12px 10px;
-        border-color: transparent transparent #f98e00 transparent;
+        border-color: transparent transparent #fff transparent;
 
         &:after {
             content: "";
@@ -346,7 +345,7 @@
             height: 16px;
             @include rotate(45deg);
             box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
-            background: #f98e00;
+            background: #fff;
             left: 50%;
             margin-left: -8px;
             margin-top: 4px;
