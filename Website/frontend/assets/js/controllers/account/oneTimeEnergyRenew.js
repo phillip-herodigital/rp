@@ -21,7 +21,13 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                 .success(function (data) {
                     if (data.success) {
                         if (data.availableForRenewal) {
-                            window.location.assign('/enrollment?renewal=true');
+                            if (data.texasOrGeorgia) {
+                                window.location.assign('/enrollment?renewal=true');
+                            }
+                            else {
+                                $scope.isLoading = false;
+                                ctrl.TXorGAErrorMessage = true;
+                            }
                         }
                         else
                         {
