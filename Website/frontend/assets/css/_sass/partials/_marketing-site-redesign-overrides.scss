@@ -145,11 +145,46 @@ article {
         &.plans-intro {
 
             h1 {
-                text-align:left;
-    }
+                text-align: left;
+            }
 
             .wrapper {
                 padding: 16px 0;
+            }
+        }
+
+        &.electricity-get-started {
+            .wrapper {
+                padding: 40px 0;
+            }
+
+            .body {
+                margin: initial;
+            }
+
+            text-align: left;
+
+            strong {
+                color: #fd8010;
+            }
+
+            hr {
+                display: none;
+            }
+
+            p {
+                margin: 0;
+                float: right;
+
+                a.button {
+                    background-image: none;
+                    background-color: #f87c00;
+                    border-radius: 5px;
+                }
+
+                a.button:hover {
+                    background-color: #f79431;
+                }
             }
         }
     }
@@ -330,6 +365,48 @@ article {
             margin-top: 0;
         } */
         }
+
+        &.smart30-thermostat {
+            height: 421px;
+            color: #ffffff;
+            min-width: 800px;
+
+            .wrapper {
+                margin: auto;
+                height: 100%;
+
+                .content {
+                    width: 320px;
+                    float: left;
+                    margin-left: 100px;
+
+                    @include breakpoint(small) {
+                        margin-left: 25px;
+                    }
+                }
+            }
+
+            img {
+                position: relative;
+                height: 115%;
+                width: auto;
+                transform: translate(10%, -6%);
+            }
+
+            h2 {
+                color: #ff9e31;
+            }
+
+            a.button {
+                background-image: none;
+                background-color: #f87c00;
+                border-radius: 5px;
+            }
+
+            a.button:hover {
+                background-color: #f79431;
+            }
+        }
     }
 
     &.states-enroll {
@@ -337,7 +414,7 @@ article {
 
         .wrapper {
             background-image: none;
-            //min-height: 83px;
+            min-height: 100px;
             padding: 0;
             max-width: 1040px;
             margin: 0 auto;
@@ -346,6 +423,10 @@ article {
                 .col {
                     width: auto;
                     vertical-align: middle;
+
+                    a {
+                        margin: auto 10px;
+                    }
                 }
             }
 
@@ -404,7 +485,6 @@ article {
 
         blockquote {
             //margin: 0 percentage(298/1280) 0 percentage(225/1280);
-
             p {
                 padding-left: 0;
 

@@ -296,7 +296,7 @@
 
 .tertiary-nav {
     min-height: 50px;
-    background-color: #28a5de;
+    background-color: #f98e00;
     color: #ffffff;
     ul {
         @include inline-block-list();
@@ -316,6 +316,7 @@
             }
             &.selected {
                 background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
+                background-position-y: 40px;
                 .triangle {
                     display: block;
                 }
@@ -377,7 +378,8 @@
             }
             &.selected {
                 background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
-                
+                background-position-y: 40px;
+
                 a {
                     color: #ffffff;
                     font-weight: 600;

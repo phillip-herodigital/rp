@@ -1,0 +1,18 @@
+﻿@{
+    Sitecore.Data.Fields.ImageField thermostat = Html.Sitecore().CurrentItem.Fields["Thermostat"];
+    Sitecore.Data.Fields.ImageField house = Html.Sitecore().CurrentItem.Fields["House"];
+
+    var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
+}
+
+<article class="electricity-photo photo-3">
+    <div class="thermostat-house">
+        <img id="thermostat" src= @Sitecore.Resources.Media.MediaManager.GetMediaUrl(thermostat.MediaItem, mediaOptions) />
+        <img id="house" src=@Sitecore.Resources.Media.MediaManager.GetMediaUrl(house.MediaItem, mediaOptions) />
+    </div>
+    <div class="text">
+            <h1>@Html.Sitecore().Field("Header")</h1>
+            <p>@Html.Sitecore().Field("Paragraph")</p>
+            <p>@Html.Sitecore().Field("Button")</p>
+    </div>
+</article>
