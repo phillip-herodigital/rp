@@ -1666,7 +1666,6 @@
     <Content Include="Views\Components\Marketing\Electricity\Photo 3.cshtml" />
     <Content Include="Views\Components\Marketing\Electricity\Photo 4.cshtml" />
     <Content Include="Views\Components\Marketing\Electricity\Get Started.cshtml" />
-    <Content Include="Views\Components\Marketing\Lyric Enroll Now.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
