@@ -381,7 +381,8 @@ article {
                     margin-left: 100px;
 
                     @include breakpoint(small) {
-                        margin-left: 25px;
+                        margin: 0;
+                        width: 280px;
                     }
                 }
             }
