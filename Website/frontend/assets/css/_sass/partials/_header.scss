@@ -316,6 +316,7 @@
             }
             &.selected {
                 background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
+                background-position-y: 40px;
                 .triangle {
                     display: block;
                 }
@@ -377,7 +378,8 @@
             }
             &.selected {
                 background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
-                
+                background-position-y: 40px;
+
                 a {
                     color: #ffffff;
                     font-weight: 600;

@@ -979,6 +979,58 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region One-time Renewal
+
+        [HttpPost]
+        public async Task<AccountForOneTimeRenewalResponse> SetupAnonymousRenewal(AccountForOneTimeRenewalRequest request)
+        {
+            var acct = await accountService.GetAccountDetails(request.AccountNumber, request.Last4);
+            if (acct == null)
+            {
+                return new AccountForOneTimeRenewalResponse
+                {
+                    Success = false
+                };
+            }
+            else
+            {
+                if (!acct.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)))
+                {
+                    return new AccountForOneTimeRenewalResponse
+                    {
+                        Success = true,
+                        AvailableForRenewal = false
+                    };
+                }
+                else
+                {
+                    var subAccount = acct.SubAccounts.First(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible));
+                    if (subAccount.ServiceAddress.StateAbbreviation == "TX" || subAccount.ServiceAddress.StateAbbreviation == "GA")
+                    {
+                        await enrollmentController.Initialize();
+                        await enrollmentController.SetupRenewal(acct, subAccount);
+                        return new AccountForOneTimeRenewalResponse
+                        {
+                            Success = true,
+                            AvailableForRenewal = true,
+                            TexasOrGeorgia = true
+                        };
+                    }
+                    else
+                    {
+                        return new AccountForOneTimeRenewalResponse
+                        {
+                            Success = true,
+                            AvailableForRenewal = true,
+                            TexasOrGeorgia = false
+                        };
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #region One-time Payment
 
         [HttpPost]
