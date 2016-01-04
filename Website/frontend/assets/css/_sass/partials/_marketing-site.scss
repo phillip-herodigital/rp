@@ -1826,6 +1826,10 @@ article.electricity-photo {
             margin: 25px auto;
             font-size: x-large;
         }
+
+        @include breakpoint(small) {
+            padding: 25px;
+        }
     }
 
     &.photo-2 {
@@ -1848,7 +1852,7 @@ article.electricity-photo {
                 padding-top: 300px;
             }
 
-            @include breakpoint(small) {
+            @media only screen and (max-width: 500px) {
                 padding-top: 150px;
             }
         }
@@ -1875,7 +1879,7 @@ article.electricity-photo {
         }
 
         @include breakpoint(small) {
-            padding: 25px;
+            padding: 5px;
         }
     }
 
@@ -1954,12 +1958,22 @@ article.electricity-photo {
             a.button:hover {
                 background-color: #f79431;
             }
+
+            @include breakpoint (small) {
+                width: 300px;
+            }
         }
 
         .background {
             background-color: rgba(0,0,0,0.7);
             height: 100%;
             padding: 75px;
+        }
+
+        @include breakpoint (small) {
+            .background {
+                padding: 25px 0 0 0;
+            }
         }
     }
 }
