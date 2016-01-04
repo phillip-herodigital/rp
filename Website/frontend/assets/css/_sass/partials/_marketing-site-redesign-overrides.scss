@@ -427,6 +427,10 @@ article {
 
                     a {
                         margin: auto 10px;
+                        @include breakpoint(small) {
+                            margin-top: 10px;
+                            width: 100%;
+                        }
                     }
                 }
             }
