@@ -1152,25 +1152,18 @@ article.mobile-devices {
     }
     .lyric-intro {
         .body {
-            margin: 0 100px 0 0;
-            @include breakpoint(small) {
-                margin: 0;
+            margin: 0;
+            font-size: 25px;
+            .orange {
+                color: #f98e00;
             }
-        }
-        .text {
-            float: left;
-            font-size: 36px;
-            color: #013c5b;
+            .price {
+                font-style: italic;
+                font-size: 21px;
+            }
         }
         hr {
             display: none;
-        }
-        p {
-            float: right;
-            margin-top: 5px;
-            @include breakpoint(small) {
-                float: none;
-            }
         }
     }
     .comfort-savings {
