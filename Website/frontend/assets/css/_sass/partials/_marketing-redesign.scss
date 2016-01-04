@@ -1151,6 +1151,9 @@ article.mobile-devices {
         clear: both;
     }
     .lyric-intro {
+        .wrapper {
+            padding-bottom: 0;
+        }
         .body {
             margin: 0;
             font-size: 25px;
