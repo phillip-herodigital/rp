@@ -1,6 +1,10 @@
 ﻿<article class="marketing leaders">
     <div class="wrapper">
         <h2>@Html.Sitecore().Field("Page Header")</h2>
+        <h3>@Html.Sitecore().Field("Page Description")</h3>
         @Html.Partial("~/Views/Pages/Marketing/Leaders/Leader Listing.cshtml", Sitecore.Context.Item.Children.ToList())
+    </div>
+    <div class="director-banner stretch">
+        @Html.Sitecore().Field("Page Footer")
     </div>
 </article>
