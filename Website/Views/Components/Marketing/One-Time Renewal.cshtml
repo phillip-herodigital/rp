@@ -29,11 +29,11 @@
                 <br />
                 <div class="item" @Html.Validation().ErrorClass(m => m.AccountNumber)>
                     <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label"):</label>
-                    <input id="AccountNumber" name="AccountNumber" type="text" data-val="true" ng-model="cntrl.accountNumber" data-val-required/>
+                    @Html.TextBoxFor(m => m.AccountNumber, new { ng_model = "ctrl.accountNumber" })
                 </div>
                 <div class="item" @Html.Validation().ErrorClass(m => m.Last4)>
                     <label for="@Html.IdFor(m => m.Last4)">@Html.Sitecore().Field("Last 4 of SSN Label"):</label>
-                    <input id="Last4" name="Last4" type="text" data-val="true" ng-model="ctrl.last4SSN" data-val-required data-val-regex data-val-regex-pattern="^[0-9]{4}$"/>
+                    @Html.TextBoxFor(m => m.Last4, new { ng_model = "ctrl.last4SSN" })
                 </div>
             </div>
             <footer>
