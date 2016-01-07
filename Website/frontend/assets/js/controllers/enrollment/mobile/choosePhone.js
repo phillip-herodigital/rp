@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', 'analytics', function ($scope, $filter, $modal, $http, $sce, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService, analytics) {
+﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', 'analytics', 'reCAPTCHA', function ($scope, $filter, $modal, $http, $sce, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService, analytics, reCAPTCHA) {
 
     var maxMobileItems = 10;
 
@@ -58,15 +58,19 @@
                 if (!data.isValidImei) {
                     $scope.hasError = true;
                     $scope.deviceIneligible = true;
-                    $scope.addDevice.imeiNumber.$setValidity('required',false);
-                    $scope.validations = [{
-                        'memberName': 'imeiNumber'
-                    }];
                     analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
                     if(data.verifyEsnResponseCode) {
                         $scope.deviceIneligibleMessage = _.find($scope.esnValidationMessages, function (message) { 
                                 return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
                             }).message;
+                        if (data.verifyEsnResponseCode == 'reCaptchaError') {
+                            reCAPTCHA.reload($scope.widgetId);
+                        } else {
+                            $scope.addDevice.imeiNumber.$setValidity('required',false);
+                            $scope.validations = [{
+                                'memberName': 'imeiNumber'
+                            }];
+                        }
                     }
                 } else if ($scope.getDevicesCount() > 0 && mobileEnrollmentService.selectedNetwork.value != data.provider) {
                     $scope.hasError = true;
@@ -83,6 +87,10 @@
                     if (data.deviceType) {
                         $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
                     }
+                    var responseMessage = _.find($scope.esnValidationMessages, function (message) { 
+                            return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
+                        });
+                    $scope.deviceResponseMessage = (responseMessage == undefined) ? null : responseMessage.message;
                     $scope.phoneOptions.showIccid = (data.iccid == undefined || data.iccid == '') && $scope.phoneOptions.supportsLte;
                     $scope.cdmaActive = (data.iccid != undefined & data.iccid != '');
                     analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
@@ -110,6 +118,10 @@
         //enrollmentStepsService.setStep('phoneFlowDevices');
     };
 
+    $scope.setWidgetId = function (widgetId) {
+        $scope.widgetId = widgetId;
+    };
+
     $scope.editMobileDevice = function (service, item) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
@@ -132,6 +144,9 @@
         mobileEnrollmentService.editedDevice = item;
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
+        if ($scope.showCaptcha) {
+            reCAPTCHA.reload($scope.widgetId);
+        }
         scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
     };
 
@@ -147,6 +162,9 @@
         enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
         $scope.phoneVerified = false;
         $scope.phoneOptions.imeiNumber = '';
+        if ($scope.showCaptcha) {
+            reCAPTCHA.reload($scope.widgetId);
+        }
         scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
     };
     
@@ -448,6 +466,9 @@
         if (phoneType) {
             $scope.mobileEnrollment.phoneTypeTab = phoneType; 
             $scope.clearPhoneSelection();
+            if ($scope.showCaptcha) {
+                reCAPTCHA.reload($scope.widgetId);
+            }
             enrollmentStepsService.scrollToStep('phoneFlowDevices');
         }
     };

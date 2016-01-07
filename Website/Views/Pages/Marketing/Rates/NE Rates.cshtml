@@ -46,12 +46,17 @@
                 </tr>
                 @foreach (dynamic row in table.Rows)
                 {
+                    var defaultLanguageItem = (Sitecore.Data.Items.Item)row.Item;
+                    if (defaultLanguageItem.Language != Sitecore.Data.Managers.LanguageManager.DefaultLanguage)
+                    {
+                        defaultLanguageItem = Sitecore.Context.Database.GetItem(((Sitecore.Data.Items.Item)row.Item).ID, Sitecore.Data.Managers.LanguageManager.DefaultLanguage);
+                    }
                     <tr>
                         <td>@Html.Sitecore().Field("Plan Title", row.Item)</td>
-                        <td>@Html.AsMoney((string)row.Prefix + "Current Price", (Sitecore.Data.Items.Item)row.Item, 4)</td>
-                        <td>@Html.AsMoney((string)row.Prefix + "Monthly Customer Service Fee", (Sitecore.Data.Items.Item)row.Item)</td>
+                        <td>@Html.AsMoney((string)row.Prefix + "Current Price", defaultLanguageItem, 4)</td>
+                        <td>@Html.AsMoney((string)row.Prefix + "Monthly Customer Service Fee", defaultLanguageItem)</td>
                         <td class="term">@Html.Sitecore().Field(row.Prefix + "Term", row.Item)</td>
-                        <td>@Html.AsMoney((string)row.Prefix + "Early Cancellation Fee", (Sitecore.Data.Items.Item)row.Item)</td>
+                        <td>@Html.AsMoney((string)row.Prefix + "Early Cancellation Fee", defaultLanguageItem)</td>
                     </tr>
                 }
             </tbody>
