@@ -5,7 +5,6 @@
     </header>
     <form data-val-bind-messages="validations" ng-if="ctrl.activeStep == 1" ng-submit="ctrl.findAccount()">
         <div class="content" loading-indicator>
-            <div stream-connect-errors="ctrl"></div>
             <div ng-show="ctrl.errorMessage">
                 <div class="notice error">
                     @Html.Sitecore().Field("Look up Account Error")

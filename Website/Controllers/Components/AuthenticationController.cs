@@ -39,6 +39,27 @@ namespace StreamEnergy.MyStream.Controllers.Components
             }
         }
 
+        public ActionResult CallcenterLoginIndex()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                System.Web.Security.FormsAuthentication.SignOut();
+                return Redirect(Request.RawUrl);
+            }
+            if (Request.Cookies["username"] != null)
+            {
+                return View("~/Views/Components/Authentication/Callcenter Login.cshtml", new Models.Authentication.LoginRequest
+                {
+                    Username = HttpUtility.UrlDecode(Request.Cookies["username"].Value),
+                    RememberMe = true
+                });
+            }
+            else
+            {
+                return View("~/Views/Components/Authentication/Callcenter Login.cshtml");
+            }
+        }
+
         public ActionResult FindAccountIndex()
         {
             return View("~/Views/Components/Authentication/Create Account - Step 1.cshtml");

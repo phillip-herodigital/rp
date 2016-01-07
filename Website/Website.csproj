@@ -1659,6 +1659,8 @@
     <Content Include="Views\Components\Account\Interstitial.cshtml" />
     <Content Include="Views\Components\Account\Overview\Paperless Billing.cshtml" />
     <Content Include="Views\Components\Authentication\Impersonate-Mobile.cshtml" />
+    <Content Include="Views\Components\Callcenter Header.cshtml" />
+    <Content Include="Views\Components\Authentication\Callcenter Login.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
