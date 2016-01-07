@@ -1,4 +1,9 @@
 ﻿@{
+    var nationalDirectorsField = (Sitecore.Data.Fields.MultilistField)Sitecore.Context.Item.Fields["National Directors"];
+
+    var nationalDirectors = (from id in nationalDirectorsField.TargetIDs
+                                 select Sitecore.Context.Database.Items[id]).ToList();
+
     var presidentialDirectorsField = (Sitecore.Data.Fields.MultilistField)Sitecore.Context.Item.Fields["Presidential Directors"];
 
     var presidentialDirectors = (from id in presidentialDirectorsField.TargetIDs
@@ -9,10 +14,20 @@
     var executiveDirectors = (from id in executiveDirectorsField.TargetIDs
                               select Sitecore.Context.Database.Items[id]).ToList();
 }
+
 <article class="marketing leaders">
     <div class="paragraph">
         @Html.Sitecore().Field("Intro Text")
     </div>
+    <div class="director-banner stretch">
+        <h2 class="wrapper">@Html.Sitecore().Field("National Directors Header")</h2>
+    </div>
+    <div class="wrapper">
+        @Html.Partial("~/Views/Pages/Marketing/Leaders/Leader Listing.cshtml", nationalDirectors)
+        <p class="view-all">@Html.Sitecore().Field("National Directors Link")</p>
+    </div>
+</article>
+<article class="marketing leaders">
     <div class="director-banner stretch">
         <h2 class="wrapper">@Html.Sitecore().Field("Presidential Directors Header")</h2>
     </div>

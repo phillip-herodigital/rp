@@ -1,0 +1,46 @@
+﻿@model StreamEnergy.MyStream.Models.Account.AccountForOneTimeRenewalRequest
+<div ng-controller="OneTimeRenewalCtrl as ctrl">
+    <article class="grey-box payments form" loading-indicator>
+        <header>
+            <h2>@Html.Sitecore().Field("Header")</h2>
+        </header>
+        <form data-val-bind-messages="validations" ng-submit="ctrl.lookupAccount()">
+            <div class="content">
+                <div stream-connect-errors="ctrl"></div>
+                <div ng-show="ctrl.accountErrorMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Account Error Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
+                <div ng-show="ctrl.renewErrorMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Renewal Error Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
+                <div ng-show="ctrl.TXorGAErrorMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("TXorGA Error Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
+                @Html.Sitecore().Field("Intro Text")
+                <br />
+                <div class="item" @Html.Validation().ErrorClass(m => m.AccountNumber)>
+                    <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label"):</label>
+                    @Html.TextBoxFor(m => m.AccountNumber, new { ng_model = "ctrl.accountNumber" })
+                </div>
+                <div class="item" @Html.Validation().ErrorClass(m => m.Last4)>
+                    <label for="@Html.IdFor(m => m.Last4)">@Html.Sitecore().Field("Last 4 of SSN Label"):</label>
+                    @Html.TextBoxFor(m => m.Last4, new { ng_model = "ctrl.last4SSN" })
+                </div>
+            </div>
+            <footer>
+                <div class="buttons">
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
+                </div>
+            </footer>
+        </form>
+    </article>
+</div>
