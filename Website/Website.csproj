@@ -920,6 +920,7 @@
     <Compile Include="Models\Authentication\FindAccountResponse.cs" />
     <Compile Include="Models\Authentication\GetUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\GetUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\Authentication\FindAccountForImpersonation.cs" />
     <Compile Include="Models\Authentication\LoginRequest.cs" />
     <Compile Include="Models\Authentication\LoginResponse.cs" />
     <Compile Include="Models\Authentication\RecoverUsernameRequest.cs" />
@@ -1667,6 +1668,9 @@
     <Content Include="Views\Components\Marketing\Electricity\Photo 4.cshtml" />
     <Content Include="Views\Components\Marketing\Electricity\Get Started.cshtml" />
     <Content Include="Views\Components\Marketing\Lyric Enroll Now.cshtml" />
+    <Content Include="Views\Components\Authentication\Impersonate-Mobile.cshtml" />
+    <Content Include="Views\Components\Callcenter Header.cshtml" />
+    <Content Include="Views\Components\Authentication\Callcenter Login.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

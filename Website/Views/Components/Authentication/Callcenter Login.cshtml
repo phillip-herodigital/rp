@@ -1,0 +1,39 @@
+@model StreamEnergy.MyStream.Models.Authentication.LoginRequest
+@if (Sitecore.Context.PageMode.IsPageEditor)
+{
+    @Html.AllValidationMessagesFor(m => m)
+}
+<div ng-controller="AuthCallcenterLoginCtrl" ng-init="init('@HttpUtility.JavaScriptStringEncode(Html.Sitecore().Field("Error Text").ToHtmlString())','@HttpUtility.JavaScriptStringEncode(Html.Sitecore().Field("Impersonate Error Text").ToHtmlString())');">
+    <article class="grey-box auth auth-sign-in">
+        <header>
+            <h2>@Html.Sitecore().Field("Header Text")</h2>
+        </header>
+        <div class="content" loading-indicator>
+            <form ng-submit="login()" data-val-bind-messages="validations">
+                <div class="notice alert" ng-show="timeoutMessage" ng-cloak>
+                    @Html.Sitecore().Field("Timeout Text")
+                </div>
+                <div class="notice error" ng-show="loginError" ng-bind-html="loginError" ng-cloak></div>
+                @Html.ValidationSummary()
+                <div class="group">
+                    <div class="item group-col" @Html.Validation().ErrorClass(model => model.Username)>
+                        <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
+                        @Html.TextBoxFor(m => m.Username, new { ng_model = "formData.username" })
+                        @Html.ValidationMessageFor(model => model.Username)
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="item group-col" @Html.Validation().ErrorClass(model => model.Password)>
+                        <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
+                        @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password", @class = "maskField", })
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Sign In Button Text")</button>
+                </div>
+
+            </form>
+        </div>
+    </article>
+</div>

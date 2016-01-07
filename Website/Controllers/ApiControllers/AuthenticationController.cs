@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Specialized;
+using System.Text;
 using ResponsivePath.Logging;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
@@ -173,6 +174,27 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return Task.FromResult(HandleInvalidLogin());
         }
 
+        [HttpPost]
+        public Task<HttpResponseMessage> CallcenterLogin(LoginRequest request)
+        {
+            request.Domain = domain;
+            ModelState.Clear();
+            Validate(request, "request");
+            if (ModelState.IsValid)
+            {
+                var response = Request.CreateResponse(new LoginResponse()
+                {
+                    Success = true,
+                    ReturnURI = "/impersonate"
+                });
+
+                AddAuthenticationCookie(response, request.Username);
+                return Task.FromResult(response);
+            }
+
+            return Task.FromResult(HandleInvalidLogin());
+        }
+
         private HttpResponseMessage HandleValidLogin(LoginRequest request)
         {
             // validate the return URI
@@ -222,6 +244,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             HttpContext.Current.Session.Abandon();
             var response = Request.CreateResponse(HttpStatusCode.Found);
             response.Headers.Location = new Uri(Request.RequestUri, "/auth/login");
+            return response;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage CallcenterLogout()
+        {
+            Dispose(true);
+            HttpContext.Current.Session.Abandon();
+            var response = Request.CreateResponse(HttpStatusCode.Found);
+            response.Headers.Location = new Uri(Request.RequestUri, "/");
             return response;
         }
 
@@ -648,6 +680,47 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         Secure = cookie.Secure 
                     }
                 });
+        }
+
+        [HttpGet]
+        public async Task<FindAccountForImpersonation> LookUpAccount(string accountNumber)
+        {
+            var impAccount = new FindAccountForImpersonation();
+
+            var accessgroup = settings.GetSettingsValue("Impersonation", "Access Group");
+
+            if (!Sitecore.Context.User.IsInRole(accessgroup))
+                impAccount.HasAccess = false;
+            else
+            {
+                impAccount.HasAccess = true;
+                var account = await accountService.GetAccountDetails(accountNumber);
+                if (account == null)
+                {
+                    impAccount.IsError = true;
+                    return impAccount;
+                }
+
+
+                var sharedSecret = settings.GetSettingsValue("Impersonation", "Impersonation Shared Secret");
+                var host = settings.GetSettingsValue("Impersonation", "Domain");
+                var expiry = System.Xml.XmlConvert.ToString(DateTime.Now.AddMinutes(30), System.Xml.XmlDateTimeSerializationMode.Local);
+                var unencryptedToken = string.Format("{0}{1}{2}", accountNumber, expiry, sharedSecret);
+                var token = Convert.ToBase64String(System.Security.Cryptography.MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(unencryptedToken)));
+
+                impAccount.CustomerName = account.Details.ContactInfo.Name;
+                impAccount.Phone = account.Details.ContactInfo.Phone;
+                impAccount.Email = account.Details.ContactInfo.Email;
+                impAccount.BillingAddress = account.Details.BillingAddress;
+                impAccount.CustomerType = account.AccountType;
+                impAccount.AccountNumber = account.AccountNumber;
+                impAccount.Balance = account.Balance.Balance;
+                impAccount.Ssn = account.Details.SsnLastFour;
+                impAccount.IsError = false;
+                impAccount.ImpersonateUrl = host + string.Format("/api/authentication/impersonate?accountNumber={0}&expiry={1}&token={2}", accountNumber, HttpUtility.UrlEncode(expiry), HttpUtility.UrlEncode(token));
+            }
+
+            return impAccount;
         }
 
     }
