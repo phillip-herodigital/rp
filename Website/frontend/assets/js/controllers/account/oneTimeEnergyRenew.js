@@ -21,7 +21,7 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                 .success(function (data) {
                     if (data.success) {
                         if (data.availableForRenewal) {
-                            window.location.assign('/enrollment?renewal=true');
+                            window.location.assign('/enrollment?renewal=true&renewalType=anon');
                         }
                         else
                         {
