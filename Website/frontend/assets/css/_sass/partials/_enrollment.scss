@@ -107,6 +107,7 @@
         height: 1px;
         width: 1px;
         overflow: hidden;
+        top: -1000px;
         & + .coverage-map-fade {
             display: none;
         }

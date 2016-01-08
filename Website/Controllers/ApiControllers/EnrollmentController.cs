@@ -235,6 +235,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         DeviceType = "E",
                     };
                 }
+                if (imei == "777")
+                {
+                    return new VerifyImeiResponse
+                    {
+                        IsValidImei = true,
+                        VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.SuccessForeignDevice,
+                        Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                    };
+                }
             }
             
             return await enrollmentService.VerifyImei(imei);
