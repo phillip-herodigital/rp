@@ -22,8 +22,8 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                     if (data.success) {
                         if (data.availableForRenewal) {
                             if (data.texasOrGeorgia) {
-                                window.location.assign('/enrollment?renewal=true');
-                            }
+                                window.location.assign('/enrollment?renewal=true&renewalType=anon');
+                        }
                             else {
                                 $scope.isLoading = false;
                                 ctrl.TXorGAErrorMessage = true;
