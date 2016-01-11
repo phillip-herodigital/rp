@@ -179,17 +179,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             request.Domain = domain;
             ModelState.Clear();
-            Validate(request, "request");
-            if (ModelState.IsValid)
-            {
-                var response = Request.CreateResponse(new LoginResponse()
-                {
-                    Success = true,
-                    ReturnURI = "/impersonate"
-                });
+            var accessgroup = settings.GetSettingsValue("Impersonation", "Access Group");
+            var prefixedUsername = request.Domain.AccountPrefix + request.Username;
 
-                AddAuthenticationCookie(response, request.Username);
-                return Task.FromResult(response);
+            Validate(request, "request");
+            if (ModelState.IsValid && Sitecore.Security.Accounts.User.Exists(prefixedUsername))
+            {
+                Sitecore.Security.Accounts.User user = Sitecore.Security.Accounts.User.FromName(prefixedUsername, false);
+                if (user.IsInRole(accessgroup))
+                {
+                    var response = Request.CreateResponse(new LoginResponse()
+                    {
+                        Success = true,
+                        ReturnURI = "/impersonate"
+                    });
+                    AddAuthenticationCookie(response, request.Username);
+                    return Task.FromResult(response);
+                }
             }
 
             return Task.FromResult(HandleInvalidLogin());
