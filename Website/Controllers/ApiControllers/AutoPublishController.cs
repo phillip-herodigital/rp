@@ -1,28 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Sitecore.Form.Core.Configuration;
-using Sitecore.Data;
+﻿using Sitecore.Data;
 using Sitecore.Globalization;
 using Sitecore.Publishing;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
-    public class AutoPublishController : Controller
+    public class AutoPublishController : ApiController
     {
         private readonly ISettings settings;
 
-        public AutoPublishController (ISettings settings)
+        public AutoPublishController(ISettings settings)
         {
             this.settings = settings;
         }
 
-        private void PerformSmartPublish(ISettings settings)
+        public void PerformSmartPublish(ISettings settings)
         {
-            if (settings.get == true)
+            bool AutoPublishEnabled = !string.IsNullOrEmpty(settings.GetSettingsValue("AutoPublish", "AutoPublish"));
+            if (AutoPublishEnabled)
             {
+
                 Database dbSource = Sitecore.Configuration.Factory.GetDatabase("master");
                 Database dbTarget = Sitecore.Configuration.Factory.GetDatabase("web");
 
