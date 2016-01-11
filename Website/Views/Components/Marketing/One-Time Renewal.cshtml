@@ -25,6 +25,24 @@
                     </div>
                     <hr class="content-divider" />
                 </div>
+                <div ng-show="ctrl.isCommercialTXMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Is TX Commercial Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
+                <div ng-show="ctrl.isCommercialGAMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Is GA Commercial Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
+                <div ng-show="ctrl.isOtherCommericalMessage">
+                    <div class="notice error">
+                        @Html.Sitecore().Field("Other Commerical Message Text")
+                    </div>
+                    <hr class="content-divider" />
+                </div>
                 @Html.Sitecore().Field("Intro Text")
                 <br />
                 <div class="item" @Html.Validation().ErrorClass(m => m.AccountNumber)>

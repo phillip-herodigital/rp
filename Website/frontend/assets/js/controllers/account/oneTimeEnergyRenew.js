@@ -8,10 +8,12 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
     $scope.isLoading = false;
     $scope.streamConnectError = false;
 
-
     ctrl.lookupAccount = function () {
         ctrl.renewErrorMessage = false;
         ctrl.accountErrorMessage = false;
+        ctrl.isCommercialTXMessage = false;
+        ctrl.isCommercialGAMessage = false;
+        ctrl.isOtherCommericalMessage = false;
         var accountData = {
             'AccountNumber': ctrl.accountNumber,
             'Last4': ctrl.last4SSN
@@ -20,19 +22,34 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
         $http.post('/api/account/setupAnonymousRenewal', accountData)
                 .success(function (data) {
                     if (data.success) {
-                        if (data.availableForRenewal) {
-                            if (data.texasOrGeorgia) {
-                                window.location.assign('/enrollment?renewal=true&renewalType=anon');
-                        }
-                            else {
+                        if (data.isCommercial) {
+                            if (data.state == "TX") {
+                                ctrl.isCommercialTXMessage = true;
                                 $scope.isLoading = false;
-                                ctrl.TXorGAErrorMessage = true;
+                            }
+                            if (data.state == "GA") {
+                                ctrl.isCommercialGAMessage = true;
+                                $scope.isLoading = false;
+                            }
+                            if (data.state == "") {
+                                ctrl.isOtherCommericalMessage = true;
+                                $scope.isLoading = false;
                             }
                         }
-                        else
-                        {
-                            $scope.isLoading = false;
-                            ctrl.renewErrorMessage = true;
+                        else {
+                            if (data.availableForRenewal) {
+                                if (data.texasOrGeorgia) {
+                                    window.location.assign('/enrollment?renewal=true&renewalType=anon');
+                                }
+                                else {
+                                    $scope.isLoading = false;
+                                    ctrl.TXorGAErrorMessage = true;
+                                }
+                            }
+                            else {
+                                $scope.isLoading = false;
+                                ctrl.renewErrorMessage = true;
+                            }
                         }
                     }
                     else {

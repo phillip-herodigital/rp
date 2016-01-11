@@ -994,36 +994,56 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             else
             {
-                if (!acct.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)))
+                if (acct.SubAccounts.FirstOrDefault().CustomerType.ToString() == "Commercial")
                 {
+                    var state = "";
+                    if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "TX")
+                    {
+                        state = "TX";
+                    }
+                    if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "GA")
+                    {
+                        state = "GA";
+                    }
                     return new AccountForOneTimeRenewalResponse
                     {
                         Success = true,
-                        AvailableForRenewal = false
+                        IsCommercial = true,
+                        State = state
                     };
                 }
-                else
-                {
-                    var subAccount = acct.SubAccounts.First(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible));
-                    if (subAccount.ServiceAddress.StateAbbreviation == "TX" || subAccount.ServiceAddress.StateAbbreviation == "GA")
+                else {
+                    if (!acct.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)))
                     {
-                        await enrollmentController.Initialize();
-                        await enrollmentController.SetupRenewal(acct, subAccount);
                         return new AccountForOneTimeRenewalResponse
                         {
                             Success = true,
-                            AvailableForRenewal = true,
-                            TexasOrGeorgia = true
+                            AvailableForRenewal = false
                         };
                     }
                     else
                     {
-                        return new AccountForOneTimeRenewalResponse
+                        var subAccount = acct.SubAccounts.First(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible));
+                        if (subAccount.ServiceAddress.StateAbbreviation == "TX" || subAccount.ServiceAddress.StateAbbreviation == "GA")
                         {
-                            Success = true,
-                            AvailableForRenewal = true,
-                            TexasOrGeorgia = false
-                        };
+                            await enrollmentController.Initialize();
+                            await enrollmentController.SetupRenewal(acct, subAccount);
+                            return new AccountForOneTimeRenewalResponse
+                            {
+                                Success = true,
+                                AvailableForRenewal = true,
+                                TexasOrGeorgia = true
+                            };
+                        }
+                        else
+                        {
+                            return new AccountForOneTimeRenewalResponse
+                            {
+                                Success = true,
+                                AvailableForRenewal = true,
+                                TexasOrGeorgia = false
+                            };
+                        }
                     }
                 }
             }
