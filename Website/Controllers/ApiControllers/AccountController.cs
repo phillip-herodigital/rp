@@ -1018,6 +1018,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         return new AccountForOneTimeRenewalResponse
                         {
                             Success = true,
+                            AvailableForRenewal = true,
                             IsCommercial = true,
                             State = state
                         };
@@ -1033,6 +1034,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             {
                                 Success = true,
                                 AvailableForRenewal = true,
+                                IsCommercial = false,
                                 TexasOrGeorgia = true
                             };
                         }
@@ -1042,6 +1044,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             {
                                 Success = true,
                                 AvailableForRenewal = true,
+                                IsCommercial = false,
                                 TexasOrGeorgia = false
                             };
                         }
