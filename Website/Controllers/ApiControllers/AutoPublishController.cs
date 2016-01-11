@@ -12,9 +12,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
     public class AutoPublishController : Controller
     {
-        private void PerformSmartPublish()
+        private readonly ISettings settings;
+
+        public AutoPublishController (ISettings settings)
         {
-            if (true == true)
+            this.settings = settings;
+        }
+
+        private void PerformSmartPublish(ISettings settings)
+        {
+            if (settings.get == true)
             {
                 Database dbSource = Sitecore.Configuration.Factory.GetDatabase("master");
                 Database dbTarget = Sitecore.Configuration.Factory.GetDatabase("web");
