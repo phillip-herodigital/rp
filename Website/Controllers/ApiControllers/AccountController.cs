@@ -994,31 +994,32 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             else
             {
-                if (acct.SubAccounts.FirstOrDefault().CustomerType.ToString() == "Commercial")
+                if (!acct.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)))
                 {
-                    var state = "";
-                    if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "TX")
-                    {
-                        state = "TX";
-                    }
-                    if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "GA")
-                    {
-                        state = "GA";
-                    }
                     return new AccountForOneTimeRenewalResponse
                     {
                         Success = true,
-                        IsCommercial = true,
-                        State = state
+                        AvailableForRenewal = false
                     };
                 }
-                else {
-                    if (!acct.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)))
+                else
+                {
+                    if (acct.SubAccounts.FirstOrDefault().CustomerType.ToString() == "Commercial")
                     {
+                        var state = "";
+                        if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "TX")
+                        {
+                            state = "TX";
+                        }
+                        if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "GA")
+                        {
+                            state = "GA";
+                        }
                         return new AccountForOneTimeRenewalResponse
                         {
                             Success = true,
-                            AvailableForRenewal = false
+                            IsCommercial = true,
+                            State = state
                         };
                     }
                     else

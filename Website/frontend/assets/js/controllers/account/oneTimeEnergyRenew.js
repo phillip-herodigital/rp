@@ -22,22 +22,22 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
         $http.post('/api/account/setupAnonymousRenewal', accountData)
                 .success(function (data) {
                     if (data.success) {
-                        if (data.isCommercial) {
-                            if (data.state == "TX") {
-                                ctrl.isCommercialTXMessage = true;
-                                $scope.isLoading = false;
+                        if (data.availableForRenewal) {
+                            if (data.isCommercial) {
+                                if (data.state == "TX") {
+                                    ctrl.isCommercialTXMessage = true;
+                                    $scope.isLoading = false;
+                                }
+                                if (data.state == "GA") {
+                                    ctrl.isCommercialGAMessage = true;
+                                    $scope.isLoading = false;
+                                }
+                                if (data.state == "") {
+                                    ctrl.isOtherCommericalMessage = true;
+                                    $scope.isLoading = false;
+                                }
                             }
-                            if (data.state == "GA") {
-                                ctrl.isCommercialGAMessage = true;
-                                $scope.isLoading = false;
-                            }
-                            if (data.state == "") {
-                                ctrl.isOtherCommericalMessage = true;
-                                $scope.isLoading = false;
-                            }
-                        }
-                        else {
-                            if (data.availableForRenewal) {
+                            else {
                                 if (data.texasOrGeorgia) {
                                     window.location.assign('/enrollment?renewal=true&renewalType=anon');
                                 }
@@ -46,10 +46,10 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                                     ctrl.TXorGAErrorMessage = true;
                                 }
                             }
-                            else {
-                                $scope.isLoading = false;
-                                ctrl.renewErrorMessage = true;
-                            }
+                        }
+                        else {
+                            $scope.isLoading = false;
+                            ctrl.renewErrorMessage = true;
                         }
                     }
                     else {
