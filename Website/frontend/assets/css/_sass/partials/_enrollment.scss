@@ -1043,6 +1043,9 @@
             white-space: nowrap;
             background-image: none;
             margin-right: 0 !important;
+            width: auto;
+            padding: 10px 25px;
+            min-width: 130px;
             &.secondary {
                 color: #5cab0d;
                 border: none;
@@ -1122,7 +1125,7 @@
         }
         .select-plan {
             position: relative;
-            width: 130px;
+            min-width: 130px;
             padding: 15px;
             border-right: none;
             vertical-align: middle;
