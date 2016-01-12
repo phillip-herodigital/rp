@@ -24,6 +24,9 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                     if (data.success) {
                         if (data.availableForRenewal) {
                             if (data.isCommercial) {
+                                ctrl.accountNumber = '';
+                                ctrl.last4SSN = '';
+                                $scope.validations = [];
                                 if (data.state == "TX") {
                                     ctrl.isCommercialTXMessage = true;
                                     $scope.isLoading = false;
