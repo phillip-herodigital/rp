@@ -127,7 +127,7 @@
                         </div>
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
-                            <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
+                            <span ng-if="isOpen">@Html.Sitecore().Field("Electricity Hide Details") <i class="icon-blue-arrow-up"></i></span>
                         </a>
                     </td>
                     <td class="rate">
