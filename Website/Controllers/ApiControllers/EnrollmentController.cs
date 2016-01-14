@@ -309,6 +309,38 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         /// <summary>
+        /// Gets all the client data for a previous customer for single-page enrollments
+        /// </summary>
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public ClientData PreviousClientData(string esiId)
+        {
+            // make an external service call to get the data
+
+            // verify that the ESI ID is in the list  - if not, return an error
+
+            // save the data in the stateMachine
+
+            // return the data to the page
+           
+            var standardValidation = Enumerable.Empty<ValidationResult>();
+            IEnumerable<ValidationResult> supplementalValidation;
+            var expectedState = ExpectedState(out supplementalValidation);
+            var validations = TranslatedValidationResult.Translate(from val in standardValidation.Union(supplementalValidation)
+                                                                   group val by val.ErrorMessage + ";" + string.Join(",", val.MemberNames) into val
+                                                                   select val.First(), translationItem);
+
+            return new ClientData
+            {
+                Validations = validations,
+                ContactInfo = stateMachine.Context.ContactInfo,
+                Language = stateMachine.Context.Language,
+                SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
+                MailingAddress = stateMachine.Context.MailingAddress,
+            };
+        }
+
+        /// <summary>
         /// Gets all the client data, such as for a page refresh
         /// </summary>
         /// <returns></returns>
@@ -761,6 +793,44 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await SendAssociateNameEmail(resultData);
 
             return resultData;
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<ClientData> SinlgePageOrder([FromBody]SinglePageOrder request)
+        {
+            await Initialize();
+
+            // Verify the ESI ID, if changed
+
+            // Update the stateMachine with the form Data
+            stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+
+            // Verify the SSN
+
+            // Save the Credit Score
+
+            // Finalize the Enrollment
+            foreach (var locationService in stateMachine.Context.Services)
+            {
+                foreach (var offer in locationService.SelectedOffers)
+                {
+                    offer.WaiveDeposit = false;
+                    offer.DepositAlternative = false;
+                }
+            }
+
+            await stateMachine.ContextUpdated();
+
+            await stateMachine.Process();
+
+            var resultData = ClientData();
+
+            await GenerateEndOfEnrollmentScreenshot(resultData);
+
+            // Send the response
+            return resultData;
+
         }
 
         private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)
