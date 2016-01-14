@@ -9,8 +9,11 @@ using Sitecore.Publishing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using Sitecore.Rules.Conditions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 
 namespace StreamEnergy.Tasks
 {
@@ -20,6 +23,7 @@ namespace StreamEnergy.Tasks
         private readonly PublishMode _mode;
         private readonly string _sourceDatabase;
         private readonly string _targetDatabase;
+        private readonly Injection _dependencies;
         public List<Language> Languages
         {
             get
@@ -53,13 +57,45 @@ namespace StreamEnergy.Tasks
         }
         public DateTime LastPublishTime { get; set; }
 
+        public class Injection
+        {
+            [Dependency]
+            public ISettings Settings { get; set; }
+        }
+
         // Methods
+        public ScheduledPublishing()
+        {
+            this._dependencies = StreamEnergy.Unity.Container.Instance.Resolve<Injection>();
+        }
+
+        public ScheduledPublishing(Injection injectedValue)
+        {
+            this._dependencies = injectedValue;
+        }
+
         public ScheduledPublishing(string sourceDatabase, string targetDatabase, string mode, string languages)
         {
             Assert.ArgumentNotNullOrEmpty(sourceDatabase, "sourceDatabase");
             Assert.ArgumentNotNullOrEmpty(targetDatabase, "targetDatabase");
             Assert.ArgumentNotNullOrEmpty(mode, "mode");
             Assert.ArgumentNotNullOrEmpty(languages, "languages");
+            this._dependencies = StreamEnergy.Unity.Container.Instance.Unity.Resolve<Injection>();
+            this._sourceDatabase = sourceDatabase;
+            this._targetDatabase = targetDatabase;
+            this._languages = ParseLanguages(languages);
+            this._mode = ParseMode(mode);
+            this.LastPublishTime = DateTime.Now;
+            Assert.IsTrue(this._languages.Any(), "No languages specified in PublishAgent constructor.");
+        }
+
+        public ScheduledPublishing(string sourceDatabase, string targetDatabase, string mode, string languages, Injection injectedValue)
+        {
+            Assert.ArgumentNotNullOrEmpty(sourceDatabase, "sourceDatabase");
+            Assert.ArgumentNotNullOrEmpty(targetDatabase, "targetDatabase");
+            Assert.ArgumentNotNullOrEmpty(mode, "mode");
+            Assert.ArgumentNotNullOrEmpty(languages, "languages");
+            this._dependencies = injectedValue;
             this._sourceDatabase = sourceDatabase;
             this._targetDatabase = targetDatabase;
             this._languages = ParseLanguages(languages);
@@ -95,7 +131,7 @@ namespace StreamEnergy.Tasks
 
         public void Run()
         {
-            if (this.IsPublishingTime())
+            if (this.IsPublishingTime() && this.IsPublishingEnabled())
             {
                 foreach (Language language in this._languages)
                 {
@@ -112,6 +148,11 @@ namespace StreamEnergy.Tasks
                 return true;
             }
             return false;
+        }
+        private bool IsPublishingEnabled()
+        {
+            var AutoPublishValue = _dependencies.Settings.GetSettingsValue("AutoPublish", "AutoPublish", "master");
+            return !string.IsNullOrEmpty(AutoPublishValue);
         }
         private void StartPublish(Language language)
         {

@@ -805,7 +805,6 @@
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\HasThermostatPlanCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
-    <Compile Include="Controllers\ApiControllers\AutoPublishController.cs" />
     <Compile Include="Controllers\ApiControllers\CurrentsController.cs" />
     <Compile Include="Controllers\ApiControllers\LogRecorderController.cs" />
     <Compile Include="Controllers\ApiControllers\LogViewerController.cs" />

@@ -16,7 +16,7 @@ namespace StreamEnergy
         /// </summary>
         /// <param name="relativePath">The path relative to the /sitecore/content/Data/Settings node</param>
         /// <returns>A Sitecore Item, or null if the settings were not found</returns>
-        Item GetSettingsItem(string relativePath);
+        Item GetSettingsItem(string relativePath, string database=null);
 
         /// <summary>
         /// Gets the value of a field for the settings item specified. If an environment-specific item is found and the
@@ -25,7 +25,7 @@ namespace StreamEnergy
         /// <param name="relativePath">The path relative to the /sitecore/content/Data/Settings node</param>
         /// <param name="fieldName">The field from which to get the value</param>
         /// <returns>The value of the field, or null if the field was not found.</returns>
-        string GetSettingsValue(string relativePath, string fieldName);
+        string GetSettingsValue(string relativePath, string fieldName, string database = null);
 
         /// <summary>
         /// Gets the field for the settings item specified. If an environment-specific item is found and the
@@ -34,7 +34,7 @@ namespace StreamEnergy
         /// <param name="relativePath">The path relative to the /sitecore/content/Data/Settings node</param>
         /// <param name="fieldName">The name of the field to find</param>
         /// <returns>The field, or null if the field was not found</returns>
-        Field GetSettingsField(string relativePath, string fieldName);
+        Field GetSettingsField(string relativePath, string fieldName, string database = null);
 
     }
 }
