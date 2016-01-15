@@ -187,6 +187,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ServiceModel\LoggedServiceBehaviorExtensionElement.cs" />
+    <Compile Include="ServiceModel\LoggedServiceEndpointBehavior.cs" />
+    <Compile Include="ServiceModel\LoggedServiceMessageInspector.cs" />
     <Compile Include="Services\Clients\AccountFactory.cs" />
     <Compile Include="Services\Clients\AccountService.cs" />
     <Compile Include="Services\Clients\AsyncSendingManager.cs" />
