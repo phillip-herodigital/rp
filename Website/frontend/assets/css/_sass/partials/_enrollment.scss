@@ -2590,22 +2590,22 @@ h3.success-message{
 
 
 .enrollment_progress-bar{
-    color:white;
-    padding:35px 0;
+    color: white;
+    padding: 35px 0;
     @include retina-background('diamond-background.png');
-    background-position:right;
-    background-repeat:no-repeat;
+    background-position: right;
+    background-repeat: no-repeat;
     
     @include breakpoint (small-medium) {
-        padding-left:25px;
+        padding-left: 25px;
 
         .progress{
-            display:none;
+            display: none;
         }
     }
 	@include breakpoint (small) {
 		.progress, .need-help{
-            display:none;
+            display: none;
         }
 	}
 
@@ -2630,95 +2630,90 @@ h3.success-message{
 		}
 		@include breakpoint (small-medium) {
 			.cart-overlay.open + .icon-close{
-				display:block;
-				position:fixed;
-				top:15px;
-				right:15px;
-				z-index:10001;
+				display: block;
+				position: fixed;
+				top: 15px;
+				right: 15px;
+				z-index: 10001;
 			}
 		}
         .cart-wrapper{
-            cursor:pointer;
+            cursor: pointer;
 
             .cart-items{
-                color:white;
+                color: white;
                 .icon-cart{
                     @include retina-background('cart-white.png');
-                    background-position:0;
+                    background-position: 0;
                 }
             }
 			
             div.enrollment__cart{
-                margin-bottom:0;
+                margin-bottom: 0;
                 float:right;
 
                 article.enrollment_cart{
-                    margin-bottom:0;
-                    margin-top:15px;
+                    margin-bottom: 0;
+                    margin-top: 15px;
                 }
                 header{
-                    background:none;
-                    border:none;
-                    padding-top:0;
+                    background: none;
+                    border: none;
+                    padding-top: 0;
                 }
                 h1, .content, footer{
-                    display:none;
+                    display: none;
                 }
 
             }
         }
         .arrow{
-                height:25px;
-                width:25px;
-                position:absolute;
-                right:12px;
+                height: 25px;
+                width: 25px;
+                position: absolute;
+                right: 12px;
                 top: 50px;
-                transform:rotate(45deg);
-                background:white;
-                z-index:10000;
+                transform: rotate(45deg);
+                background: white;
+                z-index: 10000;
             }
 
         .cart-overlay{
             padding: 0 15px;
-            background:white;
-
-            top:60px;
-            right:0;
-
-            border:1px solid #e6e6e6;
-            border-radius:5px;
-
-			
-
+            background: white;
+            top: 60px;
+            right: 0;
+            border: 1px solid #e6e6e6;
+            border-radius: 5px;
 			 @include breakpoint (small-medium) {
-				left:auto;
-				position:fixed;
-				top:0;
-				left:0;
-				right:0;
-				bottom:0;
-				background:white;
-				z-index:10000;
+				left: auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: white;
+				z-index: 10000;
 
 				article{
-					float:none;
+					float: none;
 				}
 			 }
             header{
-                background:white;
-                padding-left:0;
+                background: white;
+                padding-left: 0;
             }
 
             .cart-items{
-                display:none;
+                display: none;
             }
 
             .content{
-                padding-left:0;
-                padding-right:0;
+                padding-left: 0;
+                padding-right: 0;
             }
             footer{
-                display:none;
+                display: none;
             }
         }
         
@@ -2729,13 +2724,13 @@ h3.success-message{
         }
     }
 
-    .cart{
+    .cart {
         color: white;
         float: right;
         position: relative;
-        margin-top:25px;
+        margin-top: 25px;
 
-        span{
+        span {
             font-size: 14px;
             font-weight: bold;
             position: absolute;
@@ -2751,7 +2746,7 @@ h3.success-message{
             background-color: $enrollment-progress-bar-step1-color;
 
             &.step1{
-                background-color:white;
+                background-color: white;
             }
         }
     }
@@ -2761,7 +2756,7 @@ h3.success-message{
             background-color: $enrollment-progress-bar-step2-color;
 
             &.step1, &.step2{
-                background-color:white;
+                background-color: white;
             }
         }
     }
@@ -2771,7 +2766,7 @@ h3.success-message{
             background-color: $enrollment-progress-bar-step3-color;
 
             &.step1, &.step2, &.step3{
-                background-color:white;
+                background-color: white;
             }
         }
     }
@@ -2782,7 +2777,7 @@ h3.success-message{
             background-color: $enrollment-progress-bar-step4-color;
 
             &.step1, &.step2, &.step3, &.step4{
-                background-color:white;
+                background-color: white;
             }
         }
     }
@@ -2790,25 +2785,30 @@ h3.success-message{
     &.step5 {
         background-color: $enrollment-progress-bar-step5-color;
         .progress, .progress-bar-cart, .need-help{
-            display:none;
+            display: none;
         }
     }
 
     &.step3, &.step4{
         .inner{
             .need-help{
-                background-color:#0a96d7;
+                background-color: #0a96d7;
             }
         }
     }
 
+    &.win-back {
+        background-color: #00a8e1;
+        background-image: none;
+    }
+
     .inner{
-        width:1040px;
-        margin:auto;
+        width: 1040px;
+        margin: auto;
         position: relative;
 
 		 @include breakpoint (small-medium) {
-			width:100%;
+			width: 100%;
 		 }
         .step-description{
             float: left;

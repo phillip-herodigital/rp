@@ -95,5 +95,10 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return View("~/Views/Pages/Enrollment/Verify Identity.cshtml");
         }
+
+        public ActionResult SinglePageEnrollment()
+        {
+            return View("~/Views/Pages/Enrollment/Single Page Enrollment.cshtml");
+        }
     }
 }
