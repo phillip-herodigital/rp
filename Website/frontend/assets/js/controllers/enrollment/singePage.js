@@ -2,7 +2,12 @@
  *
  * This is used to control aspects of single page enrollment.
  */
-ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
+ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', '$http', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics, $http) {
+    
+    $http.get('/api/enrollment/previousClientData?esiId=1008901018146760805100').success(function (data, status, headers, config) {
+        enrollmentService.setClientData(data); 
+    });
+
     $scope.accountInformation = enrollmentService.accountInformation;
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
@@ -19,48 +24,7 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
 
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
 
-    $scope.hasMoveIn = false;
-    $scope.hasSwitch = false;
-    $scope.$watch(enrollmentCartService.services, function () {
-        $scope.hasMoveIn = _(enrollmentCartService.services)
-            .filter(function (l) { //Filter out mobile, since mobile moveIn's should return false
-                return !_(l.location.capabilities).filter({ capabilityType: "Mobile" }).any();
-            })
-            .map(function (l) {
-                return _(l.location.capabilities).filter({ capabilityType: "ServiceStatus" }).first();
-            })
-            .filter({ enrollmentType: "moveIn" })
-            .any();
-        $scope.hasSwitch = _(enrollmentCartService.services)
-            .map(function (l) {
-                return _(l.location.capabilities).filter({ capabilityType: "ServiceStatus" }).first();
-            })
-            .filter({ enrollmentType: "switch" })
-            .any();
-
-        _(enrollmentCartService.services).map(function (l) {
-            return l.offerInformationByType[0].key
-        }).uniq().each(function (t) {
-            analytics.sendVariables(10, t);
-        });
-    }, true);
-
-    // create a filter so that the same phone type can't be selected twice
-    $scope.filter1 = function(item){
-        return (!($scope.accountInformation.contactInfo.phone.length > 0 && $scope.accountInformation.contactInfo.phone[0].category) || item.name != $scope.accountInformation.contactInfo.phone[0].category);
-    };
-
-    $scope.filter2 = function(item){
-        return (!($scope.accountInformation.contactInfo.phone.length > 1 && $scope.accountInformation.contactInfo.phone[1].category) || item.name != $scope.accountInformation.contactInfo.phone[1].category);
-    };
-
-    $scope.filterCustomerType = function(item){
-        if ($scope.customerType != 'commercial') {
-            return (item.name != 'work');
-        } else {
-            return (item.name != 'home');
-        }
-    };
+    
 
     /**
      * [utilityAddresses description]

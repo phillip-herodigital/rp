@@ -313,31 +313,97 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         /// </summary>
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public ClientData PreviousClientData(string esiId)
+        public  async Task<ClientData> PreviousClientData(string esiId)
         {
             // make an external service call to get the data
+
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "77087", PostalCodePlus4 = "1429", City = "Houston", Line1 = "123 Winkler Dr", Line2 = "Apt 123" },
+                Capabilities = new DomainModels.IServiceCapability[]
+                {
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint", EsiId = "1008901018146760805100" },
+                    new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch },
+                    new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                }
+            };
+            var documents = new Dictionary<string,Uri>();
+            documents.Add("electricityFactsLabel", new Uri("/~/media/A3114BCB0F444B3D8D77E256FC671623.ashx", UriKind.Relative));
+            documents.Add("termsOfService", new Uri("/~/media/A3114BCB0F444B3D8D77E256FC671623.ashx", UriKind.Relative));
+            documents.Add("yourRightsAsACustomer", new Uri("/~/media/A3114BCB0F444B3D8D77E256FC671623.ashx", UriKind.Relative));
+
+            var texasElectricityOffer = new DomainModels.Enrollments.TexasElectricity.Offer 
+            {
+                Id = "Centerpoint/SSP12",
+                Tdu = "Centerpoint",
+                Provider = "{\r\n  \"Id\": \"957877905\",\r\n  \"Code\": null,\r\n  \"Name\": \"Centerpoint\",\r\n  \"Commodities\": []\r\n}",
+                EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch,
+                Name = "Win Back Plan",
+				Description = "The Stream Intro / Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy&#39;s then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Service for more information on this product.",
+				RateType = DomainModels.Enrollments.RateType.Variable,
+                Rate = 9.1M,
+                StreamEnergyCharge = 4.3M,
+                MinimumUsageFee = "If > 1,000 kWh, $0.00; If <1,000, $9.95",
+                TduCharges = "",
+                IncludesThermostat = false,
+                ThermostatDescription = "",
+                TerminationFee = 0.0M,
+                TermMonths = 1,
+                Documents = documents,
+            };
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = new CustomerContact 
+                {
+                    Name = new DomainModels.Name {First = "Jordan", Last = "Campbell"},
+                    Phone = new[] { 
+                                new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = "223-456-4574" }
+                            },
+                    Email = new DomainModels.Email {Address = "jordancampbell@gmail.com"},
+                },
+                SocialSecurityNumber = "444556666",
+                Services = new DomainModels.Enrollments.LocationServices[]
+                {
+                    new DomainModels.Enrollments.LocationServices 
+                    { 
+                        Location = location, 
+                        SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                        {
+                            new DomainModels.Enrollments.SelectedOffer
+                            {
+                                Offer = texasElectricityOffer,
+                            }
+                        }
+                    }
+                },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "Pflugerville",
+                    StateAbbreviation = "TX",
+                    Line1 = "3300 Killingsworth Ln",
+                    UnitNumber = "Lot 265",
+                    PostalCode5 = "78660",
+                    PostalCodePlus4 = "8434",
+                },
+            };
+
+            var allOffers = new Dictionary<Location, LocationOfferSet>();
+            allOffers.Add(location, new LocationOfferSet{Offers = new IOffer[] {texasElectricityOffer}});
 
             // verify that the ESI ID is in the list  - if not, return an error
 
             // save the data in the stateMachine
+            await Initialize();
+            stateMachine.Context.ContactInfo = userContext.ContactInfo;
+            stateMachine.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
+            stateMachine.Context.MailingAddress = userContext.MailingAddress;
+            stateMachine.Context.Services = userContext.Services;
+            stateHelper.InternalContext.AllOffers = allOffers; 
+
+            await stateMachine.ContextUpdated();
 
             // return the data to the page
-           
-            var standardValidation = Enumerable.Empty<ValidationResult>();
-            IEnumerable<ValidationResult> supplementalValidation;
-            var expectedState = ExpectedState(out supplementalValidation);
-            var validations = TranslatedValidationResult.Translate(from val in standardValidation.Union(supplementalValidation)
-                                                                   group val by val.ErrorMessage + ";" + string.Join(",", val.MemberNames) into val
-                                                                   select val.First(), translationItem);
-
-            return new ClientData
-            {
-                Validations = validations,
-                ContactInfo = stateMachine.Context.ContactInfo,
-                Language = stateMachine.Context.Language,
-                SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
-                MailingAddress = stateMachine.Context.MailingAddress,
-            };
+            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         /// <summary>
