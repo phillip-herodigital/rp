@@ -63,6 +63,10 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
         $scope.accountInformation = angular.copy($scope.tempAccountInformation);
     };
 
+    $scope.editAddress = function () {
+        $scope.addressEditing = !$scope.addressEditing;
+    };
+
     /**
      * In addition to normal validation, ensure that at least one item is in the shopping cart
      * @return {Boolean} [description]

@@ -44,64 +44,75 @@
                             <h1>@Html.Sitecore().Field("Plan Information Header")</h1>
                         </header>
                         <div class="content">
-                            @Html.Sitecore().Field("Change Text") {{ offer.name }}
-                            <div class="rate">
-                                {{ offer.rate}}&cent;
-                                <span class="energy-unit">@Html.Sitecore().Field("Per kWh", cartItem)</span>
+                            <div class="plan-summary">
+                                <div class="plan-name">
+                                    @Html.Sitecore().Field("Change Text") {{ offer.name }}
+                                    <span class="rate">
+                                        {{ offer.rate}}&cent;
+                                        <span class="energy-unit">@Html.Sitecore().Field("Per kWh", cartItem)</span>
+                                    </span>
+                                </div>
+                                @* ESI ID *@
+                                <div class="item item--no-input inline-label esi-id">
+                                    <label for="location-id">@Html.Sitecore().Field("ESI ID Label")</label>
+                                    {{ item.location.capabilities[0].esiId }}
+                                </div>
+                                @* Service Address *@
+                                <div class="item item--no-input inline-label service-address" ng-show="!addressEditing">
+                                    <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                                    {{ item.location.address.line1 }}<span ng-if="item.location.address.line2">, {{ item.location.address.line2 }}</span><br />
+                                    {{ item.location.address.city }}, {{ item.location.address.state }} {{ item.location.address.postalCode5 }}<span ng-if="item.location.address.postalCodePlus4">-{{ item.location.address.postalCodePlus4 }}</span>
+                                </div>
+                                @* Address Input Dropdown *@
+                                <div class="item" ng-show="addressEditing">
+                                    <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                                    <input type="text"
+                                           id="service-address"
+                                           class="typeahead"
+                                           ng-model="item.tempLocation"
+                                           typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue, true)"
+                                           typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
+                                           ng-class="{'loading' : accountInformation.loadingAccountInformation}" autocomplete="off" />
+                                </div>
+                                <a href="" class="button" ng-click="editAddress();">@Html.Sitecore().Field("Edit Button Text")</a>
                             </div>
-                            @* ESI ID *@
-                            <div ng-if="item.location.capabilities[0].esiId" class="item item--no-input inline-label location">
-                                <label for="location-id">@Html.Sitecore().Field("ESI ID Label")</label>
-                                {{ item.location.capabilities[0].esiId }}
-                            </div>
-                            @* Service Address *@
-                            <div class="item item--no-input" ng-show="!addressEditing">
-                                <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                                {{ item.location.address | address }}
-                            </div>
-                            @* Address Input Dropdown *@
-                            <div class="item" ng-show="addressEditing">
-                                <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                                <input type="text"
-                                       id="service-address"
-                                       class="typeahead"
-                                       ng-model="item.tempLocation"
-                                       typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue, true)"
-                                       typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
-                                       ng-class="{'loading' : accountInformation.loadingAccountInformation}" autocomplete="off" />
-                            </div>
-                            <a href="" class="button" ng-click="addressEditing = !addressEditing">@Html.Sitecore().Field("Edit Button Text")</a>
                             <hr class="content-divider">
-                            <p ng-bind-html="offer.description | unsafe"></p>
+                            <p class="plan-description" ng-bind-html="offer.description | unsafe"></p>
                             <hr />
                             @Html.Sitecore().Field("Details Text")
-                            <dl class="plan-selection-list clearfix">
-                                <dt>@Html.Sitecore().Field("Additional Documentation Label")</dt>
-                                <dd><a ng-href="{{offer.documents.electricityFactsLabel}}" target="_blank">@Html.Sitecore().Field("Electricity Facts Label Document")</a></dd>
-                                <dd><a ng-href="{{offer.documents.termsOfService}}" target="_blank">@Html.Sitecore().Field("Terms Of Service Document")</a></dd>
-                                <dd><a ng-href="{{offer.documents.yourRightsAsACustomer}}" target="_blank">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></dd>
-                            </dl>
-                            <dl class="plan-selection-fees">
-                                <dt>@Html.Sitecore().Field("Terms Label")</dt>
-                                <dd ng-if="offer.termMonths != '1'">{{offer.termMonths}} @Html.Sitecore().Field("Electricity Term Months")</dd>
-                                <dd ng-if="offer.termMonths == '1'">@Html.Sitecore().Field("Electricity Month To Month")</dd>
-                                <dt>@Html.Sitecore().Field("Fees Label")</dt>
-                                <dd ng-if="offer.terminationFee != ''">${{ plan.terminationFee }} @Html.Sitecore().Field("Electricity Early Termination Fee")</dd>
-                                <dd ng-if="offer.terminationFee == ''">$0 @Html.Sitecore().Field("Electricity Early Termination Fee")</dd>
-                                <dt>@Html.Sitecore().Field("Stream Charge Label")</dt>
-                                <dd>{{ offer.streamEnergyCharge | number:1 }}&cent;</dd>
-                                <dt>@Html.Sitecore().Field("TDU Charge Label")</dt>
-                                <dd ng-if="offer.tduCharges != ''">{{ offer.tduCharges }}</dd>
-                                <dd ng-if="offer.tduCharges == '' && offer.tdu == 'AEP Central Texas'">@Html.Sitecore().Field("Aep Central TDU Charges", planSelectionItem)</dd>
-                                <dd ng-if="offer.tduCharges == '' && offer.tdu == 'AEP North Texas'">@Html.Sitecore().Field("Aep North TDU Charges", planSelectionItem)</dd>
-                                <dd ng-if="offer.tduCharges == '' && offer.tdu == 'TNMP'">@Html.Sitecore().Field("Tnmp TDU Charges", planSelectionItem)</dd>
-                                <dd ng-if="offer.tduCharges == '' && offer.tdu == 'ONCOR'">@Html.Sitecore().Field("Oncor TDU Charges", planSelectionItem)</dd>
-                                <dd ng-if="offer.tduCharges == '' && offer.tdu == 'Centerpoint'">@Html.Sitecore().Field("Centerpoint TDU Charges", planSelectionItem)</dd>
-                                <dd ng-if="offer.tduCharges == '' && offer.tdu == 'Sharyland McAllen'">@Html.Sitecore().Field("Sharyland Mcallen TDU Charges", planSelectionItem)</dd>
-                                <dd ng-if="offer.tduCharges == '' && offer.tdu == 'Sharyland'">@Html.Sitecore().Field("Sharyland Utilities TDU Charges", planSelectionItem)</dd>
-                                <dt>@Html.Sitecore().Field("Minimum Usage Label")</dt>
-                                <dd ng-bind-html="offer.minimumUsageFee | unsafe"></dd>
-                            </dl>
+                            <div class="plan-details group">
+                                <div class="item group-col">
+                                    <dl class="plan-selection-fees">
+                                        <dt>@Html.Sitecore().Field("Terms Label")</dt>
+                                        <dd ng-if="offer.termMonths != '1'">{{offer.termMonths}} @Html.Sitecore().Field("Electricity Term Months")</dd>
+                                        <dd ng-if="offer.termMonths == '1'">@Html.Sitecore().Field("Electricity Month To Month")</dd>
+                                        <dt>@Html.Sitecore().Field("Fees Label")</dt>
+                                        <dd ng-if="offer.terminationFee != ''">${{ plan.terminationFee }} @Html.Sitecore().Field("Electricity Early Termination Fee")</dd>
+                                        <dd ng-if="offer.terminationFee == ''">$0 @Html.Sitecore().Field("Electricity Early Termination Fee")</dd>
+                                        <dt>@Html.Sitecore().Field("Stream Charge Label")</dt>
+                                        <dd>{{ offer.streamEnergyCharge | number:1 }}&cent;</dd>
+                                        <dt>@Html.Sitecore().Field("TDU Charge Label")</dt>
+                                        <dd ng-if="offer.tduCharges != ''">{{ offer.tduCharges }}</dd>
+                                        <dd ng-if="offer.tduCharges == '' && offer.tdu == 'AEP Central Texas'">@Html.Sitecore().Field("Aep Central TDU Charges", planSelectionItem)</dd>
+                                        <dd ng-if="offer.tduCharges == '' && offer.tdu == 'AEP North Texas'">@Html.Sitecore().Field("Aep North TDU Charges", planSelectionItem)</dd>
+                                        <dd ng-if="offer.tduCharges == '' && offer.tdu == 'TNMP'">@Html.Sitecore().Field("Tnmp TDU Charges", planSelectionItem)</dd>
+                                        <dd ng-if="offer.tduCharges == '' && offer.tdu == 'ONCOR'">@Html.Sitecore().Field("Oncor TDU Charges", planSelectionItem)</dd>
+                                        <dd ng-if="offer.tduCharges == '' && offer.tdu == 'Centerpoint'">@Html.Sitecore().Field("Centerpoint TDU Charges", planSelectionItem)</dd>
+                                        <dd ng-if="offer.tduCharges == '' && offer.tdu == 'Sharyland McAllen'">@Html.Sitecore().Field("Sharyland Mcallen TDU Charges", planSelectionItem)</dd>
+                                        <dd ng-if="offer.tduCharges == '' && offer.tdu == 'Sharyland'">@Html.Sitecore().Field("Sharyland Utilities TDU Charges", planSelectionItem)</dd>
+                                        <dt>@Html.Sitecore().Field("Minimum Usage Label")</dt>
+                                        <dd ng-bind-html="offer.minimumUsageFee | unsafe"></dd>
+                                    </dl>
+                                </div>
+                                <div class="item group-col">
+                                    <dl class="plan-selection-list">
+                                        <dt>@Html.Sitecore().Field("Additional Documentation Label")</dt>
+                                        <dd><a ng-href="{{offer.documents.electricityFactsLabel}}" target="_blank">@Html.Sitecore().Field("Electricity Facts Label Document")</a></dd>
+                                        <dd><a ng-href="{{offer.documents.termsOfService}}" target="_blank">@Html.Sitecore().Field("Terms Of Service Document")</a></dd>
+                                        <dd><a ng-href="{{offer.documents.yourRightsAsACustomer}}" target="_blank">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></dd>
+                                    </dl>
+                                </div>
+                            </div>
                         </div>
                     </article>
                     <article class="enrollment__box form">
@@ -360,7 +371,7 @@
                                     <address>
                                         <h3>@Html.Sitecore().Field("Service Address Text", cartItem)</h3>
                                         {{ location.location.address | address }}<br />
-                                        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Button Text")</a>
+                                        <a href="" ng-click="editAddress()">@Html.Sitecore().Field("Edit Button Text")</a>
                                     </address>
                                 </div>
                             </div>
