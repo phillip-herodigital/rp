@@ -55,12 +55,12 @@
                                 {{ item.location.capabilities[0].esiId }}
                             </div>
                             @* Service Address *@
-                            <div class="item item--no-input">
+                            <div class="item item--no-input" ng-show="!addressEditing">
                                 <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                                 {{ item.location.address | address }}
                             </div>
                             @* Address Input Dropdown *@
-                            <div class="item">
+                            <div class="item" ng-show="addressEditing">
                                 <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                                 <input type="text"
                                        id="service-address"
@@ -70,8 +70,8 @@
                                        typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
                                        ng-class="{'loading' : accountInformation.loadingAccountInformation}" autocomplete="off" />
                             </div>
-                            <a href="" class="button">@Html.Sitecore().Field("Edit Button Text")</a>
-                            <hr />
+                            <a href="" class="button" ng-click="addressEditing = !addressEditing">@Html.Sitecore().Field("Edit Button Text")</a>
+                            <hr class="content-divider">
                             <p ng-bind-html="offer.description | unsafe"></p>
                             <hr />
                             @Html.Sitecore().Field("Details Text")
@@ -296,8 +296,8 @@
                             @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>
                         <div class="buttons" ng-show="contactEditing">
-                            <a class="button primary" ng-disabled="!isFormValid()" ng-click="saveContactInfo();">@Html.Sitecore().Field("Save Button Label")</a>
-                            <a class="button tertiary" ng-click="cancelContactInfo();">@Html.Sitecore().Field("Cancel Button Label")</a>
+                            <a href="" class="button primary" ng-disabled="!isFormValid()" ng-click="saveContactInfo();">@Html.Sitecore().Field("Save Button Label")</a>
+                            <a href="" class="button tertiary" ng-click="cancelContactInfo();">@Html.Sitecore().Field("Cancel Button Label")</a>
                         </div>
                     </div>
                     

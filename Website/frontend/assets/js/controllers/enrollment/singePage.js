@@ -51,7 +51,7 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
 
     $scope.editContactInfo = function () {
         $scope.contactEditing = true;
-        $scope.tempAccountInformation = $scope.accountInformation;
+        $scope.tempAccountInformation = angular.copy($scope.accountInformation);
     };
 
     $scope.saveContactInfo = function () {
@@ -60,7 +60,7 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
 
     $scope.cancelContactInfo = function () {
         $scope.contactEditing = false;
-        $scope.accountInformation = $scope.tempAccountInformation;
+        $scope.accountInformation = angular.copy($scope.tempAccountInformation);
     };
 
     /**
