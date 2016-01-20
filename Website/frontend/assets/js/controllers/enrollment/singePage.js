@@ -4,8 +4,12 @@
  */
 ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', '$http', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics, $http) {
     
+    $scope.isLoading = true;
     $http.get('/api/enrollment/previousClientData?esiId=1008901018146760805100').success(function (data, status, headers, config) {
-        enrollmentService.setClientData(data); 
+        enrollmentService.setClientData(data);
+        $scope.item = $scope.utilityAddresses()[0];
+        $scope.offer = enrollmentCartService.getUtilityAddresses()[0].offerInformationByType[0].value.offerSelections[0].offer;
+        $scope.isLoading = false;
     });
 
     $scope.accountInformation = enrollmentService.accountInformation;
@@ -19,34 +23,16 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
     $scope.addressOptions = {};
     $scope.modal = {};
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
-    $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
-    $scope.associateInformation = enrollmentService.associateInformation;
-
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
-
-    
-
-    /**
-     * [utilityAddresses description]
-     * @return {[type]} [description]
-     */
     $scope.utilityAddresses = enrollmentCartService.getUtilityAddresses;
+    $scope.addressEditing = false;
+    $scope.contactEditing = false;
+
 
     if (!$scope.accountInformation.mailingAddress && $scope.utilityAddresses()[0]) {
         $scope.accountInformation.mailingAddressSame = true;
         $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
     }
-
-    $scope.$watch('accountInformation.mailingAddressSame', function (newVal, oldVal) {
-        if (newVal != oldVal) {
-            if ($scope.accountInformation.mailingAddressSame) {
-                if ($scope.utilityAddresses().length == 1)
-                    $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
-            } else if ($scope.cartHasUtility()) {
-                $scope.accountInformation.mailingAddress = {};
-            }
-        }
-    });
 
     $scope.showAdditionalPhoneNumberChanged = function() {
         if ($scope.additionalInformation.showAdditionalPhoneNumber) {
@@ -63,23 +49,18 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
         }
     };
 
-    $scope.showAglcExample = function () {
-
-        $modal.open({
-            templateUrl: 'AglcExample',
-            scope: $scope
-        });
+    $scope.editContactInfo = function () {
+        $scope.contactEditing = true;
+        $scope.tempAccountInformation = $scope.accountInformation;
     };
 
-    $scope.getPreviousProviders = function () {
-        if (_(enrollmentCartService.services)
-            .map(function (l) {
-                return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first();
-        }).filter().any()) {
-            return $scope.previousProviders;
-        } else {
-            return $scope.previousProvidersGeorgia;
-        }
+    $scope.saveContactInfo = function () {
+        $scope.contactEditing = false;
+    };
+
+    $scope.cancelContactInfo = function () {
+        $scope.contactEditing = false;
+        $scope.accountInformation = $scope.tempAccountInformation;
     };
 
     /**
@@ -98,32 +79,12 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        if (!$scope.additionalInformation.hasAssociateReferral) {
-
-            //Google analytics - track for no associate name.
-            analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
-
-            $scope.accountInformation.associateName = null;
-        } else {
-            if (typeof $scope.accountInformation.associateName != 'undefined') {
-                analytics.sendVariables(14, $scope.accountInformation.associateName);
-            }
-        }
         var addresses = [$scope.accountInformation.mailingAddress];
-        if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
-            addresses.push($scope.accountInformation.previousAddress);
-        }
-
 
         var continueWith = function () {
-            // update the cleansed address for mobile
-            if ($scope.cartHasMobile() && typeof $scope.accountInformation.previousAddress == 'undefined') {
-                $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
-            }
             enrollmentService.setAccountInformation().then(function (data) {
                 $scope.validations = data.validations;
             });
-            
         }
 
         if ($scope.accountInfo.$valid && $scope.isFormValid()) {
