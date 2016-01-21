@@ -334,11 +334,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var texasElectricityOffer = new DomainModels.Enrollments.TexasElectricity.Offer 
             {
-                Id = "Centerpoint/SSP12",
+                Id = "Centerpoint/TX_R12Switch",
                 Tdu = "Centerpoint",
                 Provider = "{\r\n  \"Id\": \"957877905\",\r\n  \"Code\": null,\r\n  \"Name\": \"Centerpoint\",\r\n  \"Commodities\": []\r\n}",
                 EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch,
-                Name = "Win Back Plan",
+                Name = "Switch Back Savings Plan",
 				Description = "The Stream Intro / Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy&#39;s then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Service for more information on this product.",
 				RateType = DomainModels.Enrollments.RateType.Variable,
                 Rate = 9.1M,
@@ -347,10 +347,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 TduCharges = "",
                 IncludesThermostat = false,
                 ThermostatDescription = "",
-                TerminationFee = 0.0M,
-                TermMonths = 1,
+                TerminationFee = 250.0M,
+                TermMonths = 12,
                 Documents = documents,
             };
+
+            var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption();
             var userContext = new DomainModels.Enrollments.UserContext
             {
                 ContactInfo = new CustomerContact 
@@ -372,6 +374,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             new DomainModels.Enrollments.SelectedOffer
                             {
                                 Offer = texasElectricityOffer,
+                                OfferOption = offerOption,
                             }
                         }
                     }
@@ -395,8 +398,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             // save the data in the stateMachine
             await Initialize();
             stateMachine.Context.ContactInfo = userContext.ContactInfo;
-            stateMachine.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
+            stateMachine.Context.SecondaryContactInfo = userContext.SecondaryContactInfo;
             stateMachine.Context.MailingAddress = userContext.MailingAddress;
+            stateMachine.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
             stateMachine.Context.Services = userContext.Services;
             stateHelper.InternalContext.AllOffers = allOffers; 
 
@@ -867,14 +871,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await Initialize();
 
-            // Verify the ESI ID, if changed
-
             // Update the stateMachine with the form Data
+            stateMachine.Context.ContactInfo = request.ContactInfo;
+            stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
+            stateMachine.Context.MailingAddress = request.MailingAddress;
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+            stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations;
 
             // Verify the SSN
+            if (stateMachine.Context.SocialSecurityNumber != request.SocialSecurityNumber) 
+            {
+                await stateMachine.Process(typeof(DomainModels.Enrollments.EnrollmentErrorState));
+                return ClientData();
+            }
 
-            // Save the Credit Score
 
             // Finalize the Enrollment
             foreach (var locationService in stateMachine.Context.Services)
@@ -888,7 +898,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await stateMachine.ContextUpdated();
 
-            await stateMachine.Process();
+            await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
 
             var resultData = ClientData();
 

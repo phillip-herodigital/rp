@@ -86,7 +86,10 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
         var addresses = [$scope.accountInformation.mailingAddress];
 
         var continueWith = function () {
-            enrollmentService.setAccountInformation().then(function (data) {
+            enrollmentService.setSinglePageOrder({
+                additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
+                agreeToTerms: $scope.completeOrder.agreeToTerms
+            }).then(function (data) {
                 $scope.validations = data.validations;
             });
         }
