@@ -339,10 +339,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Provider = "{\r\n  \"Id\": \"957877905\",\r\n  \"Code\": null,\r\n  \"Name\": \"Centerpoint\",\r\n  \"Commodities\": []\r\n}",
                 EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch,
                 Name = "Switch Back Savings Plan",
-				Description = "The Stream Intro / Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy&#39;s then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Service for more information on this product.",
-				RateType = DomainModels.Enrollments.RateType.Variable,
-                Rate = 9.1M,
-                StreamEnergyCharge = 4.3M,
+                Description = "The Switch Back Savings Plan provides 12 months of worry free savings at an incredible, low fixed rate &mdash; designed exclusively for you. Early termination fees shall apply as specified in your Terms of Service.",
+				RateType = DomainModels.Enrollments.RateType.Fixed,
+                Rate = 7.5M,
+                StreamEnergyCharge = 5.3M,
                 MinimumUsageFee = "If > 1,000 kWh, $0.00; If <1,000, $9.95",
                 TduCharges = "",
                 IncludesThermostat = false,
@@ -352,7 +352,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Documents = documents,
             };
 
-            var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption();
+            var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption {};
             var userContext = new DomainModels.Enrollments.UserContext
             {
                 ContactInfo = new CustomerContact 

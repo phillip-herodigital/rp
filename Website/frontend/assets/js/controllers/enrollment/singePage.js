@@ -7,9 +7,11 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
     $scope.isLoading = true;
     $http.get('/api/enrollment/previousClientData?esiId=1008901018146760805100').success(function (data, status, headers, config) {
         enrollmentService.setClientData(data);
+        enrollmentCartService.setActiveServiceIndex(0);
         $scope.item = $scope.utilityAddresses()[0];
-        $scope.offer = enrollmentCartService.getUtilityAddresses()[0].offerInformationByType[0].value.offerSelections[0].offer;
+        $scope.plan = enrollmentCartService.getUtilityAddresses()[0].offerInformationByType[0].value.offerSelections[0].offer;
         $scope.isLoading = false;
+
     });
 
     $scope.accountInformation = enrollmentService.accountInformation;
@@ -27,6 +29,9 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
     $scope.utilityAddresses = enrollmentCartService.getUtilityAddresses;
     $scope.addressEditing = false;
     $scope.contactEditing = false;
+    $scope.footnotes = {};
+    $scope.activeFootnotes = [];
+    $scope.footnoteIndices = {};
 
 
     if (!$scope.accountInformation.mailingAddress && $scope.utilityAddresses()[0]) {
@@ -66,6 +71,52 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
     $scope.editAddress = function () {
         $scope.addressEditing = !$scope.addressEditing;
     };
+
+    $scope.$watch('footnotes', function () {
+        updateFootnotes();
+    }, true);
+
+    $scope.$watch(enrollmentCartService.getActiveService, function (address) {
+        updateFootnotes();
+    });
+
+    function updateFootnotes()
+    {
+        var address = enrollmentCartService.getActiveService();
+        if (address && address.offerInformationByType) {
+            var footnoteParts = _(address.offerInformationByType)
+                .pluck('key')
+                .map(function (item) { return _.map($scope.footnotes[item], function (entry) { entry.type = item; return entry; }); })
+                .flatten()
+                .filter(function (obj) { return obj.value; })
+                .value();
+            $scope.activeFootnotes = footnoteParts;
+            $scope.footnoteIndices = {};
+
+            for (var i = 0; i < address.offerInformationByType.length; i++)
+            {
+                $scope.footnoteIndices[address.offerInformationByType[i].key] = {};
+            }
+            for (var i = 0; i < footnoteParts.length; i++)
+            {
+                $scope.footnoteIndices[footnoteParts[i].type][footnoteParts[i].key] = i + 1;
+            }
+        }
+    }
+
+    $scope.calculateFootnotes = function calculateFootnotes(footnotes) {
+        var result = {};
+        result.active = footnotes;
+        result.indices = {};
+
+        for (var i = 0; i < footnotes.length; i++) {
+            result.indices[footnotes[i].key] = $scope.footnoteDisplay[i];
+        }
+
+        return result;
+    }
+
+    $scope.footnoteDisplay = ['*', '†', '‡'];
 
     /**
      * In addition to normal validation, ensure that at least one item is in the shopping cart
