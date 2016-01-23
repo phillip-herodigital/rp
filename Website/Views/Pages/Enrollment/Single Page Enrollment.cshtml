@@ -299,7 +299,7 @@
                                 {
                                     <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Number)>
                                         <label for="@firstPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("Primary Phone Number Label")</label>
-                                        @firstPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "accountInformation.contactInfo.phone[0].number" }))
+                                        @firstPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "accountInformation.contactInfo.phone[0].number", data_val_if = "accountInformation.contactInfo.phone[0].number.substring(0,3) != '***'" }))
                                         @firstPhone.ValidationMessageFor(m => m.Number)
                                     </div>
                                     <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Category)>

@@ -407,8 +407,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await stateMachine.ContextUpdated();
 
+            var result = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+
+            // mask the phone and email
+            var email = result.ContactInfo.Email.Address;
+            var atIndex = email.IndexOf("@");
+            var maskedEmail = email[0] + new String('*', atIndex - 1) + email.Substring(atIndex);
+            var maskedPhone = "***-***-" + result.ContactInfo.Phone[0].Number.Substring(result.ContactInfo.Phone[0].Number.Length - 4);
+            result.ContactInfo.Email.Address = maskedEmail;
+            result.ContactInfo.Phone[0].Number = maskedPhone;
+
             // return the data to the page
-            return ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+            return result;
         }
 
         /// <summary>
@@ -874,6 +884,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
 
             // Update the stateMachine with the form Data
+            if (request.ContactInfo.Phone[0].Number.StartsWith("*"))
+            {
+                request.ContactInfo.Phone[0].Number = stateMachine.Context.ContactInfo.Phone[0].Number;
+            }
+            if (request.ContactInfo.Email.Address.Substring(1,1) == "*")
+            {
+                request.ContactInfo.Email.Address = stateMachine.Context.ContactInfo.Email.Address;
+            }
             stateMachine.Context.ContactInfo = request.ContactInfo;
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.MailingAddress = request.MailingAddress;
