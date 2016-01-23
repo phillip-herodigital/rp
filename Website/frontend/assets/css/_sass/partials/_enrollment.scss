@@ -1624,6 +1624,19 @@
                 text-shadow: none;
                 padding: 10px 20px;
             }
+            &.continue-button {
+                margin-top: 30px;
+            }
+        }
+        .address-group {
+            display: inline-block;
+            width: 75%;
+            .typeahead {
+                width: 100%;
+            }
+        }
+        .change-address {
+
         }
     }
     .offer-info {

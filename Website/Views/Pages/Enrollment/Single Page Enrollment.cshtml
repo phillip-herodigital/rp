@@ -7,6 +7,7 @@
 @using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
 {
     Sitecore.Data.Items.Item planSelectionItem = Sitecore.Context.Database.GetItem("{D8AEA06C-0280-4AED-B7D0-3C2A9EBE4FD6}");
+    Sitecore.Data.Items.Item accountInformationItem = Sitecore.Context.Database.GetItem("{67561BCF-4966-4FB3-8309-40ADFB69B3AE}");
     Sitecore.Data.Items.Item completeOrderItem = Sitecore.Context.Database.GetItem("{00E3F38B-FFEB-4038-92AA-EEA8D8C3275D}");
     Sitecore.Data.Items.Item cartItem = Sitecore.Context.Database.GetItem("{E0880134-0098-4BED-AFB4-37FAE30B5C44}");
      
@@ -47,24 +48,24 @@
                             <div class="plan-summary">
                                 <div class="plan-info">
                                     @* ESI ID *@
-                                    <div class="item item--no-input inline-label esi-id" ng-show="!addressEditing">
+                                    <div class="item item--no-input inline-label esi-id" ng-if="!addressEditing">
                                         <label for="location-id">@Html.Sitecore().Field("ESI ID Label")</label>
                                         {{ item.location.capabilities[0].esiId }}
                                     </div>
                                     @* Service Address *@
-                                    <div class="item item--no-input inline-label service-address" ng-show="!addressEditing">
+                                    <div class="item item--no-input inline-label service-address" ng-if="!addressEditing">
                                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                                         {{ item.location.address.line1 }}<span ng-if="item.location.address.line2">, {{ item.location.address.line2 }}</span><br />
                                         {{ item.location.address.city }}, {{ item.location.address.stateAbbreviation }} {{ item.location.address.postalCode5 }}<span ng-if="item.location.address.postalCodePlus4">-{{ item.location.address.postalCodePlus4 }}</span>
                                     </div>
                                 </div>
-                                <div class="edit-address">
+                                <div class="edit-address" ng-if="!addressEditing">
                                     <button type="button" class="secondary" ng-click="editAddress();">@Html.Sitecore().Field("Edit Button Text")</button>
                                 </div>
-                                <div class="address-group">
+                                <div class="address-group" ng-if="addressEditing">
                                     @* Address Input Dropdown *@
-                                    <div class="item" ng-show="addressEditing">
-                                        <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                                    <div class="item">
+                                        <label for="service-address">@Html.Sitecore().Field("Address Lookup Label")</label>
                                         <input type="text"
                                                id="service-address"
                                                class="typeahead"
@@ -73,6 +74,9 @@
                                                typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
                                                ng-class="{'loading' : accountInformation.loadingAccountInformation}" autocomplete="off" />
                                     </div>
+                                </div>
+                                <div class="edit-address continue-button" ng-if="addressEditing">
+                                    <button type="button" class="secondary" ng-disabled="item.tempLocation.capabilities.length == 0" ng-click="getClientData(item.tempLocation.capabilities[0].esiId);">@Html.Sitecore().Field("Continue Button Text")</button>
                                 </div>
                                 
                             </div>
@@ -176,10 +180,10 @@
                             </div>
                         </div>
                     </article>
-                    <article class="enrollment__box form contact-info">
+                    <article class="enrollment__box form contact-info" ng-if="!addressEditing">
                         <header>
                             <h1>@Html.Sitecore().Field("Contact Information Header")<a href="" ng-click="editContactInfo()" ng-show="!contactEditing">@Html.Sitecore().Field("Edit Button Text")</a></h1>
-                            
+
                         </header>
                         <div class="content">
                             <div class="group contact-read-only" ng-show="!contactEditing">
@@ -339,7 +343,7 @@
                                     </div>
                                 </div>
                             </div>
-                                
+
                             <div class="additional-field-group secondary-phone-group" ng-class="{'contact-editing': contactEditing}" ng-show="additionalInformation.showAdditionalPhoneNumber">
                                 <div class="group">
                                     @using (var secondPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "1").Shortcut(m => (TypedPhone)m))
@@ -377,7 +381,7 @@
                             </div>
                         </div>
                     </article>
-                    <article class="enrollment__box">
+                    <article class="enrollment__box" ng-if="!addressEditing && !contactEditing">
                         <header>
                             <h1>@Html.Sitecore().Field("Terms Header", completeOrderItem)</h1>
                         </header>
@@ -408,7 +412,7 @@
                         </div>
                     </article>
 
-                    <div class="buttons clearfix">
+                    <div class="buttons clearfix" ng-if="!addressEditing && !contactEditing">
                         <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
                     </div>
                 </form>
@@ -462,22 +466,22 @@
     <div class="cleanse-address">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("Verify Address Header")</h2>
+            <h2>@Html.Sitecore().Field("Verify Address Header", accountInformationItem)</h2>
         </div>
         <div class="modal-body scrollable">
             @Html.Sitecore().Field("Verify Address Body")
             <div class="item address-group" ng-if="addressOptions.mailingAddress[0]">
-                <label>@Html.Sitecore().Field("Mailing Address Text")</label>
+                <label>@Html.Sitecore().Field("Mailing Address Text", accountInformationItem)</label>
                 <div class="radio-item">
                     <input id="mailingAddress-suggested-{{$id}}" type="radio" ng-model="modal.mailingAddress" value="suggested">
-                    <label for="mailingAddress-suggested-{{$id}}">@Html.Sitecore().Field("Suggested Address Text")</label>
+                    <label for="mailingAddress-suggested-{{$id}}">@Html.Sitecore().Field("Suggested Address Text", accountInformationItem)</label>
                 </div>
                 <div class="address">
                     <label for="mailingAddress-suggested-{{$id}}">{{ addressOptions.mailingAddress[1] | address }}</label>
                 </div>
                 <div class="radio-item">
                     <input id="mailingAddress-original-{{$id}}" type="radio" ng-model="modal.mailingAddress" value="original">
-                    <label for="mailingAddress-original-{{$id}}">@Html.Sitecore().Field("Original Address Text")</label>
+                    <label for="mailingAddress-original-{{$id}}">@Html.Sitecore().Field("Original Address Text", accountInformationItem)</label>
                 </div>
                 <div class="address">
                     <label for="mailingAddress-original-{{$id}}">{{ addressOptions.mailingAddress[0] | address }}</label>
@@ -485,8 +489,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button")</button>
-            <button ng-click="$close()">@Html.Sitecore().Field("Continue Button")</button>
+            <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button", accountInformationItem)</button>
+            <button ng-click="$close()">@Html.Sitecore().Field("Continue Button", accountInformationItem)</button>
         </div>
     </div>
 </script>

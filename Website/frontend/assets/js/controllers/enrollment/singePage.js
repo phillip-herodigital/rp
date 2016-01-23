@@ -5,14 +5,22 @@
 ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', '$http', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics, $http) {
     
     $scope.isLoading = true;
-    $http.get('/api/enrollment/previousClientData?esiId=1008901018146760805100').success(function (data, status, headers, config) {
-        enrollmentService.setClientData(data);
-        enrollmentCartService.setActiveServiceIndex(0);
-        $scope.item = $scope.utilityAddresses()[0];
-        $scope.plan = enrollmentCartService.getUtilityAddresses()[0].offerInformationByType[0].value.offerSelections[0].offer;
-        $scope.isLoading = false;
 
-    });
+    $scope.getClientData = function (esiId) {
+        if (esiId != undefined) {
+            $scope.utilityEnrollment.esiId = esiId;
+        }
+        $http.get('/api/enrollment/previousClientData?esiId=' + $scope.utilityEnrollment.esiId).success(function (data, status, headers, config) {
+                enrollmentService.setClientData(data);
+                enrollmentCartService.setActiveServiceIndex(0);
+                $scope.item = $scope.utilityAddresses()[0];
+                $scope.plan = enrollmentCartService.getUtilityAddresses()[0].offerInformationByType[0].value.offerSelections[0].offer;
+                $scope.isLoading = false;
+                $scope.addressEditing = false;
+            });
+    };
+
+    $scope.getClientData();
 
     $scope.accountInformation = enrollmentService.accountInformation;
     var sci = $scope.accountInformation.secondaryContactInfo;
@@ -32,6 +40,7 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
     $scope.footnotes = {};
     $scope.activeFootnotes = [];
     $scope.footnoteIndices = {};
+    $scope.completeOrder = {};
 
 
     if (!$scope.accountInformation.mailingAddress && $scope.utilityAddresses()[0]) {
