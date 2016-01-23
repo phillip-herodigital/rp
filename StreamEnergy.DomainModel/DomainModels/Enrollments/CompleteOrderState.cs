@@ -33,7 +33,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                     yield return context => context.PreviousAddress;
                 }
             }
-            if (!data.IsRenewal && !data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            if (!data.IsRenewal && !data.IsSinglePage && !data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
             {
                 yield return context => context.SelectedIdentityAnswers;
                 yield return context => context.OnlineAccount;

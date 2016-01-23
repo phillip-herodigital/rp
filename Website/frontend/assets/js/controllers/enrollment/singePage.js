@@ -40,14 +40,18 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
     }
 
     $scope.showAdditionalPhoneNumberChanged = function() {
-        if ($scope.additionalInformation.showAdditionalPhoneNumber) {
+        if ($scope.additionalInformation.showSecondaryContact && !$scope.contactEditing) {
+            $scope.additionalInformation.showSecondaryContact = false;
+        }
+        if ($scope.additionalInformation.showAdditionalPhoneNumber && $scope.accountInformation.contactInfo.phone.length == 1) {
             $scope.accountInformation.contactInfo.phone[1] = {};
-        } else {
-            $scope.accountInformation.contactInfo.phone.splice(1, 1);
         }
     };
 
     $scope.showSecondaryContactChanged = function () {
+        if ($scope.additionalInformation.showAdditionalPhoneNumber && !$scope.contactEditing) {
+            $scope.additionalInformation.showAdditionalPhoneNumber = false;
+        }
         if (!$scope.additionalInformation.showSecondaryContact) {
             $scope.accountInformation.secondaryContactInfo.first = null;
             $scope.accountInformation.secondaryContactInfo.last = null;

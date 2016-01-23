@@ -55,7 +55,7 @@
                                     <div class="item item--no-input inline-label service-address" ng-show="!addressEditing">
                                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                                         {{ item.location.address.line1 }}<span ng-if="item.location.address.line2">, {{ item.location.address.line2 }}</span><br />
-                                        {{ item.location.address.city }}, {{ item.location.address.state }} {{ item.location.address.postalCode5 }}<span ng-if="item.location.address.postalCodePlus4">-{{ item.location.address.postalCodePlus4 }}</span>
+                                        {{ item.location.address.city }}, {{ item.location.address.stateAbbreviation }} {{ item.location.address.postalCode5 }}<span ng-if="item.location.address.postalCodePlus4">-{{ item.location.address.postalCodePlus4 }}</span>
                                     </div>
                                 </div>
                                 <div class="edit-address">
@@ -182,13 +182,16 @@
                             
                         </header>
                         <div class="content">
-                            <div class="group" ng-show="!contactEditing">
+                            <div class="group contact-read-only" ng-show="!contactEditing">
                                 <div class="item group-col">
                                     <dl>
                                         <dt>@Html.Sitecore().Field("Name Label")</dt>
                                         <dd>{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</dd>
                                         <dt>@Html.Sitecore().Field("Mailing Address Label")</dt>
-                                        <dd>{{ accountInformation.mailingAddress | address }}</dd>
+                                        <dd>
+                                            {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.unitNumber"> {{ accountInformation.mailingAddress.unitNumber }} </span><span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br />
+                                            {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}<span ng-if="accountInformation.mailingAddress.postalCodePlus4">-{{ accountInformation.mailingAddress.postalCodePlus4 }}</span>
+                                        </dd>
                                     </dl>
                                 </div>
                                 <div class="item group-col">
@@ -268,6 +271,20 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    <div class="additional-field-group secondary-contact-group" ng-class="{'contact-editing': contactEditing}" ng-if="additionalInformation.showSecondaryContact && contactEditing">
+                                        <div class="group">
+                                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
+                                                <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
+                                                @Html.TextBoxFor(m => m.SecondaryContactInfo.First, new { data_val_if = "accountInformation.showSecondaryContact", ng_model = "accountInformation.secondaryContactInfo.first" })
+                                                @Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)
+                                            </div>
+                                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.Last)>
+                                                <label for="@Html.IdFor(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
+                                                @Html.TextBoxFor(m => m.SecondaryContactInfo.Last, new { data_val_if = "accountInformation.showSecondaryContact", ng_model = "accountInformation.secondaryContactInfo.last" })
+                                                @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             }
 
@@ -295,20 +312,20 @@
                                 }
                             </div>
 
-                            <div class="group">
+                            <div class="group additional-content">
                                 <div class="additional-field-item item group-col" ng-show="!contactEditing">
                                     <ul class="checkbox-list">
                                         <li><input type="checkbox" name="secondary-contact" ng-model="additionalInformation.showSecondaryContact" ng-change="showSecondaryContactChanged()"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
                                     </ul>
                                 </div>
-                                <div class="additional-field-item item group-col">
+                                <div class="additional-field-item item group-col" ng-class="{'additional-phone-number': contactEditing}">
                                     <ul class="checkbox-list">
                                         <li><input type="checkbox" name="additional-phone-number" ng-model="additionalInformation.showAdditionalPhoneNumber" ng-change="showAdditionalPhoneNumberChanged()"><label for="additional-phone-number">@Html.Sitecore().Field("Add additional phone number")</label></li>
                                     </ul>
                                 </div>
                             </div>
 
-                            <div class="additional-field-group secondary-contact-group" ng-if="additionalInformation.showSecondaryContact">
+                            <div class="additional-field-group secondary-contact-group" ng-class="{'contact-editing': contactEditing}" ng-if="additionalInformation.showSecondaryContact && !contactEditing">
                                 <div class="group">
                                     <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
                                         <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
@@ -323,7 +340,7 @@
                                 </div>
                             </div>
                                 
-                            <div class="additional-field-group" ng-show="accountInformation.contactInfo.phone.length > 1">
+                            <div class="additional-field-group secondary-phone-group" ng-class="{'contact-editing': contactEditing}" ng-show="additionalInformation.showAdditionalPhoneNumber">
                                 <div class="group">
                                     @using (var secondPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "1").Shortcut(m => (TypedPhone)m))
                                     {
@@ -340,7 +357,7 @@
                                                     {
                                                         ng_model = "accountInformation.contactInfo.phone[1].category",
                                                         ng_options = "type.name as type.display for type in phoneTypes|filter:filter1|filter:filterCustomerType",
-                                                        data_val_if = "accountInformation.contactInfo.phone.length > 1"
+                                                        data_val_if = "additionalInformation.showAdditionalPhoneNumber"
                                                     }))
                                             @secondPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)
                                         </div>
@@ -349,18 +366,16 @@
                             </div>
 
                             <div class="item" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
-                                <label for="@Html.IdFor(m => m.SocialSecurityNumber)">
-                                    @Html.Sitecore().Field("Social Security Number Label")
-                                <a ng-if="cartHasUtility() && !cartHasMobile()" href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a>
-                            </label>
-                            @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber", @class = "maskField", data_val = "true", data_val_required = "" })
-                            @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
+                                <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label")</label>
+                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber", @class = "maskField", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
+                                <div class="help-text">@Html.Sitecore().Field("Social Security Number Tooltip")</div>
+                            </div>
+                            <div class="buttons" ng-show="contactEditing">
+                                <a href="" class="button primary" ng-disabled="!isFormValid()" ng-click="saveContactInfo();">@Html.Sitecore().Field("Save Button Label")</a>
+                                <a href="" class="button tertiary" ng-click="cancelContactInfo();">@Html.Sitecore().Field("Cancel Button Label")</a>
+                            </div>
                         </div>
-                        <div class="buttons" ng-show="contactEditing">
-                            <a href="" class="button primary" ng-disabled="!isFormValid()" ng-click="saveContactInfo();">@Html.Sitecore().Field("Save Button Label")</a>
-                            <a href="" class="button tertiary" ng-click="cancelContactInfo();">@Html.Sitecore().Field("Cancel Button Label")</a>
-                        </div>
-                    </div>
                     </article>
                     <article class="enrollment__box">
                         <header>

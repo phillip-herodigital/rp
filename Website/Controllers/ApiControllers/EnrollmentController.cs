@@ -397,17 +397,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             // save the data in the stateMachine
             await Initialize();
-            stateMachine.Context.ContactInfo = userContext.ContactInfo;
-            stateMachine.Context.SecondaryContactInfo = userContext.SecondaryContactInfo;
-            stateMachine.Context.MailingAddress = userContext.MailingAddress;
-            stateMachine.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
-            stateMachine.Context.Services = userContext.Services;
-            stateHelper.InternalContext.AllOffers = allOffers; 
+            stateHelper.Context.ContactInfo = userContext.ContactInfo;
+            stateHelper.Context.SecondaryContactInfo = userContext.SecondaryContactInfo;
+            stateHelper.Context.MailingAddress = userContext.MailingAddress;
+            stateHelper.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
+            stateHelper.Context.Services = userContext.Services;
+            stateHelper.InternalContext.AllOffers = allOffers;
+            stateHelper.Context.IsSinglePage = true;
 
             await stateMachine.ContextUpdated();
 
             // return the data to the page
-            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
+            return ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         /// <summary>
@@ -446,6 +447,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
+                IsSinglePage = stateMachine.Context.IsSinglePage,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
@@ -637,7 +639,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private async Task ResetPreAccountInformation()
         {
-            if (stateHelper.Context.IsRenewal)
+            if (stateHelper.Context.IsRenewal || stateHelper.Context.IsSinglePage)
                 return;
             if (stateHelper.InternalContext != null)
             {
@@ -736,7 +738,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
-            else if (stateMachine.Context.IsRenewal && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
+            else if ((stateMachine.Context.IsRenewal || stateMachine.Context.IsSinglePage) && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
@@ -876,7 +878,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.MailingAddress = request.MailingAddress;
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
-            stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations;
+            stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
+            stateHelper.State = typeof(DomainModels.Enrollments.AccountInformationState);
 
             // Verify the SSN
             if (stateMachine.Context.SocialSecurityNumber != request.SocialSecurityNumber) 
@@ -898,7 +901,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await stateMachine.ContextUpdated();
 
-            await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+            await stateMachine.Process();
 
             var resultData = ClientData();
 
@@ -948,7 +951,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         {"accountNumbers", string.Join(",", acctNumbers)},
                     });
                 }
-                if (resultData.AssociateInformation == null && !resultData.IsRenewal)
+                if (resultData.AssociateInformation == null && !resultData.IsRenewal && !resultData.IsSinglePage)
                 {
                     await logger.Record(new LogEntry()
                     {

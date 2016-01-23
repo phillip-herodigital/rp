@@ -1642,6 +1642,9 @@
         }
     }
     .contact-info {
+        .contact-read-only {
+            margin-bottom: 0;
+        }
         header a {
             float: right;
             padding-top: 14px;
@@ -1654,7 +1657,32 @@
             }
             dd {
                 margin-left: 0;
+                font-size: 18px;
             }
+        }
+        .additional-content {
+            margin-bottom: 0;
+        }
+        .additional-field-group {
+            margin: 0 -20px 20px;
+            &.secondary-phone-group {
+                &:before, &:after {
+                    left: 62%;
+                }
+                &.contact-editing {
+                    margin-top: 0;
+                    &:before, &:after {
+                        left: 12%;
+                    }
+                }
+            }
+        }
+        .additional-phone-number {
+            padding-left: 0 !important;
+        }
+        .help-text {
+            color: #000;
+            font-size: 14px;
         }
     }
 }
