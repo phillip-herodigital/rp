@@ -315,18 +315,24 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public  async Task<ClientData> PreviousClientData(string esiId)
         {
+            
             // make an external service call to get the data
+            await Initialize();
+
 
             var location = new DomainModels.Enrollments.Location
             {
-                Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "77087", PostalCodePlus4 = "1429", City = "Houston", Line1 = "123 Winkler Dr", Line2 = "Apt 123" },
+                Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "77087", PostalCodePlus4 = "1429", City = "Houston", Line1 = "123 Winkler Dr", Line2 = "Apt 124" },
                 Capabilities = new DomainModels.IServiceCapability[]
                 {
-                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint", EsiId = "1008901018146760805100" },
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint", EsiId = "1008901018146760804100" },
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch },
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                 }
             };
+
+            //stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { location });
+
             var documents = new Dictionary<string,Uri>();
             documents.Add("electricityFactsLabel", new Uri("/~/media/A3114BCB0F444B3D8D77E256FC671623.ashx", UriKind.Relative));
             documents.Add("termsOfService", new Uri("/~/media/A3114BCB0F444B3D8D77E256FC671623.ashx", UriKind.Relative));
@@ -396,26 +402,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             // verify that the ESI ID is in the list  - if not, return an error
 
             // save the data in the stateMachine
-            await Initialize();
+            
             stateHelper.Context.ContactInfo = userContext.ContactInfo;
             stateHelper.Context.SecondaryContactInfo = userContext.SecondaryContactInfo;
             stateHelper.Context.MailingAddress = userContext.MailingAddress;
             stateHelper.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
             stateHelper.Context.Services = userContext.Services;
-            stateHelper.InternalContext.AllOffers = allOffers;
             stateHelper.Context.IsSinglePage = true;
-
+            stateHelper.InternalContext.AllOffers = allOffers;
             await stateMachine.ContextUpdated();
 
             var result = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
-
-            // mask the phone and email
-            var email = result.ContactInfo.Email.Address;
-            var atIndex = email.IndexOf("@");
-            var maskedEmail = email[0] + new String('*', atIndex - 1) + email.Substring(atIndex);
-            var maskedPhone = "***-***-" + result.ContactInfo.Phone[0].Number.Substring(result.ContactInfo.Phone[0].Number.Length - 4);
-            result.ContactInfo.Email.Address = maskedEmail;
-            result.ContactInfo.Phone[0].Number = maskedPhone;
 
             // return the data to the page
             return result;
@@ -884,14 +881,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
 
             // Update the stateMachine with the form Data
-            if (request.ContactInfo.Phone[0].Number.StartsWith("*"))
-            {
-                request.ContactInfo.Phone[0].Number = stateMachine.Context.ContactInfo.Phone[0].Number;
-            }
-            if (request.ContactInfo.Email.Address.Substring(1,1) == "*")
-            {
-                request.ContactInfo.Email.Address = stateMachine.Context.ContactInfo.Email.Address;
-            }
             stateMachine.Context.ContactInfo = request.ContactInfo;
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.MailingAddress = request.MailingAddress;

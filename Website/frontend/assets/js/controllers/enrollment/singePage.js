@@ -11,6 +11,12 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
             $scope.utilityEnrollment.esiId = esiId;
         }
         $http.get('/api/enrollment/previousClientData?esiId=' + $scope.utilityEnrollment.esiId).success(function (data, status, headers, config) {
+                var email = data.contactInfo.email.address;
+                var atIndex = email.indexOf("@");
+                $scope.origEmail = data.contactInfo.email.address;
+                $scope.origPhone = data.contactInfo.phone[0].number;
+                data.contactInfo.email.address = email[0] + new Array(atIndex).join( "*" ) + email.substring(atIndex);
+                data.contactInfo.phone[0].number = "***-***-" + data.contactInfo.phone[0].number.substring(data.contactInfo.phone[0].number.length - 4);
                 enrollmentService.setClientData(data);
                 enrollmentCartService.setActiveServiceIndex(0);
                 $scope.item = $scope.utilityAddresses()[0];
@@ -150,6 +156,13 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
         var addresses = [$scope.accountInformation.mailingAddress];
 
         var continueWith = function () {
+            if ($scope.accountInformation.contactInfo.phone[0].number.substr(0,1) == "*") {
+                $scope.accountInformation.contactInfo.phone[0].number = $scope.origPhone;
+            }
+            if ($scope.accountInformation.contactInfo.email.address.substr(1,1) == "*") {
+                $scope.accountInformation.contactInfo.email.address = $scope.origEmail;
+            }
+
             enrollmentService.setSinglePageOrder({
                 additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms

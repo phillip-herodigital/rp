@@ -17,7 +17,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {            
             yield return context => context.Services;
-            if (!data.IsRenewal)
+            if (!data.IsRenewal && !data.IsSinglePage)
             {
                 yield return context => context.ContactInfo;
                 yield return context => context.Language;
