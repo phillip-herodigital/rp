@@ -331,33 +331,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             };
 
-            //stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { location });
+            stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { location });
 
-            var documents = new Dictionary<string,Uri>();
-            documents.Add("electricityFactsLabel", new Uri("/~/media/A3114BCB0F444B3D8D77E256FC671623.ashx", UriKind.Relative));
-            documents.Add("termsOfService", new Uri("/~/media/A3114BCB0F444B3D8D77E256FC671623.ashx", UriKind.Relative));
-            documents.Add("yourRightsAsACustomer", new Uri("/~/media/A3114BCB0F444B3D8D77E256FC671623.ashx", UriKind.Relative));
-
-            var texasElectricityOffer = new DomainModels.Enrollments.TexasElectricity.Offer 
-            {
-                Id = "Centerpoint/TX_R12Switch",
-                Tdu = "Centerpoint",
-                Provider = "{\r\n  \"Id\": \"957877905\",\r\n  \"Code\": null,\r\n  \"Name\": \"Centerpoint\",\r\n  \"Commodities\": []\r\n}",
-                EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch,
-                Name = "Switch Back Savings Plan",
-                Description = "The Switch Back Savings Plan provides 12 months of worry free savings at an incredible, low fixed rate &mdash; designed exclusively for you. Early termination fees shall apply as specified in your Terms of Service.",
-				RateType = DomainModels.Enrollments.RateType.Fixed,
-                Rate = 7.5M,
-                StreamEnergyCharge = 5.3M,
-                MinimumUsageFee = "If > 1,000 kWh, $0.00; If <1,000, $9.95",
-                TduCharges = "",
-                IncludesThermostat = false,
-                ThermostatDescription = "",
-                TerminationFee = 250.0M,
-                TermMonths = 12,
-                Documents = documents,
-            };
-
+            var texasElectricityOffer = stateHelper.InternalContext.AllOffers.First().Value.Offers.Where(offer => offer.Id.Contains("TX_R12Switch")).FirstOrDefault() as DomainModels.Enrollments.TexasElectricity.Offer;
             var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption {};
             var userContext = new DomainModels.Enrollments.UserContext
             {
