@@ -789,7 +789,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<ClientData> Resume()
         {
             await Initialize();
-            await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+            if (stateMachine.Context.IsSinglePage)
+            {
+                await stateMachine.Process();
+            }
+            else
+            {
+                await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+            }
 
             var resultData = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
             await GenerateEndOfEnrollmentScreenshot(resultData);
@@ -876,7 +883,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<ClientData> SinlgePageOrder([FromBody]SinglePageOrder request)
+        public async Task<ClientData> SinglePageOrder([FromBody]SinglePageOrder request)
         {
             await Initialize();
 

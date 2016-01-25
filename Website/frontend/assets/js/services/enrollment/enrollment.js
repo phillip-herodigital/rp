@@ -350,7 +350,7 @@
         if (data.onlineAccount && !data.onlineAccount.username)
             data.onlineAccount = null;
 
-        return makeCall('sinlgePageOrder', data);
+        return makeCall('singlePageOrder', data);
     };
 
     /**
