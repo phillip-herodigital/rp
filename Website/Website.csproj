@@ -847,6 +847,8 @@
     <Compile Include="Models\Account\EnrolledAccount.cs" />
     <Compile Include="Models\Account\FindAccountForOneTimePaymentRequest.cs" />
     <Compile Include="Models\Account\FindAccountForOneTimePaymentResponse.cs" />
+    <Compile Include="Models\Account\AccountForOneTimeRenewalRequest.cs" />
+    <Compile Include="Models\Account\AccountForOneTimeRenewalResponse.cs" />
     <Compile Include="Models\Account\GetAccountBalancesResponse.cs" />
     <Compile Include="Models\Account\GetAccountBalancesTableResponse.cs" />
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
@@ -890,8 +892,8 @@
     <Compile Include="Models\Account\SetAutoPayRequest.cs" />
     <Compile Include="Models\Account\SetAutoPayResponse.cs" />
     <Compile Include="Models\Account\DismissInterstitialRequest.cs" />
-    <Compile Include="Models\Account\SetupRenewalRequest.cs" />
     <Compile Include="Models\Account\DismissInterstitialResponse.cs" />
+    <Compile Include="Models\Account\SetupRenewalRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />
@@ -1662,6 +1664,7 @@
     <Content Include="Views\Components\Marketing\Voice\On The Go.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Get More.cshtml" />
 	<Content Include="Views\Components\Marketing\Voice\Lets Be Clear.cshtml" />
+    <Content Include="Views\Components\Marketing\One-Time Renewal.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
