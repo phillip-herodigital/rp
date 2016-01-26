@@ -1255,22 +1255,6 @@ article.win-back {
 			}
 		}
 	}
-	.info-header {
-		background-image: url("../i/marketing/confirm-info.png");
-		background-repeat: no-repeat;
-		background-position: center;
-		color: #fff;
-		height: 129px;
-		.wrapper {
-			font-size: 34px;
-			padding-top: 15px;
-		}
-		@include breakpoint(small) {
-			background-image: none;
-			background-color: #0071b9;
-			height: auto;
-		}
-	}
 }
 
 article.mobile-devices {
