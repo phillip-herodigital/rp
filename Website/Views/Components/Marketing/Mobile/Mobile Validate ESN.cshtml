@@ -1,41 +1,47 @@
-﻿<article class="marketing wrapper validate-esn" ng-controller="MobileValidateEsnCtrl" ng-init="esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString())">
+﻿<article class="marketing validate-esn" ng-controller="MobileValidateEsnCtrl" ng-init="esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString())">
     @Html.Sitecore().Field("Intro Text")
     <form ng-submit="validateESN()">
-        <div loading-indicator>
-            <div class="item">
-                <h3>@Html.Sitecore().Field("See If Phone Works")</h3>
-                <div class="input-group">
-                    <div class="input-group-control" data-val-error="imeiNumber">
-                        <label>
-                            @Html.Sitecore().Field("Enter Number")
-                            <a href="" ng-click="showModal('instructions/imei');">@Html.Sitecore().Field("What Is This")</a>
-                        </label>
-                        <input class="full" name="imeiNumber" type="text" ng-model="form.esn" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
+        <div class="wrapper">
+            <div loading-indicator>
+                <div class="item">
+                    <h3>@Html.Sitecore().Field("See If Phone Works")</h3>
+                    <div class="input-group">
+                        <div class="input-group-control" data-val-error="imeiNumber">
+                            <label>
+                                @Html.Sitecore().Field("Enter Number")
+                                <a href="" ng-click="showModal('instructions/imei');">@Html.Sitecore().Field("What Is This")</a>
+                            </label>
+                            <input class="full" name="imeiNumber" type="text" ng-model="form.esn" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
+                        </div>
+                        <div class="input-group-btn">
+                            <button type="submit">@Html.Sitecore().Field("Check Text")</button>
+                        </div>
+                    </div><!-- /input-group -->
+                    <div class="input-group" ng-if="showCaptcha">
+                        <div re-captcha ng-model="form.captcha" key="mobileEnrollmentSettings.reCaptchaPublicKey"></div>
+                    </div><!-- /input-group -->
+                    <div>
+                        <a href="" ng-click="showLightbox('compatible-devices')">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
                     </div>
-                    <div class="input-group-btn">
-                        <button type="submit">@Html.Sitecore().Field("Check Text")</button>
-                    </div>
-                </div><!-- /input-group -->
-                <div class="input-group" ng-if="showCaptcha">
-                    <div re-captcha ng-model="form.captcha" key="mobileEnrollmentSettings.reCaptchaPublicKey"></div>
-                </div><!-- /input-group -->
-                <div>
-                    <a href="" ng-click="showLightbox('compatible-devices')">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
+                </div>
+                <div class="side-content">
+                    @Html.Sitecore().Field("Non ATT GSM Message")
                 </div>
             </div>
-            <div class="side-content">
-                @Html.Sitecore().Field("Non ATT GSM Message")
-            </div>
+        </div>
             <div ng-show="esnError || (phoneManufacturer == 'Apple Inc' && networkType == 'GSM')" class="device-error" ng-cloak>
-                <div compile="esnMessage"></div>
-                <div ng-if="phoneManufacturer == 'Apple Inc' && networkType == 'GSM'">
-                    @Html.Sitecore().Field("Apple GSM Message")
+                <div class="wrapper">
+                    <div compile="esnMessage"></div>
+                    <div ng-if="phoneManufacturer == 'Apple Inc' && networkType == 'GSM'">
+                        @Html.Sitecore().Field("Apple GSM Message")
+                    </div>
                 </div>
             </div>
             <div ng-show="esnValid && (phoneManufacturer != 'Apple Inc' || networkType != 'GSM')" class="device-success" ng-cloak>
-                @Html.Sitecore().Field("ESN Valid Message")
+                <div class="wrapper">
+                    @Html.Sitecore().Field("ESN Valid Message")
+                </div>
             </div>
-        </div>
     </form>
 </article>
 

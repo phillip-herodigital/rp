@@ -2140,7 +2140,7 @@ article.contact {
         }
 
         h4 {
-                    text-align: center;
+            text-align: center;
             text-transform: none;
             font-size: 38px;
             line-height: 1.1;
@@ -4676,17 +4676,24 @@ article.mobile.mobile-plans-usage-calculator {
 
 article.marketing.validate-esn {
     margin-bottom: 50px;
+<<<<<<< HEAD
 
+=======
+    width: auto;
+>>>>>>> refs/remotes/origin/master
     h1 {
         margin: 1.5em 0;
     }
 
     .device-error, .device-success {
-        background-color: #74bc4b;
-        margin: 20px 40px;
-        padding: 30px 20px;
+        h2 {
+            color: #00a8e1;
+            margin: 0;
+        }
+        background-color: #f3f6f7;
+        margin: 0;
         line-height: 1.2;
-        color: #fff;
+        color: #333;
         font-size: 20px;
         font-weight: 400;
 
@@ -4712,6 +4719,20 @@ article.marketing.validate-esn {
                 margin-left: 0;
                 margin-top: 10px;
             }
+        }
+        .wrapper {
+            color: #333;
+            padding: 30px 20px;
+        }
+    }
+    .cdma {
+        h2 {
+            color: #fcb426;
+        }
+        .button {
+            border: 1px solid $mobile-cdma-color;
+           background-color: #eca001;
+           background-image: linear-gradient(#efaf01, #eca001);
         }
     }
 
@@ -4750,7 +4771,15 @@ article.marketing.validate-esn {
         padding: 0 40px;
         vertical-align: top;
     }
+<<<<<<< HEAD
 
+=======
+    @include breakpoint(medium) {
+        .device-error, .device-success {
+            margin: 0;
+        }
+    }
+>>>>>>> refs/remotes/origin/master
     @include breakpoint(small-medium) {
         .item {
             width: 100%;
@@ -4761,6 +4790,9 @@ article.marketing.validate-esn {
             display: block;
             width: 100%;
         }
+        .device-error, .device-success {
+            margin: 0;
+        }
     }
 
     @include breakpoint(small) {
@@ -4769,7 +4801,7 @@ article.marketing.validate-esn {
         }
 
         .device-error, .device-success {
-            margin: 20px 0;
+            margin: 0;
         }
     }
 
