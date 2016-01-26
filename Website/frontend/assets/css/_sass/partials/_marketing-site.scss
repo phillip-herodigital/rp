@@ -2796,7 +2796,13 @@ article.homelife-services {
     }
 }
 
-article.states-enroll,
+article.states-enroll {
+    
+    .col {
+        text-align: center;
+    }
+}
+
 article.state-tabs {
     div.wrapper {
         text-align: center;
@@ -2808,6 +2814,7 @@ article.state-tabs {
 
 		#state-select {
 			position: relative;
+            margin: auto 10px;
 		}
     }
 }
@@ -2863,6 +2870,174 @@ article.identity-theft {
                 &:last-child {
                     margin-bottom: 0;
                 }
+            }
+        }
+    }
+}
+
+article.electricity-photo {
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+
+    &.photo-1 {
+        background-size: auto 100%;
+        background-position: right;
+        color: #ffffff;
+        min-height: 300px;
+        padding: 50px 100px;
+
+        .quote, cite {
+            margin: 25px auto;
+            font-size: x-large;
+        }
+
+        @include breakpoint(small) {
+            padding: 25px;
+        }
+    }
+
+    &.photo-2 {
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+        background-position: right;
+        background-size: contain;
+        background-color: #000000;
+        color: #ffffff;
+        min-height: 400px;
+        padding: 75px;
+
+        .content {
+            width: calc(100% - 650px);
+            min-width: 300px;
+            padding: 0px;
+
+            @include breakpoint(small-medium) {
+                width: 100%;
+                padding-top: 300px;
+            }
+
+            @media only screen and (max-width: 500px) {
+                padding-top: 150px;
+            }
+        }
+
+        h2 {
+            font-size: xx-large;
+            color: #2f9bce;
+        }
+
+        .quote {
+            margin: 25px auto;
+            font-size: medium;
+        }
+
+        a.button {
+            background-color: #2f9bce;
+            margin-left: 10px;
+            border-radius: 3px;
+        }
+
+        @include breakpoint(small-medium) {
+            background-position: top;
+            padding-bottom: 10px;
+        }
+
+        @include breakpoint(small) {
+            padding: 5px;
+        }
+    }
+
+    &.photo-3 {
+        background-color: #2f9bce;
+        color: #ffffff;
+        padding: 30px;
+
+        .thermostat-house {
+            height: 275px;
+            width: 50%;
+            min-width: 513px;
+            float: left;
+
+            img#thermostat {
+                height: 100%;
+                z-index: 5;
+                position: relative;
+            }
+
+            img#house {
+                height: 50%;
+                position: relative;
+                top: 50%;
+                transform: translate(-58%, -150%);
+            }
+        }
+
+        .text {
+            width: 300px;
+            height: 100%;
+            float: left;
+            position: relative;
+        }
+
+        h1 {
+            color: #ffffff;
+        }
+
+        a.button {
+            background-image: none;
+            background-color: #f87c00;
+            border-radius: 5px;
+        }
+
+        a.button:hover {
+            background-color: #f79431;
+        }
+    }
+
+    &.photo-4 {
+        height: 350px;
+        color: #ffffff;
+        background-repeat: no-repeat;
+        background-size: 150% auto;
+        background-position: center;
+
+        .content {
+            width: 360px;
+
+            h2 {
+                color: #ffffff;
+                margin: 0;
+            }
+
+            p {
+                margin: 8px 0 12px;
+            }
+
+            a.button {
+                background-image: none;
+                background-color: #f87c00;
+                border-radius: 5px;
+            }
+
+            a.button:hover {
+                background-color: #f79431;
+            }
+
+            @include breakpoint (small) {
+                width: 300px;
+            }
+        }
+
+        .background {
+            background-color: rgba(0,0,0,0.7);
+            height: 100%;
+            padding: 75px;
+        }
+
+        @include breakpoint (small) {
+            .background {
+                padding: 25px 0 0 0;
             }
         }
     }

@@ -1,0 +1,71 @@
+﻿@model StreamEnergy.MyStream.Models.Authentication.FindAccountForImpersonation
+<article class="grey-box auth form account-details" ng-controller="ImpersonateMobileCtrl as ctrl">
+    <header ng-if="ctrl.activeStep == 1">
+        <h2>@Html.Sitecore().Field("Look Up Account Header Text")</h2>
+    </header>
+    <form data-val-bind-messages="validations" ng-if="ctrl.activeStep == 1" ng-submit="ctrl.findAccount()">
+        <div class="content" loading-indicator>
+            <div ng-show="ctrl.errorMessage">
+                <div class="notice error">
+                    @Html.Sitecore().Field("Look up Account Error")
+                </div>
+                <hr class="content-divider" />
+            </div>
+            <div ng-show="ctrl.accessError">
+                <div class="notice error">
+                    @Html.Sitecore().Field("Access Error")
+                </div>
+                <hr class="content-divider" />
+            </div>
+            <div class="item">
+                @Html.Sitecore().Field("Body Text")
+            </div>
+            <div class="item">
+                <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label"):</label>
+                @Html.TextBoxFor(m => m.AccountNumber, new { ng_model = "ctrl.accountNumber" })
+            </div>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
+            </div>
+        </footer>
+    </form>
+    <header ng-if="ctrl.activeStep == 2">
+        <h2>@Html.Sitecore().Field("Account Header Text")</h2>
+    </header>
+        <div class="content" ng-if="ctrl.activeStep == 2">
+            <div class="grid border">
+                <div class="col">
+                    <dl class="clearfix">
+                        <dt>Account Number:</dt>
+                        <dd>{{ formData.accountNumber }}</dd>
+                        <dt>Balance:</dt>
+                        <dd>{{ formData.balance | currency }}</dd>
+                        <dt>Account Holder Name:</dt>
+                        <dd>{{ formData.customerName.first }} {{ formData.customerName.last }}</dd>
+                        <dt>Last 4 of Social/TIN:</dt>
+                        <dd>{{ formData.ssn }}</dd>
+                    </dl>
+                </div>
+                <div class="col">
+                    <dl class="clearfix">
+                        <dt>Primary Phone:</dt>
+                        <dd>{{ formData.phone[0].number | phone}}</dd>
+                        <dt>Phone Type:</dt>
+                        <dd>{{ formData.phone[0].category }}</dd>
+                        <dt>Email:</dt>
+                        <dd>{{ formData.email.address }}</dd>
+                        <dt>Billing Address:</dt>
+                        <dd>{{ formData.billingAddress | address }} </dd>
+                    </dl>
+                </div>
+            </div>
+            <footer>
+                <div class="buttons">
+                    <a class="button" target="_blank" ng-href="{{ formData.impersonateUrl }}">@Html.Sitecore().Field("Impersonate Button Text")</a>
+                    <button type="button" class="secondary" ng-click="ctrl.back()">@Html.Sitecore().Field("Back Button Text")</button>
+                </div>
+            </footer>
+        </div>
+</article>

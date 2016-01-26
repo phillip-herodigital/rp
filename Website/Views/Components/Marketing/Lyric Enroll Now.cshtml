@@ -1,0 +1,46 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using Sitecore.Data.Fields
+@{
+    var item = Html.Sitecore().CurrentRendering.Item;
+    var states = ((NameValueListField)item.Fields["State Names"]).NameValues;
+
+    var stateEnrollData = new JArray();
+    foreach (var state in states)
+    {
+        var stateName = Server.UrlDecode(states[state.ToString()].ToString());
+        var stateClass = stateName.ToLower().Replace(",", "").Replace(".", "").Replace(" ", "-");
+        stateEnrollData.Add(new JObject {
+            { "name", stateName },
+            { "value", state.ToString() },
+            { "class", "icon " + stateClass },
+            { "enrollmentURL", item.Fields[state.ToString() + " Enrollment Link"].ToString() },
+            { "rateURL", Sitecore.Links.LinkManager.GetItemUrl(((LinkField) Html.Sitecore().CurrentRendering.Item.Fields[state.ToString() + " Rates Link"]).TargetItem) }
+        });
+    }
+
+    var visitor = Sitecore.Analytics.Tracker.Current;
+
+    var selectedState = string.IsNullOrEmpty(visitor.Interaction.GeoData.Region) ? "TX" : visitor.Interaction.GeoData.Region;
+
+    if (!states.AllKeys.Contains(selectedState) && states.AllKeys.Any())
+    {
+        selectedState = states.AllKeys.First();
+    }
+}
+
+<article class="marketing lyric-enroll-now state-tabs states-enroll">
+    <div class="wrapper">
+        <div class="imgAndText">
+            @Html.Sitecore().Field("Enroll Now Image")
+            <div class="description">
+                @Html.Sitecore().Field("Enroll Now Text")
+            </div>
+        </div>
+        <div class="state" state-selector="@selectedState" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None)); selectedStateKey = "@selectedState";'>
+            @Html.Sitecore().Field("Location Text")
+            <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="stateEnrollData" value="selectedStateKey" data-alignment="right"></div>
+            <a class="button" data-ng-href="{{ selectedState.enrollmentURL }}">@Html.Sitecore().Field("Enroll Now Button")</a>
+        </div>
+    </div>
+</article>

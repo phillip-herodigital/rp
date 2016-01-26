@@ -8,10 +8,12 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
     $scope.isLoading = false;
     $scope.streamConnectError = false;
 
-
     ctrl.lookupAccount = function () {
         ctrl.renewErrorMessage = false;
         ctrl.accountErrorMessage = false;
+        ctrl.isCommercialTXMessage = false;
+        ctrl.isCommercialGAMessage = false;
+        ctrl.isOtherCommericalMessage = false;
         var accountData = {
             'AccountNumber': ctrl.accountNumber,
             'Last4': ctrl.last4SSN
@@ -21,10 +23,34 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                 .success(function (data) {
                     if (data.success) {
                         if (data.availableForRenewal) {
-                            window.location.assign('/enrollment?renewal=true');
+                            if (data.isCommercial) {
+                                ctrl.accountNumber = '';
+                                ctrl.last4SSN = '';
+                                $scope.validations = [];
+                                if (data.state == "TX") {
+                                    ctrl.isCommercialTXMessage = true;
+                                    $scope.isLoading = false;
+                                }
+                                if (data.state == "GA") {
+                                    ctrl.isCommercialGAMessage = true;
+                                    $scope.isLoading = false;
+                                }
+                                if (data.state == "") {
+                                    ctrl.isOtherCommericalMessage = true;
+                                    $scope.isLoading = false;
+                                }
+                            }
+                            else {
+                                if (data.texasOrGeorgia) {
+                                    window.location.assign('/enrollment?renewal=true&renewalType=anon');
+                                }
+                                else {
+                                    $scope.isLoading = false;
+                                    ctrl.TXorGAErrorMessage = true;
+                                }
+                            }
                         }
-                        else
-                        {
+                        else {
                             $scope.isLoading = false;
                             ctrl.renewErrorMessage = true;
                         }

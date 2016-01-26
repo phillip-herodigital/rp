@@ -1,0 +1,28 @@
+﻿@{
+    var accountDataSourceItem = Sitecore.Context.Database.GetItem("{E67AB785-3CBA-41DE-8060-DC389CA4F13A}");
+}
+<header class="site-header" data-fixed-fix>
+    <script id="mobileNav" type="text/ng-template">
+        <nav class="mobile-nav">
+            <ul>
+                @if (Sitecore.Context.IsLoggedIn)
+                {
+                    <li><a href="/api/authentication/callcenterlogout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
+                }
+            </ul>
+        </nav>
+    </script>
+    <div class="wrapper">
+        <a href="/" class="logo">Stream</a>
+        <div class="utility">
+            @if (Sitecore.Context.IsLoggedIn)
+            {
+                <text>Welcome,</text>
+                @Sitecore.Context.User.LocalName
+                <ul>
+                    <li><a href="/api/authentication/callcenterlogout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
+                </ul>
+            }
+        </div>
+    </div>
+</header>

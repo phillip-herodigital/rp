@@ -345,7 +345,8 @@
                             <span ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
                             <span ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Cancel Quote Button")</span>
                         </button>
-                        <button type="button" class="tertiary" ng-if="isRenewal" ng-click="resetRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                        <button type="button" class="tertiary" ng-if="isRenewal && utilityEnrollment.renewalType != 'anon'" ng-click="resetRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                        <button type="submit" class="tertiary" ng-if="isRenewal && utilityEnrollment.renewalType == 'anon'" ng-click="resetAnonymousRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
                     </div>
                 </form>
             </section>

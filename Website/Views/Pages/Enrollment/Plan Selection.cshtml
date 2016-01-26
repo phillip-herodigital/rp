@@ -208,7 +208,8 @@
                 </button>
                 <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
                 <button type="submit" class="tertiary" ng-click="resetEnrollment();" ng-if="!isRenewal">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
-                <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal && utilityEnrollment.renewalType != 'anon'">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                <button type="submit" class="tertiary" ng-click="resetAnonymousRenewal();" ng-if="isRenewal && utilityEnrollment.renewalType == 'anon'">@Html.Sitecore().Field("Cancel Renewal Button")</button>
             </div>
         </footer>
     </article>

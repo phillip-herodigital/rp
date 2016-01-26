@@ -59,7 +59,7 @@
                                         <tr>
                                             <td width="132" height="14" align="center" valign="middle" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight:bold; color:#ffffff; text-align:center; line-height: 14px; ; -webkit-text-size-adjust:none; min-width:132px" st-title="fulltext-btn">
                                                 <a href="@Html.Raw(Sitecore.Links.LinkManager.GetItemUrl(sc.CurrentItem))" style="text-decoration: none;color: #ffffff; text-align:center;">
-                                                    <span>READ STORY</span>
+                                                    <span>@Html.Sitecore().Field("Read Text")</span>
                                                     <img src="@this.ViewData["buttonIcon"]" alt="" border="0" style="@iconstyle; margin-left:5px;">
                                                 </a>
                                             </td>

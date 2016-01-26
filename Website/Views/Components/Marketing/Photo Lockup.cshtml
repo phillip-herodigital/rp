@@ -16,9 +16,19 @@
     classes.Add(sc.CurrentItem["Custom Css Class"]);
     classes.Add(sc.LookupItem("Background Image Position").SafeFieldValue("CSS Class"));
 }
-@if (!Html.Sitecore().HasValue("Background Image"))
-{
-    <aside class="module quote @string.Join(" ", classes)" style="background-color: #71b243; color: white">
+@{
+    var background = "none";
+    if (Html.Sitecore().HasValue("Full Background Image"))
+    {
+        Sitecore.Data.Fields.ImageField background_image = Html.Sitecore().CurrentItem.Fields["Full Background Image"];
+        var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions { AlwaysIncludeServerUrl = true };
+        background = Sitecore.Resources.Media.MediaManager.GetMediaUrl(background_image.MediaItem, mediaOptions);
+
+    }
+    if (!Html.Sitecore().HasValue("Background Image"))
+    {
+
+    <aside class="module quote @string.Join(" ", classes)" style="background-color: #71b243; color: white; background-image: url(@background); background-repeat: no-repeat">
         <blockquote>
             @Html.Sitecore().Field("Quote")
             @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Citation").ToString()))
@@ -33,7 +43,7 @@
 }
 else
 {
-    <article id="@(sc.CurrentItem["Custom ID"] == string.Empty ? null : sc.CurrentItem["Custom ID"])" class="marketing photoLockup @string.Join(" ", classes)">
+    <article id="@(sc.CurrentItem["Custom ID"] == string.Empty ? null : sc.CurrentItem["Custom ID"])" class="marketing photoLockup @string.Join(" ", classes)" style="background-image: url(@background); background-repeat: no-repeat">
         <div class="wrapper">
             @if (!Html.Sitecore().CurrentItem.IsChecked("Image on Right").GetValueOrDefault())
             {
@@ -84,4 +94,5 @@ else
             <div style="clear: both;"></div>
         </div>
     </article>
+}
 }
