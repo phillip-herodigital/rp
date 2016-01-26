@@ -1097,12 +1097,12 @@ article.win-back {
 		border-radius: 0px;
 		background-image: url("../i/marketing/intro-background.jpg");
 		height: 305px;
-		text-align: center;
+		display: flex;
+		justify-content: center;
 		h1 {
 			font-size: 74px;
 			margin: auto 0px;
 			color: #fff;
-			padding-top: 100px;
 		}
 	}
 	h3 {
@@ -1120,7 +1120,11 @@ article.win-back {
 		text-align: center;
 		margin-bottom: 20px;
 		div {
-			background-color: #f8a131;
+			background: #ffbc3f; /* Old browsers */
+			background: -moz-linear-gradient(top, #ffbc3f 0%, #f8a131 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top, #ffbc3f 0%,#f8a131 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, #ffbc3f 0%,#f8a131 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffbc3f', endColorstr='#f8a131',GradientType=0 ); /* IE6-9 */
 			color: #fff;
 			font-size: 45px;
 			width: 120px;
@@ -1148,6 +1152,9 @@ article.win-back {
 			font-weight: 500;
 			text-align: center;
 		}
+		@include breakpoint(small) {
+			width: 80%;
+		}
 	}
 	.new-rate {
 		background-image: url("../i/marketing/new-rate.png");
@@ -1167,34 +1174,58 @@ article.win-back {
 			width: auto;
 			padding: 0px 20px;
 		}
+		 @include breakpoint(small-medium) {
+			background-position: bottom left;
+			border-radius: 10px;
+			background-color: #97c93d;
+			width: auto;
+			height: auto;
+		 }
 	}
 	.get-started {
 		text-align: center;
 	}
 	.reasons {
 		border-top: 6px solid #0071b9;
-
-		
 		background: #02a9e1; /* Old browsers */
-		background: no-repeat -moz-linear-gradient(top, #02a9e1 0%, #ffffff 100%, #207cca 100%, #7db9e8 100%); /* FF3.6-15 */
-		background: no-repeat -webkit-linear-gradient(top, #02a9e1 0%,#ffffff 100%,#207cca 100%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
-		background: no-repeat linear-gradient(to bottom, #02a9e1 0%,#ffffff 100%,#207cca 100%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#02a9e1', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+		background: no-repeat -moz-linear-gradient(top, #02a9e1 0%, #ffffff 100%); /* FF3.6-15 */
+		background: no-repeat -webkit-linear-gradient(top, #02a9e1 0%,#ffffff 100%); /* Chrome10-25,Safari5.1-6 */
+		background: no-repeat linear-gradient(to bottom, #02a9e1 0%,#ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#02a9e1', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 		-moz-background-size:100% 280px;
 		-webkit-background-size:100% 280px;
 		h2 {
 			color: #fff;
-			font-size: 48px;
+			font-size: 40px;
+			text-align: center;
 		}
 		.grid .col {
+			background-repeat: no-repeat;
+			background-position: top center;
+			padding-top: 120px;
+			&.simple-billing {
+				background-image: url("../i/marketing/simple-billing.png");
+			}
+			&.best-rate {
+				background-image: url("../i/marketing/best-rate.png");
+			}
+			&.customer-service {
+				background-image: url("../i/marketing/customer-service.png");
+			}
 			h4 {
-				/*color: #60bfde;*/
+				color: #60bfde;
 				width: 48%;
 				margin: 1em auto;
 				text-align: center;
+				@include breakpoint(small) {
+					width: 90%;
+				}
 			}
 			p {
-				width: 80%;
+				width: 70%;
+				@include breakpoint(small) {
+					width: 90%;
+				}
 			}
 		}
 		p.asterisk {
@@ -1215,6 +1246,14 @@ article.win-back {
 			font-size: 32px;
 			padding-top: 20px;
 		}
+		@include breakpoint(small) {
+			background-position: bottom center;
+			background-color: #0071b9;
+			height: auto;
+			.button {
+				margin-bottom: 15px;
+			}
+		}
 	}
 	.info-header {
 		background-image: url("../i/marketing/confirm-info.png");
@@ -1225,6 +1264,11 @@ article.win-back {
 		.wrapper {
 			font-size: 34px;
 			padding-top: 15px;
+		}
+		@include breakpoint(small) {
+			background-image: none;
+			background-color: #0071b9;
+			height: auto;
 		}
 	}
 }
