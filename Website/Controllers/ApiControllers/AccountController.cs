@@ -979,6 +979,82 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region One-time Renewal
+
+        [HttpPost]
+        public async Task<AccountForOneTimeRenewalResponse> SetupAnonymousRenewal(AccountForOneTimeRenewalRequest request)
+        {
+            var acct = await accountService.GetAccountDetails(request.AccountNumber, request.Last4);
+            if (acct == null)
+            {
+                return new AccountForOneTimeRenewalResponse
+                {
+                    Success = false
+                };
+            }
+            else
+            {
+                if (!acct.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible)))
+                {
+                    return new AccountForOneTimeRenewalResponse
+                    {
+                        Success = true,
+                        AvailableForRenewal = false
+                    };
+                }
+                else
+                {
+                    if (acct.SubAccounts.FirstOrDefault().CustomerType.ToString() == "Commercial")
+                    {
+                        var state = "";
+                        if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "TX")
+                        {
+                            state = "TX";
+                        }
+                        if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "GA")
+                        {
+                            state = "GA";
+                        }
+                        return new AccountForOneTimeRenewalResponse
+                        {
+                            Success = true,
+                            AvailableForRenewal = true,
+                            IsCommercial = true,
+                            State = state
+                        };
+                    }
+                    else
+                    {
+                        var subAccount = acct.SubAccounts.First(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible));
+                        if (subAccount.ServiceAddress.StateAbbreviation == "TX" || subAccount.ServiceAddress.StateAbbreviation == "GA")
+                        {
+                            await enrollmentController.Initialize();
+                            await enrollmentController.SetupRenewal(acct, subAccount);
+                            return new AccountForOneTimeRenewalResponse
+                            {
+                                Success = true,
+                                AvailableForRenewal = true,
+                                IsCommercial = false,
+                                TexasOrGeorgia = true
+                            };
+                        }
+                        else
+                        {
+                            return new AccountForOneTimeRenewalResponse
+                            {
+                                Success = true,
+                                AvailableForRenewal = true,
+                                IsCommercial = false,
+                                TexasOrGeorgia = false
+                            };
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #region One-time Payment
 
         [HttpPost]

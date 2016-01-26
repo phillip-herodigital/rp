@@ -160,6 +160,13 @@
         })
     };
 
+    service.resetAnonymousRenewal = function () {
+        $http.get(urlPrefix + 'reset')
+        .success(function () {
+            $window.location = '/services/one-time-renewal';
+        })
+    };
+
     /**
     * Set service information
     * 

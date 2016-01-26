@@ -345,7 +345,8 @@
                             <span ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
                             <span ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Cancel Quote Button")</span>
                         </button>
-                        <button type="button" class="tertiary" ng-if="isRenewal" ng-click="resetRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                        <button type="button" class="tertiary" ng-if="isRenewal && utilityEnrollment.renewalType != 'anon'" ng-click="resetRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                        <button type="submit" class="tertiary" ng-if="isRenewal && utilityEnrollment.renewalType == 'anon'" ng-click="resetAnonymousRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
                     </div>
                 </form>
             </section>
@@ -554,7 +555,7 @@
                 <div class="line-item clearfix">
                     <div class="description">
                         <h2>{{selectedOffer.offer.name}}</h2>
-                        <p>{{selectedOffer.offer.description}}</p>
+                        <p ng-bind-html="selectedOffer.offer.description | unsafe"></p>
                         <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                     </div>
                     <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
@@ -583,7 +584,7 @@
                 <div class="line-item clearfix">
                     <div class="description">
                         <h2>{{selectedOffer.offer.name}}</h2>
-                        <p>{{selectedOffer.offer.description}}</p>
+                        <p ng-bind-html="selectedOffer.offer.description | unsafe"></p>
                         <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
                     </div>
                     <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per Therm")</div>

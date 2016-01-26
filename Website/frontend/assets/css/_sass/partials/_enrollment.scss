@@ -149,6 +149,14 @@
         display: none;
     }
 
+     .noticeRenewalAlert {
+        border: 2px solid darken($brand-alert, 15%);
+        background-color: $brand-alert;
+        padding: 15px;
+        border-radius:0px;
+        margin-bottom: 30px;
+    }
+
     #state-select {
         min-width: 145px;
         button {
@@ -1034,8 +1042,10 @@
         button {
             white-space: nowrap;
             background-image: none;
-            width: 100%;
             margin-right: 0 !important;
+            width: auto;
+            padding: 10px 25px;
+            min-width: 130px;
             &.secondary {
                 color: #5cab0d;
                 border: none;
@@ -1115,7 +1125,7 @@
         }
         .select-plan {
             position: relative;
-            width: 130px;
+            min-width: 130px;
             padding: 15px;
             border-right: none;
             vertical-align: middle;

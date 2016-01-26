@@ -5,6 +5,9 @@
         <div class="wrapper cols-2">
             <section>
                 <form name="selectPlan" data-val-bind-messages="validations">
+                    <div class="noticeRenewalAlert" ng-if="isRenewal">
+                        @Html.Sitecore().Field("Eligible For Renewal Message")
+                    </div>
                     <article class="form enrollment__box" ng-if="false">
                         <header>
                             <h1 ng-if="!isRenewal">@Html.Sitecore().Field("Choose Header")</h1>
@@ -205,7 +208,8 @@
                 </button>
                 <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
                 <button type="submit" class="tertiary" ng-click="resetEnrollment();" ng-if="!isRenewal">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
-                <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                <button type="submit" class="tertiary" ng-click="resetRenewal();" ng-if="isRenewal && utilityEnrollment.renewalType != 'anon'">@Html.Sitecore().Field("Cancel Renewal Button")</button>
+                <button type="submit" class="tertiary" ng-click="resetAnonymousRenewal();" ng-if="isRenewal && utilityEnrollment.renewalType == 'anon'">@Html.Sitecore().Field("Cancel Renewal Button")</button>
             </div>
         </footer>
     </article>
