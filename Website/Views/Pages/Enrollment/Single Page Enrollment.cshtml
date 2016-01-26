@@ -39,8 +39,23 @@
             <section>
                 <form data-val-bind-messages="validations" name="accountInfo" ng-submit="completeStep()">
                     @Html.ValidationSummary()
+                    <div ng-if="addressIneligible">
+                        <div class="notice error">
+                            @Html.Sitecore().Field("Ineligible Address Message Text")
+                        </div>
+                    </div>
+                    <div ng-if="esiIdInvalid">
+                        <div class="notice error">
+                            @Html.Sitecore().Field("Invalid ESIID Message Text")
+                        </div>
+                    </div>
+                    <div ng-if="ssnMismatch">
+                        <div class="notice error">
+                            @Html.Sitecore().Field("SSN Mismatch Message Text")
+                        </div>
+                    </div>
                     @* Loop through utility addresses *@
-                    <article class="enrollment__box offer-info form" ng-init="footnotes['TexasElectricity'] = @Html.JsonStringifyFields(planSelectionItem, "Electricity Rate Footnote", "Electricity Term Footnote")">
+                    <article class="enrollment__box offer-info form" ng-init="footnotes['TexasElectricity'] = @Html.JsonStringifyFields(planSelectionItem, "Electricity Rate Footnote", "Electricity Term Footnote")" ng-if="!esiIdInvalid">
                         <header>
                             <h1>@Html.Sitecore().Field("Plan Information Header")</h1>
                         </header>
@@ -78,10 +93,10 @@
                                 <div class="edit-address continue-button" ng-if="addressEditing">
                                     <button type="button" class="secondary" ng-disabled="item.tempLocation.capabilities.length == 0" ng-click="getClientData(item.tempLocation.capabilities[0].esiId);">@Html.Sitecore().Field("Continue Button Text")</button>
                                 </div>
-                                
+
                             </div>
 
-                            <div class="enrollment__utility-plans plans-table-wrapper">
+                            <div class="enrollment__utility-plans plans-table-wrapper" ng-if="!addressEditing">
                                 <table class="plan-selection-table">
                                     <thead class="hide-small">
                                         <tr>
@@ -422,7 +437,7 @@
             </section>
             <aside>
                 <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
-                    <article class="enrollment__box outage-information">
+                    <article class="enrollment__box outage-information" ng-if="!addressEditing && !esiIdInvalid">
                         <header>
                             <p><strong>@Html.Sitecore().Field("Outage Header", cartItem)</strong></p>
                         </header>

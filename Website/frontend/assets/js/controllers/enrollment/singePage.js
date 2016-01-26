@@ -10,19 +10,34 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
         if (esiId != undefined) {
             $scope.utilityEnrollment.esiId = esiId;
         }
+        $scope.esiIdInvalid = false;
+        $scope.addressIneligible = false;
+        $scope.ssnMismatch = false;
         $http.get('/api/enrollment/previousClientData?esiId=' + $scope.utilityEnrollment.esiId).success(function (data, status, headers, config) {
-                var email = data.contactInfo.email.address;
-                var atIndex = email.indexOf("@");
-                $scope.origEmail = data.contactInfo.email.address;
-                $scope.origPhone = data.contactInfo.phone[0].number;
-                data.contactInfo.email.address = email[0] + new Array(atIndex).join( "*" ) + email.substring(atIndex);
-                data.contactInfo.phone[0].number = "***-***-" + data.contactInfo.phone[0].number.substring(data.contactInfo.phone[0].number.length - 4);
-                enrollmentService.setClientData(data);
-                enrollmentCartService.setActiveServiceIndex(0);
-                $scope.item = $scope.utilityAddresses()[0];
-                $scope.plan = enrollmentCartService.getUtilityAddresses()[0].offerInformationByType[0].value.offerSelections[0].offer;
                 $scope.isLoading = false;
-                $scope.addressEditing = false;
+                if (data.validations.length) {
+                    if (data.validations[0].memberName == "Location Ineligible") {
+                        $scope.addressIneligible = true;
+                        $scope.addressEditing = true;
+                    }
+                    if (data.validations[0].memberName == "ESIID Invalid") {
+                        $scope.esiIdInvalid = true;
+                        $scope.addressEditing = true;
+                    }
+                } else {
+                    var email = data.contactInfo.email.address;
+                    var atIndex = email.indexOf("@");
+                    $scope.origEmail = data.contactInfo.email.address;
+                    $scope.origPhone = data.contactInfo.phone[0].number;
+                    data.contactInfo.email.address = email[0] + new Array(atIndex).join( "*" ) + email.substring(atIndex);
+                    data.contactInfo.phone[0].number = "***-***-" + data.contactInfo.phone[0].number.substring(data.contactInfo.phone[0].number.length - 4);
+                    enrollmentService.setClientData(data);
+                    enrollmentCartService.setActiveServiceIndex(0);
+                    $scope.item = $scope.utilityAddresses()[0];
+                    $scope.plan = enrollmentCartService.getUtilityAddresses()[0].offerInformationByType[0].value.offerSelections[0].offer;
+                    $scope.addressEditing = false;
+                }
+                
             });
     };
 
@@ -162,12 +177,15 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
             if ($scope.accountInformation.contactInfo.email.address.substr(1,1) == "*") {
                 $scope.accountInformation.contactInfo.email.address = $scope.origEmail;
             }
-
+            $scope.ssnMismatch = false;
             enrollmentService.setSinglePageOrder({
                 additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms
             }).then(function (data) {
                 $scope.validations = data.validations;
+                if (data.validations[0].memberName == "SSN Mismatch") {
+                    $scope.ssnMismatch = true;
+                }
             });
         }
 

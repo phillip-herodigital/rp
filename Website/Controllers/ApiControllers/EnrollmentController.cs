@@ -315,11 +315,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public  async Task<ClientData> PreviousClientData(string esiId)
         {
-            
             // make an external service call to get the data
             await Initialize();
 
-
+            // lookup the customer info in the internal DB
             var location = new DomainModels.Enrollments.Location
             {
                 Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "77087", PostalCodePlus4 = "1429", City = "Houston", Line1 = "123 Winkler Dr", Line2 = "Apt 124" },
@@ -330,22 +329,50 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                 }
             };
+            var customerContact = new CustomerContact
+                {
+                    Name = new DomainModels.Name { First = "Jordan", Last = "Campbell" },
+                    Phone = new[] { 
+                                new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = "223-456-4574" }
+                            },
+                    Email = new DomainModels.Email { Address = "jordancampbell@gmail.com" },
+                };
+            var socialSecurityNumber = "444556666";
+            var mailingAddress = new DomainModels.Address
+                {
+                    City = "Pflugerville",
+                    StateAbbreviation = "TX",
+                    Line1 = "3300 Killingsworth Ln",
+                    UnitNumber = "Lot 265",
+                    PostalCode5 = "78660",
+                    PostalCodePlus4 = "8434",
+                };
 
+            // if the ESIID isn't in the list, return a validation error
+            if (esiId == "")
+            {
+                var invalidResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                invalidResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "ESIID Invalid", Text = "ESIID Invalid" }, 1);
+                return invalidResult;
+            }
+            
+            // make sure the location is eligible for an enrollment
+            PremiseVerificationResult isEligible = await enrollmentService.VerifyPremise(location);
+            if (isEligible != PremiseVerificationResult.Success)
+            {
+                var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "Location Ineligible", Text = "Location Ineligible" }, 1);
+                return ineligibleResult;
+            }
+
+            // run the load offers call to get offers for this address
             stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { location });
-
             var texasElectricityOffer = stateHelper.InternalContext.AllOffers.First().Value.Offers.Where(offer => offer.Id.Contains("TX_R12Switch")).FirstOrDefault() as DomainModels.Enrollments.TexasElectricity.Offer;
             var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption {};
             var userContext = new DomainModels.Enrollments.UserContext
             {
-                ContactInfo = new CustomerContact 
-                {
-                    Name = new DomainModels.Name {First = "Jordan", Last = "Campbell"},
-                    Phone = new[] { 
-                                new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = "223-456-4574" }
-                            },
-                    Email = new DomainModels.Email {Address = "jordancampbell@gmail.com"},
-                },
-                SocialSecurityNumber = "444556666",
+                ContactInfo = customerContact,
+                SocialSecurityNumber = socialSecurityNumber,
                 Services = new DomainModels.Enrollments.LocationServices[]
                 {
                     new DomainModels.Enrollments.LocationServices 
@@ -361,24 +388,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         }
                     }
                 },
-                MailingAddress = new DomainModels.Address
-                {
-                    City = "Pflugerville",
-                    StateAbbreviation = "TX",
-                    Line1 = "3300 Killingsworth Ln",
-                    UnitNumber = "Lot 265",
-                    PostalCode5 = "78660",
-                    PostalCodePlus4 = "8434",
-                },
+                MailingAddress = mailingAddress,
             };
 
             var allOffers = new Dictionary<Location, LocationOfferSet>();
             allOffers.Add(location, new LocationOfferSet{Offers = new IOffer[] {texasElectricityOffer}});
 
-            // verify that the ESI ID is in the list  - if not, return an error
-
-            // save the data in the stateMachine
-            
+            // save the data in the stateMachine  
             stateHelper.Context.ContactInfo = userContext.ContactInfo;
             stateHelper.Context.SecondaryContactInfo = userContext.SecondaryContactInfo;
             stateHelper.Context.MailingAddress = userContext.MailingAddress;
@@ -874,11 +890,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             // Verify the SSN
             if (stateMachine.Context.SocialSecurityNumber != request.SocialSecurityNumber) 
             {
-                await stateMachine.Process(typeof(DomainModels.Enrollments.EnrollmentErrorState));
-                return ClientData();
+                var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "SSN Mismatch", Text = "SSN Mismatch" }, 1);
+                return ineligibleResult;
             }
-
-
             // Finalize the Enrollment
             foreach (var locationService in stateMachine.Context.Services)
             {

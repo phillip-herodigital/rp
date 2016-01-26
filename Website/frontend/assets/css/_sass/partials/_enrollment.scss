@@ -1588,7 +1588,8 @@
         background: -28px 14px no-repeat;
         background-color: #fafafa;
         background-image: image-url('enrollment/energy_icon_light.png');
-        padding: 20px 15px 20px 30px;
+        margin-bottom: 20px !important;
+        padding: 20px 15px 20px 30px !important;
         border: 1px solid #e7e7e7;
         @include border-radius(5px);
         @include box-shadow(0px 0px 5px 2px rgba(248,161,49,0.5));
@@ -1635,9 +1636,6 @@
                 width: 100%;
             }
         }
-        .change-address {
-
-        }
     }
     .offer-info {
         .content {
@@ -1646,7 +1644,7 @@
         }
     }
     .plans-table-wrapper {
-        margin: 20px -20px 0;
+        margin: 0 -20px;
         .plan-selection-table {
             margin-bottom: 5px;
             tbody {
