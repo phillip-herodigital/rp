@@ -309,6 +309,108 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         /// <summary>
+        /// Gets all the client data for a previous customer for single-page enrollments
+        /// </summary>
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public  async Task<ClientData> PreviousClientData(string esiId)
+        {
+            // make an external service call to get the data
+            await Initialize();
+
+            // lookup the customer info in the internal DB
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "77087", PostalCodePlus4 = "1429", City = "Houston", Line1 = "123 Winkler Dr", Line2 = "Apt 124" },
+                Capabilities = new DomainModels.IServiceCapability[]
+                {
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint", EsiId = "1008901018146760804100" },
+                    new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch },
+                    new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                }
+            };
+            var customerContact = new CustomerContact
+                {
+                    Name = new DomainModels.Name { First = "Jordan", Last = "Campbell" },
+                    Phone = new[] { 
+                                new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = "223-456-4574" }
+                            },
+                    Email = new DomainModels.Email { Address = "jordancampbell@gmail.com" },
+                };
+            var socialSecurityNumber = "444556666";
+            var mailingAddress = new DomainModels.Address
+                {
+                    City = "Pflugerville",
+                    StateAbbreviation = "TX",
+                    Line1 = "3300 Killingsworth Ln",
+                    UnitNumber = "Lot 265",
+                    PostalCode5 = "78660",
+                    PostalCodePlus4 = "8434",
+                };
+
+            // if the ESIID isn't in the list, return a validation error
+            if (esiId == "")
+            {
+                var invalidResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                invalidResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "ESIID Invalid", Text = "ESIID Invalid" }, 1);
+                return invalidResult;
+            }
+            
+            // make sure the location is eligible for an enrollment
+            PremiseVerificationResult isEligible = await enrollmentService.VerifyPremise(location);
+            if (isEligible != PremiseVerificationResult.Success)
+            {
+                var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "Location Ineligible", Text = "Location Ineligible" }, 1);
+                return ineligibleResult;
+            }
+
+            // run the load offers call to get offers for this address
+            stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { location });
+            var texasElectricityOffer = stateHelper.InternalContext.AllOffers.First().Value.Offers.Where(offer => offer.Id.Contains("TX_R12Switch")).FirstOrDefault() as DomainModels.Enrollments.TexasElectricity.Offer;
+            var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption {};
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = customerContact,
+                SocialSecurityNumber = socialSecurityNumber,
+                Services = new DomainModels.Enrollments.LocationServices[]
+                {
+                    new DomainModels.Enrollments.LocationServices 
+                    { 
+                        Location = location, 
+                        SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                        {
+                            new DomainModels.Enrollments.SelectedOffer
+                            {
+                                Offer = texasElectricityOffer,
+                                OfferOption = offerOption,
+                            }
+                        }
+                    }
+                },
+                MailingAddress = mailingAddress,
+            };
+
+            var allOffers = new Dictionary<Location, LocationOfferSet>();
+            allOffers.Add(location, new LocationOfferSet{Offers = new IOffer[] {texasElectricityOffer}});
+
+            // save the data in the stateMachine  
+            stateHelper.Context.ContactInfo = userContext.ContactInfo;
+            stateHelper.Context.SecondaryContactInfo = userContext.SecondaryContactInfo;
+            stateHelper.Context.MailingAddress = userContext.MailingAddress;
+            stateHelper.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
+            stateHelper.Context.Services = userContext.Services;
+            stateHelper.Context.IsSinglePage = true;
+            stateHelper.InternalContext.AllOffers = allOffers;
+            await stateMachine.ContextUpdated();
+
+            var result = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+
+            // return the data to the page
+            return result;
+        }
+
+        /// <summary>
         /// Gets all the client data, such as for a page refresh
         /// </summary>
         /// <returns></returns>
@@ -344,6 +446,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
+                IsSinglePage = stateMachine.Context.IsSinglePage,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
@@ -535,7 +638,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private async Task ResetPreAccountInformation()
         {
-            if (stateHelper.Context.IsRenewal)
+            if (stateHelper.Context.IsRenewal || stateHelper.Context.IsSinglePage)
                 return;
             if (stateHelper.InternalContext != null)
             {
@@ -634,7 +737,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
-            else if (stateMachine.Context.IsRenewal && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
+            else if ((stateMachine.Context.IsRenewal || stateMachine.Context.IsSinglePage) && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
@@ -678,7 +781,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<ClientData> Resume()
         {
             await Initialize();
-            await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+            if (stateMachine.Context.IsSinglePage)
+            {
+                await stateMachine.Process();
+            }
+            else
+            {
+                await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+            }
 
             var resultData = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
             await GenerateEndOfEnrollmentScreenshot(resultData);
@@ -763,6 +873,50 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return resultData;
         }
 
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<ClientData> SinglePageOrder([FromBody]SinglePageOrder request)
+        {
+            await Initialize();
+
+            // Update the stateMachine with the form Data
+            stateMachine.Context.ContactInfo = request.ContactInfo;
+            stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
+            stateMachine.Context.MailingAddress = request.MailingAddress;
+            stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+            stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
+            stateHelper.State = typeof(DomainModels.Enrollments.AccountInformationState);
+
+            // Verify the SSN
+            if (stateMachine.Context.SocialSecurityNumber != request.SocialSecurityNumber) 
+            {
+                var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "SSN Mismatch", Text = "SSN Mismatch" }, 1);
+                return ineligibleResult;
+            }
+            // Finalize the Enrollment
+            foreach (var locationService in stateMachine.Context.Services)
+            {
+                foreach (var offer in locationService.SelectedOffers)
+                {
+                    offer.WaiveDeposit = false;
+                    offer.DepositAlternative = false;
+                }
+            }
+
+            await stateMachine.ContextUpdated();
+
+            await stateMachine.Process();
+
+            var resultData = ClientData();
+
+            await GenerateEndOfEnrollmentScreenshot(resultData);
+
+            // Send the response
+            return resultData;
+
+        }
+
         private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)
         {
             if (redisDatabase != null && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.EnrollmentScreenshotTaken)
@@ -802,7 +956,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         {"accountNumbers", string.Join(",", acctNumbers)},
                     });
                 }
-                if (resultData.AssociateInformation == null && !resultData.IsRenewal)
+                if (resultData.AssociateInformation == null && !resultData.IsRenewal && !resultData.IsSinglePage)
                 {
                     await logger.Record(new LogEntry()
                     {

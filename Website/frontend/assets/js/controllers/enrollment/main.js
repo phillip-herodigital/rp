@@ -19,6 +19,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     $scope.utilityEnrollment = {
         requestedPlanId: getParameterByName('UtilityPlanId'),
         renewalType: getParameterByName('renewalType'),
+        esiId: getParameterByName('esiid'),
     };
 
     $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
