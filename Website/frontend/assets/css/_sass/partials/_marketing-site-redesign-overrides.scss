@@ -146,7 +146,7 @@ article {
 
             h1 {
                 text-align:left;
-    }
+            }
 
             .wrapper {
                 padding: 16px 0;
@@ -161,6 +161,37 @@ article {
                     > .wrapper {
                         background-image: none;
                     }
+                }
+            }
+        }
+
+        .security, .voice {
+            h1 {
+                text-align: left;
+            }
+            p {
+                text-align: left;
+            }
+        }
+
+        &.home-services-3 {
+            background-color: #8e4b9d;
+                        
+            h2 {
+                margin: 0;
+                p {
+                    margin-top: 16px;
+                    font-size: 16px;
+                }
+            }
+
+            p {
+                color: #FFFFFF;
+                font-size: 32px;
+                line-height: 36px;
+                margin: 0;
+                strong, b {
+                    text-transform: uppercase;
                 }
             }
         }
@@ -185,6 +216,14 @@ article {
             h1 {
                 strong, b {
                     color: #51b35a;
+                }
+            }
+        }
+
+        &.home {
+            h1 {
+                strong, b {
+                    color: #8e4b9d;
                 }
             }
         }
@@ -513,9 +552,11 @@ article.service-links {
     .grid .col {
         background: left center no-repeat;
         padding-left: 70px;
+
         &:first-child {
             padding-left: 70px;
         }
+
         h2 {
             margin: 0 0 5px 0;
             font-size: 24px;
@@ -538,7 +579,11 @@ article.service-links {
 
         &.protect {
             background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
-            padding-right: 70px;
+            //padding-right: 70px;
+        }
+
+        &.home {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_home_icon.png');
         }
     }
 }
@@ -569,7 +614,6 @@ article.service-tabs {
         &.mobile {
             background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_mobile_icon.png');
         }
-
         &.energy {
             background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_energy_icon.png');
             &:hover>.dropdown-menu {
@@ -578,6 +622,9 @@ article.service-tabs {
         }
         &.protect {
             background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
+        }
+        &.home {
+            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_home_icon.png');
         }
     }
     .dropdown-menu {

@@ -1,0 +1,12 @@
+﻿<article class="marketing" ng-controller="voiceCtrl">
+    <div class="voice-hub-features">
+        <hr />
+        <div class="heading-wrapper" ng-click="toggleHubFeatures()">
+            <img id="dropDownImage" class="rotate0"src="~/frontend/assets/i/marketing/redesign/Modules/Services/drop_down_image.png" />
+            <p class="drop-down" ng-hide="showHubFeatures">@Html.Sitecore().Field("Drop Down Text1")</p>
+            <p class="drop-down" ng-show="showHubFeatures">@Html.Sitecore().Field("Drop Down Text2")</p>
+        </div>
+        <p id="slidingText" class="slideOut">@Html.Sitecore().Field("Features Text")</p>
+        <hr />
+    </div>
+</article>
