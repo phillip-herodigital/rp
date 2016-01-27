@@ -91,7 +91,7 @@
                                     </div>
                                 </div>
                                 <div class="edit-address continue-button" ng-if="addressEditing">
-                                    <button type="button" class="secondary" ng-disabled="item.tempLocation.capabilities.length == 0" ng-click="getClientData(item.tempLocation.capabilities[0].esiId);">@Html.Sitecore().Field("Continue Button Text")</button>
+                                    <button type="button" class="secondary" ng-disabled="item.tempLocation.capabilities.length == 0" ng-click="getClientData(item.tempLocation);">@Html.Sitecore().Field("Continue Button Text")</button>
                                 </div>
 
                             </div>
