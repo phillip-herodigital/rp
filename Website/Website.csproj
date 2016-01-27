@@ -25,7 +25,6 @@
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <IsCompassProject>True</IsCompassProject>
     <TargetFrameworkProfile />
-    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test - Sitecore|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
