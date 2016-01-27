@@ -415,6 +415,7 @@ $local-meeting-color: #00a8e1;
 }
 .currents__carousel {
     margin-top: -180px;
+    z-index: 9999;
     @include breakpoint(small) {
         margin-top: 0;
     }
