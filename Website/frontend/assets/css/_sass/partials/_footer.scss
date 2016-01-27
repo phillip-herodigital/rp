@@ -122,4 +122,13 @@ footer.site-footer {
 			}
 		}
 	}
+	&.win-back-footer {
+		border-top: 0px;
+		.logos {
+			margin-top: 0px;
+		}
+		.footnotes {
+			padding: 10px 0;
+		}
+	}
 }
