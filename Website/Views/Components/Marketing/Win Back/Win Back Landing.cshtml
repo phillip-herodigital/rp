@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="switch">
-        <div class="button">@Html.Sitecore().Field("Switch Button")</div>
+        <a href="" ng-click="scrollTo('GetStarted')" class="button">@Html.Sitecore().Field("Switch Button")</a>
     </div>
     <div>
         <p class="former-customer">@Html.Sitecore().Field("Former Customer")</p>
@@ -24,7 +24,7 @@
         <p>@Html.Sitecore().Field("Switching Paragraph 1")</p>
         <p>@Html.Sitecore().Field("Switching Paragraph 2")</p>
         <div class="get-started">
-            <div class="button">@Html.Sitecore().Field("Switching Button")</div>
+            <a href="" ng-click="scrollTo('GetStarted')" class="button">@Html.Sitecore().Field("Switching Button")</a>
         </div>
     </div>
     <div class="reasons">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col best-rate">
                     <h4><strong>@Html.Sitecore().Field("Reason 2 Header")</strong></h4>
-                    <p>@Html.Sitecore().Field("Reason 2 Paragraph")</p>
+                    <p>@Html.Sitecore().Field("Reason 2 Paragraph, landingItem")</p>
                 </div>
                 <div class="col customer-service">
                     <h4><strong>@Html.Sitecore().Field("Reason 3 Header")</strong></h4>
@@ -49,6 +49,6 @@
     </div>
     <div class="lock-in">
         <h2>@Html.Sitecore().Field("Lock In Header")</h2>
-        <div class="button">@Html.Sitecore().Field("Lock In Button")</div>
+        <a href="" ng-click="scrollTo('GetStarted')" class="button">@Html.Sitecore().Field("Lock In Button")</a>
     </div>
 </article>
