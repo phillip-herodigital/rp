@@ -1673,6 +1673,8 @@
     <Content Include="Views\Components\Callcenter Header.cshtml" />
     <Content Include="Views\Components\Authentication\Callcenter Login.cshtml" />
     <Content Include="Views\Pages\Enrollment\Single Page Enrollment.cshtml" />
+    <Content Include="Views\Components\Win Back Footer.cshtml" />
+    <Content Include="Views\Components\Marketing\Win Back\Win Back Landing.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
