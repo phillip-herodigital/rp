@@ -19,6 +19,10 @@ namespace StreamEnergy.Interpreters
 
         string AccountNumber { get; }
 
+        string GroupId { get; }
+
+        string RefSite { get; }
+
         Func<string> GetTargetDpiUrlBuilder();
 
         JObject ToStreamConnectSalesInfo();

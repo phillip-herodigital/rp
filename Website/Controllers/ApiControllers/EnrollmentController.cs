@@ -106,7 +106,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
             dpiEnrollmentParameters.Initialize(enrollmentDpiParameters);
-            if (stateHelper.StateMachine.InternalContext.AssociateInformation == null || stateHelper.StateMachine.InternalContext.AssociateInformation.AssociateId != dpiEnrollmentParameters.AccountNumber)
+
+            if (dpiEnrollmentParameters.RefSite.ToUpper() == "FER")
+            {
+                stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociateByGroupId(dpiEnrollmentParameters.GroupId);
+            }
+            else if (stateHelper.StateMachine.InternalContext.AssociateInformation == null || stateHelper.StateMachine.InternalContext.AssociateInformation.AssociateId != dpiEnrollmentParameters.AccountNumber)
             {
                 stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
             }
