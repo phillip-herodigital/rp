@@ -216,6 +216,11 @@ article.marketingIntro {
                 color: #8e4b9d;
             }
         }
+
+        .button {
+            background-image: none;
+            background-color: #8E4B9D;
+        }
     }
 
     p.intro {
@@ -431,7 +436,7 @@ article.marketing {
             transition: all 0.5s ease-out;
         }
 
-        p.drop-down {
+        a.drop-down {
             margin: 6px 24px;
             text-align: center;
             color: #8e4b9d;
@@ -801,16 +806,14 @@ article.marketing {
                         }
                     }
 
-                    p.button, input, text {
+                    a.button, input, text {
                         top: 50%;
                         transform: translate(0, -50%);
                         position: relative;
                     }
 
                     input {
-                        height: 18px;
-                        width: 18px;
-                        transform: translate(0, -75%);
+                        transform: translate(0, -125%);
                     }
 
                     p.button {
@@ -4851,11 +4854,7 @@ article.mobile.mobile-plans-usage-calculator {
 
 article.marketing.validate-esn {
     margin-bottom: 50px;
-<<<<<<< HEAD
-
-=======
     width: auto;
->>>>>>> refs/remotes/origin/master
     h1 {
         margin: 1.5em 0;
     }
@@ -4946,15 +4945,11 @@ article.marketing.validate-esn {
         padding: 0 40px;
         vertical-align: top;
     }
-<<<<<<< HEAD
-
-=======
     @include breakpoint(medium) {
         .device-error, .device-success {
             margin: 0;
         }
     }
->>>>>>> refs/remotes/origin/master
     @include breakpoint(small-medium) {
         .item {
             width: 100%;

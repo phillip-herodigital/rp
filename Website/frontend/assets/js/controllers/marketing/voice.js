@@ -1,7 +1,7 @@
 ﻿ngApp.controller('voiceCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.showHubFeatures = false;
-
+    $scope.bundleLink = "";
     $scope.toggleHubFeatures = function () {
         if ($scope.showHubFeatures) {
             $scope.showHubFeatures = false;
