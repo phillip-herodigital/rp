@@ -1638,6 +1638,9 @@
             &.continue-button {
                 margin-top: 30px;
             }
+            @include breakpoint(small-medium) {
+                float: none;
+            }
         }
         .address-group {
             display: inline-block;
