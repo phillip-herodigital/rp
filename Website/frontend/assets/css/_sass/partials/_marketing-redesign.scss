@@ -1103,6 +1103,10 @@ article.win-back {
 			font-size: 74px;
 			color: #fff;
             margin: 1.5em 0;
+            @include breakpoint(small) {
+                font-size: 54px;
+                text-align: center;
+            }
 		}
 	}
 	h3 {
@@ -1171,13 +1175,14 @@ article.win-back {
 			width: auto;
 			padding: 0px 20px;
 		}
-		 @include breakpoint(small-medium) {
+		@include breakpoint(small-medium) {
 			background-position: bottom left;
 			border-radius: 10px;
 			background-color: #97c93d;
 			width: auto;
 			height: auto;
-		 }
+            padding: 5px;
+		}
 	}
 	.get-started {
 		text-align: center;

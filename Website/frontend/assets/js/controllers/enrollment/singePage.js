@@ -195,7 +195,7 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'sc
                 agreeToTerms: $scope.completeOrder.agreeToTerms
             }).then(function (data) {
                 $scope.validations = data.validations;
-                if (data.validations[0].memberName == "SSN Mismatch") {
+                if (data.validations.length && data.validations[0].memberName == "SSN Mismatch") {
                     $scope.ssnMismatch = true;
                 }
             });

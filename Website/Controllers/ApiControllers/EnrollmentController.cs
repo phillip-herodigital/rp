@@ -358,13 +358,40 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                         
                         if (reader.Read())
                         {
-                            var serviceAddress = new DomainModels.Address { StateAbbreviation = (string)reader["ServiceStateAbbreviation"], PostalCode5 = (string)reader["ServicePostalCode5"], PostalCodePlus4 = (string)reader["ServicePostalCodePlus4"], City = (string)reader["ServiceCity"], Line1 = (string)reader["ServiceLine1"], Line2 = (string)reader["ServiceLine2"] };
+                            var serviceAddress = new DomainModels.Address { StateAbbreviation = (string)reader["ServiceStateAbbreviation"].ToString(), PostalCode5 = (string)reader["ServicePostalCode5"].ToString(), PostalCodePlus4 = (string)reader["ServicePostalCodePlus4"].ToString(), City = (string)reader["ServiceCity"].ToString(), Line1 = (string)reader["ServiceLine1".ToString()], Line2 = (string)reader["ServiceLine2"].ToString() };
+
+                            tdu = (string)reader["TDU"];
+                            switch (tdu.ToLower())
+                            {
+                                case "aep central":
+                                    tdu = "AEP Central Texas";
+                                    break;
+                                case "aep north":
+                                    tdu = "AEP North Texas";
+                                    break;
+                                case "centerpoint":
+                                    tdu = "Centerpoint";
+                                    break;
+                                case "oncor":
+                                    tdu = "ONCOR";
+                                    break;
+                                case "sharyland":
+                                    tdu = "Sharyland";
+                                    break;
+                                case "sharyland mcallen":
+                                    tdu = "Sharyland McAllen";
+                                    break;
+                                case "tnmp":
+                                    tdu = "TNMP";
+                                    break;
+                            }
+                            
                             var location = new DomainModels.Enrollments.Location
                             {
                                 Address = serviceAddress,
                                 Capabilities = new DomainModels.IServiceCapability[]
                                 {
-                                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = (string)reader["TDU"], EsiId = (string)reader["ESIID"] },
+                                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = tdu, EsiId = (string)reader["ESIID"] },
                                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch },
                                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                                 }
@@ -983,6 +1010,8 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "SSN Mismatch", Text = "SSN Mismatch" }, 1);
                 return ineligibleResult;
             }
+            stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
+
             // Finalize the Enrollment
             foreach (var locationService in stateMachine.Context.Services)
             {
