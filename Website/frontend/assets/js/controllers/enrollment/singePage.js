@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of single page enrollment.
  */
-ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', '$http', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics, $http) {
+ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentCartService', '$modal', 'validation', 'analytics', '$http', function ($scope, enrollmentService, scrollService, enrollmentCartService, $modal, validation, analytics, $http) {
 
     $scope.getClientData = function (serviceLocation) {
         enrollmentService.isLoading = true;
@@ -68,7 +68,9 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'en
     $scope.activeFootnotes = [];
     $scope.footnoteIndices = {};
     $scope.completeOrder = {};
-
+    $scope.scrollTo = function(id) {
+        scrollService.scrollTo(id, jQuery('header.site-header').height() * -1, '750', angular.noop);
+    };
 
     if (!$scope.accountInformation.mailingAddress && $scope.utilityAddresses()[0]) {
         $scope.accountInformation.mailingAddressSame = true;
