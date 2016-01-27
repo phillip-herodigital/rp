@@ -44,6 +44,10 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'sc
                     $scope.addressEditing = false;
                 }
                 
+            }).error(function() {
+                $scope.isLoading = false;
+                $scope.esiIdInvalid = true;
+                $scope.addressEditing = true;
             });
     };
 
