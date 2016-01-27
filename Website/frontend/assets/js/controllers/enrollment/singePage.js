@@ -3,18 +3,24 @@
  * This is used to control aspects of single page enrollment.
  */
 ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', '$http', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics, $http) {
-    
-    $scope.isLoading = true;
 
-    $scope.getClientData = function (esiId) {
-        if (esiId != undefined) {
-            $scope.utilityEnrollment.esiId = esiId;
+    $scope.getClientData = function (serviceLocation) {
+        enrollmentService.isLoading = true;
+        if (serviceLocation == undefined) {
+            serviceLocation = {
+                'capabilities' : [{
+                    'capabilityType': 'TexasElectricity',
+                    'esiId': $scope.utilityEnrollment.esiId
+                }]
+            };
         }
         $scope.esiIdInvalid = false;
         $scope.addressIneligible = false;
         $scope.ssnMismatch = false;
-        $http.get('/api/enrollment/previousClientData?esiId=' + $scope.utilityEnrollment.esiId).success(function (data, status, headers, config) {
-                $scope.isLoading = false;
+        $scope.item = {};
+        $http.post('/api/enrollment/previousClientData', serviceLocation)
+            .success(function (data) {
+                enrollmentService.isLoading = false;
                 if (data.validations.length) {
                     if (data.validations[0].memberName == "Location Ineligible") {
                         $scope.addressIneligible = true;
