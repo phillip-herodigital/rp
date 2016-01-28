@@ -176,6 +176,13 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'sc
         }
     };
 
+    $scope.showTerms = function (terms) {
+        $modal.open({
+            templateUrl: 'Terms/' + terms,
+            scope: $scope
+        });
+    };
+
     /**
     * Complete Enrollment Section
     */

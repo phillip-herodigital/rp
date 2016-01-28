@@ -496,5 +496,31 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="Terms/Standard">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Terms and Conditions Header Text", completeOrderItem)</h2>
+    </div>
+    <div class="modal-body scrollable">
+        @Html.Sitecore().Field("Terms and Conditions Body Text", completeOrderItem)
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Close Terms and Conditions Button Text", completeOrderItem)</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="Terms/Tcpa">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("TCPA Terms and Conditions Header Text", completeOrderItem)</h2>
+    </div>
+    <div class="modal-body scrollable">
+        @Html.Sitecore().Field("TCPA Terms and Conditions Body Text", completeOrderItem)
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Close TCPA Terms and Conditions Button Text", completeOrderItem)</button>
+    </div>
+</script>
+
 }
 
