@@ -358,7 +358,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                         
                         if (reader.Read())
                         {
-                            var serviceAddress = new DomainModels.Address { StateAbbreviation = (string)reader["ServiceStateAbbreviation"].ToString(), PostalCode5 = (string)reader["ServicePostalCode5"].ToString(), PostalCodePlus4 = (string)reader["ServicePostalCodePlus4"].ToString(), City = (string)reader["ServiceCity"].ToString(), Line1 = (string)reader["ServiceLine1".ToString()], Line2 = (string)reader["ServiceLine2"].ToString() };
+                            var serviceAddress = new DomainModels.Address { StateAbbreviation = (string)reader["ServiceStateAbbreviation"].ToString(), PostalCode5 = (string)reader["ServicePostalCode5"].ToString(), PostalCodePlus4 = (string)reader["ServicePostalCodePlus4"].ToString(), City = (string)reader["ServiceCity"].ToString(), Line1 = (string)reader["ServiceLine1"].ToString(), Line2 = (string)reader["ServiceLine2"].ToString() };
 
                             tdu = (string)reader["TDU"];
                             switch (tdu.ToLower())
