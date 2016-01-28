@@ -57,8 +57,8 @@ namespace StreamEnergy.MyStream.Models.Authentication
                     using (var connection = new SqlConnection(connectionString))
                     using (var command = new SqlCommand(@"
 SELECT FailedPasswordAttemptCount
-FROM [MyStreamSitecore_Core].[dbo].[aspnet_Membership]
-JOIN [MyStreamSitecore_Core].[dbo].[aspnet_Users] ON [aspnet_Membership].UserId = [aspnet_Users].UserId
+FROM [aspnet_Membership]
+JOIN [aspnet_Users] ON [aspnet_Membership].UserId = [aspnet_Users].UserId
 WHERE UserName=@username
 ", connection))
                     {
