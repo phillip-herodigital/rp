@@ -483,6 +483,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                 {
                                     var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
                                     ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "Location Ineligible", Text = "Location Ineligible" }, 1);
+                                    ineligibleResult.ExpectedState = Models.Enrollment.ExpectedState.PlanSelection;
                                     return ineligibleResult;
                                 }
 
@@ -518,6 +519,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                 // if the ESIID isn't in the list, return a validation error
                                 var invalidResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
                                 invalidResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "ESIID Invalid", Text = "ESIID Invalid" }, 1);
+                                invalidResult.ExpectedState = Models.Enrollment.ExpectedState.PlanSelection;
                                 return invalidResult;
                             }
                         }
@@ -1008,6 +1010,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             {
                 var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
                 ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "SSN Mismatch", Text = "SSN Mismatch" }, 1);
+                ineligibleResult.ExpectedState = Models.Enrollment.ExpectedState.PlanSelection;
                 return ineligibleResult;
             }
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;

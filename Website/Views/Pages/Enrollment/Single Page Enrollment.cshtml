@@ -36,23 +36,19 @@
             </div>
         </script>
     </div>
-    <div class="layout">
+    <div id="utilityFlowPlans" class="layout">
         <div class="wrapper cols-2 enrollment__account-information enrollment__single-page">
             <section>
                 <form data-val-bind-messages="validations" name="accountInfo" ng-submit="completeStep()">
                     @Html.ValidationSummary()
-                    <div ng-if="addressIneligible">
-                        <div class="notice error">
+                    <div>
+                        <div class="notice error" ng-if="addressIneligible">
                             @Html.Sitecore().Field("Ineligible Address Message Text")
                         </div>
-                    </div>
-                    <div ng-if="esiIdInvalid">
-                        <div class="notice error">
+                        <div class="notice error" ng-if="esiIdInvalid">
                             @Html.Sitecore().Field("Invalid ESIID Message Text")
                         </div>
-                    </div>
-                    <div ng-if="ssnMismatch">
-                        <div class="notice error">
+                        <div class="notice error" ng-if="ssnMismatch">
                             @Html.Sitecore().Field("SSN Mismatch Message Text")
                         </div>
                     </div>
@@ -95,9 +91,7 @@
                                 <div class="edit-address continue-button" ng-if="addressEditing">
                                     <button type="button" class="secondary" ng-disabled="item.tempLocation.capabilities.length == 0" ng-click="getClientData(item.tempLocation);">@Html.Sitecore().Field("Continue Button Text")</button>
                                 </div>
-
                             </div>
-
                             <div class="enrollment__utility-plans plans-table-wrapper" ng-if="!addressEditing">
                                 <table class="plan-selection-table">
                                     <thead class="hide-small">
@@ -200,7 +194,6 @@
                     <article class="enrollment__box form contact-info" ng-if="!addressEditing">
                         <header>
                             <h1>@Html.Sitecore().Field("Contact Information Header")<a href="" ng-click="editContactInfo()" ng-show="!contactEditing">@Html.Sitecore().Field("Edit Button Text")</a></h1>
-
                         </header>
                         <div class="content">
                             <div class="group contact-read-only" ng-show="!contactEditing">
@@ -243,9 +236,7 @@
                                     @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
                                 </div>
                             </div>
-
                             <hr class="content-divider" ng-show="contactEditing">
-
                             @using (var mailingAddress = Html.Shortcut(m => m.MailingAddress))
                             {
                                 <div class="mailing-address" ng-show="contactEditing">
@@ -308,9 +299,7 @@
                                     </div>
                                 </div>
                             }
-
                             <hr class="content-divider" ng-show="contactEditing">
-
                             <div class="group" ng-show="contactEditing">
                                 @using (var firstPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "0").Shortcut(m => (TypedPhone)m))
                                 {
@@ -332,7 +321,6 @@
                                     </div>
                                 }
                             </div>
-
                             <div class="group additional-content">
                                 <div class="additional-field-item item group-col" ng-show="!contactEditing">
                                     <ul class="checkbox-list">
@@ -345,7 +333,6 @@
                                     </ul>
                                 </div>
                             </div>
-
                             <div class="additional-field-group secondary-contact-group" ng-class="{'contact-editing': contactEditing}" ng-if="additionalInformation.showSecondaryContact && !contactEditing">
                                 <div class="group">
                                     <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
@@ -360,7 +347,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="additional-field-group secondary-phone-group" ng-class="{'contact-editing': contactEditing}" ng-show="additionalInformation.showAdditionalPhoneNumber">
                                 <div class="group">
                                     @using (var secondPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "1").Shortcut(m => (TypedPhone)m))
@@ -385,7 +371,6 @@
                                     }
                                 </div>
                             </div>
-
                             <div class="item" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                                 <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label")</label>
                                 @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber", @class = "maskField", data_val = "true", data_val_required = "" })
@@ -428,7 +413,6 @@
                             </div>
                         </div>
                     </article>
-
                     <div class="buttons clearfix" ng-if="!addressEditing && !contactEditing">
                         <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
                     </div>
@@ -509,6 +493,32 @@
             <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button", accountInformationItem)</button>
             <button ng-click="$close()">@Html.Sitecore().Field("Continue Button", accountInformationItem)</button>
         </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="Terms/Standard">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Terms and Conditions Header Text", completeOrderItem)</h2>
+    </div>
+    <div class="modal-body scrollable">
+        @Html.Sitecore().Field("Terms and Conditions Body Text", completeOrderItem)
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Close Terms and Conditions Button Text", completeOrderItem)</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="Terms/Tcpa">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("TCPA Terms and Conditions Header Text", completeOrderItem)</h2>
+    </div>
+    <div class="modal-body scrollable">
+        @Html.Sitecore().Field("TCPA Terms and Conditions Body Text", completeOrderItem)
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Close TCPA Terms and Conditions Button Text", completeOrderItem)</button>
     </div>
 </script>
 
