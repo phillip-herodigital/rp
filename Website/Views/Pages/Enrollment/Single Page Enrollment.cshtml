@@ -11,8 +11,7 @@
     Sitecore.Data.Items.Item completeOrderItem = Sitecore.Context.Database.GetItem("{00E3F38B-FFEB-4038-92AA-EEA8D8C3275D}");
     Sitecore.Data.Items.Item cartItem = Sitecore.Context.Database.GetItem("{E0880134-0098-4BED-AFB4-37FAE30B5C44}");
     Sitecore.Data.Items.Item landingItem = Sitecore.Context.Database.GetItem("{9111D1C2-C4A6-40F9-881C-BD17A5BE9C82}");
-     
-<header class="site-header"></header>
+    
 <div id="utilityFlowService" class="enrollment" ng-controller="EnrollmentServiceInformationCtrl"></div>
 <div id="accountInformation" class="enrollment showCart" ng-controller="EnrollmentSinglePageCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">    
     @Html.Sitecore().Placeholder("landing page")
