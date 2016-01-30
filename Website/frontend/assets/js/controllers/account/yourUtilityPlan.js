@@ -14,6 +14,10 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
     $scope.activeFootnotes = [];
     $scope.footnoteIndices = {};
 
+    $scope.filterTexasPlans = function(plan) {
+        return !plan.isDisabled;
+    };
+
     $http.get('/api/account/getAccounts').success(function (data, status, headers, config) {
         $scope.accounts = _.filter(data, function (acct) {
             return !$scope.filterAccountType || acct.accountType.toLowerCase() == $scope.filterAccountType.toLowerCase();

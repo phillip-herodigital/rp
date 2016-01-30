@@ -30,6 +30,7 @@ using System.Net.Http.Headers;
 using Sitecore.Data.Items;
 using StreamEnergy.DomainModels.Emails;
 using StreamEnergy.MyStream.Models.MobileEnrollment;
+using System.Data.SqlClient;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -309,6 +310,225 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         /// <summary>
+        /// Gets all the client data for a previous customer for single-page enrollments
+        /// </summary>
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<ClientData> PreviousClientData([FromBody]Location serviceLocation)
+        {
+            string esiId = serviceLocation.Capabilities.OfType<DomainModels.Enrollments.TexasElectricity.ServiceCapability>().Single().EsiId;
+            string tdu = serviceLocation.Capabilities.OfType<DomainModels.Enrollments.TexasElectricity.ServiceCapability>().Single().Tdu;
+            // make an external service call to get the data
+            await Initialize();
+
+            // lookup the customer info in the internal DB
+            string connectionString = Sitecore.Configuration.Settings.GetConnectionString("core");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = @"
+SELECT TOP (1) 
+[ESIID],
+[TDU],
+[FirstName],
+[LastName],
+[ServiceLine1],
+[ServiceLine2],
+[ServiceCity],
+[ServiceStateAbbreviation],
+[ServicePostalCode5],
+[ServicePostalCodePlus4],
+[PrimaryPhoneNumber],
+[PrimaryPhoneType],
+[EmailAddress],
+[SocialSecurityNumber],
+[MailingLine1],
+[MailingLine2],
+[MailingCity],
+[MailingStateAbbreviation],
+[MailingPostalCode5],
+[MailingPostalCodePlus4]
+FROM [SwitchBack] WHERE ESIID=@esiId";
+                    command.Parameters.AddWithValue("@esiId", esiId);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        var userContext = new DomainModels.Enrollments.UserContext();
+                        
+                        if (reader.Read())
+                        {
+                            var serviceAddress = new DomainModels.Address { StateAbbreviation = (string)reader["ServiceStateAbbreviation"].ToString(), PostalCode5 = (string)reader["ServicePostalCode5"].ToString(), PostalCodePlus4 = (string)reader["ServicePostalCodePlus4"].ToString(), City = (string)reader["ServiceCity"].ToString(), Line1 = (string)reader["ServiceLine1"].ToString(), Line2 = (string)reader["ServiceLine2"].ToString() };
+
+                            tdu = (string)reader["TDU"];
+                            switch (tdu.ToLower())
+                            {
+                                case "aep central":
+                                    tdu = "AEP Central Texas";
+                                    break;
+                                case "aep north":
+                                    tdu = "AEP North Texas";
+                                    break;
+                                case "centerpoint":
+                                    tdu = "Centerpoint";
+                                    break;
+                                case "oncor":
+                                    tdu = "ONCOR";
+                                    break;
+                                case "sharyland":
+                                    tdu = "Sharyland";
+                                    break;
+                                case "sharyland mcallen":
+                                    tdu = "Sharyland McAllen";
+                                    break;
+                                case "tnmp":
+                                    tdu = "TNMP";
+                                    break;
+                            }
+                            
+                            var location = new DomainModels.Enrollments.Location
+                            {
+                                Address = serviceAddress,
+                                Capabilities = new DomainModels.IServiceCapability[]
+                                {
+                                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = tdu, EsiId = (string)reader["ESIID"] },
+                                    new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch },
+                                    new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                                }
+                            };
+                            var primaryPhone = new DomainModels.TypedPhone
+                            {
+                                Number = reader.GetFieldValue<string>(10)
+                            };
+                            var customerContact = new CustomerContact
+                            {
+                                Name = new DomainModels.Name { First = (string)reader["FirstName"], Last = (string)reader["LastName"] },
+                                Phone = new[] { 
+                                new DomainModels.TypedPhone { Category = (string)reader["PrimaryPhoneType"].ToString() == "Home" ? PhoneCategory.Home : PhoneCategory.Mobile, Number = (string)reader["PrimaryPhoneNumber"].ToString() }
+                            },
+                                Email = new DomainModels.Email { Address = (string)reader["EmailAddress"].ToString() },
+                            };
+                            var socialSecurityNumber = (string)reader["SocialSecurityNumber"];
+                            var mailingAddress = new DomainModels.Address
+                            {
+                                City = (string)reader["MailingCity"].ToString(),
+                                StateAbbreviation = (string)reader["MailingStateAbbreviation"].ToString(),
+                                Line1 = (string)reader["MailingLine1"].ToString(),
+                                Line2 = (string)reader["MailingLine2"].ToString(),
+                                PostalCode5 = (string)reader["MailingPostalCode5"].ToString(),
+                                PostalCodePlus4 = (string)reader["MailingPostalCodePlus4"].ToString(),
+                            };
+
+                            // make sure the location is eligible for an enrollment
+                            PremiseVerificationResult isEligible = await enrollmentService.VerifyPremise(location);
+                            if (isEligible != PremiseVerificationResult.Success)
+                            {
+                                var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                                ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "Location Ineligible", Text = "Location Ineligible" }, 1);
+                                return ineligibleResult;
+                            }
+
+                            // run the load offers call to get offers for this address
+                            stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { location });
+                            var texasElectricityOffer = stateHelper.InternalContext.AllOffers.First().Value.Offers.Where(offer => offer.Id.Contains("TX_R12Switch")).FirstOrDefault() as DomainModels.Enrollments.TexasElectricity.Offer;
+                            var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption {};
+                            userContext.ContactInfo = customerContact;
+                            userContext.SocialSecurityNumber = socialSecurityNumber;
+                            userContext.Services = new DomainModels.Enrollments.LocationServices[]
+                                {
+                                    new DomainModels.Enrollments.LocationServices 
+                                    { 
+                                        Location = location, 
+                                        SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                                        {
+                                            new DomainModels.Enrollments.SelectedOffer
+                                            {
+                                                Offer = texasElectricityOffer,
+                                                OfferOption = offerOption,
+                                            }
+                                        }
+                                    }
+                                };
+                            userContext.MailingAddress = mailingAddress.Line1 == "" ? serviceAddress : mailingAddress;
+
+                            // save the data in the stateMachine  
+                            stateHelper.Context.ContactInfo = userContext.ContactInfo;
+                            stateHelper.Context.SecondaryContactInfo = userContext.SecondaryContactInfo;
+                            stateHelper.Context.MailingAddress = userContext.MailingAddress;
+                            stateHelper.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
+                            stateHelper.Context.Services = userContext.Services;
+                            stateHelper.Context.IsSinglePage = true;
+                            await stateMachine.ContextUpdated();
+
+                            var result = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+
+                            // return the data to the page
+                            return result;
+                        }
+                        else
+                        {
+                            // if this was the second time through and the initial ESIID was valid, check the new address
+                            if (stateHelper.Context.IsSinglePage)
+                            {
+                                // make sure the location is eligible for an enrollment
+                                var temp = new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch };
+                                serviceLocation.Capabilities = new DomainModels.IServiceCapability[]
+                                {
+                                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = tdu, EsiId = esiId },
+                                    new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch },
+                                    new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                                };
+                                PremiseVerificationResult isEligible = await enrollmentService.VerifyPremise(serviceLocation);
+                                if (isEligible != PremiseVerificationResult.Success)
+                                {
+                                    var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                                    ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "Location Ineligible", Text = "Location Ineligible" }, 1);
+                                    ineligibleResult.ExpectedState = Models.Enrollment.ExpectedState.PlanSelection;
+                                    return ineligibleResult;
+                                }
+
+                                // run the load offers call to get offers for this address
+                                stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { serviceLocation });
+                                var texasElectricityOffer = stateHelper.InternalContext.AllOffers.First().Value.Offers.Where(offer => offer.Id.Contains("TX_R12Switch")).FirstOrDefault() as DomainModels.Enrollments.TexasElectricity.Offer;
+                                var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption { };
+                                userContext.Services = new DomainModels.Enrollments.LocationServices[]
+                                {
+                                    new DomainModels.Enrollments.LocationServices 
+                                    { 
+                                        Location = serviceLocation, 
+                                        SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                                        {
+                                            new DomainModels.Enrollments.SelectedOffer
+                                            {
+                                                Offer = texasElectricityOffer,
+                                                OfferOption = offerOption,
+                                            }
+                                        }
+                                    }
+                                };
+                                stateHelper.Context.Services = userContext.Services;
+                                await stateMachine.ContextUpdated();
+
+                                var result = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+
+                                // return the data to the page
+                                return result;
+                            }
+                            else
+                            {
+                                // if the ESIID isn't in the list, return a validation error
+                                var invalidResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                                invalidResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "ESIID Invalid", Text = "ESIID Invalid" }, 1);
+                                invalidResult.ExpectedState = Models.Enrollment.ExpectedState.PlanSelection;
+                                return invalidResult;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets all the client data, such as for a page refresh
         /// </summary>
         /// <returns></returns>
@@ -344,6 +564,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
+                IsSinglePage = stateMachine.Context.IsSinglePage,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
@@ -535,7 +756,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private async Task ResetPreAccountInformation()
         {
-            if (stateHelper.Context.IsRenewal)
+            if (stateHelper.Context.IsRenewal || stateHelper.Context.IsSinglePage)
                 return;
             if (stateHelper.InternalContext != null)
             {
@@ -634,7 +855,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
-            else if (stateMachine.Context.IsRenewal && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
+            else if ((stateMachine.Context.IsRenewal || stateMachine.Context.IsSinglePage) && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
@@ -678,7 +899,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<ClientData> Resume()
         {
             await Initialize();
-            await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+            if (stateMachine.Context.IsSinglePage)
+            {
+                await stateMachine.Process();
+            }
+            else
+            {
+                await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+            }
 
             var resultData = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
             await GenerateEndOfEnrollmentScreenshot(resultData);
@@ -763,6 +991,53 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return resultData;
         }
 
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<ClientData> SinglePageOrder([FromBody]SinglePageOrder request)
+        {
+            await Initialize();
+
+            // Update the stateMachine with the form Data
+            stateMachine.Context.ContactInfo = request.ContactInfo;
+            stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
+            stateMachine.Context.MailingAddress = request.MailingAddress;
+            stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+            stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
+            stateHelper.State = typeof(DomainModels.Enrollments.AccountInformationState);
+
+            // Verify the SSN
+            if (stateMachine.Context.SocialSecurityNumber != request.SocialSecurityNumber.Substring(request.SocialSecurityNumber.Length - 4)) 
+            {
+                var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
+                ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "SSN Mismatch", Text = "SSN Mismatch" }, 1);
+                ineligibleResult.ExpectedState = Models.Enrollment.ExpectedState.PlanSelection;
+                return ineligibleResult;
+            }
+            stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
+
+            // Finalize the Enrollment
+            foreach (var locationService in stateMachine.Context.Services)
+            {
+                foreach (var offer in locationService.SelectedOffers)
+                {
+                    offer.WaiveDeposit = false;
+                    offer.DepositAlternative = false;
+                }
+            }
+
+            await stateMachine.ContextUpdated();
+
+            await stateMachine.Process();
+
+            var resultData = ClientData();
+
+            await GenerateEndOfEnrollmentScreenshot(resultData);
+
+            // Send the response
+            return resultData;
+
+        }
+
         private async Task GenerateEndOfEnrollmentScreenshot(Models.Enrollment.ClientData resultData)
         {
             if (redisDatabase != null && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.EnrollmentScreenshotTaken)
@@ -802,7 +1077,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         {"accountNumbers", string.Join(",", acctNumbers)},
                     });
                 }
-                if (resultData.AssociateInformation == null && !resultData.IsRenewal)
+                if (resultData.AssociateInformation == null && !resultData.IsRenewal && !resultData.IsSinglePage)
                 {
                     await logger.Record(new LogEntry()
                     {

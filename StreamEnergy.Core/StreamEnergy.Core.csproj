@@ -222,6 +222,7 @@
     <Compile Include="Logging\PathedIndexer.cs" />
     <Compile Include="Logging\SqlLogRecorder.cs" />
     <Compile Include="Logging\StackTraceIndexer.cs" />
+    <Compile Include="Logging\XmlToJsonConverter.cs" />
     <Compile Include="MockParameterBuilder.cs" />
     <Compile Include="Mvc\AntiForgeryFilterMvcAttribute.cs" />
     <Compile Include="Mvc\AntiForgeryFilterWebApiAttribute.cs" />

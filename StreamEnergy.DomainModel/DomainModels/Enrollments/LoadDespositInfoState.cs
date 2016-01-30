@@ -60,7 +60,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal)
+            if (context.IsRenewal || context.IsSinglePage)
             {
                 internalContext.Deposit = Enumerable.Empty<Service.LocationOfferDetails<OfferPayment>>();
             }
@@ -82,7 +82,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
-            return !context.IsRenewal && !internalContext.CreditCheck.IsCompleted;
+            return !context.IsRenewal && !context.IsSinglePage && !internalContext.CreditCheck.IsCompleted;
         }
     }
 }

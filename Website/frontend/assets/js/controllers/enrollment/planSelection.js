@@ -11,6 +11,10 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
     $scope.activeFootnotes = [];
     $scope.footnoteIndices = {};
 
+    $scope.filterTexasPlans = function(plan) {
+        return !plan.isDisabled;
+    };
+
     //We need this for the button select model in the ng-repeats
     $scope.$watch(function () {
         var temp = enrollmentCartService.getActiveService();
