@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div ng-show="esnValid && (phoneManufacturer != 'Apple Inc' || networkType != 'GSM')" class="device-success" ng-cloak>
+            <div ng-show="esnValid && (phoneManufacturer != 'Apple Inc' || networkType != 'GSM') && (supportsLte || networkType != 'CDMA')" class="device-success" ng-cloak>
                 <div class="wrapper">
                     @Html.Sitecore().Field("ESN Valid Message")
                 </div>
