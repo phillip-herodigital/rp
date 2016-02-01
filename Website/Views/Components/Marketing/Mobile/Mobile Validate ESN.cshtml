@@ -35,7 +35,7 @@
                     <div ng-if="phoneManufacturer == 'Apple Inc' && networkType == 'GSM'">
                         @Html.Sitecore().Field("Apple GSM Message")
                     </div>
-                    <div ng-if="deviceType != 'U' && networkType == 'CDMA'">
+                    <div ng-if="!supportsLte && networkType == 'CDMA'">
                         @Html.Sitecore().Field("Non LTE CDMA Message")
                     </div>
                 </div>

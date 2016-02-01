@@ -34,7 +34,7 @@ ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 
                     $scope.esnValid = true;
                     $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
                     $scope.phoneManufacturer = data.manufacturer;
-                    $scope.deviceType = data.deviceType;
+                    $scope.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
                 }
                 $scope.isLoading = false;
                 isAttemptsExceeded();
