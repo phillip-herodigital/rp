@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-            <div ng-show="esnError || (phoneManufacturer == 'Apple Inc' && networkType == 'GSM') || (deviceType != 'U' && networkType == 'CDMA')" class="device-error" ng-cloak>
+            <div ng-show="esnError || (phoneManufacturer == 'Apple Inc' && networkType == 'GSM') || (!supportsLte && networkType == 'CDMA')" class="device-error" ng-cloak>
                 <div class="wrapper">
                     <div compile="esnMessage"></div>
                     <div ng-if="phoneManufacturer == 'Apple Inc' && networkType == 'GSM'">
