@@ -19,7 +19,7 @@
                                 <div ng-show="!deviceResponseMessage && !phoneOptions.supportsLte && networkType == 'CDMA'" class="device-error">
                                     @Html.Sitecore().Field("Non LTE CDMA Message")
                                 </div>
-                                <div ng-show="!deviceResponseMessage && (phoneManufacturer != 'Apple Inc' || networkType != 'GSM')">
+                                <div ng-show="!deviceResponseMessage && (phoneManufacturer != 'Apple Inc' || networkType != 'GSM') && (phoneOptions.supportsLte || networkType != 'CDMA')">
                                     <h1 class="success-message">@Html.Sitecore().Field("Congratulations")</h1>
                                     @Html.Sitecore().Field("Eligible Device Message")
                                 </div>
