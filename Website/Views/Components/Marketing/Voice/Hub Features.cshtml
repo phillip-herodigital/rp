@@ -1,4 +1,4 @@
-﻿<article class="marketing" ng-controller="voiceCtrl">
+﻿<article class="marketing">
     <div class="voice-hub-features">
         <hr />
         <div class="heading-wrapper" ng-click="showHubFeatures = !showHubFeatures">
@@ -6,7 +6,7 @@
             <a class="drop-down" ng-hide="showHubFeatures" href="">@Html.Sitecore().Field("Drop Down Text1")</a>
             <a class="drop-down" ng-show="showHubFeatures" href="">@Html.Sitecore().Field("Drop Down Text2")</a>
         </div>
-        <p ng-class="{slideIn: showHubFeatures, slideOut: !showHubFeatures}">@Html.Sitecore().Field("Features Text")</p>
+        <div ng-class="{slideIn: showHubFeatures, slideOut: !showHubFeatures}" ng-cloak>@Html.Sitecore().Field("Features Text")</div>
         <hr />
     </div>
 </article>

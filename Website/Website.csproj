@@ -1665,7 +1665,7 @@
     <Content Include="Views\Components\Marketing\Voice\Setup.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\On The Go.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Get More.cshtml" />
-	<Content Include="Views\Components\Marketing\Voice\Lets Be Clear.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Lets Be Clear.cshtml" />
     <Content Include="Views\Components\Marketing\One-Time Renewal.cshtml" />
     <Content Include="Views\Components\Marketing\Electricity\Photo 1.cshtml" />
     <Content Include="Views\Components\Marketing\Electricity\Photo 2.cshtml" />
@@ -1676,6 +1676,7 @@
     <Content Include="Views\Components\Authentication\Impersonate-Mobile.cshtml" />
     <Content Include="Views\Components\Callcenter Header.cshtml" />
     <Content Include="Views\Components\Authentication\Callcenter Login.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Voice.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

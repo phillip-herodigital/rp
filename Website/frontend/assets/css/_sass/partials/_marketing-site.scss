@@ -297,7 +297,7 @@ article.marketingIntro {
     }
 }
 
-article.marketing {
+.voice {
     .voice-main {
         img {
             display: block;
@@ -310,7 +310,7 @@ article.marketing {
         }
     }
 
-    &.voice-photoLockup {
+    .voice-photoLockup {
         h1 {
             text-align: left;
             margin-bottom: 0px;
@@ -333,12 +333,10 @@ article.marketing {
 
         h3 {
             display: inline-block;
-            position: static;
         }
 
         p {
             display: inline-block;
-            position: static;
             float: right;
         }
 
@@ -390,8 +388,9 @@ article.marketing {
         }
 
         p {
-            width: 80%;
+            width: 90%;
             margin: 0 auto;
+            font-size: 21px;
         }
     }
 
@@ -404,7 +403,7 @@ article.marketing {
         }
 
         .heading-wrapper {
-            margin: 0 auto;
+            margin: 10px auto;
             display: table;
             overflow: hidden;
 
@@ -426,12 +425,12 @@ article.marketing {
         }
 
         .slideIn {
-            max-height: 1500px;
             transition: all 0.5s ease-out;
         }
 
         .slideOut {
             max-height: 0;
+            margin-top: 0;
             overflow: hidden;
             transition: all 0.5s ease-out;
         }
@@ -442,6 +441,8 @@ article.marketing {
             color: #8e4b9d;
             text-transform: uppercase;
             display: table-cell;
+            font-size: 18px;
+            font-weight: 600;
         }
     }
 
@@ -450,14 +451,14 @@ article.marketing {
 
         p.intro {
             text-align: center;
-            color: black;
-            margin-top: 24px;
-            font-weight: bold;
+            color: #000;
+            font-size: 24px;
+            font-weight: 600;
         }
 
         p.outro {
             text-align: center;
-            color: black;
+            color: #000;
             border: 34px 0px;
         }
 
@@ -494,6 +495,10 @@ article.marketing {
                 width: 100%;
                 position: absolute;
                 bottom: 0;
+                color: #9f9f9f;
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
             }
         }
 
@@ -530,8 +535,7 @@ article.marketing {
 
         h2 {
             text-align: center;
-            letter-spacing: 1.5pt;
-
+            font-size: 41px;
             b, strong {
                 color: #8e4b9d;
                 text-transform: uppercase;
@@ -542,10 +546,9 @@ article.marketing {
         .section1 {
             text-align: center;
             margin: 0 auto;
-        }
-
-        .section1 p {
-            line-height: 8px;
+            p {
+                font-size: 21px;
+            }
         }
 
         .section2 {
@@ -553,26 +556,16 @@ article.marketing {
             padding-bottom: 16px;
             margin: 0 auto;
             display: table;
+            p {
+                line-height: 16px;
+                font-weight: bold;
+            }
         }
 
-        .section2 p {
-            line-height: 16px;
-            font-weight: bold;
-    }
-
         .app-links {
-            margin: 0 auto;
-            position: relative;
-
+            text-align: center;
             .google-play, .app-store {
-                display: block;
-                padding: 0px 6px;
-                position: absolute;
-                left: 50%;
-}
-
-            .google-play {
-                transform: translate(-100%, 0);
+                display: inline-block;
             }
         }
 
@@ -607,11 +600,14 @@ article.marketing {
 
             h2 {
                 color: white;
-
+                font-size: 41px;
                 b, strong {
                     text-transform: uppercase;
                     font-weight: normal;
                 }
+            }
+            p {
+                font-size: 21px;
             }
         }
 
@@ -632,12 +628,11 @@ article.marketing {
             img {
                 position: relative;
                 left: 50%;
-                transform: translate(-50%, 0);
             }
 
             h3 {
-                margin: 8px 2px 2px;
-
+                margin: 10px 0 0;
+                font-size: 33px;
                 b, strong {
                     text-transform: uppercase;
                 }
@@ -648,22 +643,26 @@ article.marketing {
             width: 50%;
             float: left;
             display: block;
-
+            margin-bottom: 50px;
             h3 {
                 color: inherit;
             }
 
             p.image-text-2 {
-                margin: 2px;
+                margin-top: 0;
+                font-size: 22px;
             }
 
             p.section1 {
                 margin: 20px 0;
-                font-size: smaller;
+                font-size: 16px;
             }
 
-            p.section2 {
-                max-width: 350px;
+            .section2 {
+                p {
+                    font-size: 16px;
+                    margin: 0.5em 0;
+                }
             }
 
             .just-buy-now {
@@ -671,7 +670,8 @@ article.marketing {
                 margin: 24px 0px;
 
                 .price {
-                    font-size: larger;
+                    font-size: 21px;
+                    font-weight: 600;
                     float: left;
                 }
 
@@ -689,7 +689,7 @@ article.marketing {
 
         .right {
             border-left: 1px solid #c5a3cd;
-            padding-left: 12px;
+            padding-left: 30px;
             transform: translateX(-1px);
         }
 
@@ -705,11 +705,12 @@ article.marketing {
                 color: inherit;
                 font-weight: bold;
                 text-align: center;
-                margin: 2px;
+                margin: 0;
+                font-size: 41px;
             }
 
             p {
-                margin-top: 2px;
+                font-size: 21px;
                 text-align: center;
             }
 
@@ -909,7 +910,7 @@ article.marketing {
 
             h2 {
                 text-align: center;
-
+                font-size: 42px;
                 strong, b {
                     color: #8e4b9d;
                     font-weight: normal;
@@ -934,12 +935,10 @@ article.marketing {
             }
 
             h3 {
-                font-weight: 400;
-
+                font-size: 33px;
                 strong, b {
                     text-transform: uppercase;
                     color: #8e4b9d;
-                    font-size: x-large;
                 }
             }
 
@@ -948,13 +947,13 @@ article.marketing {
             }
 
             h4 {
-                font-size: large;
+                font-size: 22px;
                 margin-bottom: 18px;
+                font-weight: 400;
             }
 
             p.step {
                 font-weight: bold;
-                font-size: larger;
                 text-transform: uppercase;
             }
 
@@ -968,6 +967,7 @@ article.marketing {
 
             p {
                 margin-top: 0;
+                font-size: 24px;
             }
 
             img {

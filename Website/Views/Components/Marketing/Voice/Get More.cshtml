@@ -1,11 +1,4 @@
-﻿@{ 
-    var settings = StreamEnergy.Unity.Container.Instance.Resolve<StreamEnergy.ISettings>();
-
-    var airLink = settings.GetSettingsField("Digital Voice Bundle Air", "URL").Value;
-    var bridgeLink = settings.GetSettingsField("Digital Voice Bundle Bridge", "URL").Value;
-}
-
-<article class="marketing" ng-controller="voiceCtrl">
+﻿<article class="marketing">
     <div class="voice-get-more">
         <div class="heading">
             <h2>@Html.Sitecore().Field("Heading Line 1")</h2>
@@ -19,10 +12,9 @@
                 </div>
                 <p class="image-text-2">@Html.Sitecore().Field("Left Image Text 2")</p>
                 <p class="section1">@Html.Sitecore().Field("Left Paragraph")</p>
-                <p class="section2">@Html.Sitecore().Field("Left Paragraph 2")</p>
+                <div class="section2">@Html.Sitecore().Field("Left Paragraph 2")</div>
                 <div class="just-buy-now">
                     <p class="price">@Html.Sitecore().Field("Air Price")</p>
-                    <a class="button" href="@Html.Sitecore().Field("Left Button Link")">@Html.Sitecore().Field("Left Button Text")</a>
                 </div>
             </div>
             <div class="right">
@@ -32,10 +24,9 @@
                 </div>
                 <p class="image-text-2">@Html.Sitecore().Field("Right Image Text 2")</p>
                 <p class="section1">@Html.Sitecore().Field("Right Paragraph")</p>
-                <p class="section2">@Html.Sitecore().Field("Right Paragraph 2")</p>
+                <div class="section2">@Html.Sitecore().Field("Right Paragraph 2")</div>
                 <div class="just-buy-now">
                     <p class="price">@Html.Sitecore().Field("Bridge Price")</p>
-                    <a class="button" href="@Html.Sitecore().Field("Right Button Link")">@Html.Sitecore().Field("Right Button Text")</a>
                 </div>
             </div>
             <div class="bundle">
@@ -44,7 +35,7 @@
                 <div class="air-or-bridge">
                     <div class="left">
                         <div class="air-or-bridge-item text">
-                            <input type="radio" value="@airLink" ng-model="bundleLink"/>
+                            <input type="radio" value="{{airLink}}" ng-model="bundleLink"/>
                             <text>@Html.Sitecore().Field("Bundle Text Air")</text>
                         </div>
                         <div class="air-or-bridge-item plus">
@@ -63,7 +54,7 @@
                     </div>
                     <div class="right">
                         <div class="air-or-bridge-item text">
-                            <input type="radio" value="@bridgeLink" ng-model="bundleLink" />
+                            <input type="radio" value="{{bridgeLink}}" ng-model="bundleLink" />
                             <text>@Html.Sitecore().Field("Bundle Text Bridge")</text>
                         </div>
                         <div class="air-or-bridge-item">
