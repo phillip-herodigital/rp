@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using StreamEnergy.Processes;
+using System.Web.Security;
+using System.Web;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -62,6 +64,11 @@ namespace StreamEnergy.DomainModels.Enrollments
 
             if (context.W9BusinessData != null)
                 return typeof(GenerateW9State);
+            if (context.OnlineAccount != null)
+            {
+                var cookie = FormsAuthentication.GetAuthCookie(context.OnlineAccount.Username, false, "/");
+                HttpContext.Current.Response.AppendCookie(cookie);
+            }
             return await base.InternalProcess(context, internalContext);
         }
 
