@@ -1681,6 +1681,7 @@
     <Content Include="Views\Components\Win Back Footer.cshtml" />
     <Content Include="Views\Components\Marketing\Win Back\Win Back Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Voice.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Easy Setup.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
