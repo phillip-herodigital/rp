@@ -27,6 +27,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public bool IsRenewal { get; set; }
 
+        public bool IsSinglePage { get; set; }
+
         public bool IsLoading { get; set; }
 
         public bool IsTimeout { get; set; }

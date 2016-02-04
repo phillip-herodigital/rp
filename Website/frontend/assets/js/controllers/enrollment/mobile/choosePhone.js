@@ -47,8 +47,6 @@
             // do the hex conversion for CDMA MEID/ESN-DEC
             if ($scope.phoneOptions.imeiNumber.length == 14) {
                 convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber);
-            } else if ($scope.phoneOptions.imeiNumber.length == 15) {
-                convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber.substr(0, 14));
             }
             var formData = {
                 imei: convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei,
@@ -270,8 +268,6 @@
             // do the hex conversion for CDMA MEID/ESN-DEC
             if ($scope.phoneOptions.imeiNumber.length == 14) {
                 convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber);
-            } else if ($scope.phoneOptions.imeiNumber.length == 15) {
-                convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber.substr(0, 14));
             }
 
             $http.post('/api/enrollment/validateEsn', convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei, { transformRequest: function (code) { return JSON.stringify(code); } })

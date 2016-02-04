@@ -239,6 +239,9 @@
                 color: #000;
                 font-weight: bold;
             }
+            body.no-cart & {
+                display: none;
+            }
         }
         &.fixed-fix {
             position: absolute;
