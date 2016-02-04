@@ -239,6 +239,9 @@
                 color: #000;
                 font-weight: bold;
             }
+            body.no-cart & {
+                display: none;
+            }
         }
         &.fixed-fix {
             position: absolute;
@@ -377,13 +380,15 @@
             }
             &.selected {
                 background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
-                
                 a {
                     color: #ffffff;
                     font-weight: 600;
                 }
             }
         }
+    }
+    &.orange {
+        background-color: #f98e00;
     }
 }
 

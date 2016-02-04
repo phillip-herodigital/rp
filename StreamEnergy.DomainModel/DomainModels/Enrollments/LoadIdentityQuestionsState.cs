@@ -43,9 +43,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal || !internalContext.IdentityCheck.Data.HardStop.HasValue)
+            if (context.IsRenewal || context.IsSinglePage || !internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
-                if (context.IsRenewal || internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
+                if (context.IsRenewal || context.IsSinglePage || internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
                 {
                     context.SelectedIdentityAnswers = new Dictionary<string, string>();
                     return typeof(LoadDespositInfoState);
@@ -60,12 +60,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
-            return !context.IsRenewal && (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.IsCompleted || (!internalContext.IdentityCheck.Data.IdentityAccepted && internalContext.IdentityCheck.Data.HardStop != null));
+            return !context.IsRenewal && !context.IsSinglePage && (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.IsCompleted || (!internalContext.IdentityCheck.Data.IdentityAccepted && internalContext.IdentityCheck.Data.HardStop != null));
         }
 
         protected override async Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal)
+            if (context.IsRenewal || context.IsSinglePage)
                 return;
 
             if (internalContext.IdentityCheck == null)

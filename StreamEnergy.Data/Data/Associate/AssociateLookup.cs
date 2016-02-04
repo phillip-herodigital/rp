@@ -88,5 +88,65 @@ WHERE h.[IA Number] = @associateId", connection)
                 };
             }
         }
+
+
+
+        AssociateInformation IAssociateLookup.LookupAssociateByGroupId(string groupId)
+        {
+            if (string.IsNullOrEmpty(groupId))
+            {
+                return null;
+            }
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    var ret = LookupAssociateByGroupId(groupId, connection);
+                    return ret;
+                }
+            }
+            catch
+            {
+                return new AssociateInformation()
+                {
+                    GroupId = groupId,
+                };
+            }
+        }
+        private static AssociateInformation LookupAssociateByGroupId(string groupId, SqlConnection connection)
+        {
+            using (var cmd = new SqlCommand(@"
+
+ SELECT
+  g.[URL],
+  c.[Name_First],
+  c.[Name_Last]
+FROM [Eagle].[dbo].RPGroup g
+LEFT JOIN [Eagle].[dbo].tblCustomers c ON c.[Customer Number] = g.AccountNumber
+WHERE g.[GroupID] = @groupId", connection)
+            {
+                Parameters = { new SqlParameter("@groupId", groupId) }
+            })
+            {
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new AssociateInformation()
+                        {
+                            WebAlias = reader.GetFieldValue<string>(0),
+                            AssociateName = String.Format("{0} {1}", reader.GetFieldValue<string>(1), reader.GetFieldValue<string>(2)),
+                            GroupId = groupId,
+                        };
+                    }
+                }
+                return new AssociateInformation()
+                {
+                    GroupId = groupId,
+                };
+            }
+        }
     }
 }

@@ -122,6 +122,7 @@ namespace StreamEnergy.Services.Clients
                               TerminationFee = ((IEnumerable<dynamic>)product.Fees).Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
                               IncludesThermostat = !string.IsNullOrEmpty(productData.Fields["Includes Thermostat"]),
                               ThermostatDescription = productData.Fields["Thermostat Description"],
+                              IsDisabled = !string.IsNullOrEmpty(productData.Fields["Is Disabled"]),
 
                               Footnotes = productData.Footnotes,
 

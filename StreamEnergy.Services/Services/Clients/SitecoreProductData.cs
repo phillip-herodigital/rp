@@ -38,6 +38,7 @@ namespace StreamEnergy.Services.Clients
                             {
                                 { "Includes Thermostat", item["Includes Thermostat"]},
                                 { "Thermostat Description", item["Thermostat Description"]},
+                                { "Is Disabled", item["Is Disabled"]},
                                 { "Name", item["Product Name"] },
                                 { "Description", LoadProductDescription(providerName, item) },
                                 { "Minimum Usage Fee", item["Minimum Usage Fee"] },

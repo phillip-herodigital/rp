@@ -1,22 +1,14 @@
 ﻿ngApp.controller('voiceCtrl', ['$scope', '$http', function ($scope, $http) {
-
     $scope.showHubFeatures = false;
-
-    $scope.toggleHubFeatures = function () {
-        if ($scope.showHubFeatures) {
-            $scope.showHubFeatures = false;
-            document.getElementById('slidingText').classList.remove('slideIn');
-            document.getElementById('slidingText').classList.add('slideOut');
-            document.getElementById('dropDownImage').classList.remove('rotate180');
-            document.getElementById('dropDownImage').classList.add('rotate0');
-
+    $scope.bundleLink = '';
+    $scope.$watch('digitalVoiceSettings', function(){
+        var params = '&sales_source=' + $scope.digitalVoiceSettings.referralParameters.SalesSource 
+            + '&associate_a_number=' + $scope.digitalVoiceSettings.referralParameters.AgentId;
+        if ($scope.digitalVoiceSettings.referralParameters.FreeEnergyReferralId != "") {
+            params = params + '&free_sponsorship_id=' + $scope.digitalVoiceSettings.referralParameters.FreeEnergyReferralId;
         }
-        else {
-            $scope.showHubFeatures = true;
-            document.getElementById('slidingText').classList.remove('slideOut');
-            document.getElementById('slidingText').classList.add('slideIn');
-            document.getElementById('dropDownImage').classList.add('rotate180');
-            document.getElementById('dropDownImage').classList.remove('rotate0');
-        }
-    }
+        $scope.hubLink = $scope.digitalVoiceSettings.hubUrl + params;
+        $scope.airLink = $scope.digitalVoiceSettings.airUrl + params;
+        $scope.bridgeLink =  $scope.digitalVoiceSettings.bridgeUrl + params;
+    });
 }]);

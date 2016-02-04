@@ -160,6 +160,13 @@
         })
     };
 
+    service.resetAnonymousRenewal = function () {
+        $http.get(urlPrefix + 'reset')
+        .success(function () {
+            $window.location = '/services/one-time-renewal';
+        })
+    };
+
     /**
     * Set service information
     * 
@@ -301,6 +308,56 @@
             data.onlineAccount = null;
 
         return makeCall('accountInformation', data, overrideServerStep);
+    };
+
+    /**
+    * Set single page order
+    * 
+    * @return {object}            Promise object returned when API call has successfully completed.
+    */
+    service.setSinglePageOrder = function (completeOrder) {
+        var data = angular.copy({
+            contactInfo: service.accountInformation.contactInfo,
+            contactTitle: service.accountInformation.contactTitle,
+            companyName: service.accountInformation.companyName,
+            doingBusinessAs: service.accountInformation.doingBusinessAs,
+            socialSecurityNumber: service.accountInformation.socialSecurityNumber,
+            secondaryContactInfo: service.accountInformation.secondaryContactInfo,
+            onlineAccount: service.accountInformation.onlineAccount,
+            mailingAddress: service.accountInformation.mailingAddress,
+            previousAddress: service.accountInformation.previousAddress,
+            preferredSalesExecutive: service.accountInformation.preferredSalesExecutive,
+            previousProvider: service.accountInformation.previousProvider,
+            associateName: service.accountInformation.associateName,
+            TrustEvSessionId: window.TrustevV2 ? TrustevV2.SessionId : null,
+            additionalAuthorizations: completeOrder.additionalAuthorizations,
+            agreeToTerms: completeOrder.agreeToTerms,
+        });
+        data.cart = _.map(enrollmentCartService.services, function (cartItem) {
+            return {
+                location: cartItem.location,
+                offerInformationByType: _.map(cartItem.offerInformationByType, function (typedOrderInfo) {
+                    return {
+                        key: typedOrderInfo.key,
+                        value: {
+                            offerSelections: _.map(typedOrderInfo.value.offerSelections, function (offerSelection) {
+                                return {
+                                    offerId: offerSelection.offerId,
+                                    offerOption: offerSelection.offerOption
+                                };
+                            })
+                        }
+                    };
+                })
+            };
+        });
+
+        if (!data.secondaryContactInfo.first && !data.secondaryContactInfo.last)
+            data.secondaryContactInfo = null;
+        if (data.onlineAccount && !data.onlineAccount.username)
+            data.onlineAccount = null;
+
+        return makeCall('singlePageOrder', data);
     };
 
     /**

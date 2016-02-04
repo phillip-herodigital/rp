@@ -1,0 +1,56 @@
+@{
+    var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"] ?? Sitecore.Context.Item.Fields["Hide Super Footer"];
+    var showSuperFooter = hideSuperFooterField == null || hideSuperFooterField.Value != "1";
+
+    var supportEMail = Html.Sitecore().CurrentItem["Support E-Mail"];
+}
+<footer class="site-footer win-back-footer">
+    @*<div class="contact">
+            <div class="wrapper">
+                <div class="grid three">
+                    <div class="col support">@Html.Sitecore().Field("Support Message")</div>
+                    <div class="col"><a href="@Html.Sitecore().CurrentItem["Support Phone Number URI"]"><i class="icon-call"></i> @Html.Sitecore().Field("Support Phone Number")</a></div>
+                    <div class="col"><a href="mailto:@supportEMail"><i class="icon-email"></i> @Html.Sitecore().Field("Support E-Mail")</a></div>
+                </div>
+            </div>
+        </div>*@
+
+    @if (showSuperFooter)
+    {
+        <div class="logos">
+            <div class="wrapper">
+                <a href="/" class="logo">Stream</a>
+                <ul>
+                    <li><a href="@Html.Sitecore().Field("Facebook Page")" target="_blank"><i class="icon-facebook"></i></a></li>
+                    <li><a href="@Html.Sitecore().Field("Twitter Page")" target="_blank"><i class="icon-twitter"></i></a></li>
+                    <li><a href="@Html.Sitecore().Field("YouTube Page")" target="_blank"><i class="icon-youtube"></i></a></li>
+                    <li><a href="@Html.Sitecore().Field("Pinterest Page")" target="_blank"><i class="icon-pinterest"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
+    {
+        <div class="wrapper clearfix footnotes">
+            @Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
+        </div>
+    }
+
+    <div class="legal">
+        <div class="wrapper">
+            <ol class="accredit-icons">
+                <li><a href="@Html.Sitecore().Field("BBB Page")" target="_blank"><b></b></a></li>
+                <li><a href="@Html.Sitecore().Field("DSA Page")" target="_blank"><i class="icon-dsa"></i></a></li>
+            </ol>
+            @Html.Sitecore().Field("Legal Links")
+        </div>
+    </div>
+    <div class="site-footer-legal">
+        <div class="wrapper">
+            <p>
+                @Html.Sitecore().Field("Copyright Content")
+            </p>
+        </div>
+    </div>
+
+</footer>

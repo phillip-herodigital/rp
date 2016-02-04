@@ -18,6 +18,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     };
     $scope.utilityEnrollment = {
         requestedPlanId: getParameterByName('UtilityPlanId'),
+        renewalType: getParameterByName('renewalType'),
+        esiId: getParameterByName('esiid'),
     };
 
     $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
@@ -117,6 +119,10 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
 
     $scope.resetRenewal = function () {
         enrollmentService.resetRenewal();
+    };
+
+    $scope.resetAnonymousRenewal = function () {
+        enrollmentService.resetAnonymousRenewal();
     };
 
     /**
