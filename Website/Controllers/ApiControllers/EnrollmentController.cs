@@ -155,6 +155,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     if (!captchaResponse.Success)
                     {
                         await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                        await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
                         return new VerifyImeiResponse
                         {
                             IsValidImei = false,
@@ -167,6 +168,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
                 }
                 await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
             }
 
             if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
