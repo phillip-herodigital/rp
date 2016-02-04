@@ -1,7 +1,12 @@
 ﻿ngApp.controller('voiceCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.showHubFeatures = false;
     $scope.bundleLink = "";
-    $scope.hubLink = "https://shop-stream-peck.ooma.com/cart?offer=STREAM_HUB&sales_source=xyz&associate_a_number=1234&free_sponsorship_id=8r8r8";
-    $scope.airLink = "https://shop-stream-peck.ooma.com/cart?offer=STREAM_HUB_AIR&sales_source=xyz&associate_a_number=1234&free_sponsorship_id=8r8r8";
-    $scope.bridgeLink = "https://shop-stream-peck.ooma.com/cart?offer=STREAM_HUB_BRIDGE&sales_source=xyz&associate_a_number=1234&free_sponsorship_id=8r8r8";
+    $scope.$watch('digitalVoiceSettings', function(){
+    	var params = '&sales_source=' + $scope.digitalVoiceSettings.referralUrl.SalesSource 
+    		+ '&associate_a_number=' + $scope.digitalVoiceSettings.referralUrl.AgentId
+    		+ ($scope.digitalVoiceSettings.referralUrl.FreeEnergyReferralId != "" ? ('&free_sponsorship_id=' + $scope.digitalVoiceSettings.referralUrl.FreeEnergyReferralId) : '');
+        $scope.hubLink = $scope.digitalVoiceSettings.hubUrl + params;
+    	$scope.airLink = $scope.digitalVoiceSettings.airUrl + params;
+    	$scope.bridgeLink =  $scope.digitalVoiceSettings.bridgeUrl + params;
+    });
 }]);
