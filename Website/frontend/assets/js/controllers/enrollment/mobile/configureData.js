@@ -9,6 +9,7 @@
     $scope.requestedPlanAvailable = false;
     $scope.showChangeLocation = $scope.geoLocation.postalCode5 == '';
     $scope.excludedStates = false;
+    $scope.zipCodeInvalid = false;
     $scope.enrollmentStepsService = enrollmentStepsService;
 
     var coverageMap = angular.element(document.getElementsByClassName('coverage-map-container'));
@@ -288,6 +289,7 @@
 
                 var activeService = enrollmentCartService.getActiveService();
                 $scope.excludedStates  = _($scope.mobileEnrollmentSettings.excludedStates).contains(data[1]);
+                $scope.zipCodeInvalid = false;
                 if (activeService && !$scope.excludedState) {
                     activeService.location = $scope.data.serviceLocation;
                     enrollmentService.setSelectedOffers(true);
@@ -300,6 +302,7 @@
             }
             else {
                 $scope.showNetworks = false;
+                $scope.zipCodeInvalid = true;
             }
 
             
