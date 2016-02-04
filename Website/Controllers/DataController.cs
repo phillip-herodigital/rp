@@ -190,7 +190,7 @@ namespace StreamEnergy.MyStream.Controllers
                 hubUrl = item.Fields["Hub URL"].Value,
                 airUrl = item.Fields["Bundle Air URL"].Value,
                 bridgeUrl = item.Fields["Bundle Bridge URL"].Value,
-                referralUrl = enrollmentParameters.ToStreamConnectSalesInfo(),
+                referralParameters = enrollmentParameters.ToStreamConnectSalesInfo(),
             };
 
             return this.Content(StreamEnergy.Json.Stringify(data));
