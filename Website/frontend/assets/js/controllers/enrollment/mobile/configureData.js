@@ -302,6 +302,7 @@
             }
             else {
                 $scope.showNetworks = false;
+                $scope.showChangeLocation = true;
                 $scope.zipCodeInvalid = true;
             }
 
