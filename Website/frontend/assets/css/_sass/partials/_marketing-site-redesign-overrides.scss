@@ -201,11 +201,23 @@ article {
         }
 
         .security, .voice {
+            padding: 0px 20px;
+
             h1 {
                 text-align: left;
+                font-size: 33px;
             }
             p {
                 text-align: left;
+                font-size: 16px;
+                margin: 0px 0px 8px;
+
+                .button {
+                    margin-top: 10px;
+                }
+            }
+            br {
+                height: 4px;
             }
         }
 
@@ -214,20 +226,17 @@ article {
                         
             h2 {
                 margin: 0;
-                p {
-                    margin-top: 16px;
-                    font-size: 16px;
-                }
+                color: #000000;
+                font-size: 19px;
             }
 
-            p {
-                color: #FFFFFF;
-                font-size: 32px;
-                line-height: 36px;
-                margin: 0;
+            h3 {
+                font-size: 36px;
                 strong, b {
                     text-transform: uppercase;
-                }
+                    font-weight: normal;
+                }            
+
             }
         }
 
@@ -259,7 +268,13 @@ article {
             h1 {
                 strong, b {
                     color: #8e4b9d;
+                    font-size: 41px;
                 }
+            }
+            p {
+                text-align: center;
+                font-size: 21px;
+                margin-top: 0px;
             }
         }
 
