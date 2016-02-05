@@ -80,13 +80,18 @@
                         $scope.gsmIneligible = true;
                     }
                 } else {
-                    $scope.phoneVerified = true;
-                    $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
-                    $scope.phoneManufacturer = data.manufacturer;
-                    $scope.phoneOptions.iccidNumber = data.iccid;
                     if (data.deviceType) {
                         $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
                     }
+                    $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
+                    if (!$scope.phoneOptions.supportsLte && $scope.networkType == 'CDMA') {
+                        $scope.phoneVerified = false;
+                        $scope.hasError = true;
+                    } else {
+                        $scope.phoneVerified = true;
+                    }
+                    $scope.phoneManufacturer = data.manufacturer;
+                    $scope.phoneOptions.iccidNumber = data.iccid;
                     var responseMessage = _.find($scope.esnValidationMessages, function (message) { 
                             return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
                         });
