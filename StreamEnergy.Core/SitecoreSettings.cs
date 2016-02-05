@@ -18,33 +18,38 @@ namespace StreamEnergy
             this.environment = environment.ToString();
         }
 
-        public Item GetSettingsItem(string relativePath)
+        public Item GetSettingsItem(string relativePath, string database = null)
         {
-            return GetSettingsItems(relativePath).FirstOrDefault();
+            return GetSettingsItems(relativePath, database).FirstOrDefault();
         }
 
-        public string GetSettingsValue(string relativePath, string fieldName)
+        public string GetSettingsValue(string relativePath, string fieldName, string database = null)
         {
-            return GetSettingsItems(relativePath)
+            return GetSettingsItems(relativePath, database)
                 .Select(item => item[fieldName])
                 .Where(v => !string.IsNullOrEmpty(v))
                 .FirstOrDefault();
         }
 
-        public Field GetSettingsField(string relativePath, string fieldName)
+        public Field GetSettingsField(string relativePath, string fieldName, string database = null)
         {
-            return GetSettingsItems(relativePath)
+            return GetSettingsItems(relativePath, database)
                 .Select(item => item.Fields[fieldName])
                 .Where(v => v != null)
                 .FirstOrDefault();
         }
 
-        private IEnumerable<Item> GetSettingsItems(string relativePath)
+        private IEnumerable<Item> GetSettingsItems(string relativePath, string database = null)
         {
             // we don't need to check security settings for reading the item
             using (new SecurityDisabler())
             {
-                var baseItem = Sitecore.Context.Database.GetItem("/sitecore/content/data/Settings/" + relativePath);
+                var sitecoreDatabase = Sitecore.Context.Database;
+                if (!string.IsNullOrEmpty(database))
+                {
+                    sitecoreDatabase = Sitecore.Data.Database.GetDatabase(database);
+                }
+                var baseItem = sitecoreDatabase.GetItem("/sitecore/content/data/Settings/" + relativePath);
                 if (baseItem == null)
                     yield break;
                 var child = baseItem.Axes.GetChild(environment);
