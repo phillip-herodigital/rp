@@ -262,52 +262,52 @@
     };
 
     $scope.lookupZip = function () {
-        enrollmentService.isLoading = true;
-        analytics.sendVariables(1, $scope.postalCode5);
-        $http.get('/api/addresses/lookupZip/' + $scope.postalCode5)
-        .success(function (data) {
-            enrollmentService.isLoading = false;
-            $scope.showChangeLocation = false;
-            if (data.length != 0) {
-                mobileEnrollmentService.stateAbbreviation = data[1];
-                mobileEnrollmentService.postalCode5 = $scope.postalCode5;
-                $scope.geoLocation = {
-                    city: data[0],
-                    state: data[1],
-                    postalCode5: $scope.postalCode5
-                };
+        if ($scope.lookupZipForm.$valid) {
+            enrollmentService.isLoading = true;
+            analytics.sendVariables(1, $scope.postalCode5);
+            $http.get('/api/addresses/lookupZip/' + $scope.postalCode5)
+            .success(function (data) {
+                enrollmentService.isLoading = false;
+                $scope.showChangeLocation = false;
+                if (data.length != 0) {
+                    mobileEnrollmentService.stateAbbreviation = data[1];
+                    mobileEnrollmentService.postalCode5 = $scope.postalCode5;
+                    $scope.geoLocation = {
+                        city: data[0],
+                        state: data[1],
+                        postalCode5: $scope.postalCode5
+                    };
 
-                $scope.data.serviceLocation.address = {
-                    line1: 'Line1',
-                    city: data[0],
-                    stateAbbreviation: data[1],
-                    postalCode5: $scope.postalCode5
-                };
-                $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
-                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential" });
-                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
+                    $scope.data.serviceLocation.address = {
+                        line1: 'Line1',
+                        city: data[0],
+                        stateAbbreviation: data[1],
+                        postalCode5: $scope.postalCode5
+                    };
+                    $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
+                    $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential" });
+                    $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
 
-                var activeService = enrollmentCartService.getActiveService();
-                $scope.excludedStates  = _($scope.mobileEnrollmentSettings.excludedStates).contains(data[1]);
-                $scope.zipCodeInvalid = false;
-                if (activeService && !$scope.excludedState) {
-                    activeService.location = $scope.data.serviceLocation;
-                    enrollmentService.setSelectedOffers(true);
+                    var activeService = enrollmentCartService.getActiveService();
+                    $scope.excludedStates  = _($scope.mobileEnrollmentSettings.excludedStates).contains(data[1]);
+                    $scope.zipCodeInvalid = false;
+                    if (activeService && !$scope.excludedState) {
+                        activeService.location = $scope.data.serviceLocation;
+                        enrollmentService.setSelectedOffers(true);
+                    }
+                    else {
+                        enrollmentCartService.addService({ location: $scope.data.serviceLocation });
+                        enrollmentService.setServiceInformation(true);
+                        activeService = enrollmentCartService.getActiveService();
+                    }
                 }
                 else {
-                    enrollmentCartService.addService({ location: $scope.data.serviceLocation });
-                    enrollmentService.setServiceInformation(true);
-                    activeService = enrollmentCartService.getActiveService();
+                    $scope.showNetworks = false;
+                    $scope.showChangeLocation = true;
+                    $scope.zipCodeInvalid = true;
                 }
-            }
-            else {
-                $scope.showNetworks = false;
-                $scope.showChangeLocation = true;
-                $scope.zipCodeInvalid = true;
-            }
-
-            
-        })
+            })
+        }
     };
 
     var ARCOverlay = function (key, layer, opacity) {
