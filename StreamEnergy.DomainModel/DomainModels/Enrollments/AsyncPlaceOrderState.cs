@@ -74,11 +74,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return typeof(GenerateW9State);
             if (context.OnlineAccount != null)
             {
-                var profile = await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.ToString());
-                var account = await accountService.GetAccounts(internalContext.GlobalCustomerId);
-                var accountNumber = account.FirstOrDefault().AccountNumber;
-                var accountLast4 = account.FirstOrDefault().Details.SsnLastFour;
-                await accountService.AssociateAccount(profile.GlobalCustomerId, accountNumber, accountLast4, "");
+                var profile = await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.Address);
                 var cookie = FormsAuthentication.GetAuthCookie(context.OnlineAccount.Username, false, "/");
                 HttpContext.Current.Response.AppendCookie(cookie);
             }
