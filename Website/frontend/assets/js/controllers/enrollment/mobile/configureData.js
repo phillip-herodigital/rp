@@ -307,6 +307,9 @@
                     $scope.zipCodeInvalid = true;
                 }
             })
+        } else {
+            $scope.showChangeLocation = true;
+            $scope.zipCodeInvalid = true;
         }
     };
 
