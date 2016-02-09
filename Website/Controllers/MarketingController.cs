@@ -339,6 +339,65 @@ namespace StreamEnergy.MyStream.Controllers
                 return View("~/Views/Pages/Marketing/Services/Enroll Commercial.cshtml", contact);
             }
         }
+        
+        
+        // Currents Feedback Form
+         public ActionResult CurrentsFeedbackIndex()
+        {
+            var model = new StreamEnergy.MyStream.Models.Marketing.CurrentsFeedback()
+            {
+                ShowSuccessMessage = !string.IsNullOrEmpty(Request["success"]) && Request["success"] == "true",
+            };
+
+            return View("~/Views/Pages/Marketing/Services/CurrentsFeedback.cshtml", model);
+        }
+
+        [HttpPost]
+        public ActionResult CurrentsFeedbackIndex(StreamEnergy.MyStream.Models.Marketing.CurrentsFeedback contact)
+        {
+            // Validate form data
+            if (ModelState.IsValid)
+            {
+                // Get the form data
+                var Name = contact.ContactName.Name;
+                var Email = contact.ContactEmail.Email;
+                var Phone = contact.ContactPhone.Phone;
+                var Comments = contact.ContactComments.Comments;
+
+                // Get the To address(es) from Sitecore;
+                var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
+                var ToEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Currents Feedback Email Address").Value;
+
+                // Send the email
+                var fromAddress = Sitecore.Configuration.Settings.GetSetting("DynEtc.fromAddress", null);
+                MailMessage Message = new MailMessage();
+                Message.From = new MailAddress(fromAddress, Name);
+                Message.ReplyToList.Add(new MailAddress(Email));
+                Message.To.Add(ToEmail);
+                Message.Subject = "New Currents Comments/Feedback";
+                Message.IsBodyHtml = true;
+                Message.Body = "Name: " + Name +
+                    "<br />Email: " + Email +
+                    "<br />Phone: " + Phone +
+                    "<br />Comments: " + Comments +
+                    
+
+                // Intentionally letting the Task go - this sends async to the user's request.
+                this.emailService.SendDynEmailSyncronous(Message);
+
+                // Send the success message back to the page
+                var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
+                return ReturnURL;
+            }
+            else
+            {
+                return View("~/Views/Pages/Marketing/Services/CurrentsFeedback.cshtml", contact);
+            }
+        }
+        
+        
+        
+        
         public ActionResult HomeLifeServices(string hash, string mock)
         {
             HomeLifeServices model = new HomeLifeServices()

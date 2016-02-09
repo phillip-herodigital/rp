@@ -1,0 +1,44 @@
+﻿@model StreamEnergy.MyStream.Models.Marketing.CurrentsFeedback
+@using System.Linq.Expressions;
+@using StreamEnergy.Extensions;
+
+<article class="marketing photoLockup commercial-quote">
+    <div class="photo">
+    </div>
+    <div class="text">
+        <div class="inner">
+            <h2>@Html.Sitecore().Field("Form Title")</h2>
+            @Html.Sitecore().Field("Form Intro Text")
+            <form action="@Request.Url.ToString()" method="post">
+                @Html.ValidationSummary()
+
+                <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.Name)>
+                    @Html.TextBoxFor(m => m.ContactName.Name, new { ng_model = "name", placeholder = Html.Sitecore().Field("Name Placeholder Text") })
+                </div>
+                <div class="item" @Html.Validation().ErrorClass(model => model.ContactEmail.Email)>
+                    @Html.TextBoxFor(m => m.ContactEmail.Email, new { ng_model = "email", placeholder = Html.Sitecore().Field("Email Placeholder Text") })
+                </div>
+                <div class="item" @Html.Validation().ErrorClass(model => model.ContactPhone.Phone)>
+                    @Html.TextBoxFor(m => m.ContactPhone.Phone, new { ng_model = "phone", placeholder = Html.Sitecore().Field("Phone Number Placeholder Text") })
+                </div>
+                <div class="item" @Html.Validation().ErrorClass(model => model.ContactComments.Comments)>
+                    @Html.TextBoxFor(m => m.ContactComments.Comments, new { ng_model = "comments", placeholder = Html.Sitecore().Field("Comments Placeholder Text") })
+                </div>
+                <div class="item">
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Send Button Text")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</article>
+@if (Model != null && Model.ShowSuccessMessage)
+{
+    <article class="marketing commercial-quote">
+        <div class="success-message" id="success-message">
+            <div class="wrapper">
+                <h2>@Html.Sitecore().Field("Thank You Text")</h2>
+                <h4>@Html.Sitecore().Field("Success Message Text")</h4>
+            </div>
+        </div>
+    </article>
+}
