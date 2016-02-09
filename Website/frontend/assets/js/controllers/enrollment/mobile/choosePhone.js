@@ -36,6 +36,7 @@
         $scope.duplicateDevice = false;
         $scope.phoneVerified = false;
         $scope.cdmaActive = false;
+        $scope.phoneOptions.supportsLte = true;
         var cartDevices = $scope.getCartDevices();
         if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
             $scope.hasError = true;
@@ -87,6 +88,7 @@
                     if (!$scope.phoneOptions.supportsLte && $scope.networkType == 'CDMA') {
                         $scope.phoneVerified = false;
                         $scope.hasError = true;
+                        reCAPTCHA.reload($scope.widgetId);
                     } else {
                         $scope.phoneVerified = true;
                     }
