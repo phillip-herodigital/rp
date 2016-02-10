@@ -23,12 +23,16 @@ namespace StreamEnergy.MyStream.Models.Marketing
         public Phone ContactPhone { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Please enter a comment/suggestion")]
-        public Comments ContactComments { get; set; }
+        public string ContactComments { get; set; }
+
 
         void ISanitizable.Sanitize()
         {
-            if (ContactComments != null)
-                ((ISanitizable)ContactComments).Sanitize();
+            if (ContactPhone != null)
+                ((ISanitizable)ContactPhone).Sanitize();
+
+            if (ContactEmail != null)
+                ((ISanitizable)ContactEmail).Sanitize();
         }
     }
 }

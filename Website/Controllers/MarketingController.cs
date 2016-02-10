@@ -359,10 +359,12 @@ namespace StreamEnergy.MyStream.Controllers
             if (ModelState.IsValid)
             {
                 // Get the form data
-                var Name = contact.ContactName.Name;
-                var Email = contact.ContactEmail.Email;
-                var Phone = contact.ContactPhone.Phone;
-                var Comments = contact.ContactComments.Comments;
+                var FirstName = contact.ContactName.First;
+                var LastName = contact.ContactName.Last;
+                var Email = contact.ContactEmail.Address;
+                var Phone = contact.ContactPhone.Number ;
+                var Comments = contact.ContactComments;
+                var Name = FirstName + ' ' + LastName;
 
                 // Get the To address(es) from Sitecore;
                 var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
@@ -376,10 +378,11 @@ namespace StreamEnergy.MyStream.Controllers
                 Message.To.Add(ToEmail);
                 Message.Subject = "New Currents Comments/Feedback";
                 Message.IsBodyHtml = true;
-                Message.Body = "Name: " + Name +
+                Message.Body = "First Name: " + FirstName +
+                    "<br />Last Name: " + LastName +
                     "<br />Email: " + Email +
                     "<br />Phone: " + Phone +
-                    "<br />Comments: " + Comments +
+                    "<br />Comments: " + Comments ;
                     
 
                 // Intentionally letting the Task go - this sends async to the user's request.
