@@ -88,7 +88,9 @@
                     if (!$scope.phoneOptions.supportsLte && $scope.networkType == 'CDMA') {
                         $scope.phoneVerified = false;
                         $scope.hasError = true;
-                        reCAPTCHA.reload($scope.widgetId);
+                        if ($scope.showCaptcha) {
+                            reCAPTCHA.reload($scope.widgetId);
+                        }
                     } else {
                         $scope.phoneVerified = true;
                     }
