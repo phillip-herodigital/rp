@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ResponsivePath.Validation;
 
-namespace StreamEnergy.MyStream.Models.Marketing
+namespace StreamEnergy.MyStream.Models.Currents
 {
     public class CurrentsFeedback : ISanitizable
     {
