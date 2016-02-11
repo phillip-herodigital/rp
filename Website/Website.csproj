@@ -939,6 +939,8 @@
     <Compile Include="Models\Currents\RadioFilterRequest.cs" />
     <Compile Include="Models\Currents\RadioItem.cs" />
     <Compile Include="Models\Currents\RadioRequest.cs" />
+    <Compile Include="Models\Enrollment\GetAccountInformationResponse.cs" />
+    <Compile Include="Models\Enrollment\GetLoggedInAccountDetails.cs" />
     <Compile Include="Models\Enrollment\SinglePageOrder.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />

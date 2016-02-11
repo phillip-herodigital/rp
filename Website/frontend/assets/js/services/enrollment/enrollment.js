@@ -2,10 +2,8 @@
 
     var service = {},
         urlPrefix = '/api/enrollment/';
-
     service.validations = [];
     service.isLoading = false;
-
     service.accountInformation = {
         contactTitle: '',
         contactInfo: {
@@ -22,7 +20,26 @@
             }
         },
         socialSecurityNumber: '',
-        secondaryContactInfo: {}
+        secondaryContactInfo: {},
+    };
+    service.contactOptions = {};
+    service.getLoggedInAccountInformation = function () {
+        service.isLoading = true;
+        $http({
+            method: 'get',
+            url: '/api/enrollment/getLoggedInUserInfo',
+        }).success(function (data) {
+            if (data.isUserLoggedIn) {
+                service.contactOptions.accountDetails = data.accountDetails;
+                service.contactOptions.mailingAddressSame = false;
+                service.contactOptions.isUserLoggedIn = data.isUserLoggedIn;
+                service.isLoading = false;
+            }
+            service.isLoading = false;
+        })
+        .error(function () {
+            service.isLoading = false;
+        });
     };
     service.identityQuestions = [];
 

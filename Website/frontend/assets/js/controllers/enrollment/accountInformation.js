@@ -4,6 +4,8 @@
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
     $scope.accountInformation = enrollmentService.accountInformation;
+    enrollmentService.getLoggedInAccountInformation();
+    $scope.contactOptions = enrollmentService.contactOptions;
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
         showAdditionalPhoneNumber: $scope.accountInformation.contactInfo.phone.length > 1,
@@ -18,7 +20,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.associateInformation = enrollmentService.associateInformation;
 
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
-
     $scope.hasMoveIn = false;
     $scope.hasSwitch = false;
     $scope.$watch(enrollmentCartService.services, function () {
@@ -79,7 +80,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                 if ($scope.utilityAddresses().length == 1)
                     $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
             } else if ($scope.cartHasUtility()) {
-                $scope.accountInformation.mailingAddress = {};
+                    $scope.accountInformation.mailingAddress = {};
             }
         }
     });

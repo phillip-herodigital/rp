@@ -43,6 +43,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly StackExchange.Redis.IDatabase redisDatabase;
         private readonly IEnrollmentService enrollmentService;
+        private readonly DomainModels.Accounts.IAccountService accountService;
+        private readonly ICurrentUser currentUser;
         private readonly IActivationCodeLookup activationCodeLookup;
         private readonly IAssociateLookup associateLookup;
         private readonly IDpiEnrollmentParameters dpiEnrollmentParameters;
@@ -67,7 +69,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger, HttpClient httpClient)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, DomainModels.Accounts.IAccountService accountService, ICurrentUser currentUser, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger, HttpClient httpClient)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -76,6 +78,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.validation = validation;
             this.redisDatabase = redisDatabase;
             this.enrollmentService = enrollmentService;
+            this.accountService = accountService;
+            this.currentUser = currentUser;
             this.activationCodeLookup = activationCodeLookup;
             //this.documentStore = documentStore;
             this.associateLookup = associateLookup;
@@ -751,6 +755,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             else
                 await stateMachine.ContextUpdated();
 
+
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
 
@@ -859,6 +864,37 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
+        }
+
+        [HttpGet]
+        public async Task<GetLoggedInUserInfoResponse> GetLoggedInUserInfo()
+        {
+            await Initialize();
+            if (currentUser.StreamConnectCustomerId == Guid.Empty)
+            {
+                return new GetLoggedInUserInfoResponse
+                {
+                    IsUserLoggedIn = false,
+                };
+            }
+            var accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            //Task.WaitAll((from account in accounts.Take(2)
+            //              select accountService.GetAccountDetails(account, false)).ToArray());
+            foreach (var account in accounts.Take(2))
+            {
+                await accountService.GetAccountDetails(account, false);
+            }
+            return new GetLoggedInUserInfoResponse
+            {
+                IsUserLoggedIn = true,
+                AccountDetails = from account in accounts
+                                 select new GetLoggedInAccountDetails
+                                 {
+                                     ContactInfo = account.Details.ContactInfo,
+                                     MailingAddress = account.Details.BillingAddress,
+        }
+
+            };
         }
 
         private void EnsureTypedPhones(Phone[] phones)

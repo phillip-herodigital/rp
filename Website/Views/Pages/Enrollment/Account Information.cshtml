@@ -61,6 +61,19 @@
                         <div class="content">
                             <h3>@Html.Sitecore().Field("Personal Information Header")</h3>
                             <div class="group">
+                                <div class="item" ng-show="contactOptions.isUserLoggedIn" ng-cloak>
+                                    <label for="service-address-mailing">Select Existing Contact Info</label>
+                                    <select id="service-address-mailing"
+                                            name="@Html.NameFor(m => m)"
+                                            data-val="true" data-val-required
+                                            ng-model="accountInformation"
+                                            ng-change=""
+                                            ng-options="contacts as contacts.mailingAddress | address for contacts in contactOptions.accountDetails">
+                                        <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="group">
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.First)>
                                     <label for="@Html.IdFor(m => m.ContactInfo.Name.First)">@Html.Sitecore().Field("First Name Label")</label>
                                     @Html.TextBoxFor(m => m.ContactInfo.Name.First, new { ng_model = "accountInformation.contactInfo.name.first" })
