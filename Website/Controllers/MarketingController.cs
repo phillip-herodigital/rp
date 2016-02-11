@@ -349,7 +349,7 @@ namespace StreamEnergy.MyStream.Controllers
                 ShowSuccessMessage = !string.IsNullOrEmpty(Request["success"]) && Request["success"] == "true",
             };
 
-            return View("~/Views/Pages/Marketing/Services/CurrentsFeedback.cshtml", model);
+            return View("~/Views/Pages/Currents/CurrentsFeedback.cshtml", model);
         }
 
         [HttpPost]
@@ -394,7 +394,7 @@ namespace StreamEnergy.MyStream.Controllers
             }
             else
             {
-                return View("~/Views/Pages/Marketing/Services/CurrentsFeedback.cshtml", contact);
+                return View("~/Views/Pages/Currents/CurrentsFeedback.cshtml", contact);
             }
         }
         
