@@ -1942,3 +1942,12 @@ $local-meeting-color: #00a8e1;
         }
     }
 }
+
+ article.currents-feedback {
+    .text {
+        border-left: none !important;
+    }
+    .button {
+        color: #fff !important; 
+    }
+}
