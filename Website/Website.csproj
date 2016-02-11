@@ -954,6 +954,7 @@
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
     <Compile Include="Models\Logger\LogRecorderRequest.cs" />
+    <Compile Include="Models\Currents\CurrentsFeedback.cs" />
     <Compile Include="Models\Marketing\ModalContent.cs" />
     <Compile Include="Models\Marketing\SimActivation.cs" />
     <Compile Include="Models\Marketing\ValidasRequest.cs" />
@@ -1675,6 +1676,7 @@
     <Content Include="Views\Pages\Enrollment\Single Page Enrollment.cshtml" />
     <Content Include="Views\Components\Win Back Footer.cshtml" />
     <Content Include="Views\Components\Marketing\Win Back\Win Back Landing.cshtml" />
+    <Content Include="Views\Pages\Currents\CurrentsFeedback.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
