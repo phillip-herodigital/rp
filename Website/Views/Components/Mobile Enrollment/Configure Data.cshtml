@@ -16,10 +16,13 @@
                         <h1>@Html.Sitecore().Field("Check Coverage And Choose")</h1>
                     </header>
                     <div class="content">
-                        <div class="plan-error" ng-show="mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && !planSelection.selectedOffers.Mobile && currentMobileLocationInfo().offerInformationByType || excludedStates">
+                        <div class="plan-error" ng-show="(mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && !planSelection.selectedOffers.Mobile && currentMobileLocationInfo().offerInformationByType) || excludedStates">
                             <span ng-show="requestedPlanNetwork == networkType && !excludedStates">@Html.Sitecore().Field("Requested Plan Unavailable")</span>
                             <span ng-show="requestedPlanNetwork != networkType && !excludedStates">@Html.Sitecore().Field("Requested Network Unavailable")</span>
                             <span ng-show="excludedStates">@Html.Sitecore().Field("Location Unavailable")</span>
+                        </div>
+                        <div class="plan-error" ng-show="zipCodeInvalid">
+                            @Html.Sitecore().Field("Invalid Zip Code Message")
                         </div>
                         <div class="location-section clearfix">
                             <div class="clearfix">
@@ -28,16 +31,18 @@
                                         @Html.Sitecore().Field("It looks like youre in") {{ geoLocation.city }}, {{ geoLocation.state }} {{ geoLocation.postalCode5 }} <a href="" ng-click="showChangeLocation = true">@Html.Sitecore().Field("Change Text")</a>
                                     </div>
                                     <div class="location-input" ng-show="showChangeLocation">
-                                        <span>@Html.Sitecore().Field("Enter Zip Code Message")</span>
-                                        <input type="text" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{5}$" data-val-if="showChangeLocation" data-val-required="" class="zip-code" ng-model="postalCode5" ng-keyup="$event.keyCode == 13 && lookupZip(postalCode5)">
-                                        <a href="" ng-click="lookupZip(postalCode5)">@Html.Sitecore().Field("Go Text")</a>
+                                        <form name="lookupZipForm">
+                                            <span>@Html.Sitecore().Field("Enter Zip Code Message")</span>
+                                            <input type="text" name="zipCode" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{5}$" data-val-if="showChangeLocation" data-val-required="" class="zip-code" ng-model="postalCode5" ng-keyup="$event.keyCode == 13 && lookupZip()">
+                                            <a href="" ng-click="lookupZip()">@Html.Sitecore().Field("Go Text")</a>
+                                        </form>
                                     </div>
                                 </div>
                                 <a href="" class="view-coverage" ng-click="showCoverageMapOverlay()">@Html.Sitecore().Field("View Coverage Text")</a>
                             </div>
                         </div>
                         
-                        <div ng-show="currentMobileLocationInfo().offerInformationByType.length > 0 && !excludedStates">
+                        <div ng-show="currentMobileLocationInfo().offerInformationByType.length > 0 && !excludedStates && !zipCodeInvalid">
                             <hr />
                             <div class="networkSection clearfix">
                                 <i ng-class="{'icon-gsm_plans': mobileEnrollmentService.selectedNetwork.value == 'att', 'icon-cdma_plans':mobileEnrollmentService.selectedNetwork.value != 'att'}"></i>
@@ -121,7 +126,7 @@
                     </div>
                     <footer>
                         <div class="buttons">
-                            <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="excludedStates || !planSelection.selectedOffers['Mobile'].length">@Html.Sitecore().Field("Button - Next")</button>
+                            <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="excludedStates || zipCodeInvalid || !planSelection.selectedOffers['Mobile'].length">@Html.Sitecore().Field("Button - Next")</button>
                             <button type="button" class="tertiary" ng-click="enrollmentStepsService.scrollToStep('phoneFlowDevices')">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
                         </div>
                     </footer>

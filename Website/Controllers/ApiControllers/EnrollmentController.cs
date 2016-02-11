@@ -107,7 +107,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
             dpiEnrollmentParameters.Initialize(enrollmentDpiParameters);
-            if (stateHelper.StateMachine.InternalContext.AssociateInformation == null || stateHelper.StateMachine.InternalContext.AssociateInformation.AssociateId != dpiEnrollmentParameters.AccountNumber)
+
+            if (dpiEnrollmentParameters.RefSite.ToUpper() == "FER")
+            {
+                stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociateByGroupId(dpiEnrollmentParameters.GroupId);
+            }
+            else if (stateHelper.StateMachine.InternalContext.AssociateInformation == null || stateHelper.StateMachine.InternalContext.AssociateInformation.AssociateId != dpiEnrollmentParameters.AccountNumber)
             {
                 stateHelper.StateMachine.InternalContext.AssociateInformation = associateLookup.LookupAssociate(dpiEnrollmentParameters.AccountNumber);
             }
@@ -155,6 +160,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     if (!captchaResponse.Success)
                     {
                         await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                        await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
                         return new VerifyImeiResponse
                         {
                             IsValidImei = false,
@@ -167,6 +173,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
                 }
                 await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
             }
 
             if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))

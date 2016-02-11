@@ -13,6 +13,7 @@ $themes:
     (name: "palered", primaryColor: #b48789, accentColor: #fff, textColor: #fff),
     (name: "white", primaryColor: #fff, accentColor: $brand-primary-color, textColor: #6b6b6b),
     (name: "grey", primaryColor: #e8e8e8, accentColor: $brand-primary-color, textColor: #6b6b6b),
+    (name: "purple", primaryColor: #8e4b9d, accentColor: $brand-primary-color, textColor: #6b6b6b),
     (name: "darkgrey", primaryColor: #6b6b6b, accentColor: #fff, textColor: #fff);
 
 @each $theme in $themes {
@@ -199,49 +200,78 @@ article.photoLockup {
 
 article.marketingIntro {
     text-align: center;
+
     em {
         color: #007dc3;
         font-style: normal;
     }
+
+    &.voice-intro {
+        hr {
+            display: none;
+        }
+
+        h1 {
+            b, strong {
+                color: #8e4b9d;
+            }
+        }
+
+        .button {
+            background-image: none;
+            background-color: #8E4B9D;
+        }
+    }
+
     p.intro {
         margin: 1em 20px;
         font-size: 22px;
         line-height: 1.5;
     }
+
     hr {
         margin: 22px 0;
         border: 0;
         border-top: 3px solid #eee;
     }
+
     div.body {
         margin: 0 100px;
         font-size: 19px;
+
         ul {
             @include breakpoint(medium-large) {
                 width: 450px;
             }
+
             margin-left: auto;
             margin-right: auto;
             text-align: left;
+
             em {
                 text-transform: uppercase;
             }
         }
+
         @include breakpoint(small) {
             margin: 0 20px;
         }
     }
+
     sup {
         font-size: 9px;
     }
+
     @each $theme in $themes {
         &.accent-#{map-get($theme, name)} {
             em {
                 color: map-get($theme, primaryColor);
             }
+
             button, .button {
                 background-color: map-get($theme, primaryColor);
                 background-image: none;
+
                 &:hover {
                     background-color: #6b6b6b;
                     color: #fff;
@@ -249,14 +279,17 @@ article.marketingIntro {
             }
         }
     }
+
     @each $theme in $themes {
         & span.#{map-get($theme, name)} {
             color: map-get($theme, primaryColor);
         }
+
         & ul.#{map-get($theme, name)} {
             color: map-get($theme, primaryColor);
         }
     }
+
     @each $theme in $themes {
         & span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
             color: map-get($theme, primaryColor);
@@ -264,9 +297,723 @@ article.marketingIntro {
     }
 }
 
+.voice {
+    .voice-main {
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @include breakpoint(small-medium) {
+            text-align: center;
+        }
+    }
+
+    .voice-photoLockup {
+        h1 {
+            text-align: left;
+            margin-bottom: 0px;
+
+            b, strong {
+                color: #8e4b9d;
+            }
+        }
+
+        h4 {
+            margin-top: 0px;
+        }
+
+        .button {
+            background-image: none;
+            background-color: #8e4b9d;
+            position: relative;
+            right: 150px;
+        }
+
+        h3 {
+            display: inline-block;
+        }
+
+        p {
+            display: inline-block;
+            float: right;
+        }
+
+        @media only screen and (max-width: 1024px) {
+
+            .wrapper > img + .content {
+                text-align: center;
+                float: none;
+                width: 80%;
+                margin: 0 auto;
+
+                .button {
+                    right: initial;
+                }
+
+                h1 {
+                    text-align: center;
+                }
+
+                p {
+                    float: none;
+                }
+
+                h3, a.button {
+                    float: none;
+                    margin: 0 12px 0;
+                }
+            }
+
+            .wrapper > img {
+                float: none;
+                margin: 0 auto;
+                display: inherit;
+            }
+        }
+    }
+
+    .voice-lets-be-clear {
+        background-color: #f3f6f7;
+        text-align: center;
+        padding: 24px;
+
+        b, strong {
+            color: #8e4b9d;
+        }
+
+        img {
+            margin: 24px auto 0;
+        }
+
+        p {
+            width: 90%;
+            margin: 0 auto;
+            font-size: 21px;
+        }
+    }
+
+    .voice-hub-features {
+        width: 90%;
+        margin: 0 auto;
+
+        hr {
+            margin: 0px;
+        }
+
+        .heading-wrapper {
+            margin: 10px auto;
+            display: table;
+            overflow: hidden;
+
+            .rotate180 {
+                transform: rotate(180deg);
+                transition: all 0.5s ease-out;
+            }
+
+            .rotate0 {
+                transform: rotate(0deg);
+                transition: all 0.5s ease-out;
+            }
+
+            img {
+                position: relative;
+                margin-right: 18px;
+                display: table-cell;
+            }
+        }
+
+        .slideIn {
+            transition: all 0.5s ease-out;
+        }
+
+        .slideOut {
+            max-height: 0;
+            margin-top: 0;
+            overflow: hidden;
+            transition: all 0.5s ease-out;
+        }
+
+        a.drop-down {
+            margin: 6px 24px;
+            text-align: center;
+            color: #8e4b9d;
+            text-transform: uppercase;
+            display: table-cell;
+            font-size: 18px;
+            font-weight: 600;
+        }
+    }
+
+    .voice-setup {
+        margin-bottom: 32px;
+
+        p.intro {
+            text-align: center;
+            color: #000;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        p.outro {
+            text-align: center;
+            color: #000;
+            border: 34px 0px;
+        }
+
+        .grid {
+            margin: 0 auto;
+            width: 50%;
+        }
+
+        .grid-item {
+            margin: 0 auto;
+            float: left;
+            width: 20%;
+            position: relative;
+            height: 120px;
+
+            &.separator {
+                img {
+                    top: calc(50% + 6.5px);
+                }
+            }
+
+            img {
+                display: block;
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            p {
+                text-align: center;
+                margin-top: 4px;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+                color: #9f9f9f;
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+        }
+
+        @include breakpoint(medium) {
+            .grid {
+                width: 75%;
+            }
+        }
+
+        @include breakpoint(small) {
+            .grid {
+                width: 100%;
+            }
+
+            .grid-item {
+                float: initial;
+                width: 100%;
+
+                &.separator {
+                    height: 60px;
+                }
+            }
+        }
+    }
+
+    .voice-on-the-go {
+        padding-bottom: 36px;
+        margin: 0 auto;
+
+        .heading {
+            background: linear-gradient(top, #f0f0f0, white);
+            height: 36px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 41px;
+            b, strong {
+                color: #8e4b9d;
+                text-transform: uppercase;
+                font-weight: initial;
+            }
+        }
+
+        .section1 {
+            text-align: center;
+            margin: 0 auto;
+            p {
+                font-size: 21px;
+            }
+        }
+
+        .section2 {
+            padding-top: 16px;
+            padding-bottom: 16px;
+            margin: 0 auto;
+            display: table;
+            p {
+                line-height: 16px;
+                font-weight: bold;
+            }
+        }
+
+        .app-links {
+            text-align: center;
+            .google-play, .app-store {
+                display: inline-block;
+            }
+        }
+
+        @include breakpoint(medium) {
+            width: 75%;
+
+            .section1 p {
+                line-height: inherit;
+            }
+        }
+
+        @include breakpoint(small) {
+            width: 100%;
+
+            .section1 p {
+                line-height: inherit;
+            }
+        }
+    }
+
+    .voice-get-more {
+        background-color: #9f66ac;
+        background-image: url(../i/marketing/redesign/Modules/Services/section-rule_energy-overview.png);
+        background-repeat: no-repeat;
+        border-top: 32px;
+        padding-top: 32px;
+        margin-top: 32px;
+        color: white;
+
+        .heading {
+            text-align: center;
+
+            h2 {
+                color: white;
+                font-size: 41px;
+                b, strong {
+                    text-transform: uppercase;
+                    font-weight: normal;
+                }
+            }
+            p {
+                font-size: 21px;
+            }
+        }
+
+        .button {
+            color: #9f66ac;
+            background-color: white;
+            background-image: none;
+        }
+
+        .wrapper {
+            width: 85%;
+        }
+
+        .image-text-wrapper {
+            width: auto;
+            display: inline-block;
+
+            img {
+                position: relative;
+                left: 50%;
+            }
+
+            h3 {
+                margin: 10px 0 0;
+                font-size: 33px;
+                b, strong {
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        .right, .left {
+            width: 50%;
+            float: left;
+            display: block;
+            margin-bottom: 50px;
+            h3 {
+                color: inherit;
+            }
+
+            p.image-text-2 {
+                margin-top: 0;
+                font-size: 22px;
+            }
+
+            p.section1 {
+                margin: 20px 0;
+                font-size: 16px;
+            }
+
+            .section2 {
+                p {
+                    font-size: 16px;
+                    margin: 0.5em 0;
+                }
+            }
+
+            .just-buy-now {
+                width: 100%;
+                margin: 24px 0px;
+
+                .price {
+                    font-size: 21px;
+                    font-weight: 600;
+                    float: left;
+                }
+
+                .button {
+                    left: 25%;
+                    position: relative;
+                }
+            }
+        }
+
+        .left {
+            border-right: 1px solid #c5a3cd;
+            padding-right: 12px;
+        }
+
+        .right {
+            border-left: 1px solid #c5a3cd;
+            padding-left: 30px;
+            transform: translateX(-1px);
+        }
+
+        .bundle {
+            background-color: #8e4b9d;
+            margin: 12px 0px;
+            padding: 24px;
+            float: left;
+            width: 100%;
+            border-radius: 5px;
+
+            h2 {
+                color: inherit;
+                font-weight: bold;
+                text-align: center;
+                margin: 0;
+                font-size: 41px;
+            }
+
+            p {
+                font-size: 21px;
+                text-align: center;
+            }
+
+            .air-or-bridge {
+                height: 85px;
+                margin: 20px auto 0px;
+
+                .left, .right {
+                    border: none;
+                    padding: 0px;
+                    height: inherit;
+                }
+
+                .left {
+                    width: 50%;
+                    min-width: 440px;
+
+                    .air-or-bridge-item {
+                        float: right;
+                    }
+                }
+
+                .right {
+                    width: calc(50% - 40px);
+                    min-width: 400px;
+
+                    .air-or-bridge-item {
+                        float: left;
+                    }
+                }
+
+                .middle {
+                    width: 40px;
+                    height: 100%;
+                    position: relative;
+                    float: left;
+                    font-weight: 500;
+                    font-style: italic;
+                    font-size: large;
+
+                    .or-box-left {
+                        width: 50%;
+                        height: 100%;
+                        position: absolute;
+                        top: 0;
+                        left: 1px;
+                        border-right: 1px solid #3b3b3b;
+                    }
+
+                    .or-box-top {
+                        display: none;
+                        width: 80px;
+                        height: 50%;
+                        position: absolute;
+                        top: 1px;
+                        left: -20px;
+                        border-bottom: 1px solid #3b3b3b;
+                    }
+
+                    .or-circle {
+                        height: 40px;
+                        width: 40px;
+                        background-color: #b081bb;
+                        color: #3b3b3b;
+                        font-size: larger;
+                        font-style: italic;
+                        border-radius: 20px;
+                        text-align: center;
+                        line-height: 40px;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+
+                .air-or-bridge-item {
+                    padding: 0px 8px;
+                    height: 100%;
+                    font-size: x-large;
+
+                    b, strong {
+                        text-transform: uppercase;
+                    }
+
+                    &.plus {
+                        padding: 0px 24px;
+
+                        img {
+                            top: 50%;
+                            transform: translate(0, -50%);
+                            position: relative;
+                            float: initial;
+                        }
+                    }
+
+                    a.button, input, text {
+                        top: 50%;
+                        transform: translate(0, -50%);
+                        position: relative;
+                    }
+
+                    input {
+                        transform: translate(0, -125%);
+                    }
+
+                    p.button {
+                        margin: 0px;
+                        transform: translate(0, -20px);
+                    }
+
+                    text {
+                        display: inline-block;
+                    }
+                }
+
+                @media only screen and (max-width: 1180px) {
+                    height: 255px;
+
+                    .right, .left, .middle {
+                        float: initial;
+                        height: 85px;
+                        margin: 0px auto;
+                    }
+
+                    .left {
+                        .air-or-bridge-item {
+                            float: left;
+                        }
+                    }
+
+                    .right {
+                        display: block;
+                    }
+
+                    .middle {
+                        height: 40px;
+
+                        .or-box-top {
+                            display: inherit;
+                        }
+
+                        .or-box-left {
+                            display: none;
+                        }
+                    }
+                }
+
+                @media only screen and (max-width: 625px) {
+                    height: auto;
+
+                    .right, .left {
+                        height: auto;
+                        min-width: 125px;
+
+                        .air-or-bridge-item {
+                            float: initial;
+                            text-align: center;
+                            height: auto;
+
+                            input, text, img, .button {
+                                top: inherit;
+                                transform: inherit;
+                                position: inherit;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @include breakpoint(small-medium) {
+            .right, .left {
+                width: initial;
+                float: none;
+                padding: 0;
+            }
+
+            .right {
+                padding-top: 18px;
+                border-left: none;
+                border-top: 1px solid #c5a3cd;
+            }
+
+            .left {
+                border-right: none;
+            }
+        }
+    }
+
+    .voice-easy-setup {
+        width: 90%;
+        margin: 48px auto 0;
+
+        .intro {
+            width: 100%;
+
+            h2 {
+                text-align: center;
+                font-size: 42px;
+                strong, b {
+                    color: #8e4b9d;
+                    font-weight: normal;
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        .left, .right {
+            float: left;
+            width: 50%;
+            box-sizing: border-box;
+            padding: 0px 24px;
+
+            hr {
+                border-top: 1px solid #e2e2e2;
+            }
+
+            hr.purple {
+                border-top: 1px solid #8e4b9d;
+                margin: 18px 0;
+            }
+
+            h3 {
+                font-size: 33px;
+                strong, b {
+                    text-transform: uppercase;
+                    color: #8e4b9d;
+                }
+            }
+
+            h3, h4 {
+                margin: 4px 0;
+            }
+
+            h4 {
+                font-size: 22px;
+                margin-bottom: 18px;
+                font-weight: 400;
+            }
+
+            p.step {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            p.left-step-1, p.right-step-2 {
+                color: #8e4b9d;
+            }
+
+            p.left-step-2, p.right-step-1 {
+                color: #03aadf;
+            }
+
+            p {
+                margin-top: 0;
+                font-size: 24px;
+            }
+
+            img {
+                padding: 12px 8px 0;
+            }
+        }
+
+        .left {
+            border-right: 1px solid #e2e2e2;
+
+            p.left-step-3 {
+                color: #1274b4;
+            }
+        }
+
+        .right {
+            transform: translateX(-1px);
+            border-left: 1px solid #e2e2e2;
+
+            p.right-step-3 {
+                color: #98c847;
+            }
+        }
+
+        @include breakpoint (small-medium) {
+            .left, .right {
+                float: initial;
+                width: auto;
+                border-left: none;
+                border-right: none;
+            }
+
+            .right {
+                border-top: 2px solid #e2e2e2;
+                margin-top: 12px;
+            }
+        }
+    }
+}
+
+
+
 article.loginHorizontal {
     background-color: $brand-primary-color;
     color: #fff;
+
     .text {
         float: left;
         margin: 0 20px 0 0;
@@ -274,19 +1021,24 @@ article.loginHorizontal {
         border-right: 1px solid #409cee;
         font-size: 18px;
     }
+
     ul.radio-list {
         line-height: 2;
+
         li {
             display: inline-block;
             margin-right: 5px;
         }
     }
+
     .group .item {
         padding-right: 0;
+
         input, select, label {
             vertical-align: middle; 
         }       
     }
+
     button {
         background-color: #fff;
         background-image: none;
@@ -294,37 +1046,46 @@ article.loginHorizontal {
         line-height: normal;
         width: 85px;
     }
+
     @include breakpoint(small) {
         margin-top: 0;
+
         .wrapper {
             padding-top: 20px;
             padding-bottom: 30px;
         }
+
         .text {
             float: none;
             display: block;
             border-right: 0;
         }
     }
+
     @include breakpoint(medium) {
         .text {
             margin-right: 15px;
             padding-right: 15px;
         }
+
         .username-item, .password-item {
             width: 140px;
         }           
+
         .wrapper {
             width: 768px;
             padding: 0 20px;
         }
     }
+
     @include breakpoint(large) {
         .group .item {
         }       
+
         .username-item, .password-item {
             width: 240px;
         }
+
         button {
             width: 130px;
         }   
@@ -336,24 +1097,30 @@ article.loginHorizontal {
         padding-right: 0;
         margin-bottom: 0;       
     }
+
     .group { 
         margin-bottom: 0;
     }
+
     button {
         width: 110px;
     }
+
     input, select, label {
         vertical-align: baseline;
     }
+
     @include breakpoint(medium) {
         .item {
             display: inline-block;
             margin-bottom: 0;
         }
+
         .text {
             margin-right: 13px;
             padding-right: 13px;
         }
+
         button {
             width: 90px;
         }
@@ -364,31 +1131,39 @@ article.gridPromos {
     .col {
         text-align: center;
         padding: 0 5%;
+
         @include breakpoint(small-medium) {
             padding: 0;
         }
+
         h3 {
             font-size: 14px;
         }
+
         h4 {
             font-weight: 400;
+
             strong {
                 font-weight: 500;
                 display: block;
             }
         }
+
         sup {
             font-size: 9px;
         }
+
         @each $theme in $themes {
             &.accent-#{map-get($theme, name)} {
                 h4 {
                     color: map-get($theme, primaryColor);
                 }
+
                 button, .button {
                     background-color: map-get($theme, primaryColor);
                     background-image: none;
                     white-space: nowrap;
+
                     &:hover {
                         background-color: #6b6b6b;
                     }
@@ -403,10 +1178,12 @@ article.gridPromos {
         display: inline-block;
         padding: 0;
     }
+
     .grid {
         &.three .col {
             width: 33%;
         }
+
         &.four .col {
             width: 24.5%;
         }
@@ -426,58 +1203,72 @@ article.opportunity {
 article.events {
     .tooltip {
         color: #666666;
+
         &.top-left .tooltip-arrow {
             display: none !important;
         }
     }
+
     &.events-ignition {
         background-color: #00a8e1;
+
         .button {
             float: right;
             color: #00a8e1;
         }
     }
+
     &.events-connect {
         background-color: #97c93d;
+
         .button {
             float: right;
             color: #97c93d;
         }
     }
+
     &.events-top-performers {
         h2, a {
             color: #666666;
         }
     }
+
     &.events-senior-director-cruise {
         background-color: #5c2b85;
+
         a {
             color: #FFF;
         }
     }
+
     &.events-celebration-dinner {
         .celebration-dinner-logo {
             text-align: center;
             margin-bottom: 30px;
         }
     }
+
     &.events-women-of-power {
         h2 {
             color: #666666 !important;
             text-align: center;
         }
     }
+
     &.events-stream-university {
         background-color: #63c9f0 !important;
         padding-bottom: 60px;
+
         h2 {
             text-align: center;
         }
     }
+
     &.events-top {
         p {
             text-align: center;
         }
+
         a {
             color: #666666; 
         }
@@ -491,13 +1282,16 @@ article.leaders {
         text-align: center;
         margin-bottom: 45px;
         font-size: 19px;
+
         span {
             color: #257ab3;
         }
+
         sup {
             font-size: 9px;
         }
     }
+
     .director-banner {
         background-color: #257ab3;
         padding: 15px;
@@ -506,21 +1300,26 @@ article.leaders {
             color: #fff;
         }
     }
+
     ul.director {
         list-style-type: none;
+
         @include breakpoint(small) {
             padding: 0;
         }
+
         li {
             width: 25%;
             float: left;
             text-align: center;
             margin-bottom: 1em;
+
             h2,
             h4 {
                 color: #ac1f2d;
                 margin: 0px;
             }
+
             p {
                 font-style: italic;
                 margin-top: 0;
@@ -532,11 +1331,13 @@ article.leaders {
             @include breakpoint(medium) {
                 width: 50%;
             }
+
             @include breakpoint(small) {
                 width: 100%;
             }
         }
     }
+
     .view-all {
         float: left;
     }
@@ -548,34 +1349,42 @@ article.director-list {
         text-transform: none;
         margin-bottom: 20px;
     }
+
     ul.director {
         list-style-type: none;
+
         @include breakpoint(small) {
             padding: 0;
         }
+
         li {
             width: 25%;
             float: left;
             text-align: center;
+
             h3 {
                 color: $brand-primary-color;
                 text-transform: none;
             }
+
             @include breakpoint(medium) {
                 width: 33%;
             }
+
             @include breakpoint(small) {
                 width: 100%;
             }
         }
     }
 }
+
 article.leader {
     &.marketing {
         h1 {
             text-align: left;
         }
     }
+
     p.img {
         float: left;
         margin-right: 2em;
@@ -586,47 +1395,58 @@ article.philanthropy {
     .donate {
         padding: 30px 0;
         display: inline-block;
+
         .donate-image {
             float: left;
         }
+
         &.donate-alt {
             background-color: #fafafa;
             border-top: 3px solid #f0f0f0;
             border-bottom: 3px solid #f0f0f0;
         }
+
         .donate-promo {
             float: left;
             width: 40%;
             margin: 10px 0 0 30px;
+
             h4 {
                 color: #ffa300;
             }
         }
+
         .donate-button {
             float: right;
             margin: 60px 20px 0 0;
+
             button {
                 background-color: #77bc1f;
                 background-image: none;
             }
         }
+
         @include breakpoint(medium) {
             .donate-promo {
                 width: 33%;
                 margin: 0 0 0 15px;
             }
         }
+
         @include breakpoint(small) {
             display: block;
+
             .donate-promo {
                 width: 90%;
                 float: none;
                 margin-left: 0;
             }
+
             .donate-button {
                 float: none;
                 margin: 0;
             }
+
             .donate-image {
                 float: none;
             }
@@ -638,10 +1458,12 @@ article.full-html {
     &.center {
         text-align: center;
     }
+
     &.promo {
         h1 {
             font-size: 40px;
         }
+
         p {
             font-size: 27px;
             line-height: 38px;
@@ -652,9 +1474,11 @@ article.full-html {
         &.bg-#{map-get($theme, name)} {
             background-color: map-get($theme, primaryColor);
             color: map-get($theme, textColor);
+
             h2, h3 {
                 color: map-get($theme, accentColor);
             }
+
             button, .button {
                 background-color: map-get($theme, accentColor);
                 background-image: none;
@@ -662,14 +1486,17 @@ article.full-html {
             }
         }
     }
+
     @each $theme in $themes {
         &.accent-#{map-get($theme, name)} {
             h1, h2, h3, em {
                 color: map-get($theme, primaryColor);
             }
+
             button, .button {
                 background-color: map-get($theme, primaryColor);
                 background-image: none;
+
                 &:hover {
                     color: #fff;
                     background-color: #6b6b6b;
@@ -677,33 +1504,38 @@ article.full-html {
             }
         }
     }
+
     @each $theme in $themes {
         & span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
             color: map-get($theme, primaryColor);
         }
     }
-    
 }
 
 article.service-states {
     .tab-header {
         margin-bottom: 20px;
+
         .wrapper {
             text-align: center;
         }
+
         button,
         a.button {
             background-color: #78bb2f;
             background-image: none;
             color: #fff;
+
             &.secondary {
                 background-color: #fff;
                 color: #1773cb;
+
                 &:hover {
                     background-color: #6b6b6b;
                     color: #fff;
                 }
             }
+
             &:hover {
                 background-color: #6b6b6b;
             }
@@ -719,6 +1551,7 @@ article.renew {
     em {
         font-style: italic;
     }
+
     ul {
         color: #1773cb;
         font-size: 16px;
@@ -730,13 +1563,16 @@ article.marketingPromo {
     border-top: 3px solid #6b6b6b;
     padding-top: 20px;
     text-align: center;
+
     h1 {
         font-size: 40px;
     }
+
     p {
         font-size: 27px;
         line-height: 27px;
     }
+
     @each $theme in $themes {
         &.accent-#{map-get($theme, name)} {
             span {
@@ -751,14 +1587,17 @@ article.home-latest {
     border-top: 3px solid #999;
     background: #E8E8EB;
     text-align: center;
+
     h3 {
         margin-bottom: 0;
         font-size: 14px;
         text-transform: none;
     }
+
     &.full-html.accent-blue h3 {
         color: #6b6b6b;
     }
+
     p {
         margin: 5px 0;
         font-size: 20px;
@@ -767,17 +1606,21 @@ article.home-latest {
 
 article.careers {
     margin-bottom: 0;
+
     .text {
         padding: 25px 0;
     }
+
     .list-header {
         font-size: 22px;
         padding-left: 23px;
         width: 63%;
         line-height: 1.1;
     }
+
     ul.white {
         list-style: none;
+
         li {
             background: url("../i/marketing/bullet-white.png");
             background-repeat: no-repeat;
@@ -785,17 +1628,21 @@ article.careers {
             padding-left: 25px;
         }
     }
+
     h3 {
         text-transform: none;
         margin-top: 20px;
     }
+
     hr {
         border: 2px solid #f0f0f0;
     }
+
     p.job-title {
         margin: 5px 0 0;
         line-height: 1;
         text-transform: uppercase;
+
         a {
             display: block;
             padding: 15px 0;
@@ -803,10 +1650,12 @@ article.careers {
             background-repeat: no-repeat;
             background-position: 99% center;
         }
+
         a.collapsed {
             background-image: url("../i/marketing/expand.png");
         }
     }
+
     @include breakpoint(small) {
         padding: 0 20px;
     }
@@ -817,36 +1666,45 @@ article.press {
         border: none;
         border-top: 3px solid #eee;
     }
+
     .press-intro {
         text-align: center;
+
         .blue {
             color: #1773cb;
         }
+
         p.paragraph {
             font-size: 18px;
         }
     }
+
     .post {
         margin-top: 40px;
         padding-bottom: 30px;
         border-bottom: 3px solid #f0f0f0;
+
         h2,
         p.date {
             margin: 0px;
         }
+
         &:last-child {
             border-bottom: none;
         }
     }
+
     .pagination {
         .page-selection {
             width: 70%;
         }
+
         .showing {
             text-align: left;
             width: 30%;
         }
     }
+
     @include breakpoint(small) {
         padding: 0 20px;
     }
@@ -857,26 +1715,32 @@ article.blog {
         margin-top: 60px;
         padding-bottom: 40px;
         border-bottom: 3px solid #f0f0f0;
+
         h2,
         p.date {
             margin: 0px;
         }
+
         &:last-child {
             border-bottom: none;
         }
+
         img {
             height: initial;
         }
     }
+
     hr {
         border: none;
         border-top: 3px solid #eee;
         margin: 40px 0 30px;
     }
+
     .pagination {
         .page-selection {
             width: 70%;
         }
+
         .showing {
             text-align: left;
             width: 30%;
@@ -886,15 +1750,19 @@ article.blog {
  
 article.blog-list {
     margin-top: 30px;
+
     button {
         padding: 10px 65px;
         margin-top: 20px;
+
         @include breakpoint(small) {
             width: 100%;
         }
     }
+
     ul {
         padding-left: 0;
+
         li {
             list-style-type: none;
         }
@@ -915,74 +1783,93 @@ article.mobile-pay {
 article.pay {
     padding: 20px 0;
     margin-bottom: 0;
+
     h1 {
         color: $brand-primary-color;
     }
+
     h2 {
         text-transform: none;
+
         &.get-started {
             text-transform: uppercase;
             text-align: center;
             font-size: 18px;
         }
     }
+
     aside {
         margin-top: 12px;
     }
+
     .pay-option {
         border-bottom: 4px solid #f0f0f0;
         margin: 20px 25px 20px 0;
+
         p.call {
             font-size: 20px;
         }
+
         span.phone {
             font-size: 22px;
             color: $brand-primary-color;
         }
+
         &:last-child {
             border-bottom: none;
         }
     }
+
     .pay-list {
         padding: 0;
+
         li {
             list-style-type: none;
             padding: 0;
         }
     }
+
     .box {
         @include border-radius(10px, 10px);
         border: 2px solid #f0f0f0;
         padding: 8px 20px;
         margin-bottom: 20px;
+
         input {
             margin-top: 10px;
             width: 100%;
         }
+
         button {
             background-color: #77bc1f;
             background-image: none;
+
             &:hover {
                 color: #000;
             }
         }
+
         p.forgot a:hover {
             color: #064985;
             text-decoration: underline;
         }
+
         span.benefits {
             color: $brand-primary-color;
             text-transform: uppercase;
         }
+
         p.sign-up {
             font-size: 20px;
             color: $brand-primary-color;
+
             a {
                 font-size: 22px;
                 text-decoration: underline;
             }
         }
     }
+
     aside {
         h4 {
             margin-bottom: 40px;
@@ -990,17 +1877,21 @@ article.pay {
             text-transform: none;
             font-size: 24px;
         }
+
         ul.pay-list {
             margin: 0;
             padding: 0;
+
             li {
                 list-style: none;
             }
         }
     }
+
     hr {
         border: 2px solid #f0f0f0;
     }
+
     @include breakpoint(small-medium) {
         padding: 20px;
     }
@@ -1009,15 +1900,18 @@ article.pay {
 article.contact {
     h2 {
         font-size: 30px;
+
         &.header-line {
             position: relative;
             overflow: hidden;
+
             span {
                 position: relative;
                 padding-right: 20px;
                 //background: #fff;
                 z-index: 2;
             }
+
             &:after {
                 content: "";
                 height: 4px;
@@ -1029,26 +1923,31 @@ article.contact {
             }
         }
     }
+
     div.wrapper {
         padding-top: 40px;
         padding-bottom: 30px;
     }
+
     div.intro {
         font-size: 24px;
         text-align: center;
         width: 67%;
     }
+
     div.blue-bar {
         height: 50px;
         background-color: $brand-primary-color;
         //border-bottom: 5px solid #ffa409;
     }
+
     div.contact-banner {
         //border-top: 3px solid #ffa409;
         background-position: center;
         background-repeat: no-repeat;
         min-height: 288px;
     }
+
     div.associate-support {
         background-color: #efefef;
         //border-top: 3px solid #0073c7;
@@ -1056,27 +1955,34 @@ article.contact {
             text-align: left;
             color: #ac1f2d;
         }
+
         p {
             margin: 0;
+
             &.phone {
                 color: #ac1f2d;
             }
+
             &.fax {
                 color: #ac1f2d;
                 margin: 20px 0;
             }
         }
+
         h4 {
             margin-top: 0;
             color: #ac1f2d;
         }
+
         @include breakpoint(small-medium) {
             padding-left: 20px;
+
             .grid .col {
                 width: 50%;
                 float: left;
             }
         }
+
         @include breakpoint(small) {
             .grid .col {
                 width: 100%;
@@ -1084,45 +1990,57 @@ article.contact {
             }
         }
     }
+
     div.homelife-services {
         //border-bottom: 3px solid #0073c7;
         text-align: center;
+
         h2.homelife {
             text-transform: none;
         }
+
         h2.phone {
             margin: 0;
         }
+
         p {
             text-align: center;
         }
     }
+
     div.clean-nation {
         background-color: #76bd1d;
         color: #fff;
+
         h2 {
             text-align: left;
             color: #fff;
             margin: 40px 0 0 0;
         }
+
         h4 {
             margin-top: 0;
             color: #fff;
         }
+
         p {
             margin: 0;
+
             &.phone {
                 font-size: 22px;
                 margin: 10px 0 0 0;
             }
         }
+
         @include breakpoint(small-medium) {
             padding-left: 20px;
+
             .grid .col {
                 width: 50%;
                 float: left;
             }
         }
+
         @include breakpoint(small) {
             .grid .col {
                 width: 100%;
@@ -1130,17 +2048,20 @@ article.contact {
             }
         }
     }
+
     div.vip {
         h2 {
             color: #ac1f2d;
             text-align: center;
         }
+
         p {
             width: 320px;
             text-align: center;
             margin: auto;
         }
     }
+
     div.request {
         background-color: $brand-primary-color;
         color: #fff;
@@ -1148,6 +2069,7 @@ article.contact {
         //border-top: 3px solid #ffa409;
         padding-bottom: 20px;
         position: relative;
+
         .request-or {
             background-image: url('../i/marketing/contact-or.png');
             background-repeat: no-repeat;
@@ -1158,15 +2080,19 @@ article.contact {
             height: 70px;
             width: 114px;
         }
+
         h2 {
             color: #fff;
             text-align: left;
         }
+
         .grid {
             -webkit-border-vertical-spacing: 0px;
             margin-top: 0;
+
             .col {
                 border-spacing: 0;
+
                 .item {
                     position: relative;
                     //width: 90%;
@@ -1175,14 +2101,17 @@ article.contact {
                     textarea {
                         width: 85%;
                     }
+
                     .asterisk {
                         font-size: 24px;
                         vertical-align: middle;
                     }
                 }
+
                 .group .item, .item.half-width {
                     width: 44.8%;
                 }
+
                 button {
                     background-color: #ebebeb;
                     background-image: none;
@@ -1190,35 +2119,42 @@ article.contact {
                 }
             }
         }
+
         .notice.error {
             background: #136cc1;
             color: #fcd22b;
             border: 0;
         }
+
         .item.error {
             span.field-validation-error {
                 color: #fcd22b;
             }
         }
     }
+
     div.success-message {
         margin: 20px 0;
         background-color: #e8e8e8;
         border-bottom: 3px solid #fda32b;
+
         h2 {
             text-align: center;
         }
+
         h4 {
-            text-align:center;
+            text-align: center;
             text-transform: none;
             font-size: 38px;
             line-height: 1.1;
         }
     }
+
     div.faq {
         h2 {
             text-align: left;
         }
+
         p {
             width: 305px;
         }
@@ -1227,108 +2163,138 @@ article.contact {
 
 article.contact-state {
     margin-bottom: 0;
+
     h2 {
         text-align: left;
     }
+
     .customer-service {
         margin: 25px 0;
+
         @include breakpoint(small) {
             width: 100%;
         }
+
         h1 {
             color: $brand-primary-color;
             margin-bottom: 50px;
         }
+
         h2 {
             text-transform: none;
             margin-bottom: 0;
         }
+
         .left-side {
             width: 62%;
             float: left;
+
             @include breakpoint(small) {
                 width: 100%;
                 float: none;
             }
+
             .phone-email {
                 margin-bottom: 40px;
+
                 p {
                     margin: 0;
                 }
             }
         }
+
         .right-side {
             width: 35%;
             float: right;
+
             @include breakpoint(small) {
                 width: 100%;
                 float: none;
             }
+
             .mail {
                 @include border-radius(10px, 10px);
                 background-color: #e8e8e8;
                 padding: 20px;
+
                 h2 {
                     background-image: url('../i/marketing/contact.png');
                     background-repeat: no-repeat;
                     background-position: top right;
                     padding-right: 70px;
                 }
+
                 p {
                     margin: 0;
                 }
             }
+
             @include breakpoint(small) {
                 float: left;    
             }
         }
     }
+
     .quality-control {
         margin-bottom: 35px;
         position: relative;
+
         @include breakpoint(small) {
             width: 100%;
         }
+
         p {
             margin: 20px 0 30px 0;
         }
+
         h2 {
             margin: 0;
             font-size: 25px;
         }
     }
+
     .emergency {
         position: relative;
+
         @include breakpoint(small) {
             width: 100%;
         }
+
         h2 {
             margin: 0;
             font-size: 25px;
         }
+
         h3 {
             color: $brand-primary-color;
             margin: 50px 0 10px 0;
         }
+
         .grid .col {
             .company {
                 color: $brand-primary-color;
             }
+
             .oncor {
                 width: 85%;
             }
+
             .company-contact {
                 width: 80%;
+
                 h2 {
                     text-transform: none;
                 }
+
                 button,
                 .button {
                     background-color: #ffa409;
                     background-image: none;
+
                     a {
                         color: #fff;
                     }
+
                     &:hover {
                         background-color: #6b6b6b;
                     }
@@ -1336,6 +2302,7 @@ article.contact-state {
             }
         }
     }
+
     @include breakpoint(small) {
         padding: 0 20px;
     }
@@ -1347,107 +2314,134 @@ article.homelife-services {
         color: #fff;
         text-align: center;
         padding: 50px 0;
+
         h1 {
             font-size: 63px;
         }
+
         p {
             font-size: 22px;
         }
+
         @include breakpoint(small) {
             padding: 15px 0 10px;
+
             h1 {
                 font-size: 25px;
             }
+
             p {
                 font-size: 16px;
             }
         }
     }
+
     .homelife-promo {
         background-image: url('../i/marketing/homelife-services.jpg');
         background-repeat: no-repeat;
         background-position: top center;
         height: 550px;
         border-bottom: 5px solid #ffa409;
+
         .wrapper {
             width: 40%;
             padding-top: 80px;
+
             h3 {
                 color: $brand-primary-color;
             }
+
             p {
                 font-size: 14px;
             }
         }
     }
+
     .bundle-promo {
         margin: 35px 0;
         text-align: center;
         font-size: 20px;
+
         span {
             font-size: 22px;
             color: $brand-primary-color;
             text-transform: uppercase;
         }
+
         hr {
             border: 1px solid #eee;
             margin: 15px auto;
             width: 85%;
         }
     }
+
     div.package {
         padding: 40px;
+
         .box {
             @include border-radius(10px, 10px);
             background-color: #fff;
             padding: 35px;
             position: relative;
             width: 100%;
+
             @include breakpoint(small) {
                 padding: 5px;
             }
+
             h3 {
                 color: $brand-primary-color;
+
                 span {
                     text-transform: none;
                 }
             }
+
             button a {
                 color: #fff;
             }
+
             h4 {
                 font-size: 17px;
             }
+
             ul.services {
                 list-style-type: none;
                 padding-left: 0;
                 float: left;
+
                 li {
                     text-align: center;
                     float: left;
                     margin-right: 39px;
+
                     input {
                         margin-top: 15px;
                     }
+
                     &.identity {
                         color: #7e9bb5;
                         position: relative;
                     }
+
                     &.support {
                         color: #b58789;
                         position: relative;
                     }
+
                     &.monitoring {
                         color: #8ba170;
                     }
                 }
             }
+
             .savings {
                 @include border-radius(50%);
                 float: left;
                 width: 113px;
                 height: 113px;
                 margin-top: 25px;
+
                 p {
                     color: #fff;
                     font-size: 22px;
@@ -1455,6 +2449,7 @@ article.homelife-services {
                     margin-top: 0;
                     padding-top: 10px;
                 }
+
                 .line-top,
                 .line-bottom {
                     height: 40px;
@@ -1464,9 +2459,11 @@ article.homelife-services {
                     margin-left: 50%;
                     margin-top: -50px;
                 }
+
                 .line-bottom {
                     margin-top: 13px;
                 }
+
                 @include breakpoint(small) {
                     .line-top,
                     .line-bottom {
@@ -1474,23 +2471,28 @@ article.homelife-services {
                     }
                 }
             }
+
             .pricing {
                 text-align: center;
                 float: left;
                 margin-left: 2em;
+
                 p {
                     font-size: 14px;
                     text-transform: uppercase;
                     font-style: italic;
                     margin: 0 0 50px 0;
                     color: #6b6b6b;
+
                     &.price {
                         margin-bottom: 0;
                         font-style: normal;
+
                         .dollars {
                             font-size: 38px;
                             color: $brand-primary-color;
                         }
+
                         .cents {
                             font-size: 12px;
                             color: $brand-primary-color;
@@ -1498,6 +2500,7 @@ article.homelife-services {
                         }
                     }   
                 }
+
                 p.month-free {
                     text-transform: none;
                     color: $brand-primary-color;
@@ -1507,6 +2510,7 @@ article.homelife-services {
                     margin-bottom: 1em;
                 }
             }
+
             .sash {
                 position: absolute;
                 background-color: #e61b23;
@@ -1515,108 +2519,131 @@ article.homelife-services {
                 min-width: 32px;
                 height: 132px;
                 overflow: hidden;
-                transform:rotate(-45deg);
-                -ms-transform:rotate(-45deg); /* IE 9 */
-                -webkit-transform:rotate(-45deg); /* Opera, Chrome, and Safari */
+                        transform: rotate(-45deg);
+                        -ms-transform: rotate(-45deg); /* IE 9 */
+                        -webkit-transform: rotate(-45deg); /* Opera, Chrome, and Safari */
                 .ie8 & {
                     top: 0;
                     width: 100px;
                     height: 2em;
+
                     span {
                         margin: 0;
-                        padding: 0 20px
+                                padding: 0 20px;
                     }
                 }
+
                 span {
                     font-size: 24px;
                     text-transform: uppercase;
                     position: absolute;
                     font-weight: 600;
                     color: #fff;
-                    margin: 50px 0 0  -12px;
-                    transform:rotate(90deg);
-                    -ms-transform:rotate(90deg); /* IE 9 */
-                    -webkit-transform:rotate(90deg); /* Opera, Chrome, and Safari */
+                            margin: 50px 0 0 -12px;
+                            transform: rotate(90deg);
+                            -ms-transform: rotate(90deg); /* IE 9 */
+                            -webkit-transform: rotate(90deg); /* Opera, Chrome, and Safari */
                 }
             }
+
             @include breakpoint(small-medium) {
                 ul.services {
                     width: 100%;
+
                     li {
                         width: 30%;
                         margin-right: 20px;
+
                         &.support:after {
                             right: -10%;
                         }
                     }
                 }
+
                 .savings {
                     margin-left: 25%;
                     margin-right: 20px;
                 }
+
                 .pricing {
                     float: left;
+
                     p {
                         margin-bottom: 25px;
                     }
                 }
             }
+
             @include breakpoint(small) {
                 ul.services {
                     float: none;
+
                     li {
                         width: 100%;
                         margin-right: 8px;
                         float: none;
+
                         &.identity:after {
                             content: " ";
                         }
+
                         &.support {
                             &:after {
                                 content: " ";
                             }
+
                             h4 {
                                 width: 67%;
                                 margin: 10px auto;
                             }
                         }
+
                         &.monitoring h4 {
                             width: 91%;
                             margin: 10px auto;
                         }
                     }
                 }
+
                 .savings {
                     margin: 0 auto;
                     display: block;
                     float: none;
                 }
+
                 .pricing {
                     float: right;
                     margin: 0;
                     width: 100%;
+
                     p.month-free {
                         border-bottom: 0;
                     }
                 }
             }
         }
+
         &.platinum {
             .wrapper {
                 padding: 3px 3px 0 3px;
                 margin-top: -3px;
                 overflow: hidden;
             }
+
             background-color: $brand-primary-color;
+
             h3 {
                 padding-right: 70px;
             }
+
             .savings {
                 background-color: $brand-primary-color;
+
                 p {
                     color: #fff;
                 }
             }
+
             .identity {
                 &:after {
                     content: "+";
@@ -1627,10 +2654,12 @@ article.homelife-services {
                     right: -10%;
                 }
             }
+
             .identity .button {
                 background-color: #7e9bb5;
                 background-image: none;
             }
+
             .support {
                 &:after {
                     content: "+";
@@ -1641,66 +2670,84 @@ article.homelife-services {
                     right: -35%;
                 }
             }
+
             .support .button {
                 background-color: #b58789;
             }
+
             .monitoring .button {
                 background-color: #8ba170;
             }           
         }
+
         &.gold {
             .box {
                 border: 1px solid #c1dbf2;
                 background-color: #f6f6f6;
+
                 .savings {
                     background-color: #fdfdfd;
                     border: 1px solid #d0d0d0;
+
                     p {
                         color: $brand-primary-color;
                     }
                 }
+
                 button {
                     background-color: #ccc;
                 }
             }
         }
+
         &.silver {
             .box {
                 border: 1px solid #cdcdcd;
+
                 h3 {
                 text-align: center;
                 }
+
                 ul.services {
                     width: 100%;
+
                     li {
                         margin-right: 0;
                         width: 33%;
                         border-right: 1px solid #cdcdcd;
+
                         @include breakpoint(small) {
                             width: 100%;
                             border-right: none;
                         }
+
                         &.identity,
                         &.support {
                             &:after {
                                 content: " ";
                             }
                         }
+
                         &.monitoring {
                             border-right: none;
                         }
+
                         .pricing {
                             text-align: center;
                             float: none;
                             margin: 0;
+
                             .price .dollars {
                                 font-size: 24px;
                             }
+
                             p.month-free {
                                 border-bottom: none;
                             }
+
                             button {
                                 background-color: $brand-primary-color;
+
                                 &:hover {
                                     background-color: #6b6b6b;
                                 }
@@ -1711,34 +2758,41 @@ article.homelife-services {
             }
         }
     }
+
     &.photoLockup {
         .text {
             .inner {
                 padding: 0;
+
                 h3 {
                     font-size: 21px;
                 }
+
                 p {
                     font-size: 14px;
                 }
+
                 .button {
                     background-color: #0971cd;
                 }
+
                 @include breakpoint(small-medium) {
                     padding: 0 10px;
                 }
             }
-            
         }
     }
+
     @include breakpoint(small-medium) {
         div.wrapper {
             padding: 0;
         }
+
         div.package {
             padding: 20px;
         }
     }
+
     p.footnote {
         font-size: 12px;
         text-align: center;
@@ -1755,16 +2809,19 @@ article.states-enroll {
 article.state-tabs {
     div.wrapper {
         text-align: center;
+
 		.btn {
 			width: 100%;
 			outline: none;
 		}
+
 		#state-select {
 			position: relative;
             margin: auto 10px;
 		}
     }
 }
+
 article.state-tabs {
     div.wrapper {
         text-align: left;
@@ -1790,11 +2847,14 @@ article.identity-theft {
     h3 {
         text-transform: none;
     }
+
     .semibold {
         font-weight: 600;
     }
+
     .credit-bureaus {
         padding-left: 0;
+
         li {
             float: left;
             width: 33%;
@@ -1802,12 +2862,14 @@ article.identity-theft {
             text-align: center;
         }
     }
+
     @include breakpoint(small) {
         .credit-bureaus {
             li {
                 float: none;
                 width: 100%;
                 margin-bottom: 30px;
+
                 &:last-child {
                     margin-bottom: 0;
                 }
@@ -1989,24 +3051,30 @@ article.why-energy {
         margin: 20px auto;
         width: 60%;
         text-align: center;
+
         span {
             color: #ac1f2d;
         }
+
         &.promo {
             font-size: 20px;    
         }
+
         &.joining-info {
             p button {
                 background-color: #ac1f2d;
+
                 &:hover {
                     background-color: #6b6b6b;
                 }
+
                 a {
                     color: #fff;
                 }
             }
         }
     }
+
     .banner {
         background-image: url('../i/marketing/why-energy-banner.jpg');
         background-repeat: no-repeat;
@@ -2021,80 +3089,94 @@ article.commercial-quote {
         background-repeat: no-repeat;
         background-position: right;
     }
+
     .text {
         border-left: 3px solid #ffa409;
         width: 50%;
         background-color: $brand-primary-color;
+
         @include breakpoint(small) {
             width: 100%;
         }
+
         .inner {
             color: #fff;
             padding-left: 20px;
+
             h2 {
                 color: #fff;
                 font-size: 24px;
             }
+
             button {
                 color: #333;
                 background-color: #fff;
                 border-color: #ccc;
+
                 &:hover {
-                    background-color: #ebebeb
+                            background-color: #ebebeb;
                 }
             }
+
             input,
             select {
                 width: 100%;
             }
         }
     }
+
     .wrapper {
         padding: 40px 0 30px 0;
     }
+
     .success-message {
         margin: 20px 0;
         background-color: #e8e8e8;
         border-bottom: 3px solid #fda32b;
+
         h2 {
             font-size: 30px;
             text-align: center;
         }
+
         h4 {
-            text-align:center;
+                    text-align: center;
             text-transform: none;
             font-size: 38px;
             line-height: 1.1;
         }
     }
+
     .notice.error {
         background: #136cc1;
         color: #fcd22b;
         border: 0;
     }
+
     .item.error {
         #{$input-selectors},
         textarea,
         select {
             border-color: #fcd22b;
         }
+
         span.field-validation-error {
             color: #fcd22b;
         }
     }
 }
 
-
-
 article.commercial-account-banner {
     .account-banner {
         background-color: $brand-primary-color;
+
         p {
             button {
                 background-color: #fff;
                 color: $brand-primary-color;
                 margin: auto;
                 display: block;
+
                 &:hover {
                     background-color: #ccc;
                 }
@@ -2105,45 +3187,57 @@ article.commercial-account-banner {
 
 article.free-energy {
     margin-bottom: 0;
+
     img {
         margin: auto;
         float: left; 
     }
+
     h3 {
         text-transform: none;
         margin-bottom: 30px;
     }
+
     p {
         font-size: 21px;
         line-height: 1.3;
         clear: both;
     }
+
     .how-it-works {
         max-width: 455px;
+
         img {
             margin: 0px 25px 15px 0px;
         }
+
         h1 {
             line-height: 1;
+
             em {
                 color: #1773cb;
             }
         }
+
         p {
             line-height: 1.1;
+
             em {
                 color: #1773cb;
                 text-transform: none;
             }
+
             .blue {
                 color: #1773cb;
             }
         }
     }
+
     &.free-energy-access {
         img { 
             float: none; 
         }
+
         p {
             line-height: 1.1;
         }
@@ -2153,6 +3247,7 @@ article.free-energy {
 article.free-energy-enroll {
     margin-bottom: 0;
     padding: 30px 20px 0;
+
     h3 {
         color: #1773cb;
     }
@@ -2162,28 +3257,34 @@ article.free-energy.picture-promo {
     background-image: url('../i/marketing/free-energy.jpg');
     background-repeat: no-repeat;
     background-position: center;
+
     .wrapper {
         background: none;
     }
+
     .promo-content {
         color: #fff;
         width: 345px;
         margin-left: 90px;
         padding: 320px 0 50px 0;
+
         @include breakpoint(small) {
             margin: 0;
             width: auto;
             padding-bottom: 30px;
         }
+
         h2 {
             color: #fff;
             line-height: 28px;
             margin-top: 28px;
+
             .big {
                 font-size: 31px;
             }
         }
     }
+
     @include breakpoint(small) {
         background-position: center bottom;
     }
@@ -2191,72 +3292,91 @@ article.free-energy.picture-promo {
 
 article.enroll {
     margin-top: 20px;
+
     &.photoLockup {
         margin-top: 0;
     }
+
     .text {
         padding: 25px 0;
+
         h1 {
             color: $brand-primary-color;
         }
+
         h2.grey {
             color: #6b6b6b;
         }
+
         hr {
             margin: 22px 0;
             border: 0;
             border-top: 3px solid #eee;
         }
-        .left-column{
+
+                .left-column {
             float: left;
             width: 50%;
             margin-bottom: 20px;
+
             @include breakpoint(small) {
                 width: 100%;
             }
         }
+
         .right-column {
             float: right;
             width: 50%;
             margin-bottom: 20px;
+
             @include breakpoint(small) {
                 width: 100%;
             }
         }
+
         li.terms {
             background: url("../i/marketing/blue-bullet.png") no-repeat;
             margin: 1.5em 0 0 -2.3em;
             padding-left: 2em;
         }
-        ul.service-links{
+
+                ul.service-links {
             padding-left: 0px;
             list-style: none;
+
             li a {
                 color: #6b6b6b;
                 text-decoration: underline;
             }
         }
+
         .formlinks {
             width: 48%;
+
             @include breakpoint(small-medium) {
                 width: 100%;
             }
+
             .header {
                 background-color: $brand-primary-color;
                 color: #fff;
                 padding: 10px 0 10px 20px;
             }
+
             .link {
                 border-bottom: 3px solid #f0f0f0;
             }
+
             .grey {
                 background-color: #fafafa;
             }
+
             p.form {
                 background: url("../i/marketing/plan-icon.png") no-repeat left center;
                 padding: 15px 0;
                 margin: 0px 0px 0px 20px;
                 width: 100%;
+
                 a {
                     font-size: 12px;
                     font-weight: bold;
@@ -2266,19 +3386,24 @@ article.enroll {
                 }
             }
         }
+
         .english {
             float: left;
         }
+
         .spanish {
             float: right;
+
             @include breakpoint(small-medium) {
                 float: left;
                 margin-top: 20px;
             }
         }
+
         .customer-forms {
             margin-top: 80px;
             padding-bottom: 50px;
+
             .formlinks {
                 width: 100%;
             }
@@ -2298,26 +3423,33 @@ article.terms-of-use {
         text-align: center;
         margin: auto;
     }
+
     ul {
         padding: 0 80px;
+
         li {
             list-style-type: none;
+
             p {
                 margin-left: 20px;
             }
         }
+
         h3 {
             color: $brand-primary-color;
         }
+
         span {
             text-transform: uppercase;
         }
     }
+
     @include breakpoint(small) {
         ul {
             padding: 0 20px;
         }
     }
+
     @include breakpoint(medium) {
         ul {
             padding: 0 40px;
@@ -2332,23 +3464,28 @@ article.energy-certificates {
     min-height: 300px;
     border-top: 3px solid #7eb24c;
     border-bottom: 3px solid #862134;
+
     .wrapper {
         .text {
             width: 335px;
             float: right;
             margin: 20px 50px 0 0;
+
             .button {
                 background-color: #2c3e50;
+
                 &:hover {
                     background-color: #6b6b6b;
                 }
             }
+
             @include breakpoint(small) {
                 width: auto;
                 margin-right: 0;
             }
         }
     }
+
     @include breakpoint(small) {
         .wrapper .text {
             width: auto;
@@ -2360,19 +3497,24 @@ article.energy-certificates {
 article.ignite-associate {
     text-align: center;
     margin: 0; 
+
     .wrapper {
         padding: 40px 0 10px;
     }
+
     button,
     .button {
         background-color: #a9222d;
+
         a {
             color: #fff;
         }
+
         &:hover {
             background-color: #6b6b6b;
         }
     }
+
     h3 {
         margin: 0;
     }
@@ -2380,12 +3522,14 @@ article.ignite-associate {
 
 article.independent-associate-chart {
     text-align: center;
+
     h2 {
         background-color: #ac1f2d;
         padding: 20px 0;
         font-size: 24px;
         color: #fff;
     }
+
     img {
         margin: 20px 0;
     }
@@ -2393,13 +3537,16 @@ article.independent-associate-chart {
 
 article.residual-income {
     margin-top: 20px;
+
     h3 {
         float: left;
         margin-right: 10px;
     }
+
     .footnotes {
         font-size: 10px;
     }
+
     a.button {
         float: right;
         margin-right: 30px;
@@ -2413,17 +3560,21 @@ article.electricity-gas {
         width: 80%;
         margin-right: auto;
         margin-left: auto;
+
         span {
             color: $brand-primary-color;
         }
     }
+
     hr {
         border: 2px solid #f0f0f0;
         margin: 40px 0;
     }
+
     img {
         padding-bottom: 25px;
     }
+
     .gas-chart {
         border-bottom: 3px solid #76bd1d;
     }
@@ -2433,18 +3584,23 @@ article.privacy-policy {
     .intro-paragraph {
         text-align: center;
     }
+
     hr {
         width: 60%;
         border: 1px solid #f0f0f0;
         margin: 40px auto;
     }
+
     h2 {
         margin-top: 30px;
     }
+
     .indented {
         margin-left: 40px;
+
         ul {
             list-style: none;
+
             li {
                 background-image: url('../i/marketing/blue-bullet.png');
                 background-repeat: no-repeat;
@@ -2459,9 +3615,11 @@ article.earn-free-energy {
     .intro-paragraph {
         text-align: center;
     }
+
     p {
         font-size: 26px;
     }
+
     .full-image {
         background-image: url('../i/marketing/free-energy-start-earning.jpg');
         background-repeat: no-repeat;
@@ -2469,8 +3627,10 @@ article.earn-free-energy {
         height: 300px;
         border-top: 3px solid #999;
     }
+
     .enhance {
         text-align: center;
+
         h2 {
             font-size: 40px;
             margin-top: 40px;
@@ -2484,6 +3644,7 @@ article.manage-my-account {
         border-right: 1px solid #cfcfcf;
         padding-right: 40px;
         float: left;
+
         @include breakpoint(small) {
             width: 100%;
             border-right: none;
@@ -2491,54 +3652,68 @@ article.manage-my-account {
             padding: 0;
         }
     }
+
     .right-column {
         width: 65%;
         float: right;
         padding-left: 40px;
+
         img {
             float: left;
         }
+
         h3 {
             float: left;
             margin: 25px 0 0 10px;
             color: #76BD1D;
         }
+
         .states {
             float: left;
             margin: 20px 40px 0 0;
+
             input {
                 margin-bottom: 15px;
             }
         }
+
         .input-fields {
             float: left;
             margin-right: 20px;
+
             div {
                 margin-top: 10px;
             }
+
             input {
                 width: auto;
             }
         }
+
         .login {
             margin: 10px 0 0 0;
             float: left;
+
             button {
                 background-color: #76BD1D;
+
                 &:hover {
                     background-color: #6b6b6b;
                 }
             }
         }
+
         @include breakpoint(small) {
             width: 100%;
             margin: 20px auto 0;
             padding: 0;
+
             .login {
                 margin-left: 0;
             }
         }
     }
+
     @include breakpoint(medium-large) {
         .left-column {
             padding-left: 20px;
@@ -2551,62 +3726,76 @@ article.manage-free-energy {
     background-color: #111;
     height: 399px;
     margin-bottom: 0;
+
     .left-column {
         float: left;
         width: 55%;
         margin-top: 30px;
+
         p {
             width: 70%;
             color: #fff;
             margin-top: 60px;
         }
     }
+
     .right-column {
         float: right;
         background-color: #003366;
         width: 45%;
         height: 399px;
         padding: 20px;
+
         .center {
             text-align: center;
         }
+
         .button {
             background-color: #ffa409;
             margin: 120px 0 20px 0;
+
             &:hover {
                 background-color: #6b6b6b;
             }           
         }
+
         p {
             width: 50%;
             margin: 0 auto;
             color: #fff;
         }
     }
+
     @include breakpoint(small) {
         height: auto;
+
         .left-column {
             float: none;
             width: auto;
+
             p {
                 width: auto;
             }           
         }
+
         .right-column {
             height: auto;
             float: none;
             width: auto;
             margin-left: -20px;
             margin-right: -20px;
+
             .button {
                 margin-top: 0;
             }
         }
     }
+
     @include breakpoint(medium-large) {
         .left-column {
             padding-left: 20px;
         }
+
         .right-column {
             margin-top: -50px;
         }
@@ -2615,16 +3804,20 @@ article.manage-free-energy {
 
 article.manage-services {
     background-color: #7D9AB4;
+
     .text {
         //color: #fff;
         float: left;
+
         .inner {
             float: right;
+
             span {
                 text-transform: uppercase;
             }
         }
     }
+
     .photo {
         background-image: url('../i/marketing/manage-services.jpg');
         background-color: #fff;
@@ -2632,8 +3825,10 @@ article.manage-services {
         background-size: cover;
         right: 0;
         padding-left: 15px;
+
         ul {
             padding-left: 0;
+
             li {
                 list-style-type: none;
                 float: left;
@@ -2642,76 +3837,92 @@ article.manage-services {
                 border-right: 1px solid #cfcece;
                 padding: 30px 5px 30px 0;
                 width: 32%;
+
                 &:last-child {
                     border-right: none;
                     padding-right: 0;
                     margin-right: 0;
                 }
+
                 .box {
                     background-color: #7D9AB4;
                     border-radius: 10px;
                     padding: 12px 8px;
                     max-width: 170px;
                     display: inline-block;
+
                     p {
                         text-transform: uppercase;
                         color: #fff;
                         margin: 0;
                     }
+
                     &.tech-support {
                         background-color: #b68889;
                     }
+
                     &.credit-monitoring {
                         background-color: #8ea173;
                     }
+
                     &:hover {
                         background-color: #6b6b6b;
                     }
                 }
+
                 img {
                     margin: 0 auto 15px;
                     display: block;
                 }
             }
         }
+
         .sign-up {
             text-align: center;
+
             a:hover {
                 color: #064985;
                 text-decoration: underline;
             }
         }
     }
+
     @include breakpoint(small) {
         .text {
             width: 100%;
             float: none;
             padding: 0;
             margin-bottom: 0;
+
             .inner {
                 padding: 0;
                 float: none;
                 max-width: 100%;
             }
         }
+
         .photo {
             background-image: none;
             background-color: #fff;
+
             ul li {
                 width: 100%;
                 margin-top: 0;
+
                 a .box {
                     margin: auto;
                 }
             }
         }
     }
+
     @include breakpoint(small-medium) {
         .text, .text .inner {
             float: none;
             width: auto;
             max-width: none;
         }
+
         .photo {
             width: auto;
             float: none;
@@ -2720,20 +3931,24 @@ article.manage-services {
             padding: 0 20px;
             margin-left: -20px;
             margin-right: -20px;
+
             ul li {
                 border-right: none;
             }
+
             ul li .box {
                 padding: 12px 20px;
                 max-width: 215px;
             }                       
         }
     }
+
     @include breakpoint(medium) {
         .text {
             padding: 10px;
         }
     }
+
     @include breakpoint(large) {
         .text {
             margin-bottom: 75px;
@@ -2744,16 +3959,20 @@ article.manage-services {
 article.marketing div.wrapper {
     div.historical-rates {
     overflow: scroll;
+
         table tr td {
             text-align: center;
             white-space: nowrap;
+
             &:nth-child(even) {
                 background-color: #c2ddf5;
             }
+
             &:nth-child(odd),
             &.odd {
                 background-color: #e8f2fa;
             }
+
             &.even {
                 background-color: #c2ddf5;
             }
@@ -2765,10 +3984,12 @@ article.rates {
     table {
         th, td {
             text-align: center;
+
             &:first-child {
                 text-align: left;
                 background: #f9f9f9;
             }
+
             &.term {
                 white-space: nowrap;
             }
@@ -2793,6 +4014,7 @@ article.rates {
             }
         }
     }
+
     &.northeast,
     &.georgia {
         table thead th,
@@ -2816,68 +4038,84 @@ article.paperless {
         float: left;
         width: 40%;
         padding-right: 40px;
+
         .instructions {
             color: #76BD1D;
         }
+
         @include breakpoint(small) {
             width: 100%;
             padding-right: 0px;
         }
     }
+
     .right-column {
         width: 60%;
         float: right;
         padding-left: 40px;
         border-left: 1px solid #cfcfcf;
+
         & > div {
             margin-bottom: 30px;
+
             img {
                 float: left;
             }
+
             h3 {
                 color: #76BD1D;
                 float: left;
                 margin: 25px 0 0 10px;
             }
         }
+
         h4 {
             text-align: center;
             margin: 25px 0 0 10px;
             color: #76BD1D;
         }
+
         .states {
             float: left;
             margin: 20px 40px 0 0;
+
             input {
                 margin-bottom: 15px;
             }
         }
+
         .input-fields {
             float: left;
             width: 40%;
             margin-right: 18px;
+
             div {
                 margin-top: 10px;
+
                 input {
                     width: 100%;
                 }
             }
+                }
 
-        }
         .login {
             float: left;
+
             .button {
                 background-color: #76BD1D;
+
                 &:hover {
                     background-color: #6b6b6b;
                 }
             }
         }
+
         .share {
             margin-top: 100px;
             margin-bottom: 0;
             text-align: center;
         }
+
         @include breakpoint(small) {
             width: 100%;
             margin: 20px auto;
@@ -2899,6 +4137,7 @@ article.opportunity-more-information.accent-red {
         background-color: #aa2130;
         color: #fff;
     }
+
     span.highlight {
         color: #aa2130;
     }
@@ -2909,41 +4148,49 @@ article.tablet {
         text-align: left !important;
         color: #0070b9 !important;
     }
+
     h2 {
         text-align: left;
         font-size: 34px;
         color: #4f4c4d;
     }
+
     p {
         font-size: 20px;
         color: #333333;
     }
+
     &.tablet-intro {
         .intro-text {
             width: 60%;
+                }
             
-        }
         .intro-image {
             width: 40%;
             text-align: center;
         }
+
         @include breakpoint(small) {
             .intro-text, .intro-image {
-                width: 100%
+                        width: 100%;
             }
+
             .intro-image {
                 margin-top: 20px;
             }
         }
     }
+
     &.tablet-guide {
         background-image: none;
         background-color: #f8f8f8;
         border: 1px solid #e9e9e9;
+
         ul {
             list-style: none;
             padding: 0;
             margin: 2em 0;
+
             li {
                 background: url("../i/marketing/green-bullet.png");
                 background-repeat: no-repeat;
@@ -2953,23 +4200,28 @@ article.tablet {
             }
         }
     }
+
     &.tablet-settings {
         .settings-image {
             text-align: right;
         }
+
         .note {
             font-size: 16px;
             color: #003d58;
         }
+
         ol {
             padding-left: 0;
             counter-reset: li;
             list-style: none;
+
             li {
                 font-size: 18px;
                 font-weight: 400;
                 margin: 20px 0 20px 40px;
                 position: relative;
+
                 &:before {
                     content: counter(li);
                     counter-increment: li;
@@ -2981,6 +4233,7 @@ article.tablet {
             }
         }
     }
+
     &.tablet-faqs {
         p {
             text-align: center;
@@ -2995,9 +4248,10 @@ article.video-player {
         padding-top: 35px;
         height: 0;
         overflow: hidden;
+
         iframe {
             position: absolute;
-            top:0;
+                    top: 0;
             left: 0;
             width: 100%;
             height: 100%;
@@ -3014,35 +4268,44 @@ article.mobile-support-intro {
 article.mobile-support {
     background: url('../i/marketing/redesign/section-rule.png') bottom center no-repeat;
     margin-top: -60px;
+
     .wrapper {
         background-image: none !important;
         padding: 0 0 4px;
+
         @include breakpoint(large) {
             margin: 0;
             width: 100%;
         }
     }
+
     h2 {
         color: #10425a;
         margin-bottom: 0;
     }
+
     .grid {
         padding-bottom: 20px;
+
         .col {
             vertical-align: middle;
+
             .center {
                 text-align: center;
             }
+
             .coming-soon {
                 color: #0070b9;
                 font-size: 24px;
             }
         }
+
         &.alt {
             background-color: #f8f8f8;
             border-top: 1px solid #e9e9e9;
             border-bottom: 1px solid #e9e9e9;
         }
+
         @include breakpoint(large) {
             padding: 0 120px 20px 120px;
             margin: 0;
@@ -3055,6 +4318,7 @@ article.mobile.mobile-plans-usage-calculator {
     p.blue {
         color: #1593CD;
     }
+
     h1 {
         p {
             .blue {
@@ -3062,6 +4326,7 @@ article.mobile.mobile-plans-usage-calculator {
             }
         }
     }
+
     h2 {
         margin-top: 0;
         padding-top: .5em;
@@ -3082,6 +4347,7 @@ article.mobile.mobile-plans-usage-calculator {
         @include border-radius(5px);
         border: 1px solid #ccc;
         overflow: hidden;
+
         .inactive {
             cursor: default;
         }
@@ -3092,19 +4358,24 @@ article.mobile.mobile-plans-usage-calculator {
         
         .login {
             margin-bottom: 10px;
+
             p {
                 font-size: 18px;
+
                 strong {
                     font-size: 24px;
                 }
             }
+
             .select-carrier {
                 vertical-align: middle;
+
                 h2 {
                     font-weight: bold;
                     font-style: italic;
                     margin-bottom: 10px;
                 }
+
                 h4 {
                     margin: 12px 40px 0 0;
                     font-size: 24px;
@@ -3116,10 +4387,12 @@ article.mobile.mobile-plans-usage-calculator {
             h4 {
                 margin: 0 0 10px 0;
             }
+
             ul.network-toggle {
                 @include inline-block-list();
                 float: right;
                 padding-top: 1px;
+
                 a {
                     @include background-image(linear-gradient(to top, #FFF 0%, #F7F7F7 100%));
                     @include border-radius(10px);
@@ -3134,22 +4407,27 @@ article.mobile.mobile-plans-usage-calculator {
                     padding: 1px 15px;
                     border: 1px solid #cecece;
                     outline: none;
+
                     &.active {
                         //margin-top: -1px;
                         border: 2px solid #3189bb;
                         padding: 0 14px;
+
                         &.sprint {
                             border-color: #ffe100;
                         }
+
                         &.tmo {
                             border-color: #e00075;
                         }
+
                         &.vzw {
                             border-color: #ee1c25;
                         }
                     }
                 }
             }
+
             .coming-soon {
                 margin-top: 10px;
                 margin-bottom: -11px;
@@ -3160,14 +4438,18 @@ article.mobile.mobile-plans-usage-calculator {
                 text-align: center;
                 font-size: 20px;
             }       
+
             form {
                 padding-bottom: 10px;
+
                 .error {
                     color: #c84545;
+
                     a {
                         color: #c84545;
                     }
                 }
+
                 .loginFields {
                     margin: 20px -20px;
                     padding: $module-vertical-padding $module-horizontal-padding;
@@ -3175,20 +4457,24 @@ article.mobile.mobile-plans-usage-calculator {
                     border-top: 1px solid #ccc;
                     border-bottom: 1px solid #ccc;
                     width: auto;
+
                     .terms {
                         margin-top: 0;
                         font-size: 14px;
                     }
+
                     h3 {
                         font-size: 22px;
                         font-style: italic;
                         font-weight: bold;
-                        margin-bottom: 0
+                                margin-bottom: 0;
                     }
+
                     .item {
                         margin-top: 10px;
                         padding: 0 10px 0 0;
                     }
+
                     .note-text {
                         @include border-radius(10px);
                         margin-bottom: 1em;
@@ -3197,22 +4483,27 @@ article.mobile.mobile-plans-usage-calculator {
                         border: 1px solid #a7a9ac;
                         font-size: 18px;
                     }
+
                     .disallowed-account {
                         margin-left: 15px;
+
                         p {
                             margin: 0;
                             font-style: italic;
                         }
                     }
+
                     .forgot-username-password {
                         color: #3691bb;
                         clear: both;
                         padding-top: 5px;
                     }
+
                     .notice {
                         max-width: 90%;
                     }
                 }
+
                 .buttons {
                     p {
                         display: inline;
@@ -3220,6 +4511,7 @@ article.mobile.mobile-plans-usage-calculator {
                 }
             }
         }
+
         .bill-scrape {
             .message-table {
                 background-color: rgb(242, 255, 255);
@@ -3231,6 +4523,7 @@ article.mobile.mobile-plans-usage-calculator {
     
                 .table-row {
                     display: table-row;
+
                     .table-cell {
                         display: table-cell;
                         border: 1px solid #eee;
@@ -3239,6 +4532,7 @@ article.mobile.mobile-plans-usage-calculator {
                     }
                 }
             }
+
             .savingsAnalysis {
                 text-align: center;
                 padding: 25px 0;
@@ -3251,6 +4545,7 @@ article.mobile.mobile-plans-usage-calculator {
                 background-position: 20px center;
                 background-repeat: no-repeat;
             }
+
             .net-savings {
                 @include border-radius(10px);
                 border: 3px solid #00a8e1;
@@ -3262,6 +4557,7 @@ article.mobile.mobile-plans-usage-calculator {
             .grid {
                 padding: 20px 0;
                 border-bottom: 1px solid #eee;
+
                 @include breakpoint(small) {
                     .col {
                         padding: 0 10px;
@@ -3269,14 +4565,17 @@ article.mobile.mobile-plans-usage-calculator {
                     }
                 }
             }
+
             @include breakpoint(medium-large) {
                 .grid {
                     margin: 0 ($module-horizontal-padding * -1);
                     @include experimental-value(width, calc(100% + #{$module-horizontal-padding * 2})); // Better alignment for everything except IE8 with this
                 }
+
                 .left {
                     width: 40%;
                 }
+
                 .right {
                     width: 60%;
                 }
@@ -3290,9 +4589,11 @@ article.mobile.mobile-plans-usage-calculator {
                     border: 1px solid #f0f0f0;
                     background-color: #FBFBFB;
                     @include background-image(linear-gradient(to top, #F1F1F1 0%, #FFF 100%));
+
                     &:hover {
                         cursor: pointer;
                     }
+
                     @include breakpoint(small) {
                         padding-left: 12px;
                         padding-right: 12px;
@@ -3310,6 +4611,7 @@ article.mobile.mobile-plans-usage-calculator {
             .icon {
                 width: 60px;
                 text-align: center;
+
                 @include breakpoint(small) {
                     display: none;
                 }
@@ -3317,25 +4619,31 @@ article.mobile.mobile-plans-usage-calculator {
 
             .data-description {
                 max-width: 57%;
+
                 @include breakpoint(small) {
                     max-width: 100%;
                 }
             }
+
             .slider-tick {
                 width: 2px;
                 background-color: #ccc;
                 height: 100%;
                 position: absolute;
+
                 &.slider-tick-25 {
                     left: 25%;
                 }
+
                 &.slider-tick-50 {
                     left: 50%;
                 }
+
                 &.slider-tick-75 {
                     left: 75%;
                 }
             }
+
             .sliderLabels {
                 margin-top: 10px;
                 text-align: center;
@@ -3359,7 +4667,6 @@ article.mobile.mobile-plans-usage-calculator {
 
                     .frame {
                         @include border-radius($button-border-radius);
-
                         position: relative;
                         width: 100%;
                         height: 24px;
@@ -3373,6 +4680,7 @@ article.mobile.mobile-plans-usage-calculator {
                             height: 22px;
                             z-index: 100;
                             background: #073464;
+
                             .label {
                                 @include border-radius(5px);
                                 position: absolute;
@@ -3383,6 +4691,7 @@ article.mobile.mobile-plans-usage-calculator {
                                 color: #fff;
                                 font-size: 14px;
                                 white-space: nowrap;
+
                                 &:after {
                                     content: "";
                                     position: absolute;
@@ -3400,8 +4709,9 @@ article.mobile.mobile-plans-usage-calculator {
                             position: absolute;
                             z-index: 1000;
                             height: 22px;
-                            background:  rgb(41, 136, 200); 
+                                    background: rgb(41, 136, 200);
                         }
+
                         .estimatedDataLabel {
                             position: absolute;
                             z-index: 10000;
@@ -3416,21 +4726,23 @@ article.mobile.mobile-plans-usage-calculator {
                         @extend .clearfix;
                         width: 100%;
                         margin: 10px 0 0 0;
+
                         .dataLabel {
                             float: left;
                             width: 20%;
                         }
                     }
-
+                        }
                 }
             }
 
-        }
         .plans-table-wrapper {
             display: table;
+
             .plans-table-two-thirds {
                 display: table-cell;
             }
+
             .plans-table-one-third {
                 display: table-cell;
                 border: 3px solid #00a8e1;
@@ -3439,11 +4751,13 @@ article.mobile.mobile-plans-usage-calculator {
                 padding: 0 65px;
                 font-weight: bold;
                 line-height: 1.5;
+
                 .blue {
                     color: #00a8e1;
                 }
             }
         }
+
         .plan-table {
             display: table;
             table-layout: fixed;
@@ -3478,10 +4792,12 @@ article.mobile.mobile-plans-usage-calculator {
                     
                     &.tco {
                         vertical-align: bottom;
+
                         .savings {
                             color: #368ebe;
                             font-size: 14px;
                         }
+
                         .bar {
                             display: inline-block;
                             height: 80px;
@@ -3489,10 +4805,12 @@ article.mobile.mobile-plans-usage-calculator {
                             padding: 10px;
                             background: #e4e4e4;
                             vertical-align: bottom;
+
                             @include breakpoint(small) {
                                 font-size: 12px;
                             }
                         }
+
                         &.current-plan {
                             .bar {
                                 background: #a1a1a1;
@@ -3500,10 +4818,10 @@ article.mobile.mobile-plans-usage-calculator {
                             }
                         }
                     }
+
                     .subLabel {
                         font-size: 12px;
                     }
-
                 }
 
                 .full-row {
@@ -3520,26 +4838,27 @@ article.mobile.mobile-plans-usage-calculator {
                     width: 25%;
                     text-align: left;
                 }
-
             }
 
             .single-cell {
                 display: table-caption;
                 background: rgb(220, 220, 220);
+
                 &.table-footnote {
                     background: #ffffff;
                 }
             }
         }
-
     }
 }
+
 article.marketing.validate-esn {
     margin-bottom: 50px;
     width: auto;
     h1 {
         margin: 1.5em 0;
     }
+
     .device-error, .device-success {
         h2 {
             color: #00a8e1;
@@ -3551,10 +4870,12 @@ article.marketing.validate-esn {
         color: #333;
         font-size: 20px;
         font-weight: 400;
+
         a {
             font-size: 20px;
             font-weight: 500;
         }
+
         .button {
             display: inline-block;
             text-transform: none;
@@ -3567,6 +4888,7 @@ article.marketing.validate-esn {
             @include border-radius(5px);
             @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
             margin-left: 20px;
+
             @include breakpoint(small-medium) {
                 margin-left: 0;
                 margin-top: 10px;
@@ -3587,16 +4909,19 @@ article.marketing.validate-esn {
            background-image: linear-gradient(#efaf01, #eca001);
         }
     }
+
     .device-error {
         background-color: #fff6c6;
         color: #013c5b;
     }
+
     .item {
         margin-bottom: 15px;
         display: inline-block;
         width: 70%;
         border-right: 1px solid #d9dadb;
         padding: 0 40px;
+
         input {
             height: 46px;
             padding: 10px;
@@ -3606,12 +4931,14 @@ article.marketing.validate-esn {
             width: 100%;
             margin-top: 10px;
         }
+
         h3 {
             font-size: 24px;
             font-weight: 400;
             margin: 0;
         }
     }
+
     .side-content {
         display: inline-block;
         width: 26%;
@@ -3628,6 +4955,7 @@ article.marketing.validate-esn {
             width: 100%;
             border-right: none;
         }
+
         .side-content {
             display: block;
             width: 100%;
@@ -3636,24 +4964,30 @@ article.marketing.validate-esn {
             margin: 0;
         }
     }
+
     @include breakpoint(small) {
         .item, .side-content {
             padding: 0;
         }
+
         .device-error, .device-success {
             margin: 0;
         }
     }
+
     .input-group {
         margin: 10px 0;
         z-index: 1;
+
         label {
             font-size: 16px;
             font-weight: 400;
         }
+
         label a {
             float: right;
         }
+
         button {
             display: inline-block;
             float: right;
@@ -3667,6 +5001,7 @@ article.marketing.validate-esn {
             @include border-radius(5px);
             @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
             margin-top: 32px;
+
             @include breakpoint(small) {
                 margin-top: 10px;
                 width: 100%;
@@ -3674,55 +5009,69 @@ article.marketing.validate-esn {
         }
     }
 }
+
 article.sim-activation-intro {
     > .wrapper {
         padding: 20px 0 0;
+
         h1 {
             margin-bottom: 15px;
         }
+
         .header-logo {
             text-align: center;
             background: #fff;
             width: 40%;
             padding: 20px;
             margin: 55px auto -80px;
+
             &.cdma-logo {
                 border: 1px solid $mobile-cdma-color;
             }
+
             &.gsm-logo {
                 border: 1px solid $mobile-gsm-color;
             }
+
             @include breakpoint(small) {
                 width: 90%;
             }
         }
     }
 }
+
 div.mobile.sim-activation {
     background: image-url('marketing/redesign/footer-section-bottom-rule.png') center top repeat-x;
     margin-top: 30px;
+
     > .wrapper {
         padding-top: 60px;
         margin-top: -40px;
         text-align: center;
     }
+
     a {
         color: $mobile-gsm-color;
         word-wrap: break-word;
     }
+
     header {
         h1 {
             font-size: 24px;
         }
     }
+
     .content {
         font-size: 18px;
+
         h3 {
             font-size: 24px;
             margin-bottom: -5px;
         }
+
         ul {
             list-style: none;
+
             li {
                 @include retina-background('circle-check.png', 'icon');
                 background-repeat: no-repeat;
@@ -3730,41 +5079,52 @@ div.mobile.sim-activation {
                 padding: 8px 0 8px 40px;
             }
         }
+
         p {
             margin: 20px 40px;
         }
+
         .gsm-color {
             color: $mobile-gsm-color;
         }
     }
+
     h2 {
         color: $mobile-gsm-color;
         font-size: 48px;
         margin-bottom: 0;
     }
+
     .intro {
         font-size: 20px;
     }
+
     label {
         color: $mobile-gsm-color;
         font-size: 36px;
     }
+
     .col {
         padding: 15px 0;
+
         &.gsm {
             border-right: 2px solid $mobile-gsm-color;
+
             @include breakpoint(small-medium) {
                 border-right: none;
             }
         }
     }
+
     .step-intro {
         margin: 40px 20px -40px;
+
         h2 {
             text-align: left;
             font-size: 34px;
         }
     }
+
     .or-text {
         font-size: 24px;
         font-weight: 400;
@@ -3781,34 +5141,43 @@ div.mobile.sim-activation {
         left: 50%;
         margin-left: -36px;
         top: 15px;
+
         @include breakpoint(small-medium) {
             display: none;
         }
     }
+
     .alert {
         background-image: none;
         padding-bottom: 15px;
+
         h4 {
             margin: 0;
         }
+
         ul {
             list-style: none;
         }
     }
+
     .activation-step {
         font-size: 18px;
     }
+
     .account-info {
         font-size: 14px;
         line-height: 1.8;
     }
+
     .enrollment__box {
         margin-top: 60px;
         border-color: $mobile-gsm-color;
         text-align: left;
     }
+
     .btn-group-arrow {
         position: relative;
+
         &:after, &:before {
             display: none;
             bottom: -26px;
@@ -3827,20 +5196,24 @@ div.mobile.sim-activation {
             border-width: 15px;
             margin-left: -15px;
         }
+
         &:before {
             border-width: 16px;
             margin-left: -16px;
         }
+
         &.active:before, &.active:after {
             display: block;
             z-index: 1;
         }
     }
+
     .btn-group-options { 
         position: relative;
         width: 100%;
         border-spacing: 0;
         margin: 20px 0 0;
+
         .button {
             position: relative;
             color: #333;
@@ -3855,46 +5228,57 @@ div.mobile.sim-activation {
             width: 78%;
             @include border-radius(0);
             @include box-shadow(none);
+
             img {
                 display: block;
                 margin: 0 auto;
                 max-width: 90%;
             }
+
             &.gsm-button {
                 border: 1px solid $mobile-gsm-color;
             }
+
             &.cdma-button {
                 border: 1px solid $mobile-cdma-color;
             }
         }
+
         @include breakpoint(small-medium) {
             width: 100%;
             margin-left: 0;
+
             .button {
                 width: 100%;
                 display: block;
                 margin: 7px 0;
+
                 &:after, &:before {
                     display: none !important;
                 }
             }
         }
     }
+
     .questions {
         color: #333333;
+
         h4 {
             font-size: 34px;
             font-weight: 300;
             margin-bottom: 20px;
         }
+
         .contact-specialists {
             font-size: 20px;
         }
+
         .phone {
             color: $mobile-gsm-color;
             font-size: 30px;
         }
     }
+
     .activate-form {
         label {
             display: block;
@@ -3902,42 +5286,53 @@ div.mobile.sim-activation {
             font-size: 14px;
             font-weight: 600;
         }
+
         .col {
             padding: 0;
         }
+
         .col-first {
             vertical-align: bottom;
         }
+
         .col-last {
             text-align: center;
         }
+
         h3 {
             color: $mobile-gsm-color;
         }
+
         .lookup-error {
             text-align: center;
+
             h2 {
                 font-size: 36px;
                 margin-top: 36px;
             }
+
             h3 {
                 font-size: 28px;
                 color: #333333;
                 margin: 14px 0 28px;
             }
         }
+
         &.confirmation {
             p {
                 margin-left: 0;
             }
+
             ul {
                 padding-left: 0;
             }
+
             img {
                 max-width: 100%;
             }
         }
     }
+
     .notice.error {
         margin-bottom: 15px;
         border-radius: 15px;
@@ -3950,11 +5345,13 @@ div.mobile.sim-activation {
         @include retina-background('error.png', 'icon');
         text-align: left;
         margin: 60px 0 -40px;
+
         ul {
             padding: 0;
             margin: 0;
         }
     }
+
     footer {
         button.tertiary {
             background-color: $enrollment-tertiary-button-background;
@@ -3970,20 +5367,25 @@ div.mobile.sim-activation {
             @include box-shadow(none);
         }
     }
+
     .data-intro {
         margin: 30px 0 -30px;
+
         h3 {
             font-size: 24px;
         }
     }
+
     .data-box {
         label {
             font-size: 18px;
         }
+
         .btn-group-options {
             border-spacing: 7px;
             margin: 10px -7px; 
             text-align: center;
+
             .button {
                 position: relative;
                 color: #333;
@@ -3998,63 +5400,77 @@ div.mobile.sim-activation {
                 width: 25%;
                 @include border-radius(5px);
                 @include box-shadow(none);
+
                 i {
                     display: inline-block;
                     margin-right: 5px;
                 }
+
                 &.active {
                     border: 1px solid $mobile-gsm-color;
                 }
             }
+
             @include breakpoint(small-medium) {
                 width: 100%;
                 margin-left: 0;
+
                 .button {
                     width: 100%;
                     display: block;
                     margin: 7px 0;
+
                     &:after, &:before {
                         display: none !important;
                     }
                 }
             }
         }
+
         .btn-phone-type {
             &:after, &:before {
                 bottom: -25px;
             }
         }
+
         .phone-instructions {
             background-color: #f3f3f3;
             margin: 24px -20px -20px;
             padding: 5px 240px 20px;
+
             h4 {
                 color: $mobile-gsm-color;
                 font-size: 24px;
             }
+
             h5 {
                 color: $mobile-gsm-color;
                 font-size: 18px;
                 margin: 40px 0 0;
             }
+
             ul {
                 padding-left: 0;
+
                 ul {
                     padding-top: 5px;
+
                     li {
                         @include retina-background('arrow-right-black.png', 'icon');
                         background-repeat: no-repeat;
                         background-position-y: 10px;
-                        padding: 2px 0 2px 20px
+                                padding: 2px 0 2px 20px;
                     }
                 }
             }
+
             .instructions-note {
                 font-size: 14px;
                 margin: 0;
                 padding: 10px 0;
                 line-height: 1.5;
             }
+
             .instructions-footnote {
                 font-size: 12px;
                 font-style: italic;
@@ -4062,10 +5478,12 @@ div.mobile.sim-activation {
                 padding: 10px 0;
                 font-weight: normal;
             }
+
             @include breakpoint(small-medium) {
                 padding: 5px 20px 20px;
             }
         }
+
         footer {
             text-align: center;
             font-size: 14px;
@@ -4073,11 +5491,12 @@ div.mobile.sim-activation {
         }
     }
 }
-.modal-body{
+
+        .modal-body {
     article.mobile.mobile-plans-usage-calculator {
         .wrapper {
             padding-top: 0;
-            width: 100%
+                    width: 100%;
         }
 
         p {
@@ -4087,11 +5506,13 @@ div.mobile.sim-activation {
         .manual-calculator {
             .grid {
                 display: block;
+
                 .col {
                     display: block;
                     padding: 0 10px;
                     margin-bottom: 10px;
                     width: 100%;
+
                     .icon {
                         display: none;
                     }
@@ -4103,11 +5524,13 @@ div.mobile.sim-activation {
             }
         }
     }
+
     .compatible-devices-table {
         td {
             width: 50%;
             vertical-align: top;
         }
+
         ul {
             padding-left: 20px;
         }

@@ -36,6 +36,7 @@
         $scope.duplicateDevice = false;
         $scope.phoneVerified = false;
         $scope.cdmaActive = false;
+        $scope.phoneOptions.supportsLte = true;
         var cartDevices = $scope.getCartDevices();
         if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
             $scope.hasError = true;
@@ -80,13 +81,22 @@
                         $scope.gsmIneligible = true;
                     }
                 } else {
-                    $scope.phoneVerified = true;
-                    $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
-                    $scope.phoneManufacturer = data.manufacturer;
-                    $scope.phoneOptions.iccidNumber = data.iccid;
                     if (data.deviceType) {
                         $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
                     }
+                    $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
+                    if (!$scope.phoneOptions.supportsLte && $scope.networkType == 'CDMA') {
+                        $scope.phoneVerified = false;
+                        $scope.hasError = true;
+                        $scope.deviceIneligibleMessage = '';
+                        if ($scope.showCaptcha) {
+                            reCAPTCHA.reload($scope.widgetId);
+                        }
+                    } else {
+                        $scope.phoneVerified = true;
+                    }
+                    $scope.phoneManufacturer = data.manufacturer;
+                    $scope.phoneOptions.iccidNumber = data.iccid;
                     var responseMessage = _.find($scope.esnValidationMessages, function (message) { 
                             return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
                         });
