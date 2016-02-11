@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StreamEnergy.Interpreters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,10 +11,12 @@ namespace StreamEnergy.MyStream.Controllers
     public class DataController : Controller
     {
         private readonly ISettings settings;
+        private IDpiEnrollmentParameters enrollmentParameters;
 
-        public DataController(ISettings settings)
+        public DataController(ISettings settings, IDpiEnrollmentParameters enrollmentParameters)
         {
             this.settings = settings;
+            this.enrollmentParameters = enrollmentParameters;
         }
 
         public ActionResult States()
@@ -175,6 +178,21 @@ namespace StreamEnergy.MyStream.Controllers
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Associate Levels/Associate Levels");
             var nameValues = ((Sitecore.Data.Fields.NameValueListField)item.Fields["Associate Levels"]).NameValues;
             var data = nameValues.AllKeys.Select(key => new { abbreviation = key, display = nameValues[key] });
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
+        public ActionResult DigitalVoiceSettings()
+        {
+            var item = settings.GetSettingsItem("Digital Voice");
+
+            var data = new
+            {
+                hubUrl = item.Fields["Hub URL"].Value,
+                airUrl = item.Fields["Bundle Air URL"].Value,
+                bridgeUrl = item.Fields["Bundle Bridge URL"].Value,
+                referralParameters = enrollmentParameters.ToStreamConnectSalesInfo(),
+            };
+
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 

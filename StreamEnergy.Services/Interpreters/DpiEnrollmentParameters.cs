@@ -56,6 +56,16 @@ namespace StreamEnergy.Interpreters
             get { return GetAccountNumber(queryString["SPID"] ?? DefaultAgent); }
         }
 
+        public string GroupId
+        {
+            get { return (queryString["GID"] ?? ""); }
+        }
+
+        public string RefSite
+        {
+            get { return (queryString["RefSite"] ?? ""); }
+        }
+
         public Newtonsoft.Json.Linq.JObject ToStreamConnectSalesInfo()
         {
             bool useRemoteEnrollment;

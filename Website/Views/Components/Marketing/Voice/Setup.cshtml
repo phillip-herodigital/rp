@@ -1,0 +1,26 @@
+﻿<article class="marketing">
+    <div class="voice-setup">
+        <p class="intro">@Html.Sitecore().Field("Text Above Image")</p>
+        <div class="grid">
+            <div class="grid-item">
+                @Html.Sitecore().Field("Image 1")
+                <p>@Html.Sitecore().Field("Image 1 Text")</p>
+            </div>
+            <div class="grid-item separator">
+                @Html.Sitecore().Field("Separator")
+            </div>
+            <div class="grid-item">
+                @Html.Sitecore().Field("Image 2")
+                <p>@Html.Sitecore().Field("Image 2 Text")</p>
+            </div>
+            <div class="grid-item separator">
+                @Html.Sitecore().Field("Separator")
+            </div>
+            <div class="grid-item">
+                @Html.Sitecore().Field("Image 3")
+                <p>@Html.Sitecore().Field("Image 3 Text")</p>
+            </div>
+        </div>
+        <p class="outro">@Html.Sitecore().Field("Text Below Image")</p>
+    </div>
+</article>
