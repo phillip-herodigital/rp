@@ -344,7 +344,7 @@ namespace StreamEnergy.MyStream.Controllers
         // Currents Feedback Form
          public ActionResult CurrentsFeedbackIndex()
         {
-            var model = new StreamEnergy.MyStream.Models.Marketing.CurrentsFeedback()
+            var model = new StreamEnergy.MyStream.Models.Currents.CurrentsFeedback()
             {
                 ShowSuccessMessage = !string.IsNullOrEmpty(Request["success"]) && Request["success"] == "true",
             };
@@ -353,7 +353,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public ActionResult CurrentsFeedbackIndex(StreamEnergy.MyStream.Models.Marketing.CurrentsFeedback contact)
+        public ActionResult CurrentsFeedbackIndex(StreamEnergy.MyStream.Models.Currents.CurrentsFeedback contact)
         {
             // Validate form data
             if (ModelState.IsValid)
