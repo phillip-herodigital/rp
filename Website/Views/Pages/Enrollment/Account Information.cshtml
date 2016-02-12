@@ -61,14 +61,11 @@
                         <div class="content">
                             <h3>@Html.Sitecore().Field("Personal Information Header")</h3>
                             <div class="group">
-                                <div class="item" ng-show="contactOptions.isUserLoggedIn" ng-cloak>
-                                    <label for="service-address-mailing">Select Existing Contact Info</label>
-                                    <select id="service-address-mailing"
-                                            name="@Html.NameFor(m => m)"
-                                            data-val="true" data-val-required
-                                            ng-model="accountInformation"
-                                            ng-change=""
-                                            ng-options="contacts as contacts.mailingAddress | address for contacts in contactOptions.accountDetails">
+                                <div class="item" ng-show="accountInformation.isUserLoggedIn">
+                                    <label>Select Existing Contact Info</label>
+                                    <select ng-model="contactOptions.selectedContact"
+                                            ng-change="updateAccountInformation()"
+                                            ng-options="contact as contact.mailingAddress | address for contact in contactOptions track by contact.id">
                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                     </select>
                                 </div>
@@ -107,7 +104,7 @@
                                                         new
                                                         {
                                                             ng_model = "accountInformation.contactInfo.phone[0].category",
-                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter2|filter:filterCustomerType"
+                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter1|filter:filterCustomerType"
                                                         }))
                                         @firstPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)
                                     </div>
@@ -116,10 +113,10 @@
 
                             <div class="additional-field-item item">
                                 <ul class="checkbox-list">
-                                    <li><input type="checkbox" name="additional-phone-number" id="additional-phone-number" ng-model="additionalInformation.showAdditionalPhoneNumber" ng-change="showAdditionalPhoneNumberChanged()"><label for="additional-phone-number">@Html.Sitecore().Field("Add additional phone number")</label></li>
+                                    <li><input type="checkbox" name="additional-phone-number" id="additional-phone-number" ng-model="accountInformation.showAdditionalPhoneNumber" ng-change="showAdditionalPhoneNumberChanged()"><label for="additional-phone-number">@Html.Sitecore().Field("Add additional phone number")</label></li>
                                 </ul>
                             </div>
-                            <div class="additional-field-group" ng-show="accountInformation.contactInfo.phone.length > 1">
+                            <div class="additional-field-group" ng-show="accountInformation.showAdditionalPhoneNumber">
                                 <div class="group">
                                     @using (var secondPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "1").Shortcut(m => (TypedPhone)m))
                                     {
@@ -135,7 +132,7 @@
                                                         new
                                                         {
                                                             ng_model = "accountInformation.contactInfo.phone[1].category",
-                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter1|filter:filterCustomerType",
+                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter2|filter:filterCustomerType",
                                                             data_val_if = "accountInformation.contactInfo.phone.length > 1"
                                                         }))
                                             @secondPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)

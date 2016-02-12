@@ -877,13 +877,14 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                     IsUserLoggedIn = false,
                 };
             }
-            var accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
-            //Task.WaitAll((from account in accounts.Take(2)
-            //              select accountService.GetAccountDetails(account, false)).ToArray());
-            foreach (var account in accounts.Take(2))
-            {
-                await accountService.GetAccountDetails(account, false);
-            }
+            var accounts = (await accountService.GetAccounts(currentUser.StreamConnectCustomerId)).Take(3);
+            
+            await Task.WhenAll((from account in accounts
+                                select Task.Factory.StartNew(async () =>
+                                {
+                                    await accountService.GetAccountDetails(account, false);
+                                }).Result).ToArray());
+
             return new GetLoggedInUserInfoResponse
             {
                 IsUserLoggedIn = true,
@@ -892,8 +893,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                  {
                                      ContactInfo = account.Details.ContactInfo,
                                      MailingAddress = account.Details.BillingAddress,
-        }
-
+                                 }
             };
         }
 

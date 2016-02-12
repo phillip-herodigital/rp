@@ -8,7 +8,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.contactOptions = enrollmentService.contactOptions;
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
-        showAdditionalPhoneNumber: $scope.accountInformation.contactInfo.phone.length > 1,
         showSecondaryContact: (sci && sci.first != undefined && sci.first != "" && sci.last != undefined && sci.last != ""),
         hasAssociateReferral: true
     };
@@ -48,11 +47,11 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
     // create a filter so that the same phone type can't be selected twice
     $scope.filter1 = function(item){
-        return (!($scope.accountInformation.contactInfo.phone.length > 0 && $scope.accountInformation.contactInfo.phone[0].category) || item.name != $scope.accountInformation.contactInfo.phone[0].category);
+        return (!($scope.accountInformation.contactInfo.phone.length > 1 && $scope.accountInformation.contactInfo.phone[1].category) || item.name != $scope.accountInformation.contactInfo.phone[1].category);
     };
 
     $scope.filter2 = function(item){
-        return (!($scope.accountInformation.contactInfo.phone.length > 1 && $scope.accountInformation.contactInfo.phone[1].category) || item.name != $scope.accountInformation.contactInfo.phone[1].category);
+        return (!($scope.accountInformation.contactInfo.phone.length > 0 && $scope.accountInformation.contactInfo.phone[0].category) || item.name != $scope.accountInformation.contactInfo.phone[0].category);
     };
 
     $scope.filterCustomerType = function(item){
@@ -74,7 +73,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
     }
 
-    $scope.$watch('accountInformation.mailingAddressSame', function (newVal, oldVal) {
+    $scope.$watch('acountInformation.mailingAddressSame', function (newVal, oldVal) {
         if (newVal != oldVal) {
             if ($scope.accountInformation.mailingAddressSame) {
                 if ($scope.utilityAddresses().length == 1)
@@ -86,7 +85,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     });
 
     $scope.showAdditionalPhoneNumberChanged = function() {
-        if ($scope.additionalInformation.showAdditionalPhoneNumber) {
+        if ($scope.accountInformation.showAdditionalPhoneNumber) {
             $scope.accountInformation.contactInfo.phone[1] = {};
         } else {
             $scope.accountInformation.contactInfo.phone.splice(1, 1);
@@ -99,6 +98,34 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             $scope.accountInformation.secondaryContactInfo.last = null;
         }
     };
+
+    $scope.updateAccountInformation = function () {
+        if ($scope.contactOptions.selectedContact == null) {
+            $scope.accountInformation = {
+                contactTitle: '',
+                contactInfo: {
+                    name: {
+                        first: '',
+                        last: ''
+                    },
+                    phone: [{
+                        number: '',
+                        category: 'mobile'
+                    }],
+                    email: {
+                        address: ''
+                    }
+                },
+                socialSecurityNumber: '',
+                secondaryContactInfo: {},
+                isUserLoggedIn: true,
+                mailingAddressSame: true
+            };
+        }
+        else {
+            $scope.accountInformation = $scope.contactOptions.selectedContact;
+        }
+    }
 
     $scope.showAglcExample = function () {
 
