@@ -1,0 +1,54 @@
+﻿@model StreamEnergy.MyStream.Models.Currents.CurrentsFeedback
+@using System.Linq.Expressions;
+@using StreamEnergy.Extensions;
+
+<div class="currents">
+    <div class="blog-info">
+        <div class="blog-title">
+            <h1>@Html.Sitecore().Field("Title")</h1>
+        </div>
+        <div class="sub-headline">
+            @Html.Sitecore().Field("Sub Headline")
+        </div>
+    </div>
+    <article class="marketing service-tabs contact commercial-quote currents-feedback">
+        <div class="text wrapper">
+            <div class="inner grid border three">
+                <h2>@Html.Sitecore().Field("Form Title")</h2>
+                @Html.Sitecore().Field("Form Intro Text")
+                <form action="@Request.Url.ToString()" method="post">
+                    @Html.ValidationSummary()
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.First)>
+                        @Html.TextBoxFor(m => m.ContactName.First, new { ng_model = "firstName", placeholder = Html.Sitecore().Field("First Name Placeholder Text") })
+                    </div>
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.Last)>
+                        @Html.TextBoxFor(m => m.ContactName.Last, new { ng_model = "lastName", placeholder = Html.Sitecore().Field("Last Name Placeholder Text") })
+                    </div>
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactEmail.Address)>
+                        @Html.TextBoxFor(m => m.ContactEmail.Address, new { ng_model = "email", placeholder = Html.Sitecore().Field("Email Placeholder Text") })
+                    </div>
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactPhone.Number)>
+                        @Html.TextBoxFor(m => m.ContactPhone.Number, new { ng_model = "phone", placeholder = Html.Sitecore().Field("Phone Number Placeholder Text") })
+                    </div>
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactComments)>
+                        @Html.TextAreaFor(m => m.ContactComments, new { ng_model = "comments", placeholder = Html.Sitecore().Field("Comments Placeholder Text") })
+                    </div>
+                    <div class="item">
+                        <button class="button" type="submit" data-val-submit>@Html.Sitecore().Field("Send Button Text")</button><br /><br />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </article>
+</div>
+    @if (Model != null && Model.ShowSuccessMessage)
+    {
+        <article class="marketing commercial-quote">
+            <div class="success-message" id="success-message">
+                <div class="wrapper">
+                    <h2>@Html.Sitecore().Field("Thank You Text")</h2>
+                    <h4>@Html.Sitecore().Field("Success Message Text")</h4>
+                </div>
+            </div>
+        </article>
+    }
