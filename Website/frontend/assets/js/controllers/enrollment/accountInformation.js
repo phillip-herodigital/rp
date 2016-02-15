@@ -122,6 +122,8 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                 isUserLoggedIn: true,
                 mailingAddressSame: true
             };
+            if ($scope.utilityAddresses().length == 1)
+                $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
         }
         else {
             $scope.accountInformation = $scope.contacts.selectedContact;
