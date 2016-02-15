@@ -204,7 +204,7 @@
                                 <div class="item" ng-show="cartHasUtility()">
                                     <ul class="checkbox-list">
                                         <li>
-                                            <input type="checkbox" name="same-address-mailing" id="same-address-mailing" ng-model="accountInformation.mailingAddressSame" ng-checked="cartHasUtility()">
+                                            <input type="checkbox" name="same-address-mailing" id="same-address-mailing" ng-click="mailingAddressSameChanged()" ng-model="accountInformation.mailingAddressSame" ng-checked="cartHasUtility()">
                                             <label for="same-address-mailing">@Html.Sitecore().Field("Same Address Label")</label>
                                         </li>
                                     </ul>

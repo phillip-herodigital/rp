@@ -74,16 +74,14 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
     }
 
-    $scope.$watch('acountInformation.mailingAddressSame', function (newVal, oldVal) {
-        if (newVal != oldVal) {
-            if ($scope.accountInformation.mailingAddressSame) {
+    $scope.mailingAddressSameChanged = function() {
+            if (!$scope.accountInformation.mailingAddressSame) {
                 if ($scope.utilityAddresses().length == 1)
                     $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
             } else if ($scope.cartHasUtility()) {
                     $scope.accountInformation.mailingAddress = {};
             }
-        }
-    });
+        };
 
     $scope.showAdditionalPhoneNumberChanged = function() {
         if ($scope.accountInformation.showAdditionalPhoneNumber) {
@@ -128,7 +126,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         else {
             $scope.accountInformation = $scope.contacts.selectedContact;
         }
-    }
+    };
 
     $scope.showAglcExample = function () {
 
