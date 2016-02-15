@@ -62,7 +62,7 @@
                             <h3>@Html.Sitecore().Field("Personal Information Header")</h3>
                             <div class="group">
                                 <div class="item" ng-show="accountInformation.isUserLoggedIn">
-                                    <label>Select Existing Contact Info</label>
+                                    <label>@Html.Sitecore().Field("Select Existing Contact Info Label")</label>
                                     <select ng-model="contacts.selectedContact"
                                             ng-change="updateAccountInformation()"
                                             ng-options="contact as contact.mailingAddress | address for contact in contacts.options track by contact.id">
