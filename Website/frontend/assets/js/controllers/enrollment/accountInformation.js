@@ -5,7 +5,8 @@
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
     $scope.accountInformation = enrollmentService.accountInformation;
     enrollmentService.getLoggedInAccountInformation();
-    $scope.contactOptions = enrollmentService.contactOptions;
+    $scope.contacts = {};
+    $scope.contacts.options = enrollmentService.contactOptions;
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
         showSecondaryContact: (sci && sci.first != undefined && sci.first != "" && sci.last != undefined && sci.last != ""),
@@ -100,7 +101,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     };
 
     $scope.updateAccountInformation = function () {
-        if ($scope.contactOptions.selectedContact == null) {
+        if ($scope.contacts.selectedContact == null) {
             $scope.accountInformation = {
                 contactTitle: '',
                 contactInfo: {
@@ -123,7 +124,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             };
         }
         else {
-            $scope.accountInformation = $scope.contactOptions.selectedContact;
+            $scope.accountInformation = $scope.contacts.selectedContact;
         }
     }
 

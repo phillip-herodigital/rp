@@ -63,9 +63,9 @@
                             <div class="group">
                                 <div class="item" ng-show="accountInformation.isUserLoggedIn">
                                     <label>Select Existing Contact Info</label>
-                                    <select ng-model="contactOptions.selectedContact"
+                                    <select ng-model="contacts.selectedContact"
                                             ng-change="updateAccountInformation()"
-                                            ng-options="contact as contact.mailingAddress | address for contact in contactOptions track by contact.id">
+                                            ng-options="contact as contact.mailingAddress | address for contact in contacts.options track by contact.id">
                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                     </select>
                                 </div>
