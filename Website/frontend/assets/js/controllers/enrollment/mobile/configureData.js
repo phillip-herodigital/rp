@@ -11,6 +11,8 @@
     $scope.excludedStates = false;
     $scope.zipCodeInvalid = false;
     $scope.enrollmentStepsService = enrollmentStepsService;
+    $scope.phoneOptions = enrollmentService.phoneOptions;
+
 
     var coverageMap = angular.element(document.getElementsByClassName('coverage-map-container'));
     var dataCalculator = angular.element(document.getElementsByClassName('data-calculator-container'));

@@ -4287,6 +4287,13 @@ h3.success-message{
 }
 
 .enrollment__configure-data {
+    header {
+        h1 {
+            color: #71b243;
+            font-weight: 600;
+        }
+    }
+
     .mobile-plans-header {
         margin-bottom: 30px;
         font-size: 18px;

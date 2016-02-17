@@ -23,7 +23,7 @@
         transferInfo: undefined,
         supportsLte: undefined 
     };
-    
+    enrollmentService.phoneOptions = $scope.phoneOptions;
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
 
     $scope.mobileEnrollmentService.currentStepNumber = 1;
@@ -73,44 +73,48 @@
                             }];
                         }
                     }
-                } else if ($scope.getDevicesCount() > 0 && mobileEnrollmentService.selectedNetwork.value != data.provider) {
-                    $scope.hasError = true;
-                    if ($scope.networkType == 'GSM') {
-                        $scope.cdmaIneligible = true;
-                    } else if ($scope.networkType == 'CDMA') {
-                        $scope.gsmIneligible = true;
-                    }
                 } else {
-                    if (data.deviceType) {
-                        $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
-                    }
                     $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
-                    if (!$scope.phoneOptions.supportsLte && $scope.networkType == 'CDMA') {
+                    if ($scope.networkType == 'GSM') {
                         $scope.phoneVerified = false;
                         $scope.hasError = true;
+                        $scope.gsmIneligible = true;
                         $scope.deviceIneligibleMessage = '';
                         if ($scope.showCaptcha) {
                             reCAPTCHA.reload($scope.widgetId);
                         }
-                    } else {
-                        $scope.phoneVerified = true;
                     }
-                    $scope.phoneManufacturer = data.manufacturer;
-                    $scope.phoneOptions.iccidNumber = data.iccid;
-                    var responseMessage = _.find($scope.esnValidationMessages, function (message) { 
-                            return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
-                        });
-                    $scope.deviceResponseMessage = (responseMessage == undefined) ? null : responseMessage.message;
-                    $scope.phoneOptions.showIccid = (data.iccid == undefined || data.iccid == '') && $scope.phoneOptions.supportsLte;
-                    $scope.cdmaActive = (data.iccid != undefined & data.iccid != '');
-                    analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
+                    else {
+                        $scope.phoneOptions.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
+                        if (!$scope.phoneOptions.supportsLte) {
+                            $scope.hasError = true;
+                            $scope.phoneVerified = false;
+                        }
+                        else {
+                            $scope.phoneVerified = true;
+                            $scope.phoneManufacturer = data.manufacturer;
+                            $scope.phoneOptions.iccidNumber = data.iccid;
+                            var responseMessage = _.find($scope.esnValidationMessages, function (message) {
+                                return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
+                            });
+                            $scope.deviceResponseMessage = (responseMessage == undefined) ? null : responseMessage.message;
+                            $scope.phoneOptions.showIccid = (data.iccid == undefined || data.iccid == '') && $scope.phoneOptions.supportsLte;
+                            $scope.cdmaActive = (data.iccid != undefined & data.iccid != '');
+                            analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
 
-                    mobileEnrollmentService.selectedNetwork.value = data.provider;
-                    $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
+                            mobileEnrollmentService.selectedNetwork.value = data.provider;
+                            $scope.chooseNetwork(mobileEnrollmentService.selectedNetwork.value, 'existing');
+                            isAttemptsExceeded();
+                            $scope.addDeviceToCart();
+                            $scope.completeStep();
+                        }
+                    }
                 }
-                isAttemptsExceeded();
-                enrollmentService.isLoading = false;
+            })
+            .error(function (status) {
+                console.log(status);
             });
+            enrollmentService.isLoading = false;
         }
     };
 
@@ -413,76 +417,47 @@
     /**
      * Adds the currently selected phone to the cart
      */
-    $scope.addDeviceToCart = function(phoneType) {
+    $scope.addDeviceToCart = function() {
+        // Move to configureData
+        //analytics.sendVariables(5, ($scope.phoneOptions.transferInfo.type == "new") ? "New Number" : "Transfer")
+        //analytics.sendVariables(18, $scope.phoneOptions.phoneOS);
+        //analytics.sendVariables(19, $scope.phoneOptions.iccidNumber);
 
-        var item = {},
-        device,
-        selectedModel;
+        //var device = $scope.selectedPhone;
+        //var selectedModel = _.where(device.models, { size: $scope.phoneOptions.size, color: $scope.phoneOptions.color, network: $scope.mobileEnrollmentService.selectedNetwork.value })[0];
+        //var item = {
+        //    type: $scope.mobileEnrollment.phoneTypeTab,
+        //    device: device,
+        //    id: selectedModel.sku,
+        //    price: ($scope.phoneOptions.purchaseOption == "New" || $scope.phoneOptions.purchaseOption == "Reconditioned") ? selectedModel.price : mobileEnrollmentService.getInstallmentPrice(device.id),
+        //    salesTax: parseFloat(parseFloat(($scope.phoneOptions.purchaseOption == "New" || $scope.phoneOptions.purchaseOption == "Reconditioned") ? selectedModel.price : selectedModel.lease24, 10) * .07).toFixed(2),
+        //    installmentMonths: ($scope.phoneOptions.purchaseOption == "New" || $scope.phoneOptions.purchaseOption == "Reconditioned") ? null : mobileEnrollmentService.getInstallmentMonths(device.id, $scope.phoneOptions.purchaseOption),
+        //    buyingOption: $scope.phoneOptions.purchaseOption,
+        //    activationFee: $scope.activationFee,
+        //    make: { make: device.brand },
+        //    model: { modelName: device.name },
+        //    size: $scope.phoneOptions.size,
+        //    color: $scope.phoneOptions.color,
+        //    imageFront: device.imageFront,
+        //    warranty: $scope.phoneOptions.warranty,
+        //    transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
+        //    sku: selectedModel.sku,
+        //    lte: selectedModel.lte
+        //};
 
-        analytics.sendVariables(5, ($scope.phoneOptions.transferInfo.type == "new") ? "New Number" : "Transfer")
-        analytics.sendVariables(18, $scope.phoneOptions.phoneOS);
-        analytics.sendVariables(19, $scope.phoneOptions.iccidNumber);
-
-        if ($scope.mobileEnrollment.phoneTypeTab == "new") { 
-            device = $scope.selectedPhone;
-            selectedModel = _.where(device.models, { size: $scope.phoneOptions.size, color: $scope.phoneOptions.color, network: $scope.mobileEnrollmentService.selectedNetwork.value })[0];
-            item = {
-                type: $scope.mobileEnrollment.phoneTypeTab,
-                device: device,
-                id: selectedModel.sku,
-                price: ($scope.phoneOptions.purchaseOption == "New" || $scope.phoneOptions.purchaseOption == "Reconditioned") ? selectedModel.price : mobileEnrollmentService.getInstallmentPrice(device.id),
-                salesTax: parseFloat(parseFloat(($scope.phoneOptions.purchaseOption == "New" || $scope.phoneOptions.purchaseOption == "Reconditioned") ? selectedModel.price : selectedModel.lease24, 10) * .07).toFixed(2),
-                installmentMonths: ($scope.phoneOptions.purchaseOption == "New" || $scope.phoneOptions.purchaseOption == "Reconditioned") ? null : mobileEnrollmentService.getInstallmentMonths(device.id, $scope.phoneOptions.purchaseOption),
-                buyingOption: $scope.phoneOptions.purchaseOption,
-                activationFee: $scope.activationFee,
-                make: { make: device.brand },
-                model: { modelName: device.name },
-                size: $scope.phoneOptions.size,
-                color: $scope.phoneOptions.color,
-                imageFront: device.imageFront,
-                warranty: $scope.phoneOptions.warranty,
-                transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo,
-                sku: selectedModel.sku,
-                lte: selectedModel.lte
-            };
-        }
-        else {
-            // do the hex conversion for CDMA MEID/ESN-DEC
-            if (mobileEnrollmentService.selectedNetwork.value == "sprint" && $scope.phoneOptions.imeiNumber.length == 14) {
-                $scope.phoneOptions.imeiNumber = convertToMEIDDec($scope.phoneOptions.imeiNumber);
-            } else if (mobileEnrollmentService.selectedNetwork.value == "sprint" && $scope.phoneOptions.imeiNumber.length == 15) {
-                $scope.phoneOptions.imeiNumber = convertToMEIDDec($scope.phoneOptions.imeiNumber.substr(0, 14));
-            }
-
-            item = {
-                id: 7,
-                buyingOption: 'BYOD',
-                type: $scope.mobileEnrollment.phoneTypeTab,
-                make: $scope.phoneOptions.make,
-                model: $scope.phoneOptions.model,
-                activationFee: $scope.activationFee,
-                imeiNumber: $scope.phoneOptions.imeiNumber,
-                simNumber: $scope.phoneOptions.simNumber,
-                iccidNumber: $scope.iccidInvalid ? undefined : $scope.phoneOptions.iccidNumber,
-                activationCode: $scope.phoneOptions.activationCode,
-                activeDevice: $scope.cdmaActive,
-                phoneOs: $scope.phoneOptions.phoneOs,
-                transferInfo: ($scope.phoneOptions.transferInfo.type == 'new') ? null : $scope.phoneOptions.transferInfo,
-                lte: $scope.phoneOptions.supportsLte
-            };
-        }
-
+        var item = {
+            lte: true,
+            imeiNumber: $scope.phoneOptions.imeiNumber
+        };
         enrollmentCartService.addDeviceToCart(item);
         $scope.addDevice.imeiNumber.$setValidity('required', true);
         $scope.addDevice.imeiNumber.suppressValidationMessages = true;
-        if (phoneType) {
-            $scope.mobileEnrollment.phoneTypeTab = phoneType; 
-            $scope.clearPhoneSelection();
-            if ($scope.showCaptcha) {
-                reCAPTCHA.reload($scope.widgetId);
-            }
-            enrollmentStepsService.scrollToStep('phoneFlowDevices');
+        $scope.mobileEnrollment.phoneTypeTab = 'new';
+        $scope.clearPhoneSelection();
+        if ($scope.showCaptcha) {
+            reCAPTCHA.reload($scope.widgetId);
         }
+        enrollmentStepsService.scrollToStep('phoneFlowDevices');
     };
 
     /**
@@ -547,14 +522,11 @@
      */
     $scope.completeStep = function () {  
         if ($scope.getDevicesCount() > 0 || $scope.phoneVerified) {
-            if ($scope.phoneVerified) {
-                $scope.addDeviceToCart();
-            }
             
             var activeService = enrollmentCartService.getActiveService();
             var dataPlan = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
             
-            // reset the dataplan if one is selected
+            //reset the dataplan if one is selected
             if (typeof dataPlan != 'undefined' && dataPlan.value.offerSelections.length > 0 && !$scope.duplicateDevice){
                 enrollmentCartService.removeMobileOffers(activeService);
             }
@@ -563,9 +535,7 @@
             enrollmentStepsService.setStep('phoneFlowPlans');
 
             $scope.mobileEnrollmentService.currentStepNumber = 2;
-        } else if ($scope.phoneOptions.imeiNumber != '') {
-            $scope.verifyPhone()
-        }
+        } 
     };
 
     $scope.phoneNumberDisabled = function() {
