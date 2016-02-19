@@ -297,6 +297,39 @@ article.marketingIntro {
     }
 }
 
+article.home-services {
+    &.photoLockup, &.full-html {
+        background-image: none;
+        background-color: #f3f6f7;
+    }
+    &.full-html {
+        p {
+            text-align: center;
+            font-size: 21px;
+            color: #cccfd0;
+        }
+        .wrapper {
+            padding-bottom: 20px;
+        }
+    }
+    &.photoLockup {
+        .wrapper {
+            background-image: none;
+            padding-top: 0;
+            ul {
+                padding-left: 20px;
+            }
+        }
+    }
+    h1 {
+        b, strong {
+            color: #8e4b9d;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+    }
+}
+
 article.digital-voice {
     .voice-intro {
         h2 {
