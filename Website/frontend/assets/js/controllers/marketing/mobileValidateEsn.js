@@ -1,7 +1,7 @@
 ﻿/* Mobile Plans Details Controller
  *
  */
-ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', function ($scope, $http, $sce, $modal) {
+ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 'reCAPTCHA', function ($scope, $http, $sce, $modal, reCAPTCHA) {
 
     $scope.form = {
         esn: null
@@ -13,6 +13,7 @@ ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 
         $scope.isLoading = true;
         $scope.esnError = $scope.esnValid = false;
         var convertedImei = null;
+        $scope.supportsLte = true;
         // do the hex conversion for CDMA MEID/ESN-DEC
         if ($scope.form.esn.length == 14) {
             convertedImei = convertToMEIDDec($scope.form.esn);
@@ -34,6 +35,13 @@ ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 
                     $scope.esnValid = true;
                     $scope.networkType = data.provider == 'att' ? 'GSM' : 'CDMA';
                     $scope.phoneManufacturer = data.manufacturer;
+                    $scope.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
+                    if (!$scope.supportsLte && $scope.networkType == 'CDMA') {
+                        $scope.esnMessage = '';
+                        if ($scope.showCaptcha) {
+                            reCAPTCHA.reload($scope.widgetId);
+                        }
+                    }
                 }
                 $scope.isLoading = false;
                 isAttemptsExceeded();

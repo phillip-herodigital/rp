@@ -9,5 +9,6 @@ namespace StreamEnergy.DomainModels.Associate
     public interface IAssociateLookup
     {
         AssociateInformation LookupAssociate(string associateId);
+        AssociateInformation LookupAssociateByGroupId(string groupId);
     }
 }

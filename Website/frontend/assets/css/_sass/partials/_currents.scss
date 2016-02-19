@@ -415,6 +415,7 @@ $local-meeting-color: #00a8e1;
 }
 .currents__carousel {
     margin-top: -180px;
+    z-index: 9999;
     @include breakpoint(small) {
         margin-top: 0;
     }
@@ -427,7 +428,6 @@ $local-meeting-color: #00a8e1;
 .currents__banner {
     margin-top: -180px;
     width: 100%;
-    border-bottom: 5px solid;
     height: 20vw;
     max-height: 300px;
     border-color: $default-color;
@@ -1940,5 +1940,14 @@ $local-meeting-color: #00a8e1;
         & + .local-meeting-fade {
             display:none;
         }
+    }
+}
+
+ article.currents-feedback {
+    .text {
+        border-left: none !important;
+    }
+    .button {
+        color: #fff !important; 
     }
 }
