@@ -298,6 +298,109 @@ article.marketingIntro {
 }
 
 article.digital-voice {
+    .voice-intro {
+        h2 {
+            text-align: center;
+            font-size: 41px;
+            font-weight: 400;
+            margin-bottom: 1.5em;
+            b, strong {
+                color: #8e4b9d;
+                text-transform: uppercase;
+                font-weight: 400;
+            }
+        }
+        .circle-wrapper {
+            display: inline-block;
+            width: 22%;
+            vertical-align: top;
+            .circle {
+                @include box-shadow(1px 4px 3px 0px rgba(6,6,6,0.35));
+                @include border-radius(50%);
+                color: #fff;
+                background: #8e4b9d none repeat scroll 0% 0%;
+                width: 180px;
+                height: 180px;
+                display: inline-block;
+                text-align: center;
+                font-weight: 600;
+                line-height: 1;
+                .circle-text {
+                    font-size: 21px;
+                    display: block;
+                    padding: 30px 30px 0;
+                }
+                hr {
+                    border-top-color: #fff;
+                    margin: 15px auto;
+                    width: 80%;
+                }
+                .circle-price {
+                    font-size: 48px;
+                    display: block;
+                    padding-right: 25px;
+                    position: relative;
+                    sup {
+                        font-size: 50%;
+                        top: -0.65em;
+                    }
+                    .month-text {
+                        font-size: 12px;
+                        font-style: italic;
+                        position: absolute;
+                        right: 36px;
+                        bottom: 8px;
+                    }
+                }
+            }
+        }
+        
+        .intro {
+            display: inline-block;
+            width: 77%;
+            p {
+                font-size: 21px;
+                margin-top: 0
+            }
+            .features {
+                float: left;
+                margin: 20px 40px 0 0;
+                p {
+                    margin: 1em 0 0;
+                    .feature-image {
+                        text-align: center;
+                        margin-right: 10px;
+                        width: 55px;
+                        display: inline-block;
+                        img {
+                            vertical-align: middle;
+                        }
+                    }
+                    &.alert-box {
+                        @include border-radius(5px);
+                        @include box-shadow(1px 4px 3px 0px rgba(6,6,6,0.35));
+                        margin-top: 10px;
+                        padding: 10px;
+                        background-color: #6e6e6e;
+                        color: #fff;
+                        font-size: 16px;
+                    }
+                }
+                
+            }
+        }
+        @include breakpoint(small-medium) {
+            .circle-wrapper{
+                width: 100%;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .intro {
+                width: 100%;
+            }
+        }
+    }
+
     .voice-choose-equipment {
         background-color: #9f66ac;
         .heading {
@@ -371,7 +474,7 @@ article.digital-voice {
                     text-transform: uppercase;
                     position: absolute;
                     top: 60px;
-                    right: -55px;
+                    right: -60px;
                     z-index: 1;
                     line-height: 1;
                     .save-text {
