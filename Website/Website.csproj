@@ -1662,10 +1662,10 @@
     <Content Include="Views\Components\Marketing\Lyric FAQs.cshtml" />
     <Content Include="Views\Components\Account\Interstitial.cshtml" />
     <Content Include="Views\Components\Account\Overview\Paperless Billing.cshtml" />
-    <Content Include="Views\Components\Marketing\Voice\Hub Features.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Device Features.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Setup.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\On The Go.cshtml" />
-    <Content Include="Views\Components\Marketing\Voice\Get More.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Choose Equipment.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Lets Be Clear.cshtml" />
     <Content Include="Views\Components\Marketing\One-Time Renewal.cshtml" />
     <Content Include="Views\Components\Marketing\Electricity\Photo 1.cshtml" />
