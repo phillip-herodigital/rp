@@ -1,20 +1,11 @@
-﻿<article class="marketing">
+﻿<article class="marketing digital-voice">
     <div class="voice-on-the-go">
-        <div class="heading"></div>
-        @Html.Sitecore().Field("Intro")
-        <div class="section1">
-            @Html.Sitecore().Field("Paragraph 1")
+        @Html.Sitecore().Field("Heading Text")
+        <div class="intro">
+            @Html.Sitecore().Field("Intro Paragraph")
         </div>
-        <div class="section2">
-            @Html.Sitecore().Field("Paragraph 2")
-        </div>
-        <div class="app-links">
-            <div class="google-play">
-                @Html.Sitecore().Field("Google Play Link")
-            </div>
-            <div class="app-store">
-                @Html.Sitecore().Field("App Store Link")
-            </div>
+        <div class="features">
+            @Html.Sitecore().Field("Features")
         </div>
     </div>
 </article>
