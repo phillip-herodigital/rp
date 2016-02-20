@@ -35,7 +35,7 @@
 <div state-tabs ng-init="pane = '@selectedTab'">
     <article class="marketing service-tabs contact">
         <div class="wrapper">
-            <div class="grid border three">
+            <div class="grid border four">
                 <div class="col energy" dropdown is-open="status.isopen">
                     <a href="" class="dropdown-toggle" dropdown-toggle>
                         <h2>@Html.Sitecore().Field("Energy Text")</h2>
@@ -58,6 +58,11 @@
                 <div class="col protect" ng-click="selectPane('protect')">
                     <a href="">
                         <h2>@Html.Sitecore().Field("Protective Text")</h2>
+                    </a>
+                </div>
+                <div class="col home" ng-click="selectPane('home')">
+                    <a href="">
+                        <h2>@Html.Sitecore().Field("Home Text")</h2>
                     </a>
                 </div>
             </div>
@@ -380,6 +385,27 @@
                 <div class="right-side">
                     <div class="mail">
                         @Html.Sitecore().Field("Protective Mail")
+                    </div>
+                </div>
+            </div>
+            <div class="link-back clearfix">
+                @Html.Sitecore().Field("Link Back Text")
+            </div>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'home' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service home clearfix">
+                <h1><i class="icon-home_home"></i> <strong>@Html.Sitecore().Field("Home Text")</strong></h1>
+                <div class="faq-text">@Html.Sitecore().Field("Home FAQ Text")</div>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Home Phone and Email")
+                    </div>
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Home Mail")
                     </div>
                 </div>
             </div>

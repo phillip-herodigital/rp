@@ -824,6 +824,11 @@ article.contact-state {
                 color: #40ae49;
             }
         }
+        &.home {
+            h1 strong {
+                color: #8e4b9d;
+            }
+        }
         .faq-text {
             font-size: 22px;
             margin-bottom: 30px;
