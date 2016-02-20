@@ -39,7 +39,7 @@ namespace StreamEnergy.Actions
                 Message.IsBodyHtml = false;
                 Message.Body = body;
 
-                emailService.SendEmail(Message);
+                emailService.SendDynEmailSyncronous(Message);
             }
         }
 
