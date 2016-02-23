@@ -42,31 +42,6 @@
         }
     };
 
-    $scope.filterGroupPlans = function(plan){
-        if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
-            var provider = mobileEnrollmentService.selectedNetwork.value,
-                devicesCount = enrollmentCartService.getDevicesCount();
-                firstDevice = enrollmentCartService.getCartDevices()[0];
-            if (devicesCount == 0) {
-                return null;
-            } else {
-                if (provider == "sprint" && !firstDevice.lte) {
-                    return plan.provider.toLowerCase() == provider 
-                    && plan.isParentOffer 
-                    && !plan.isChildOffer
-                    && plan.nonLtePlan;
-                } else {
-                    return plan.provider.toLowerCase() == provider 
-                    && plan.isParentOffer 
-                    && !plan.isChildOffer
-                    && !plan.nonLtePlan;;
-                }
-            }
-        } else {
-            return null;
-        }
-    };
-
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
 
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
@@ -88,23 +63,14 @@
     // clear the plan selection when any device is added to the cart
     $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
         if (newVal != oldVal) {
-            if (newVal >= 2) {
-                $scope.isIndSelected = false; 
-                $scope.isGroupSelected = true;
-            }
             if (typeof $scope.planSelection.selectedOffers.Mobile == 'undefined') {
                 $scope.planSelection = { selectedOffers: {} };
             } else {
                 var activeService = enrollmentCartService.getActiveService();
                 var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
                 var selectedOffer = _(offerInformationForType.value.availableOffers).find({ 'id': $scope.planSelection.selectedOffers.Mobile });
-                // clear the plan selection if more than 1 device but individual plan selected
-                if (newVal >= 2 && !selectedOffer.isParentOffer) {
-                    $scope.planSelection = { selectedOffers: {} };
-                } else {
-                     // trigger a plan selection
-                    selectOffers($scope.planSelection.selectedOffers);
-                }
+                // trigger a plan selection
+                selectOffers($scope.planSelection.selectedOffers);
             }
             
             // see if the requested plan is available, and if so, select it
@@ -118,9 +84,6 @@
     });
 
     function selectOffers(selectedOffers) {
-        if (enrollmentCartService.getDevicesCount() == 1) {
-            enrollmentStepsService.setMaxStep('phoneFlowPlans');   
-        }
           
         var activeService = enrollmentCartService.getActiveService();
         var activeServiceIndex = enrollmentCartService.getActiveServiceIndex();
@@ -165,6 +128,12 @@
                 }
             });
         }
+    };
+
+    $scope.addLine = function () {
+        enrollmentStepsService.setStep('phoneFlowDevices');
+
+        $scope.mobileEnrollmentService.currentStepNumber = 1;
     };
 
     $scope.editDevice = function() {
@@ -214,22 +183,16 @@
     });
 
     $scope.selectRequestedPlan = function (devicesCount) {
-        if ($scope.mobileEnrollment.requestedPlanId != '' && devicesCount > 0) {
-            $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';
+        if ($scope.mobileEnrollment.requestedPlanId != '') {
+            $scope.networkType = 'CDMA';
             var activeService = enrollmentCartService.getActiveService();
             var provider = mobileEnrollmentService.selectedNetwork.value;
             var firstDevice = enrollmentCartService.getCartDevices()[0];
             var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
             if (typeof offerInformationForType != 'undefined' && !offerInformationForType.value.offerSelections.length) {
                 var plansArray = $scope.mobileEnrollment.requestedPlanId.split('|');
-                var requestedPlan = _(offerInformationForType.value.availableOffers).find(function (offer){
-                    if (provider == 'sprint' && !firstDevice.lte) {
-                        return _(plansArray).contains(offer.id)
-                        && offer.nonLtePlan;
-                    } else {
-                        return _(plansArray).contains(offer.id)
-                        && !offer.nonLtePlan;
-                    }
+                var requestedPlan = _(offerInformationForType.value.availableOffers).find(function (offer) {
+                    return _(plansArray).contains(offer.id)
                 });
                 $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
                     return offer.id == requestedPlan.id 

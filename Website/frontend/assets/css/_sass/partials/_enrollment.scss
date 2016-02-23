@@ -4294,10 +4294,219 @@ h3.success-message{
         }
     }
 
+    footer {
+
+        .back {
+            line-height: 45px;
+        }
+
+        button {
+            float: right;
+
+            &.add-line {
+                margin-right: 10px;
+                border-color: #d4d4d4;
+                background-image: none;
+                background-color: #f6f6f6;
+                color: #1a9dd9;
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+        }
+    }
+
+    .content {
+        background-color: #fafbfc;
+
+        .my-device-container {
+            width: 100%;
+            padding-bottom: 10px;
+
+            i.icon-my-device {
+                background-image: url('../i/icon/MyDevicePhone.png');
+                background-position: 0 8px;
+                height: 48px;
+                width: 24px;
+                float: left;
+                margin-right: 10px;
+            }
+
+            .my-device {
+                font-size: 24px;
+                font-weight: 400;
+                color: #013c5b;
+            }
+
+            .IMEI {
+                margin: 0;
+
+                .heading {
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+
+                .DeviceID {
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+            }
+
+            .edit-remove {
+                float: right;
+            }
+        }
+
+        .select-phone-type {
+            margin-bottom: 25px;
+
+            label {
+                transform: translate(0, 7px);
+                min-width: 200px;
+                font-size: 20px;
+                font-weight: 400;
+                color: #013c5b;
+                float: left;
+            }
+
+            .btn-phone-type {
+                min-width: 128px;
+            }
+        }
+
+        .verify-your-ICCID {
+            padding-bottom: 15px;
+
+            .label-and-description {
+                width: 200px;
+                float: left;
+
+                label {
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #013c5b;
+                }
+            }
+
+            .iccid {
+                width: calc(100% - 200px);
+
+                .label {
+                    float: left;
+                }
+
+                .what-is-this {
+                    float: right;
+                }
+
+                input {
+                    width: 100%;
+                }
+            }
+        }
+
+        .phone-number {
+            padding-bottom: 15px;
+
+            .label-and-description {
+                width: 200px;
+                float: left;
+
+                label {
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #013c5b;
+                }
+            }
+
+            .btn-group-options {
+                width: calc(100% - 200px);
+
+                .btn-phone-number {
+                    &:first-of-type {
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+
+        .plan-select {
+            margin-bottom: 25px;
+
+            .label {
+                label {
+                    float: left;
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #013c5b;
+                    margin-bottom: 25px;
+                }
+
+                .location-text {
+                    float: right;
+                }
+            }
+        }
+
+        .line-summary {
+            background-color: #f5f6f7;
+            padding: 20px;
+            margin: 0 -20px -20px -20px;
+            border-top: 1px solid #cecece;
+
+            .not-cost {
+                float: left;
+                min-width: calc(100% - 125px);
+                background-color: #f5f6f7;
+
+                label {
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #013c5b;
+                }
+
+                .description {
+                    margin: 0;
+                }
+
+                .international-calling {
+                    width: 100%;
+
+                    .includes-international {
+                        font-style: italic;
+
+                        i.icon-international-phone {
+                            background-image: url('../i/icon/international-phone.png');
+                            background-position: 0;
+                            height: 22px;
+                            width: 14px;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+
+            .monthy-cost {
+                font-size: 18px;
+                font-weight: 400;
+                background-color: #f5f6f7;
+
+                p {
+                    margin: 0;
+                }
+
+                .cost {
+                    font-size: 24px;
+                    color: #013c5b;
+                }
+            }
+        }
+    }
+
     .mobile-plans-header {
         margin-bottom: 30px;
         font-size: 18px;
     }
+
     .plan-error {
         background-color: #fff6c6;
         border-top: 1px solid #ffe973;
@@ -4307,17 +4516,21 @@ h3.success-message{
         line-height: 1.2;
         color: #013c5b;
         font-size: 20px;
+
         a {
             font-size: 20px;
         }
+
         span.red {
             font-weight: 600;
             color: #f20000;
         }
     }
-    .plan-chooser{
+
+    .plan-chooser {
         text-align: center;
         margin-bottom: 35px;
+
         .button-plans {
             background-color: #e3e3e3;
             color: #4c6670;
@@ -4331,10 +4544,12 @@ h3.success-message{
             height: 46px;
             margin-right: -5px;
             font-weight: 600;
+
             &.selected {
                 color: #4d6771;
                 background-color: #ffffff;
             }
+
             &.left {
                 background-image: image-url("marketing/redesign/single_phone_plans.png");
                 background-position: 14px center;
@@ -4343,58 +4558,70 @@ h3.success-message{
                 border-top-left-radius: 5px;
                 padding: 10px 25px 10px 40px;
             }
+
             &.right {
                 background-image: image-url("marketing/redesign/multi_phone_plans.png");
                 background-position: 14px center;
-                background-repeat: no-repeat;       
+                background-repeat: no-repeat;
                 border-top-right-radius: 5px;
                 border-bottom-right-radius: 5px;
                 padding: 10px 25px 10px 62px;
             }
+
             &.selected {
                 &.right {
                     background-image: image-url("marketing/redesign/multi_phone_plans.png");
                 }
+
                 &.left {
                     background-image: image-url("marketing/redesign/single_phone_plans.png");
                 }
             }
+
             @include breakpoint(small) {
                 height: auto;
                 @include border-radius(5px);
             }
         }
     }
-    
+
     .location-section {
         .location-container {
             display: inline-block;
             margin-bottom: 15px;
+
             .location-text {
                 a {
-                    margin-left:5px;
+                    margin-left: 5px;
                 }
             }
         }
+
         a.view-coverage {
             float: right;
             margin-top: 5px;
         }
+
         .float {
             float: left;
         }
+
         a {
             margin-left: 5px;
         }
+
         input {
             width: 100px;
         }
     }
+
     .networkSection {
         margin-bottom: 35px;
+
         i {
             float: left;
         }
+
         .message {
             float: right;
             font-size: 20px;
@@ -4402,17 +4629,18 @@ h3.success-message{
             width: 50%;
             line-height: 1;
             color: #013c5b;
-            font-weight: 500
+            font-weight: 500;
         }
 
-		@include breakpoint(small) {
-			.message{
-				width:100%;
-				margin-top:10px;
-				text-align:center;
-			}	
-		}
+        @include breakpoint(small) {
+            .message {
+                width: 100%;
+                margin-top: 10px;
+                text-align: center;
+            }
+        }
     }
+
     .plan-details {
         .box {
             width: 49%;
@@ -4421,19 +4649,22 @@ h3.success-message{
             background-color: #ffffff;
             padding-left: 25px;
             font-size: 15px;
+
             ul {
                 width: 185px;
                 padding: 0 0 0 20px;
             }
+
             ul li {
                 padding: 0 0 5px 0;
             }
+
             h3 {
                 font-weight: 400;
                 color: #000;
                 font-size: 23px;
             }
-        }       
+        }
 
         .seperator {
             background-color: #e8e8e8;
@@ -4461,13 +4692,13 @@ h3.success-message{
             list-style-image: url("../i/marketing/redesign/check.png");
             padding-left: -3px;
         }
-        
+
         .open .footnotes {
             color: #bcbcbc;
             padding-bottom: 25px;
         }
 
-        
+
         @include breakpoint(small) {
             width: 100%;
 
@@ -4480,6 +4711,7 @@ h3.success-message{
             }
         }
     }
+
     .button.full {
         width: 100%;
         padding: 10px !important;
@@ -4488,85 +4720,73 @@ h3.success-message{
         border: 1px solid #ececec;
         cursor: pointer;
         color: #178fcd;
+
         &.hideDetails {
             background-color: #f7f9fa;
             border-top: none;
         }
     }
+
     .mobile-plans {
         text-align: center;
         width: 100%;
         @include experimental-value(width, calc(100% + 14px)); // Better alignment for everything except IE8 with this
         margin-bottom: 15px;
         line-height: 1.1;
-        &.att {
-            .price{
-                color: $enrollment-plan-att-color;
-            }
-            a.button {
-                background-color:$enrollment-plan-att-color;
-                @include background-image(linear-gradient(to top, $enrollemnt-plan-att-gradient-color-bottom 0%, $enrollemnt-plan-att-gradient-color-top 100%));
-                border: 1px solid #229acd;
-                width: 123px;
-                padding: 10px 0;
-            }
-            .button.active {
-                border-color: #229acd;
-            }
-            .extra-info {
-                background: $enrollment-plan-att-color;
-                line-height: 1;
-            }
-        }
-        &.sprint {
-            .price {
-                color: $enrollment-plan-sprint-color;
-            }
-            a.button {
-                background-color:$enrollment-plan-sprint-color;
-                @include background-image(linear-gradient(to top, $enrollemnt-plan-sprint-gradient-color-bottom 0%, $enrollemnt-plan-sprint-gradient-color-top 100%));
-                border: 1px solid #eca001;
-                width: 123px;
-                padding: 10px 0;
-            }
-            .button.active {
-                border-color: #eca001;
-            }
-            .extra-info {
-                background: $enrollment-plan-sprint-color;
-            }
-        }
+
         p {
             font-size: 12px;
         }
+
         .extra-info {
-            color: white;
-            left: -2px;
-            position: absolute;
-            right: -2px;
-            top: -14px;
+            color: black;
             font-size: 12px;
             font-weight: 800;
+            min-height: 65px;
+            min-width: 125px;
+
+            hr {
+                margin-bottom: 5px;
+            }
+
             span {
-                padding:5px 0;
+                padding: 5px 0;
+                font-weight: 500;
+                font-size: 14px;
+                font-style: italic;
+                line-height: 0;
+
+                i.icon-international-phone {
+                    background-image: url('../i/icon/international-phone.png');
+                    background-position: 0 8px;
+                    margin-right: 5px;
+                    height: 30px;
+                    width: 14px;
+                }
             }
         }
+
         .icon-circle-check {
             display: none;
         }
+
         .button {
-            padding-top: 30px;
-            padding-bottom: 30px;
+            padding-top: 0px;
+            padding-bottom: 20px;
             box-shadow: 1px 1px 10px #ccc;
-            background:white;
+            box-sizing: border-box;
+            background: white;
             border-radius: 0;
             line-height: 1;
-			text-align:center;
+            text-align: center;
+            min-height: 175px;
+            width: 25%;
 
-            &.active{
+            &.active {
                 a.button {
-                    display:none;
+                    display: none;
                 }
+
                 .icon-circle-check {
                     @include retina-background('checkmark.png');
                     background-position: 0;
@@ -4576,51 +4796,21 @@ h3.success-message{
                 }
             }
         }
-        .is-recommended,
-        .is-special-offer {
-            @include border-radius(0 0 5px 5px);
-            @include breakpoint(small) {
-                margin-top: 25px;
-            }
-        }
-        .recommended,
-        .special-offer {
-            position: absolute;
-            top: -20px;
-            left: -1px;
-            right: -1px;
-            height: 20px;
-            background: #506774;
-            color: #fff;
-            font-weight: 600;
-            font-style: italic;
-            font-size: 12px;
-            line-height: 22px;
-            text-transform: uppercase;
-            @include border-radius(5px 5px 0 0);
-        }
-        .special-offer {
-            border: 2px solid #3189bb;
-            border-bottom: 0;
-            background: #3189bb;
-            color: #fff;
-            font-weight: bold;
-            @include breakpoint(small) {
-                border: none;
-            }
-        }
+
         .active {
             .recommended {
                 background: #3189bb;
                 left: -2px;
                 right: -2px;
             }
+
             .special-offer {
                 border-color: #3189bb;
                 left: -2px;
                 right: -2px;
             }
         }
+
         .is-special-offer {
             .original-price {
                 text-decoration: line-through;
@@ -4632,35 +4822,38 @@ h3.success-message{
                 display: block;
                 width: 100%;
             }
+
             .limited-time-offer {
                 font-size: .85em;
                 display: block;
             }
         }
 
-        .size-speed{
-            margin:10px 0;
+        .size-speed {
+            margin: 10px 0;
+            font-size: 34px;
+            font-weight: 800;
+            color: #eb9600;
+
             .size {
-                font-size: 23px;
-                color:black;
+                font-size: 27px;
             }
-            .speed{
-                color:#666;
-                font-size:15px;
-                margin-top:5px;
-                line-height:1;
+
+            .speed {
+                font-size: 12px;
+                font-weight: 800;
+                color: #6b6b6b;
             }
         }
-        
+
         .price {
             position: relative;
-            font-size: 18px;
-            font-style: italic;
-            line-height:1.1;
-            .cost{
-                font-size:40px;
-                font-style:italic;
-                font-weight:800;
+            line-height: 1.1;
+
+            .cost {
+                color: #6b6b6b;
+                font-size: 41px;
+                font-weight: 800;
 
                 sup {
                     font-size: 20px;
@@ -4668,8 +4861,10 @@ h3.success-message{
                     vertical-align: super;
                 }
             }
+
             .duration {
-                font-size: 22px;
+                color: #6b6b6b;
+                font-size: 19px;
             }
         }
 
@@ -4677,23 +4872,27 @@ h3.success-message{
             color: #fff;
             display: inline-block;
             padding: 10px 22px;
-            margin: 5px 0 10px;
-            @include border-radius(5px);
-            @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
-			float:none;
+            min-height: 25px;
+            width: 125px;
+            background-image: none;
+            background-color: #eb9600;
+            float: none;
         }
 
         .details {
             @include layout-list();
             text-align: left;
             margin: 15px 0 0 0;
+
             li {
                 margin-bottom: 10px;
                 padding-left: 20px;
+
                 [class*="icon-"] {
                     float: left;
                     margin-left: -20px;
                 }
+
                 > span {
                     font-size: 9px;
                     color: #999;
@@ -4701,14 +4900,17 @@ h3.success-message{
                 }
             }
         }
+
         .time {
             color: #333;
             font-size: 12px;
             text-transform: none;
         }
+
         span {
             display: inline-block;
         }
+
         .buttons {
             button {
                 float: none;
@@ -4716,72 +4918,86 @@ h3.success-message{
             }
         }
     }
+
     hr {
         height: 1px;
         background: #ececec;
         margin-top: 5px;
     }
+
     footer {
         h3 {
             font-size: 18px;
             margin: 0;
         }
+
         p {
             font-size: 14px;
         }
+
         .overages-billed {
             float: right;
             width: 100px;
             margin: 1em 0 1em 30px;
             font-size: 12px;
             text-align: center;
+
             .num {
                 display: block;
                 font-size: 20px;
             }
         }
     }
+
     .additional-services {
         @include background-image(linear-gradient(to top, #fff 0%, #f7f7f7 100%));
+
         h3 {
             font-size: 20px;
             font-weight: 300;
             margin-top: 0;
         }
+
         .additional-service {
             .additional-service-image {
                 display: inline-block;
                 width: 12%;
                 vertical-align: top;
             }
+
             .additional-service-content {
                 display: inline-block;
                 width: 40%;
+
                 h4 {
                     font-size: 20px;
                     font-weight: 400;
                     margin: 0;
                 }
+
                 p {
                     font-size: 16px;
                     margin-bottom: 10px;
+
                     a {
                         font-weight: 400;
                     }
+
                     i {
                         margin-left: 5px;
                     }
                 }
-                
             }
+
             @include breakpoint(small) {
-                 .additional-service-image, .additional-service-content {
+                .additional-service-image, .additional-service-content {
                     display: block;
                     width: 100%;
-                 }
+                }
             }
         }
     }
+
     @include breakpoint-max(400px) {
         .btn-group-options {
             .button {
@@ -4791,6 +5007,7 @@ h3.success-message{
             }
         }
     }
+
     @include breakpoint-min-max(401px, 650px) {
         .btn-group-options {
             .button {
@@ -4801,11 +5018,13 @@ h3.success-message{
             }
         }
     }
+
     @include breakpoint-min-max(651px, 957px) {
         .btn-group-options {
             .button {
                 display: inline-block;
                 margin: 6px;
+
                 &.is-recommended,
                 &.is-special-offer {
                     margin-top: 25px;

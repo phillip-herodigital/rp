@@ -12,14 +12,14 @@
         <div class="wrapper cols-2">
             <section>
                 <article class="enrollment__box enrollment__configure-data">
-                    <header>
-                        <div>
+                    <header ng-hide="showChangeLocation">
+                        <div >
                             <h1 class="success-message">@Html.Sitecore().Field("Congratulations")</h1>
                             <div compile="deviceResponseMessage"></div>
                             @Html.Sitecore().Field("Eligible Device Message")
                         </div>                    
-                    </header>
-                    <div class="content">
+                    </header>   
+                    <div class="content bring-your-own">
                         <div class="plan-error" ng-show="(mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && !planSelection.selectedOffers.Mobile && currentMobileLocationInfo().offerInformationByType) || excludedStates">
                             <span ng-show="requestedPlanNetwork == networkType && !excludedStates">@Html.Sitecore().Field("Requested Plan Unavailable")</span>
                             <span ng-show="requestedPlanNetwork != networkType && !excludedStates">@Html.Sitecore().Field("Requested Network Unavailable")</span>
@@ -28,81 +28,77 @@
                         <div class="plan-error" ng-show="zipCodeInvalid">
                             @Html.Sitecore().Field("Invalid Zip Code Message")
                         </div>
-                        <div class="content bring-your-own">
-                            <div class="vertical">
-                                <div class="item">
-                                    <label>@Html.Sitecore().Field("My Device")</label>
-                                    <div class="btn-group-options my-device">
-                                        <div>
-                                            <span class="heading">@Html.Sitecore().Field("MEID IMEI Number")</span> <span id="DeviceID">{{ phoneOptions.imeiNumber }}</span>
-                                        </div>
-                                        <div>
-                                            <a href="" ng-click="editDeviceNumber(location, item)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove")</a>
-                                        </div>
+                        <div class="item" ng-hide="showChangeLocation">
+                            <div class="btn-group-options my-device-container">
+                                <i class="icon-my-device"></i>
+                                <label class="my-device">@Html.Sitecore().Field("My Device")</label>
+                                <div class="edit-remove">
+                                    <a href="" ng-click="editDeviceNumber(location, item)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove")</a>
+                                </div>
+                                <p class="IMEI">
+                                    <span class="heading">@Html.Sitecore().Field("MEID IMEI Number")</span> <span id="DeviceID">{{ phoneOptions.imeiNumber }}</span>
+                                </p>
+                            </div>
+                            <div class="item select-phone-type" ng-show="phoneOptions.showIccid">
+                                <hr />
+                                <label>
+                                    @Html.Sitecore().Field("Select Phone Type")
+                                </label>
+                                <div class="btn-group btn-group-options">
+                                    <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Apple'" btn-radio="'Apple'" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && phoneOptions.showIccid">
+                                        <i class="icon-apple"></i>
+                                        @Html.Sitecore().Field("Apple")
+                                    </a>
+                                    <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Android'" btn-radio="'Android'" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && phoneOptions.showIccid">
+                                        <i class="icon-android"></i>
+                                        @Html.Sitecore().Field("Android")
+                                    </a>
+                                    <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Other'" btn-radio="'Other'" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && phoneOptions.showIccid">
+                                        @Html.Sitecore().Field("Other")
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item verify-your-ICCID" ng-show="phoneOptions.showIccid" ng-class="{ disabled : phoneOptions.showIccid && phoneOptions.phoneOS == null }">
+                                <hr />
+                                <div class="label-and-description">
+                                    <label>
+                                        @Html.Sitecore().Field("Header - ICCID Number")
+                                    </label>
+                                    <p class="label-description">@Html.Sitecore().Field("Text - ICCID Number Note")</p>
+                                </div>
+                                <div class="btn-group-options iccid" data-val-error="iccid">
+                                    <div class="label" ng-class="{ disabled : phoneOptions.missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
+                                    <a class="what-is-this" href="" ng-click="showModal('instructions/iccid')">@Html.Sitecore().Field("What is this Text")</a>
+                                    <input type="text" name="iccid" ng-disabled="phoneOptions.missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" ng-blur="validateIccid()" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="networkType == 'CDMA' && phoneOptions.showIccid && !phoneOptions.missingIccid" />
+                                </div>
+                                <div class="clearfix"></div>
+                                <div>
+                                    <input type="checkbox" ng-model="phoneOptions.missingIccid" /> @Html.Sitecore().Field("I dont have ICCID")
+                                    <div class="device-error" ng-show="phoneOptions.missingIccid && phoneOptions.phoneOS != 'Apple'">
+                                        @Html.Sitecore().Field("ICC Error Message")
                                     </div>
-                                    <div class="item" ng-show="phoneOptions.showIccid">
-                                        <hr />
-                                        <label>
-                                            @Html.Sitecore().Field("Select Phone Type")
-                                        </label>
-                                        <div class="btn-group btn-group-options">
-                                            <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Apple'" btn-radio="'Apple'" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && phoneOptions.showIccid">
-                                                <i class="icon-apple"></i>
-                                                @Html.Sitecore().Field("Apple")
-                                            </a>
-                                            <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Android'" btn-radio="'Android'" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && phoneOptions.showIccid">
-                                                <i class="icon-android"></i>
-                                                @Html.Sitecore().Field("Android")
-                                            </a>
-                                            <a class="button btn-phone-type" ng-model="phoneOptions.phoneOS" ng-click="phoneType='Other'" btn-radio="'Other'" data-val="true" data-val-required data-val-if="networkType == 'CDMA' && phoneOptions.showIccid">
-                                                @Html.Sitecore().Field("Other")
-                                            </a>
-                                        </div>
+                                    <div class="device-error" ng-show="iccidInvalid && phoneOptions.phoneOS != 'Apple' && !phoneOptions.missingIccid">
+                                        @Html.Sitecore().Field("ICC Invalid Message")
                                     </div>
-                                    <div class="item" ng-show="phoneOptions.showIccid" ng-class="{ disabled : networkType == 'CDMA' && phoneOptions.showIccid && phoneOptions.phoneOS == null }">
-                                        <hr />
-                                        <label>
-                                            @Html.Sitecore().Field("Header - ICCID Number")
-                                            <span class="label-description" ng-class="{ disabled : phoneOptions.missingIccid }">@Html.Sitecore().Field("Text - ICCID Number Note")</span>
-                                        </label>
-                                        <div class="btn-group-options iccid" data-val-error="iccid">
-                                            <div ng-class="{ disabled : phoneOptions.missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
-                                            <input type="text" name="iccid" ng-disabled="phoneOptions.missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" ng-blur="validateIccid()" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="networkType == 'CDMA' && phoneOptions.showIccid && !phoneOptions.missingIccid" />
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div>
-                                            <input type="checkbox" ng-model="phoneOptions.missingIccid" /> @Html.Sitecore().Field("I dont have ICCID")
-                                            <div class="device-error" ng-show="phoneOptions.missingIccid && phoneOptions.phoneOS != 'Apple'">
-                                                @Html.Sitecore().Field("ICC Error Message")
-                                            </div>
-                                            <div class="device-error" ng-show="iccidInvalid && phoneOptions.phoneOS != 'Apple' && !phoneOptions.missingIccid">
-                                                @Html.Sitecore().Field("ICC Invalid Message")
-                                            </div>
-                                            <div class="device-error" ng-show="iccidInvalid && phoneOptions.phoneOS == 'Apple' && !phoneOptions.missingIccid">
-                                                @Html.Sitecore().Field("ICC Invalid Message Apple")
-                                            </div>
-                                            <div class="missing-iccid" ng-show="phoneOptions.missingIccid  && phoneOptions.phoneOS == 'Apple'">
-                                                @Html.Sitecore().Field("ICC Activation Message")
-                                            </div>
-                                        </div>
+                                    <div class="device-error" ng-show="iccidInvalid && phoneOptions.phoneOS == 'Apple' && !phoneOptions.missingIccid">
+                                        @Html.Sitecore().Field("ICC Invalid Message Apple")
                                     </div>
-                                    <hr />
-                                    <div class="item" ng-class="{ disabled : phoneNumberDisabled() }">
-                                        <label>
-                                            @Html.Sitecore().Field("Phone Number")<br />
-                                            <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
-                                        </label>
-                                        <div class="btn-group btn-group-options phone-number">
-                                            <button type="button" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" ng-disabled="phoneNumberDisabled()" btn-radio="'new'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Assign New Number")</button>
-                                            <button type="button" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" ng-disabled="phoneNumberDisabled()" btn-radio="'existing'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Transfer My Number")</button>
-                                        </div>
-                                        <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.transferInfo.type == 'new' && false">
-                                            <div class="button button-type-border">
-                                                <label>@Html.Sitecore().Field("Label - Enter Area Code")</label>
-                                                <input type="text" ng-model="phoneOptions.transferInfo.value" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{3}$" data-val-if="mobileEnrollment.phoneTypeTab == 'existing' && phoneOptions.transferInfo.type == 'new'" data-val-required="" />
-                                            </div>
-                                        </div>
+                                    <div class="missing-iccid" ng-show="phoneOptions.missingIccid  && phoneOptions.phoneOS == 'Apple'">
+                                        @Html.Sitecore().Field("ICC Activation Message")
                                     </div>
+                                </div>
+                            </div>
+                            <div class="item phone-number" ng-class="{ disabled : phoneNumberDisabled() }">
+                                <hr />
+                                <div class="label-and-description">
+                                    <label>
+                                        @Html.Sitecore().Field("Phone Number")<br />
+                                    </label>
+                                    <p class="label-description">@Html.Sitecore().Field("Phone Number Description")</p>
+                                </div>
+                                <div class="btn-group btn-group-options">
+                                    <button type="button" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" ng-disabled="phoneNumberDisabled()" btn-radio="'new'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Assign New Number")</button>
+                                    <button type="button" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" ng-disabled="phoneNumberDisabled()" btn-radio="'existing'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Transfer My Number")</button>
                                 </div>
                             </div>
                             <div class="transfer-number" ng-if="phoneOptions.transferInfo.type == 'existing'">
@@ -151,9 +147,9 @@
                                     </div>
                                 </div>
                                 @*<div class="item" data-val-error="TransferInfo.SSN">
-                    <label>@Html.Sitecore().Field("Label - Social Security Number")</label>
-                    <input name="TransferInfo.SSN" type="text" ng-model="phoneOptions.transferInfo.ssn" data-val="true" data-val-regex data-val-regex-pattern="^\d{3}\D*\d{2}\D*\d{4}$" data-val-if="mobileEnrollment.phoneTypeTab == 'existing' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
-                </div>*@
+                        <label>@Html.Sitecore().Field("Label - Social Security Number")</label>
+                        <input name="TransferInfo.SSN" type="text" ng-model="phoneOptions.transferInfo.ssn" data-val="true" data-val-regex data-val-regex-pattern="^\d{3}\D*\d{2}\D*\d{4}$" data-val-if="mobileEnrollment.phoneTypeTab == 'existing' && phoneOptions.transferInfo.type == 'existing'" data-val-required="" />
+                    </div>*@
                                 <div class="group">
                                     <div class="item street-number" data-val-error="TransferInfo.BillingAddressStreetNumber">
                                         <label>@Html.Sitecore().Field("Label - Street Number")</label>
@@ -193,14 +189,67 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="location-section clearfix">
-                            <div class="clearfix">
-                                <div class="location-container">
-                                    <div class="location-text" ng-show="!showChangeLocation">
+                            <div class="clearfix"></div>
+                            <div class="item plan-select" ng-show="currentMobileLocationInfo().offerInformationByType.length > 0 && !excludedStates && !zipCodeInvalid">
+                                <hr />
+                                <div class="label">
+                                    <label>Select Your Rate Plan</label>
+                                    <span class="location-text" ng-show="!showChangeLocation">
                                         @Html.Sitecore().Field("It looks like youre in") {{ geoLocation.city }}, {{ geoLocation.state }} {{ geoLocation.postalCode5 }} <a href="" ng-click="showChangeLocation = true">@Html.Sitecore().Field("Change Text")</a>
+                                    </span>
+                                </div>
+                                <div>
+                                    <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'indPlanList/' + typedOffers.key"></div>
+                                </div>
+                                <div class="button full" ng-show="!showPlanDetails" ng-click="showPlanDetails = true">
+                                    <a>@Html.Sitecore().Field("Show Plan Details")</a>
+                                </div>
+                                <div class="plan-details" ng-show="showPlanDetails">
+                                    <div class="open collapsed">
+                                        <div class="box">
+                                            <h3>
+                                                @Html.Sitecore().Field("Data Plans Header")
+                                            </h3>
+                                            <ul>
+                                                @Html.Sitecore().Field("Individual Plans Details Sprint")
+                                            </ul>
+                                        </div>
+                                        <div class="footnotes">
+                                            @Html.Sitecore().Field("Footnotes Sprint")
+                                        </div>
                                     </div>
-                                    <div class="location-input" ng-show="showChangeLocation">
+                                </div>
+                                <div class="button full hideDetails" ng-click="showPlanDetails = false" ng-show="showPlanDetails">
+                                    <a>@Html.Sitecore().Field("Hide Plan Details")</a>
+                                </div>
+                            </div>
+                            <div class="line-summary clearfix">
+                                <div class="not-cost">
+                                    <label>Line Summary</label>
+                                    <div ng-hide="planSelection.selectedOffers.Mobile == null">
+                                        <p class="description">Individual Plan + {{currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerOption.data}}
+                                        <span ng-hide="currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerOption.data == 'Unlimited'">GB</span> Data Plan</p>
+                                        <div class="international-calling clearfix">
+                                            <p class="includes-international">
+                                                <i class="icon-international-phone"></i>
+                                                Includes Stream International Calling
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="monthy-cost">
+                                    <p>Monthly Cost</p>
+                                    <div ng-hide="planSelection.selectedOffers.Mobile == null">
+                                        <p class="cost">{{superCents(currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerOption.rates[0].rateAmount)}}/mo</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="location-section clearfix">
+                            <div class="clearfix" ng-show="showChangeLocation">
+                                <div class="location-container">
+                                    <div class="location-input" >
                                         <form name="lookupZipForm">
                                             <span>@Html.Sitecore().Field("Enter Zip Code Message")</span>
                                             <input type="text" name="zipCode" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{5}$" data-val-if="showChangeLocation" data-val-required="" class="zip-code" ng-model="postalCode5" ng-keyup="$event.keyCode == 13 && lookupZip()">
@@ -211,48 +260,11 @@
                                 <a href="" class="view-coverage" ng-click="showCoverageMapOverlay()">@Html.Sitecore().Field("View Coverage Text")</a>
                             </div>
                         </div>
-                        <div ng-show="currentMobileLocationInfo().offerInformationByType.length > 0 && !excludedStates && !zipCodeInvalid">
-                            <div>
-                                <div data-ng-repeat="typedOffers in currentMobileLocationInfo().offerInformationByType" ng-include src="'indPlanList/' + typedOffers.key"></div>
-                            </div>
-                            <div class="button full" ng-show="!showPlanDetails" ng-click="showPlanDetails = true">
-                                <a>@Html.Sitecore().Field("Show Plan Details")</a>
-                            </div>
-                            <div class="plan-details" ng-show="showPlanDetails">
-                                <div ng-show="mobileEnrollmentService.selectedNetwork.value == 'sprint'" class="open collapsed">
-                                    <div class="box">
-                                        <h3>
-                                            @Html.Sitecore().Field("Data Plans Header")
-                                        </h3>
-                                        <ul>
-                                            @Html.Sitecore().Field("Individual Plans Details Sprint")
-                                        </ul>
-                                    </div>
-                                    <div class="footnotes">
-                                        @Html.Sitecore().Field("Footnotes Sprint")
-                                    </div>
-                                </div>
-
-                                <div ng-show="mobileEnrollmentService.selectedNetwork.value == 'att'" class="open collapsed">
-                                    <div class="box">
-                                        <h3>
-                                            @Html.Sitecore().Field("Data Plans Header")
-                                        </h3>
-                                        <ul>
-                                            @Html.Sitecore().Field("Individual Plans Details ATT")
-                                        </ul>
-                                    </div>
-                                    <div class="footnotes">
-                                        @Html.Sitecore().Field("Footnotes ATT")
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="button full hideDetails" ng-click="showPlanDetails = false" ng-show="showPlanDetails">
-                                <a>@Html.Sitecore().Field("Hide Plan Details")</a>
-                            </div>
-                        </div>
-                    </div>
+                    <footer class="clearfix" ng-hide="showChangeLocation">
+                        <a class="back" href="">Back</a>
+                        <button class="button" ng-click="completeStep()">Check Out</button>
+                        <button class="button add-line" ng-click="addLine()" ng-disabled="addDevice.$invalid">+Add Another Line</button>
+                    </footer>
                 </article>
             </section>
             <aside>
@@ -289,18 +301,7 @@
                 <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events" control="map.control">
                     <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
                 </ui-gmap-google-map>
-                <ul class="layer-toggle" ng-show="selectedNetwork == 'att'">
-                    <li>
-                        <input type="checkbox" id="att_voice" ng-model="layers.att.att_voice_roam" /> <label for="att_voice">@item.Fields["Voice"].Value</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="att_data" ng-model="layers.att.att_data_roam" /> <label for="att_data">@item.Fields["Data"].Value</label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="att_lte" ng-model="layers.att.att_lte" /> <label for="att_lte">@item.Fields["LTE"].Value</label>
-                    </li>
-                </ul>
-                <ul class="layer-toggle" ng-show="selectedNetwork == 'sprint'">
+                <ul class="layer-toggle">
                     <li>
                         <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@item.Fields["Voice"].Value</label>
                     </li>
@@ -329,46 +330,25 @@
 <script type="text/ng-template" id="indPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans {{mobileEnrollmentService.selectedNetwork.value}}">
         <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterIndPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
-            <div class="extra-info">
-                <span ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
-                <span ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
-            </div>
-
-            <div class="price">
-                <div class="cost" ng-bind-html="superCents(totalPlanPrice(plan, typedOffers.value.availableOffers)) | unsafe"></div>
-                <div class="duration">@Html.Sitecore().Field("Per Month Text")</div>
-            </div>
             <div ng-if="plan.data != 0" class="size-speed">
                 <div class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
-                <div class="speed">@Html.Sitecore().Field("At Speeds Up To")</div>
+                <div class="speed">4G LTE DATA</div>
             </div>
-            <div ng-if="plan.data == 0" class="size-speed">
-                <span class="size">@Html.Raw(Html.Sitecore().Field("Talk and Text Only Text"))</span>
-            </div>
-            <a class="button">@Html.Sitecore().Field("Select Text")</a>
-            <div class="icon-circle-check"></div>
-        </div>
-    </div>
-</script>
-
-<script type="text/ng-template" id="groupPlanList/Mobile">
-    <div class="btn-group btn-group-options mobile-plans {{mobileEnrollmentService.selectedNetwork.value}}">
-        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterGroupPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
-            <div class="extra-info">
-                <span ng-if="plan.recommended">@Html.Sitecore().Field("Recommended")</span>
-                <span ng-if="plan.specialOffer">{{ plan.specialOfferText }}</span>
-            </div>
+            <hr />
             <div class="price">
-                <div class="cost" ng-bind-html="superCents(totalPlanPrice(plan, typedOffers.value.availableOffers)) | unsafe"></div>
+                <div class="cost">{{superCents(plan.rates[0].rateAmount)}}</div>
                 <div class="duration">@Html.Sitecore().Field("Per Month Text")</div>
             </div>
-            <div ng-if="plan.data != 0" class="size-speed">
-                <div class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
-                <div class="speed">@Html.Sitecore().Field("At Speeds Up To")</div>
+            <div class="extra-info">
+                <div ng-if="plan.specialOffer">
+                    <hr />
+                    <span>
+                        <i class="icon-international-phone"></i>
+                        Includes Stream International*
+                    </span>
+                </div>
             </div>
-            <div ng-if="plan.data == 0" class="size-speed">
-                <span class="size">@Html.Raw(Html.Sitecore().Field("Talk and Text Only Text"))</span>
-            </div>
+            <hr />
             <a class="button">@Html.Sitecore().Field("Select Text")</a>
             <div class="icon-circle-check"></div>
         </div>
