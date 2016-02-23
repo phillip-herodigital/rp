@@ -398,28 +398,41 @@ article.digital-voice {
             .features {
                 float: left;
                 margin: 20px 40px 0 0;
-                p {
-                    margin: 1em 0 0;
-                    .feature-image {
-                        text-align: center;
-                        margin-right: 10px;
-                        width: 55px;
-                        display: inline-block;
-                        img {
-                            vertical-align: middle;
+                .feature {
+                    position: relative;
+                    cursor: default;
+                    p.feature-name {
+                        margin: 0 0 1em;
+                        .feature-image {
+                            text-align: center;
+                            margin-right: 10px;
+                            width: 55px;
+                            display: inline-block;
+                            img {
+                                vertical-align: middle;
+                            }
                         }
                     }
-                    &.alert-box {
+                    p.feature-description {
                         @include border-radius(5px);
                         @include box-shadow(1px 4px 3px 0px rgba(6,6,6,0.35));
-                        margin-top: 10px;
+                        position: absolute;
+                        top: -10px;
+                        left: 0;
                         padding: 10px;
                         background-color: #6e6e6e;
                         color: #fff;
                         font-size: 16px;
+                        width: 100%;
+                        z-index: 1;
+                        display: none;
+                    }
+                    &:hover {
+                        p.feature-description {
+                            display: block;
+                        }
                     }
                 }
-                
             }
         }
         @include breakpoint(small-medium) {
