@@ -2921,6 +2921,12 @@ article.marketing.mobile.cdma-pricing-plans {
 		.col {
 			&:first-child, &:last-child {
 				padding: 0px 30px;
+				@include breakpoint(small-medium) {
+					padding: 0px;
+				}
+			}
+			@include breakpoint(small-medium) {
+				padding: 0px;
 			}
 			.package {
 				background-color: #fff;
@@ -2930,12 +2936,20 @@ article.marketing.mobile.cdma-pricing-plans {
 				background: url('../i/marketing/redesign/plan_background.png') top center no-repeat;
 				background-color: #fff;
 				box-shadow: 1px 1px 10px #ccc;
+				@include breakpoint(small-medium) {
+					background: none;
+				}
 				h2 {
 					color: #fff;
 					font-size: 18px;
 					font-style: italic;
 					padding: 10px 10px 0 10px;
 					margin-bottom: 0px;
+				}
+				h2, p.plus, p.data, p.lte {
+					@include breakpoint(small-medium) {
+						background-color: #f4b60a;
+					}
 				}
 				p {
 					color: #fff;

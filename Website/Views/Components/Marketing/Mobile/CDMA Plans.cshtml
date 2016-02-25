@@ -1,88 +1,79 @@
 ﻿<article class="marketing marketingIntro mobile cdma-pricing-plans">
     <div class="wrapper">
-        <h1>Flexible Plans that work for <strong>you!</strong></h1>
+        <h1>@Html.Sitecore().Field("Header")</h1>
         <div class="grid border four" >
             <div class="col">
                 <div class="plan-details">
-                    <h2>Unlimited Nationwide Talk and Text</h2>
-                    <p class="plus">+</p>
-                    <p class="data">2<span>GB</span></p>
-                    <p class="lte">4G LTE DATA</p>
-                    <p class="price no-international">$35<span>/month</span></p>
-                    <p class="button">Select Plan</p>
+                    <h2>@Html.Sitecore().Field("Unlimited Talk and Text")</h2>
+                    <p class="plus">@Html.Sitecore().Field("Plus Symbol")</p>
+                    <p class="data">@Html.Sitecore().Field("Plan 1 GB")</p>
+                    <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
+                    <p class="price no-international">@Html.Sitecore().Field("Plan 1 Price")</p>
+                    <p class="button">@Html.Sitecore().Field("Plan 1 Button")</p>
                 </div>
             </div>
 
             <div class="col">
                 <div class="plan-details">
-                    <h2>Unlimited Nationwide Talk and Text</h2>
-                    <p class="plus">+</p>
-                    <p class="data">4<span>GB</span></p>
-                    <p class="lte">4G LTE DATA</p>
-                    <p class="price no-international">$45<span>/month</span></p>
-                    <p class="button">Select Plan</p>
+                    <h2>@Html.Sitecore().Field("Unlimited Talk and Text")</h2>
+                    <p class="plus">@Html.Sitecore().Field("Plus Symbol")</p>
+                    <p class="data">@Html.Sitecore().Field("Plan 2 GB")</p>
+                    <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
+                    <p class="price no-international">@Html.Sitecore().Field("Plan 1 Price")</p>
+                    <p class="button">@Html.Sitecore().Field("Plan 2 Button")</p>
                 </div>
             </div>
 
             <div class="col">
                 <div class="plan-details">
-                    <h2>Unlimited Nationwide Talk and Text</h2>
-                    <p class="plus">+</p>
-                    <p class="data">6<span>GB</span></p>
-                    <p class="lte">4G LTE DATA</p>
-                    <p class="price">$55<span>/month</span></p>
+                    <h2>@Html.Sitecore().Field("Unlimited Talk and Text")</h2>
+                    <p class="plus">@Html.Sitecore().Field("Plus Symbol")</p>
+                    <p class="data">@Html.Sitecore().Field("Plan 3 GB")</p>
+                    <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
+                    <p class="price">@Html.Sitecore().Field("Plan 3 Price")</p>
                     <div class="international">
-                        <p>Includes Stream International*</p>
+                        <p>@Html.Sitecore().Field("Stream International")</p>
                     </div>
-                    <p class="button">Select Plan</p>
+                    <p class="button">@Html.Sitecore().Field("Plan 3 Button")</p>
                 </div>
             </div>
 
             <div class="col">
                 <div class="plan-details">
-                    <h2>Unlimited Nationwide Talk and Text</h2>
-                    <p class="plus">+</p>
-                    <p class="data">UNLIMITED</p>
-                    <p class="lte">4G LTE DATA</p>
-                    <p class="price">$70<span>/month</span></p>
+                    <h2>@Html.Sitecore().Field("Unlimited Talk and Text")</h2>
+                    <p class="plus">@Html.Sitecore().Field("Plus Symbol")</p>
+                    <p class="data">@Html.Sitecore().Field("Plan 4 GB")</p>
+                    <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
+                    <p class="price">@Html.Sitecore().Field("Plan 4 Price")</p>
                     <div class="international">
-                        <p>Includes Stream International*</p>
+                        <p>@Html.Sitecore().Field("Stream International")</p>
                     </div>
-                    <p class="button">Select Plan</p>
+                    <p class="button">@Html.Sitecore().Field("Plan 4 Button")</p>
                 </div>
             </div>
         </div>
         <div class="plan-features">
-            <h3>Stream Plan Features Include:</h3>
+            <h3>@Html.Sitecore().Field("Features Header")</h3>
             <div class="grid three">
                 <div class="col">
                     <ul>
-                        <li>Superior call quality and clarity</li>
-                        <li>1.5 cents per MB overage</li>
-                        <li>Use your own qualified Sprint devices <span>(Apple, Android or Windows)**</span></li>
+                        @Html.Sitecore().Field("Column 1")
                     </ul>
                 </div>
                 <div class="col">
                     <ul>
-                        <li>Unlimited nationwide talk and text</li>
-                        <li>No long term contracts</li>
-                        <li>Domestic roaming</li>
-                        <li>Visual voicemail</li>
+                        @Html.Sitecore().Field("Column 2")
                     </ul>
                 </div>
                 <div class="col">
                     <ul>
-                        <li>Unlimited data plans available*</li>
-                        <li>Mobile Hotspot included with all rate plans***<span>(requires capable device)</span></li>
+                        @Html.Sitecore().Field("Column 3")
                     </ul>
                 </div>
             </div>
         </div>
         <div class="footnote">
-            <p>$20 activation fee required per line (non-refundable)</p>
-            <p>*Unlimited does not mean unreasonable use.</p>
-            <p>**Requires eligible device. Not all devices containing Sprint trademark are eligible. Check device eligibility on link below.</p>
-            <p>***Mobile hotspot will be enabled for the first 10GB of data usage per billing cycle on CDMA unlimited data plans. After the first 10GB of data used, the mobile hotspot feature will be turned off until the next billing cycle. Hotspot does not increase data availability or usage expectations under your Service. Hotspot is not intended as nor should it be used as a replacement or substitution for any home Internet connection. Limitations on data use as specified under the Stream Terms &amp; Conditions will continue to apply.</p>
+            @Html.Sitecore().Field("Footnotes")
         </div>
     </div>
 </article>
