@@ -18,6 +18,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public bool IsSinglePage { get; set; }
 
+        public Guid LoggedInCustomerId { get; set; }
+
         public bool NeedsRefresh { get; set; }
 
         [Required(ErrorMessage = "Contact Info Required")]

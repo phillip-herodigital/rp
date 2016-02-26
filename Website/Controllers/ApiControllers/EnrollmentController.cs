@@ -569,6 +569,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
                 IsSinglePage = stateMachine.Context.IsSinglePage,
+                LoggedInCustomerId = stateMachine.Context.LoggedInCustomerId,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
@@ -884,6 +885,8 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                 {
                                     await accountService.GetAccountDetails(account, false);
                                 }).Result).ToArray());
+
+            stateMachine.Context.LoggedInCustomerId = currentUser.StreamConnectCustomerId;
 
             return new GetLoggedInUserInfoResponse
             {
