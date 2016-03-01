@@ -2244,6 +2244,10 @@
                 font-size: 14px;
                 font-weight: 600;
                 color:black;
+
+                .individual-plan {
+                    font-weight: 700;
+                }
             }
 
             .icon-byod{
@@ -2265,12 +2269,13 @@
         &:last-child {
             margin-bottom: 0;
         }
-        /*span.details {
-            font-size: 14px;
+        .byod {
+            margin: 0;
+            font-weight: 700;
+            font-size: 12px;
+            color: #a7a7a7;
+            text-transform: uppercase;
         }
-        .options {
-            margin-top: 15px;
-        }*/
     }
     .utility-cart-product {
         margin: 5px 0;
@@ -4499,6 +4504,39 @@ h3.success-message{
                     color: #013c5b;
                 }
             }
+
+            .get-international {
+                background-color: #ffffff;
+                padding: 20px;
+                margin: 20px 0;
+                i.icon-international-phone-large {
+                    background-image: url('../i/icon/international-phone-large.png');
+                    background-position: 0 0;
+                    margin-right: 5px;
+                    height: 34px;
+                    width: 21px;
+                    float: left;
+                    margin-right: 18px;
+                }
+
+                .text {
+                    float: left;
+
+                    .title {
+                        font-weight: 700;
+                        font-style: italic;
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+                }
+
+                button {
+                    float: right;
+                    margin: 10px 0;
+                }
+            }
         }
     }
 
@@ -4739,14 +4777,13 @@ h3.success-message{
         }
 
         .extra-info {
-            color: black;
+            color: #909090;
             font-size: 12px;
             font-weight: 800;
             min-height: 65px;
-            min-width: 125px;
 
             hr {
-                margin-bottom: 5px;
+                margin: 10px 0;
             }
 
             span {
@@ -4754,83 +4791,43 @@ h3.success-message{
                 font-weight: 500;
                 font-size: 14px;
                 font-style: italic;
-                line-height: 0;
+                line-height: 1;
 
                 i.icon-international-phone {
                     background-image: url('../i/icon/international-phone.png');
-                    background-position: 0 8px;
-                    margin-right: 5px;
+                    background-position: 0 3px;
+                    margin-right: 10px;
                     height: 30px;
                     width: 14px;
+                    float: left;
                 }
             }
         }
 
-        .icon-circle-check {
-            display: none;
-        }
-
         .button {
-            padding-top: 0px;
-            padding-bottom: 20px;
+            padding: 0 10px 20px;
             box-shadow: 1px 1px 10px #ccc;
             box-sizing: border-box;
-            background: white;
+            background-color: #ffffff;
             border-radius: 0;
             line-height: 1;
             text-align: center;
             min-height: 175px;
             width: 25%;
 
-            &.active {
-                a.button {
-                    display: none;
-                }
-
-                .icon-circle-check {
-                    @include retina-background('checkmark.png');
-                    background-position: 0;
-                    display: inline-block;
-                    height: 33px;
-                    width: 35px;
-                }
+            .check {
+                background-image: url('../i/bg/checkmark.png');
+                display: inline-block;
+                height: 33px;
+                width: 35px;
             }
-        }
-
-        .active {
-            .recommended {
-                background: #3189bb;
-                left: -2px;
-                right: -2px;
-            }
-
-            .special-offer {
-                border-color: #3189bb;
-                left: -2px;
-                right: -2px;
-            }
-        }
-
-        .is-special-offer {
-            .original-price {
-                text-decoration: line-through;
-                font-size: 14px;
-                color: #888;
-                position: absolute;
-                top: -1.25em;
-                text-align: center;
-                display: block;
-                width: 100%;
-            }
-
-            .limited-time-offer {
-                font-size: .85em;
-                display: block;
+            &.selected {
+                border: 1px solid #0494d5
             }
         }
 
         .size-speed {
-            margin: 10px 0;
+            margin: 20px 0;
             font-size: 34px;
             font-weight: 800;
             color: #eb9600;
@@ -4868,14 +4865,14 @@ h3.success-message{
             }
         }
 
-        a.button {
+        button.button {
             color: #fff;
             display: inline-block;
             padding: 10px 22px;
             min-height: 25px;
-            width: 125px;
+            width: 100px;
             background-image: none;
-            background-color: #eb9600;
+            background-color: #2aa4dc;
             float: none;
         }
 

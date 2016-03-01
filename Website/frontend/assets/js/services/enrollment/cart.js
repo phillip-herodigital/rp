@@ -71,6 +71,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             services.push(service);
         },
 
+        getServiceCount: function() {
+            return services.length;
+        },
+
         /**
 		 * Update the list of service addresses. This is use primarily when
 		 * data is returned from the server. We simply copy the cart back over
@@ -146,7 +150,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return dataPlan;
         },
 
-        
+        getPlanPrice: function(serviceIndex) {
+            if (serviceIndex && serviceIndex < services.length) {
+                var plan = services[serviceIndex];
+                return plan.offerInformationByType[0].value.offerSelections[0].rates[0].rateAmount;
+            }
+            else {
+                return null;
+            }
+        },
+
         totalPlanPrice: function (plan, plans) {
             plan = plan || enrollmentCartService.getCartDataPlan();
             plans = plans || _(services).pluck('offerInformationByType').flatten().filter(function (offer) {
@@ -262,7 +275,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         getDeviceDetails: function (device) {
-            return _.find(cart.items, { id: parseInt(device.inventoryItemId, 10), imeiNumber: device.imeiNumber });
+            return _.find(cart.items, { imeiNumber: device.imeiNumber });
         },
 
         getProratedCost: function() {

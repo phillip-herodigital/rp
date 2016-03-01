@@ -211,11 +211,11 @@
                                                 @Html.Sitecore().Field("Data Plans Header")
                                             </h3>
                                             <ul>
-                                                @Html.Sitecore().Field("Individual Plans Details Sprint")
+                                                @Html.Sitecore().Field("Individual Plans Details")
                                             </ul>
                                         </div>
                                         <div class="footnotes">
-                                            @Html.Sitecore().Field("Footnotes Sprint")
+                                            @Html.Sitecore().Field("Footnotes")
                                         </div>
                                     </div>
                                 </div>
@@ -226,22 +226,31 @@
                             <div class="line-summary clearfix">
                                 <div class="not-cost">
                                     <label>Line Summary</label>
-                                    <div ng-hide="planSelection.selectedOffers.Mobile == null">
-                                        <p class="description">Individual Plan + {{currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerOption.data}}
-                                        <span ng-hide="currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerOption.data == 'Unlimited'">GB</span> Data Plan</p>
+                                    <div ng-show="selectedPlan">
+                                        <p class="description">Individual Plan + {{selectedPlan.data}}
+                                        <span ng-hide="selectedPlan.data == 'Unlimited'">GB</span> Data Plan</p>
                                         <div class="international-calling clearfix">
-                                            <p class="includes-international">
+                                            <p class="includes-international" ng-show="selectedPlan.specialOffer">
                                                 <i class="icon-international-phone"></i>
-                                                Includes Stream International Calling
+                                                Includes Stream International Plus
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="monthy-cost">
                                     <p>Monthly Cost</p>
-                                    <div ng-hide="planSelection.selectedOffers.Mobile == null">
-                                        <p class="cost">{{superCents(currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerOption.rates[0].rateAmount)}}/mo</p>
+                                    <div ng-show="selectedPlan">
+                                        <p class="cost">{{selectedPlan.rates[0].rateAmount | currency}}/mo</p>
                                     </div>
+                                </div>
+                                <div class="get-international clearfix" ng-show="!selectedPlan.specialOffer">
+                                    <i class="icon-international-phone-large"></i>
+                                    <div class="text">
+                                        <p class="title">Stream International Plus</p>
+                                        <p>Unlimited lorem ipsem dolor sit $4.99/mo</p>
+                                        <a href="">show details</a>
+                                    </div>
+                                    <button class="button">Add for $4.99/mo</button>
                                 </div>
                             </div>
                         </div>
@@ -286,13 +295,6 @@
         <div class="wrapper">
             <article class="coverage-map" ng-controller="MobileEnrollmentConfigureDataCtrl">
                 <div class="form">
-                    <ul class="network-toggle">
-                        <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'att'}" ng-model="selectedNetwork" btn-radio="'att'">@item.Fields["GSM Network"].Value</a></li>
-                        @if (showSprint)
-                        {
-                            <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'sprint'}" ng-model="selectedNetwork" btn-radio="'sprint'">@item.Fields["CDMA Network"].Value</a></li>
-                        }
-                    </ul>
                     <div class="item">
                         <label for="gmap-search-input">@item.Fields["Enter Zip Code"].Value</label>
                         <div id="gmap-search"></div>
@@ -328,15 +330,15 @@
 <div class="data-calculator-fade"></div>
 
 <script type="text/ng-template" id="indPlanList/Mobile">
-    <div class="btn-group btn-group-options mobile-plans {{mobileEnrollmentService.selectedNetwork.value}}">
-        <div class="button" ng-model="planSelection.selectedOffers[typedOffers.key]" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterIndPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended,'is-special-offer':plan.specialOffer}">
-            <div ng-if="plan.data != 0" class="size-speed">
+    <div class="btn-group btn-group-options mobile-plans">
+        <div class="button" ng-class="{selected: selectedPlan.id == plan.id}" ng-click="selectPlan(plan.id)" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended}">
+            <div class="size-speed">
                 <div class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
                 <div class="speed">4G LTE DATA</div>
             </div>
             <hr />
             <div class="price">
-                <div class="cost">{{superCents(plan.rates[0].rateAmount)}}</div>
+                <div class="cost">${{plan.rates[0].rateAmount}}</div>
                 <div class="duration">@Html.Sitecore().Field("Per Month Text")</div>
             </div>
             <div class="extra-info">
@@ -344,13 +346,13 @@
                     <hr />
                     <span>
                         <i class="icon-international-phone"></i>
-                        Includes Stream International*
+                        Stream International Plus*
                     </span>
                 </div>
             </div>
             <hr />
-            <a class="button">@Html.Sitecore().Field("Select Text")</a>
-            <div class="icon-circle-check"></div>
+            <button class="button" ng-hide="selectedPlan.id == plan.id">@Html.Sitecore().Field("Select Text")</button>
+            <div ng-show="selectedPlan.id == plan.id" class="check"></div>
         </div>
     </div>
 </script>

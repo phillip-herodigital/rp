@@ -26,13 +26,15 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getMobileAddresses = enrollmentCartService.getMobileAddresses;
     $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
     $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
+    $scope.getPlanPrice = enrollmentCartService.getPlanPrice;
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
     $scope.associateInformation = enrollmentService.associateInformation;
     $scope.addDeviceError = false;
     $scope.addDataPlanError = false;
     $scope.addUtilityPlanError = false;
     $scope.getCurrentStep = enrollmentStepsService.getCurrentStep;
-
+    $scope.services = enrollmentCartService.services;
+    $scope.getServicesCount = enrollmentCartService.getServicesCount;
     /**
     * Show IMEI Instructions Modal
     */

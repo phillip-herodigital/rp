@@ -413,14 +413,8 @@
 </script>
 
 <script type="text/ng-template" id="completeOrderCartToday/Mobile">
-    <div class="today-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-init="item = getDeviceDetails(selectedOffer.offerOption)">
-        <div class=" description" ng-if="item.type == 'new'">
-            {{ item.device.brand }} {{ item.device.name }}<span ng-if="item.size != ''">, {{ item.size }}</span>
-        </div>
-        <div class="rate" ng-if="item.type == 'new'">
-            {{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}<span ng-if="item.buyingOption != 'New' && item.buyingOption != 'Reconditioned'">@Html.Sitecore().Field("Per Month Text")</span>
-        </div>
-        <div class="description" ng-if="item.type == 'existing'">
+    <div class="today-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
             @Html.Sitecore().Field("Bring Your Own Device")
         </div>
         <div ng-if="selectedOffer.payments.requiredAmounts[0].activationFee > 0">
@@ -436,16 +430,6 @@
             </div>
             <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].taxTotal | currency }}</div>
         </div>
-        
-        <div ng-if="item.type == 'new' && item.installmentMonths != null && selectedOffer.payments.requiredAmounts[0].downPayment > 0">
-            <div class="description fee">
-                @Html.Sitecore().Field("Deposit Text")
-            </div>
-            <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].downPayment | currency }}</div>
-        </div>
-        
-
-
     </div>
 </script>
 
@@ -476,13 +460,13 @@
 <script type="text/ng-template" id="completeOrderCartMonthly/Mobile">
     <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description" ng-if="$first">
-            <span class="plan">@Html.Sitecore().Field("Monthly Plan Text") {{ getOfferData(selectedOffer.offerId) }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span></span>
+            <span class="plan">@Html.Sitecore().Field("Monthly Plan Text") {{ selectedOffer.offer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span></span>
         </div>
         <div class="description" ng-if="!$first">
             <span class="plan">@Html.Sitecore().Field("Additional Line Text")</span>
         </div>
         <div class="rate">
-            {{ getOfferPrice(selectedOffer.offerId) | currency }}@Html.Sitecore().Field("Per Month Text")
+            {{ selectedOffer.offer.rate | currency }}@Html.Sitecore().Field("Per Month Text")
         </div>
     </div>
     <div ng-repeat="item in getCartDevices()">
@@ -639,16 +623,13 @@
         <div class="service-title">
             @Html.Sitecore().Field("Mobile Services Header Text")
         </div>
-        <div class="service-description" ng-if="getDevicesCount() == 1">
+        <div class="service-description">
             {{ getDevicesCount() }} @Html.Sitecore().Field("Individual Plan Text")
-        </div>
-        <div class="service-description" ng-if="getDevicesCount() > 1">
-            {{ getDevicesCount() }} @Html.Sitecore().Field("Group Plan Text")
         </div>
     </div>
     <div class="mobile-services">
-        <div ng-repeat="dataPlan in getCartDataPlan()">
-            <div class="phone-summary" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-init="item = getDeviceDetails(selectedOffer.offerOption)">
+        <div ng-repeat="item in getCartDevices()">
+            <div class="phone-summary" ng-repeat="service in services">
                 <div class="line-item clearfix">
                     <div class="phone-summary-image">
                         <i class="icon-byod"></i>
@@ -673,13 +654,7 @@
                     </div>
                     <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].taxTotal | currency }}</div>
                 </div>
-                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'ATT' && item.simNumber == null)">
-                    <div>
-                        <h3>@Html.Sitecore().Field("SIM Card Text")</h3>
-                        <p class="note">@Html.Sitecore().Field("SIM Card Description")</p>
-                    </div>
-                </div>
-                <div class="line-item clearfix" ng-if="(dataPlan.provider == 'Sprint' && !dataPlan.nonLtePlan && item.iccidNumber == null)">
+                <div class="line-item clearfix" ng-if="(item.iccidNumber == null)">
                     <div>
                         <h3>@Html.Sitecore().Field("ICCID Card Text")</h3>
                         <p class="note">@Html.Sitecore().Field("ICCID Card Description")</p>
