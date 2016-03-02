@@ -101,7 +101,8 @@
                                     <button type="button" class="button btn-phone-number" ng-model="phoneOptions.transferInfo.type" ng-disabled="phoneNumberDisabled()" btn-radio="'existing'" data-val="true" data-val-required ng-change="phoneOptions.transferInfo.value = ''">@Html.Sitecore().Field("Transfer My Number")</button>
                                 </div>
                             </div>
-                            <div class="transfer-number" ng-if="phoneOptions.transferInfo.type == 'existing'">
+                            <div class="clearfix"></div>
+                            <div class="item transfer-number" ng-if="phoneOptions.transferInfo.type == 'existing'">
                                 <hr class="content-divider" />
                                 <div class="notice alert" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att' && '@Html.Sitecore().Field("Transfer Alert").ToString().Length' != '0'">
                                     @Html.Sitecore().Field("Transfer Alert")
@@ -230,7 +231,7 @@
                                         <p class="description">Individual Plan + {{selectedPlan.data}}
                                         <span ng-hide="selectedPlan.data == 'Unlimited'">GB</span> Data Plan</p>
                                         <div class="international-calling clearfix">
-                                            <p class="includes-international" ng-show="selectedPlan.specialOffer">
+                                            <p class="includes-international" ng-show="selectedPlan.includesInternational">
                                                 <i class="icon-international-phone"></i>
                                                 Includes Stream International Plus
                                             </p>
@@ -243,14 +244,14 @@
                                         <p class="cost">{{selectedPlan.rates[0].rateAmount | currency}}/mo</p>
                                     </div>
                                 </div>
-                                <div class="get-international clearfix" ng-show="!selectedPlan.specialOffer">
+                                <div class="get-international clearfix" ng-show="!selectedPlan.includesInternational">
                                     <i class="icon-international-phone-large"></i>
                                     <div class="text">
                                         <p class="title">Stream International Plus</p>
                                         <p>Unlimited lorem ipsem dolor sit $4.99/mo</p>
                                         <a href="">show details</a>
                                     </div>
-                                    <button class="button">Add for $4.99/mo</button>
+                                    <button class="button" ng-click="addInternational()">Add for $4.99/mo</button>
                                 </div>
                             </div>
                         </div>
@@ -331,7 +332,7 @@
 
 <script type="text/ng-template" id="indPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans">
-        <div class="button" ng-class="{selected: selectedPlan.id == plan.id}" ng-click="selectPlan(plan.id)" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended}">
+        <div class="button" ng-class="{selected: selectedPlan.data === plan.data}" ng-click="selectPlan(plan.id)" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended}">
             <div class="size-speed">
                 <div class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
                 <div class="speed">4G LTE DATA</div>
@@ -342,7 +343,7 @@
                 <div class="duration">@Html.Sitecore().Field("Per Month Text")</div>
             </div>
             <div class="extra-info">
-                <div ng-if="plan.specialOffer">
+                <div ng-if="plan.includesInternational">
                     <hr />
                     <span>
                         <i class="icon-international-phone"></i>
