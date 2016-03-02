@@ -217,7 +217,7 @@
             1 line &amp; {{ service.offerInformationByType[0].value.offerSelections[0].offer.data }}<span ng-if="service.offerInformationByType[0].value.offerSelections[0].offer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
         </div>
         <div class="links">
-            <a href="" ng-click="changeMobilePlan($index)">@Html.Sitecore().Field("Edit Plan Link")</a> <a href="" ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Link")</a>
+            <a href="" ng-click="changeMobilePlan(service)">@Html.Sitecore().Field("Edit Plan Link")</a> <a href="" ng-click="addMobileDevice()">@Html.Sitecore().Field("Add Device Link")</a>
         </div>
     </div>
 </script>
@@ -228,9 +228,9 @@
         <div class="options"><strong>@Html.Sitecore().Field("IMEI")</strong> {{ item.imeiNumber }}</div>
         <div class="options" ng-if="item.iccidNumber"><strong>@Html.Sitecore().Field("ICCID")</strong> {{ item.iccidNumber }}</div>
         <div class="links">
-            <a href="" ng-click="editMobileDevice(location, item)">@Html.Sitecore().Field("Edit Phone Link")</a>
+            <a href="" ng-click="editMobileDevice($index)">@Html.Sitecore().Field("Edit Phone Link")</a>
             <span> | </span>
-            <a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove Phone Link")</a>
+            <a href="" ng-click="deleteMobileLine($index, item)">@Html.Sitecore().Field("Remove Phone Link")</a>
         </div>
     </div>
 </script>

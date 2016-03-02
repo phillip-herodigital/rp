@@ -3271,14 +3271,6 @@ h3.success-message{
                 opacity: 0.3;
             }
         }
-        .transfer-number {
-            .alert {
-                background-image: none;
-                p {
-                    margin: 1em 0;
-                }
-            }
-        }
         .transfer-header {
             h4 {
                 margin: 0;
@@ -3289,29 +3281,6 @@ h3.success-message{
         }
         .help-text {
             font-style: italic;
-        }
-        .street-number {
-            width: 16%
-        }
-        .street-name {
-            width: 34%;
-        }
-        .street-line-2 {
-            width: 32%;
-        }
-        .transfer-number-message {
-            @extend .clearfix;
-            @include border-radius(0 0 5px 5px);
-            margin: 0 -20px -20px -20px;
-            background: #ecf9f8;
-            padding: 10px 18px 10px 65px;
-            border-top: 1px solid #ddd;
-            line-height: 1.375;
-            text-align: left;
-            [class*="icon-"] {
-                float: left;
-                margin-left: -50px;
-            }
         }
     }
 }
@@ -4428,6 +4397,10 @@ h3.success-message{
                 width: 35%;
             }
 
+            .street-line-2 {
+                width: 32%;
+            }
+
             .transfer-number-message {
                 @extend .clearfix;
                 @include border-radius(0 0 5px 5px);
@@ -4447,7 +4420,7 @@ h3.success-message{
 
 
         .plan-select {
-            margin-bottom: 25px;
+            margin-bottom: 0;
 
             .label {
                 label {
@@ -4461,6 +4434,13 @@ h3.success-message{
                 .location-text {
                     float: right;
                 }
+            }
+            
+            .disclaimer {
+                    font-weight: 300;
+                    font-size: 14px;
+                    color: #a3a3a4;
+                    font-style: italic;
             }
         }
 
