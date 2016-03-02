@@ -4,9 +4,12 @@
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
     $scope.accountInformation = enrollmentService.accountInformation;
-    enrollmentService.getLoggedInAccountInformation();
     $scope.contacts = {};
-    $scope.contacts.options = enrollmentService.contactOptions;
+    $scope.contacts.options = enrollmentService.loggedInAccountDetails;
+    if (typeof $scope.contacts.options != 'undefined' && $scope.contacts.options.length == 1) {
+        $scope.accountInformation = $scope.contacts.options[0];
+    }
+    
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
         showSecondaryContact: (sci && sci.first != undefined && sci.first != "" && sci.last != undefined && sci.last != ""),
