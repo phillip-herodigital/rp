@@ -61,11 +61,11 @@
                         <div class="content">
                             <h3>@Html.Sitecore().Field("Personal Information Header")</h3>
                             <div class="group">
-                                <div class="item" ng-show="accountInformation.isUserLoggedIn">
+                                <div class="item" ng-show="contacts.options.length > 1">
                                     <label>@Html.Sitecore().Field("Select Existing Contact Info Label")</label>
                                     <select ng-model="contacts.selectedContact"
                                             ng-change="updateAccountInformation()"
-                                            ng-options="contact as contact.mailingAddress | address for contact in contacts.options track by contact.id">
+                                            ng-options="contact as contact.mailingAddress | address for contact in contacts.options">
                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                     </select>
                                 </div>

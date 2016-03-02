@@ -570,6 +570,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 IsRenewal = stateMachine.Context.IsRenewal,
                 IsSinglePage = stateMachine.Context.IsSinglePage,
                 LoggedInCustomerId = stateMachine.Context.LoggedInCustomerId,
+                LoggedInAccountDetails = stateMachine.Context.LoggedInAccountDetails,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
@@ -756,6 +757,24 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             else
                 await stateMachine.ContextUpdated();
 
+            if (currentUser.StreamConnectCustomerId != Guid.Empty)
+            {
+                var accounts = (await accountService.GetAccounts(currentUser.StreamConnectCustomerId)).Take(3);
+
+                await Task.WhenAll((from account in accounts
+                                    select Task.Factory.StartNew(async () =>
+                                    {
+                                        await accountService.GetAccountDetails(account, false);
+                                    }).Result).ToArray());
+
+                stateMachine.Context.LoggedInCustomerId = currentUser.StreamConnectCustomerId;
+                stateMachine.Context.LoggedInAccountDetails =  (from account in accounts
+                                     select new UserAccountDetails
+                                     {
+                                         ContactInfo = account.Details.ContactInfo,
+                                         MailingAddress = account.Details.BillingAddress,
+                                     }).ToArray();
+            }
 
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
@@ -865,39 +884,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
-        }
-
-        [HttpGet]
-        public async Task<GetLoggedInUserInfoResponse> GetLoggedInUserInfo()
-        {
-            await Initialize();
-            if (currentUser.StreamConnectCustomerId == Guid.Empty)
-            {
-                return new GetLoggedInUserInfoResponse
-                {
-                    IsUserLoggedIn = false,
-                };
-            }
-            var accounts = (await accountService.GetAccounts(currentUser.StreamConnectCustomerId)).Take(3);
-            
-            await Task.WhenAll((from account in accounts
-                                select Task.Factory.StartNew(async () =>
-                                {
-                                    await accountService.GetAccountDetails(account, false);
-                                }).Result).ToArray());
-
-            stateMachine.Context.LoggedInCustomerId = currentUser.StreamConnectCustomerId;
-
-            return new GetLoggedInUserInfoResponse
-            {
-                IsUserLoggedIn = true,
-                AccountDetails = from account in accounts
-                                 select new GetLoggedInAccountDetails
-                                 {
-                                     ContactInfo = account.Details.ContactInfo,
-                                     MailingAddress = account.Details.BillingAddress,
-                                 }
-            };
         }
 
         private void EnsureTypedPhones(Phone[] phones)

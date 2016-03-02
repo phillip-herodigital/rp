@@ -20,6 +20,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Guid LoggedInCustomerId { get; set; }
 
+        public IEnumerable<UserAccountDetails> LoggedInAccountDetails { get; set; }
+
         public bool NeedsRefresh { get; set; }
 
         [Required(ErrorMessage = "Contact Info Required")]

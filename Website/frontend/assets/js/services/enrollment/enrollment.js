@@ -22,35 +22,7 @@
         socialSecurityNumber: '',
         secondaryContactInfo: {},
     };
-    service.contactOptions = [{}];
-    service.getLoggedInAccountInformation = function () {
-        service.isLoading = true;
-        $http({
-            method: 'get',
-            url: '/api/enrollment/getLoggedInUserInfo',
-        }).success(function (data) {
-            if (data.isUserLoggedIn) {
-                for (var i = 0; i < data.accountDetails.length; i++) {
-                    service.contactOptions[i].id = i;
-                    service.contactOptions[i].contactTitle = '';
-                    service.contactOptions[i].contactInfo = data.accountDetails[i].contactInfo;
-                    service.contactOptions[i].socialSecurityNumber = '';
-                    service.contactOptions[i].mailingAddress = data.accountDetails[i].mailingAddress;
-                    service.contactOptions[i].mailingAddressSame = false;
-                    service.contactOptions[i].secondaryContactInfo = {};
-                    service.contactOptions[i].showAdditionalPhoneNumber = data.accountDetails[i].contactInfo.phone.length > 1;
-                    service.contactOptions[i].previousAddress = data.accountDetails[i].mailingAddress;
-                    service.contactOptions[i].isUserLoggedIn = true;
-                }
-                service.accountInformation.isUserLoggedIn = true;
-                service.isLoading = false;
-            }
-            service.isLoading = false;
-        })
-        .error(function () {
-            service.isLoading = false;
-        });
-    };
+    service.loggedInAccountDetails = [];
     service.identityQuestions = [];
 
     $rootScope.$watch(function () { return service.accountInformation; }, function () {
@@ -100,6 +72,7 @@
         service.accountInformation.previousAddress = result.previousAddress;
         service.accountInformation.previousProvider = result.previousProvider;
         service.associateInformation = result.associateInformation;
+        service.loggedInAccountDetails = result.loggedInAccountDetails;
 
         // Default these object to prevent errors
         service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];
