@@ -757,7 +757,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             else
                 await stateMachine.ContextUpdated();
 
-            if (currentUser.StreamConnectCustomerId != Guid.Empty)
+            if (currentUser.StreamConnectCustomerId != Guid.Empty && stateMachine.Context.LoggedInCustomerId == Guid.Empty)
             {
                 var accounts = (await accountService.GetAccounts(currentUser.StreamConnectCustomerId)).Take(3);
 
