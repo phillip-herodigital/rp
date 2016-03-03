@@ -103,7 +103,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
     $scope.updateAccountInformation = function () {
         if ($scope.contacts.selectedContact == null) {
-            $scope.accountInformation = {
+            enrollmentService.accountInformation = $scope.accountInformation = {
                 contactTitle: '',
                 contactInfo: {
                     name: {
@@ -127,7 +127,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                 $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
         }
         else {
-            $scope.accountInformation = $scope.contacts.selectedContact;
+            enrollmentService.accountInformation = $scope.accountInformation = $scope.contacts.selectedContact;
         }
     };
 
