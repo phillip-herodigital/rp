@@ -128,6 +128,9 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         }
         else {
             enrollmentService.accountInformation = $scope.accountInformation = $scope.contacts.selectedContact;
+            if (typeof $scope.accountInformation.secondaryContactInfo == 'undefined') {
+                $scope.accountInformation.secondaryContactInfo = {};
+            }
         }
     };
 
