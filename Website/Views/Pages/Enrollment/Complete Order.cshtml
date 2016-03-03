@@ -15,9 +15,7 @@
                                 <h1 ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Complete Quote")</h1>
                             </header>
                             <div class="content">
-
                                 <p ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Almost Done")</p>
-
                                 <div ng-repeat="(id, location) in getCartItems()">
                                     <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                                         <div ng-include src="'completeOrder/' + offerInformation.key"></div>
